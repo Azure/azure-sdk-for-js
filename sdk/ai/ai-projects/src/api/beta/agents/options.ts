@@ -11,6 +11,18 @@ import type {
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface BetaAgentsPromoteCandidateOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "AgentsOptimization=V1Preview";
+}
+
+/** Optional parameters. */
+export interface BetaAgentsGetCandidateFileOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "AgentsOptimization=V1Preview";
+}
+
+/** Optional parameters. */
 export interface BetaAgentsGetOptimizationCandidateResultsOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "AgentsOptimization=V1Preview";
@@ -60,6 +72,8 @@ export interface BetaAgentsListOptimizationCandidatesOptionalParams extends Oper
 export interface BetaAgentsDeleteOptimizationJobOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "AgentsOptimization=V1Preview";
+  /** When true, force-delete even if the job is in a non-terminal state. */
+  force?: boolean;
 }
 
 /** Optional parameters. */
@@ -185,6 +199,12 @@ export interface BetaAgentsListSessionsOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
+export interface BetaAgentsStopSessionOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "AgentEndpoints=V1Preview";
+}
+
+/** Optional parameters. */
 export interface BetaAgentsDeleteSessionOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "AgentEndpoints=V1Preview";
@@ -214,7 +234,10 @@ export interface BetaAgentsCreateSessionOptionalParams extends OperationOptions 
 export interface BetaAgentsDownloadAgentCodeOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "CodeAgents=V1Preview";
-  /** The version of the agent whose code to download. When provided, downloads code for that specific version. */
+  /**
+   * The version of the agent whose code zip should be downloaded.
+   * If omitted, the latest version's code zip is returned.
+   */
   agentVersion?: string;
 }
 

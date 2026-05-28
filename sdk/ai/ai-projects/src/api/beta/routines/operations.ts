@@ -25,7 +25,7 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
-  BetaRoutinesDispatchAsyncOptionalParams,
+  BetaRoutinesDispatchOptionalParams,
   BetaRoutinesListRunsOptionalParams,
   BetaRoutinesDeleteOptionalParams,
   BetaRoutinesListOptionalParams,
@@ -37,10 +37,10 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
-export function _dispatchAsyncSend(
+export function _dispatchSend(
   context: Client,
   routineName: string,
-  options: BetaRoutinesDispatchAsyncOptionalParams = { requestOptions: {} },
+  options: BetaRoutinesDispatchOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/routines/{routine_name}:dispatch_async{?api-version}",
@@ -70,7 +70,7 @@ export function _dispatchAsyncSend(
   });
 }
 
-export async function _dispatchAsyncDeserialize(
+export async function _dispatchDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DispatchRoutineResponse> {
   const expectedStatuses = ["200"];
@@ -85,13 +85,13 @@ export async function _dispatchAsyncDeserialize(
 }
 
 /** Queue an asynchronous routine dispatch. */
-export async function dispatchAsync(
+export async function dispatch(
   context: Client,
   routineName: string,
-  options: BetaRoutinesDispatchAsyncOptionalParams = { requestOptions: {} },
+  options: BetaRoutinesDispatchOptionalParams = { requestOptions: {} },
 ): Promise<DispatchRoutineResponse> {
-  const result = await _dispatchAsyncSend(context, routineName, options);
-  return _dispatchAsyncDeserialize(result);
+  const result = await _dispatchSend(context, routineName, options);
+  return _dispatchDeserialize(result);
 }
 
 export function _listRunsSend(

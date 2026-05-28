@@ -4,7 +4,7 @@
 export {
   getCredentials,
   pendingUpload,
-  create,
+  pendingCreateVersion,
   update,
   $delete,
   get,
@@ -14,7 +14,8 @@ export {
 export type {
   BetaModelsGetCredentialsOptionalParams,
   BetaModelsPendingUploadOptionalParams,
-  BetaModelsCreateOptionalParams,
+  BetaModelsCreateFromSourceOptions,
+  BetaModelsPendingCreateVersionOptionalParams,
   BetaModelsUpdateOptionalParams,
   BetaModelsDeleteOptionalParams,
   BetaModelsGetOptionalParams,

@@ -472,7 +472,11 @@ export function _updateMemoriesSend(
     },
     body: {
       scope: scope,
-      items: options?.items,
+      items: !options?.items
+        ? options?.items
+        : options?.items.map((p: any) => {
+            return p;
+          }),
       previous_update_id: options?.previousUpdateId,
       update_delay: options?.updateDelayInSecs,
     },

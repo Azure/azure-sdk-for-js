@@ -3,6 +3,8 @@
 
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
+  promoteCandidate,
+  getCandidateFile,
   getOptimizationCandidateResults,
   getOptimizationCandidateConfig,
   getOptimizationCandidate,
@@ -18,6 +20,7 @@ import {
   uploadSessionFile,
   getSessionLogStream,
   listSessions,
+  stopSession,
   deleteSession,
   getSession,
   createSession,
@@ -26,6 +29,8 @@ import {
   updateAgentObject,
 } from "../../../api/beta/agents/operations.js";
 import type {
+  BetaAgentsPromoteCandidateOptionalParams,
+  BetaAgentsGetCandidateFileOptionalParams,
   BetaAgentsGetOptimizationCandidateResultsOptionalParams,
   BetaAgentsGetOptimizationCandidateConfigOptionalParams,
   BetaAgentsGetOptimizationCandidateOptionalParams,
@@ -41,6 +46,7 @@ import type {
   BetaAgentsUploadSessionFileOptionalParams,
   BetaAgentsGetSessionLogStreamOptionalParams,
   BetaAgentsListSessionsOptionalParams,
+  BetaAgentsStopSessionOptionalParams,
   BetaAgentsDeleteSessionOptionalParams,
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
@@ -56,11 +62,15 @@ import type {
   AgentSessionResource,
   SessionFileWriteResponse,
   SessionDirectoryListResponse,
+  OptimizationJobInputs,
   OptimizationJob,
-  OptimizationCandidate,
   AgentsPagedResultOptimizationCandidate,
+  CandidateMetadata,
   CandidateDeployConfig,
   CandidateResults,
+  PromoteCandidateRequest,
+  PromoteCandidateResponse,
+  BetaAgentsGetCandidateFileResponse,
   BetaAgentsDownloadSessionFileResponse,
   BetaAgentsDownloadAgentCodeResponse,
 } from "../../../models/models.js";
@@ -68,6 +78,20 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaAgents operations. */
 export interface BetaAgentsOperations {
+  /** Promotes a candidate, recording the deployment timestamp and target agent version. */
+  promoteCandidate: (
+    jobId: string,
+    candidateId: string,
+    candidateRequest: PromoteCandidateRequest,
+    options?: BetaAgentsPromoteCandidateOptionalParams,
+  ) => Promise<PromoteCandidateResponse>;
+  /** Stream a specific file from the candidate's blob directory. */
+  getCandidateFile: (
+    jobId: string,
+    candidateId: string,
+    path: string,
+    options?: BetaAgentsGetCandidateFileOptionalParams,
+  ) => Promise<BetaAgentsGetCandidateFileResponse>;
   /** Get full per-task evaluation results for a candidate. */
   getOptimizationCandidateResults: (
     jobId: string,
@@ -80,12 +104,12 @@ export interface BetaAgentsOperations {
     candidateId: string,
     options?: BetaAgentsGetOptimizationCandidateConfigOptionalParams,
   ) => Promise<CandidateDeployConfig>;
-  /** Get a single candidate manifest and aggregated evaluation summary. */
+  /** Get a single candidate's metadata, manifest, and promotion info. */
   getOptimizationCandidate: (
     jobId: string,
     candidateId: string,
     options?: BetaAgentsGetOptimizationCandidateOptionalParams,
-  ) => Promise<OptimizationCandidate>;
+  ) => Promise<CandidateMetadata>;
   /** List candidates produced by a job. */
   listOptimizationCandidates: (
     jobId: string,
@@ -101,18 +125,18 @@ export interface BetaAgentsOperations {
     jobId: string,
     options?: BetaAgentsCancelOptimizationJobOptionalParams,
   ) => Promise<OptimizationJob>;
-  /** List optimization jobs. Supports cursor pagination and optional `status` / `agent_name` filters. */
+  /** List optimization jobs. Supports cursor pagination and optional status / agent_name filters. */
   listOptimizationJobs: (
     options?: BetaAgentsListOptimizationJobsOptionalParams,
   ) => PagedAsyncIterableIterator<OptimizationJob>;
-  /** Get an optimization job by id. Emits `Retry-After` while the job is non-terminal. */
+  /** Get an optimization job by id. Returns 202 while in progress, 200 when terminal. */
   getOptimizationJob: (
     jobId: string,
     options?: BetaAgentsGetOptimizationJobOptionalParams,
   ) => Promise<OptimizationJob>;
   /** Create an optimization job. Returns 201 with the queued job. Honours `Operation-Id` for idempotent retry. */
   createOptimizationJob: (
-    job: OptimizationJob,
+    job: OptimizationJobInputs,
     options?: BetaAgentsCreateOptimizationJobOptionalParams,
   ) => Promise<OptimizationJob>;
   /**
@@ -193,6 +217,15 @@ export interface BetaAgentsOperations {
     options?: BetaAgentsListSessionsOptionalParams,
   ) => PagedAsyncIterableIterator<AgentSessionResource>;
   /**
+   * Stops a session.
+   * Returns 204 No Content when the stop succeeds.
+   */
+  stopSession: (
+    agentName: string,
+    sessionId: string,
+    options?: BetaAgentsStopSessionOptionalParams,
+  ) => Promise<void>;
+  /**
    * Deletes a session synchronously.
    * Returns 204 No Content when the session is deleted or does not exist.
    */
@@ -235,7 +268,7 @@ export interface BetaAgentsOperations {
    * Creates a new agent version from code content and makes it available for hosting.
    * Returns the created version, which may be in `provisioning` state — clients should poll `getVersion` until the status is `active` before creating sessions or downloading code.
    */
-  createAgentVersionFromCode: (
+  createVersionFromCode: (
     agentName: string,
     codeZipSha256: string,
     content: CreateAgentVersionFromCodeContent,
@@ -250,6 +283,18 @@ export interface BetaAgentsOperations {
 
 function _getBetaAgents(context: AIProjectContext) {
   return {
+    promoteCandidate: (
+      jobId: string,
+      candidateId: string,
+      candidateRequest: PromoteCandidateRequest,
+      options?: BetaAgentsPromoteCandidateOptionalParams,
+    ) => promoteCandidate(context, jobId, candidateId, candidateRequest, options),
+    getCandidateFile: (
+      jobId: string,
+      candidateId: string,
+      path: string,
+      options?: BetaAgentsGetCandidateFileOptionalParams,
+    ) => getCandidateFile(context, jobId, candidateId, path, options),
     getOptimizationCandidateResults: (
       jobId: string,
       candidateId: string,
@@ -282,7 +327,7 @@ function _getBetaAgents(context: AIProjectContext) {
     getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) =>
       getOptimizationJob(context, jobId, options),
     createOptimizationJob: (
-      job: OptimizationJob,
+      job: OptimizationJobInputs,
       options?: BetaAgentsCreateOptimizationJobOptionalParams,
     ) => createOptimizationJob(context, job, options),
     deleteSessionFile: (
@@ -318,6 +363,11 @@ function _getBetaAgents(context: AIProjectContext) {
     ) => getSessionLogStream(context, agentName, agentVersion, sessionId, options),
     listSessions: (agentName: string, options?: BetaAgentsListSessionsOptionalParams) =>
       listSessions(context, agentName, options),
+    stopSession: (
+      agentName: string,
+      sessionId: string,
+      options?: BetaAgentsStopSessionOptionalParams,
+    ) => stopSession(context, agentName, sessionId, options),
     deleteSession: (
       agentName: string,
       sessionId: string,
@@ -335,7 +385,7 @@ function _getBetaAgents(context: AIProjectContext) {
     ) => createSession(context, agentName, versionIndicator, options),
     downloadAgentCode: (agentName: string, options?: BetaAgentsDownloadAgentCodeOptionalParams) =>
       downloadAgentCode(context, agentName, options),
-    createAgentVersionFromCode: (
+    createVersionFromCode: (
       agentName: string,
       codeZipSha256: string,
       content: CreateAgentVersionFromCodeContent,

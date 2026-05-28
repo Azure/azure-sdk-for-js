@@ -28,7 +28,7 @@ import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaModelsGetCredentialsOptionalParams,
   BetaModelsPendingUploadOptionalParams,
-  BetaModelsCreateOptionalParams,
+  BetaModelsPendingCreateVersionOptionalParams,
   BetaModelsCreateFromSourceOptions,
   BetaModelsUpdateOptionalParams,
   BetaModelsDeleteOptionalParams,
@@ -46,7 +46,7 @@ export function _getCredentialsSend(
   context: Client,
   name: string,
   version: string,
-  body: ModelCredentialRequest,
+  credentialRequest: ModelCredentialRequest,
   options: BetaModelsGetCredentialsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Models=V1Preview";
@@ -69,7 +69,7 @@ export function _getCredentialsSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: modelCredentialRequestSerializer(body),
+    body: modelCredentialRequestSerializer(credentialRequest),
   });
 }
 
@@ -89,10 +89,10 @@ export async function getCredentials(
   context: Client,
   name: string,
   version: string,
-  body: ModelCredentialRequest,
+  credentialRequest: ModelCredentialRequest,
   options: BetaModelsGetCredentialsOptionalParams = { requestOptions: {} },
 ): Promise<DatasetCredential> {
-  const result = await _getCredentialsSend(context, name, version, body, options);
+  const result = await _getCredentialsSend(context, name, version, credentialRequest, options);
   return _getCredentialsDeserialize(result);
 }
 
@@ -100,7 +100,7 @@ export function _pendingUploadSend(
   context: Client,
   name: string,
   version: string,
-  body: ModelPendingUploadRequest,
+  pendingUploadRequest: ModelPendingUploadRequest,
   options: BetaModelsPendingUploadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Models=V1Preview";
@@ -123,7 +123,7 @@ export function _pendingUploadSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: modelPendingUploadRequestSerializer(body),
+    body: modelPendingUploadRequestSerializer(pendingUploadRequest),
   });
 }
 
@@ -143,19 +143,19 @@ export async function pendingUpload(
   context: Client,
   name: string,
   version: string,
-  body: ModelPendingUploadRequest,
+  pendingUploadRequest: ModelPendingUploadRequest,
   options: BetaModelsPendingUploadOptionalParams = { requestOptions: {} },
 ): Promise<ModelPendingUploadResponse> {
-  const result = await _pendingUploadSend(context, name, version, body, options);
+  const result = await _pendingUploadSend(context, name, version, pendingUploadRequest, options);
   return _pendingUploadDeserialize(result);
 }
 
-export function _createAsyncSend(
+export function _pendingCreateVersionSend(
   context: Client,
   name: string,
   version: string,
-  body: ModelVersion,
-  options: BetaModelsCreateOptionalParams = { requestOptions: {} },
+  modelVersion: ModelVersion,
+  options: BetaModelsPendingCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Models=V1Preview";
   const path = expandUrlTemplate(
@@ -177,11 +177,11 @@ export function _createAsyncSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: modelVersionSerializer(body),
+    body: modelVersionSerializer(modelVersion),
   });
 }
 
-export async function _createAsyncDeserialize(result: PathUncheckedResponse): Promise<{
+export async function _pendingCreateVersionDeserialize(result: PathUncheckedResponse): Promise<{
   location?: string;
   operationResult?: string | null;
 }> {
@@ -194,18 +194,18 @@ export async function _createAsyncDeserialize(result: PathUncheckedResponse): Pr
 }
 
 /** Creates a model version asynchronously with blob content validation. Returns 202 Accepted with a Location header for polling. */
-export async function create(
+export async function pendingCreateVersion(
   context: Client,
   name: string,
   version: string,
-  body: ModelVersion,
-  options: BetaModelsCreateOptionalParams = { requestOptions: {} },
+  modelVersion: ModelVersion,
+  options: BetaModelsPendingCreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<{
   location?: string;
   operationResult?: string | null;
 }> {
-  const result = await _createAsyncSend(context, name, version, body, options);
-  return _createAsyncDeserialize(result);
+  const result = await _pendingCreateVersionSend(context, name, version, modelVersion, options);
+  return _pendingCreateVersionDeserialize(result);
 }
 
 export function _updateSend(
@@ -492,7 +492,7 @@ export async function createFromSource(
   }
 
   // Step 3: Trigger async model version creation
-  await create(context, name, version, {
+  await pendingCreateVersion(context, name, version, {
     blobUri: uploadResponse.blobReference.blobUri,
     weightType: options.weightType,
     baseModel: options.baseModel,

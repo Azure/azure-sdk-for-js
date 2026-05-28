@@ -47,7 +47,9 @@ export async function main(): Promise<void> {
 
   // Upload a skill package
   const packageBytes = readFileSync(skillFilePath);
-  const imported = await project.beta.skills.createFromPackage(packageBytes);
+  const imported = await project.beta.skills.createFromPackage(skillName, {
+    files: [{ contents: packageBytes, contentType: "application/zip", filename: "canvas-design.zip" }],
+  });
   console.log(
     `Imported skill from package: ${imported.name} (${imported.skill_id}) has_blob=${imported.has_blob}`,
   );

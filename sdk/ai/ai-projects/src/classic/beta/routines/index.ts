@@ -3,7 +3,7 @@
 
 import { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
-  dispatchAsync,
+  dispatch,
   listRuns,
   $delete,
   list,
@@ -12,8 +12,8 @@ import {
   get,
   createOrUpdate,
 } from "../../../api/beta/routines/operations.js";
-import {
-  BetaRoutinesDispatchAsyncOptionalParams,
+import type {
+  BetaRoutinesDispatchOptionalParams,
   BetaRoutinesListRunsOptionalParams,
   BetaRoutinesDeleteOptionalParams,
   BetaRoutinesListOptionalParams,
@@ -34,9 +34,9 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 /** Interface representing a BetaRoutines operations. */
 export interface BetaRoutinesOperations {
   /** Queue an asynchronous routine dispatch. */
-  dispatchAsync: (
+  dispatch: (
     routineName: string,
-    options?: BetaRoutinesDispatchAsyncOptionalParams,
+    options?: BetaRoutinesDispatchOptionalParams,
   ) => Promise<DispatchRoutineResponse>;
   /** List prior runs for a routine. */
   listRuns: (
@@ -64,8 +64,8 @@ export interface BetaRoutinesOperations {
 
 function _getBetaRoutines(context: AIProjectContext) {
   return {
-    dispatchAsync: (routineName: string, options?: BetaRoutinesDispatchAsyncOptionalParams) =>
-      dispatchAsync(context, routineName, options),
+    dispatch: (routineName: string, options?: BetaRoutinesDispatchOptionalParams) =>
+      dispatch(context, routineName, options),
     listRuns: (routineName: string, options?: BetaRoutinesListRunsOptionalParams) =>
       listRuns(context, routineName, options),
     delete: (routineName: string, options?: BetaRoutinesDeleteOptionalParams) =>

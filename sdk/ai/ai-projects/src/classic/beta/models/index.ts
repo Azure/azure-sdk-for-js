@@ -40,14 +40,14 @@ export interface BetaModelsOperations {
   getCredentials: (
     name: string,
     version: string,
-    body: ModelCredentialRequest,
+    credentialRequest: ModelCredentialRequest,
     options?: BetaModelsGetCredentialsOptionalParams,
   ) => Promise<DatasetCredential>;
   /** Start or retrieve a pending upload for a model version. */
   pendingUpload: (
     name: string,
     version: string,
-    body: ModelPendingUploadRequest,
+    pendingUploadRequest: ModelPendingUploadRequest,
     options?: BetaModelsPendingUploadOptionalParams,
   ) => Promise<ModelPendingUploadResponse>;
   /** Upload local model files and register a model version. Wraps pendingUpload, file upload, async creation, and polling into a single call. */
@@ -64,7 +64,7 @@ export interface BetaModelsOperations {
     version: string,
     options?: BetaModelsUpdateOptionalParams,
   ) => Promise<ModelVersion>;
-  /** Delete the specific version of the ModelVersion. The service returns 204 No Content if the ModelVersion was deleted successfully or if the ModelVersion does not exist. */
+  /** Delete the specific version of the ModelVersion. The service returns 200 OK if the ModelVersion was deleted successfully or if the ModelVersion does not exist. */
   delete: (
     name: string,
     version: string,
@@ -90,15 +90,15 @@ function _getBetaModels(context: AIProjectContext) {
     getCredentials: (
       name: string,
       version: string,
-      body: ModelCredentialRequest,
+      credentialRequest: ModelCredentialRequest,
       options?: BetaModelsGetCredentialsOptionalParams,
-    ) => getCredentials(context, name, version, body, options),
+    ) => getCredentials(context, name, version, credentialRequest, options),
     pendingUpload: (
       name: string,
       version: string,
-      body: ModelPendingUploadRequest,
+      pendingUploadRequest: ModelPendingUploadRequest,
       options?: BetaModelsPendingUploadOptionalParams,
-    ) => pendingUpload(context, name, version, body, options),
+    ) => pendingUpload(context, name, version, pendingUploadRequest, options),
     create: (
       name: string,
       version: string,

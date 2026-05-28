@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   AgentKind,
   AgentBlueprintReferenceUnion,
   AgentEndpointConfig,
@@ -9,7 +9,7 @@ import type {
   AgentDefinitionOptInKeys,
   PageOrder,
 } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AgentsListVersionsOptionalParams extends OperationOptions {
@@ -39,7 +39,7 @@ export interface AgentsListVersionsOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface AgentsDeleteVersionOptionalParams extends OperationOptions {
-  /** For Hosted Agents, if true, force-deletes the version even if it has active sessions, cascading deletion to all associated sessions. This value is not relevant for other Agent types. Defaults to false. */
+  /** For Hosted Agents, if true, force-deletes the version even if it has active sessions, cascading deletion to all associated sessions. Defaults to `false`. This value is not relevant for other Agent types. */
   force?: boolean;
 }
 
@@ -110,7 +110,7 @@ export interface AgentsListOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface AgentsDeleteOptionalParams extends OperationOptions {
-  /** For Hosted Agents, if true, force-deletes the agent even if its versions have active sessions, cascading deletion to all associated sessions. This value is not relevant for other Agent types. Defaults to false. */
+  /** For Hosted Agents, if true, force-deletes the agent even if its versions have active sessions, cascading deletion to all associated sessions. Defaults to `false`. This value is not relevant for other Agent types. */
   force?: boolean;
 }
 

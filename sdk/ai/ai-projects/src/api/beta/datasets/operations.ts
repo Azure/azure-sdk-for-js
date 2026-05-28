@@ -184,18 +184,12 @@ export function _listGenerationJobsSend(
   options: BetaDatasetsListGenerationJobsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/data_generation_jobs{?limit,order,after,before,scenario,type,api-version}",
+    "/data_generation_jobs{?limit,order,after,before,api-version}",
     {
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      scenario: options?.scenario,
-      type: !options?.type
-        ? options?.type
-        : options?.type.map((p: any) => {
-            return p;
-          }),
       "api-version": context.apiVersion ?? "v1",
     },
     {

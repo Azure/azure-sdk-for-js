@@ -5,13 +5,21 @@ import type { EvaluatorType, PageOrder, EvaluatorCategory } from "../../../model
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface BetaEvaluatorsDeleteGenerationJobOptionalParams extends OperationOptions {}
+export interface BetaEvaluatorsDeleteGenerationJobOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
+}
 
 /** Optional parameters. */
-export interface BetaEvaluatorsCancelGenerationJobOptionalParams extends OperationOptions {}
+export interface BetaEvaluatorsCancelGenerationJobOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
+}
 
 /** Optional parameters. */
 export interface BetaEvaluatorsListGenerationJobsOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -39,19 +47,30 @@ export interface BetaEvaluatorsListGenerationJobsOptionalParams extends Operatio
 }
 
 /** Optional parameters. */
-export interface BetaEvaluatorsGetGenerationJobOptionalParams extends OperationOptions {}
+export interface BetaEvaluatorsGetGenerationJobOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
+}
 
 /** Optional parameters. */
 export interface BetaEvaluatorsCreateGenerationJobOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
   /** Client-generated unique ID for idempotent retries. When absent, the server creates the job unconditionally. */
   operationId?: string;
 }
 
 /** Optional parameters. */
-export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {}
+export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
+}
 
 /** Optional parameters. */
-export interface BetaEvaluatorsPendingUploadOptionalParams extends OperationOptions {}
+export interface BetaEvaluatorsPendingUploadOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
+}
 
 /** Optional parameters. */
 export interface BetaEvaluatorsUpdateVersionOptionalParams extends OperationOptions {}

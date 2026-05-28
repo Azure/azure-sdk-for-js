@@ -7,7 +7,6 @@ import type {
   AgentVersion,
   CandidateResults,
   OptimizationJob,
-  OptimizationCandidate,
   _AgentsPagedResultOptimizationJob,
   AgentsPagedResultOptimizationCandidate,
   CandidateDeployConfig,
@@ -17,6 +16,11 @@ import type {
   _AgentsPagedResultAgentSessionResource,
   SessionFileWriteResponse,
   SessionDirectoryListResponse,
+  OptimizationJobInputs,
+  CandidateMetadata,
+  PromoteCandidateRequest,
+  PromoteCandidateResponse,
+  BetaAgentsGetCandidateFileResponse,
   BetaAgentsDownloadSessionFileResponse,
   BetaAgentsDownloadAgentCodeResponse,
 } from "../../../models/models.js";
@@ -32,19 +36,23 @@ import {
   _agentsPagedResultAgentSessionResourceDeserializer,
   sessionFileWriteResponseDeserializer,
   sessionDirectoryListResponseDeserializer,
-  optimizationJobSerializer,
+  optimizationJobInputsSerializer,
   optimizationJobDeserializer,
-  optimizationCandidateDeserializer,
   _agentsPagedResultOptimizationJobDeserializer,
   agentsPagedResultOptimizationCandidateDeserializer,
+  candidateMetadataDeserializer,
   candidateDeployConfigDeserializer,
   candidateResultsDeserializer,
+  promoteCandidateRequestSerializer,
+  promoteCandidateResponseDeserializer,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { getBinaryStreamResponse } from "../../../static-helpers/serialization/get-binary-stream-response.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
+  BetaAgentsPromoteCandidateOptionalParams,
+  BetaAgentsGetCandidateFileOptionalParams,
   BetaAgentsGetOptimizationCandidateResultsOptionalParams,
   BetaAgentsGetOptimizationCandidateConfigOptionalParams,
   BetaAgentsGetOptimizationCandidateOptionalParams,
@@ -60,6 +68,7 @@ import type {
   BetaAgentsUploadSessionFileOptionalParams,
   BetaAgentsGetSessionLogStreamOptionalParams,
   BetaAgentsListSessionsOptionalParams,
+  BetaAgentsStopSessionOptionalParams,
   BetaAgentsDeleteSessionOptionalParams,
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
@@ -69,6 +78,124 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+
+export function _promoteCandidateSend(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  candidateRequest: PromoteCandidateRequest,
+  options: BetaAgentsPromoteCandidateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}/candidates/{candidateId}:promote{?api-version}",
+    {
+      jobId: jobId,
+      candidateId: candidateId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: promoteCandidateRequestSerializer(candidateRequest),
+  });
+}
+
+export async function _promoteCandidateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PromoteCandidateResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return promoteCandidateResponseDeserializer(result.body);
+}
+
+/** Promotes a candidate, recording the deployment timestamp and target agent version. */
+export async function promoteCandidate(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  candidateRequest: PromoteCandidateRequest,
+  options: BetaAgentsPromoteCandidateOptionalParams = { requestOptions: {} },
+): Promise<PromoteCandidateResponse> {
+  const result = await _promoteCandidateSend(
+    context,
+    jobId,
+    candidateId,
+    candidateRequest,
+    options,
+  );
+  return _promoteCandidateDeserialize(result);
+}
+
+export function _getCandidateFileSend(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  path: string,
+  options: BetaAgentsGetCandidateFileOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path_1 = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}/candidates/{candidateId}/files{?path,api-version}",
+    {
+      jobId: jobId,
+      candidateId: candidateId,
+      path: path,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path_1).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-features": "HostedAgents=V1Preview,AgentEndpoints=V1Preview",
+      accept: "application/octet-stream",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getCandidateFileDeserialize(
+  result: PathUncheckedResponse & BetaAgentsGetCandidateFileResponse,
+): Promise<BetaAgentsGetCandidateFileResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+}
+
+/** Stream a specific file from the candidate's blob directory. */
+export async function getCandidateFile(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  path: string,
+  options: BetaAgentsGetCandidateFileOptionalParams = { requestOptions: {} },
+): Promise<BetaAgentsGetCandidateFileResponse> {
+  const result = await _getCandidateFileSend(context, jobId, candidateId, path, options);
+  return _getCandidateFileDeserialize(result);
+}
 
 export function _getOptimizationCandidateResultsSend(
   context: Client,
@@ -90,9 +217,7 @@ export function _getOptimizationCandidateResultsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "HostedAgents=V1Preview,AgentEndpoints=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -144,9 +269,7 @@ export function _getOptimizationCandidateConfigSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "HostedAgents=V1Preview,AgentEndpoints=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -198,9 +321,7 @@ export function _getOptimizationCandidateSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "HostedAgents=V1Preview,AgentEndpoints=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -209,7 +330,7 @@ export function _getOptimizationCandidateSend(
 
 export async function _getOptimizationCandidateDeserialize(
   result: PathUncheckedResponse,
-): Promise<OptimizationCandidate> {
+): Promise<CandidateMetadata> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -218,16 +339,16 @@ export async function _getOptimizationCandidateDeserialize(
     throw error;
   }
 
-  return optimizationCandidateDeserializer(result.body);
+  return candidateMetadataDeserializer(result.body);
 }
 
-/** Get a single candidate manifest and aggregated evaluation summary. */
+/** Get a single candidate's metadata, manifest, and promotion info. */
 export async function getOptimizationCandidate(
   context: Client,
   jobId: string,
   candidateId: string,
   options: BetaAgentsGetOptimizationCandidateOptionalParams = { requestOptions: {} },
-): Promise<OptimizationCandidate> {
+): Promise<CandidateMetadata> {
   const result = await _getOptimizationCandidateSend(context, jobId, candidateId, options);
   return _getOptimizationCandidateDeserialize(result);
 }
@@ -254,9 +375,7 @@ export function _listOptimizationCandidatesSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "HostedAgents=V1Preview,AgentEndpoints=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -292,10 +411,12 @@ export function _deleteOptimizationJobSend(
   jobId: string,
   options: BetaAgentsDeleteOptimizationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_optimization_jobs/{jobId}{?api-version}",
+    "/agent_optimization_jobs/{jobId}{?force,api-version}",
     {
       jobId: jobId,
+      force: options?.force,
       "api-version": context.apiVersion,
     },
     {
@@ -305,9 +426,7 @@ export function _deleteOptimizationJobSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       ...options.requestOptions?.headers,
     },
   });
@@ -355,9 +474,7 @@ export function _cancelOptimizationJobSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "HostedAgents=V1Preview,AgentEndpoints=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -410,9 +527,7 @@ export function _listOptimizationJobsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "HostedAgents=V1Preview,AgentEndpoints=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -465,9 +580,7 @@ export function _getOptimizationJobSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "HostedAgents=V1Preview,AgentEndpoints=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -477,7 +590,7 @@ export function _getOptimizationJobSend(
 export async function _getOptimizationJobDeserialize(
   result: PathUncheckedResponse,
 ): Promise<OptimizationJob> {
-  const expectedStatuses = ["200"];
+  const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
@@ -488,7 +601,7 @@ export async function _getOptimizationJobDeserialize(
   return optimizationJobDeserializer(result.body);
 }
 
-/** Get an optimization job by id. Emits `Retry-After` while the job is non-terminal. */
+/** Get an optimization job by id. Returns 202 while in progress, 200 when terminal. */
 export async function getOptimizationJob(
   context: Client,
   jobId: string,
@@ -500,9 +613,10 @@ export async function getOptimizationJob(
 
 export function _createOptimizationJobSend(
   context: Client,
-  job: OptimizationJob,
+  inputs: OptimizationJobInputs,
   options: BetaAgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
   const path = expandUrlTemplate(
     "/agent_optimization_jobs{?api-version}",
     {
@@ -516,14 +630,12 @@ export function _createOptimizationJobSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: optimizationJobSerializer(job),
+    body: optimizationJobInputsSerializer(inputs),
   });
 }
 
@@ -544,7 +656,7 @@ export async function _createOptimizationJobDeserialize(
 /** Create an optimization job. Returns 201 with the queued job. Honours `Operation-Id` for idempotent retry. */
 export async function createOptimizationJob(
   context: Client,
-  job: OptimizationJob,
+  job: OptimizationJobInputs,
   options: BetaAgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): Promise<OptimizationJob> {
   const result = await _createOptimizationJobSend(context, job, options);
@@ -558,7 +670,7 @@ export function _deleteSessionFileSend(
   path: string,
   options: BetaAgentsDeleteSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "HostedAgents=V1Preview";
+  const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
   const path_1 = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/sessions/{session_id}/files{?path,recursive,api-version}",
     {
@@ -611,14 +723,14 @@ export async function deleteSessionFile(
   return _deleteSessionFileDeserialize(result);
 }
 
-export function _getSessionFilesSend(
+export function _listSessionFilesSend(
   context: Client,
   agentName: string,
   sessionId: string,
   path: string,
   options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "HostedAgents=V1Preview";
+  const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
   const path_1 = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/sessions/{session_id}/files{?path,api-version}",
     {
@@ -644,7 +756,7 @@ export function _getSessionFilesSend(
   });
 }
 
-export async function _getSessionFilesDeserialize(
+export async function _listSessionFilesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SessionDirectoryListResponse> {
   const expectedStatuses = ["200"];
@@ -669,8 +781,8 @@ export async function listSessionFiles(
   path: string,
   options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
 ): Promise<SessionDirectoryListResponse> {
-  const result = await _getSessionFilesSend(context, agentName, sessionId, path, options);
-  return _getSessionFilesDeserialize(result);
+  const result = await _listSessionFilesSend(context, agentName, sessionId, path, options);
+  return _listSessionFilesDeserialize(result);
 }
 
 export function _downloadSessionFileSend(
@@ -815,7 +927,7 @@ export function _getSessionLogStreamSend(
   sessionId: string,
   options: BetaAgentsGetSessionLogStreamOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "HostedAgents=V1Preview";
+  const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
   const path = expandUrlTemplate(
     "/agents/{agent_name}/versions/{agent_version}/sessions/{session_id}:logstream{?api-version}",
     {
@@ -963,6 +1075,59 @@ export function listSessions(
       hasMoreFieldName: "has_more",
     },
   );
+}
+
+export function _stopSessionSend(
+  context: Client,
+  agentName: string,
+  sessionId: string,
+  options: BetaAgentsStopSessionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/endpoint/sessions/{session_id}:stop{?api-version}",
+    {
+      agent_name: agentName,
+      session_id: sessionId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-features": foundryFeatures,
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _stopSessionDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return;
+}
+
+/**
+ * Stops a session.
+ * Returns 204 No Content when the stop succeeds.
+ */
+export async function stopSession(
+  context: Client,
+  agentName: string,
+  sessionId: string,
+  options: BetaAgentsStopSessionOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _stopSessionSend(context, agentName, sessionId, options);
+  return _stopSessionDeserialize(result);
 }
 
 export function _deleteSessionSend(

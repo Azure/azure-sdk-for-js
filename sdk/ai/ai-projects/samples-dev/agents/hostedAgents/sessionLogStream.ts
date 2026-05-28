@@ -87,8 +87,8 @@ export async function main(): Promise<void> {
       kind: "hosted",
       cpu: "0.5",
       memory: "1Gi",
-      image,
-      container_protocol_versions: [
+      container_configuration: { image },
+      protocol_versions: [
         { protocol: "responses", version: "1.0.0" } as ProtocolVersionRecord,
       ],
     } as HostedAgentDefinition,

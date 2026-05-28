@@ -140,7 +140,11 @@ export async function _deleteVersionDeserialize(
   return deleteAgentVersionResponseDeserializer(result.body);
 }
 
-/** Deletes a specific version of an agent. */
+/**
+ * Deletes a specific version of an agent. For hosted agents, if the version has active
+ * sessions, the request is rejected with HTTP 409 unless `force` is set to true. When
+ * force is true, all sessions associated with this version are cascade-deleted.
+ */
 export async function deleteVersion(
   context: Client,
   agentName: string,
@@ -409,7 +413,11 @@ export async function _deleteDeserialize(
   return deleteAgentResponseDeserializer(result.body);
 }
 
-/** Deletes an agent. */
+/**
+ * Deletes an agent. For hosted agents, if any version has active sessions, the request
+ * is rejected with HTTP 409 unless `force` is set to true. When force is true, all
+ * associated sessions are cascade-deleted along with the agent and its versions.
+ */
 export async function $delete(
   context: Client,
   agentName: string,

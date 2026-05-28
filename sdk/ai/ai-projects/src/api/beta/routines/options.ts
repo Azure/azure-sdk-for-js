@@ -5,7 +5,7 @@ import type { RoutineDispatchPayloadUnion, PageOrder } from "../../../models/mod
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface BetaRoutinesDispatchAsyncOptionalParams extends OperationOptions {
+export interface BetaRoutinesDispatchOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "Routines=V1Preview";
   /** A direct action-input override sent downstream when testing a routine. */

@@ -11,8 +11,7 @@ export interface BetaModelsGetCredentialsOptionalParams extends OperationOptions
 export interface BetaModelsPendingUploadOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaModelsCreateOptionalParams extends OperationOptions {}
-
+export interface BetaModelsPendingCreateVersionOptionalParams extends OperationOptions {}
 /** Options for the create method that uploads local files and registers a model version. */
 export interface BetaModelsCreateFromSourceOptions extends OperationOptions {
   /** The weight type of the model (e.g. "FullWeight", "LoRA"). */
