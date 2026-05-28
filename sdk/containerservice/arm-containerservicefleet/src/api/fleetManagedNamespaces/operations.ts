@@ -1,33 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceFleetContext as Client } from "../index.js";
-import type {
-  FleetManagedNamespace,
-  _FleetManagedNamespaceListResult,
-  FleetManagedNamespacePatch,
-} from "../../models/models.js";
+import { ContainerServiceFleetContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  FleetManagedNamespace,
   fleetManagedNamespaceSerializer,
   fleetManagedNamespaceDeserializer,
+  _FleetManagedNamespaceListResult,
   _fleetManagedNamespaceListResultDeserializer,
+  FleetManagedNamespacePatch,
   fleetManagedNamespacePatchSerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   FleetManagedNamespacesUpdateOptionalParams,
   FleetManagedNamespacesListByFleetOptionalParams,
   FleetManagedNamespacesDeleteOptionalParams,
   FleetManagedNamespacesCreateOrUpdateOptionalParams,
   FleetManagedNamespacesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _updateSend(
   context: Client,
@@ -44,7 +48,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -91,7 +95,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, fleetName, managedNamespaceName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-02-preview",
   }) as PollerLike<OperationState<FleetManagedNamespace>, FleetManagedNamespace>;
 }
 
@@ -107,7 +111,7 @@ export function _listByFleetSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -148,7 +152,7 @@ export function listByFleet(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-02-preview",
     },
   );
 }
@@ -167,7 +171,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -195,11 +199,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a FleetManagedNamespace */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -213,7 +212,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, fleetName, managedNamespaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -232,7 +231,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -287,7 +286,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-02-preview",
   }) as PollerLike<OperationState<FleetManagedNamespace>, FleetManagedNamespace>;
 }
 
@@ -305,7 +304,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

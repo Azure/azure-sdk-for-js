@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
+import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
 import {
   skip,
   stop,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/updateRuns/operations.js";
-import type {
+import {
   UpdateRunsSkipOptionalParams,
   UpdateRunsStopOptionalParams,
   UpdateRunsStartOptionalParams,
@@ -20,9 +20,9 @@ import type {
   UpdateRunsCreateOrUpdateOptionalParams,
   UpdateRunsGetOptionalParams,
 } from "../../api/updateRuns/options.js";
-import type { UpdateRun, SkipProperties } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { UpdateRun, SkipProperties } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a UpdateRuns operations. */
 export interface UpdateRunsOperations {
@@ -55,11 +55,6 @@ export interface UpdateRunsOperations {
     options?: UpdateRunsListByFleetOptionalParams,
   ) => PagedAsyncIterableIterator<UpdateRun>;
   /** Delete a UpdateRun */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     fleetName: string,
