@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix an issue in `NodeHttpClient` where we incorrectly send the whole backing buffer when request body is an `ArrayBufferView`.
+
 ### Other Changes
 
 - Set `RestError.response.bodyAsText` when the error response body has `string` type [PR #38059](https://github.com/Azure/azure-sdk-for-js/pull/38059)

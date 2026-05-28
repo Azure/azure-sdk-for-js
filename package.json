@@ -35,9 +35,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@azure/core-rest-pipeline": "link:sdk/core/core-rest-pipeline",
-      "protobufjs@<8.0.3": "^8.0.3",
-      "vite@<7.3.2": "^7.3.2"
+      "@azure/core-rest-pipeline": "link:sdk/core/core-rest-pipeline"
     }
   }
 }
