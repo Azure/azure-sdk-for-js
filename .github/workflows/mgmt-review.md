@@ -77,7 +77,7 @@ safe-outputs:
     footer: "if-body"
     target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   add-labels:
-    max: 2
+    max: 1
     target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   remove-labels:
     max: 1
@@ -249,8 +249,7 @@ Besides above cases also:
 ### Step 3. Auto-fix failures if possible
 
 - If `Check-format FAILED` is detected:
-  1. Add label `auto-format-needed` via `add-labels`.
-  2. Dispatch the `format-auto-fix` workflow immediately via `dispatch-workflow`, passing the PR number as input `pr_number`. Use the actual PR number from context (pull_request event number or `item_number` input).
+  1. Dispatch the `format-auto-fix` workflow immediately via `dispatch-workflow`, passing the PR number as input `pr_number`. Use the actual PR number from context (pull_request event number or `item_number` input).
 - All other failures require manual fixes by the contributor.
 
 ### Step 4. Post a comment
@@ -265,7 +264,7 @@ Compose a single GitHub PR comment (not a review) with:
 - **Header**: `## Next Steps to Merge`
 - **Message**: `Only failed checks and required actions are listed below:`
 - Include **all** currently failing/blocking checks from your Step 2 list:
-  - Format auto-fix triggered: `- 🏷️ <Check name>: code not formatted. Label \`auto-format-needed\` added — auto-fix workflow will apply \`pnpm format\`.`
+  - Format auto-fix triggered: `- 🔧 <Check name>: code not formatted — auto-fix workflow dispatched, will apply \`pnpm format\` and push.`
   - Not auto-fixed: `- ❌ <Check name>: <reason>. Action: <fix steps>. Review [ADO logs](<target_url from check API>).`
   - pnpm-lock conflict (manual): `- 🔄 pnpm-lock conflict: <reason>. Follow the [conflict guide](...).`
   - Still running: `- ⏳ <Check name>: still running.`
@@ -283,7 +282,7 @@ Use this exact shape and keep it short. The comment MUST include ALL blocking it
 Only failed checks and required actions are listed below.
 
 - ❌ <failed check name>: <short failure reason>. Action: <specific fix command or step>. Review [ADO logs](<real target_url from check API>).
-- 🏷️ <format check name>: code not formatted. Label `auto-format-needed` added — auto-fix workflow will apply `pnpm format`.
+- 🔧 <format check name>: code not formatted — auto-fix workflow dispatched, will apply `pnpm format` and push.
 - 🔄 pnpm-lock conflict: merge conflict in pnpm-lock.yaml. Follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) to fix this issue.
 - ⏳ <pending check name>: still running.
 ```
