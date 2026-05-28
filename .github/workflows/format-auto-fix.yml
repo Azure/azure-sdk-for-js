@@ -71,8 +71,20 @@ jobs:
       - name: Find affected packages and run pnpm format
         if: steps.find-pr.outputs.has-pr == 'true'
         run: |
+          UPSTREAM_REPO_URL="${{ github.server_url }}/${{ github.repository }}.git"
+          UPSTREAM_DEFAULT_BRANCH="${{ github.event.repository.default_branch }}"
+
+          # `origin` points at the PR head repository after checkout, which may be a fork.
+          # Fetch the workflow repository's default branch explicitly and diff against that.
+          if git remote get-url upstream >/dev/null 2>&1; then
+            git remote set-url upstream "$UPSTREAM_REPO_URL"
+          else
+            git remote add upstream "$UPSTREAM_REPO_URL"
+          fi
+          git fetch --no-tags upstream "${UPSTREAM_DEFAULT_BRANCH}:refs/remotes/upstream/${UPSTREAM_DEFAULT_BRANCH}"
+
           # Find unique package directories (sdk/<service>/<package>) from changed files
-          PKGS=$(git diff --name-only origin/main...HEAD \
+          PKGS=$(git diff --name-only "upstream/${UPSTREAM_DEFAULT_BRANCH}...HEAD" \
             | grep '^sdk/' \
             | sed 's|\(sdk/[^/]*/[^/]*\)/.*|\1|' \
             | sort -u)
