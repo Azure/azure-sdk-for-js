@@ -5,6 +5,9 @@
 ### Features Added
 
 - Added support for service API version `2025-07-01` [#46716](https://github.com/Azure/azure-sdk-for-python/pull/46716)
+- Added support for service API version `2026-03-01-preview` (opt-in via `serviceVersion`). [#38578](https://github.com/Azure/azure-sdk-for-js/pull/38578)
+- Added `CryptographyClient.secureWrapKey` and `CryptographyClient.secureUnwrapKey` methods for secure key wrap/unwrap operations against Managed HSM. These operations are available when targeting service API version `2026-03-01-preview`. [#38578](https://github.com/Azure/azure-sdk-for-js/pull/38578)
+- Added `KnownKeyOperations.SecureWrapKey` and `KnownKeyOperations.SecureUnwrapKey` enum values. [#38578](https://github.com/Azure/azure-sdk-for-js/pull/38578)
 
 ### Breaking Changes
 

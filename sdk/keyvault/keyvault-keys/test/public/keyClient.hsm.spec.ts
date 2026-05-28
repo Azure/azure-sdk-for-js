@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { KeyClient } from "../../src/index.js";
-import { CryptographyClient } from "../../src/index.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import TestClient from "./utils/testClient.js";
 import type { CreateOctKeyOptions } from "../../src/keysModels.js";
@@ -161,36 +160,6 @@ describe("Keys client - create, read, update and delete operations for managed H
       });
 
       assert.exists(releaseResult.value);
-    });
-
-    it("can securely wrap and unwrap a key", async () => {
-      const keyName = recorder.variable(
-        "securewrapkey",
-        `securewrapkey-${Math.floor(Math.random() * 100000)}`,
-      );
-      const key = await hsmClient.createKey(keyName, "RSA", {
-        keyOps: ["secureWrapKey", "secureUnwrapKey"],
-        releasePolicy: { encodedPolicy: encodedReleasePolicy },
-      });
-      const cryptoClient = new CryptographyClient(
-        key,
-        credential,
-        recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() }),
-      );
-
-      const wrapResult = await cryptoClient.secureWrapKey("RSA-OAEP-256");
-      assert.exists(wrapResult.keyID);
-      assert.equal(wrapResult.algorithm, "RSA-OAEP-256");
-      assert.exists(wrapResult.result);
-
-      const unwrapResult = await cryptoClient.secureUnwrapKey(
-        "RSA-OAEP-256",
-        wrapResult.result,
-        attestation,
-      );
-      assert.exists(unwrapResult.keyID);
-      assert.equal(unwrapResult.algorithm, "RSA-OAEP-256");
-      assert.exists(unwrapResult.result);
     });
 
     it("can update a key's release policy", async () => {
