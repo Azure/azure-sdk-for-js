@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a deleted Azure app configuration store.
  *
  * @summary gets a deleted Azure app configuration store.
- * x-ms-original-file: 2025-06-01-preview/DeletedConfigurationStoresGet.json
+ * x-ms-original-file: 2025-08-01-preview/DeletedConfigurationStoresGet.json
  */
 async function deletedConfigurationStoresGet() {
   const credential = new DefaultAzureCredential();

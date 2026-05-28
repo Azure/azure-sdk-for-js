@@ -410,21 +410,24 @@ export enum KnownActionsRequired {
  */
 export type ActionsRequired = string;
 
-/** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
+/** Control permission for data plane traffic coming from public networks. */
 export enum KnownPublicNetworkAccess {
-  /** Enabled */
+  /** Allow public network access to the data plane. */
   Enabled = "Enabled",
-  /** Disabled */
+  /** Disallow public network access to the data plane. */
   Disabled = "Disabled",
+  /** Let network security perimeter configuration control public network access to the data plane. */
+  SecuredByPerimeter = "SecuredByPerimeter",
 }
 
 /**
- * Control permission for data plane traffic coming from public networks while private endpoint is enabled. \
+ * Control permission for data plane traffic coming from public networks. \
  * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: Allow public network access to the data plane. \
+ * **Disabled**: Disallow public network access to the data plane. \
+ * **SecuredByPerimeter**: Let network security perimeter configuration control public network access to the data plane.
  */
 export type PublicNetworkAccess = string;
 
@@ -638,8 +641,8 @@ export interface UserIdentity {
   readonly clientId?: string;
 }
 
-export function userIdentitySerializer(item: UserIdentity): any {
-  return item;
+export function userIdentitySerializer(_item: UserIdentity): any {
+  return {};
 }
 
 export function userIdentityDeserializer(item: any): UserIdentity {
@@ -704,8 +707,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1082,8 +1085,8 @@ export function deletedConfigurationStorePropertiesDeserializer(
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1184,6 +1187,413 @@ export function privateEndpointConnectionArrayDeserializer(
 ): any[] {
   return result.map((item) => {
     return privateEndpointConnectionDeserializer(item);
+  });
+}
+
+/** Network security perimeter (NSP) configuration resource */
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+  properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
+
+export function networkSecurityPerimeterConfigurationDeserializer(
+  item: any,
+): NetworkSecurityPerimeterConfiguration {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : networkSecurityPerimeterConfigurationPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Network security configuration properties. */
+export interface NetworkSecurityPerimeterConfigurationProperties {
+  readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+  /** List of provisioning issues, if any */
+  readonly provisioningIssues?: ProvisioningIssue[];
+  networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  resourceAssociation?: ResourceAssociation;
+  profile?: NetworkSecurityProfile;
+}
+
+export function networkSecurityPerimeterConfigurationPropertiesDeserializer(
+  item: any,
+): NetworkSecurityPerimeterConfigurationProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    provisioningIssues: !item["provisioningIssues"]
+      ? item["provisioningIssues"]
+      : provisioningIssueArrayDeserializer(item["provisioningIssues"]),
+    networkSecurityPerimeter: !item["networkSecurityPerimeter"]
+      ? item["networkSecurityPerimeter"]
+      : networkSecurityPerimeterDeserializer(item["networkSecurityPerimeter"]),
+    resourceAssociation: !item["resourceAssociation"]
+      ? item["resourceAssociation"]
+      : resourceAssociationDeserializer(item["resourceAssociation"]),
+    profile: !item["profile"]
+      ? item["profile"]
+      : networkSecurityProfileDeserializer(item["profile"]),
+  };
+}
+
+/** Provisioning state of a network security perimeter configuration that is being created or updated. */
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Provisioning state of a network security perimeter configuration that is being created or updated. \
+ * {@link KnownNetworkSecurityPerimeterConfigurationProvisioningState} can be used interchangeably with NetworkSecurityPerimeterConfigurationProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Accepted** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+export function provisioningIssueArrayDeserializer(result: Array<ProvisioningIssue>): any[] {
+  return result.map((item) => {
+    return provisioningIssueDeserializer(item);
+  });
+}
+
+/** Describes a provisioning issue for a network security perimeter configuration */
+export interface ProvisioningIssue {
+  /** Name of the issue */
+  readonly name?: string;
+  readonly properties?: ProvisioningIssueProperties;
+}
+
+export function provisioningIssueDeserializer(item: any): ProvisioningIssue {
+  return {
+    name: item["name"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : provisioningIssuePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Details of a provisioning issue for a network security perimeter (NSP) configuration. Resource providers should generate separate provisioning issue elements for each separate issue detected, and include a meaningful and distinctive description, as well as any appropriate suggestedResourceIds and suggestedAccessRules */
+export interface ProvisioningIssueProperties {
+  /** Type of issue */
+  readonly issueType?: IssueType;
+  /** Severity of the issue. */
+  readonly severity?: Severity;
+  /** Description of the issue */
+  readonly description?: string;
+  /** Fully qualified resource IDs of suggested resources that can be associated to the network security perimeter (NSP) to remediate the issue. */
+  readonly suggestedResourceIds?: string[];
+  /** Access rules that can be added to the network security profile (NSP) to remediate the issue. */
+  readonly suggestedAccessRules?: AccessRule[];
+}
+
+export function provisioningIssuePropertiesDeserializer(item: any): ProvisioningIssueProperties {
+  return {
+    issueType: item["issueType"],
+    severity: item["severity"],
+    description: item["description"],
+    suggestedResourceIds: !item["suggestedResourceIds"]
+      ? item["suggestedResourceIds"]
+      : item["suggestedResourceIds"].map((p: any) => {
+          return p;
+        }),
+    suggestedAccessRules: !item["suggestedAccessRules"]
+      ? item["suggestedAccessRules"]
+      : accessRuleArrayDeserializer(item["suggestedAccessRules"]),
+  };
+}
+
+/** Type of issue */
+export enum KnownIssueType {
+  /** Unknown issue type */
+  Unknown = "Unknown",
+  /** An error occurred while applying the network security perimeter (NSP) configuration. */
+  ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+  /** A network connectivity issue is happening on the resource which could be addressed either by adding new resources to the network security perimeter (NSP) or by modifying access rules. */
+  MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
+  /** An managed identity hasn't been associated with the resource. The resource will still be able to validate inbound traffic from the network security perimeter (NSP) or matching inbound access rules, but it won't be able to perform outbound access as a member of the NSP. */
+  MissingIdentityConfiguration = "MissingIdentityConfiguration",
+}
+
+/**
+ * Type of issue \
+ * {@link KnownIssueType} can be used interchangeably with IssueType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown issue type \
+ * **ConfigurationPropagationFailure**: An error occurred while applying the network security perimeter (NSP) configuration. \
+ * **MissingPerimeterConfiguration**: A network connectivity issue is happening on the resource which could be addressed either by adding new resources to the network security perimeter (NSP) or by modifying access rules. \
+ * **MissingIdentityConfiguration**: An managed identity hasn't been associated with the resource. The resource will still be able to validate inbound traffic from the network security perimeter (NSP) or matching inbound access rules, but it won't be able to perform outbound access as a member of the NSP.
+ */
+export type IssueType = string;
+
+/** Severity of the issue. */
+export enum KnownSeverity {
+  /** Warning */
+  Warning = "Warning",
+  /** Error */
+  Error = "Error",
+}
+
+/**
+ * Severity of the issue. \
+ * {@link KnownSeverity} can be used interchangeably with Severity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Warning** \
+ * **Error**
+ */
+export type Severity = string;
+
+export function accessRuleArrayDeserializer(result: Array<AccessRule>): any[] {
+  return result.map((item) => {
+    return accessRuleDeserializer(item);
+  });
+}
+
+/** Access rule in a network security perimeter configuration profile */
+export interface AccessRule {
+  /** Name of the access rule */
+  name?: string;
+  properties?: AccessRuleProperties;
+}
+
+export function accessRuleDeserializer(item: any): AccessRule {
+  return {
+    name: item["name"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : accessRulePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of Access Rule */
+export interface AccessRuleProperties {
+  direction?: AccessRuleDirection;
+  /** Address prefixes in the CIDR format for inbound rules */
+  addressPrefixes?: string[];
+  /** Subscriptions for inbound rules */
+  subscriptions?: {
+    id?: string;
+  }[];
+  /** Network security perimeters for inbound rules */
+  networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+  /** Fully qualified domain names (FQDN) for outbound rules */
+  fullyQualifiedDomainNames?: string[];
+  /** Email addresses for outbound rules */
+  emailAddresses?: string[];
+  /** Phone numbers for outbound rules */
+  phoneNumbers?: string[];
+}
+
+export function accessRulePropertiesDeserializer(item: any): AccessRuleProperties {
+  return {
+    direction: item["direction"],
+    addressPrefixes: !item["addressPrefixes"]
+      ? item["addressPrefixes"]
+      : item["addressPrefixes"].map((p: any) => {
+          return p;
+        }),
+    subscriptions: !item["subscriptions"]
+      ? item["subscriptions"]
+      : _accessRulePropertiesSubscriptionArrayDeserializer(item["subscriptions"]),
+    networkSecurityPerimeters: !item["networkSecurityPerimeters"]
+      ? item["networkSecurityPerimeters"]
+      : networkSecurityPerimeterArrayDeserializer(item["networkSecurityPerimeters"]),
+    fullyQualifiedDomainNames: !item["fullyQualifiedDomainNames"]
+      ? item["fullyQualifiedDomainNames"]
+      : item["fullyQualifiedDomainNames"].map((p: any) => {
+          return p;
+        }),
+    emailAddresses: !item["emailAddresses"]
+      ? item["emailAddresses"]
+      : item["emailAddresses"].map((p: any) => {
+          return p;
+        }),
+    phoneNumbers: !item["phoneNumbers"]
+      ? item["phoneNumbers"]
+      : item["phoneNumbers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Direction of Access Rule */
+export enum KnownAccessRuleDirection {
+  /** Applies to inbound network traffic to the secured resources. */
+  Inbound = "Inbound",
+  /** Applies to outbound network traffic from the secured resources */
+  Outbound = "Outbound",
+}
+
+/**
+ * Direction of Access Rule \
+ * {@link KnownAccessRuleDirection} can be used interchangeably with AccessRuleDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Inbound**: Applies to inbound network traffic to the secured resources. \
+ * **Outbound**: Applies to outbound network traffic from the secured resources
+ */
+export type AccessRuleDirection = string;
+
+export function _accessRulePropertiesSubscriptionArrayDeserializer(
+  result: Array<_AccessRulePropertiesSubscription>,
+): any[] {
+  return result.map((item) => {
+    return _accessRulePropertiesSubscriptionDeserializer(item);
+  });
+}
+
+/** model interface _AccessRulePropertiesSubscription */
+export interface _AccessRulePropertiesSubscription {
+  /** The fully qualified Azure resource ID of the subscription e.g. ('/subscriptions/00000000-0000-0000-0000-000000000000') */
+  id?: string;
+}
+
+export function _accessRulePropertiesSubscriptionDeserializer(
+  item: any,
+): _AccessRulePropertiesSubscription {
+  return {
+    id: item["id"],
+  };
+}
+
+export function networkSecurityPerimeterArrayDeserializer(
+  result: Array<NetworkSecurityPerimeter>,
+): any[] {
+  return result.map((item) => {
+    return networkSecurityPerimeterDeserializer(item);
+  });
+}
+
+/** Information about a network security perimeter (NSP) */
+export interface NetworkSecurityPerimeter {
+  /** Fully qualified Azure resource ID of the NSP resource */
+  id?: string;
+  /** Universal unique ID (UUID) of the network security perimeter */
+  perimeterGuid?: string;
+  /** Location of the network security perimeter */
+  location?: string;
+}
+
+export function networkSecurityPerimeterDeserializer(item: any): NetworkSecurityPerimeter {
+  return {
+    id: item["id"],
+    perimeterGuid: item["perimeterGuid"],
+    location: item["location"],
+  };
+}
+
+/** Information about resource association */
+export interface ResourceAssociation {
+  /** Name of the resource association */
+  name?: string;
+  accessMode?: ResourceAssociationAccessMode;
+}
+
+export function resourceAssociationDeserializer(item: any): ResourceAssociation {
+  return {
+    name: item["name"],
+    accessMode: item["accessMode"],
+  };
+}
+
+/** Access mode of the resource association */
+export enum KnownResourceAssociationAccessMode {
+  /** Enforced access mode - traffic to the resource that failed access checks is blocked */
+  Enforced = "Enforced",
+  /** Learning access mode - traffic to the resource is enabled for analysis but not blocked */
+  Learning = "Learning",
+  /** Audit access mode - traffic to the resource that fails access checks is logged but not blocked */
+  Audit = "Audit",
+}
+
+/**
+ * Access mode of the resource association \
+ * {@link KnownResourceAssociationAccessMode} can be used interchangeably with ResourceAssociationAccessMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enforced**: Enforced access mode - traffic to the resource that failed access checks is blocked \
+ * **Learning**: Learning access mode - traffic to the resource is enabled for analysis but not blocked \
+ * **Audit**: Audit access mode - traffic to the resource that fails access checks is logged but not blocked
+ */
+export type ResourceAssociationAccessMode = string;
+
+/** Network security perimeter configuration profile */
+export interface NetworkSecurityProfile {
+  /** Name of the profile */
+  name?: string;
+  /** Current access rules version */
+  accessRulesVersion?: number;
+  /** List of Access Rules */
+  accessRules?: AccessRule[];
+  /** Current diagnostic settings version */
+  diagnosticSettingsVersion?: number;
+  /** List of log categories that are enabled */
+  enabledLogCategories?: string[];
+}
+
+export function networkSecurityProfileDeserializer(item: any): NetworkSecurityProfile {
+  return {
+    name: item["name"],
+    accessRulesVersion: item["accessRulesVersion"],
+    accessRules: !item["accessRules"]
+      ? item["accessRules"]
+      : accessRuleArrayDeserializer(item["accessRules"]),
+    diagnosticSettingsVersion: item["diagnosticSettingsVersion"],
+    enabledLogCategories: !item["enabledLogCategories"]
+      ? item["enabledLogCategories"]
+      : item["enabledLogCategories"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The response of a NetworkSecurityPerimeterConfiguration list operation. */
+export interface _NetworkSecurityPerimeterConfigurationListResult {
+  /** The NetworkSecurityPerimeterConfiguration items on this page */
+  value: NetworkSecurityPerimeterConfiguration[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _networkSecurityPerimeterConfigurationListResultDeserializer(
+  item: any,
+): _NetworkSecurityPerimeterConfigurationListResult {
+  return {
+    value: networkSecurityPerimeterConfigurationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function networkSecurityPerimeterConfigurationArrayDeserializer(
+  result: Array<NetworkSecurityPerimeterConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return networkSecurityPerimeterConfigurationDeserializer(item);
   });
 }
 
@@ -1378,7 +1788,10 @@ export interface Replica extends ProxyResource {
 }
 
 export function replicaSerializer(item: Replica): any {
-  return { properties: undefined, location: item["location"] };
+  return {
+    properties: areAllPropsUndefined(item, []) ? undefined : _replicaPropertiesSerializer(item),
+    location: item["location"],
+  };
 }
 
 export function replicaDeserializer(item: any): Replica {
@@ -1404,8 +1817,8 @@ export interface ReplicaProperties {
   readonly provisioningState?: ReplicaProvisioningState;
 }
 
-export function replicaPropertiesSerializer(item: ReplicaProperties): any {
-  return item;
+export function replicaPropertiesSerializer(_item: ReplicaProperties): any {
+  return {};
 }
 
 export function replicaPropertiesDeserializer(item: any): ReplicaProperties {
@@ -1476,7 +1889,7 @@ export interface Snapshot extends ProxyResource {
   /** The current status of the snapshot. */
   readonly status?: SnapshotStatus;
   /** A list of filters used to filter the key-values included in the snapshot. */
-  filters?: KeyValueFilter[];
+  filters: KeyValueFilter[];
   /** The composition type describes how the key-values within the snapshot are composed. The 'key' composition type ensures there are no two key-values containing the same key. The 'key_label' composition type ensures there are no two key-values containing the same key and label. */
   compositionType?: CompositionType;
   /** The time that the snapshot was created. */
@@ -1496,16 +1909,7 @@ export interface Snapshot extends ProxyResource {
 }
 
 export function snapshotSerializer(item: Snapshot): any {
-  return {
-    properties: areAllPropsUndefined(item, [
-      "filters",
-      "compositionType",
-      "retentionPeriod",
-      "tags",
-    ])
-      ? undefined
-      : _snapshotPropertiesSerializer(item),
-  };
+  return { properties: _snapshotPropertiesSerializer(item) };
 }
 
 export function snapshotDeserializer(item: any): Snapshot {
@@ -1516,9 +1920,7 @@ export function snapshotDeserializer(item: any): Snapshot {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _snapshotPropertiesDeserializer(item["properties"])),
+    ..._snapshotPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -1895,6 +2297,8 @@ export enum KnownVersions {
   V20250201Preview = "2025-02-01-preview",
   /** The 2025-06-01-preview API version. */
   V20250601Preview = "2025-06-01-preview",
+  /** The 2025-08-01-preview API version. */
+  V20250801Preview = "2025-08-01-preview",
 }
 
 export function _privateEndpointConnectionReferencePropertiesSerializer(
@@ -2078,8 +2482,8 @@ export function _keyValuePropertiesDeserializer(item: any) {
   };
 }
 
-export function _replicaPropertiesSerializer(item: Replica): any {
-  return item;
+export function _replicaPropertiesSerializer(_item: Replica): any {
+  return {};
 }
 
 export function _replicaPropertiesDeserializer(item: any) {
@@ -2091,7 +2495,7 @@ export function _replicaPropertiesDeserializer(item: any) {
 
 export function _snapshotPropertiesSerializer(item: Snapshot): any {
   return {
-    filters: !item["filters"] ? item["filters"] : keyValueFilterArraySerializer(item["filters"]),
+    filters: keyValueFilterArraySerializer(item["filters"]),
     compositionType: item["compositionType"],
     retentionPeriod: item["retentionPeriod"],
     tags: item["tags"],
@@ -2102,7 +2506,7 @@ export function _snapshotPropertiesDeserializer(item: any) {
   return {
     provisioningState: item["provisioningState"],
     status: item["status"],
-    filters: !item["filters"] ? item["filters"] : keyValueFilterArrayDeserializer(item["filters"]),
+    filters: keyValueFilterArrayDeserializer(item["filters"]),
     compositionType: item["compositionType"],
     created: !item["created"] ? item["created"] : new Date(item["created"]),
     expires: !item["expires"] ? item["expires"] : new Date(item["expires"]),

@@ -10,6 +10,8 @@ import type { ConfigurationStoresOperations } from "./classic/configurationStore
 import { _getConfigurationStoresOperations } from "./classic/configurationStores/index.js";
 import type { KeyValuesOperations } from "./classic/keyValues/index.js";
 import { _getKeyValuesOperations } from "./classic/keyValues/index.js";
+import type { NetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
+import { _getNetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
@@ -23,7 +25,7 @@ import { _getSnapshotsOperations } from "./classic/snapshots/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type AppConfigurationManagementClientOptionalParams } from "./api/appConfigurationManagementContext.js";
+export type { AppConfigurationManagementClientOptionalParams } from "./api/appConfigurationManagementContext.js";
 
 export class AppConfigurationManagementClient {
   private _client: AppConfigurationManagementContext;
@@ -68,6 +70,8 @@ export class AppConfigurationManagementClient {
     this.replicas = _getReplicasOperations(this._client);
     this.keyValues = _getKeyValuesOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
+    this.networkSecurityPerimeterConfigurations =
+      _getNetworkSecurityPerimeterConfigurationsOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.configurationStores = _getConfigurationStoresOperations(this._client);
   }
@@ -82,6 +86,8 @@ export class AppConfigurationManagementClient {
   public readonly keyValues: KeyValuesOperations;
   /** The operation groups for privateLinkResources */
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
+  /** The operation groups for networkSecurityPerimeterConfigurations */
+  public readonly networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurationsOperations;
   /** The operation groups for privateEndpointConnections */
   public readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
   /** The operation groups for configurationStores */

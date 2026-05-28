@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 export { listByConfigurationStore, $delete, createOrUpdate, get } from "./operations.js";
-export {
-  type PrivateEndpointConnectionsListByConfigurationStoreOptionalParams,
-  type PrivateEndpointConnectionsDeleteOptionalParams,
-  type PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
-  type PrivateEndpointConnectionsGetOptionalParams,
+export type {
+  PrivateEndpointConnectionsListByConfigurationStoreOptionalParams,
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
 } from "./options.js";

@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List the available security controls, their assessments, and the max score
- *
- * @summary List the available security controls, their assessments, and the max score
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/secureScoreControlDefinitions/ListSecureScoreControlDefinitions_example.json
- */
-
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list the available security controls, their assessments, and the max score
+ *
+ * @summary list the available security controls, their assessments, and the max score
+ * x-ms-original-file: 2020-01-01/secureScoreControlDefinitions/ListSecureScoreControlDefinitions_example.json
+ */
 async function listSecurityControlsDefinition(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
@@ -19,6 +17,7 @@ async function listSecurityControlsDefinition(): Promise<void> {
   for await (const item of client.secureScoreControlDefinitions.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
