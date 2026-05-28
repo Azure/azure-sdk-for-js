@@ -10,9 +10,6 @@ import { InstrumentationBase } from '@opentelemetry/instrumentation';
 import type { InstrumentationConfig } from '@opentelemetry/instrumentation';
 import type { InstrumentationModuleDefinition } from '@opentelemetry/instrumentation';
 import type { Instrumenter } from '@azure/core-tracing';
-import type { InstrumenterSpanOptions } from '@azure/core-tracing';
-import type { TracingContext } from '@azure/core-tracing';
-import type { TracingSpan } from '@azure/core-tracing';
 
 // @public
 export class AzureSdkInstrumentation extends InstrumentationBase {
@@ -28,18 +25,10 @@ export interface AzureSdkInstrumentationOptions extends InstrumentationConfig {
 export function createAzureSdkInstrumentation(options?: AzureSdkInstrumentationOptions): Instrumentation;
 
 // @public
-export const logger: AzureLogger;
+export function createOpenTelemetryInstrumenter(): Instrumenter;
 
 // @public
-export class OpenTelemetryInstrumenter implements Instrumenter {
-    createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
-    parseTraceparentHeader(traceparentHeader: string): TracingContext;
-    startSpan(name: string, spanOptions: InstrumenterSpanOptions): {
-        span: TracingSpan;
-        tracingContext: TracingContext;
-    };
-    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(tracingContext: TracingContext, callback: Callback, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
-}
+export const logger: AzureLogger;
 
 // (No @packageDocumentation comment for this package)
 

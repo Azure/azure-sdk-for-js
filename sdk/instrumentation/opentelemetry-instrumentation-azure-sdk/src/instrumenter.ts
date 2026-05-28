@@ -24,16 +24,7 @@ import { toSpanOptions } from "./transformations.js";
 // While default propagation is user-configurable, Azure services always use the W3C implementation.
 export const propagator = new W3CTraceContextPropagator();
 
-/**
- * An {@link Instrumenter} implementation backed by OpenTelemetry.
- */
 export class OpenTelemetryInstrumenter implements Instrumenter {
-  /**
-   * Starts a new span.
-   * @param name - The span name.
-   * @param spanOptions - Span creation options.
-   * @returns The created span and its tracing context.
-   */
   startSpan(
     name: string,
     spanOptions: InstrumenterSpanOptions,
@@ -64,14 +55,6 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
       tracingContext: trace.setSpan(ctx, span),
     };
   }
-  /**
-   * Executes a callback within the given tracing context, ensuring any spans created
-   * within the callback are parented to the correct context.
-   * @param tracingContext - The context to activate during callback execution.
-   * @param callback - The function to execute within the context.
-   * @param callbackArgs - Arguments to pass to the callback.
-   * @returns The return value of the callback.
-   */
   withContext<
     CallbackArgs extends unknown[],
     Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
@@ -88,12 +71,6 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
     );
   }
 
-  /**
-   * Parses a W3C traceparent header string and returns a {@link TracingContext} containing
-   * the extracted span context.
-   * @param traceparentHeader - The traceparent header value to parse.
-   * @returns A tracing context populated with the remote span context.
-   */
   parseTraceparentHeader(traceparentHeader: string): TracingContext {
     return propagator.extract(
       context.active(),
@@ -102,14 +79,16 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
     );
   }
 
-  /**
-   * Creates W3C trace context propagation headers from the given tracing context.
-   * @param tracingContext - The tracing context to propagate. Defaults to the active context.
-   * @returns A record of header name-value pairs for trace context propagation.
-   */
   createRequestHeaders(tracingContext?: TracingContext): Record<string, string> {
     const headers: Record<string, string> = {};
     propagator.inject(tracingContext || context.active(), headers, defaultTextMapSetter);
     return headers;
   }
+}
+
+/**
+ * Creates an OpenTelemetry-backed {@link Instrumenter} for the Azure SDK.
+ */
+export function createOpenTelemetryInstrumenter(): Instrumenter {
+  return new OpenTelemetryInstrumenter();
 }

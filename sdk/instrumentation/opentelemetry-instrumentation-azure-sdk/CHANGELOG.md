@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Export `OpenTelemetryInstrumenter` from the package entry point.
+- Export `createOpenTelemetryInstrumenter` factory function from the package entry point.
 
 ## 1.0.0 (2026-05-05)
 
