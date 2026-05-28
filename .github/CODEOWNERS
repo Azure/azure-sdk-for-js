@@ -119,7 +119,7 @@
 /sdk/textanalytics/    @quentinRobinson
 
 # PRLabel: %Cognitive - Translator
-/sdk/translation/ai-translation-document-rest/    @Han-msft @zihyunting
+/sdk/translation/    @jrjrguo @zhangeugenia
 
 # ServiceLabel: %Communication
 # PRLabel: %Communication
@@ -451,7 +451,7 @@
 # PRLabel: %Mgmt
 /sdk/compute/arm-compute-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/computeschedule/arm-computeschedule/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -565,7 +565,7 @@
 # PRLabel: %Mgmt
 /sdk/digitaltwins/arm-digitaltwins/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/dns/arm-dns/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -874,7 +874,7 @@
 # PRLabel: %Mgmt
 /sdk/redis/arm-rediscache/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/redhatopenshift/arm-redhatopenshift/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -925,7 +925,7 @@
 # PRLabel: %Mgmt
 /sdk/springappdiscovery/arm-springappdiscovery/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/security/arm-security/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
