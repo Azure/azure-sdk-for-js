@@ -88,9 +88,7 @@ export async function main(): Promise<void> {
       cpu: "0.5",
       memory: "1Gi",
       container_configuration: { image },
-      protocol_versions: [
-        { protocol: "responses", version: "1.0.0" } as ProtocolVersionRecord,
-      ],
+      protocol_versions: [{ protocol: "responses", version: "1.0.0" } as ProtocolVersionRecord],
     } as HostedAgentDefinition,
     {
       foundryFeatures: "HostedAgents=V1Preview",
