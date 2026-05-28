@@ -1,6 +1,6 @@
 # Release History
 
-## 4.14.0-beta.4 (Unreleased)
+## 4.14.0-beta.4 (2026-06-08)
 
 ### Features Added
 
@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Fixed `AzureDeveloperCliCredential` to correctly parse error messages from Azure Developer CLI v1.23.7 and later, which previously caused raw JSON to surface in the credential error instead of the underlying error text. [#38416](https://github.com/Azure/azure-sdk-for-js/pull/38416)
+- Fixed `handleMsalError` to preserve the original MSAL error via `cause` on `AuthenticationRequiredError`, allowing callers to access `.claims` on the underlying error. [#38722](https://github.com/Azure/azure-sdk-for-js/pull/38722)
 
 ### Other Changes
 
