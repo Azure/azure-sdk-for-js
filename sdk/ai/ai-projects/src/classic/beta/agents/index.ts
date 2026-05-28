@@ -136,7 +136,7 @@ export interface BetaAgentsOperations {
   ) => Promise<OptimizationJob>;
   /** Create an optimization job. Returns 201 with the queued job. Honours `Operation-Id` for idempotent retry. */
   createOptimizationJob: (
-    job: OptimizationJobInputs,
+    inputs: OptimizationJobInputs,
     options?: BetaAgentsCreateOptimizationJobOptionalParams,
   ) => Promise<OptimizationJob>;
   /**
@@ -145,7 +145,7 @@ export interface BetaAgentsOperations {
    */
   deleteSessionFile: (
     agentName: string,
-    sessionId: string,
+    agentSessionId: string,
     path: string,
     options?: BetaAgentsDeleteSessionFileOptionalParams,
   ) => Promise<void>;
@@ -155,14 +155,14 @@ export interface BetaAgentsOperations {
    */
   listSessionFiles: (
     agentName: string,
-    sessionId: string,
+    agentSessionId: string,
     path: string,
     options?: BetaAgentsListSessionFilesOptionalParams,
   ) => Promise<SessionDirectoryListResponse>;
   /** Download a file from the session sandbox as a binary stream. */
   downloadSessionFile: (
     agentName: string,
-    sessionId: string,
+    agentSessionId: string,
     path: string,
     options?: BetaAgentsDownloadSessionFileOptionalParams,
   ) => Promise<BetaAgentsDownloadSessionFileResponse>;
@@ -172,7 +172,7 @@ export interface BetaAgentsOperations {
    */
   uploadSessionFile: (
     agentName: string,
-    sessionId: string,
+    agentSessionId: string,
     path: string,
     content: Uint8Array,
     options?: BetaAgentsUploadSessionFileOptionalParams,
@@ -327,34 +327,34 @@ function _getBetaAgents(context: AIProjectContext) {
     getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) =>
       getOptimizationJob(context, jobId, options),
     createOptimizationJob: (
-      job: OptimizationJobInputs,
+      inputs: OptimizationJobInputs,
       options?: BetaAgentsCreateOptimizationJobOptionalParams,
-    ) => createOptimizationJob(context, job, options),
+    ) => createOptimizationJob(context, inputs, options),
     deleteSessionFile: (
       agentName: string,
-      sessionId: string,
+      agentSessionId: string,
       path: string,
       options?: BetaAgentsDeleteSessionFileOptionalParams,
-    ) => deleteSessionFile(context, agentName, sessionId, path, options),
+    ) => deleteSessionFile(context, agentName, agentSessionId, path, options),
     listSessionFiles: (
       agentName: string,
-      sessionId: string,
+      agentSessionId: string,
       path: string,
       options?: BetaAgentsListSessionFilesOptionalParams,
-    ) => listSessionFiles(context, agentName, sessionId, path, options),
+    ) => listSessionFiles(context, agentName, agentSessionId, path, options),
     downloadSessionFile: (
       agentName: string,
-      sessionId: string,
+      agentSessionId: string,
       path: string,
       options?: BetaAgentsDownloadSessionFileOptionalParams,
-    ) => downloadSessionFile(context, agentName, sessionId, path, options),
+    ) => downloadSessionFile(context, agentName, agentSessionId, path, options),
     uploadSessionFile: (
       agentName: string,
-      sessionId: string,
+      agentSessionId: string,
       path: string,
       content: Uint8Array,
       options?: BetaAgentsUploadSessionFileOptionalParams,
-    ) => uploadSessionFile(context, agentName, sessionId, path, content, options),
+    ) => uploadSessionFile(context, agentName, agentSessionId, path, content, options),
     getSessionLogStream: (
       agentName: string,
       agentVersion: string,

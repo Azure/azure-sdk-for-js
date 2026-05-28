@@ -548,7 +548,7 @@ export async function _listOptimizationJobsDeserialize(
   return _agentsPagedResultOptimizationJobDeserializer(result.body);
 }
 
-/** List optimization jobs. Supports cursor pagination and optional `status` / `agent_name` filters. */
+/** List optimization jobs. Supports cursor pagination and optional status / agent_name filters. */
 export function listOptimizationJobs(
   context: Client,
   options: BetaAgentsListOptimizationJobsOptionalParams = { requestOptions: {} },
@@ -656,26 +656,26 @@ export async function _createOptimizationJobDeserialize(
 /** Create an optimization job. Returns 201 with the queued job. Honours `Operation-Id` for idempotent retry. */
 export async function createOptimizationJob(
   context: Client,
-  job: OptimizationJobInputs,
+  inputs: OptimizationJobInputs,
   options: BetaAgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): Promise<OptimizationJob> {
-  const result = await _createOptimizationJobSend(context, job, options);
+  const result = await _createOptimizationJobSend(context, inputs, options);
   return _createOptimizationJobDeserialize(result);
 }
 
 export function _deleteSessionFileSend(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   options: BetaAgentsDeleteSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}/files{?path,recursive,api-version}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?path,recursive,api-version}",
     {
       agent_name: agentName,
-      session_id: sessionId,
+      agent_session_id: agentSessionId,
       path: path,
       recursive: options?.recursive,
       "api-version": context.apiVersion,
@@ -715,27 +715,27 @@ export async function _deleteSessionFileDeserialize(result: PathUncheckedRespons
 export async function deleteSessionFile(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   options: BetaAgentsDeleteSessionFileOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _deleteSessionFileSend(context, agentName, sessionId, path, options);
+  const result = await _deleteSessionFileSend(context, agentName, agentSessionId, path, options);
   return _deleteSessionFileDeserialize(result);
 }
 
 export function _listSessionFilesSend(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}/files{?path,api-version}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?path,api-version}",
     {
       agent_name: agentName,
-      session_id: sessionId,
+      agent_session_id: agentSessionId,
       path: path,
       "api-version": context.apiVersion,
     },
@@ -777,28 +777,28 @@ export async function _listSessionFilesDeserialize(
 export async function listSessionFiles(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
 ): Promise<SessionDirectoryListResponse> {
-  const result = await _listSessionFilesSend(context, agentName, sessionId, path, options);
+  const result = await _listSessionFilesSend(context, agentName, agentSessionId, path, options);
   return _listSessionFilesDeserialize(result);
 }
 
 export function _downloadSessionFileSend(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   options: BetaAgentsDownloadSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
 
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}/files/content{?path,api-version}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files/content{?path,api-version}",
     {
       agent_name: agentName,
-      session_id: sessionId,
+      agent_session_id: agentSessionId,
       path: path,
       "api-version": context.apiVersion,
     },
@@ -837,7 +837,7 @@ export async function _downloadSessionFileDeserialize(
 export async function downloadSessionFile(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   options: BetaAgentsDownloadSessionFileOptionalParams = { requestOptions: {} },
 ): Promise<BetaAgentsDownloadSessionFileResponse> {
@@ -849,7 +849,7 @@ export async function downloadSessionFile(
 export function _uploadSessionFileSend(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   content: Uint8Array,
   options: BetaAgentsUploadSessionFileOptionalParams = { requestOptions: {} },
@@ -857,10 +857,10 @@ export function _uploadSessionFileSend(
   const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
 
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}/files/content{?path,api-version}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files/content{?path,api-version}",
     {
       agent_name: agentName,
-      session_id: sessionId,
+      agent_session_id: agentSessionId,
       path: path,
       "api-version": context.apiVersion,
     },
@@ -904,7 +904,7 @@ export async function _uploadSessionFileDeserialize(
 export async function uploadSessionFile(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   content: Uint8Array,
   options: BetaAgentsUploadSessionFileOptionalParams = { requestOptions: {} },
@@ -912,7 +912,7 @@ export async function uploadSessionFile(
   const result = await _uploadSessionFileSend(
     context,
     agentName,
-    sessionId,
+    agentSessionId,
     path,
     content,
     options,
@@ -934,7 +934,7 @@ export function _getSessionLogStreamSend(
       agent_name: agentName,
       agent_version: agentVersion,
       session_id: sessionId,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1319,7 +1319,7 @@ export function _downloadAgentCodeSend(
     {
       agent_name: agentName,
       agent_version: options?.agentVersion,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

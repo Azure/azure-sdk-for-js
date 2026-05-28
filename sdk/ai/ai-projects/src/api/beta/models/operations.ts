@@ -55,7 +55,7 @@ export function _getCredentialsSend(
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,7 +109,7 @@ export function _pendingUploadSend(
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,7 +163,7 @@ export function _pendingCreateVersionSend(
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -221,7 +221,7 @@ export function _updateSend(
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -272,7 +272,7 @@ export function _$deleteSend(
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -316,7 +316,7 @@ export function _getSend(
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -360,7 +360,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/models{?api-version}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -409,7 +409,7 @@ export function _listVersionsSend(
     "/models/{name}/versions{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

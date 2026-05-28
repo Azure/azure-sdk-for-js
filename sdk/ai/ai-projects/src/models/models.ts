@@ -2545,7 +2545,7 @@ export interface ComparisonFilter {
   /** The key to compare against the value. */
   key: string;
   /** The value to compare against the attribute key; supports string, number, or boolean types. */
-  value: string | number | boolean | ComparisonFilterValueItems[];
+  value: string | number | boolean | _FileSearchToolFiltersValue[];
 }
 
 export function comparisonFilterSerializer(item: ComparisonFilter): any {
@@ -2564,44 +2564,43 @@ export function comparisonFilterDeserializer(item: any): ComparisonFilter {
   };
 }
 
-/** Alias for _ComparisonFilterValue */
-export type _ComparisonFilterValue = string | number | boolean | ComparisonFilterValueItems[];
+/** Alias for FileSearchToolFiltersValue */
+export type FileSearchToolFiltersValue = string | number | boolean | _FileSearchToolFiltersValue[];
 
-/** Alias for _FileSearchToolFiltersValue (spec-rename of _ComparisonFilterValue) */
-type _FileSearchToolFiltersValue = _ComparisonFilterValue;
-
-export function _fileSearchToolFiltersValueSerializer(item: _FileSearchToolFiltersValue): any {
+export function _fileSearchToolFiltersValueSerializer(item: FileSearchToolFiltersValue): any {
   return item;
 }
 
-export function _fileSearchToolFiltersValueDeserializer(item: any): _FileSearchToolFiltersValue {
+export function _fileSearchToolFiltersValueDeserializer(item: any): FileSearchToolFiltersValue {
   return item;
 }
 
-export function comparisonFilterValueItemsArraySerializer(
-  result: Array<ComparisonFilterValueItems>,
+export function _fileSearchToolFiltersValue1ArraySerializer(
+  result: Array<_FileSearchToolFiltersValue>,
 ): any[] {
   return result.map((item) => {
-    return comparisonFilterValueItemsSerializer(item);
+    return _fileSearchToolFiltersValue1Serializer(item);
   });
 }
 
-export function comparisonFilterValueItemsArrayDeserializer(
-  result: Array<ComparisonFilterValueItems>,
+export function _fileSearchToolFiltersValue1ArrayDeserializer(
+  result: Array<_FileSearchToolFiltersValue>,
 ): any[] {
   return result.map((item) => {
-    return comparisonFilterValueItemsDeserializer(item);
+    return _fileSearchToolFiltersValue1Deserializer(item);
   });
 }
 
+/** Alias for _FileSearchToolFiltersValue */
+export type _FileSearchToolFiltersValue = string | number;
 /** Alias for ComparisonFilterValueItems */
-export type ComparisonFilterValueItems = string | number;
+export type ComparisonFilterValueItems = _FileSearchToolFiltersValue;
 
-export function comparisonFilterValueItemsSerializer(item: ComparisonFilterValueItems): any {
+export function _fileSearchToolFiltersValue1Serializer(item: _FileSearchToolFiltersValue): any {
   return item;
 }
 
-export function comparisonFilterValueItemsDeserializer(item: any): ComparisonFilterValueItems {
+export function _fileSearchToolFiltersValue1Deserializer(item: any): _FileSearchToolFiltersValue {
   return item;
 }
 
@@ -2643,11 +2642,8 @@ export function _fileSearchToolFiltersFilterArrayDeserializer(
   });
 }
 
-/** Alias for _CompoundFilterFilter */
-export type _CompoundFilterFilter = ComparisonFilter | CompoundFilter;
-
-/** Alias for _FileSearchToolFiltersFilter (spec-rename of _CompoundFilterFilter) */
-type _FileSearchToolFiltersFilter = _CompoundFilterFilter;
+/** Alias for _FileSearchToolFiltersFilter */
+export type _FileSearchToolFiltersFilter = ComparisonFilter | CompoundFilter;
 
 export function _fileSearchToolFiltersFilterSerializer(item: _FileSearchToolFiltersFilter): any {
   return item;
@@ -3885,6 +3881,22 @@ export function toolSearchToolParamDeserializer(item: any): ToolSearchToolParam 
 /** Type of ToolSearchExecutionType */
 export type ToolSearchExecutionType = "server" | "client";
 
+/** Container-based deployment configuration for a hosted agent. */
+export interface ContainerConfiguration {
+  /** The container image for the hosted agent. */
+  image: string;
+}
+
+export function containerConfigurationSerializer(item: ContainerConfiguration): any {
+  return { image: item["image"] };
+}
+
+export function containerConfigurationDeserializer(item: any): ContainerConfiguration {
+  return {
+    image: item["image"],
+  };
+}
+
 export function protocolVersionRecordArraySerializer(result: Array<ProtocolVersionRecord>): any[] {
   return result.map((item) => {
     return protocolVersionRecordSerializer(item);
@@ -3925,22 +3937,6 @@ export type AgentProtocol =
   | "mcp"
   | "invocations"
   | "invocations_ws";
-
-/** Container-based deployment configuration for a hosted agent. */
-export interface ContainerConfiguration {
-  /** The container image for the hosted agent. */
-  image: string;
-}
-
-export function containerConfigurationSerializer(item: ContainerConfiguration): any {
-  return { image: item["image"] };
-}
-
-export function containerConfigurationDeserializer(item: any): ContainerConfiguration {
-  return {
-    image: item["image"],
-  };
-}
 
 /** Code-based deployment configuration for a hosted agent. */
 export interface CodeConfiguration {
@@ -5606,7 +5602,7 @@ export interface ApiErrorResponse {
 
 export function apiErrorResponseDeserializer(item: any): ApiErrorResponse {
   return {
-    error: errorDeserializer(item["error"]),
+    error: apiErrorDeserializer(item["error"]),
   };
 }
 
@@ -5628,21 +5624,21 @@ export interface ErrorModel {
   debugInfo?: Record<string, unknown>;
 }
 
-export function errorDeserializer(item: any): ErrorModel {
+export function apiErrorDeserializer(item: any): ErrorModel {
   return {
     code: item["code"],
     message: item["message"],
     param: item["param"],
     type: item["type"],
-    details: !item["details"] ? item["details"] : errorArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : apiErrorArrayDeserializer(item["details"]),
     additionalInfo: item["additionalInfo"],
     debugInfo: item["debugInfo"],
   };
 }
 
-export function errorArrayDeserializer(result: Array<ErrorModel>): any[] {
+export function apiErrorArrayDeserializer(result: Array<ErrorModel>): any[] {
   return result.map((item) => {
-    return errorDeserializer(item);
+    return apiErrorDeserializer(item);
   });
 }
 
@@ -6773,6 +6769,30 @@ export function embeddingConfigurationDeserializer(item: any): EmbeddingConfigur
   };
 }
 
+/** File contents with optional metadata for multipart uploads. */
+export interface FileWithMetadata {
+  contents: FileContents;
+  contentType?: string;
+  filename?: string;
+}
+
+/** Multipart request body for updating or versioning a code-based agent (POST /agents/{name} and POST /agents/{name}/versions). */
+export interface CreateAgentVersionFromCodeContent {
+  /** JSON metadata including description and hosted definition. */
+  metadata: CreateAgentVersionFromCodeMetadata;
+  /** The code zip file (max 250 MB). */
+  code: FileContents | FileWithMetadata;
+}
+
+export function createAgentVersionFromCodeContentSerializer(
+  item: CreateAgentVersionFromCodeContent,
+): any {
+  return [
+    { name: "metadata", body: createAgentVersionFromCodeMetadataSerializer(item["metadata"]) },
+    createFilePartDescriptor("code", item["code"], "application/octet-stream"),
+  ];
+}
+
 /**
  * JSON metadata for code-based agent operations (create, update, create version).
  * The agent name comes from the URL path parameter or the `x-ms-agent-name` header,
@@ -6803,30 +6823,6 @@ export function createAgentVersionFromCodeMetadataSerializer(
     metadata: item["metadata"],
     definition: hostedAgentDefinitionSerializer(item["definition"]),
   };
-}
-
-/** File contents with optional metadata for multipart uploads. */
-export interface FileWithMetadata {
-  contents: FileContents;
-  contentType?: string;
-  filename?: string;
-}
-
-/** Multipart request body for updating or versioning a code-based agent (POST /agents/{name} and POST /agents/{name}/versions). */
-export interface CreateAgentVersionFromCodeContent {
-  /** JSON metadata including description and hosted definition. */
-  metadata: CreateAgentVersionFromCodeMetadata;
-  /** The code zip file (max 250 MB). */
-  code: FileContents | FileWithMetadata;
-}
-
-export function createAgentVersionFromCodeContentSerializer(
-  item: CreateAgentVersionFromCodeContent,
-): any {
-  return [
-    { name: "metadata", body: createAgentVersionFromCodeMetadataSerializer(item["metadata"]) },
-    createFilePartDescriptor("code", item["code"], "application/octet-stream"),
-  ];
 }
 
 /** Version indicator determining which agent version backs the session. */
@@ -7209,7 +7205,7 @@ export function optimizationJobDeserializer(item: any): OptimizationJob {
   return {
     id: item["id"],
     status: item["status"],
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
     result: !item["result"] ? item["result"] : optimizationJobResultDeserializer(item["result"]),
     inputs: !item["inputs"] ? item["inputs"] : optimizationJobInputsDeserializer(item["inputs"]),
     created_at: new Date(item["created_at"] * 1000),
@@ -8526,6 +8522,16 @@ export function datasetReferenceDeserializer(item: any): DatasetReference {
   };
 }
 
+/** Request body for getting evaluator credentials */
+export interface EvaluatorCredentialRequest {
+  /** The blob URI for the evaluator storage. Example: `https://account.blob.core.windows.net:443/container` */
+  blob_uri: string;
+}
+
+export function evaluatorCredentialRequestSerializer(item: EvaluatorCredentialRequest): any {
+  return { blob_uri: item["blob_uri"] };
+}
+
 /** Evaluator Generation Job resource — a long-running job that generates rubric-based evaluator definitions from source materials. On success, the result is the persisted EvaluatorVersion. */
 export interface EvaluatorGenerationJob {
   /** Server-assigned unique identifier. */
@@ -8561,7 +8567,7 @@ export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerati
       : evaluatorGenerationInputsDeserializer(item["inputs"]),
     result: !item["result"] ? item["result"] : evaluatorVersionDeserializer(item["result"]),
     status: item["status"],
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
     created_at: new Date(item["created_at"] * 1000),
     finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
     usage: !item["usage"]
@@ -9675,11 +9681,11 @@ export interface MemoryStoreDefaultOptions {
   user_profile_enabled: boolean;
   /** Specific categories or types of user profile information to extract and store. */
   user_profile_details?: string;
-  /** Whether to enable chat summary extraction and storage. Defaults is `true`. */
+  /** Whether to enable chat summary extraction and storage. Defaults to `true`. */
   chat_summary_enabled: boolean;
-  /** Whether to enable procedural memory extraction and storage. Defaults is `true`. */
+  /** Whether to enable procedural memory extraction and storage. Defaults to `true`. */
   procedural_memory_enabled?: boolean;
-  /** The default time-to-live for memories in seconds. A value of `0` indicates that memories do not expire. Defaults is `0`. */
+  /** The default time-to-live for memories in seconds. A value of `0` indicates that memories do not expire. Defaults to `0`. */
   default_ttl_seconds?: number;
 }
 
@@ -9997,7 +10003,7 @@ export function memoryStoreUpdateResponseDeserializer(item: any): MemoryStoreUpd
     result: !item["result"]
       ? item["result"]
       : memoryStoreUpdateCompletedResultDeserializer(item["result"]),
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
   };
 }
 
@@ -12158,7 +12164,7 @@ export function dataGenerationJobDeserializer(item: any): DataGenerationJob {
     inputs: !item["inputs"] ? item["inputs"] : dataGenerationJobInputsDeserializer(item["inputs"]),
     result: !item["result"] ? item["result"] : dataGenerationJobResultDeserializer(item["result"]),
     status: item["status"],
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
     created_at: new Date(item["created_at"] * 1000),
     finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
   };
@@ -12857,7 +12863,6 @@ export type AgentDefinitionOptInKeys =
 export type PageOrder = "asc" | "desc";
 /** Type of FoundryFeaturesOptInKeys */
 export type FoundryFeaturesOptInKeys =
-  | "Skills=V1Preview"
   | "Evaluations=V1Preview"
   | "Schedules=V1Preview"
   | "RedTeams=V1Preview"
@@ -12865,6 +12870,7 @@ export type FoundryFeaturesOptInKeys =
   | "MemoryStores=V1Preview"
   | "Routines=V1Preview"
   | "Toolboxes=V1Preview"
+  | "Skills=V1Preview"
   | "DataGenerationJobs=V1Preview"
   | "Models=V1Preview"
   | "AgentsOptimization=V1Preview";
@@ -12967,13 +12973,3 @@ export type BetaAgentsDownloadAgentCodeResponse = {
    */
   readableStreamBody?: NodeJS.ReadableStream;
 };
-
-/** Request body for getting evaluator credentials */
-export interface EvaluatorCredentialRequest {
-  /** The blob URI for the evaluator storage. Example: `https://account.blob.core.windows.net:443/container` */
-  blob_uri: string;
-}
-
-export function evaluatorCredentialRequestSerializer(item: EvaluatorCredentialRequest): any {
-  return { blob_uri: item["blob_uri"] };
-}

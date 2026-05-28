@@ -46,14 +46,14 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 
 export function _$deleteSend(
   context: Client,
-  skillName: string,
+  name: string,
   options: BetaSkillsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
-    "/skills/{skill_name}{?api-version}",
+    "/skills/{name}{?api-version}",
     {
-      skill_name: skillName,
+      name: name,
       "api-version": context.apiVersion,
     },
     {
@@ -87,24 +87,24 @@ export async function _$deleteDeserialize(
 /** Deletes a skill. */
 export async function $delete(
   context: Client,
-  skillName: string,
+  name: string,
   options: BetaSkillsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<DeleteSkillResponse> {
-  const result = await _$deleteSend(context, skillName, options);
+  const result = await _$deleteSend(context, name, options);
   return _$deleteDeserialize(result);
 }
 
 export function _updateSend(
   context: Client,
-  skillName: string,
+  name: string,
   defaultVersion: string,
   options: BetaSkillsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
-    "/skills/{skill_name}{?api-version}",
+    "/skills/{name}{?api-version}",
     {
-      skill_name: skillName,
+      name: name,
       "api-version": context.apiVersion,
     },
     {
@@ -119,9 +119,7 @@ export function _updateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: {
-      default_version: defaultVersion,
-    },
+    body: { default_version: defaultVersion },
   });
 }
 
@@ -140,11 +138,11 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 /** Updates an existing skill. */
 export async function update(
   context: Client,
-  skillName: string,
+  name: string,
   defaultVersion: string,
   options: BetaSkillsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Skill> {
-  const result = await _updateSend(context, skillName, defaultVersion, options);
+  const result = await _updateSend(context, name, defaultVersion, options);
   return _updateDeserialize(result);
 }
 
@@ -266,14 +264,14 @@ export async function getSkillVersionContent(
 
 export function _downloadSend(
   context: Client,
-  skillName: string,
+  name: string,
   options: BetaSkillsDownloadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
-    "/skills/{skill_name}/content{?api-version}",
+    "/skills/{name}/content{?api-version}",
     {
-      skill_name: skillName,
+      name: name,
       "api-version": context.apiVersion,
     },
     {
@@ -307,24 +305,24 @@ export async function _downloadDeserialize(
 /** Download the zip content for the default version of a skill. */
 export async function download(
   context: Client,
-  skillName: string,
+  name: string,
   options: BetaSkillsDownloadOptionalParams = { requestOptions: {} },
 ): Promise<BetaSkillsDownloadResponse> {
-  const streamableMethod = _downloadSend(context, skillName, options);
+  const streamableMethod = _downloadSend(context, name, options);
   const result = await getBinaryStreamResponse(streamableMethod);
   return _downloadDeserialize(result);
 }
 
 export function _getSend(
   context: Client,
-  skillName: string,
+  name: string,
   options: BetaSkillsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
-    "/skills/{skill_name}{?api-version}",
+    "/skills/{name}{?api-version}",
     {
-      skill_name: skillName,
+      name: name,
       "api-version": context.apiVersion,
     },
     {
@@ -356,10 +354,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sk
 /** Retrieves a skill. */
 export async function get(
   context: Client,
-  skillName: string,
+  name: string,
   options: BetaSkillsGetOptionalParams = { requestOptions: {} },
 ): Promise<Skill> {
-  const result = await _getSend(context, skillName, options);
+  const result = await _getSend(context, name, options);
   return _getDeserialize(result);
 }
 
@@ -586,15 +584,15 @@ export async function create(
 
 export function _deleteSkillVersionSend(
   context: Client,
-  skillName: string,
+  name: string,
   version: string,
   options: BetaSkillsDeleteSkillVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
-    "/skills/{skill_name}/versions/{version}{?api-version}",
+    "/skills/{name}/versions/{version}{?api-version}",
     {
-      skill_name: skillName,
+      name: name,
       version: version,
       "api-version": context.apiVersion,
     },
