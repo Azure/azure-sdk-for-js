@@ -147,7 +147,7 @@ describe("beta agents - code-based operations", () => {
       filename: "agent.zip",
     });
 
-    const created = await betaAgents.createAgentVersionFromCode(agentName, codeZipSha256, body, {
+    const created = await betaAgents.createVersionFromCode(agentName, codeZipSha256, body, {
       foundryFeatures: "CodeAgents=V1Preview",
     });
 
@@ -192,7 +192,7 @@ describe("beta agents - code-based operations", () => {
       };
     });
 
-    const version = await betaAgents.createAgentVersionFromCode(
+    const version = await betaAgents.createVersionFromCode(
       agentName,
       codeZipSha256,
       createCodeAgentBody(new Uint8Array([1, 2, 3])),
@@ -251,7 +251,7 @@ describe("beta agents - code-based operations", () => {
     }));
 
     await expect(
-      betaAgents.createAgentVersionFromCode(
+      betaAgents.createVersionFromCode(
         agentName,
         codeZipSha256,
         createCodeAgentBody(new Uint8Array([1])),
