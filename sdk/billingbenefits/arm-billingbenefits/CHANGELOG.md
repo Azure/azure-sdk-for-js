@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.1 (2026-05-25)
+## 2.0.0-beta.1 (2026-05-28)
 Compared with version 1.0.0
 
 ### Features Added
@@ -124,7 +124,6 @@ Compared with version 1.0.0
   - Added Interface MaccsWriteOffOptionalParams
   - Added Interface MaccValidateModel
   - Added Interface ManagedServiceIdentity
-  - Added Interface ManagedServiceIdentity_1
   - Added Interface MarketSetPricesItems
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
@@ -145,6 +144,7 @@ Compared with version 1.0.0
   - Added Interface SellerResourceListOptionalParams
   - Added Interface SellerResourceListRequest
   - Added Interface SellerResourceListRequestProperties
+  - Added Interface ServiceManagedIdentity
   - Added Interface Shortfall
   - Added Interface SimplePollerLike
   - Added Interface SourcesCreateOptionalParams
@@ -187,9 +187,9 @@ Compared with version 1.0.0
   - Added Type Alias MaccMilestoneStatus
   - Added Type Alias MaccStatus
   - Added Type Alias ManagedServiceIdentityType
-  - Added Type Alias ManagedServiceIdentityType_1
   - Added Type Alias MilestoneStatus
   - Added Type Alias PricingPolicy
+  - Added Type Alias ServiceManagedIdentityType
   - Added Type Alias SkuTier
   - Added Enum AzureClouds
   - Added Enum KnownApplyDiscountOn
@@ -213,9 +213,9 @@ Compared with version 1.0.0
   - Added Enum KnownMaccMilestoneStatus
   - Added Enum KnownMaccStatus
   - Added Enum KnownManagedServiceIdentityType
-  - Added Enum KnownManagedServiceIdentityType_1
   - Added Enum KnownMilestoneStatus
   - Added Enum KnownPricingPolicy
+  - Added Enum KnownServiceManagedIdentityType
   - Added Enum KnownVersions
   - Enum KnownCommitmentGrain has a new value FullTerm
   - Enum KnownCommitmentGrain has a new value Unknown

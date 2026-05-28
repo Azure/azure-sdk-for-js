@@ -203,7 +203,7 @@ export type CommitmentGrain = string;
 // @public
 export interface ConditionalCredit extends TrackedResource {
     readonly etag?: string;
-    identity?: ManagedServiceIdentity_1;
+    identity?: ManagedServiceIdentity;
     kind?: string;
     managedBy?: string;
     plan?: Plan;
@@ -458,7 +458,7 @@ export interface Credit extends TrackedResource {
     readonly customerId?: string;
     endAt?: Date;
     readonly etag?: string;
-    identity?: ManagedServiceIdentity_1;
+    identity?: ManagedServiceIdentity;
     kind?: string;
     managedBy?: string;
     plan?: Plan;
@@ -601,7 +601,7 @@ export interface CreditsOperations {
 export interface CreditSource extends TrackedResource {
     credit?: Commitment;
     readonly etag?: string;
-    identity?: ManagedServiceIdentity_1;
+    identity?: ManagedServiceIdentity;
     impactedBillingPeriod?: string;
     kind?: string;
     managedBy?: string;
@@ -637,7 +637,7 @@ export interface CreditsValidateModel extends BenefitValidateModel {
     benefitType: "Credits";
     readonly etag?: string;
     readonly id?: string;
-    identity?: ManagedServiceIdentity_1;
+    identity?: ManagedServiceIdentity;
     kind?: string;
     location?: string;
     managedBy?: string;
@@ -664,7 +664,7 @@ export interface CustomPriceProperties {
 // @public
 export interface Discount extends TrackedResource {
     readonly etag?: string;
-    identity?: ManagedServiceIdentity;
+    identity?: ServiceManagedIdentity;
     kind?: string;
     managedBy?: string;
     plan?: Plan;
@@ -892,7 +892,7 @@ export interface FreeServices extends TrackedResource {
     readonly customerResourceId?: string;
     endAt?: Date;
     readonly etag?: string;
-    identity?: ManagedServiceIdentity_1;
+    identity?: ManagedServiceIdentity;
     kind?: string;
     managedBy?: string;
     plan?: Plan;
@@ -1206,14 +1206,6 @@ export enum KnownManagedServiceIdentityType {
 }
 
 // @public
-export enum KnownManagedServiceIdentityType_1 {
-    None = "None",
-    SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-    UserAssigned = "UserAssigned"
-}
-
-// @public
 export enum KnownMilestoneStatus {
     Active = "Active",
     Canceled = "Canceled",
@@ -1291,6 +1283,14 @@ export enum KnownReservedResourceType {
 }
 
 // @public
+export enum KnownServiceManagedIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownTerm {
     P1M = "P1M",
     P1Y = "P1Y",
@@ -1314,7 +1314,7 @@ export interface Macc extends TrackedResource {
     endAt?: Date;
     entityType?: MaccEntityType;
     readonly etag?: string;
-    identity?: ManagedServiceIdentity_1;
+    identity?: ManagedServiceIdentity;
     kind?: string;
     managedBy?: string;
     milestones?: MaccMilestone[];
@@ -1513,18 +1513,7 @@ export interface ManagedServiceIdentity {
 }
 
 // @public
-export interface ManagedServiceIdentity_1 {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: ManagedServiceIdentityType_1;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
-}
-
-// @public
 export type ManagedServiceIdentityType = string;
-
-// @public
-export type ManagedServiceIdentityType_1 = string;
 
 // @public
 export interface MarketSetPricesItems {
@@ -2117,6 +2106,17 @@ export interface SellerResourceListRequestProperties {
 export interface SellerResourceOperations {
     list: (body: SellerResourceListRequest, options?: SellerResourceListOptionalParams) => Promise<Macc[]>;
 }
+
+// @public
+export interface ServiceManagedIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ServiceManagedIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ServiceManagedIdentityType = string;
 
 // @public
 export interface Shortfall {

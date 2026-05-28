@@ -187,7 +187,7 @@ export interface Discount extends TrackedResource {
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly etag?: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedServiceIdentity;
+  identity?: ServiceManagedIdentity;
   /** The resource model definition representing SKU */
   sku?: Sku;
   /** Plan for the resource. */
@@ -205,7 +205,7 @@ export function discountSerializer(item: Discount): any {
     kind: item["kind"],
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
+      : serviceManagedIdentitySerializer(item["identity"]),
     sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
     plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
   };
@@ -231,7 +231,7 @@ export function discountDeserializer(item: any): Discount {
     etag: item["etag"],
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
+      : serviceManagedIdentityDeserializer(item["identity"]),
     sku: !item["sku"] ? item["sku"] : skuDeserializer(item["sku"]),
     plan: !item["plan"] ? item["plan"] : planDeserializer(item["plan"]),
   };
@@ -1158,18 +1158,18 @@ export function discountTypeCustomPriceMultiCurrencyDeserializer(
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
-export interface ManagedServiceIdentity {
+export interface ServiceManagedIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly principalId?: string;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly tenantId?: string;
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-  type: ManagedServiceIdentityType;
+  type: ServiceManagedIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
   userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
-export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+export function serviceManagedIdentitySerializer(item: ServiceManagedIdentity): any {
   return {
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
@@ -1178,7 +1178,7 @@ export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): 
   };
 }
 
-export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
+export function serviceManagedIdentityDeserializer(item: any): ServiceManagedIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -1190,7 +1190,7 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
 }
 
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-export enum KnownManagedServiceIdentityType {
+export enum KnownServiceManagedIdentityType {
   /** None */
   None = "None",
   /** SystemAssigned */
@@ -1203,7 +1203,7 @@ export enum KnownManagedServiceIdentityType {
 
 /**
  * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
- * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ * {@link KnownServiceManagedIdentityType} can be used interchangeably with ServiceManagedIdentityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None** \
@@ -1211,7 +1211,7 @@ export enum KnownManagedServiceIdentityType {
  * **UserAssigned** \
  * **SystemAssigned,UserAssigned**
  */
-export type ManagedServiceIdentityType = string;
+export type ServiceManagedIdentityType = string;
 
 export function userAssignedIdentityRecordSerializer(
   item: Record<string, UserAssignedIdentity>,
@@ -1963,7 +1963,7 @@ export interface Credit extends TrackedResource {
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly etag?: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedServiceIdentity_1;
+  identity?: ManagedServiceIdentity;
   /** The resource model definition representing SKU */
   sku?: Sku;
   /** Plan for the resource. */
@@ -2021,7 +2021,7 @@ export function creditSerializer(item: Credit): any {
     kind: item["kind"],
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentitySerializer_1(item["identity"]),
+      : managedServiceIdentitySerializer(item["identity"]),
     sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
     plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
   };
@@ -2047,7 +2047,7 @@ export function creditDeserializer(item: any): Credit {
     etag: item["etag"],
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentityDeserializer_1(item["identity"]),
+      : managedServiceIdentityDeserializer(item["identity"]),
     sku: !item["sku"] ? item["sku"] : skuDeserializer(item["sku"]),
     plan: !item["plan"] ? item["plan"] : planDeserializer(item["plan"]),
   };
@@ -2356,22 +2356,22 @@ export enum KnownProvisioningState {
 export type ProvisioningState = string;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
-export interface ManagedServiceIdentity_1 {
+export interface ManagedServiceIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly principalId?: string;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly tenantId?: string;
   /** The type of managed identity assigned to this resource. */
-  type: ManagedServiceIdentityType_1;
+  type: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
   userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
-export function managedServiceIdentitySerializer_1(item: ManagedServiceIdentity_1): any {
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
   return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
-export function managedServiceIdentityDeserializer_1(item: any): ManagedServiceIdentity_1 {
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -2388,7 +2388,7 @@ export function managedServiceIdentityDeserializer_1(item: any): ManagedServiceI
 }
 
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-export enum KnownManagedServiceIdentityType_1 {
+export enum KnownManagedServiceIdentityType {
   /** No managed identity. */
   None = "None",
   /** System assigned managed identity. */
@@ -2409,7 +2409,7 @@ export enum KnownManagedServiceIdentityType_1 {
  * **UserAssigned**: User assigned managed identity. \
  * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
  */
-export type ManagedServiceIdentityType_1 = string;
+export type ManagedServiceIdentityType = string;
 
 /** Credit patch request */
 export interface CreditPatchRequest {
@@ -2490,7 +2490,7 @@ export interface ConditionalCredit extends TrackedResource {
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly etag?: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedServiceIdentity_1;
+  identity?: ManagedServiceIdentity;
   /** The resource model definition representing SKU */
   sku?: Sku;
   /** Plan for the resource. */
@@ -2508,7 +2508,7 @@ export function conditionalCreditSerializer(item: ConditionalCredit): any {
     kind: item["kind"],
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentitySerializer_1(item["identity"]),
+      : managedServiceIdentitySerializer(item["identity"]),
     sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
     plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
   };
@@ -2534,7 +2534,7 @@ export function conditionalCreditDeserializer(item: any): ConditionalCredit {
     etag: item["etag"],
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentityDeserializer_1(item["identity"]),
+      : managedServiceIdentityDeserializer(item["identity"]),
     sku: !item["sku"] ? item["sku"] : skuDeserializer(item["sku"]),
     plan: !item["plan"] ? item["plan"] : planDeserializer(item["plan"]),
   };
@@ -3215,7 +3215,7 @@ export interface Macc extends TrackedResource {
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly etag?: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedServiceIdentity_1;
+  identity?: ManagedServiceIdentity;
   /** The resource model definition representing SKU */
   sku?: Sku;
   /** Plan for the resource. */
@@ -3287,7 +3287,7 @@ export function maccSerializer(item: Macc): any {
     kind: item["kind"],
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentitySerializer_1(item["identity"]),
+      : managedServiceIdentitySerializer(item["identity"]),
     sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
     plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
   };
@@ -3311,7 +3311,7 @@ export function maccDeserializer(item: any): Macc {
     etag: item["etag"],
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentityDeserializer_1(item["identity"]),
+      : managedServiceIdentityDeserializer(item["identity"]),
     sku: !item["sku"] ? item["sku"] : skuDeserializer(item["sku"]),
     plan: !item["plan"] ? item["plan"] : planDeserializer(item["plan"]),
   };
@@ -5002,7 +5002,7 @@ export interface CreditsValidateModel extends BenefitValidateModel {
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly etag?: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedServiceIdentity_1;
+  identity?: ManagedServiceIdentity;
   /** The resource model definition representing SKU */
   sku?: Sku;
   /** Plan for the resource. */
@@ -5340,7 +5340,7 @@ export interface CreditSource extends TrackedResource {
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly etag?: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedServiceIdentity_1;
+  identity?: ManagedServiceIdentity;
   /** The resource model definition representing SKU */
   sku?: Sku;
   /** Plan for the resource. */
@@ -5371,7 +5371,7 @@ export function creditSourceSerializer(item: CreditSource): any {
     kind: item["kind"],
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentitySerializer_1(item["identity"]),
+      : managedServiceIdentitySerializer(item["identity"]),
     sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
     plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
   };
@@ -5397,7 +5397,7 @@ export function creditSourceDeserializer(item: any): CreditSource {
     etag: item["etag"],
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentityDeserializer_1(item["identity"]),
+      : managedServiceIdentityDeserializer(item["identity"]),
     sku: !item["sku"] ? item["sku"] : skuDeserializer(item["sku"]),
     plan: !item["plan"] ? item["plan"] : planDeserializer(item["plan"]),
   };
@@ -5479,7 +5479,7 @@ export interface FreeServices extends TrackedResource {
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly etag?: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedServiceIdentity_1;
+  identity?: ManagedServiceIdentity;
   /** The resource model definition representing SKU */
   sku?: Sku;
   /** Plan for the resource. */
@@ -5521,7 +5521,7 @@ export function freeServicesSerializer(item: FreeServices): any {
     kind: item["kind"],
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentitySerializer_1(item["identity"]),
+      : managedServiceIdentitySerializer(item["identity"]),
     sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
     plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
   };
@@ -5547,7 +5547,7 @@ export function freeServicesDeserializer(item: any): FreeServices {
     etag: item["etag"],
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentityDeserializer_1(item["identity"]),
+      : managedServiceIdentityDeserializer(item["identity"]),
     sku: !item["sku"] ? item["sku"] : skuDeserializer(item["sku"]),
     plan: !item["plan"] ? item["plan"] : planDeserializer(item["plan"]),
   };
@@ -6164,7 +6164,7 @@ export function _creditsValidateModelPropertiesSerializer(item: CreditsValidateM
     kind: item["kind"],
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentitySerializer_1(item["identity"]),
+      : managedServiceIdentitySerializer(item["identity"]),
     sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
     plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
   };
@@ -6190,7 +6190,7 @@ export function _creditsValidateModelPropertiesDeserializer(item: any) {
     etag: item["etag"],
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentityDeserializer_1(item["identity"]),
+      : managedServiceIdentityDeserializer(item["identity"]),
     sku: !item["sku"] ? item["sku"] : skuDeserializer(item["sku"]),
     plan: !item["plan"] ? item["plan"] : planDeserializer(item["plan"]),
   };
