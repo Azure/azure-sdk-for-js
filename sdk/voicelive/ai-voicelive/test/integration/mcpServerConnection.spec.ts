@@ -24,7 +24,7 @@ describe.runIf(isLiveMode())("MCP Server Connection - Live", () => {
 
   const endpoint = process.env.VOICELIVE_ENDPOINT || process.env.AI_SERVICES_ENDPOINT;
   const apiKey = process.env.VOICELIVE_API_KEY || process.env.AI_SERVICES_KEY;
-  const model = "gpt-4o";
+  const model = "gpt-4.1";
   const timeoutMs = 60000;
 
   beforeEach(function (this: any) {

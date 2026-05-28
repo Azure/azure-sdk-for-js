@@ -187,9 +187,9 @@ export interface TranscribedPhrase {
   /** A unique integer number that is assigned to each speaker detected in the audio without particular order. Only present if speaker diarization is enabled. */
   speaker?: number;
   /** The start offset of the phrase in milliseconds. */
-  offsetMilliseconds: number;
+  offsetInMs: number;
   /** The duration of the phrase in milliseconds. */
-  durationMilliseconds: number;
+  durationInMs: number;
   /** The transcribed text of the phrase. */
   text: string;
   /** The words that make up the phrase. Only present if word-level timestamps are enabled. */
@@ -204,8 +204,8 @@ export function transcribedPhraseDeserializer(item: any): TranscribedPhrase {
   return {
     channel: item["channel"],
     speaker: item["speaker"],
-    offsetMilliseconds: item["offsetMilliseconds"],
-    durationMilliseconds: item["durationMilliseconds"],
+    offsetInMs: item["offsetMilliseconds"],
+    durationInMs: item["durationMilliseconds"],
     text: item["text"],
     words: !item["words"] ? item["words"] : transcribedWordArrayDeserializer(item["words"]),
     locale: item["locale"],
@@ -224,16 +224,16 @@ export interface TranscribedWord {
   /** The recognized word, including punctuation. */
   text: string;
   /** The start offset of the word in milliseconds. */
-  offsetMilliseconds: number;
+  offsetInMs: number;
   /** The duration of the word in milliseconds. */
-  durationMilliseconds: number;
+  durationInMs: number;
 }
 
 export function transcribedWordDeserializer(item: any): TranscribedWord {
   return {
     text: item["text"],
-    offsetMilliseconds: item["offsetMilliseconds"],
-    durationMilliseconds: item["durationMilliseconds"],
+    offsetInMs: item["offsetMilliseconds"],
+    durationInMs: item["durationMilliseconds"],
   };
 }
 

@@ -21,13 +21,13 @@ describe("VoiceLiveClient Real-time Capabilities", () => {
 
   it("should support creating sessions for real-time interaction", () => {
     // VoiceLiveClient creates sessions, which handle the real-time features
-    const session = client.createSession("gpt-4o-realtime-preview");
+    const session = client.createSession("gpt-realtime");
     expect(session).toBeDefined();
   });
 
   it("should support creating sessions with real-time configuration", () => {
     const realtimeConfig = {
-      model: "gpt-4o-realtime-preview",
+      model: "gpt-realtime",
       voice: "alloy",
       // Note: audio format properties would be part of session options, not the RequestSession
     };
@@ -42,7 +42,7 @@ describe("VoiceLiveClient Real-time Capabilities", () => {
   });
 
   it("should handle various model configurations", () => {
-    const models = ["gpt-4o-realtime-preview", "gpt-4o-realtime-preview-2024-10-01"];
+    const models = ["gpt-realtime", "gpt-realtime"];
 
     models.forEach((model) => {
       const session = client.createSession(model);
@@ -55,7 +55,7 @@ describe("VoiceLiveClient Real-time Capabilities", () => {
 
     voiceOptions.forEach((voice) => {
       const session = client.createSession({
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-realtime",
         voice: voice,
       });
       expect(session).toBeDefined();
@@ -63,7 +63,7 @@ describe("VoiceLiveClient Real-time Capabilities", () => {
   });
 
   it("should support audio format configurations", () => {
-    const session = client.createSession("gpt-4o-realtime-preview");
+    const session = client.createSession("gpt-realtime");
     expect(session).toBeDefined();
     // Audio format configuration would be handled through session options
   });
@@ -80,7 +80,7 @@ describe("VoiceLiveClient Real-time Capabilities", () => {
 
   it("should support session creation with tools for function calling", () => {
     const sessionWithTools = {
-      model: "gpt-4o-realtime-preview",
+      model: "gpt-realtime",
       tools: [
         {
           type: "function",
@@ -102,7 +102,7 @@ describe("VoiceLiveClient Real-time Capabilities", () => {
 
   it("should support session creation with temperature and other parameters", () => {
     const sessionConfig = {
-      model: "gpt-4o-realtime-preview",
+      model: "gpt-realtime",
       temperature: 0.7,
       max_tokens: 1000,
       voice: "alloy",
