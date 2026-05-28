@@ -3,7 +3,6 @@
 
 import { describe, it, assert, expect, beforeEach, afterEach, vi } from "vitest";
 import { OpenTelemetryInstrumenter, propagator } from "../../src/instrumenter.js";
-import { createOpenTelemetryInstrumenter } from "../../src/instrumenter.js";
 import { SpanKind, context, trace } from "@opentelemetry/api";
 import type { TracingSpan, TracingSpanKind } from "@azure/core-tracing";
 import type { OpenTelemetrySpanWrapper } from "../../src/spanWrapper.js";
@@ -287,57 +286,5 @@ describe("OpenTelemetryInstrumenter", () => {
       assert.equal(spanContext?.spanId, "00f067aa0ba902b7");
       assert.equal(spanContext?.traceId, "4bf92f3577b34da6a3ce929d0e0e4736");
     });
-  });
-});
-
-describe("createOpenTelemetryInstrumenter", () => {
-  it("returns an object implementing Instrumenter", () => {
-    const instance = createOpenTelemetryInstrumenter();
-    assert.isFunction(instance.startSpan);
-    assert.isFunction(instance.withContext);
-    assert.isFunction(instance.parseTraceparentHeader);
-    assert.isFunction(instance.createRequestHeaders);
-  });
-
-  it("startSpan creates a valid span", () => {
-    inMemoryExporter.reset();
-    const instance = createOpenTelemetryInstrumenter();
-    const { span, tracingContext } = instance.startSpan("test-factory", {
-      packageName: "test-package",
-      packageVersion: "1.0.0",
-    });
-
-    assert.exists(span);
-    assert.exists(tracingContext);
-    assert.isTrue(span.isRecording());
-    span.end();
-    assert.lengthOf(inMemoryExporter.getFinishedSpans(), 1);
-    assert.equal(inMemoryExporter.getFinishedSpans()[0].name, "test-factory");
-  });
-
-  it("withContext executes callback in the provided context", () => {
-    const instance = createOpenTelemetryInstrumenter();
-    const result = instance.withContext(context.active(), (a: number, b: number) => a + b, 2, 3);
-    assert.equal(result, 5);
-  });
-
-  it("createRequestHeaders returns trace headers", () => {
-    const instance = createOpenTelemetryInstrumenter();
-    const { tracingContext } = instance.startSpan("header-test", {
-      packageName: "test-package",
-    });
-    const headers = instance.createRequestHeaders(tracingContext);
-    assert.isObject(headers);
-    assert.exists(headers["traceparent"]);
-  });
-
-  it("parseTraceparentHeader extracts span context", () => {
-    const instance = createOpenTelemetryInstrumenter();
-    const tracingContext = instance.parseTraceparentHeader(
-      "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
-    );
-    const spanContext = trace.getSpanContext(tracingContext);
-    assert.equal(spanContext?.traceId, "4bf92f3577b34da6a3ce929d0e0e4736");
-    assert.equal(spanContext?.spanId, "00f067aa0ba902b7");
   });
 });
