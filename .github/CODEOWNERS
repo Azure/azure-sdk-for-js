@@ -565,7 +565,7 @@
 # PRLabel: %Mgmt
 /sdk/digitaltwins/arm-digitaltwins/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/dns/arm-dns/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
