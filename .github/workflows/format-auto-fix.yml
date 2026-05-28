@@ -104,8 +104,17 @@ jobs:
       - name: Find affected packages and run pnpm format
         if: steps.find-pr.outputs.has-pr == 'true'
         run: |
+          # Ensure we diff against the upstream Azure/azure-sdk-for-js main branch,
+          # not the fork's origin/main when the PR comes from a fork.
+          if git remote get-url upstream >/dev/null 2>&1; then
+            git remote set-url upstream https://github.com/Azure/azure-sdk-for-js.git
+          else
+            git remote add upstream https://github.com/Azure/azure-sdk-for-js.git
+          fi
+          git fetch --no-tags upstream main:refs/remotes/upstream/main
+
           # Find unique package directories (sdk/<service>/<package>) from changed files
-          PKGS=$(git diff --name-only origin/main...HEAD \
+          PKGS=$(git diff --name-only upstream/main...HEAD \
             | grep '^sdk/' \
             | sed 's|\(sdk/[^/]*/[^/]*\)/.*|\1|' \
             | sort -u)
