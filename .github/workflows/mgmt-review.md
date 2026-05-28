@@ -235,7 +235,7 @@ These are exact strings/patterns to search for in CI logs and PR status. They ar
 | `UnitTest FAILED` request url mismatch | Stale test recordings | You need to record new recordings per [test guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode). Or you could simply skip tests with maintainer approval. | No |
 | `UnitTest FAILED` missing browser recordings | Missing browser recordings | You need to record browser recordings per [test guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode). | No |
 | `Build FAILED` | Compilation failure | Fix compile errors | No |
-| `Check-format FAILED` | Code not formatted | Add label `auto-format-needed` to trigger auto-fix workflow | label |
+| `Check-format FAILED` | Code not formatted | Dispatch the `format-auto-fix` workflow to apply the formatting fix | dispatch-workflow |
 | `verify-links` broken URL | Broken markdown links | Add URL to `eng/ignore-links.txt` | No |
 | PR `Merging is blocking` pnpm-lock conflict | pnpm-lock.yaml conflict | Bot regenerates `pnpm-lock.yaml` and pushes the fix to the PR branch; if auto-fix fails, follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | No |
 | `ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY` Broken lockfile | pnpm-lock.yaml conflict | Bot regenerates `pnpm-lock.yaml` and pushes the fix to the PR branch; if auto-fix fails, follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | NO |
