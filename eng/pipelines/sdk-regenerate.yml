@@ -256,6 +256,13 @@ stages:
                 const fs = require('fs');
                 const pkg = JSON.parse(fs.readFileSync('eng/emitter-package.json', 'utf8'));
                 pkg.dependencies['@azure-tools/typespec-ts'] = '$(emitterVersion)';
+                // Inject transitive peer deps required by typespec-client-generator-core
+                // that main's emitter-package.json sometimes omits. Pin to the same
+                // version as @typespec/events (sibling package, always present).
+                // Without these, tsp-client init fails with 'Cannot find package @typespec/xml'.
+                const tspVer = pkg.dependencies['@typespec/events'] || '0.82.0';
+                if (!pkg.dependencies['@typespec/xml']) pkg.dependencies['@typespec/xml'] = tspVer;
+                if (!pkg.dependencies['@typespec/sse']) pkg.dependencies['@typespec/sse'] = tspVer;
                 fs.writeFileSync('eng/emitter-package.json', JSON.stringify(pkg, null, 2) + '\n');
               "
               cd eng
