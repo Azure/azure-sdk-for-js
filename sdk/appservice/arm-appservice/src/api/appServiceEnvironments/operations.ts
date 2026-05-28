@@ -1333,7 +1333,7 @@ export function listSuspend(
 
   return buildPagedAsyncIterator(
     context,
-    async () => await initialPagingPoller,
+    () => initialPagingPoller,
     _listSuspendDeserialize,
     ["200", "202", "201"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
@@ -1509,7 +1509,7 @@ export function listResume(
 
   return buildPagedAsyncIterator(
     context,
-    async () => await initialPagingPoller,
+    () => initialPagingPoller,
     _listResumeDeserialize,
     ["200", "202", "201"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
@@ -2050,7 +2050,7 @@ export function listChangeVnet(
 
   return buildPagedAsyncIterator(
     context,
-    async () => await initialPagingPoller,
+    () => initialPagingPoller,
     _listChangeVnetDeserialize,
     ["200", "202", "201"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
