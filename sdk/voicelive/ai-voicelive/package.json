@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-voicelive",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0",
   "description": "A generated SDK for VoiceLiveClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -45,6 +45,7 @@
     "@azure/abort-controller": "^2.1.0",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-tracing": "^1.2.0",
     "@azure/core-util": "^1.12.0",
     "@azure/logger": "^1.2.0",
     "https-proxy-agent": "^7.0.1",

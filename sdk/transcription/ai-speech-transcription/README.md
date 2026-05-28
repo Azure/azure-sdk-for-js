@@ -16,7 +16,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/transcription/ai-speech-transcription/src)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/ai-speech-transcription)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-speech-transcription?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-speech-transcription?view=azure-node-latest)
 - [Product documentation](https://learn.microsoft.com/azure/ai-services/speech-service/overview)
 
 ## Getting started
@@ -186,13 +186,11 @@ const audioFile = readFileSync("path/to/audio.wav");
 const result = await client.transcribe(audioFile);
 for (const phrase of result.phrases) {
   console.log(`Phrase: ${phrase.text}`);
-  console.log(
-    `  Offset: ${phrase.offsetMilliseconds}ms | Duration: ${phrase.durationMilliseconds}ms`,
-  );
+  console.log(`  Offset: ${phrase.offsetInMs}ms | Duration: ${phrase.durationInMs}ms`);
   console.log(`  Confidence: ${phrase.confidence.toFixed(2)}`);
   // Access individual words in the phrase
   for (const word of phrase.words ?? []) {
-    console.log(`    Word: '${word.text}' | Offset: ${word.offsetMilliseconds}ms`);
+    console.log(`    Word: '${word.text}' | Offset: ${word.offsetInMs}ms`);
   }
 }
 ```

@@ -12,7 +12,7 @@ import {
   type ClientEventInputAudioTurnStart,
   type ClientEventInputAudioTurnAppend,
   type ClientEventInputAudioTurnEnd,
-  type ConversationRequestItem,
+  type ConversationRequestItemUnion,
   type ClientEventConversationItemCreate,
   type ServerEventUnion,
   KnownClientEventType,
@@ -35,12 +35,14 @@ import type {
 } from "../handlers/sessionHandlers.js";
 import { SubscriptionManager } from "../handlers/subscriptionManager.js";
 import type { AgentSessionConfig } from "./types.js";
+import { SessionTelemetryTracker } from "../telemetry/index.js";
+import { DEFAULT_API_VERSION } from "../constants.js";
 
 export interface VoiceLiveSessionOptions {
+  /** API version to use for the Voice Live service. Defaults to the latest known version when not specified. */
+  apiVersion?: string;
   /** Connection timeout in milliseconds */
   connectionTimeoutInMs?: number;
-  /** Enable debug logging for development */
-  enableDebugLogging?: boolean;
 }
 
 export interface CreateSessionOptions extends VoiceLiveSessionOptions {}
@@ -94,20 +96,20 @@ export class VoiceLiveSession {
   private _disposed = false;
   // Handler-based subscription management
   private readonly _subscriptionManager: SubscriptionManager;
+  // Telemetry tracker for tracing
+  private readonly _telemetryTracker: SessionTelemetryTracker;
 
   /**
    * Creates an instance of VoiceLiveSession for model-centric sessions.
    *
    * @param endpoint - The Voice Live service endpoint URL
    * @param credential - Azure TokenCredential or KeyCredential for authentication
-   * @param apiVersion - API version to use for the Voice Live service
    * @param model - The model name to use for the session
-   * @param options - Optional configuration for the session
+   * @param options - Optional configuration for the session, including `apiVersion`
    */
   constructor(
     endpoint: string,
     credential: TokenCredential | KeyCredential,
-    apiVersion: string,
     model: string,
     options?: VoiceLiveSessionOptions,
   );
@@ -117,14 +119,12 @@ export class VoiceLiveSession {
    *
    * @param endpoint - The Voice Live service endpoint URL
    * @param credential - Azure TokenCredential or KeyCredential for authentication
-   * @param apiVersion - API version to use for the Voice Live service
    * @param agentConfig - The agent configuration for the session
-   * @param options - Optional configuration for the session
+   * @param options - Optional configuration for the session, including `apiVersion`
    */
   constructor(
     endpoint: string,
     credential: TokenCredential | KeyCredential,
-    apiVersion: string,
     agentConfig: AgentSessionConfig,
     options?: VoiceLiveSessionOptions,
   );
@@ -132,7 +132,6 @@ export class VoiceLiveSession {
   constructor(
     endpoint: string,
     credential: TokenCredential | KeyCredential,
-    apiVersion: string,
     modelOrAgent: string | AgentSessionConfig,
     options: VoiceLiveSessionOptions = {},
   ) {
@@ -140,7 +139,7 @@ export class VoiceLiveSession {
     this._credentialHandler = new CredentialHandler(credential);
     this._options = this._buildDefaultOptions(options);
     this._messageParser = new VoiceLiveMessageParser();
-    this._apiVersion = apiVersion;
+    this._apiVersion = this._options.apiVersion;
 
     // Determine if this is a model or agent session
     if (typeof modelOrAgent === "string") {
@@ -155,12 +154,23 @@ export class VoiceLiveSession {
     // Initialize handler-based subscription management
     this._subscriptionManager = new SubscriptionManager();
 
+    // Initialize telemetry tracker (no-op if user has no tracing configured)
+    const parsedUrl = this._parseEndpoint(this._endpoint);
+    this._telemetryTracker = new SessionTelemetryTracker({
+      serverAddress: parsedUrl.hostname,
+      serverPort: parsedUrl.port,
+      model: this._model,
+      agentName: this._agentConfig?.agentName,
+      agentVersion: this._agentConfig?.agentVersion,
+      agentProjectName: this._agentConfig?.projectName,
+      conversationId: this._agentConfig?.conversationId,
+    });
+
     logger.info("VoiceLiveSession created", {
       endpoint: this._endpoint,
       model: this._model,
       agentName: this._agentConfig?.agentName,
-      apiVersion: apiVersion,
-      enableDebugLogging: this._options.enableDebugLogging,
+      apiVersion: this._apiVersion,
     });
   }
 
@@ -181,6 +191,9 @@ export class VoiceLiveSession {
         model: this._model,
         agentName: this._agentConfig?.agentName,
       });
+
+      // Start the connect span (parent for the session lifetime)
+      this._telemetryTracker.startConnectSpan();
 
       // Get WebSocket URL with authentication and model or agent config
       const wsUrl = await this._credentialHandler.getWebSocketUrl(
@@ -212,9 +225,13 @@ export class VoiceLiveSession {
       // Connect with proper error handling
       await this._connectionManager.connect(options.abortSignal);
 
+      this._telemetryTracker.recordConnectSuccess();
       logger.info("Successfully connected to Voice Live service");
     } catch (error) {
       logger.error("Failed to connect to Voice Live service", { error });
+      this._telemetryTracker.recordConnectError(
+        error instanceof Error ? error : new Error(String(error)),
+      );
 
       // Use error classification
       if (error instanceof VoiceLiveConnectionError) {
@@ -240,6 +257,8 @@ export class VoiceLiveSession {
     } catch (error) {
       logger.error("Error during disconnect", { error });
     } finally {
+      // End tracing for this session
+      this._telemetryTracker.traceClose();
       this._connectionManager = undefined;
       this._sessionId = undefined;
       this._activeTurnId = undefined;
@@ -361,7 +380,7 @@ export class VoiceLiveSession {
    * Adds a conversation item (message) to the conversation.
    */
   async addConversationItem(
-    item: ConversationRequestItem,
+    item: ConversationRequestItemUnion,
     options: SendEventOptions = {},
   ): Promise<void> {
     this._ensureConnected();
@@ -433,8 +452,8 @@ export class VoiceLiveSession {
     options: VoiceLiveSessionOptions,
   ): Required<VoiceLiveSessionOptions> {
     return {
+      apiVersion: options.apiVersion || DEFAULT_API_VERSION,
       connectionTimeoutInMs: options.connectionTimeoutInMs || 30000,
-      enableDebugLogging: options.enableDebugLogging ?? false,
     };
   }
 
@@ -497,6 +516,9 @@ export class VoiceLiveSession {
 
     logger.error("Session marked as permanently dead", { reason });
 
+    // End tracing with error
+    this._telemetryTracker.traceClose(new Error(reason));
+
     // Mark as disposed to prevent further use
     this._disposed = true;
 
@@ -516,6 +538,8 @@ export class VoiceLiveSession {
       // Parse and process the message
       const parsed = this._messageParser.parseIncomingMessage(data);
       if (parsed && parsed.type === "server") {
+        // Trace the received event
+        this._telemetryTracker.traceRecv(parsed.event as unknown as Record<string, unknown>);
         // Handle server events
         this._handleServerEvent(parsed.event);
       }
@@ -580,6 +604,9 @@ export class VoiceLiveSession {
     }
 
     try {
+      // Trace the send operation
+      this._telemetryTracker.traceSend(event as unknown as Record<string, unknown>);
+
       const serialized = this._messageParser.serializeOutgoingMessage(event);
       await this._connectionManager.send(serialized, options.abortSignal);
 
@@ -623,5 +650,19 @@ export class VoiceLiveSession {
   private _arrayBufferToBase64(buffer: ArrayBuffer | Uint8Array): string {
     const bytes = buffer instanceof ArrayBuffer ? new Uint8Array(buffer) : buffer;
     return uint8ArrayToString(bytes, "base64");
+  }
+
+  private _parseEndpoint(endpoint: string): { hostname: string; port: number | undefined } {
+    try {
+      const url = new URL(endpoint);
+      const port = url.port
+        ? parseInt(url.port, 10)
+        : url.protocol === "https:" || url.protocol === "wss:"
+          ? 443
+          : 80;
+      return { hostname: url.hostname, port };
+    } catch {
+      return { hostname: endpoint, port: undefined };
+    }
   }
 }

@@ -42,11 +42,11 @@ const __dirname = path.dirname(__filename);
 // Construct the path
 const globalSetupPath = path.join(
   __dirname,
-  "../../src/core/global/playwright-service-global-setup.js",
+  "../../src/core/global/playwright-service-global-setup.ts",
 );
 const globalTeardownPath = path.join(
   __dirname,
-  "../../src/core/global/playwright-service-global-teardown.js",
+  "../../src/core/global/playwright-service-global-teardown.ts",
 );
 
 const samplePlaywrightConfigInput = {

@@ -33,7 +33,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,11 +55,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete Private Endpoint requests. This call is made by Backup Admin. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   vaultName: string,
@@ -73,7 +68,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, vaultName, resourceGroupName, privateEndpointConnectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-01-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -92,7 +87,7 @@ export function _putSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -145,7 +140,7 @@ export function put(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-01-31-preview",
   }) as PollerLike<
     OperationState<PrivateEndpointConnectionResource>,
     PrivateEndpointConnectionResource
@@ -166,7 +161,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
