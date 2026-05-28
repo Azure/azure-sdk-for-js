@@ -1,28 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes a provided Microsoft Defender for Cloud pricing configuration in a specific resource. Valid only for resource scope (Supported resources are: 'VirtualMachines, VMSS and ARC MachinesS').
- *
- * @summary Deletes a provided Microsoft Defender for Cloud pricing configuration in a specific resource. Valid only for resource scope (Supported resources are: 'VirtualMachines, VMSS and ARC MachinesS').
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2024-01-01/examples/Pricings/DeleteResourcePricing_example.json
- */
-
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function deleteAPricingOnResource(): Promise<void> {
-  const scopeId =
-    "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/DEMO/providers/Microsoft.Compute/virtualMachines/VM-1";
-  const pricingName = "VirtualMachines";
+/**
+ * This sample demonstrates how to deletes a provided Microsoft Defender for Cloud pricing configuration in a specific resource. Valid only for resource scope (Supported resources are: 'VirtualMachines, VMSS, ARC Machines, and Containers').
+ *
+ * @summary deletes a provided Microsoft Defender for Cloud pricing configuration in a specific resource. Valid only for resource scope (Supported resources are: 'VirtualMachines, VMSS, ARC Machines, and Containers').
+ * x-ms-original-file: 2024-01-01/Pricings/DeleteResourcePricingByNameContainers_example.json
+ */
+async function deleteAPricingOnResourceExampleForContainersPlan(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
-  const result = await client.pricings.delete(scopeId, pricingName);
-  console.log(result);
+  await client.pricings.delete(
+    "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/demo-containers-rg/providers/Microsoft.ContainerService/managedClusters/demo-aks-cluster",
+    "Containers",
+  );
+}
+
+/**
+ * This sample demonstrates how to deletes a provided Microsoft Defender for Cloud pricing configuration in a specific resource. Valid only for resource scope (Supported resources are: 'VirtualMachines, VMSS, ARC Machines, and Containers').
+ *
+ * @summary deletes a provided Microsoft Defender for Cloud pricing configuration in a specific resource. Valid only for resource scope (Supported resources are: 'VirtualMachines, VMSS, ARC Machines, and Containers').
+ * x-ms-original-file: 2024-01-01/Pricings/DeleteResourcePricing_example.json
+ */
+async function deleteAPricingOnResource(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new SecurityCenter(credential);
+  await client.pricings.delete(
+    "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/DEMO/providers/Microsoft.Compute/virtualMachines/VM-1",
+    "VirtualMachines",
+  );
 }
 
 async function main(): Promise<void> {
+  await deleteAPricingOnResourceExampleForContainersPlan();
   await deleteAPricingOnResource();
 }
 

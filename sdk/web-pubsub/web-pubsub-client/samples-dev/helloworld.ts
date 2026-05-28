@@ -9,6 +9,8 @@ import type {
   WebPubSubClientCredential,
   GetClientAccessUrlOptions,
   WebPubSubClientOptions,
+  OnGroupStreamArgs,
+  GroupStreamHandler,
 } from "@azure/web-pubsub-client";
 import { WebPubSubClient } from "@azure/web-pubsub-client";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
@@ -58,23 +60,22 @@ async function main(): Promise<void> {
     console.log(`Received message from ${e.message.group} ${formatPayload(e.message.data)}`);
   });
 
-  const streamSubscription = client.onGroupStream(groupName, (streamId) => {
-    return {
-      onMessage: (args) => {
-        console.log(
-          `[stream:${streamId}] seq=${args.stream.streamSequenceId} ${formatPayload(args.data)}`,
-        );
-      },
-      onComplete: () => {
-        console.log(`[stream:${streamId}] completed`);
-      },
-      onError: (args) => {
-        console.log(
-          `[stream:${streamId}] failed: ${args.error?.name}${args.error?.message ? ` - ${args.error.message}` : ""}`,
-        );
-      },
-    };
+  const groupStreamFactory = (stream: OnGroupStreamArgs): GroupStreamHandler => ({
+    onMessage: (args) => {
+      console.log(
+        `[stream:${stream.group}/${stream.streamId}] seq=${args.stream.streamSequenceId} ${formatPayload(args.data)}`,
+      );
+    },
+    onComplete: () => {
+      console.log(`[stream:${stream.group}/${stream.streamId}] completed`);
+    },
+    onError: (args) => {
+      console.log(
+        `[stream:${stream.group}/${stream.streamId}] failed: ${args.error?.name}${args.error?.message ? ` - ${args.error.message}` : ""}`,
+      );
+    },
   });
+  client.onGroupStream(groupStreamFactory);
 
   await client.start();
 
@@ -95,7 +96,7 @@ async function main(): Promise<void> {
     fireAndForget: true,
   });
 
-  const stream = await client.stream(groupName);
+  const stream = await client.streamToGroup(groupName, { noEcho: false });
   stream.onError((error) => {
     console.log(
       `[publisher:${stream.streamId}] failed: ${error.name}${error.message ? ` - ${error.message}` : ""}`,
@@ -106,7 +107,7 @@ async function main(): Promise<void> {
   await stream.complete();
 
   await delay(200);
-  streamSubscription.close();
+  client.offGroupStream(groupStreamFactory);
   client.stop();
   console.log("Client stopped");
 }

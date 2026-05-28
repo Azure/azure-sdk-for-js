@@ -35,7 +35,7 @@ async function createSli() {
         },
       },
       sliProperties: {
-        windowUptimeCriteria: { target: 95, comparator: ">=" },
+        windowUptimeCriteria: { target: 95, comparator: "gte" },
         signals: {
           signalSources: [
             {
@@ -46,7 +46,7 @@ async function createSli() {
                 "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/microsoft.monitor/accounts/myAccount",
               metricNamespace: "ContosoMetricsWest",
               metricName: "Stamp1Latency",
-              filters: [{ dimensionName: "ApiName", operator: "==", value: "GetContosoUsers" }],
+              filters: [{ dimensionName: "ApiName", operator: "eq", value: "GetContosoUsers" }],
               spatialAggregation: { type: "Average", dimensions: ["Region", "ResponseCode"] },
               temporalAggregation: { type: "Average", windowSizeMinutes: 5 },
             },
@@ -58,7 +58,7 @@ async function createSli() {
                 "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/microsoft.monitor/accounts/myAccount",
               metricNamespace: "ContosoMetricsEast",
               metricName: "Stamp2Latency",
-              filters: [{ dimensionName: "ApiName", operator: "==", value: "GetContosoUsers" }],
+              filters: [{ dimensionName: "ApiName", operator: "eq", value: "GetContosoUsers" }],
               spatialAggregation: { type: "Average", dimensions: ["Region", "ResponseCode"] },
               temporalAggregation: { type: "Average", windowSizeMinutes: 5 },
             },

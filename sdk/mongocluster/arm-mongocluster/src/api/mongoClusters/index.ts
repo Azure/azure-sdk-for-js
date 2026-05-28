@@ -12,14 +12,14 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type MongoClustersPromoteOptionalParams,
-  type MongoClustersCheckNameAvailabilityOptionalParams,
-  type MongoClustersListConnectionStringsOptionalParams,
-  type MongoClustersListOptionalParams,
-  type MongoClustersListByResourceGroupOptionalParams,
-  type MongoClustersDeleteOptionalParams,
-  type MongoClustersUpdateOptionalParams,
-  type MongoClustersCreateOrUpdateOptionalParams,
-  type MongoClustersGetOptionalParams,
+export type {
+  MongoClustersPromoteOptionalParams,
+  MongoClustersCheckNameAvailabilityOptionalParams,
+  MongoClustersListConnectionStringsOptionalParams,
+  MongoClustersListOptionalParams,
+  MongoClustersListByResourceGroupOptionalParams,
+  MongoClustersDeleteOptionalParams,
+  MongoClustersUpdateOptionalParams,
+  MongoClustersCreateOrUpdateOptionalParams,
+  MongoClustersGetOptionalParams,
 } from "./options.js";

@@ -1,5 +1,20 @@
 # Release History
 
+## 1.0.0-beta.2 (2026-05-23)
+Compared with version 1.0.0-beta.1
+
+### Features Added
+
+- Added `Average` and `Count` values to `KnownSamplingType`.
+- Added public exports for `RestError` and `isRestError`.
+
+### Breaking Changes
+
+- Removed `Avg` from `KnownSamplingType`.
+- Changed `KnownSamplingType` wire values for `Max`, `Min`, and `Sum` from `max`, `min`, and `sum` to `Max`, `Min`, and `Sum`.
+- Changed `KnownConditionOperator` wire values: `==` to `eq`, `!=` to `ne`, `>` to `gt`, `>=` to `gte`, `<` to `lt`, `<=` to `lte`, `@in` to `in`, `!in` to `notin`, `!contains` to `notcontains`, and `!startswith` to `notstartswith`.
+- Changed `KnownWindowUptimeCriteriaComparator` wire values: `>` to `gt`, `>=` to `gte`, `<` to `lt`, and `<=` to `lte`.
+
 ## 1.0.0-beta.1 (2026-04-22)
 
 ### Features Added
