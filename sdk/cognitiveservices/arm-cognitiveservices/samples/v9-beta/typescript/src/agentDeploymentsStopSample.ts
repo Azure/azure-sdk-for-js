@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to stops an Agent Deployment.
  *
  * @summary stops an Agent Deployment.
- * x-ms-original-file: 2026-01-15-preview/AgentDeployment/stop.json
+ * x-ms-original-file: 2026-03-15-preview/AgentDeployment/stop.json
  */
 async function stopAgentDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();
