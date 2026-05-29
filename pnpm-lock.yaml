@@ -21545,6 +21545,9 @@ importers:
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-tracing':
+        specifier: ^1.2.0
+        version: link:../../core/core-tracing
       '@azure/logger':
         specifier: ^1.3.0
         version: link:../../core/logger
@@ -21552,8 +21555,8 @@ importers:
         specifier: 1.0.0-beta.42
         version: link:../monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.1.0-beta.1
+        version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
       '@microsoft/applicationinsights-web-snippet':
         specifier: ^1.2.3
         version: 1.2.3
