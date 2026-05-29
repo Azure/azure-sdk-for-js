@@ -44,8 +44,8 @@ describe("beta agents - session CRUD and file operations", () => {
         kind: "hosted",
         cpu: "0.5",
         memory: "1Gi",
-        image,
-        container_protocol_versions: [
+        container_configuration: { image },
+        protocol_versions: [
           { protocol: "responses", version: "v1" } as ProtocolVersionRecord,
         ],
       } as HostedAgentDefinition,
@@ -108,14 +108,15 @@ describe("beta agents - session CRUD and file operations", () => {
     assert.isTrue(uploadResult.bytes_written > 0);
 
     // List files in the session sandbox
-    const listing = await betaAgents.listSessionFiles(
+    const files = [];
+    for await (const entry of betaAgents.listSessionFiles(
       agentName,
       session.agent_session_id,
-      "/sandbox",
-    );
-    assert.isNotNull(listing);
-    assert.isArray(listing.entries);
-    assert.isTrue(listing.entries.length >= 1);
+      { path: "/sandbox" },
+    )) {
+      files.push(entry);
+    }
+    assert.isTrue(files.length >= 1);
 
     // Download the file back
     const downloadResult = await betaAgents.downloadSessionFile(

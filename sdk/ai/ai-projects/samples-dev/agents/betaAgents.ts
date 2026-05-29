@@ -39,9 +39,7 @@ export async function main(): Promise<void> {
       cpu: "0.5",
       memory: "1Gi",
       container_configuration: { image },
-      protocol_versions: [
-        { protocol: "responses", version: "v1" } as ProtocolVersionRecord,
-      ],
+      protocol_versions: [{ protocol: "responses", version: "v1" } as ProtocolVersionRecord],
     } as HostedAgentDefinition,
     {
       foundryFeatures: "HostedAgents=V1Preview",
@@ -105,11 +103,9 @@ export async function main(): Promise<void> {
   // List files in the session sandbox (with pagination monitoring)
   const files = [];
   let pageCount = 0;
-  const pager = project.beta.agents.listSessionFiles(
-    agentName,
-    session.agent_session_id,
-    { path: "/sandbox" },
-  );
+  const pager = project.beta.agents.listSessionFiles(agentName, session.agent_session_id, {
+    path: "/sandbox",
+  });
   for await (const page of pager.byPage()) {
     pageCount++;
     console.log(`  Page ${pageCount}: ${page.length} entries`);
