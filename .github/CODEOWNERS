@@ -48,10 +48,10 @@
 # ServiceOwners: @dargilco @glharper
 
 # PRLabel: %AI Projects
-/sdk/ai/ai-projects    @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
+/sdk/ai/ai-projects    @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK @maorleger
 
 # ServiceLabel: %AI Projects
-# ServiceOwners: @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
+# ServiceOwners: @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK @maorleger
 
 # PRLabel: %App Configuration
 /sdk/appconfiguration/    @jimmyca15 @linglingye001 @zhiyuanliang-ms
