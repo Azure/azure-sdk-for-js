@@ -20,11 +20,6 @@ export interface SlisOperations {
     options?: SlisListByParentOptionalParams,
   ) => PagedAsyncIterableIterator<Sli>;
   /** Deletes an SLI resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     serviceGroupName: string,
     sliName: string,
