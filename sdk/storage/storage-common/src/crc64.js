@@ -8,6 +8,9 @@
 // The detection check below MUST stay byte-for-byte identical to the Emscripten-generated
 // `ENVIRONMENT_IS_NODE` check later in this file; otherwise the polyfill and the Node branch
 // can disagree and the ESM `ReferenceError: require is not defined` bug returns.
+import { createRequire } from "node:module";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 const __isNode__ =
   typeof process === "object" &&
   typeof process.versions === "object" &&
@@ -16,12 +19,6 @@ let require;
 let __filename;
 let __dirname;
 if (__isNode__) {
-  const _modSpecifier = "node:module";
-  const _urlSpecifier = "node:url";
-  const _pathSpecifier = "node:path";
-  const { createRequire } = await import(_modSpecifier);
-  const { fileURLToPath } = await import(_urlSpecifier);
-  const { dirname } = await import(_pathSpecifier);
   require = createRequire(import.meta.url);
   __filename = fileURLToPath(import.meta.url);
   __dirname = dirname(__filename);
