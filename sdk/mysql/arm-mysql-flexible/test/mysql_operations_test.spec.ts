@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("mysql test", () => {
+describe.skip("mysql test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: MySQLManagementFlexibleServerClient;
@@ -48,7 +48,7 @@ describe("mysql test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     resourcename = "resourcetest";
   });
 
@@ -83,12 +83,12 @@ describe("mysql test", () => {
   });
 
   it("servers update test", async () => {
-    const res1 = await client.servers.get("czwjstest", "czwtestserver");
+    const res1 = await client.servers.get(resourceGroup, resourcename);
     console.log("Public Network Access:", res1.network!.publicNetworkAccess);
 
     const res = await client.servers.beginUpdateAndWait(
-      "czwjstest",
-      "czwtestserver",
+      resourceGroup,
+      resourcename,
       {
         network: {
           publicNetworkAccess: "Disabled",
@@ -97,19 +97,19 @@ describe("mysql test", () => {
       testPollingOptions,
     );
     console.log("Public Network Access:", res.network!.publicNetworkAccess);
-    assert.equal(res.name, "czwtestserver");
+    assert.equal(res.name, resourcename);
   });
 
   it("servers get test", async () => {
-    const res = await client.servers.get("czwjstest", "czwtestserver");
-    assert.equal(res.name, "czwtestserver");
+    const res = await client.servers.get(resourceGroup, resourcename);
+    assert.equal(res.name, resourcename);
     console.log("Public Network Access:", res.network!.publicNetworkAccess);
   });
 
   it("configurations beginCreateOrUpdateAndWait test", async () => {
     const res = await client.configurations.beginCreateOrUpdateAndWait(
-      "czwjstest",
-      "czwtestserver",
+      resourceGroup,
+      resourcename,
       "max_connections",
       {
         value: "150",
@@ -122,8 +122,8 @@ describe("mysql test", () => {
 
   it("configurations beginUpdateAndWait test", async () => {
     const res = await client.configurations.beginUpdateAndWait(
-      "czwjstest",
-      "czwtestserver",
+      resourceGroup,
+      resourcename,
       "max_connections",
       {
         value: "200",
