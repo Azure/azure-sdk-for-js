@@ -4,7 +4,7 @@
 /**
  * Functional test: verifies that the eager Azure SDK tracing bridge is called
  * during useAzureMonitor() initialization, ensuring Azure SDK spans are not
- * dropped even when @azure/core-tracing is loaded first.
+ * dropped even when core-tracing is loaded first.
  */
 
 import { createRequire } from "node:module";
@@ -16,7 +16,6 @@ import { useAzureMonitor, shutdownAzureMonitor } from "../../../src/index.js";
 const esmRequire = createRequire(import.meta.url);
 
 describe("Azure SDK tracing bridge (import order)", () => {
-
   afterEach(async () => {
     await shutdownAzureMonitor();
     trace.disable();

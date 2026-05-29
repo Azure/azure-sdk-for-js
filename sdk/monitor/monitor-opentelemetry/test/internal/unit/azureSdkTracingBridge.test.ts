@@ -8,7 +8,6 @@ import { ensureAzureSdkTracingBridge } from "../../../src/utils/azureSdkTracingB
 const esmRequire = createRequire(import.meta.url);
 
 describe("ensureAzureSdkTracingBridge", () => {
-
   afterEach(() => {
     vi.restoreAllMocks();
   });
