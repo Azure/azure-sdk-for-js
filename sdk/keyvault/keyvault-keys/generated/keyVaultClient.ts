@@ -1,28 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createKeyVault, KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
+import { KeyVaultContext, KeyVaultClientOptionalParams, createKeyVault } from "./api/index.js";
 import {
-  KeyCreateParameters,
-  KeyBundle,
-  KeyImportParameters,
-  DeletedKeyBundle,
-  KeyUpdateParameters,
-  KeyItem,
-  BackupKeyResult,
-  KeyRestoreParameters,
-  KeyOperationsParameters,
-  KeyOperationResult,
-  KeySignParameters,
-  KeyVerifyParameters,
-  KeyVerifyResult,
-  KeyReleaseParameters,
-  KeyReleaseResult,
-  DeletedKeyItem,
-  KeyRotationPolicy,
-  GetRandomBytesRequest,
-  RandomBytes,
-} from "./models/models.js";
+  getKeyAttestation,
+  getRandomBytes,
+  updateKeyRotationPolicy,
+  getKeyRotationPolicy,
+  recoverDeletedKey,
+  purgeDeletedKey,
+  getDeletedKey,
+  getDeletedKeys,
+  release,
+  unwrapKey,
+  wrapKey,
+  verify,
+  sign,
+  decrypt,
+  encrypt,
+  restoreKey,
+  backupKey,
+  getKeys,
+  getKeyVersions,
+  getKey,
+  updateKey,
+  deleteKey,
+  importKey,
+  rotateKey,
+  createKey,
+} from "./api/operations.js";
 import {
   GetKeyAttestationOptionalParams,
   GetRandomBytesOptionalParams,
@@ -51,37 +57,31 @@ import {
   CreateKeyOptionalParams,
 } from "./api/options.js";
 import {
-  getKeyAttestation,
-  getRandomBytes,
-  updateKeyRotationPolicy,
-  getKeyRotationPolicy,
-  recoverDeletedKey,
-  purgeDeletedKey,
-  getDeletedKey,
-  getDeletedKeys,
-  release,
-  unwrapKey,
-  wrapKey,
-  verify,
-  sign,
-  decrypt,
-  encrypt,
-  restoreKey,
-  backupKey,
-  getKeys,
-  getKeyVersions,
-  getKey,
-  updateKey,
-  deleteKey,
-  importKey,
-  rotateKey,
-  createKey,
-} from "./api/operations.js";
+  KeyCreateParameters,
+  KeyBundle,
+  KeyImportParameters,
+  DeletedKeyBundle,
+  KeyUpdateParameters,
+  KeyItem,
+  BackupKeyResult,
+  KeyRestoreParameters,
+  KeyOperationsParameters,
+  KeyOperationResult,
+  KeySignParameters,
+  KeyVerifyParameters,
+  KeyVerifyResult,
+  KeyReleaseParameters,
+  KeyReleaseResult,
+  DeletedKeyItem,
+  KeyRotationPolicy,
+  GetRandomBytesRequest,
+  RandomBytes,
+} from "./models/models.js";
 import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
+export type { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
 
 export class KeyVaultClient {
   private _client: KeyVaultContext;

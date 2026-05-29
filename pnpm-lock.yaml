@@ -811,11 +811,11 @@ importers:
         specifier: ^1.11.1
         version: link:../../monitor/monitor-opentelemetry
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.41
+        specifier: 1.0.0-beta.42
         version: link:../../monitor/monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0
-        version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
+        version: 1.0.0
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.1
@@ -917,11 +917,11 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.41
+        specifier: 1.0.0-beta.42
         version: link:../../monitor/monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0
-        version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
+        version: 1.0.0
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.1
@@ -1045,7 +1045,7 @@ importers:
         version: link:../../monitor/monitor-opentelemetry
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0
-        version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
+        version: 1.0.0
       '@modelcontextprotocol/sdk':
         specifier: ^1.25.1
         version: 1.29.0(zod@4.4.3)
@@ -1706,21 +1706,24 @@ importers:
 
   sdk/appconfiguration/app-configuration:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.6.0
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
-        specifier: ^2.0.0
+        specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.3.0
         version: link:../../core/core-auth
       '@azure/core-client':
-        specifier: ^1.5.0
+        specifier: ^1.9.2
         version: link:../../core/core-client
       '@azure/core-http-compat':
         specifier: ^2.0.0
         version: link:../../core/core-http-compat
       '@azure/core-lro':
-        specifier: ^2.5.1
-        version: 2.7.2
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-paging':
         specifier: ^1.4.0
         version: link:../../core/core-paging
@@ -2162,24 +2165,27 @@ importers:
 
   sdk/appservice/arm-appservice:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.3
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2196,12 +2202,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: workspace:^
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.40
@@ -3764,24 +3770,27 @@ importers:
 
   sdk/billingbenefits/arm-billingbenefits:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.7.2
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -3798,12 +3807,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.40
@@ -3816,9 +3825,18 @@ importers:
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
       playwright:
         specifier: catalog:testing
         version: 1.60.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.3
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4044,24 +4062,27 @@ importers:
 
   sdk/certificateregistration/arm-certificateregistration:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.3
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -4078,12 +4099,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: workspace:^
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.40
@@ -9714,15 +9735,21 @@ importers:
 
   sdk/databoundaries/arm-databoundaries:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -9739,12 +9766,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.40
@@ -9760,9 +9787,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
       playwright:
         specifier: catalog:testing
         version: 1.60.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.3
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11825,24 +11858,27 @@ importers:
 
   sdk/dns/arm-dns:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -11859,12 +11895,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.40
@@ -11880,9 +11916,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
       playwright:
         specifier: catalog:testing
         version: 1.60.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.3
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12569,6 +12611,85 @@ importers:
         version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@20.19.40)(@vitest/browser-playwright@4.1.5)(@vitest/coverage-istanbul@4.1.5)(vite@7.3.3(@types/node@20.19.40)(terser@5.47.1)(tsx@4.21.0)(yaml@2.8.4))
 
   sdk/edgeactions/arm-edgeactions:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
+      '@azure/core-rest-pipeline':
+        specifier: link:../../core/core-rest-pipeline
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.40
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.1.5(playwright@1.60.0)(vite@7.3.3(@types/node@20.19.40)(terser@5.47.1)(tsx@4.21.0)(yaml@2.8.4))(vitest@4.1.5)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.5(vitest@4.1.5)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
+      playwright:
+        specifier: catalog:testing
+        version: 1.60.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.3
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@20.19.40)(@vitest/browser-playwright@4.1.5)(@vitest/coverage-istanbul@4.1.5)(vite@7.3.3(@types/node@20.19.40)(terser@5.47.1)(tsx@4.21.0)(yaml@2.8.4))
+
+  sdk/edgeorder/arm-edgeorder:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
@@ -14665,18 +14786,21 @@ importers:
 
   sdk/guestconfiguration/arm-guestconfiguration:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -14693,12 +14817,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.40
@@ -14714,9 +14838,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
       playwright:
         specifier: catalog:testing
         version: 1.60.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.3
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19539,24 +19669,27 @@ importers:
 
   sdk/managednetworkfabric/arm-managednetworkfabric:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.3
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -19573,12 +19706,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.40
@@ -19594,9 +19727,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
       playwright:
         specifier: catalog:testing
         version: 1.60.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.3
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21179,6 +21318,85 @@ importers:
         specifier: catalog:testing
         version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@20.19.40)(@vitest/browser-playwright@4.1.5)(@vitest/coverage-istanbul@4.1.5)(vite@7.3.3(@types/node@20.19.40)(terser@5.47.1)(tsx@4.21.0)(yaml@2.8.4))
 
+  sdk/monitor/arm-monitorworkspaces:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
+      '@azure/core-rest-pipeline':
+        specifier: link:../../core/core-rest-pipeline
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.40
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.1.5(playwright@1.60.0)(vite@7.3.3(@types/node@20.19.40)(terser@5.47.1)(tsx@4.21.0)(yaml@2.8.4))(vitest@4.1.5)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.5(vitest@4.1.5)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
+      playwright:
+        specifier: catalog:testing
+        version: 1.60.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.3
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@20.19.40)(@vitest/browser-playwright@4.1.5)(@vitest/coverage-istanbul@4.1.5)(vite@7.3.3(@types/node@20.19.40)(terser@5.47.1)(tsx@4.21.0)(yaml@2.8.4))
+
   sdk/monitor/monitor-ingestion:
     dependencies:
       '@azure-rest/core-client':
@@ -21331,11 +21549,11 @@ importers:
         specifier: ^1.3.0
         version: link:../../core/logger
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.41
+        specifier: 1.0.0-beta.42
         version: link:../monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0
-        version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
+        version: 1.0.0
       '@microsoft/applicationinsights-web-snippet':
         specifier: ^1.2.3
         version: 1.2.3
@@ -21659,7 +21877,7 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.41
+        specifier: 1.0.0-beta.42
         version: link:../monitor-opentelemetry-exporter
       '@opentelemetry/api':
         specifier: ^1.9.0
@@ -21750,7 +21968,7 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.41
+        specifier: 1.0.0-beta.42
         version: link:../monitor-opentelemetry-exporter
       '@opentelemetry/api':
         specifier: ^1.9.0
@@ -21940,24 +22158,27 @@ importers:
 
   sdk/mysql/arm-mysql-flexible:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -21974,12 +22195,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.40
@@ -21995,9 +22216,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
       playwright:
         specifier: catalog:testing
         version: 1.60.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.3
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25805,24 +26032,27 @@ importers:
 
   sdk/redhatopenshift/arm-redhatopenshift:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -25839,12 +26069,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.40
@@ -25860,9 +26090,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
       playwright:
         specifier: catalog:testing
         version: 1.60.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.3
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27551,24 +27787,27 @@ importers:
 
   sdk/security/arm-security:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -27585,12 +27824,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.40
@@ -27606,9 +27845,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
       playwright:
         specifier: catalog:testing
         version: 1.60.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.3
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27761,24 +28006,27 @@ importers:
 
   sdk/selfhelp/arm-selfhelp:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -27795,12 +28043,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.40
@@ -27816,9 +28064,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
       playwright:
         specifier: catalog:testing
         version: 1.60.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.3
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30510,6 +30764,18 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-authorization':
+        specifier: workspace:^
+        version: link:../../authorization/arm-authorization
+      '@azure/arm-network':
+        specifier: workspace:^
+        version: link:../../network/arm-network
+      '@azure/arm-resources':
+        specifier: catalog:arm
+        version: 7.0.0
+      '@azure/arm-storage':
+        specifier: catalog:arm
+        version: 18.5.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -32549,18 +32815,21 @@ importers:
 
   sdk/trafficmanager/arm-trafficmanager:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -32577,12 +32846,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.40
@@ -32598,9 +32867,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
       playwright:
         specifier: catalog:testing
         version: 1.60.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.3
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33560,7 +33835,7 @@ importers:
         version: 5.3.2
       protobufjs:
         specifier: ^7.4.0
-        version: 7.5.8
+        version: 7.6.1
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -33612,7 +33887,7 @@ importers:
         version: 3.8.3
       protobufjs-cli:
         specifier: ^1.1.3
-        version: 1.2.2(protobufjs@7.5.8)
+        version: 1.2.2(protobufjs@7.6.1)
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
@@ -34139,6 +34414,10 @@ packages:
     resolution: {integrity: sha1-30hOocJOcbBorvLl6fa8wKAODkQ=}
     engines: {node: '>=20'}
 
+  '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0':
+    resolution: {integrity: sha1-jq6h9ZGcvym6g/L6yZ2JRDbhfco=}
+    engines: {node: '>=20.0.0'}
+
   '@azure/schema-registry@1.3.0':
     resolution: {integrity: sha1-ar8s+l5LGqEE/fiSs2F9FmM9xxQ=}
     engines: {node: '>=18.0.0'}
@@ -34336,7 +34615,7 @@ packages:
     resolution: {integrity: sha1-ZbwrwdttAOFTuVrHAG9Fc+KJ6b4=}
 
   '@colors/colors@1.5.0':
-    resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
+    resolution: {integrity: sha1-u1BFecHK6SPmV2pPXaQ9Jfl729k=}
     engines: {node: '>=0.1.90'}
 
   '@colors/colors@1.6.0':
@@ -34581,157 +34860,157 @@ packages:
     resolution: {integrity: sha1-EHPl3ubdVAQQeEmQ63PkrNJcmBM=}
 
   '@esbuild/aix-ppc64@0.27.7':
-    resolution: {integrity: sha512-EKX3Qwmhz1eMdEJokhALr0YiD0lhQNwDqkPYyPhiSwKrh7/4KRjQc04sZ8db+5DVVnZ1LmbNDI1uAMPEUBnQPg==}
+    resolution: {integrity: sha1-grdPkqp41yC3FBYpOfskjJCt31M=}
     engines: {node: '>=18'}
     cpu: [ppc64]
     os: [aix]
 
   '@esbuild/android-arm64@0.27.7':
-    resolution: {integrity: sha512-62dPZHpIXzvChfvfLJow3q5dDtiNMkwiRzPylSCfriLvZeq0a1bWChrGx/BbUbPwOrsWKMn8idSllklzBy+dgQ==}
+    resolution: {integrity: sha1-94y4oxIfwgWlMoWtskly2zhdGF0=}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [android]
 
   '@esbuild/android-arm@0.27.7':
-    resolution: {integrity: sha512-jbPXvB4Yj2yBV7HUfE2KHe4GJX51QplCN1pGbYjvsyCZbQmies29EoJbkEc+vYuU5o45AfQn37vZlyXy4YJ8RQ==}
+    resolution: {integrity: sha1-WT4QoUULv8rGyzIfYfRoRTusIJ0=}
     engines: {node: '>=18'}
     cpu: [arm]
     os: [android]
 
   '@esbuild/android-x64@0.27.7':
-    resolution: {integrity: sha512-x5VpMODneVDb70PYV2VQOmIUUiBtY3D3mPBG8NxVk5CogneYhkR7MmM3yR/uMdITLrC1ml/NV1rj4bMJuy9MCg==}
+    resolution: {integrity: sha1-RTFD0HMyYDPS0iyvnkjeS64nSwc=}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [android]
 
   '@esbuild/darwin-arm64@0.27.7':
-    resolution: {integrity: sha512-5lckdqeuBPlKUwvoCXIgI2D9/ABmPq3Rdp7IfL70393YgaASt7tbju3Ac+ePVi3KDH6N2RqePfHnXkaDtY9fkw==}
+    resolution: {integrity: sha1-byMAD7m0C34Et9BgbAaTvQYy8yI=}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [darwin]
 
   '@esbuild/darwin-x64@0.27.7':
-    resolution: {integrity: sha512-rYnXrKcXuT7Z+WL5K980jVFdvVKhCHhUwid+dDYQpH+qu+TefcomiMAJpIiC2EM3Rjtq0sO3StMV/+3w3MyyqQ==}
+    resolution: {integrity: sha1-Jzk90YuxJjxmOXnF8VduAMLQJL4=}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [darwin]
 
   '@esbuild/freebsd-arm64@0.27.7':
-    resolution: {integrity: sha512-B48PqeCsEgOtzME2GbNM2roU29AMTuOIN91dsMO30t+Ydis3z/3Ngoj5hhnsOSSwNzS+6JppqWsuhTp6E82l2w==}
+    resolution: {integrity: sha1-IuRjj6UC0cACcHcyTJdkDjrfOmI=}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [freebsd]
 
   '@esbuild/freebsd-x64@0.27.7':
-    resolution: {integrity: sha512-jOBDK5XEjA4m5IJK3bpAQF9/Lelu/Z9ZcdhTRLf4cajlB+8VEhFFRjWgfy3M1O4rO2GQ/b2dLwCUGpiF/eATNQ==}
+    resolution: {integrity: sha1-kiS45P6pJM4hlOPvw+muv4IhktY=}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [freebsd]
 
   '@esbuild/linux-arm64@0.27.7':
-    resolution: {integrity: sha512-RZPHBoxXuNnPQO9rvjh5jdkRmVizktkT7TCDkDmQ0W2SwHInKCAV95GRuvdSvA7w4VMwfCjUiPwDi0ZO6Nfe9A==}
+    resolution: {integrity: sha1-T10cJ1J9gXs1aEriFBnlfCvaCWY=}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [linux]
 
   '@esbuild/linux-arm@0.27.7':
-    resolution: {integrity: sha512-RkT/YXYBTSULo3+af8Ib0ykH8u2MBh57o7q/DAs3lTJlyVQkgQvlrPTnjIzzRPQyavxtPtfg0EopvDyIt0j1rA==}
+    resolution: {integrity: sha1-uenQcMjBwESc8Ssg6sN9cKRZWSE=}
     engines: {node: '>=18'}
     cpu: [arm]
     os: [linux]
 
   '@esbuild/linux-ia32@0.27.7':
-    resolution: {integrity: sha512-GA48aKNkyQDbd3KtkplYWT102C5sn/EZTY4XROkxONgruHPU72l+gW+FfF8tf2cFjeHaRbWpOYa/uRBz/Xq1Pg==}
+    resolution: {integrity: sha1-P4D7aWqpYFGpQEfzXIWwiyHDb54=}
     engines: {node: '>=18'}
     cpu: [ia32]
     os: [linux]
 
   '@esbuild/linux-loong64@0.27.7':
-    resolution: {integrity: sha512-a4POruNM2oWsD4WKvBSEKGIiWQF8fZOAsycHOt6JBpZ+JN2n2JH9WAv56SOyu9X5IqAjqSIPTaJkqN8F7XOQ5Q==}
+    resolution: {integrity: sha1-m+HywoIQsT67QVYiG7o1b+FnUgU=}
     engines: {node: '>=18'}
     cpu: [loong64]
     os: [linux]
 
   '@esbuild/linux-mips64el@0.27.7':
-    resolution: {integrity: sha512-KabT5I6StirGfIz0FMgl1I+R1H73Gp0ofL9A3nG3i/cYFJzKHhouBV5VWK1CSgKvVaG4q1RNpCTR2LuTVB3fIw==}
+    resolution: {integrity: sha1-SrXuZ6Pfy8tej9eIPa5uc1sRY7g=}
     engines: {node: '>=18'}
     cpu: [mips64el]
     os: [linux]
 
   '@esbuild/linux-ppc64@0.27.7':
-    resolution: {integrity: sha512-gRsL4x6wsGHGRqhtI+ifpN/vpOFTQtnbsupUF5R5YTAg+y/lKelYR1hXbnBdzDjGbMYjVJLJTd2OFmMewAgwlQ==}
+    resolution: {integrity: sha1-2seMaJ9kmUWcQyHlwVAywSMH5+o=}
     engines: {node: '>=18'}
     cpu: [ppc64]
     os: [linux]
 
   '@esbuild/linux-riscv64@0.27.7':
-    resolution: {integrity: sha512-hL25LbxO1QOngGzu2U5xeXtxXcW+/GvMN3ejANqXkxZ/opySAZMrc+9LY/WyjAan41unrR3YrmtTsUpwT66InQ==}
+    resolution: {integrity: sha1-BQ99OzVcOpgwjpNbxNYyXakbACc=}
     engines: {node: '>=18'}
     cpu: [riscv64]
     os: [linux]
 
   '@esbuild/linux-s390x@0.27.7':
-    resolution: {integrity: sha512-2k8go8Ycu1Kb46vEelhu1vqEP+UeRVj2zY1pSuPdgvbd5ykAw82Lrro28vXUrRmzEsUV0NzCf54yARIK8r0fdw==}
+    resolution: {integrity: sha1-1h9xXOYdQ/5YRK0Nj0Y/iMvk/vY=}
     engines: {node: '>=18'}
     cpu: [s390x]
     os: [linux]
 
   '@esbuild/linux-x64@0.27.7':
-    resolution: {integrity: sha512-hzznmADPt+OmsYzw1EE33ccA+HPdIqiCRq7cQeL1Jlq2gb1+OyWBkMCrYGBJ+sxVzve2ZJEVeePbLM2iEIZSxA==}
+    resolution: {integrity: sha1-yo4apHj8ggkle/Osj3nE3CmC8yo=}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [linux]
 
   '@esbuild/netbsd-arm64@0.27.7':
-    resolution: {integrity: sha512-b6pqtrQdigZBwZxAn1UpazEisvwaIDvdbMbmrly7cDTMFnw/+3lVxxCTGOrkPVnsYIosJJXAsILG9XcQS+Yu6w==}
+    resolution: {integrity: sha1-FlDywblI3us++Ujy/DBhRyPAlpA=}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [netbsd]
 
   '@esbuild/netbsd-x64@0.27.7':
-    resolution: {integrity: sha512-OfatkLojr6U+WN5EDYuoQhtM+1xco+/6FSzJJnuWiUw5eVcicbyK3dq5EeV/QHT1uy6GoDhGbFpprUiHUYggrw==}
+    resolution: {integrity: sha1-ZXcqs0LEszGb8HBaIRBQqsG24yA=}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [netbsd]
 
   '@esbuild/openbsd-arm64@0.27.7':
-    resolution: {integrity: sha512-AFuojMQTxAz75Fo8idVcqoQWEHIXFRbOc1TrVcFSgCZtQfSdc1RXgB3tjOn/krRHENUB4j00bfGjyl2mJrU37A==}
+    resolution: {integrity: sha1-N+18+mZUnXlVhS/ON9DD3k5xXqE=}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [openbsd]
 
   '@esbuild/openbsd-x64@0.27.7':
-    resolution: {integrity: sha512-+A1NJmfM8WNDv5CLVQYJ5PshuRm/4cI6WMZRg1by1GwPIQPCTs1GLEUHwiiQGT5zDdyLiRM/l1G0Pv54gvtKIg==}
+    resolution: {integrity: sha1-Ab89OFhV71DLM9t8S1L5V8NM0Xk=}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [openbsd]
 
   '@esbuild/openharmony-arm64@0.27.7':
-    resolution: {integrity: sha512-+KrvYb/C8zA9CU/g0sR6w2RBw7IGc5J2BPnc3dYc5VJxHCSF1yNMxTV5LQ7GuKteQXZtspjFbiuW5/dOj7H4Yw==}
+    resolution: {integrity: sha1-bB+Us0CGWZqr2k6sj2OClLmHdBA=}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [openharmony]
 
   '@esbuild/sunos-x64@0.27.7':
-    resolution: {integrity: sha512-ikktIhFBzQNt/QDyOL580ti9+5mL/YZeUPKU2ivGtGjdTYoqz6jObj6nOMfhASpS4GU4Q/Clh1QtxWAvcYKamA==}
+    resolution: {integrity: sha1-Sw3ReuCmlB0tD9NakGOSUXBxqQ0=}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [sunos]
 
   '@esbuild/win32-arm64@0.27.7':
-    resolution: {integrity: sha512-7yRhbHvPqSpRUV7Q20VuDwbjW5kIMwTHpptuUzV+AA46kiPze5Z7qgt6CLCK3pWFrHeNfDd1VKgyP4O+ng17CA==}
+    resolution: {integrity: sha1-NBk6tVZdb/aMqSisBL51ECzLLnc=}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [win32]
 
   '@esbuild/win32-ia32@0.27.7':
-    resolution: {integrity: sha512-SmwKXe6VHIyZYbBLJrhOoCJRB/Z1tckzmgTLfFYOfpMAx63BJEaL9ExI8x7v0oAO3Zh6D/Oi1gVxEYr5oUCFhw==}
+    resolution: {integrity: sha1-62fw5EglFdjBiU7eYxwyek2p/E0=}
     engines: {node: '>=18'}
     cpu: [ia32]
     os: [win32]
 
   '@esbuild/win32-x64@0.27.7':
-    resolution: {integrity: sha512-56hiAJPhwQ1R4i+21FVF7V8kSD5zZTdHcVuRFMW0hn753vVfQN8xlx4uOPT4xoGH0Z/oVATuR82AiqSTDIpaHg==}
+    resolution: {integrity: sha1-j+MLMIi4m0hzw6bMh1l645IMCos=}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
@@ -34815,11 +35094,11 @@ packages:
     resolution: {integrity: sha1-9TYLXdg8fePUG0Fb5Kq4SuRKoQY=}
 
   '@grpc/grpc-js@1.14.3':
-    resolution: {integrity: sha512-Iq8QQQ/7X3Sac15oB6p0FmUg/klxQvXLeileoqrTRGJYLV+/9tubbr9ipz0GKHjmXVsgFPo/+W+2cA8eNcR+XA==}
+    resolution: {integrity: sha1-TJuBepAK5AIN3ChRWuS1LHjPuNo=}
     engines: {node: '>=12.10.0'}
 
   '@grpc/proto-loader@0.8.1':
-    resolution: {integrity: sha512-wtF6h+DY6M3YaDBPAmvuuA6jV8Sif9MjtOI5euKFWRgCDl5PeDpPsHR9u2l6St5ceY8AZgoNDww5+HvEsXFsGg==}
+    resolution: {integrity: sha1-WmspDMv7GuL2d1r7dOmJi9jF1Og=}
     engines: {node: '>=6'}
     hasBin: true
 
@@ -35049,7 +35328,7 @@ packages:
     resolution: {integrity: sha1-2xXWeByTHzolGj2sOVAcmKYIL9A=}
 
   '@js-sdsl/ordered-map@4.4.2':
-    resolution: {integrity: sha512-iUKgm52T8HOE/makSxjqoWhe95ZJA1/G1sYsGev2JDKUSS14KAgg1LHb+Ba+IPow0xflbnSkOsZcO08C7w1gYw==}
+    resolution: {integrity: sha1-kpn4KHS6ueTH+cSNhlvsv+jWkHw=}
 
   '@jsdoc/salty@0.2.12':
     resolution: {integrity: sha1-YyC7S9FumMLaLGZuyX0acpIs0Go=}
@@ -35231,11 +35510,11 @@ packages:
     engines: {node: '>=8.0.0'}
 
   '@opentelemetry/api-logs@0.217.0':
-    resolution: {integrity: sha512-Cdq0jW2lknrNfrAm92MyEAvpe2cRsKjdnQLHUL6xRA4IVUnsWx6P65E7NcUO0Y+L4w1Aee5iV8FvjSwd+lrs9A==}
+    resolution: {integrity: sha1-fldzPjeRRg/n1XL9hMr+bXtx3hg=}
     engines: {node: '>=8.0.0'}
 
   '@opentelemetry/api-logs@0.218.0':
-    resolution: {integrity: sha512-fmEWp5kXlGEc3i/lR698Hz41DfGyN4Tbe4g7L1AxSc7fF8Xeh/FQ9Quqpa9dVA413Q1Ad43QOLzU4JoXgbFPWw==}
+    resolution: {integrity: sha1-e5gY6N/fHT3KuIv+TWck8vgx9+w=}
     engines: {node: '>=8.0.0'}
 
   '@opentelemetry/api-logs@0.57.0':
@@ -35251,7 +35530,7 @@ packages:
     engines: {node: '>=8.0.0'}
 
   '@opentelemetry/configuration@0.218.0':
-    resolution: {integrity: sha512-W8wIz7H2R1pufR5jfjb3gU2XkMpm2x/7b1RJcsuzvd70Il/rWWE+g5/Od7hQKrxRTSrTrOWlru101PWXz5I1EQ==}
+    resolution: {integrity: sha1-pf3VDsnPoK2zu0EgLLOfecX059k=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.9.0
@@ -35287,67 +35566,67 @@ packages:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
 
   '@opentelemetry/exporter-logs-otlp-grpc@0.218.0':
-    resolution: {integrity: sha512-hoxrNH1l/Xy6F9WTJ5IK+6j1r9nQFlPOmrnTlhYHTySdunfXLmUCPv3bQtKYntxag9h3wLYBZQ2HI6FOx+BT2g==}
+    resolution: {integrity: sha1-flp+YkB01kSVkMhR1Y7+YAljFLM=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/exporter-logs-otlp-http@0.218.0':
-    resolution: {integrity: sha512-Qx+4rpVHzgg89dawcWRHyt+XRXeLnhFz/qBtvggmjkcgPUdr+NAB0/u/eIPA8yAeJV0J80Vz43JZCh/XFvZFGw==}
+    resolution: {integrity: sha1-CZbLReDrxsdGVEVDCgGO3KyYcbQ=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/exporter-logs-otlp-proto@0.218.0':
-    resolution: {integrity: sha512-1/noQNsp9gXD75HPzgjBrcF1+XTtry7pFAUfxVEJgg7mPv2AawKQuYkhMmJ8qjxz4Ubc3Y8bwvfxevXsKTq4cg==}
+    resolution: {integrity: sha1-5TlyCy4UXoWnpJAaHquwsud5kPg=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/exporter-metrics-otlp-grpc@0.218.0':
-    resolution: {integrity: sha512-YapQ9vNMX0NSZF6LK5pWAFfjpJleV2O9uYWfYGeb/5F1Kb9rPGK8tZDMJFa/sOksgdFuflDvYuA0B4qjDB4fjQ==}
+    resolution: {integrity: sha1-bWbCY4cCSJ0GO4hXdB7unOodIdY=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/exporter-metrics-otlp-http@0.218.0':
-    resolution: {integrity: sha512-bV7d2OuMpZu2+gAaxUAhzfZ0h3WVZk8ETQUEE3DNSntbTaMpuITjtm8I0rNyHFdm7Ax57K6ty7SgFXlBmOLIvQ==}
+    resolution: {integrity: sha1-wgVYFYXQTFEG0cp2biNjIAbkaiw=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/exporter-metrics-otlp-proto@0.218.0':
-    resolution: {integrity: sha512-ubLddKjWULhla9YZRCj/rTBeppjJYE4e9w0icx5mTu3eFhWjQzbV75NYjXuIlEG+NJsBl6d+sTFw5Qu+oej4oQ==}
+    resolution: {integrity: sha1-ZmQri7XmVMp6WUSk8LSQgU/Idf0=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/exporter-prometheus@0.218.0':
-    resolution: {integrity: sha512-RT5oEyu1kddZJ1vt7/BUo5wV+P7hpNAESsR3dUd3+8deHuX7gWNoCOZn+SfDT+hJHlIJ5h/AxiCLXIrutswDJg==}
+    resolution: {integrity: sha1-Qb3cl9NM2dmZM4K5wQ/tGajeY/Q=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/exporter-trace-otlp-grpc@0.218.0':
-    resolution: {integrity: sha512-3fXxVQEj9TNAFaCi79JeFKfeLd0sDtInaR3gaZDVlzNSPHtz8PZuCV34JKWjD4XXzT20IdMe8IpX6mRVNDA4Tw==}
+    resolution: {integrity: sha1-XVUyq5TVUUvsiu3BnOMXC2OB7tE=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/exporter-trace-otlp-http@0.218.0':
-    resolution: {integrity: sha512-8dqezsmPhtKitIK/eTipZhYl9EX2/gNQ5zUMhaz3uxEURwfkNf8IPvo6yNfrzbxdtpAOybS/+h7wmIWYqFSpiw==}
+    resolution: {integrity: sha1-Ntar9tY5ueqGFgPGH0NHUcCxoOo=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/exporter-trace-otlp-proto@0.218.0':
-    resolution: {integrity: sha512-r1Msf8SNLRmwh9J6XQ5uh82D7CdDWMNHnPB7LAVHjzut0TkSeKc5KcIvr4SvHvfk/xwN5gxC+VLKQ1k0o8PSPw==}
+    resolution: {integrity: sha1-3gsrNUUUna/t0rlI+4kfm/lilAw=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/exporter-zipkin@2.7.1':
-    resolution: {integrity: sha512-mfsD9bKAxcKrh5+y08TPodvClBO0CznBE3p79YAGnO81WI4LrdsGA65T53e4iTSbCalW4WaUpkbeJcbpyIUHfg==}
+    resolution: {integrity: sha1-O3nSI63IwJe6MyPk3k7Yq7g8eJ4=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
@@ -35359,7 +35638,7 @@ packages:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/instrumentation-http@0.218.0':
-    resolution: {integrity: sha512-x9djaqdzpT8WAboep1H9nCAQ1E+MMsm08TNfA02TqM3bNNddZeiim+E3KMWVQFaX6JpUy7V0nm/wfN/K2Em+Zw==}
+    resolution: {integrity: sha1-Cya3AqYoj6Eb3qSP9KNjU4Wn1Yc=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
@@ -35407,13 +35686,13 @@ packages:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/instrumentation@0.217.0':
-    resolution: {integrity: sha512-24ucQMjz7Y34Kw3trbxL2ZrssbtgWnR+Clpaa+YdeWuuyH3Cvk23Q03PcQvqiZrDvt8AmQmjgg9v6Y9PHoxG7w==}
+    resolution: {integrity: sha1-TN6obfdjz9hC4mtBU13Z8bpAdZU=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/instrumentation@0.218.0':
-    resolution: {integrity: sha512-mIZil8Es+sYDK5m+DQiwAwF57F14TF2YlEqvIjZ/RQWcxDBwRGsKfdK2Tv65OU9meQKCMzSIFS9mxAcnAb6Bkg==}
+    resolution: {integrity: sha1-/M60/7RfmcDSkmAHaRUPxZRNw+k=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
@@ -35431,19 +35710,19 @@ packages:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/otlp-exporter-base@0.218.0':
-    resolution: {integrity: sha512-ZwqpkNL5W7RyGJPDZ9g06DvKp8KFTWPJPN12anpMQYSKpTSU0z3EIZuPq9vPGpS8siFyOqDYDAuCwlNO9FqgbA==}
+    resolution: {integrity: sha1-8z4yF85Wh1a6oTL6vjDwyTRdsIY=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/otlp-grpc-exporter-base@0.218.0':
-    resolution: {integrity: sha512-H/lCGJ536N98VpYJOaWTQOkv4Dx6TnmStK6Rqfu1W7KkFbPAx04hjdYEMZF/YbnHzPUSIK4kM6OE2GKGBTpV9A==}
+    resolution: {integrity: sha1-3Fof7HFiRdhNxBZ96bHGB+B/tqc=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/otlp-transformer@0.218.0':
-    resolution: {integrity: sha512-CFaKH87WAzjuJ4awowTTLzUvMfaRfiOFG5+qm5S5ncyalRtN4ecQ+YmuANJSCrVPuvZFEkUgKhBPBndxi3rHsQ==}
+    resolution: {integrity: sha1-Z4TQ3dE4A8Y6GyQHJgbAL8IbkHE=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
@@ -35455,7 +35734,7 @@ packages:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
 
   '@opentelemetry/propagator-b3@2.7.1':
-    resolution: {integrity: sha512-RJid6E2CKyeGfKBzXKF21ejabGMHypFkPAh3qZ+NvI+SGjuIye79t3PmiqcDgtRzdKH6ynXzbfslQ8DfpRUg2A==}
+    resolution: {integrity: sha1-EH/j4W0HKMSJ7brSIcQC7hl1FKQ=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
@@ -35467,7 +35746,7 @@ packages:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
 
   '@opentelemetry/propagator-jaeger@2.7.1':
-    resolution: {integrity: sha512-KMjVBHzP4N60bOzxja76M1F1hZZ43lGPga5ix+mkv9+kk1nx9SbkxSvJsMbuVUxdPQmsPTqGShmhN8ulrMOg6Q==}
+    resolution: {integrity: sha1-6Ovz9sDpqlJc8EGJNCWInPPmkSU=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
@@ -35507,7 +35786,7 @@ packages:
       '@opentelemetry/api': '>=1.4.0 <1.10.0'
 
   '@opentelemetry/sdk-logs@0.218.0':
-    resolution: {integrity: sha512-QvnNdugatFTVCJXH0Mcu7GOOJSylA9j127kIezOE4YwTI4YbowRons2K4WZTv5FMS8T4q9P0NdaRHdkSmeAIag==}
+    resolution: {integrity: sha1-eIhv4wC4KALO6ZYyCLKvMmuSivU=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.4.0 <1.10.0'
@@ -35519,7 +35798,7 @@ packages:
       '@opentelemetry/api': '>=1.9.0 <1.10.0'
 
   '@opentelemetry/sdk-node@0.218.0':
-    resolution: {integrity: sha512-tPMjHrLV5gsfNdYqoRHjeGbCAZBXXD9c1Qo/2ut7VwnUABDNh76xNxrT0SEhkIIJuCN45bbN1vZnYL1gY0IkOg==}
+    resolution: {integrity: sha1-z4vcDJkzhxicfEdGEuD4AVBf65c=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.3.0 <1.10.0'
@@ -35624,17 +35903,17 @@ packages:
   '@protobufjs/codegen@2.0.5':
     resolution: {integrity: sha1-2TFa188/MKrHC9o8BoRD3G8UNlk=}
 
-  '@protobufjs/eventemitter@1.1.0':
-    resolution: {integrity: sha1-NVy8mLr61ZePntCV85diHx0Ga3A=}
+  '@protobufjs/eventemitter@1.1.1':
+    resolution: {integrity: sha1-1RLLJsCuAmCR7iwRZ/G+b69chCo=}
 
-  '@protobufjs/fetch@1.1.0':
-    resolution: {integrity: sha1-upn7WYYUr2VwDBYZ/wbUVLDYTEU=}
+  '@protobufjs/fetch@1.1.1':
+    resolution: {integrity: sha1-TW/ADI+2QBalyBtGnVSQRjUPEGU=}
 
   '@protobufjs/float@1.0.2':
     resolution: {integrity: sha1-Xp4avctz/Ap8uLKR33jIy9l7h9E=}
 
-  '@protobufjs/inquire@1.1.1':
-    resolution: {integrity: sha1-bLk29KxQllIwrx6dC7/VfqNnWqQ=}
+  '@protobufjs/inquire@1.1.2':
+    resolution: {integrity: sha1-rmT7wBT/RMi/rQPdTJPNLWpMgts=}
 
   '@protobufjs/path@1.1.2':
     resolution: {integrity: sha1-bMKyDFya1q0NzP0hynZz2Nf79o0=}
@@ -35729,140 +36008,140 @@ packages:
         optional: true
 
   '@rollup/rollup-android-arm-eabi@4.60.3':
-    resolution: {integrity: sha512-x35CNW/ANXG3hE/EZpRU8MXX1JDN86hBb2wMGAtltkz7pc6cxgjpy1OMMfDosOQ+2hWqIkag/fGok1Yady9nGw==}
+    resolution: {integrity: sha1-MVA8pAQkN0zWxRmAMc9NWnPelyc=}
     cpu: [arm]
     os: [android]
 
   '@rollup/rollup-android-arm64@4.60.3':
-    resolution: {integrity: sha512-xw3xtkDApIOGayehp2+Rz4zimfkaX65r4t47iy+ymQB2G4iJCBBfj0ogVg5jpvjpn8UWn/+q9tprxleYeNp3Hw==}
+    resolution: {integrity: sha1-fLwwyIUHAT0PmCz+uIhDN7oeC7I=}
     cpu: [arm64]
     os: [android]
 
   '@rollup/rollup-darwin-arm64@4.60.3':
-    resolution: {integrity: sha512-vo6Y5Qfpx7/5EaamIwi0WqW2+zfiusVihKatLvtN1VFVy3D13uERk/6gZLU1UiHRL6fDXqj/ELIeVRGnvcTE1g==}
+    resolution: {integrity: sha1-vDQak7shETJqKGX1XR0juu3s9Aw=}
     cpu: [arm64]
     os: [darwin]
 
   '@rollup/rollup-darwin-x64@4.60.3':
-    resolution: {integrity: sha512-D+0QGcZhBzTN82weOnsSlY7V7+RMmPuF1CkbxyMAGE8+ZHeUjyb76ZiWmBlCu//AQQONvxcqRbwZTajZKqjuOw==}
+    resolution: {integrity: sha1-36AjZYHFXswLyusuofLoAMWNw+I=}
     cpu: [x64]
     os: [darwin]
 
   '@rollup/rollup-freebsd-arm64@4.60.3':
-    resolution: {integrity: sha512-6HnvHCT7fDyj6R0Ph7A6x8dQS/S38MClRWeDLqc0MdfWkxjiu1HSDYrdPhqSILzjTIC/pnXbbJbo+ft+gy/9hQ==}
+    resolution: {integrity: sha1-TFl3QTuHgIoTte3VJORvr924W1I=}
     cpu: [arm64]
     os: [freebsd]
 
   '@rollup/rollup-freebsd-x64@4.60.3':
-    resolution: {integrity: sha512-KHLgC3WKlUYW3ShFKnnosZDOJ0xjg9zp7au3sIm2bs/tGBeC2ipmvRh/N7JKi0t9Ue20C0dpEshi8WUubg+cnA==}
+    resolution: {integrity: sha1-XLLO5i/+462koLRDU+ls+Yz8fDw=}
     cpu: [x64]
     os: [freebsd]
 
   '@rollup/rollup-linux-arm-gnueabihf@4.60.3':
-    resolution: {integrity: sha512-DV6fJoxEYWJOvaZIsok7KrYl0tPvga5OZ2yvKHNNYyk/2roMLqQAbGhr78EQ5YhHpnhLKJD3S1WFusAkmUuV5g==}
+    resolution: {integrity: sha1-BHAMrTbdQ66BBE/n7nPpJYRcS4U=}
     cpu: [arm]
     os: [linux]
     libc: [glibc]
 
   '@rollup/rollup-linux-arm-musleabihf@4.60.3':
-    resolution: {integrity: sha512-mQKoJAzvuOs6F+TZybQO4GOTSMUu7v0WdxEk24krQ/uUxXoPTtHjuaUuPmFhtBcM4K0ons8nrE3JyhTuCFtT/w==}
+    resolution: {integrity: sha1-VI6/OZezptzHzdfagT/wxGAArAo=}
     cpu: [arm]
     os: [linux]
     libc: [musl]
 
   '@rollup/rollup-linux-arm64-gnu@4.60.3':
-    resolution: {integrity: sha512-Whjj2qoiJ6+OOJMGptTYazaJvjOJm+iKHpXQM1P3LzGjt7Ff++Tp7nH4N8J/BUA7R9IHfDyx4DJIflifwnbmIA==}
+    resolution: {integrity: sha1-AmRgj1BLM3JWOevpO+AsQOcaNcE=}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
   '@rollup/rollup-linux-arm64-musl@4.60.3':
-    resolution: {integrity: sha512-4YTNHKqGng5+yiZt3mg77nmyuCfmNfX4fPmyUapBcIk+BdwSwmCWGXOUxhXbBEkFHtoN5boLj/5NON+u5QC9tg==}
+    resolution: {integrity: sha1-FHz0iJUCzTszGoALjKZ0H4eHMHk=}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
   '@rollup/rollup-linux-loong64-gnu@4.60.3':
-    resolution: {integrity: sha512-SU3kNlhkpI4UqlUc2VXPGK9o886ZsSeGfMAX2ba2b8DKmMXq4AL7KUrkSWVbb7koVqx41Yczx6dx5PNargIrEA==}
+    resolution: {integrity: sha1-DCfGtSWNyz0CkOO9BLpid8nX5UE=}
     cpu: [loong64]
     os: [linux]
     libc: [glibc]
 
   '@rollup/rollup-linux-loong64-musl@4.60.3':
-    resolution: {integrity: sha512-6lDLl5h4TXpB1mTf2rQWnAk/LcXrx9vBfu/DT5TIPhvMhRWaZ5MxkIc8u4lJAmBo6klTe1ywXIUHFjylW505sg==}
+    resolution: {integrity: sha1-8PGAdeoL+iyZL445M7Obbvkfd5k=}
     cpu: [loong64]
     os: [linux]
     libc: [musl]
 
   '@rollup/rollup-linux-ppc64-gnu@4.60.3':
-    resolution: {integrity: sha512-BMo8bOw8evlup/8G+cj5xWtPyp93xPdyoSN16Zy90Q2QZ0ZYRhCt6ZJSwbrRzG9HApFabjwj2p25TUPDWrhzqQ==}
+    resolution: {integrity: sha1-FJu1y4iTWJ/6oZJLTqxCgun6TGk=}
     cpu: [ppc64]
     os: [linux]
     libc: [glibc]
 
   '@rollup/rollup-linux-ppc64-musl@4.60.3':
-    resolution: {integrity: sha512-E0L8X1dZN1/Rph+5VPF6Xj2G7JJvMACVXtamTJIDrVI44Y3K+G8gQaMEAavbqCGTa16InptiVrX6eM6pmJ+7qA==}
+    resolution: {integrity: sha1-IAoGPimLBfmWkX0qpT3nSdVMDKA=}
     cpu: [ppc64]
     os: [linux]
     libc: [musl]
 
   '@rollup/rollup-linux-riscv64-gnu@4.60.3':
-    resolution: {integrity: sha512-oZJ/WHaVfHUiRAtmTAeo3DcevNsVvH8mbvodjZy7D5QKvCefO371SiKRpxoDcCxB3PTRTLayWBkvmDQKTcX/sw==}
+    resolution: {integrity: sha1-bW1uuZYZe6hvlfmmxEK8hi8HVtQ=}
     cpu: [riscv64]
     os: [linux]
     libc: [glibc]
 
   '@rollup/rollup-linux-riscv64-musl@4.60.3':
-    resolution: {integrity: sha512-Dhbyh7j9FybM3YaTgaHmVALwA8AkUwTPccyCQ79TG9AJUsMQqgN1DDEZNr4+QUfwiWvLDumW5vdwzoeUF+TNxQ==}
+    resolution: {integrity: sha1-neuGABeFz8vHYUV/UM18ES/aDfk=}
     cpu: [riscv64]
     os: [linux]
     libc: [musl]
 
   '@rollup/rollup-linux-s390x-gnu@4.60.3':
-    resolution: {integrity: sha512-cJd1X5XhHHlltkaypz1UcWLA8AcoIi1aWhsvaWDskD1oz2eKCypnqvTQ8ykMNI0RSmm7NkTdSqSSD7zM0xa6Ig==}
+    resolution: {integrity: sha1-2CKHIMbkLaGQ2Wwxo0ldcM+ChLk=}
     cpu: [s390x]
     os: [linux]
     libc: [glibc]
 
   '@rollup/rollup-linux-x64-gnu@4.60.3':
-    resolution: {integrity: sha512-DAZDBHQfG2oQuhY7mc6I3/qB4LU2fQCjRvxbDwd/Jdvb9fypP4IJ4qmtu6lNjes6B531AI8cg1aKC2di97bUxA==}
+    resolution: {integrity: sha1-32uzhhemaoQr0q6slWDNcp0IQlg=}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
   '@rollup/rollup-linux-x64-musl@4.60.3':
-    resolution: {integrity: sha512-cRxsE8c13mZOh3vP+wLDxpQBRrOHDIGOWyDL93Sy0Ga8y515fBcC2pjUfFwUe5T7tqvTvWbCpg1URM/AXdWIXA==}
+    resolution: {integrity: sha1-dePnKEkma0/dZfLabGJCMFHjVjY=}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
   '@rollup/rollup-openbsd-x64@4.60.3':
-    resolution: {integrity: sha512-QaWcIgRxqEdQdhJqW4DJctsH6HCmo5vHxY0krHSX4jMtOqfzC+dqDGuHM87bu4H8JBeibWx7jFz+h6/4C8wA5Q==}
+    resolution: {integrity: sha1-4QgPDvuLFc2jmz5i3l+4Bgeatuk=}
     cpu: [x64]
     os: [openbsd]
 
   '@rollup/rollup-openharmony-arm64@4.60.3':
-    resolution: {integrity: sha512-AaXwSvUi3QIPtroAUw1t5yHGIyqKEXwH54WUocFolZhpGDruJcs8c+xPNDRn4XiQsS7MEwnYsHW2l0MBLDMkWg==}
+    resolution: {integrity: sha1-H72i2Vwp2/zrYnhUMXVM1aq4bHI=}
     cpu: [arm64]
     os: [openharmony]
 
   '@rollup/rollup-win32-arm64-msvc@4.60.3':
-    resolution: {integrity: sha512-65LAKM/bAWDqKNEelHlcHvm2V+Vfb8C6INFxQXRHCvaVN1rJfwr4NvdP4FyzUaLqWfaCGaadf6UbTm8xJeYfEg==}
+    resolution: {integrity: sha1-3qs0cIFfl5lvHQ02CFSc8bfk/8I=}
     cpu: [arm64]
     os: [win32]
 
   '@rollup/rollup-win32-ia32-msvc@4.60.3':
-    resolution: {integrity: sha512-EEM2gyhBF5MFnI6vMKdX1LAosE627RGBzIoGMdLloPZkXrUN0Ckqgr2Qi8+J3zip/8NVVro3/FjB+tjhZUgUHA==}
+    resolution: {integrity: sha1-gXrK4u1FcpYLWSNf8jIjgbbYLyY=}
     cpu: [ia32]
     os: [win32]
 
   '@rollup/rollup-win32-x64-gnu@4.60.3':
-    resolution: {integrity: sha512-E5Eb5H/DpxaoXH++Qkv28RcUJboMopmdDUALBczvHMf7hNIxaDZqwY5lK12UK1BHacSmvupoEWGu+n993Z0y1A==}
+    resolution: {integrity: sha1-SBKb6ZsCUNdrnG0KyYO+9WOhxIo=}
     cpu: [x64]
     os: [win32]
 
   '@rollup/rollup-win32-x64-msvc@4.60.3':
-    resolution: {integrity: sha512-hPt/bgL5cE+Qp+/TPHBqptcAgPzgj46mPcg/16zNUmbQk0j+mOEQV/+Lqu8QRtDV3Ek95Q6FeFITpuhl6OTsAA==}
+    resolution: {integrity: sha1-zG8JSj/+VVa7SoMe5vtXK4zYGnU=}
     cpu: [x64]
     os: [win32]
 
@@ -35920,32 +36199,32 @@ packages:
     resolution: {integrity: sha1-EOxSGC1cMQgytmmvd4SjT8PaPKE=}
 
   '@turbo/darwin-64@2.9.12':
-    resolution: {integrity: sha512-eu3eFRmE9NjgZ0wPdRJ44l+LGSeIky+tz5ZQd8zQkw/Yqi+BM7wq+8nbabeoiVUcICi/IZweMOKl/MCmkrd1+g==}
+    resolution: {integrity: sha1-LxwkIRPsDtbWhkDhYBt2MjXWcx4=}
     cpu: [x64]
     os: [darwin]
 
   '@turbo/darwin-arm64@2.9.12':
-    resolution: {integrity: sha512-RUkAE404z/J8NsyrUosMcBaXT6M4bRFxTQrmkDQBLQVXaC8Jl0e9bMvYDSX0GW7Ffm2m3j9y7RXgR1foeUAM9w==}
+    resolution: {integrity: sha1-DEUub8fSZCvIqgoB/xvrvaAbN+Q=}
     cpu: [arm64]
     os: [darwin]
 
   '@turbo/linux-64@2.9.12':
-    resolution: {integrity: sha512-InIUtH7cw/vqXNX1Gr7QgWfmw3ct08pV5CpfdEOR48z2u2rzdmpIuk00B/Q2xCb0PMWtKgiMQynfuphmEuUyTQ==}
+    resolution: {integrity: sha1-DbDP8U3MY9uccTWqKfG20h1Zbe0=}
     cpu: [x64]
     os: [linux]
 
   '@turbo/linux-arm64@2.9.12':
-    resolution: {integrity: sha512-lC6nD//Xh67fmJM0LKaLsg74Wry0aYrgMklpiNgCbUaMdPIOqj0A00iri3NU7Lb7pZHx8ViisgpeDKlpSgFUCA==}
+    resolution: {integrity: sha1-fzNeNXLohPS6uQWe1rzxVfxt5O0=}
     cpu: [arm64]
     os: [linux]
 
   '@turbo/windows-64@2.9.12':
-    resolution: {integrity: sha512-conYri8VUl72JOdYnLDPYwzqbPcY5ECoHmo9FWoKznemhaAIilj4maHqs9Uar0aKfNoZIULniy+6iWaLtLO34A==}
+    resolution: {integrity: sha1-GWDjFPJSy0RMVzA/gF1AKTABemU=}
     cpu: [x64]
     os: [win32]
 
   '@turbo/windows-arm64@2.9.12':
-    resolution: {integrity: sha512-XoR4bsg62/L/esRVcmoMESEiNZ36+YmyjYGLpoqk8nwMgXzzVjNOgX0lRSz5w/U/ajLGv3nhMsS0Q2QOdvp2AQ==}
+    resolution: {integrity: sha1-iawXWTaWRNO/vQKAjhZTQCtbOz4=}
     cpu: [arm64]
     os: [win32]
 
@@ -36811,7 +37090,7 @@ packages:
     resolution: {integrity: sha1-VW+mSX5SF/7beIIUJPihwi+j9LU=}
 
   debug@2.6.9:
-    resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
+    resolution: {integrity: sha1-XRKFFd8TT/Mn6QpMk/Tgd6U2NB8=}
     peerDependencies:
       supports-color: '*'
     peerDependenciesMeta:
@@ -37279,7 +37558,7 @@ packages:
     engines: {node: '>= 0.4'}
 
   forwarded-parse@2.1.2:
-    resolution: {integrity: sha512-alTFZZQDKMporBH77856pXgzhEzaUVmLCDk+egLgIgHst3Tpndzz8MnKe+GzRJRfvVdn69HhpW7cmXzvtLvJAw==}
+    resolution: {integrity: sha1-CFEe3aqi3f1WuhETju598RegkyU=}
 
   forwarded@0.2.0:
     resolution: {integrity: sha1-ImmTZCiq1MFcfr6XeahL8LKoGBE=}
@@ -37308,12 +37587,12 @@ packages:
     resolution: {integrity: sha1-FQStJSMVjKpA20onh8sBQRmU6k8=}
 
   fsevents@2.3.2:
-    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
+    resolution: {integrity: sha1-ilJveLj99GI7cJ4Ll1xSwkwC/Ro=}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
 
   fsevents@2.3.3:
-    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
+    resolution: {integrity: sha1-ysZAd4XQNnWipeGlMFxpezR9kNY=}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
 
@@ -37524,7 +37803,7 @@ packages:
     resolution: {integrity: sha1-GXIze/4CDQX2teAgwTM0VnQ2Mk8=}
 
   import-in-the-middle@3.0.1:
-    resolution: {integrity: sha512-pYkiyXVL2Mf3pozdlDGV6NAObxQx13Ae8knZk1UJRJ6uRW/ZRmTGHlQYtrsSl7ubuE5F8CD1z+s1n4RHNuTtuA==}
+    resolution: {integrity: sha1-igoSMMm4ZcDhJpgXFkauHj//aR0=}
     engines: {node: '>=18'}
 
   import-lazy@4.0.0:
@@ -37894,7 +38173,7 @@ packages:
     engines: {node: '>=10'}
 
   lodash.camelcase@4.3.0:
-    resolution: {integrity: sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==}
+    resolution: {integrity: sha1-soqmKIorn8ZRA1x3EfZathkDMaY=}
 
   lodash.includes@4.3.0:
     resolution: {integrity: sha1-YLuYqHy5I8aMoeUTJUgzFISfVT8=}
@@ -38215,7 +38494,7 @@ packages:
     resolution: {integrity: sha1-lQCAV6Vsr63CvGPd5/n/aVWUjjI=}
 
   nanoid@3.3.12:
-    resolution: {integrity: sha512-ZB9RH/39qpq5Vu6Y+NmUaFhQR6pp+M2Xt76XBnEwDaGcVAqhlvxrl3B2bKS5D3NH3QR76v3aSrKaF/Kiy7lEtQ==}
+    resolution: {integrity: sha1-qz2RLiF6bQpRTwCnKhZUOiiYLAU=}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -38442,7 +38721,7 @@ packages:
     resolution: {integrity: sha1-PsvsVUIWhbcKnahyss/z4cvtFxY=}
 
   pg-cloudflare@1.3.0:
-    resolution: {integrity: sha512-6lswVVSztmHiRtD6I8hw4qP/nDm1EJbKMRhf3HCYaqud7frGysPv7FYJ5noZQdhQtN2xJnimfMtvQq21pdbzyQ==}
+    resolution: {integrity: sha1-OGA11L/PGnBFsCb4shrPU1PxTWU=}
 
   pg-connection-string@2.12.0:
     resolution: {integrity: sha1-QIT5F5ArstquPcE3b+JKx7TqzPI=}
@@ -38537,7 +38816,7 @@ packages:
     engines: {node: '>= 0.4'}
 
   postcss@8.5.14:
-    resolution: {integrity: sha512-SoSL4+OSEtR99LHFZQiJLkT59C5B1amGO1NzTwj7TT1qCUgUO6hxOvzkOYxD+vMrXBM3XJIKzokoERdqQq/Zmg==}
+    resolution: {integrity: sha1-pmwteAj632nrtbhKA/i6/XbEkZw=}
     engines: {node: ^10 || ^12 || >=14}
 
   postgres-array@2.0.0:
@@ -38625,8 +38904,8 @@ packages:
     peerDependencies:
       protobufjs: '>=7.5.6 <8'
 
-  protobufjs@7.5.8:
-    resolution: {integrity: sha1-UbFToG2m5HFToapoAMsSU7xQJDY=}
+  protobufjs@7.6.1:
+    resolution: {integrity: sha1-YyC7CMO+fc/G+Rk+4D06RkPx6zc=}
     engines: {node: '>=12.0.0'}
 
   proxy-addr@2.0.7:
@@ -38695,7 +38974,7 @@ packages:
     engines: {node: '>=0.10.0'}
 
   react@19.2.4:
-    resolution: {integrity: sha512-9nfp2hYpCwOjAN+8TZFGhtWEwgvWHXqESH8qT89AT/lWklpLON22Lc8pEtnpsZz7VmawabSU0gCjnj8aC0euHQ==}
+    resolution: {integrity: sha1-Q45XuqGbd8sjqrUWz2Nc0Fee4Jo=}
     engines: {node: '>=0.10.0'}
 
   read-pkg-up@8.0.0:
@@ -39425,7 +39704,7 @@ packages:
     engines: {node: '>= 0.8'}
 
   vite@7.3.3:
-    resolution: {integrity: sha512-/4XH147Ui7OGTjg3HbdWe5arnZQSbfuRzdr9Ec7TQi5I7R+ir0Rlc9GIvD4v0XZurELqA035KVXJXpR61xhiTA==}
+    resolution: {integrity: sha1-1+B6UrWHP7hvkCo/Sz0XQQM3RQ8=}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -40172,6 +40451,18 @@ snapshots:
       '@azure/msal-common': 16.6.0
       jsonwebtoken: 9.0.3
 
+  '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0':
+    dependencies:
+      '@azure/core-tracing': 1.3.1
+      '@azure/logger': 1.3.0
+      '@opentelemetry/api': 1.9.1
+      '@opentelemetry/core': 2.7.1(@opentelemetry/api@1.9.1)
+      '@opentelemetry/instrumentation': 0.211.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/sdk-trace-web': 2.7.1(@opentelemetry/api@1.9.1)
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/schema-registry@1.3.0':
     dependencies:
       '@azure-rest/core-client': 2.6.0
@@ -40911,7 +41202,7 @@ snapshots:
     dependencies:
       lodash.camelcase: 4.3.0
       long: 5.3.2
-      protobufjs: 7.5.8
+      protobufjs: 7.6.1
       yargs: 17.7.2
 
   '@hapi/boom@10.0.1':
@@ -41868,16 +42159,15 @@ snapshots:
 
   '@protobufjs/codegen@2.0.5': {}
 
-  '@protobufjs/eventemitter@1.1.0': {}
+  '@protobufjs/eventemitter@1.1.1': {}
 
-  '@protobufjs/fetch@1.1.0':
+  '@protobufjs/fetch@1.1.1':
     dependencies:
       '@protobufjs/aspromise': 1.1.2
-      '@protobufjs/inquire': 1.1.1
 
   '@protobufjs/float@1.0.2': {}
 
-  '@protobufjs/inquire@1.1.1': {}
+  '@protobufjs/inquire@1.1.2': {}
 
   '@protobufjs/path@1.1.2': {}
 
@@ -45168,7 +45458,7 @@ snapshots:
 
   propagate@2.0.1: {}
 
-  protobufjs-cli@1.2.2(protobufjs@7.5.8):
+  protobufjs-cli@1.2.2(protobufjs@7.6.1):
     dependencies:
       chalk: 4.1.2
       escodegen: 1.14.3
@@ -45177,20 +45467,20 @@ snapshots:
       glob: 8.1.0
       jsdoc: 4.0.5
       minimist: 1.2.8
-      protobufjs: 7.5.8
+      protobufjs: 7.6.1
       semver: 7.8.0
       tmp: 0.2.5
       uglify-js: 3.19.3
 
-  protobufjs@7.5.8:
+  protobufjs@7.6.1:
     dependencies:
       '@protobufjs/aspromise': 1.1.2
       '@protobufjs/base64': 1.1.2
       '@protobufjs/codegen': 2.0.5
-      '@protobufjs/eventemitter': 1.1.0
-      '@protobufjs/fetch': 1.1.0
+      '@protobufjs/eventemitter': 1.1.1
+      '@protobufjs/fetch': 1.1.1
       '@protobufjs/float': 1.0.2
-      '@protobufjs/inquire': 1.1.1
+      '@protobufjs/inquire': 1.1.2
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.1

@@ -1,33 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Cutover migration for MySQL import, it will switch source elastic server DNS to flexible server.
- *
- * @summary Cutover migration for MySQL import, it will switch source elastic server DNS to flexible server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/CutoverMigration.json
- */
-
 const { MySQLManagementFlexibleServerClient } = require("@azure/arm-mysql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
-async function cutoverMigrationForMySqlImport() {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "testrg";
-  const serverName = "mysqltestserver";
+/**
+ * This sample demonstrates how to cutover migration for MySQL import, it will switch source elastic server DNS to flexible server.
+ *
+ * @summary cutover migration for MySQL import, it will switch source elastic server DNS to flexible server.
+ * x-ms-original-file: 2025-06-01-preview/CutoverMigration.json
+ */
+async function cutoverMigrationForMySQLImport() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.serversMigration.beginCutoverMigrationAndWait(
-    resourceGroupName,
-    serverName,
-  );
+  const result = await client.serversMigration.cutoverMigration("testrg", "mysqltestserver");
   console.log(result);
 }
 
 async function main() {
-  await cutoverMigrationForMySqlImport();
+  await cutoverMigrationForMySQLImport();
 }
 
 main().catch(console.error);

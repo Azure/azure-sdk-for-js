@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-cognitiveservices",
-  "version": "9.0.0-beta.1",
+  "version": "9.0.0-beta.2",
   "description": "A generated SDK for CognitiveServicesManagementClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -280,6 +280,62 @@
         "default": "./dist/commonjs/api/privateLinkResources/index.js"
       }
     },
+    "./api/managedComputeCapacities": {
+      "browser": {
+        "types": "./dist/browser/api/managedComputeCapacities/index.d.ts",
+        "default": "./dist/browser/api/managedComputeCapacities/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedComputeCapacities/index.d.ts",
+        "default": "./dist/esm/api/managedComputeCapacities/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedComputeCapacities/index.d.ts",
+        "default": "./dist/commonjs/api/managedComputeCapacities/index.js"
+      }
+    },
+    "./api/workbenches": {
+      "browser": {
+        "types": "./dist/browser/api/workbenches/index.d.ts",
+        "default": "./dist/browser/api/workbenches/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/workbenches/index.d.ts",
+        "default": "./dist/esm/api/workbenches/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/workbenches/index.d.ts",
+        "default": "./dist/commonjs/api/workbenches/index.js"
+      }
+    },
+    "./api/computes": {
+      "browser": {
+        "types": "./dist/browser/api/computes/index.d.ts",
+        "default": "./dist/browser/api/computes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/computes/index.d.ts",
+        "default": "./dist/esm/api/computes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/computes/index.d.ts",
+        "default": "./dist/commonjs/api/computes/index.js"
+      }
+    },
+    "./api/managedComputeUsagesOperationGroup": {
+      "browser": {
+        "types": "./dist/browser/api/managedComputeUsagesOperationGroup/index.d.ts",
+        "default": "./dist/browser/api/managedComputeUsagesOperationGroup/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedComputeUsagesOperationGroup/index.d.ts",
+        "default": "./dist/esm/api/managedComputeUsagesOperationGroup/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedComputeUsagesOperationGroup/index.d.ts",
+        "default": "./dist/commonjs/api/managedComputeUsagesOperationGroup/index.js"
+      }
+    },
     "./api/computeOperations": {
       "browser": {
         "types": "./dist/browser/api/computeOperations/index.d.ts",
@@ -292,6 +348,20 @@
       "require": {
         "types": "./dist/commonjs/api/computeOperations/index.d.ts",
         "default": "./dist/commonjs/api/computeOperations/index.js"
+      }
+    },
+    "./api/managedComputeDeployments": {
+      "browser": {
+        "types": "./dist/browser/api/managedComputeDeployments/index.d.ts",
+        "default": "./dist/browser/api/managedComputeDeployments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedComputeDeployments/index.d.ts",
+        "default": "./dist/esm/api/managedComputeDeployments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedComputeDeployments/index.d.ts",
+        "default": "./dist/commonjs/api/managedComputeDeployments/index.js"
       }
     },
     "./api/agentApplications": {

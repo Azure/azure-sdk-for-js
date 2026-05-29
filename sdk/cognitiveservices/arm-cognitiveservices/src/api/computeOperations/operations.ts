@@ -24,7 +24,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

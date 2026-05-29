@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified commitmentPlans associated with the Cognitive Services account.
  *
  * @summary gets the specified commitmentPlans associated with the Cognitive Services account.
- * x-ms-original-file: 2026-01-15-preview/GetCommitmentPlan.json
+ * x-ms-original-file: 2026-03-15-preview/GetCommitmentPlan.json
  */
 async function getCommitmentPlan() {
   const credential = new DefaultAzureCredential();

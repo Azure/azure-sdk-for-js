@@ -9,11 +9,14 @@ import type {
   SearchIndexClient,
   WebKnowledgeSource,
   RemoteSharePointKnowledgeSource,
-} from "@azure/search-documents";
+  WorkIQKnowledgeSource,
+  FabricDataAgentKnowledgeSource,
+  FabricOntologyKnowledgeSource,
+} from "../../../../src/index.js";
 import {
   KnowledgeRetrievalClient,
   KnownKnowledgeRetrievalOutputMode,
-} from "@azure/search-documents";
+} from "../../../../src/index.js";
 import { defaultServiceVersion } from "../../../../src/serviceUtils.js";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type { Hotel } from "../../utils/interfaces.js";
@@ -82,7 +85,7 @@ describe("Knowledge", { timeout: 20_000 }, () => {
     await indexClient.createKnowledgeBase({
       name: TEST_BASE_NAME,
       knowledgeSources: [{ name: TEST_KS_NAME }],
-    } as any);
+    });
 
     await delay(WAIT_TIME);
     await populateIndex(searchClient);
@@ -151,7 +154,7 @@ describe("Knowledge", { timeout: 20_000 }, () => {
         createTestCredential(),
       );
 
-      const result = await webKnowledgeRetrievalClient.retrieveKnowledge({
+      const result = await webKnowledgeRetrievalClient.retrieve({
         messages: [
           {
             role: "user",
@@ -179,10 +182,7 @@ describe("Knowledge", { timeout: 20_000 }, () => {
         remoteSharePointParameters: {},
       };
 
-      await indexClient.createOrUpdateKnowledgeSource(
-        remoteSharePointKnowledgeSource.name,
-        remoteSharePointKnowledgeSource,
-      );
+      await indexClient.createOrUpdateKnowledgeSource(remoteSharePointKnowledgeSource);
 
       await indexClient.createKnowledgeBase({
         name: `${TEST_BASE_NAME}-remotesharepoint`,
@@ -199,6 +199,182 @@ describe("Knowledge", { timeout: 20_000 }, () => {
       await delay(WAIT_TIME);
       await indexClient.deleteKnowledgeBase(`${TEST_BASE_NAME}-remotesharepoint`);
       await indexClient.deleteKnowledgeSource(spKsName);
+    });
+
+    it("CRUD workIQ knowledge source", { timeout: 60000 }, async () => {
+      const ksName = `workiq-ks-${TEST_INDEX_NAME}`;
+      const baseName = `${TEST_BASE_NAME}-workiq`;
+      const workIQKnowledgeSource: WorkIQKnowledgeSource = {
+        kind: "workIQ",
+        name: ksName,
+        description: "WorkIQ knowledge source for testing",
+      };
+
+      // Create
+      const created = await indexClient.createOrUpdateKnowledgeSource(workIQKnowledgeSource);
+      assert.equal(created.kind, "workIQ");
+      assert.equal(created.name, ksName);
+
+      // Read
+      const fetched = await indexClient.getKnowledgeSource(ksName);
+      assert.equal(fetched.kind, "workIQ");
+      assert.equal(fetched.name, ksName);
+
+      // List
+      const allSources: (typeof fetched)[] = [];
+      for await (const source of indexClient.listKnowledgeSources()) {
+        allSources.push(source);
+      }
+      assert.isTrue(allSources.some((s) => s.name === ksName));
+
+      // Validate knowledge base referencing the WorkIQ source
+      const knowledgeBase = await indexClient.createKnowledgeBase({
+        name: baseName,
+        models: [
+          {
+            kind: "azureOpenAI",
+            azureOpenAIParameters: chatAzureOpenAIParameters,
+          },
+        ],
+        knowledgeSources: [{ name: ksName }],
+        outputMode: KnownKnowledgeRetrievalOutputMode.AnswerSynthesis,
+      });
+      assert.equal(knowledgeBase.name, baseName);
+      assert.isTrue(knowledgeBase.knowledgeSources.some((s) => s.name === ksName));
+
+      await delay(WAIT_TIME);
+
+      // Cleanup
+      await indexClient.deleteKnowledgeBase(baseName);
+      await indexClient.deleteKnowledgeSource(ksName);
+    });
+
+    it("CRUD fabricDataAgent knowledge source", { timeout: 60000 }, async () => {
+      const ksName = `fabricdataagent-ks-${TEST_INDEX_NAME}`;
+      const baseName = `${TEST_BASE_NAME}-fabricdataagent`;
+      const fabricDataAgentKnowledgeSource: FabricDataAgentKnowledgeSource = {
+        kind: "fabricDataAgent",
+        name: ksName,
+        description: "Fabric Data Agent knowledge source for testing",
+        fabricDataAgentParameters: {
+          workspaceId: assertEnvironmentVariable("FABRIC_WORKSPACE_ID"),
+          dataAgentId: assertEnvironmentVariable("FABRIC_DATA_AGENT_ID"),
+        },
+      };
+
+      // Create
+      const created = await indexClient.createOrUpdateKnowledgeSource(
+        fabricDataAgentKnowledgeSource,
+      );
+      assert.equal(created.kind, "fabricDataAgent");
+      assert.equal(created.name, ksName);
+
+      // Read
+      const fetched = await indexClient.getKnowledgeSource(ksName);
+      assert.equal(fetched.kind, "fabricDataAgent");
+      assert.equal(fetched.name, ksName);
+      const fetchedFabric = fetched as FabricDataAgentKnowledgeSource;
+      assert.exists(fetchedFabric.fabricDataAgentParameters);
+      assert.equal(
+        fetchedFabric.fabricDataAgentParameters.workspaceId,
+        fabricDataAgentKnowledgeSource.fabricDataAgentParameters.workspaceId,
+      );
+      assert.equal(
+        fetchedFabric.fabricDataAgentParameters.dataAgentId,
+        fabricDataAgentKnowledgeSource.fabricDataAgentParameters.dataAgentId,
+      );
+
+      // List
+      const allSources: (typeof fetched)[] = [];
+      for await (const source of indexClient.listKnowledgeSources()) {
+        allSources.push(source);
+      }
+      assert.isTrue(allSources.some((s) => s.name === ksName));
+
+      // Validate knowledge base referencing the Fabric Data Agent source
+      const knowledgeBase = await indexClient.createKnowledgeBase({
+        name: baseName,
+        models: [
+          {
+            kind: "azureOpenAI",
+            azureOpenAIParameters: chatAzureOpenAIParameters,
+          },
+        ],
+        knowledgeSources: [{ name: ksName }],
+        outputMode: KnownKnowledgeRetrievalOutputMode.AnswerSynthesis,
+      });
+      assert.equal(knowledgeBase.name, baseName);
+      assert.isTrue(knowledgeBase.knowledgeSources.some((s) => s.name === ksName));
+
+      await delay(WAIT_TIME);
+
+      // Cleanup
+      await indexClient.deleteKnowledgeBase(baseName);
+      await indexClient.deleteKnowledgeSource(ksName);
+    });
+
+    it("CRUD fabricOntology knowledge source", { timeout: 60000 }, async () => {
+      const ksName = `fabricontology-ks-${TEST_INDEX_NAME}`;
+      const baseName = `${TEST_BASE_NAME}-fabricontology`;
+      const fabricOntologyKnowledgeSource: FabricOntologyKnowledgeSource = {
+        kind: "fabricOntology",
+        name: ksName,
+        description: "Fabric Ontology knowledge source for testing",
+        fabricOntologyParameters: {
+          workspaceId: assertEnvironmentVariable("FABRIC_WORKSPACE_ID"),
+          ontologyId: assertEnvironmentVariable("FABRIC_ONTOLOGY_ID"),
+        },
+      };
+
+      // Create
+      const created = await indexClient.createOrUpdateKnowledgeSource(
+        fabricOntologyKnowledgeSource,
+      );
+      assert.equal(created.kind, "fabricOntology");
+      assert.equal(created.name, ksName);
+
+      // Read
+      const fetched = await indexClient.getKnowledgeSource(ksName);
+      assert.equal(fetched.kind, "fabricOntology");
+      assert.equal(fetched.name, ksName);
+      const fetchedOntology = fetched as FabricOntologyKnowledgeSource;
+      assert.exists(fetchedOntology.fabricOntologyParameters);
+      assert.equal(
+        fetchedOntology.fabricOntologyParameters.workspaceId,
+        fabricOntologyKnowledgeSource.fabricOntologyParameters.workspaceId,
+      );
+      assert.equal(
+        fetchedOntology.fabricOntologyParameters.ontologyId,
+        fabricOntologyKnowledgeSource.fabricOntologyParameters.ontologyId,
+      );
+
+      // List
+      const allSources: (typeof fetched)[] = [];
+      for await (const source of indexClient.listKnowledgeSources()) {
+        allSources.push(source);
+      }
+      assert.isTrue(allSources.some((s) => s.name === ksName));
+
+      // Validate knowledge base referencing the Fabric Ontology source
+      const knowledgeBase = await indexClient.createKnowledgeBase({
+        name: baseName,
+        models: [
+          {
+            kind: "azureOpenAI",
+            azureOpenAIParameters: chatAzureOpenAIParameters,
+          },
+        ],
+        knowledgeSources: [{ name: ksName }],
+        outputMode: KnownKnowledgeRetrievalOutputMode.AnswerSynthesis,
+      });
+      assert.equal(knowledgeBase.name, baseName);
+      assert.isTrue(knowledgeBase.knowledgeSources.some((s) => s.name === ksName));
+
+      await delay(WAIT_TIME);
+
+      // Cleanup
+      await indexClient.deleteKnowledgeBase(baseName);
+      await indexClient.deleteKnowledgeSource(ksName);
     });
   });
 });
