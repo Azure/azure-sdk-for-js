@@ -32,9 +32,15 @@ const cjsSource = esmSource
   .replace(ESM_EXPORT_BLOCK, "module.exports = NativeCRC64;");
 
 fs.writeFileSync('./dist/commonjs/crc64.js', cjsSource);
-fs.cpSync(SRC_GLUE, './dist/commonjs/crc64_glue.js');
 
-for (const dir of ['browser', 'esm', 'react-native']) {
-  fs.cpSync(SRC_CRC64, `./dist/${dir}/crc64.js`);
+const browserSource = esmSource
+      .replace(
+        ESM_COMPAT_BLOCK,
+        `// ESM compatibility block omitted in browsers build as it is NodeJS only.\n`);
+
+fs.writeFileSync('./dist/browser/crc64.js', browserSource);
+fs.writeFileSync('./dist/react-native/crc64.js', browserSource);
+
+for (const dir of ['browser', 'esm', 'commonjs', 'react-native']) {
   fs.cpSync(SRC_GLUE, `./dist/${dir}/crc64_glue.js`);
 }
