@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createRequire } from "node:module";
-
 /**
  * Eagerly installs the OpenTelemetry bridge for \@azure/core-tracing.
  *
@@ -21,11 +19,10 @@ import { createRequire } from "node:module";
  */
 export function ensureAzureSdkTracingBridge(): void {
   try {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore ESM only output
-    const esmRequire = createRequire(import.meta.url);
-    const { useInstrumenter } = esmRequire("@azure/core-tracing");
-    const { createOpenTelemetryInstrumenter } = esmRequire(
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { useInstrumenter } = require("@azure/core-tracing");
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { createOpenTelemetryInstrumenter } = require(
       "@azure/opentelemetry-instrumentation-azure-sdk",
     );
 
