@@ -1,30 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
+import {
   _VirtualMachineSizeListResult,
+  _virtualMachineSizeListResultDeserializer,
   VirtualMachineSize,
   AvailabilitySet,
-  AvailabilitySetUpdate,
-  _AvailabilitySetListResult,
-  MigrateToVirtualMachineScaleSetInput,
-} from "../../models/compute/models.js";
-import {
-  _virtualMachineSizeListResultDeserializer,
   availabilitySetSerializer,
   availabilitySetDeserializer,
+  AvailabilitySetUpdate,
   availabilitySetUpdateSerializer,
+  _AvailabilitySetListResult,
   _availabilitySetListResultDeserializer,
+  MigrateToVirtualMachineScaleSetInput,
   migrateToVirtualMachineScaleSetInputSerializer,
   convertToVirtualMachineScaleSetInputSerializer,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams,
   AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams,
   AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams,
@@ -37,9 +37,13 @@ import type {
   AvailabilitySetsCreateOrUpdateOptionalParams,
   AvailabilitySetsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _convertToVirtualMachineScaleSetSend(
   context: Client,
@@ -62,9 +66,9 @@ export function _convertToVirtualMachineScaleSetSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["parameters"]
-      ? options["parameters"]
-      : convertToVirtualMachineScaleSetInputSerializer(options["parameters"]),
+    body: !options?.parameters
+      ? options?.parameters
+      : convertToVirtualMachineScaleSetInputSerializer(options?.parameters),
   });
 }
 
@@ -476,11 +480,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete an availability set. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   resourceGroupName: string,

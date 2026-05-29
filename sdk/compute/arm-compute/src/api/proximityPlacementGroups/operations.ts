@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  ProximityPlacementGroup,
-  ProximityPlacementGroupUpdate,
-  _ProximityPlacementGroupListResult,
-} from "../../models/compute/models.js";
 import {
+  ProximityPlacementGroup,
   proximityPlacementGroupSerializer,
   proximityPlacementGroupDeserializer,
+  ProximityPlacementGroupUpdate,
   proximityPlacementGroupUpdateSerializer,
+  _ProximityPlacementGroupListResult,
   _proximityPlacementGroupListResultDeserializer,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ProximityPlacementGroupsListBySubscriptionOptionalParams,
   ProximityPlacementGroupsListByResourceGroupOptionalParams,
   ProximityPlacementGroupsDeleteOptionalParams,
@@ -25,8 +25,12 @@ import type {
   ProximityPlacementGroupsCreateOrUpdateOptionalParams,
   ProximityPlacementGroupsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listBySubscriptionSend(
   context: Client,
@@ -161,11 +165,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a proximity placement group. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   resourceGroupName: string,

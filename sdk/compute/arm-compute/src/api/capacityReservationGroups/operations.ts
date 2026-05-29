@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  CapacityReservationGroup,
-  CapacityReservationGroupUpdate,
-  _CapacityReservationGroupListResult,
-} from "../../models/compute/models.js";
 import {
+  CapacityReservationGroup,
   capacityReservationGroupSerializer,
   capacityReservationGroupDeserializer,
+  CapacityReservationGroupUpdate,
   capacityReservationGroupUpdateSerializer,
+  _CapacityReservationGroupListResult,
   _capacityReservationGroupListResultDeserializer,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   CapacityReservationGroupsListBySubscriptionOptionalParams,
   CapacityReservationGroupsListByResourceGroupOptionalParams,
   CapacityReservationGroupsDeleteOptionalParams,
@@ -25,8 +25,12 @@ import type {
   CapacityReservationGroupsCreateOrUpdateOptionalParams,
   CapacityReservationGroupsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listBySubscriptionSend(
   context: Client,
@@ -164,11 +168,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** The operation to delete a capacity reservation group. This operation is allowed only if all the associated resources are disassociated from the reservation group and all capacity reservations under the reservation group have also been deleted. Please refer to https://aka.ms/CapacityReservation for more details. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   resourceGroupName: string,

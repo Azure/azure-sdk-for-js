@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  SshPublicKeyResource,
-  SshPublicKeyUpdateResource,
-  _SshPublicKeysGroupListResult,
-  SshPublicKeyGenerateKeyPairResult,
-} from "../../models/compute/models.js";
 import {
+  SshPublicKeyResource,
   sshPublicKeyResourceSerializer,
   sshPublicKeyResourceDeserializer,
+  SshPublicKeyUpdateResource,
   sshPublicKeyUpdateResourceSerializer,
+  _SshPublicKeysGroupListResult,
   _sshPublicKeysGroupListResultDeserializer,
   sshGenerateKeyPairInputParametersSerializer,
+  SshPublicKeyGenerateKeyPairResult,
   sshPublicKeyGenerateKeyPairResultDeserializer,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   SshPublicKeysGenerateKeyPairOptionalParams,
   SshPublicKeysListBySubscriptionOptionalParams,
   SshPublicKeysListByResourceGroupOptionalParams,
@@ -29,8 +29,12 @@ import type {
   SshPublicKeysCreateOptionalParams,
   SshPublicKeysGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _generateKeyPairSend(
   context: Client,
@@ -54,9 +58,9 @@ export function _generateKeyPairSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["parameters"]
-      ? options["parameters"]
-      : sshGenerateKeyPairInputParametersSerializer(options["parameters"]),
+    body: !options?.parameters
+      ? options?.parameters
+      : sshGenerateKeyPairInputParametersSerializer(options?.parameters),
   });
 }
 
@@ -218,11 +222,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete an SSH public key. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   resourceGroupName: string,

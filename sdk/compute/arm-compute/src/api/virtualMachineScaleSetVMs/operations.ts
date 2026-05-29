@@ -1,35 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  StorageProfile,
-  AttachDetachDataDisksRequest,
-  RetrieveBootDiagnosticsDataResult,
-  RunCommandInput,
-  RunCommandResult,
-  VirtualMachineScaleSetVM,
-  VirtualMachineScaleSetVMInstanceView,
-  _VirtualMachineScaleSetVMListResult,
-} from "../../models/compute/models.js";
 import {
   virtualMachineScaleSetVMReimageParametersSerializer,
+  StorageProfile,
   storageProfileDeserializer,
+  AttachDetachDataDisksRequest,
   attachDetachDataDisksRequestSerializer,
+  RetrieveBootDiagnosticsDataResult,
   retrieveBootDiagnosticsDataResultDeserializer,
+  RunCommandInput,
   runCommandInputSerializer,
+  RunCommandResult,
   runCommandResultDeserializer,
+  VirtualMachineScaleSetVM,
   virtualMachineScaleSetVMSerializer,
   virtualMachineScaleSetVMDeserializer,
+  VirtualMachineScaleSetVMInstanceView,
   virtualMachineScaleSetVMInstanceViewDeserializer,
+  _VirtualMachineScaleSetVMListResult,
   _virtualMachineScaleSetVMListResultDeserializer,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   VirtualMachineScaleSetVMsRunCommandOptionalParams,
   VirtualMachineScaleSetVMsStartOptionalParams,
   VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams,
@@ -49,9 +49,13 @@ import type {
   VirtualMachineScaleSetVMsUpdateOptionalParams,
   VirtualMachineScaleSetVMsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _runCommandSend(
   context: Client,
@@ -85,7 +89,7 @@ export function _runCommandSend(
 export async function _runCommandDeserialize(
   result: PathUncheckedResponse,
 ): Promise<RunCommandResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
@@ -105,7 +109,7 @@ export function runCommand(
   parameters: RunCommandInput,
   options: VirtualMachineScaleSetVMsRunCommandOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<RunCommandResult>, RunCommandResult> {
-  return getLongRunningPoller(context, _runCommandDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _runCommandDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -476,7 +480,7 @@ export function _attachDetachDataDisksSend(
 export async function _attachDetachDataDisksDeserialize(
   result: PathUncheckedResponse,
 ): Promise<StorageProfile> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
@@ -496,7 +500,7 @@ export function attachDetachDataDisks(
   parameters: AttachDetachDataDisksRequest,
   options: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<StorageProfile>, StorageProfile> {
-  return getLongRunningPoller(context, _attachDetachDataDisksDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _attachDetachDataDisksDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -642,9 +646,9 @@ export function _reimageSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["vmScaleSetVMReimageInput"]
-      ? options["vmScaleSetVMReimageInput"]
-      : virtualMachineScaleSetVMReimageParametersSerializer(options["vmScaleSetVMReimageInput"]),
+    body: !options?.vmScaleSetVMReimageInput
+      ? options?.vmScaleSetVMReimageInput
+      : virtualMachineScaleSetVMReimageParametersSerializer(options?.vmScaleSetVMReimageInput),
   });
 }
 
@@ -938,11 +942,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes a virtual machine from a VM scale set. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SharedToValues } from "../../models/computeGallery/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { SharedToValues } from "../../models/computeGallery/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface SharedGalleryImagesListOptionalParams extends OperationOptions {

@@ -5,7 +5,7 @@
     "ComputeGallery": "2025-03-03",
     "ComputeSku": "2021-07-01"
   },
-  "emitterVersion": "0.52.2",
+  "emitterVersion": "0.53.3",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Compute",
     "CrossLanguageDefinitionId": {

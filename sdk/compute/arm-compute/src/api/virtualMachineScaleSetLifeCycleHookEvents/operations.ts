@@ -1,28 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  VMScaleSetLifecycleHookEvent,
-  VMScaleSetLifecycleHookEventUpdate,
-  _VMScaleSetLifecycleHookEventListResult,
-} from "../../models/compute/models.js";
 import {
+  VMScaleSetLifecycleHookEvent,
   vmScaleSetLifecycleHookEventDeserializer,
+  VMScaleSetLifecycleHookEventUpdate,
   vmScaleSetLifecycleHookEventUpdateSerializer,
+  _VMScaleSetLifecycleHookEventListResult,
   _vmScaleSetLifecycleHookEventListResultDeserializer,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   VirtualMachineScaleSetLifeCycleHookEventsListOptionalParams,
   VirtualMachineScaleSetLifeCycleHookEventsUpdateOptionalParams,
   VirtualMachineScaleSetLifeCycleHookEventsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,

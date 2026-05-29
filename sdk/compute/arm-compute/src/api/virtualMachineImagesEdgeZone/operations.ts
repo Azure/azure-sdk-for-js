@@ -1,26 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
+import {
   VirtualMachineImageResource,
   VirtualMachineImage,
-} from "../../models/compute/models.js";
-import {
   virtualMachineImageDeserializer,
   virtualMachineImageResourceArrayDeserializer,
 } from "../../models/compute/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   VirtualMachineImagesEdgeZoneGetOptionalParams,
   VirtualMachineImagesEdgeZoneListOptionalParams,
   VirtualMachineImagesEdgeZoneListSkusOptionalParams,
   VirtualMachineImagesEdgeZoneListOffersOptionalParams,
   VirtualMachineImagesEdgeZoneListPublishersOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _getSend(
   context: Client,

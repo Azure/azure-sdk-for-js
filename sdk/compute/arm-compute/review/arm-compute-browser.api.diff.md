@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -2716,15 +2716,16 @@
+@@ -2718,15 +2718,16 @@
  // @public
  export type HyperVGenerationTypes = string;
  
@@ -25,7 +25,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface ImageDataDisk extends ImageDisk {
      lun: number;
-@@ -2813,25 +2814,25 @@
+@@ -2815,25 +2816,25 @@
  
  // @public
  export interface ImagesOperations {
