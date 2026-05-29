@@ -1,14 +1,29 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default azsdkEslint.config([
+export default [
+  ...azsdkEslint.config([
+    {
+      rules: {
+        "@azure/azure-sdk/ts-modules-only-named": "warn",
+        "@azure/azure-sdk/ts-package-json-types": "warn",
+        "@azure/azure-sdk/ts-package-json-engine-is-present": "warn",
+        "@azure/azure-sdk/ts-package-json-files-required": "off",
+        "@azure/azure-sdk/ts-package-json-main-is-cjs": "off",
+        "@azure/azure-sdk/github-source-headers": "off",
+        "@typescript-eslint/no-use-before-define": "warn",
+        eqeqeq: "warn",
+        "prefer-const": "warn",
+        "tsdoc/syntax": "warn",
+      },
+    },
+  ]),
   {
-    rules: {
-      "@azure/azure-sdk/ts-modules-only-named": "warn",
-      "@azure/azure-sdk/ts-package-json-types": "warn",
-      "@azure/azure-sdk/ts-package-json-engine-is-present": "warn",
-      "@azure/azure-sdk/ts-package-json-files-required": "off",
-      "@azure/azure-sdk/ts-package-json-main-is-cjs": "off",
-      "tsdoc/syntax": "warn",
+    files: ["src/**/*.ts", "src/**/*.mts", "test/**/*.ts"],
+    languageOptions: {
+      parserOptions: {
+        projectService: false,
+        project: "./config/tsconfig.lint.json",
+      },
     },
   },
-]);
+];
