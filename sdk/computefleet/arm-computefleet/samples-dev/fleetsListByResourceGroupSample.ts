@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Fleet resources by resource group
  *
  * @summary list Fleet resources by resource group
- * x-ms-original-file: 2025-07-01-preview/Fleets_ListByResourceGroup.json
+ * x-ms-original-file: 2026-04-01-preview/Fleets_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function fleetsListByResourceGroup(): Promise<void> {
+async function fleetsListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function fleetsListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await fleetsListByResourceGroup();
+  await fleetsListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

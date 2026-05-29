@@ -1,26 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create backup for a given server with specified backup name.
- *
- * @summary Create backup for a given server with specified backup name.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Backups/preview/2023-10-01-preview/examples/BackupPut.json
- */
-
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create backup for a given server with specified backup name.
+ *
+ * @summary create backup for a given server with specified backup name.
+ * x-ms-original-file: 2025-06-01-preview/BackupPut.json
+ */
 async function createBackupForAServer(): Promise<void> {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "TestGroup";
-  const serverName = "mysqltestserver";
-  const backupName = "mybackup";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.backups.put(resourceGroupName, serverName, backupName);
+  const result = await client.backups.put("TestGroup", "mysqltestserver", "mybackup");
   console.log(result);
 }
 
