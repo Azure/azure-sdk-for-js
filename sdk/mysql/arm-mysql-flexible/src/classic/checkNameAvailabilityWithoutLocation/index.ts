@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
+import type { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
 import { execute } from "../../api/checkNameAvailabilityWithoutLocation/operations.js";
-import { CheckNameAvailabilityWithoutLocationExecuteOptionalParams } from "../../api/checkNameAvailabilityWithoutLocation/options.js";
-import { NameAvailabilityRequest, NameAvailability } from "../../models/models.js";
+import type { CheckNameAvailabilityWithoutLocationExecuteOptionalParams } from "../../api/checkNameAvailabilityWithoutLocation/options.js";
+import type { NameAvailabilityRequest, NameAvailability } from "../../models/models.js";
 
 /** Interface representing a CheckNameAvailabilityWithoutLocation operations. */
 export interface CheckNameAvailabilityWithoutLocationOperations {

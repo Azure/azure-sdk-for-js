@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
+import type { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
 import { listByServer, put, get } from "../../api/backups/operations.js";
-import {
+import type {
   BackupsListByServerOptionalParams,
   BackupsPutOptionalParams,
   BackupsGetOptionalParams,
 } from "../../api/backups/options.js";
-import { ServerBackup } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ServerBackup } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Backups operations. */
 export interface BackupsOperations {

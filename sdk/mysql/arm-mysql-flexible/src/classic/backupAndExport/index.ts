@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
+import type { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
 import { validateBackup, create } from "../../api/backupAndExport/operations.js";
-import {
+import type {
   BackupAndExportValidateBackupOptionalParams,
   BackupAndExportCreateOptionalParams,
 } from "../../api/backupAndExport/options.js";
-import {
+import type {
   BackupAndExportRequest,
   BackupAndExportResponse,
   ValidateBackupResponse,
 } from "../../models/models.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BackupAndExport operations. */
 export interface BackupAndExportOperations {

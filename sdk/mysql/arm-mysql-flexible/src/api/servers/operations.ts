@@ -1,33 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementFlexibleServerContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { MySQLManagementFlexibleServerContext as Client } from "../index.js";
+import type {
   Server,
-  serverSerializer,
-  serverDeserializer,
   ServerForUpdate,
-  serverForUpdateSerializer,
   _ServerListResult,
-  _serverListResultDeserializer,
   HighAvailabilityValidationEstimation,
-  highAvailabilityValidationEstimationSerializer,
-  highAvailabilityValidationEstimationDeserializer,
   ServerRestartParameter,
-  serverRestartParameterSerializer,
   ServerGtidSetParameter,
-  serverGtidSetParameterSerializer,
   ServerDetachVNetParameter,
-  serverDetachVNetParameterSerializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  serverSerializer,
+  serverDeserializer,
+  serverForUpdateSerializer,
+  _serverListResultDeserializer,
+  highAvailabilityValidationEstimationSerializer,
+  highAvailabilityValidationEstimationDeserializer,
+  serverRestartParameterSerializer,
+  serverGtidSetParameterSerializer,
+  serverDetachVNetParameterSerializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ServersDetachVNetOptionalParams,
   ServersResetGtidOptionalParams,
   ServersStopOptionalParams,
@@ -42,13 +42,9 @@ import {
   ServersCreateOptionalParams,
   ServersGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _detachVNetSend(
   context: Client,

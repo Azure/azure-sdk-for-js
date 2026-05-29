@@ -1,95 +1,63 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   MySQLManagementFlexibleServerContext,
   MySQLManagementFlexibleServerClientOptionalParams,
-  createMySQLManagementFlexibleServer,
 } from "./api/index.js";
-import {
-  AdvancedThreatProtectionSettingsOperations,
-  _getAdvancedThreatProtectionSettingsOperations,
-} from "./classic/advancedThreatProtectionSettings/index.js";
-import {
-  AzureADAdministratorsOperations,
-  _getAzureADAdministratorsOperations,
-} from "./classic/azureADAdministrators/index.js";
-import {
-  BackupAndExportOperations,
-  _getBackupAndExportOperations,
-} from "./classic/backupAndExport/index.js";
-import { BackupsOperations, _getBackupsOperations } from "./classic/backups/index.js";
-import {
-  CheckNameAvailabilityOperations,
-  _getCheckNameAvailabilityOperations,
-} from "./classic/checkNameAvailability/index.js";
-import {
-  CheckNameAvailabilityWithoutLocationOperations,
-  _getCheckNameAvailabilityWithoutLocationOperations,
-} from "./classic/checkNameAvailabilityWithoutLocation/index.js";
-import {
-  CheckVirtualNetworkSubnetUsageOperations,
-  _getCheckVirtualNetworkSubnetUsageOperations,
-} from "./classic/checkVirtualNetworkSubnetUsage/index.js";
-import {
-  ConfigurationsOperations,
-  _getConfigurationsOperations,
-} from "./classic/configurations/index.js";
-import { DatabasesOperations, _getDatabasesOperations } from "./classic/databases/index.js";
-import {
-  FirewallRulesOperations,
-  _getFirewallRulesOperations,
-} from "./classic/firewallRules/index.js";
-import {
-  GetPrivateDnsZoneSuffixOperations,
-  _getGetPrivateDnsZoneSuffixOperations,
-} from "./classic/getPrivateDnsZoneSuffix/index.js";
-import {
-  LocationBasedCapabilitiesOperations,
-  _getLocationBasedCapabilitiesOperations,
-} from "./classic/locationBasedCapabilities/index.js";
-import {
-  LocationBasedCapabilitySetOperations,
-  _getLocationBasedCapabilitySetOperations,
-} from "./classic/locationBasedCapabilitySet/index.js";
-import { LogFilesOperations, _getLogFilesOperations } from "./classic/logFiles/index.js";
-import {
-  LongRunningBackupOperations,
-  _getLongRunningBackupOperations,
-} from "./classic/longRunningBackup/index.js";
-import {
-  LongRunningBackupsOperations,
-  _getLongRunningBackupsOperations,
-} from "./classic/longRunningBackups/index.js";
-import {
-  MaintenancesOperations,
-  _getMaintenancesOperations,
-} from "./classic/maintenances/index.js";
-import {
-  OperationProgressOperations,
-  _getOperationProgressOperations,
-} from "./classic/operationProgress/index.js";
-import {
-  OperationResultsOperations,
-  _getOperationResultsOperations,
-} from "./classic/operationResults/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import {
-  PrivateEndpointConnectionsOperations,
-  _getPrivateEndpointConnectionsOperations,
-} from "./classic/privateEndpointConnections/index.js";
-import {
-  PrivateLinkResourcesOperations,
-  _getPrivateLinkResourcesOperations,
-} from "./classic/privateLinkResources/index.js";
-import { ReplicasOperations, _getReplicasOperations } from "./classic/replicas/index.js";
-import { ServersOperations, _getServersOperations } from "./classic/servers/index.js";
-import {
-  ServersMigrationOperations,
-  _getServersMigrationOperations,
-} from "./classic/serversMigration/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import { createMySQLManagementFlexibleServer } from "./api/index.js";
+import type { AdvancedThreatProtectionSettingsOperations } from "./classic/advancedThreatProtectionSettings/index.js";
+import { _getAdvancedThreatProtectionSettingsOperations } from "./classic/advancedThreatProtectionSettings/index.js";
+import type { AzureADAdministratorsOperations } from "./classic/azureADAdministrators/index.js";
+import { _getAzureADAdministratorsOperations } from "./classic/azureADAdministrators/index.js";
+import type { BackupAndExportOperations } from "./classic/backupAndExport/index.js";
+import { _getBackupAndExportOperations } from "./classic/backupAndExport/index.js";
+import type { BackupsOperations } from "./classic/backups/index.js";
+import { _getBackupsOperations } from "./classic/backups/index.js";
+import type { CheckNameAvailabilityOperations } from "./classic/checkNameAvailability/index.js";
+import { _getCheckNameAvailabilityOperations } from "./classic/checkNameAvailability/index.js";
+import type { CheckNameAvailabilityWithoutLocationOperations } from "./classic/checkNameAvailabilityWithoutLocation/index.js";
+import { _getCheckNameAvailabilityWithoutLocationOperations } from "./classic/checkNameAvailabilityWithoutLocation/index.js";
+import type { CheckVirtualNetworkSubnetUsageOperations } from "./classic/checkVirtualNetworkSubnetUsage/index.js";
+import { _getCheckVirtualNetworkSubnetUsageOperations } from "./classic/checkVirtualNetworkSubnetUsage/index.js";
+import type { ConfigurationsOperations } from "./classic/configurations/index.js";
+import { _getConfigurationsOperations } from "./classic/configurations/index.js";
+import type { DatabasesOperations } from "./classic/databases/index.js";
+import { _getDatabasesOperations } from "./classic/databases/index.js";
+import type { FirewallRulesOperations } from "./classic/firewallRules/index.js";
+import { _getFirewallRulesOperations } from "./classic/firewallRules/index.js";
+import type { GetPrivateDnsZoneSuffixOperations } from "./classic/getPrivateDnsZoneSuffix/index.js";
+import { _getGetPrivateDnsZoneSuffixOperations } from "./classic/getPrivateDnsZoneSuffix/index.js";
+import type { LocationBasedCapabilitiesOperations } from "./classic/locationBasedCapabilities/index.js";
+import { _getLocationBasedCapabilitiesOperations } from "./classic/locationBasedCapabilities/index.js";
+import type { LocationBasedCapabilitySetOperations } from "./classic/locationBasedCapabilitySet/index.js";
+import { _getLocationBasedCapabilitySetOperations } from "./classic/locationBasedCapabilitySet/index.js";
+import type { LogFilesOperations } from "./classic/logFiles/index.js";
+import { _getLogFilesOperations } from "./classic/logFiles/index.js";
+import type { LongRunningBackupOperations } from "./classic/longRunningBackup/index.js";
+import { _getLongRunningBackupOperations } from "./classic/longRunningBackup/index.js";
+import type { LongRunningBackupsOperations } from "./classic/longRunningBackups/index.js";
+import { _getLongRunningBackupsOperations } from "./classic/longRunningBackups/index.js";
+import type { MaintenancesOperations } from "./classic/maintenances/index.js";
+import { _getMaintenancesOperations } from "./classic/maintenances/index.js";
+import type { OperationProgressOperations } from "./classic/operationProgress/index.js";
+import { _getOperationProgressOperations } from "./classic/operationProgress/index.js";
+import type { OperationResultsOperations } from "./classic/operationResults/index.js";
+import { _getOperationResultsOperations } from "./classic/operationResults/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
+import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
+import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
+import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
+import type { ReplicasOperations } from "./classic/replicas/index.js";
+import { _getReplicasOperations } from "./classic/replicas/index.js";
+import type { ServersOperations } from "./classic/servers/index.js";
+import { _getServersOperations } from "./classic/servers/index.js";
+import type { ServersMigrationOperations } from "./classic/serversMigration/index.js";
+import { _getServersMigrationOperations } from "./classic/serversMigration/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { MySQLManagementFlexibleServerClientOptionalParams } from "./api/mySQLManagementFlexibleServerContext.js";
 

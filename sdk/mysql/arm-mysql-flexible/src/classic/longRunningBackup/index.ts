@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
+import type { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
 import { $delete, create } from "../../api/longRunningBackup/operations.js";
-import {
+import type {
   LongRunningBackupDeleteOptionalParams,
   LongRunningBackupCreateOptionalParams,
 } from "../../api/longRunningBackup/options.js";
-import { ServerBackupV2 } from "../../models/models.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { ServerBackupV2 } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a LongRunningBackup operations. */
 export interface LongRunningBackupOperations {

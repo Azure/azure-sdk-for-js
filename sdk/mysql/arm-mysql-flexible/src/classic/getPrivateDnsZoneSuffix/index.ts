@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
+import type { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
 import { execute } from "../../api/getPrivateDnsZoneSuffix/operations.js";
-import { GetPrivateDnsZoneSuffixExecuteOptionalParams } from "../../api/getPrivateDnsZoneSuffix/options.js";
-import { GetPrivateDnsZoneSuffixResponse } from "../../models/models.js";
+import type { GetPrivateDnsZoneSuffixExecuteOptionalParams } from "../../api/getPrivateDnsZoneSuffix/options.js";
+import type { GetPrivateDnsZoneSuffixResponse } from "../../models/models.js";
 
 /** Interface representing a GetPrivateDnsZoneSuffix operations. */
 export interface GetPrivateDnsZoneSuffixOperations {

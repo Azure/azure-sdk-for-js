@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
+import type { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
 import { execute } from "../../api/checkVirtualNetworkSubnetUsage/operations.js";
-import { CheckVirtualNetworkSubnetUsageExecuteOptionalParams } from "../../api/checkVirtualNetworkSubnetUsage/options.js";
-import {
+import type { CheckVirtualNetworkSubnetUsageExecuteOptionalParams } from "../../api/checkVirtualNetworkSubnetUsage/options.js";
+import type {
   VirtualNetworkSubnetUsageParameter,
   VirtualNetworkSubnetUsageResult,
 } from "../../models/models.js";

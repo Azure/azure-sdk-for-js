@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
+import type { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
 import { get } from "../../api/operationResults/operations.js";
-import { OperationResultsGetOptionalParams } from "../../api/operationResults/options.js";
-import { OperationStatusExtendedResult } from "../../models/models.js";
+import type { OperationResultsGetOptionalParams } from "../../api/operationResults/options.js";
+import type { OperationStatusExtendedResult } from "../../models/models.js";
 
 /** Interface representing a OperationResults operations. */
 export interface OperationResultsOperations {

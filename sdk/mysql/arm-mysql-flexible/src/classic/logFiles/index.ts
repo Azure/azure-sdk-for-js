@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
+import type { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
 import { listByServer } from "../../api/logFiles/operations.js";
-import { LogFilesListByServerOptionalParams } from "../../api/logFiles/options.js";
-import { LogFile } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { LogFilesListByServerOptionalParams } from "../../api/logFiles/options.js";
+import type { LogFile } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a LogFiles operations. */
 export interface LogFilesOperations {

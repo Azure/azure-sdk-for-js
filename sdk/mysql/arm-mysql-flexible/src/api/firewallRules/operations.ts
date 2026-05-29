@@ -1,34 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementFlexibleServerContext as Client } from "../index.js";
+import type { MySQLManagementFlexibleServerContext as Client } from "../index.js";
+import type { FirewallRule, _FirewallRuleListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  FirewallRule,
   firewallRuleSerializer,
   firewallRuleDeserializer,
-  _FirewallRuleListResult,
   _firewallRuleListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   FirewallRulesListByServerOptionalParams,
   FirewallRulesDeleteOptionalParams,
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByServerSend(
   context: Client,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
+import type { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
 import {
   detachVNet,
   resetGtid,
@@ -17,7 +17,7 @@ import {
   create,
   get,
 } from "../../api/servers/operations.js";
-import {
+import type {
   ServersDetachVNetOptionalParams,
   ServersResetGtidOptionalParams,
   ServersStopOptionalParams,
@@ -32,7 +32,7 @@ import {
   ServersCreateOptionalParams,
   ServersGetOptionalParams,
 } from "../../api/servers/options.js";
-import {
+import type {
   Server,
   ServerForUpdate,
   HighAvailabilityValidationEstimation,
@@ -40,9 +40,10 @@ import {
   ServerGtidSetParameter,
   ServerDetachVNetParameter,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Servers operations. */
 export interface ServersOperations {

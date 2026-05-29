@@ -1,22 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementFlexibleServerContext as Client } from "../index.js";
+import type { MySQLManagementFlexibleServerContext as Client } from "../index.js";
+import type { NameAvailabilityRequest, NameAvailability } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  NameAvailabilityRequest,
   nameAvailabilityRequestSerializer,
-  NameAvailability,
   nameAvailabilityDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { CheckNameAvailabilityExecuteOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { CheckNameAvailabilityExecuteOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _executeSend(
   context: Client,
