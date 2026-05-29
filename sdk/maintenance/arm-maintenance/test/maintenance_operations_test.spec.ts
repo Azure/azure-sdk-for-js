@@ -32,6 +32,8 @@ describe("MaintenanceManagement test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: MaintenanceManagementClient;
+  let resourceGroup: string;
+  let resourcename: string;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
@@ -44,10 +46,34 @@ describe("MaintenanceManagement test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
+    resourceGroup = "myjstest";
+    resourcename = "resourcetest";
   });
 
   afterEach(async () => {
     await recorder.stop();
+  });
+
+  it("maintenanceConfigurations create test", async () => {
+    const res = await client.maintenanceConfigurations.createOrUpdate(resourceGroup, resourcename, {
+      location: "westus2",
+      maintenanceScope: "OSImage",
+      namespace: "Microsoft.Maintenance",
+      maintenanceWindow: {
+        duration: "05:00",
+        expirationDateTime: "2026-06-12 00:00",
+        recurEvery: "Day",
+        startDateTime: "2026-05-12 08:00",
+        timeZone: "Pacific Standard Time",
+      },
+      visibility: "Custom",
+    });
+    assert.equal(res.name, resourcename);
+  });
+
+  it("maintenanceConfigurations get test", async () => {
+    const res = await client.maintenanceConfigurations.get(resourceGroup, resourcename);
+    assert.equal(res.name, resourcename);
   });
 
   it("maintenanceConfigurations list test", async () => {
@@ -55,6 +81,6 @@ describe("MaintenanceManagement test", () => {
     for await (const item of client.maintenanceConfigurations.list()) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 0);
+    assert.equal(resArray.length, 1);
   });
 });
