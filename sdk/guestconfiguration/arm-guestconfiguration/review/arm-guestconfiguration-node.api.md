@@ -432,7 +432,7 @@ export enum KnownVersions {
 export interface Operation {
     display?: OperationDisplay;
     name?: string;
-    statusCode?: string;
+    properties?: OperationProperties;
 }
 
 // @public

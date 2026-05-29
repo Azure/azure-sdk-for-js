@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (2026-05-28)
+## 1.0.0-beta.3 (2026-05-29)
 Compared with version 1.0.0-beta.1
 
 ### Features Added
@@ -10,7 +10,6 @@ Compared with version 1.0.0-beta.1
   - Added Interface PageSettings
   - Interface GuestConfigurationAssignmentReportList has a new optional parameter nextLink
   - Interface GuestConfigurationNavigation has a new optional parameter contentManagedIdentity
-  - Interface Operation has a new optional parameter statusCode
   - Added Type Alias AzureSupportedClouds
   - Added Enum AzureClouds
   - Added Enum KnownVersions
@@ -22,7 +21,6 @@ Compared with version 1.0.0-beta.1
   - Removed Interface GuestConfigurationAssignmentsSubscriptionListOptionalParams
   - Removed Interface OperationList
   - Removed Interface Resource
-  - Interface Operation no longer has parameter properties
   - Parameter name of interface GuestConfigurationAssignment is now required
   - Parameter name of interface ProxyResource is now required
 

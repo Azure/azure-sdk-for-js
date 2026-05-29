@@ -33,17 +33,17 @@ export interface Operation {
   name?: string;
   /** Provider, Resource, Operation, and description values. */
   display?: OperationDisplay;
-  /** Service provider: Microsoft.GuestConfiguration */
-  statusCode?: string;
+  /** Additional properties of the operation. */
+  properties?: OperationProperties;
 }
 
 export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
-    ...(!item["properties"]
+    properties: !item["properties"]
       ? item["properties"]
-      : _operationPropertiesDeserializer(item["properties"])),
+      : operationPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -961,10 +961,4 @@ export function assignmentReportDetailsDeserializer(item: any): AssignmentReport
 export enum KnownVersions {
   /** The 2024-04-05 API version. */
   V20240405 = "2024-04-05",
-}
-
-export function _operationPropertiesDeserializer(item: any) {
-  return {
-    statusCode: item["statusCode"],
-  };
 }
