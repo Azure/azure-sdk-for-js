@@ -1,32 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Regenerates the Primary/Secondary Keys to the Namespace Authorization Rule
- *
- * @summary Regenerates the Primary/Secondary Keys to the Namespace Authorization Rule
- * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/preview/2023-10-01-preview/examples/Namespaces/AuthorizationRuleRegenerateKey.json
- */
-
-import type { PolicyKeyResource } from "@azure/arm-notificationhubs";
 import { NotificationHubsManagementClient } from "@azure/arm-notificationhubs";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to regenerates the Primary/Secondary Keys to the Namespace Authorization Rule
+ *
+ * @summary regenerates the Primary/Secondary Keys to the Namespace Authorization Rule
+ * x-ms-original-file: 2023-10-01-preview/Namespaces/AuthorizationRuleRegenerateKey.json
+ */
 async function namespacesRegenerateKeys(): Promise<void> {
-  const subscriptionId =
-    process.env["NOTIFICATIONHUBS_SUBSCRIPTION_ID"] || "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
-  const resourceGroupName = process.env["NOTIFICATIONHUBS_RESOURCE_GROUP"] || "5ktrial";
-  const namespaceName = "nh-sdk-ns";
-  const authorizationRuleName = "RootManageSharedAccessKey";
-  const parameters: PolicyKeyResource = { policyKey: "PrimaryKey" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
   const client = new NotificationHubsManagementClient(credential, subscriptionId);
   const result = await client.namespaces.regenerateKeys(
-    resourceGroupName,
-    namespaceName,
-    authorizationRuleName,
-    parameters,
+    "5ktrial",
+    "nh-sdk-ns",
+    "RootManageSharedAccessKey",
+    { policyKey: "PrimaryKey" },
   );
   console.log(result);
 }

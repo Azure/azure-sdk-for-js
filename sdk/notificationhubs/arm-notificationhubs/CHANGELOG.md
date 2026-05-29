@@ -1,21 +1,183 @@
 # Release History
 
-## 3.0.0-beta.3 (Unreleased)
+## 3.0.0-beta.3 (2026-05-29)
+Compared with version 2.1.0
 
 ### Features Added
+  - Added operation group PrivateEndpointConnectionsOperations
+  - Added operation NamespacesOperations.delete
+  - Added operation NamespacesOperations.getPnsCredentials
+  - Added operation NamespacesOperations.update
+  - Added operation NotificationHubsOperations.update
+  - Added Interface AdmCredentialProperties
+  - Added Interface ApnsCredentialProperties
+  - Added Interface Availability
+  - Added Interface BaiduCredentialProperties
+  - Added Interface BrowserCredential
+  - Added Interface BrowserCredentialProperties
+  - Added Interface DebugSendResult
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface FcmV1Credential
+  - Added Interface FcmV1CredentialProperties
+  - Added Interface GcmCredentialProperties
+  - Added Interface IpRule
+  - Added Interface LogSpecification
+  - Added Interface MetricSpecification
+  - Added Interface MpnsCredentialProperties
+  - Added Interface NamespaceProperties
+  - Added Interface NamespacesGetPnsCredentialsOptionalParams
+  - Added Interface NamespacesUpdateOptionalParams
+  - Added Interface NetworkAcls
+  - Added Interface NotificationHubProperties
+  - Added Interface NotificationHubsUpdateOptionalParams
+  - Added Interface OperationProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PnsCredentials
+  - Added Interface PolicyKeyResource
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionResource
+  - Added Interface PrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionsGetGroupIdOptionalParams
+  - Added Interface PrivateEndpointConnectionsGetOptionalParams
+  - Added Interface PrivateEndpointConnectionsListGroupIdsOptionalParams
+  - Added Interface PrivateEndpointConnectionsListOptionalParams
+  - Added Interface PrivateEndpointConnectionsUpdateOptionalParams
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface ProxyResource
+  - Added Interface PublicInternetAuthorizationRule
+  - Added Interface RegistrationResult
+  - Added Interface RemotePrivateEndpointConnection
+  - Added Interface RemotePrivateLinkServiceConnectionState
+  - Added Interface RestorePollerOptions
+  - Added Interface ServiceSpecification
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Added Interface WnsCredentialProperties
+  - Added Interface XiaomiCredential
+  - Added Interface XiaomiCredentialProperties
+  - Interface CheckAvailabilityResult has a new optional parameter systemData
+  - Interface DebugSendResponse has a new optional parameter systemData
+  - Interface ErrorResponse has a new optional parameter error
+  - Interface NamespacePatchParameters has a new optional parameter properties
+  - Interface NamespaceResource has a new optional parameter networkAcls
+  - Interface NamespaceResource has a new optional parameter pnsCredentials
+  - Interface NamespaceResource has a new optional parameter privateEndpointConnections
+  - Interface NamespaceResource has a new optional parameter publicNetworkAccess
+  - Interface NamespaceResource has a new optional parameter replicationRegion
+  - Interface NamespaceResource has a new optional parameter zoneRedundancy
+  - Interface NamespaceResource has a new optional parameter systemData
+  - Interface NamespacesCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface NamespacesListAllOptionalParams has a new optional parameter skipToken
+  - Interface NamespacesListAllOptionalParams has a new optional parameter top
+  - Interface NamespacesListOptionalParams has a new optional parameter skipToken
+  - Interface NamespacesListOptionalParams has a new optional parameter top
+  - Interface NotificationHubPatchParameters has a new optional parameter browserCredential
+  - Interface NotificationHubPatchParameters has a new optional parameter dailyMaxActiveDevices
+  - Interface NotificationHubPatchParameters has a new optional parameter fcmV1Credential
+  - Interface NotificationHubPatchParameters has a new optional parameter xiaomiCredential
+  - Interface NotificationHubResource has a new optional parameter browserCredential
+  - Interface NotificationHubResource has a new optional parameter dailyMaxActiveDevices
+  - Interface NotificationHubResource has a new optional parameter fcmV1Credential
+  - Interface NotificationHubResource has a new optional parameter xiaomiCredential
+  - Interface NotificationHubResource has a new optional parameter systemData
+  - Interface NotificationHubsListOptionalParams has a new optional parameter skipToken
+  - Interface NotificationHubsListOptionalParams has a new optional parameter top
+  - Interface Operation has a new optional parameter isDataAction
+  - Interface Operation has a new optional parameter properties
+  - Interface OperationDisplay has a new optional parameter description
+  - Interface PnsCredentialsResource has a new optional parameter browserCredential
+  - Interface PnsCredentialsResource has a new optional parameter fcmV1Credential
+  - Interface PnsCredentialsResource has a new optional parameter xiaomiCredential
+  - Interface PnsCredentialsResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface SharedAccessAuthorizationRuleResource has a new optional parameter systemData
+  - Interface WnsCredential has a new optional parameter certificateKey
+  - Interface WnsCredential has a new optional parameter wnsCertificate
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Type Alias NamespaceStatus
+  - Added Type Alias OperationProvisioningState
+  - Added Type Alias PolicyKeyType
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateLinkConnectionStatus
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias ReplicationRegion
+  - Added Type Alias ZoneRedundancyPreference
+  - Added Enum AzureClouds
+  - Added Enum KnownAccessRights
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownNamespaceStatus
+  - Added Enum KnownNamespaceType
+  - Added Enum KnownOperationProvisioningState
+  - Added Enum KnownPolicyKeyType
+  - Added Enum KnownPrivateEndpointConnectionProvisioningState
+  - Added Enum KnownPrivateLinkConnectionStatus
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownReplicationRegion
+  - Added Enum KnownVersions
+  - Added Enum KnownZoneRedundancyPreference
 
 ### Breaking Changes
+  - Removed operation Namespaces.beginDelete
+  - Removed operation Namespaces.beginDeleteAndWait
+  - Removed operation Namespaces.patch
+  - Removed operation NotificationHubs.patch
+  - Operation Namespaces.createOrUpdate has a new signature
+  - Operation Namespaces.createOrUpdateAuthorizationRule has a new signature
+  - Operation Namespaces.get has a new signature
+  - Operation Namespaces.getAuthorizationRule has a new signature
+  - Operation NotificationHubs.createOrUpdate has a new signature
+  - Operation NotificationHubs.createOrUpdateAuthorizationRule has a new signature
+  - Operation NotificationHubs.debugSend has a new signature
+  - Operation NotificationHubs.get has a new signature
+  - Operation NotificationHubs.getAuthorizationRule has a new signature
+  - Removed Interface NamespaceCreateOrUpdateParameters
+  - Removed Interface NamespacesPatchOptionalParams
+  - Removed Interface NotificationHubCreateOrUpdateParameters
+  - Removed Interface NotificationHubsPatchOptionalParams
+  - Removed Interface PolicykeyResource
+  - Removed Interface SharedAccessAuthorizationRuleCreateOrUpdateParameters
+  - Removed Interface SubResource
+  - Type of parameter results of interface DebugSendResponse is changed from Record<string, unknown> to RegistrationResult[]
+  - Type of parameter createdTime of interface SharedAccessAuthorizationRuleProperties is changed from string to Date
+  - Type of parameter modifiedTime of interface SharedAccessAuthorizationRuleProperties is changed from string to Date
+  - Type of parameter createdTime of interface SharedAccessAuthorizationRuleResource is changed from string to Date
+  - Type of parameter modifiedTime of interface SharedAccessAuthorizationRuleResource is changed from string to Date
+  - Interface DebugSendResponse no longer has parameter sku
+  - Interface ErrorResponse no longer has parameter code
+  - Interface ErrorResponse no longer has parameter message
+  - Interface NotificationHubPatchParameters no longer has parameter namePropertiesName
+  - Interface NotificationHubPatchParameters no longer has parameter id
+  - Interface NotificationHubPatchParameters no longer has parameter location
+  - Interface NotificationHubPatchParameters no longer has parameter type
+  - Interface NotificationHubsDebugSendOptionalParams no longer has parameter parameters
+  - Interface PnsCredentialsResource no longer has parameter sku
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter sku
+  - Interface Resource no longer has parameter tags
+  - Interface SharedAccessAuthorizationRuleResource no longer has parameter sku
+  - Parameter authTokenUrl of interface AdmCredential is now required
+  - Parameter clientId of interface AdmCredential is now required
+  - Parameter clientSecret of interface AdmCredential is now required
+  - Parameter endpoint of interface ApnsCredential is now required
+  - Parameter baiduApiKey of interface BaiduCredential is now required
+  - Parameter baiduEndPoint of interface BaiduCredential is now required
+  - Parameter baiduSecretKey of interface BaiduCredential is now required
+  - Parameter googleApiKey of interface GcmCredential is now required
+  - Parameter certificateKey of interface MpnsCredential is now required
+  - Parameter mpnsCertificate of interface MpnsCredential is now required
+  - Parameter thumbprint of interface MpnsCredential is now required
+  - Parameter location of interface NamespaceResource is now required
+  - Parameter sku of interface NamespaceResource is now required
+  - Parameter location of interface NotificationHubResource is now required
+  - Parameter rights of interface SharedAccessAuthorizationRuleProperties is now required
+  - Type alias "AccessRights" has been changed
+  - Type alias "NamespaceType" has been changed
 
-### Bugs Fixed
-
-### Other Changes
-
-## 3.0.0-beta.2 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 3.0.0-beta.1 (2024-03-18)
     
 ### Features Added
@@ -215,4 +377,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
