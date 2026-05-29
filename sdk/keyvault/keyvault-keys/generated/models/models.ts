@@ -3,6 +3,12 @@
 
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The key create parameters. */
 export interface KeyCreateParameters {
   /** The type of key to create. For valid values, see JsonWebKeyType. */
@@ -49,11 +55,11 @@ export enum KnownJsonWebKeyType {
   /** Elliptic Curve. */
   EC = "EC",
   /** Elliptic Curve with a private key which is stored in the HSM. */
-  ECHSM = "EC-HSM",
+  Echsm = "EC-HSM",
   /** RSA (https://tools.ietf.org/html/rfc3447) */
   RSA = "RSA",
   /** RSA with a private key which is stored in the HSM. */
-  RSAHSM = "RSA-HSM",
+  Rsahsm = "RSA-HSM",
   /** Octet sequence (used to represent symmetric keys) */
   Oct = "oct",
   /** Octet sequence (used to represent symmetric keys) which is stored the HSM. */
@@ -302,7 +308,9 @@ export function keyBundleDeserializer(item: any): KeyBundle {
     attributes: !item["attributes"]
       ? item["attributes"]
       : keyAttributesDeserializer(item["attributes"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     managed: item["managed"],
     releasePolicy: !item["release_policy"]
       ? item["release_policy"]
@@ -456,7 +464,7 @@ export function keyVaultErrorDeserializer(item: any): KeyVaultError {
   };
 }
 
-/** Alias for ErrorModel */
+/** The key vault server error. */
 export type ErrorModel = {
   code?: string;
   message?: string;
@@ -537,7 +545,9 @@ export function deletedKeyBundleDeserializer(item: any): DeletedKeyBundle {
     attributes: !item["attributes"]
       ? item["attributes"]
       : keyAttributesDeserializer(item["attributes"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     managed: item["managed"],
     releasePolicy: !item["release_policy"]
       ? item["release_policy"]
@@ -618,7 +628,9 @@ export function keyItemDeserializer(item: any): KeyItem {
     attributes: !item["attributes"]
       ? item["attributes"]
       : keyAttributesDeserializer(item["attributes"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     managed: item["managed"],
   };
 }
@@ -785,10 +797,7 @@ export interface KeySignParameters {
 }
 
 export function keySignParametersSerializer(item: KeySignParameters): any {
-  return {
-    alg: item["algorithm"],
-    value: uint8ArrayToString(item["value"], "base64url"),
-  };
+  return { alg: item["algorithm"], value: uint8ArrayToString(item["value"], "base64url") };
 }
 
 /** The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm. */
@@ -886,11 +895,7 @@ export interface KeyReleaseParameters {
 }
 
 export function keyReleaseParametersSerializer(item: KeyReleaseParameters): any {
-  return {
-    target: item["targetAttestationToken"],
-    nonce: item["nonce"],
-    enc: item["enc"],
-  };
+  return { target: item["targetAttestationToken"], nonce: item["nonce"], enc: item["enc"] };
 }
 
 /** The encryption algorithm to use to protected the exported key material */
@@ -971,7 +976,9 @@ export function deletedKeyItemDeserializer(item: any): DeletedKeyItem {
     attributes: !item["attributes"]
       ? item["attributes"]
       : keyAttributesDeserializer(item["attributes"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     managed: item["managed"],
     recoveryId: item["recoveryId"],
     scheduledPurgeDate: !item["scheduledPurgeDate"]
@@ -1059,10 +1066,7 @@ export interface LifetimeActionsTrigger {
 }
 
 export function lifetimeActionsTriggerSerializer(item: LifetimeActionsTrigger): any {
-  return {
-    timeAfterCreate: item["timeAfterCreate"],
-    timeBeforeExpiry: item["timeBeforeExpiry"],
-  };
+  return { timeAfterCreate: item["timeAfterCreate"], timeBeforeExpiry: item["timeBeforeExpiry"] };
 }
 
 export function lifetimeActionsTriggerDeserializer(item: any): LifetimeActionsTrigger {
@@ -1146,4 +1150,6 @@ export enum KnownVersions {
   V76Preview2 = "7.6-preview.2",
   /** The 7.6 API version. */
   V76 = "7.6",
+  /** The 2025-07-01 API version. */
+  V20250701 = "2025-07-01",
 }

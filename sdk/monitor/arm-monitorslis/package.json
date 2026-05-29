@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-monitorslis",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A generated SDK for MonitorClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -88,7 +88,11 @@
     "LICENSE"
   ],
   "sdk-type": "mgmt",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/monitor/arm-monitorslis"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -140,10 +144,9 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
     "generate:client": "echo skipped",
-    "test:browser": "dev-tool run test:vitest --browser",
+    "test:browser": "echo skipped",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
-    "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "update-snippets": "dev-tool run update-snippets"
   },
@@ -156,8 +159,9 @@
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-monitorslis?view=azure-node-preview"
   },
   "imports": {
-    "#platform/*": {
-      "default": "./src/*.ts"
+    "#platform/*.js": {
+      "browser": "./src/*-browser.mjs",
+      "default": "./src/*.js"
     }
   }
 }

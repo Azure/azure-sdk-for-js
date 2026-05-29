@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -200,6 +202,8 @@ export type IdentityProviderType = string;
 // @public
 export type IdentityProviderUnion = EntraIdentityProvider | IdentityProvider;
 
+export { isRestError }
+
 // @public
 export interface KeyEncryptionKeyIdentity {
     identityType?: KeyEncryptionKeyIdentityType;
@@ -291,6 +295,12 @@ export enum KnownMongoClusterStatus {
 }
 
 // @public
+export enum KnownNetworkBypassMode {
+    AzureCosmosDB = "AzureCosmosDB",
+    None = "None"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -373,8 +383,15 @@ export enum KnownUserRole {
 
 // @public
 export enum KnownVersions {
+    V20240301Preview = "2024-03-01-preview",
+    V20240601Preview = "2024-06-01-preview",
     V20240701 = "2024-07-01",
-    V20250901 = "2025-09-01"
+    V20241001Preview = "2024-10-01-preview",
+    V20250401Preview = "2025-04-01-preview",
+    V20250701Preview = "2025-07-01-preview",
+    V20250801Preview = "2025-08-01-preview",
+    V20250901 = "2025-09-01",
+    V20260201Preview = "2026-02-01-preview"
 }
 
 // @public
@@ -431,6 +448,7 @@ export interface MongoClusterProperties {
     encryption?: EncryptionProperties;
     highAvailability?: HighAvailabilityProperties;
     readonly infrastructureVersion?: string;
+    networkBypassMode?: NetworkBypassMode;
     previewFeatures?: PreviewFeature[];
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -527,12 +545,16 @@ export interface MongoClusterUpdateProperties {
     dataApi?: DataApiProperties;
     encryption?: EncryptionProperties;
     highAvailability?: HighAvailabilityProperties;
+    networkBypassMode?: NetworkBypassMode;
     previewFeatures?: PreviewFeature[];
     publicNetworkAccess?: PublicNetworkAccess;
     serverVersion?: string;
     sharding?: ShardingProperties;
     storage?: StorageProperties;
 }
+
+// @public
+export type NetworkBypassMode = string;
 
 // @public
 export interface Operation {
@@ -717,6 +739,8 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: MongoClusterManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

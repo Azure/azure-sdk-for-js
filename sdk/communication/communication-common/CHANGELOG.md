@@ -4,9 +4,13 @@
 
 ### Features Added
 
+- Added support for the GCCH Teams Phone Extensibility Entra scope `https://auth.msft.communication.azure.us/TeamsExtension.ManageCalls`.
+
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Updated the `EntraTokenCredential` scope validation error message and fixed string interpolation in the error text.
 
 ### Other Changes
 
