@@ -45,9 +45,7 @@ describe("beta agents - session CRUD and file operations", () => {
         cpu: "0.5",
         memory: "1Gi",
         container_configuration: { image },
-        protocol_versions: [
-          { protocol: "responses", version: "v1" } as ProtocolVersionRecord,
-        ],
+        protocol_versions: [{ protocol: "responses", version: "v1" } as ProtocolVersionRecord],
       } as HostedAgentDefinition,
       {
         foundryFeatures: "HostedAgents=V1Preview",
@@ -109,11 +107,9 @@ describe("beta agents - session CRUD and file operations", () => {
 
     // List files in the session sandbox
     const files = [];
-    for await (const entry of betaAgents.listSessionFiles(
-      agentName,
-      session.agent_session_id,
-      { path: "/sandbox" },
-    )) {
+    for await (const entry of betaAgents.listSessionFiles(agentName, session.agent_session_id, {
+      path: "/sandbox",
+    })) {
       files.push(entry);
     }
     assert.isTrue(files.length >= 1);
