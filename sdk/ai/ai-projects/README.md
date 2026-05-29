@@ -466,7 +466,7 @@ See the full sample code in [agentMcp.ts](https://github.com/Azure/azure-sdk-for
 
 **OpenAPI**
 
-Call external APIs defined by OpenAPI specifications without additional client-side code. [OpenAI Documentation](https://platform.openai.com/docs/guides/tools-openapi)
+Call external APIs defined by OpenAPI specifications without additional client-side code. [OpenAI Documentation](https://developers.openai.com/api/docs/guides/tools)
 
 ```ts snippet:agent-openapi
 const weatherSpecPath = path.resolve(__dirname, "../assets", "weather_openapi.json");
