@@ -15,12 +15,19 @@ import {
   deleteMemoryStoreResponseDeserializer,
   MemoryStoreSearchResponse,
   memoryStoreSearchResponseDeserializer,
+  memoryItemUnionDeserializer,
+  MemoryItemUnion,
+  MemoryItemKind,
   MemoryStoreUpdateResponse,
   memoryStoreUpdateResponseDeserializer,
   MemoryStoreUpdateCompletedResult,
   memoryStoreUpdateCompletedResultDeserializer,
   MemoryStoreDeleteScopeResponse,
   memoryStoreDeleteScopeResponseDeserializer,
+  _AgentsPagedResultMemoryItem,
+  _agentsPagedResultMemoryItemDeserializer,
+  DeleteMemoryResponse,
+  deleteMemoryResponseDeserializer,
 } from "../../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -29,6 +36,11 @@ import {
 import { getLongRunningPoller } from "../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import {
+  BetaMemoryStoresDeleteMemoryOptionalParams,
+  BetaMemoryStoresListMemoriesOptionalParams,
+  BetaMemoryStoresGetMemoryOptionalParams,
+  BetaMemoryStoresUpdateMemoryOptionalParams,
+  BetaMemoryStoresCreateMemoryOptionalParams,
   BetaMemoryStoresDeleteScopeOptionalParams,
   BetaMemoryStoresGetUpdateResultOptionalParams,
   BetaMemoryStoresUpdateMemoriesOptionalParams,
@@ -47,11 +59,326 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _deleteScopeSend(
+export function _deleteMemorySend(
   context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
+  name: string,
+  memoryId: string,
+  options: BetaMemoryStoresDeleteMemoryOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/memory_stores/{name}/items/{memory_id}{?api%2Dversion}",
+    {
+      name: name,
+      memory_id: memoryId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _deleteMemoryDeserialize(
+  result: PathUncheckedResponse,
+): Promise<DeleteMemoryResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return deleteMemoryResponseDeserializer(result.body);
+}
+
+/** Delete a memory item from a memory store. */
+export async function deleteMemory(
+  context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
+  name: string,
+  memoryId: string,
+  options: BetaMemoryStoresDeleteMemoryOptionalParams = { requestOptions: {} },
+): Promise<DeleteMemoryResponse> {
+  const result = await _deleteMemorySend(context, foundryFeatures, name, memoryId, options);
+  return _deleteMemoryDeserialize(result);
+}
+
+export function _listMemoriesSend(
+  context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
   name: string,
   scope: string,
+  options: BetaMemoryStoresListMemoriesOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/memory_stores/{name}/items:list{?kind,limit,order,after,before,api%2Dversion}",
+    {
+      name: name,
+      kind: options?.kind,
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: { scope: scope },
+    });
+}
+
+export async function _listMemoriesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultMemoryItem> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return _agentsPagedResultMemoryItemDeserializer(result.body);
+}
+
+/** List all memory items in a memory store. */
+export function listMemories(
+  context: Client,
   foundryFeatures: "MemoryStores=V1Preview",
+  name: string,
+  scope: string,
+  options: BetaMemoryStoresListMemoriesOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<MemoryItemUnion> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listMemoriesSend(context, foundryFeatures, name, scope, options),
+    _listMemoriesDeserialize,
+    ["200"],
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+  );
+}
+
+export function _getMemorySend(
+  context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
+  name: string,
+  memoryId: string,
+  options: BetaMemoryStoresGetMemoryOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/memory_stores/{name}/items/{memory_id}{?api%2Dversion}",
+    {
+      name: name,
+      memory_id: memoryId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getMemoryDeserialize(
+  result: PathUncheckedResponse,
+): Promise<MemoryItemUnion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return memoryItemUnionDeserializer(result.body);
+}
+
+/** Retrieve a memory item from a memory store. */
+export async function getMemory(
+  context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
+  name: string,
+  memoryId: string,
+  options: BetaMemoryStoresGetMemoryOptionalParams = { requestOptions: {} },
+): Promise<MemoryItemUnion> {
+  const result = await _getMemorySend(context, foundryFeatures, name, memoryId, options);
+  return _getMemoryDeserialize(result);
+}
+
+export function _updateMemorySend(
+  context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
+  name: string,
+  memoryId: string,
+  content: string,
+  options: BetaMemoryStoresUpdateMemoryOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/memory_stores/{name}/items/{memory_id}{?api%2Dversion}",
+    {
+      name: name,
+      memory_id: memoryId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: { content: content },
+    });
+}
+
+export async function _updateMemoryDeserialize(
+  result: PathUncheckedResponse,
+): Promise<MemoryItemUnion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return memoryItemUnionDeserializer(result.body);
+}
+
+/** Update a memory item in a memory store. */
+export async function updateMemory(
+  context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
+  name: string,
+  memoryId: string,
+  content: string,
+  options: BetaMemoryStoresUpdateMemoryOptionalParams = { requestOptions: {} },
+): Promise<MemoryItemUnion> {
+  const result = await _updateMemorySend(
+    context,
+    foundryFeatures,
+    name,
+    memoryId,
+    content,
+    options,
+  );
+  return _updateMemoryDeserialize(result);
+}
+
+export function _createMemorySend(
+  context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
+  name: string,
+  scope: string,
+  content: string,
+  kind: MemoryItemKind,
+  options: BetaMemoryStoresCreateMemoryOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/memory_stores/{name}/items{?api%2Dversion}",
+    {
+      name: name,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: { scope: scope, content: content, kind: kind },
+    });
+}
+
+export async function _createMemoryDeserialize(
+  result: PathUncheckedResponse,
+): Promise<MemoryItemUnion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return memoryItemUnionDeserializer(result.body);
+}
+
+/** Create a memory item in a memory store. */
+export async function createMemory(
+  context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
+  name: string,
+  scope: string,
+  content: string,
+  kind: MemoryItemKind,
+  options: BetaMemoryStoresCreateMemoryOptionalParams = { requestOptions: {} },
+): Promise<MemoryItemUnion> {
+  const result = await _createMemorySend(
+    context,
+    foundryFeatures,
+    name,
+    scope,
+    content,
+    kind,
+    options,
+  );
+  return _createMemoryDeserialize(result);
+}
+
+export function _deleteScopeSend(
+  context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
+  name: string,
+  scope: string,
   options: BetaMemoryStoresDeleteScopeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -95,20 +422,20 @@ export async function _deleteScopeDeserialize(
 /** Delete all memories associated with a specific scope from a memory store. */
 export async function deleteScope(
   context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
   name: string,
   scope: string,
-  foundryFeatures: "MemoryStores=V1Preview",
   options: BetaMemoryStoresDeleteScopeOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStoreDeleteScopeResponse> {
-  const result = await _deleteScopeSend(context, name, scope, foundryFeatures, options);
+  const result = await _deleteScopeSend(context, foundryFeatures, name, scope, options);
   return _deleteScopeDeserialize(result);
 }
 
 export function _getUpdateResultSend(
   context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
   name: string,
   updateId: string,
-  foundryFeatures: "MemoryStores=V1Preview",
   options: BetaMemoryStoresGetUpdateResultOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -151,20 +478,20 @@ export async function _getUpdateResultDeserialize(
 /** Get memory store update result. */
 export async function getUpdateResult(
   context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
   name: string,
   updateId: string,
-  foundryFeatures: "MemoryStores=V1Preview",
   options: BetaMemoryStoresGetUpdateResultOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStoreUpdateResponse> {
-  const result = await _getUpdateResultSend(context, name, updateId, foundryFeatures, options);
+  const result = await _getUpdateResultSend(context, foundryFeatures, name, updateId, options);
   return _getUpdateResultDeserialize(result);
 }
 
 export function _updateMemoriesSend(
   context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
   name: string,
   scope: string,
-  foundryFeatures: "MemoryStores=V1Preview",
   options: BetaMemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -222,15 +549,15 @@ export async function _updateMemoriesDeserialize(
 /** Update memory store with conversation memories. */
 export function updateMemories(
   context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
   name: string,
   scope: string,
-  foundryFeatures: "MemoryStores=V1Preview",
   options: BetaMemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult> {
   return getLongRunningPoller(context, _updateMemoriesDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _updateMemoriesSend(context, name, scope, foundryFeatures, options),
+    getInitialResponse: () => _updateMemoriesSend(context, foundryFeatures, name, scope, options),
 
     apiVersion: context.apiVersion ?? "v1",
   }) as PollerLike<
@@ -241,9 +568,9 @@ export function updateMemories(
 
 export function _searchMemoriesSend(
   context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
   name: string,
   scope: string,
-  foundryFeatures: "MemoryStores=V1Preview",
   options: BetaMemoryStoresSearchMemoriesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -296,19 +623,19 @@ export async function _searchMemoriesDeserialize(
 /** Search for relevant memories from a memory store based on conversation context. */
 export async function searchMemories(
   context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
   name: string,
   scope: string,
-  foundryFeatures: "MemoryStores=V1Preview",
   options: BetaMemoryStoresSearchMemoriesOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStoreSearchResponse> {
-  const result = await _searchMemoriesSend(context, name, scope, foundryFeatures, options);
+  const result = await _searchMemoriesSend(context, foundryFeatures, name, scope, options);
   return _searchMemoriesDeserialize(result);
 }
 
 export function _$deleteSend(
   context: Client,
-  name: string,
   foundryFeatures: "MemoryStores=V1Preview",
+  name: string,
   options: BetaMemoryStoresDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -355,11 +682,11 @@ export async function _$deleteDeserialize(
  */
 export async function $delete(
   context: Client,
-  name: string,
   foundryFeatures: "MemoryStores=V1Preview",
+  name: string,
   options: BetaMemoryStoresDeleteOptionalParams = { requestOptions: {} },
 ): Promise<DeleteMemoryStoreResponse> {
-  const result = await _$deleteSend(context, name, foundryFeatures, options);
+  const result = await _$deleteSend(context, foundryFeatures, name, options);
   return _$deleteDeserialize(result);
 }
 
@@ -424,8 +751,8 @@ export function list(
 
 export function _getSend(
   context: Client,
-  name: string,
   foundryFeatures: "MemoryStores=V1Preview",
+  name: string,
   options: BetaMemoryStoresGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -465,18 +792,18 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Me
 /** Retrieve a memory store. */
 export async function get(
   context: Client,
-  name: string,
   foundryFeatures: "MemoryStores=V1Preview",
+  name: string,
   options: BetaMemoryStoresGetOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStore> {
-  const result = await _getSend(context, name, foundryFeatures, options);
+  const result = await _getSend(context, foundryFeatures, name, options);
   return _getDeserialize(result);
 }
 
 export function _updateSend(
   context: Client,
-  name: string,
   foundryFeatures: "MemoryStores=V1Preview",
+  name: string,
   options: BetaMemoryStoresUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -518,19 +845,19 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 /** Update a memory store. */
 export async function update(
   context: Client,
-  name: string,
   foundryFeatures: "MemoryStores=V1Preview",
+  name: string,
   options: BetaMemoryStoresUpdateOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStore> {
-  const result = await _updateSend(context, name, foundryFeatures, options);
+  const result = await _updateSend(context, foundryFeatures, name, options);
   return _updateDeserialize(result);
 }
 
 export function _createSend(
   context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
   name: string,
   definition: MemoryStoreDefinitionUnion,
-  foundryFeatures: "MemoryStores=V1Preview",
   options: BetaMemoryStoresCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -576,11 +903,11 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 /** Create a memory store. */
 export async function create(
   context: Client,
+  foundryFeatures: "MemoryStores=V1Preview",
   name: string,
   definition: MemoryStoreDefinitionUnion,
-  foundryFeatures: "MemoryStores=V1Preview",
   options: BetaMemoryStoresCreateOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStore> {
-  const result = await _createSend(context, name, definition, foundryFeatures, options);
+  const result = await _createSend(context, foundryFeatures, name, definition, options);
   return _createDeserialize(result);
 }

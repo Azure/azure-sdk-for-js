@@ -4,11 +4,19 @@
 import { AIProjectContext as Client } from "../../index.js";
 import {
   apiErrorResponseDeserializer,
+  PendingUploadRequest,
+  pendingUploadRequestSerializer,
+  PendingUploadResponse,
+  pendingUploadResponseDeserializer,
+  DatasetCredential,
+  datasetCredentialDeserializer,
   _PagedEvaluatorVersion,
   _pagedEvaluatorVersionDeserializer,
   EvaluatorVersion,
   evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
+  EvaluatorCredentialRequest,
+  evaluatorCredentialRequestSerializer,
   EvaluatorGenerationJob,
   evaluatorGenerationJobSerializer,
   evaluatorGenerationJobDeserializer,
@@ -26,6 +34,8 @@ import {
   BetaEvaluatorsListGenerationJobsOptionalParams,
   BetaEvaluatorsGetGenerationJobOptionalParams,
   BetaEvaluatorsCreateGenerationJobOptionalParams,
+  BetaEvaluatorsGetCredentialsOptionalParams,
+  BetaEvaluatorsPendingUploadOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
@@ -153,13 +163,12 @@ export function _listGenerationJobsSend(
   options: BetaEvaluatorsListGenerationJobsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluator_generation_jobs{?limit,order,after,before,category,api%2Dversion}",
+    "/evaluator_generation_jobs{?limit,order,after,before,api%2Dversion}",
     {
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      category: options?.category,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -263,7 +272,7 @@ export async function getGenerationJob(
 
 export function _createGenerationJobSend(
   context: Client,
-  body: EvaluatorGenerationJob,
+  job: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -288,7 +297,7 @@ export function _createGenerationJobSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: evaluatorGenerationJobSerializer(body),
+      body: evaluatorGenerationJobSerializer(job),
     });
 }
 
@@ -312,11 +321,131 @@ export async function _createGenerationJobDeserialize(
  */
 export async function createGenerationJob(
   context: Client,
-  body: EvaluatorGenerationJob,
+  job: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorGenerationJob> {
-  const result = await _createGenerationJobSend(context, body, options);
+  const result = await _createGenerationJobSend(context, job, options);
   return _createGenerationJobDeserialize(result);
+}
+
+export function _getCredentialsSend(
+  context: Client,
+  name: string,
+  credentialRequest: EvaluatorCredentialRequest,
+  version: string,
+  options: BetaEvaluatorsGetCredentialsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluators/{name}/versions/{version}/credentials{?api%2Dversion}",
+    {
+      name: name,
+      version: version,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: evaluatorCredentialRequestSerializer(credentialRequest),
+    });
+}
+
+export async function _getCredentialsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<DatasetCredential> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return datasetCredentialDeserializer(result.body);
+}
+
+/** Get the SAS credential to access the storage account associated with an Evaluator version. */
+export async function getCredentials(
+  context: Client,
+  name: string,
+  credentialRequest: EvaluatorCredentialRequest,
+  version: string,
+  options: BetaEvaluatorsGetCredentialsOptionalParams = { requestOptions: {} },
+): Promise<DatasetCredential> {
+  const result = await _getCredentialsSend(context, name, credentialRequest, version, options);
+  return _getCredentialsDeserialize(result);
+}
+
+export function _pendingUploadSend(
+  context: Client,
+  name: string,
+  version: string,
+  pendingUploadRequest: PendingUploadRequest,
+  options: BetaEvaluatorsPendingUploadOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluators/{name}/versions/{version}/startPendingUpload{?api%2Dversion}",
+    {
+      name: name,
+      version: version,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: pendingUploadRequestSerializer(pendingUploadRequest),
+    });
+}
+
+export async function _pendingUploadDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PendingUploadResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return pendingUploadResponseDeserializer(result.body);
+}
+
+/** Start a new or get an existing pending upload of an evaluator for a specific version. */
+export async function pendingUpload(
+  context: Client,
+  name: string,
+  version: string,
+  pendingUploadRequest: PendingUploadRequest,
+  options: BetaEvaluatorsPendingUploadOptionalParams = { requestOptions: {} },
+): Promise<PendingUploadResponse> {
+  const result = await _pendingUploadSend(context, name, version, pendingUploadRequest, options);
+  return _pendingUploadDeserialize(result);
 }
 
 export function _updateVersionSend(
