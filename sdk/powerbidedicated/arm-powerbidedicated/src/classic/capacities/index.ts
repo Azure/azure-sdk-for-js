@@ -37,6 +37,7 @@ import {
   CheckCapacityNameAvailabilityResult,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Capacities operations. */
@@ -63,12 +64,36 @@ export interface CapacitiesOperations {
     dedicatedCapacityName: string,
     options?: CapacitiesResumeOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use resume instead */
+  beginResume: (
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: CapacitiesResumeOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use resume instead */
+  beginResumeAndWait: (
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: CapacitiesResumeOptionalParams,
+  ) => Promise<void>;
   /** Suspends operation of the specified dedicated capacity instance. */
   suspend: (
     resourceGroupName: string,
     dedicatedCapacityName: string,
     options?: CapacitiesSuspendOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use suspend instead */
+  beginSuspend: (
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: CapacitiesSuspendOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use suspend instead */
+  beginSuspendAndWait: (
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: CapacitiesSuspendOptionalParams,
+  ) => Promise<void>;
   /** Lists all the Dedicated capacities for the given subscription. */
   list: (options?: CapacitiesListOptionalParams) => PagedAsyncIterableIterator<DedicatedCapacity>;
   /** Gets all the Dedicated capacities for the given resource group. */
@@ -82,6 +107,18 @@ export interface CapacitiesOperations {
     dedicatedCapacityName: string,
     options?: CapacitiesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: CapacitiesDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: CapacitiesDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates the current state of the specified Dedicated capacity. */
   update: (
     resourceGroupName: string,
@@ -89,6 +126,20 @@ export interface CapacitiesOperations {
     capacityUpdateParameters: DedicatedCapacityUpdateParameters,
     options?: CapacitiesUpdateOptionalParams,
   ) => PollerLike<OperationState<DedicatedCapacity>, DedicatedCapacity>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    capacityUpdateParameters: DedicatedCapacityUpdateParameters,
+    options?: CapacitiesUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<DedicatedCapacity>, DedicatedCapacity>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    capacityUpdateParameters: DedicatedCapacityUpdateParameters,
+    options?: CapacitiesUpdateOptionalParams,
+  ) => Promise<DedicatedCapacity>;
   /** Provisions the specified Dedicated capacity based on the configuration specified in the request. */
   create: (
     resourceGroupName: string,
@@ -96,6 +147,20 @@ export interface CapacitiesOperations {
     capacityParameters: DedicatedCapacity,
     options?: CapacitiesCreateOptionalParams,
   ) => PollerLike<OperationState<DedicatedCapacity>, DedicatedCapacity>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    capacityParameters: DedicatedCapacity,
+    options?: CapacitiesCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<DedicatedCapacity>, DedicatedCapacity>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    capacityParameters: DedicatedCapacity,
+    options?: CapacitiesCreateOptionalParams,
+  ) => Promise<DedicatedCapacity>;
   /** Gets details about the specified dedicated capacity. */
   getDetails: (
     resourceGroupName: string,
@@ -122,11 +187,43 @@ function _getCapacities(context: PowerBIDedicatedContext) {
       dedicatedCapacityName: string,
       options?: CapacitiesResumeOptionalParams,
     ) => resume(context, resourceGroupName, dedicatedCapacityName, options),
+    beginResume: async (
+      resourceGroupName: string,
+      dedicatedCapacityName: string,
+      options?: CapacitiesResumeOptionalParams,
+    ) => {
+      const poller = resume(context, resourceGroupName, dedicatedCapacityName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginResumeAndWait: async (
+      resourceGroupName: string,
+      dedicatedCapacityName: string,
+      options?: CapacitiesResumeOptionalParams,
+    ) => {
+      return await resume(context, resourceGroupName, dedicatedCapacityName, options);
+    },
     suspend: (
       resourceGroupName: string,
       dedicatedCapacityName: string,
       options?: CapacitiesSuspendOptionalParams,
     ) => suspend(context, resourceGroupName, dedicatedCapacityName, options),
+    beginSuspend: async (
+      resourceGroupName: string,
+      dedicatedCapacityName: string,
+      options?: CapacitiesSuspendOptionalParams,
+    ) => {
+      const poller = suspend(context, resourceGroupName, dedicatedCapacityName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginSuspendAndWait: async (
+      resourceGroupName: string,
+      dedicatedCapacityName: string,
+      options?: CapacitiesSuspendOptionalParams,
+    ) => {
+      return await suspend(context, resourceGroupName, dedicatedCapacityName, options);
+    },
     list: (options?: CapacitiesListOptionalParams) => list(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
@@ -137,6 +234,22 @@ function _getCapacities(context: PowerBIDedicatedContext) {
       dedicatedCapacityName: string,
       options?: CapacitiesDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, dedicatedCapacityName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      dedicatedCapacityName: string,
+      options?: CapacitiesDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, dedicatedCapacityName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      dedicatedCapacityName: string,
+      options?: CapacitiesDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, dedicatedCapacityName, options);
+    },
     update: (
       resourceGroupName: string,
       dedicatedCapacityName: string,
@@ -144,12 +257,72 @@ function _getCapacities(context: PowerBIDedicatedContext) {
       options?: CapacitiesUpdateOptionalParams,
     ) =>
       update(context, resourceGroupName, dedicatedCapacityName, capacityUpdateParameters, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      dedicatedCapacityName: string,
+      capacityUpdateParameters: DedicatedCapacityUpdateParameters,
+      options?: CapacitiesUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        dedicatedCapacityName,
+        capacityUpdateParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      dedicatedCapacityName: string,
+      capacityUpdateParameters: DedicatedCapacityUpdateParameters,
+      options?: CapacitiesUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        dedicatedCapacityName,
+        capacityUpdateParameters,
+        options,
+      );
+    },
     create: (
       resourceGroupName: string,
       dedicatedCapacityName: string,
       capacityParameters: DedicatedCapacity,
       options?: CapacitiesCreateOptionalParams,
     ) => create(context, resourceGroupName, dedicatedCapacityName, capacityParameters, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      dedicatedCapacityName: string,
+      capacityParameters: DedicatedCapacity,
+      options?: CapacitiesCreateOptionalParams,
+    ) => {
+      const poller = create(
+        context,
+        resourceGroupName,
+        dedicatedCapacityName,
+        capacityParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      dedicatedCapacityName: string,
+      capacityParameters: DedicatedCapacity,
+      options?: CapacitiesCreateOptionalParams,
+    ) => {
+      return await create(
+        context,
+        resourceGroupName,
+        dedicatedCapacityName,
+        capacityParameters,
+        options,
+      );
+    },
     getDetails: (
       resourceGroupName: string,
       dedicatedCapacityName: string,

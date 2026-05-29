@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
 import { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
@@ -128,6 +129,26 @@ export interface CapacitiesListSkusOptionalParams extends OperationOptions {
 
 // @public
 export interface CapacitiesOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, dedicatedCapacityName: string, capacityParameters: DedicatedCapacity, options?: CapacitiesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<DedicatedCapacity>, DedicatedCapacity>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, dedicatedCapacityName: string, capacityParameters: DedicatedCapacity, options?: CapacitiesCreateOptionalParams) => Promise<DedicatedCapacity>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginResume: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesResumeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginResumeAndWait: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesResumeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginSuspend: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesSuspendOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginSuspendAndWait: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesSuspendOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, dedicatedCapacityName: string, capacityUpdateParameters: DedicatedCapacityUpdateParameters, options?: CapacitiesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DedicatedCapacity>, DedicatedCapacity>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, dedicatedCapacityName: string, capacityUpdateParameters: DedicatedCapacityUpdateParameters, options?: CapacitiesUpdateOptionalParams) => Promise<DedicatedCapacity>;
     checkNameAvailability: (location: string, capacityParameters: CheckCapacityNameAvailabilityParameters, options?: CapacitiesCheckNameAvailabilityOptionalParams) => Promise<CheckCapacityNameAvailabilityResult>;
     create: (resourceGroupName: string, dedicatedCapacityName: string, capacityParameters: DedicatedCapacity, options?: CapacitiesCreateOptionalParams) => PollerLike<OperationState<DedicatedCapacity>, DedicatedCapacity>;
     delete: (resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -414,6 +435,28 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 export interface ServiceSpecification {
     logSpecifications?: LogSpecification[];
     metricSpecifications?: MetricSpecification[];
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public

@@ -17,6 +17,7 @@ Compared with version 4.0.1
   - Added Interface PageSettings
   - Added Interface RestorePollerOptions
   - Added Interface ServiceSpecification
+  - Added Interface SimplePollerLike
   - Added Interface TrackedResource
   - Interface CapacitySku has a new optional parameter capacity
   - Interface DedicatedCapacity has a new optional parameter friendlyName
@@ -37,16 +38,6 @@ Compared with version 4.0.1
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation Capacities.beginCreate
-  - Removed operation Capacities.beginCreateAndWait
-  - Removed operation Capacities.beginDelete
-  - Removed operation Capacities.beginDeleteAndWait
-  - Removed operation Capacities.beginResume
-  - Removed operation Capacities.beginResumeAndWait
-  - Removed operation Capacities.beginSuspend
-  - Removed operation Capacities.beginSuspendAndWait
-  - Removed operation Capacities.beginUpdate
-  - Removed operation Capacities.beginUpdateAndWait
   - Removed Interface DedicatedCapacities
   - Removed Interface ErrorResponseError
   - Removed Interface OperationDisplay
