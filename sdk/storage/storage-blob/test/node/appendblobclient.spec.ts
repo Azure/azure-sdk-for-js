@@ -57,6 +57,10 @@ describe("AppendBlobClient Node.js only", () => {
       },
       ["playback", "record"],
     );
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Accept"],
+      ignoreQueryOrdering: true,
+    });
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);

@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  getAccountInfo,
+  listBlobHierarchySegment,
+  listBlobs,
+  changeLease,
+  breakLease,
+  renewLease,
+  releaseLease,
+  acquireLease,
+  findBlobsByTags,
+  submitBatch,
+  rename,
+  restore,
+  setAccessPolicy,
+  getAccessPolicy,
+  setMetadata,
+  $delete,
+  getProperties,
+  create,
+} from "./operations.js";
+export type {
+  ContainerGetAccountInfoOptionalParams,
+  ContainerListBlobHierarchySegmentOptionalParams,
+  ContainerListBlobsOptionalParams,
+  ContainerChangeLeaseOptionalParams,
+  ContainerBreakLeaseOptionalParams,
+  ContainerRenewLeaseOptionalParams,
+  ContainerReleaseLeaseOptionalParams,
+  ContainerAcquireLeaseOptionalParams,
+  ContainerFindBlobsByTagsOptionalParams,
+  ContainerSubmitBatchOptionalParams,
+  ContainerRenameOptionalParams,
+  ContainerRestoreOptionalParams,
+  ContainerSetAccessPolicyOptionalParams,
+  ContainerGetAccessPolicyOptionalParams,
+  ContainerSetMetadataOptionalParams,
+  ContainerDeleteOptionalParams,
+  ContainerGetPropertiesOptionalParams,
+  ContainerCreateOptionalParams,
+} from "./options.js";
