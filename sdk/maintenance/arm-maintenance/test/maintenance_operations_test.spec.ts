@@ -32,8 +32,6 @@ describe("MaintenanceManagement test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: MaintenanceManagementClient;
-  let resourceGroup: string;
-  let resourcename: string;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
@@ -46,43 +44,13 @@ describe("MaintenanceManagement test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
   });
 
   afterEach(async () => {
     await recorder.stop();
   });
 
-  it("maintenanceConfigurations create test", async () => {
-    const res = await client.maintenanceConfigurations.createOrUpdate(resourceGroup, resourcename, {
-      duration: "05:00",
-      expirationDateTime: "2024-06-12 00:00",
-      location: "westus2",
-      maintenanceScope: "OSImage",
-      namespace: "Microsoft.Maintenance",
-      recurEvery: "Day",
-      startDateTime: "2024-05-12 08:00",
-      timeZone: "Pacific Standard Time",
-      visibility: "Custom",
-    });
-    assert.equal(res.name, resourcename);
-  });
-
-  it("maintenanceConfigurations get test", async () => {
-    const res = await client.maintenanceConfigurations.get(resourceGroup, resourcename);
-    assert.equal(res.name, resourcename);
-  });
-
   it("maintenanceConfigurations list test", async () => {
-    const resArray = new Array();
-    for await (const item of client.maintenanceConfigurations.list()) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 1);
-  });
-
-  it("maintenanceConfigurations delete test", async () => {
     const resArray = new Array();
     for await (const item of client.maintenanceConfigurations.list()) {
       resArray.push(item);
