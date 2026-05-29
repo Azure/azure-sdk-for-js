@@ -120,10 +120,6 @@
         "types": "./dist/browser/api/index.d.ts",
         "default": "./dist/browser/api/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/index.d.ts",
-        "default": "./dist/react-native/api/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/index.d.ts",
         "default": "./dist/esm/api/index.js"
@@ -137,10 +133,6 @@
       "browser": {
         "types": "./dist/browser/api/certificateRegistrationProvider/index.d.ts",
         "default": "./dist/browser/api/certificateRegistrationProvider/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/certificateRegistrationProvider/index.d.ts",
-        "default": "./dist/react-native/api/certificateRegistrationProvider/index.js"
       },
       "import": {
         "types": "./dist/esm/api/certificateRegistrationProvider/index.d.ts",
@@ -156,10 +148,6 @@
         "types": "./dist/browser/api/certificateOrdersDiagnostics/index.d.ts",
         "default": "./dist/browser/api/certificateOrdersDiagnostics/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/certificateOrdersDiagnostics/index.d.ts",
-        "default": "./dist/react-native/api/certificateOrdersDiagnostics/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/certificateOrdersDiagnostics/index.d.ts",
         "default": "./dist/esm/api/certificateOrdersDiagnostics/index.js"
@@ -174,10 +162,6 @@
         "types": "./dist/browser/api/appServiceCertificateOrders/index.d.ts",
         "default": "./dist/browser/api/appServiceCertificateOrders/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/appServiceCertificateOrders/index.d.ts",
-        "default": "./dist/react-native/api/appServiceCertificateOrders/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/appServiceCertificateOrders/index.d.ts",
         "default": "./dist/esm/api/appServiceCertificateOrders/index.js"
@@ -191,10 +175,6 @@
       "browser": {
         "types": "./dist/browser/models/index.d.ts",
         "default": "./dist/browser/models/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/index.d.ts",
-        "default": "./dist/react-native/models/index.js"
       },
       "import": {
         "types": "./dist/esm/models/index.d.ts",
