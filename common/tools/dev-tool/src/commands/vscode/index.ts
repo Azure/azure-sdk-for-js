@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { subCommand, makeCommandInfo } from "../../framework/command";
+import { subCommand, makeCommandInfo } from "../../framework/command.ts";
 
 export const commandInfo = makeCommandInfo("vscode", "VS Code integration commands");
 
 export default subCommand(commandInfo, {
-  recordings: () => import("./recordings"),
+  recordings: () => import("./recordings.ts"),
 });

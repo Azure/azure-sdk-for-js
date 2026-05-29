@@ -125,6 +125,12 @@ export const CampaignBrief: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      dba: {
+        serializedName: "dba",
+        type: {
+          name: "String",
+        },
+      },
       privacyPolicyUrl: {
         serializedName: "privacyPolicyUrl",
         type: {

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified private endpoint connection associated with the configuration store.
  *
  * @summary gets the specified private endpoint connection associated with the configuration store.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresGetPrivateEndpointConnection.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresGetPrivateEndpointConnection.json
  */
 async function privateEndpointConnectionGetConnection() {
   const credential = new DefaultAzureCredential();

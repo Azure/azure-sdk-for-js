@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AbortError } from "@azure/abort-controller";
-import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
+import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import Stream, { Readable } from "node:stream";
 import { StructuredMessageEncoding } from "./StructuredMessageEncoding.js";
 

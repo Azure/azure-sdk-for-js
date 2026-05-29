@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a replica with the specified parameters.
  *
  * @summary creates a replica with the specified parameters.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresCreateReplica.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresCreateReplica.json
  */
 async function replicasCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

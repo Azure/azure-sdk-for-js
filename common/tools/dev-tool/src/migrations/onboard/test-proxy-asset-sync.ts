@@ -4,10 +4,10 @@
 import { readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
-import { createMigration } from "../../util/migrations";
-import { runMigrationScript } from "../../util/testProxyUtils";
-import * as git from "../../util/git";
-import * as pwsh from "../../util/pwsh";
+import { createMigration } from "../../util/migrations.ts";
+import { runMigrationScript } from "../../util/testProxyUtils.ts";
+import * as git from "../../util/git.ts";
+import * as pwsh from "../../util/pwsh.ts";
 
 /**
  * Utility interface for assets.json.

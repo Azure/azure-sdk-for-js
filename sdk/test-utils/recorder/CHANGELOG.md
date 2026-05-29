@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Ignore "Cache-Control" and "Pragma" headers for browsers in Playback mode, to address [#32851](https://github.com/Azure/azure-sdk-for-js/issues/32851).
+
 ## 4.1.0 (2025-08-08)
 
 ### Features Added

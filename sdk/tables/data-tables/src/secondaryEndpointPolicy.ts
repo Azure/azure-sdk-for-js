@@ -3,13 +3,13 @@
 
 import type { OperationOptions } from "@azure/core-client";
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
+import { getSecondaryUrlFromPrimary } from "#platform/getSecondaryUrlFromPrimary";
 
 /**
  * The programmatic identifier of the tablesSecondaryEndpointPolicy.
  */
 export const tablesSecondaryEndpointPolicyName = "tablesSecondaryEndpointPolicy";
 export const SecondaryLocationHeaderName = "tables-secondary-endpoint";
-const SecondaryLocationAccountSuffix = "-secondary";
 
 /**
  * Policy that would replace the Primary Endpoint with the secondary endpoint
@@ -45,18 +45,4 @@ export function injectSecondaryEndpointHeader(options: OperationOptions): Operat
       },
     },
   };
-}
-
-/**
- * Utility function that calculates the secondary URL for a table instance given the primary URL.
- */
-function getSecondaryUrlFromPrimary(primaryUrl: string): string {
-  const parsedPrimaryUrl = new URL(primaryUrl);
-  const host = parsedPrimaryUrl.hostname.split(".");
-  if (host.length > 1) {
-    host[0] = `${host[0]}${SecondaryLocationAccountSuffix}`;
-  }
-  parsedPrimaryUrl.hostname = host.join(".");
-
-  return parsedPrimaryUrl.toString();
 }

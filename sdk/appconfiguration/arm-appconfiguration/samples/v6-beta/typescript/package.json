@@ -38,6 +38,6 @@
     "@types/node": "^20.0.0",
     "cross-env": "latest",
     "rimraf": "latest",
-    "typescript": "~5.9.3"
+    "typescript": "~6.0.2"
   }
 }

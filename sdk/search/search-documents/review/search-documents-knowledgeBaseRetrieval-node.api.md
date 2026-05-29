@@ -13,9 +13,9 @@ import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export class KnowledgeBaseRetrievalClient {
-    constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: KnowledgeBaseRetrievalClientOptionalParams);
+    constructor(endpointParam: string, credential: KeyCredential | TokenCredential, knowledgeBaseName: string, options?: KnowledgeBaseRetrievalClientOptionalParams);
     readonly pipeline: Pipeline;
-    retrieve(knowledgeBaseName: string, retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveOptionalParams): Promise<KnowledgeBaseRetrievalResponse>;
+    retrieve(retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveOptionalParams): Promise<KnowledgeBaseRetrievalResponse>;
 }
 
 // @public
@@ -26,12 +26,14 @@ export interface KnowledgeBaseRetrievalClientOptionalParams extends ClientOption
 // @public (undocumented)
 export interface KnowledgeBaseRetrievalContext extends Client {
     apiVersion?: string;
+    knowledgeBaseName: string;
 }
 
 // @public
 export interface RetrieveOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    querySourceAuthorization?: string;
 }
 
 // (No @packageDocumentation comment for this package)

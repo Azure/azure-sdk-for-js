@@ -36,7 +36,7 @@ describe("VoiceLiveClient", () => {
       "https://test.voicelive.azure.com",
       new MockTokenCredential(),
     );
-    expect(client.apiVersion).toBe("2025-10-01");
+    expect(client.apiVersion).toBe("2026-06-01-preview");
   });
 
   it("should create sessions with model string", () => {
@@ -44,7 +44,7 @@ describe("VoiceLiveClient", () => {
       "https://test.voicelive.azure.com",
       new MockTokenCredential(),
     );
-    const session = client.createSession("gpt-4o-realtime-preview");
+    const session = client.createSession("gpt-realtime");
 
     expect(session).toBeDefined();
   });
@@ -55,7 +55,7 @@ describe("VoiceLiveClient", () => {
       new MockTokenCredential(),
     );
     const sessionConfig = {
-      model: "gpt-4o-realtime-preview",
+      model: "gpt-realtime",
       voice: "alloy",
     };
     const session = client.createSession(sessionConfig);

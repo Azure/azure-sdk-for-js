@@ -3,6 +3,7 @@
 
 import type { FileContents } from "../static-helpers/multipartHelpers.js";
 import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /**
  * This file contains only generated model types and their (de)serializers.
@@ -39,8 +40,8 @@ export function transcriptionContentSerializer(item: TranscriptionContent): any 
   ];
 }
 
-/** Metadata for a transcription request. */
-export interface TranscriptionOptions {
+/** Metadata for a transcription request. Also serves as the optional parameters bag for {@link TranscriptionClient.transcribe}, so it supports standard operation options such as `abortSignal`, `requestOptions`, and `tracingOptions`. */
+export interface TranscriptionOptions extends OperationOptions {
   /** The URL of the audio to be transcribed. The audio must be shorter than 2 hours in audio duration and smaller than 250 MB in size. If both Audio and AudioUrl are provided, Audio is used. */
   audioUrl?: string;
   /** A list of possible locales for the transcription. If not specified, the locale of the speech in the audio is detected automatically from all supported locales. */
@@ -211,9 +212,9 @@ export interface TranscribedPhrase {
   /** A unique integer number that is assigned to each speaker detected in the audio without particular order. Only present if speaker diarization is enabled. */
   speaker?: number;
   /** The start offset of the phrase in milliseconds. */
-  offsetMilliseconds: number;
+  offsetInMs: number;
   /** The duration of the phrase in milliseconds. */
-  durationMilliseconds: number;
+  durationInMs: number;
   /** The transcribed text of the phrase. */
   text: string;
   /** The words that make up the phrase. Only present if word-level timestamps are enabled. */
@@ -228,8 +229,8 @@ export function transcribedPhraseDeserializer(item: any): TranscribedPhrase {
   return {
     channel: item["channel"],
     speaker: item["speaker"],
-    offsetMilliseconds: item["offsetMilliseconds"],
-    durationMilliseconds: item["durationMilliseconds"],
+    offsetInMs: item["offsetMilliseconds"],
+    durationInMs: item["durationMilliseconds"],
     text: item["text"],
     words: !item["words"] ? item["words"] : transcribedWordArrayDeserializer(item["words"]),
     locale: item["locale"],
@@ -248,16 +249,16 @@ export interface TranscribedWord {
   /** The recognized word, including punctuation. */
   text: string;
   /** The start offset of the word in milliseconds. */
-  offsetMilliseconds: number;
+  offsetInMs: number;
   /** The duration of the word in milliseconds. */
-  durationMilliseconds: number;
+  durationInMs: number;
 }
 
 export function transcribedWordDeserializer(item: any): TranscribedWord {
   return {
     text: item["text"],
-    offsetMilliseconds: item["offsetMilliseconds"],
-    durationMilliseconds: item["durationMilliseconds"],
+    offsetInMs: item["offsetMilliseconds"],
+    durationInMs: item["durationMilliseconds"],
   };
 }
 

@@ -12,21 +12,34 @@ on:
   permissions:
     pull-requests: write
   steps:
-    - name: Remove trigger label
-      id: remove_label
+    - name: Swap trigger label to in-progress
+      id: swap_label
       if: github.event_name == 'pull_request_target' && github.event.label.name == 'security-review-needed'
       uses: actions/github-script@v8
       with:
         script: |
+          const pr = context.payload.pull_request.number;
+          // Remove trigger label
           try {
             await github.rest.issues.removeLabel({
               ...context.repo,
-              issue_number: context.payload.pull_request.number,
+              issue_number: pr,
               name: 'security-review-needed'
             });
           } catch (e) {
-            core.warning(`Could not remove label: ${e.message}`);
+            core.warning(`Could not remove trigger label: ${e.message}`);
           }
+          // Add in-progress label
+          try {
+            await github.rest.issues.addLabels({
+              ...context.repo,
+              issue_number: pr,
+              labels: ['security-review-in-progress']
+            });
+          } catch (e) {
+            core.warning(`Could not add in-progress label: ${e.message}`);
+          }
+checkout: false
 labels: [security-review-needed]
 if: github.event.label.name == 'security-review-needed' || github.event_name == 'workflow_dispatch'
 concurrency:
@@ -178,3 +191,12 @@ After posting, store useful context for future reviews:
 - **cache-memory**: save a brief summary of this review (PR number,
   package, findings with CWEs) so future runs can detect recurring
   vulnerability patterns.
+
+## Final Step — Update Labels
+
+After completing all review steps, update the PR labels to indicate completion:
+
+1. Remove the `security-review-in-progress` label
+2. Add the `security-review-added` label
+
+Use the GitHub MCP tool to manage these labels on PR #${{ github.event.pull_request.number }}.

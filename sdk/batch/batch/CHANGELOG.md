@@ -1,14 +1,28 @@
 # Release History
 
-## 13.0.0-beta.3 (Unreleased)
+## 13.0.0 (2026-05-07)
 
 ### Features Added
 
+This stable release includes all features, breaking changes, and bug fixes from the 13.0.0-beta.1 and 13.0.0-beta.2 releases. Refer to the sections below for full details.
+
+For a detailed guide on migrating from v12 to v13, see the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/batch/MigrationGuide.md).
+
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- Renamed `CifsMountConfiguration` to `BatchCifsMountConfiguration`. The `cifsMountConfiguration` property in `MountConfiguration` now uses the renamed type.
+- Renamed `BatchSupportedImage.batchSupportEndOfLife` to `supportEndDate`.
+- Renamed `BatchNodeDeallocateOptions.nodeDeallocateOption` to `nodeDeallocationOption`.
+- Renamed `ExitConditions.default` to `defaultOptions`.
+- Renamed `VMExtension.type` to `extensionType`.
+- Renamed optional parameters across all operation options for consistent casing:
+  - `ocpdate` → `ocpDate`
+  - `timeOutInSeconds` → `timeoutInSeconds`
+  - `maxresults` → `maxResults`
+  - `endtime` → `endTime`
+  - `starttime` → `startTime`
+- Removed `AuthenticationTokenSettings` interface and `BatchAccessScope` type.
+- Removed `authenticationTokenSettings` property from `BatchJobManagerTask`, `BatchTask`, and `BatchTaskCreateOptions`.
 
 ## 13.0.0-beta.2 (2026-02-20)
 
