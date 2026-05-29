@@ -599,7 +599,12 @@ export interface BetaAgentsListOptimizationJobsOptionalParams extends OperationO
 
 // @public
 export interface BetaAgentsListSessionFilesOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
     foundryFeatures?: "HostedAgents=V1Preview";
+    limit?: number;
+    order?: PageOrder;
+    path?: string;
     userIsolationKey?: string;
 }
 
@@ -633,7 +638,7 @@ export interface BetaAgentsOperations {
     getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: BetaAgentsGetSessionLogStreamOptionalParams) => Promise<BetaAgentsDownloadSessionFileResponse>;
     listOptimizationCandidates: (jobId: string, options?: BetaAgentsListOptimizationCandidatesOptionalParams) => Promise<AgentsPagedResultOptimizationCandidate>;
     listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<OptimizationJob>;
-    listSessionFiles: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsListSessionFilesOptionalParams) => Promise<SessionDirectoryListResponse>;
+    listSessionFiles: (agentName: string, agentSessionId: string, options?: BetaAgentsListSessionFilesOptionalParams) => PagedAsyncIterableIterator<SessionDirectoryEntry>;
     listSessions: (agentName: string, options?: BetaAgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
     promoteCandidate: (jobId: string, candidateId: string, candidateRequest: PromoteCandidateRequest, options?: BetaAgentsPromoteCandidateOptionalParams) => Promise<PromoteCandidateResponse>;
     stopSession: (agentName: string, sessionId: string, options?: BetaAgentsStopSessionOptionalParams) => Promise<void>;
@@ -1044,9 +1049,11 @@ export interface BetaRedTeamsOperations {
 
 // @public
 export interface BetaRoutinesCreateOrUpdateOptionalParams extends OperationOptions {
+    action?: RoutineActionUnion;
     description?: string;
     enabled?: boolean;
     foundryFeatures?: "Routines=V1Preview";
+    triggers?: Record<string, RoutineTriggerUnion>;
 }
 
 // @public
@@ -1081,7 +1088,7 @@ export interface BetaRoutinesListOptionalParams extends OperationOptions {
     before?: string;
     foundryFeatures?: "Routines=V1Preview";
     limit?: number;
-    order?: PageOrder;
+    order?: string;
 }
 
 // @public
@@ -1091,12 +1098,12 @@ export interface BetaRoutinesListRunsOptionalParams extends OperationOptions {
     filter?: string;
     foundryFeatures?: "Routines=V1Preview";
     limit?: number;
-    order?: PageOrder;
+    order?: string;
 }
 
 // @public
 export interface BetaRoutinesOperations {
-    createOrUpdate: (routineName: string, triggers: Record<string, RoutineTriggerUnion>, action: RoutineActionUnion, options?: BetaRoutinesCreateOrUpdateOptionalParams) => Promise<Routine>;
+    createOrUpdate: (routineName: string, options?: BetaRoutinesCreateOrUpdateOptionalParams) => Promise<Routine>;
     delete: (routineName: string, options?: BetaRoutinesDeleteOptionalParams) => Promise<void>;
     disable: (routineName: string, options?: BetaRoutinesDisableOptionalParams) => Promise<Routine>;
     dispatch: (routineName: string, options?: BetaRoutinesDispatchOptionalParams) => Promise<DispatchRoutineResponse>;
@@ -1160,10 +1167,6 @@ export interface BetaSkillsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BetaSkillsDeleteSkillVersionOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface BetaSkillsDownloadOptionalParams extends OperationOptions {
 }
 
@@ -1178,29 +1181,7 @@ export interface BetaSkillsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BetaSkillsGetSkillVersionContentOptionalParams extends OperationOptions {
-}
-
-// @public (undocumented)
-export type BetaSkillsGetSkillVersionContentResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
-
-// @public
-export interface BetaSkillsGetSkillVersionOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface BetaSkillsListOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaSkillsListSkillVersionsOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
     limit?: number;
@@ -1210,15 +1191,15 @@ export interface BetaSkillsListSkillVersionsOptionalParams extends OperationOpti
 // @public
 export interface BetaSkillsOperations {
     create: (name: string, options?: BetaSkillsCreateOptionalParams) => Promise<SkillVersion>;
-    createFromPackage: (name: string, content: CreateSkillVersionFromFilesBody, options?: CreateFromPackageOptionalParams) => Promise<SkillVersion>;
+    createFromFiles: (name: string, content: CreateSkillVersionFromFilesBody, options?: CreateFromFilesOptionalParams) => Promise<SkillVersion>;
     delete: (name: string, options?: BetaSkillsDeleteOptionalParams) => Promise<DeleteSkillResponse>;
-    deleteSkillVersion: (name: string, version: string, options?: BetaSkillsDeleteSkillVersionOptionalParams) => Promise<DeleteSkillVersionResponse>;
+    deleteVersion: (name: string, version: string, options?: DeleteVersionOptionalParams) => Promise<DeleteSkillVersionResponse>;
     download: (name: string, options?: BetaSkillsDownloadOptionalParams) => Promise<BetaSkillsDownloadResponse>;
+    downloadVersion: (name: string, version: string, options?: DownloadVersionOptionalParams) => Promise<DownloadVersionResponse>;
     get: (name: string, options?: BetaSkillsGetOptionalParams) => Promise<Skill>;
-    getSkillVersion: (name: string, version: string, options?: BetaSkillsGetSkillVersionOptionalParams) => Promise<SkillVersion>;
-    getSkillVersionContent: (name: string, version: string, options?: BetaSkillsGetSkillVersionContentOptionalParams) => Promise<BetaSkillsGetSkillVersionContentResponse>;
+    getVersion: (name: string, version: string, options?: GetVersionOptionalParams) => Promise<SkillVersion>;
     list: (options?: BetaSkillsListOptionalParams) => PagedAsyncIterableIterator<Skill>;
-    listSkillVersions: (name: string, options?: BetaSkillsListSkillVersionsOptionalParams) => PagedAsyncIterableIterator<SkillVersion>;
+    listVersions: (name: string, options?: ListVersionsOptionalParams) => PagedAsyncIterableIterator<SkillVersion>;
     update: (name: string, defaultVersion: string, options?: BetaSkillsUpdateOptionalParams) => Promise<Skill>;
 }
 
@@ -1246,11 +1227,11 @@ export interface BetaToolboxesListOptionalParams extends OperationOptions {
 export interface BetaToolboxesOperations {
     createVersion: (name: string, tools: ToolUnion[], options?: CreateVersionOptionalParams) => Promise<ToolboxVersionObject>;
     delete: (name: string, options?: BetaToolboxesDeleteOptionalParams) => Promise<void>;
-    deleteVersion: (name: string, version: string, options?: DeleteVersionOptionalParams) => Promise<void>;
+    deleteVersion: (name: string, version: string, options?: ToolboxDeleteVersionOptionalParams) => Promise<void>;
     get: (name: string, options?: BetaToolboxesGetOptionalParams) => Promise<ToolboxObject>;
-    getVersion: (name: string, version: string, options?: GetVersionOptionalParams) => Promise<ToolboxVersionObject>;
+    getVersion: (name: string, version: string, options?: ToolboxGetVersionOptionalParams) => Promise<ToolboxVersionObject>;
     list: (options?: BetaToolboxesListOptionalParams) => PagedAsyncIterableIterator<ToolboxObject>;
-    listVersions: (name: string, options?: ListVersionsOptionalParams) => PagedAsyncIterableIterator<ToolboxVersionObject>;
+    listVersions: (name: string, options?: ToolboxListVersionsOptionalParams) => PagedAsyncIterableIterator<ToolboxVersionObject>;
     update: (name: string, defaultVersion: string, options?: BetaToolboxesUpdateOptionalParams) => Promise<ToolboxObject>;
 }
 
@@ -1612,7 +1593,7 @@ export interface CreateAgentVersionFromCodeMetadata {
 }
 
 // @public
-export interface CreateFromPackageOptionalParams extends OperationOptions {
+export interface CreateFromFilesOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1656,6 +1637,14 @@ export interface CustomGrammarFormatParam extends CustomToolParamFormat {
     definition: string;
     syntax: GrammarSyntax;
     type: "grammar";
+}
+
+// @public
+export interface CustomRoutineTrigger extends RoutineTrigger {
+    event_name?: string;
+    parameters: Record<string, any>;
+    provider: string;
+    type: "custom";
 }
 
 // @public
@@ -1975,6 +1964,16 @@ export interface DispatchRoutineResponse {
     dispatch_id?: string;
     task_id?: string;
 }
+
+// @public
+export interface DownloadVersionOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export type DownloadVersionResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
 
 // @public
 export interface EmbeddingConfiguration {
@@ -2456,11 +2455,15 @@ export interface GetVersionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GitHubIssueOpenedRoutineTrigger extends RoutineTrigger {
-    assignee: string;
+export type GitHubIssueEvent = "opened" | "closed";
+
+// @public
+export interface GitHubIssueRoutineTrigger extends RoutineTrigger {
     connection_id: string;
+    issue_event: GitHubIssueEvent;
+    owner: string;
     repository: string;
-    type: "github_issue_opened";
+    type: "github_issue";
 }
 
 // @public
@@ -2688,20 +2691,22 @@ export type InsightType = "EvaluationRunClusterInsight" | "AgentClusterInsight" 
 
 // @public
 export interface InvokeAgentInvocationsApiDispatchPayload extends RoutineDispatchPayload {
-    input?: string;
+    input: unknown;
     type: "invoke_agent_invocations_api";
 }
 
 // @public
 export interface InvokeAgentInvocationsApiRoutineAction extends RoutineAction {
-    agent_endpoint_id: string;
+    agent_endpoint_id?: string;
+    agent_name?: string;
+    input?: any;
     session_id?: string;
     type: "invoke_agent_invocations_api";
 }
 
 // @public
 export interface InvokeAgentResponsesApiDispatchPayload extends RoutineDispatchPayload {
-    input?: string;
+    input: unknown;
     type: "invoke_agent_responses_api";
 }
 
@@ -2709,7 +2714,8 @@ export interface InvokeAgentResponsesApiDispatchPayload extends RoutineDispatchP
 export interface InvokeAgentResponsesApiRoutineAction extends RoutineAction {
     agent_endpoint_id?: string;
     agent_name?: string;
-    conversation_id?: string;
+    conversation?: string;
+    input?: any;
     type: "invoke_agent_responses_api";
 }
 
@@ -3435,27 +3441,26 @@ export type RoutineDispatchPayloadUnion = InvokeAgentResponsesApiDispatchPayload
 export interface RoutineRun {
     action_correlation_id?: string;
     action_type?: RoutineActionType;
+    agent_endpoint_id?: string;
+    agent_id?: string;
     attempt_source?: RoutineAttemptSource;
-    diagnostics?: RoutineRunDiagnostics;
+    conversation_id?: string;
     dispatch_id?: string;
     ended_at?: Date;
     error_message?: string;
+    error_status_code?: number;
     error_type?: string;
-    id: string;
+    readonly id: string;
     phase?: RoutineRunPhase;
     response_id?: string;
-    started_at: Date;
-    status: string;
+    scheduled_fire_at?: Date;
+    session_id?: string;
+    started_at?: Date;
+    status?: string;
     task_id?: string;
-    trigger_type: RoutineTriggerType;
+    trigger_name?: string;
+    trigger_type?: RoutineTriggerType;
     triggered_at?: Date;
-}
-
-// @public
-export interface RoutineRunDiagnostics {
-    metrics: Record<string, number>;
-    parameters: Record<string, string>;
-    tags: Record<string, string>;
 }
 
 // @public
@@ -3467,10 +3472,10 @@ export interface RoutineTrigger {
 }
 
 // @public
-export type RoutineTriggerType = "github_issue_opened" | "schedule" | "timer";
+export type RoutineTriggerType = "custom" | "github_issue" | "schedule" | "timer";
 
 // @public
-export type RoutineTriggerUnion = ScheduleRoutineTrigger | TimerRoutineTrigger | GitHubIssueOpenedRoutineTrigger | RoutineTrigger;
+export type RoutineTriggerUnion = ScheduleRoutineTrigger | TimerRoutineTrigger | GitHubIssueRoutineTrigger | CustomRoutineTrigger | RoutineTrigger;
 
 // @public
 export interface RubricBasedEvaluatorDefinition extends EvaluatorDefinition {
@@ -3558,6 +3563,9 @@ export interface SessionDirectoryEntry {
 // @public
 export interface SessionDirectoryListResponse {
     entries: SessionDirectoryEntry[];
+    first_id?: string;
+    has_more: boolean;
+    last_id?: string;
     path: string;
 }
 
@@ -3779,14 +3787,29 @@ export type TextResponseFormatUnion = TextResponseFormatJsonSchema | TextRespons
 
 // @public
 export interface TimerRoutineTrigger extends RoutineTrigger {
-    at: string;
-    time_zone?: string;
+    at?: Date;
     type: "timer";
 }
 
 // @public
 export interface Tool {
     type: ToolType;
+}
+
+// @public
+export interface ToolboxDeleteVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ToolboxGetVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ToolboxListVersionsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
 }
 
 // @public

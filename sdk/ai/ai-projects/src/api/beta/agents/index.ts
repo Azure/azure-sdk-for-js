@@ -24,7 +24,7 @@ export {
   getSession,
   createSession,
   downloadAgentCode,
-  createAgentVersionFromCode,
+  createVersionFromCode,
   updateAgentObject,
 } from "./operations.js";
 export type {

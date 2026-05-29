@@ -23,6 +23,7 @@ import type {
   BetaAgentsGetCandidateFileResponse,
   BetaAgentsDownloadSessionFileResponse,
   BetaAgentsDownloadAgentCodeResponse,
+  SessionDirectoryEntry,
 } from "../../../models/models.js";
 import {
   agentDeserializer,
@@ -727,23 +728,26 @@ export function _listSessionFilesSend(
   context: Client,
   agentName: string,
   agentSessionId: string,
-  path: string,
   options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
-  const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?path,api-version}",
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?path,limit,order,after,before,api-version}",
     {
       agent_name: agentName,
       agent_session_id: agentSessionId,
-      path: path,
+      path: options?.path,
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
       "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path_1).get({
+  return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
       "foundry-features": foundryFeatures,
@@ -773,16 +777,26 @@ export async function _listSessionFilesDeserialize(
 /**
  * List files and directories at a given path in the session sandbox.
  * Returns only the immediate children of the specified directory (non-recursive).
+ * If path is not provided, lists the session home directory.
  */
-export async function listSessionFiles(
+export function listSessionFiles(
   context: Client,
   agentName: string,
   agentSessionId: string,
-  path: string,
   options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
-): Promise<SessionDirectoryListResponse> {
-  const result = await _listSessionFilesSend(context, agentName, agentSessionId, path, options);
-  return _listSessionFilesDeserialize(result);
+): PagedAsyncIterableIterator<SessionDirectoryEntry> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listSessionFilesSend(context, agentName, agentSessionId, options),
+    _listSessionFilesDeserialize,
+    ["200"],
+    {
+      itemName: "entries",
+      apiVersion: context.apiVersion,
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
+  );
 }
 
 export function _downloadSessionFileSend(
@@ -1422,7 +1436,7 @@ export async function _createAgentVersionFromCodeDeserialize(
   return agentVersionDeserializer(result.body);
 }
 
-export async function createAgentVersionFromCode(
+export async function createVersionFromCode(
   context: Client,
   agentName: string,
   codeZipSha256: string,

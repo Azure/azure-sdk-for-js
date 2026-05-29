@@ -3,8 +3,6 @@
 
 import type { AIProjectContext as Client } from "../../index.js";
 import type {
-  RoutineTriggerUnion,
-  RoutineActionUnion,
   Routine,
   _AgentsPagedResultRoutine,
   _AgentsPagedResultRoutineRun,
@@ -420,8 +418,6 @@ export async function get(
 export function _createOrUpdateSend(
   context: Client,
   routineName: string,
-  triggers: Record<string, RoutineTriggerUnion>,
-  action: RoutineActionUnion,
   options: BetaRoutinesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -447,8 +443,10 @@ export function _createOrUpdateSend(
     body: {
       description: options?.description,
       enabled: options?.enabled,
-      triggers: routineTriggerUnionRecordSerializer(triggers),
-      action: routineActionUnionSerializer(action),
+      triggers: !options?.triggers
+        ? options?.triggers
+        : routineTriggerUnionRecordSerializer(options?.triggers),
+      action: !options?.action ? options?.action : routineActionUnionSerializer(options?.action),
     },
   });
 }
@@ -469,10 +467,8 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 export async function createOrUpdate(
   context: Client,
   routineName: string,
-  triggers: Record<string, RoutineTriggerUnion>,
-  action: RoutineActionUnion,
   options: BetaRoutinesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Routine> {
-  const result = await _createOrUpdateSend(context, routineName, triggers, action, options);
+  const result = await _createOrUpdateSend(context, routineName, options);
   return _createOrUpdateDeserialize(result);
 }

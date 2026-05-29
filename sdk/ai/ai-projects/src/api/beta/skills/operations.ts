@@ -11,7 +11,7 @@ import type {
   CreateSkillVersionFromFilesBody,
   _AgentsPagedResultSkillVersion,
   DeleteSkillVersionResponse,
-  BetaSkillsGetSkillVersionContentResponse,
+  DownloadVersionResponse,
 } from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
@@ -29,12 +29,12 @@ import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.j
 import { getBinaryStreamResponse } from "../../../static-helpers/serialization/get-binary-stream-response.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
-  BetaSkillsDeleteSkillVersionOptionalParams,
-  BetaSkillsGetSkillVersionContentOptionalParams,
+  DeleteVersionOptionalParams,
+  DownloadVersionOptionalParams,
   BetaSkillsDownloadOptionalParams,
-  BetaSkillsGetSkillVersionOptionalParams,
-  BetaSkillsListSkillVersionsOptionalParams,
-  CreateFromPackageOptionalParams,
+  GetVersionOptionalParams,
+  ListVersionsOptionalParams,
+  CreateFromFilesOptionalParams,
   BetaSkillsCreateOptionalParams,
   BetaSkillsDeleteOptionalParams,
   BetaSkillsUpdateOptionalParams,
@@ -208,11 +208,11 @@ export function list(
   );
 }
 
-export function _getSkillVersionContentSend(
+export function _downloadVersionSend(
   context: Client,
   name: string,
   version: string,
-  options: BetaSkillsGetSkillVersionContentOptionalParams = { requestOptions: {} },
+  options: DownloadVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
@@ -236,9 +236,9 @@ export function _getSkillVersionContentSend(
   });
 }
 
-export async function _getSkillVersionContentDeserialize(
-  result: PathUncheckedResponse & BetaSkillsGetSkillVersionContentResponse,
-): Promise<BetaSkillsGetSkillVersionContentResponse> {
+export async function _downloadVersionDeserialize(
+  result: PathUncheckedResponse & DownloadVersionResponse,
+): Promise<DownloadVersionResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -251,15 +251,15 @@ export async function _getSkillVersionContentDeserialize(
 }
 
 /** Download the zip content for a specific version of a skill. */
-export async function getSkillVersionContent(
+export async function downloadVersion(
   context: Client,
   name: string,
   version: string,
-  options: BetaSkillsGetSkillVersionContentOptionalParams = { requestOptions: {} },
-): Promise<BetaSkillsGetSkillVersionContentResponse> {
-  const streamableMethod = _getSkillVersionContentSend(context, name, version, options);
+  options: DownloadVersionOptionalParams = { requestOptions: {} },
+): Promise<DownloadVersionResponse> {
+  const streamableMethod = _downloadVersionSend(context, name, version, options);
   const result = await getBinaryStreamResponse(streamableMethod);
-  return _getSkillVersionContentDeserialize(result);
+  return _downloadVersionDeserialize(result);
 }
 
 export function _downloadSend(
@@ -361,11 +361,11 @@ export async function get(
   return _getDeserialize(result);
 }
 
-export function _getSkillVersionSend(
+export function _getVersionSend(
   context: Client,
   name: string,
   version: string,
-  options: BetaSkillsGetSkillVersionOptionalParams = { requestOptions: {} },
+  options: GetVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
@@ -389,9 +389,7 @@ export function _getSkillVersionSend(
   });
 }
 
-export async function _getSkillVersionDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SkillVersion> {
+export async function _getVersionDeserialize(result: PathUncheckedResponse): Promise<SkillVersion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -404,20 +402,20 @@ export async function _getSkillVersionDeserialize(
 }
 
 /** Retrieve a specific version of a skill. */
-export async function getSkillVersion(
+export async function getVersion(
   context: Client,
   name: string,
   version: string,
-  options: BetaSkillsGetSkillVersionOptionalParams = { requestOptions: {} },
+  options: GetVersionOptionalParams = { requestOptions: {} },
 ): Promise<SkillVersion> {
-  const result = await _getSkillVersionSend(context, name, version, options);
-  return _getSkillVersionDeserialize(result);
+  const result = await _getVersionSend(context, name, version, options);
+  return _getVersionDeserialize(result);
 }
 
-export function _listSkillVersionsSend(
+export function _listVersionsSend(
   context: Client,
   name: string,
-  options: BetaSkillsListSkillVersionsOptionalParams = { requestOptions: {} },
+  options: ListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
@@ -444,7 +442,7 @@ export function _listSkillVersionsSend(
   });
 }
 
-export async function _listSkillVersionsDeserialize(
+export async function _listVersionsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_AgentsPagedResultSkillVersion> {
   const expectedStatuses = ["200"];
@@ -459,25 +457,25 @@ export async function _listSkillVersionsDeserialize(
 }
 
 /** List all versions of a skill. */
-export function listSkillVersions(
+export function listVersions(
   context: Client,
   name: string,
-  options: BetaSkillsListSkillVersionsOptionalParams = { requestOptions: {} },
+  options: ListVersionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SkillVersion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSkillVersionsSend(context, name, options),
-    _listSkillVersionsDeserialize,
+    () => _listVersionsSend(context, name, options),
+    _listVersionsDeserialize,
     ["200"],
     { itemName: "data", apiVersion: context.apiVersion },
   );
 }
 
-export function _createFromPackageSend(
+export function _createFromFilesSend(
   context: Client,
   name: string,
   content: CreateSkillVersionFromFilesBody,
-  options: CreateFromPackageOptionalParams = { requestOptions: {} },
+  options: CreateFromFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
@@ -502,7 +500,7 @@ export function _createFromPackageSend(
   });
 }
 
-export async function _createFromPackageDeserialize(
+export async function _createFromFilesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SkillVersion> {
   const expectedStatuses = ["200"];
@@ -517,14 +515,14 @@ export async function _createFromPackageDeserialize(
 }
 
 /** Creates a new version of a skill from uploaded files via multipart form data. */
-export async function createFromPackage(
+export async function createFromFiles(
   context: Client,
   name: string,
   content: CreateSkillVersionFromFilesBody,
-  options: CreateFromPackageOptionalParams = { requestOptions: {} },
+  options: CreateFromFilesOptionalParams = { requestOptions: {} },
 ): Promise<SkillVersion> {
-  const result = await _createFromPackageSend(context, name, content, options);
-  return _createFromPackageDeserialize(result);
+  const result = await _createFromFilesSend(context, name, content, options);
+  return _createFromFilesDeserialize(result);
 }
 
 export function _createSend(
@@ -582,11 +580,11 @@ export async function create(
   return _createDeserialize(result);
 }
 
-export function _deleteSkillVersionSend(
+export function _deleteVersionSend(
   context: Client,
   name: string,
   version: string,
-  options: BetaSkillsDeleteSkillVersionOptionalParams = { requestOptions: {} },
+  options: DeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
@@ -610,7 +608,7 @@ export function _deleteSkillVersionSend(
   });
 }
 
-export async function _deleteSkillVersionDeserialize(
+export async function _deleteVersionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DeleteSkillVersionResponse> {
   const expectedStatuses = ["200"];
@@ -625,12 +623,12 @@ export async function _deleteSkillVersionDeserialize(
 }
 
 /** Delete a specific version of a skill. */
-export async function deleteSkillVersion(
+export async function deleteVersion(
   context: Client,
   name: string,
   version: string,
-  options: BetaSkillsDeleteSkillVersionOptionalParams = { requestOptions: {} },
+  options: DeleteVersionOptionalParams = { requestOptions: {} },
 ): Promise<DeleteSkillVersionResponse> {
-  const result = await _deleteSkillVersionSend(context, name, version, options);
-  return _deleteSkillVersionDeserialize(result);
+  const result = await _deleteVersionSend(context, name, version, options);
+  return _deleteVersionDeserialize(result);
 }

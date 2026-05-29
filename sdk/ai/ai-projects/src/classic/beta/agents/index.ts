@@ -25,7 +25,7 @@ import {
   getSession,
   createSession,
   downloadAgentCode,
-  createAgentVersionFromCode,
+  createVersionFromCode,
   updateAgentObject,
 } from "../../../api/beta/agents/operations.js";
 import type {
@@ -61,7 +61,7 @@ import type {
   VersionIndicatorUnion,
   AgentSessionResource,
   SessionFileWriteResponse,
-  SessionDirectoryListResponse,
+  SessionDirectoryEntry,
   OptimizationJobInputs,
   OptimizationJob,
   AgentsPagedResultOptimizationCandidate,
@@ -152,13 +152,13 @@ export interface BetaAgentsOperations {
   /**
    * List files and directories at a given path in the session sandbox.
    * Returns only the immediate children of the specified directory (non-recursive).
+   * If path is not provided, lists the session home directory.
    */
   listSessionFiles: (
     agentName: string,
     agentSessionId: string,
-    path: string,
     options?: BetaAgentsListSessionFilesOptionalParams,
-  ) => Promise<SessionDirectoryListResponse>;
+  ) => PagedAsyncIterableIterator<SessionDirectoryEntry>;
   /** Download a file from the session sandbox as a binary stream. */
   downloadSessionFile: (
     agentName: string,
@@ -339,9 +339,8 @@ function _getBetaAgents(context: AIProjectContext) {
     listSessionFiles: (
       agentName: string,
       agentSessionId: string,
-      path: string,
       options?: BetaAgentsListSessionFilesOptionalParams,
-    ) => listSessionFiles(context, agentName, agentSessionId, path, options),
+    ) => listSessionFiles(context, agentName, agentSessionId, options),
     downloadSessionFile: (
       agentName: string,
       agentSessionId: string,
@@ -390,7 +389,7 @@ function _getBetaAgents(context: AIProjectContext) {
       codeZipSha256: string,
       content: CreateAgentVersionFromCodeContent,
       options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams,
-    ) => createAgentVersionFromCode(context, agentName, codeZipSha256, content, options),
+    ) => createVersionFromCode(context, agentName, codeZipSha256, content, options),
     updateAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) =>
       updateAgentObject(context, agentName, options),
   };

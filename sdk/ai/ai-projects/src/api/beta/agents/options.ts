@@ -132,7 +132,7 @@ export interface BetaAgentsCreateOptimizationJobOptionalParams extends Operation
 export interface BetaAgentsDeleteSessionFileOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "HostedAgents=V1Preview";
-  /** Whether to recursively delete directory contents. Defaults to false. */
+  /** Whether to recursively delete directory contents. The service defaults to `false` if a value is not specified by the caller. */
   recursive?: boolean;
   /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
   userIsolationKey?: string;
@@ -142,8 +142,32 @@ export interface BetaAgentsDeleteSessionFileOptionalParams extends OperationOpti
 export interface BetaAgentsListSessionFilesOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "HostedAgents=V1Preview";
+  /** The directory path to list, relative to the session home directory. Defaults to the home directory if not provided. */
+  path?: string;
   /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
   userIsolationKey?: string;
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
+   * default is 20.
+   */
+  limit?: number;
+  /**
+   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
+   * for descending order.
+   */
+  order?: PageOrder;
+  /**
+   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
+   */
+  after?: string;
+  /**
+   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+   */
+  before?: string;
 }
 
 /** Optional parameters. */

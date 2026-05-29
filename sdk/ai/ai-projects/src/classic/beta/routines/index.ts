@@ -22,13 +22,7 @@ import type {
   BetaRoutinesGetOptionalParams,
   BetaRoutinesCreateOrUpdateOptionalParams,
 } from "../../../api/beta/routines/options.js";
-import {
-  RoutineTriggerUnion,
-  RoutineActionUnion,
-  Routine,
-  RoutineRun,
-  DispatchRoutineResponse,
-} from "../../../models/models.js";
+import type { Routine, RoutineRun, DispatchRoutineResponse } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaRoutines operations. */
@@ -56,8 +50,6 @@ export interface BetaRoutinesOperations {
   /** Create or update a routine. */
   createOrUpdate: (
     routineName: string,
-    triggers: Record<string, RoutineTriggerUnion>,
-    action: RoutineActionUnion,
     options?: BetaRoutinesCreateOrUpdateOptionalParams,
   ) => Promise<Routine>;
 }
@@ -77,12 +69,8 @@ function _getBetaRoutines(context: AIProjectContext) {
       enable(context, routineName, options),
     get: (routineName: string, options?: BetaRoutinesGetOptionalParams) =>
       get(context, routineName, options),
-    createOrUpdate: (
-      routineName: string,
-      triggers: Record<string, RoutineTriggerUnion>,
-      action: RoutineActionUnion,
-      options?: BetaRoutinesCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, routineName, triggers, action, options),
+    createOrUpdate: (routineName: string, options?: BetaRoutinesCreateOrUpdateOptionalParams) =>
+      createOrUpdate(context, routineName, options),
   };
 }
 

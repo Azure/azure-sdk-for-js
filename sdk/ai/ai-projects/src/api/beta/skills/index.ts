@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 export {
-  deleteSkillVersion,
-  getSkillVersionContent,
+  deleteVersion,
+  downloadVersion,
   download,
-  getSkillVersion,
-  listSkillVersions,
-  createFromPackage,
+  getVersion,
+  listVersions,
+  createFromFiles,
   create,
   $delete,
   update,
@@ -15,12 +15,12 @@ export {
   get,
 } from "./operations.js";
 export type {
-  BetaSkillsDeleteSkillVersionOptionalParams,
-  BetaSkillsGetSkillVersionContentOptionalParams,
+  DeleteVersionOptionalParams,
+  DownloadVersionOptionalParams,
   BetaSkillsDownloadOptionalParams,
-  BetaSkillsGetSkillVersionOptionalParams,
-  BetaSkillsListSkillVersionsOptionalParams,
-  CreateFromPackageOptionalParams,
+  GetVersionOptionalParams,
+  ListVersionsOptionalParams,
+  CreateFromFilesOptionalParams,
   BetaSkillsCreateOptionalParams,
   BetaSkillsDeleteOptionalParams,
   BetaSkillsUpdateOptionalParams,

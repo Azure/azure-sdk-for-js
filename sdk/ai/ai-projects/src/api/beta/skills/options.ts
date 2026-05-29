@@ -11,19 +11,19 @@ export interface BetaSkillsDeleteOptionalParams extends OperationOptions {}
 export interface BetaSkillsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaSkillsDeleteSkillVersionOptionalParams extends OperationOptions {}
+export interface DeleteVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaSkillsGetSkillVersionContentOptionalParams extends OperationOptions {}
+export interface DownloadVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface BetaSkillsDownloadOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaSkillsGetSkillVersionOptionalParams extends OperationOptions {}
+export interface GetVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaSkillsListSkillVersionsOptionalParams extends OperationOptions {
+export interface ListVersionsOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -49,7 +49,7 @@ export interface BetaSkillsListSkillVersionsOptionalParams extends OperationOpti
 }
 
 /** Optional parameters. */
-export interface CreateFromPackageOptionalParams extends OperationOptions {}
+export interface CreateFromFilesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface BetaSkillsCreateOptionalParams extends OperationOptions {

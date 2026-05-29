@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RoutineDispatchPayloadUnion, PageOrder } from "../../../models/models.js";
+import type {
+  RoutineTriggerUnion,
+  RoutineActionUnion,
+  RoutineDispatchPayloadUnion,
+} from "../../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -18,28 +22,14 @@ export interface BetaRoutinesListRunsOptionalParams extends OperationOptions {
   foundryFeatures?: "Routines=V1Preview";
   /** An optional MLflow search-runs filter expression applied within the routine's experiment. */
   filter?: string;
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
-   * default is 20.
-   */
+  /** The maximum number of runs to return. */
   limit?: number;
-  /**
-   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
-   * for descending order.
-   */
-  order?: PageOrder;
-  /**
-   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
-   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
-   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
-   */
+  /** An opaque cursor returned as last_id by the previous list-runs response. */
   after?: string;
-  /**
-   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
-   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
-   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
-   */
+  /** Unsupported. Reserved for future backward pagination support. */
   before?: string;
+  /** The ordering direction. Supported values are asc and desc. */
+  order?: string;
 }
 
 /** Optional parameters. */
@@ -52,28 +42,14 @@ export interface BetaRoutinesDeleteOptionalParams extends OperationOptions {
 export interface BetaRoutinesListOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "Routines=V1Preview";
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
-   * default is 20.
-   */
+  /** The maximum number of routines to return. */
   limit?: number;
-  /**
-   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
-   * for descending order.
-   */
-  order?: PageOrder;
-  /**
-   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
-   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
-   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
-   */
+  /** An opaque cursor returned as last_id by the previous list response. */
   after?: string;
-  /**
-   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
-   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
-   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
-   */
+  /** Unsupported. Reserved for future backward pagination support. */
   before?: string;
+  /** The ordering direction. Supported values are asc and desc. */
+  order?: string;
 }
 
 /** Optional parameters. */
@@ -102,4 +78,8 @@ export interface BetaRoutinesCreateOrUpdateOptionalParams extends OperationOptio
   description?: string;
   /** Whether the routine is enabled. */
   enabled?: boolean;
+  /** The triggers configured for the routine. In v1, exactly one trigger entry is supported. */
+  triggers?: Record<string, RoutineTriggerUnion>;
+  /** The action executed when the routine fires. */
+  action?: RoutineActionUnion;
 }

@@ -38,8 +38,8 @@ export async function main(): Promise<void> {
       kind: "hosted",
       cpu: "0.5",
       memory: "1Gi",
-      image,
-      container_protocol_versions: [
+      container_configuration: { image },
+      protocol_versions: [
         { protocol: "responses", version: "v1" } as ProtocolVersionRecord,
       ],
     } as HostedAgentDefinition,
@@ -102,14 +102,21 @@ export async function main(): Promise<void> {
   );
   console.log(`Uploaded file: ${uploadResult.path} (${uploadResult.bytes_written} bytes)`);
 
-  // List files in the session sandbox
-  const listing = await project.beta.agents.listSessionFiles(
+  // List files in the session sandbox (with pagination monitoring)
+  const files = [];
+  let pageCount = 0;
+  const pager = project.beta.agents.listSessionFiles(
     agentName,
     session.agent_session_id,
-    "/sandbox",
+    { path: "/sandbox" },
   );
-  console.log(`Files in /sandbox:`);
-  for (const entry of listing.entries) {
+  for await (const page of pager.byPage()) {
+    pageCount++;
+    console.log(`  Page ${pageCount}: ${page.length} entries`);
+    files.push(...page);
+  }
+  console.log(`Files in /sandbox (${files.length} total across ${pageCount} page(s)):`);
+  for (const entry of files) {
     console.log(
       `  - ${entry.name} (${entry.is_directory ? "directory" : "file"})`,
       JSON.stringify(entry),
