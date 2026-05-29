@@ -26,10 +26,23 @@ import {
   settingDeserializer,
   SettingsListResult,
   settingsListResultDeserializer,
+  EkmConnection,
+  ekmConnectionSerializer,
+  ekmConnectionDeserializer,
+  EkmProxyClientCertificateInfo,
+  ekmProxyClientCertificateInfoDeserializer,
+  EkmProxyInfo,
+  ekmProxyInfoDeserializer,
 } from "../models/models.js";
 import { getLongRunningPoller } from "../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import {
+  DeleteEkmConnectionOptionalParams,
+  UpdateEkmConnectionOptionalParams,
+  CreateEkmConnectionOptionalParams,
+  CheckEkmConnectionOptionalParams,
+  GetEkmCertificateOptionalParams,
+  GetEkmConnectionOptionalParams,
   GetSettingsOptionalParams,
   GetSettingOptionalParams,
   UpdateSettingOptionalParams,
@@ -50,6 +63,278 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
+export function _deleteEkmConnectionSend(
+  context: Client,
+  options: DeleteEkmConnectionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _deleteEkmConnectionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmConnection> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+
+    throw error;
+  }
+
+  return ekmConnectionDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) deletes the existing EKM connection. If the EKM connection does not already exists, this operation fails. This operation requires ekm/delete permission. */
+export async function deleteEkmConnection(
+  context: Client,
+  options: DeleteEkmConnectionOptionalParams = { requestOptions: {} },
+): Promise<EkmConnection> {
+  const result = await _deleteEkmConnectionSend(context, options);
+  return _deleteEkmConnectionDeserialize(result);
+}
+
+export function _updateEkmConnectionSend(
+  context: Client,
+  ekmConnection: EkmConnection,
+  options: UpdateEkmConnectionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: ekmConnectionSerializer(ekmConnection),
+    });
+}
+
+export async function _updateEkmConnectionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmConnection> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+
+    throw error;
+  }
+
+  return ekmConnectionDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) updates the existing EKM connection. If the EKM connection does not exist, this operation fails. This operation requires ekm/write permission. */
+export async function updateEkmConnection(
+  context: Client,
+  ekmConnection: EkmConnection,
+  options: UpdateEkmConnectionOptionalParams = { requestOptions: {} },
+): Promise<EkmConnection> {
+  const result = await _updateEkmConnectionSend(context, ekmConnection, options);
+  return _updateEkmConnectionDeserialize(result);
+}
+
+export function _createEkmConnectionSend(
+  context: Client,
+  ekmConnection: EkmConnection,
+  options: CreateEkmConnectionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm/create{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: ekmConnectionSerializer(ekmConnection),
+    });
+}
+
+export async function _createEkmConnectionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmConnection> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+
+    throw error;
+  }
+
+  return ekmConnectionDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) sets up the EKM connection. If the EKM connection already exists, this operation fails. This operation requires ekm/write permission. */
+export async function createEkmConnection(
+  context: Client,
+  ekmConnection: EkmConnection,
+  options: CreateEkmConnectionOptionalParams = { requestOptions: {} },
+): Promise<EkmConnection> {
+  const result = await _createEkmConnectionSend(context, ekmConnection, options);
+  return _createEkmConnectionDeserialize(result);
+}
+
+export function _checkEkmConnectionSend(
+  context: Client,
+  options: CheckEkmConnectionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm/check{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _checkEkmConnectionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmProxyInfo> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+
+    throw error;
+  }
+
+  return ekmProxyInfoDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) Check operation checks the connectivity and authentication with the EKM proxy. This operation requires ekm/read permission. */
+export async function checkEkmConnection(
+  context: Client,
+  options: CheckEkmConnectionOptionalParams = { requestOptions: {} },
+): Promise<EkmProxyInfo> {
+  const result = await _checkEkmConnectionSend(context, options);
+  return _checkEkmConnectionDeserialize(result);
+}
+
+export function _getEkmCertificateSend(
+  context: Client,
+  options: GetEkmCertificateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm/certificate{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _getEkmCertificateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmProxyClientCertificateInfo> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+
+    throw error;
+  }
+
+  return ekmProxyClientCertificateInfoDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) Certificate Get operation returns Proxy client certificate. This operation requires ekm/read permission. */
+export async function getEkmCertificate(
+  context: Client,
+  options: GetEkmCertificateOptionalParams = { requestOptions: {} },
+): Promise<EkmProxyClientCertificateInfo> {
+  const result = await _getEkmCertificateSend(context, options);
+  return _getEkmCertificateDeserialize(result);
+}
+
+export function _getEkmConnectionSend(
+  context: Client,
+  options: GetEkmConnectionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _getEkmConnectionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmConnection> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+
+    throw error;
+  }
+
+  return ekmConnectionDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) Get operation returns EKM connection. This operation requires ekm/read permission. */
+export async function getEkmConnection(
+  context: Client,
+  options: GetEkmConnectionOptionalParams = { requestOptions: {} },
+): Promise<EkmConnection> {
+  const result = await _getEkmConnectionSend(context, options);
+  return _getEkmConnectionDeserialize(result);
+}
+
 export function _getSettingsSend(
   context: Client,
   options: GetSettingsOptionalParams = { requestOptions: {} },
@@ -57,7 +342,7 @@ export function _getSettingsSend(
   const path = expandUrlTemplate(
     "/settings{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -103,7 +388,7 @@ export function _getSettingSend(
     "/settings/{setting-name}{?api%2Dversion}",
     {
       "setting-name": settingName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,7 +434,7 @@ export function _updateSettingSend(
     "/settings/{setting-name}{?api%2Dversion}",
     {
       "setting-name": settingName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,7 +483,7 @@ export function _selectiveKeyRestoreOperationSend(
     "/keys/{keyName}/restore{?api%2Dversion}",
     {
       keyName: keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -245,7 +530,7 @@ export function selectiveKeyRestoreOperation(
       getInitialResponse: () =>
         _selectiveKeyRestoreOperationSend(context, keyName, restoreBlobDetails, options),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: context.apiVersion ?? "2025-07-01",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
     },
   ) as PollerLike<OperationState<SelectiveKeyRestoreOperation>, SelectiveKeyRestoreOperation>;
 }
@@ -259,7 +544,7 @@ export function _selectiveKeyRestoreStatusSend(
     "/restore/{jobId}/pending{?api%2Dversion}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -305,7 +590,7 @@ export function _preFullRestoreOperationSend(
   const path = expandUrlTemplate(
     "/prerestore{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -347,7 +632,7 @@ export function preFullRestoreOperation(
     getInitialResponse: () =>
       _preFullRestoreOperationSend(context, preRestoreOperationParameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-01",
+    apiVersion: context.apiVersion ?? "2026-01-01-preview",
   }) as PollerLike<OperationState<RestoreOperation>, RestoreOperation>;
 }
 
@@ -359,7 +644,7 @@ export function _fullRestoreOperationSend(
   const path = expandUrlTemplate(
     "/restore{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -400,7 +685,7 @@ export function fullRestoreOperation(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _fullRestoreOperationSend(context, restoreBlobDetails, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-01",
+    apiVersion: context.apiVersion ?? "2026-01-01-preview",
   }) as PollerLike<OperationState<RestoreOperation>, RestoreOperation>;
 }
 
@@ -413,7 +698,7 @@ export function _restoreStatusSend(
     "/restore/{jobId}/pending{?api%2Dversion}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -459,7 +744,7 @@ export function _preFullBackupSend(
   const path = expandUrlTemplate(
     "/prebackup{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -500,7 +785,7 @@ export function preFullBackup(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _preFullBackupSend(context, preBackupOperationParameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-01",
+    apiVersion: context.apiVersion ?? "2026-01-01-preview",
   }) as PollerLike<OperationState<FullBackupOperation>, FullBackupOperation>;
 }
 
@@ -512,7 +797,7 @@ export function _fullBackupSend(
   const path = expandUrlTemplate(
     "/backup{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -553,7 +838,7 @@ export function fullBackup(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _fullBackupSend(context, azureStorageBlobContainerUri, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-01",
+    apiVersion: context.apiVersion ?? "2026-01-01-preview",
   }) as PollerLike<OperationState<FullBackupOperation>, FullBackupOperation>;
 }
 
@@ -566,7 +851,7 @@ export function _fullBackupStatusSend(
     "/backup/{jobId}/pending{?api%2Dversion}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

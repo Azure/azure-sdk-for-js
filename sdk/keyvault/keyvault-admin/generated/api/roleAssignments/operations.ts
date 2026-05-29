@@ -38,7 +38,7 @@ export function _listForScopeSend(
     "/{+scope}/providers/Microsoft.Authorization/roleAssignments{?api%2Dversion,%24filter}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       "%24filter": options?.filter,
     },
     {
@@ -78,7 +78,11 @@ export function listForScope(
     () => _listForScopeSend(context, scope, options),
     _listForScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    },
   );
 }
 
@@ -93,7 +97,7 @@ export function _getSend(
     {
       scope: scope,
       roleAssignmentName: roleAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -142,7 +146,7 @@ export function _createSend(
     {
       scope: scope,
       roleAssignmentName: roleAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,7 +197,7 @@ export function _$deleteSend(
     {
       scope: scope,
       roleAssignmentName: roleAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

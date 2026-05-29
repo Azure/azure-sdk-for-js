@@ -6,13 +6,10 @@
  */
 
 import { createHash } from "node:crypto";
-
 import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";
-
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
@@ -37,10 +34,10 @@ export async function main(): Promise<void> {
 
   // Sign and Verify
   const signatureValue = "MySignature";
-  let hash = createHash("sha256");
+  const hash = createHash("sha256");
 
   hash.update(signatureValue);
-  let digest = hash.digest();
+  const digest = hash.digest();
   console.log("digest: ", digest);
 
   const signature = await cryptoClient.sign("RS256", digest);
@@ -51,7 +48,7 @@ export async function main(): Promise<void> {
 
   // Encrypt and decrypt
   const encrypt = await cryptoClient.encrypt({
-    algorithm: "RSA1_5",
+    algorithm: "RSA-OAEP-256",
     plaintext: Buffer.from("My Message"),
   });
   console.log("encrypt result: ", encrypt);

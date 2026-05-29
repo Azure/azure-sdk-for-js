@@ -1,6 +1,6 @@
 {
   "apiVersions": {
-    "KeyVault": "2025-07-01"
+    "KeyVault": "2026-01-01-preview"
   },
   "emitterVersion": "0.53.3",
   "crossLanguageDefinitions": {
@@ -19,6 +19,9 @@
       "@azure/keyvault-admin!UpdateSettingRequest:interface": "KeyVault.UpdateSettingRequest",
       "@azure/keyvault-admin!Setting:interface": "KeyVault.Setting",
       "@azure/keyvault-admin!SettingsListResult:interface": "KeyVault.SettingsListResult",
+      "@azure/keyvault-admin!EkmConnection:interface": "KeyVault.EkmConnection",
+      "@azure/keyvault-admin!EkmProxyClientCertificateInfo:interface": "KeyVault.EkmProxyClientCertificateInfo",
+      "@azure/keyvault-admin!EkmProxyInfo:interface": "KeyVault.EkmProxyInfo",
       "@azure/keyvault-admin!RoleDefinition:interface": "KeyVault.RoleDefinition",
       "@azure/keyvault-admin!RoleDefinitionProperties:interface": "KeyVault.RoleDefinitionProperties",
       "@azure/keyvault-admin!Permission:interface": "KeyVault.Permission",
@@ -40,6 +43,12 @@
       "@azure/keyvault-admin!FullBackupOperationEndTime:type": "KeyVault.FullBackupOperation.endTime.anonymous",
       "@azure/keyvault-admin!RestoreOperationEndTime:type": "KeyVault.RestoreOperation.endTime.anonymous",
       "@azure/keyvault-admin!SelectiveKeyRestoreOperationEndTime:type": "KeyVault.SelectiveKeyRestoreOperation.endTime.anonymous",
+      "@azure/keyvault-admin!KeyVaultClient#deleteEkmConnection:member(1)": "KeyVault.deleteEkmConnection",
+      "@azure/keyvault-admin!KeyVaultClient#updateEkmConnection:member(1)": "KeyVault.updateEkmConnection",
+      "@azure/keyvault-admin!KeyVaultClient#createEkmConnection:member(1)": "KeyVault.createEkmConnection",
+      "@azure/keyvault-admin!KeyVaultClient#checkEkmConnection:member(1)": "KeyVault.checkEkmConnection",
+      "@azure/keyvault-admin!KeyVaultClient#getEkmCertificate:member(1)": "KeyVault.getEkmCertificate",
+      "@azure/keyvault-admin!KeyVaultClient#getEkmConnection:member(1)": "KeyVault.getEkmConnection",
       "@azure/keyvault-admin!KeyVaultClient#getSettings:member(1)": "KeyVault.getSettings",
       "@azure/keyvault-admin!KeyVaultClient#getSetting:member(1)": "KeyVault.getSetting",
       "@azure/keyvault-admin!KeyVaultClient#updateSetting:member(1)": "KeyVault.updateSetting",

@@ -17,7 +17,7 @@ export type { KeyType, KeyOperation };
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "2025-07-01";
+export const LATEST_API_VERSION = "7.6";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -616,6 +616,68 @@ export interface ReleaseKeyResult {
   value: string;
 }
 
+/**
+ * Options for {@link KeyClient.secureWrapKey}.
+ */
+export interface SecureWrapKeyOptions extends coreClient.OperationOptions {
+  /**
+   * The version of the key to wrap with. Defaults to the latest version of the key if omitted.
+   */
+  version?: string;
+}
+
+/**
+ * Options for {@link KeyClient.secureUnwrapKey}.
+ */
+export interface SecureUnwrapKeyOptions extends coreClient.OperationOptions {
+  /**
+   * The version of the key to unwrap with. Defaults to the latest version of the key if omitted.
+   */
+  version?: string;
+}
+
+/**
+ * The algorithms supported by the secure wrap and unwrap operations on
+ * {@link KeyClient}.
+ *
+ * Secure wrap/unwrap operations support a wider set of algorithms than the
+ * regular wrap/unwrap. The additional algorithms typically end with `KWPAD`
+ * (key-wrap with padding) or are prefixed with `CKM_` (PKCS#11 mechanisms).
+ */
+export type SecureKeyWrapAlgorithm =
+  | "RSA-OAEP-256"
+  | "A128KW"
+  | "A192KW"
+  | "A256KW"
+  | "A128KWPAD"
+  | "A192KWPAD"
+  | "A256KWPAD"
+  | "CKM_AES_KEY_WRAP"
+  | "CKM_AES_KEY_WRAP_PAD";
+
+/**
+ * Result of the {@link KeyClient.secureWrapKey} and
+ * {@link KeyClient.secureUnwrapKey} operations.
+ */
+export interface SecureKeyOperationResult {
+  /**
+   * The ID of the Key Vault Key used for the operation.
+   */
+  keyID: string;
+  /**
+   * The algorithm used for the operation.
+   */
+  algorithm: SecureKeyWrapAlgorithm;
+  /**
+   * The result of the operation:
+   *  - For {@link KeyClient.secureWrapKey}, this is the wrapped 256-bit AES
+   *    key generated within the trusted execution environment (TEE).
+   *  - For {@link KeyClient.secureUnwrapKey}, this is the unwrapped symmetric
+   *    key.
+   */
+  result: Uint8Array;
+}
+
 /** Known values of {@link KeyOperation} that the service accepts. */
 export enum KnownKeyOperations {
   /** Key operation - encrypt */
@@ -632,6 +694,10 @@ export enum KnownKeyOperations {
   UnwrapKey = "unwrapKey",
   /** Key operation - import */
   Import = "import",
+  /** Key operation - secureWrapKey */
+  SecureWrapKey = "secureWrapKey",
+  /** Key operation - secureUnwrapKey */
+  SecureUnwrapKey = "secureUnwrapKey",
 }
 
 /* eslint-disable tsdoc/syntax */

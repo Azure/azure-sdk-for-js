@@ -4,6 +4,7 @@
 
 ### Features Added
 
+- Added `KeyClient.secureWrapKey` and `KeyClient.secureUnwrapKey` methods to wrap a 256-bit AES key generated inside a Trusted Execution Environment (TEE) using a key encryption key stored in Managed HSM, and to unwrap that key back inside an attested TEE via the Microsoft Azure Attestation service (MAA).
 - Added support for service API version `2025-07-01` [#38515](https://github.com/Azure/azure-sdk-for-js/pull/38515)
 
 ### Breaking Changes
@@ -14,7 +15,7 @@
 
 ### Other Changes
 
-- Key Vault API version `2025-07-01` is now the default
+- Key Vault API version `2026-01-01-preview` is now the default
 
 ## 4.10.0 (2025-06-10)
 

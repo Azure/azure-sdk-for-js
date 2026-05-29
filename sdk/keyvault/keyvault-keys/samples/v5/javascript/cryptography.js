@@ -6,12 +6,10 @@
  */
 
 const { createHash } = require("node:crypto");
-
 const { CryptographyClient, KeyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
-
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
@@ -31,15 +29,15 @@ async function main() {
 
   const cryptoClient = new CryptographyClient(
     myWorkKey.id, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
-    credential
+    credential,
   );
 
   // Sign and Verify
   const signatureValue = "MySignature";
-  let hash = createHash("sha256");
+  const hash = createHash("sha256");
 
   hash.update(signatureValue);
-  let digest = hash.digest();
+  const digest = hash.digest();
   console.log("digest: ", digest);
 
   const signature = await cryptoClient.sign("RS256", digest);
@@ -50,7 +48,7 @@ async function main() {
 
   // Encrypt and decrypt
   const encrypt = await cryptoClient.encrypt({
-    algorithm: "RSA1_5",
+    algorithm: "RSA-OAEP-256",
     plaintext: Buffer.from("My Message"),
   });
   console.log("encrypt result: ", encrypt);
