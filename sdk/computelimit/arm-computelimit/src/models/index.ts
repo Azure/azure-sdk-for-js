@@ -22,6 +22,7 @@ export type {
   Feature,
   FeatureProperties,
   FeatureState,
+  FeatureEnableRequest,
   OperationStatusResult,
   VmFamily,
   VmFamilyProperties,
