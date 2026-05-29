@@ -45,6 +45,7 @@ import {
   CheckAvailabilityResult,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Namespaces operations. */
@@ -89,6 +90,20 @@ export interface NamespacesOperations {
     parameters: NamespaceResource,
     options?: NamespacesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<NamespaceResource>, NamespaceResource>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: NamespaceResource,
+    options?: NamespacesCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<NamespaceResource>, NamespaceResource>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: NamespaceResource,
+    options?: NamespacesCreateOrUpdateOptionalParams,
+  ) => Promise<NamespaceResource>;
   /** Returns the given namespace. */
   get: (
     resourceGroupName: string,
@@ -171,6 +186,24 @@ function _getNamespaces(context: NotificationHubsManagementContext) {
       parameters: NamespaceResource,
       options?: NamespacesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, namespaceName, parameters, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      parameters: NamespaceResource,
+      options?: NamespacesCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(context, resourceGroupName, namespaceName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      parameters: NamespaceResource,
+      options?: NamespacesCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, resourceGroupName, namespaceName, parameters, options);
+    },
     get: (
       resourceGroupName: string,
       namespaceName: string,

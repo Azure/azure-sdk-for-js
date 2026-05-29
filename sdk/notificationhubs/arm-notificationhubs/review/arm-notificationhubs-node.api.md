@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
 import { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
@@ -445,6 +446,10 @@ export interface NamespacesListOptionalParams extends OperationOptions {
 
 // @public
 export interface NamespacesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, namespaceName: string, parameters: NamespaceResource, options?: NamespacesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NamespaceResource>, NamespaceResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, namespaceName: string, parameters: NamespaceResource, options?: NamespacesCreateOrUpdateOptionalParams) => Promise<NamespaceResource>;
     checkAvailability: (parameters: CheckAvailabilityParameters, options?: NamespacesCheckAvailabilityOptionalParams) => Promise<CheckAvailabilityResult>;
     createOrUpdate: (resourceGroupName: string, namespaceName: string, parameters: NamespaceResource, options?: NamespacesCreateOrUpdateOptionalParams) => PollerLike<OperationState<NamespaceResource>, NamespaceResource>;
     createOrUpdateAuthorizationRule: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: SharedAccessAuthorizationRuleResource, options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams) => Promise<SharedAccessAuthorizationRuleResource>;
@@ -751,6 +756,14 @@ export interface PrivateEndpointConnectionsListOptionalParams extends OperationO
 
 // @public
 export interface PrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionResource>, PrivateEndpointConnectionResource>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionsUpdateOptionalParams) => Promise<PrivateEndpointConnectionResource>;
     delete: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnectionResource>;
     getGroupId: (resourceGroupName: string, namespaceName: string, subResourceName: string, options?: PrivateEndpointConnectionsGetGroupIdOptionalParams) => Promise<PrivateLinkResource>;
@@ -877,6 +890,28 @@ export interface SharedAccessAuthorizationRuleResource extends ProxyResource {
     secondaryKey?: string;
     // (undocumented)
     tags?: Record<string, string>;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public

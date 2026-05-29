@@ -5,6 +5,8 @@ Compared with version 2.1.0
 
 ### Features Added
   - Added operation group PrivateEndpointConnectionsOperations
+  - Added operation NamespacesOperations.beginCreateOrUpdate
+  - Added operation NamespacesOperations.beginCreateOrUpdateAndWait
   - Added operation NamespacesOperations.delete
   - Added operation NamespacesOperations.getPnsCredentials
   - Added operation NamespacesOperations.update
@@ -53,6 +55,7 @@ Compared with version 2.1.0
   - Added Interface RemotePrivateLinkServiceConnectionState
   - Added Interface RestorePollerOptions
   - Added Interface ServiceSpecification
+  - Added Interface SimplePollerLike
   - Added Interface SystemData
   - Added Interface TrackedResource
   - Added Interface WnsCredentialProperties

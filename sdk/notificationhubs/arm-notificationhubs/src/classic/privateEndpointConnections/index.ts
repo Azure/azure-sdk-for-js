@@ -20,6 +20,7 @@ import {
 } from "../../api/privateEndpointConnections/options.js";
 import { PrivateEndpointConnectionResource, PrivateLinkResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateEndpointConnections operations. */
@@ -62,6 +63,20 @@ export interface PrivateEndpointConnectionsOperations {
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    namespaceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    namespaceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ) => Promise<void>;
   /**
    * Approves or rejects Private Endpoint Connection.
    * This is a public API that can be called directly by Notification Hubs users.
@@ -76,6 +91,27 @@ export interface PrivateEndpointConnectionsOperations {
     OperationState<PrivateEndpointConnectionResource>,
     PrivateEndpointConnectionResource
   >;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    namespaceName: string,
+    privateEndpointConnectionName: string,
+    parameters: PrivateEndpointConnectionResource,
+    options?: PrivateEndpointConnectionsUpdateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionResource>,
+      PrivateEndpointConnectionResource
+    >
+  >;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    namespaceName: string,
+    privateEndpointConnectionName: string,
+    parameters: PrivateEndpointConnectionResource,
+    options?: PrivateEndpointConnectionsUpdateOptionalParams,
+  ) => Promise<PrivateEndpointConnectionResource>;
   /**
    * Returns a Private Endpoint Connection with a given name.
    * This is a public API that can be called directly by Notification Hubs users.
@@ -112,6 +148,36 @@ function _getPrivateEndpointConnections(context: NotificationHubsManagementConte
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, namespaceName, privateEndpointConnectionName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      privateEndpointConnectionName: string,
+      options?: PrivateEndpointConnectionsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        namespaceName,
+        privateEndpointConnectionName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      privateEndpointConnectionName: string,
+      options?: PrivateEndpointConnectionsDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        namespaceName,
+        privateEndpointConnectionName,
+        options,
+      );
+    },
     update: (
       resourceGroupName: string,
       namespaceName: string,
@@ -127,6 +193,40 @@ function _getPrivateEndpointConnections(context: NotificationHubsManagementConte
         parameters,
         options,
       ),
+    beginUpdate: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      privateEndpointConnectionName: string,
+      parameters: PrivateEndpointConnectionResource,
+      options?: PrivateEndpointConnectionsUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        namespaceName,
+        privateEndpointConnectionName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      privateEndpointConnectionName: string,
+      parameters: PrivateEndpointConnectionResource,
+      options?: PrivateEndpointConnectionsUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        namespaceName,
+        privateEndpointConnectionName,
+        parameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       namespaceName: string,
