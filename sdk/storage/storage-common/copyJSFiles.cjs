@@ -24,6 +24,8 @@ if (!ESM_EXPORT_BLOCK.test(esmSource)) {
   );
 }
 
+fs.writeFileSync('./dist/esm/crc64.js', esmSource);
+
 const cjsSource = esmSource
   .replace(
     ESM_COMPAT_BLOCK,
