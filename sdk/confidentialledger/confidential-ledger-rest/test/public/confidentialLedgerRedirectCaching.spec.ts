@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi } from "vitest";
-import type { PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import type { PipelinePolicy, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import createClient from "../../src/confidentialLedger.js";
 
 /**
  * Helper to extract the custom redirect policy from a client's pipeline.
  */
-function getRedirectPolicy(ledgerEndpoint: string) {
+function getRedirectPolicy(ledgerEndpoint: string): PipelinePolicy {
   const fakeCredential = {
     getToken: vi
       .fn()
