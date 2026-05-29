@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import { $delete, createOrUpdate, get } from "../../api/raiExternalSafetyProvider/operations.js";
-import {
+import type {
   RaiExternalSafetyProviderDeleteOptionalParams,
   RaiExternalSafetyProviderCreateOrUpdateOptionalParams,
   RaiExternalSafetyProviderGetOptionalParams,
 } from "../../api/raiExternalSafetyProvider/options.js";
-import { RaiExternalSafetyProviderSchema } from "../../models/models.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { RaiExternalSafetyProviderSchema } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RaiExternalSafetyProvider operations. */
 export interface RaiExternalSafetyProviderOperations {

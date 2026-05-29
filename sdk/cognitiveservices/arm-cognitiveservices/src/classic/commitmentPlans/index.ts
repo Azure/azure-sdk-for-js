@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import {
   listAssociations,
   deleteAssociation,
@@ -18,7 +18,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/commitmentPlans/operations.js";
-import {
+import type {
   CommitmentPlansListAssociationsOptionalParams,
   CommitmentPlansDeleteAssociationOptionalParams,
   CommitmentPlansCreateOrUpdateAssociationOptionalParams,
@@ -34,14 +34,15 @@ import {
   CommitmentPlansCreateOrUpdateOptionalParams,
   CommitmentPlansGetOptionalParams,
 } from "../../api/commitmentPlans/options.js";
-import {
+import type {
   PatchResourceTagsAndSku,
   CommitmentPlan,
   CommitmentPlanAccountAssociation,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CommitmentPlans operations. */
 export interface CommitmentPlansOperations {

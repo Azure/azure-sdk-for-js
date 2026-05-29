@@ -1,30 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CognitiveServicesManagementContext as Client } from "./index.js";
-import {
+import type { CognitiveServicesManagementContext as Client } from "./index.js";
+import type {
   SkuAvailabilityListResult,
+  DomainAvailability,
+  CalculateModelCapacityResult,
+} from "../models/models.js";
+import {
   skuAvailabilityListResultDeserializer,
   errorResponseDeserializer,
-  DomainAvailability,
   domainAvailabilityDeserializer,
   deploymentModelSerializer,
   modelCapacityCalculatorWorkloadArraySerializer,
-  CalculateModelCapacityResult,
   calculateModelCapacityResultDeserializer,
 } from "../models/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
+import type {
   CalculateModelCapacityOptionalParams,
   CheckDomainAvailabilityOptionalParams,
   CheckSkuAvailabilityOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _calculateModelCapacitySend(
   context: Client,

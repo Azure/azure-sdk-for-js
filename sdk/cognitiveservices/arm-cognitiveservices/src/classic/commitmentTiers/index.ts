@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import { list } from "../../api/commitmentTiers/operations.js";
-import { CommitmentTiersListOptionalParams } from "../../api/commitmentTiers/options.js";
-import { CommitmentTier } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { CommitmentTiersListOptionalParams } from "../../api/commitmentTiers/options.js";
+import type { CommitmentTier } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CommitmentTiers operations. */
 export interface CommitmentTiersOperations {

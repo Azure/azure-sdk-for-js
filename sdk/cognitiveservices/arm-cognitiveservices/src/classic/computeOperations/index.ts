@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import { get } from "../../api/computeOperations/operations.js";
-import { ComputeOperationsGetOptionalParams } from "../../api/computeOperations/options.js";
-import { ComputeOperationStatus } from "../../models/models.js";
+import type { ComputeOperationsGetOptionalParams } from "../../api/computeOperations/options.js";
+import type { ComputeOperationStatus } from "../../models/models.js";
 
 /** Interface representing a ComputeOperations operations. */
 export interface ComputeOperationsOperations {

@@ -1,27 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CognitiveServicesManagementContext as Client } from "../index.js";
+import type { CognitiveServicesManagementContext as Client } from "../index.js";
+import type { RaiExternalSafetyProviderSchema } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  RaiExternalSafetyProviderSchema,
   raiExternalSafetyProviderSchemaSerializer,
   raiExternalSafetyProviderSchemaDeserializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   RaiExternalSafetyProviderDeleteOptionalParams,
   RaiExternalSafetyProviderCreateOrUpdateOptionalParams,
   RaiExternalSafetyProviderGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _$deleteSend(
   context: Client,

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import { list, get } from "../../api/raiContentFilters/operations.js";
-import {
+import type {
   RaiContentFiltersListOptionalParams,
   RaiContentFiltersGetOptionalParams,
 } from "../../api/raiContentFilters/options.js";
-import { RaiContentFilter } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { RaiContentFilter } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RaiContentFilters operations. */
 export interface RaiContentFiltersOperations {

@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CognitiveServicesManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { CognitiveServicesManagementContext as Client } from "../index.js";
+import type {
   RaiBlocklistItem,
-  raiBlocklistItemSerializer,
-  raiBlocklistItemDeserializer,
   _RaiBlockListItemsResult,
-  _raiBlockListItemsResultDeserializer,
   RaiBlocklistItemBulkRequest,
   RaiBlocklist,
+} from "../../models/models.js";
+import {
+  errorResponseDeserializer,
+  raiBlocklistItemSerializer,
+  raiBlocklistItemDeserializer,
+  _raiBlockListItemsResultDeserializer,
   raiBlocklistDeserializer,
   raiBlocklistItemBulkRequestArraySerializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   RaiBlocklistItemsBatchDeleteOptionalParams,
   RaiBlocklistItemsBatchAddOptionalParams,
   RaiBlocklistItemsListOptionalParams,
@@ -28,13 +28,9 @@ import {
   RaiBlocklistItemsCreateOrUpdateOptionalParams,
   RaiBlocklistItemsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _batchDeleteSend(
   context: Client,

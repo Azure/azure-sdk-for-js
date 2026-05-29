@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import {
   list,
   $delete,
@@ -9,17 +9,18 @@ import {
   createOrUpdate,
   get,
 } from "../../api/managedComputeDeployments/operations.js";
-import {
+import type {
   ManagedComputeDeploymentsListOptionalParams,
   ManagedComputeDeploymentsDeleteOptionalParams,
   ManagedComputeDeploymentsUpdateOptionalParams,
   ManagedComputeDeploymentsCreateOrUpdateOptionalParams,
   ManagedComputeDeploymentsGetOptionalParams,
 } from "../../api/managedComputeDeployments/options.js";
-import { ManagedComputeDeployment, PatchResourceSku } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { ManagedComputeDeployment, PatchResourceSku } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedComputeDeployments operations. */
 export interface ManagedComputeDeploymentsOperations {

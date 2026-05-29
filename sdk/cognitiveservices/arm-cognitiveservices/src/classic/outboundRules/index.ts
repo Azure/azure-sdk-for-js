@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import { post } from "../../api/outboundRules/operations.js";
-import { OutboundRulesPostOptionalParams } from "../../api/outboundRules/options.js";
-import {
+import type { OutboundRulesPostOptionalParams } from "../../api/outboundRules/options.js";
+import type {
   OutboundRuleBasicResource,
   ManagedNetworkSettingsBasicResource,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a OutboundRules operations. */
 export interface OutboundRulesOperations {

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import { list, update, createOrUpdate, get } from "../../api/defenderForAISettings/operations.js";
-import {
+import type {
   DefenderForAISettingsListOptionalParams,
   DefenderForAISettingsUpdateOptionalParams,
   DefenderForAISettingsCreateOrUpdateOptionalParams,
   DefenderForAISettingsGetOptionalParams,
 } from "../../api/defenderForAISettings/options.js";
-import { DefenderForAISetting } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DefenderForAISetting } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DefenderForAISettings operations. */
 export interface DefenderForAISettingsOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import {
   evaluateDeploymentPolicies,
   listModels,
@@ -16,7 +16,7 @@ import {
   create,
   get,
 } from "../../api/accounts/operations.js";
-import {
+import type {
   AccountsEvaluateDeploymentPoliciesOptionalParams,
   AccountsListModelsOptionalParams,
   AccountsListUsagesOptionalParams,
@@ -30,7 +30,7 @@ import {
   AccountsCreateOptionalParams,
   AccountsGetOptionalParams,
 } from "../../api/accounts/options.js";
-import {
+import type {
   Account,
   ApiKeys,
   KeyName,
@@ -40,9 +40,10 @@ import {
   EvaluateDeploymentPoliciesRequest,
   EvaluateDeploymentPoliciesResponse,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Accounts operations. */
 export interface AccountsOperations {

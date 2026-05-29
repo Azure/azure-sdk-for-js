@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import {
   batchDelete,
   batchAdd,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/raiBlocklistItems/operations.js";
-import {
+import type {
   RaiBlocklistItemsBatchDeleteOptionalParams,
   RaiBlocklistItemsBatchAddOptionalParams,
   RaiBlocklistItemsListOptionalParams,
@@ -18,14 +18,15 @@ import {
   RaiBlocklistItemsCreateOrUpdateOptionalParams,
   RaiBlocklistItemsGetOptionalParams,
 } from "../../api/raiBlocklistItems/options.js";
-import {
+import type {
   RaiBlocklistItem,
   RaiBlocklistItemBulkRequest,
   RaiBlocklist,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RaiBlocklistItems operations. */
 export interface RaiBlocklistItemsOperations {

@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/accountCapabilityHosts/operations.js";
-import {
+import type {
   AccountCapabilityHostsListOptionalParams,
   AccountCapabilityHostsDeleteOptionalParams,
   AccountCapabilityHostsCreateOrUpdateOptionalParams,
   AccountCapabilityHostsGetOptionalParams,
 } from "../../api/accountCapabilityHosts/options.js";
-import { CapabilityHost } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { CapabilityHost } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AccountCapabilityHosts operations. */
 export interface AccountCapabilityHostsOperations {

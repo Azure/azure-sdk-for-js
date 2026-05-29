@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import {
   stop,
   start,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/agentDeployments/operations.js";
-import {
+import type {
   AgentDeploymentsStopOptionalParams,
   AgentDeploymentsStartOptionalParams,
   AgentDeploymentsListOptionalParams,
@@ -18,10 +18,11 @@ import {
   AgentDeploymentsCreateOrUpdateOptionalParams,
   AgentDeploymentsGetOptionalParams,
 } from "../../api/agentDeployments/options.js";
-import { AgentDeployment } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { AgentDeployment } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AgentDeployments operations. */
 export interface AgentDeploymentsOperations {

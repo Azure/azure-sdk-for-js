@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import {
   restart,
   stop,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/workbenches/operations.js";
-import {
+import type {
   WorkbenchesRestartOptionalParams,
   WorkbenchesStopOptionalParams,
   WorkbenchesStartOptionalParams,
@@ -22,10 +22,11 @@ import {
   WorkbenchesCreateOrUpdateOptionalParams,
   WorkbenchesGetOptionalParams,
 } from "../../api/workbenches/options.js";
-import { Workbench } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Workbench } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Workbenches operations. */
 export interface WorkbenchesOperations {
