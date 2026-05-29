@@ -850,7 +850,7 @@
 # PRLabel: %Mgmt
 /sdk/programmableconnectivity/arm-programmableconnectivity/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/powerbidedicated/arm-powerbidedicated/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
