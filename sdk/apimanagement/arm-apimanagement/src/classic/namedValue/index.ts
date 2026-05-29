@@ -1,0 +1,297 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import {
+  refreshSecret,
+  listValue,
+  listByService,
+  $delete,
+  update,
+  createOrUpdate,
+  getEntityTag,
+  get,
+} from "../../api/namedValue/operations.js";
+import {
+  NamedValueRefreshSecretOptionalParams,
+  NamedValueListValueOptionalParams,
+  NamedValueListByServiceOptionalParams,
+  NamedValueDeleteOptionalParams,
+  NamedValueUpdateOptionalParams,
+  NamedValueCreateOrUpdateOptionalParams,
+  NamedValueGetEntityTagOptionalParams,
+  NamedValueGetOptionalParams,
+} from "../../api/namedValue/options.js";
+import {
+  NamedValueContract,
+  NamedValueCreateContract,
+  NamedValueUpdateParameters,
+  NamedValueSecretContract,
+} from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
+
+/** Interface representing a NamedValue operations. */
+export interface NamedValueOperations {
+  /** Refresh the secret of the named value specified by its identifier. */
+  refreshSecret: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options?: NamedValueRefreshSecretOptionalParams,
+  ) => PollerLike<OperationState<NamedValueContract>, NamedValueContract>;
+  /** @deprecated use refreshSecret instead */
+  beginRefreshSecret: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options?: NamedValueRefreshSecretOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<NamedValueContract>, NamedValueContract>>;
+  /** @deprecated use refreshSecret instead */
+  beginRefreshSecretAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options?: NamedValueRefreshSecretOptionalParams,
+  ) => Promise<NamedValueContract>;
+  /** Gets the secret of the named value specified by its identifier. */
+  listValue: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options?: NamedValueListValueOptionalParams,
+  ) => Promise<NamedValueSecretContract>;
+  /** Lists a collection of named values defined within a service instance. */
+  listByService: (
+    resourceGroupName: string,
+    serviceName: string,
+    options?: NamedValueListByServiceOptionalParams,
+  ) => PagedAsyncIterableIterator<NamedValueContract>;
+  /** Deletes specific named value from the API Management service instance. */
+  delete: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    ifMatch: string,
+    options?: NamedValueDeleteOptionalParams,
+  ) => Promise<void>;
+  /** Updates the specific named value. */
+  update: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    ifMatch: string,
+    parameters: NamedValueUpdateParameters,
+    options?: NamedValueUpdateOptionalParams,
+  ) => PollerLike<OperationState<NamedValueContract>, NamedValueContract>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    ifMatch: string,
+    parameters: NamedValueUpdateParameters,
+    options?: NamedValueUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<NamedValueContract>, NamedValueContract>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    ifMatch: string,
+    parameters: NamedValueUpdateParameters,
+    options?: NamedValueUpdateOptionalParams,
+  ) => Promise<NamedValueContract>;
+  /** Creates or updates named value. */
+  createOrUpdate: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    parameters: NamedValueCreateContract,
+    options?: NamedValueCreateOrUpdateOptionalParams,
+  ) => PollerLike<OperationState<NamedValueContract>, NamedValueContract>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    parameters: NamedValueCreateContract,
+    options?: NamedValueCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<NamedValueContract>, NamedValueContract>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    parameters: NamedValueCreateContract,
+    options?: NamedValueCreateOrUpdateOptionalParams,
+  ) => Promise<NamedValueContract>;
+  /** Gets the entity state (Etag) version of the named value specified by its identifier. */
+  getEntityTag: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options?: NamedValueGetEntityTagOptionalParams,
+  ) => Promise<void>;
+  /** Gets the details of the named value specified by its identifier. */
+  get: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options?: NamedValueGetOptionalParams,
+  ) => Promise<NamedValueContract>;
+}
+
+function _getNamedValue(context: ApiManagementContext) {
+  return {
+    refreshSecret: (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      options?: NamedValueRefreshSecretOptionalParams,
+    ) => refreshSecret(context, resourceGroupName, serviceName, namedValueId, options),
+    beginRefreshSecret: async (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      options?: NamedValueRefreshSecretOptionalParams,
+    ) => {
+      const poller = refreshSecret(context, resourceGroupName, serviceName, namedValueId, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRefreshSecretAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      options?: NamedValueRefreshSecretOptionalParams,
+    ) => {
+      return await refreshSecret(context, resourceGroupName, serviceName, namedValueId, options);
+    },
+    listValue: (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      options?: NamedValueListValueOptionalParams,
+    ) => listValue(context, resourceGroupName, serviceName, namedValueId, options),
+    listByService: (
+      resourceGroupName: string,
+      serviceName: string,
+      options?: NamedValueListByServiceOptionalParams,
+    ) => listByService(context, resourceGroupName, serviceName, options),
+    delete: (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      ifMatch: string,
+      options?: NamedValueDeleteOptionalParams,
+    ) => $delete(context, resourceGroupName, serviceName, namedValueId, ifMatch, options),
+    update: (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      ifMatch: string,
+      parameters: NamedValueUpdateParameters,
+      options?: NamedValueUpdateOptionalParams,
+    ) =>
+      update(context, resourceGroupName, serviceName, namedValueId, ifMatch, parameters, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      ifMatch: string,
+      parameters: NamedValueUpdateParameters,
+      options?: NamedValueUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        serviceName,
+        namedValueId,
+        ifMatch,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      ifMatch: string,
+      parameters: NamedValueUpdateParameters,
+      options?: NamedValueUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        serviceName,
+        namedValueId,
+        ifMatch,
+        parameters,
+        options,
+      );
+    },
+    createOrUpdate: (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      parameters: NamedValueCreateContract,
+      options?: NamedValueCreateOrUpdateOptionalParams,
+    ) => createOrUpdate(context, resourceGroupName, serviceName, namedValueId, parameters, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      parameters: NamedValueCreateContract,
+      options?: NamedValueCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        namedValueId,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      parameters: NamedValueCreateContract,
+      options?: NamedValueCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        namedValueId,
+        parameters,
+        options,
+      );
+    },
+    getEntityTag: (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      options?: NamedValueGetEntityTagOptionalParams,
+    ) => getEntityTag(context, resourceGroupName, serviceName, namedValueId, options),
+    get: (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      options?: NamedValueGetOptionalParams,
+    ) => get(context, resourceGroupName, serviceName, namedValueId, options),
+  };
+}
+
+export function _getNamedValueOperations(context: ApiManagementContext): NamedValueOperations {
+  return {
+    ..._getNamedValue(context),
+  };
+}

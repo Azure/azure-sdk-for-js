@@ -352,7 +352,7 @@
 # PRLabel: %Mgmt
 /sdk/analysisservices/arm-analysisservices/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/apimanagement/arm-apimanagement/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed

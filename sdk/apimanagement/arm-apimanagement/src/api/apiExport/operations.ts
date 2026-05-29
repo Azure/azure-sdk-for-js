@@ -1,0 +1,83 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ApiManagementContext as Client } from "../index.js";
+import {
+  errorResponseDeserializer,
+  ApiExportResult,
+  apiExportResultDeserializer,
+  ExportFormat,
+  ExportApi,
+} from "../../models/models.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { ApiExportGetOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+
+export function _getSend(
+  context: Client,
+  resourceGroupName: string,
+  serviceName: string,
+  apiId: string,
+  format: ExportFormat,
+  exportParam: ExportApi,
+  options: ApiExportGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?export=true{?api%2Dversion,format,export}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      serviceName: serviceName,
+      apiId: apiId,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
+      format: format,
+      export: exportParam,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<ApiExportResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return apiExportResultDeserializer(result.body);
+}
+
+/** Gets the details of the API specified by its identifier in the format specified to the Storage Blob with SAS Key valid for 5 minutes. */
+export async function get(
+  context: Client,
+  resourceGroupName: string,
+  serviceName: string,
+  apiId: string,
+  format: ExportFormat,
+  exportParam: ExportApi,
+  options: ApiExportGetOptionalParams = { requestOptions: {} },
+): Promise<ApiExportResult> {
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    serviceName,
+    apiId,
+    format,
+    exportParam,
+    options,
+  );
+  return _getDeserialize(result);
+}
