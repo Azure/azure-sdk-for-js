@@ -83,4 +83,13 @@ describe("MaintenanceManagement test", () => {
     }
     assert.equal(resArray.length, 1);
   });
+
+  it.skip("maintenanceConfigurations delete test", async () => {
+    await client.maintenanceConfigurations.delete(resourceGroup, resourcename);
+    const resArray = new Array();
+    for await (const item of client.maintenanceConfigurations.list()) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  });
 });
