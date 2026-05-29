@@ -8,31 +8,14 @@
  */
 
 import { createRequire } from "node:module";
-import { dirname, join } from "node:path";
 import { trace, metrics } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { useAzureMonitor } from "../../../src/index.js";
 
 const esmRequire = createRequire(import.meta.url);
 
-/**
- * Simulate the change the instrumentation team will make: export
- * OpenTelemetryInstrumenter from the package's public API.
- */
-function patchInstrumentationPackageExport(): void {
-  const pkg = esmRequire("@azure/opentelemetry-instrumentation-azure-sdk");
-  if (typeof pkg.OpenTelemetryInstrumenter !== "function") {
-    const pkgMain = esmRequire.resolve("@azure/opentelemetry-instrumentation-azure-sdk");
-    const { OpenTelemetryInstrumenter } = esmRequire(join(dirname(pkgMain), "instrumenter.js"));
-    pkg.OpenTelemetryInstrumenter = OpenTelemetryInstrumenter;
-  }
-}
-
 describe("Azure SDK tracing bridge (import order)", () => {
-  beforeEach(() => {
-    patchInstrumentationPackageExport();
-  });
 
   afterEach(() => {
     trace.disable();

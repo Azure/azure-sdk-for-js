@@ -14,8 +14,8 @@ import { createRequire } from "node:module";
  * never fires, and Azure SDK spans are silently dropped.
  *
  * This function works around the issue by directly calling useInstrumenter()
- * with the OpenTelemetryInstrumenter, which patches the already-loaded
- * \@azure/core-tracing singleton state.
+ * with an instrumenter created via createOpenTelemetryInstrumenter(), which
+ * patches the already-loaded \@azure/core-tracing singleton state.
  *
  * @internal
  */
@@ -23,11 +23,11 @@ export function ensureAzureSdkTracingBridge(): void {
   try {
     const esmRequire = createRequire(import.meta.url);
     const { useInstrumenter } = esmRequire("@azure/core-tracing");
-    const { OpenTelemetryInstrumenter } = esmRequire(
+    const { createOpenTelemetryInstrumenter } = esmRequire(
       "@azure/opentelemetry-instrumentation-azure-sdk",
     );
 
-    useInstrumenter(new OpenTelemetryInstrumenter());
+    useInstrumenter(createOpenTelemetryInstrumenter());
   } catch {
     // Fail silently if the modules cannot be resolved
   }
