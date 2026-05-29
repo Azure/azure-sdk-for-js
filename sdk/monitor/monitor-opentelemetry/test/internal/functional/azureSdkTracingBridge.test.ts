@@ -11,13 +11,14 @@ import { createRequire } from "node:module";
 import { trace, metrics } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { useAzureMonitor } from "../../../src/index.js";
+import { useAzureMonitor, shutdownAzureMonitor } from "../../../src/index.js";
 
 const esmRequire = createRequire(import.meta.url);
 
 describe("Azure SDK tracing bridge (import order)", () => {
 
-  afterEach(() => {
+  afterEach(async () => {
+    await shutdownAzureMonitor();
     trace.disable();
     metrics.disable();
     logs.disable();
@@ -37,8 +38,7 @@ describe("Azure SDK tracing bridge (import order)", () => {
     });
 
     // The bridge should have eagerly called useInstrumenter with an
-    // OpenTelemetryInstrumenter instance. This test will fail until
-    // @azure/opentelemetry-instrumentation-azure-sdk exports the class.
+    // OpenTelemetryInstrumenter instance.
     expect(spy).toHaveBeenCalled();
     const arg = spy.mock.calls[spy.mock.calls.length - 1][0];
     expect(arg).toBeDefined();

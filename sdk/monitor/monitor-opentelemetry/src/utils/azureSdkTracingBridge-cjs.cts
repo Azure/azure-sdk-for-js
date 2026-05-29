@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { diag } from "@opentelemetry/api";
+
 /**
  * Eagerly installs the OpenTelemetry bridge for \@azure/core-tracing.
  *
@@ -27,7 +29,7 @@ export function ensureAzureSdkTracingBridge(): void {
     );
 
     useInstrumenter(createOpenTelemetryInstrumenter());
-  } catch {
-    // Fail silently if the modules cannot be resolved
+  } catch (e) {
+    diag.warn("Failed to install Azure SDK tracing bridge", e);
   }
 }
