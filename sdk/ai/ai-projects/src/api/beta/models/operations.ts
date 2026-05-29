@@ -39,8 +39,8 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { BlobServiceClient } from "@azure/storage-blob";
-import { readFileSync, readdirSync, statSync } from "node:fs";
-import { join, relative } from "node:path";
+import fs from "node:fs";
+import nodePath from "node:path";
 
 export function _getCredentialsSend(
   context: Client,
@@ -453,9 +453,9 @@ export function listVersions(
 
 function getAllFiles(dir: string): string[] {
   const results: string[] = [];
-  for (const entry of readdirSync(dir)) {
-    const fullPath = join(dir, entry);
-    if (statSync(fullPath).isDirectory()) {
+  for (const entry of fs.readdirSync(dir)) {
+    const fullPath = nodePath.join(dir, entry);
+    if (fs.statSync(fullPath).isDirectory()) {
       results.push(...getAllFiles(fullPath));
     } else {
       results.push(fullPath);
@@ -485,8 +485,8 @@ export async function createFromSource(
   ).getContainerClient("");
   const files = getAllFiles(source);
   for (const filePath of files) {
-    const blobName = relative(source, filePath).replace(/\\/g, "/");
-    const data = readFileSync(filePath);
+    const blobName = nodePath.relative(source, filePath).replace(/\\/g, "/");
+    const data = fs.readFileSync(filePath);
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     await blockBlobClient.upload(data, data.length);
   }
