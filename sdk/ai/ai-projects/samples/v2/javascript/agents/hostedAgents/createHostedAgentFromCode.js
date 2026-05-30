@@ -25,11 +25,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { createHash } = require("node:crypto");
 const { readFileSync, writeFileSync } = require("node:fs");
 const path = require("node:path");
-const { fileURLToPath } = require("node:url");
 const { buffer } = require("node:stream/consumers");
 require("dotenv/config");
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const agentName = process.env["FOUNDRY_HOSTED_AGENT_NAME"] || "<hosted agent name>";
