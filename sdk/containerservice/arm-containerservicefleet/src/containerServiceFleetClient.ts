@@ -3,47 +3,28 @@
 
 import type {
   ContainerServiceFleetContext,
-  ContainerServiceFleetClientOptionalParams} from "./api/index.js";
-import {
-  createContainerServiceFleet,
+  ContainerServiceFleetClientOptionalParams,
 } from "./api/index.js";
-import type {
-  AutoUpgradeProfileOperationsOperations} from "./classic/autoUpgradeProfileOperations/index.js";
-import {
-  _getAutoUpgradeProfileOperationsOperations,
-} from "./classic/autoUpgradeProfileOperations/index.js";
-import type {
-  AutoUpgradeProfilesOperations} from "./classic/autoUpgradeProfiles/index.js";
-import {
-  _getAutoUpgradeProfilesOperations,
-} from "./classic/autoUpgradeProfiles/index.js";
-import type {
-  ClusterMeshProfilesOperations} from "./classic/clusterMeshProfiles/index.js";
-import {
-  _getClusterMeshProfilesOperations,
-} from "./classic/clusterMeshProfiles/index.js";
-import type {
-  FleetManagedNamespacesOperations} from "./classic/fleetManagedNamespaces/index.js";
-import {
-  _getFleetManagedNamespacesOperations,
-} from "./classic/fleetManagedNamespaces/index.js";
-import type {
-  FleetMembersOperations} from "./classic/fleetMembers/index.js";
-import {
-  _getFleetMembersOperations,
-} from "./classic/fleetMembers/index.js";
-import type {
-  FleetUpdateStrategiesOperations} from "./classic/fleetUpdateStrategies/index.js";
-import {
-  _getFleetUpdateStrategiesOperations,
-} from "./classic/fleetUpdateStrategies/index.js";
-import type { FleetsOperations} from "./classic/fleets/index.js";
+import { createContainerServiceFleet } from "./api/index.js";
+import type { AutoUpgradeProfileOperationsOperations } from "./classic/autoUpgradeProfileOperations/index.js";
+import { _getAutoUpgradeProfileOperationsOperations } from "./classic/autoUpgradeProfileOperations/index.js";
+import type { AutoUpgradeProfilesOperations } from "./classic/autoUpgradeProfiles/index.js";
+import { _getAutoUpgradeProfilesOperations } from "./classic/autoUpgradeProfiles/index.js";
+import type { ClusterMeshProfilesOperations } from "./classic/clusterMeshProfiles/index.js";
+import { _getClusterMeshProfilesOperations } from "./classic/clusterMeshProfiles/index.js";
+import type { FleetManagedNamespacesOperations } from "./classic/fleetManagedNamespaces/index.js";
+import { _getFleetManagedNamespacesOperations } from "./classic/fleetManagedNamespaces/index.js";
+import type { FleetMembersOperations } from "./classic/fleetMembers/index.js";
+import { _getFleetMembersOperations } from "./classic/fleetMembers/index.js";
+import type { FleetUpdateStrategiesOperations } from "./classic/fleetUpdateStrategies/index.js";
+import { _getFleetUpdateStrategiesOperations } from "./classic/fleetUpdateStrategies/index.js";
+import type { FleetsOperations } from "./classic/fleets/index.js";
 import { _getFleetsOperations } from "./classic/fleets/index.js";
-import type { GatesOperations} from "./classic/gates/index.js";
+import type { GatesOperations } from "./classic/gates/index.js";
 import { _getGatesOperations } from "./classic/gates/index.js";
-import type { OperationsOperations} from "./classic/operations/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { UpdateRunsOperations} from "./classic/updateRuns/index.js";
+import type { UpdateRunsOperations } from "./classic/updateRuns/index.js";
 import { _getUpdateRunsOperations } from "./classic/updateRuns/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
