@@ -1051,7 +1051,7 @@
 # PRLabel: %Mgmt
 /sdk/loadtesting/arm-loadtesting/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/purview/arm-purview/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
