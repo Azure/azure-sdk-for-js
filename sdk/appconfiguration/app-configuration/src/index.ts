@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export { AppConfigurationClient } from "./appConfigurationClient.js";
+export type { SimplePollerLike } from "./internal/lroShim.js";
 export {
   featureFlagContentType,
   featureFlagPrefix,

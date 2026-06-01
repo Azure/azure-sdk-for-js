@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a AutoUpgradeProfile
  *
  * @summary create a AutoUpgradeProfile
- * x-ms-original-file: 2026-02-01-preview/AutoUpgradeProfiles_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-02-preview/AutoUpgradeProfiles_CreateOrUpdate.json
  */
 async function createAnAutoUpgradeProfile() {
   const credential = new DefaultAzureCredential();

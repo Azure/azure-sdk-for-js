@@ -65,7 +65,7 @@ export interface BetaSkillsOperations {
   ) => Promise<SkillObject>;
   /** Creates a skill from a zip package. */
   createFromPackage: (
-    body: Uint8Array,
+    content: Uint8Array,
     foundryFeatures: "Skills=V1Preview",
     options?: CreateFromPackageOptionalParams,
   ) => Promise<SkillObject>;
@@ -102,10 +102,10 @@ function _getBetaSkills(context: AIProjectContext) {
       options?: BetaSkillsGetOptionalParams,
     ) => get(context, name, foundryFeatures, options),
     createFromPackage: (
-      body: Uint8Array,
+      content: Uint8Array,
       foundryFeatures: "Skills=V1Preview",
       options?: CreateFromPackageOptionalParams,
-    ) => createFromPackage(context, body, foundryFeatures, options),
+    ) => createFromPackage(context, content, foundryFeatures, options),
     create: (
       name: string,
       foundryFeatures: "Skills=V1Preview",

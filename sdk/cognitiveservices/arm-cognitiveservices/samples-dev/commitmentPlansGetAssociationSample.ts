@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the association of the Cognitive Services commitment plan.
  *
  * @summary gets the association of the Cognitive Services commitment plan.
- * x-ms-original-file: 2026-01-15-preview/GetSharedCommitmentPlanAssociation.json
+ * x-ms-original-file: 2026-03-15-preview/GetSharedCommitmentPlanAssociation.json
  */
 async function getCommitmentPlan(): Promise<void> {
   const credential = new DefaultAzureCredential();

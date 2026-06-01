@@ -215,7 +215,7 @@ export interface StructuredMessageEncodingStreamOptions {
 
 // @public
 export interface UserDelegationKey {
-    signedDelegatedUserTenantId: string | undefined;
+    signedDelegatedUserTenantId?: string;
     signedExpiresOn: Date;
     signedObjectId: string;
     signedService: string;

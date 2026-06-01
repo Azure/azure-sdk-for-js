@@ -14,13 +14,19 @@ import type {
   SearchAlias,
   KnowledgeBase,
   KnowledgeSourceUnion,
+  KnowledgeSourceFile,
   SearchServiceStatistics,
+  IndexStatisticsSummary,
 } from "../models/azure/search/documents/indexes/models.js";
 import type { KnowledgeSourceStatus } from "../models/azure/search/documents/knowledgeBases/models.js";
 import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
+  listIndexStatsSummary,
   getServiceStatistics,
   getKnowledgeSourceStatus,
+  uploadKnowledgeSourceFile,
+  listKnowledgeSourceFiles,
+  deleteKnowledgeSourceFile,
   createKnowledgeSource,
   listKnowledgeSources,
   getKnowledgeSource,
@@ -51,8 +57,12 @@ import {
   createOrUpdateSynonymMap,
 } from "./api/operations.js";
 import type {
+  ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
+  UploadKnowledgeSourceFileOptionalParams,
+  ListKnowledgeSourceFilesOptionalParams,
+  DeleteKnowledgeSourceFileOptionalParams,
   CreateKnowledgeSourceOptionalParams,
   ListKnowledgeSourcesOptionalParams,
   GetKnowledgeSourceOptionalParams,
@@ -108,6 +118,13 @@ export class SearchIndexClient {
     this.pipeline = this._client.pipeline;
   }
 
+  /** Retrieves a summary of statistics for all indexes in the search service. */
+  listIndexStatsSummary(
+    options: ListIndexStatsSummaryOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<IndexStatisticsSummary> {
+    return listIndexStatsSummary(this._client, options);
+  }
+
   /** Gets service level statistics for a search service. */
   getServiceStatistics(
     options: GetServiceStatisticsOptionalParams = { requestOptions: {} },
@@ -121,6 +138,33 @@ export class SearchIndexClient {
     options: GetKnowledgeSourceStatusOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeSourceStatus> {
     return getKnowledgeSourceStatus(this._client, name, options);
+  }
+
+  /** Deletes a file from a File knowledge source and removes all indexed content derived from it. */
+  deleteKnowledgeSourceFile(
+    fileId: string,
+    name: string,
+    options: DeleteKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+  ): Promise<void> {
+    return deleteKnowledgeSourceFile(this._client, fileId, name, options);
+  }
+
+  /** Lists all files in a File knowledge source. */
+  listKnowledgeSourceFiles(
+    name: string,
+    options: ListKnowledgeSourceFilesOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<KnowledgeSourceFile> {
+    return listKnowledgeSourceFiles(this._client, name, options);
+  }
+
+  /** Uploads a file to a File knowledge source for processing and indexing. */
+  uploadKnowledgeSourceFile(
+    contentDisposition: string,
+    file: Uint8Array,
+    name: string,
+    options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+  ): Promise<KnowledgeSourceFile> {
+    return uploadKnowledgeSourceFile(this._client, contentDisposition, file, name, options);
   }
 
   /** Creates a new knowledge source. */

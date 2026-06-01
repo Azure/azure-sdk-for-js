@@ -19,59 +19,51 @@ const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project end
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 async function main() {
-  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
+    apiVersion: "2025-11-15-preview",
+  });
 
   console.log("Creating evaluator generation job...");
-  const generationJob = await project.beta.evaluators.createGenerationJob(
-    {
-      inputs: {
-        name: "sample-evaluator-generation-job",
-        evaluator_name: "sample-generated-evaluator",
-        model: deploymentName,
-        category: "quality",
-        sources: [
-          {
-            type: "prompt",
-            prompt:
-              "Generate rubric criteria for evaluating whether responses are grounded, relevant, and complete.",
-            description: "Prompt source for generating a rubric-based evaluator.",
-          },
-        ],
-      },
+  const generationJob = await project.beta.evaluators.createGenerationJob({
+    inputs: {
+      evaluator_display_name: "sample-evaluator-generation-job",
+      evaluator_name: "sample-generated-evaluator",
+      model: deploymentName,
+      sources: [
+        {
+          type: "prompt",
+          prompt:
+            "Generate rubric criteria for evaluating whether responses are grounded, relevant, and complete.",
+          description: "Prompt source for generating a rubric-based evaluator.",
+        },
+      ],
     },
-    { foundryFeatures: "Evaluations=V1Preview" },
-  );
+  });
   console.log(
     `Evaluator generation job created (id: ${generationJob.id}, status: ${generationJob.status})`,
   );
 
-  const fetchedJob = await project.beta.evaluators.getGenerationJob(generationJob.id, {
-    foundryFeatures: "Evaluations=V1Preview",
-  });
+  const fetchedJob = await project.beta.evaluators.getGenerationJob(generationJob.id);
   console.log(
     `Fetched evaluator generation job (id: ${fetchedJob.id}, status: ${fetchedJob.status})`,
   );
+  console.log(`  Inputs: ${JSON.stringify(fetchedJob)}`);
 
   console.log("Listing evaluator generation jobs...");
   for await (const job of project.beta.evaluators.listGenerationJobs({
     limit: 5,
-    foundryFeatures: "Evaluations=V1Preview",
   })) {
     console.log(`  - ${job.id} (${job.status})`);
   }
 
   if (generationJob.status === "queued" || generationJob.status === "in_progress") {
-    const cancelledJob = await project.beta.evaluators.cancelGenerationJob(generationJob.id, {
-      foundryFeatures: "Evaluations=V1Preview",
-    });
+    const cancelledJob = await project.beta.evaluators.cancelGenerationJob(generationJob.id);
     console.log(
       `Cancelled evaluator generation job (id: ${cancelledJob.id}, status: ${cancelledJob.status})`,
     );
   }
 
-  await project.beta.evaluators.deleteGenerationJob(generationJob.id, {
-    foundryFeatures: "Evaluations=V1Preview",
-  });
+  await project.beta.evaluators.deleteGenerationJob(generationJob.id);
   console.log("Evaluator generation job deleted");
 }
 
