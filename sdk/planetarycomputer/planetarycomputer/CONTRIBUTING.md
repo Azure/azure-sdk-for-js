@@ -56,13 +56,13 @@ causing the emitter to generate `stringToUint8Array(result.body, "base64")`. Thi
 
 **Fix:** In all 6 WMTS deserializer functions, replace:
 
-```ts
+```javascript
 stringToUint8Array(result.body, "base64")
 ```
 
 with:
 
-```ts
+```javascript
 new TextEncoder().encode(result.body)
 ```
 
