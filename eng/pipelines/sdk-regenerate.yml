@@ -543,18 +543,61 @@ stages:
                 git fetch origin "$target" --depth=1
                 git checkout -B "$branch" "origin/$target"
 
+                # Track files that couldn't be applied due to upstream-vs-shard
+                # race conditions (e.g. an [AutoPR @azure-arm-foo] commit landed
+                # on `origin/<target>` between shard checkout and CreatePR
+                # checkout, so the shard's patch context no longer matches HEAD
+                # for that file). Instead of aborting the entire PR for a few
+                # conflicting files, we:
+                #   1. let `git apply --3way` apply every hunk it can,
+                #   2. detect the UU (unmerged) files it left behind,
+                #   3. reset just those files to HEAD (drop the conflicting
+                #      changes — they will be picked up by the NEXT pipeline
+                #      run, which will then see the upstream commit as the
+                #      baseline),
+                #   4. record the dropped files so the PR body can list them.
+                # This keeps the rest of the (clean) regeneration changes intact
+                # and turns "lose 200+ packages because 2 conflicted" into
+                # "lose only the 2 actually-conflicted files".
+                FAILED_LOG="$(Pipeline.Workspace)/failed-patches.txt"
+                : > "$FAILED_LOG"
                 mapfile -t patches < <(find "$(Pipeline.Workspace)" -type f -name changes.patch | sort)
                 echo "Found ${#patches[@]} patch file(s)"
                 for p in "${patches[@]}"; do
-                  if [ -s "$p" ]; then
-                    echo "Applying patch: $p"
-                    if ! git apply --3way "$p"; then
-                      echo "Failed to apply patch: $p"
-                      git status --porcelain || true
-                      exit 1
-                    fi
+                  if [ ! -s "$p" ]; then
+                    continue
                   fi
+                  echo "Applying patch: $p"
+                  if git apply --3way "$p"; then
+                    continue
+                  fi
+                  echo "Patch had conflicts: $p"
+                  # Collect UU (both-modified) files left by --3way.
+                  uu_files=$(git diff --name-only --diff-filter=U)
+                  if [ -z "$uu_files" ]; then
+                    # No UU state means the patch was rejected outright (no
+                    # hunks could be applied at all). Nothing in the working
+                    # tree to clean up; just record the patch itself and move
+                    # on so other patches can still proceed.
+                    echo "PATCH_REJECTED $p" >> "$FAILED_LOG"
+                    continue
+                  fi
+                  echo "Conflicting files (will be reset to HEAD and skipped):"
+                  echo "$uu_files"
+                  while IFS= read -r f; do
+                    [ -z "$f" ] && continue
+                    git checkout HEAD -- "$f" 2>/dev/null || git rm -f "$f" 2>/dev/null || true
+                    echo "$f" >> "$FAILED_LOG"
+                  done <<< "$uu_files"
                 done
+
+                # Surface the conflict list in this step's log too — easier
+                # than digging into the PR body when triaging.
+                if [ -s "$FAILED_LOG" ]; then
+                  echo "----- Files dropped due to upstream conflicts -----"
+                  cat "$FAILED_LOG"
+                  echo "---------------------------------------------------"
+                fi
 
                 # Restore emitter-package.json / lock file so the PR only
                 # contains real SDK code diffs (these were temporarily bumped
@@ -652,6 +695,25 @@ stages:
                     }
                   } else {
                     $lines.Add('_(aggregated-results.json not found; falling back to minimal description)_')
+                  }
+
+                  # Surface files that the CreatePR step had to drop because
+                  # `git apply --3way` couldn't merge them (typically caused by
+                  # an upstream commit landing on the PR target branch after
+                  # the shard had already generated its patch — see the
+                  # 'Apply patches' step for details). Listing them here so
+                  # reviewers / spec teams know which packages are missing
+                  # from this run and will be regenerated on the next one.
+                  $failedLog = Join-Path '$(Pipeline.Workspace)' 'failed-patches.txt'
+                  if (Test-Path $failedLog) {
+                    $failedEntries = Get-Content $failedLog | Where-Object { $_ -and $_.Trim().Length -gt 0 }
+                    if ($failedEntries.Count -gt 0) {
+                      $lines.Add("## Patches skipped due to upstream conflicts ($($failedEntries.Count))")
+                      $lines.Add('These files were dropped because the PR target branch (`${{ parameters.PullRequestTargetBranch }}`) moved underneath the regeneration shard — typically an `[AutoPR @azure-arm-*]` commit landed in the same file between shard checkout and PR creation. They are **not** part of this PR; the next regeneration run will pick them up against the new baseline.')
+                      $lines.Add('')
+                      foreach ($e in $failedEntries) { $lines.Add("- ``$e``") }
+                      $lines.Add('')
+                    }
                   }
 
                   $bodyText = ($lines -join "`n")
