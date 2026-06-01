@@ -66,6 +66,10 @@ parameters:
     displayName: "Skip build verification"
     type: boolean
     default: false
+  - name: PackageFilter
+    displayName: "Package filter (wildcard, comma-separated). 'arm-*' = all; for quick tests use e.g. 'arm-containerservice,arm-cosmosdb,arm-datafactory'"
+    type: string
+    default: 'arm-*'
   - name: SpecRepoBranch
     displayName: "azure-rest-api-specs branch to clone"
     type: string
@@ -164,7 +168,7 @@ stages:
                 -JobCount ${{ parameters.RegenerationJobCount }}
                 -MinimumPerJob ${{ parameters.MinimumPerJob }}
                 -OnlyTypeSpec true
-                -DirectoryFilterPattern 'arm-*'
+                -DirectoryFilterPattern '${{ parameters.PackageFilter }}'
               workingDirectory: $(Build.SourcesDirectory)
 
           - task: PowerShell@2
