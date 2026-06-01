@@ -5,7 +5,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import type { PlanetaryComputerProClient } from "../../src/index.js";
 import { createRecorder, createClient } from "./utils/recordedClient.js";
 import { getCollectionId, getItemId } from "./utils/envVars.js";
-import { isPng, toUint8Array, decompressIfGzip } from "./utils/byteHelpers.js";
+import { isPng, toUint8Array } from "./utils/byteHelpers.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
 
 describe("STAC Item Tiler operations", () => {

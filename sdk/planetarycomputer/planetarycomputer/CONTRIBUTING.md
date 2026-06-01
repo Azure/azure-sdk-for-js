@@ -67,7 +67,7 @@ TEST_MODE=record pnpm test:node -- test/public/01_ingestion.spec.ts  # record a 
 
 ## Testing
 
-See the [Testing Guide](TESTING.md) for detailed instructions on recording, playback, and test
+See the [Testing Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/planetarycomputer/planetarycomputer/TESTING.md) for detailed instructions on recording, playback, and test
 structure.
 
 ## Quick-Reference Checklist
