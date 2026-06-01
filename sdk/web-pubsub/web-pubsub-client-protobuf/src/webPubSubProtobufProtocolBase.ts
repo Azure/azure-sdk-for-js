@@ -172,7 +172,10 @@ export class WebPubSubProtobufProtocolBase {
         const sendToGroup = UpstreamMessage.SendToGroupMessage.create({
           group: message.group,
           ackId: message.ackId,
-          data: this._getIMessageData(message.data, message.dataType),
+          data:
+            message.data !== undefined
+              ? this._getIMessageData(message.data, message.dataType!)
+              : undefined,
           noEcho: message.noEcho,
         } as UpstreamMessage.ISendToGroupMessage);
         upstream = UpstreamMessage.create({ sendToGroupMessage: sendToGroup } as IUpstreamMessage);
