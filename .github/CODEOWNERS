@@ -517,7 +517,7 @@
 # PRLabel: %Mgmt
 /sdk/databricks/arm-databricks/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/datadog/arm-datadog/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

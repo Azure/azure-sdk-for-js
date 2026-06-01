@@ -1,0 +1,52 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
+import { linkSaaS, latestLinkedSaaS } from "../../api/datadogMonitorResources/operations.js";
+import {
+  DatadogMonitorResourcesLinkSaaSOptionalParams,
+  DatadogMonitorResourcesLatestLinkedSaaSOptionalParams,
+} from "../../api/datadogMonitorResources/options.js";
+import { LatestLinkedSaaSResponse, SaaSData, DatadogMonitorResource } from "../../models/models.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
+
+/** Interface representing a DatadogMonitorResources operations. */
+export interface DatadogMonitorResourcesOperations {
+  /** Links a new SaaS to the Datadog organization of the underlying monitor. */
+  linkSaaS: (
+    resourceGroupName: string,
+    monitorName: string,
+    body: SaaSData,
+    options?: DatadogMonitorResourcesLinkSaaSOptionalParams,
+  ) => PollerLike<OperationState<DatadogMonitorResource>, DatadogMonitorResource>;
+  /** Returns the latest SaaS linked to the Datadog organization of the underlying monitor. */
+  latestLinkedSaaS: (
+    resourceGroupName: string,
+    monitorName: string,
+    options?: DatadogMonitorResourcesLatestLinkedSaaSOptionalParams,
+  ) => Promise<LatestLinkedSaaSResponse>;
+}
+
+function _getDatadogMonitorResources(context: MicrosoftDatadogContext) {
+  return {
+    linkSaaS: (
+      resourceGroupName: string,
+      monitorName: string,
+      body: SaaSData,
+      options?: DatadogMonitorResourcesLinkSaaSOptionalParams,
+    ) => linkSaaS(context, resourceGroupName, monitorName, body, options),
+    latestLinkedSaaS: (
+      resourceGroupName: string,
+      monitorName: string,
+      options?: DatadogMonitorResourcesLatestLinkedSaaSOptionalParams,
+    ) => latestLinkedSaaS(context, resourceGroupName, monitorName, options),
+  };
+}
+
+export function _getDatadogMonitorResourcesOperations(
+  context: MicrosoftDatadogContext,
+): DatadogMonitorResourcesOperations {
+  return {
+    ..._getDatadogMonitorResources(context),
+  };
+}
