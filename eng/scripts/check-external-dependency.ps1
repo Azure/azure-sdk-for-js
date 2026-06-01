@@ -84,12 +84,17 @@ function Test-IsPreReleaseVersion {
     return $false
   }
 
+  $normalizedVersion = $Version.Trim()
+  if ($normalizedVersion.StartsWith("v", [System.StringComparison]::OrdinalIgnoreCase)) {
+    $normalizedVersion = $normalizedVersion.Substring(1)
+  }
+
   try {
-    $semanticVersion = [System.Management.Automation.SemanticVersion]::Parse($Version)
+    $semanticVersion = [System.Management.Automation.SemanticVersion]::Parse($normalizedVersion)
     return -not [string]::IsNullOrEmpty($semanticVersion.PreReleaseLabel)
   }
   catch {
-    return $Version -match '-'
+    return $normalizedVersion -match '^\d+\.\d+\.\d+-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*(?:\+[0-9A-Za-z-.]+)?$'
   }
 }
 
