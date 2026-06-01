@@ -119,7 +119,7 @@ Compared with version 3.1.0
 
 ## 3.0.1 (2022-04-18)
 
-**features**
+### Features Added
 
   - bug fix
 
