@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to disables an Agent Application.
  *
  * @summary disables an Agent Application.
- * x-ms-original-file: 2026-01-15-preview/AgentApplication/disable.json
+ * x-ms-original-file: 2026-03-15-preview/AgentApplication/disable.json
  */
 async function disableAgentApplication() {
   const credential = new DefaultAzureCredential();

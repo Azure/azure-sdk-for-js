@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.ComputeLimit": "2026-04-30"
+    "Microsoft.ComputeLimit": "2026-06-01"
   },
-  "emitterVersion": "0.52.2",
+  "emitterVersion": "0.53.3",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ComputeLimit",
     "CrossLanguageDefinitionId": {
@@ -25,6 +25,7 @@
       "@azure/arm-computelimit!Feature:interface": "Microsoft.ComputeLimit.Feature",
       "@azure/arm-computelimit!FeatureProperties:interface": "Microsoft.ComputeLimit.FeatureProperties",
       "@azure/arm-computelimit!FeatureListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-computelimit!FeatureEnableRequest:interface": "Microsoft.ComputeLimit.FeatureEnableRequest",
       "@azure/arm-computelimit!OperationStatusResult:interface": "Azure.ResourceManager.CommonTypes.OperationStatusResult",
       "@azure/arm-computelimit!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
       "@azure/arm-computelimit!VmFamily:interface": "Microsoft.ComputeLimit.VmFamily",

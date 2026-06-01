@@ -40,6 +40,16 @@ Compared with version 1.0.0
   - Enum KnownVersions has a new value V20260101Preview
 
     
+## 1.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0 (2025-06-30)
 
 ### Features Added

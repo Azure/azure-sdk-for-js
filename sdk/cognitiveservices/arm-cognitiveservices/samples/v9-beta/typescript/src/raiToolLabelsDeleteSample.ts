@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified RAI Tool Label associated with the Azure OpenAI account.
  *
  * @summary deletes the specified RAI Tool Label associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-01-15-preview/DeleteRaiToolLabel.json
+ * x-ms-original-file: 2026-03-15-preview/DeleteRaiToolLabel.json
  */
 async function deleteRaiToolLabel(): Promise<void> {
   const credential = new DefaultAzureCredential();

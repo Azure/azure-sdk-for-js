@@ -1,6 +1,10 @@
 # Release History
 
-## Unreleased
+## 1.0.0-beta.42 (2026-05-29)
+
+### Bugs Fixed
+
+- Allow `microsoft.gen_ai.main_agent.*` span attributes (`name`, `id`, `version`, `conversation_id`) to flow through to `customDimensions`.
 
 ### Other Changes
 
