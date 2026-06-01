@@ -1,6 +1,6 @@
 {
   "name": "@azure/web-pubsub-client-protobuf",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "description": "Azure Web PubSub Client Protobuf",
   "sdk-type": "client",
   "type": "module",
@@ -56,7 +56,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/logger": "^1.1.4",
-    "@azure/web-pubsub-client": "1.0.0-beta.2",
+    "@azure/web-pubsub-client": "workspace:^",
     "long": "^5.3.1",
     "protobufjs": "^7.4.0",
     "tslib": "^2.8.1"

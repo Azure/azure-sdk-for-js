@@ -9,6 +9,9 @@ message UpstreamMessage {
         JoinGroupMessage join_group_message = 6;
         LeaveGroupMessage leave_group_message = 7;
         SequenceAckMessage sequence_ack_message = 8;
+        SetGroupStateMessage set_group_state_message = 15;
+        SubscribeGroupStateMessage subscribe_group_state_message = 16;
+        UnsubscribeGroupStateMessage unsubscribe_group_state_message = 17;
     }
 
     message SendToGroupMessage {
@@ -23,7 +26,7 @@ message UpstreamMessage {
         MessageData data = 2;
         optional uint64 ack_id = 3;
     }
-    
+
     message JoinGroupMessage {
         string group = 1;
         optional uint64 ack_id = 2;
@@ -37,6 +40,22 @@ message UpstreamMessage {
     message SequenceAckMessage {
         uint64 sequence_id = 1;
     }
+
+    message SetGroupStateMessage {
+        string group = 1;
+        optional uint64 ack_id = 2;
+        optional GroupStateItem.GroupState state = 3;
+    }
+
+    message SubscribeGroupStateMessage {
+        string group = 1;
+        optional uint64 ack_id = 2;
+    }
+
+    message UnsubscribeGroupStateMessage {
+        string group = 1;
+        optional uint64 ack_id = 2;
+    }
 }
 
 message DownstreamMessage {
@@ -44,13 +63,15 @@ message DownstreamMessage {
         AckMessage ack_message = 1;
         DataMessage data_message = 2;
         SystemMessage system_message = 3;
+        GroupStateUpdateMessage group_state_update_message = 9;
+        GroupStateSnapshotMessage group_state_snapshot_message = 10;
     }
-    
+
     message AckMessage {
         uint64 ack_id = 1;
         bool success = 2;
         optional ErrorMessage error = 3;
-    
+
         message ErrorMessage {
             string name = 1;
             string message = 2;
@@ -69,7 +90,7 @@ message DownstreamMessage {
             ConnectedMessage connected_message = 1;
             DisconnectedMessage disconnected_message = 2;
         }
-    
+
         message ConnectedMessage {
             string connection_id = 1;
             string user_id = 2;
@@ -80,6 +101,18 @@ message DownstreamMessage {
             string reason = 2;
         }
     }
+
+    message GroupStateSnapshotMessage {
+        string group = 1;
+        repeated GroupStateItem items = 2;
+        optional uint64 sequence_id = 3;
+    }
+
+    message GroupStateUpdateMessage {
+        string group = 1;
+        repeated GroupStateItem items = 2;
+        optional uint64 sequence_id = 3;
+    }
 }
 
 message MessageData {
@@ -88,5 +121,16 @@ message MessageData {
         bytes binary_data = 2;
         google.protobuf.Any protobuf_data = 3;
         string json_data = 4;
+    }
+}
+
+message GroupStateItem {
+    string connection_id = 1;
+    optional string user_id = 2;
+    optional GroupState state = 3;
+    int64 updated_at = 4;
+
+    message GroupState {
+        map<string, string> entries = 1;
     }
 }

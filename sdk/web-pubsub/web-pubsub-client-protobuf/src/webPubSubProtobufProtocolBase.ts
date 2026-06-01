@@ -7,6 +7,9 @@ import type {
   ConnectedMessage,
   DisconnectedMessage,
   GroupDataMessage,
+  GroupStateItem,
+  GroupStateSnapshotMessage,
+  GroupStateUpdateMessage,
   ServerDataMessage,
   WebPubSubDataType,
   WebPubSubMessage,
@@ -101,6 +104,42 @@ export class WebPubSubProtobufProtocolBase {
       } else {
         return null;
       }
+    } else if (downstream.groupStateSnapshotMessage) {
+      const msg = downstream.groupStateSnapshotMessage;
+      const items: GroupStateItem[] = (msg.items || []).map((item: any) => {
+        const result: GroupStateItem = {
+          connectionId: item.connectionId,
+          userId: item.userId,
+          updatedAt: this._getNumber(item.updatedAt) as number,
+        };
+        if (item.state != null) {
+          result.state = item.state.entries;
+        }
+        return result;
+      });
+      return {
+        kind: "groupStateSnapshot",
+        group: msg.group,
+        items,
+      } as GroupStateSnapshotMessage;
+    } else if (downstream.groupStateUpdateMessage) {
+      const msg = downstream.groupStateUpdateMessage;
+      const items: GroupStateItem[] = (msg.items || []).map((item: any) => {
+        const result: GroupStateItem = {
+          connectionId: item.connectionId,
+          userId: item.userId,
+          updatedAt: this._getNumber(item.updatedAt) as number,
+        };
+        if (item.state != null) {
+          result.state = item.state.entries;
+        }
+        return result;
+      });
+      return {
+        kind: "groupStateUpdate",
+        group: msg.group,
+        items,
+      } as GroupStateUpdateMessage;
     } else {
       return null;
     }
@@ -153,6 +192,37 @@ export class WebPubSubProtobufProtocolBase {
           sequenceId: message.sequenceId,
         } as UpstreamMessage.ISequenceAckMessage);
         upstream = UpstreamMessage.create({ sequenceAckMessage: sequenceAck } as IUpstreamMessage);
+        break;
+      }
+      case "setGroupState": {
+        const setGroupState = UpstreamMessage.SetGroupStateMessage.create({
+          group: message.group,
+          ackId: message.ackId,
+          state: message.state !== undefined ? { entries: message.state } : null,
+        } as UpstreamMessage.ISetGroupStateMessage);
+        upstream = UpstreamMessage.create({
+          setGroupStateMessage: setGroupState,
+        } as IUpstreamMessage);
+        break;
+      }
+      case "subscribeGroupState": {
+        const subscribeGroupState = UpstreamMessage.SubscribeGroupStateMessage.create({
+          group: message.group,
+          ackId: message.ackId,
+        } as UpstreamMessage.ISubscribeGroupStateMessage);
+        upstream = UpstreamMessage.create({
+          subscribeGroupStateMessage: subscribeGroupState,
+        } as IUpstreamMessage);
+        break;
+      }
+      case "unsubscribeGroupState": {
+        const unsubscribeGroupState = UpstreamMessage.UnsubscribeGroupStateMessage.create({
+          group: message.group,
+          ackId: message.ackId,
+        } as UpstreamMessage.IUnsubscribeGroupStateMessage);
+        upstream = UpstreamMessage.create({
+          unsubscribeGroupStateMessage: unsubscribeGroupState,
+        } as IUpstreamMessage);
         break;
       }
       default:

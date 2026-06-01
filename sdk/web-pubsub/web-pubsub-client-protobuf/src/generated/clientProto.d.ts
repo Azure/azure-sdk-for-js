@@ -17,6 +17,15 @@ export interface IUpstreamMessage {
 
     /** UpstreamMessage sequenceAckMessage */
     sequenceAckMessage?: (UpstreamMessage.ISequenceAckMessage|null);
+
+    /** UpstreamMessage setGroupStateMessage */
+    setGroupStateMessage?: (UpstreamMessage.ISetGroupStateMessage|null);
+
+    /** UpstreamMessage subscribeGroupStateMessage */
+    subscribeGroupStateMessage?: (UpstreamMessage.ISubscribeGroupStateMessage|null);
+
+    /** UpstreamMessage unsubscribeGroupStateMessage */
+    unsubscribeGroupStateMessage?: (UpstreamMessage.IUnsubscribeGroupStateMessage|null);
 }
 
 /** Represents an UpstreamMessage. */
@@ -43,8 +52,17 @@ export class UpstreamMessage implements IUpstreamMessage {
     /** UpstreamMessage sequenceAckMessage. */
     public sequenceAckMessage?: (UpstreamMessage.ISequenceAckMessage|null);
 
+    /** UpstreamMessage setGroupStateMessage. */
+    public setGroupStateMessage?: (UpstreamMessage.ISetGroupStateMessage|null);
+
+    /** UpstreamMessage subscribeGroupStateMessage. */
+    public subscribeGroupStateMessage?: (UpstreamMessage.ISubscribeGroupStateMessage|null);
+
+    /** UpstreamMessage unsubscribeGroupStateMessage. */
+    public unsubscribeGroupStateMessage?: (UpstreamMessage.IUnsubscribeGroupStateMessage|null);
+
     /** UpstreamMessage message. */
-    public message?: ("sendToGroupMessage"|"eventMessage"|"joinGroupMessage"|"leaveGroupMessage"|"sequenceAckMessage");
+    public message?: ("sendToGroupMessage"|"eventMessage"|"joinGroupMessage"|"leaveGroupMessage"|"sequenceAckMessage"|"setGroupStateMessage"|"subscribeGroupStateMessage"|"unsubscribeGroupStateMessage");
 
     /**
      * Creates a new UpstreamMessage instance using the specified properties.
@@ -652,6 +670,321 @@ export namespace UpstreamMessage {
          */
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
+
+    /** Properties of a SetGroupStateMessage. */
+    interface ISetGroupStateMessage {
+
+        /** SetGroupStateMessage group */
+        group?: (string|null);
+
+        /** SetGroupStateMessage ackId */
+        ackId?: (number|Long|null);
+
+        /** SetGroupStateMessage state */
+        state?: (GroupStateItem.IGroupState|null);
+    }
+
+    /** Represents a SetGroupStateMessage. */
+    class SetGroupStateMessage implements ISetGroupStateMessage {
+
+        /**
+         * Constructs a new SetGroupStateMessage.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: UpstreamMessage.ISetGroupStateMessage);
+
+        /** SetGroupStateMessage group. */
+        public group: string;
+
+        /** SetGroupStateMessage ackId. */
+        public ackId?: (number|Long|null);
+
+        /** SetGroupStateMessage state. */
+        public state?: (GroupStateItem.IGroupState|null);
+
+        /**
+         * Creates a new SetGroupStateMessage instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns SetGroupStateMessage instance
+         */
+        public static create(properties?: UpstreamMessage.ISetGroupStateMessage): UpstreamMessage.SetGroupStateMessage;
+
+        /**
+         * Encodes the specified SetGroupStateMessage message. Does not implicitly {@link UpstreamMessage.SetGroupStateMessage.verify|verify} messages.
+         * @param message SetGroupStateMessage message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: UpstreamMessage.ISetGroupStateMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified SetGroupStateMessage message, length delimited. Does not implicitly {@link UpstreamMessage.SetGroupStateMessage.verify|verify} messages.
+         * @param message SetGroupStateMessage message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: UpstreamMessage.ISetGroupStateMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a SetGroupStateMessage message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns SetGroupStateMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): UpstreamMessage.SetGroupStateMessage;
+
+        /**
+         * Decodes a SetGroupStateMessage message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns SetGroupStateMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): UpstreamMessage.SetGroupStateMessage;
+
+        /**
+         * Verifies a SetGroupStateMessage message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a SetGroupStateMessage message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns SetGroupStateMessage
+         */
+        public static fromObject(object: { [k: string]: any }): UpstreamMessage.SetGroupStateMessage;
+
+        /**
+         * Creates a plain object from a SetGroupStateMessage message. Also converts values to other types if specified.
+         * @param message SetGroupStateMessage
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: UpstreamMessage.SetGroupStateMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this SetGroupStateMessage to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for SetGroupStateMessage
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a SubscribeGroupStateMessage. */
+    interface ISubscribeGroupStateMessage {
+
+        /** SubscribeGroupStateMessage group */
+        group?: (string|null);
+
+        /** SubscribeGroupStateMessage ackId */
+        ackId?: (number|Long|null);
+    }
+
+    /** Represents a SubscribeGroupStateMessage. */
+    class SubscribeGroupStateMessage implements ISubscribeGroupStateMessage {
+
+        /**
+         * Constructs a new SubscribeGroupStateMessage.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: UpstreamMessage.ISubscribeGroupStateMessage);
+
+        /** SubscribeGroupStateMessage group. */
+        public group: string;
+
+        /** SubscribeGroupStateMessage ackId. */
+        public ackId?: (number|Long|null);
+
+        /**
+         * Creates a new SubscribeGroupStateMessage instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns SubscribeGroupStateMessage instance
+         */
+        public static create(properties?: UpstreamMessage.ISubscribeGroupStateMessage): UpstreamMessage.SubscribeGroupStateMessage;
+
+        /**
+         * Encodes the specified SubscribeGroupStateMessage message. Does not implicitly {@link UpstreamMessage.SubscribeGroupStateMessage.verify|verify} messages.
+         * @param message SubscribeGroupStateMessage message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: UpstreamMessage.ISubscribeGroupStateMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified SubscribeGroupStateMessage message, length delimited. Does not implicitly {@link UpstreamMessage.SubscribeGroupStateMessage.verify|verify} messages.
+         * @param message SubscribeGroupStateMessage message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: UpstreamMessage.ISubscribeGroupStateMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a SubscribeGroupStateMessage message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns SubscribeGroupStateMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): UpstreamMessage.SubscribeGroupStateMessage;
+
+        /**
+         * Decodes a SubscribeGroupStateMessage message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns SubscribeGroupStateMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): UpstreamMessage.SubscribeGroupStateMessage;
+
+        /**
+         * Verifies a SubscribeGroupStateMessage message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a SubscribeGroupStateMessage message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns SubscribeGroupStateMessage
+         */
+        public static fromObject(object: { [k: string]: any }): UpstreamMessage.SubscribeGroupStateMessage;
+
+        /**
+         * Creates a plain object from a SubscribeGroupStateMessage message. Also converts values to other types if specified.
+         * @param message SubscribeGroupStateMessage
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: UpstreamMessage.SubscribeGroupStateMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this SubscribeGroupStateMessage to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for SubscribeGroupStateMessage
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of an UnsubscribeGroupStateMessage. */
+    interface IUnsubscribeGroupStateMessage {
+
+        /** UnsubscribeGroupStateMessage group */
+        group?: (string|null);
+
+        /** UnsubscribeGroupStateMessage ackId */
+        ackId?: (number|Long|null);
+    }
+
+    /** Represents an UnsubscribeGroupStateMessage. */
+    class UnsubscribeGroupStateMessage implements IUnsubscribeGroupStateMessage {
+
+        /**
+         * Constructs a new UnsubscribeGroupStateMessage.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: UpstreamMessage.IUnsubscribeGroupStateMessage);
+
+        /** UnsubscribeGroupStateMessage group. */
+        public group: string;
+
+        /** UnsubscribeGroupStateMessage ackId. */
+        public ackId?: (number|Long|null);
+
+        /**
+         * Creates a new UnsubscribeGroupStateMessage instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns UnsubscribeGroupStateMessage instance
+         */
+        public static create(properties?: UpstreamMessage.IUnsubscribeGroupStateMessage): UpstreamMessage.UnsubscribeGroupStateMessage;
+
+        /**
+         * Encodes the specified UnsubscribeGroupStateMessage message. Does not implicitly {@link UpstreamMessage.UnsubscribeGroupStateMessage.verify|verify} messages.
+         * @param message UnsubscribeGroupStateMessage message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: UpstreamMessage.IUnsubscribeGroupStateMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified UnsubscribeGroupStateMessage message, length delimited. Does not implicitly {@link UpstreamMessage.UnsubscribeGroupStateMessage.verify|verify} messages.
+         * @param message UnsubscribeGroupStateMessage message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: UpstreamMessage.IUnsubscribeGroupStateMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an UnsubscribeGroupStateMessage message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns UnsubscribeGroupStateMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): UpstreamMessage.UnsubscribeGroupStateMessage;
+
+        /**
+         * Decodes an UnsubscribeGroupStateMessage message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns UnsubscribeGroupStateMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): UpstreamMessage.UnsubscribeGroupStateMessage;
+
+        /**
+         * Verifies an UnsubscribeGroupStateMessage message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an UnsubscribeGroupStateMessage message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns UnsubscribeGroupStateMessage
+         */
+        public static fromObject(object: { [k: string]: any }): UpstreamMessage.UnsubscribeGroupStateMessage;
+
+        /**
+         * Creates a plain object from an UnsubscribeGroupStateMessage message. Also converts values to other types if specified.
+         * @param message UnsubscribeGroupStateMessage
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: UpstreamMessage.UnsubscribeGroupStateMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this UnsubscribeGroupStateMessage to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for UnsubscribeGroupStateMessage
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
 }
 
 /** Properties of a DownstreamMessage. */
@@ -665,6 +998,12 @@ export interface IDownstreamMessage {
 
     /** DownstreamMessage systemMessage */
     systemMessage?: (DownstreamMessage.ISystemMessage|null);
+
+    /** DownstreamMessage groupStateUpdateMessage */
+    groupStateUpdateMessage?: (DownstreamMessage.IGroupStateUpdateMessage|null);
+
+    /** DownstreamMessage groupStateSnapshotMessage */
+    groupStateSnapshotMessage?: (DownstreamMessage.IGroupStateSnapshotMessage|null);
 }
 
 /** Represents a DownstreamMessage. */
@@ -685,8 +1024,14 @@ export class DownstreamMessage implements IDownstreamMessage {
     /** DownstreamMessage systemMessage. */
     public systemMessage?: (DownstreamMessage.ISystemMessage|null);
 
+    /** DownstreamMessage groupStateUpdateMessage. */
+    public groupStateUpdateMessage?: (DownstreamMessage.IGroupStateUpdateMessage|null);
+
+    /** DownstreamMessage groupStateSnapshotMessage. */
+    public groupStateSnapshotMessage?: (DownstreamMessage.IGroupStateSnapshotMessage|null);
+
     /** DownstreamMessage message. */
-    public message?: ("ackMessage"|"dataMessage"|"systemMessage");
+    public message?: ("ackMessage"|"dataMessage"|"systemMessage"|"groupStateUpdateMessage"|"groupStateSnapshotMessage");
 
     /**
      * Creates a new DownstreamMessage instance using the specified properties.
@@ -1412,6 +1757,224 @@ export namespace DownstreamMessage {
             public static getTypeUrl(typeUrlPrefix?: string): string;
         }
     }
+
+    /** Properties of a GroupStateSnapshotMessage. */
+    interface IGroupStateSnapshotMessage {
+
+        /** GroupStateSnapshotMessage group */
+        group?: (string|null);
+
+        /** GroupStateSnapshotMessage items */
+        items?: (IGroupStateItem[]|null);
+
+        /** GroupStateSnapshotMessage sequenceId */
+        sequenceId?: (number|Long|null);
+    }
+
+    /** Represents a GroupStateSnapshotMessage. */
+    class GroupStateSnapshotMessage implements IGroupStateSnapshotMessage {
+
+        /**
+         * Constructs a new GroupStateSnapshotMessage.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: DownstreamMessage.IGroupStateSnapshotMessage);
+
+        /** GroupStateSnapshotMessage group. */
+        public group: string;
+
+        /** GroupStateSnapshotMessage items. */
+        public items: IGroupStateItem[];
+
+        /** GroupStateSnapshotMessage sequenceId. */
+        public sequenceId?: (number|Long|null);
+
+        /**
+         * Creates a new GroupStateSnapshotMessage instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns GroupStateSnapshotMessage instance
+         */
+        public static create(properties?: DownstreamMessage.IGroupStateSnapshotMessage): DownstreamMessage.GroupStateSnapshotMessage;
+
+        /**
+         * Encodes the specified GroupStateSnapshotMessage message. Does not implicitly {@link DownstreamMessage.GroupStateSnapshotMessage.verify|verify} messages.
+         * @param message GroupStateSnapshotMessage message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: DownstreamMessage.IGroupStateSnapshotMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified GroupStateSnapshotMessage message, length delimited. Does not implicitly {@link DownstreamMessage.GroupStateSnapshotMessage.verify|verify} messages.
+         * @param message GroupStateSnapshotMessage message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: DownstreamMessage.IGroupStateSnapshotMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a GroupStateSnapshotMessage message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns GroupStateSnapshotMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): DownstreamMessage.GroupStateSnapshotMessage;
+
+        /**
+         * Decodes a GroupStateSnapshotMessage message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns GroupStateSnapshotMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): DownstreamMessage.GroupStateSnapshotMessage;
+
+        /**
+         * Verifies a GroupStateSnapshotMessage message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a GroupStateSnapshotMessage message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns GroupStateSnapshotMessage
+         */
+        public static fromObject(object: { [k: string]: any }): DownstreamMessage.GroupStateSnapshotMessage;
+
+        /**
+         * Creates a plain object from a GroupStateSnapshotMessage message. Also converts values to other types if specified.
+         * @param message GroupStateSnapshotMessage
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: DownstreamMessage.GroupStateSnapshotMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this GroupStateSnapshotMessage to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for GroupStateSnapshotMessage
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a GroupStateUpdateMessage. */
+    interface IGroupStateUpdateMessage {
+
+        /** GroupStateUpdateMessage group */
+        group?: (string|null);
+
+        /** GroupStateUpdateMessage items */
+        items?: (IGroupStateItem[]|null);
+
+        /** GroupStateUpdateMessage sequenceId */
+        sequenceId?: (number|Long|null);
+    }
+
+    /** Represents a GroupStateUpdateMessage. */
+    class GroupStateUpdateMessage implements IGroupStateUpdateMessage {
+
+        /**
+         * Constructs a new GroupStateUpdateMessage.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: DownstreamMessage.IGroupStateUpdateMessage);
+
+        /** GroupStateUpdateMessage group. */
+        public group: string;
+
+        /** GroupStateUpdateMessage items. */
+        public items: IGroupStateItem[];
+
+        /** GroupStateUpdateMessage sequenceId. */
+        public sequenceId?: (number|Long|null);
+
+        /**
+         * Creates a new GroupStateUpdateMessage instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns GroupStateUpdateMessage instance
+         */
+        public static create(properties?: DownstreamMessage.IGroupStateUpdateMessage): DownstreamMessage.GroupStateUpdateMessage;
+
+        /**
+         * Encodes the specified GroupStateUpdateMessage message. Does not implicitly {@link DownstreamMessage.GroupStateUpdateMessage.verify|verify} messages.
+         * @param message GroupStateUpdateMessage message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: DownstreamMessage.IGroupStateUpdateMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified GroupStateUpdateMessage message, length delimited. Does not implicitly {@link DownstreamMessage.GroupStateUpdateMessage.verify|verify} messages.
+         * @param message GroupStateUpdateMessage message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: DownstreamMessage.IGroupStateUpdateMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a GroupStateUpdateMessage message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns GroupStateUpdateMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): DownstreamMessage.GroupStateUpdateMessage;
+
+        /**
+         * Decodes a GroupStateUpdateMessage message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns GroupStateUpdateMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): DownstreamMessage.GroupStateUpdateMessage;
+
+        /**
+         * Verifies a GroupStateUpdateMessage message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a GroupStateUpdateMessage message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns GroupStateUpdateMessage
+         */
+        public static fromObject(object: { [k: string]: any }): DownstreamMessage.GroupStateUpdateMessage;
+
+        /**
+         * Creates a plain object from a GroupStateUpdateMessage message. Also converts values to other types if specified.
+         * @param message GroupStateUpdateMessage
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: DownstreamMessage.GroupStateUpdateMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this GroupStateUpdateMessage to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for GroupStateUpdateMessage
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
 }
 
 /** Properties of a MessageData. */
@@ -1530,6 +2093,221 @@ export class MessageData implements IMessageData {
      * @returns The default type url
      */
     public static getTypeUrl(typeUrlPrefix?: string): string;
+}
+
+/** Properties of a GroupStateItem. */
+export interface IGroupStateItem {
+
+    /** GroupStateItem connectionId */
+    connectionId?: (string|null);
+
+    /** GroupStateItem userId */
+    userId?: (string|null);
+
+    /** GroupStateItem state */
+    state?: (GroupStateItem.IGroupState|null);
+
+    /** GroupStateItem updatedAt */
+    updatedAt?: (number|Long|null);
+}
+
+/** Represents a GroupStateItem. */
+export class GroupStateItem implements IGroupStateItem {
+
+    /**
+     * Constructs a new GroupStateItem.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IGroupStateItem);
+
+    /** GroupStateItem connectionId. */
+    public connectionId: string;
+
+    /** GroupStateItem userId. */
+    public userId?: (string|null);
+
+    /** GroupStateItem state. */
+    public state?: (GroupStateItem.IGroupState|null);
+
+    /** GroupStateItem updatedAt. */
+    public updatedAt: (number|Long);
+
+    /**
+     * Creates a new GroupStateItem instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns GroupStateItem instance
+     */
+    public static create(properties?: IGroupStateItem): GroupStateItem;
+
+    /**
+     * Encodes the specified GroupStateItem message. Does not implicitly {@link GroupStateItem.verify|verify} messages.
+     * @param message GroupStateItem message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IGroupStateItem, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified GroupStateItem message, length delimited. Does not implicitly {@link GroupStateItem.verify|verify} messages.
+     * @param message GroupStateItem message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IGroupStateItem, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a GroupStateItem message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns GroupStateItem
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): GroupStateItem;
+
+    /**
+     * Decodes a GroupStateItem message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns GroupStateItem
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): GroupStateItem;
+
+    /**
+     * Verifies a GroupStateItem message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a GroupStateItem message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns GroupStateItem
+     */
+    public static fromObject(object: { [k: string]: any }): GroupStateItem;
+
+    /**
+     * Creates a plain object from a GroupStateItem message. Also converts values to other types if specified.
+     * @param message GroupStateItem
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: GroupStateItem, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this GroupStateItem to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+
+    /**
+     * Gets the default type url for GroupStateItem
+     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns The default type url
+     */
+    public static getTypeUrl(typeUrlPrefix?: string): string;
+}
+
+export namespace GroupStateItem {
+
+    /** Properties of a GroupState. */
+    interface IGroupState {
+
+        /** GroupState entries */
+        entries?: ({ [k: string]: string }|null);
+    }
+
+    /** Represents a GroupState. */
+    class GroupState implements IGroupState {
+
+        /**
+         * Constructs a new GroupState.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: GroupStateItem.IGroupState);
+
+        /** GroupState entries. */
+        public entries: { [k: string]: string };
+
+        /**
+         * Creates a new GroupState instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns GroupState instance
+         */
+        public static create(properties?: GroupStateItem.IGroupState): GroupStateItem.GroupState;
+
+        /**
+         * Encodes the specified GroupState message. Does not implicitly {@link GroupStateItem.GroupState.verify|verify} messages.
+         * @param message GroupState message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: GroupStateItem.IGroupState, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified GroupState message, length delimited. Does not implicitly {@link GroupStateItem.GroupState.verify|verify} messages.
+         * @param message GroupState message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: GroupStateItem.IGroupState, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a GroupState message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns GroupState
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): GroupStateItem.GroupState;
+
+        /**
+         * Decodes a GroupState message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns GroupState
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): GroupStateItem.GroupState;
+
+        /**
+         * Verifies a GroupState message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a GroupState message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns GroupState
+         */
+        public static fromObject(object: { [k: string]: any }): GroupStateItem.GroupState;
+
+        /**
+         * Creates a plain object from a GroupState message. Also converts values to other types if specified.
+         * @param message GroupState
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: GroupStateItem.GroupState, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this GroupState to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for GroupState
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
 }
 
 /** Namespace google. */
