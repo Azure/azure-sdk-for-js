@@ -4,12 +4,7 @@
 import * as fsp from "node:fs/promises";
 import * as path from "node:path";
 import { parse as parseYaml } from "yaml";
-import type {
-  WarpConfig,
-  WarpTarget,
-  ResolvedWarpConfig,
-  ConfigSource,
-} from "./types.ts";
+import type { WarpConfig, WarpTarget, ResolvedWarpConfig, ConfigSource } from "./types.ts";
 import { WarpError } from "./types.ts";
 import { getLogger } from "./logger.ts";
 
