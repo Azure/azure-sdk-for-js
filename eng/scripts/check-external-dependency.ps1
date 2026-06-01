@@ -94,7 +94,9 @@ function Test-IsPreReleaseVersion {
     return -not [string]::IsNullOrEmpty($semanticVersion.PreReleaseLabel)
   }
   catch {
-    return $normalizedVersion -match '^\d+\.\d+\.\d+-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*(?:\+[0-9A-Za-z-.]+)?$'
+    # Fallback for version strings SemanticVersion cannot parse; pattern matches SemVer prerelease forms (e.g. 1.2.3-beta.1+build.123).
+    $semVerPreReleasePattern = '^\d+\.\d+\.\d+-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*(?:\+[0-9A-Za-z-.]+)?$'
+    return $normalizedVersion -match $semVerPreReleasePattern
   }
 }
 
@@ -120,7 +122,7 @@ foreach ($update in $availableUpdates.PSObject.Properties) {
     if ($null -ne $p.OldVersion -and $null -ne $p.NewVersion -and $p.OldVersion -ne $p.NewVersion) {
       # Ignore prerelease-only upgrades (beta/rc/etc.) so weekly automation files issues only for stable releases.
       if (Test-IsPreReleaseVersion -Version $p.NewVersion) {
-        Write-Host "Skipping pre-release version for $($p.Name): $($p.NewVersion)"
+        Write-Host "Skipping pre-release version for $($p.Name): $($p.NewVersion). Weekly dependency issues are filed for stable releases only."
         continue
       }
 
