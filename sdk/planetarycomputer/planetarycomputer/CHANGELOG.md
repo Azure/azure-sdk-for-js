@@ -10,9 +10,3 @@
 - Ingestion API support: create and manage ingestion sources, definitions, and runs; track operations.
 - Shared Access Signature API support: generate, sign, and revoke SAS tokens for secure data sharing.
 - Long-running operation (LRO) support for collection and item create/delete operations.
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes

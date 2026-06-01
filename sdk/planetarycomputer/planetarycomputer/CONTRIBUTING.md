@@ -43,6 +43,39 @@ For general Azure SDK for JS contribution guidance, see the
 > **Important:** Always use `pnpm turbo build --filter=@azure/planetarycomputer... --token 1` from
 > the repo root. The trailing `...` builds the package AND all its workspace dependencies.
 
+## Known Manual Fix on Generated Code
+
+### WMTS XML Deserialization (base64 decoding)
+
+**File:** `src/api/data/operations.ts`
+
+The emitter generates code that treats WMTS capabilities XML responses as base64-encoded bytes.
+The WMTS endpoints return **plain XML text**, but the TypeSpec model uses `@body body: bytes`,
+causing the emitter to generate `stringToUint8Array(result.body, "base64")`. This works in Node.js
+(where `Buffer.from` is lenient) but fails in browsers (`atob` rejects non-base64 input).
+
+**Fix:** In all 6 WMTS deserializer functions, replace:
+
+```ts
+stringToUint8Array(result.body, "base64")
+```
+
+with:
+
+```ts
+new TextEncoder().encode(result.body)
+```
+
+Remove the unused `stringToUint8Array` import from `@azure/core-util` if no other usages remain.
+
+**Affected functions:**
+- `_getSearchWmtsCapabilitiesDeserialize`
+- `_getSearchWmtsCapabilitiesByTmsDeserialize`
+- `_getCollectionWmtsCapabilitiesDeserialize`
+- `_getCollectionWmtsCapabilitiesByTmsDeserialize`
+- `_getItemWmtsCapabilitiesDeserialize`
+- `_getItemWmtsCapabilitiesByTmsDeserialize`
+
 ## Local Validation
 
 Run formatting and linting from the **package root** (`sdk/planetarycomputer/planetarycomputer`):
@@ -74,6 +107,7 @@ structure.
 
 After running `npx tsp-client update`:
 
+- [ ] Apply WMTS fix (replace `stringToUint8Array` with `TextEncoder` in `src/api/data/operations.ts`)
 - [ ] Run `pnpm format` and `pnpm lint:fix`
 - [ ] Build succeeds: `pnpm turbo build --filter=@azure/planetarycomputer... --token 1`
 - [ ] Inspect `git diff review/` for unexpected API changes
