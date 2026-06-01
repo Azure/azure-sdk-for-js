@@ -40,7 +40,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       projectName: projectName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
       target: options?.target,
       category: options?.category,
       includeAll: options?.includeAll,
@@ -85,7 +85,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15-preview",
     },
   );
 }
@@ -106,7 +106,7 @@ export function _$deleteSend(
       accountName: accountName,
       projectName: projectName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,7 +163,7 @@ export function _updateSend(
       accountName: accountName,
       projectName: projectName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,9 +173,9 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["connection"]
-      ? options["connection"]
-      : connectionUpdateContentSerializer(options["connection"]),
+    body: !options?.connection
+      ? options?.connection
+      : connectionUpdateContentSerializer(options?.connection),
   });
 }
 
@@ -229,7 +229,7 @@ export function _createSend(
       accountName: accountName,
       projectName: projectName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -239,9 +239,9 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["connection"]
-      ? options["connection"]
-      : connectionPropertiesV2BasicResourceSerializer(options["connection"]),
+    body: !options?.connection
+      ? options?.connection
+      : connectionPropertiesV2BasicResourceSerializer(options?.connection),
   });
 }
 
@@ -295,7 +295,7 @@ export function _getSend(
       accountName: accountName,
       projectName: projectName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

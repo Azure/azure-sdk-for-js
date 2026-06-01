@@ -6,6 +6,7 @@ import type { AddressInfo } from "node:net";
 import { WebSocketServer, type WebSocket } from "ws";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { WebPubSubClient } from "../../src/webPubSubClient.js";
+import type { OnGroupStreamArgs, GroupStreamHandler } from "../../src/models/index.js";
 import { createDeferred, withTimeout } from "../testUtils.js";
 
 async function waitForSocketConnection(wss: WebSocketServer): Promise<WebSocket> {
@@ -268,16 +269,18 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     const socket = await startClientAndConnect(client, wss);
 
-    const streamErrorViaOnGroupStream = withTimeout(
+    const streamErrorViaGroupStream = withTimeout(
       new Promise<{ streamId: string; group: string; error: any }>((resolve) => {
-        client!.onGroupStream("g1", () => ({
-          onError: (args) => {
-            resolve({ streamId: args.streamId, group: args.group, error: args.error });
-          },
-        }));
+        client!.onGroupStream(
+          (_stream): GroupStreamHandler => ({
+            onError: (args) => {
+              resolve({ streamId: args.streamId, group: args.group, error: args.error });
+            },
+          }),
+        );
       }),
       2000,
-      "Timed out waiting for endOfStream error to trigger onGroupStream.onError.",
+      "Timed out waiting for endOfStream error to trigger group-stream onError.",
     );
 
     // First message creates the active handler
@@ -297,7 +300,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       error: { name: "StreamNotFound", message: "not found" },
     });
 
-    await expect(streamErrorViaOnGroupStream).resolves.toEqual({
+    await expect(streamErrorViaGroupStream).resolves.toEqual({
       streamId: "s-closed",
       group: "g1",
       error: { name: "StreamNotFound", message: "not found" },
@@ -406,16 +409,16 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
       keepAliveTimeoutInMs: 0,
+      groupStreamOptions: { handleFromStart: true, ttlInMs: 2000 },
     });
 
     const socket = await startClientAndConnect(client, wss);
 
     const streamDone = withTimeout(
       new Promise<{ result: string; error?: any }>((resolve) => {
-        const chunks: string[] = [];
-        client!.onGroupStream(
-          "g1",
-          () => ({
+        client!.onGroupStream((_stream): GroupStreamHandler => {
+          const chunks: string[] = [];
+          return {
             onMessage: (args) => {
               chunks.push(args.data as string);
             },
@@ -425,9 +428,8 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
             onError: (args) => {
               resolve({ result: chunks.join(""), error: args.error });
             },
-          }),
-          { handleFromStart: true, ttlInMs: 2000 },
-        );
+          };
+        });
       }),
       2000,
       "Timed out waiting for stream completion.",
@@ -454,19 +456,18 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
       keepAliveTimeoutInMs: 0,
+      groupStreamOptions: { handleFromStart: true },
     });
 
     const socket = await startClientAndConnect(client, wss);
 
     let called = false;
     client.onGroupStream(
-      "g1",
-      () => ({
+      (_stream): GroupStreamHandler => ({
         onMessage: () => {
           called = true;
         },
       }),
-      { handleFromStart: true },
     );
 
     sendGroupStreamMessage(socket, {
@@ -485,25 +486,24 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
       keepAliveTimeoutInMs: 0,
+      groupStreamOptions: { ttlInMs: 120, handleFromStart: true },
     });
 
     const socket = await startClientAndConnect(client, wss);
 
     const timeoutResult = withTimeout(
       new Promise<{ messageCount: number; errorName?: string }>((resolve) => {
-        let messageCount = 0;
-        client!.onGroupStream(
-          "g1",
-          () => ({
+        client!.onGroupStream((_stream): GroupStreamHandler => {
+          let messageCount = 0;
+          return {
             onMessage: () => {
               messageCount++;
             },
             onError: (args) => {
               resolve({ messageCount, errorName: args.error?.name });
             },
-          }),
-          { ttlInMs: 120, handleFromStart: true },
-        );
+          };
+        });
       }),
       2000,
       "Timed out waiting for stream idle timeout callback.",
@@ -533,16 +533,18 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     const sequence = withTimeout(
       new Promise<string[]>((resolve) => {
-        const order: string[] = [];
-        client!.onGroupStream("g1", () => ({
-          onMessage: (args) => {
-            order.push(`message:${args.data as string}`);
-          },
-          onError: (args) => {
-            order.push(`error:${args.error?.name}`);
-            resolve(order);
-          },
-        }));
+        client!.onGroupStream((_stream): GroupStreamHandler => {
+          const order: string[] = [];
+          return {
+            onMessage: (args) => {
+              order.push(`message:${args.data as string}`);
+            },
+            onError: (args) => {
+              order.push(`error:${args.error?.name}`);
+              resolve(order);
+            },
+          };
+        });
       }),
       2000,
       "Timed out waiting for endOfStream error callbacks.",
@@ -570,15 +572,17 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     const result = withTimeout(
       new Promise<{ messageCount: number; completed: boolean }>((resolve) => {
-        let messageCount = 0;
-        client!.onGroupStream("g1", () => ({
-          onMessage: () => {
-            messageCount++;
-          },
-          onComplete: () => {
-            resolve({ messageCount, completed: true });
-          },
-        }));
+        client!.onGroupStream((_stream): GroupStreamHandler => {
+          let messageCount = 0;
+          return {
+            onMessage: () => {
+              messageCount++;
+            },
+            onComplete: () => {
+              resolve({ messageCount, completed: true });
+            },
+          };
+        });
       }),
       2000,
       "Timed out waiting for endOfStream completion callback.",
@@ -599,21 +603,20 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
       keepAliveTimeoutInMs: 0,
+      groupStreamOptions: { handleFromStart: true },
     });
 
     const socket = await startClientAndConnect(client, wss);
 
     const done = withTimeout(
       new Promise<string>((resolve) => {
-        const chunks: string[] = [];
-        client!.onGroupStream(
-          "g1",
-          () => ({
+        client!.onGroupStream((_stream): GroupStreamHandler => {
+          const chunks: string[] = [];
+          return {
             onMessage: (args) => chunks.push(args.data as string),
             onComplete: () => resolve(chunks.join("")),
-          }),
-          { handleFromStart: true },
-        );
+          };
+        });
       }),
       3000,
       "Timed out waiting for reused streamId to complete.",
@@ -655,21 +658,20 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
       keepAliveTimeoutInMs: 0,
+      groupStreamOptions: { handleFromStart: true },
     });
 
     const socket = await startClientAndConnect(client, wss);
 
     const done = withTimeout(
       new Promise<string>((resolve) => {
-        const chunks: string[] = [];
-        client!.onGroupStream(
-          "g1",
-          () => ({
+        client!.onGroupStream((_stream): GroupStreamHandler => {
+          const chunks: string[] = [];
+          return {
             onMessage: (args) => chunks.push(args.data as string),
             onComplete: () => resolve(chunks.join("")),
-          }),
-          { handleFromStart: true },
-        );
+          };
+        });
       }),
       3000,
       "Timed out waiting for stream completion after late terminal fragment.",
@@ -735,7 +737,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     expect(removedHandlerCalled).toBe(false);
   });
 
-  it("stops delivering stream lifecycle callbacks after onGroupStream disposer is called", async () => {
+  it("stops delivering stream lifecycle callbacks after group-stream listener is removed", async () => {
     client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
@@ -749,7 +751,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     client.on("group-message", onGroupMessage);
 
     let invoked = false;
-    const subscription = client.onGroupStream("g1", () => ({
+    const groupStreamFactory = (_stream: OnGroupStreamArgs): GroupStreamHandler => ({
       onMessage: () => {
         invoked = true;
       },
@@ -759,8 +761,9 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       onError: () => {
         invoked = true;
       },
-    }));
-    subscription.close();
+    });
+    client.onGroupStream(groupStreamFactory);
+    client.offGroupStream(groupStreamFactory);
 
     sendGroupStreamMessage(socket, {
       streamId: "disposed-stream",

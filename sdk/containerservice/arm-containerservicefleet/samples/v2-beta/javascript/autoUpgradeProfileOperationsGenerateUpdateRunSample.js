@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to generates an update run for a given auto upgrade profile.
  *
  * @summary generates an update run for a given auto upgrade profile.
- * x-ms-original-file: 2026-02-01-preview/AutoUpgradeProfileOperations_GenerateUpdateRun.json
+ * x-ms-original-file: 2026-03-02-preview/AutoUpgradeProfileOperations_GenerateUpdateRun.json
  */
 async function autoUpgradeProfileOperationsGenerateUpdateRun() {
   const credential = new DefaultAzureCredential();

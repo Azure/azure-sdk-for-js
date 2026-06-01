@@ -32,7 +32,7 @@ function getRedirectPolicy(ledgerEndpoint: string): PipelinePolicy {
  * Helper to create a write request with a Bearer token. The token text is
  * checked in assertions to verify it never leaks to untrusted targets.
  */
-function writeRequest(url: string) {
+function writeRequest(url: string): PipelineRequest {
   return createPipelineRequest({
     url,
     method: "POST",
