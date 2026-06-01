@@ -118,6 +118,7 @@ foreach ($update in $availableUpdates.PSObject.Properties) {
     }
 
     if ($null -ne $p.OldVersion -and $null -ne $p.NewVersion -and $p.OldVersion -ne $p.NewVersion) {
+      # Ignore prerelease-only upgrades (beta/rc/etc.) so weekly automation files issues only for stable releases.
       if (Test-IsPreReleaseVersion -Version $p.NewVersion) {
         Write-Host "Skipping pre-release version for $($p.Name): $($p.NewVersion)"
         continue
