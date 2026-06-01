@@ -9,7 +9,7 @@
 import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AdvisorManagementClient } from "../src/advisorManagementClient.js";
-import { RecommendationsListOptionalParams } from "../src/models/index.js";
+import { RecommendationsListOptionalParams } from "../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
@@ -25,6 +25,15 @@ const recorderOptions: RecorderStartOptions = {
     "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
     "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
   ],
+  // sanitizerOptions: {
+  //   generalSanitizers: [
+  //     { 
+  //       regex: true,
+  //       target:`"nextLink":"[^"]*"`,
+  //       value: `"nextLink":"sanitized_nextLink"`
+  //     }
+  //   ]
+  // }
 };
 
 export const testPollingOptions = {
@@ -56,11 +65,8 @@ describe("Advisor test", () => {
   it("recommendations list test", async () => {
     const top = 5;
     const options: RecommendationsListOptionalParams = { top };
-    const resArray = new Array();
-    for await (let item of client.recommendations.list(options)) {
-      resArray.push(item);
-    }
-
-    assert(resArray.length > 0);
+    const pages = client.recommendations.list(options).byPage();
+    const firstPage = await pages.next();
+    assert(!firstPage.done && firstPage.value.length > 0);
   });
 });
