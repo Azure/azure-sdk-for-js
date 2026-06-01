@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the commitmentPlans associated with the Cognitive Services account.
  *
  * @summary gets the commitmentPlans associated with the Cognitive Services account.
- * x-ms-original-file: 2026-01-15-preview/ListCommitmentPlans.json
+ * x-ms-original-file: 2026-03-15-preview/ListCommitmentPlans.json
  */
 async function listCommitmentPlans(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a Cognitive Services commitment plan from the resource group.
  *
  * @summary deletes a Cognitive Services commitment plan from the resource group.
- * x-ms-original-file: 2026-01-15-preview/DeleteSharedCommitmentPlan.json
+ * x-ms-original-file: 2026-03-15-preview/DeleteSharedCommitmentPlan.json
  */
 async function deleteCommitmentPlan() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to patch API for managed network settings of a cognitive services account.
  *
  * @summary patch API for managed network settings of a cognitive services account.
- * x-ms-original-file: 2026-01-15-preview/ManagedNetwork/patchManagedNetworkV2.json
+ * x-ms-original-file: 2026-03-15-preview/ManagedNetwork/patchManagedNetworkV2.json
  */
 async function patchManagedNetworkSettings() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update account capabilityHost.
  *
  * @summary create or update account capabilityHost.
- * x-ms-original-file: 2026-01-15-preview/AccountCapabilityHost/createOrUpdate.json
+ * x-ms-original-file: 2026-03-15-preview/AccountCapabilityHost/createOrUpdate.json
  */
 async function createOrUpdateAccountCapabilityHost() {
   const credential = new DefaultAzureCredential();

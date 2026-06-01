@@ -1,0 +1,28 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { WebSiteManagementClient } = require("@azure/arm-appservice");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+ *
+ * @summary description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+ * x-ms-original-file: 2025-05-01/UpdateWebAppSlot.json
+ */
+async function updateWebAppSlot() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new WebSiteManagementClient(credential, subscriptionId);
+  const result = await client.webApps.updateSlot("testrg123", "sitef6141", "staging", {
+    serverFarmId:
+      "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/DefaultAsp",
+  });
+  console.log(result);
+}
+
+async function main() {
+  await updateWebAppSlot();
+}
+
+main().catch(console.error);

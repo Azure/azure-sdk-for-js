@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the account keys for the specified Cognitive Services account.
  *
  * @summary lists the account keys for the specified Cognitive Services account.
- * x-ms-original-file: 2026-01-15-preview/ListKeys.json
+ * x-ms-original-file: 2026-03-15-preview/ListKeys.json
  */
 async function listKeys() {
   const credential = new DefaultAzureCredential();
