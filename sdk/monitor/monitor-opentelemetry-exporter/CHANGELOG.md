@@ -12,7 +12,7 @@
 
 ### Other Changes
 
-## 1.0.0-beta.42 (Unreleased)
+## 1.0.0-beta.42 (2026-05-29)
 
 ### Bugs Fixed
 
