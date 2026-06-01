@@ -1,5 +1,7 @@
 # Case Study: Investigating a Pipeline that Hangs
 
+> **Note:** This is a historical case study. It describes the tooling and environment in use at the time of the investigation (mocha test runner, Node.js 8). The repository has since migrated to vitest and requires Node.js ≥20.
+
 ## Problem
 
 We have encountered a problem where the pipelines hung right after the identity tests were run [only(majorly) on Windows].

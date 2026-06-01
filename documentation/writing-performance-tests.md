@@ -27,12 +27,10 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
 1.  Create a new folder for the perf tests.
 
-    Path- `sdk/<service>/perf-tests/<service-sdk>`
+    Path- `sdk/<service>/<service-sdk>-perf-tests`
 
-    (Create the `perf-tests` folder if that doesn't exist)
-
-3.  Tests will live under `sdk/<service>/perf-tests/<service-sdk>/src`
-4.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-datalake-perf-tests/package.json) at `sdk/<service>/perf-tests/<service-sdk>` folder.
+3.  Tests will live under `sdk/<service>/<service-sdk>-perf-tests/src`
+4.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-datalake-perf-tests/package.json) at `sdk/<service>/<service-sdk>-perf-tests` folder.
 
     Make sure to import your `<service-sdk>` and the `test-perf` project.
 
@@ -54,26 +52,24 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
     ```
 
 5.  Run `pnpm install` and commit the changes to the `pnpm-lock` file.
-6.  Copy the `tsconfig.json`, `sample.env`(and `.env`) files that are present at the `sdk/<service>/<service-sdk>` to `sdk/<service>/perf-tests/<service-sdk>`.
+6.  Copy the `tsconfig.json`, `sample.env`(and `.env`) files that are present at the `sdk/<service>/<service-sdk>` to `sdk/<service>/<service-sdk>-perf-tests`.
 
     TSCONFIG
 
-    - Modify the "extends" string in the copied tsconfig by adding ".." since the perf tests project is located a level below the actual SDK.
-    - Set the `compilerOptions.module` to `commonjs` in the `tsconfig` to allow running the tests with `ts-node`.
+    - Modify the "extends" string in the copied tsconfig since the perf tests project is at the same level as the actual SDK.
 
     In the end, your tsconfig may look something like below.
 
 ```json
 {
-  "extends": "../../../../tsconfig.lib.json",
+  "extends": "../../../tsconfig.lib.json",
   "compilerOptions": {
-    "module": "commonjs",
     "declarationDir": "./types/latest",
-    "outDir": "./dist-esm",
+    "outDir": "./dist",
   },
   "compileOnSave": true,
   "exclude": ["node_modules"],
-  "include": ["./test/**/*.ts"]
+  "include": ["./src/**/*.ts"]
 }
 ```
 
@@ -81,18 +77,18 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
 (_Skip this section if your service does not have or does not care about a track-1 version._)
 
-1. If there is an old major version of your package that needs to be compared, create the folder as `sdk/<service>/perf-tests/<service-sdk>-track-1`
+1. If there is an old major version of your package that needs to be compared, create the folder as `sdk/<service>/<service-sdk>-track-1-perf-tests`
 
 2. It is expected that the track-1 perf tests are counterparts of track-2 tests, so they need to have the same names as specified in the track-2 tests for convenience.
 
-3. Add a `package.json` such as [example-track-1-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob-track-1/package.json) at `sdk/<service>/perf-tests/<service-sdk>` folder.
+3. Add a `package.json` similar to the track-2 perf tests package.json at `sdk/<service>/<service-sdk>-track-1-perf-tests`.
 
    Make sure to import your `<service-sdk>` and the `test-perf` project.
 
    ```json
      "dependencies": {
         "@azure/<service-sdk>": "^<latest-track-1-version>",
-        "@azure-tools/test-perf": "file:../../../test-utils/perf/azure-test-utils-perf-1.0.0.tgz",
+        "@azure-tools/test-perf": "^1.0.0"
       }
    ```
 
@@ -100,21 +96,13 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
    ```json
     "name": "@azure-tests/perf-<service-sdk>-track-1",
-    "sdk-type": "perf-test"
+    "sdk-type": "perf-test",
     "private": true,
    ```
 
-   _Note: Track-1 packages will not be managed by `pnpm`, instead `npm` will be used to manage/run the track-1 tests, you can copy the readme such as the [storage-blob-perf-tests-readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob-perf-tests/README.md) for instructions._
+   _Note: You can copy the readme such as the [storage-blob-perf-tests-readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob-perf-tests/README.md) for instructions._
 
-   Make sure to add the "setup" step in package.json.
-
-   ```json
-       "setup": "node ../../../../common/tools/perf-tests-track-1-setup.js",
-   ```
-
-4. Run `pnpm install` followed by `npm run setup` to be able to use the perf framework for track-1 perf tests.
-
-   _`npm run setup` installs the dependencies specified in `package.json`_
+4. Run `pnpm install` to install the perf framework for track-1 perf tests.
 
 5. Repeat the step 6 from the previous section for the track-1 too to get the `tsconfig.json`, `sample.env`(and `.env`) files.
 
@@ -122,7 +110,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
 ### [Entry Point](#entry-point)
 
-Add an `index.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/src/`.
+Add an `index.spec.ts` at `sdk/<service>/<service-sdk>-perf-tests/src/`.
 
 ```js
 import { createPerfProgram } from "@azure-tools/test-perf";
@@ -144,7 +132,7 @@ perfProgram.run();
 
 Base class would have all the common code that would be repeated for each of the tests - common code such as creating the client, creating a base resource, etc.
 
-Create a new file such as `serviceName.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/src/`.
+Create a new file such as `serviceName.spec.ts` at `sdk/<service>/<service-sdk>-perf-tests/src/`.
 
 ```js
 import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
@@ -237,13 +225,13 @@ export class `ServiceNameAPIName`Test extends ServiceNameTest<`ServiceNameAPINam
 
 ### [Command to run](#command-to-run)
 
-To run a particular test, use `npm run perf-test:node` - takes the test class name as the argument along with the command line arguments you may provide.
+To run a particular test, use `pnpm run perf-test:node` - takes the test class name as the argument along with the command line arguments you may provide.
 
-- Run `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
+- Run `pnpm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
 
 ### [Adding Readme/Instructions](#adding-readme/instructions)
 
-Refer to [storage-blob-perf-tests-readme](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob/README.md) and [storage-blob-perf-tests-readme-track-1](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob-track-1/README.md) and have similar set of instructions for your perf project.
+Refer to [storage-blob-perf-tests-readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob-perf-tests/README.md) and have similar set of instructions for your perf project.
 
 ### [Testing an older track 2 version](#testing-an-older-track-2-version)
 
@@ -251,9 +239,9 @@ Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to
 
 - In the track 2 perf tests project, update dependency `@azure/<service-sdk>` version in `package.json` to `12.2.0`
 - `pnpm install` (generates a new pnpm-lock file)
-- Navigate to `sdk\storage\perf-tests\<service-sdk>`
+- Navigate to `sdk\storage\<service-sdk>-perf-tests`
 - `pnpm build --filter @azure-tests/perf-<service-sdk>...`
-- Run the tests as suggested before, example `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
+- Run the tests as suggested before, example `pnpm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
 
 ## [Using Proxy Tool](#using-proxy-tool)
 
@@ -287,14 +275,14 @@ To use the proxy-tool in your test pass this option in cli `--test-proxy http://
 
 Sample command(using storage-blob perf tests as example (Core-v1)!)
 
-> npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --test-proxy http://localhost:5000
+> pnpm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --test-proxy http://localhost:5000
 
-> npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000
+> pnpm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000
 
 Sample command(using data-tables perf tests as example (Core-v2)!)
 
-> npm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000
+> pnpm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000
 
-> npm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2
+> pnpm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2
 
 **Using proxy-tool** part is still under construction. Please reach out to the owners/team if you face issues.
