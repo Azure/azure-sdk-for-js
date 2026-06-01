@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns a Cognitive Services account specified by the parameters.
  *
  * @summary returns a Cognitive Services account specified by the parameters.
- * x-ms-original-file: 2026-01-15-preview/GetDeletedAccount.json
+ * x-ms-original-file: 2026-03-15-preview/GetDeletedAccount.json
  */
 async function getAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();

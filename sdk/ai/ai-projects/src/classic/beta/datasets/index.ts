@@ -33,7 +33,7 @@ export interface BetaDatasetsOperations {
   ) => Promise<DataGenerationJob>;
   /** Creates a data generation job. */
   createGenerationJob: (
-    body: DataGenerationJob,
+    job: DataGenerationJob,
     options?: BetaDatasetsCreateGenerationJobOptionalParams,
   ) => Promise<DataGenerationJob>;
   /** Returns a list of data generation jobs. */
@@ -54,9 +54,9 @@ function _getBetaDatasets(context: AIProjectContext) {
     cancelGenerationJob: (jobId: string, options?: BetaDatasetsCancelGenerationJobOptionalParams) =>
       cancelGenerationJob(context, jobId, options),
     createGenerationJob: (
-      body: DataGenerationJob,
+      job: DataGenerationJob,
       options?: BetaDatasetsCreateGenerationJobOptionalParams,
-    ) => createGenerationJob(context, body, options),
+    ) => createGenerationJob(context, job, options),
     listGenerationJobs: (options?: BetaDatasetsListGenerationJobsOptionalParams) =>
       listGenerationJobs(context, options),
     getGenerationJob: (jobId: string, options?: BetaDatasetsGetGenerationJobOptionalParams) =>
