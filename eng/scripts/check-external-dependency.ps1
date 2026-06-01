@@ -75,7 +75,11 @@ function Set-GitHubIssue($Package) {
   }
 }
 
-function Test-IsPreReleaseVersion($Version) {
+function Test-IsPreReleaseVersion {
+  param (
+    [string]$Version
+  )
+
   if ([string]::IsNullOrWhiteSpace($Version)) {
     return $false
   }
