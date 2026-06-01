@@ -1,41 +1,52 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ContainerServiceFleetContext,
-  ContainerServiceFleetClientOptionalParams,
+  ContainerServiceFleetClientOptionalParams} from "./api/index.js";
+import {
   createContainerServiceFleet,
 } from "./api/index.js";
+import type {
+  AutoUpgradeProfileOperationsOperations} from "./classic/autoUpgradeProfileOperations/index.js";
 import {
-  AutoUpgradeProfileOperationsOperations,
   _getAutoUpgradeProfileOperationsOperations,
 } from "./classic/autoUpgradeProfileOperations/index.js";
+import type {
+  AutoUpgradeProfilesOperations} from "./classic/autoUpgradeProfiles/index.js";
 import {
-  AutoUpgradeProfilesOperations,
   _getAutoUpgradeProfilesOperations,
 } from "./classic/autoUpgradeProfiles/index.js";
+import type {
+  ClusterMeshProfilesOperations} from "./classic/clusterMeshProfiles/index.js";
 import {
-  ClusterMeshProfilesOperations,
   _getClusterMeshProfilesOperations,
 } from "./classic/clusterMeshProfiles/index.js";
+import type {
+  FleetManagedNamespacesOperations} from "./classic/fleetManagedNamespaces/index.js";
 import {
-  FleetManagedNamespacesOperations,
   _getFleetManagedNamespacesOperations,
 } from "./classic/fleetManagedNamespaces/index.js";
+import type {
+  FleetMembersOperations} from "./classic/fleetMembers/index.js";
 import {
-  FleetMembersOperations,
   _getFleetMembersOperations,
 } from "./classic/fleetMembers/index.js";
+import type {
+  FleetUpdateStrategiesOperations} from "./classic/fleetUpdateStrategies/index.js";
 import {
-  FleetUpdateStrategiesOperations,
   _getFleetUpdateStrategiesOperations,
 } from "./classic/fleetUpdateStrategies/index.js";
-import { FleetsOperations, _getFleetsOperations } from "./classic/fleets/index.js";
-import { GatesOperations, _getGatesOperations } from "./classic/gates/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { UpdateRunsOperations, _getUpdateRunsOperations } from "./classic/updateRuns/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { FleetsOperations} from "./classic/fleets/index.js";
+import { _getFleetsOperations } from "./classic/fleets/index.js";
+import type { GatesOperations} from "./classic/gates/index.js";
+import { _getGatesOperations } from "./classic/gates/index.js";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { UpdateRunsOperations} from "./classic/updateRuns/index.js";
+import { _getUpdateRunsOperations } from "./classic/updateRuns/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { ContainerServiceFleetClientOptionalParams } from "./api/containerServiceFleetContext.js";
 

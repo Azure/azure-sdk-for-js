@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
+import type { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
 import {
   apply,
   listByFleet,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/clusterMeshProfiles/operations.js";
-import {
+import type {
   ClusterMeshProfilesApplyOptionalParams,
   ClusterMeshProfilesListByFleetOptionalParams,
   ClusterMeshProfilesDeleteOptionalParams,
   ClusterMeshProfilesCreateOrUpdateOptionalParams,
   ClusterMeshProfilesGetOptionalParams,
 } from "../../api/clusterMeshProfiles/options.js";
-import { ClusterMeshProfile } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { ClusterMeshProfile } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ClusterMeshProfiles operations. */
 export interface ClusterMeshProfilesOperations {

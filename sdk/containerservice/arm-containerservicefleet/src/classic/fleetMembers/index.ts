@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
+import type { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
 import {
   listByFleet,
   $delete,
@@ -9,16 +9,16 @@ import {
   create,
   get,
 } from "../../api/fleetMembers/operations.js";
-import {
+import type {
   FleetMembersListByFleetOptionalParams,
   FleetMembersDeleteOptionalParams,
   FleetMembersUpdateAsyncOptionalParams,
   FleetMembersCreateOptionalParams,
   FleetMembersGetOptionalParams,
 } from "../../api/fleetMembers/options.js";
-import { FleetMember, FleetMemberUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { FleetMember, FleetMemberUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FleetMembers operations. */
 export interface FleetMembersOperations {

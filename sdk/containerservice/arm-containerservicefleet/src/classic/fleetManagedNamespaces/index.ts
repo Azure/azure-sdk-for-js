@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
+import type { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
 import {
   update,
   listByFleet,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/fleetManagedNamespaces/operations.js";
-import {
+import type {
   FleetManagedNamespacesUpdateOptionalParams,
   FleetManagedNamespacesListByFleetOptionalParams,
   FleetManagedNamespacesDeleteOptionalParams,
   FleetManagedNamespacesCreateOrUpdateOptionalParams,
   FleetManagedNamespacesGetOptionalParams,
 } from "../../api/fleetManagedNamespaces/options.js";
-import { FleetManagedNamespace, FleetManagedNamespacePatch } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { FleetManagedNamespace, FleetManagedNamespacePatch } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FleetManagedNamespaces operations. */
 export interface FleetManagedNamespacesOperations {

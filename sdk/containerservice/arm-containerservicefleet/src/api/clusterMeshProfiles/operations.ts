@@ -1,35 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetContext as Client } from "../index.js";
+import type { ContainerServiceFleetContext as Client } from "../index.js";
+import type {
+  ClusterMeshProfile,
+  _ClusterMeshProfileListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  ClusterMeshProfile,
   clusterMeshProfileSerializer,
   clusterMeshProfileDeserializer,
-  _ClusterMeshProfileListResult,
   _clusterMeshProfileListResultDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ClusterMeshProfilesApplyOptionalParams,
   ClusterMeshProfilesListByFleetOptionalParams,
   ClusterMeshProfilesDeleteOptionalParams,
   ClusterMeshProfilesCreateOrUpdateOptionalParams,
   ClusterMeshProfilesGetOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _applySend(
   context: Client,

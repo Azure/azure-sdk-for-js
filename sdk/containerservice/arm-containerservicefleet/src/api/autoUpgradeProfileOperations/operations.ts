@@ -1,22 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetContext as Client } from "../index.js";
+import type { ContainerServiceFleetContext as Client } from "../index.js";
+import type {
+  GenerateResponse} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  GenerateResponse,
   generateResponseDeserializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams } from "./options.js";
-import {
+import type { AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams } from "./options.js";
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _generateUpdateRunSend(
   context: Client,

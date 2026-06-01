@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetClient } from "./containerServiceFleetClient.js";
+import type { ContainerServiceFleetClient } from "./containerServiceFleetClient.js";
 import { _generateUpdateRunDeserialize } from "./api/autoUpgradeProfileOperations/operations.js";
 import {
   _$deleteDeserialize,
@@ -40,13 +40,14 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeClusterMeshProfiles,
 } from "./api/clusterMeshProfiles/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type {
   PollerLike,
   OperationState,
-  deserializeState,
-  ResourceLocationConfig,
+  ResourceLocationConfig} from "@azure/core-lro";
+import {
+  deserializeState
 } from "@azure/core-lro";
 
 export interface RestorePollerOptions<

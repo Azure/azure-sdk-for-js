@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
+import type { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
 import {
   skip,
   stop,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/updateRuns/operations.js";
-import {
+import type {
   UpdateRunsSkipOptionalParams,
   UpdateRunsStopOptionalParams,
   UpdateRunsStartOptionalParams,
@@ -20,9 +20,9 @@ import {
   UpdateRunsCreateOrUpdateOptionalParams,
   UpdateRunsGetOptionalParams,
 } from "../../api/updateRuns/options.js";
-import { UpdateRun, SkipProperties } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { UpdateRun, SkipProperties } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a UpdateRuns operations. */
 export interface UpdateRunsOperations {
