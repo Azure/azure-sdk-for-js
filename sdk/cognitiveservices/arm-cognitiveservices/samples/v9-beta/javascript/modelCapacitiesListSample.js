@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list ModelCapacities.
  *
  * @summary list ModelCapacities.
- * x-ms-original-file: 2026-01-15-preview/ListModelCapacities.json
+ * x-ms-original-file: 2026-03-15-preview/ListModelCapacities.json
  */
 async function listModelCapacities() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listModelCapacities() {
  * This sample demonstrates how to list ModelCapacities.
  *
  * @summary list ModelCapacities.
- * x-ms-original-file: 2026-01-15-preview/ListModelCapacitiesClassicScope.json
+ * x-ms-original-file: 2026-03-15-preview/ListModelCapacitiesClassicScope.json
  */
 async function listModelCapacitiesClassicScope() {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function listModelCapacitiesClassicScope() {
  * This sample demonstrates how to list ModelCapacities.
  *
  * @summary list ModelCapacities.
- * x-ms-original-file: 2026-01-15-preview/ListModelCapacitiesDataZoneScope.json
+ * x-ms-original-file: 2026-03-15-preview/ListModelCapacitiesDataZoneScope.json
  */
 async function listModelCapacitiesDataZoneScope() {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function listModelCapacitiesDataZoneScope() {
  * This sample demonstrates how to list ModelCapacities.
  *
  * @summary list ModelCapacities.
- * x-ms-original-file: 2026-01-15-preview/ListModelCapacitiesGlobalScope.json
+ * x-ms-original-file: 2026-03-15-preview/ListModelCapacitiesGlobalScope.json
  */
 async function listModelCapacitiesGlobalScope() {
   const credential = new DefaultAzureCredential();

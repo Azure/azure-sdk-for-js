@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified private endpoint connection associated with the Cognitive Services account.
  *
  * @summary gets the specified private endpoint connection associated with the Cognitive Services account.
- * x-ms-original-file: 2026-01-15-preview/GetPrivateEndpointConnection.json
+ * x-ms-original-file: 2026-03-15-preview/GetPrivateEndpointConnection.json
  */
 async function getPrivateEndpointConnection() {
   const credential = new DefaultAzureCredential();

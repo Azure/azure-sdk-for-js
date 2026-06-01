@@ -5,6 +5,8 @@ import {
   extractPemCertificateKeys,
   canParseAsX509Certificate,
 } from "$internal/util/certificatesUtils.js";
+import { handleMsalError } from "$internal/msal/utils.js";
+import { AuthenticationRequiredError, CredentialUnavailableError } from "$internal/errors.js";
 import { describe, it, assert, afterEach } from "vitest";
 import path from "node:path";
 import fs from "node:fs";
@@ -77,6 +79,84 @@ invalidbase64content==
       it("should return false for empty or non-certificate data", () => {
         assert.isFalse(canParseAsX509Certificate(""));
         assert.isFalse(canParseAsX509Certificate("non-cert data"));
+      });
+    });
+  });
+
+  describe("handleMsalError", function () {
+    const scopes = ["https://graph.microsoft.com/.default"];
+    const claimsJson = '{"access_token":{"capolids":{"essential":true,"values":["mfa-required"]}}}';
+
+    function createMsalError(
+      name: string,
+      errorCode: string,
+      options?: { claims?: string },
+    ): Error {
+      const error = new Error(errorCode);
+      error.name = name;
+      Object.assign(error, { errorCode, ...(options?.claims && { claims: options.claims }) });
+      return error;
+    }
+
+    describe("InteractionRequiredAuthError", function () {
+      it("preserves the original MSAL error as .cause", function () {
+        const msalError = createMsalError("InteractionRequiredAuthError", "interaction_required", {
+          claims: claimsJson,
+        });
+        const wrapped = handleMsalError(scopes, msalError);
+        assert.instanceOf(wrapped, AuthenticationRequiredError);
+        assert.strictEqual(wrapped.cause, msalError);
+      });
+
+      it("allows callers to access .claims through .cause", function () {
+        const msalError = createMsalError("InteractionRequiredAuthError", "interaction_required", {
+          claims: claimsJson,
+        });
+        const wrapped = handleMsalError(scopes, msalError) as AuthenticationRequiredError;
+        assert.strictEqual((wrapped.cause as any).claims, claimsJson);
+      });
+    });
+
+    describe("ClientAuthError with interaction_required", function () {
+      it("wraps as AuthenticationRequiredError with cause", function () {
+        const msalError = createMsalError("ClientAuthError", "interaction_required", {
+          claims: claimsJson,
+        });
+        const wrapped = handleMsalError(scopes, msalError) as AuthenticationRequiredError;
+        assert.instanceOf(wrapped, AuthenticationRequiredError);
+        assert.strictEqual(wrapped.cause, msalError);
+        assert.strictEqual((wrapped.cause as any).claims, claimsJson);
+      });
+
+      it.each(["consent_required", "login_required"])(
+        "handles %s the same way",
+        function (errorCode) {
+          const msalError = createMsalError("ClientAuthError", errorCode, {
+            claims: claimsJson,
+          });
+          const wrapped = handleMsalError(scopes, msalError) as AuthenticationRequiredError;
+          assert.instanceOf(wrapped, AuthenticationRequiredError);
+          assert.strictEqual(wrapped.cause, msalError);
+        },
+      );
+    });
+
+    describe("Other errors", function () {
+      it("returns CredentialUnavailableError for endpoints_resolution_error", function () {
+        const msalError = createMsalError("ClientAuthError", "endpoints_resolution_error");
+        const result = handleMsalError(scopes, msalError);
+        assert.instanceOf(result, CredentialUnavailableError);
+        assert.notInstanceOf(result, AuthenticationRequiredError);
+      });
+
+      it.each([
+        { name: "ClientConfigurationError", errorCode: "invalid_config" },
+        { name: "NativeAuthError", errorCode: "native_error" },
+        { name: "AbortError", errorCode: "aborted" },
+      ])("returns the original error for $name", function ({ name, errorCode }) {
+        const msalError = createMsalError(name, errorCode);
+        const result = handleMsalError(scopes, msalError);
+        assert.strictEqual(result, msalError);
       });
     });
   });

@@ -111,10 +111,11 @@ export function _deleteVersionSend(
   options: AgentsDeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}{?api%2Dversion}",
+    "/agents/{agent_name}/versions/{agent_version}{?force,api%2Dversion}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
+      force: options?.force,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -143,7 +144,11 @@ export async function _deleteVersionDeserialize(
   return deleteAgentVersionResponseDeserializer(result.body);
 }
 
-/** Deletes a specific version of an agent. */
+/**
+ * Deletes a specific version of an agent. For hosted agents, if the version has active
+ * sessions, the request is rejected with HTTP 409 unless `force` is set to true. When
+ * force is true, all sessions associated with this version are cascade-deleted.
+ */
 export async function deleteVersion(
   context: Client,
   agentName: string,
@@ -390,9 +395,10 @@ export function _$deleteSend(
   options: AgentsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}{?api%2Dversion}",
+    "/agents/{agent_name}{?force,api%2Dversion}",
     {
       agent_name: agentName,
+      force: options?.force,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -421,7 +427,11 @@ export async function _$deleteDeserialize(
   return deleteAgentResponseDeserializer(result.body);
 }
 
-/** Deletes an agent. */
+/**
+ * Deletes an agent. For hosted agents, if any version has active sessions, the request
+ * is rejected with HTTP 409 unless `force` is set to true. When force is true, all
+ * associated sessions are cascade-deleted along with the agent and its versions.
+ */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.
  *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
