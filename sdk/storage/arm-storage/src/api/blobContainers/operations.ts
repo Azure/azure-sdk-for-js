@@ -1,33 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext as Client } from "../index.js";
-import type {
-  BlobContainer,
-  LegalHold,
-  LeaseContainerResponse,
-  _ListContainerItems,
-  ListContainerItem,
-  ImmutabilityPolicy,
-} from "../../models/models.js";
+import { StorageManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  BlobContainer,
   blobContainerSerializer,
   blobContainerDeserializer,
+  LegalHold,
   legalHoldSerializer,
   legalHoldDeserializer,
   leaseContainerRequestSerializer,
+  LeaseContainerResponse,
   leaseContainerResponseDeserializer,
   cloudErrorDeserializer,
+  _ListContainerItems,
   _listContainerItemsDeserializer,
+  ListContainerItem,
+  ImmutabilityPolicy,
   immutabilityPolicySerializer,
   immutabilityPolicyDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   BlobContainersExtendImmutabilityPolicyOptionalParams,
   BlobContainersLockImmutabilityPolicyOptionalParams,
   BlobContainersDeleteImmutabilityPolicyOptionalParams,
@@ -43,9 +43,13 @@ import type {
   BlobContainersCreateOptionalParams,
   BlobContainersGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _extendImmutabilityPolicySend(
   context: Client,
@@ -62,7 +66,7 @@ export function _extendImmutabilityPolicySend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,7 +135,7 @@ export function _lockImmutabilityPolicySend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -196,7 +200,7 @@ export function _deleteImmutabilityPolicySend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -260,7 +264,7 @@ export function _createOrUpdateImmutabilityPolicySend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -326,7 +330,7 @@ export function _getImmutabilityPolicySend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -386,7 +390,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       "%24maxpagesize": options?.maxpagesize,
       "%24filter": options?.filter,
       "%24include": options?.include,
@@ -427,7 +431,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -445,7 +449,7 @@ export function _objectLevelWormSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -480,7 +484,7 @@ export function objectLevelWorm(
     getInitialResponse: () =>
       _objectLevelWormSend(context, resourceGroupName, accountName, containerName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -498,7 +502,7 @@ export function _leaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -555,7 +559,7 @@ export function _clearLegalHoldSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -618,7 +622,7 @@ export function _setLegalHoldSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -678,7 +682,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -732,7 +736,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -793,7 +797,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -853,7 +857,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

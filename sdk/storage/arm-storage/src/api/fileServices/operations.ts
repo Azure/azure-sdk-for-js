@@ -1,33 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext as Client } from "../index.js";
-import type {
-  FileServiceProperties,
-  FileServiceItems,
-  FileServiceUsage,
-  _FileServiceUsages,
-} from "../../models/models.js";
+import { StorageManagementContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  FileServiceProperties,
   fileServicePropertiesSerializer,
   fileServicePropertiesDeserializer,
+  FileServiceItems,
   fileServiceItemsDeserializer,
+  FileServiceUsage,
   fileServiceUsageDeserializer,
+  _FileServiceUsages,
   _fileServiceUsagesDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   FileServicesListServiceUsagesOptionalParams,
   FileServicesGetServiceUsageOptionalParams,
   FileServicesListOptionalParams,
   FileServicesSetServicePropertiesOptionalParams,
   FileServicesGetServicePropertiesOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listServiceUsagesSend(
   context: Client,
@@ -41,7 +45,7 @@ export function _listServiceUsagesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       "%24maxpagesize": options?.maxpagesize,
     },
     {
@@ -80,7 +84,7 @@ export function listServiceUsages(
     () => _listServiceUsagesSend(context, resourceGroupName, accountName, options),
     _listServiceUsagesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -96,7 +100,7 @@ export function _getServiceUsageSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -145,7 +149,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,7 +197,7 @@ export function _setServicePropertiesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -251,7 +255,7 @@ export function _getServicePropertiesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

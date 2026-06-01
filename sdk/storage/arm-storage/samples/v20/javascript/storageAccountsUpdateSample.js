@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: 2025-08-01/StorageAccountEnableAD.json
+ * x-ms-original-file: 2026-04-01/StorageAccountEnableAD.json
  */
 async function storageAccountEnableAD() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function storageAccountEnableAD() {
  * This sample demonstrates how to the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: 2025-08-01/StorageAccountEnableCMK.json
+ * x-ms-original-file: 2026-04-01/StorageAccountEnableCMK.json
  */
 async function storageAccountEnableCMK() {
   const credential = new DefaultAzureCredential();
@@ -63,7 +63,7 @@ async function storageAccountEnableCMK() {
  * This sample demonstrates how to the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: 2025-08-01/StorageAccountEnableSmbOAuth.json
+ * x-ms-original-file: 2026-04-01/StorageAccountEnableSmbOAuth.json
  */
 async function storageAccountEnableSmbOAuth() {
   const credential = new DefaultAzureCredential();
@@ -82,7 +82,7 @@ async function storageAccountEnableSmbOAuth() {
  * This sample demonstrates how to the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: 2025-08-01/StorageAccountLeverageIPv6Ability.json
+ * x-ms-original-file: 2026-04-01/StorageAccountLeverageIPv6Ability.json
  */
 async function storageAccountUpdateEnableIpv6Features() {
   const credential = new DefaultAzureCredential();
@@ -102,7 +102,7 @@ async function storageAccountUpdateEnableIpv6Features() {
  * This sample demonstrates how to the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: 2025-08-01/StorageAccountUpdate.json
+ * x-ms-original-file: 2026-04-01/StorageAccountUpdate.json
  */
 async function storageAccountUpdate() {
   const credential = new DefaultAzureCredential();
@@ -155,7 +155,7 @@ async function storageAccountUpdate() {
  * This sample demonstrates how to the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: 2025-08-01/StorageAccountUpdateAccessTierToSmart.json
+ * x-ms-original-file: 2026-04-01/StorageAccountUpdateAccessTierToSmart.json
  */
 async function storageAccountUpdateAccessTierToSmart() {
   const credential = new DefaultAzureCredential();
@@ -203,7 +203,7 @@ async function storageAccountUpdateAccessTierToSmart() {
  * This sample demonstrates how to the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: 2025-08-01/StorageAccountUpdateAllowedCopyScopeToAAD.json
+ * x-ms-original-file: 2026-04-01/StorageAccountUpdateAllowedCopyScopeToAAD.json
  */
 async function storageAccountUpdateAllowedCopyScopeToAAD() {
   const credential = new DefaultAzureCredential();
@@ -246,7 +246,7 @@ async function storageAccountUpdateAllowedCopyScopeToAAD() {
  * This sample demonstrates how to the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: 2025-08-01/StorageAccountUpdateDisablePublicNetworkAccess.json
+ * x-ms-original-file: 2026-04-01/StorageAccountUpdateDisablePublicNetworkAccess.json
  */
 async function storageAccountUpdateDisablePublicNetworkAccess() {
   const credential = new DefaultAzureCredential();
@@ -289,7 +289,7 @@ async function storageAccountUpdateDisablePublicNetworkAccess() {
  * This sample demonstrates how to the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: 2025-08-01/StorageAccountUpdateUserAssignedEncryptionIdentityWithCMK.json
+ * x-ms-original-file: 2026-04-01/StorageAccountUpdateUserAssignedEncryptionIdentityWithCMK.json
  */
 async function storageAccountUpdateUserAssignedEncryptionIdentityWithCMK() {
   const credential = new DefaultAzureCredential();
@@ -329,7 +329,7 @@ async function storageAccountUpdateUserAssignedEncryptionIdentityWithCMK() {
  * This sample demonstrates how to the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: 2025-08-01/StorageAccountUpdateUserAssignedIdentityWithFederatedIdentityClientId.json
+ * x-ms-original-file: 2026-04-01/StorageAccountUpdateUserAssignedIdentityWithFederatedIdentityClientId.json
  */
 async function storageAccountUpdateUserAssignedIdentityWithFederatedIdentityClientId() {
   const credential = new DefaultAzureCredential();
@@ -370,7 +370,7 @@ async function storageAccountUpdateUserAssignedIdentityWithFederatedIdentityClie
  * This sample demonstrates how to the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: 2025-08-01/StorageAccountUpdateWithDataCollaborationPolicy.json
+ * x-ms-original-file: 2026-04-01/StorageAccountUpdateWithDataCollaborationPolicy.json
  */
 async function storageAccountUpdateWithDataCollaborationPolicy() {
   const credential = new DefaultAzureCredential();
@@ -390,7 +390,7 @@ async function storageAccountUpdateWithDataCollaborationPolicy() {
  * This sample demonstrates how to the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: 2025-08-01/StorageAccountUpdateWithImmutabilityPolicy.json
+ * x-ms-original-file: 2026-04-01/StorageAccountUpdateWithImmutabilityPolicy.json
  */
 async function storageAccountUpdateWithImmutabilityPolicy() {
   const credential = new DefaultAzureCredential();
@@ -413,7 +413,7 @@ async function storageAccountUpdateWithImmutabilityPolicy() {
  * This sample demonstrates how to the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: 2025-08-01/StorageAccountUpdate_placement.json
+ * x-ms-original-file: 2026-04-01/StorageAccountUpdate_placement.json
  */
 async function storageAccountUpdatePlacement() {
   const credential = new DefaultAzureCredential();
@@ -460,7 +460,7 @@ async function storageAccountUpdatePlacement() {
  * This sample demonstrates how to the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary the update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: 2025-08-01/StorageAccountUpdate_zones.json
+ * x-ms-original-file: 2026-04-01/StorageAccountUpdate_zones.json
  */
 async function storageAccountUpdateZones() {
   const credential = new DefaultAzureCredential();

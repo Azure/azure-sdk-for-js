@@ -1,28 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext as Client } from "../index.js";
-import type {
-  NetworkSecurityPerimeterConfiguration,
-  _NetworkSecurityPerimeterConfigurationList,
-} from "../../models/models.js";
+import { StorageManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  NetworkSecurityPerimeterConfiguration,
   networkSecurityPerimeterConfigurationDeserializer,
+  _NetworkSecurityPerimeterConfigurationList,
   _networkSecurityPerimeterConfigurationListDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
   NetworkSecurityPerimeterConfigurationsListOptionalParams,
   NetworkSecurityPerimeterConfigurationsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _reconcileSend(
   context: Client,
@@ -38,7 +42,7 @@ export function _reconcileSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       networkSecurityPerimeterConfigurationName: networkSecurityPerimeterConfigurationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,7 +83,7 @@ export function reconcile(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -95,7 +99,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +137,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -151,7 +155,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       networkSecurityPerimeterConfigurationName: networkSecurityPerimeterConfigurationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -1,16 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext as Client } from "../index.js";
-import type { PrivateLinkResourceListResult } from "../../models/models.js";
+import { StorageManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  PrivateLinkResourceListResult,
   privateLinkResourceListResultDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { PrivateLinkResourcesListByStorageAccountOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { PrivateLinkResourcesListByStorageAccountOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listByStorageAccountSend(
   context: Client,
@@ -24,7 +28,7 @@ export function _listByStorageAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

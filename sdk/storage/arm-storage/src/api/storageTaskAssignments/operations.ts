@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext as Client } from "../index.js";
-import type {
-  StorageTaskAssignment,
-  StorageTaskAssignmentUpdateParameters,
-  _StorageTaskAssignmentsList,
-} from "../../models/models.js";
+import { StorageManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  StorageTaskAssignment,
   storageTaskAssignmentSerializer,
   storageTaskAssignmentDeserializer,
+  StorageTaskAssignmentUpdateParameters,
   storageTaskAssignmentUpdateParametersSerializer,
+  _StorageTaskAssignmentsList,
   _storageTaskAssignmentsListDeserializer,
   errorResponseDeserializer_1,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   StorageTaskAssignmentsStopAssignmentOptionalParams,
   StorageTaskAssignmentsListOptionalParams,
   StorageTaskAssignmentsDeleteOptionalParams,
@@ -27,9 +27,13 @@ import type {
   StorageTaskAssignmentsCreateOptionalParams,
   StorageTaskAssignmentsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _stopAssignmentSend(
   context: Client,
@@ -45,7 +49,7 @@ export function _stopAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       storageTaskAssignmentName: storageTaskAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -86,7 +90,7 @@ export function stopAssignment(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -102,7 +106,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       "%24top": options?.top,
     },
     {
@@ -141,7 +145,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -159,7 +163,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       storageTaskAssignmentName: storageTaskAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -194,7 +198,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, storageTaskAssignmentName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -213,7 +217,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       storageTaskAssignmentName: storageTaskAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -263,7 +267,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<StorageTaskAssignment>, StorageTaskAssignment>;
 }
 
@@ -282,7 +286,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       storageTaskAssignmentName: storageTaskAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -332,7 +336,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<StorageTaskAssignment>, StorageTaskAssignment>;
 }
 
@@ -350,7 +354,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       storageTaskAssignmentName: storageTaskAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

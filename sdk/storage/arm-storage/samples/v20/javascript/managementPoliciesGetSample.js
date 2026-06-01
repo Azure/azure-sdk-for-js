@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the managementpolicy associated with the specified storage account.
  *
  * @summary gets the managementpolicy associated with the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountGetManagementPolicy.json
+ * x-ms-original-file: 2026-04-01/StorageAccountGetManagementPolicy.json
  */
 async function storageAccountGetManagementPolicies() {
   const credential = new DefaultAzureCredential();

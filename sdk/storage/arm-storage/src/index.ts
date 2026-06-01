@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
-import type {
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -304,6 +303,12 @@ export type {
   StorageDataShareAsset,
   DataShareUpdate,
   StorageDataSharePropertiesUpdate,
+  AdvancedPlatformMetricsRule,
+  AdvancedPlatformMetricsRuleProperties,
+  AdvancedPlatformMetricsRuleType,
+  MetricsEmitted,
+  AdvancedPlatformMetricsRuleConfig,
+  AdvancedPlatformMetricsFilterType,
   PrivateLinkResourceListResult,
   PrivateLinkResource,
   PrivateLinkResourceProperties,
@@ -416,6 +421,9 @@ export {
   KnownStorageConnectorAuthType,
   KnownNativeDataSharingProvisioningState,
   KnownStorageDataShareAccessPolicyPermission,
+  KnownAdvancedPlatformMetricsRuleType,
+  KnownMetricsEmitted,
+  KnownAdvancedPlatformMetricsFilterType,
   KnownReasonCode,
   KnownListContainersInclude,
   KnownListEncryptionScopesInclude,
@@ -423,6 +431,12 @@ export {
   KnownVersions,
 } from "./models/index.js";
 export type { StorageManagementClientOptionalParams } from "./api/index.js";
+export type {
+  AdvancedPlatformMetricsListOptionalParams,
+  AdvancedPlatformMetricsDeleteOptionalParams,
+  AdvancedPlatformMetricsCreateOrUpdateOptionalParams,
+  AdvancedPlatformMetricsGetOptionalParams,
+} from "./api/advancedPlatformMetrics/index.js";
 export type {
   BlobContainersExtendImmutabilityPolicyOptionalParams,
   BlobContainersLockImmutabilityPolicyOptionalParams,
@@ -580,6 +594,7 @@ export type {
 } from "./api/tableServices/index.js";
 export type { UsagesListByLocationOptionalParams } from "./api/usages/index.js";
 export type {
+  AdvancedPlatformMetricsOperations,
   BlobContainersOperations,
   BlobInventoryPoliciesOperations,
   BlobServicesOperations,

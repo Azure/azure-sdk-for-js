@@ -1,49 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext as Client } from "../index.js";
-import type {
+import { StorageManagementContext as Client } from "../index.js";
+import {
+  errorResponseDeserializer,
   StorageAccountCheckNameAvailabilityParameters,
+  storageAccountCheckNameAvailabilityParametersSerializer,
   CheckNameAvailabilityResult,
+  checkNameAvailabilityResultDeserializer,
   StorageAccount,
+  storageAccountDeserializer,
   BlobRestoreStatus,
+  blobRestoreStatusDeserializer,
   BlobRestoreParameters,
+  blobRestoreParametersSerializer,
   StorageAccountCreateParameters,
+  storageAccountCreateParametersSerializer,
   StorageAccountUpdateParameters,
+  storageAccountUpdateParametersSerializer,
   _StorageAccountListResult,
+  _storageAccountListResultDeserializer,
   StorageAccountListKeysResult,
+  storageAccountListKeysResultDeserializer,
   StorageAccountRegenerateKeyParameters,
+  storageAccountRegenerateKeyParametersSerializer,
   AccountSasParameters,
+  accountSasParametersSerializer,
   ListAccountSasResponse,
+  listAccountSasResponseDeserializer,
   ServiceSasParameters,
+  serviceSasParametersSerializer,
   ListServiceSasResponse,
+  listServiceSasResponseDeserializer,
   StorageAccountMigration,
+  storageAccountMigrationSerializer,
+  storageAccountMigrationDeserializer,
   MigrationName,
 } from "../../models/models.js";
 import {
-  errorResponseDeserializer,
-  storageAccountCheckNameAvailabilityParametersSerializer,
-  checkNameAvailabilityResultDeserializer,
-  storageAccountDeserializer,
-  blobRestoreStatusDeserializer,
-  blobRestoreParametersSerializer,
-  storageAccountCreateParametersSerializer,
-  storageAccountUpdateParametersSerializer,
-  _storageAccountListResultDeserializer,
-  storageAccountListKeysResultDeserializer,
-  storageAccountRegenerateKeyParametersSerializer,
-  accountSasParametersSerializer,
-  listAccountSasResponseDeserializer,
-  serviceSasParametersSerializer,
-  listServiceSasResponseDeserializer,
-  storageAccountMigrationSerializer,
-  storageAccountMigrationDeserializer,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   StorageAccountsGetCustomerInitiatedMigrationOptionalParams,
   StorageAccountsRevokeUserDelegationKeysOptionalParams,
   StorageAccountsRestoreBlobRangesOptionalParams,
@@ -63,9 +63,13 @@ import type {
   StorageAccountsGetPropertiesOptionalParams,
   StorageAccountsCheckNameAvailabilityOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getCustomerInitiatedMigrationSend(
   context: Client,
@@ -81,7 +85,7 @@ export function _getCustomerInitiatedMigrationSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       migrationName: migrationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,7 +141,7 @@ export function _revokeUserDelegationKeysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -189,7 +193,7 @@ export function _restoreBlobRangesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -231,7 +235,7 @@ export function restoreBlobRanges(
     getInitialResponse: () =>
       _restoreBlobRangesSend(context, resourceGroupName, accountName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<BlobRestoreStatus>, BlobRestoreStatus>;
 }
 
@@ -248,7 +252,7 @@ export function _customerInitiatedMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -299,7 +303,7 @@ export function customerInitiatedMigration(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-08-01",
+      apiVersion: context.apiVersion ?? "2026-04-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -318,7 +322,7 @@ export function _abortHierarchicalNamespaceMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -360,7 +364,7 @@ export function abortHierarchicalNamespaceMigration(
       getInitialResponse: () =>
         _abortHierarchicalNamespaceMigrationSend(context, resourceGroupName, accountName, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-08-01",
+      apiVersion: context.apiVersion ?? "2026-04-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -378,7 +382,7 @@ export function _hierarchicalNamespaceMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       requestType: requestType,
     },
     {
@@ -426,7 +430,7 @@ export function hierarchicalNamespaceMigration(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-08-01",
+      apiVersion: context.apiVersion ?? "2026-04-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -443,7 +447,7 @@ export function _failoverSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       failoverType: !options?.failoverType ? options?.failoverType : "Planned",
     },
     {
@@ -477,7 +481,7 @@ export function failover(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _failoverSend(context, resourceGroupName, accountName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -494,7 +498,7 @@ export function _listServiceSASSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -553,7 +557,7 @@ export function _listAccountSASSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -612,7 +616,7 @@ export function _regenerateKeySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -670,7 +674,7 @@ export function _listKeysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       "%24expand": !options?.expand ? options?.expand : "kerb",
     },
     {
@@ -716,7 +720,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/storageAccounts{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -752,7 +756,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -766,7 +770,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -803,7 +807,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -819,7 +823,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -864,7 +868,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -915,7 +919,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -955,7 +959,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, accountName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<StorageAccount>, StorageAccount>;
 }
 
@@ -971,7 +975,7 @@ export function _getPropertiesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -1018,7 +1022,7 @@ export function _checkNameAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/checkNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

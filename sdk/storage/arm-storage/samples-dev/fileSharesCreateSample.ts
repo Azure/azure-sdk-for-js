@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
  *
  * @summary creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
- * x-ms-original-file: 2025-08-01/FileSharesPut.json
+ * x-ms-original-file: 2026-04-01/FileSharesPut.json
  */
 async function putShares(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function putShares(): Promise<void> {
  * This sample demonstrates how to creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
  *
  * @summary creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
- * x-ms-original-file: 2025-08-01/FileSharesPut_AccessTier.json
+ * x-ms-original-file: 2026-04-01/FileSharesPut_AccessTier.json
  */
 async function putSharesWithAccessTier(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -38,7 +38,7 @@ async function putSharesWithAccessTier(): Promise<void> {
  * This sample demonstrates how to creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
  *
  * @summary creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
- * x-ms-original-file: 2025-08-01/FileSharesPut_NFS.json
+ * x-ms-original-file: 2026-04-01/FileSharesPut_NFS.json
  */
 async function createNFSShares(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function createNFSShares(): Promise<void> {
  * This sample demonstrates how to creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
  *
  * @summary creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
- * x-ms-original-file: 2025-08-01/FileSharesPut_PaidBursting.json
+ * x-ms-original-file: 2026-04-01/FileSharesPut_PaidBursting.json
  */
 async function putSharesWithPaidBursting(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -74,7 +74,7 @@ async function putSharesWithPaidBursting(): Promise<void> {
  * This sample demonstrates how to creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
  *
  * @summary creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
- * x-ms-original-file: 2025-08-01/FileSharesPut_ProvisionedV2.json
+ * x-ms-original-file: 2026-04-01/FileSharesPut_ProvisionedV2.json
  */
 async function putSharesProvisionedV2(): Promise<void> {
   const credential = new DefaultAzureCredential();

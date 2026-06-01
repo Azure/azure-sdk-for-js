@@ -1,26 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext as Client } from "../index.js";
-import type { _ListQueueResource, ListQueue, StorageQueue } from "../../models/models.js";
+import { StorageManagementContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  _ListQueueResource,
   _listQueueResourceDeserializer,
+  ListQueue,
+  StorageQueue,
   storageQueueSerializer,
   storageQueueDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   QueueDeleteOptionalParams,
   QueueUpdateOptionalParams,
   QueueCreateOptionalParams,
   QueueGetOptionalParams,
   QueueListOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _$deleteSend(
   context: Client,
@@ -36,7 +44,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       queueName: queueName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,7 +92,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       queueName: queueName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -145,7 +153,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       queueName: queueName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -205,7 +213,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       queueName: queueName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -253,7 +261,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       "%24maxpagesize": options?.maxpagesize,
       "%24filter": options?.filter,
     },
@@ -291,6 +299,6 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }

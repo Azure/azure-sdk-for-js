@@ -1,29 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext as Client } from "../index.js";
-import type { DataShare, DataShareUpdate, _DataShareListResult } from "../../models/models.js";
+import { StorageManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer_1,
+  DataShare,
   dataShareSerializer,
   dataShareDeserializer,
+  DataShareUpdate,
   dataShareUpdateSerializer,
+  _DataShareListResult,
   _dataShareListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   DataSharesListByStorageAccountOptionalParams,
   DataSharesDeleteOptionalParams,
   DataSharesUpdateOptionalParams,
   DataSharesCreateOptionalParams,
   DataSharesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByStorageAccountSend(
   context: Client,
@@ -37,7 +45,7 @@ export function _listByStorageAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,7 +83,7 @@ export function listByStorageAccount(
     () => _listByStorageAccountSend(context, resourceGroupName, accountName, options),
     _listByStorageAccountDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -93,7 +101,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       dataShareName: dataShareName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,7 +136,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, dataShareName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -147,7 +155,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       dataShareName: dataShareName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -188,7 +196,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, dataShareName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<DataShare>, DataShare>;
 }
 
@@ -207,7 +215,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       dataShareName: dataShareName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -248,7 +256,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, accountName, dataShareName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<DataShare>, DataShare>;
 }
 
@@ -266,7 +274,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       dataShareName: dataShareName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

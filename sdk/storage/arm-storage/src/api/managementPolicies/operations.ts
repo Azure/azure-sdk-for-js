@@ -1,21 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext as Client } from "../index.js";
-import type { ManagementPolicy, ManagementPolicyName } from "../../models/models.js";
+import { StorageManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ManagementPolicy,
   managementPolicySerializer,
   managementPolicyDeserializer,
+  ManagementPolicyName,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ManagementPoliciesDeleteOptionalParams,
   ManagementPoliciesCreateOrUpdateOptionalParams,
   ManagementPoliciesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _$deleteSend(
   context: Client,
@@ -31,7 +36,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       managementPolicyName: managementPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -85,7 +90,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       managementPolicyName: managementPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -147,7 +152,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       managementPolicyName: managementPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
