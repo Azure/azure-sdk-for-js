@@ -358,9 +358,8 @@
   "module": "./dist/esm/index.js",
   "imports": {
     "#platform/*.js": {
-      "browser": "./src/*-browser.mjs",
-      "react-native": "./src/*-react-native.mjs",
-      "default": "./src/*.js"
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
     }
   }
 }
