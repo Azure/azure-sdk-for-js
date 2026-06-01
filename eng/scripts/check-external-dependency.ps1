@@ -75,6 +75,20 @@ function Set-GitHubIssue($Package) {
   }
 }
 
+function Test-IsPreReleaseVersion($Version) {
+  if ([string]::IsNullOrWhiteSpace($Version)) {
+    return $false
+  }
+
+  try {
+    $semanticVersion = [System.Management.Automation.SemanticVersion]::Parse($Version)
+    return -not [string]::IsNullOrEmpty($semanticVersion.PreReleaseLabel)
+  }
+  catch {
+    return $Version -match '-'
+  }
+}
+
 # do a update first so we don't report on upgrades that will be in azure sdk bot PR
 Write-Host "Running pnpm update --recursive --no-save"
 pnpm update --recursive --no-save
@@ -95,6 +109,11 @@ foreach ($update in $availableUpdates.PSObject.Properties) {
     }
 
     if ($null -ne $p.OldVersion -and $null -ne $p.NewVersion -and $p.OldVersion -ne $p.NewVersion) {
+      if (Test-IsPreReleaseVersion -Version $p.NewVersion) {
+        Write-Host "Skipping pre-release version for $($p.Name): $($p.NewVersion)"
+        continue
+      }
+
       Write-Host $update.Name, $update.Value.'wanted', $update.Value.'latest'
       Set-GitHubIssue -Package $p
       Start-Sleep -s 5
