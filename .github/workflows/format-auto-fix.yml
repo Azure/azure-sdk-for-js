@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Fetch and validate PR
         id: find-pr
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        uses: actions/github-script@v9
         with:
           script: |
             const prNumberStr = context.payload.inputs?.pr_number;
@@ -39,32 +39,61 @@ jobs:
             if (pr.state !== 'open') {
               core.info(`PR #${prNumber} is not open — skipping`);
               core.setOutput('has-pr', 'false');
+              core.setOutput('is-fork', 'false');
+              return;
+            }
+            // Security: only auto-fix branches in the base repository.
+            // Checking out a fork and running its package.json scripts with a
+            // write token would allow an attacker to execute arbitrary code.
+            const baseRepo = `${context.repo.owner}/${context.repo.repo}`;
+            if (pr.head.repo.full_name !== baseRepo) {
+              core.warning(`PR #${prNumber} is from fork ${pr.head.repo.full_name} — skipping auto-fix`);
+              core.setOutput('has-pr', 'false');
+              core.setOutput('is-fork', 'true');
               return;
             }
             core.info(`Processing PR #${pr.number} on branch ${pr.head.ref}`);
             core.setOutput('has-pr', 'true');
+            core.setOutput('is-fork', 'false');
             core.setOutput('pr-branch', pr.head.ref);
             core.setOutput('pr-repo', pr.head.repo.full_name);
 
+      - name: Notify fork PR author
+        if: steps.find-pr.outputs.is-fork == 'true'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: parseInt(context.payload.inputs.pr_number),
+              body: [
+                '⚠️ **Format auto-fix skipped for fork PR.**',
+                '',
+                'The auto-fix workflow does not run on pull requests from forks to avoid',
+                'executing untrusted code with repository write access.',
+                '',
+                'Please run `pnpm format` locally in the affected package(s) and push the',
+                'formatting changes to your branch.',
+              ].join('\n'),
+            });
+
       - name: Checkout PR branch
         if: steps.find-pr.outputs.has-pr == 'true'
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@v4
         with:
           ref: ${{ steps.find-pr.outputs.pr-branch }}
           repository: ${{ steps.find-pr.outputs.pr-repo }}
-          # Token with write access needed to push the fix commit back
-          token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Setup Node.js
         if: steps.find-pr.outputs.has-pr == 'true'
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
 
       - name: Setup pnpm
         if: steps.find-pr.outputs.has-pr == 'true'
-        uses: pnpm/action-setup@fe02b34f77f8bc703788d5817da081398fad5dd2 # v4.0.0
+        uses: pnpm/action-setup@v4
         with:
           version: '10.33.0'
 
@@ -97,7 +126,7 @@ jobs:
             exit 0
           fi
 
-          # Build pnpm filter args (e.g. --filter=@azure/arm-foo...)
+          # Build pnpm/turbo filter args (e.g. --filter=@azure/arm-foo...)
           FILTERS=""
           for pkg in $PKGS; do
             if [ -f "$pkg/package.json" ]; then
@@ -110,13 +139,8 @@ jobs:
           # --ignore-scripts prevents pre/postinstall lifecycle scripts from running
           pnpm install $FILTERS --frozen-lockfile=false --ignore-scripts
 
-          # Run format in each affected package directory
-          for pkg in $PKGS; do
-            if [ -f "$pkg/package.json" ]; then
-              echo "Running pnpm format in $pkg"
-              (cd "$pkg" && pnpm format)
-            fi
-          done
+          # Run format across all affected packages in one turbo invocation
+          pnpm turbo run format $FILTERS
 
       - name: Commit and push formatting changes
         if: steps.find-pr.outputs.has-pr == 'true'
@@ -145,7 +169,7 @@ jobs:
 
       - name: Post result comment
         if: steps.find-pr.outputs.has-pr == 'true'
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        uses: actions/github-script@v9
         env:
           CHANGES: ${{ steps.commit.outputs.CHANGES }}
         with:
