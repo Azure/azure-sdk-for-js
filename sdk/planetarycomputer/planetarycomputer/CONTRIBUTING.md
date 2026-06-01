@@ -1,44 +1,84 @@
-# Contributing to Azure Planetary Computer Pro client library for JavaScript
+# Contributing to @azure/planetarycomputer
 
-This project welcomes contributions and suggestions. Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
+This guide covers how to build, test, and validate the Azure Planetary Computer Pro client library
+before submitting changes.
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+For general Azure SDK for JS contribution guidance, see the
+[top-level CONTRIBUTING.md](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md).
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+## Prerequisites
 
-## Getting Started
+- Node.js LTS (>= 20.x)
+- pnpm (>= 10.x) — enforced by the repo's `preinstall` script
 
-For detailed instructions on how to build and test this library, refer to:
+## Regenerating the SDK from TypeSpec
 
-- [TESTING.md](TESTING.md) for running tests
-- [Development Workflows](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) for the monorepo contribution guide
+1. Update the `commit` field in `tsp-location.yaml` to the desired spec commit SHA.
+2. Run code generation from the package root:
 
-### Prerequisites
+   ```bash
+   npx tsp-client update
+   ```
 
-- Node.js LTS
-- pnpm (installed via `npm install -g pnpm`)
+3. Format, lint, and build:
 
-### Building
+   ```bash
+   pnpm format
+   pnpm lint:fix
+   pnpm turbo build --filter=@azure/planetarycomputer... --token 1
+   ```
+
+4. Inspect API review changes:
+
+   ```bash
+   git diff review/
+   ```
+
+5. Run tests in playback mode to verify nothing broke:
+
+   ```bash
+   TEST_MODE=playback pnpm test:node
+   ```
+
+> **Important:** Always use `pnpm turbo build --filter=@azure/planetarycomputer... --token 1` from
+> the repo root. The trailing `...` builds the package AND all its workspace dependencies.
+
+## Local Validation
+
+Run formatting and linting from the **package root** (`sdk/planetarycomputer/planetarycomputer`):
 
 ```bash
-pnpm install
+pnpm format           # auto-fix formatting
+pnpm lint:fix         # auto-fix lint issues
+```
+
+Run the build from the **repo root** (to include workspace dependencies):
+
+```bash
 pnpm turbo build --filter=@azure/planetarycomputer... --token 1
 ```
 
-### Testing
-
-See [TESTING.md](TESTING.md) for detailed testing instructions.
-
-### Linting and Formatting
+Run tests from the **package root**:
 
 ```bash
-cd sdk/planetarycomputer/planetarycomputer
-pnpm format
-pnpm lint
+TEST_MODE=playback pnpm test:node     # all node tests in playback mode
+TEST_MODE=record pnpm test:node -- test/public/01_ingestion.spec.ts  # record a specific file
 ```
+
+## Testing
+
+See the [Testing Guide](TESTING.md) for detailed instructions on recording, playback, and test
+structure.
+
+## Quick-Reference Checklist
+
+After running `npx tsp-client update`:
+
+- [ ] Run `pnpm format` and `pnpm lint:fix`
+- [ ] Build succeeds: `pnpm turbo build --filter=@azure/planetarycomputer... --token 1`
+- [ ] Inspect `git diff review/` for unexpected API changes
+- [ ] Tests pass in playback mode: `TEST_MODE=playback pnpm test:node`
+- [ ] Re-record if HTTP shapes changed: `TEST_MODE=record pnpm test:node -- test/public/<file>.spec.ts`
+- [ ] Push recordings: `npx dev-tool test-proxy push`
+- [ ] Commit updated `assets.json`
+- [ ] Update `CHANGELOG.md` if preparing a release
