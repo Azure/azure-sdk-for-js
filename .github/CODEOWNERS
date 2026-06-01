@@ -370,7 +370,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/applicationinsights/arm-appinsights/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/appservice/arm-appservice/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -452,6 +452,9 @@
 /sdk/compute/arm-compute-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
+/sdk/computefleet/arm-computefleet/      @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
 /sdk/computeschedule/arm-computeschedule/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -601,7 +604,7 @@
 # PRLabel: %Mgmt
 /sdk/frontdoor/arm-frontdoor/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/guestconfiguration/arm-guestconfiguration/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -784,7 +787,7 @@
 # PRLabel: %Mgmt
 /sdk/mysql/arm-mysql/      @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mysql/arm-mysql-flexible/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1048,7 +1051,7 @@
 # PRLabel: %Mgmt
 /sdk/loadtesting/arm-loadtesting/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/purview/arm-purview/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1684,6 +1687,7 @@ sdk/prometheusrulegroups/arm-prometheusrulegroups/ @qiaozha @MaryGao @JialinHuan
 sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
+sdk/monitor/arm-monitorworkspaces/ @qiaozha @MaryGao @JialinHuang803
 sdk/edgeorder/arm-edgeorder/ @qiaozha @MaryGao @JialinHuang803
 
 ###########

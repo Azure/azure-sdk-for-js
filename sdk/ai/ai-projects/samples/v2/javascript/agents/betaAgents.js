@@ -58,8 +58,6 @@ async function main() {
     }
   }
 
-  const isolationKey = "sample-isolation-key-13";
-
   // ── Session CRUD ──────────────────────────────────────────────────────
 
   // Create a session
@@ -67,11 +65,7 @@ async function main() {
     type: "version_ref",
     agent_version: agent.version,
   };
-  const session = await project.beta.agents.createSession(
-    agentName,
-    isolationKey,
-    versionIndicator,
-  );
+  const session = await project.beta.agents.createSession(agentName, versionIndicator);
   console.log(`Session created (id: ${session.agent_session_id}, status: ${session.status})`);
 
   // Retrieve the session
@@ -145,7 +139,7 @@ async function main() {
   // ── Cleanup ───────────────────────────────────────────────────────────
 
   // Delete the session
-  await project.beta.agents.deleteSession(agentName, session.agent_session_id, isolationKey);
+  await project.beta.agents.deleteSession(agentName, session.agent_session_id);
   console.log("Session deleted");
 
   // Delete the agent version

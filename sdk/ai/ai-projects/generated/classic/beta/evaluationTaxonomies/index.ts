@@ -25,14 +25,14 @@ export interface BetaEvaluationTaxonomiesOperations {
   update: (
     foundryFeatures: "Evaluations=V1Preview",
     name: string,
-    body: EvaluationTaxonomy,
+    taxonomy: EvaluationTaxonomy,
     options?: BetaEvaluationTaxonomiesUpdateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
   /** Create an evaluation taxonomy. */
   create: (
     foundryFeatures: "Evaluations=V1Preview",
     name: string,
-    body: EvaluationTaxonomy,
+    taxonomy: EvaluationTaxonomy,
     options?: BetaEvaluationTaxonomiesCreateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
   /** Delete an evaluation taxonomy by name. */
@@ -64,15 +64,15 @@ function _getBetaEvaluationTaxonomies(context: AIProjectContext) {
     update: (
       foundryFeatures: "Evaluations=V1Preview",
       name: string,
-      body: EvaluationTaxonomy,
+      taxonomy: EvaluationTaxonomy,
       options?: BetaEvaluationTaxonomiesUpdateOptionalParams,
-    ) => update(context, foundryFeatures, name, body, options),
+    ) => update(context, foundryFeatures, name, taxonomy, options),
     create: (
       foundryFeatures: "Evaluations=V1Preview",
       name: string,
-      body: EvaluationTaxonomy,
+      taxonomy: EvaluationTaxonomy,
       options?: BetaEvaluationTaxonomiesCreateOptionalParams,
-    ) => create(context, foundryFeatures, name, body, options),
+    ) => create(context, foundryFeatures, name, taxonomy, options),
     delete: (
       name: string,
       foundryFeatures: "Evaluations=V1Preview",

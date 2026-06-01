@@ -535,6 +535,16 @@ export function featureArrayDeserializer(result: Array<Feature>): any[] {
   });
 }
 
+/** Request body for feature enable action. */
+export interface FeatureEnableRequest {
+  /** The Service Tree identifier associated with this feature action. */
+  serviceTreeId?: string;
+}
+
+export function featureEnableRequestSerializer(item: FeatureEnableRequest): any {
+  return { serviceTreeId: item["serviceTreeId"] };
+}
+
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
@@ -645,4 +655,6 @@ export enum KnownVersions {
   V20260320 = "2026-03-20",
   /** The 2026-04-30 API version. */
   V20260430 = "2026-04-30",
+  /** The 2026-06-01 API version. */
+  V20260601 = "2026-06-01",
 }

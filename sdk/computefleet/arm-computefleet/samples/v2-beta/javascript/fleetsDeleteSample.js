@@ -8,9 +8,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a Fleet
  *
  * @summary delete a Fleet
- * x-ms-original-file: 2025-07-01-preview/Fleets_Delete.json
+ * x-ms-original-file: 2026-04-01-preview/Fleets_Delete_MaximumSet_Gen.json
  */
-async function fleetsDelete() {
+async function fleetsDeleteMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function fleetsDelete() {
 }
 
 async function main() {
-  await fleetsDelete();
+  await fleetsDeleteMaximumSetGen();
 }
 
 main().catch(console.error);
