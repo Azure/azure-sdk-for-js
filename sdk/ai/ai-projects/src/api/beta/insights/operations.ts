@@ -5,7 +5,7 @@ import type { AIProjectContext as Client } from "../../index.js";
 import type { Insight, _PagedInsight } from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
-  insightSerializer,
+  insightRequestUnionSerializer,
   insightDeserializer,
   _pagedInsightDeserializer,
 } from "../../../models/models.js";
@@ -16,6 +16,7 @@ import type {
   BetaInsightsListOptionalParams,
   BetaInsightsGetOptionalParams,
   BetaInsightsGenerateOptionalParams,
+  InsightGenerationRequest,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -141,7 +142,7 @@ export async function get(
 
 export function _generateSend(
   context: Client,
-  insight: Insight,
+  insight: InsightGenerationRequest,
   options: BetaInsightsGenerateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Insights=V1Preview";
@@ -172,7 +173,10 @@ export function _generateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: insightSerializer(insight),
+    body: {
+      displayName: insight.displayName,
+      request: insightRequestUnionSerializer(insight.request),
+    },
   });
 }
 
@@ -191,7 +195,7 @@ export async function _generateDeserialize(result: PathUncheckedResponse): Promi
 /** Generate Insights */
 export async function generate(
   context: Client,
-  insight: Insight,
+  insight: InsightGenerationRequest,
   options: BetaInsightsGenerateOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {
   const result = await _generateSend(context, insight, options);

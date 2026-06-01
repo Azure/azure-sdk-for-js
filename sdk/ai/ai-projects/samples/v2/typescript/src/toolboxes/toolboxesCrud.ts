@@ -12,9 +12,9 @@
  */
 
 import type { MCPTool, ToolUnion } from "@azure/ai-projects";
+import { RestError } from "@azure/ai-projects";
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
-import { RestError } from "@azure/core-rest-pipeline";
 import "dotenv/config";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";

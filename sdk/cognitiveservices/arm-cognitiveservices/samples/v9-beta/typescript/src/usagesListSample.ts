@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get usages for the requested subscription
  *
  * @summary get usages for the requested subscription
- * x-ms-original-file: 2026-01-15-preview/ListUsages.json
+ * x-ms-original-file: 2026-03-15-preview/ListUsages.json
  */
 async function getUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getUsages(): Promise<void> {
  * This sample demonstrates how to get usages for the requested subscription
  *
  * @summary get usages for the requested subscription
- * x-ms-original-file: 2026-01-15-preview/ListUsagesClassicScope.json
+ * x-ms-original-file: 2026-03-15-preview/ListUsagesClassicScope.json
  */
 async function getUsagesClassicScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function getUsagesClassicScope(): Promise<void> {
  * This sample demonstrates how to get usages for the requested subscription
  *
  * @summary get usages for the requested subscription
- * x-ms-original-file: 2026-01-15-preview/ListUsagesDataZoneScope.json
+ * x-ms-original-file: 2026-03-15-preview/ListUsagesDataZoneScope.json
  */
 async function getUsagesDataZoneScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function getUsagesDataZoneScope(): Promise<void> {
  * This sample demonstrates how to get usages for the requested subscription
  *
  * @summary get usages for the requested subscription
- * x-ms-original-file: 2026-01-15-preview/ListUsagesGlobalScope.json
+ * x-ms-original-file: 2026-03-15-preview/ListUsagesGlobalScope.json
  */
 async function getUsagesGlobalScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

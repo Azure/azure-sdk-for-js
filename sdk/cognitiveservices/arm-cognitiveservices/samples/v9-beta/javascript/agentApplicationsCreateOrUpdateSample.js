@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an Agent Application (asynchronous).
  *
  * @summary creates or updates an Agent Application (asynchronous).
- * x-ms-original-file: 2026-01-15-preview/AgentApplication/createOrUpdate.json
+ * x-ms-original-file: 2026-03-15-preview/AgentApplication/createOrUpdate.json
  */
 async function createOrUpdateAccountAgentApplication() {
   const credential = new DefaultAzureCredential();
