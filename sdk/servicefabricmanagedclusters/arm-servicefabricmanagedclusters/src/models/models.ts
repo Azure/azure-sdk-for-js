@@ -597,8 +597,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -611,8 +611,8 @@ export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentit
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -638,8 +638,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1104,9 +1104,9 @@ export interface ApplicationTypeResourceProperties {
 }
 
 export function applicationTypeResourcePropertiesSerializer(
-  item: ApplicationTypeResourceProperties,
+  _item: ApplicationTypeResourceProperties,
 ): any {
-  return item;
+  return {};
 }
 
 export function applicationTypeResourcePropertiesDeserializer(
@@ -4181,6 +4181,316 @@ export function managedClusterArrayDeserializer(result: Array<ManagedCluster>): 
   });
 }
 
+/** Parameters for Fault Simulation id. */
+export interface FaultSimulationIdContent {
+  /** unique identifier for the fault simulation. */
+  simulationId: string;
+}
+
+export function faultSimulationIdContentSerializer(item: FaultSimulationIdContent): any {
+  return { simulationId: item["simulationId"] };
+}
+
+/** Fault simulation object with status. */
+export interface FaultSimulation {
+  /** unique identifier for the fault simulation. */
+  simulationId?: string;
+  /** Fault simulation status */
+  status?: FaultSimulationStatus;
+  /** The start time of the fault simulation. */
+  startTime?: Date;
+  /** The end time of the fault simulation. */
+  endTime?: Date;
+  /** Fault simulation details */
+  details?: FaultSimulationDetails;
+}
+
+export function faultSimulationDeserializer(item: any): FaultSimulation {
+  return {
+    simulationId: item["simulationId"],
+    status: item["status"],
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+    details: !item["details"]
+      ? item["details"]
+      : faultSimulationDetailsDeserializer(item["details"]),
+  };
+}
+
+/** Fault simulation status. */
+export enum KnownFaultSimulationStatus {
+  /** Indicates the fault simulation is starting. The simulation will have this status while the start operation is in progress. */
+  Starting = "Starting",
+  /** Indicates the fault simulation is active. The simulation will have this status after the start operation has completed successfully. */
+  Active = "Active",
+  /** Indicates the fault simulation is stopping. The simulation will have this status while the stop operation is in progress. */
+  Stopping = "Stopping",
+  /** Indicates the fault simulation is done. The simulation will have this status after the stop operation has completed successfully. */
+  Done = "Done",
+  /** Indicates the fault simulation has failed on start. The simulation will have this status after the start operation fails. */
+  StartFailed = "StartFailed",
+  /** Indicates the fault simulation has failed on stop. The simulation will have this status after the stop operation fails. */
+  StopFailed = "StopFailed",
+}
+
+/**
+ * Fault simulation status. \
+ * {@link KnownFaultSimulationStatus} can be used interchangeably with FaultSimulationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Starting**: Indicates the fault simulation is starting. The simulation will have this status while the start operation is in progress. \
+ * **Active**: Indicates the fault simulation is active. The simulation will have this status after the start operation has completed successfully. \
+ * **Stopping**: Indicates the fault simulation is stopping. The simulation will have this status while the stop operation is in progress. \
+ * **Done**: Indicates the fault simulation is done. The simulation will have this status after the stop operation has completed successfully. \
+ * **StartFailed**: Indicates the fault simulation has failed on start. The simulation will have this status after the start operation fails. \
+ * **StopFailed**: Indicates the fault simulation has failed on stop. The simulation will have this status after the stop operation fails.
+ */
+export type FaultSimulationStatus = string;
+
+/** Details for Fault Simulation. */
+export interface FaultSimulationDetails {
+  /** unique identifier for the cluster resource. */
+  clusterId?: string;
+  /** unique identifier for the operation associated with the fault simulation. */
+  operationId?: string;
+  /** List of node type simulations associated with the cluster fault simulation. */
+  nodeTypeFaultSimulation?: NodeTypeFaultSimulation[];
+  /** Fault simulation parameters. */
+  parameters?: FaultSimulationContentUnion;
+}
+
+export function faultSimulationDetailsDeserializer(item: any): FaultSimulationDetails {
+  return {
+    clusterId: item["clusterId"],
+    operationId: item["operationId"],
+    nodeTypeFaultSimulation: !item["nodeTypeFaultSimulation"]
+      ? item["nodeTypeFaultSimulation"]
+      : nodeTypeFaultSimulationArrayDeserializer(item["nodeTypeFaultSimulation"]),
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : faultSimulationContentUnionDeserializer(item["parameters"]),
+  };
+}
+
+export function nodeTypeFaultSimulationArrayDeserializer(
+  result: Array<NodeTypeFaultSimulation>,
+): any[] {
+  return result.map((item) => {
+    return nodeTypeFaultSimulationDeserializer(item);
+  });
+}
+
+/** Node type fault simulation object with status. */
+export interface NodeTypeFaultSimulation {
+  /** Node type name. */
+  nodeTypeName?: string;
+  /** Fault simulation status */
+  status?: FaultSimulationStatus;
+  /** Current or latest asynchronous operation identifier on the node type. */
+  operationId?: string;
+  /** Current or latest asynchronous operation status on the node type */
+  operationStatus?: SfmcOperationStatus;
+}
+
+export function nodeTypeFaultSimulationDeserializer(item: any): NodeTypeFaultSimulation {
+  return {
+    nodeTypeName: item["nodeTypeName"],
+    status: item["status"],
+    operationId: item["operationId"],
+    operationStatus: item["operationStatus"],
+  };
+}
+
+/** Sfmc operation status. */
+export enum KnownSfmcOperationStatus {
+  /** Operation created. */
+  Created = "Created",
+  /** Operation started. */
+  Started = "Started",
+  /** Operation succeeded. */
+  Succeeded = "Succeeded",
+  /** Operation failed. */
+  Failed = "Failed",
+  /** Operation aborted. */
+  Aborted = "Aborted",
+  /** Operation canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * Sfmc operation status. \
+ * {@link KnownSfmcOperationStatus} can be used interchangeably with SfmcOperationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Created**: Operation created. \
+ * **Started**: Operation started. \
+ * **Succeeded**: Operation succeeded. \
+ * **Failed**: Operation failed. \
+ * **Aborted**: Operation aborted. \
+ * **Canceled**: Operation canceled.
+ */
+export type SfmcOperationStatus = string;
+
+/** Parameters for Fault Simulation action. */
+export interface FaultSimulationContent {
+  /** The kind of fault to be simulated. */
+  /** The discriminator possible values: Zone */
+  faultKind: FaultKind;
+  /** Force the action to go through without any check on the cluster. */
+  force?: boolean;
+  /** Constraints for Fault Simulation action. */
+  constraints?: FaultSimulationConstraints;
+}
+
+export function faultSimulationContentSerializer(item: FaultSimulationContent): any {
+  return {
+    faultKind: item["faultKind"],
+    force: item["force"],
+    constraints: !item["constraints"]
+      ? item["constraints"]
+      : faultSimulationConstraintsSerializer(item["constraints"]),
+  };
+}
+
+export function faultSimulationContentDeserializer(item: any): FaultSimulationContent {
+  return {
+    faultKind: item["faultKind"],
+    force: item["force"],
+    constraints: !item["constraints"]
+      ? item["constraints"]
+      : faultSimulationConstraintsDeserializer(item["constraints"]),
+  };
+}
+
+/** Alias for FaultSimulationContentUnion */
+export type FaultSimulationContentUnion = ZoneFaultSimulationContent | FaultSimulationContent;
+
+export function faultSimulationContentUnionSerializer(item: FaultSimulationContentUnion): any {
+  switch (item.faultKind) {
+    case "Zone":
+      return zoneFaultSimulationContentSerializer(item as ZoneFaultSimulationContent);
+
+    default:
+      return faultSimulationContentSerializer(item);
+  }
+}
+
+export function faultSimulationContentUnionDeserializer(item: any): FaultSimulationContentUnion {
+  switch (item["faultKind"]) {
+    case "Zone":
+      return zoneFaultSimulationContentDeserializer(item as ZoneFaultSimulationContent);
+
+    default:
+      return faultSimulationContentDeserializer(item);
+  }
+}
+
+/** The kind of fault simulation. */
+export enum KnownFaultKind {
+  /** Simulates an availability zone down. */
+  Zone = "Zone",
+}
+
+/**
+ * The kind of fault simulation. \
+ * {@link KnownFaultKind} can be used interchangeably with FaultKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Zone**: Simulates an availability zone down.
+ */
+export type FaultKind = string;
+
+/** Constraints for Fault Simulation action. */
+export interface FaultSimulationConstraints {
+  /** The absolute expiration timestamp (UTC) after which this fault simulation should be stopped if it's still active. */
+  expirationTime?: Date;
+}
+
+export function faultSimulationConstraintsSerializer(item: FaultSimulationConstraints): any {
+  return {
+    expirationTime: !item["expirationTime"]
+      ? item["expirationTime"]
+      : item["expirationTime"].toISOString(),
+  };
+}
+
+export function faultSimulationConstraintsDeserializer(item: any): FaultSimulationConstraints {
+  return {
+    expirationTime: !item["expirationTime"]
+      ? item["expirationTime"]
+      : new Date(item["expirationTime"]),
+  };
+}
+
+/** Parameters for Zone Fault Simulation action. */
+export interface ZoneFaultSimulationContent extends FaultSimulationContent {
+  /** Indicates the zones of the fault simulation. */
+  zones?: string[];
+  /** The kind of fault simulation. */
+  faultKind: "Zone";
+}
+
+export function zoneFaultSimulationContentSerializer(item: ZoneFaultSimulationContent): any {
+  return {
+    faultKind: item["faultKind"],
+    force: item["force"],
+    constraints: !item["constraints"]
+      ? item["constraints"]
+      : faultSimulationConstraintsSerializer(item["constraints"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function zoneFaultSimulationContentDeserializer(item: any): ZoneFaultSimulationContent {
+  return {
+    faultKind: item["faultKind"],
+    force: item["force"],
+    constraints: !item["constraints"]
+      ? item["constraints"]
+      : faultSimulationConstraintsDeserializer(item["constraints"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Fault simulation list results */
+export interface _FaultSimulationListResult {
+  /** The FaultSimulation items on this page */
+  value: FaultSimulation[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _faultSimulationListResultDeserializer(item: any): _FaultSimulationListResult {
+  return {
+    value: faultSimulationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function faultSimulationArrayDeserializer(result: Array<FaultSimulation>): any[] {
+  return result.map((item) => {
+    return faultSimulationDeserializer(item);
+  });
+}
+
+/** Fault Simulation Request for Start action. */
+export interface FaultSimulationContentWrapper {
+  /** Parameters for Fault Simulation start action. */
+  parameters: FaultSimulationContentUnion;
+}
+
+export function faultSimulationContentWrapperSerializer(item: FaultSimulationContentWrapper): any {
+  return { parameters: faultSimulationContentUnionSerializer(item["parameters"]) };
+}
+
 /** Describes the result of the request to list Managed VM Sizes for Service Fabric Managed Clusters. */
 export interface ManagedAzResiliencyStatus {
   /** List of Managed VM Sizes for Service Fabric Managed Clusters. */
@@ -4222,6 +4532,24 @@ export function resourceAzStatusDeserializer(item: any): ResourceAzStatus {
     resourceType: item["resourceType"],
     isZoneResilient: item["isZoneResilient"],
     details: item["details"],
+  };
+}
+
+/** Describes the request to apply a maintenance window on a Service Fabric Managed Cluster. */
+export interface ApplyMaintenanceWindowRequest {
+  /** Effective start date of the maintenance window in yyyy-MM-dd HH:mm format. If not provided, defaults to the current time. */
+  startDateTime?: string;
+  /** Duration of the maintenance window in hh:mm format. If not provided, defaults to 5 hours. Example: 08:30 for 8 and a half hours. */
+  duration?: string;
+  /** Name of the timezone. List of timezones can be obtained by executing [System.TimeZoneInfo]::GetSystemTimeZones() in PowerShell. If not provided, defaults to UTC. Example: Pacific Standard Time, UTC, W. Europe Standard Time, Korea Standard Time, Central Australia Standard Time. */
+  timeZone?: string;
+}
+
+export function applyMaintenanceWindowRequestSerializer(item: ApplyMaintenanceWindowRequest): any {
+  return {
+    startDateTime: item["startDateTime"],
+    duration: item["duration"],
+    timeZone: item["timeZone"],
   };
 }
 
@@ -4377,6 +4705,10 @@ export interface NodeType extends ProxyResource {
   isOutboundOnly?: boolean;
   /** Specifies whether the node type should use a resilient ephemeral OS disk when using a supported SKU size. A resilient ephemeral OS disk provides improved reliability for ephemeral OS disks by enabling full caching. */
   enableResilientEphemeralOsDisk?: boolean;
+  /** Specifies the scale in policy for the node type, which will be used when scale in happens on the cluster. If not specified, the default is Default which means the platform will decide which nodes to remove during scale in. */
+  scaleInPolicy?: ScaleInPolicy;
+  /** Specifies the settings for the proxy agent on the node type. */
+  proxyAgentSettings?: ProxyAgentSettings;
 }
 
 export function nodeTypeSerializer(item: NodeType): any {
@@ -4435,6 +4767,8 @@ export function nodeTypeSerializer(item: NodeType): any {
       "zoneBalance",
       "isOutboundOnly",
       "enableResilientEphemeralOsDisk",
+      "scaleInPolicy",
+      "proxyAgentSettings",
     ])
       ? undefined
       : _nodeTypePropertiesSerializer(item),
@@ -4571,6 +4905,10 @@ export interface NodeTypeProperties {
   isOutboundOnly?: boolean;
   /** Specifies whether the node type should use a resilient ephemeral OS disk when using a supported SKU size. A resilient ephemeral OS disk provides improved reliability for ephemeral OS disks by enabling full caching. */
   enableResilientEphemeralOsDisk?: boolean;
+  /** Specifies the scale in policy for the node type, which will be used when scale in happens on the cluster. If not specified, the default is Default which means the platform will decide which nodes to remove during scale in. */
+  scaleInPolicy?: ScaleInPolicy;
+  /** Specifies the settings for the proxy agent on the node type. */
+  proxyAgentSettings?: ProxyAgentSettings;
 }
 
 export function nodeTypePropertiesSerializer(item: NodeTypeProperties): any {
@@ -4662,6 +5000,12 @@ export function nodeTypePropertiesSerializer(item: NodeTypeProperties): any {
     zoneBalance: item["zoneBalance"],
     isOutboundOnly: item["isOutboundOnly"],
     enableResilientEphemeralOsDisk: item["enableResilientEphemeralOsDisk"],
+    scaleInPolicy: !item["scaleInPolicy"]
+      ? item["scaleInPolicy"]
+      : scaleInPolicySerializer(item["scaleInPolicy"]),
+    proxyAgentSettings: !item["proxyAgentSettings"]
+      ? item["proxyAgentSettings"]
+      : proxyAgentSettingsSerializer(item["proxyAgentSettings"]),
   };
 }
 
@@ -4763,6 +5107,12 @@ export function nodeTypePropertiesDeserializer(item: any): NodeTypeProperties {
     zoneBalance: item["zoneBalance"],
     isOutboundOnly: item["isOutboundOnly"],
     enableResilientEphemeralOsDisk: item["enableResilientEphemeralOsDisk"],
+    scaleInPolicy: !item["scaleInPolicy"]
+      ? item["scaleInPolicy"]
+      : scaleInPolicyDeserializer(item["scaleInPolicy"]),
+    proxyAgentSettings: !item["proxyAgentSettings"]
+      ? item["proxyAgentSettings"]
+      : proxyAgentSettingsDeserializer(item["proxyAgentSettings"]),
   };
 }
 
@@ -5562,6 +5912,103 @@ export function vmApplicationDeserializer(item: any): VmApplication {
   };
 }
 
+/** Scale in policy for a node type. This is used to specify the mode for scale in operations on a node type. */
+export interface ScaleInPolicy {
+  /** The scale in policy mode for a node type. */
+  mode?: ScaleInPolicyMode;
+}
+
+export function scaleInPolicySerializer(item: ScaleInPolicy): any {
+  return { mode: item["mode"] };
+}
+
+export function scaleInPolicyDeserializer(item: any): ScaleInPolicy {
+  return {
+    mode: item["mode"],
+  };
+}
+
+/** Specifies the scale in policy mode for a node type. */
+export enum KnownScaleInPolicyMode {
+  /** Default scale in policy mode where the system will choose which nodes to remove when scaling in. */
+  Default = "Default",
+  /** OldestNodeFirst scale in policy mode where the oldest node in the node type will be removed first when scaling in. */
+  OldestNodeFirst = "OldestNodeFirst",
+  /** NewestNodeFirst scale in policy mode where the newest node in the node type will be removed first when scaling in. */
+  NewestNodeFirst = "NewestNodeFirst",
+}
+
+/**
+ * Specifies the scale in policy mode for a node type. \
+ * {@link KnownScaleInPolicyMode} can be used interchangeably with ScaleInPolicyMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: Default scale in policy mode where the system will choose which nodes to remove when scaling in. \
+ * **OldestNodeFirst**: OldestNodeFirst scale in policy mode where the oldest node in the node type will be removed first when scaling in. \
+ * **NewestNodeFirst**: NewestNodeFirst scale in policy mode where the newest node in the node type will be removed first when scaling in.
+ */
+export type ScaleInPolicyMode = string;
+
+/** Specifies ProxyAgent settings for the virtual machine or virtual machine scale set. */
+export interface ProxyAgentSettings {
+  /** Specifies whether ProxyAgent feature should be enabled on the virtual machine or virtual machine scale set. */
+  enabled?: boolean;
+  /** Increasing the value of this property allows users to reset the key used for securing communication channel between guest and host. */
+  keyIncarnationId?: number;
+  /** Specifies the Wire Server endpoint settings while creating the virtual machine or virtual machine scale set. */
+  wireServer?: HostEndpointSettings;
+  /** Specifies the IMDS endpoint settings while creating the virtual machine or virtual machine scale set. */
+  imds?: HostEndpointSettings;
+  /** Specify whether to implicitly install the ProxyAgent Extension. This option is currently applicable only for Linux Os. */
+  addProxyAgentExtension?: boolean;
+}
+
+export function proxyAgentSettingsSerializer(item: ProxyAgentSettings): any {
+  return {
+    enabled: item["enabled"],
+    keyIncarnationId: item["keyIncarnationId"],
+    wireServer: !item["wireServer"]
+      ? item["wireServer"]
+      : hostEndpointSettingsSerializer(item["wireServer"]),
+    imds: !item["imds"] ? item["imds"] : hostEndpointSettingsSerializer(item["imds"]),
+    addProxyAgentExtension: item["addProxyAgentExtension"],
+  };
+}
+
+export function proxyAgentSettingsDeserializer(item: any): ProxyAgentSettings {
+  return {
+    enabled: item["enabled"],
+    keyIncarnationId: item["keyIncarnationId"],
+    wireServer: !item["wireServer"]
+      ? item["wireServer"]
+      : hostEndpointSettingsDeserializer(item["wireServer"]),
+    imds: !item["imds"] ? item["imds"] : hostEndpointSettingsDeserializer(item["imds"]),
+    addProxyAgentExtension: item["addProxyAgentExtension"],
+  };
+}
+
+/** Specifies particular host endpoint settings. */
+export interface HostEndpointSettings {
+  /** Specifies the execution mode. In Audit mode, the system acts as if it is enforcing the access control policy, including emitting access denial entries in the logs but it does not actually deny any requests to host endpoints. In Enforce mode, the system will enforce the access control and it is the recommended mode of operation. */
+  mode?: string;
+  /** Specifies the InVMAccessControlProfileVersion resource id in the format of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{profile}/versions/{version} */
+  inVMAccessControlProfileReferenceId?: string;
+}
+
+export function hostEndpointSettingsSerializer(item: HostEndpointSettings): any {
+  return {
+    mode: item["mode"],
+    inVMAccessControlProfileReferenceId: item["inVMAccessControlProfileReferenceId"],
+  };
+}
+
+export function hostEndpointSettingsDeserializer(item: any): HostEndpointSettings {
+  return {
+    mode: item["mode"],
+    inVMAccessControlProfileReferenceId: item["inVMAccessControlProfileReferenceId"],
+  };
+}
+
 /** Describes a node type sku. */
 export interface NodeTypeSku {
   /** The sku name. Name is internally generated and is used in auto-scale scenarios. Property does not allow to be changed to other values than generated. To avoid deployment errors please omit the property. */
@@ -5823,8 +6270,18 @@ export type ManagedClusterVersionEnvironment = string;
 
 /** The available API versions. */
 export enum KnownVersions {
+  /** 2024-11-01-preview */
+  V20241101Preview = "2024-11-01-preview",
+  /** 2025-03-01-preview */
+  V20250301Preview = "2025-03-01-preview",
+  /** 2025-06-01-preview */
+  V20250601Preview = "2025-06-01-preview",
+  /** 2025-10-01-preview */
+  V20251001Preview = "2025-10-01-preview",
   /** 2026-02-01 */
   V20260201 = "2026-02-01",
+  /** 2026-05-01-preview */
+  V20260501Preview = "2026-05-01-preview",
 }
 
 export function managedClusterCodeVersionResultArrayDeserializer(
@@ -5866,8 +6323,8 @@ export function _applicationResourcePropertiesDeserializer(item: any) {
   };
 }
 
-export function _applicationTypeResourcePropertiesSerializer(item: ApplicationTypeResource): any {
-  return item;
+export function _applicationTypeResourcePropertiesSerializer(_item: ApplicationTypeResource): any {
+  return {};
 }
 
 export function _applicationTypeResourcePropertiesDeserializer(item: any) {
@@ -6176,6 +6633,12 @@ export function _nodeTypePropertiesSerializer(item: NodeType): any {
     zoneBalance: item["zoneBalance"],
     isOutboundOnly: item["isOutboundOnly"],
     enableResilientEphemeralOsDisk: item["enableResilientEphemeralOsDisk"],
+    scaleInPolicy: !item["scaleInPolicy"]
+      ? item["scaleInPolicy"]
+      : scaleInPolicySerializer(item["scaleInPolicy"]),
+    proxyAgentSettings: !item["proxyAgentSettings"]
+      ? item["proxyAgentSettings"]
+      : proxyAgentSettingsSerializer(item["proxyAgentSettings"]),
   };
 }
 
@@ -6277,5 +6740,11 @@ export function _nodeTypePropertiesDeserializer(item: any) {
     zoneBalance: item["zoneBalance"],
     isOutboundOnly: item["isOutboundOnly"],
     enableResilientEphemeralOsDisk: item["enableResilientEphemeralOsDisk"],
+    scaleInPolicy: !item["scaleInPolicy"]
+      ? item["scaleInPolicy"]
+      : scaleInPolicyDeserializer(item["scaleInPolicy"]),
+    proxyAgentSettings: !item["proxyAgentSettings"]
+      ? item["proxyAgentSettings"]
+      : proxyAgentSettingsDeserializer(item["proxyAgentSettings"]),
   };
 }

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByEnvironment, getByEnvironment, list, get } from "./operations.js";
-export {
+export type {
   ManagedClusterVersionListByEnvironmentOptionalParams,
   ManagedClusterVersionGetByEnvironmentOptionalParams,
   ManagedClusterVersionListOptionalParams,

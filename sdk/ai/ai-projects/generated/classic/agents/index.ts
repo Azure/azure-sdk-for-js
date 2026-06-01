@@ -46,7 +46,11 @@ export interface AgentsOperations {
     agentName: string,
     options?: AgentsListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<AgentVersion>;
-  /** Deletes a specific version of an agent. */
+  /**
+   * Deletes a specific version of an agent. For hosted agents, if the version has active
+   * sessions, the request is rejected with HTTP 409 unless `force` is set to true. When
+   * force is true, all sessions associated with this version are cascade-deleted.
+   */
   deleteVersion: (
     agentName: string,
     agentVersion: string,
@@ -73,7 +77,11 @@ export interface AgentsOperations {
   ) => Promise<AgentVersion>;
   /** Returns the list of all agents. */
   list: (options?: AgentsListOptionalParams) => PagedAsyncIterableIterator<Agent>;
-  /** Deletes an agent. */
+  /**
+   * Deletes an agent. For hosted agents, if any version has active sessions, the request
+   * is rejected with HTTP 409 unless `force` is set to true. When force is true, all
+   * associated sessions are cascade-deleted along with the agent and its versions.
+   */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
