@@ -113,6 +113,8 @@ export interface Operation {
   readonly name?: string;
   /** Operation display values. */
   readonly display?: OperationDisplay;
+  /** Operation properties. */
+  readonly properties?: Record<string, any>;
   /** Origin of the operation. Can be : user|system|user,system */
   readonly origin?: string;
   /** Indicates whether the operation is a data action */
@@ -123,9 +125,11 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
-    ...(!item["properties"]
+    properties: !item["properties"]
       ? item["properties"]
-      : _operationPropertiesDeserializer(item["properties"])),
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     origin: item["origin"],
     isDataAction: item["isDataAction"],
   };
@@ -150,13 +154,6 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
     operation: item["operation"],
     description: item["description"],
   };
-}
-
-/** Operation properties. */
-export interface OperationProperties {}
-
-export function operationPropertiesDeserializer(item: any): OperationProperties {
-  return item;
 }
 
 /** Job Resource. */
@@ -4950,10 +4947,6 @@ export type SkuDisabledReason =
 export enum KnownVersions {
   /** The 2025-07-01 API version. */
   V20250701 = "2025-07-01",
-}
-
-export function _operationPropertiesDeserializer(item: any) {
-  return item;
 }
 
 export function _jobResourcePropertiesSerializer(item: JobResource): any {

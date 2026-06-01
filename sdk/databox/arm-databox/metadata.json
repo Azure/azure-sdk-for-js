@@ -13,7 +13,6 @@
       "@azure/arm-databox!OperationList:interface": "Microsoft.DataBox.OperationList",
       "@azure/arm-databox!Operation:interface": "Microsoft.DataBox.Operation",
       "@azure/arm-databox!OperationDisplay:interface": "Microsoft.DataBox.OperationDisplay",
-      "@azure/arm-databox!OperationProperties:interface": "Microsoft.DataBox.OperationProperties",
       "@azure/arm-databox!JobResource:interface": "Microsoft.DataBox.JobResource",
       "@azure/arm-databox!JobProperties:interface": "Microsoft.DataBox.JobProperties",
       "@azure/arm-databox!CloudError:interface": "Microsoft.DataBox.CloudError",

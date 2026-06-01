@@ -36,6 +36,7 @@ import {
   MarkDevicesShippedRequest,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Jobs operations. */
@@ -80,6 +81,18 @@ export interface JobsOperations {
     jobName: string,
     options?: JobsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates the properties of an existing job. */
   update: (
     resourceGroupName: string,
@@ -87,6 +100,20 @@ export interface JobsOperations {
     jobResourceUpdateParameter: JobResourceUpdateParameter,
     options?: JobsUpdateOptionalParams,
   ) => PollerLike<OperationState<JobResource>, JobResource>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    jobName: string,
+    jobResourceUpdateParameter: JobResourceUpdateParameter,
+    options?: JobsUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<JobResource>, JobResource>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    jobName: string,
+    jobResourceUpdateParameter: JobResourceUpdateParameter,
+    options?: JobsUpdateOptionalParams,
+  ) => Promise<JobResource>;
   /** Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API. */
   create: (
     resourceGroupName: string,
@@ -94,6 +121,20 @@ export interface JobsOperations {
     jobResource: JobResource,
     options?: JobsCreateOptionalParams,
   ) => PollerLike<OperationState<JobResource>, JobResource>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    jobName: string,
+    jobResource: JobResource,
+    options?: JobsCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<JobResource>, JobResource>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    jobName: string,
+    jobResource: JobResource,
+    options?: JobsCreateOptionalParams,
+  ) => Promise<JobResource>;
   /** Gets information about the specified job. */
   get: (
     resourceGroupName: string,
@@ -135,18 +176,76 @@ function _getJobs(context: DataBoxManagementContext) {
     ) => listByResourceGroup(context, resourceGroupName, options),
     delete: (resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams) =>
       $delete(context, resourceGroupName, jobName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      jobName: string,
+      options?: JobsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, jobName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      jobName: string,
+      options?: JobsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, jobName, options);
+    },
     update: (
       resourceGroupName: string,
       jobName: string,
       jobResourceUpdateParameter: JobResourceUpdateParameter,
       options?: JobsUpdateOptionalParams,
     ) => update(context, resourceGroupName, jobName, jobResourceUpdateParameter, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      jobName: string,
+      jobResourceUpdateParameter: JobResourceUpdateParameter,
+      options?: JobsUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        jobName,
+        jobResourceUpdateParameter,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      jobName: string,
+      jobResourceUpdateParameter: JobResourceUpdateParameter,
+      options?: JobsUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, jobName, jobResourceUpdateParameter, options);
+    },
     create: (
       resourceGroupName: string,
       jobName: string,
       jobResource: JobResource,
       options?: JobsCreateOptionalParams,
     ) => create(context, resourceGroupName, jobName, jobResource, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      jobName: string,
+      jobResource: JobResource,
+      options?: JobsCreateOptionalParams,
+    ) => {
+      const poller = create(context, resourceGroupName, jobName, jobResource, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      jobName: string,
+      jobResource: JobResource,
+      options?: JobsCreateOptionalParams,
+    ) => {
+      return await create(context, resourceGroupName, jobName, jobResource, options);
+    },
     get: (resourceGroupName: string, jobName: string, options?: JobsGetOptionalParams) =>
       get(context, resourceGroupName, jobName, options),
   };

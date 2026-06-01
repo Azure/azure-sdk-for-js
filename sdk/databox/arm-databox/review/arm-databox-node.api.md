@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
 import { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
@@ -736,6 +737,18 @@ export interface JobsMarkDevicesShippedOptionalParams extends OperationOptions {
 
 // @public
 export interface JobsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, jobName: string, jobResource: JobResource, options?: JobsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<JobResource>, JobResource>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, jobName: string, jobResource: JobResource, options?: JobsCreateOptionalParams) => Promise<JobResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, jobName: string, jobResourceUpdateParameter: JobResourceUpdateParameter, options?: JobsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<JobResource>, JobResource>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, jobName: string, jobResourceUpdateParameter: JobResourceUpdateParameter, options?: JobsUpdateOptionalParams) => Promise<JobResource>;
     bookShipmentPickUp: (resourceGroupName: string, jobName: string, shipmentPickUpRequest: ShipmentPickUpRequest, options?: JobsBookShipmentPickUpOptionalParams) => Promise<ShipmentPickUpResponse>;
     cancel: (resourceGroupName: string, jobName: string, cancellationReason: CancellationReason, options?: JobsCancelOptionalParams) => Promise<void>;
     create: (resourceGroupName: string, jobName: string, jobResource: JobResource, options?: JobsCreateOptionalParams) => PollerLike<OperationState<JobResource>, JobResource>;
@@ -983,6 +996,7 @@ export interface Operation {
     isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: string;
+    readonly properties?: Record<string, any>;
 }
 
 // @public
@@ -991,10 +1005,6 @@ export interface OperationDisplay {
     operation?: string;
     provider?: string;
     resource?: string;
-}
-
-// @public
-export interface OperationProperties {
 }
 
 // @public
@@ -1213,6 +1223,28 @@ export interface ShippingAddress {
     streetAddress3?: string;
     taxIdentificationNumber?: string;
     zipExtendedCode?: string;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public

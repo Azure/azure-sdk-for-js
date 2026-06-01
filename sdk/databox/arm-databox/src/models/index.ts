@@ -9,7 +9,6 @@ export type {
   Details,
   Operation,
   OperationDisplay,
-  OperationProperties,
   JobResource,
   JobProperties,
   TransferType,

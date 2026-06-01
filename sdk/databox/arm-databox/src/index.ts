@@ -9,6 +9,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { DataBoxManagementClient } from "./dataBoxManagementClient.js";
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
@@ -19,7 +20,6 @@ export type {
   Details,
   Operation,
   OperationDisplay,
-  OperationProperties,
   JobResource,
   JobProperties,
   TransferType,

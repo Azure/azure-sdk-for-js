@@ -8,10 +8,10 @@ Compared with version 5.1.0
   - Added operation JobsOperations.delete
   - Added operation JobsOperations.update
   - Added Interface JobProperties
-  - Added Interface OperationProperties
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
   - Added Interface SkuProperties
   - Added Interface TrackedResource
   - Added Interface UpdateJobProperties
@@ -28,12 +28,6 @@ Compared with version 5.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation Jobs.beginCreate
-  - Removed operation Jobs.beginCreateAndWait
-  - Removed operation Jobs.beginDelete
-  - Removed operation Jobs.beginDeleteAndWait
-  - Removed operation Jobs.beginUpdate
-  - Removed operation Jobs.beginUpdateAndWait
   - Operation Service.regionConfiguration has a new signature
   - Operation Service.regionConfigurationByResourceGroup has a new signature
   - Removed Interface ArmBaseObject
@@ -42,7 +36,6 @@ Compared with version 5.1.0
   - Removed Interface UnencryptedCredentialsList
   - Type of parameter copyLogDetailsType of interface GranularCopyLogDetails is changed from "DataBoxCustomerDisk" to ClassDiscriminator
   - Type of parameter skuName of interface ScheduleAvailabilityRequest is changed from "DataBox" | "DataBoxDisk" | "DataBoxHeavy" to SkuName
-  - Interface Operation no longer has parameter properties
   - Interface Resource no longer has parameter identity
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter sku
