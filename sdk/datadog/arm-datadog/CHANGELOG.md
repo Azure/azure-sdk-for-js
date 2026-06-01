@@ -40,6 +40,7 @@ Compared with version 3.1.0
   - Added Interface SaaSData
   - Added Interface SaaSOperationGroupActivateResourceOptionalParams
   - Added Interface SaaSResourceDetailsResponse
+  - Added Interface SimplePollerLike
   - Added Interface SreAgentConfiguration
   - Added Interface SreAgentConfigurationListResponse
   - Added Interface SreAgentConnectorRequest
@@ -60,20 +61,6 @@ Compared with version 3.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation MonitoredSubscriptions.beginCreateorUpdate
-  - Removed operation MonitoredSubscriptions.beginCreateorUpdateAndWait
-  - Removed operation MonitoredSubscriptions.beginDelete
-  - Removed operation MonitoredSubscriptions.beginDeleteAndWait
-  - Removed operation MonitoredSubscriptions.beginUpdate
-  - Removed operation MonitoredSubscriptions.beginUpdateAndWait
-  - Removed operation Monitors.beginCreate
-  - Removed operation Monitors.beginCreateAndWait
-  - Removed operation Monitors.beginDelete
-  - Removed operation Monitors.beginDeleteAndWait
-  - Removed operation Monitors.beginUpdate
-  - Removed operation Monitors.beginUpdateAndWait
-  - Removed operation SingleSignOnConfigurations.beginCreateOrUpdate
-  - Removed operation SingleSignOnConfigurations.beginCreateOrUpdateAndWait
   - Removed Interface CreateResourceSupportedResponseList
   - Removed Interface DatadogAgreementResourceListResponse
   - Removed Interface DatadogApiKeyListResponse

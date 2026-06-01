@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
 import { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
@@ -175,6 +176,10 @@ export interface DatadogMonitorResourcesLinkSaaSOptionalParams extends Operation
 
 // @public
 export interface DatadogMonitorResourcesOperations {
+    // @deprecated (undocumented)
+    beginLinkSaaS: (resourceGroupName: string, monitorName: string, body: SaaSData, options?: DatadogMonitorResourcesLinkSaaSOptionalParams) => Promise<SimplePollerLike<OperationState<DatadogMonitorResource>, DatadogMonitorResource>>;
+    // @deprecated (undocumented)
+    beginLinkSaaSAndWait: (resourceGroupName: string, monitorName: string, body: SaaSData, options?: DatadogMonitorResourcesLinkSaaSOptionalParams) => Promise<DatadogMonitorResource>;
     latestLinkedSaaS: (resourceGroupName: string, monitorName: string, options?: DatadogMonitorResourcesLatestLinkedSaaSOptionalParams) => Promise<LatestLinkedSaaSResponse>;
     linkSaaS: (resourceGroupName: string, monitorName: string, body: SaaSData, options?: DatadogMonitorResourcesLinkSaaSOptionalParams) => PollerLike<OperationState<DatadogMonitorResource>, DatadogMonitorResource>;
 }
@@ -482,6 +487,18 @@ export interface MonitoredSubscriptionsListOptionalParams extends OperationOptio
 
 // @public
 export interface MonitoredSubscriptionsOperations {
+    // @deprecated (undocumented)
+    beginCreateorUpdate: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MonitoredSubscriptionProperties>, MonitoredSubscriptionProperties>>;
+    // @deprecated (undocumented)
+    beginCreateorUpdateAndWait: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams) => Promise<MonitoredSubscriptionProperties>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MonitoredSubscriptionProperties>, MonitoredSubscriptionProperties>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsUpdateOptionalParams) => Promise<MonitoredSubscriptionProperties>;
     createorUpdate: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams) => PollerLike<OperationState<MonitoredSubscriptionProperties>, MonitoredSubscriptionProperties>;
     delete: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsGetOptionalParams) => Promise<MonitoredSubscriptionProperties>;
@@ -585,6 +602,18 @@ export interface MonitorsManageSreAgentConnectorsOptionalParams extends Operatio
 
 // @public
 export interface MonitorsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<DatadogMonitorResource>, DatadogMonitorResource>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams) => Promise<DatadogMonitorResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DatadogMonitorResource>, DatadogMonitorResource>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams) => Promise<DatadogMonitorResource>;
     create: (resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams) => PollerLike<OperationState<DatadogMonitorResource>, DatadogMonitorResource>;
     delete: (resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams) => Promise<DatadogMonitorResource>;
@@ -655,6 +684,10 @@ export interface OperationsOperations {
 
 // @public
 export interface OrganizationsOperations {
+    // @deprecated (undocumented)
+    beginResubscribe: (resourceGroupName: string, monitorName: string, options?: OrganizationsResubscribeOptionalParams) => Promise<SimplePollerLike<OperationState<DatadogMonitorResource>, DatadogMonitorResource>>;
+    // @deprecated (undocumented)
+    beginResubscribeAndWait: (resourceGroupName: string, monitorName: string, options?: OrganizationsResubscribeOptionalParams) => Promise<DatadogMonitorResource>;
     resubscribe: (resourceGroupName: string, monitorName: string, options?: OrganizationsResubscribeOptionalParams) => PollerLike<OperationState<DatadogMonitorResource>, DatadogMonitorResource>;
 }
 
@@ -743,6 +776,28 @@ export interface SaaSResourceDetailsResponse extends ProxyResource {
 }
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface SingleSignOnConfigurationsCreateOrUpdateOptionalParams extends OperationOptions {
     // (undocumented)
     body?: DatadogSingleSignOnResource;
@@ -759,6 +814,10 @@ export interface SingleSignOnConfigurationsListOptionalParams extends OperationO
 
 // @public
 export interface SingleSignOnConfigurationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DatadogSingleSignOnResource>, DatadogSingleSignOnResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams) => Promise<DatadogSingleSignOnResource>;
     createOrUpdate: (resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DatadogSingleSignOnResource>, DatadogSingleSignOnResource>;
     get: (resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnConfigurationsGetOptionalParams) => Promise<DatadogSingleSignOnResource>;
     list: (resourceGroupName: string, monitorName: string, options?: SingleSignOnConfigurationsListOptionalParams) => PagedAsyncIterableIterator<DatadogSingleSignOnResource>;

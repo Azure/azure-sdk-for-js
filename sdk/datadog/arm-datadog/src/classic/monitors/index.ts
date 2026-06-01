@@ -48,6 +48,7 @@ import {
   DatadogSetPasswordLink,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Monitors operations. */
@@ -122,18 +123,54 @@ export interface MonitorsOperations {
     monitorName: string,
     options?: MonitorsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update a monitor resource. */
   update: (
     resourceGroupName: string,
     monitorName: string,
     options?: MonitorsUpdateOptionalParams,
   ) => PollerLike<OperationState<DatadogMonitorResource>, DatadogMonitorResource>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<DatadogMonitorResource>, DatadogMonitorResource>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsUpdateOptionalParams,
+  ) => Promise<DatadogMonitorResource>;
   /** Create a monitor resource. */
   create: (
     resourceGroupName: string,
     monitorName: string,
     options?: MonitorsCreateOptionalParams,
   ) => PollerLike<OperationState<DatadogMonitorResource>, DatadogMonitorResource>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<DatadogMonitorResource>, DatadogMonitorResource>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsCreateOptionalParams,
+  ) => Promise<DatadogMonitorResource>;
   /** Get the properties of a specific monitor resource. */
   get: (
     resourceGroupName: string,
@@ -200,16 +237,64 @@ function _getMonitors(context: MicrosoftDatadogContext) {
       monitorName: string,
       options?: MonitorsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, monitorName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      monitorName: string,
+      options?: MonitorsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, monitorName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      monitorName: string,
+      options?: MonitorsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, monitorName, options);
+    },
     update: (
       resourceGroupName: string,
       monitorName: string,
       options?: MonitorsUpdateOptionalParams,
     ) => update(context, resourceGroupName, monitorName, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      monitorName: string,
+      options?: MonitorsUpdateOptionalParams,
+    ) => {
+      const poller = update(context, resourceGroupName, monitorName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      monitorName: string,
+      options?: MonitorsUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, monitorName, options);
+    },
     create: (
       resourceGroupName: string,
       monitorName: string,
       options?: MonitorsCreateOptionalParams,
     ) => create(context, resourceGroupName, monitorName, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      monitorName: string,
+      options?: MonitorsCreateOptionalParams,
+    ) => {
+      const poller = create(context, resourceGroupName, monitorName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      monitorName: string,
+      options?: MonitorsCreateOptionalParams,
+    ) => {
+      return await create(context, resourceGroupName, monitorName, options);
+    },
     get: (resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams) =>
       get(context, resourceGroupName, monitorName, options),
   };
