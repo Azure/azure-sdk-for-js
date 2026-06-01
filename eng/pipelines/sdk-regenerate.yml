@@ -311,7 +311,7 @@ stages:
               PATCH_FILE="$(Build.ArtifactStagingDirectory)/results/$(JobKey)/changes.patch"
               MODE="${{ parameters.ChangePushMode }}"
               if [ "$MODE" = "api-md" ]; then
-                git diff --binary -- ':(glob)sdk/**/review/*.api.md' > "$PATCH_FILE"
+                git diff --binary -- ':(glob)sdk/**/review/*.api.md' ':(glob)sdk/**/CHANGELOG.md' > "$PATCH_FILE"
               else
                 git diff --binary -- sdk/ > "$PATCH_FILE"
               fi
@@ -564,7 +564,7 @@ stages:
 
                 mode="${{ parameters.ChangePushMode }}"
                 if [ "$mode" = "api-md" ]; then
-                  git add -A -- ':(glob)sdk/**/review/*.api.md'
+                  git add -A -- ':(glob)sdk/**/review/*.api.md' ':(glob)sdk/**/CHANGELOG.md'
                 else
                   git add -A sdk/
                 fi
