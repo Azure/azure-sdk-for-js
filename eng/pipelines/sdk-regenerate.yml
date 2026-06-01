@@ -1,4 +1,3 @@
-# eng/pipelines/sdk-regenerate.yml
 # JS SDK TypeSpec Breaking Change Check Pipeline (ARM Only)
 # Purpose: Validate that the latest emitter (@azure-tools/typespec-ts) doesn't break existing ARM SDK packages
 # Flow: Fetch latest emitter version → update emitter-package.json → regenerate lock file
@@ -17,7 +16,6 @@ trigger:
       - eng/common/tsp-client/
       - eng/pipelines/sdk-regenerate.yml
       - eng/pipelines/scripts/regenerate-runner.js
-      - eng/pipelines/scripts/breaking-change-detector.js
 
 pr:
   branches:
@@ -32,7 +30,6 @@ pr:
       - eng/common/tsp-client/
       - eng/pipelines/sdk-regenerate.yml
       - eng/pipelines/scripts/regenerate-runner.js
-      - eng/pipelines/scripts/breaking-change-detector.js
 
 schedules:
   - cron: "0 2 * * 1"
@@ -169,31 +166,28 @@ stages:
             effMinPerJob: ${{ parameters.MinimumPerJob }}
             effFilter: ${{ parameters.PackageFilter }}
         steps:
+          # Builds the matrix and records arm-* dirs without tsp-location.yaml
+          # (filtered out of the matrix, surfaced later in the PR description).
           - task: PowerShell@2
-            displayName: 'Split ARM packages into matrix batches'
+            displayName: 'Build matrix (split + scan skipped)'
             name: generateMatrix
             inputs:
               pwsh: true
-              filePath: ./eng/common/scripts/New-RegenerateMatrix.ps1
-              arguments: >
-                -OutputDirectory "$(Build.ArtifactStagingDirectory)/matrix"
-                -OutputVariableName matrix
-                -JobCount $(effJobCount)
-                -MinimumPerJob $(effMinPerJob)
-                -OnlyTypeSpec true
-                -DirectoryFilterPattern '$(effFilter)'
-              workingDirectory: $(Build.SourcesDirectory)
-
-          - task: PowerShell@2
-            displayName: 'Scan ARM packages without tsp-location.yaml'
-            inputs:
-              pwsh: true
               targetType: inline
-              # Mirror of the matrix filter (`-OnlyTypeSpec true`): the matrix
-              # step keeps only arm-* dirs that have tsp-location.yaml; here we
-              # record the ones that were filtered OUT, so the Summary stage
-              # can list them in the PR description for on-boarding follow-up.
+              workingDirectory: $(Build.SourcesDirectory)
               script: |
+                $matrixOutDir = "$(Build.ArtifactStagingDirectory)/matrix"
+
+                Write-Host "===== Split ARM packages into matrix batches ====="
+                & "$(Build.SourcesDirectory)/eng/common/scripts/New-RegenerateMatrix.ps1" `
+                  -OutputDirectory $matrixOutDir `
+                  -OutputVariableName matrix `
+                  -JobCount $(effJobCount) `
+                  -MinimumPerJob $(effMinPerJob) `
+                  -OnlyTypeSpec $true `
+                  -DirectoryFilterPattern '$(effFilter)'
+
+                Write-Host "===== Scan ARM packages without tsp-location.yaml ====="
                 $srcRoot = "$(Build.SourcesDirectory)"
                 $sdkDir = Join-Path $srcRoot 'sdk'
                 $missing = @()
@@ -207,11 +201,10 @@ stages:
                       }
                     }
                 }
-                $outPath = Join-Path "$(Build.ArtifactStagingDirectory)/matrix" 'skipped-no-tsp-location.json'
+                $outPath = Join-Path $matrixOutDir 'skipped-no-tsp-location.json'
                 New-Item -ItemType Directory -Force -Path (Split-Path $outPath) | Out-Null
                 ConvertTo-Json @($missing) -Depth 3 | Out-File -FilePath $outPath -Encoding utf8
                 Write-Host "Wrote $($missing.Count) skipped packages to $outPath"
-              workingDirectory: $(Build.SourcesDirectory)
 
           - task: PublishPipelineArtifact@1
             displayName: 'Publish matrix artifacts'
@@ -235,22 +228,23 @@ stages:
             inputs:
               versionSpec: $(nodeVersion)
 
-          - script: |
-              npm install -g @azure-tools/typespec-client-generator-cli
-              npm install -g pnpm
-              npm config set legacy-peer-deps true
-            displayName: 'Install tsp-client and pnpm'
-
           - download: current
             displayName: 'Download matrix artifacts'
             artifact: matrix_artifacts
 
-          # Clone azure-rest-api-specs (latest main, shallow).
-          # tsp-client init --local-spec-repo only needs the current state of
-          # the spec repo, so a depth=1 shallow clone is enough and saves
-          # 5-10 minutes vs a full clone.
+          # Installs tsp-client + pnpm, shallow-clones azure-rest-api-specs
+          # (tsp-client init --local-spec-repo only needs current state), and
+          # updates emitter-package.json + lock file to pin the candidate
+          # emitter version.
           - script: |
               set -euo pipefail
+
+              echo "===== Install tsp-client and pnpm ====="
+              npm install -g @azure-tools/typespec-client-generator-cli
+              npm install -g pnpm
+              npm config set legacy-peer-deps true
+
+              echo "===== Clone azure-rest-api-specs (local spec source) ====="
               if [ -d "$(specRepoRoot)/.git" ]; then
                 echo "Spec repo already exists at $(specRepoRoot), pulling latest..."
                 cd $(specRepoRoot)
@@ -264,10 +258,8 @@ stages:
               fi
               echo "Spec repo ready at $(specRepoRoot)"
               cd $(specRepoRoot) && git log -1 --oneline
-            displayName: 'Clone azure-rest-api-specs (local spec source)'
 
-          # Update emitter-package.json + lock file
-          - script: |
+              echo "===== Update emitter + lock file ====="
               cd $(sdkRoot)
               node -e "
                 const fs = require('fs');
@@ -290,7 +282,7 @@ stages:
                 rm -f package.json package-lock.json
                 rm -rf node_modules
               fi
-            displayName: 'Update emitter + lock file'
+            displayName: 'Prepare workspace (deps + specs + emitter)'
 
           # Step 3: Regenerate (tsp-client init) → build (pnpm build) for this batch
           - script: |
@@ -306,25 +298,27 @@ stages:
                 --resultOutputDir "$(Build.ArtifactStagingDirectory)/results/$(JobKey)"
             displayName: 'Regenerate & build ARM package batch'
 
+          # Shows the per-batch diff; if CreatePullRequest is on, also writes
+          # changes.patch (filtered by ChangePushMode) for the PR job to apply.
           - script: |
               cd $(sdkRoot)
-              PATCH_FILE="$(Build.ArtifactStagingDirectory)/results/$(JobKey)/changes.patch"
-              MODE="${{ parameters.ChangePushMode }}"
-              if [ "$MODE" = "api-md" ]; then
-                git diff --binary -- ':(glob)sdk/**/review/*.api.md' ':(glob)sdk/**/CHANGELOG.md' > "$PATCH_FILE"
-              else
-                git diff --binary -- sdk/ > "$PATCH_FILE"
-              fi
-              echo "Patch mode: $MODE"
-              echo "Patch file: $PATCH_FILE"
-              wc -l "$PATCH_FILE" || true
-            displayName: 'Create patch for PR job'
-            condition: and(always(), ${{ parameters.CreatePullRequest }})
-
-          - script: |
-              cd $(sdkRoot)
+              echo "===== Show generated changes ====="
               git diff --stat
-            displayName: 'Show generated changes'
+              CREATE_PR="${{ parameters.CreatePullRequest }}"
+              if [ "$CREATE_PR" = "True" ] || [ "$CREATE_PR" = "true" ]; then
+                echo "===== Create patch for PR job ====="
+                PATCH_FILE="$(Build.ArtifactStagingDirectory)/results/$(JobKey)/changes.patch"
+                MODE="${{ parameters.ChangePushMode }}"
+                if [ "$MODE" = "api-md" ]; then
+                  git diff --binary -- ':(glob)sdk/**/review/*.api.md' ':(glob)sdk/**/CHANGELOG.md' > "$PATCH_FILE"
+                else
+                  git diff --binary -- sdk/ > "$PATCH_FILE"
+                fi
+                echo "Patch mode: $MODE"
+                echo "Patch file: $PATCH_FILE"
+                wc -l "$PATCH_FILE" || true
+              fi
+            displayName: 'Capture changes (diff + patch)'
             condition: always()
 
           - task: PublishPipelineArtifact@1
@@ -675,9 +669,12 @@ stages:
 
                     if ($agg.changelog.breakingPackages -and $agg.changelog.breakingPackages.Count -gt 0) {
                       $lines.Add("## Packages with breaking changes ($($agg.changelog.breakingPackages.Count))")
-                      $lines.Add('Open each package''s `CHANGELOG.md` in the diff for details.')
+                      $lines.Add("The following $($agg.changelog.breakingPackages.Count) package(s) had breaking changes detected by ``update-changelog``. This may indicate an emitter regression or an intentional spec change — open each CHANGELOG below to triage.")
                       $lines.Add('')
-                      foreach ($p in $agg.changelog.breakingPackages) { $lines.Add("- ``$p``") }
+                      foreach ($p in $agg.changelog.breakingPackages) {
+                        $pkgShort = ($p -split '/')[-1]
+                        $lines.Add("- [``$pkgShort``]($p/CHANGELOG.md) &nbsp;<sub>$p</sub>")
+                      }
                       $lines.Add('')
                     }
 
@@ -685,6 +682,24 @@ stages:
                       $lines.Add("## Packages skipped — no usable tsp-location.yaml ($($agg.skippedNoTspLocation.Count))")
                       $lines.Add('These packages were filtered out by matrix gen (`-OnlyTypeSpec true`) and are NOT covered by this PR.')
                       $lines.Add('**Spec / SDK team action**: please add a `tsp-location.yaml` (or fix the existing one) so these packages participate in the next regeneration run.')
+                      $lines.Add('')
+                      # Normalize reasons into buckets so the summary is meaningful
+                      # even when upstream changes the exact error string (e.g.
+                      # "stale path: ..." carries a different spec path each time).
+                      $reasonBuckets = @{}
+                      foreach ($s in $agg.skippedNoTspLocation) {
+                        $r = $s.reason
+                        if     ($r -like 'no tsp-location.yaml*') { $bucket = 'no tsp-location.yaml' }
+                        elseif ($r -like 'stale path*')           { $bucket = 'stale path (tspconfig.yaml missing in spec)' }
+                        elseif ($r -like 'relative repo*')        { $bucket = 'relative repo (local-only tsp-location)' }
+                        else                                      { $bucket = $r }
+                        if (-not $reasonBuckets.ContainsKey($bucket)) { $reasonBuckets[$bucket] = 0 }
+                        $reasonBuckets[$bucket]++
+                      }
+                      $lines.Add('**Breakdown by reason:**')
+                      foreach ($k in ($reasonBuckets.Keys | Sort-Object { -$reasonBuckets[$_] })) {
+                        $lines.Add("- $k — **$($reasonBuckets[$k])**")
+                      }
                       $lines.Add('')
                       $lines.Add('<details><summary>Click to expand the full list</summary>')
                       $lines.Add('')
