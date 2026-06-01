@@ -6,12 +6,17 @@ import type {
   ConnectedMessage,
   DisconnectedMessage,
   GroupDataMessage,
+  GroupStateSnapshotMessage,
+  GroupStateUpdateMessage,
   JoinGroupMessage,
   LeaveGroupMessage,
   SendEventMessage,
   SendToGroupMessage,
   SequenceAckMessage,
   ServerDataMessage,
+  SetGroupStateMessage,
+  SubscribeGroupStateMessage,
+  UnsubscribeGroupStateMessage,
   WebPubSubMessage,
 } from "@azure/web-pubsub-client";
 import { WebPubSubProtobufProtocol } from "../src/index.js";
@@ -305,7 +310,124 @@ describe("WebPubSubClient", function () {
     tests.forEach(({ testName, message, assertFunc }) => {
       it(`parse message test ${testName}`, () => {
         const buffer = Buffer.from(message, "base64");
-        const parsedMsg = protocol.parseMessages(buffer);
+        const parsedMsg = protocol.parseMessages(buffer) as WebPubSubMessage | null;
+        assertFunc(parsedMsg!);
+      });
+    });
+  });
+
+  describe("WriteMessage group state upstream messages", () => {
+    const tests = [
+      {
+        testName: "setGroupState with state",
+        message: {
+          kind: "setGroupState",
+          group: "chat-room",
+          state: { activity: "typing" },
+          ackId: 1,
+        } as SetGroupStateMessage,
+        payload: "eiMKCWNoYXQtcm9vbRABGhQKEgoIYWN0aXZpdHkSBnR5cGluZw==",
+      },
+      {
+        testName: "setGroupState clear (no state)",
+        message: {
+          kind: "setGroupState",
+          group: "chat-room",
+          ackId: 2,
+        } as SetGroupStateMessage,
+        payload: "eg0KCWNoYXQtcm9vbRAC",
+      },
+      {
+        testName: "subscribeGroupState",
+        message: {
+          kind: "subscribeGroupState",
+          group: "chat-room",
+          ackId: 3,
+        } as SubscribeGroupStateMessage,
+        payload: "ggENCgljaGF0LXJvb20QAw==",
+      },
+      {
+        testName: "unsubscribeGroupState",
+        message: {
+          kind: "unsubscribeGroupState",
+          group: "chat-room",
+          ackId: 4,
+        } as UnsubscribeGroupStateMessage,
+        payload: "igENCgljaGF0LXJvb20QBA==",
+      },
+    ];
+
+    tests.forEach(({ testName, message, payload }) => {
+      it(`write message test ${testName}`, () => {
+        const writeMessage = protocol.writeMessage(message) as ArrayBuffer;
+        assert.equal(arrayBufferToBase64(writeMessage), payload);
+      });
+    });
+
+    function arrayBufferToBase64(buffer: ArrayBuffer): string {
+      return Buffer.from(buffer).toString("base64");
+    }
+  });
+
+  describe("Parse group state downstream messages", () => {
+    const tests = [
+      {
+        testName: "groupStateSnapshot",
+        message:
+          "UmMKCWNoYXQtcm9vbRItCgdjb25uLWExEgVhbGljZRoUChIKCGFjdGl2aXR5EgZ0eXBpbmcggK/KlNgyEicKB2Nvbm4tYjESA2JvYhoQCg4KBGhhbmQSBnJhaXNlZCDgksmU2DI=",
+        assertFunc: (msg: WebPubSubMessage) => {
+          const m = msg as GroupStateSnapshotMessage;
+          assert.equal(m.kind, "groupStateSnapshot");
+          assert.equal(m.group, "chat-room");
+          assert.equal(m.items.length, 2);
+          assert.equal(m.items[0].connectionId, "conn-a1");
+          assert.equal(m.items[0].userId, "alice");
+          assert.deepEqual(m.items[0].state, { activity: "typing" });
+          assert.equal(m.items[0].updatedAt, 1741652400000);
+          assert.equal(m.items[1].connectionId, "conn-b1");
+          assert.equal(m.items[1].userId, "bob");
+          assert.deepEqual(m.items[1].state, { hand: "raised" });
+        },
+      },
+      {
+        testName: "groupStateSnapshot with empty items",
+        message: "UgwKCmVtcHR5LXJvb20=",
+        assertFunc: (msg: WebPubSubMessage) => {
+          const m = msg as GroupStateSnapshotMessage;
+          assert.equal(m.kind, "groupStateSnapshot");
+          assert.equal(m.group, "empty-room");
+          assert.equal(m.items.length, 0);
+        },
+      },
+      {
+        testName: "groupStateUpdate with state set",
+        message: "SjoKCWNoYXQtcm9vbRItCgdjb25uLWExEgVhbGljZRoUChIKCGFjdGl2aXR5EgZ0eXBpbmcggK/KlNgy",
+        assertFunc: (msg: WebPubSubMessage) => {
+          const m = msg as GroupStateUpdateMessage;
+          assert.equal(m.kind, "groupStateUpdate");
+          assert.equal(m.group, "chat-room");
+          assert.equal(m.items.length, 1);
+          assert.equal(m.items[0].connectionId, "conn-a1");
+          assert.deepEqual(m.items[0].state, { activity: "typing" });
+        },
+      },
+      {
+        testName: "groupStateUpdate with state cleared",
+        message: "SiQKCWNoYXQtcm9vbRIXCgdjb25uLWExEgVhbGljZSCI1sqU2DI=",
+        assertFunc: (msg: WebPubSubMessage) => {
+          const m = msg as GroupStateUpdateMessage;
+          assert.equal(m.kind, "groupStateUpdate");
+          assert.equal(m.items[0].connectionId, "conn-a1");
+          assert.isUndefined(m.items[0].state);
+          assert.equal(m.items[0].updatedAt, 1741652405000);
+        },
+      },
+    ];
+
+    tests.forEach(({ testName, message, assertFunc }) => {
+      it(`parse message test ${testName}`, () => {
+        const buffer = Buffer.from(message, "base64");
+        const parsedMsg = protocol.parseMessages(buffer) as WebPubSubMessage | null;
         assertFunc(parsedMsg!);
       });
     });

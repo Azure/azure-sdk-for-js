@@ -18,6 +18,9 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
      * @property {UpstreamMessage.IJoinGroupMessage|null} [joinGroupMessage] UpstreamMessage joinGroupMessage
      * @property {UpstreamMessage.ILeaveGroupMessage|null} [leaveGroupMessage] UpstreamMessage leaveGroupMessage
      * @property {UpstreamMessage.ISequenceAckMessage|null} [sequenceAckMessage] UpstreamMessage sequenceAckMessage
+     * @property {UpstreamMessage.ISetGroupStateMessage|null} [setGroupStateMessage] UpstreamMessage setGroupStateMessage
+     * @property {UpstreamMessage.ISubscribeGroupStateMessage|null} [subscribeGroupStateMessage] UpstreamMessage subscribeGroupStateMessage
+     * @property {UpstreamMessage.IUnsubscribeGroupStateMessage|null} [unsubscribeGroupStateMessage] UpstreamMessage unsubscribeGroupStateMessage
      */
 
     /**
@@ -75,17 +78,41 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
      */
     UpstreamMessage.prototype.sequenceAckMessage = null;
 
+    /**
+     * UpstreamMessage setGroupStateMessage.
+     * @member {UpstreamMessage.ISetGroupStateMessage|null|undefined} setGroupStateMessage
+     * @memberof UpstreamMessage
+     * @instance
+     */
+    UpstreamMessage.prototype.setGroupStateMessage = null;
+
+    /**
+     * UpstreamMessage subscribeGroupStateMessage.
+     * @member {UpstreamMessage.ISubscribeGroupStateMessage|null|undefined} subscribeGroupStateMessage
+     * @memberof UpstreamMessage
+     * @instance
+     */
+    UpstreamMessage.prototype.subscribeGroupStateMessage = null;
+
+    /**
+     * UpstreamMessage unsubscribeGroupStateMessage.
+     * @member {UpstreamMessage.IUnsubscribeGroupStateMessage|null|undefined} unsubscribeGroupStateMessage
+     * @memberof UpstreamMessage
+     * @instance
+     */
+    UpstreamMessage.prototype.unsubscribeGroupStateMessage = null;
+
     // OneOf field names bound to virtual getters and setters
     let $oneOfFields;
 
     /**
      * UpstreamMessage message.
-     * @member {"sendToGroupMessage"|"eventMessage"|"joinGroupMessage"|"leaveGroupMessage"|"sequenceAckMessage"|undefined} message
+     * @member {"sendToGroupMessage"|"eventMessage"|"joinGroupMessage"|"leaveGroupMessage"|"sequenceAckMessage"|"setGroupStateMessage"|"subscribeGroupStateMessage"|"unsubscribeGroupStateMessage"|undefined} message
      * @memberof UpstreamMessage
      * @instance
      */
     Object.defineProperty(UpstreamMessage.prototype, "message", {
-        get: $util.oneOfGetter($oneOfFields = ["sendToGroupMessage", "eventMessage", "joinGroupMessage", "leaveGroupMessage", "sequenceAckMessage"]),
+        get: $util.oneOfGetter($oneOfFields = ["sendToGroupMessage", "eventMessage", "joinGroupMessage", "leaveGroupMessage", "sequenceAckMessage", "setGroupStateMessage", "subscribeGroupStateMessage", "unsubscribeGroupStateMessage"]),
         set: $util.oneOfSetter($oneOfFields)
     });
 
@@ -123,6 +150,12 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             $root.UpstreamMessage.LeaveGroupMessage.encode(message.leaveGroupMessage, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
         if (message.sequenceAckMessage != null && Object.hasOwnProperty.call(message, "sequenceAckMessage"))
             $root.UpstreamMessage.SequenceAckMessage.encode(message.sequenceAckMessage, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+        if (message.setGroupStateMessage != null && Object.hasOwnProperty.call(message, "setGroupStateMessage"))
+            $root.UpstreamMessage.SetGroupStateMessage.encode(message.setGroupStateMessage, writer.uint32(/* id 15, wireType 2 =*/122).fork()).ldelim();
+        if (message.subscribeGroupStateMessage != null && Object.hasOwnProperty.call(message, "subscribeGroupStateMessage"))
+            $root.UpstreamMessage.SubscribeGroupStateMessage.encode(message.subscribeGroupStateMessage, writer.uint32(/* id 16, wireType 2 =*/130).fork()).ldelim();
+        if (message.unsubscribeGroupStateMessage != null && Object.hasOwnProperty.call(message, "unsubscribeGroupStateMessage"))
+            $root.UpstreamMessage.UnsubscribeGroupStateMessage.encode(message.unsubscribeGroupStateMessage, writer.uint32(/* id 17, wireType 2 =*/138).fork()).ldelim();
         return writer;
     };
 
@@ -181,6 +214,18 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 }
             case 8: {
                     message.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.decode(reader, reader.uint32(), undefined, long + 1);
+                    break;
+                }
+            case 15: {
+                    message.setGroupStateMessage = $root.UpstreamMessage.SetGroupStateMessage.decode(reader, reader.uint32(), undefined, long + 1);
+                    break;
+                }
+            case 16: {
+                    message.subscribeGroupStateMessage = $root.UpstreamMessage.SubscribeGroupStateMessage.decode(reader, reader.uint32(), undefined, long + 1);
+                    break;
+                }
+            case 17: {
+                    message.unsubscribeGroupStateMessage = $root.UpstreamMessage.UnsubscribeGroupStateMessage.decode(reader, reader.uint32(), undefined, long + 1);
                     break;
                 }
             default:
@@ -271,6 +316,36 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                     return "sequenceAckMessage." + error;
             }
         }
+        if (message.setGroupStateMessage != null && message.hasOwnProperty("setGroupStateMessage")) {
+            if (properties.message === 1)
+                return "message: multiple values";
+            properties.message = 1;
+            {
+                let error = $root.UpstreamMessage.SetGroupStateMessage.verify(message.setGroupStateMessage, long + 1);
+                if (error)
+                    return "setGroupStateMessage." + error;
+            }
+        }
+        if (message.subscribeGroupStateMessage != null && message.hasOwnProperty("subscribeGroupStateMessage")) {
+            if (properties.message === 1)
+                return "message: multiple values";
+            properties.message = 1;
+            {
+                let error = $root.UpstreamMessage.SubscribeGroupStateMessage.verify(message.subscribeGroupStateMessage, long + 1);
+                if (error)
+                    return "subscribeGroupStateMessage." + error;
+            }
+        }
+        if (message.unsubscribeGroupStateMessage != null && message.hasOwnProperty("unsubscribeGroupStateMessage")) {
+            if (properties.message === 1)
+                return "message: multiple values";
+            properties.message = 1;
+            {
+                let error = $root.UpstreamMessage.UnsubscribeGroupStateMessage.verify(message.unsubscribeGroupStateMessage, long + 1);
+                if (error)
+                    return "unsubscribeGroupStateMessage." + error;
+            }
+        }
         return null;
     };
 
@@ -315,6 +390,21 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 throw TypeError(".UpstreamMessage.sequenceAckMessage: object expected");
             message.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.fromObject(object.sequenceAckMessage, long + 1);
         }
+        if (object.setGroupStateMessage != null) {
+            if (typeof object.setGroupStateMessage !== "object")
+                throw TypeError(".UpstreamMessage.setGroupStateMessage: object expected");
+            message.setGroupStateMessage = $root.UpstreamMessage.SetGroupStateMessage.fromObject(object.setGroupStateMessage, long + 1);
+        }
+        if (object.subscribeGroupStateMessage != null) {
+            if (typeof object.subscribeGroupStateMessage !== "object")
+                throw TypeError(".UpstreamMessage.subscribeGroupStateMessage: object expected");
+            message.subscribeGroupStateMessage = $root.UpstreamMessage.SubscribeGroupStateMessage.fromObject(object.subscribeGroupStateMessage, long + 1);
+        }
+        if (object.unsubscribeGroupStateMessage != null) {
+            if (typeof object.unsubscribeGroupStateMessage !== "object")
+                throw TypeError(".UpstreamMessage.unsubscribeGroupStateMessage: object expected");
+            message.unsubscribeGroupStateMessage = $root.UpstreamMessage.UnsubscribeGroupStateMessage.fromObject(object.unsubscribeGroupStateMessage, long + 1);
+        }
         return message;
     };
 
@@ -355,6 +445,21 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             object.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.toObject(message.sequenceAckMessage, options);
             if (options.oneofs)
                 object.message = "sequenceAckMessage";
+        }
+        if (message.setGroupStateMessage != null && message.hasOwnProperty("setGroupStateMessage")) {
+            object.setGroupStateMessage = $root.UpstreamMessage.SetGroupStateMessage.toObject(message.setGroupStateMessage, options);
+            if (options.oneofs)
+                object.message = "setGroupStateMessage";
+        }
+        if (message.subscribeGroupStateMessage != null && message.hasOwnProperty("subscribeGroupStateMessage")) {
+            object.subscribeGroupStateMessage = $root.UpstreamMessage.SubscribeGroupStateMessage.toObject(message.subscribeGroupStateMessage, options);
+            if (options.oneofs)
+                object.message = "subscribeGroupStateMessage";
+        }
+        if (message.unsubscribeGroupStateMessage != null && message.hasOwnProperty("unsubscribeGroupStateMessage")) {
+            object.unsubscribeGroupStateMessage = $root.UpstreamMessage.UnsubscribeGroupStateMessage.toObject(message.unsubscribeGroupStateMessage, options);
+            if (options.oneofs)
+                object.message = "unsubscribeGroupStateMessage";
         }
         return object;
     };
@@ -1763,6 +1868,837 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         return SequenceAckMessage;
     })();
 
+    UpstreamMessage.SetGroupStateMessage = (function() {
+
+        /**
+         * Properties of a SetGroupStateMessage.
+         * @memberof UpstreamMessage
+         * @interface ISetGroupStateMessage
+         * @property {string|null} [group] SetGroupStateMessage group
+         * @property {number|Long|null} [ackId] SetGroupStateMessage ackId
+         * @property {GroupStateItem.IGroupState|null} [state] SetGroupStateMessage state
+         */
+
+        /**
+         * Constructs a new SetGroupStateMessage.
+         * @memberof UpstreamMessage
+         * @classdesc Represents a SetGroupStateMessage.
+         * @implements ISetGroupStateMessage
+         * @constructor
+         * @param {UpstreamMessage.ISetGroupStateMessage=} [properties] Properties to set
+         */
+        function SetGroupStateMessage(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * SetGroupStateMessage group.
+         * @member {string} group
+         * @memberof UpstreamMessage.SetGroupStateMessage
+         * @instance
+         */
+        SetGroupStateMessage.prototype.group = "";
+
+        /**
+         * SetGroupStateMessage ackId.
+         * @member {number|Long|null|undefined} ackId
+         * @memberof UpstreamMessage.SetGroupStateMessage
+         * @instance
+         */
+        SetGroupStateMessage.prototype.ackId = null;
+
+        /**
+         * SetGroupStateMessage state.
+         * @member {GroupStateItem.IGroupState|null|undefined} state
+         * @memberof UpstreamMessage.SetGroupStateMessage
+         * @instance
+         */
+        SetGroupStateMessage.prototype.state = null;
+
+        // OneOf field names bound to virtual getters and setters
+        let $oneOfFields;
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(SetGroupStateMessage.prototype, "_ackId", {
+            get: $util.oneOfGetter($oneOfFields = ["ackId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(SetGroupStateMessage.prototype, "_state", {
+            get: $util.oneOfGetter($oneOfFields = ["state"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new SetGroupStateMessage instance using the specified properties.
+         * @function create
+         * @memberof UpstreamMessage.SetGroupStateMessage
+         * @static
+         * @param {UpstreamMessage.ISetGroupStateMessage=} [properties] Properties to set
+         * @returns {UpstreamMessage.SetGroupStateMessage} SetGroupStateMessage instance
+         */
+        SetGroupStateMessage.create = function create(properties) {
+            return new SetGroupStateMessage(properties);
+        };
+
+        /**
+         * Encodes the specified SetGroupStateMessage message. Does not implicitly {@link UpstreamMessage.SetGroupStateMessage.verify|verify} messages.
+         * @function encode
+         * @memberof UpstreamMessage.SetGroupStateMessage
+         * @static
+         * @param {UpstreamMessage.ISetGroupStateMessage} message SetGroupStateMessage message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        SetGroupStateMessage.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.group);
+            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.ackId);
+            if (message.state != null && Object.hasOwnProperty.call(message, "state"))
+                $root.GroupStateItem.GroupState.encode(message.state, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified SetGroupStateMessage message, length delimited. Does not implicitly {@link UpstreamMessage.SetGroupStateMessage.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof UpstreamMessage.SetGroupStateMessage
+         * @static
+         * @param {UpstreamMessage.ISetGroupStateMessage} message SetGroupStateMessage message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        SetGroupStateMessage.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a SetGroupStateMessage message from the specified reader or buffer.
+         * @function decode
+         * @memberof UpstreamMessage.SetGroupStateMessage
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {UpstreamMessage.SetGroupStateMessage} SetGroupStateMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        SetGroupStateMessage.decode = function decode(reader, length, error, long) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.SetGroupStateMessage();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.group = reader.string();
+                        break;
+                    }
+                case 2: {
+                        message.ackId = reader.uint64();
+                        break;
+                    }
+                case 3: {
+                        message.state = $root.GroupStateItem.GroupState.decode(reader, reader.uint32(), undefined, long + 1);
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7, long);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a SetGroupStateMessage message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof UpstreamMessage.SetGroupStateMessage
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {UpstreamMessage.SetGroupStateMessage} SetGroupStateMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        SetGroupStateMessage.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a SetGroupStateMessage message.
+         * @function verify
+         * @memberof UpstreamMessage.SetGroupStateMessage
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        SetGroupStateMessage.verify = function verify(message, long) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            let properties = {};
+            if (message.group != null && message.hasOwnProperty("group"))
+                if (!$util.isString(message.group))
+                    return "group: string expected";
+            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+                properties._ackId = 1;
+                if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
+                    return "ackId: integer|Long expected";
+            }
+            if (message.state != null && message.hasOwnProperty("state")) {
+                properties._state = 1;
+                {
+                    let error = $root.GroupStateItem.GroupState.verify(message.state, long + 1);
+                    if (error)
+                        return "state." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates a SetGroupStateMessage message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof UpstreamMessage.SetGroupStateMessage
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {UpstreamMessage.SetGroupStateMessage} SetGroupStateMessage
+         */
+        SetGroupStateMessage.fromObject = function fromObject(object, long) {
+            if (object instanceof $root.UpstreamMessage.SetGroupStateMessage)
+                return object;
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            let message = new $root.UpstreamMessage.SetGroupStateMessage();
+            if (object.group != null)
+                message.group = String(object.group);
+            if (object.ackId != null)
+                if ($util.Long)
+                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                else if (typeof object.ackId === "string")
+                    message.ackId = parseInt(object.ackId, 10);
+                else if (typeof object.ackId === "number")
+                    message.ackId = object.ackId;
+                else if (typeof object.ackId === "object")
+                    message.ackId = new $util.LongBits(object.ackId.low >>> 0, object.ackId.high >>> 0).toNumber(true);
+            if (object.state != null) {
+                if (typeof object.state !== "object")
+                    throw TypeError(".UpstreamMessage.SetGroupStateMessage.state: object expected");
+                message.state = $root.GroupStateItem.GroupState.fromObject(object.state, long + 1);
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a SetGroupStateMessage message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof UpstreamMessage.SetGroupStateMessage
+         * @static
+         * @param {UpstreamMessage.SetGroupStateMessage} message SetGroupStateMessage
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        SetGroupStateMessage.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                object.group = "";
+            if (message.group != null && message.hasOwnProperty("group"))
+                object.group = message.group;
+            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+                if (typeof message.ackId === "number")
+                    object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
+                else
+                    object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
+                if (options.oneofs)
+                    object._ackId = "ackId";
+            }
+            if (message.state != null && message.hasOwnProperty("state")) {
+                object.state = $root.GroupStateItem.GroupState.toObject(message.state, options);
+                if (options.oneofs)
+                    object._state = "state";
+            }
+            return object;
+        };
+
+        /**
+         * Converts this SetGroupStateMessage to JSON.
+         * @function toJSON
+         * @memberof UpstreamMessage.SetGroupStateMessage
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        SetGroupStateMessage.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for SetGroupStateMessage
+         * @function getTypeUrl
+         * @memberof UpstreamMessage.SetGroupStateMessage
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        SetGroupStateMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/UpstreamMessage.SetGroupStateMessage";
+        };
+
+        return SetGroupStateMessage;
+    })();
+
+    UpstreamMessage.SubscribeGroupStateMessage = (function() {
+
+        /**
+         * Properties of a SubscribeGroupStateMessage.
+         * @memberof UpstreamMessage
+         * @interface ISubscribeGroupStateMessage
+         * @property {string|null} [group] SubscribeGroupStateMessage group
+         * @property {number|Long|null} [ackId] SubscribeGroupStateMessage ackId
+         */
+
+        /**
+         * Constructs a new SubscribeGroupStateMessage.
+         * @memberof UpstreamMessage
+         * @classdesc Represents a SubscribeGroupStateMessage.
+         * @implements ISubscribeGroupStateMessage
+         * @constructor
+         * @param {UpstreamMessage.ISubscribeGroupStateMessage=} [properties] Properties to set
+         */
+        function SubscribeGroupStateMessage(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * SubscribeGroupStateMessage group.
+         * @member {string} group
+         * @memberof UpstreamMessage.SubscribeGroupStateMessage
+         * @instance
+         */
+        SubscribeGroupStateMessage.prototype.group = "";
+
+        /**
+         * SubscribeGroupStateMessage ackId.
+         * @member {number|Long|null|undefined} ackId
+         * @memberof UpstreamMessage.SubscribeGroupStateMessage
+         * @instance
+         */
+        SubscribeGroupStateMessage.prototype.ackId = null;
+
+        // OneOf field names bound to virtual getters and setters
+        let $oneOfFields;
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(SubscribeGroupStateMessage.prototype, "_ackId", {
+            get: $util.oneOfGetter($oneOfFields = ["ackId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new SubscribeGroupStateMessage instance using the specified properties.
+         * @function create
+         * @memberof UpstreamMessage.SubscribeGroupStateMessage
+         * @static
+         * @param {UpstreamMessage.ISubscribeGroupStateMessage=} [properties] Properties to set
+         * @returns {UpstreamMessage.SubscribeGroupStateMessage} SubscribeGroupStateMessage instance
+         */
+        SubscribeGroupStateMessage.create = function create(properties) {
+            return new SubscribeGroupStateMessage(properties);
+        };
+
+        /**
+         * Encodes the specified SubscribeGroupStateMessage message. Does not implicitly {@link UpstreamMessage.SubscribeGroupStateMessage.verify|verify} messages.
+         * @function encode
+         * @memberof UpstreamMessage.SubscribeGroupStateMessage
+         * @static
+         * @param {UpstreamMessage.ISubscribeGroupStateMessage} message SubscribeGroupStateMessage message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        SubscribeGroupStateMessage.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.group);
+            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.ackId);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified SubscribeGroupStateMessage message, length delimited. Does not implicitly {@link UpstreamMessage.SubscribeGroupStateMessage.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof UpstreamMessage.SubscribeGroupStateMessage
+         * @static
+         * @param {UpstreamMessage.ISubscribeGroupStateMessage} message SubscribeGroupStateMessage message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        SubscribeGroupStateMessage.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a SubscribeGroupStateMessage message from the specified reader or buffer.
+         * @function decode
+         * @memberof UpstreamMessage.SubscribeGroupStateMessage
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {UpstreamMessage.SubscribeGroupStateMessage} SubscribeGroupStateMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        SubscribeGroupStateMessage.decode = function decode(reader, length, error, long) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.SubscribeGroupStateMessage();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.group = reader.string();
+                        break;
+                    }
+                case 2: {
+                        message.ackId = reader.uint64();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7, long);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a SubscribeGroupStateMessage message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof UpstreamMessage.SubscribeGroupStateMessage
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {UpstreamMessage.SubscribeGroupStateMessage} SubscribeGroupStateMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        SubscribeGroupStateMessage.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a SubscribeGroupStateMessage message.
+         * @function verify
+         * @memberof UpstreamMessage.SubscribeGroupStateMessage
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        SubscribeGroupStateMessage.verify = function verify(message, long) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            let properties = {};
+            if (message.group != null && message.hasOwnProperty("group"))
+                if (!$util.isString(message.group))
+                    return "group: string expected";
+            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+                properties._ackId = 1;
+                if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
+                    return "ackId: integer|Long expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a SubscribeGroupStateMessage message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof UpstreamMessage.SubscribeGroupStateMessage
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {UpstreamMessage.SubscribeGroupStateMessage} SubscribeGroupStateMessage
+         */
+        SubscribeGroupStateMessage.fromObject = function fromObject(object, long) {
+            if (object instanceof $root.UpstreamMessage.SubscribeGroupStateMessage)
+                return object;
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            let message = new $root.UpstreamMessage.SubscribeGroupStateMessage();
+            if (object.group != null)
+                message.group = String(object.group);
+            if (object.ackId != null)
+                if ($util.Long)
+                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                else if (typeof object.ackId === "string")
+                    message.ackId = parseInt(object.ackId, 10);
+                else if (typeof object.ackId === "number")
+                    message.ackId = object.ackId;
+                else if (typeof object.ackId === "object")
+                    message.ackId = new $util.LongBits(object.ackId.low >>> 0, object.ackId.high >>> 0).toNumber(true);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a SubscribeGroupStateMessage message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof UpstreamMessage.SubscribeGroupStateMessage
+         * @static
+         * @param {UpstreamMessage.SubscribeGroupStateMessage} message SubscribeGroupStateMessage
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        SubscribeGroupStateMessage.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                object.group = "";
+            if (message.group != null && message.hasOwnProperty("group"))
+                object.group = message.group;
+            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+                if (typeof message.ackId === "number")
+                    object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
+                else
+                    object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
+                if (options.oneofs)
+                    object._ackId = "ackId";
+            }
+            return object;
+        };
+
+        /**
+         * Converts this SubscribeGroupStateMessage to JSON.
+         * @function toJSON
+         * @memberof UpstreamMessage.SubscribeGroupStateMessage
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        SubscribeGroupStateMessage.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for SubscribeGroupStateMessage
+         * @function getTypeUrl
+         * @memberof UpstreamMessage.SubscribeGroupStateMessage
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        SubscribeGroupStateMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/UpstreamMessage.SubscribeGroupStateMessage";
+        };
+
+        return SubscribeGroupStateMessage;
+    })();
+
+    UpstreamMessage.UnsubscribeGroupStateMessage = (function() {
+
+        /**
+         * Properties of an UnsubscribeGroupStateMessage.
+         * @memberof UpstreamMessage
+         * @interface IUnsubscribeGroupStateMessage
+         * @property {string|null} [group] UnsubscribeGroupStateMessage group
+         * @property {number|Long|null} [ackId] UnsubscribeGroupStateMessage ackId
+         */
+
+        /**
+         * Constructs a new UnsubscribeGroupStateMessage.
+         * @memberof UpstreamMessage
+         * @classdesc Represents an UnsubscribeGroupStateMessage.
+         * @implements IUnsubscribeGroupStateMessage
+         * @constructor
+         * @param {UpstreamMessage.IUnsubscribeGroupStateMessage=} [properties] Properties to set
+         */
+        function UnsubscribeGroupStateMessage(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * UnsubscribeGroupStateMessage group.
+         * @member {string} group
+         * @memberof UpstreamMessage.UnsubscribeGroupStateMessage
+         * @instance
+         */
+        UnsubscribeGroupStateMessage.prototype.group = "";
+
+        /**
+         * UnsubscribeGroupStateMessage ackId.
+         * @member {number|Long|null|undefined} ackId
+         * @memberof UpstreamMessage.UnsubscribeGroupStateMessage
+         * @instance
+         */
+        UnsubscribeGroupStateMessage.prototype.ackId = null;
+
+        // OneOf field names bound to virtual getters and setters
+        let $oneOfFields;
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(UnsubscribeGroupStateMessage.prototype, "_ackId", {
+            get: $util.oneOfGetter($oneOfFields = ["ackId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new UnsubscribeGroupStateMessage instance using the specified properties.
+         * @function create
+         * @memberof UpstreamMessage.UnsubscribeGroupStateMessage
+         * @static
+         * @param {UpstreamMessage.IUnsubscribeGroupStateMessage=} [properties] Properties to set
+         * @returns {UpstreamMessage.UnsubscribeGroupStateMessage} UnsubscribeGroupStateMessage instance
+         */
+        UnsubscribeGroupStateMessage.create = function create(properties) {
+            return new UnsubscribeGroupStateMessage(properties);
+        };
+
+        /**
+         * Encodes the specified UnsubscribeGroupStateMessage message. Does not implicitly {@link UpstreamMessage.UnsubscribeGroupStateMessage.verify|verify} messages.
+         * @function encode
+         * @memberof UpstreamMessage.UnsubscribeGroupStateMessage
+         * @static
+         * @param {UpstreamMessage.IUnsubscribeGroupStateMessage} message UnsubscribeGroupStateMessage message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        UnsubscribeGroupStateMessage.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.group);
+            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.ackId);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified UnsubscribeGroupStateMessage message, length delimited. Does not implicitly {@link UpstreamMessage.UnsubscribeGroupStateMessage.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof UpstreamMessage.UnsubscribeGroupStateMessage
+         * @static
+         * @param {UpstreamMessage.IUnsubscribeGroupStateMessage} message UnsubscribeGroupStateMessage message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        UnsubscribeGroupStateMessage.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an UnsubscribeGroupStateMessage message from the specified reader or buffer.
+         * @function decode
+         * @memberof UpstreamMessage.UnsubscribeGroupStateMessage
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {UpstreamMessage.UnsubscribeGroupStateMessage} UnsubscribeGroupStateMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        UnsubscribeGroupStateMessage.decode = function decode(reader, length, error, long) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.UnsubscribeGroupStateMessage();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.group = reader.string();
+                        break;
+                    }
+                case 2: {
+                        message.ackId = reader.uint64();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7, long);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an UnsubscribeGroupStateMessage message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof UpstreamMessage.UnsubscribeGroupStateMessage
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {UpstreamMessage.UnsubscribeGroupStateMessage} UnsubscribeGroupStateMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        UnsubscribeGroupStateMessage.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an UnsubscribeGroupStateMessage message.
+         * @function verify
+         * @memberof UpstreamMessage.UnsubscribeGroupStateMessage
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        UnsubscribeGroupStateMessage.verify = function verify(message, long) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            let properties = {};
+            if (message.group != null && message.hasOwnProperty("group"))
+                if (!$util.isString(message.group))
+                    return "group: string expected";
+            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+                properties._ackId = 1;
+                if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
+                    return "ackId: integer|Long expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates an UnsubscribeGroupStateMessage message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof UpstreamMessage.UnsubscribeGroupStateMessage
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {UpstreamMessage.UnsubscribeGroupStateMessage} UnsubscribeGroupStateMessage
+         */
+        UnsubscribeGroupStateMessage.fromObject = function fromObject(object, long) {
+            if (object instanceof $root.UpstreamMessage.UnsubscribeGroupStateMessage)
+                return object;
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            let message = new $root.UpstreamMessage.UnsubscribeGroupStateMessage();
+            if (object.group != null)
+                message.group = String(object.group);
+            if (object.ackId != null)
+                if ($util.Long)
+                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                else if (typeof object.ackId === "string")
+                    message.ackId = parseInt(object.ackId, 10);
+                else if (typeof object.ackId === "number")
+                    message.ackId = object.ackId;
+                else if (typeof object.ackId === "object")
+                    message.ackId = new $util.LongBits(object.ackId.low >>> 0, object.ackId.high >>> 0).toNumber(true);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from an UnsubscribeGroupStateMessage message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof UpstreamMessage.UnsubscribeGroupStateMessage
+         * @static
+         * @param {UpstreamMessage.UnsubscribeGroupStateMessage} message UnsubscribeGroupStateMessage
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        UnsubscribeGroupStateMessage.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                object.group = "";
+            if (message.group != null && message.hasOwnProperty("group"))
+                object.group = message.group;
+            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+                if (typeof message.ackId === "number")
+                    object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
+                else
+                    object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
+                if (options.oneofs)
+                    object._ackId = "ackId";
+            }
+            return object;
+        };
+
+        /**
+         * Converts this UnsubscribeGroupStateMessage to JSON.
+         * @function toJSON
+         * @memberof UpstreamMessage.UnsubscribeGroupStateMessage
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        UnsubscribeGroupStateMessage.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for UnsubscribeGroupStateMessage
+         * @function getTypeUrl
+         * @memberof UpstreamMessage.UnsubscribeGroupStateMessage
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        UnsubscribeGroupStateMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/UpstreamMessage.UnsubscribeGroupStateMessage";
+        };
+
+        return UnsubscribeGroupStateMessage;
+    })();
+
     return UpstreamMessage;
 })();
 
@@ -1775,6 +2711,8 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
      * @property {DownstreamMessage.IAckMessage|null} [ackMessage] DownstreamMessage ackMessage
      * @property {DownstreamMessage.IDataMessage|null} [dataMessage] DownstreamMessage dataMessage
      * @property {DownstreamMessage.ISystemMessage|null} [systemMessage] DownstreamMessage systemMessage
+     * @property {DownstreamMessage.IGroupStateUpdateMessage|null} [groupStateUpdateMessage] DownstreamMessage groupStateUpdateMessage
+     * @property {DownstreamMessage.IGroupStateSnapshotMessage|null} [groupStateSnapshotMessage] DownstreamMessage groupStateSnapshotMessage
      */
 
     /**
@@ -1816,17 +2754,33 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
      */
     DownstreamMessage.prototype.systemMessage = null;
 
+    /**
+     * DownstreamMessage groupStateUpdateMessage.
+     * @member {DownstreamMessage.IGroupStateUpdateMessage|null|undefined} groupStateUpdateMessage
+     * @memberof DownstreamMessage
+     * @instance
+     */
+    DownstreamMessage.prototype.groupStateUpdateMessage = null;
+
+    /**
+     * DownstreamMessage groupStateSnapshotMessage.
+     * @member {DownstreamMessage.IGroupStateSnapshotMessage|null|undefined} groupStateSnapshotMessage
+     * @memberof DownstreamMessage
+     * @instance
+     */
+    DownstreamMessage.prototype.groupStateSnapshotMessage = null;
+
     // OneOf field names bound to virtual getters and setters
     let $oneOfFields;
 
     /**
      * DownstreamMessage message.
-     * @member {"ackMessage"|"dataMessage"|"systemMessage"|undefined} message
+     * @member {"ackMessage"|"dataMessage"|"systemMessage"|"groupStateUpdateMessage"|"groupStateSnapshotMessage"|undefined} message
      * @memberof DownstreamMessage
      * @instance
      */
     Object.defineProperty(DownstreamMessage.prototype, "message", {
-        get: $util.oneOfGetter($oneOfFields = ["ackMessage", "dataMessage", "systemMessage"]),
+        get: $util.oneOfGetter($oneOfFields = ["ackMessage", "dataMessage", "systemMessage", "groupStateUpdateMessage", "groupStateSnapshotMessage"]),
         set: $util.oneOfSetter($oneOfFields)
     });
 
@@ -1860,6 +2814,10 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             $root.DownstreamMessage.DataMessage.encode(message.dataMessage, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
         if (message.systemMessage != null && Object.hasOwnProperty.call(message, "systemMessage"))
             $root.DownstreamMessage.SystemMessage.encode(message.systemMessage, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+        if (message.groupStateUpdateMessage != null && Object.hasOwnProperty.call(message, "groupStateUpdateMessage"))
+            $root.DownstreamMessage.GroupStateUpdateMessage.encode(message.groupStateUpdateMessage, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
+        if (message.groupStateSnapshotMessage != null && Object.hasOwnProperty.call(message, "groupStateSnapshotMessage"))
+            $root.DownstreamMessage.GroupStateSnapshotMessage.encode(message.groupStateSnapshotMessage, writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
         return writer;
     };
 
@@ -1910,6 +2868,14 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 }
             case 3: {
                     message.systemMessage = $root.DownstreamMessage.SystemMessage.decode(reader, reader.uint32(), undefined, long + 1);
+                    break;
+                }
+            case 9: {
+                    message.groupStateUpdateMessage = $root.DownstreamMessage.GroupStateUpdateMessage.decode(reader, reader.uint32(), undefined, long + 1);
+                    break;
+                }
+            case 10: {
+                    message.groupStateSnapshotMessage = $root.DownstreamMessage.GroupStateSnapshotMessage.decode(reader, reader.uint32(), undefined, long + 1);
                     break;
                 }
             default:
@@ -1980,6 +2946,26 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                     return "systemMessage." + error;
             }
         }
+        if (message.groupStateUpdateMessage != null && message.hasOwnProperty("groupStateUpdateMessage")) {
+            if (properties.message === 1)
+                return "message: multiple values";
+            properties.message = 1;
+            {
+                let error = $root.DownstreamMessage.GroupStateUpdateMessage.verify(message.groupStateUpdateMessage, long + 1);
+                if (error)
+                    return "groupStateUpdateMessage." + error;
+            }
+        }
+        if (message.groupStateSnapshotMessage != null && message.hasOwnProperty("groupStateSnapshotMessage")) {
+            if (properties.message === 1)
+                return "message: multiple values";
+            properties.message = 1;
+            {
+                let error = $root.DownstreamMessage.GroupStateSnapshotMessage.verify(message.groupStateSnapshotMessage, long + 1);
+                if (error)
+                    return "groupStateSnapshotMessage." + error;
+            }
+        }
         return null;
     };
 
@@ -2014,6 +3000,16 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 throw TypeError(".DownstreamMessage.systemMessage: object expected");
             message.systemMessage = $root.DownstreamMessage.SystemMessage.fromObject(object.systemMessage, long + 1);
         }
+        if (object.groupStateUpdateMessage != null) {
+            if (typeof object.groupStateUpdateMessage !== "object")
+                throw TypeError(".DownstreamMessage.groupStateUpdateMessage: object expected");
+            message.groupStateUpdateMessage = $root.DownstreamMessage.GroupStateUpdateMessage.fromObject(object.groupStateUpdateMessage, long + 1);
+        }
+        if (object.groupStateSnapshotMessage != null) {
+            if (typeof object.groupStateSnapshotMessage !== "object")
+                throw TypeError(".DownstreamMessage.groupStateSnapshotMessage: object expected");
+            message.groupStateSnapshotMessage = $root.DownstreamMessage.GroupStateSnapshotMessage.fromObject(object.groupStateSnapshotMessage, long + 1);
+        }
         return message;
     };
 
@@ -2044,6 +3040,16 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             object.systemMessage = $root.DownstreamMessage.SystemMessage.toObject(message.systemMessage, options);
             if (options.oneofs)
                 object.message = "systemMessage";
+        }
+        if (message.groupStateUpdateMessage != null && message.hasOwnProperty("groupStateUpdateMessage")) {
+            object.groupStateUpdateMessage = $root.DownstreamMessage.GroupStateUpdateMessage.toObject(message.groupStateUpdateMessage, options);
+            if (options.oneofs)
+                object.message = "groupStateUpdateMessage";
+        }
+        if (message.groupStateSnapshotMessage != null && message.hasOwnProperty("groupStateSnapshotMessage")) {
+            object.groupStateSnapshotMessage = $root.DownstreamMessage.GroupStateSnapshotMessage.toObject(message.groupStateSnapshotMessage, options);
+            if (options.oneofs)
+                object.message = "groupStateSnapshotMessage";
         }
         return object;
     };
@@ -3696,6 +4702,624 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
         return SystemMessage;
     })();
 
+    DownstreamMessage.GroupStateSnapshotMessage = (function() {
+
+        /**
+         * Properties of a GroupStateSnapshotMessage.
+         * @memberof DownstreamMessage
+         * @interface IGroupStateSnapshotMessage
+         * @property {string|null} [group] GroupStateSnapshotMessage group
+         * @property {Array.<IGroupStateItem>|null} [items] GroupStateSnapshotMessage items
+         * @property {number|Long|null} [sequenceId] GroupStateSnapshotMessage sequenceId
+         */
+
+        /**
+         * Constructs a new GroupStateSnapshotMessage.
+         * @memberof DownstreamMessage
+         * @classdesc Represents a GroupStateSnapshotMessage.
+         * @implements IGroupStateSnapshotMessage
+         * @constructor
+         * @param {DownstreamMessage.IGroupStateSnapshotMessage=} [properties] Properties to set
+         */
+        function GroupStateSnapshotMessage(properties) {
+            this.items = [];
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * GroupStateSnapshotMessage group.
+         * @member {string} group
+         * @memberof DownstreamMessage.GroupStateSnapshotMessage
+         * @instance
+         */
+        GroupStateSnapshotMessage.prototype.group = "";
+
+        /**
+         * GroupStateSnapshotMessage items.
+         * @member {Array.<IGroupStateItem>} items
+         * @memberof DownstreamMessage.GroupStateSnapshotMessage
+         * @instance
+         */
+        GroupStateSnapshotMessage.prototype.items = $util.emptyArray;
+
+        /**
+         * GroupStateSnapshotMessage sequenceId.
+         * @member {number|Long|null|undefined} sequenceId
+         * @memberof DownstreamMessage.GroupStateSnapshotMessage
+         * @instance
+         */
+        GroupStateSnapshotMessage.prototype.sequenceId = null;
+
+        // OneOf field names bound to virtual getters and setters
+        let $oneOfFields;
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(GroupStateSnapshotMessage.prototype, "_sequenceId", {
+            get: $util.oneOfGetter($oneOfFields = ["sequenceId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new GroupStateSnapshotMessage instance using the specified properties.
+         * @function create
+         * @memberof DownstreamMessage.GroupStateSnapshotMessage
+         * @static
+         * @param {DownstreamMessage.IGroupStateSnapshotMessage=} [properties] Properties to set
+         * @returns {DownstreamMessage.GroupStateSnapshotMessage} GroupStateSnapshotMessage instance
+         */
+        GroupStateSnapshotMessage.create = function create(properties) {
+            return new GroupStateSnapshotMessage(properties);
+        };
+
+        /**
+         * Encodes the specified GroupStateSnapshotMessage message. Does not implicitly {@link DownstreamMessage.GroupStateSnapshotMessage.verify|verify} messages.
+         * @function encode
+         * @memberof DownstreamMessage.GroupStateSnapshotMessage
+         * @static
+         * @param {DownstreamMessage.IGroupStateSnapshotMessage} message GroupStateSnapshotMessage message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GroupStateSnapshotMessage.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.group);
+            if (message.items != null && message.items.length)
+                for (let i = 0; i < message.items.length; ++i)
+                    $root.GroupStateItem.encode(message.items[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            if (message.sequenceId != null && Object.hasOwnProperty.call(message, "sequenceId"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.sequenceId);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified GroupStateSnapshotMessage message, length delimited. Does not implicitly {@link DownstreamMessage.GroupStateSnapshotMessage.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof DownstreamMessage.GroupStateSnapshotMessage
+         * @static
+         * @param {DownstreamMessage.IGroupStateSnapshotMessage} message GroupStateSnapshotMessage message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GroupStateSnapshotMessage.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a GroupStateSnapshotMessage message from the specified reader or buffer.
+         * @function decode
+         * @memberof DownstreamMessage.GroupStateSnapshotMessage
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {DownstreamMessage.GroupStateSnapshotMessage} GroupStateSnapshotMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GroupStateSnapshotMessage.decode = function decode(reader, length, error, long) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.GroupStateSnapshotMessage();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.group = reader.string();
+                        break;
+                    }
+                case 2: {
+                        if (!(message.items && message.items.length))
+                            message.items = [];
+                        message.items.push($root.GroupStateItem.decode(reader, reader.uint32(), undefined, long + 1));
+                        break;
+                    }
+                case 3: {
+                        message.sequenceId = reader.uint64();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7, long);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a GroupStateSnapshotMessage message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof DownstreamMessage.GroupStateSnapshotMessage
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {DownstreamMessage.GroupStateSnapshotMessage} GroupStateSnapshotMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GroupStateSnapshotMessage.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a GroupStateSnapshotMessage message.
+         * @function verify
+         * @memberof DownstreamMessage.GroupStateSnapshotMessage
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        GroupStateSnapshotMessage.verify = function verify(message, long) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            let properties = {};
+            if (message.group != null && message.hasOwnProperty("group"))
+                if (!$util.isString(message.group))
+                    return "group: string expected";
+            if (message.items != null && message.hasOwnProperty("items")) {
+                if (!Array.isArray(message.items))
+                    return "items: array expected";
+                for (let i = 0; i < message.items.length; ++i) {
+                    let error = $root.GroupStateItem.verify(message.items[i], long + 1);
+                    if (error)
+                        return "items." + error;
+                }
+            }
+            if (message.sequenceId != null && message.hasOwnProperty("sequenceId")) {
+                properties._sequenceId = 1;
+                if (!$util.isInteger(message.sequenceId) && !(message.sequenceId && $util.isInteger(message.sequenceId.low) && $util.isInteger(message.sequenceId.high)))
+                    return "sequenceId: integer|Long expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a GroupStateSnapshotMessage message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof DownstreamMessage.GroupStateSnapshotMessage
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {DownstreamMessage.GroupStateSnapshotMessage} GroupStateSnapshotMessage
+         */
+        GroupStateSnapshotMessage.fromObject = function fromObject(object, long) {
+            if (object instanceof $root.DownstreamMessage.GroupStateSnapshotMessage)
+                return object;
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            let message = new $root.DownstreamMessage.GroupStateSnapshotMessage();
+            if (object.group != null)
+                message.group = String(object.group);
+            if (object.items) {
+                if (!Array.isArray(object.items))
+                    throw TypeError(".DownstreamMessage.GroupStateSnapshotMessage.items: array expected");
+                message.items = [];
+                for (let i = 0; i < object.items.length; ++i) {
+                    if (typeof object.items[i] !== "object")
+                        throw TypeError(".DownstreamMessage.GroupStateSnapshotMessage.items: object expected");
+                    message.items[i] = $root.GroupStateItem.fromObject(object.items[i], long + 1);
+                }
+            }
+            if (object.sequenceId != null)
+                if ($util.Long)
+                    (message.sequenceId = $util.Long.fromValue(object.sequenceId)).unsigned = true;
+                else if (typeof object.sequenceId === "string")
+                    message.sequenceId = parseInt(object.sequenceId, 10);
+                else if (typeof object.sequenceId === "number")
+                    message.sequenceId = object.sequenceId;
+                else if (typeof object.sequenceId === "object")
+                    message.sequenceId = new $util.LongBits(object.sequenceId.low >>> 0, object.sequenceId.high >>> 0).toNumber(true);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a GroupStateSnapshotMessage message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof DownstreamMessage.GroupStateSnapshotMessage
+         * @static
+         * @param {DownstreamMessage.GroupStateSnapshotMessage} message GroupStateSnapshotMessage
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        GroupStateSnapshotMessage.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.arrays || options.defaults)
+                object.items = [];
+            if (options.defaults)
+                object.group = "";
+            if (message.group != null && message.hasOwnProperty("group"))
+                object.group = message.group;
+            if (message.items && message.items.length) {
+                object.items = [];
+                for (let j = 0; j < message.items.length; ++j)
+                    object.items[j] = $root.GroupStateItem.toObject(message.items[j], options);
+            }
+            if (message.sequenceId != null && message.hasOwnProperty("sequenceId")) {
+                if (typeof message.sequenceId === "number")
+                    object.sequenceId = options.longs === String ? String(message.sequenceId) : message.sequenceId;
+                else
+                    object.sequenceId = options.longs === String ? $util.Long.prototype.toString.call(message.sequenceId) : options.longs === Number ? new $util.LongBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0).toNumber(true) : message.sequenceId;
+                if (options.oneofs)
+                    object._sequenceId = "sequenceId";
+            }
+            return object;
+        };
+
+        /**
+         * Converts this GroupStateSnapshotMessage to JSON.
+         * @function toJSON
+         * @memberof DownstreamMessage.GroupStateSnapshotMessage
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        GroupStateSnapshotMessage.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for GroupStateSnapshotMessage
+         * @function getTypeUrl
+         * @memberof DownstreamMessage.GroupStateSnapshotMessage
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        GroupStateSnapshotMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/DownstreamMessage.GroupStateSnapshotMessage";
+        };
+
+        return GroupStateSnapshotMessage;
+    })();
+
+    DownstreamMessage.GroupStateUpdateMessage = (function() {
+
+        /**
+         * Properties of a GroupStateUpdateMessage.
+         * @memberof DownstreamMessage
+         * @interface IGroupStateUpdateMessage
+         * @property {string|null} [group] GroupStateUpdateMessage group
+         * @property {Array.<IGroupStateItem>|null} [items] GroupStateUpdateMessage items
+         * @property {number|Long|null} [sequenceId] GroupStateUpdateMessage sequenceId
+         */
+
+        /**
+         * Constructs a new GroupStateUpdateMessage.
+         * @memberof DownstreamMessage
+         * @classdesc Represents a GroupStateUpdateMessage.
+         * @implements IGroupStateUpdateMessage
+         * @constructor
+         * @param {DownstreamMessage.IGroupStateUpdateMessage=} [properties] Properties to set
+         */
+        function GroupStateUpdateMessage(properties) {
+            this.items = [];
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * GroupStateUpdateMessage group.
+         * @member {string} group
+         * @memberof DownstreamMessage.GroupStateUpdateMessage
+         * @instance
+         */
+        GroupStateUpdateMessage.prototype.group = "";
+
+        /**
+         * GroupStateUpdateMessage items.
+         * @member {Array.<IGroupStateItem>} items
+         * @memberof DownstreamMessage.GroupStateUpdateMessage
+         * @instance
+         */
+        GroupStateUpdateMessage.prototype.items = $util.emptyArray;
+
+        /**
+         * GroupStateUpdateMessage sequenceId.
+         * @member {number|Long|null|undefined} sequenceId
+         * @memberof DownstreamMessage.GroupStateUpdateMessage
+         * @instance
+         */
+        GroupStateUpdateMessage.prototype.sequenceId = null;
+
+        // OneOf field names bound to virtual getters and setters
+        let $oneOfFields;
+
+        // Virtual OneOf for proto3 optional field
+        Object.defineProperty(GroupStateUpdateMessage.prototype, "_sequenceId", {
+            get: $util.oneOfGetter($oneOfFields = ["sequenceId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new GroupStateUpdateMessage instance using the specified properties.
+         * @function create
+         * @memberof DownstreamMessage.GroupStateUpdateMessage
+         * @static
+         * @param {DownstreamMessage.IGroupStateUpdateMessage=} [properties] Properties to set
+         * @returns {DownstreamMessage.GroupStateUpdateMessage} GroupStateUpdateMessage instance
+         */
+        GroupStateUpdateMessage.create = function create(properties) {
+            return new GroupStateUpdateMessage(properties);
+        };
+
+        /**
+         * Encodes the specified GroupStateUpdateMessage message. Does not implicitly {@link DownstreamMessage.GroupStateUpdateMessage.verify|verify} messages.
+         * @function encode
+         * @memberof DownstreamMessage.GroupStateUpdateMessage
+         * @static
+         * @param {DownstreamMessage.IGroupStateUpdateMessage} message GroupStateUpdateMessage message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GroupStateUpdateMessage.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.group);
+            if (message.items != null && message.items.length)
+                for (let i = 0; i < message.items.length; ++i)
+                    $root.GroupStateItem.encode(message.items[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            if (message.sequenceId != null && Object.hasOwnProperty.call(message, "sequenceId"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.sequenceId);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified GroupStateUpdateMessage message, length delimited. Does not implicitly {@link DownstreamMessage.GroupStateUpdateMessage.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof DownstreamMessage.GroupStateUpdateMessage
+         * @static
+         * @param {DownstreamMessage.IGroupStateUpdateMessage} message GroupStateUpdateMessage message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GroupStateUpdateMessage.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a GroupStateUpdateMessage message from the specified reader or buffer.
+         * @function decode
+         * @memberof DownstreamMessage.GroupStateUpdateMessage
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {DownstreamMessage.GroupStateUpdateMessage} GroupStateUpdateMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GroupStateUpdateMessage.decode = function decode(reader, length, error, long) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.GroupStateUpdateMessage();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.group = reader.string();
+                        break;
+                    }
+                case 2: {
+                        if (!(message.items && message.items.length))
+                            message.items = [];
+                        message.items.push($root.GroupStateItem.decode(reader, reader.uint32(), undefined, long + 1));
+                        break;
+                    }
+                case 3: {
+                        message.sequenceId = reader.uint64();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7, long);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a GroupStateUpdateMessage message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof DownstreamMessage.GroupStateUpdateMessage
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {DownstreamMessage.GroupStateUpdateMessage} GroupStateUpdateMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GroupStateUpdateMessage.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a GroupStateUpdateMessage message.
+         * @function verify
+         * @memberof DownstreamMessage.GroupStateUpdateMessage
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        GroupStateUpdateMessage.verify = function verify(message, long) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            let properties = {};
+            if (message.group != null && message.hasOwnProperty("group"))
+                if (!$util.isString(message.group))
+                    return "group: string expected";
+            if (message.items != null && message.hasOwnProperty("items")) {
+                if (!Array.isArray(message.items))
+                    return "items: array expected";
+                for (let i = 0; i < message.items.length; ++i) {
+                    let error = $root.GroupStateItem.verify(message.items[i], long + 1);
+                    if (error)
+                        return "items." + error;
+                }
+            }
+            if (message.sequenceId != null && message.hasOwnProperty("sequenceId")) {
+                properties._sequenceId = 1;
+                if (!$util.isInteger(message.sequenceId) && !(message.sequenceId && $util.isInteger(message.sequenceId.low) && $util.isInteger(message.sequenceId.high)))
+                    return "sequenceId: integer|Long expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a GroupStateUpdateMessage message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof DownstreamMessage.GroupStateUpdateMessage
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {DownstreamMessage.GroupStateUpdateMessage} GroupStateUpdateMessage
+         */
+        GroupStateUpdateMessage.fromObject = function fromObject(object, long) {
+            if (object instanceof $root.DownstreamMessage.GroupStateUpdateMessage)
+                return object;
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            let message = new $root.DownstreamMessage.GroupStateUpdateMessage();
+            if (object.group != null)
+                message.group = String(object.group);
+            if (object.items) {
+                if (!Array.isArray(object.items))
+                    throw TypeError(".DownstreamMessage.GroupStateUpdateMessage.items: array expected");
+                message.items = [];
+                for (let i = 0; i < object.items.length; ++i) {
+                    if (typeof object.items[i] !== "object")
+                        throw TypeError(".DownstreamMessage.GroupStateUpdateMessage.items: object expected");
+                    message.items[i] = $root.GroupStateItem.fromObject(object.items[i], long + 1);
+                }
+            }
+            if (object.sequenceId != null)
+                if ($util.Long)
+                    (message.sequenceId = $util.Long.fromValue(object.sequenceId)).unsigned = true;
+                else if (typeof object.sequenceId === "string")
+                    message.sequenceId = parseInt(object.sequenceId, 10);
+                else if (typeof object.sequenceId === "number")
+                    message.sequenceId = object.sequenceId;
+                else if (typeof object.sequenceId === "object")
+                    message.sequenceId = new $util.LongBits(object.sequenceId.low >>> 0, object.sequenceId.high >>> 0).toNumber(true);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a GroupStateUpdateMessage message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof DownstreamMessage.GroupStateUpdateMessage
+         * @static
+         * @param {DownstreamMessage.GroupStateUpdateMessage} message GroupStateUpdateMessage
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        GroupStateUpdateMessage.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.arrays || options.defaults)
+                object.items = [];
+            if (options.defaults)
+                object.group = "";
+            if (message.group != null && message.hasOwnProperty("group"))
+                object.group = message.group;
+            if (message.items && message.items.length) {
+                object.items = [];
+                for (let j = 0; j < message.items.length; ++j)
+                    object.items[j] = $root.GroupStateItem.toObject(message.items[j], options);
+            }
+            if (message.sequenceId != null && message.hasOwnProperty("sequenceId")) {
+                if (typeof message.sequenceId === "number")
+                    object.sequenceId = options.longs === String ? String(message.sequenceId) : message.sequenceId;
+                else
+                    object.sequenceId = options.longs === String ? $util.Long.prototype.toString.call(message.sequenceId) : options.longs === Number ? new $util.LongBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0).toNumber(true) : message.sequenceId;
+                if (options.oneofs)
+                    object._sequenceId = "sequenceId";
+            }
+            return object;
+        };
+
+        /**
+         * Converts this GroupStateUpdateMessage to JSON.
+         * @function toJSON
+         * @memberof DownstreamMessage.GroupStateUpdateMessage
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        GroupStateUpdateMessage.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for GroupStateUpdateMessage
+         * @function getTypeUrl
+         * @memberof DownstreamMessage.GroupStateUpdateMessage
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        GroupStateUpdateMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/DownstreamMessage.GroupStateUpdateMessage";
+        };
+
+        return GroupStateUpdateMessage;
+    })();
+
     return DownstreamMessage;
 })();
 
@@ -4028,6 +5652,597 @@ export const MessageData = $root.MessageData = (() => {
     };
 
     return MessageData;
+})();
+
+export const GroupStateItem = $root.GroupStateItem = (() => {
+
+    /**
+     * Properties of a GroupStateItem.
+     * @exports IGroupStateItem
+     * @interface IGroupStateItem
+     * @property {string|null} [connectionId] GroupStateItem connectionId
+     * @property {string|null} [userId] GroupStateItem userId
+     * @property {GroupStateItem.IGroupState|null} [state] GroupStateItem state
+     * @property {number|Long|null} [updatedAt] GroupStateItem updatedAt
+     */
+
+    /**
+     * Constructs a new GroupStateItem.
+     * @exports GroupStateItem
+     * @classdesc Represents a GroupStateItem.
+     * @implements IGroupStateItem
+     * @constructor
+     * @param {IGroupStateItem=} [properties] Properties to set
+     */
+    function GroupStateItem(properties) {
+        if (properties)
+            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * GroupStateItem connectionId.
+     * @member {string} connectionId
+     * @memberof GroupStateItem
+     * @instance
+     */
+    GroupStateItem.prototype.connectionId = "";
+
+    /**
+     * GroupStateItem userId.
+     * @member {string|null|undefined} userId
+     * @memberof GroupStateItem
+     * @instance
+     */
+    GroupStateItem.prototype.userId = null;
+
+    /**
+     * GroupStateItem state.
+     * @member {GroupStateItem.IGroupState|null|undefined} state
+     * @memberof GroupStateItem
+     * @instance
+     */
+    GroupStateItem.prototype.state = null;
+
+    /**
+     * GroupStateItem updatedAt.
+     * @member {number|Long} updatedAt
+     * @memberof GroupStateItem
+     * @instance
+     */
+    GroupStateItem.prototype.updatedAt = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+    // OneOf field names bound to virtual getters and setters
+    let $oneOfFields;
+
+    // Virtual OneOf for proto3 optional field
+    Object.defineProperty(GroupStateItem.prototype, "_userId", {
+        get: $util.oneOfGetter($oneOfFields = ["userId"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    // Virtual OneOf for proto3 optional field
+    Object.defineProperty(GroupStateItem.prototype, "_state", {
+        get: $util.oneOfGetter($oneOfFields = ["state"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    /**
+     * Creates a new GroupStateItem instance using the specified properties.
+     * @function create
+     * @memberof GroupStateItem
+     * @static
+     * @param {IGroupStateItem=} [properties] Properties to set
+     * @returns {GroupStateItem} GroupStateItem instance
+     */
+    GroupStateItem.create = function create(properties) {
+        return new GroupStateItem(properties);
+    };
+
+    /**
+     * Encodes the specified GroupStateItem message. Does not implicitly {@link GroupStateItem.verify|verify} messages.
+     * @function encode
+     * @memberof GroupStateItem
+     * @static
+     * @param {IGroupStateItem} message GroupStateItem message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    GroupStateItem.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.connectionId != null && Object.hasOwnProperty.call(message, "connectionId"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.connectionId);
+        if (message.userId != null && Object.hasOwnProperty.call(message, "userId"))
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.userId);
+        if (message.state != null && Object.hasOwnProperty.call(message, "state"))
+            $root.GroupStateItem.GroupState.encode(message.state, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+        if (message.updatedAt != null && Object.hasOwnProperty.call(message, "updatedAt"))
+            writer.uint32(/* id 4, wireType 0 =*/32).int64(message.updatedAt);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified GroupStateItem message, length delimited. Does not implicitly {@link GroupStateItem.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof GroupStateItem
+     * @static
+     * @param {IGroupStateItem} message GroupStateItem message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    GroupStateItem.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a GroupStateItem message from the specified reader or buffer.
+     * @function decode
+     * @memberof GroupStateItem
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {GroupStateItem} GroupStateItem
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    GroupStateItem.decode = function decode(reader, length, error, long) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        if (long === undefined)
+            long = 0;
+        if (long > $Reader.recursionLimit)
+            throw Error("maximum nesting depth exceeded");
+        let end = length === undefined ? reader.len : reader.pos + length, message = new $root.GroupStateItem();
+        while (reader.pos < end) {
+            let tag = reader.uint32();
+            if (tag === error)
+                break;
+            switch (tag >>> 3) {
+            case 1: {
+                    message.connectionId = reader.string();
+                    break;
+                }
+            case 2: {
+                    message.userId = reader.string();
+                    break;
+                }
+            case 3: {
+                    message.state = $root.GroupStateItem.GroupState.decode(reader, reader.uint32(), undefined, long + 1);
+                    break;
+                }
+            case 4: {
+                    message.updatedAt = reader.int64();
+                    break;
+                }
+            default:
+                reader.skipType(tag & 7, long);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a GroupStateItem message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof GroupStateItem
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {GroupStateItem} GroupStateItem
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    GroupStateItem.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a GroupStateItem message.
+     * @function verify
+     * @memberof GroupStateItem
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    GroupStateItem.verify = function verify(message, long) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (long === undefined)
+            long = 0;
+        if (long > $util.recursionLimit)
+            return "maximum nesting depth exceeded";
+        let properties = {};
+        if (message.connectionId != null && message.hasOwnProperty("connectionId"))
+            if (!$util.isString(message.connectionId))
+                return "connectionId: string expected";
+        if (message.userId != null && message.hasOwnProperty("userId")) {
+            properties._userId = 1;
+            if (!$util.isString(message.userId))
+                return "userId: string expected";
+        }
+        if (message.state != null && message.hasOwnProperty("state")) {
+            properties._state = 1;
+            {
+                let error = $root.GroupStateItem.GroupState.verify(message.state, long + 1);
+                if (error)
+                    return "state." + error;
+            }
+        }
+        if (message.updatedAt != null && message.hasOwnProperty("updatedAt"))
+            if (!$util.isInteger(message.updatedAt) && !(message.updatedAt && $util.isInteger(message.updatedAt.low) && $util.isInteger(message.updatedAt.high)))
+                return "updatedAt: integer|Long expected";
+        return null;
+    };
+
+    /**
+     * Creates a GroupStateItem message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof GroupStateItem
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {GroupStateItem} GroupStateItem
+     */
+    GroupStateItem.fromObject = function fromObject(object, long) {
+        if (object instanceof $root.GroupStateItem)
+            return object;
+        if (long === undefined)
+            long = 0;
+        if (long > $util.recursionLimit)
+            throw Error("maximum nesting depth exceeded");
+        let message = new $root.GroupStateItem();
+        if (object.connectionId != null)
+            message.connectionId = String(object.connectionId);
+        if (object.userId != null)
+            message.userId = String(object.userId);
+        if (object.state != null) {
+            if (typeof object.state !== "object")
+                throw TypeError(".GroupStateItem.state: object expected");
+            message.state = $root.GroupStateItem.GroupState.fromObject(object.state, long + 1);
+        }
+        if (object.updatedAt != null)
+            if ($util.Long)
+                (message.updatedAt = $util.Long.fromValue(object.updatedAt)).unsigned = false;
+            else if (typeof object.updatedAt === "string")
+                message.updatedAt = parseInt(object.updatedAt, 10);
+            else if (typeof object.updatedAt === "number")
+                message.updatedAt = object.updatedAt;
+            else if (typeof object.updatedAt === "object")
+                message.updatedAt = new $util.LongBits(object.updatedAt.low >>> 0, object.updatedAt.high >>> 0).toNumber();
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a GroupStateItem message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof GroupStateItem
+     * @static
+     * @param {GroupStateItem} message GroupStateItem
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    GroupStateItem.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        let object = {};
+        if (options.defaults) {
+            object.connectionId = "";
+            if ($util.Long) {
+                let long = new $util.Long(0, 0, false);
+                object.updatedAt = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.updatedAt = options.longs === String ? "0" : 0;
+        }
+        if (message.connectionId != null && message.hasOwnProperty("connectionId"))
+            object.connectionId = message.connectionId;
+        if (message.userId != null && message.hasOwnProperty("userId")) {
+            object.userId = message.userId;
+            if (options.oneofs)
+                object._userId = "userId";
+        }
+        if (message.state != null && message.hasOwnProperty("state")) {
+            object.state = $root.GroupStateItem.GroupState.toObject(message.state, options);
+            if (options.oneofs)
+                object._state = "state";
+        }
+        if (message.updatedAt != null && message.hasOwnProperty("updatedAt"))
+            if (typeof message.updatedAt === "number")
+                object.updatedAt = options.longs === String ? String(message.updatedAt) : message.updatedAt;
+            else
+                object.updatedAt = options.longs === String ? $util.Long.prototype.toString.call(message.updatedAt) : options.longs === Number ? new $util.LongBits(message.updatedAt.low >>> 0, message.updatedAt.high >>> 0).toNumber() : message.updatedAt;
+        return object;
+    };
+
+    /**
+     * Converts this GroupStateItem to JSON.
+     * @function toJSON
+     * @memberof GroupStateItem
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    GroupStateItem.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * Gets the default type url for GroupStateItem
+     * @function getTypeUrl
+     * @memberof GroupStateItem
+     * @static
+     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns {string} The default type url
+     */
+    GroupStateItem.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        if (typeUrlPrefix === undefined) {
+            typeUrlPrefix = "type.googleapis.com";
+        }
+        return typeUrlPrefix + "/GroupStateItem";
+    };
+
+    GroupStateItem.GroupState = (function() {
+
+        /**
+         * Properties of a GroupState.
+         * @memberof GroupStateItem
+         * @interface IGroupState
+         * @property {Object.<string,string>|null} [entries] GroupState entries
+         */
+
+        /**
+         * Constructs a new GroupState.
+         * @memberof GroupStateItem
+         * @classdesc Represents a GroupState.
+         * @implements IGroupState
+         * @constructor
+         * @param {GroupStateItem.IGroupState=} [properties] Properties to set
+         */
+        function GroupState(properties) {
+            this.entries = {};
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * GroupState entries.
+         * @member {Object.<string,string>} entries
+         * @memberof GroupStateItem.GroupState
+         * @instance
+         */
+        GroupState.prototype.entries = $util.emptyObject;
+
+        /**
+         * Creates a new GroupState instance using the specified properties.
+         * @function create
+         * @memberof GroupStateItem.GroupState
+         * @static
+         * @param {GroupStateItem.IGroupState=} [properties] Properties to set
+         * @returns {GroupStateItem.GroupState} GroupState instance
+         */
+        GroupState.create = function create(properties) {
+            return new GroupState(properties);
+        };
+
+        /**
+         * Encodes the specified GroupState message. Does not implicitly {@link GroupStateItem.GroupState.verify|verify} messages.
+         * @function encode
+         * @memberof GroupStateItem.GroupState
+         * @static
+         * @param {GroupStateItem.IGroupState} message GroupState message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GroupState.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.entries != null && Object.hasOwnProperty.call(message, "entries"))
+                for (let keys = Object.keys(message.entries), i = 0; i < keys.length; ++i)
+                    writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.entries[keys[i]]).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified GroupState message, length delimited. Does not implicitly {@link GroupStateItem.GroupState.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof GroupStateItem.GroupState
+         * @static
+         * @param {GroupStateItem.IGroupState} message GroupState message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GroupState.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a GroupState message from the specified reader or buffer.
+         * @function decode
+         * @memberof GroupStateItem.GroupState
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {GroupStateItem.GroupState} GroupState
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GroupState.decode = function decode(reader, length, error, long) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.GroupStateItem.GroupState(), key, value;
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        if (message.entries === $util.emptyObject)
+                            message.entries = {};
+                        let end2 = reader.uint32() + reader.pos;
+                        key = "";
+                        value = "";
+                        while (reader.pos < end2) {
+                            let tag2 = reader.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                key = reader.string();
+                                break;
+                            case 2:
+                                value = reader.string();
+                                break;
+                            default:
+                                reader.skipType(tag2 & 7, long);
+                                break;
+                            }
+                        }
+                        if (key === "__proto__")
+                            $util.makeProp(message.entries, key);
+                        message.entries[key] = value;
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7, long);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a GroupState message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof GroupStateItem.GroupState
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {GroupStateItem.GroupState} GroupState
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GroupState.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a GroupState message.
+         * @function verify
+         * @memberof GroupStateItem.GroupState
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        GroupState.verify = function verify(message, long) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.entries != null && message.hasOwnProperty("entries")) {
+                if (!$util.isObject(message.entries))
+                    return "entries: object expected";
+                let key = Object.keys(message.entries);
+                for (let i = 0; i < key.length; ++i)
+                    if (!$util.isString(message.entries[key[i]]))
+                        return "entries: string{k:string} expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a GroupState message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof GroupStateItem.GroupState
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {GroupStateItem.GroupState} GroupState
+         */
+        GroupState.fromObject = function fromObject(object, long) {
+            if (object instanceof $root.GroupStateItem.GroupState)
+                return object;
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            let message = new $root.GroupStateItem.GroupState();
+            if (object.entries) {
+                if (typeof object.entries !== "object")
+                    throw TypeError(".GroupStateItem.GroupState.entries: object expected");
+                message.entries = {};
+                for (let keys = Object.keys(object.entries), i = 0; i < keys.length; ++i) {
+                    if (keys[i] === "__proto__")
+                        $util.makeProp(message.entries, keys[i]);
+                    message.entries[keys[i]] = String(object.entries[keys[i]]);
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a GroupState message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof GroupStateItem.GroupState
+         * @static
+         * @param {GroupStateItem.GroupState} message GroupState
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        GroupState.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.objects || options.defaults)
+                object.entries = {};
+            let keys2;
+            if (message.entries && (keys2 = Object.keys(message.entries)).length) {
+                object.entries = {};
+                for (let j = 0; j < keys2.length; ++j) {
+                    if (keys2[j] === "__proto__")
+                        $util.makeProp(object.entries, keys2[j]);
+                    object.entries[keys2[j]] = message.entries[keys2[j]];
+                }
+            }
+            return object;
+        };
+
+        /**
+         * Converts this GroupState to JSON.
+         * @function toJSON
+         * @memberof GroupStateItem.GroupState
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        GroupState.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for GroupState
+         * @function getTypeUrl
+         * @memberof GroupStateItem.GroupState
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        GroupState.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/GroupStateItem.GroupState";
+        };
+
+        return GroupState;
+    })();
+
+    return GroupStateItem;
 })();
 
 export const google = $root.google = (() => {

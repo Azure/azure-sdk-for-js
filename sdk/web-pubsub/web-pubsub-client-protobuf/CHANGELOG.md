@@ -1,8 +1,11 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.5 (Unreleased)
 
 ### Features Added
+
+- Added protobuf protocol support for group state messages (`setGroupState`, `subscribeGroupState`, `unsubscribeGroupState`, `groupStateSnapshot`, `groupStateUpdate`).
+- Updated dependency `@azure/web-pubsub-client` to workspace reference for using group state types.
 
 ### Breaking Changes
 
