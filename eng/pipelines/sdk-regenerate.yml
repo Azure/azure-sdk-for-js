@@ -67,7 +67,7 @@ parameters:
     type: boolean
     default: false
   - name: QuickTest
-    displayName: "Quick test mode (only first 3 packages alphabetically: arm-agricultureplatform, arm-alertprocessingrules, arm-alertrulerecommendations). Overrides Package filter, Matrix jobs, Minimum per job."
+    displayName: "Quick test mode (only first 3 valid packages: arm-alertprocessingrules, arm-alertrulerecommendations, arm-alertsmanagement). Overrides Package filter, Matrix jobs, Minimum per job."
     type: boolean
     default: false
   - name: PackageFilter
@@ -163,7 +163,7 @@ stages:
           ${{ if eq(parameters.QuickTest, true) }}:
             effJobCount: 3
             effMinPerJob: 1
-            effFilter: 'arm-agricultureplatform,arm-alertprocessingrules,arm-alertrulerecommendations'
+            effFilter: 'arm-alertprocessingrules,arm-alertrulerecommendations,arm-alertsmanagement'
           ${{ else }}:
             effJobCount: ${{ parameters.RegenerationJobCount }}
             effMinPerJob: ${{ parameters.MinimumPerJob }}
