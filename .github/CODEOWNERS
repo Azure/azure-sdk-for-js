@@ -992,7 +992,7 @@
 # PRLabel: %Mgmt
 /sdk/subscription/arm-subscriptions-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/support/arm-support/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
