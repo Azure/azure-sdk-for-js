@@ -4,6 +4,7 @@
     "paths": {
       "@azure/storage-blob": ["./dist/esm"]
     },
-    "allowJs": true
+    "allowJs": true,
+    "allowImportingTsExtensions": true
   }
 }
