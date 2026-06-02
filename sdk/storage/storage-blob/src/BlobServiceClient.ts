@@ -66,7 +66,7 @@ import type {
   ServiceListContainersSegmentHeaders,
   ServiceSetPropertiesHeaders,
 } from "./generated/src/index.js";
-import { BlobClientConfig, BlobClientOptions } from "./models.js";
+import type { BlobClientConfig, BlobServiceClientOptions } from "./models.js";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.
@@ -354,7 +354,7 @@ export class BlobServiceClient extends StorageClient {
     connectionString: string,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: BlobServiceClientOptions,
   ): BlobServiceClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
@@ -435,7 +435,7 @@ export class BlobServiceClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: BlobServiceClientOptions,
   );
   /**
    * Creates an instance of BlobServiceClient.
@@ -456,7 +456,7 @@ export class BlobServiceClient extends StorageClient {
       | PipelineLike,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: BlobServiceClientOptions,
   ) {
     options = options ?? {};
     let pipeline: PipelineLike;

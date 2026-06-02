@@ -42,6 +42,7 @@ jobs:
       PRTitle: "[EngSys] automatic pnpm update"
       PRBody: "This is an automatic PR generated weekly with changes from running the command pnpm update"
       PushArgs: "-f"
+      AuthToken: ''
 
 
 - job: 'CheckDependency'
@@ -67,9 +68,6 @@ jobs:
     displayName: "Reset workspace"
 
   - template: /eng/common/pipelines/templates/steps/login-to-github.yml
-    parameters:
-      TokenOwners:
-        - Azure
 
   - task: PowerShell@2
     displayName: 'Check Dependency Warnings and File GitHub Issues'

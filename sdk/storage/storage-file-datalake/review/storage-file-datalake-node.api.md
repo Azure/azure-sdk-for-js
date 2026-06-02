@@ -297,9 +297,6 @@ export interface DataLakeClientConfig {
 }
 
 // @public
-export type DataLakeClientOptions = StoragePipelineOptions & DataLakeClientConfig;
-
-// @public
 export class DataLakeDirectoryClient extends DataLakePathClient {
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
@@ -315,7 +312,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
 
 // @public
 export class DataLakeFileClient extends DataLakePathClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeFileClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
     append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
@@ -338,11 +335,14 @@ export class DataLakeFileClient extends DataLakePathClient {
     uploadStream(stream: Readable, options?: FileParallelUploadOptions): Promise<FileUploadResponse>;
 }
 
+// @public
+export type DataLakeFileClientOptions = StoragePipelineOptions & DataLakeClientConfig;
+
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
 //
 // @public
 export class DataLakeFileSystemClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeFileSystemClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
     create(options?: FileSystemCreateOptions): Promise<FileSystemCreateResponse>;
     createIfNotExists(options?: FileSystemCreateOptions): Promise<FileSystemCreateIfNotExistsResponse>;
@@ -365,6 +365,9 @@ export class DataLakeFileSystemClient extends StorageClient {
     setMetadata(metadata?: Metadata, options?: FileSystemSetMetadataOptions): Promise<FileSystemSetMetadataResponse>;
     undeletePath(deletedPath: string, deletionId: string, options?: FileSystemUndeletePathOption): Promise<FileSystemUndeletePathResponse>;
 }
+
+// @public
+export type DataLakeFileSystemClientOptions = StoragePipelineOptions & DataLakeClientConfig;
 
 // @public
 export interface DataLakeGetUserDelegationKeyParameters {
@@ -394,7 +397,7 @@ export class DataLakeLeaseClient {
 
 // @public
 export class DataLakePathClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakePathClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
@@ -418,6 +421,9 @@ export class DataLakePathClient extends StorageClient {
     toFileClient(): DataLakeFileClient;
     updateAccessControlRecursive(acl: PathAccessControlItem[], options?: PathChangeAccessControlRecursiveOptions): Promise<PathChangeAccessControlRecursiveResponse>;
 }
+
+// @public
+export type DataLakePathClientOptions = StoragePipelineOptions & DataLakeClientConfig;
 
 // @public (undocumented)
 export interface DataLakeRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {
@@ -468,9 +474,9 @@ export interface DataLakeSASSignatureValues {
 
 // @public
 export class DataLakeServiceClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeServiceClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
-    static fromConnectionString(connectionString: string, options?: DataLakeClientOptions): DataLakeServiceClient;
+    static fromConnectionString(connectionString: string, options?: DataLakeServiceClientOptions): DataLakeServiceClient;
     generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
@@ -484,6 +490,9 @@ export class DataLakeServiceClient extends StorageClient {
         fileSystemUndeleteResponse: FileSystemUndeleteResponse;
     }>;
 }
+
+// @public
+export type DataLakeServiceClientOptions = StoragePipelineOptions & DataLakeClientConfig;
 
 export { DataLakeServiceGetPropertiesResponse }
 

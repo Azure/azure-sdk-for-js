@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a FleetMember
  *
  * @summary update a FleetMember
- * x-ms-original-file: 2026-02-01-preview/FleetMembers_Update.json
+ * x-ms-original-file: 2026-03-02-preview/FleetMembers_Update.json
  */
 async function updatesAFleetMemberResourceSynchronously(): Promise<void> {
   const credential = new DefaultAzureCredential();
