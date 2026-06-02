@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
+import { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
 import {
   batchUpdate,
   listByServer,
@@ -9,22 +9,21 @@ import {
   createOrUpdate,
   get,
 } from "../../api/configurations/operations.js";
-import type {
+import {
   ConfigurationsBatchUpdateOptionalParams,
   ConfigurationsListByServerOptionalParams,
   ConfigurationsUpdateOptionalParams,
   ConfigurationsCreateOrUpdateOptionalParams,
   ConfigurationsGetOptionalParams,
 } from "../../api/configurations/options.js";
-import type {
+import {
   Configuration,
   ConfigurationListResult,
   ConfigurationListForBatchUpdate,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Configurations operations. */
 export interface ConfigurationsOperations {

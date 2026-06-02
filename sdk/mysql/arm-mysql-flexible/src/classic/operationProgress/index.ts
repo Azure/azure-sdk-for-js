@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
+import { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
 import { get } from "../../api/operationProgress/operations.js";
-import type { OperationProgressGetOptionalParams } from "../../api/operationProgress/options.js";
-import type { OperationProgressResult } from "../../models/models.js";
+import { OperationProgressGetOptionalParams } from "../../api/operationProgress/options.js";
+import { OperationProgressResult } from "../../models/models.js";
 
 /** Interface representing a OperationProgress operations. */
 export interface OperationProgressOperations {

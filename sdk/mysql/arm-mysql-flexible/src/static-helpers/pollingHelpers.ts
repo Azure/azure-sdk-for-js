@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   PollerLike,
   OperationState,
   ResourceLocationConfig,
   RunningOperation,
+  createHttpPoller,
   OperationResponse,
 } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
 
-import type { Client, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
+import { Client, PathUncheckedResponse, createRestError } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 export interface GetLongRunningPollerOptions<TResponse> {
   /** Delay to wait until next poll, in milliseconds. */

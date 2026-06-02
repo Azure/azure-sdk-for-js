@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
+import { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
 import { list, get } from "../../api/locationBasedCapabilitySet/operations.js";
-import type {
+import {
   LocationBasedCapabilitySetListOptionalParams,
   LocationBasedCapabilitySetGetOptionalParams,
 } from "../../api/locationBasedCapabilitySet/options.js";
-import type { Capability } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Capability } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a LocationBasedCapabilitySet operations. */
 export interface LocationBasedCapabilitySetOperations {
