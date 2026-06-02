@@ -47,6 +47,7 @@ import {
   CheckNameAvailabilityResult,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Namespaces operations. */
@@ -82,6 +83,18 @@ export interface NamespacesOperations {
     namespaceName: string,
     options?: NamespacesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: NamespacesDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: NamespacesDeleteOptionalParams,
+  ) => Promise<void>;
   /** Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent. */
   update: (
     resourceGroupName: string,
@@ -96,6 +109,20 @@ export interface NamespacesOperations {
     parameters: RelayNamespace,
     options?: NamespacesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<RelayNamespace>, RelayNamespace>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: RelayNamespace,
+    options?: NamespacesCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<RelayNamespace>, RelayNamespace>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: RelayNamespace,
+    options?: NamespacesCreateOrUpdateOptionalParams,
+  ) => Promise<RelayNamespace>;
   /** Returns the description for the specified namespace. */
   get: (
     resourceGroupName: string,
@@ -175,6 +202,22 @@ function _getNamespaces(context: RelayAPIContext) {
       namespaceName: string,
       options?: NamespacesDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, namespaceName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      options?: NamespacesDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, namespaceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      options?: NamespacesDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, namespaceName, options);
+    },
     update: (
       resourceGroupName: string,
       namespaceName: string,
@@ -187,6 +230,24 @@ function _getNamespaces(context: RelayAPIContext) {
       parameters: RelayNamespace,
       options?: NamespacesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, namespaceName, parameters, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      parameters: RelayNamespace,
+      options?: NamespacesCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(context, resourceGroupName, namespaceName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      parameters: RelayNamespace,
+      options?: NamespacesCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, resourceGroupName, namespaceName, parameters, options);
+    },
     get: (
       resourceGroupName: string,
       namespaceName: string,

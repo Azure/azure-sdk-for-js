@@ -9,6 +9,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { RelayAPI } from "./relayAPI.js";
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {

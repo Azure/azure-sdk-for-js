@@ -37,6 +37,7 @@ Compared with version 3.1.1
   - Added Interface ProxyResource
   - Added Interface RelayNamespaceProperties
   - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
   - Added Interface SystemData
   - Added Interface WcfRelayProperties
   - Interface AuthorizationRule has a new optional parameter location
@@ -90,13 +91,11 @@ Compared with version 3.1.1
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation Namespaces.beginCreateOrUpdate
-  - Removed operation Namespaces.beginCreateOrUpdateAndWait
-  - Removed operation Namespaces.beginDelete
-  - Removed operation Namespaces.beginDeleteAndWait
   - Operation HybridConnections.createOrUpdateAuthorizationRule has a new signature
   - Operation HybridConnections.getAuthorizationRule has a new signature
   - Operation HybridConnections.regenerateKeys has a new signature
+  - Operation Namespaces.beginCreateOrUpdate has a new signature
+  - Operation Namespaces.beginCreateOrUpdateAndWait has a new signature
   - Operation Namespaces.checkNameAvailability has a new signature
   - Operation Namespaces.createOrUpdateAuthorizationRule has a new signature
   - Operation Namespaces.get has a new signature
