@@ -2,7 +2,7 @@
 # Purpose: Validate that the latest emitter (@azure-tools/typespec-ts) doesn't break existing ARM SDK packages
 # Flow: Fetch latest emitter version → update emitter-package.json → regenerate lock file
 #       → clone latest azure-rest-api-specs (local spec source)
-#       → tsp-client init --update-if-exists -c <local-tspconfig.yaml> --local-spec-repo (concurrent)
+#       → TypeSpec-Project-Sync.ps1 + TypeSpec-Project-Generate.ps1 (concurrent)
 #       → pnpm build (concurrent)
 
 trigger:
@@ -12,10 +12,11 @@ trigger:
   paths:
     include:
       - eng/emitter-package.json
+      - eng/scripts/update-changelog-content.ps1
       - eng/common/scripts/TypeSpec-*
       - eng/common/tsp-client/
       - eng/pipelines/sdk-regenerate.yml
-      - eng/pipelines/scripts/regenerate-runner.js
+      - eng/pipelines/scripts/*
 
 pr:
   branches:
@@ -26,10 +27,11 @@ pr:
   paths:
     include:
       - eng/emitter-package.json
+      - eng/scripts/update-changelog-content.ps1
       - eng/common/scripts/TypeSpec-*
       - eng/common/tsp-client/
       - eng/pipelines/sdk-regenerate.yml
-      - eng/pipelines/scripts/regenerate-runner.js
+      - eng/pipelines/scripts/*
 
 schedules:
   - cron: "0 2 * * 1"
@@ -166,45 +168,19 @@ stages:
             effMinPerJob: ${{ parameters.MinimumPerJob }}
             effFilter: ${{ parameters.PackageFilter }}
         steps:
-          # Builds the matrix and records arm-* dirs without tsp-location.yaml
-          # (filtered out of the matrix, surfaced later in the PR description).
           - task: PowerShell@2
             displayName: 'Build matrix (split + scan skipped)'
             name: generateMatrix
             inputs:
               pwsh: true
-              targetType: inline
+              filePath: ./eng/pipelines/scripts/build-regen-matrix.ps1
               workingDirectory: $(Build.SourcesDirectory)
-              script: |
-                $matrixOutDir = "$(Build.ArtifactStagingDirectory)/matrix"
-
-                Write-Host "===== Split ARM packages into matrix batches ====="
-                & "$(Build.SourcesDirectory)/eng/common/scripts/New-RegenerateMatrix.ps1" `
-                  -OutputDirectory $matrixOutDir `
-                  -OutputVariableName matrix `
-                  -JobCount $(effJobCount) `
-                  -MinimumPerJob $(effMinPerJob) `
-                  -OnlyTypeSpec $true `
-                  -DirectoryFilterPattern '$(effFilter)'
-
-                Write-Host "===== Scan ARM packages without tsp-location.yaml ====="
-                $srcRoot = "$(Build.SourcesDirectory)"
-                $sdkDir = Join-Path $srcRoot 'sdk'
-                $missing = @()
-                if (Test-Path $sdkDir) {
-                  Get-ChildItem -Path $sdkDir -Directory -Recurse -Filter 'arm-*' -ErrorAction SilentlyContinue |
-                    ForEach-Object {
-                      $tspLoc = Join-Path $_.FullName 'tsp-location.yaml'
-                      if (-not (Test-Path $tspLoc)) {
-                        $relative = ($_.FullName.Substring($srcRoot.Length + 1)) -replace '\\','/'
-                        $missing += @{ name = $relative; reason = 'no tsp-location.yaml' }
-                      }
-                    }
-                }
-                $outPath = Join-Path $matrixOutDir 'skipped-no-tsp-location.json'
-                New-Item -ItemType Directory -Force -Path (Split-Path $outPath) | Out-Null
-                ConvertTo-Json @($missing) -Depth 3 | Out-File -FilePath $outPath -Encoding utf8
-                Write-Host "Wrote $($missing.Count) skipped packages to $outPath"
+              arguments: >
+                -BuildSourcesDirectory "$(Build.SourcesDirectory)"
+                -MatrixOutDir "$(Build.ArtifactStagingDirectory)/matrix"
+                -JobCount $(effJobCount)
+                -MinimumPerJob $(effMinPerJob)
+                -DirectoryFilterPattern '$(effFilter)'
 
           - task: PublishPipelineArtifact@1
             displayName: 'Publish matrix artifacts'
@@ -232,59 +208,15 @@ stages:
             displayName: 'Download matrix artifacts'
             artifact: matrix_artifacts
 
-          # Installs tsp-client + pnpm, shallow-clones azure-rest-api-specs
-          # (tsp-client init --local-spec-repo only needs current state), and
-          # updates emitter-package.json + lock file to pin the candidate
-          # emitter version.
-          - script: |
-              set -euo pipefail
-
-              echo "===== Install tsp-client and pnpm ====="
-              npm install -g @azure-tools/typespec-client-generator-cli
-              npm install -g pnpm
-              npm config set legacy-peer-deps true
-
-              echo "===== Clone azure-rest-api-specs (local spec source) ====="
-              if [ -d "$(specRepoRoot)/.git" ]; then
-                echo "Spec repo already exists at $(specRepoRoot), pulling latest..."
-                cd $(specRepoRoot)
-                git fetch origin ${{ parameters.SpecRepoBranch }} --depth 1
-                git checkout ${{ parameters.SpecRepoBranch }}
-                git reset --hard origin/${{ parameters.SpecRepoBranch }}
-              else
-                echo "Cloning azure-rest-api-specs (branch ${{ parameters.SpecRepoBranch }}, shallow)..."
-                git clone --depth 1 --branch ${{ parameters.SpecRepoBranch }} \
-                  https://github.com/Azure/azure-rest-api-specs.git $(specRepoRoot)
-              fi
-              echo "Spec repo ready at $(specRepoRoot)"
-              cd $(specRepoRoot) && git log -1 --oneline
-
-              echo "===== Update emitter + lock file ====="
-              cd $(sdkRoot)
-              node -e "
-                const fs = require('fs');
-                const pkg = JSON.parse(fs.readFileSync('eng/emitter-package.json', 'utf8'));
-                pkg.dependencies['@azure-tools/typespec-ts'] = '$(emitterVersion)';
-                // Inject transitive peer deps required by typespec-client-generator-core
-                // that main's emitter-package.json sometimes omits. Pin to the same
-                // version as @typespec/events (sibling package, always present).
-                // Without these, tsp-client init fails with 'Cannot find package @typespec/xml'.
-                const tspVer = pkg.dependencies['@typespec/events'] || '0.82.0';
-                if (!pkg.dependencies['@typespec/xml']) pkg.dependencies['@typespec/xml'] = tspVer;
-                if (!pkg.dependencies['@typespec/sse']) pkg.dependencies['@typespec/sse'] = tspVer;
-                fs.writeFileSync('eng/emitter-package.json', JSON.stringify(pkg, null, 2) + '\n');
-              "
-              cd eng
-              cp emitter-package.json package.json
-              npm install --package-lock-only --ignore-scripts 2>/dev/null
-              if [ -f package-lock.json ]; then
-                cp package-lock.json emitter-package-lock.json
-                rm -f package.json package-lock.json
-                rm -rf node_modules
-              fi
+          - script: >
+              bash ./eng/pipelines/scripts/prepare-regen-workspace.sh
+              "$(sdkRoot)"
+              "$(specRepoRoot)"
+              "${{ parameters.SpecRepoBranch }}"
+              "$(emitterVersion)"
             displayName: 'Prepare workspace (deps + specs + emitter)'
 
-          # Step 3: Regenerate (tsp-client init) → build (pnpm build) for this batch
+          # Step 3: Regenerate (shared TypeSpec scripts) → build (pnpm build) for this batch
           - script: |
               cd $(sdkRoot)
               mkdir -p "$(Build.ArtifactStagingDirectory)/results/$(JobKey)"
@@ -345,99 +277,11 @@ stages:
           - download: current
             displayName: 'Download result artifacts'
 
-          - script: |
-              node - <<'NODE'
-              const fs = require("fs");
-              const path = require("path");
-
-              const root = process.env.PIPELINE_WORKSPACE;
-              const resultFiles = [];
-              (function walk(dir) {
-                if (!fs.existsSync(dir)) return;
-                for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-                  const full = path.join(dir, e.name);
-                  if (e.isDirectory()) walk(full);
-                  else if (e.name === "result.json") resultFiles.push(full);
-                }
-              })(root);
-
-              const t = {
-                packages: 0,
-                regen:     { total: 0, success: 0, failed: 0, failures: [] },
-                build:     { total: 0, success: 0, failed: 0, failures: [] },
-                changelog: { total: 0, generated: 0, failed: 0, withChanges: 0, withBreaking: 0, breakingPackages: [], failedPackages: [] },
-                skippedNoTspLocation: [],
-              };
-              const addNums = (dst, src, keys) => { if (src) for (const k of keys) dst[k] += src[k] ?? 0; };
-
-              for (const file of resultFiles) {
-                const r = JSON.parse(fs.readFileSync(file, "utf8"));
-                t.packages += r.packages?.length ?? 0;
-                addNums(t.regen,     r.regeneration, ["total","success","failed"]);
-                addNums(t.build,     r.build,        ["total","success","failed"]);
-                addNums(t.changelog, r.changelog,    ["total","generated","failed","withChanges","withBreaking"]);
-                t.regen.failures.push(...(r.regeneration?.failures ?? []));
-                t.build.failures.push(...(r.build?.failures ?? []));
-                t.changelog.breakingPackages.push(...(r.changelog?.breakingPackages ?? []));
-                t.changelog.failedPackages.push(...(r.changelog?.failedPackages ?? []));
-                if (Array.isArray(r.skippedNoTspLocation)) t.skippedNoTspLocation.push(...r.skippedNoTspLocation);
-              }
-
-              // Setup-stage scan catches arm-* dirs filtered out before matrix (no tsp-location.yaml).
-              const setupSkipped = path.join(root, "matrix_artifacts", "skipped-no-tsp-location.json");
-              if (fs.existsSync(setupSkipped)) {
-                try {
-                  const arr = JSON.parse(fs.readFileSync(setupSkipped, "utf8"));
-                  if (Array.isArray(arr)) t.skippedNoTspLocation.push(...arr);
-                } catch (err) { console.log(`Warning: ${err.message}`); }
-              }
-
-              // Dedup + sort lists once, reuse for console + aggregated JSON.
-              const skipMap = new Map();
-              for (const it of t.skippedNoTspLocation) if (!skipMap.has(it.name)) skipMap.set(it.name, it.reason);
-              const skipped  = [...skipMap.entries()].sort(([a],[b]) => a.localeCompare(b)).map(([name, reason]) => ({ name, reason }));
-              const breaking = [...new Set(t.changelog.breakingPackages)].sort();
-              const cgFailed = [...new Set(t.changelog.failedPackages)].sort();
-              const pct = (n, d) => d === 0 ? "0.0" : (n * 100 / d).toFixed(1);
-
-              console.log("========== MATRIX SUMMARY ==========");
-              console.log(`Result files: ${resultFiles.length} | Packages: ${t.packages}`);
-              console.log(`Regen:     ${t.regen.success}/${t.regen.total} OK (${pct(t.regen.success, t.regen.total)}%) | Failed: ${t.regen.failed}`);
-              console.log(`Build:     ${t.build.success}/${t.build.total} OK (${pct(t.build.success, t.build.total)}%) | Failed: ${t.build.failed}`);
-              console.log(`Changelog: ${t.changelog.generated}/${t.changelog.total} OK | Changes: ${t.changelog.withChanges} | Breaking: ${t.changelog.withBreaking} | Failed: ${t.changelog.failed}`);
-
-              const printList = (title, items, fmt = x => x) => {
-                if (!items.length) return;
-                console.log(`\n${title} (${items.length}):`);
-                for (const it of items) console.log(`  - ${fmt(it)}`);
-              };
-              printList("Breaking changes (see CHANGELOG.md in PR diff)", breaking);
-              printList("Changelog tool failures (see logs/changelog/<pkg>.log)", cgFailed);
-              printList("Skipped — no tsp-location.yaml (filtered by matrix gen)", skipped, ({ name, reason }) => `${name} (${reason})`);
-              printList("Regen failures", t.regen.failures, f => `${f.pkg}: ${f.error}`);
-              printList("Build failures", t.build.failures, f => `${f.pkg} (${f.phase}): ${f.error}`);
-              console.log("====================================");
-
-              const aggregated = {
-                emitterVersion: process.env.EMITTER_VERSION || null,
-                regeneration: { total: t.regen.total, success: t.regen.success, failed: t.regen.failed },
-                build:        { total: t.build.total, success: t.build.success, failed: t.build.failed },
-                changelog: {
-                  total: t.changelog.total, generated: t.changelog.generated, failed: t.changelog.failed,
-                  withChanges: t.changelog.withChanges, withBreaking: t.changelog.withBreaking,
-                  breakingPackages: breaking, failedPackages: cgFailed,
-                },
-                skippedNoTspLocation: skipped,
-              };
-              const outDir = path.join(process.env.BUILD_ARTIFACTSTAGINGDIRECTORY || ".", "summary");
-              fs.mkdirSync(outDir, { recursive: true });
-              fs.writeFileSync(path.join(outDir, "aggregated-results.json"), JSON.stringify(aggregated, null, 2));
-              console.log(`Wrote aggregated-results.json (${skipped.length} skipped, ${breaking.length} breaking)`);
-
-              if (resultFiles.length === 0 || t.regen.failed > 0 || t.build.failed > 0) process.exit(1);
-              NODE
+          - script: node ./eng/pipelines/scripts/aggregate-regeneration-results.js
             displayName: 'Aggregate regeneration results'
             env:
+              PIPELINE_WORKSPACE: $(Pipeline.Workspace)
+              BUILD_ARTIFACTSTAGINGDIRECTORY: $(Build.ArtifactStagingDirectory)
               EMITTER_VERSION: $(emitterVersion)
 
           - task: PublishPipelineArtifact@1
@@ -471,279 +315,59 @@ stages:
             - download: current
               displayName: 'Download result artifacts'
 
-            - script: |
-                set -euo pipefail
-                cd $(Build.SourcesDirectory)
-
-                # Determine target repo (defaults to the source repo when no fork override)
-                overrideOwner='${{ parameters.PullRequestRepoOwner }}'
-                overrideName='${{ parameters.PullRequestRepoName }}'
-
-                sourceRepoFull="$(Build.Repository.Name)"
-                if [[ "$sourceRepoFull" == */* ]]; then
-                  srcOwner="${sourceRepoFull%%/*}"
-                  srcName="${sourceRepoFull##*/}"
-                else
-                  srcOwner="Azure"
-                  srcName="$sourceRepoFull"
-                fi
-
-                repoOwner="${overrideOwner:-$srcOwner}"
-                repoName="${overrideName:-$srcName}"
-                isFork="false"
-                if [ "$repoOwner" != "$srcOwner" ] || [ "$repoName" != "$srcName" ]; then
-                  isFork="true"
-                fi
-
-                # Resolve the token to use for pushing.
-                # FORK_TOKEN / GH_TOKEN_VAL are injected via the env: block below so
-                # that ADO can correctly substitute secret variables at runtime.
-                if [ "$isFork" = "true" ]; then
-                  pushToken="${FORK_TOKEN:-}"
-                  if [ -z "$pushToken" ]; then
-                    echo "ERROR: Pushing to fork ${repoOwner}/${repoName} but no fork PAT was provided."
-                    echo "Set parameter ForkTokenVariableName to the name of an ADO secret variable containing a GitHub PAT with repo scope,"
-                    echo "and make sure that secret variable actually exists in this pipeline."
-                    exit 1
-                  fi
-                  echo "Pushing to fork: ${repoOwner}/${repoName} (using user-provided PAT)"
-                else
-                  pushToken="${GH_TOKEN_VAL:-}"
-                  echo "Pushing to source repo: ${repoOwner}/${repoName} (using GH App token)"
-                fi
-
-                # Normalize sentinel values ('empty', 'auto', '') so that
-                # picking the default-named option in the ADO UI (which can't
-                # leave the field truly empty) still triggers the auto-branch
-                # logic below. Without this, branch=='empty' literally became
-                # the PR head ref and every run reused PR #1 (see PR #38604
-                # comment thread).
-                branch="${{ parameters.PullRequestBranch }}"
-                branch_lc=$(echo "$branch" | tr '[:upper:]' '[:lower:]')
-                if [ -z "$branch" ] || [ "$branch_lc" = "empty" ] || [ "$branch_lc" = "auto" ]; then
-                  branch="sdk-regenerate-$(Build.BuildId)"
-                fi
-                echo "Using PR branch: $branch"
-
-                # Base the regeneration branch on the PR target branch (default:
-                # main) rather than the currently checked-out HEAD. Otherwise
-                # the PR would carry every commit that has accumulated on the
-                # pipeline-development branch (feature/break-check) since it
-                # forked from main — reviewers can't distinguish the actual
-                # regeneration delta from pipeline-development noise. By
-                # branching off origin/<target>, the PR shows exactly one
-                # commit: the regeneration changes patched in below.
-                target="${{ parameters.PullRequestTargetBranch }}"
-                git fetch origin "$target" --depth=1
-                git checkout -B "$branch" "origin/$target"
-
-                # Track files that couldn't be applied due to upstream-vs-shard
-                # race conditions (e.g. an [AutoPR @azure-arm-foo] commit landed
-                # on `origin/<target>` between shard checkout and CreatePR
-                # checkout, so the shard's patch context no longer matches HEAD
-                # for that file). Instead of aborting the entire PR for a few
-                # conflicting files, we:
-                #   1. let `git apply --3way` apply every hunk it can,
-                #   2. detect the UU (unmerged) files it left behind,
-                #   3. reset just those files to HEAD (drop the conflicting
-                #      changes — they will be picked up by the NEXT pipeline
-                #      run, which will then see the upstream commit as the
-                #      baseline),
-                #   4. record the dropped files so the PR body can list them.
-                # This keeps the rest of the (clean) regeneration changes intact
-                # and turns "lose 200+ packages because 2 conflicted" into
-                # "lose only the 2 actually-conflicted files".
-                FAILED_LOG="$(Pipeline.Workspace)/failed-patches.txt"
-                : > "$FAILED_LOG"
-                mapfile -t patches < <(find "$(Pipeline.Workspace)" -type f -name changes.patch | sort)
-                echo "Found ${#patches[@]} patch file(s)"
-                for p in "${patches[@]}"; do
-                  if [ ! -s "$p" ]; then
-                    continue
-                  fi
-                  echo "Applying patch: $p"
-                  if git apply --3way "$p"; then
-                    continue
-                  fi
-                  echo "Patch had conflicts: $p"
-                  # Collect UU (both-modified) files left by --3way.
-                  uu_files=$(git diff --name-only --diff-filter=U)
-                  if [ -z "$uu_files" ]; then
-                    # No UU state means the patch was rejected outright (no
-                    # hunks could be applied at all). Nothing in the working
-                    # tree to clean up; just record the patch itself and move
-                    # on so other patches can still proceed.
-                    echo "PATCH_REJECTED $p" >> "$FAILED_LOG"
-                    continue
-                  fi
-                  echo "Conflicting files (will be reset to HEAD and skipped):"
-                  echo "$uu_files"
-                  while IFS= read -r f; do
-                    [ -z "$f" ] && continue
-                    git checkout HEAD -- "$f" 2>/dev/null || git rm -f "$f" 2>/dev/null || true
-                    echo "$f" >> "$FAILED_LOG"
-                  done <<< "$uu_files"
-                done
-
-                # Surface the conflict list in this step's log too — easier
-                # than digging into the PR body when triaging.
-                if [ -s "$FAILED_LOG" ]; then
-                  echo "----- Files dropped due to upstream conflicts -----"
-                  cat "$FAILED_LOG"
-                  echo "---------------------------------------------------"
-                fi
-
-                # Restore emitter-package.json / lock file so the PR only
-                # contains real SDK code diffs (these were temporarily bumped
-                # by the pipeline to the version under test and are not meant
-                # to be part of the PR).
-                git checkout -- eng/emitter-package.json eng/emitter-package-lock.json 2>/dev/null || true
-
-                mode="${{ parameters.ChangePushMode }}"
-                if [ "$mode" = "api-md" ]; then
-                  git add -A -- ':(glob)sdk/**/review/*.api.md' ':(glob)sdk/**/CHANGELOG.md'
-                else
-                  git add -A sdk/
-                fi
-
-                if git diff --cached --quiet; then
-                  echo "No changes selected for mode=$mode. Skipping PR creation."
-                  echo "##vso[task.setvariable variable=HasPrChanges]false"
-                  exit 0
-                fi
-
-                git -c user.name="azure-sdk" -c user.email="azuresdk@microsoft.com" commit -m "TypeSpec regeneration changes (${mode}) for emitter $(emitterVersion)"
-
-                git remote remove pr-origin 2>/dev/null || true
-                git remote add pr-origin "https://x-access-token:${pushToken}@github.com/${repoOwner}/${repoName}.git"
-                git push pr-origin "$branch" --force
-
-                echo "##vso[task.setvariable variable=HasPrChanges]true"
-                echo "##vso[task.setvariable variable=PRBranchName]$branch"
-                echo "##vso[task.setvariable variable=RepoOwner]$repoOwner"
-                echo "##vso[task.setvariable variable=RepoNameOnly]$repoName"
-                echo "##vso[task.setvariable variable=IsFork]$isFork"
-                echo "##vso[task.setvariable variable=PushToken;issecret=true]$pushToken"
-              displayName: 'Apply patches, commit and push branch'
+            - script: >
+                bash ./eng/pipelines/scripts/prepare-regen-pr-branch.sh
+                "$(Build.SourcesDirectory)"
+                "$(Pipeline.Workspace)"
+                "$(Build.Repository.Name)"
+                "${{ parameters.PullRequestRepoOwner }}"
+                "${{ parameters.PullRequestRepoName }}"
+                "${{ parameters.PullRequestBranch }}"
+                "${{ parameters.PullRequestTargetBranch }}"
+                "${{ parameters.ChangePushMode }}"
+                "$(Build.BuildId)"
+              displayName: 'Apply patches and prepare branch'
               env:
-                # Map secret variables into the script via env. This is the only
-                # reliable way for ADO to inject secret variables — `$(name)` direct
-                # substitution and `$[ variables[...] ]` indirect lookup do NOT work
-                # reliably for secret variables.
                 ${{ if ne(parameters.ForkTokenVariableName, '') }}:
                   FORK_TOKEN: $(${{ parameters.ForkTokenVariableName }})
                 ${{ if eq(parameters.PullRequestRepoOwner, '') }}:
                   GH_TOKEN_VAL: $(GH_TOKEN)
 
+            - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
+              parameters:
+                BaseRepoBranch: $(PRBranchName)
+                BaseRepoOwner: $(RepoOwner)
+                TargetRepoOwner: $(RepoOwner)
+                TargetRepoName: $(RepoNameOnly)
+                CommitMsg: TypeSpec regeneration changes (${{ parameters.ChangePushMode }}) for emitter $(emitterVersion)
+                PushArgs: --force
+                WorkingDirectory: $(Build.SourcesDirectory)
+                AuthToken: $(PushToken)
+
             - task: PowerShell@2
               displayName: 'Create pull request'
-              condition: and(succeeded(), eq(variables['HasPrChanges'], 'true'))
+              condition: and(succeeded(), eq(variables['HasChanges'], 'true'))
               inputs:
                 pwsh: true
                 targetType: inline
-                # Build a rich PR description from the aggregated results JSON
-                # that the Summary stage published (artifact: regen_summary),
-                # then call Submit-PullRequest.ps1. The body lists every
-                # package with breaking changes AND every package that was
-                # skipped because it does not yet have a tsp-location.yaml —
-                # so the upstream spec/SDK teams can see at a glance which
-                # packages they still need to on-board, without digging
-                # through ADO pipeline logs.
                 script: |
                   $ErrorActionPreference = 'Stop'
                   $aggPath = Join-Path '$(Pipeline.Workspace)' 'regen_summary/aggregated-results.json'
-                  $lines = New-Object System.Collections.Generic.List[string]
-                  $lines.Add("Generated by ``$(Build.DefinitionName)`` build [$(Build.BuildNumber)]($(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)).")
-                  $lines.Add("Emitter version: ``$(emitterVersion)``. Push mode: ``${{ parameters.ChangePushMode }}``.")
-                  $lines.Add('')
-
-                  if (Test-Path $aggPath) {
-                    $agg = Get-Content $aggPath -Raw | ConvertFrom-Json
-
-                    $lines.Add('## Regeneration summary')
-                    $lines.Add("- Regenerated: **$($agg.regeneration.success)/$($agg.regeneration.total)**")
-                    $lines.Add("- Built OK:    **$($agg.build.success)/$($agg.build.total)**")
-                    $lines.Add("- Changelog generated: **$($agg.changelog.generated)/$($agg.changelog.total)**")
-                    $lines.Add("- Packages with breaking changes: **$($agg.changelog.withBreaking)**")
-                    $lines.Add('')
-
-                    if ($agg.changelog.breakingPackages -and $agg.changelog.breakingPackages.Count -gt 0) {
-                      $lines.Add("## Packages with breaking changes ($($agg.changelog.breakingPackages.Count))")
-                      $lines.Add("The following $($agg.changelog.breakingPackages.Count) package(s) had breaking changes detected by ``update-changelog``. This may indicate an emitter regression or an intentional spec change — open each CHANGELOG below to triage.")
-                      $lines.Add('')
-                      foreach ($p in $agg.changelog.breakingPackages) {
-                        $pkgShort = ($p -split '/')[-1]
-                        $lines.Add("- [``$pkgShort``]($p/CHANGELOG.md) &nbsp;<sub>$p</sub>")
-                      }
-                      $lines.Add('')
-                    }
-
-                    if ($agg.skippedNoTspLocation -and $agg.skippedNoTspLocation.Count -gt 0) {
-                      $lines.Add("## Packages skipped — no usable tsp-location.yaml ($($agg.skippedNoTspLocation.Count))")
-                      $lines.Add('These packages were filtered out by matrix gen (`-OnlyTypeSpec true`) and are NOT covered by this PR.')
-                      $lines.Add('**Spec / SDK team action**: please add a `tsp-location.yaml` (or fix the existing one) so these packages participate in the next regeneration run.')
-                      $lines.Add('')
-                      # Normalize reasons into buckets so the summary is meaningful
-                      # even when upstream changes the exact error string (e.g.
-                      # "stale path: ..." carries a different spec path each time).
-                      $reasonBuckets = @{}
-                      foreach ($s in $agg.skippedNoTspLocation) {
-                        $r = $s.reason
-                        if     ($r -like 'no tsp-location.yaml*') { $bucket = 'no tsp-location.yaml' }
-                        elseif ($r -like 'stale path*')           { $bucket = 'stale path (tspconfig.yaml missing in spec)' }
-                        elseif ($r -like 'relative repo*')        { $bucket = 'relative repo (local-only tsp-location)' }
-                        else                                      { $bucket = $r }
-                        if (-not $reasonBuckets.ContainsKey($bucket)) { $reasonBuckets[$bucket] = 0 }
-                        $reasonBuckets[$bucket]++
-                      }
-                      $lines.Add('**Breakdown by reason:**')
-                      foreach ($k in ($reasonBuckets.Keys | Sort-Object { -$reasonBuckets[$_] })) {
-                        $lines.Add("- $k — **$($reasonBuckets[$k])**")
-                      }
-                      $lines.Add('')
-                      $lines.Add('<details><summary>Click to expand the full list</summary>')
-                      $lines.Add('')
-                      foreach ($s in $agg.skippedNoTspLocation) { $lines.Add("- ``$($s.name)`` — $($s.reason)") }
-                      $lines.Add('')
-                      $lines.Add('</details>')
-                      $lines.Add('')
-                    }
-                  } else {
-                    $lines.Add('_(aggregated-results.json not found; falling back to minimal description)_')
-                  }
-
-                  # Surface files that the CreatePR step had to drop because
-                  # `git apply --3way` couldn't merge them (typically caused by
-                  # an upstream commit landing on the PR target branch after
-                  # the shard had already generated its patch — see the
-                  # 'Apply patches' step for details). Listing them here so
-                  # reviewers / spec teams know which packages are missing
-                  # from this run and will be regenerated on the next one.
                   $failedLog = Join-Path '$(Pipeline.Workspace)' 'failed-patches.txt'
-                  if (Test-Path $failedLog) {
-                    $failedEntries = Get-Content $failedLog | Where-Object { $_ -and $_.Trim().Length -gt 0 }
-                    if ($failedEntries.Count -gt 0) {
-                      $lines.Add("## Patches skipped due to upstream conflicts ($($failedEntries.Count))")
-                      $lines.Add('These files were dropped because the PR target branch (`${{ parameters.PullRequestTargetBranch }}`) moved underneath the regeneration shard — typically an `[AutoPR @azure-arm-*]` commit landed in the same file between shard checkout and PR creation. They are **not** part of this PR; the next regeneration run will pick them up against the new baseline.')
-                      $lines.Add('')
-                      foreach ($e in $failedEntries) { $lines.Add("- ``$e``") }
-                      $lines.Add('')
-                    }
-                  }
+                  $bodyPath = Join-Path '$(Pipeline.Workspace)' 'regen-pr-body.md'
+                  & ./eng/pipelines/scripts/format-regen-pr-body.ps1 `
+                    -AggPath $aggPath `
+                    -FailedLogPath $failedLog `
+                    -BuildDefinitionName '$(Build.DefinitionName)' `
+                    -BuildNumber '$(Build.BuildNumber)' `
+                    -BuildResultsUrl '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)' `
+                    -EmitterVersion '$(emitterVersion)' `
+                    -ChangePushMode '${{ parameters.ChangePushMode }}' `
+                    -PullRequestTargetBranch '${{ parameters.PullRequestTargetBranch }}' `
+                    -OutputPath $bodyPath
 
-                  $bodyText = ($lines -join "`n")
+                  $bodyText = Get-Content $bodyPath -Raw
                   $prTitle  = 'TypeSpec regeneration: emitter $(emitterVersion) [${{ parameters.ChangePushMode }}]'
-                  Write-Host '----- PR body preview (first 60 lines) -----'
-                  $lines | Select-Object -First 60 | ForEach-Object { Write-Host $_ }
-                  Write-Host '----- end preview -----'
-
-                  # Every pipeline run uses a unique branch name
-                  # (`sdk-regenerate-$(Build.BuildId)`) so Submit-PullRequest
-                  # always creates a fresh PR with the correct title+body,
-                  # rather than reusing an old PR whose body would otherwise
-                  # be stuck on the first run's content. This preserves a
-                  # per-run history of breaking-change reports that mentor
-                  # and reviewers can compare across emitter versions.
                   & ./eng/common/scripts/Submit-PullRequest.ps1 `
                     -RepoOwner '$(RepoOwner)' `
                     -RepoName '$(RepoNameOnly)' `
