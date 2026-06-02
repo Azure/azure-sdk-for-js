@@ -317,8 +317,8 @@ describe("setDefinitionAttributes - hosted agent", () => {
       kind: "hosted",
       cpu: "0.5",
       memory: "1Gi",
-      image: "myregistry.azurecr.io/myapp:latest",
-      container_protocol_versions: [{ protocol: "responses", version: "1.0.0" }],
+      container_configuration: { image: "myregistry.azurecr.io/myapp:latest" },
+      protocol_versions: [{ protocol: "responses", version: "1.0.0" }],
     } as any);
 
     assert.equal(span.attributes[GEN_AI_AGENT_TYPE], "hosted");
@@ -336,8 +336,8 @@ describe("setDefinitionAttributes - hosted agent", () => {
       kind: "hosted",
       cpu: "0.5",
       memory: "1Gi",
-      image: "myregistry.azurecr.io/myapp:latest",
-      container_protocol_versions: [{ protocol: "responses", version: "1.0.0" }],
+      container_configuration: { image: "myregistry.azurecr.io/myapp:latest" },
+      protocol_versions: [{ protocol: "responses", version: "1.0.0" }],
     } as any);
 
     assert.equal(span.attributes[GEN_AI_AGENT_HOSTED_CPU], "0.5");
@@ -353,7 +353,7 @@ describe("setDefinitionAttributes - hosted agent", () => {
       kind: "hosted",
       cpu: "0.5",
       memory: "1Gi",
-      image: "myregistry.azurecr.io/myapp:latest",
+      container_configuration: { image: "myregistry.azurecr.io/myapp:latest" },
     } as any);
 
     assert.equal(span.attributes[GEN_AI_AGENT_HOSTED_CPU], "0.5");
@@ -366,7 +366,7 @@ describe("setDefinitionAttributes - hosted agent", () => {
     setDefinitionAttributes(span, {
       kind: "hosted",
       cpu: "0.5",
-      container_protocol_versions: [],
+      protocol_versions: [],
     } as any);
 
     assert.notProperty(span.attributes, GEN_AI_AGENT_HOSTED_PROTOCOL);
@@ -377,7 +377,7 @@ describe("setDefinitionAttributes - hosted agent", () => {
     const span = createMockSpan();
     setDefinitionAttributes(span, {
       kind: "hosted",
-      image: "myapp:latest",
+      container_configuration: { image: "myapp:latest" },
     } as any);
 
     assert.equal(span.attributes[GEN_AI_AGENT_TYPE], "hosted");
