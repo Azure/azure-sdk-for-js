@@ -4,7 +4,10 @@
 import type { VitestTestContext } from "@azure-tools/test-recorder";
 import { AIProjectClient, DatasetVersion, RestError, enableGenAITracing } from "../src/index.js";
 import type { VersionRefIndicator } from "../src/index.js";
-import { useAzureMonitor, type AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
+import {
+  useAzureMonitor,
+  type AzureMonitorOpenTelemetryOptions,
+} from "@azure/monitor-opentelemetry";
 import type {
   AzureAISearchIndex,
   Connection,
