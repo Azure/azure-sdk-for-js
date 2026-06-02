@@ -25,11 +25,6 @@ export interface GuestSubscriptionsOperations {
     options?: GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams,
   ) => PagedAsyncIterableIterator<GuestSubscription>;
   /** Deletes a subscription as a guest to stop consuming the compute limits shared by the host subscription. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     location: string,
     guestSubscriptionId: string,

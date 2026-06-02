@@ -1,35 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new database or updates an existing database.
- *
- * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Databases/preview/2023-06-01-preview/examples/DatabaseCreate.json
- */
-
 const { MySQLManagementFlexibleServerClient } = require("@azure/arm-mysql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
+/**
+ * This sample demonstrates how to creates a new database or updates an existing database.
+ *
+ * @summary creates a new database or updates an existing database.
+ * x-ms-original-file: 2025-06-01-preview/DatabaseCreate.json
+ */
 async function createADatabase() {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "TestGroup";
-  const serverName = "testserver";
-  const databaseName = "db1";
-  const parameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.databases.createOrUpdate("TestGroup", "testserver", "db1", {
     charset: "utf8",
     collation: "utf8_general_ci",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.databases.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

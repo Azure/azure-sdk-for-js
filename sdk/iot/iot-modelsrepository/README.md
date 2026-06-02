@@ -98,7 +98,7 @@ const models = await client.getModels(dtmi);
 
 // In this case the above dtmi has 2 model dependencies.
 // dtmi:com:example:Thermostat;1 and dtmi:azure:DeviceManagement:DeviceInformation;1
-console.log(`${dtmi} resolved in {Object.keys(models).length} interfaces.`);
+console.log(`${dtmi} resolved in ${Object.keys(models).length} interfaces.`);
 ```
 
 You are also able to get definitions for multiple root models at a time by leveraging the `GetModels` overload.
@@ -118,7 +118,7 @@ const models = await client.getModels(dtmis);
 // In this case the dtmi "dtmi:com:example:TemperatureController;1" has 2 model dependencies
 // and the dtmi "dtmi:com:example:azuresphere:sampledevice;1" has no additional dependencies.
 // The returned IDictionary will include 4 models.
-console.log(`${dtmis.toString()} resolved in ${Object.keys(models.keys).length} interfaces.`);
+console.log(`${dtmis.toString()} resolved in ${Object.keys(models).length} interfaces.`);
 ```
 
 ### Digital Twins Model Parser Integration

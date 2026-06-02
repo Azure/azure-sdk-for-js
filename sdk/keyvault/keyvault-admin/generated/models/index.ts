@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   FullBackupOperation,
-  KnownOperationStatus,
   OperationStatus,
   ErrorModel,
   KeyVaultError,
@@ -16,24 +15,27 @@ export {
   SelectiveKeyRestoreOperationParameters,
   UpdateSettingRequest,
   Setting,
-  KnownSettingTypeEnum,
   SettingTypeEnum,
   SettingsListResult,
   RoleDefinition,
-  KnownRoleDefinitionType,
   RoleDefinitionType,
   RoleDefinitionProperties,
-  KnownRoleType,
   RoleType,
   Permission,
-  KnownDataAction,
   DataAction,
-  KnownRoleScope,
   RoleScope,
   RoleDefinitionCreateParameters,
   RoleAssignment,
   RoleAssignmentPropertiesWithScope,
   RoleAssignmentCreateParameters,
   RoleAssignmentProperties,
+} from "./models.js";
+export {
+  KnownOperationStatus,
+  KnownSettingTypeEnum,
+  KnownRoleDefinitionType,
+  KnownRoleType,
+  KnownDataAction,
+  KnownRoleScope,
   KnownVersions,
 } from "./models.js";

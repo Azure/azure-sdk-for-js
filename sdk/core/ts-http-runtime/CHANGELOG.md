@@ -8,6 +8,9 @@
 
 ### Bugs Fixed
 
+- Fix an issue in `NodeHttpClient` where we incorrectly send the whole backing buffer when request body is an `ArrayBufferView`.
+- `createHttpHeaders` now strips CR (`\r`) and LF (`\n`) characters from header values to prevent obs-fold (line folding) sequences, as required by RFC 7230 §3.2.4.
+
 ### Other Changes
 
 - Set `RestError.response.bodyAsText` when the error response body has `string` type [PR #38059](https://github.com/Azure/azure-sdk-for-js/pull/38059)

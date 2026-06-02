@@ -14,6 +14,11 @@ export type { SasIPRange } from "./sas/SasIPRange.js";
 export type { Range } from "./Range.js";
 export {
   type BlobClientOptions,
+  type AppendBlobClientOptions,
+  type BlockBlobClientOptions,
+  type PageBlobClientOptions,
+  type ContainerClientOptions,
+  type BlobServiceClientOptions,
   type BlobClientConfig,
   BlockBlobTier,
   type BlobImmutabilityPolicy,

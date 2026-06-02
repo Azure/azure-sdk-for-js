@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieves information about the model of a security automation.
- *
- * @summary Retrieves information about the model of a security automation.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-12-01-preview/examples/Automations/GetAutomationResourceGroup_example.json
- */
-
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieves information about the model of a security automation.
+ *
+ * @summary retrieves information about the model of a security automation.
+ * x-ms-original-file: 2023-12-01-preview/Automations/GetAutomationResourceGroup_example.json
+ */
 async function retrieveASecurityAutomation(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] || "a5caac9c-5c04-49af-b3d0-e204f40345d5";
-  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "exampleResourceGroup";
-  const automationName = "exampleAutomation";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "a5caac9c-5c04-49af-b3d0-e204f40345d5";
   const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.automations.get(resourceGroupName, automationName);
+  const result = await client.automations.get("exampleResourceGroup", "exampleAutomation");
   console.log(result);
 }
 

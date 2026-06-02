@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list ModelCapacities.
  *
  * @summary list ModelCapacities.
- * x-ms-original-file: 2026-01-15-preview/ListModelCapacities.json
+ * x-ms-original-file: 2026-03-15-preview/ListModelCapacities.json
  */
 async function listModelCapacities(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listModelCapacities(): Promise<void> {
  * This sample demonstrates how to list ModelCapacities.
  *
  * @summary list ModelCapacities.
- * x-ms-original-file: 2026-01-15-preview/ListModelCapacitiesClassicScope.json
+ * x-ms-original-file: 2026-03-15-preview/ListModelCapacitiesClassicScope.json
  */
 async function listModelCapacitiesClassicScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function listModelCapacitiesClassicScope(): Promise<void> {
  * This sample demonstrates how to list ModelCapacities.
  *
  * @summary list ModelCapacities.
- * x-ms-original-file: 2026-01-15-preview/ListModelCapacitiesDataZoneScope.json
+ * x-ms-original-file: 2026-03-15-preview/ListModelCapacitiesDataZoneScope.json
  */
 async function listModelCapacitiesDataZoneScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function listModelCapacitiesDataZoneScope(): Promise<void> {
  * This sample demonstrates how to list ModelCapacities.
  *
  * @summary list ModelCapacities.
- * x-ms-original-file: 2026-01-15-preview/ListModelCapacitiesGlobalScope.json
+ * x-ms-original-file: 2026-03-15-preview/ListModelCapacitiesGlobalScope.json
  */
 async function listModelCapacitiesGlobalScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

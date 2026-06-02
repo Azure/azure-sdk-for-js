@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ToolboxPolicies, PageOrder } from "../../../models/models.js";
+import type { ToolboxSkillUnion, ToolboxPolicies, PageOrder } from "../../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface BetaToolboxesDeleteVersionOptionalParams extends OperationOptions {}
+export interface DeleteVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface BetaToolboxesDeleteOptionalParams extends OperationOptions {}
@@ -14,10 +14,10 @@ export interface BetaToolboxesDeleteOptionalParams extends OperationOptions {}
 export interface BetaToolboxesUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaToolboxesGetVersionOptionalParams extends OperationOptions {}
+export interface GetVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaToolboxesListVersionsOptionalParams extends OperationOptions {
+export interface ListVersionsOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -72,11 +72,13 @@ export interface BetaToolboxesListOptionalParams extends OperationOptions {
 export interface BetaToolboxesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaToolboxesCreateVersionOptionalParams extends OperationOptions {
+export interface CreateVersionOptionalParams extends OperationOptions {
   /** A human-readable description of the toolbox. */
   description?: string;
   /** Arbitrary key-value metadata to associate with the toolbox. */
   metadata?: Record<string, string>;
+  /** The list of skill sources to include in this version. A skill reference specifies a skill name and optionally a version. If version is omitted, the skill's default version is used. */
+  skills?: ToolboxSkillUnion[];
   /** Policy configuration for this toolbox version. */
   policies?: ToolboxPolicies;
 }

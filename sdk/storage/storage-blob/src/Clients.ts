@@ -148,6 +148,9 @@ import type {
   BlobClientOptions,
   BlobClientConfig,
   AccessTierModifiedConditions,
+  BlockBlobClientOptions,
+  AppendBlobClientOptions,
+  PageBlobClientOptions,
 } from "./models.js";
 import { ensureCpkIfSpecified, toAccessTier, StorageChecksumAlgorithm } from "./models.js";
 import type {
@@ -2724,7 +2727,7 @@ export class AppendBlobClient extends BlobClient {
     blobName: string,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: AppendBlobClientOptions,
   );
   /**
    * Creates an instance of AppendBlobClient.
@@ -2748,7 +2751,7 @@ export class AppendBlobClient extends BlobClient {
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: AppendBlobClientOptions,
   );
   /**
    * Creates an instance of AppendBlobClient.
@@ -2776,10 +2779,10 @@ export class AppendBlobClient extends BlobClient {
       | AnonymousCredential
       | TokenCredential
       | PipelineLike,
-    blobNameOrOptions?: string | BlobClientOptions,
+    blobNameOrOptions?: string | AppendBlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: AppendBlobClientOptions,
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
@@ -3821,7 +3824,7 @@ export class BlockBlobClient extends BlobClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: BlockBlobClientOptions,
   );
   /**
    * Creates an instance of BlockBlobClient.
@@ -3849,10 +3852,10 @@ export class BlockBlobClient extends BlobClient {
       | AnonymousCredential
       | TokenCredential
       | PipelineLike,
-    blobNameOrOptions?: string | BlobClientOptions,
+    blobNameOrOptions?: string | BlockBlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: BlockBlobClientOptions,
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
@@ -5158,7 +5161,7 @@ export class PageBlobClient extends BlobClient {
     blobName: string,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: PageBlobClientOptions,
   );
   /**
    * Creates an instance of PageBlobClient.
@@ -5177,7 +5180,7 @@ export class PageBlobClient extends BlobClient {
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: PageBlobClientOptions,
   );
   /**
    * Creates an instance of PageBlobClient.
@@ -5202,10 +5205,10 @@ export class PageBlobClient extends BlobClient {
       | AnonymousCredential
       | TokenCredential
       | PipelineLike,
-    blobNameOrOptions?: string | BlobClientOptions,
+    blobNameOrOptions?: string | PageBlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: PageBlobClientOptions,
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
  *
  * @summary create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
- * x-ms-original-file: 2026-01-15-preview/CreateProject.json
+ * x-ms-original-file: 2026-03-15-preview/CreateProject.json
  */
 async function createProject(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function createProject(): Promise<void> {
  * This sample demonstrates how to create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
  *
  * @summary create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
- * x-ms-original-file: 2026-01-15-preview/CreateProjectMin.json
+ * x-ms-original-file: 2026-03-15-preview/CreateProjectMin.json
  */
 async function createProjectMin(): Promise<void> {
   const credential = new DefaultAzureCredential();

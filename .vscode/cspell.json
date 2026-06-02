@@ -509,6 +509,23 @@
       ]
     },
     {
+      "filename": "sdk/voicelive/ai-voicelive/review/**/*.md",
+      "words": [
+        "Aarti",
+        "aarti",
+        "Diya",
+        "diya",
+        "Meera",
+        "meera",
+        "Xiaoxiao",
+        "xiaoxiao",
+        "Ximena",
+        "ximena",
+        "Yunxi",
+        "yunxi"
+      ]
+    },
+    {
       "filename": "sdk/notificationhubs/notification-hubs/review/**/*.md",
       "words": [
         "fcmv"
