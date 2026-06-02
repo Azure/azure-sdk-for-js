@@ -16,7 +16,7 @@ trigger:
       - eng/common/scripts/TypeSpec-*
       - eng/common/tsp-client/
       - eng/pipelines/sdk-regenerate.yml
-      - eng/pipelines/scripts/*
+      - eng/pipelines/scripts/**
 
 pr:
   branches:
@@ -31,7 +31,7 @@ pr:
       - eng/common/scripts/TypeSpec-*
       - eng/common/tsp-client/
       - eng/pipelines/sdk-regenerate.yml
-      - eng/pipelines/scripts/*
+      - eng/pipelines/scripts/**
 
 schedules:
   - cron: "0 2 * * 1"
