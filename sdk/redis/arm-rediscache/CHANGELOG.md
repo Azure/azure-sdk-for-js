@@ -1,21 +1,96 @@
 # Release History
 
-## 8.2.2 (Unreleased)
+## 9.0.0-beta.1 (2026-06-02)
+Compared with version 8.2.0
 
 ### Features Added
+  - Added operation AccessPolicyOperations.createUpdate
+  - Added operation AccessPolicyOperations.delete
+  - Added operation AccessPolicyAssignmentOperations.createUpdate
+  - Added operation AccessPolicyAssignmentOperations.delete
+  - Added operation LinkedServerOperations.create
+  - Added operation LinkedServerOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.put
+  - Added operation RedisOperations.create
+  - Added operation RedisOperations.delete
+  - Added operation RedisOperations.exportData
+  - Added operation RedisOperations.flushCache
+  - Added operation RedisOperations.importData
+  - Added operation RedisOperations.update
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface RedisCacheAccessPolicyAssignmentProperties
+  - Added Interface RedisCacheAccessPolicyProperties
+  - Added Interface RedisFirewallRuleProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface ScheduleEntries
+  - Added Interface SystemData
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface PrivateLinkResource has a new optional parameter properties
+  - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface RedisCacheAccessPolicy has a new optional parameter systemData
+  - Interface RedisCacheAccessPolicyAssignment has a new optional parameter systemData
+  - Interface RedisCommonPropertiesRedisConfiguration has a new optional parameter additionalProperties
+  - Interface RedisFirewallRule has a new optional parameter systemData
+  - Interface RedisLinkedServerWithProperties has a new optional parameter systemData
+  - Interface RedisPatchSchedule has a new optional parameter systemData
+  - Interface RedisProperties has a new optional parameter targetAmrResourceId
+  - Interface RedisResource has a new optional parameter targetAmrResourceId
+  - Interface RedisResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface TrackedResource has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Enum AzureClouds
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownVersions
+  - Enum KnownProvisioningState has a new value Migrating
+  - Enum KnownProvisioningState has a new value MigrationCancellationFailed
+  - Enum KnownProvisioningState has a new value MigrationCancelling
+  - Enum KnownProvisioningState has a new value MigrationFailed
+  - Enum KnownProvisioningState has a new value MigrationSucceeded
 
 ### Breaking Changes
+  - Removed operation AccessPolicy.beginCreateUpdate
+  - Removed operation AccessPolicy.beginCreateUpdateAndWait
+  - Removed operation AccessPolicy.beginDelete
+  - Removed operation AccessPolicy.beginDeleteAndWait
+  - Removed operation AccessPolicyAssignment.beginCreateUpdate
+  - Removed operation AccessPolicyAssignment.beginCreateUpdateAndWait
+  - Removed operation AccessPolicyAssignment.beginDelete
+  - Removed operation AccessPolicyAssignment.beginDeleteAndWait
+  - Removed operation LinkedServer.beginCreate
+  - Removed operation LinkedServer.beginCreateAndWait
+  - Removed operation LinkedServer.beginDelete
+  - Removed operation LinkedServer.beginDeleteAndWait
+  - Removed operation PrivateEndpointConnections.beginPut
+  - Removed operation PrivateEndpointConnections.beginPutAndWait
+  - Removed operation Redis.beginCreate
+  - Removed operation Redis.beginCreateAndWait
+  - Removed operation Redis.beginDelete
+  - Removed operation Redis.beginDeleteAndWait
+  - Removed operation Redis.beginExportData
+  - Removed operation Redis.beginExportDataAndWait
+  - Removed operation Redis.beginFlushCache
+  - Removed operation Redis.beginFlushCacheAndWait
+  - Removed operation Redis.beginImportData
+  - Removed operation Redis.beginImportDataAndWait
+  - Removed operation Redis.beginUpdate
+  - Removed operation Redis.beginUpdateAndWait
+  - Removed Interface NotificationListResponse
+  - Removed Interface RedisCacheAccessPolicyAssignmentList
+  - Removed Interface RedisCacheAccessPolicyList
+  - Removed Interface RedisFirewallRuleCreateParameters
+  - Removed Interface RedisLinkedServerWithPropertiesList
+  - Interface PrivateLinkResource no longer has parameter groupId
+  - Interface PrivateLinkResource no longer has parameter requiredMembers
+  - Interface PrivateLinkResource no longer has parameter requiredZoneNames
 
-### Bugs Fixed
-
-### Other Changes
-
-## 8.2.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 8.2.0 (2025-01-07)
     
 ### Features Added
