@@ -488,7 +488,7 @@
 # PRLabel: %Mgmt
 /sdk/databasewatcher/arm-databasewatcher/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/databox/arm-databox/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
