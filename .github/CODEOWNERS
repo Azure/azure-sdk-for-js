@@ -1679,6 +1679,9 @@ sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
 sdk/monitor/arm-monitorworkspaces/ @qiaozha @MaryGao @JialinHuang803
 sdk/edgeorder/arm-edgeorder/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/postgresqlhsc/arm-postgresqlhsc/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
