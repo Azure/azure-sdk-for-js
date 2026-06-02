@@ -47,7 +47,7 @@ describe("Apimanagement test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroupName = "myjstest";
+    resourceGroupName = "SSS3PT_myjstest";
     serviceName = "czwserviceyyy1";
   });
 
