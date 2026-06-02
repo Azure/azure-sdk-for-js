@@ -10,12 +10,13 @@ import type {
   KeyUsageType,
   JsonWebKeyType as CertificateKeyType,
   JsonWebKeyCurveName as CertificateKeyCurveName,
+  PlatformManaged,
 } from "./models/models.js";
 
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "2026-03-01-preview";
+export const LATEST_API_VERSION = "2025-07-01";
 
 /**
  * The optional parameters accepted by the KeyVault's CertificateClient
@@ -379,6 +380,14 @@ export interface CertificatePolicyProperties {
    * The duration that the certificate is valid in months.
    */
   validityInMonths?: number;
+  /**
+   * Configuration that enables the platform to manage the certificate on behalf of the user.
+   *
+   * @remarks This feature is currently intended for internal Azure Key Vault usage only.
+   * Any calls using this property will fail and it is not recommended to be used at this point.
+   * Requires `serviceVersion: "2026-03-01-preview"` on the {@link CertificateClient}.
+   */
+  platformManaged?: PlatformManaged;
 }
 
 /**

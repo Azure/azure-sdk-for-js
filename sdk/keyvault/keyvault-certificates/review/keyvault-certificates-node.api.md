@@ -170,6 +170,7 @@ export interface CertificatePolicyProperties {
     keyType?: CertificateKeyType;
     keyUsage?: KeyUsageType[];
     lifetimeActions?: LifetimeAction[];
+    platformManaged?: PlatformManaged;
     reuseKey?: boolean;
     readonly updatedOn?: Date;
     validityInMonths?: number;
@@ -435,6 +436,12 @@ export type MergeCertificateOptions = coreClient.OperationOptions;
 
 // @public
 export function parseKeyVaultCertificateIdentifier(id: string): KeyVaultCertificateIdentifier;
+
+// @public
+export interface PlatformManaged {
+    certificateUsage: string;
+    metadata?: Record<string, any>;
+}
 
 // @public
 export interface PolicySubjectProperties {
