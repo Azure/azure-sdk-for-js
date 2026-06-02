@@ -71,7 +71,7 @@ async function main() {
     code: { contents: codeZip, contentType: "application/zip", filename: "code.zip" },
   };
 
-  const created = await project.beta.agents.createAgentVersionFromCode(
+  const created = await project.beta.agents.createVersionFromCode(
     agentName,
     codeZipSha256,
     content,
