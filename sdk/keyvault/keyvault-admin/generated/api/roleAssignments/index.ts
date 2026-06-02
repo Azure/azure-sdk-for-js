@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listForScope, get, create, $delete } from "./operations.js";
-export {
+export type {
   RoleAssignmentsListForScopeOptionalParams,
   RoleAssignmentsGetOptionalParams,
   RoleAssignmentsCreateOptionalParams,

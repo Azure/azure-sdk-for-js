@@ -32,8 +32,8 @@ export function createAIProject(
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-ai-projects/${SDK_VERSION}`;
   const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} ${userAgentInfo}`
-    : `${userAgentInfo}`;
+    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
+    : `azsdk-js-api ${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },

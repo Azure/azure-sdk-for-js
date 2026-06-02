@@ -32,10 +32,5 @@
   "engines": {
     "node": ">=20",
     "pnpm": ">=10.33.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "@azure/core-rest-pipeline": "link:sdk/core/core-rest-pipeline"
-    }
   }
 }

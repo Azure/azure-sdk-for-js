@@ -71,6 +71,12 @@ export interface AsciiFoldingTokenFilter extends BaseTokenFilter {
 }
 
 // @public
+export interface AssetStore {
+    connectionString: string;
+    containerName: string;
+}
+
+// @public
 export interface AutocompleteItem {
     readonly queryPlusText: string;
     readonly text: string;
@@ -121,6 +127,7 @@ export interface AzureBlobKnowledgeSourceParameters {
     };
     folderPath?: string;
     ingestionParameters?: KnowledgeSourceIngestionParameters;
+    isAdlsGen2?: boolean;
 }
 
 // @public
@@ -155,6 +162,12 @@ export interface AzureOpenAIParameters {
     deploymentId?: string;
     modelName?: AzureOpenAIModelName;
     resourceUrl?: string;
+}
+
+// @public
+export interface AzureOpenAITokenizerParameters {
+    allowedSpecialTokens?: string[];
+    encoderModelName?: SplitSkillEncoderModelName;
 }
 
 // @public
@@ -197,6 +210,7 @@ export interface BaseKnowledgeBaseActivityRecord {
     error?: KnowledgeBaseErrorDetail;
     id: number;
     type: KnowledgeBaseActivityRecordType;
+    warning?: string;
 }
 
 // @public
@@ -231,16 +245,20 @@ export interface BaseKnowledgeSource {
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
-    kind: "searchIndex" | "azureBlob" | "indexedOneLake" | "web";
+    kind: "searchIndex" | "azureBlob" | "indexedSharePoint" | "indexedOneLake" | "indexedSql" | "file" | "web" | "remoteSharePoint" | "workIQ" | "mcpServer" | "fabricDataAgent" | "fabricOntology";
     name: string;
 }
 
 // @public
 export interface BaseKnowledgeSourceParams {
+    alwaysQuerySource?: boolean;
+    enableImageServing?: boolean;
+    failOnError?: boolean;
     includeReferences?: boolean;
     includeReferenceSourceData?: boolean;
     kind: KnowledgeSourceKind;
     knowledgeSourceName: string;
+    maxOutputDocuments?: number;
     rerankerThreshold?: number;
 }
 
@@ -293,14 +311,17 @@ export interface BaseSearchIndexerSkill {
 // @public
 export interface BaseSearchRequestOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> {
     debug?: QueryDebugMode;
+    enableElevatedRead?: boolean;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;
+    hybridSearch?: HybridSearch;
     includeTotalCount?: boolean;
     minimumCoverage?: number;
     orderBy?: string[];
+    querySourceAuthorization?: string;
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
@@ -501,6 +522,13 @@ export interface ConditionalSkill extends BaseSearchIndexerSkill {
 }
 
 // @public
+export interface ContentColumnMapping {
+    name: string;
+    searchFieldType: string;
+    sourceField: string;
+}
+
+// @public
 export interface ContentUnderstandingSkill extends BaseSearchIndexerSkill {
     chunkingProperties?: ContentUnderstandingSkillChunkingProperties;
     extractionOptions?: ContentUnderstandingSkillExtractionOptions[];
@@ -508,8 +536,12 @@ export interface ContentUnderstandingSkill extends BaseSearchIndexerSkill {
 }
 
 // @public
+export type ContentUnderstandingSkillChunkingMethod = string;
+
+// @public
 export interface ContentUnderstandingSkillChunkingProperties {
     maximumLength?: number;
+    method?: ContentUnderstandingSkillChunkingMethod;
     overlapLength?: number;
     unit?: ContentUnderstandingSkillChunkingUnit;
 }
@@ -712,6 +744,10 @@ export interface DeleteKnowledgeBaseOptions extends OperationOptions {
 }
 
 // @public (undocumented)
+export interface DeleteKnowledgeSourceFileOptions extends OperationOptions {
+}
+
+// @public (undocumented)
 export interface DeleteKnowledgeSourceOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
@@ -821,6 +857,12 @@ export interface ElisionTokenFilter extends BaseTokenFilter {
 }
 
 // @public
+export interface EmbeddingColumnMapping {
+    name: string;
+    sourceField: string;
+}
+
+// @public
 export type EntityCategory = string;
 
 // @public
@@ -890,6 +932,40 @@ export interface ExtractiveQueryCaption {
 }
 
 // @public
+export interface FabricDataAgentKnowledgeSource extends BaseKnowledgeSource {
+    fabricDataAgentParameters: FabricDataAgentKnowledgeSourceParameters;
+    kind: "fabricDataAgent";
+}
+
+// @public
+export interface FabricDataAgentKnowledgeSourceParameters {
+    dataAgentId: string;
+    workspaceId: string;
+}
+
+// @public
+export interface FabricDataAgentKnowledgeSourceParams extends BaseKnowledgeSourceParams {
+    kind: "fabricDataAgent";
+}
+
+// @public
+export interface FabricOntologyKnowledgeSource extends BaseKnowledgeSource {
+    fabricOntologyParameters: FabricOntologyKnowledgeSourceParameters;
+    kind: "fabricOntology";
+}
+
+// @public
+export interface FabricOntologyKnowledgeSourceParameters {
+    ontologyId: string;
+    workspaceId: string;
+}
+
+// @public
+export interface FabricOntologyKnowledgeSourceParams extends BaseKnowledgeSourceParams {
+    kind: "fabricOntology";
+}
+
+// @public
 export interface FacetResult {
     // @deprecated
     [property: string]: any;
@@ -914,6 +990,30 @@ export interface FieldMapping {
 export interface FieldMappingFunction {
     name: string;
     parameters?: Record<string, any>;
+}
+
+// @public
+export interface FileKnowledgeSource extends BaseKnowledgeSource {
+    fileParameters: FileKnowledgeSourceParameters;
+    kind: "file";
+}
+
+// @public
+export interface FileKnowledgeSourceParameters {
+    // Warning: (ae-forgotten-export) The symbol "CreatedResources" needs to be exported by the entry point index.d.ts
+    readonly createdResources?: CreatedResources;
+    // Warning: (ae-forgotten-export) The symbol "KnowledgeSourceIngestionParameters_2" needs to be exported by the entry point index.d.ts
+    ingestionParameters?: KnowledgeSourceIngestionParameters_2;
+}
+
+// @public
+export interface FileKnowledgeSourceParams extends BaseKnowledgeSourceParams {
+    kind: "file";
+}
+
+// @public
+export interface FreshnessPolicy {
+    boostingDuration?: string;
 }
 
 // @public
@@ -952,6 +1052,8 @@ export type GetDataSourceConnectionOptions = OperationOptions;
 
 // @public
 export interface GetDocumentOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> extends OperationOptions {
+    enableElevatedRead?: boolean;
+    querySourceAuthorization?: string;
     selectedFields?: readonly TFields[];
 }
 
@@ -1006,6 +1108,15 @@ export interface HnswParameters {
     efSearch?: number;
     m?: number;
     metric?: VectorSearchAlgorithmMetric;
+}
+
+// @public
+export type HybridCountAndFacetMode = string;
+
+// @public
+export interface HybridSearch {
+    countAndFacetMode?: HybridCountAndFacetMode;
+    maxTextRecallSize?: number;
 }
 
 // @public
@@ -1086,6 +1197,66 @@ export interface IndexedOneLakeKnowledgeSourceParams extends BaseKnowledgeSource
     kind: "indexedOneLake";
 }
 
+// @public
+export type IndexedSharePointContainerName = string;
+
+// @public
+export interface IndexedSharePointKnowledgeSource extends BaseKnowledgeSource {
+    indexedSharePointParameters: IndexedSharePointKnowledgeSourceParameters;
+    kind: "indexedSharePoint";
+}
+
+// @public
+export interface IndexedSharePointKnowledgeSourceParameters {
+    connectionString: string;
+    containerName: IndexedSharePointContainerName;
+    readonly createdResources?: {
+        [propertyName: string]: string;
+    };
+    ingestionParameters?: KnowledgeSourceIngestionParameters;
+    query?: string;
+}
+
+// @public
+export interface IndexedSharePointKnowledgeSourceParams extends BaseKnowledgeSourceParams {
+    kind: "indexedSharePoint";
+}
+
+// @public
+export interface IndexedSqlKnowledgeSource extends BaseKnowledgeSource {
+    indexedSqlParameters: IndexedSqlKnowledgeSourceParameters;
+    kind: "indexedSql";
+}
+
+// @public
+export interface IndexedSqlKnowledgeSourceParameters {
+    connectionString: string;
+    contentColumns?: ContentColumnMapping[];
+    readonly createdResources?: CreatedResources;
+    embeddingColumns?: EmbeddingColumnMapping[];
+    highWaterMarkColumnName?: string;
+    ingestionParameters?: KnowledgeSourceIngestionParameters_2;
+    tableOrView: string;
+}
+
+// @public
+export interface IndexedSqlKnowledgeSourceParams extends BaseKnowledgeSourceParams {
+    kind: "indexedSql";
+}
+
+// @public
+export interface IndexerCurrentState {
+    readonly allDocsFinalTrackingState?: string;
+    readonly allDocsInitialTrackingState?: string;
+    readonly mode?: IndexingMode;
+    readonly resetDatasourceDocumentIds?: string[];
+    readonly resetDocsFinalTrackingState?: string;
+    readonly resetDocsInitialTrackingState?: string;
+    readonly resetDocumentKeys?: string[];
+    readonly resyncFinalTrackingState?: string;
+    readonly resyncInitialTrackingState?: string;
+}
+
 // @public (undocumented)
 export type IndexerExecutionEnvironment = `${KnownIndexerExecutionEnvironment}`;
 
@@ -1098,8 +1269,10 @@ export interface IndexerExecutionResult {
     readonly finalTrackingState?: string;
     readonly initialTrackingState?: string;
     readonly itemCount: number;
+    readonly mode?: IndexingMode;
     readonly startTime?: Date;
     readonly status: IndexerExecutionStatus;
+    readonly statusDetail?: IndexerExecutionStatusDetail;
     readonly warnings: SearchIndexerWarning[];
 }
 
@@ -1107,10 +1280,27 @@ export interface IndexerExecutionResult {
 export type IndexerExecutionStatus = "transientFailure" | "success" | "inProgress" | "reset";
 
 // @public
+export type IndexerExecutionStatusDetail = string;
+
+// @public
+export type IndexerPermissionOption = string;
+
+// @public
 export type IndexerResyncOption = string;
 
 // @public
+export interface IndexerRuntime {
+    beginningTime: Date;
+    endingTime: Date;
+    remainingSeconds?: number;
+    usedSeconds: number;
+}
+
+// @public
 export type IndexerStatus = "unknown" | "error" | "running";
+
+// @public
+export type IndexingMode = string;
 
 // @public
 export interface IndexingParameters {
@@ -1167,6 +1357,14 @@ export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], {}>
 export type IndexProjectionMode = string;
 
 // @public
+export interface IndexStatisticsSummary {
+    readonly documentCount: number;
+    name: string;
+    readonly storageSize: number;
+    readonly vectorIndexSize: number;
+}
+
+// @public
 export interface InputFieldMappingEntry {
     inputs?: InputFieldMappingEntry[];
     name: string;
@@ -1208,6 +1406,7 @@ export interface KeywordMarkerTokenFilter extends BaseTokenFilter {
 
 // @public
 export interface KeywordTokenizer {
+    bufferSize?: number;
     maxTokenLength?: number;
     name: string;
     odatatype: "#Microsoft.Azure.Search.KeywordTokenizerV2" | "#Microsoft.Azure.Search.KeywordTokenizer";
@@ -1215,16 +1414,34 @@ export interface KeywordTokenizer {
 
 // @public (undocumented)
 export interface KnowledgeBase {
+    answerInstructions?: string;
+    corsOptions?: CorsOptions;
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     knowledgeSources: KnowledgeSourceReference[];
     models?: KnowledgeBaseModel[];
     name: string;
+    outputMode?: KnowledgeRetrievalOutputMode;
+    retrievalInstructions?: string;
+    retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
 }
 
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseSearchIndexActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseAzureBlobActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseIndexedSharePointActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseIndexedOneLakeActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseWebActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseRemoteSharePointActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseWorkIQActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseFabricDataAgentActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseFabricOntologyActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseMcpServerActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseFileActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseIndexedSqlActivityRecord" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type KnowledgeBaseActivityRecord = KnowledgeBaseModelWebSummarizationActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | BaseKnowledgeBaseActivityRecord;
+export type KnowledgeBaseActivityRecord = KnowledgeBaseSearchIndexActivityRecord | KnowledgeBaseAzureBlobActivityRecord | KnowledgeBaseIndexedSharePointActivityRecord | KnowledgeBaseIndexedOneLakeActivityRecord | KnowledgeBaseWebActivityRecord | KnowledgeBaseRemoteSharePointActivityRecord | KnowledgeBaseWorkIQActivityRecord | KnowledgeBaseFabricDataAgentActivityRecord | KnowledgeBaseFabricOntologyActivityRecord | KnowledgeBaseMcpServerActivityRecord | KnowledgeBaseFileActivityRecord | KnowledgeBaseIndexedSqlActivityRecord | KnowledgeBaseModelQueryPlanningActivityRecord | KnowledgeBaseModelAnswerSynthesisActivityRecord | KnowledgeBaseModelWebSummarizationActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | BaseKnowledgeBaseActivityRecord;
 
 // @public
 export type KnowledgeBaseActivityRecordType = string;
@@ -1239,6 +1456,7 @@ export interface KnowledgeBaseAgenticReasoningActivityRecord extends BaseKnowled
 // @public
 export interface KnowledgeBaseAzureBlobReference extends BaseKnowledgeBaseReference {
     blobUrl?: string;
+    searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
     type: "azureBlob";
 }
 
@@ -1264,13 +1482,54 @@ export interface KnowledgeBaseErrorDetail {
 }
 
 // @public
+export interface KnowledgeBaseFabricDataAgentReference extends BaseKnowledgeBaseReference {
+    dataAgentId?: string;
+    type: "fabricDataAgent";
+    workspaceId?: string;
+}
+
+// @public
+export interface KnowledgeBaseFabricOntologyReference extends BaseKnowledgeBaseReference {
+    ontologyId?: string;
+    type: "fabricOntology";
+    workspaceId?: string;
+}
+
+// @public
+export interface KnowledgeBaseFileReference extends BaseKnowledgeBaseReference {
+    docName?: string;
+    type: "file";
+}
+
+// @public
 export interface KnowledgeBaseIndexedOneLakeReference extends BaseKnowledgeBaseReference {
     docUrl?: string;
+    searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
     type: "indexedOneLake";
 }
 
 // @public
+export interface KnowledgeBaseIndexedSharePointReference extends BaseKnowledgeBaseReference {
+    docUrl?: string;
+    searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
+    type: "indexedSharePoint";
+}
+
+// @public
+export interface KnowledgeBaseIndexedSqlReference extends BaseKnowledgeBaseReference {
+    docUrl?: string;
+    type: "indexedSql";
+}
+
+// @public
 export type KnowledgeBaseIterator = PagedAsyncIterableIterator<KnowledgeBase, KnowledgeBase[], {}>;
+
+// @public
+export interface KnowledgeBaseMcpServerReference extends BaseKnowledgeBaseReference {
+    title?: string;
+    toolName?: string;
+    type: "mcpServer";
+}
 
 // @public
 export interface KnowledgeBaseMessage {
@@ -1305,28 +1564,57 @@ export interface KnowledgeBaseMessageTextContent extends BaseKnowledgeBaseMessag
 export type KnowledgeBaseModel = KnowledgeBaseAzureOpenAIModel;
 
 // @public
+export interface KnowledgeBaseModelAnswerSynthesisActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    inputTokens?: number;
+    modelName?: string;
+    outputTokens?: number;
+    type: "modelAnswerSynthesis";
+}
+
+// @public
 export type KnowledgeBaseModelKind = string;
+
+// @public
+export interface KnowledgeBaseModelQueryPlanningActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    inputTokens?: number;
+    modelName?: string;
+    outputTokens?: number;
+    type: "modelQueryPlanning";
+}
 
 // @public
 export interface KnowledgeBaseModelWebSummarizationActivityRecord extends BaseKnowledgeBaseActivityRecord {
     inputTokensCount?: number;
+    modelName?: string;
     outputTokensCount?: number;
     type: "modelWebSummarization";
 }
 
 // @public
-export type KnowledgeBaseReference = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | BaseKnowledgeBaseReference;
+export type KnowledgeBaseReference = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedSharePointReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | KnowledgeBaseRemoteSharePointReference | KnowledgeBaseWorkIQReference | KnowledgeBaseFabricDataAgentReference | KnowledgeBaseFabricOntologyReference | KnowledgeBaseMcpServerReference | KnowledgeBaseFileReference | KnowledgeBaseIndexedSqlReference | BaseKnowledgeBaseReference;
 
 // @public
 export type KnowledgeBaseReferenceType = string;
+
+// @public
+export interface KnowledgeBaseRemoteSharePointReference extends BaseKnowledgeBaseReference {
+    searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
+    type: "remoteSharePoint";
+    webUrl?: string;
+}
 
 // @public
 export interface KnowledgeBaseRetrievalRequest {
     includeActivity?: boolean;
     intents?: BaseKnowledgeRetrievalIntent[];
     knowledgeSourceParams?: KnowledgeSourceParams[];
+    maxOutputDocuments?: number;
+    maxOutputSize?: number;
     maxOutputSizeInTokens?: number;
     maxRuntimeInSeconds?: number;
+    messages?: KnowledgeBaseMessage[];
+    outputMode?: KnowledgeRetrievalOutputMode;
+    retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
 }
 
 // @public
@@ -1334,11 +1622,13 @@ export interface KnowledgeBaseRetrievalResponse {
     activity?: KnowledgeBaseActivityRecord[];
     references?: KnowledgeBaseReference[];
     response?: KnowledgeBaseMessage[];
+    responseSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
 }
 
 // @public
 export interface KnowledgeBaseSearchIndexReference extends BaseKnowledgeBaseReference {
     docKey?: string;
+    searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
     type: "searchIndex";
 }
 
@@ -1347,6 +1637,12 @@ export interface KnowledgeBaseWebReference extends BaseKnowledgeBaseReference {
     title?: string;
     type: "web";
     url?: string;
+}
+
+// @public
+export interface KnowledgeBaseWorkIQReference extends BaseKnowledgeBaseReference {
+    attributions?: WorkIQAttribution[];
+    type: "workIQ";
 }
 
 // @public
@@ -1375,15 +1671,28 @@ export interface KnowledgeRetrievalIntent {
 export type KnowledgeRetrievalIntentType = string;
 
 // @public
+export interface KnowledgeRetrievalLowReasoningEffort extends BaseKnowledgeRetrievalReasoningEffort {
+    kind: "low";
+}
+
+// @public
+export interface KnowledgeRetrievalMediumReasoningEffort extends BaseKnowledgeRetrievalReasoningEffort {
+    kind: "medium";
+}
+
+// @public
 export interface KnowledgeRetrievalMinimalReasoningEffort extends BaseKnowledgeRetrievalReasoningEffort {
     kind: "minimal";
 }
 
 // @public
+export type KnowledgeRetrievalOutputMode = string;
+
+// @public
 export type KnowledgeRetrievalReasoningEffortKind = string;
 
 // @public
-export type KnowledgeRetrievalReasoningEffortUnion = KnowledgeRetrievalMinimalReasoningEffort | BaseKnowledgeRetrievalReasoningEffort;
+export type KnowledgeRetrievalReasoningEffortUnion = KnowledgeRetrievalMinimalReasoningEffort | KnowledgeRetrievalLowReasoningEffort | KnowledgeRetrievalMediumReasoningEffort | BaseKnowledgeRetrievalReasoningEffort;
 
 // @public
 export interface KnowledgeRetrievalSemanticIntent extends KnowledgeRetrievalIntent {
@@ -1392,7 +1701,7 @@ export interface KnowledgeRetrievalSemanticIntent extends KnowledgeRetrievalInte
 }
 
 // @public (undocumented)
-export type KnowledgeSource = BaseKnowledgeSource | SearchIndexKnowledgeSource | AzureBlobKnowledgeSource | IndexedOneLakeKnowledgeSource | WebKnowledgeSource;
+export type KnowledgeSource = BaseKnowledgeSource | SearchIndexKnowledgeSource | AzureBlobKnowledgeSource | IndexedSharePointKnowledgeSource | IndexedOneLakeKnowledgeSource | IndexedSqlKnowledgeSource | FileKnowledgeSource | WebKnowledgeSource | RemoteSharePointKnowledgeSource | WorkIQKnowledgeSource | McpServerKnowledgeSource | FabricDataAgentKnowledgeSource | FabricOntologyKnowledgeSource;
 
 // @public
 export interface KnowledgeSourceAzureOpenAIVectorizer extends BaseKnowledgeSourceVectorizer {
@@ -1404,15 +1713,31 @@ export interface KnowledgeSourceAzureOpenAIVectorizer extends BaseKnowledgeSourc
 export type KnowledgeSourceContentExtractionMode = string;
 
 // @public
+export interface KnowledgeSourceFile {
+    readonly createdAt?: Date;
+    readonly errorMessage?: string | null;
+    readonly fileId?: string;
+    readonly fileName?: string;
+    readonly fileSizeBytes?: number;
+    readonly lastUpdatedAt?: Date;
+}
+
+// @public
 export interface KnowledgeSourceIngestionParameters {
     aiServices?: AIServices;
+    assetStore?: AssetStore;
     chatCompletionModel?: KnowledgeBaseModel;
     contentExtractionMode?: KnowledgeSourceContentExtractionMode;
     disableImageVerbalization?: boolean;
     embeddingModel?: KnowledgeSourceVectorizer;
+    freshnessPolicy?: FreshnessPolicy;
     identity?: SearchIndexerDataIdentity;
+    ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[];
     ingestionSchedule?: IndexingSchedule;
 }
+
+// @public
+export type KnowledgeSourceIngestionPermissionOption = string;
 
 // @public
 export type KnowledgeSourceIterator = PagedAsyncIterableIterator<KnowledgeSource, KnowledgeSource[], {}>;
@@ -1421,10 +1746,12 @@ export type KnowledgeSourceIterator = PagedAsyncIterableIterator<KnowledgeSource
 export type KnowledgeSourceKind = string;
 
 // @public
-export type KnowledgeSourceParams = SearchIndexKnowledgeSourceParams | AzureBlobKnowledgeSourceParams | IndexedOneLakeKnowledgeSourceParams | WebKnowledgeSourceParams | BaseKnowledgeSourceParams;
+export type KnowledgeSourceParams = SearchIndexKnowledgeSourceParams | AzureBlobKnowledgeSourceParams | IndexedSharePointKnowledgeSourceParams | IndexedOneLakeKnowledgeSourceParams | WebKnowledgeSourceParams | RemoteSharePointKnowledgeSourceParams | WorkIQKnowledgeSourceParams | FabricDataAgentKnowledgeSourceParams | FabricOntologyKnowledgeSourceParams | McpServerKnowledgeSourceParams | FileKnowledgeSourceParams | IndexedSqlKnowledgeSourceParams | BaseKnowledgeSourceParams;
 
 // @public
 export interface KnowledgeSourceReference {
+    enableFreshness?: boolean;
+    enableImageServing?: boolean;
     name: string;
 }
 
@@ -1571,6 +1898,15 @@ export enum KnownAnalyzerNames {
 
 // @public
 export enum KnownAzureOpenAIModelName {
+    Gpt41 = "gpt-4.1",
+    Gpt41Mini = "gpt-4.1-mini",
+    Gpt41Nano = "gpt-4.1-nano",
+    Gpt4O = "gpt-4o",
+    Gpt4OMini = "gpt-4o-mini",
+    Gpt5 = "gpt-5",
+    Gpt51 = "gpt-5.1",
+    Gpt52 = "gpt-5.2",
+    Gpt54 = "gpt-5.4",
     Gpt54Mini = "gpt-5.4-mini",
     Gpt54Nano = "gpt-5.4-nano",
     Gpt5Mini = "gpt-5-mini",
@@ -1632,7 +1968,8 @@ export enum KnownChatCompletionResponseFormatType {
 
 // @public
 export enum KnownContentUnderstandingSkillChunkingUnit {
-    Characters = "characters"
+    Characters = "characters",
+    Tokens = "tokens"
 }
 
 // @public
@@ -1725,6 +2062,12 @@ export enum KnownEntityRecognitionSkillLanguage {
 }
 
 // @public
+export enum KnownHybridCountAndFacetMode {
+    CountAllResults = "countAllResults",
+    CountRetrievableResults = "countRetrievableResults"
+}
+
+// @public
 export enum KnownImageAnalysisSkillLanguage {
     Ar = "ar",
     Az = "az",
@@ -1787,9 +2130,23 @@ export enum KnownImageDetail {
 }
 
 // @public
+export enum KnownIndexedSharePointContainerName {
+    AllSiteLibraries = "allSiteLibraries",
+    DefaultSiteLibrary = "defaultSiteLibrary",
+    UseQuery = "useQuery"
+}
+
+// @public
 export enum KnownIndexerExecutionEnvironment {
     Private = "private",
     Standard = "standard"
+}
+
+// @public
+export enum KnownIndexerPermissionOption {
+    GroupIds = "groupIds",
+    RbacScope = "rbacScope",
+    UserIds = "userIds"
 }
 
 // @public
@@ -1829,11 +2186,40 @@ export enum KnownKnowledgeBaseModelKind {
 }
 
 // @public
+export enum KnownKnowledgeRetrievalOutputMode {
+    AnswerSynthesis = "answerSynthesis",
+    ExtractiveData = "extractiveData"
+}
+
+// @public
+export enum KnownKnowledgeRetrievalReasoningEffortKind {
+    Low = "low",
+    Medium = "medium",
+    Minimal = "minimal"
+}
+
+// @public
+export enum KnownKnowledgeSourceIngestionPermissionOption {
+    GroupIds = "groupIds",
+    RbacScope = "rbacScope",
+    SensitivityLabels = "sensitivityLabels",
+    UserIds = "userIds"
+}
+
+// @public
 export enum KnownKnowledgeSourceKind {
     AzureBlob = "azureBlob",
+    FabricDataAgent = "fabricDataAgent",
+    FabricOntology = "fabricOntology",
+    File = "file",
     IndexedOneLake = "indexedOneLake",
+    IndexedSharePoint = "indexedSharePoint",
+    IndexedSql = "indexedSql",
+    McpServer = "mcpServer",
+    RemoteSharePoint = "remoteSharePoint",
     SearchIndex = "searchIndex",
-    Web = "web"
+    Web = "web",
+    WorkIQ = "workIQ"
 }
 
 // @public
@@ -1958,6 +2344,26 @@ export enum KnownMarkdownHeaderDepth {
 export enum KnownMarkdownParsingSubmode {
     OneToMany = "oneToMany",
     OneToOne = "oneToOne"
+}
+
+// @public
+export enum KnownMcpServerAuthenticationKind {
+    FoundryConnection = "foundryConnection",
+    StoredHeaders = "storedHeaders"
+}
+
+// @public
+export enum KnownMcpServerOutputParsingKind {
+    Auto = "auto",
+    Json = "json",
+    None = "none",
+    Split = "split"
+}
+
+// @public
+export enum KnownMcpServerToolInclusionMode {
+    Always = "always",
+    Reranked = "reranked"
 }
 
 // @public
@@ -2143,6 +2549,13 @@ export enum KnownOcrSkillLanguage {
 }
 
 // @public
+export enum KnownPermissionFilter {
+    GroupIds = "groupIds",
+    RbacScope = "rbacScope",
+    UserIds = "userIds"
+}
+
+// @public
 export enum KnownPIIDetectionSkillMaskingMode {
     None = "none",
     Replace = "replace"
@@ -2213,6 +2626,12 @@ export enum KnownSearchIndexerDataSourceType {
 }
 
 // @public
+export enum KnownSearchIndexPermissionFilterOption {
+    Disabled = "disabled",
+    Enabled = "enabled"
+}
+
+// @public
 export enum KnownSemanticErrorMode {
     Fail = "fail",
     Partial = "partial"
@@ -2223,6 +2642,13 @@ export enum KnownSemanticErrorReason {
     CapacityOverloaded = "capacityOverloaded",
     MaxWaitExceeded = "maxWaitExceeded",
     Transient = "transient"
+}
+
+// @public
+export enum KnownSemanticFieldState {
+    Partial = "partial",
+    Unused = "unused",
+    Used = "used"
 }
 
 // @public
@@ -2248,6 +2674,14 @@ export enum KnownSentimentSkillLanguage {
     Ru = "ru",
     Sv = "sv",
     Tr = "tr"
+}
+
+// @public
+export enum KnownSplitSkillEncoderModelName {
+    CL100KBase = "cl100k_base",
+    P50KBase = "p50k_base",
+    P50KEdit = "p50k_edit",
+    R50KBase = "r50k_base"
 }
 
 // @public
@@ -2285,6 +2719,12 @@ export enum KnownSplitSkillLanguage {
     Tr = "tr",
     Ur = "ur",
     Zh = "zh"
+}
+
+// @public
+export enum KnownSplitSkillUnit {
+    AzureOpenAITokens = "azureOpenAITokens",
+    Characters = "characters"
 }
 
 // @public
@@ -2545,8 +2985,19 @@ export type ListIndexersOptions = OperationOptions;
 // @public
 export type ListIndexesOptions = OperationOptions;
 
+// @public
+export interface ListIndexStatsSummaryOptions extends OperationOptions {
+    count?: boolean;
+    skip?: number;
+    top?: number;
+}
+
 // @public (undocumented)
 export interface ListKnowledgeBasesOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface ListKnowledgeSourceFilesOptions extends OperationOptions {
 }
 
 // @public (undocumented)
@@ -2602,6 +3053,123 @@ export type MarkdownHeaderDepth = string;
 
 // @public
 export type MarkdownParsingSubmode = string;
+
+// @public
+export interface McpServerAuthentication {
+    kind: McpServerAuthenticationKind;
+}
+
+// @public
+export type McpServerAuthenticationKind = string;
+
+// @public
+export type McpServerAuthenticationUnion = McpServerFoundryConnectionAuthentication | McpServerStoredHeadersAuthentication | McpServerAuthentication;
+
+// @public
+export interface McpServerAutoOutputParsing extends McpServerOutputParsing {
+    kind: "auto";
+}
+
+// @public
+export interface McpServerFoundryConnectionAuthentication extends McpServerAuthentication {
+    foundryConnectionParameters: McpServerFoundryConnectionParameters;
+    kind: "foundryConnection";
+}
+
+// @public
+export interface McpServerFoundryConnectionParameters {
+    connectionId?: string;
+}
+
+// @public
+export interface McpServerHeaders {
+    additionalProperties?: Record<string, string>;
+}
+
+// @public
+export interface McpServerJsonOutputParsing extends McpServerOutputParsing {
+    jsonParameters: McpServerOutputParsingJsonParameters;
+    kind: "json";
+}
+
+// @public
+export interface McpServerKnowledgeSource extends BaseKnowledgeSource {
+    kind: "mcpServer";
+    mcpServerParameters: McpServerKnowledgeSourceParameters;
+}
+
+// @public
+export interface McpServerKnowledgeSourceParameters {
+    authentication?: McpServerAuthenticationUnion;
+    serverURL: string;
+    tools: McpServerTool[];
+}
+
+// @public
+export interface McpServerKnowledgeSourceParams extends BaseKnowledgeSourceParams {
+    kind: "mcpServer";
+}
+
+// @public
+export interface McpServerNoneOutputParsing extends McpServerOutputParsing {
+    kind: "none";
+}
+
+// @public
+export interface McpServerOutputParsing {
+    kind: McpServerOutputParsingKind;
+}
+
+// @public
+export interface McpServerOutputParsingJsonParameters {
+    documentsPath: string;
+    includeContext?: boolean;
+}
+
+// @public
+export type McpServerOutputParsingKind = string;
+
+// @public
+export interface McpServerOutputParsingSplitParameters {
+    // Warning: (ae-forgotten-export) The symbol "SplitSkillLanguage_2" needs to be exported by the entry point index.d.ts
+    defaultLanguageCode?: SplitSkillLanguage_2;
+    maximumPageLength?: number;
+    maximumPagesToTake?: number;
+    pageOverlapLength?: number;
+    // Warning: (ae-forgotten-export) The symbol "TextSplitMode_2" needs to be exported by the entry point index.d.ts
+    textSplitMode?: TextSplitMode_2;
+}
+
+// @public
+export type McpServerOutputParsingUnion = McpServerAutoOutputParsing | McpServerJsonOutputParsing | McpServerSplitOutputParsing | McpServerNoneOutputParsing | McpServerOutputParsing;
+
+// @public
+export interface McpServerSplitOutputParsing extends McpServerOutputParsing {
+    kind: "split";
+    splitParameters?: McpServerOutputParsingSplitParameters;
+}
+
+// @public
+export interface McpServerStoredHeadersAuthentication extends McpServerAuthentication {
+    kind: "storedHeaders";
+    storedHeadersParameters: McpServerStoredHeadersParameters;
+}
+
+// @public
+export interface McpServerStoredHeadersParameters {
+    headers?: McpServerHeaders;
+}
+
+// @public
+export interface McpServerTool {
+    inclusionMode?: McpServerToolInclusionMode;
+    maxOutputTokens?: number;
+    name?: string;
+    outputParsing?: McpServerOutputParsingUnion;
+}
+
+// @public
+export type McpServerToolInclusionMode = string;
 
 // @public
 export type MergeDocumentsOptions = IndexDocumentsOptions;
@@ -2754,6 +3322,9 @@ export interface PatternTokenizer {
 }
 
 // @public
+export type PermissionFilter = string;
+
+// @public
 export type PhoneticEncoder = "metaphone" | "doubleMetaphone" | "soundex" | "refinedSoundex" | "caverphone1" | "caverphone2" | "cologne" | "nysiis" | "koelnerPhonetik" | "haasePhonetik" | "beiderMorse";
 
 // @public
@@ -2777,6 +3348,16 @@ export interface PIIDetectionSkill extends BaseSearchIndexerSkill {
 
 // @public (undocumented)
 export type PIIDetectionSkillMaskingMode = `${KnownPIIDetectionSkillMaskingMode}`;
+
+// @public
+export interface PurviewSensitivityLabelInfo {
+    color?: string;
+    displayName?: string;
+    isEncrypted?: boolean;
+    priority?: number;
+    sensitivityLabelId?: string;
+    toolTip?: string;
+}
 
 // @public
 export type QueryAnswer = ExtractiveQueryAnswer;
@@ -2808,8 +3389,16 @@ export interface QueryCaptionResult {
 export type QueryDebugMode = string;
 
 // @public
+export interface QueryResultDocumentRerankerInput {
+    readonly content?: string;
+    readonly keywords?: string;
+    readonly title?: string;
+}
+
+// @public
 export interface QueryResultDocumentSemanticField {
     readonly name?: string;
+    readonly state?: SemanticFieldState;
 }
 
 // @public
@@ -2832,6 +3421,25 @@ export type RankingOrder = string;
 export type RegexFlags = `${KnownRegexFlags}`;
 
 // @public
+export interface RemoteSharePointKnowledgeSource extends BaseKnowledgeSource {
+    kind: "remoteSharePoint";
+    remoteSharePointParameters?: RemoteSharePointKnowledgeSourceParameters;
+}
+
+// @public
+export interface RemoteSharePointKnowledgeSourceParameters {
+    containerTypeId?: string;
+    filterExpression?: string;
+    resourceMetadata?: string[];
+}
+
+// @public
+export interface RemoteSharePointKnowledgeSourceParams extends BaseKnowledgeSourceParams {
+    filterExpressionAddOn?: string;
+    kind: "remoteSharePoint";
+}
+
+// @public
 export interface RescoringOptions {
     defaultOversampling?: number;
     enableRescoring?: boolean;
@@ -2839,7 +3447,17 @@ export interface RescoringOptions {
 }
 
 // @public
+export interface ResetDocumentsOptions extends OperationOptions {
+    dataSourceDocumentIds?: string[];
+    documentKeys?: string[];
+    overwrite?: boolean;
+}
+
+// @public
 export type ResetIndexerOptions = OperationOptions;
+
+// @public
+export type ResetSkillsOptions = OperationOptions;
 
 // @public
 export interface ResourceCounter {
@@ -2847,8 +3465,14 @@ export interface ResourceCounter {
     usage: number;
 }
 
+// @public
+export interface ResyncIndexerOptions extends OperationOptions {
+    resyncOptions?: IndexerResyncOption[];
+}
+
 // @public (undocumented)
 export interface RetrieveOptions extends OperationOptions {
+    querySourceAuthorization?: string;
 }
 
 // @public
@@ -2966,9 +3590,11 @@ export interface SearchIndex {
     fields: SearchField[];
     name: string;
     normalizers?: LexicalNormalizer[];
+    permissionFilterOption?: SearchIndexPermissionFilterOption;
     purviewEnabled?: boolean;
     scoringProfiles?: ScoringProfile[];
     semanticSearch?: SemanticSearch;
+    sharePointConnectorAppRegistration?: SharePointConnectorAppRegistration;
     similarity?: SimilarityAlgorithm;
     suggesters?: Suggester[];
     tokenFilters?: TokenFilter[];
@@ -3004,6 +3630,7 @@ export class SearchIndexClient {
     deleteKnowledgeBase(knowledgeBase: KnowledgeBase, options?: DeleteKnowledgeBaseOptions): Promise<void>;
     deleteKnowledgeSource(sourceName: string, options?: DeleteKnowledgeSourceOptions): Promise<void>;
     deleteKnowledgeSource(source: KnowledgeSource, options?: DeleteKnowledgeSourceOptions): Promise<void>;
+    deleteKnowledgeSourceFile(name: string, fileId: string, options?: DeleteKnowledgeSourceFileOptions): Promise<void>;
     deleteSynonymMap(synonymMap: string | SynonymMap, options?: DeleteSynonymMapOptions): Promise<void>;
     readonly endpoint: string;
     getAlias(aliasName: string, options?: GetAliasOptions): Promise<SearchIndexAlias>;
@@ -3019,12 +3646,15 @@ export class SearchIndexClient {
     listAliases(options?: ListAliasesOptions): AliasIterator;
     listIndexes(options?: ListIndexesOptions): IndexIterator;
     listIndexesNames(options?: ListIndexesOptions): IndexNameIterator;
+    listIndexStatsSummary(options?: ListIndexStatsSummaryOptions): PagedAsyncIterableIterator<IndexStatisticsSummary>;
     listKnowledgeBases(options?: ListKnowledgeBasesOptions): KnowledgeBaseIterator;
+    listKnowledgeSourceFiles(name: string, options?: ListKnowledgeSourceFilesOptions): PagedAsyncIterableIterator<KnowledgeSourceFile>;
     listKnowledgeSources(options?: ListKnowledgeSourcesOptions): KnowledgeSourceIterator;
     listSynonymMaps(options?: ListSynonymMapsOptions): Promise<Array<SynonymMap>>;
     listSynonymMapsNames(options?: ListSynonymMapsOptions): Promise<Array<string>>;
     readonly pipeline: Pipeline;
     readonly serviceVersion: string;
+    uploadKnowledgeSourceFile(name: string, file: Uint8Array, contentDisposition: string, options?: UploadKnowledgeSourceFileOptions): Promise<KnowledgeSourceFile>;
 }
 
 // @public
@@ -3037,6 +3667,7 @@ export interface SearchIndexClientOptions extends ClientOptions {
 
 // @public
 export interface SearchIndexer {
+    cache?: SearchIndexerCache;
     dataSourceName: string;
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
@@ -3049,6 +3680,14 @@ export interface SearchIndexer {
     schedule?: IndexingSchedule;
     skillsetName?: string;
     targetIndexName: string;
+}
+
+// @public
+export interface SearchIndexerCache {
+    enableReprocessing?: boolean;
+    id?: string;
+    identity?: SearchIndexerDataIdentityUnion;
+    storageConnectionString?: string;
 }
 
 // @public
@@ -3077,7 +3716,10 @@ export class SearchIndexerClient {
     listSkillsets(options?: ListSkillsetsOptions): Promise<Array<SearchIndexerSkillset>>;
     listSkillsetsNames(options?: ListSkillsetsOptions): Promise<Array<string>>;
     readonly pipeline: Pipeline;
+    resetDocuments(indexerName: string, options?: ResetDocumentsOptions): Promise<void>;
     resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
+    resetSkills(skillsetName: string, skillNames: string[], options?: ResetSkillsOptions): Promise<void>;
+    resyncIndexer(indexerName: string, options?: ResyncIndexerOptions): Promise<void>;
     runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
     readonly serviceVersion: string;
 }
@@ -3100,6 +3742,9 @@ export interface SearchIndexerDataContainer {
 export type SearchIndexerDataIdentity = SearchIndexerDataNoneIdentity | SearchIndexerDataUserAssignedIdentity;
 
 // @public
+export type SearchIndexerDataIdentityUnion = SearchIndexerDataNoneIdentity | SearchIndexerDataUserAssignedIdentity | BaseSearchIndexerDataIdentity;
+
+// @public
 export interface SearchIndexerDataNoneIdentity extends BaseSearchIndexerDataIdentity {
     odatatype: "#Microsoft.Azure.Search.DataNoneIdentity";
 }
@@ -3114,6 +3759,7 @@ export interface SearchIndexerDataSourceConnection {
     encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     identity?: SearchIndexerDataIdentity;
+    indexerPermissionOptions?: IndexerPermissionOption[];
     name: string;
     readonly subType?: string;
     type: SearchIndexerDataSourceType;
@@ -3124,6 +3770,7 @@ export type SearchIndexerDataSourceType = `${KnownSearchIndexerDataSourceType}`;
 
 // @public
 export interface SearchIndexerDataUserAssignedIdentity extends BaseSearchIndexerDataIdentity {
+    federatedIdentityClientId?: string;
     odatatype: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
     resourceId: string;
 }
@@ -3161,6 +3808,7 @@ export interface SearchIndexerIndexProjectionSelector {
 // @public
 export interface SearchIndexerKnowledgeStore {
     identity?: SearchIndexerDataIdentity;
+    parameters?: SearchIndexerKnowledgeStoreParameters;
     projections: SearchIndexerKnowledgeStoreProjection[];
     storageConnectionString: string;
 }
@@ -3230,10 +3878,12 @@ export interface SearchIndexerSkillset {
 
 // @public
 export interface SearchIndexerStatus {
+    readonly currentState?: IndexerCurrentState;
     readonly executionHistory: IndexerExecutionResult[];
     readonly lastResult?: IndexerExecutionResult;
     readonly limits: SearchIndexerLimits;
     readonly name: string;
+    readonly runtime: IndexerRuntime;
     readonly status: IndexerStatus;
 }
 
@@ -3309,6 +3959,7 @@ export interface SearchIndexKnowledgeSource extends BaseKnowledgeSource {
 
 // @public
 export interface SearchIndexKnowledgeSourceParameters {
+    baseFilter?: string;
     searchFields?: SearchIndexFieldReference[];
     searchIndexName: string;
     semanticConfigurationName?: string;
@@ -3320,6 +3971,9 @@ export interface SearchIndexKnowledgeSourceParams extends BaseKnowledgeSourcePar
     filterAddOn?: string;
     kind: "searchIndex";
 }
+
+// @public
+export type SearchIndexPermissionFilterOption = string;
 
 // @public
 export interface SearchIndexStatistics {
@@ -3361,6 +4015,7 @@ export interface SearchResourceEncryptionKey {
     applicationId?: string;
     applicationSecret?: string;
     identity?: SearchIndexerDataIdentity;
+    isServiceLevelKey?: boolean;
     keyName: string;
     keyVersion?: string;
     vaultUrl: string;
@@ -3382,6 +4037,7 @@ export type SearchResult<TModel extends object, TFields extends SelectFields<TMo
 // @public
 export interface SearchServiceStatistics {
     counters: ServiceCounters;
+    indexersRuntime: ServiceIndexersRuntime;
     limits: ServiceLimits;
 }
 
@@ -3392,6 +4048,7 @@ export type SelectFields<TModel extends object> = (<T>() => T extends TModel ? t
 
 // @public
 export interface SemanticConfiguration {
+    flightingOptIn?: boolean;
     name: string;
     prioritizedFields: SemanticPrioritizedFields;
     rankingOrder?: RankingOrder;
@@ -3401,6 +4058,7 @@ export interface SemanticConfiguration {
 export interface SemanticDebugInfo {
     readonly contentFields?: QueryResultDocumentSemanticField[];
     readonly keywordFields?: QueryResultDocumentSemanticField[];
+    readonly rerankerInput?: QueryResultDocumentRerankerInput;
     readonly titleField?: QueryResultDocumentSemanticField;
 }
 
@@ -3414,6 +4072,9 @@ export type SemanticErrorReason = `${KnownSemanticErrorReason}`;
 export interface SemanticField {
     name: string;
 }
+
+// @public
+export type SemanticFieldState = string;
 
 // @public
 export interface SemanticPrioritizedFields {
@@ -3468,10 +4129,20 @@ export interface ServiceCounters {
     documentCounter: ResourceCounter;
     indexCounter: ResourceCounter;
     indexerCounter: ResourceCounter;
+    knowledgeBaseCounter: ResourceCounter;
+    knowledgeSourceCounter: ResourceCounter;
     skillsetCounter: ResourceCounter;
     storageSizeCounter: ResourceCounter;
     synonymMapCounter: ResourceCounter;
     vectorIndexSizeCounter: ResourceCounter;
+}
+
+// @public
+export interface ServiceIndexersRuntime {
+    beginningTime: Date;
+    endingTime: Date;
+    remainingSeconds?: number;
+    usedSeconds: number;
 }
 
 // @public
@@ -3487,6 +4158,13 @@ export interface ServiceLimits {
 // @public
 export interface ShaperSkill extends BaseSearchIndexerSkill {
     odatatype: "#Microsoft.Skills.Util.ShaperSkill";
+}
+
+// @public
+export interface SharePointConnectorAppRegistration {
+    applicationId: string;
+    federatedCredentialId: string;
+    tenantId?: string;
 }
 
 // @public
@@ -3517,9 +4195,13 @@ export interface SimpleField {
     key?: boolean;
     name: string;
     normalizerName?: LexicalNormalizerName;
+    permissionFilter?: PermissionFilter;
     searchable?: boolean;
     searchAnalyzerName?: LexicalAnalyzerName;
+    sensitivityLabelName?: boolean;
+    sharepointSiteUrl?: boolean;
     sortable?: boolean;
+    sourceDocumentId?: boolean;
     stored?: boolean;
     synonymMapNames?: string[];
     type: SearchFieldDataType;
@@ -3552,16 +4234,24 @@ export interface SoftDeleteColumnDeletionDetectionPolicy extends BaseDataDeletio
 
 // @public
 export interface SplitSkill extends BaseSearchIndexerSkill {
+    azureOpenAITokenizerParameters?: AzureOpenAITokenizerParameters;
     defaultLanguageCode?: SplitSkillLanguage;
     maximumPagesToTake?: number;
     maxPageLength?: number;
     odatatype: "#Microsoft.Skills.Text.SplitSkill";
     pageOverlapLength?: number;
     textSplitMode?: TextSplitMode;
+    unit?: SplitSkillUnit;
 }
+
+// @public
+export type SplitSkillEncoderModelName = string;
 
 // @public (undocumented)
 export type SplitSkillLanguage = `${KnownSplitSkillLanguage}`;
+
+// @public
+export type SplitSkillUnit = string;
 
 // @public
 export interface SqlIntegratedChangeTrackingPolicy extends BaseDataChangeDetectionPolicy {
@@ -3739,6 +4429,10 @@ export interface UniqueTokenFilter extends BaseTokenFilter {
 // @public
 export type UploadDocumentsOptions = IndexDocumentsOptions;
 
+// @public (undocumented)
+export interface UploadKnowledgeSourceFileOptions extends OperationOptions {
+}
+
 // @public
 export type VectorEncodingFormat = string;
 
@@ -3889,7 +4583,11 @@ export interface WebKnowledgeSourceDomains {
 
 // @public
 export interface WebKnowledgeSourceParameters {
+    count?: number;
     domains?: WebKnowledgeSourceDomains;
+    freshness?: string;
+    language?: string;
+    market?: string;
 }
 
 // @public
@@ -3914,6 +4612,21 @@ export interface WordDelimiterTokenFilter extends BaseTokenFilter {
     splitOnCaseChange?: boolean;
     splitOnNumerics?: boolean;
     stemEnglishPossessive?: boolean;
+}
+
+// @public
+export interface WorkIQAttribution {
+    seeMoreWebUrl?: string;
+}
+
+// @public
+export interface WorkIQKnowledgeSource extends BaseKnowledgeSource {
+    kind: "workIQ";
+}
+
+// @public
+export interface WorkIQKnowledgeSourceParams extends BaseKnowledgeSourceParams {
+    kind: "workIQ";
 }
 
 // (No @packageDocumentation comment for this package)
