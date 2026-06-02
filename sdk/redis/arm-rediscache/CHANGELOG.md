@@ -26,10 +26,10 @@ Compared with version 8.2.0
   - Added Interface RedisFirewallRuleProperties
   - Added Interface RestorePollerOptions
   - Added Interface ScheduleEntries
+  - Added Interface SimplePollerLike
   - Added Interface SystemData
   - Interface PrivateEndpointConnection has a new optional parameter groupIds
   - Interface PrivateEndpointConnection has a new optional parameter systemData
-  - Interface PrivateLinkResource has a new optional parameter properties
   - Interface PrivateLinkResource has a new optional parameter systemData
   - Interface ProxyResource has a new optional parameter systemData
   - Interface RedisCacheAccessPolicy has a new optional parameter systemData
@@ -55,40 +55,11 @@ Compared with version 8.2.0
   - Enum KnownProvisioningState has a new value MigrationSucceeded
 
 ### Breaking Changes
-  - Removed operation AccessPolicy.beginCreateUpdate
-  - Removed operation AccessPolicy.beginCreateUpdateAndWait
-  - Removed operation AccessPolicy.beginDelete
-  - Removed operation AccessPolicy.beginDeleteAndWait
-  - Removed operation AccessPolicyAssignment.beginCreateUpdate
-  - Removed operation AccessPolicyAssignment.beginCreateUpdateAndWait
-  - Removed operation AccessPolicyAssignment.beginDelete
-  - Removed operation AccessPolicyAssignment.beginDeleteAndWait
-  - Removed operation LinkedServer.beginCreate
-  - Removed operation LinkedServer.beginCreateAndWait
-  - Removed operation LinkedServer.beginDelete
-  - Removed operation LinkedServer.beginDeleteAndWait
-  - Removed operation PrivateEndpointConnections.beginPut
-  - Removed operation PrivateEndpointConnections.beginPutAndWait
-  - Removed operation Redis.beginCreate
-  - Removed operation Redis.beginCreateAndWait
-  - Removed operation Redis.beginDelete
-  - Removed operation Redis.beginDeleteAndWait
-  - Removed operation Redis.beginExportData
-  - Removed operation Redis.beginExportDataAndWait
-  - Removed operation Redis.beginFlushCache
-  - Removed operation Redis.beginFlushCacheAndWait
-  - Removed operation Redis.beginImportData
-  - Removed operation Redis.beginImportDataAndWait
-  - Removed operation Redis.beginUpdate
-  - Removed operation Redis.beginUpdateAndWait
   - Removed Interface NotificationListResponse
   - Removed Interface RedisCacheAccessPolicyAssignmentList
   - Removed Interface RedisCacheAccessPolicyList
   - Removed Interface RedisFirewallRuleCreateParameters
   - Removed Interface RedisLinkedServerWithPropertiesList
-  - Interface PrivateLinkResource no longer has parameter groupId
-  - Interface PrivateLinkResource no longer has parameter requiredMembers
-  - Interface PrivateLinkResource no longer has parameter requiredZoneNames
 
     
 ## 8.2.0 (2025-01-07)

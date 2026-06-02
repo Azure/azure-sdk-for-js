@@ -11,6 +11,7 @@ import {
 } from "../../api/accessPolicy/options.js";
 import { RedisCacheAccessPolicy } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AccessPolicy operations. */
@@ -28,6 +29,20 @@ export interface AccessPolicyOperations {
     accessPolicyName: string,
     options?: AccessPolicyDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    cacheName: string,
+    accessPolicyName: string,
+    options?: AccessPolicyDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    cacheName: string,
+    accessPolicyName: string,
+    options?: AccessPolicyDeleteOptionalParams,
+  ) => Promise<void>;
   /** Adds an access policy to the redis cache */
   createUpdate: (
     resourceGroupName: string,
@@ -36,6 +51,22 @@ export interface AccessPolicyOperations {
     parameters: RedisCacheAccessPolicy,
     options?: AccessPolicyCreateUpdateOptionalParams,
   ) => PollerLike<OperationState<RedisCacheAccessPolicy>, RedisCacheAccessPolicy>;
+  /** @deprecated use createUpdate instead */
+  beginCreateUpdate: (
+    resourceGroupName: string,
+    cacheName: string,
+    accessPolicyName: string,
+    parameters: RedisCacheAccessPolicy,
+    options?: AccessPolicyCreateUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<RedisCacheAccessPolicy>, RedisCacheAccessPolicy>>;
+  /** @deprecated use createUpdate instead */
+  beginCreateUpdateAndWait: (
+    resourceGroupName: string,
+    cacheName: string,
+    accessPolicyName: string,
+    parameters: RedisCacheAccessPolicy,
+    options?: AccessPolicyCreateUpdateOptionalParams,
+  ) => Promise<RedisCacheAccessPolicy>;
   /** Gets the detailed information about an access policy of a redis cache */
   get: (
     resourceGroupName: string,
@@ -58,6 +89,24 @@ function _getAccessPolicy(context: RedisManagementContext) {
       accessPolicyName: string,
       options?: AccessPolicyDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, cacheName, accessPolicyName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      cacheName: string,
+      accessPolicyName: string,
+      options?: AccessPolicyDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, cacheName, accessPolicyName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      cacheName: string,
+      accessPolicyName: string,
+      options?: AccessPolicyDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, cacheName, accessPolicyName, options);
+    },
     createUpdate: (
       resourceGroupName: string,
       cacheName: string,
@@ -65,6 +114,40 @@ function _getAccessPolicy(context: RedisManagementContext) {
       parameters: RedisCacheAccessPolicy,
       options?: AccessPolicyCreateUpdateOptionalParams,
     ) => createUpdate(context, resourceGroupName, cacheName, accessPolicyName, parameters, options),
+    beginCreateUpdate: async (
+      resourceGroupName: string,
+      cacheName: string,
+      accessPolicyName: string,
+      parameters: RedisCacheAccessPolicy,
+      options?: AccessPolicyCreateUpdateOptionalParams,
+    ) => {
+      const poller = createUpdate(
+        context,
+        resourceGroupName,
+        cacheName,
+        accessPolicyName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateUpdateAndWait: async (
+      resourceGroupName: string,
+      cacheName: string,
+      accessPolicyName: string,
+      parameters: RedisCacheAccessPolicy,
+      options?: AccessPolicyCreateUpdateOptionalParams,
+    ) => {
+      return await createUpdate(
+        context,
+        resourceGroupName,
+        cacheName,
+        accessPolicyName,
+        parameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       cacheName: string,

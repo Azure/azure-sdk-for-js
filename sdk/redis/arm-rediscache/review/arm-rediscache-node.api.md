@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
 import { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
@@ -35,6 +36,14 @@ export interface AccessPolicyAssignmentListOptionalParams extends OperationOptio
 
 // @public
 export interface AccessPolicyAssignmentOperations {
+    // @deprecated (undocumented)
+    beginCreateUpdate: (resourceGroupName: string, cacheName: string, accessPolicyAssignmentName: string, parameters: RedisCacheAccessPolicyAssignment, options?: AccessPolicyAssignmentCreateUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<RedisCacheAccessPolicyAssignment>, RedisCacheAccessPolicyAssignment>>;
+    // @deprecated (undocumented)
+    beginCreateUpdateAndWait: (resourceGroupName: string, cacheName: string, accessPolicyAssignmentName: string, parameters: RedisCacheAccessPolicyAssignment, options?: AccessPolicyAssignmentCreateUpdateOptionalParams) => Promise<RedisCacheAccessPolicyAssignment>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, cacheName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, cacheName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentDeleteOptionalParams) => Promise<void>;
     createUpdate: (resourceGroupName: string, cacheName: string, accessPolicyAssignmentName: string, parameters: RedisCacheAccessPolicyAssignment, options?: AccessPolicyAssignmentCreateUpdateOptionalParams) => PollerLike<OperationState<RedisCacheAccessPolicyAssignment>, RedisCacheAccessPolicyAssignment>;
     delete: (resourceGroupName: string, cacheName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, cacheName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentGetOptionalParams) => Promise<RedisCacheAccessPolicyAssignment>;
@@ -64,6 +73,14 @@ export interface AccessPolicyListOptionalParams extends OperationOptions {
 
 // @public
 export interface AccessPolicyOperations {
+    // @deprecated (undocumented)
+    beginCreateUpdate: (resourceGroupName: string, cacheName: string, accessPolicyName: string, parameters: RedisCacheAccessPolicy, options?: AccessPolicyCreateUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<RedisCacheAccessPolicy>, RedisCacheAccessPolicy>>;
+    // @deprecated (undocumented)
+    beginCreateUpdateAndWait: (resourceGroupName: string, cacheName: string, accessPolicyName: string, parameters: RedisCacheAccessPolicy, options?: AccessPolicyCreateUpdateOptionalParams) => Promise<RedisCacheAccessPolicy>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, cacheName: string, accessPolicyName: string, options?: AccessPolicyDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, cacheName: string, accessPolicyName: string, options?: AccessPolicyDeleteOptionalParams) => Promise<void>;
     createUpdate: (resourceGroupName: string, cacheName: string, accessPolicyName: string, parameters: RedisCacheAccessPolicy, options?: AccessPolicyCreateUpdateOptionalParams) => PollerLike<OperationState<RedisCacheAccessPolicy>, RedisCacheAccessPolicy>;
     delete: (resourceGroupName: string, cacheName: string, accessPolicyName: string, options?: AccessPolicyDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, cacheName: string, accessPolicyName: string, options?: AccessPolicyGetOptionalParams) => Promise<RedisCacheAccessPolicy>;
@@ -334,6 +351,14 @@ export interface LinkedServerListOptionalParams extends OperationOptions {
 
 // @public
 export interface LinkedServerOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, name: string, linkedServerName: string, parameters: RedisLinkedServerCreateParameters, options?: LinkedServerCreateOptionalParams) => Promise<SimplePollerLike<OperationState<RedisLinkedServerWithProperties>, RedisLinkedServerWithProperties>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, name: string, linkedServerName: string, parameters: RedisLinkedServerCreateParameters, options?: LinkedServerCreateOptionalParams) => Promise<RedisLinkedServerWithProperties>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, name: string, linkedServerName: string, options?: LinkedServerDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, name: string, linkedServerName: string, options?: LinkedServerDeleteOptionalParams) => Promise<void>;
     create: (resourceGroupName: string, name: string, linkedServerName: string, parameters: RedisLinkedServerCreateParameters, options?: LinkedServerCreateOptionalParams) => PollerLike<OperationState<RedisLinkedServerWithProperties>, RedisLinkedServerWithProperties>;
     delete: (resourceGroupName: string, name: string, linkedServerName: string, options?: LinkedServerDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, name: string, linkedServerName: string, options?: LinkedServerGetOptionalParams) => Promise<RedisLinkedServerWithProperties>;
@@ -465,6 +490,10 @@ export interface PrivateEndpointConnectionsListOptionalParams extends OperationO
 
 // @public
 export interface PrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginPut: (resourceGroupName: string, cacheName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginPutAndWait: (resourceGroupName: string, cacheName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams) => Promise<PrivateEndpointConnection>;
     delete: (resourceGroupName: string, cacheName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, cacheName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
     list: (resourceGroupName: string, cacheName: string, options?: PrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -481,7 +510,9 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
 export interface PrivateLinkResource extends Resource {
-    properties?: PrivateLinkResourceProperties;
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
@@ -772,6 +803,30 @@ export interface RedisManagementClientOptionalParams extends ClientOptions {
 
 // @public
 export interface RedisOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, name: string, parameters: RedisCreateParameters, options?: RedisCreateOptionalParams) => Promise<SimplePollerLike<OperationState<RedisResource>, RedisResource>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, name: string, parameters: RedisCreateParameters, options?: RedisCreateOptionalParams) => Promise<RedisResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, name: string, options?: RedisDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, name: string, options?: RedisDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginExportData: (resourceGroupName: string, name: string, parameters: ExportRDBParameters, options?: RedisExportDataOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginExportDataAndWait: (resourceGroupName: string, name: string, parameters: ExportRDBParameters, options?: RedisExportDataOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginFlushCache: (resourceGroupName: string, cacheName: string, options?: RedisFlushCacheOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginFlushCacheAndWait: (resourceGroupName: string, cacheName: string, options?: RedisFlushCacheOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginImportData: (resourceGroupName: string, name: string, parameters: ImportRDBParameters, options?: RedisImportDataOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginImportDataAndWait: (resourceGroupName: string, name: string, parameters: ImportRDBParameters, options?: RedisImportDataOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, name: string, parameters: RedisUpdateParameters, options?: RedisUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<RedisResource>, RedisResource>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, name: string, parameters: RedisUpdateParameters, options?: RedisUpdateOptionalParams) => Promise<RedisResource>;
     checkNameAvailability: (parameters: CheckNameAvailabilityParameters, options?: RedisCheckNameAvailabilityOptionalParams) => Promise<void>;
     create: (resourceGroupName: string, name: string, parameters: RedisCreateParameters, options?: RedisCreateOptionalParams) => PollerLike<OperationState<RedisResource>, RedisResource>;
     delete: (resourceGroupName: string, name: string, options?: RedisDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -915,6 +970,28 @@ export interface ScheduleEntry {
     dayOfWeek: DayOfWeek;
     maintenanceWindow?: string;
     startHourUtc: number;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public

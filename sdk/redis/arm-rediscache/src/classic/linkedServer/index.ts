@@ -14,6 +14,7 @@ import {
   RedisLinkedServerCreateParameters,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a LinkedServer operations. */
@@ -31,6 +32,20 @@ export interface LinkedServerOperations {
     linkedServerName: string,
     options?: LinkedServerDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    name: string,
+    linkedServerName: string,
+    options?: LinkedServerDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    name: string,
+    linkedServerName: string,
+    options?: LinkedServerDeleteOptionalParams,
+  ) => Promise<void>;
   /** Adds a linked server to the Redis cache (requires Premium SKU). */
   create: (
     resourceGroupName: string,
@@ -39,6 +54,27 @@ export interface LinkedServerOperations {
     parameters: RedisLinkedServerCreateParameters,
     options?: LinkedServerCreateOptionalParams,
   ) => PollerLike<OperationState<RedisLinkedServerWithProperties>, RedisLinkedServerWithProperties>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    name: string,
+    linkedServerName: string,
+    parameters: RedisLinkedServerCreateParameters,
+    options?: LinkedServerCreateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<RedisLinkedServerWithProperties>,
+      RedisLinkedServerWithProperties
+    >
+  >;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    name: string,
+    linkedServerName: string,
+    parameters: RedisLinkedServerCreateParameters,
+    options?: LinkedServerCreateOptionalParams,
+  ) => Promise<RedisLinkedServerWithProperties>;
   /** Gets the detailed information about a linked server of a redis cache (requires Premium SKU). */
   get: (
     resourceGroupName: string,
@@ -58,6 +94,24 @@ function _getLinkedServer(context: RedisManagementContext) {
       linkedServerName: string,
       options?: LinkedServerDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, name, linkedServerName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      name: string,
+      linkedServerName: string,
+      options?: LinkedServerDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, name, linkedServerName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      linkedServerName: string,
+      options?: LinkedServerDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, name, linkedServerName, options);
+    },
     create: (
       resourceGroupName: string,
       name: string,
@@ -65,6 +119,33 @@ function _getLinkedServer(context: RedisManagementContext) {
       parameters: RedisLinkedServerCreateParameters,
       options?: LinkedServerCreateOptionalParams,
     ) => create(context, resourceGroupName, name, linkedServerName, parameters, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      name: string,
+      linkedServerName: string,
+      parameters: RedisLinkedServerCreateParameters,
+      options?: LinkedServerCreateOptionalParams,
+    ) => {
+      const poller = create(
+        context,
+        resourceGroupName,
+        name,
+        linkedServerName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      linkedServerName: string,
+      parameters: RedisLinkedServerCreateParameters,
+      options?: LinkedServerCreateOptionalParams,
+    ) => {
+      return await create(context, resourceGroupName, name, linkedServerName, parameters, options);
+    },
     get: (
       resourceGroupName: string,
       name: string,

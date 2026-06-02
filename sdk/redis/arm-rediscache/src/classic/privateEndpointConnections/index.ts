@@ -11,6 +11,7 @@ import {
 } from "../../api/privateEndpointConnections/options.js";
 import { PrivateEndpointConnection } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateEndpointConnections operations. */
@@ -36,6 +37,24 @@ export interface PrivateEndpointConnectionsOperations {
     properties: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsPutOptionalParams,
   ) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+  /** @deprecated use put instead */
+  beginPut: (
+    resourceGroupName: string,
+    cacheName: string,
+    privateEndpointConnectionName: string,
+    properties: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionsPutOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>
+  >;
+  /** @deprecated use put instead */
+  beginPutAndWait: (
+    resourceGroupName: string,
+    cacheName: string,
+    privateEndpointConnectionName: string,
+    properties: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionsPutOptionalParams,
+  ) => Promise<PrivateEndpointConnection>;
   /** Gets the specified private endpoint connection associated with the redis cache. */
   get: (
     resourceGroupName: string,
@@ -73,6 +92,40 @@ function _getPrivateEndpointConnections(context: RedisManagementContext) {
         properties,
         options,
       ),
+    beginPut: async (
+      resourceGroupName: string,
+      cacheName: string,
+      privateEndpointConnectionName: string,
+      properties: PrivateEndpointConnection,
+      options?: PrivateEndpointConnectionsPutOptionalParams,
+    ) => {
+      const poller = put(
+        context,
+        resourceGroupName,
+        cacheName,
+        privateEndpointConnectionName,
+        properties,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginPutAndWait: async (
+      resourceGroupName: string,
+      cacheName: string,
+      privateEndpointConnectionName: string,
+      properties: PrivateEndpointConnection,
+      options?: PrivateEndpointConnectionsPutOptionalParams,
+    ) => {
+      return await put(
+        context,
+        resourceGroupName,
+        cacheName,
+        privateEndpointConnectionName,
+        properties,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       cacheName: string,
