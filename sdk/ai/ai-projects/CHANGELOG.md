@@ -1,5 +1,17 @@
 # Release History
 
+## 2.2.1 (Unreleased)
+
+### Features Added
+
+- Added experimental GenAI tracing support via `enableGenAITracing()`. When enabled, OpenTelemetry spans are emitted for Responses API calls with GenAI semantic convention attributes, token usage metrics, and optional content recording.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 2.2.0 (2026-05-29)
 
 ### Breaking Changes

@@ -151,11 +151,10 @@ export function setDefinitionAttributes(span: SpanLike, definition: AgentDefinit
     if (hostedDef.memory) {
       span.setAttribute(GEN_AI_AGENT_HOSTED_MEMORY, hostedDef.memory);
     }
-    if (hostedDef.image) {
-      span.setAttribute(GEN_AI_AGENT_HOSTED_IMAGE, hostedDef.image);
+    if (hostedDef.container_configuration?.image) {
+      span.setAttribute(GEN_AI_AGENT_HOSTED_IMAGE, hostedDef.container_configuration.image);
     }
-    // Use container_protocol_versions or protocol_versions (first entry)
-    const protocols = hostedDef.container_protocol_versions ?? hostedDef.protocol_versions;
+    const protocols = hostedDef.protocol_versions;
     if (protocols && protocols.length > 0) {
       span.setAttribute(GEN_AI_AGENT_HOSTED_PROTOCOL, protocols[0]!.protocol);
       span.setAttribute(GEN_AI_AGENT_HOSTED_PROTOCOL_VERSION, protocols[0]!.version);
