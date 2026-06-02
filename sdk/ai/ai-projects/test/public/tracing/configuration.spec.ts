@@ -142,7 +142,11 @@ describe("configuration", () => {
 
   describe("disableGenAITracing", () => {
     it("resets all flags to defaults", () => {
-      enableGenAITracing({ experimental: true, contentRecording: true, traceContextPropagation: false });
+      enableGenAITracing({
+        experimental: true,
+        contentRecording: true,
+        traceContextPropagation: false,
+      });
       assert.isTrue(isGenAITracingEnabled());
       assert.isTrue(isGenAITracingApplied());
       assert.isTrue(isContentRecordingEnabled());
