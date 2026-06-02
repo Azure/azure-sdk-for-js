@@ -36,6 +36,7 @@ Compared with version 3.0.0
   - Added Interface ServiceClassificationOutput
   - Added Interface ServiceClassificationRequest
   - Added Interface ServiceProperties
+  - Added Interface SimplePollerLike
   - Added Interface SupportTicketDetailsProperties
   - Added Interface SupportTicketsLookUpResourceIdOptionalParams
   - Interface CommunicationDetails has a new optional parameter systemData
@@ -59,14 +60,6 @@ Compared with version 3.0.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation Communications.beginCreate
-  - Removed operation Communications.beginCreateAndWait
-  - Removed operation CommunicationsNoSubscription.beginCreate
-  - Removed operation CommunicationsNoSubscription.beginCreateAndWait
-  - Removed operation SupportTickets.beginCreate
-  - Removed operation SupportTickets.beginCreateAndWait
-  - Removed operation SupportTicketsNoSubscription.beginCreate
-  - Removed operation SupportTicketsNoSubscription.beginCreateAndWait
   - Removed Type Alias TranscriptContentType
   - Removed Enum KnownTranscriptContentType
 

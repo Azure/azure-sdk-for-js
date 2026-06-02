@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
 import { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
@@ -187,6 +188,10 @@ export interface CommunicationsNoSubscriptionListOptionalParams extends Operatio
 
 // @public
 export interface CommunicationsNoSubscriptionOperations {
+    // @deprecated (undocumented)
+    beginCreate: (supportTicketName: string, communicationName: string, createCommunicationParameters: CommunicationDetails, options?: CommunicationsNoSubscriptionCreateOptionalParams) => Promise<SimplePollerLike<OperationState<CommunicationDetails>, CommunicationDetails>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (supportTicketName: string, communicationName: string, createCommunicationParameters: CommunicationDetails, options?: CommunicationsNoSubscriptionCreateOptionalParams) => Promise<CommunicationDetails>;
     checkNameAvailability: (supportTicketName: string, checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: CommunicationsNoSubscriptionCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityOutput>;
     create: (supportTicketName: string, communicationName: string, createCommunicationParameters: CommunicationDetails, options?: CommunicationsNoSubscriptionCreateOptionalParams) => PollerLike<OperationState<CommunicationDetails>, CommunicationDetails>;
     get: (supportTicketName: string, communicationName: string, options?: CommunicationsNoSubscriptionGetOptionalParams) => Promise<CommunicationDetails>;
@@ -195,6 +200,10 @@ export interface CommunicationsNoSubscriptionOperations {
 
 // @public
 export interface CommunicationsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (supportTicketName: string, communicationName: string, createCommunicationParameters: CommunicationDetails, options?: CommunicationsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<CommunicationDetails>, CommunicationDetails>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (supportTicketName: string, communicationName: string, createCommunicationParameters: CommunicationDetails, options?: CommunicationsCreateOptionalParams) => Promise<CommunicationDetails>;
     checkNameAvailability: (supportTicketName: string, checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: CommunicationsCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityOutput>;
     create: (supportTicketName: string, communicationName: string, createCommunicationParameters: CommunicationDetails, options?: CommunicationsCreateOptionalParams) => PollerLike<OperationState<CommunicationDetails>, CommunicationDetails>;
     get: (supportTicketName: string, communicationName: string, options?: CommunicationsGetOptionalParams) => Promise<CommunicationDetails>;
@@ -696,6 +705,28 @@ export interface ServicesOperations {
 export type SeverityLevel = string;
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export type Status = string;
 
 // @public
@@ -813,6 +844,10 @@ export interface SupportTicketsNoSubscriptionListOptionalParams extends Operatio
 
 // @public
 export interface SupportTicketsNoSubscriptionOperations {
+    // @deprecated (undocumented)
+    beginCreate: (supportTicketName: string, createSupportTicketParameters: SupportTicketDetails, options?: SupportTicketsNoSubscriptionCreateOptionalParams) => Promise<SimplePollerLike<OperationState<SupportTicketDetails>, SupportTicketDetails>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (supportTicketName: string, createSupportTicketParameters: SupportTicketDetails, options?: SupportTicketsNoSubscriptionCreateOptionalParams) => Promise<SupportTicketDetails>;
     checkNameAvailability: (checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: SupportTicketsNoSubscriptionCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityOutput>;
     create: (supportTicketName: string, createSupportTicketParameters: SupportTicketDetails, options?: SupportTicketsNoSubscriptionCreateOptionalParams) => PollerLike<OperationState<SupportTicketDetails>, SupportTicketDetails>;
     get: (supportTicketName: string, options?: SupportTicketsNoSubscriptionGetOptionalParams) => Promise<SupportTicketDetails>;
@@ -826,6 +861,10 @@ export interface SupportTicketsNoSubscriptionUpdateOptionalParams extends Operat
 
 // @public
 export interface SupportTicketsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (supportTicketName: string, createSupportTicketParameters: SupportTicketDetails, options?: SupportTicketsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<SupportTicketDetails>, SupportTicketDetails>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (supportTicketName: string, createSupportTicketParameters: SupportTicketDetails, options?: SupportTicketsCreateOptionalParams) => Promise<SupportTicketDetails>;
     checkNameAvailability: (checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: SupportTicketsCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityOutput>;
     create: (supportTicketName: string, createSupportTicketParameters: SupportTicketDetails, options?: SupportTicketsCreateOptionalParams) => PollerLike<OperationState<SupportTicketDetails>, SupportTicketDetails>;
     get: (supportTicketName: string, options?: SupportTicketsGetOptionalParams) => Promise<SupportTicketDetails>;

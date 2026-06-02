@@ -15,6 +15,7 @@ import {
   CheckNameAvailabilityOutput,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Communications operations. */
@@ -37,6 +38,20 @@ export interface CommunicationsOperations {
     createCommunicationParameters: CommunicationDetails,
     options?: CommunicationsCreateOptionalParams,
   ) => PollerLike<OperationState<CommunicationDetails>, CommunicationDetails>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    supportTicketName: string,
+    communicationName: string,
+    createCommunicationParameters: CommunicationDetails,
+    options?: CommunicationsCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<CommunicationDetails>, CommunicationDetails>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    supportTicketName: string,
+    communicationName: string,
+    createCommunicationParameters: CommunicationDetails,
+    options?: CommunicationsCreateOptionalParams,
+  ) => Promise<CommunicationDetails>;
   /** Returns communication details for a support ticket. */
   get: (
     supportTicketName: string,
@@ -61,6 +76,36 @@ function _getCommunications(context: MicrosoftSupportContext) {
       options?: CommunicationsCreateOptionalParams,
     ) =>
       create(context, supportTicketName, communicationName, createCommunicationParameters, options),
+    beginCreate: async (
+      supportTicketName: string,
+      communicationName: string,
+      createCommunicationParameters: CommunicationDetails,
+      options?: CommunicationsCreateOptionalParams,
+    ) => {
+      const poller = create(
+        context,
+        supportTicketName,
+        communicationName,
+        createCommunicationParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      supportTicketName: string,
+      communicationName: string,
+      createCommunicationParameters: CommunicationDetails,
+      options?: CommunicationsCreateOptionalParams,
+    ) => {
+      return await create(
+        context,
+        supportTicketName,
+        communicationName,
+        createCommunicationParameters,
+        options,
+      );
+    },
     get: (
       supportTicketName: string,
       communicationName: string,

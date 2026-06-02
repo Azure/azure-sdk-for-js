@@ -27,6 +27,7 @@ import {
   LookUpResourceIdResponse,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SupportTickets operations. */
@@ -57,6 +58,18 @@ export interface SupportTicketsOperations {
     createSupportTicketParameters: SupportTicketDetails,
     options?: SupportTicketsCreateOptionalParams,
   ) => PollerLike<OperationState<SupportTicketDetails>, SupportTicketDetails>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    supportTicketName: string,
+    createSupportTicketParameters: SupportTicketDetails,
+    options?: SupportTicketsCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<SupportTicketDetails>, SupportTicketDetails>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    supportTicketName: string,
+    createSupportTicketParameters: SupportTicketDetails,
+    options?: SupportTicketsCreateOptionalParams,
+  ) => Promise<SupportTicketDetails>;
   /** Get ticket details for an Azure subscription. Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error. */
   get: (
     supportTicketName: string,
@@ -85,6 +98,22 @@ function _getSupportTickets(context: MicrosoftSupportContext) {
       createSupportTicketParameters: SupportTicketDetails,
       options?: SupportTicketsCreateOptionalParams,
     ) => create(context, supportTicketName, createSupportTicketParameters, options),
+    beginCreate: async (
+      supportTicketName: string,
+      createSupportTicketParameters: SupportTicketDetails,
+      options?: SupportTicketsCreateOptionalParams,
+    ) => {
+      const poller = create(context, supportTicketName, createSupportTicketParameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      supportTicketName: string,
+      createSupportTicketParameters: SupportTicketDetails,
+      options?: SupportTicketsCreateOptionalParams,
+    ) => {
+      return await create(context, supportTicketName, createSupportTicketParameters, options);
+    },
     get: (supportTicketName: string, options?: SupportTicketsGetOptionalParams) =>
       get(context, supportTicketName, options),
   };
