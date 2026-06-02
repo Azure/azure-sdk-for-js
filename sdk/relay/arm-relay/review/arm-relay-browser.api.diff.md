@@ -7,19 +7,19 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -161,9 +161,10 @@
- // @public
- export type HybridConnectionsRegenerateKeysResponse = AccessKeys;
+@@ -178,9 +178,10 @@
+ 
+ export { isRestError }
  
  // @public
--export type KeyType = "PrimaryKey" | "SecondaryKey";
-+type KeyType_2 = "PrimaryKey" | "SecondaryKey";
+-export type KeyType = string;
++type KeyType_2 = string;
 +export { KeyType_2 as KeyType }
  
  // @public
- export interface Namespaces {
-     beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, parameters: RelayNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<NamespacesCreateOrUpdateResponse>, NamespacesCreateOrUpdateResponse>>;
-@@ -336,9 +337,9 @@
+ export enum KnownAccessRights {
+     Listen = "Listen",
+@@ -513,9 +514,9 @@
  
  // @public
  export interface RegenerateAccessKeyParameters {
@@ -29,6 +29,6 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public (undocumented)
- export class RelayAPI extends coreClient.ServiceClient {
+ export class RelayAPI {
 
 ```
