@@ -216,17 +216,28 @@ function Get-GitHubIssues {
     $AuthToken
   )
 
-  $uri = "$GithubAPIBaseURI/$RepoOwner/$RepoName/issues?labels=$Labels&per_page=100"
+  $issues = @()
+  $perPage = 100
+  $page = 1
 
-  if ($CreatedBy) {
-    $uri += "&creator=$CreatedBy"
-  }
+  do {
+    $uri = "$GithubAPIBaseURI/$RepoOwner/$RepoName/issues?labels=$Labels&per_page=$perPage&page=$page"
 
-  return Invoke-RestMethod `
-    -Method GET `
-    -Uri $uri `
-    -Headers (Get-GitHubApiHeaders -token $AuthToken) `
-    -MaximumRetryCount 3
+    if ($CreatedBy) {
+      $uri += "&creator=$CreatedBy"
+    }
+
+    $currentPageIssues = @(Invoke-RestMethod `
+      -Method GET `
+      -Uri $uri `
+      -Headers (Get-GitHubApiHeaders -token $AuthToken) `
+      -MaximumRetryCount 3)
+
+    $issues += $currentPageIssues
+    $page++
+  } while ($currentPageIssues.Count -eq $perPage)
+
+  return $issues
 }
 function Add-GitHubIssueComment {
   param (
