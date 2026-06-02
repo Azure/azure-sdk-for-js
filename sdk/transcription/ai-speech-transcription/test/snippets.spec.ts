@@ -176,7 +176,6 @@ describe("snippets", () => {
     const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 
     const audioFile = readFileSync("path/to/audio.wav");
-    // @ts-ignore
     const result = await client.transcribe(audioFile, {
       enhancedMode: {
         task: "transcribe",
