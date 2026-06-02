@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/iPv6FirewallRules/operations.js";
-import {
+import type {
   IPv6FirewallRulesListByServerOptionalParams,
   IPv6FirewallRulesDeleteOptionalParams,
   IPv6FirewallRulesCreateOrUpdateOptionalParams,
   IPv6FirewallRulesGetOptionalParams,
 } from "../../api/iPv6FirewallRules/options.js";
-import { IPv6FirewallRule } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { IPv6FirewallRule } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a IPv6FirewallRules operations. */
 export interface IPv6FirewallRulesOperations {

@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/virtualNetworkRules/operations.js";
-import {
+import type {
   VirtualNetworkRulesListByServerOptionalParams,
   VirtualNetworkRulesDeleteOptionalParams,
   VirtualNetworkRulesCreateOrUpdateOptionalParams,
   VirtualNetworkRulesGetOptionalParams,
 } from "../../api/virtualNetworkRules/options.js";
-import { VirtualNetworkRule } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { VirtualNetworkRule } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualNetworkRules operations. */
 export interface VirtualNetworkRulesOperations {

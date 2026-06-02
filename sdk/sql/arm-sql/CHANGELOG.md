@@ -1,7 +1,6 @@
 # Release History
 
-## 11.0.0-beta.5 (2026-05-18)
-Compared with version 10.0.0
+## 11.0.0 (2026-06-02)
 
 ### Features Added
   - Added operation group InstancePoolOperationsOperations
@@ -226,6 +225,8 @@ Compared with version 10.0.0
   - Added operation WorkloadClassifiersOperations.delete
   - Added operation WorkloadGroupsOperations.createOrUpdate
   - Added operation WorkloadGroupsOperations.delete
+  - Class SqlManagementClient has a new constructor "constructor(credential: TokenCredential, options?: SqlManagementClientOptionalParams);"
+  - Class SqlManagementClient has a new constructor "constructor(credential: TokenCredential, subscriptionId: string, options?: SqlManagementClientOptionalParams);"
   - Added Interface AdministratorProperties
   - Added Interface AdvancedThreatProtectionProperties
   - Added Interface AdvisorProperties
@@ -253,8 +254,6 @@ Compared with version 10.0.0
   - Added Interface DatabaseVulnerabilityAssessmentScanExportProperties
   - Added Interface DataMaskingPolicyProperties
   - Added Interface DataMaskingRuleProperties
-  - Added Interface DataSyncParticipantIdentity
-  - Added Interface DataSyncParticipantUserAssignedIdentity
   - Added Interface DataWarehouseUserActivitiesProperties
   - Added Interface DeletedServerProperties
   - Added Interface DistributedAvailabilityGroupDatabase
@@ -432,7 +431,6 @@ Compared with version 10.0.0
   - Interface BackupShortTermRetentionPolicy has a new optional parameter systemData
   - Interface Database has a new optional parameter encryptionProtectorAutoRotation
   - Interface Database has a new optional parameter freeLimitExhaustionBehavior
-  - Interface Database has a new optional parameter provisioningState
   - Interface Database has a new optional parameter useFreeLimit
   - Interface Database has a new optional parameter systemData
   - Interface DatabaseAutomaticTuning has a new optional parameter systemData
@@ -450,14 +448,9 @@ Compared with version 10.0.0
   - Interface DatabaseOperation has a new optional parameter operationPhaseDetails
   - Interface DatabaseOperation has a new optional parameter systemData
   - Interface DatabaseSchema has a new optional parameter systemData
-  - Interface DatabasesListByServerOptionalParams has a new optional parameter filter
-  - Interface DatabasesListByServerOptionalParams has a new optional parameter orderby
-  - Interface DatabasesListByServerOptionalParams has a new optional parameter skip
-  - Interface DatabasesListByServerOptionalParams has a new optional parameter top
   - Interface DatabaseTable has a new optional parameter systemData
   - Interface DatabaseUpdate has a new optional parameter encryptionProtectorAutoRotation
   - Interface DatabaseUpdate has a new optional parameter freeLimitExhaustionBehavior
-  - Interface DatabaseUpdate has a new optional parameter provisioningState
   - Interface DatabaseUpdate has a new optional parameter useFreeLimit
   - Interface DatabaseUsage has a new optional parameter systemData
   - Interface DatabaseVulnerabilityAssessment has a new optional parameter systemData
@@ -465,7 +458,6 @@ Compared with version 10.0.0
   - Interface DatabaseVulnerabilityAssessmentScansExport has a new optional parameter systemData
   - Interface DataMaskingPolicy has a new optional parameter systemData
   - Interface DataMaskingRule has a new optional parameter systemData
-  - Interface DataMaskingRulesListByDatabaseOptionalParams has a new optional parameter skip
   - Interface DataWarehouseUserActivities has a new optional parameter systemData
   - Interface DeletedServer has a new optional parameter systemData
   - Interface DistributedAvailabilityGroup has a new optional parameter databases
@@ -481,7 +473,6 @@ Compared with version 10.0.0
   - Interface EditionCapability has a new optional parameter zonePinning
   - Interface ElasticPool has a new optional parameter autoPauseDelay
   - Interface ElasticPool has a new optional parameter availabilityZone
-  - Interface ElasticPool has a new optional parameter currentSku
   - Interface ElasticPool has a new optional parameter minCapacity
   - Interface ElasticPool has a new optional parameter preferredEnclaveType
   - Interface ElasticPool has a new optional parameter systemData
@@ -494,7 +485,6 @@ Compared with version 10.0.0
   - Interface ElasticPoolPerformanceLevelCapability has a new optional parameter supportedZones
   - Interface ElasticPoolUpdate has a new optional parameter autoPauseDelay
   - Interface ElasticPoolUpdate has a new optional parameter availabilityZone
-  - Interface ElasticPoolUpdate has a new optional parameter currentSku
   - Interface ElasticPoolUpdate has a new optional parameter minCapacity
   - Interface ElasticPoolUpdate has a new optional parameter preferredEnclaveType
   - Interface EncryptionProtector has a new optional parameter keyVersion
@@ -581,7 +571,6 @@ Compared with version 10.0.0
   - Interface ManagedInstance has a new optional parameter systemData
   - Interface ManagedInstanceAdministrator has a new optional parameter systemData
   - Interface ManagedInstanceAzureADOnlyAuthentication has a new optional parameter systemData
-  - Interface ManagedInstanceDtc has a new optional parameter fqdnEnabled
   - Interface ManagedInstanceDtc has a new optional parameter systemData
   - Interface ManagedInstanceEditionCapability has a new optional parameter isGeneralPurposeV2
   - Interface ManagedInstanceEncryptionProtector has a new optional parameter systemData
@@ -676,9 +665,7 @@ Compared with version 10.0.0
   - Interface SynapseLinkWorkspace has a new optional parameter systemData
   - Interface SyncAgent has a new optional parameter systemData
   - Interface SyncAgentLinkedDatabase has a new optional parameter systemData
-  - Interface SyncGroup has a new optional parameter identity
   - Interface SyncGroup has a new optional parameter systemData
-  - Interface SyncMember has a new optional parameter identity
   - Interface SyncMember has a new optional parameter systemData
   - Interface TdeCertificate has a new optional parameter systemData
   - Interface TimeZone has a new optional parameter systemData
@@ -694,7 +681,6 @@ Compared with version 10.0.0
   - Added Type Alias BackupStorageAccessTier
   - Added Type Alias CheckNameAvailabilityResourceType
   - Added Type Alias ClientClassificationSource
-  - Added Type Alias DataSyncParticipantIdentityType
   - Added Type Alias ErrorType
   - Added Type Alias FailoverGroupDatabasesSecondaryType
   - Added Type Alias FailoverModeType
@@ -725,9 +711,6 @@ Compared with version 10.0.0
   - Added Enum KnownAuthMetadataLookupModes
   - Added Enum KnownBackupStorageAccessTier
   - Added Enum KnownClientClassificationSource
-  - Added Enum KnownDataMaskingFunction
-  - Added Enum KnownDataMaskingRuleState
-  - Added Enum KnownDataSyncParticipantIdentityType
   - Added Enum KnownErrorType
   - Added Enum KnownFailoverGroupDatabasesSecondaryType
   - Added Enum KnownFailoverModeType
@@ -777,8 +760,6 @@ Compared with version 10.0.0
   - Operation Databases.beginExportAndWait has a new signature
   - Operation Databases.beginImport has a new signature
   - Operation Databases.beginImportAndWait has a new signature
-  - Operation Databases.listByServer has a new signature
-  - Operation DataMaskingRules.createOrUpdate has a new signature
   - Operation GeoBackupPolicies.createOrUpdate has a new signature
   - Operation GeoBackupPolicies.get has a new signature
   - Operation JobSteps.createOrUpdate has a new signature
@@ -793,6 +774,20 @@ Compared with version 10.0.0
   - Operation ServerAdvisors.update has a new signature
   - Operation Servers.beginImportDatabase has a new signature
   - Operation Servers.beginImportDatabaseAndWait has a new signature
+  - Class SqlManagementClient has a new signature
+  - Class SqlManagementClient no longer has parameter databaseAutomaticTuningOperations
+  - Class SqlManagementClient no longer has parameter databaseExtensionsOperations
+  - Class SqlManagementClient no longer has parameter dataWarehouseUserActivitiesOperations
+  - Class SqlManagementClient no longer has parameter elasticPoolActivities
+  - Class SqlManagementClient no longer has parameter elasticPoolDatabaseActivities
+  - Class SqlManagementClient no longer has parameter ledgerDigestUploadsOperations
+  - Class SqlManagementClient no longer has parameter maintenanceWindowOptionsOperations
+  - Class SqlManagementClient no longer has parameter maintenanceWindowsOperations
+  - Class SqlManagementClient no longer has parameter managedLedgerDigestUploadsOperations
+  - Class SqlManagementClient no longer has parameter serverAutomaticTuningOperations
+  - Class SqlManagementClient no longer has parameter serverCommunicationLinks
+  - Class SqlManagementClient no longer has parameter serviceObjectives
+  - Class SqlManagementClient no longer has parameter subscriptionId
   - Removed Interface DatabasesListMetricDefinitionsOptionalParams
   - Removed Interface DatabasesListMetricsOptionalParams
   - Removed Interface ElasticPoolActivities
@@ -829,7 +824,6 @@ Compared with version 10.0.0
   - Type of parameter details of interface RecommendedAction is changed from {
         [propertyName: string]: Record<string, unknown>;
     } to Record<string, string>
-  - Interface DatabasesListByServerOptionalParams no longer has parameter skipToken
   - Interface DistributedAvailabilityGroup no longer has parameter lastHardenedLsn
   - Interface DistributedAvailabilityGroup no longer has parameter linkState
   - Interface DistributedAvailabilityGroup no longer has parameter primaryAvailabilityGroupName
@@ -854,8 +848,6 @@ Compared with version 10.0.0
   - Removed Type Alias UnitDefinitionType
   - Removed Type Alias UnitType
   - Removed Type Alias UpsertManagedServerOperationStepStatus
-  - Type alias "DataMaskingFunction" has been changed
-  - Type alias "DataMaskingRuleState" has been changed
   - Removed Enum KnownManagedInstancePropertiesProvisioningState
   - Removed Enum KnownPrimaryAggregationType
   - Removed Enum KnownReplicationMode

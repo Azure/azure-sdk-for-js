@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByDatabase,
   createOrUpdate,
   get,
 } from "../../api/extendedDatabaseBlobAuditingPolicies/operations.js";
-import {
+import type {
   ExtendedDatabaseBlobAuditingPoliciesListByDatabaseOptionalParams,
   ExtendedDatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ExtendedDatabaseBlobAuditingPoliciesGetOptionalParams,
 } from "../../api/extendedDatabaseBlobAuditingPolicies/options.js";
-import { ExtendedDatabaseBlobAuditingPolicy } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ExtendedDatabaseBlobAuditingPolicy } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ExtendedDatabaseBlobAuditingPolicies operations. */
 export interface ExtendedDatabaseBlobAuditingPoliciesOperations {

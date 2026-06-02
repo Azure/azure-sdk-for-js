@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByAgent, $delete, createOrUpdate, get } from "../../api/jobCredentials/operations.js";
-import {
+import type {
   JobCredentialsListByAgentOptionalParams,
   JobCredentialsDeleteOptionalParams,
   JobCredentialsCreateOrUpdateOptionalParams,
   JobCredentialsGetOptionalParams,
 } from "../../api/jobCredentials/options.js";
-import { JobCredential } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { JobCredential } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a JobCredentials operations. */
 export interface JobCredentialsOperations {

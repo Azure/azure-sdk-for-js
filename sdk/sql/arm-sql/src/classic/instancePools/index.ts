@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   list,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/instancePools/operations.js";
-import {
+import type {
   InstancePoolsListOptionalParams,
   InstancePoolsListByResourceGroupOptionalParams,
   InstancePoolsDeleteOptionalParams,
@@ -18,10 +18,11 @@ import {
   InstancePoolsCreateOrUpdateOptionalParams,
   InstancePoolsGetOptionalParams,
 } from "../../api/instancePools/options.js";
-import { InstancePool, InstancePoolUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { InstancePool, InstancePoolUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a InstancePools operations. */
 export interface InstancePoolsOperations {

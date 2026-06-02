@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   enableRecommendation,
   disableRecommendation,
@@ -13,7 +13,7 @@ import {
   update,
   listCurrentByDatabase,
 } from "../../api/sensitivityLabels/operations.js";
-import {
+import type {
   SensitivityLabelsEnableRecommendationOptionalParams,
   SensitivityLabelsDisableRecommendationOptionalParams,
   SensitivityLabelsDeleteOptionalParams,
@@ -24,12 +24,12 @@ import {
   SensitivityLabelsUpdateOptionalParams,
   SensitivityLabelsListCurrentByDatabaseOptionalParams,
 } from "../../api/sensitivityLabels/options.js";
-import {
+import type {
   SensitivityLabel,
   SensitivityLabelUpdateList,
   SensitivityLabelSource,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SensitivityLabels operations. */
 export interface SensitivityLabelsOperations {

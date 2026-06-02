@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByDatabase,
   createOrUpdate,
   get,
 } from "../../api/managedDatabaseTransparentDataEncryption/operations.js";
-import {
+import type {
   ManagedDatabaseTransparentDataEncryptionListByDatabaseOptionalParams,
   ManagedDatabaseTransparentDataEncryptionCreateOrUpdateOptionalParams,
   ManagedDatabaseTransparentDataEncryptionGetOptionalParams,
 } from "../../api/managedDatabaseTransparentDataEncryption/options.js";
-import {
+import type {
   ManagedTransparentDataEncryption,
   TransparentDataEncryptionName,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ManagedDatabaseTransparentDataEncryption operations. */
 export interface ManagedDatabaseTransparentDataEncryptionOperations {

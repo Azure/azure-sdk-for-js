@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   revalidate,
   listByServer,
   createOrUpdate,
   get,
 } from "../../api/encryptionProtectors/operations.js";
-import {
+import type {
   EncryptionProtectorsRevalidateOptionalParams,
   EncryptionProtectorsListByServerOptionalParams,
   EncryptionProtectorsCreateOrUpdateOptionalParams,
   EncryptionProtectorsGetOptionalParams,
 } from "../../api/encryptionProtectors/options.js";
-import { EncryptionProtector, EncryptionProtectorName } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { EncryptionProtector, EncryptionProtectorName } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a EncryptionProtectors operations. */
 export interface EncryptionProtectorsOperations {

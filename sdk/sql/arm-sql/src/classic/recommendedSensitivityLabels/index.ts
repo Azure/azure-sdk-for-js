@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { update } from "../../api/recommendedSensitivityLabels/operations.js";
-import { RecommendedSensitivityLabelsUpdateOptionalParams } from "../../api/recommendedSensitivityLabels/options.js";
-import { RecommendedSensitivityLabelUpdateList } from "../../models/models.js";
+import type { RecommendedSensitivityLabelsUpdateOptionalParams } from "../../api/recommendedSensitivityLabels/options.js";
+import type { RecommendedSensitivityLabelUpdateList } from "../../models/models.js";
 
 /** Interface representing a RecommendedSensitivityLabels operations. */
 export interface RecommendedSensitivityLabelsOperations {

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listBySchema, get } from "../../api/managedDatabaseTables/operations.js";
-import {
+import type {
   ManagedDatabaseTablesListBySchemaOptionalParams,
   ManagedDatabaseTablesGetOptionalParams,
 } from "../../api/managedDatabaseTables/options.js";
-import { DatabaseTable } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DatabaseTable } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ManagedDatabaseTables operations. */
 export interface ManagedDatabaseTablesOperations {

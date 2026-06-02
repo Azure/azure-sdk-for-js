@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listSyncDatabaseIds,
   triggerSync,
@@ -15,7 +15,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/syncGroups/operations.js";
-import {
+import type {
   SyncGroupsListSyncDatabaseIdsOptionalParams,
   SyncGroupsTriggerSyncOptionalParams,
   SyncGroupsRefreshHubSchemaOptionalParams,
@@ -28,16 +28,17 @@ import {
   SyncGroupsCreateOrUpdateOptionalParams,
   SyncGroupsGetOptionalParams,
 } from "../../api/syncGroups/options.js";
-import {
+import type {
   SyncGroup,
   SyncFullSchemaProperties,
   SyncGroupLogProperties,
   SyncDatabaseIdProperties,
   SyncGroupsType,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SyncGroups operations. */
 export interface SyncGroupsOperations {

@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   createOrUpdate,
   get,
 } from "../../api/serverSecurityAlertPolicies/operations.js";
-import {
+import type {
   ServerSecurityAlertPoliciesListByServerOptionalParams,
   ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   ServerSecurityAlertPoliciesGetOptionalParams,
 } from "../../api/serverSecurityAlertPolicies/options.js";
-import { SecurityAlertPolicyName, ServerSecurityAlertPolicy } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { SecurityAlertPolicyName, ServerSecurityAlertPolicy } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ServerSecurityAlertPolicies operations. */
 export interface ServerSecurityAlertPoliciesOperations {

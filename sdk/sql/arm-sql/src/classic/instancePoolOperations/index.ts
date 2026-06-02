@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByInstancePool, get } from "../../api/instancePoolOperations/operations.js";
-import {
+import type {
   InstancePoolOperationsListByInstancePoolOptionalParams,
   InstancePoolOperationsGetOptionalParams,
 } from "../../api/instancePoolOperations/options.js";
-import { InstancePoolOperation } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { InstancePoolOperation } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a InstancePoolOperations operations. */
 export interface InstancePoolOperationsOperations {

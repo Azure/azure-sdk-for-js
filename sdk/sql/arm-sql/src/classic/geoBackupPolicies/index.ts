@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { list, createOrUpdate, get } from "../../api/geoBackupPolicies/operations.js";
-import {
+import type {
   GeoBackupPoliciesListOptionalParams,
   GeoBackupPoliciesCreateOrUpdateOptionalParams,
   GeoBackupPoliciesGetOptionalParams,
 } from "../../api/geoBackupPolicies/options.js";
-import { GeoBackupPolicy, GeoBackupPolicyName } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { GeoBackupPolicy, GeoBackupPolicyName } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GeoBackupPolicies operations. */
 export interface GeoBackupPoliciesOperations {

@@ -1,26 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByDatabase,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/managedInstanceLongTermRetentionPolicies/operations.js";
-import {
+import type {
   ManagedInstanceLongTermRetentionPoliciesListByDatabaseOptionalParams,
   ManagedInstanceLongTermRetentionPoliciesDeleteOptionalParams,
   ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams,
   ManagedInstanceLongTermRetentionPoliciesGetOptionalParams,
 } from "../../api/managedInstanceLongTermRetentionPolicies/options.js";
-import {
+import type {
   ManagedInstanceLongTermRetentionPolicy,
   ManagedInstanceLongTermRetentionPolicyName,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedInstanceLongTermRetentionPolicies operations. */
 export interface ManagedInstanceLongTermRetentionPoliciesOperations {

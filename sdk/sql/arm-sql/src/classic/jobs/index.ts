@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByAgent, $delete, createOrUpdate, get } from "../../api/jobs/operations.js";
-import {
+import type {
   JobsListByAgentOptionalParams,
   JobsDeleteOptionalParams,
   JobsCreateOrUpdateOptionalParams,
   JobsGetOptionalParams,
 } from "../../api/jobs/options.js";
-import { Job } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Job } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Jobs operations. */
 export interface JobsOperations {

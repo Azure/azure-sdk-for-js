@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   disable,
   listByDatabase,
   createOrUpdate,
   get,
 } from "../../api/ledgerDigestUploads/operations.js";
-import {
+import type {
   LedgerDigestUploadsDisableOptionalParams,
   LedgerDigestUploadsListByDatabaseOptionalParams,
   LedgerDigestUploadsCreateOrUpdateOptionalParams,
   LedgerDigestUploadsGetOptionalParams,
 } from "../../api/ledgerDigestUploads/options.js";
-import { LedgerDigestUploads, LedgerDigestUploadsName } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { LedgerDigestUploads, LedgerDigestUploadsName } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a LedgerDigestUploads operations. */
 export interface LedgerDigestUploadsOperations {

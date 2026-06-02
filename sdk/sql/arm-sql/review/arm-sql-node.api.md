@@ -4,15 +4,17 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { CancelOnProgress } from '@azure/core-lro';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AdministratorName = string;
@@ -371,7 +373,6 @@ export interface Database extends TrackedResource {
     readonly pausedDate?: Date;
     performCutover?: boolean;
     preferredEnclaveType?: AlwaysEncryptedEnclaveType;
-    readonly provisioningState?: string;
     readScale?: DatabaseReadScale;
     recoverableDatabaseId?: string;
     recoveryServicesRecoveryPointId?: string;
@@ -746,7 +747,6 @@ export interface DatabaseProperties {
     readonly pausedDate?: Date;
     performCutover?: boolean;
     preferredEnclaveType?: AlwaysEncryptedEnclaveType;
-    readonly provisioningState?: string;
     readScale?: DatabaseReadScale;
     recoverableDatabaseId?: string;
     recoveryServicesRecoveryPointId?: string;
@@ -875,10 +875,8 @@ export interface DatabasesListByElasticPoolOptionalParams extends OperationOptio
 
 // @public
 export interface DatabasesListByServerOptionalParams extends OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skip?: number;
-    top?: number;
+    // (undocumented)
+    skipToken?: string;
 }
 
 // @public
@@ -1173,7 +1171,6 @@ export interface DatabaseUpdate {
     readonly pausedDate?: Date;
     performCutover?: boolean;
     preferredEnclaveType?: AlwaysEncryptedEnclaveType;
-    readonly provisioningState?: string;
     readScale?: DatabaseReadScale;
     recoverableDatabaseId?: string;
     recoveryServicesRecoveryPointId?: string;
@@ -1226,7 +1223,6 @@ export interface DatabaseUpdateProperties {
     readonly pausedDate?: Date;
     performCutover?: boolean;
     preferredEnclaveType?: AlwaysEncryptedEnclaveType;
-    readonly provisioningState?: string;
     readScale?: DatabaseReadScale;
     recoverableDatabaseId?: string;
     recoveryServicesRecoveryPointId?: string;
@@ -1389,7 +1385,7 @@ export interface DatabaseVulnerabilityAssessmentsOperations {
 }
 
 // @public
-export type DataMaskingFunction = string;
+export type DataMaskingFunction = "Default" | "CCN" | "Email" | "Number" | "SSN" | "Text";
 
 // @public
 export interface DataMaskingPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -1463,7 +1459,6 @@ export interface DataMaskingRulesCreateOrUpdateOptionalParams extends OperationO
 
 // @public
 export interface DataMaskingRulesListByDatabaseOptionalParams extends OperationOptions {
-    skip?: number;
 }
 
 // @public
@@ -1473,26 +1468,10 @@ export interface DataMaskingRulesOperations {
 }
 
 // @public
-export type DataMaskingRuleState = string;
+export type DataMaskingRuleState = "Enabled" | "Disabled";
 
 // @public
 export type DataMaskingState = "Enabled" | "Disabled";
-
-// @public
-export interface DataSyncParticipantIdentity {
-    tenantId?: string;
-    type: DataSyncParticipantIdentityType;
-    userAssignedIdentities?: Record<string, DataSyncParticipantUserAssignedIdentity>;
-}
-
-// @public
-export type DataSyncParticipantIdentityType = string;
-
-// @public
-export interface DataSyncParticipantUserAssignedIdentity {
-    readonly clientId?: string;
-    readonly principalId?: string;
-}
 
 // @public
 export interface DataWarehouseUserActivities extends ProxyResource {
@@ -1728,7 +1707,6 @@ export interface ElasticPool extends TrackedResource {
     autoPauseDelay?: number;
     availabilityZone?: AvailabilityZoneType;
     readonly creationDate?: Date;
-    readonly currentSku?: Sku;
     highAvailabilityReplicaCount?: number;
     readonly kind?: string;
     licenseType?: ElasticPoolLicenseType;
@@ -1854,7 +1832,6 @@ export interface ElasticPoolProperties {
     autoPauseDelay?: number;
     availabilityZone?: AvailabilityZoneType;
     readonly creationDate?: Date;
-    readonly currentSku?: Sku;
     highAvailabilityReplicaCount?: number;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
@@ -1928,7 +1905,6 @@ export interface ElasticPoolsUpdateOptionalParams extends OperationOptions {
 export interface ElasticPoolUpdate {
     autoPauseDelay?: number;
     availabilityZone?: AvailabilityZoneType;
-    readonly currentSku?: Sku;
     highAvailabilityReplicaCount?: number;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
@@ -1945,7 +1921,6 @@ export interface ElasticPoolUpdate {
 export interface ElasticPoolUpdateProperties {
     autoPauseDelay?: number;
     availabilityZone?: AvailabilityZoneType;
-    readonly currentSku?: Sku;
     highAvailabilityReplicaCount?: number;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
@@ -2369,7 +2344,7 @@ export interface FirewallRulesOperations {
     delete: (resourceGroupName: string, serverName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, serverName: string, firewallRuleName: string, options?: FirewallRulesGetOptionalParams) => Promise<FirewallRule>;
     listByServer: (resourceGroupName: string, serverName: string, options?: FirewallRulesListByServerOptionalParams) => PagedAsyncIterableIterator<FirewallRule>;
-    replace: (resourceGroupName: string, serverName: string, parameters: FirewallRuleList, options?: FirewallRulesReplaceOptionalParams) => Promise<FirewallRule>;
+    replace: (resourceGroupName: string, serverName: string, parameters: FirewallRuleList, options?: FirewallRulesReplaceOptionalParams) => Promise<FirewallRule | undefined>;
 }
 
 // @public
@@ -2805,6 +2780,8 @@ export interface IPv6ServerFirewallRuleProperties {
     endIPv6Address?: string;
     startIPv6Address?: string;
 }
+
+export { isRestError }
 
 // @public
 export type IsRetryable = "Yes" | "No";
@@ -3582,30 +3559,6 @@ export enum KnownDatabaseStatus {
     Stopped = "Stopped",
     Stopping = "Stopping",
     Suspect = "Suspect"
-}
-
-// @public
-export enum KnownDataMaskingFunction {
-    CCN = "CCN",
-    Default = "Default",
-    Email = "Email",
-    Number = "Number",
-    SSN = "SSN",
-    Text = "Text"
-}
-
-// @public
-export enum KnownDataMaskingRuleState {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
-export enum KnownDataSyncParticipantIdentityType {
-    None = "None",
-    SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssignedUserAssigned",
-    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -4400,8 +4353,7 @@ export enum KnownUpsertManagedServerOperationStepWithEstimatesAndDurationStatus 
 
 // @public
 export enum KnownVersions {
-    V20250101 = "2025-01-01",
-    V20250201Preview = "2025-02-01-preview"
+    V20250101 = "2025-01-01"
 }
 
 // @public
@@ -5863,7 +5815,6 @@ export interface ManagedInstanceDtc extends ProxyResource {
     dtcEnabled?: boolean;
     readonly dtcHostNameDnsSuffix?: string;
     externalDnsSuffixSearchList?: string[];
-    fqdnEnabled?: boolean;
     readonly provisioningState?: ProvisioningState;
     securitySettings?: ManagedInstanceDtcSecuritySettings;
 }
@@ -5873,7 +5824,6 @@ export interface ManagedInstanceDtcProperties {
     dtcEnabled?: boolean;
     readonly dtcHostNameDnsSuffix?: string;
     externalDnsSuffixSearchList?: string[];
-    fqdnEnabled?: boolean;
     readonly provisioningState?: ProvisioningState;
     securitySettings?: ManagedInstanceDtcSecuritySettings;
 }
@@ -7771,8 +7721,10 @@ export interface ResourceWithWritableName {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
-export interface RestorableDroppedDatabase extends Resource {
+export interface RestorableDroppedDatabase extends ProxyResource {
     readonly backupStorageRedundancy?: BackupStorageRedundancy;
     readonly creationDate?: Date;
     readonly databaseName?: string;
@@ -9743,7 +9695,6 @@ export interface SyncGroup extends ProxyResource {
     enableConflictLogging?: boolean;
     hubDatabasePassword?: string;
     hubDatabaseUserName?: string;
-    identity?: DataSyncParticipantIdentity;
     interval?: number;
     readonly lastSyncTime?: Date;
     readonly privateEndpointName?: string;
@@ -9892,7 +9843,6 @@ export interface SyncGroupsUpdateOptionalParams extends OperationOptions {
 export interface SyncMember extends ProxyResource {
     databaseName?: string;
     databaseType?: SyncMemberDbType;
-    identity?: DataSyncParticipantIdentity;
     password?: string;
     readonly privateEndpointName?: string;
     serverName?: string;

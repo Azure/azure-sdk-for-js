@@ -1,26 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   revalidate,
   listByInstance,
   createOrUpdate,
   get,
 } from "../../api/managedInstanceEncryptionProtectors/operations.js";
-import {
+import type {
   ManagedInstanceEncryptionProtectorsRevalidateOptionalParams,
   ManagedInstanceEncryptionProtectorsListByInstanceOptionalParams,
   ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams,
   ManagedInstanceEncryptionProtectorsGetOptionalParams,
 } from "../../api/managedInstanceEncryptionProtectors/options.js";
-import {
+import type {
   EncryptionProtectorName,
   ManagedInstanceEncryptionProtector,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedInstanceEncryptionProtectors operations. */
 export interface ManagedInstanceEncryptionProtectorsOperations {

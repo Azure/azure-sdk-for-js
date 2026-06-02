@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-sql",
-  "version": "11.0.0-beta.5",
+  "version": "11.0.0",
   "description": "A generated SDK for SqlManagementClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -2212,6 +2212,12 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-sql?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-sql"
+  },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
   }
 }

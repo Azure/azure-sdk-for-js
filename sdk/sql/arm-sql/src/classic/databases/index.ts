@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByElasticPool,
   listInaccessibleByServer,
@@ -18,7 +18,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/databases/operations.js";
-import {
+import type {
   DatabasesListByElasticPoolOptionalParams,
   DatabasesListInaccessibleByServerOptionalParams,
   DatabasesUpgradeDataWarehouseOptionalParams,
@@ -34,7 +34,7 @@ import {
   DatabasesCreateOrUpdateOptionalParams,
   DatabasesGetOptionalParams,
 } from "../../api/databases/options.js";
-import {
+import type {
   Database,
   DatabaseUpdate,
   ExportDatabaseDefinition,
@@ -42,9 +42,10 @@ import {
   ImportExistingDatabaseDefinition,
   ResourceMoveDefinition,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Databases operations. */
 export interface DatabasesOperations {

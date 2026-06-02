@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { revert, revalidate } from "../../api/databaseEncryptionProtectors/operations.js";
-import {
+import type {
   DatabaseEncryptionProtectorsRevertOptionalParams,
   DatabaseEncryptionProtectorsRevalidateOptionalParams,
 } from "../../api/databaseEncryptionProtectors/options.js";
-import { EncryptionProtectorName } from "../../models/models.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { EncryptionProtectorName } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DatabaseEncryptionProtectors operations. */
 export interface DatabaseEncryptionProtectorsOperations {

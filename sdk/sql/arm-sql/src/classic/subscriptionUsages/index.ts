@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByLocation, get } from "../../api/subscriptionUsages/operations.js";
-import {
+import type {
   SubscriptionUsagesListByLocationOptionalParams,
   SubscriptionUsagesGetOptionalParams,
 } from "../../api/subscriptionUsages/options.js";
-import { SubscriptionUsage } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SubscriptionUsage } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SubscriptionUsages operations. */
 export interface SubscriptionUsagesOperations {

@@ -1,21 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByManagedInstance,
   createOrUpdate,
   get,
 } from "../../api/serverConfigurationOptions/operations.js";
-import {
+import type {
   ServerConfigurationOptionsListByManagedInstanceOptionalParams,
   ServerConfigurationOptionsCreateOrUpdateOptionalParams,
   ServerConfigurationOptionsGetOptionalParams,
 } from "../../api/serverConfigurationOptions/options.js";
-import { ServerConfigurationOption, ServerConfigurationOptionName } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  ServerConfigurationOption,
+  ServerConfigurationOptionName,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ServerConfigurationOptions operations. */
 export interface ServerConfigurationOptionsOperations {

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { createOrUpdate, get } from "../../api/sqlAgent/operations.js";
-import {
+import type {
   SqlAgentCreateOrUpdateOptionalParams,
   SqlAgentGetOptionalParams,
 } from "../../api/sqlAgent/options.js";
-import { SqlAgentConfiguration } from "../../models/models.js";
+import type { SqlAgentConfiguration } from "../../models/models.js";
 
 /** Interface representing a SqlAgent operations. */
 export interface SqlAgentOperations {

@@ -1,23 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   disable,
   listByDatabase,
   createOrUpdate,
   get,
 } from "../../api/managedLedgerDigestUploads/operations.js";
-import {
+import type {
   ManagedLedgerDigestUploadsDisableOptionalParams,
   ManagedLedgerDigestUploadsListByDatabaseOptionalParams,
   ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams,
   ManagedLedgerDigestUploadsGetOptionalParams,
 } from "../../api/managedLedgerDigestUploads/options.js";
-import { ManagedLedgerDigestUploads, ManagedLedgerDigestUploadsName } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  ManagedLedgerDigestUploads,
+  ManagedLedgerDigestUploadsName,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedLedgerDigestUploads operations. */
 export interface ManagedLedgerDigestUploadsOperations {

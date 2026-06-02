@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { createOrUpdate, get } from "../../api/dataMaskingPolicies/operations.js";
-import {
+import type {
   DataMaskingPoliciesCreateOrUpdateOptionalParams,
   DataMaskingPoliciesGetOptionalParams,
 } from "../../api/dataMaskingPolicies/options.js";
-import { DataMaskingPolicy } from "../../models/models.js";
+import type { DataMaskingPolicy } from "../../models/models.js";
 
 /** Interface representing a DataMaskingPolicies operations. */
 export interface DataMaskingPoliciesOperations {

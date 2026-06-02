@@ -1,21 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByInstance,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/startStopManagedInstanceSchedules/operations.js";
-import {
+import type {
   StartStopManagedInstanceSchedulesListByInstanceOptionalParams,
   StartStopManagedInstanceSchedulesDeleteOptionalParams,
   StartStopManagedInstanceSchedulesCreateOrUpdateOptionalParams,
   StartStopManagedInstanceSchedulesGetOptionalParams,
 } from "../../api/startStopManagedInstanceSchedules/options.js";
-import { StartStopManagedInstanceSchedule, StartStopScheduleName } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type {
+  StartStopManagedInstanceSchedule,
+  StartStopScheduleName,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a StartStopManagedInstanceSchedules operations. */
 export interface StartStopManagedInstanceSchedulesOperations {

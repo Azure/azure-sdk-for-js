@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByAgent,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/jobPrivateEndpoints/operations.js";
-import {
+import type {
   JobPrivateEndpointsListByAgentOptionalParams,
   JobPrivateEndpointsDeleteOptionalParams,
   JobPrivateEndpointsCreateOrUpdateOptionalParams,
   JobPrivateEndpointsGetOptionalParams,
 } from "../../api/jobPrivateEndpoints/options.js";
-import { JobPrivateEndpoint } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { JobPrivateEndpoint } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a JobPrivateEndpoints operations. */
 export interface JobPrivateEndpointsOperations {

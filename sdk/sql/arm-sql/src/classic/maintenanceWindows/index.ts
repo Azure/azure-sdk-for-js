@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { createOrUpdate, get } from "../../api/maintenanceWindows/operations.js";
-import {
+import type {
   MaintenanceWindowsCreateOrUpdateOptionalParams,
   MaintenanceWindowsGetOptionalParams,
 } from "../../api/maintenanceWindows/options.js";
-import { MaintenanceWindows } from "../../models/models.js";
+import type { MaintenanceWindows } from "../../models/models.js";
 
 /** Interface representing a MaintenanceWindows operations. */
 export interface MaintenanceWindowsOperations {

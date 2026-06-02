@@ -1,17 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByDatabase, createOrUpdate, get } from "../../api/databaseExtensions/operations.js";
-import {
+import type {
   DatabaseExtensionsListByDatabaseOptionalParams,
   DatabaseExtensionsCreateOrUpdateOptionalParams,
   DatabaseExtensionsGetOptionalParams,
 } from "../../api/databaseExtensions/options.js";
-import { DatabaseExtensions, ImportExportExtensionsOperationResult } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  DatabaseExtensions,
+  ImportExportExtensionsOperationResult,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DatabaseExtensions operations. */
 export interface DatabaseExtensionsOperations {

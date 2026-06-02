@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByAgent, $delete, createOrUpdate, get } from "../../api/jobTargetGroups/operations.js";
-import {
+import type {
   JobTargetGroupsListByAgentOptionalParams,
   JobTargetGroupsDeleteOptionalParams,
   JobTargetGroupsCreateOrUpdateOptionalParams,
   JobTargetGroupsGetOptionalParams,
 } from "../../api/jobTargetGroups/options.js";
-import { JobTargetGroup } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { JobTargetGroup } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a JobTargetGroups operations. */
 export interface JobTargetGroupsOperations {

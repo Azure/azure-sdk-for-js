@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/outboundFirewallRules/operations.js";
-import {
+import type {
   OutboundFirewallRulesListByServerOptionalParams,
   OutboundFirewallRulesDeleteOptionalParams,
   OutboundFirewallRulesCreateOrUpdateOptionalParams,
   OutboundFirewallRulesGetOptionalParams,
 } from "../../api/outboundFirewallRules/options.js";
-import { OutboundFirewallRule } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { OutboundFirewallRule } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a OutboundFirewallRules operations. */
 export interface OutboundFirewallRulesOperations {

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ReplicaType } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { ReplicaType } from "../../models/models.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface DatabasesListByElasticPoolOptionalParams extends OperationOptions {}
@@ -53,14 +53,7 @@ export interface DatabasesExportOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface DatabasesListByServerOptionalParams extends OperationOptions {
-  /** The number of elements to return from the collection. */
-  top?: number;
-  /** The number of elements in the collection to skip. */
-  skip?: number;
-  /** An OData filter expression that filters elements in the collection. */
-  filter?: string;
-  /** How the results should be ordered. */
-  orderby?: string;
+  skipToken?: string;
 }
 
 /** Optional parameters. */

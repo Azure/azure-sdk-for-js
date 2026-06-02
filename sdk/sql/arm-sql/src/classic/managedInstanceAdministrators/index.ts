@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByInstance,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/managedInstanceAdministrators/operations.js";
-import {
+import type {
   ManagedInstanceAdministratorsListByInstanceOptionalParams,
   ManagedInstanceAdministratorsDeleteOptionalParams,
   ManagedInstanceAdministratorsCreateOrUpdateOptionalParams,
   ManagedInstanceAdministratorsGetOptionalParams,
 } from "../../api/managedInstanceAdministrators/options.js";
-import { ManagedInstanceAdministrator, AdministratorName } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { ManagedInstanceAdministrator, AdministratorName } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedInstanceAdministrators operations. */
 export interface ManagedInstanceAdministratorsOperations {

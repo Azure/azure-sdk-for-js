@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   acquire,
   listByManagedInstance,
@@ -9,21 +9,22 @@ import {
   createOrUpdate,
   get,
 } from "../../api/managedServerDnsAliases/operations.js";
-import {
+import type {
   ManagedServerDnsAliasesAcquireOptionalParams,
   ManagedServerDnsAliasesListByManagedInstanceOptionalParams,
   ManagedServerDnsAliasesDeleteOptionalParams,
   ManagedServerDnsAliasesCreateOrUpdateOptionalParams,
   ManagedServerDnsAliasesGetOptionalParams,
 } from "../../api/managedServerDnsAliases/options.js";
-import {
+import type {
   ManagedServerDnsAlias,
   ManagedServerDnsAliasCreation,
   ManagedServerDnsAliasAcquisition,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedServerDnsAliases operations. */
 export interface ManagedServerDnsAliasesOperations {

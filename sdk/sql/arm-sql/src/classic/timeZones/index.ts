@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByLocation, get } from "../../api/timeZones/operations.js";
-import {
+import type {
   TimeZonesListByLocationOptionalParams,
   TimeZonesGetOptionalParams,
 } from "../../api/timeZones/options.js";
-import { TimeZone } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { TimeZone } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a TimeZones operations. */
 export interface TimeZonesOperations {

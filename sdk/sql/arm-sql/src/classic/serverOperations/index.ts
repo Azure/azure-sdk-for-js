@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByServer } from "../../api/serverOperations/operations.js";
-import { ServerOperationsListByServerOptionalParams } from "../../api/serverOperations/options.js";
-import { ServerOperation } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ServerOperationsListByServerOptionalParams } from "../../api/serverOperations/options.js";
+import type { ServerOperation } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ServerOperations operations. */
 export interface ServerOperationsOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   replace,
   listByServer,
@@ -9,15 +9,15 @@ import {
   createOrUpdate,
   get,
 } from "../../api/firewallRules/operations.js";
-import {
+import type {
   FirewallRulesReplaceOptionalParams,
   FirewallRulesListByServerOptionalParams,
   FirewallRulesDeleteOptionalParams,
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesGetOptionalParams,
 } from "../../api/firewallRules/options.js";
-import { FirewallRule, FirewallRuleList } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { FirewallRule, FirewallRuleList } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a FirewallRules operations. */
 export interface FirewallRulesOperations {
@@ -27,7 +27,7 @@ export interface FirewallRulesOperations {
     serverName: string,
     parameters: FirewallRuleList,
     options?: FirewallRulesReplaceOptionalParams,
-  ) => Promise<FirewallRule>;
+  ) => Promise<FirewallRule | undefined>;
   /** Gets a list of firewall rules. */
   listByServer: (
     resourceGroupName: string,

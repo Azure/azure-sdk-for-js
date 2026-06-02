@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -456,9 +457,6 @@ export type {
   SyncGroupSchema,
   SyncGroupSchemaTable,
   SyncGroupSchemaTableColumn,
-  DataSyncParticipantIdentity,
-  DataSyncParticipantIdentityType,
-  DataSyncParticipantUserAssignedIdentity,
   SyncFullSchemaProperties,
   SyncFullSchemaTable,
   SyncFullSchemaTableColumn,
@@ -742,7 +740,6 @@ export {
   KnownSyncMemberDbType,
   KnownSyncConflictResolutionPolicy,
   KnownSyncGroupState,
-  KnownDataSyncParticipantIdentityType,
   KnownSyncGroupLogType,
   KnownSyncDirection,
   KnownSyncMemberState,
@@ -751,8 +748,6 @@ export {
   KnownPhase,
   KnownAdvancedThreatProtectionName,
   KnownOperationMode,
-  KnownDataMaskingRuleState,
-  KnownDataMaskingFunction,
   KnownDataWarehouseUserActivityName,
   KnownLedgerDigestUploadsName,
   KnownRestoreDetailsName,
@@ -1731,3 +1726,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

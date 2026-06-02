@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Sql": "2025-02-01-preview"
+    "Microsoft.Sql": "2025-01-01"
   },
-  "emitterVersion": "0.52.3",
+  "emitterVersion": "0.54.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Sql",
     "CrossLanguageDefinitionId": {
@@ -401,8 +401,6 @@
       "@azure/arm-sql!SyncGroupSchema:interface": "Microsoft.Sql.SyncGroupSchema",
       "@azure/arm-sql!SyncGroupSchemaTable:interface": "Microsoft.Sql.SyncGroupSchemaTable",
       "@azure/arm-sql!SyncGroupSchemaTableColumn:interface": "Microsoft.Sql.SyncGroupSchemaTableColumn",
-      "@azure/arm-sql!DataSyncParticipantIdentity:interface": "Microsoft.Sql.DataSyncParticipantIdentity",
-      "@azure/arm-sql!DataSyncParticipantUserAssignedIdentity:interface": "Microsoft.Sql.DataSyncParticipantUserAssignedIdentity",
       "@azure/arm-sql!SyncGroupListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-sql!SyncFullSchemaPropertiesListResult:interface": "Microsoft.Sql.SyncFullSchemaPropertiesListResult",
       "@azure/arm-sql!SyncFullSchemaProperties:interface": "Microsoft.Sql.SyncFullSchemaProperties",
@@ -700,7 +698,6 @@
       "@azure/arm-sql!KnownSyncMemberDbType:enum": "Microsoft.Sql.SyncMemberDbType",
       "@azure/arm-sql!KnownSyncConflictResolutionPolicy:enum": "Microsoft.Sql.SyncConflictResolutionPolicy",
       "@azure/arm-sql!KnownSyncGroupState:enum": "Microsoft.Sql.SyncGroupState",
-      "@azure/arm-sql!KnownDataSyncParticipantIdentityType:enum": "Microsoft.Sql.DataSyncParticipantIdentityType",
       "@azure/arm-sql!KnownSyncGroupsType:enum": "Microsoft.Sql.SyncGroupsType",
       "@azure/arm-sql!KnownSyncGroupLogType:enum": "Microsoft.Sql.SyncGroupLogType",
       "@azure/arm-sql!KnownSyncDirection:enum": "Microsoft.Sql.SyncDirection",

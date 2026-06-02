@@ -1,563 +1,306 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  SqlManagementContext,
-  SqlManagementClientOptionalParams,
-  createSqlManagement,
-} from "./api/index.js";
-import {
-  BackupShortTermRetentionPoliciesOperations,
-  _getBackupShortTermRetentionPoliciesOperations,
-} from "./classic/backupShortTermRetentionPolicies/index.js";
-import {
-  CapabilitiesOperations,
-  _getCapabilitiesOperations,
-} from "./classic/capabilities/index.js";
-import {
-  DataMaskingPoliciesOperations,
-  _getDataMaskingPoliciesOperations,
-} from "./classic/dataMaskingPolicies/index.js";
-import {
-  DataMaskingRulesOperations,
-  _getDataMaskingRulesOperations,
-} from "./classic/dataMaskingRules/index.js";
-import {
-  DataWarehouseUserActivitiesOperations,
-  _getDataWarehouseUserActivitiesOperations,
-} from "./classic/dataWarehouseUserActivities/index.js";
-import {
-  DatabaseAdvancedThreatProtectionSettingsOperations,
-  _getDatabaseAdvancedThreatProtectionSettingsOperations,
-} from "./classic/databaseAdvancedThreatProtectionSettings/index.js";
-import {
-  DatabaseAdvisorsOperations,
-  _getDatabaseAdvisorsOperations,
-} from "./classic/databaseAdvisors/index.js";
-import {
-  DatabaseAutomaticTuningOperations,
-  _getDatabaseAutomaticTuningOperations,
-} from "./classic/databaseAutomaticTuning/index.js";
-import {
-  DatabaseBlobAuditingPoliciesOperations,
-  _getDatabaseBlobAuditingPoliciesOperations,
-} from "./classic/databaseBlobAuditingPolicies/index.js";
-import {
-  DatabaseColumnsOperations,
-  _getDatabaseColumnsOperations,
-} from "./classic/databaseColumns/index.js";
-import {
-  DatabaseEncryptionProtectorsOperations,
-  _getDatabaseEncryptionProtectorsOperations,
-} from "./classic/databaseEncryptionProtectors/index.js";
-import {
-  DatabaseExtensionsOperations,
-  _getDatabaseExtensionsOperations,
-} from "./classic/databaseExtensions/index.js";
-import {
-  DatabaseOperationsOperations,
-  _getDatabaseOperationsOperations,
-} from "./classic/databaseOperations/index.js";
-import {
-  DatabaseRecommendedActionsOperations,
-  _getDatabaseRecommendedActionsOperations,
-} from "./classic/databaseRecommendedActions/index.js";
-import {
-  DatabaseSchemasOperations,
-  _getDatabaseSchemasOperations,
-} from "./classic/databaseSchemas/index.js";
-import {
-  DatabaseSecurityAlertPoliciesOperations,
-  _getDatabaseSecurityAlertPoliciesOperations,
-} from "./classic/databaseSecurityAlertPolicies/index.js";
-import {
-  DatabaseSqlVulnerabilityAssessmentBaselinesOperations,
-  _getDatabaseSqlVulnerabilityAssessmentBaselinesOperations,
-} from "./classic/databaseSqlVulnerabilityAssessmentBaselines/index.js";
-import {
-  DatabaseSqlVulnerabilityAssessmentExecuteScanOperations,
-  _getDatabaseSqlVulnerabilityAssessmentExecuteScanOperations,
-} from "./classic/databaseSqlVulnerabilityAssessmentExecuteScan/index.js";
-import {
-  DatabaseSqlVulnerabilityAssessmentRuleBaselinesOperations,
-  _getDatabaseSqlVulnerabilityAssessmentRuleBaselinesOperations,
-} from "./classic/databaseSqlVulnerabilityAssessmentRuleBaselines/index.js";
-import {
-  DatabaseSqlVulnerabilityAssessmentScanResultOperations,
-  _getDatabaseSqlVulnerabilityAssessmentScanResultOperations,
-} from "./classic/databaseSqlVulnerabilityAssessmentScanResult/index.js";
-import {
-  DatabaseSqlVulnerabilityAssessmentScansOperations,
-  _getDatabaseSqlVulnerabilityAssessmentScansOperations,
-} from "./classic/databaseSqlVulnerabilityAssessmentScans/index.js";
-import {
-  DatabaseSqlVulnerabilityAssessmentsSettingsOperations,
-  _getDatabaseSqlVulnerabilityAssessmentsSettingsOperations,
-} from "./classic/databaseSqlVulnerabilityAssessmentsSettings/index.js";
-import {
-  DatabaseTablesOperations,
-  _getDatabaseTablesOperations,
-} from "./classic/databaseTables/index.js";
-import {
-  DatabaseUsagesOperations,
-  _getDatabaseUsagesOperations,
-} from "./classic/databaseUsages/index.js";
-import {
-  DatabaseVulnerabilityAssessmentRuleBaselinesOperations,
-  _getDatabaseVulnerabilityAssessmentRuleBaselinesOperations,
-} from "./classic/databaseVulnerabilityAssessmentRuleBaselines/index.js";
-import {
-  DatabaseVulnerabilityAssessmentScansOperations,
-  _getDatabaseVulnerabilityAssessmentScansOperations,
-} from "./classic/databaseVulnerabilityAssessmentScans/index.js";
-import {
-  DatabaseVulnerabilityAssessmentsOperations,
-  _getDatabaseVulnerabilityAssessmentsOperations,
-} from "./classic/databaseVulnerabilityAssessments/index.js";
-import { DatabasesOperations, _getDatabasesOperations } from "./classic/databases/index.js";
-import {
-  DeletedServersOperations,
-  _getDeletedServersOperations,
-} from "./classic/deletedServers/index.js";
-import {
-  DistributedAvailabilityGroupsOperations,
-  _getDistributedAvailabilityGroupsOperations,
-} from "./classic/distributedAvailabilityGroups/index.js";
-import {
-  ElasticPoolOperationsOperations,
-  _getElasticPoolOperationsOperations,
-} from "./classic/elasticPoolOperations/index.js";
-import {
-  ElasticPoolsOperations,
-  _getElasticPoolsOperations,
-} from "./classic/elasticPools/index.js";
-import {
-  EncryptionProtectorsOperations,
-  _getEncryptionProtectorsOperations,
-} from "./classic/encryptionProtectors/index.js";
-import {
-  EndpointCertificatesOperations,
-  _getEndpointCertificatesOperations,
-} from "./classic/endpointCertificates/index.js";
-import {
-  ExtendedDatabaseBlobAuditingPoliciesOperations,
-  _getExtendedDatabaseBlobAuditingPoliciesOperations,
-} from "./classic/extendedDatabaseBlobAuditingPolicies/index.js";
-import {
-  ExtendedServerBlobAuditingPoliciesOperations,
-  _getExtendedServerBlobAuditingPoliciesOperations,
-} from "./classic/extendedServerBlobAuditingPolicies/index.js";
-import {
-  FailoverGroupsOperations,
-  _getFailoverGroupsOperations,
-} from "./classic/failoverGroups/index.js";
-import {
-  FirewallRulesOperations,
-  _getFirewallRulesOperations,
-} from "./classic/firewallRules/index.js";
-import {
-  GeoBackupPoliciesOperations,
-  _getGeoBackupPoliciesOperations,
-} from "./classic/geoBackupPolicies/index.js";
-import {
-  IPv6FirewallRulesOperations,
-  _getIPv6FirewallRulesOperations,
-} from "./classic/iPv6FirewallRules/index.js";
-import {
-  InstanceFailoverGroupsOperations,
-  _getInstanceFailoverGroupsOperations,
-} from "./classic/instanceFailoverGroups/index.js";
-import {
-  InstancePoolOperationsOperations,
-  _getInstancePoolOperationsOperations,
-} from "./classic/instancePoolOperations/index.js";
-import {
-  InstancePoolsOperations,
-  _getInstancePoolsOperations,
-} from "./classic/instancePools/index.js";
-import { JobAgentsOperations, _getJobAgentsOperations } from "./classic/jobAgents/index.js";
-import {
-  JobCredentialsOperations,
-  _getJobCredentialsOperations,
-} from "./classic/jobCredentials/index.js";
-import {
-  JobExecutionsOperations,
-  _getJobExecutionsOperations,
-} from "./classic/jobExecutions/index.js";
-import {
-  JobPrivateEndpointsOperations,
-  _getJobPrivateEndpointsOperations,
-} from "./classic/jobPrivateEndpoints/index.js";
-import {
-  JobStepExecutionsOperations,
-  _getJobStepExecutionsOperations,
-} from "./classic/jobStepExecutions/index.js";
-import { JobStepsOperations, _getJobStepsOperations } from "./classic/jobSteps/index.js";
-import {
-  JobTargetExecutionsOperations,
-  _getJobTargetExecutionsOperations,
-} from "./classic/jobTargetExecutions/index.js";
-import {
-  JobTargetGroupsOperations,
-  _getJobTargetGroupsOperations,
-} from "./classic/jobTargetGroups/index.js";
-import { JobVersionsOperations, _getJobVersionsOperations } from "./classic/jobVersions/index.js";
-import { JobsOperations, _getJobsOperations } from "./classic/jobs/index.js";
-import {
-  LedgerDigestUploadsOperations,
-  _getLedgerDigestUploadsOperations,
-} from "./classic/ledgerDigestUploads/index.js";
-import {
-  LongTermRetentionBackupsOperations,
-  _getLongTermRetentionBackupsOperations,
-} from "./classic/longTermRetentionBackups/index.js";
-import {
-  LongTermRetentionManagedInstanceBackupsOperations,
-  _getLongTermRetentionManagedInstanceBackupsOperations,
-} from "./classic/longTermRetentionManagedInstanceBackups/index.js";
-import {
-  LongTermRetentionPoliciesOperations,
-  _getLongTermRetentionPoliciesOperations,
-} from "./classic/longTermRetentionPolicies/index.js";
-import {
-  MaintenanceWindowOptionsOperations,
-  _getMaintenanceWindowOptionsOperations,
-} from "./classic/maintenanceWindowOptions/index.js";
-import {
-  MaintenanceWindowsOperations,
-  _getMaintenanceWindowsOperations,
-} from "./classic/maintenanceWindows/index.js";
-import {
-  ManagedBackupShortTermRetentionPoliciesOperations,
-  _getManagedBackupShortTermRetentionPoliciesOperations,
-} from "./classic/managedBackupShortTermRetentionPolicies/index.js";
-import {
-  ManagedDatabaseAdvancedThreatProtectionSettingsOperations,
-  _getManagedDatabaseAdvancedThreatProtectionSettingsOperations,
-} from "./classic/managedDatabaseAdvancedThreatProtectionSettings/index.js";
-import {
-  ManagedDatabaseColumnsOperations,
-  _getManagedDatabaseColumnsOperations,
-} from "./classic/managedDatabaseColumns/index.js";
-import {
-  ManagedDatabaseMoveOperationsOperations,
-  _getManagedDatabaseMoveOperationsOperations,
-} from "./classic/managedDatabaseMoveOperations/index.js";
-import {
-  ManagedDatabaseQueriesOperations,
-  _getManagedDatabaseQueriesOperations,
-} from "./classic/managedDatabaseQueries/index.js";
-import {
-  ManagedDatabaseRecommendedSensitivityLabelsOperations,
-  _getManagedDatabaseRecommendedSensitivityLabelsOperations,
-} from "./classic/managedDatabaseRecommendedSensitivityLabels/index.js";
-import {
-  ManagedDatabaseRestoreDetailsOperations,
-  _getManagedDatabaseRestoreDetailsOperations,
-} from "./classic/managedDatabaseRestoreDetails/index.js";
-import {
-  ManagedDatabaseSchemasOperations,
-  _getManagedDatabaseSchemasOperations,
-} from "./classic/managedDatabaseSchemas/index.js";
-import {
-  ManagedDatabaseSecurityAlertPoliciesOperations,
-  _getManagedDatabaseSecurityAlertPoliciesOperations,
-} from "./classic/managedDatabaseSecurityAlertPolicies/index.js";
-import {
-  ManagedDatabaseSecurityEventsOperations,
-  _getManagedDatabaseSecurityEventsOperations,
-} from "./classic/managedDatabaseSecurityEvents/index.js";
-import {
-  ManagedDatabaseSensitivityLabelsOperations,
-  _getManagedDatabaseSensitivityLabelsOperations,
-} from "./classic/managedDatabaseSensitivityLabels/index.js";
-import {
-  ManagedDatabaseTablesOperations,
-  _getManagedDatabaseTablesOperations,
-} from "./classic/managedDatabaseTables/index.js";
-import {
-  ManagedDatabaseTransparentDataEncryptionOperations,
-  _getManagedDatabaseTransparentDataEncryptionOperations,
-} from "./classic/managedDatabaseTransparentDataEncryption/index.js";
-import {
-  ManagedDatabaseVulnerabilityAssessmentRuleBaselinesOperations,
-  _getManagedDatabaseVulnerabilityAssessmentRuleBaselinesOperations,
-} from "./classic/managedDatabaseVulnerabilityAssessmentRuleBaselines/index.js";
-import {
-  ManagedDatabaseVulnerabilityAssessmentScansOperations,
-  _getManagedDatabaseVulnerabilityAssessmentScansOperations,
-} from "./classic/managedDatabaseVulnerabilityAssessmentScans/index.js";
-import {
-  ManagedDatabaseVulnerabilityAssessmentsOperations,
-  _getManagedDatabaseVulnerabilityAssessmentsOperations,
-} from "./classic/managedDatabaseVulnerabilityAssessments/index.js";
-import {
-  ManagedDatabasesOperations,
-  _getManagedDatabasesOperations,
-} from "./classic/managedDatabases/index.js";
-import {
-  ManagedInstanceAdministratorsOperations,
-  _getManagedInstanceAdministratorsOperations,
-} from "./classic/managedInstanceAdministrators/index.js";
-import {
-  ManagedInstanceAdvancedThreatProtectionSettingsOperations,
-  _getManagedInstanceAdvancedThreatProtectionSettingsOperations,
-} from "./classic/managedInstanceAdvancedThreatProtectionSettings/index.js";
-import {
-  ManagedInstanceAzureADOnlyAuthenticationsOperations,
-  _getManagedInstanceAzureADOnlyAuthenticationsOperations,
-} from "./classic/managedInstanceAzureADOnlyAuthentications/index.js";
-import {
-  ManagedInstanceDtcsOperations,
-  _getManagedInstanceDtcsOperations,
-} from "./classic/managedInstanceDtcs/index.js";
-import {
-  ManagedInstanceEncryptionProtectorsOperations,
-  _getManagedInstanceEncryptionProtectorsOperations,
-} from "./classic/managedInstanceEncryptionProtectors/index.js";
-import {
-  ManagedInstanceKeysOperations,
-  _getManagedInstanceKeysOperations,
-} from "./classic/managedInstanceKeys/index.js";
-import {
-  ManagedInstanceLongTermRetentionPoliciesOperations,
-  _getManagedInstanceLongTermRetentionPoliciesOperations,
-} from "./classic/managedInstanceLongTermRetentionPolicies/index.js";
-import {
-  ManagedInstanceOperationsOperations,
-  _getManagedInstanceOperationsOperations,
-} from "./classic/managedInstanceOperations/index.js";
-import {
-  ManagedInstancePrivateEndpointConnectionsOperations,
-  _getManagedInstancePrivateEndpointConnectionsOperations,
-} from "./classic/managedInstancePrivateEndpointConnections/index.js";
-import {
-  ManagedInstancePrivateLinkResourcesOperations,
-  _getManagedInstancePrivateLinkResourcesOperations,
-} from "./classic/managedInstancePrivateLinkResources/index.js";
-import {
-  ManagedInstanceTdeCertificatesOperations,
-  _getManagedInstanceTdeCertificatesOperations,
-} from "./classic/managedInstanceTdeCertificates/index.js";
-import {
-  ManagedInstanceVulnerabilityAssessmentsOperations,
-  _getManagedInstanceVulnerabilityAssessmentsOperations,
-} from "./classic/managedInstanceVulnerabilityAssessments/index.js";
-import {
-  ManagedInstancesOperations,
-  _getManagedInstancesOperations,
-} from "./classic/managedInstances/index.js";
-import {
-  ManagedLedgerDigestUploadsOperations,
-  _getManagedLedgerDigestUploadsOperations,
-} from "./classic/managedLedgerDigestUploads/index.js";
-import {
-  ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations,
-  _getManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations,
-} from "./classic/managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies/index.js";
-import {
-  ManagedServerDnsAliasesOperations,
-  _getManagedServerDnsAliasesOperations,
-} from "./classic/managedServerDnsAliases/index.js";
-import {
-  ManagedServerSecurityAlertPoliciesOperations,
-  _getManagedServerSecurityAlertPoliciesOperations,
-} from "./classic/managedServerSecurityAlertPolicies/index.js";
-import {
-  NetworkSecurityPerimeterConfigurationsOperations,
-  _getNetworkSecurityPerimeterConfigurationsOperations,
-} from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import {
-  OutboundFirewallRulesOperations,
-  _getOutboundFirewallRulesOperations,
-} from "./classic/outboundFirewallRules/index.js";
-import {
-  PrivateEndpointConnectionsOperations,
-  _getPrivateEndpointConnectionsOperations,
-} from "./classic/privateEndpointConnections/index.js";
-import {
-  PrivateLinkResourcesOperations,
-  _getPrivateLinkResourcesOperations,
-} from "./classic/privateLinkResources/index.js";
-import {
-  RecommendedSensitivityLabelsOperations,
-  _getRecommendedSensitivityLabelsOperations,
-} from "./classic/recommendedSensitivityLabels/index.js";
-import {
-  RecoverableDatabasesOperations,
-  _getRecoverableDatabasesOperations,
-} from "./classic/recoverableDatabases/index.js";
-import {
-  RecoverableManagedDatabasesOperations,
-  _getRecoverableManagedDatabasesOperations,
-} from "./classic/recoverableManagedDatabases/index.js";
-import {
-  ReplicationLinksOperations,
-  _getReplicationLinksOperations,
-} from "./classic/replicationLinks/index.js";
-import {
-  RestorableDroppedDatabasesOperations,
-  _getRestorableDroppedDatabasesOperations,
-} from "./classic/restorableDroppedDatabases/index.js";
-import {
-  RestorableDroppedManagedDatabasesOperations,
-  _getRestorableDroppedManagedDatabasesOperations,
-} from "./classic/restorableDroppedManagedDatabases/index.js";
-import {
-  RestorePointsOperations,
-  _getRestorePointsOperations,
-} from "./classic/restorePoints/index.js";
-import {
-  SensitivityLabelsOperations,
-  _getSensitivityLabelsOperations,
-} from "./classic/sensitivityLabels/index.js";
-import {
-  ServerAdvancedThreatProtectionSettingsOperations,
-  _getServerAdvancedThreatProtectionSettingsOperations,
-} from "./classic/serverAdvancedThreatProtectionSettings/index.js";
-import {
-  ServerAdvisorsOperations,
-  _getServerAdvisorsOperations,
-} from "./classic/serverAdvisors/index.js";
-import {
-  ServerAutomaticTuningOperations,
-  _getServerAutomaticTuningOperations,
-} from "./classic/serverAutomaticTuning/index.js";
-import {
-  ServerAzureADAdministratorsOperations,
-  _getServerAzureADAdministratorsOperations,
-} from "./classic/serverAzureADAdministrators/index.js";
-import {
-  ServerAzureADOnlyAuthenticationsOperations,
-  _getServerAzureADOnlyAuthenticationsOperations,
-} from "./classic/serverAzureADOnlyAuthentications/index.js";
-import {
-  ServerBlobAuditingPoliciesOperations,
-  _getServerBlobAuditingPoliciesOperations,
-} from "./classic/serverBlobAuditingPolicies/index.js";
-import {
-  ServerConfigurationOptionsOperations,
-  _getServerConfigurationOptionsOperations,
-} from "./classic/serverConfigurationOptions/index.js";
-import {
-  ServerConnectionPoliciesOperations,
-  _getServerConnectionPoliciesOperations,
-} from "./classic/serverConnectionPolicies/index.js";
-import {
-  ServerDevOpsAuditSettingsOperations,
-  _getServerDevOpsAuditSettingsOperations,
-} from "./classic/serverDevOpsAuditSettings/index.js";
-import {
-  ServerDnsAliasesOperations,
-  _getServerDnsAliasesOperations,
-} from "./classic/serverDnsAliases/index.js";
-import { ServerKeysOperations, _getServerKeysOperations } from "./classic/serverKeys/index.js";
-import {
-  ServerOperationsOperations,
-  _getServerOperationsOperations,
-} from "./classic/serverOperations/index.js";
-import {
-  ServerSecurityAlertPoliciesOperations,
-  _getServerSecurityAlertPoliciesOperations,
-} from "./classic/serverSecurityAlertPolicies/index.js";
-import {
-  ServerTrustCertificatesOperations,
-  _getServerTrustCertificatesOperations,
-} from "./classic/serverTrustCertificates/index.js";
-import {
-  ServerTrustGroupsOperations,
-  _getServerTrustGroupsOperations,
-} from "./classic/serverTrustGroups/index.js";
-import {
-  ServerUsagesOperations,
-  _getServerUsagesOperations,
-} from "./classic/serverUsages/index.js";
-import {
-  ServerVulnerabilityAssessmentsOperations,
-  _getServerVulnerabilityAssessmentsOperations,
-} from "./classic/serverVulnerabilityAssessments/index.js";
-import { ServersOperations, _getServersOperations } from "./classic/servers/index.js";
-import { SqlAgentOperations, _getSqlAgentOperations } from "./classic/sqlAgent/index.js";
-import {
-  SqlVulnerabilityAssessmentBaselineOperations,
-  _getSqlVulnerabilityAssessmentBaselineOperations,
-} from "./classic/sqlVulnerabilityAssessmentBaseline/index.js";
-import {
-  SqlVulnerabilityAssessmentBaselinesOperations,
-  _getSqlVulnerabilityAssessmentBaselinesOperations,
-} from "./classic/sqlVulnerabilityAssessmentBaselines/index.js";
-import {
-  SqlVulnerabilityAssessmentExecuteScanOperations,
-  _getSqlVulnerabilityAssessmentExecuteScanOperations,
-} from "./classic/sqlVulnerabilityAssessmentExecuteScan/index.js";
-import {
-  SqlVulnerabilityAssessmentRuleBaselineOperations,
-  _getSqlVulnerabilityAssessmentRuleBaselineOperations,
-} from "./classic/sqlVulnerabilityAssessmentRuleBaseline/index.js";
-import {
-  SqlVulnerabilityAssessmentRuleBaselinesOperations,
-  _getSqlVulnerabilityAssessmentRuleBaselinesOperations,
-} from "./classic/sqlVulnerabilityAssessmentRuleBaselines/index.js";
-import {
-  SqlVulnerabilityAssessmentScanResultOperations,
-  _getSqlVulnerabilityAssessmentScanResultOperations,
-} from "./classic/sqlVulnerabilityAssessmentScanResult/index.js";
-import {
-  SqlVulnerabilityAssessmentScansOperations,
-  _getSqlVulnerabilityAssessmentScansOperations,
-} from "./classic/sqlVulnerabilityAssessmentScans/index.js";
-import {
-  SqlVulnerabilityAssessmentsOperations,
-  _getSqlVulnerabilityAssessmentsOperations,
-} from "./classic/sqlVulnerabilityAssessments/index.js";
-import {
-  SqlVulnerabilityAssessmentsSettingsOperations,
-  _getSqlVulnerabilityAssessmentsSettingsOperations,
-} from "./classic/sqlVulnerabilityAssessmentsSettings/index.js";
-import {
-  StartStopManagedInstanceSchedulesOperations,
-  _getStartStopManagedInstanceSchedulesOperations,
-} from "./classic/startStopManagedInstanceSchedules/index.js";
-import {
-  SubscriptionUsagesOperations,
-  _getSubscriptionUsagesOperations,
-} from "./classic/subscriptionUsages/index.js";
-import {
-  SynapseLinkWorkspacesOperations,
-  _getSynapseLinkWorkspacesOperations,
-} from "./classic/synapseLinkWorkspaces/index.js";
-import { SyncAgentsOperations, _getSyncAgentsOperations } from "./classic/syncAgents/index.js";
-import { SyncGroupsOperations, _getSyncGroupsOperations } from "./classic/syncGroups/index.js";
-import { SyncMembersOperations, _getSyncMembersOperations } from "./classic/syncMembers/index.js";
-import {
-  TdeCertificatesOperations,
-  _getTdeCertificatesOperations,
-} from "./classic/tdeCertificates/index.js";
-import { TimeZonesOperations, _getTimeZonesOperations } from "./classic/timeZones/index.js";
-import {
-  TransparentDataEncryptionsOperations,
-  _getTransparentDataEncryptionsOperations,
-} from "./classic/transparentDataEncryptions/index.js";
-import { UsagesOperations, _getUsagesOperations } from "./classic/usages/index.js";
-import {
-  VirtualClustersOperations,
-  _getVirtualClustersOperations,
-} from "./classic/virtualClusters/index.js";
-import {
-  VirtualNetworkRulesOperations,
-  _getVirtualNetworkRulesOperations,
-} from "./classic/virtualNetworkRules/index.js";
-import {
-  WorkloadClassifiersOperations,
-  _getWorkloadClassifiersOperations,
-} from "./classic/workloadClassifiers/index.js";
-import {
-  WorkloadGroupsOperations,
-  _getWorkloadGroupsOperations,
-} from "./classic/workloadGroups/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { SqlManagementContext, SqlManagementClientOptionalParams } from "./api/index.js";
+import { createSqlManagement } from "./api/index.js";
+import type { BackupShortTermRetentionPoliciesOperations } from "./classic/backupShortTermRetentionPolicies/index.js";
+import { _getBackupShortTermRetentionPoliciesOperations } from "./classic/backupShortTermRetentionPolicies/index.js";
+import type { CapabilitiesOperations } from "./classic/capabilities/index.js";
+import { _getCapabilitiesOperations } from "./classic/capabilities/index.js";
+import type { DataMaskingPoliciesOperations } from "./classic/dataMaskingPolicies/index.js";
+import { _getDataMaskingPoliciesOperations } from "./classic/dataMaskingPolicies/index.js";
+import type { DataMaskingRulesOperations } from "./classic/dataMaskingRules/index.js";
+import { _getDataMaskingRulesOperations } from "./classic/dataMaskingRules/index.js";
+import type { DataWarehouseUserActivitiesOperations } from "./classic/dataWarehouseUserActivities/index.js";
+import { _getDataWarehouseUserActivitiesOperations } from "./classic/dataWarehouseUserActivities/index.js";
+import type { DatabaseAdvancedThreatProtectionSettingsOperations } from "./classic/databaseAdvancedThreatProtectionSettings/index.js";
+import { _getDatabaseAdvancedThreatProtectionSettingsOperations } from "./classic/databaseAdvancedThreatProtectionSettings/index.js";
+import type { DatabaseAdvisorsOperations } from "./classic/databaseAdvisors/index.js";
+import { _getDatabaseAdvisorsOperations } from "./classic/databaseAdvisors/index.js";
+import type { DatabaseAutomaticTuningOperations } from "./classic/databaseAutomaticTuning/index.js";
+import { _getDatabaseAutomaticTuningOperations } from "./classic/databaseAutomaticTuning/index.js";
+import type { DatabaseBlobAuditingPoliciesOperations } from "./classic/databaseBlobAuditingPolicies/index.js";
+import { _getDatabaseBlobAuditingPoliciesOperations } from "./classic/databaseBlobAuditingPolicies/index.js";
+import type { DatabaseColumnsOperations } from "./classic/databaseColumns/index.js";
+import { _getDatabaseColumnsOperations } from "./classic/databaseColumns/index.js";
+import type { DatabaseEncryptionProtectorsOperations } from "./classic/databaseEncryptionProtectors/index.js";
+import { _getDatabaseEncryptionProtectorsOperations } from "./classic/databaseEncryptionProtectors/index.js";
+import type { DatabaseExtensionsOperations } from "./classic/databaseExtensions/index.js";
+import { _getDatabaseExtensionsOperations } from "./classic/databaseExtensions/index.js";
+import type { DatabaseOperationsOperations } from "./classic/databaseOperations/index.js";
+import { _getDatabaseOperationsOperations } from "./classic/databaseOperations/index.js";
+import type { DatabaseRecommendedActionsOperations } from "./classic/databaseRecommendedActions/index.js";
+import { _getDatabaseRecommendedActionsOperations } from "./classic/databaseRecommendedActions/index.js";
+import type { DatabaseSchemasOperations } from "./classic/databaseSchemas/index.js";
+import { _getDatabaseSchemasOperations } from "./classic/databaseSchemas/index.js";
+import type { DatabaseSecurityAlertPoliciesOperations } from "./classic/databaseSecurityAlertPolicies/index.js";
+import { _getDatabaseSecurityAlertPoliciesOperations } from "./classic/databaseSecurityAlertPolicies/index.js";
+import type { DatabaseSqlVulnerabilityAssessmentBaselinesOperations } from "./classic/databaseSqlVulnerabilityAssessmentBaselines/index.js";
+import { _getDatabaseSqlVulnerabilityAssessmentBaselinesOperations } from "./classic/databaseSqlVulnerabilityAssessmentBaselines/index.js";
+import type { DatabaseSqlVulnerabilityAssessmentExecuteScanOperations } from "./classic/databaseSqlVulnerabilityAssessmentExecuteScan/index.js";
+import { _getDatabaseSqlVulnerabilityAssessmentExecuteScanOperations } from "./classic/databaseSqlVulnerabilityAssessmentExecuteScan/index.js";
+import type { DatabaseSqlVulnerabilityAssessmentRuleBaselinesOperations } from "./classic/databaseSqlVulnerabilityAssessmentRuleBaselines/index.js";
+import { _getDatabaseSqlVulnerabilityAssessmentRuleBaselinesOperations } from "./classic/databaseSqlVulnerabilityAssessmentRuleBaselines/index.js";
+import type { DatabaseSqlVulnerabilityAssessmentScanResultOperations } from "./classic/databaseSqlVulnerabilityAssessmentScanResult/index.js";
+import { _getDatabaseSqlVulnerabilityAssessmentScanResultOperations } from "./classic/databaseSqlVulnerabilityAssessmentScanResult/index.js";
+import type { DatabaseSqlVulnerabilityAssessmentScansOperations } from "./classic/databaseSqlVulnerabilityAssessmentScans/index.js";
+import { _getDatabaseSqlVulnerabilityAssessmentScansOperations } from "./classic/databaseSqlVulnerabilityAssessmentScans/index.js";
+import type { DatabaseSqlVulnerabilityAssessmentsSettingsOperations } from "./classic/databaseSqlVulnerabilityAssessmentsSettings/index.js";
+import { _getDatabaseSqlVulnerabilityAssessmentsSettingsOperations } from "./classic/databaseSqlVulnerabilityAssessmentsSettings/index.js";
+import type { DatabaseTablesOperations } from "./classic/databaseTables/index.js";
+import { _getDatabaseTablesOperations } from "./classic/databaseTables/index.js";
+import type { DatabaseUsagesOperations } from "./classic/databaseUsages/index.js";
+import { _getDatabaseUsagesOperations } from "./classic/databaseUsages/index.js";
+import type { DatabaseVulnerabilityAssessmentRuleBaselinesOperations } from "./classic/databaseVulnerabilityAssessmentRuleBaselines/index.js";
+import { _getDatabaseVulnerabilityAssessmentRuleBaselinesOperations } from "./classic/databaseVulnerabilityAssessmentRuleBaselines/index.js";
+import type { DatabaseVulnerabilityAssessmentScansOperations } from "./classic/databaseVulnerabilityAssessmentScans/index.js";
+import { _getDatabaseVulnerabilityAssessmentScansOperations } from "./classic/databaseVulnerabilityAssessmentScans/index.js";
+import type { DatabaseVulnerabilityAssessmentsOperations } from "./classic/databaseVulnerabilityAssessments/index.js";
+import { _getDatabaseVulnerabilityAssessmentsOperations } from "./classic/databaseVulnerabilityAssessments/index.js";
+import type { DatabasesOperations } from "./classic/databases/index.js";
+import { _getDatabasesOperations } from "./classic/databases/index.js";
+import type { DeletedServersOperations } from "./classic/deletedServers/index.js";
+import { _getDeletedServersOperations } from "./classic/deletedServers/index.js";
+import type { DistributedAvailabilityGroupsOperations } from "./classic/distributedAvailabilityGroups/index.js";
+import { _getDistributedAvailabilityGroupsOperations } from "./classic/distributedAvailabilityGroups/index.js";
+import type { ElasticPoolOperationsOperations } from "./classic/elasticPoolOperations/index.js";
+import { _getElasticPoolOperationsOperations } from "./classic/elasticPoolOperations/index.js";
+import type { ElasticPoolsOperations } from "./classic/elasticPools/index.js";
+import { _getElasticPoolsOperations } from "./classic/elasticPools/index.js";
+import type { EncryptionProtectorsOperations } from "./classic/encryptionProtectors/index.js";
+import { _getEncryptionProtectorsOperations } from "./classic/encryptionProtectors/index.js";
+import type { EndpointCertificatesOperations } from "./classic/endpointCertificates/index.js";
+import { _getEndpointCertificatesOperations } from "./classic/endpointCertificates/index.js";
+import type { ExtendedDatabaseBlobAuditingPoliciesOperations } from "./classic/extendedDatabaseBlobAuditingPolicies/index.js";
+import { _getExtendedDatabaseBlobAuditingPoliciesOperations } from "./classic/extendedDatabaseBlobAuditingPolicies/index.js";
+import type { ExtendedServerBlobAuditingPoliciesOperations } from "./classic/extendedServerBlobAuditingPolicies/index.js";
+import { _getExtendedServerBlobAuditingPoliciesOperations } from "./classic/extendedServerBlobAuditingPolicies/index.js";
+import type { FailoverGroupsOperations } from "./classic/failoverGroups/index.js";
+import { _getFailoverGroupsOperations } from "./classic/failoverGroups/index.js";
+import type { FirewallRulesOperations } from "./classic/firewallRules/index.js";
+import { _getFirewallRulesOperations } from "./classic/firewallRules/index.js";
+import type { GeoBackupPoliciesOperations } from "./classic/geoBackupPolicies/index.js";
+import { _getGeoBackupPoliciesOperations } from "./classic/geoBackupPolicies/index.js";
+import type { IPv6FirewallRulesOperations } from "./classic/iPv6FirewallRules/index.js";
+import { _getIPv6FirewallRulesOperations } from "./classic/iPv6FirewallRules/index.js";
+import type { InstanceFailoverGroupsOperations } from "./classic/instanceFailoverGroups/index.js";
+import { _getInstanceFailoverGroupsOperations } from "./classic/instanceFailoverGroups/index.js";
+import type { InstancePoolOperationsOperations } from "./classic/instancePoolOperations/index.js";
+import { _getInstancePoolOperationsOperations } from "./classic/instancePoolOperations/index.js";
+import type { InstancePoolsOperations } from "./classic/instancePools/index.js";
+import { _getInstancePoolsOperations } from "./classic/instancePools/index.js";
+import type { JobAgentsOperations } from "./classic/jobAgents/index.js";
+import { _getJobAgentsOperations } from "./classic/jobAgents/index.js";
+import type { JobCredentialsOperations } from "./classic/jobCredentials/index.js";
+import { _getJobCredentialsOperations } from "./classic/jobCredentials/index.js";
+import type { JobExecutionsOperations } from "./classic/jobExecutions/index.js";
+import { _getJobExecutionsOperations } from "./classic/jobExecutions/index.js";
+import type { JobPrivateEndpointsOperations } from "./classic/jobPrivateEndpoints/index.js";
+import { _getJobPrivateEndpointsOperations } from "./classic/jobPrivateEndpoints/index.js";
+import type { JobStepExecutionsOperations } from "./classic/jobStepExecutions/index.js";
+import { _getJobStepExecutionsOperations } from "./classic/jobStepExecutions/index.js";
+import type { JobStepsOperations } from "./classic/jobSteps/index.js";
+import { _getJobStepsOperations } from "./classic/jobSteps/index.js";
+import type { JobTargetExecutionsOperations } from "./classic/jobTargetExecutions/index.js";
+import { _getJobTargetExecutionsOperations } from "./classic/jobTargetExecutions/index.js";
+import type { JobTargetGroupsOperations } from "./classic/jobTargetGroups/index.js";
+import { _getJobTargetGroupsOperations } from "./classic/jobTargetGroups/index.js";
+import type { JobVersionsOperations } from "./classic/jobVersions/index.js";
+import { _getJobVersionsOperations } from "./classic/jobVersions/index.js";
+import type { JobsOperations } from "./classic/jobs/index.js";
+import { _getJobsOperations } from "./classic/jobs/index.js";
+import type { LedgerDigestUploadsOperations } from "./classic/ledgerDigestUploads/index.js";
+import { _getLedgerDigestUploadsOperations } from "./classic/ledgerDigestUploads/index.js";
+import type { LongTermRetentionBackupsOperations } from "./classic/longTermRetentionBackups/index.js";
+import { _getLongTermRetentionBackupsOperations } from "./classic/longTermRetentionBackups/index.js";
+import type { LongTermRetentionManagedInstanceBackupsOperations } from "./classic/longTermRetentionManagedInstanceBackups/index.js";
+import { _getLongTermRetentionManagedInstanceBackupsOperations } from "./classic/longTermRetentionManagedInstanceBackups/index.js";
+import type { LongTermRetentionPoliciesOperations } from "./classic/longTermRetentionPolicies/index.js";
+import { _getLongTermRetentionPoliciesOperations } from "./classic/longTermRetentionPolicies/index.js";
+import type { MaintenanceWindowOptionsOperations } from "./classic/maintenanceWindowOptions/index.js";
+import { _getMaintenanceWindowOptionsOperations } from "./classic/maintenanceWindowOptions/index.js";
+import type { MaintenanceWindowsOperations } from "./classic/maintenanceWindows/index.js";
+import { _getMaintenanceWindowsOperations } from "./classic/maintenanceWindows/index.js";
+import type { ManagedBackupShortTermRetentionPoliciesOperations } from "./classic/managedBackupShortTermRetentionPolicies/index.js";
+import { _getManagedBackupShortTermRetentionPoliciesOperations } from "./classic/managedBackupShortTermRetentionPolicies/index.js";
+import type { ManagedDatabaseAdvancedThreatProtectionSettingsOperations } from "./classic/managedDatabaseAdvancedThreatProtectionSettings/index.js";
+import { _getManagedDatabaseAdvancedThreatProtectionSettingsOperations } from "./classic/managedDatabaseAdvancedThreatProtectionSettings/index.js";
+import type { ManagedDatabaseColumnsOperations } from "./classic/managedDatabaseColumns/index.js";
+import { _getManagedDatabaseColumnsOperations } from "./classic/managedDatabaseColumns/index.js";
+import type { ManagedDatabaseMoveOperationsOperations } from "./classic/managedDatabaseMoveOperations/index.js";
+import { _getManagedDatabaseMoveOperationsOperations } from "./classic/managedDatabaseMoveOperations/index.js";
+import type { ManagedDatabaseQueriesOperations } from "./classic/managedDatabaseQueries/index.js";
+import { _getManagedDatabaseQueriesOperations } from "./classic/managedDatabaseQueries/index.js";
+import type { ManagedDatabaseRecommendedSensitivityLabelsOperations } from "./classic/managedDatabaseRecommendedSensitivityLabels/index.js";
+import { _getManagedDatabaseRecommendedSensitivityLabelsOperations } from "./classic/managedDatabaseRecommendedSensitivityLabels/index.js";
+import type { ManagedDatabaseRestoreDetailsOperations } from "./classic/managedDatabaseRestoreDetails/index.js";
+import { _getManagedDatabaseRestoreDetailsOperations } from "./classic/managedDatabaseRestoreDetails/index.js";
+import type { ManagedDatabaseSchemasOperations } from "./classic/managedDatabaseSchemas/index.js";
+import { _getManagedDatabaseSchemasOperations } from "./classic/managedDatabaseSchemas/index.js";
+import type { ManagedDatabaseSecurityAlertPoliciesOperations } from "./classic/managedDatabaseSecurityAlertPolicies/index.js";
+import { _getManagedDatabaseSecurityAlertPoliciesOperations } from "./classic/managedDatabaseSecurityAlertPolicies/index.js";
+import type { ManagedDatabaseSecurityEventsOperations } from "./classic/managedDatabaseSecurityEvents/index.js";
+import { _getManagedDatabaseSecurityEventsOperations } from "./classic/managedDatabaseSecurityEvents/index.js";
+import type { ManagedDatabaseSensitivityLabelsOperations } from "./classic/managedDatabaseSensitivityLabels/index.js";
+import { _getManagedDatabaseSensitivityLabelsOperations } from "./classic/managedDatabaseSensitivityLabels/index.js";
+import type { ManagedDatabaseTablesOperations } from "./classic/managedDatabaseTables/index.js";
+import { _getManagedDatabaseTablesOperations } from "./classic/managedDatabaseTables/index.js";
+import type { ManagedDatabaseTransparentDataEncryptionOperations } from "./classic/managedDatabaseTransparentDataEncryption/index.js";
+import { _getManagedDatabaseTransparentDataEncryptionOperations } from "./classic/managedDatabaseTransparentDataEncryption/index.js";
+import type { ManagedDatabaseVulnerabilityAssessmentRuleBaselinesOperations } from "./classic/managedDatabaseVulnerabilityAssessmentRuleBaselines/index.js";
+import { _getManagedDatabaseVulnerabilityAssessmentRuleBaselinesOperations } from "./classic/managedDatabaseVulnerabilityAssessmentRuleBaselines/index.js";
+import type { ManagedDatabaseVulnerabilityAssessmentScansOperations } from "./classic/managedDatabaseVulnerabilityAssessmentScans/index.js";
+import { _getManagedDatabaseVulnerabilityAssessmentScansOperations } from "./classic/managedDatabaseVulnerabilityAssessmentScans/index.js";
+import type { ManagedDatabaseVulnerabilityAssessmentsOperations } from "./classic/managedDatabaseVulnerabilityAssessments/index.js";
+import { _getManagedDatabaseVulnerabilityAssessmentsOperations } from "./classic/managedDatabaseVulnerabilityAssessments/index.js";
+import type { ManagedDatabasesOperations } from "./classic/managedDatabases/index.js";
+import { _getManagedDatabasesOperations } from "./classic/managedDatabases/index.js";
+import type { ManagedInstanceAdministratorsOperations } from "./classic/managedInstanceAdministrators/index.js";
+import { _getManagedInstanceAdministratorsOperations } from "./classic/managedInstanceAdministrators/index.js";
+import type { ManagedInstanceAdvancedThreatProtectionSettingsOperations } from "./classic/managedInstanceAdvancedThreatProtectionSettings/index.js";
+import { _getManagedInstanceAdvancedThreatProtectionSettingsOperations } from "./classic/managedInstanceAdvancedThreatProtectionSettings/index.js";
+import type { ManagedInstanceAzureADOnlyAuthenticationsOperations } from "./classic/managedInstanceAzureADOnlyAuthentications/index.js";
+import { _getManagedInstanceAzureADOnlyAuthenticationsOperations } from "./classic/managedInstanceAzureADOnlyAuthentications/index.js";
+import type { ManagedInstanceDtcsOperations } from "./classic/managedInstanceDtcs/index.js";
+import { _getManagedInstanceDtcsOperations } from "./classic/managedInstanceDtcs/index.js";
+import type { ManagedInstanceEncryptionProtectorsOperations } from "./classic/managedInstanceEncryptionProtectors/index.js";
+import { _getManagedInstanceEncryptionProtectorsOperations } from "./classic/managedInstanceEncryptionProtectors/index.js";
+import type { ManagedInstanceKeysOperations } from "./classic/managedInstanceKeys/index.js";
+import { _getManagedInstanceKeysOperations } from "./classic/managedInstanceKeys/index.js";
+import type { ManagedInstanceLongTermRetentionPoliciesOperations } from "./classic/managedInstanceLongTermRetentionPolicies/index.js";
+import { _getManagedInstanceLongTermRetentionPoliciesOperations } from "./classic/managedInstanceLongTermRetentionPolicies/index.js";
+import type { ManagedInstanceOperationsOperations } from "./classic/managedInstanceOperations/index.js";
+import { _getManagedInstanceOperationsOperations } from "./classic/managedInstanceOperations/index.js";
+import type { ManagedInstancePrivateEndpointConnectionsOperations } from "./classic/managedInstancePrivateEndpointConnections/index.js";
+import { _getManagedInstancePrivateEndpointConnectionsOperations } from "./classic/managedInstancePrivateEndpointConnections/index.js";
+import type { ManagedInstancePrivateLinkResourcesOperations } from "./classic/managedInstancePrivateLinkResources/index.js";
+import { _getManagedInstancePrivateLinkResourcesOperations } from "./classic/managedInstancePrivateLinkResources/index.js";
+import type { ManagedInstanceTdeCertificatesOperations } from "./classic/managedInstanceTdeCertificates/index.js";
+import { _getManagedInstanceTdeCertificatesOperations } from "./classic/managedInstanceTdeCertificates/index.js";
+import type { ManagedInstanceVulnerabilityAssessmentsOperations } from "./classic/managedInstanceVulnerabilityAssessments/index.js";
+import { _getManagedInstanceVulnerabilityAssessmentsOperations } from "./classic/managedInstanceVulnerabilityAssessments/index.js";
+import type { ManagedInstancesOperations } from "./classic/managedInstances/index.js";
+import { _getManagedInstancesOperations } from "./classic/managedInstances/index.js";
+import type { ManagedLedgerDigestUploadsOperations } from "./classic/managedLedgerDigestUploads/index.js";
+import { _getManagedLedgerDigestUploadsOperations } from "./classic/managedLedgerDigestUploads/index.js";
+import type { ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations } from "./classic/managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies/index.js";
+import { _getManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations } from "./classic/managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies/index.js";
+import type { ManagedServerDnsAliasesOperations } from "./classic/managedServerDnsAliases/index.js";
+import { _getManagedServerDnsAliasesOperations } from "./classic/managedServerDnsAliases/index.js";
+import type { ManagedServerSecurityAlertPoliciesOperations } from "./classic/managedServerSecurityAlertPolicies/index.js";
+import { _getManagedServerSecurityAlertPoliciesOperations } from "./classic/managedServerSecurityAlertPolicies/index.js";
+import type { NetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
+import { _getNetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { OutboundFirewallRulesOperations } from "./classic/outboundFirewallRules/index.js";
+import { _getOutboundFirewallRulesOperations } from "./classic/outboundFirewallRules/index.js";
+import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
+import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
+import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
+import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
+import type { RecommendedSensitivityLabelsOperations } from "./classic/recommendedSensitivityLabels/index.js";
+import { _getRecommendedSensitivityLabelsOperations } from "./classic/recommendedSensitivityLabels/index.js";
+import type { RecoverableDatabasesOperations } from "./classic/recoverableDatabases/index.js";
+import { _getRecoverableDatabasesOperations } from "./classic/recoverableDatabases/index.js";
+import type { RecoverableManagedDatabasesOperations } from "./classic/recoverableManagedDatabases/index.js";
+import { _getRecoverableManagedDatabasesOperations } from "./classic/recoverableManagedDatabases/index.js";
+import type { ReplicationLinksOperations } from "./classic/replicationLinks/index.js";
+import { _getReplicationLinksOperations } from "./classic/replicationLinks/index.js";
+import type { RestorableDroppedDatabasesOperations } from "./classic/restorableDroppedDatabases/index.js";
+import { _getRestorableDroppedDatabasesOperations } from "./classic/restorableDroppedDatabases/index.js";
+import type { RestorableDroppedManagedDatabasesOperations } from "./classic/restorableDroppedManagedDatabases/index.js";
+import { _getRestorableDroppedManagedDatabasesOperations } from "./classic/restorableDroppedManagedDatabases/index.js";
+import type { RestorePointsOperations } from "./classic/restorePoints/index.js";
+import { _getRestorePointsOperations } from "./classic/restorePoints/index.js";
+import type { SensitivityLabelsOperations } from "./classic/sensitivityLabels/index.js";
+import { _getSensitivityLabelsOperations } from "./classic/sensitivityLabels/index.js";
+import type { ServerAdvancedThreatProtectionSettingsOperations } from "./classic/serverAdvancedThreatProtectionSettings/index.js";
+import { _getServerAdvancedThreatProtectionSettingsOperations } from "./classic/serverAdvancedThreatProtectionSettings/index.js";
+import type { ServerAdvisorsOperations } from "./classic/serverAdvisors/index.js";
+import { _getServerAdvisorsOperations } from "./classic/serverAdvisors/index.js";
+import type { ServerAutomaticTuningOperations } from "./classic/serverAutomaticTuning/index.js";
+import { _getServerAutomaticTuningOperations } from "./classic/serverAutomaticTuning/index.js";
+import type { ServerAzureADAdministratorsOperations } from "./classic/serverAzureADAdministrators/index.js";
+import { _getServerAzureADAdministratorsOperations } from "./classic/serverAzureADAdministrators/index.js";
+import type { ServerAzureADOnlyAuthenticationsOperations } from "./classic/serverAzureADOnlyAuthentications/index.js";
+import { _getServerAzureADOnlyAuthenticationsOperations } from "./classic/serverAzureADOnlyAuthentications/index.js";
+import type { ServerBlobAuditingPoliciesOperations } from "./classic/serverBlobAuditingPolicies/index.js";
+import { _getServerBlobAuditingPoliciesOperations } from "./classic/serverBlobAuditingPolicies/index.js";
+import type { ServerConfigurationOptionsOperations } from "./classic/serverConfigurationOptions/index.js";
+import { _getServerConfigurationOptionsOperations } from "./classic/serverConfigurationOptions/index.js";
+import type { ServerConnectionPoliciesOperations } from "./classic/serverConnectionPolicies/index.js";
+import { _getServerConnectionPoliciesOperations } from "./classic/serverConnectionPolicies/index.js";
+import type { ServerDevOpsAuditSettingsOperations } from "./classic/serverDevOpsAuditSettings/index.js";
+import { _getServerDevOpsAuditSettingsOperations } from "./classic/serverDevOpsAuditSettings/index.js";
+import type { ServerDnsAliasesOperations } from "./classic/serverDnsAliases/index.js";
+import { _getServerDnsAliasesOperations } from "./classic/serverDnsAliases/index.js";
+import type { ServerKeysOperations } from "./classic/serverKeys/index.js";
+import { _getServerKeysOperations } from "./classic/serverKeys/index.js";
+import type { ServerOperationsOperations } from "./classic/serverOperations/index.js";
+import { _getServerOperationsOperations } from "./classic/serverOperations/index.js";
+import type { ServerSecurityAlertPoliciesOperations } from "./classic/serverSecurityAlertPolicies/index.js";
+import { _getServerSecurityAlertPoliciesOperations } from "./classic/serverSecurityAlertPolicies/index.js";
+import type { ServerTrustCertificatesOperations } from "./classic/serverTrustCertificates/index.js";
+import { _getServerTrustCertificatesOperations } from "./classic/serverTrustCertificates/index.js";
+import type { ServerTrustGroupsOperations } from "./classic/serverTrustGroups/index.js";
+import { _getServerTrustGroupsOperations } from "./classic/serverTrustGroups/index.js";
+import type { ServerUsagesOperations } from "./classic/serverUsages/index.js";
+import { _getServerUsagesOperations } from "./classic/serverUsages/index.js";
+import type { ServerVulnerabilityAssessmentsOperations } from "./classic/serverVulnerabilityAssessments/index.js";
+import { _getServerVulnerabilityAssessmentsOperations } from "./classic/serverVulnerabilityAssessments/index.js";
+import type { ServersOperations } from "./classic/servers/index.js";
+import { _getServersOperations } from "./classic/servers/index.js";
+import type { SqlAgentOperations } from "./classic/sqlAgent/index.js";
+import { _getSqlAgentOperations } from "./classic/sqlAgent/index.js";
+import type { SqlVulnerabilityAssessmentBaselineOperations } from "./classic/sqlVulnerabilityAssessmentBaseline/index.js";
+import { _getSqlVulnerabilityAssessmentBaselineOperations } from "./classic/sqlVulnerabilityAssessmentBaseline/index.js";
+import type { SqlVulnerabilityAssessmentBaselinesOperations } from "./classic/sqlVulnerabilityAssessmentBaselines/index.js";
+import { _getSqlVulnerabilityAssessmentBaselinesOperations } from "./classic/sqlVulnerabilityAssessmentBaselines/index.js";
+import type { SqlVulnerabilityAssessmentExecuteScanOperations } from "./classic/sqlVulnerabilityAssessmentExecuteScan/index.js";
+import { _getSqlVulnerabilityAssessmentExecuteScanOperations } from "./classic/sqlVulnerabilityAssessmentExecuteScan/index.js";
+import type { SqlVulnerabilityAssessmentRuleBaselineOperations } from "./classic/sqlVulnerabilityAssessmentRuleBaseline/index.js";
+import { _getSqlVulnerabilityAssessmentRuleBaselineOperations } from "./classic/sqlVulnerabilityAssessmentRuleBaseline/index.js";
+import type { SqlVulnerabilityAssessmentRuleBaselinesOperations } from "./classic/sqlVulnerabilityAssessmentRuleBaselines/index.js";
+import { _getSqlVulnerabilityAssessmentRuleBaselinesOperations } from "./classic/sqlVulnerabilityAssessmentRuleBaselines/index.js";
+import type { SqlVulnerabilityAssessmentScanResultOperations } from "./classic/sqlVulnerabilityAssessmentScanResult/index.js";
+import { _getSqlVulnerabilityAssessmentScanResultOperations } from "./classic/sqlVulnerabilityAssessmentScanResult/index.js";
+import type { SqlVulnerabilityAssessmentScansOperations } from "./classic/sqlVulnerabilityAssessmentScans/index.js";
+import { _getSqlVulnerabilityAssessmentScansOperations } from "./classic/sqlVulnerabilityAssessmentScans/index.js";
+import type { SqlVulnerabilityAssessmentsOperations } from "./classic/sqlVulnerabilityAssessments/index.js";
+import { _getSqlVulnerabilityAssessmentsOperations } from "./classic/sqlVulnerabilityAssessments/index.js";
+import type { SqlVulnerabilityAssessmentsSettingsOperations } from "./classic/sqlVulnerabilityAssessmentsSettings/index.js";
+import { _getSqlVulnerabilityAssessmentsSettingsOperations } from "./classic/sqlVulnerabilityAssessmentsSettings/index.js";
+import type { StartStopManagedInstanceSchedulesOperations } from "./classic/startStopManagedInstanceSchedules/index.js";
+import { _getStartStopManagedInstanceSchedulesOperations } from "./classic/startStopManagedInstanceSchedules/index.js";
+import type { SubscriptionUsagesOperations } from "./classic/subscriptionUsages/index.js";
+import { _getSubscriptionUsagesOperations } from "./classic/subscriptionUsages/index.js";
+import type { SynapseLinkWorkspacesOperations } from "./classic/synapseLinkWorkspaces/index.js";
+import { _getSynapseLinkWorkspacesOperations } from "./classic/synapseLinkWorkspaces/index.js";
+import type { SyncAgentsOperations } from "./classic/syncAgents/index.js";
+import { _getSyncAgentsOperations } from "./classic/syncAgents/index.js";
+import type { SyncGroupsOperations } from "./classic/syncGroups/index.js";
+import { _getSyncGroupsOperations } from "./classic/syncGroups/index.js";
+import type { SyncMembersOperations } from "./classic/syncMembers/index.js";
+import { _getSyncMembersOperations } from "./classic/syncMembers/index.js";
+import type { TdeCertificatesOperations } from "./classic/tdeCertificates/index.js";
+import { _getTdeCertificatesOperations } from "./classic/tdeCertificates/index.js";
+import type { TimeZonesOperations } from "./classic/timeZones/index.js";
+import { _getTimeZonesOperations } from "./classic/timeZones/index.js";
+import type { TransparentDataEncryptionsOperations } from "./classic/transparentDataEncryptions/index.js";
+import { _getTransparentDataEncryptionsOperations } from "./classic/transparentDataEncryptions/index.js";
+import type { UsagesOperations } from "./classic/usages/index.js";
+import { _getUsagesOperations } from "./classic/usages/index.js";
+import type { VirtualClustersOperations } from "./classic/virtualClusters/index.js";
+import { _getVirtualClustersOperations } from "./classic/virtualClusters/index.js";
+import type { VirtualNetworkRulesOperations } from "./classic/virtualNetworkRules/index.js";
+import { _getVirtualNetworkRulesOperations } from "./classic/virtualNetworkRules/index.js";
+import type { WorkloadClassifiersOperations } from "./classic/workloadClassifiers/index.js";
+import { _getWorkloadClassifiersOperations } from "./classic/workloadClassifiers/index.js";
+import type { WorkloadGroupsOperations } from "./classic/workloadGroups/index.js";
+import { _getWorkloadGroupsOperations } from "./classic/workloadGroups/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { SqlManagementClientOptionalParams } from "./api/sqlManagementContext.js";
 

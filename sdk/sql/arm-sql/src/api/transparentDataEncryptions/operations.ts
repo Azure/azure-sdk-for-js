@@ -1,36 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { SqlManagementContext as Client } from "../index.js";
+import type {
   TransparentDataEncryptionName,
   LogicalDatabaseTransparentDataEncryption,
-  logicalDatabaseTransparentDataEncryptionSerializer,
-  logicalDatabaseTransparentDataEncryptionDeserializer,
   _LogicalDatabaseTransparentDataEncryptionListResult,
-  _logicalDatabaseTransparentDataEncryptionListResultDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  logicalDatabaseTransparentDataEncryptionSerializer,
+  logicalDatabaseTransparentDataEncryptionDeserializer,
+  _logicalDatabaseTransparentDataEncryptionListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   TransparentDataEncryptionsSuspendOptionalParams,
   TransparentDataEncryptionsResumeOptionalParams,
   TransparentDataEncryptionsListByDatabaseOptionalParams,
   TransparentDataEncryptionsCreateOrUpdateOptionalParams,
   TransparentDataEncryptionsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _suspendSend(
   context: Client,
@@ -48,7 +44,7 @@ export function _suspendSend(
       serverName: serverName,
       databaseName: databaseName,
       tdeName: tdeName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,10 +59,12 @@ export function _suspendSend(
 export async function _suspendDeserialize(
   result: PathUncheckedResponse,
 ): Promise<LogicalDatabaseTransparentDataEncryption> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -86,13 +84,13 @@ export function suspend(
   OperationState<LogicalDatabaseTransparentDataEncryption>,
   LogicalDatabaseTransparentDataEncryption
 > {
-  return getLongRunningPoller(context, _suspendDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _suspendDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _suspendSend(context, resourceGroupName, serverName, databaseName, tdeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<
     OperationState<LogicalDatabaseTransparentDataEncryption>,
     LogicalDatabaseTransparentDataEncryption
@@ -115,7 +113,7 @@ export function _resumeSend(
       serverName: serverName,
       databaseName: databaseName,
       tdeName: tdeName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -130,10 +128,12 @@ export function _resumeSend(
 export async function _resumeDeserialize(
   result: PathUncheckedResponse,
 ): Promise<LogicalDatabaseTransparentDataEncryption> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -153,13 +153,13 @@ export function resume(
   OperationState<LogicalDatabaseTransparentDataEncryption>,
   LogicalDatabaseTransparentDataEncryption
 > {
-  return getLongRunningPoller(context, _resumeDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _resumeDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _resumeSend(context, resourceGroupName, serverName, databaseName, tdeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<
     OperationState<LogicalDatabaseTransparentDataEncryption>,
     LogicalDatabaseTransparentDataEncryption
@@ -180,7 +180,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,7 +198,9 @@ export async function _listByDatabaseDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -219,11 +221,7 @@ export function listByDatabase(
     () => _listByDatabaseSend(context, resourceGroupName, serverName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -244,7 +242,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       databaseName: databaseName,
       tdeName: tdeName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -264,7 +262,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -299,7 +299,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<
     OperationState<LogicalDatabaseTransparentDataEncryption>,
     LogicalDatabaseTransparentDataEncryption
@@ -322,7 +322,7 @@ export function _getSend(
       serverName: serverName,
       databaseName: databaseName,
       tdeName: tdeName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -340,7 +340,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

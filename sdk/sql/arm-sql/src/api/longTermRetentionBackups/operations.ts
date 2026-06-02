@@ -1,29 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { SqlManagementContext as Client } from "../index.js";
+import type {
   LongTermRetentionBackup,
-  longTermRetentionBackupDeserializer,
   _LongTermRetentionBackupListResult,
-  _longTermRetentionBackupListResultDeserializer,
   ChangeLongTermRetentionBackupAccessTierParameters,
-  changeLongTermRetentionBackupAccessTierParametersSerializer,
   CopyLongTermRetentionBackupParameters,
-  copyLongTermRetentionBackupParametersSerializer,
   LongTermRetentionBackupOperationResult,
-  longTermRetentionBackupOperationResultDeserializer,
   UpdateLongTermRetentionBackupParameters,
-  updateLongTermRetentionBackupParametersSerializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  longTermRetentionBackupDeserializer,
+  _longTermRetentionBackupListResultDeserializer,
+  changeLongTermRetentionBackupAccessTierParametersSerializer,
+  copyLongTermRetentionBackupParametersSerializer,
+  longTermRetentionBackupOperationResultDeserializer,
+  updateLongTermRetentionBackupParametersSerializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   LongTermRetentionBackupsListByResourceGroupServerOptionalParams,
   LongTermRetentionBackupsListByResourceGroupLocationOptionalParams,
   LongTermRetentionBackupsListByServerOptionalParams,
@@ -49,13 +49,9 @@ import {
   LongTermRetentionBackupsDeleteOptionalParams,
   LongTermRetentionBackupsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByResourceGroupServerSend(
   context: Client,
@@ -71,7 +67,7 @@ export function _listByResourceGroupServerSend(
       resourceGroupName: resourceGroupName,
       locationName: locationName,
       longTermRetentionServerName: longTermRetentionServerName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -91,7 +87,9 @@ export async function _listByResourceGroupServerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -119,11 +117,7 @@ export function listByResourceGroupServer(
       ),
     _listByResourceGroupServerDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -141,7 +135,7 @@ export function _listByResourceGroupLocationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -161,7 +155,9 @@ export async function _listByResourceGroupLocationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -183,11 +179,7 @@ export function listByResourceGroupLocation(
     () => _listByResourceGroupLocationSend(context, resourceGroupName, locationName, options),
     _listByResourceGroupLocationDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -203,7 +195,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       locationName: locationName,
       longTermRetentionServerName: longTermRetentionServerName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -223,7 +215,9 @@ export async function _listByServerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -243,11 +237,7 @@ export function listByServer(
     () => _listByServerSend(context, locationName, longTermRetentionServerName, options),
     _listByServerDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -261,7 +251,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -281,7 +271,9 @@ export async function _listByLocationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -300,11 +292,7 @@ export function listByLocation(
     () => _listByLocationSend(context, locationName, options),
     _listByLocationDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -327,7 +315,7 @@ export function _updateByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -347,7 +335,9 @@ export async function _updateByResourceGroupDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -384,7 +374,7 @@ export function updateByResourceGroup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<
     OperationState<LongTermRetentionBackupOperationResult>,
     LongTermRetentionBackupOperationResult
@@ -411,7 +401,7 @@ export function _setLegalHoldImmutabilityByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -429,7 +419,9 @@ export async function _setLegalHoldImmutabilityByResourceGroupDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -467,7 +459,7 @@ export function setLegalHoldImmutabilityByResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -492,7 +484,7 @@ export function _removeTimeBasedImmutabilityByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -510,7 +502,9 @@ export async function _removeTimeBasedImmutabilityByResourceGroupDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -548,7 +542,7 @@ export function removeTimeBasedImmutabilityByResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -573,7 +567,7 @@ export function _removeLegalHoldImmutabilityByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -591,7 +585,9 @@ export async function _removeLegalHoldImmutabilityByResourceGroupDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -629,7 +625,7 @@ export function removeLegalHoldImmutabilityByResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -654,7 +650,7 @@ export function _lockTimeBasedImmutabilityByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -672,7 +668,9 @@ export async function _lockTimeBasedImmutabilityByResourceGroupDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -710,7 +708,7 @@ export function lockTimeBasedImmutabilityByResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -734,7 +732,7 @@ export function _copyByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -754,7 +752,9 @@ export async function _copyByResourceGroupDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -791,7 +791,7 @@ export function copyByResourceGroup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<
     OperationState<LongTermRetentionBackupOperationResult>,
     LongTermRetentionBackupOperationResult
@@ -819,7 +819,7 @@ export function _changeAccessTierByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -839,7 +839,9 @@ export async function _changeAccessTierByResourceGroupDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -879,7 +881,7 @@ export function changeAccessTierByResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -902,7 +904,7 @@ export function _listByResourceGroupDatabaseSend(
       locationName: locationName,
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -922,7 +924,9 @@ export async function _listByResourceGroupDatabaseDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -954,11 +958,7 @@ export function listByResourceGroupDatabase(
       ),
     _listByResourceGroupDatabaseDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -980,7 +980,7 @@ export function _deleteByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -995,7 +995,9 @@ export async function _deleteByResourceGroupDeserialize(
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1027,7 +1029,7 @@ export function deleteByResourceGroup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1049,7 +1051,7 @@ export function _getByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1067,7 +1069,9 @@ export async function _getByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1114,7 +1118,7 @@ export function _updateSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1134,7 +1138,9 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1169,7 +1175,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<
     OperationState<LongTermRetentionBackupOperationResult>,
     LongTermRetentionBackupOperationResult
@@ -1192,7 +1198,7 @@ export function _setLegalHoldImmutabilitySend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1210,7 +1216,9 @@ export async function _setLegalHoldImmutabilityDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1244,7 +1252,7 @@ export function setLegalHoldImmutability(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -1267,7 +1275,7 @@ export function _removeTimeBasedImmutabilitySend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1285,7 +1293,9 @@ export async function _removeTimeBasedImmutabilityDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1321,7 +1331,7 @@ export function removeTimeBasedImmutability(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -1344,7 +1354,7 @@ export function _removeLegalHoldImmutabilitySend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1362,7 +1372,9 @@ export async function _removeLegalHoldImmutabilityDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1398,7 +1410,7 @@ export function removeLegalHoldImmutability(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -1419,7 +1431,7 @@ export function _lockTimeBasedImmutabilitySend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1437,7 +1449,9 @@ export async function _lockTimeBasedImmutabilityDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1471,7 +1485,7 @@ export function lockTimeBasedImmutability(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -1493,7 +1507,7 @@ export function _copySend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1513,7 +1527,9 @@ export async function _copyDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1548,7 +1564,7 @@ export function copy(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<
     OperationState<LongTermRetentionBackupOperationResult>,
     LongTermRetentionBackupOperationResult
@@ -1572,7 +1588,7 @@ export function _changeAccessTierSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1592,7 +1608,9 @@ export async function _changeAccessTierDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1624,7 +1642,7 @@ export function changeAccessTier(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
 
@@ -1642,7 +1660,7 @@ export function _listByDatabaseSend(
       locationName: locationName,
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -1662,7 +1680,9 @@ export async function _listByDatabaseDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1690,11 +1710,7 @@ export function listByDatabase(
       ),
     _listByDatabaseDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -1714,7 +1730,7 @@ export function _$deleteSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1727,7 +1743,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1757,7 +1775,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1777,7 +1795,7 @@ export function _getSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1795,7 +1813,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

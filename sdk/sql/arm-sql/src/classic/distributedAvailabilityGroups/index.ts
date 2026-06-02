@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   setRole,
   failover,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/distributedAvailabilityGroups/operations.js";
-import {
+import type {
   DistributedAvailabilityGroupsSetRoleOptionalParams,
   DistributedAvailabilityGroupsFailoverOptionalParams,
   DistributedAvailabilityGroupsListByInstanceOptionalParams,
@@ -20,14 +20,15 @@ import {
   DistributedAvailabilityGroupsCreateOrUpdateOptionalParams,
   DistributedAvailabilityGroupsGetOptionalParams,
 } from "../../api/distributedAvailabilityGroups/options.js";
-import {
+import type {
   DistributedAvailabilityGroup,
   DistributedAvailabilityGroupsFailoverRequest,
   DistributedAvailabilityGroupSetRole,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DistributedAvailabilityGroups operations. */
 export interface DistributedAvailabilityGroupsOperations {

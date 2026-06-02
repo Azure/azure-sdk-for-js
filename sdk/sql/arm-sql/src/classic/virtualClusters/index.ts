@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   updateDnsServers,
   list,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/virtualClusters/operations.js";
-import {
+import type {
   VirtualClustersUpdateDnsServersOptionalParams,
   VirtualClustersListOptionalParams,
   VirtualClustersListByResourceGroupOptionalParams,
@@ -20,14 +20,15 @@ import {
   VirtualClustersCreateOrUpdateOptionalParams,
   VirtualClustersGetOptionalParams,
 } from "../../api/virtualClusters/options.js";
-import {
+import type {
   VirtualCluster,
   VirtualClusterUpdate,
   UpdateVirtualClusterDnsServersOperation,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualClusters operations. */
 export interface VirtualClustersOperations {

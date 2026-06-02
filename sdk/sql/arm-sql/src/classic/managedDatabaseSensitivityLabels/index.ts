@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByDatabase,
   listRecommendedByDatabase,
@@ -13,7 +13,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/managedDatabaseSensitivityLabels/operations.js";
-import {
+import type {
   ManagedDatabaseSensitivityLabelsListByDatabaseOptionalParams,
   ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams,
   ManagedDatabaseSensitivityLabelsUpdateOptionalParams,
@@ -24,12 +24,12 @@ import {
   ManagedDatabaseSensitivityLabelsCreateOrUpdateOptionalParams,
   ManagedDatabaseSensitivityLabelsGetOptionalParams,
 } from "../../api/managedDatabaseSensitivityLabels/options.js";
-import {
+import type {
   SensitivityLabel,
   SensitivityLabelUpdateList,
   SensitivityLabelSource,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ManagedDatabaseSensitivityLabels operations. */
 export interface ManagedDatabaseSensitivityLabelsOperations {
