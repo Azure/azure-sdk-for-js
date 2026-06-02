@@ -570,6 +570,27 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     assert.lengthOf(recordedSpans, 0, "No spans should be created when tracing is disabled");
   });
 
+  it("stops producing spans after disableGenAITracing is called", async () => {
+    // 1. Tracing is enabled (from beforeEach) — verify a span is created
+    const mockClient = createMockOpenAIClient(createMockNonStreamingResponse());
+    overwriteOpenAIClient(mockClient, "https://test.azure.com");
+
+    await mockClient.responses.create({ model: "gpt-4.1", input: "Hello" });
+    assert.isAbove(recordedSpans.length, 0, "Spans should be created while tracing is enabled");
+
+    const spanCountBefore = recordedSpans.length;
+
+    // 2. Disable tracing and make another call — no new spans
+    disableGenAITracing();
+
+    await mockClient.responses.create({ model: "gpt-4.1", input: "Hello again" });
+    assert.equal(
+      recordedSpans.length,
+      spanCountBefore,
+      "No new spans should be created after disableGenAITracing",
+    );
+  });
+
   // ---- Agent detection via agent_reference ----
 
   it("detects agent via body.agent_reference", async () => {

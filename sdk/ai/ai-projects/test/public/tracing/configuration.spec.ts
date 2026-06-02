@@ -139,4 +139,21 @@ describe("configuration", () => {
       assert.isTrue(isContentRecordingEnabled());
     });
   });
+
+  describe("disableGenAITracing", () => {
+    it("resets all flags to defaults", () => {
+      enableGenAITracing({ experimental: true, contentRecording: true, traceContextPropagation: false });
+      assert.isTrue(isGenAITracingEnabled());
+      assert.isTrue(isGenAITracingApplied());
+      assert.isTrue(isContentRecordingEnabled());
+      assert.isFalse(isTraceContextPropagationEnabled());
+
+      disableGenAITracing();
+
+      assert.isFalse(isGenAITracingEnabled(), "tracing should be disabled");
+      assert.isFalse(isGenAITracingApplied(), "applied should be false");
+      assert.isFalse(isContentRecordingEnabled(), "content recording should be off");
+      assert.isTrue(isTraceContextPropagationEnabled(), "propagation should reset to true");
+    });
+  });
 });
