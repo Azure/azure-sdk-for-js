@@ -4,10 +4,10 @@ languages:
   - javascript
 products:
   - azure
-urlFragment: ai-speech-transcription-javascript
+urlFragment: ai-speech-transcription-javascript-beta
 ---
 
-# Azure AI Speech Transcription client library samples for JavaScript
+# Azure AI Speech Transcription client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for Azure AI Speech Transcription in some common scenarios.
 
@@ -61,15 +61,15 @@ npx cross-env TRANSCRIPTION_ENDPOINT="<transcription endpoint>" TRANSCRIPTION_AP
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[basictranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/javascript/basicTranscription.js
-[transcriptionoptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/javascript/transcriptionOptions.js
-[transcriptionfromurl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/javascript/transcriptionFromUrl.js
-[enhancedmode]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/javascript/enhancedMode.js
-[speakerdiarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/javascript/speakerDiarization.js
-[phraselist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/javascript/phraseList.js
-[profanityfiltering]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/javascript/profanityFiltering.js
-[transcriptionwithlocale]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/javascript/transcriptionWithLocale.js
-[multilingualtranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/javascript/multilingualTranscription.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-speech-transcription
+[basictranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/javascript/basicTranscription.js
+[transcriptionoptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/javascript/transcriptionOptions.js
+[transcriptionfromurl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/javascript/transcriptionFromUrl.js
+[enhancedmode]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/javascript/enhancedMode.js
+[speakerdiarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/javascript/speakerDiarization.js
+[phraselist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/javascript/phraseList.js
+[profanityfiltering]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/javascript/profanityFiltering.js
+[transcriptionwithlocale]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/javascript/transcriptionWithLocale.js
+[multilingualtranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/javascript/multilingualTranscription.js
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-speech-transcription?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/transcription/ai-speech-transcription/README.md
