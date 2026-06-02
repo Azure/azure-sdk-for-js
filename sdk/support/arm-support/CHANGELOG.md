@@ -1,21 +1,76 @@
 # Release History
 
-## 3.0.2 (Unreleased)
+## 4.0.0-beta.1 (2026-06-02)
+Compared with version 3.0.0
 
 ### Features Added
+  - Added operation group ClassifyProblemsNoSubscriptionOperations
+  - Added operation group ClassifyProblemsOperations
+  - Added operation group ClassifyServicesNoSubscriptionOperations
+  - Added operation group ClassifyServicesOperations
+  - Added operation CommunicationsOperations.create
+  - Added operation CommunicationsNoSubscriptionOperations.create
+  - Added operation SupportTicketsOperations.create
+  - Added operation SupportTicketsOperations.lookUpResourceId
+  - Added operation SupportTicketsNoSubscriptionOperations.create
+  - Added Interface ChatTranscriptDetailsProperties
+  - Added Interface ClassificationService
+  - Added Interface ClassifyProblemsClassifyProblemsOptionalParams
+  - Added Interface ClassifyProblemsNoSubscriptionClassifyProblemsOptionalParams
+  - Added Interface ClassifyServicesClassifyServicesOptionalParams
+  - Added Interface ClassifyServicesNoSubscriptionClassifyServicesOptionalParams
+  - Added Interface CommunicationDetailsProperties
+  - Added Interface DirectConnectEscalation
+  - Added Interface FileDetailsProperties
+  - Added Interface FileWorkspaceDetailsProperties
+  - Added Interface LookUpResourceIdRequest
+  - Added Interface LookUpResourceIdResponse
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProblemClassificationProperties
+  - Added Interface ProblemClassificationsClassificationInput
+  - Added Interface ProblemClassificationsClassificationOutput
+  - Added Interface ProblemClassificationsClassificationResult
+  - Added Interface RestorePollerOptions
+  - Added Interface ServiceClassificationAnswer
+  - Added Interface ServiceClassificationOutput
+  - Added Interface ServiceClassificationRequest
+  - Added Interface ServiceProperties
+  - Added Interface SupportTicketDetailsProperties
+  - Added Interface SupportTicketsLookUpResourceIdOptionalParams
+  - Interface CommunicationDetails has a new optional parameter systemData
+  - Interface Operation has a new optional parameter actionType
+  - Interface Operation has a new optional parameter isDataAction
+  - Interface Operation has a new optional parameter origin
+  - Interface ProblemClassification has a new optional parameter systemData
+  - Interface Service has a new optional parameter systemData
+  - Interface SupportTicketDetails has a new optional parameter communityForumPost
+  - Interface SupportTicketDetails has a new optional parameter directConnectEscalation
+  - Interface SupportTicketDetails has a new optional parameter systemData
+  - Interface UpdateSupportTicket has a new optional parameter directConnectEscalation
+  - Added Type Alias ActionType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias EscalationStatus
+  - Added Type Alias Origin
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownEscalationStatus
+  - Added Enum KnownOrigin
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Removed operation Communications.beginCreate
+  - Removed operation Communications.beginCreateAndWait
+  - Removed operation CommunicationsNoSubscription.beginCreate
+  - Removed operation CommunicationsNoSubscription.beginCreateAndWait
+  - Removed operation SupportTickets.beginCreate
+  - Removed operation SupportTickets.beginCreateAndWait
+  - Removed operation SupportTicketsNoSubscription.beginCreate
+  - Removed operation SupportTicketsNoSubscription.beginCreateAndWait
+  - Removed Type Alias TranscriptContentType
+  - Removed Enum KnownTranscriptContentType
 
-### Bugs Fixed
-
-### Other Changes
-
-## 3.0.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 3.0.0 (2024-04-16)
     
 ### Features Added
@@ -168,4 +223,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
