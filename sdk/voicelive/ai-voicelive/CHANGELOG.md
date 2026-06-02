@@ -1,5 +1,21 @@
 # Release History
 
+## 1.1.0-beta.1 (Unreleased)
+
+### Features Added
+
+- Added Azure realtime native voices via `AzureRealtimeNativeVoice`, including the `KnownAzureRealtimeNativeVoiceName` enum for service-known voice names.
+- Added WebRTC SDP negotiation types for RTC calling: `ClientEventRtcCallSdpCreate`, `ServerEventRtcCallSdpCreated`, `ServerEventRtcCallError`, and `RtcCallErrorDetails`.
+- Added `ServerEventResponseInvocationDelta` for passthrough hosted-agent invocation SSE payloads.
+- Added output-audio playback lifecycle events: `ServerEventOutputAudioBufferStarted` and `ServerEventOutputAudioBufferStopped`.
+- Added `KnownEchoCancellationReferenceSource` / `EchoCancellationReferenceSource` to configure echo-cancellation reference input.
+- Added `image_url` wire mapping support for `Background.imageUrl`.
+
+### Breaking Changes
+
+- Renamed `RequestImageContentPart.url` to `RequestImageContentPart.imageUrl` to align the SDK model with the `image_url` wire shape used by `2026-06-01-preview`.
+- API version updated from `2026-04-10` to `2026-06-01-preview`.
+
 ## 1.0.0 (2026-05-21)
 
 General Availability release of `@azure/ai-voicelive`. This release upgrades the wire protocol to API version `2026-04-10` and consolidates the public API surface from beta.1 through beta.4 into a stable contract.

@@ -225,10 +225,10 @@
 # ServiceOwners: @rajeshka @shankarsama
 
 # PRLabel: %Event Hubs
-/sdk/eventhub/    @axisc @hmlam @j7nw4r @sjkwak
+/sdk/eventhub/    @axisc @hmlam @j7nw4r @SwayGom @sagar0207 @sjkwak
 
 # ServiceLabel: %Event Hubs
-# ServiceOwners: @axisc @hmlam @j7nw4r @sjkwak
+# ServiceOwners: @axisc @hmlam @j7nw4r @SwayGom @sagar0207 @sjkwak
 
 # ServiceLabel: %Health Deidentification
 # PRLabel: %Health Deidentification
@@ -265,7 +265,7 @@
 # ServiceOwners: @trrwilson
 
 # PRLabel: %OpenTelemetryInstrumentation
-/sdk/instrumentation/    @maorleger
+/sdk/instrumentation/    @maorleger @minhanh-phan
 
 # AzureSdkOwners: @maorleger
 # ServiceLabel: %OpenTelemetryInstrumentation
@@ -297,10 +297,10 @@
 # ServiceLabel: %Search
 
 # PRLabel: %Service Bus
-/sdk/servicebus/    @EldertGrootenboer @j7nw4r @skarri-microsoft
+/sdk/servicebus/    @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @skarri-microsoft
 
 # ServiceLabel: %Service Bus
-# ServiceOwners: @EldertGrootenboer @j7nw4r @skarri-microsoft
+# ServiceOwners: @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @skarri-microsoft
 
 # PRLabel: %Speech Transcription
 /sdk/transcription/ai-speech-transcription/    @rhurey @xitzhang @amber-yujueWang @pankopon @emilyjiji
@@ -370,7 +370,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/applicationinsights/arm-appinsights/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/appservice/arm-appservice/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -452,6 +452,9 @@
 /sdk/compute/arm-compute-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
+/sdk/computefleet/arm-computefleet/      @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
 /sdk/computeschedule/arm-computeschedule/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -601,7 +604,7 @@
 # PRLabel: %Mgmt
 /sdk/frontdoor/arm-frontdoor/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/guestconfiguration/arm-guestconfiguration/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -784,7 +787,7 @@
 # PRLabel: %Mgmt
 /sdk/mysql/arm-mysql/      @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mysql/arm-mysql-flexible/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -952,7 +955,7 @@
 # PRLabel: %Mgmt
 /sdk/servicefabricmesh/arm-servicefabricmesh/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/selfhelp/arm-selfhelp/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1012,7 +1015,7 @@
 # PRLabel: %Mgmt
 /sdk/terraform/arm-terraform/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/trafficmanager/arm-trafficmanager/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1682,6 +1685,10 @@ sdk/prometheusrulegroups/arm-prometheusrulegroups/ @qiaozha @MaryGao @JialinHuan
 
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/monitor/arm-monitorworkspaces/ @qiaozha @MaryGao @JialinHuang803
+sdk/edgeorder/arm-edgeorder/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config

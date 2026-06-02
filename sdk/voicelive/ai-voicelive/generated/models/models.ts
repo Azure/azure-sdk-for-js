@@ -65,332 +65,6 @@ export function logProbPropertiesDeserializer(item: any): LogProbProperties {
   };
 }
 
-/** A voicelive client event. */
-export interface ClientEvent {
-  /** The type of event. */
-  /** The discriminator possible values: session.update, session.avatar.connect, input_audio.turn.start, input_audio.turn.append, input_audio.turn.end, input_audio.turn.cancel, input_audio.clear, input_audio_buffer.append, input_audio_buffer.commit, input_audio_buffer.clear, conversation.item.create, conversation.item.truncate, conversation.item.delete, response.create, response.cancel, conversation.item.retrieve, output_audio_buffer.clear */
-  type: ClientEventType;
-  eventId?: string;
-}
-
-export function clientEventSerializer(item: ClientEvent): any {
-  return { type: item["type"], event_id: item["eventId"] };
-}
-
-/** Alias for ClientEventUnion */
-export type ClientEventUnion =
-  | ClientEventSessionUpdate
-  | ClientEventSessionAvatarConnect
-  | ClientEventInputAudioTurnStart
-  | ClientEventInputAudioTurnAppend
-  | ClientEventInputAudioTurnEnd
-  | ClientEventInputAudioTurnCancel
-  | ClientEventInputAudioClear
-  | ClientEventInputAudioBufferAppend
-  | ClientEventInputAudioBufferCommit
-  | ClientEventInputAudioBufferClear
-  | ClientEventConversationItemCreate
-  | ClientEventConversationItemTruncate
-  | ClientEventConversationItemDelete
-  | ClientEventResponseCreate
-  | ClientEventResponseCancel
-  | ClientEventConversationItemRetrieve
-  | ClientEventOutputAudioBufferClear
-  | ClientEvent;
-
-export function clientEventUnionSerializer(item: ClientEventUnion): any {
-  switch (item.type) {
-    case "session.update":
-      return clientEventSessionUpdateSerializer(item as ClientEventSessionUpdate);
-
-    case "session.avatar.connect":
-      return clientEventSessionAvatarConnectSerializer(item as ClientEventSessionAvatarConnect);
-
-    case "input_audio.turn.start":
-      return clientEventInputAudioTurnStartSerializer(item as ClientEventInputAudioTurnStart);
-
-    case "input_audio.turn.append":
-      return clientEventInputAudioTurnAppendSerializer(item as ClientEventInputAudioTurnAppend);
-
-    case "input_audio.turn.end":
-      return clientEventInputAudioTurnEndSerializer(item as ClientEventInputAudioTurnEnd);
-
-    case "input_audio.turn.cancel":
-      return clientEventInputAudioTurnCancelSerializer(item as ClientEventInputAudioTurnCancel);
-
-    case "input_audio.clear":
-      return clientEventInputAudioClearSerializer(item as ClientEventInputAudioClear);
-
-    case "input_audio_buffer.append":
-      return clientEventInputAudioBufferAppendSerializer(item as ClientEventInputAudioBufferAppend);
-
-    case "input_audio_buffer.commit":
-      return clientEventInputAudioBufferCommitSerializer(item as ClientEventInputAudioBufferCommit);
-
-    case "input_audio_buffer.clear":
-      return clientEventInputAudioBufferClearSerializer(item as ClientEventInputAudioBufferClear);
-
-    case "conversation.item.create":
-      return clientEventConversationItemCreateSerializer(item as ClientEventConversationItemCreate);
-
-    case "conversation.item.truncate":
-      return clientEventConversationItemTruncateSerializer(
-        item as ClientEventConversationItemTruncate,
-      );
-
-    case "conversation.item.delete":
-      return clientEventConversationItemDeleteSerializer(item as ClientEventConversationItemDelete);
-
-    case "response.create":
-      return clientEventResponseCreateSerializer(item as ClientEventResponseCreate);
-
-    case "response.cancel":
-      return clientEventResponseCancelSerializer(item as ClientEventResponseCancel);
-
-    case "conversation.item.retrieve":
-      return clientEventConversationItemRetrieveSerializer(
-        item as ClientEventConversationItemRetrieve,
-      );
-
-    case "output_audio_buffer.clear":
-      return clientEventOutputAudioBufferClearSerializer(item as ClientEventOutputAudioBufferClear);
-
-    default:
-      return clientEventSerializer(item);
-  }
-}
-
-/** Client event types used in VoiceLive protocol. */
-export enum KnownClientEventType {
-  /** session.update */
-  SessionUpdate = "session.update",
-  /** input_audio_buffer.append */
-  InputAudioBufferAppend = "input_audio_buffer.append",
-  /** input_audio_buffer.commit */
-  InputAudioBufferCommit = "input_audio_buffer.commit",
-  /** input_audio_buffer.clear */
-  InputAudioBufferClear = "input_audio_buffer.clear",
-  /** input_audio.turn.start */
-  InputAudioTurnStart = "input_audio.turn.start",
-  /** input_audio.turn.append */
-  InputAudioTurnAppend = "input_audio.turn.append",
-  /** input_audio.turn.end */
-  InputAudioTurnEnd = "input_audio.turn.end",
-  /** input_audio.turn.cancel */
-  InputAudioTurnCancel = "input_audio.turn.cancel",
-  /** input_audio.clear */
-  InputAudioClear = "input_audio.clear",
-  /** conversation.item.create */
-  ConversationItemCreate = "conversation.item.create",
-  /** conversation.item.retrieve */
-  ConversationItemRetrieve = "conversation.item.retrieve",
-  /** conversation.item.truncate */
-  ConversationItemTruncate = "conversation.item.truncate",
-  /** conversation.item.delete */
-  ConversationItemDelete = "conversation.item.delete",
-  /** response.create */
-  ResponseCreate = "response.create",
-  /** response.cancel */
-  ResponseCancel = "response.cancel",
-  /** session.avatar.connect */
-  SessionAvatarConnect = "session.avatar.connect",
-  /** mcp_approval_response */
-  McpApprovalResponse = "mcp_approval_response",
-  /** Client request to clear the avatar output buffer. */
-  OutputAudioBufferClear = "output_audio_buffer.clear",
-}
-
-/**
- * Client event types used in VoiceLive protocol. \
- * {@link KnownClientEventType} can be used interchangeably with ClientEventType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **session.update** \
- * **input_audio_buffer.append** \
- * **input_audio_buffer.commit** \
- * **input_audio_buffer.clear** \
- * **input_audio.turn.start** \
- * **input_audio.turn.append** \
- * **input_audio.turn.end** \
- * **input_audio.turn.cancel** \
- * **input_audio.clear** \
- * **conversation.item.create** \
- * **conversation.item.retrieve** \
- * **conversation.item.truncate** \
- * **conversation.item.delete** \
- * **response.create** \
- * **response.cancel** \
- * **session.avatar.connect** \
- * **mcp_approval_response** \
- * **output_audio_buffer.clear**: Client request to clear the avatar output buffer.
- */
-export type ClientEventType = string;
-
-/**
- * Send this event to update the session’s default configuration.
- * The client may send this event at any time to update any field,
- * except for `voice`. However, note that once a session has been
- * initialized with a particular `model`, it can’t be changed to
- * another model using `session.update`.
- * When the server receives a `session.update`, it will respond
- * with a `session.updated` event showing the full, effective configuration.
- * Only the fields that are present are updated. To clear a field like
- * `instructions`, pass an empty string.
- */
-export interface ClientEventSessionUpdate extends ClientEvent {
-  /** The event type, must be `session.update`. */
-  type: "session.update";
-  session: RequestSession;
-}
-
-export function clientEventSessionUpdateSerializer(item: ClientEventSessionUpdate): any {
-  return {
-    type: item["type"],
-    event_id: item["eventId"],
-    session: requestSessionSerializer(item["session"]),
-  };
-}
-
-/** Base for session configuration shared between request and response. */
-export interface RequestSession {
-  /** The model for the session. */
-  model?: string;
-  /** The modalities to be used in the session. */
-  modalities?: Modality[];
-  /** The animation configuration for the session. */
-  animation?: Animation;
-  /** The voice configuration for the session. */
-  voice?: Voice;
-  /** Optional instructions to guide the model's behavior throughout the session. */
-  instructions?: string;
-  /**
-   * Input audio sampling rate in Hz. Available values:
-   *
-   * - For pcm16: 8000, 16000, 24000
-   *
-   * - For g711_alaw/g711_ulaw: 8000
-   */
-  inputAudioSamplingRate?: number;
-  /** Input audio format. Default is 'pcm16'. */
-  inputAudioFormat?: InputAudioFormat;
-  /** Output audio format. Default is 'pcm16'. */
-  outputAudioFormat?: OutputAudioFormat;
-  /** Type of turn detection to use. */
-  turnDetection?: TurnDetectionUnion;
-  /** Configuration for input audio noise reduction. */
-  inputAudioNoiseReduction?: AudioNoiseReduction;
-  /** Configuration for echo cancellation during server-side audio processing. */
-  inputAudioEchoCancellation?: AudioEchoCancellation;
-  /** Configuration for avatar streaming and behavior during the session. */
-  avatar?: AvatarConfig;
-  /** Configuration for input audio transcription. */
-  inputAudioTranscription?: AudioInputTranscriptionOptions;
-  /** Types of timestamps to include in audio response content. */
-  outputAudioTimestampTypes?: AudioTimestampType[];
-  /** Configuration for tools to be used during the session, if applicable. */
-  tools?: ToolUnion[];
-  /** Specifies which tools the model is allowed to call during the session. */
-  toolChoice?: ToolChoice;
-  /** Controls the randomness of the model's output. Range: 0.0 to 1.0. Default is 0.7. */
-  temperature?: number;
-  /** Maximum number of tokens to generate in the response. Default is unlimited. */
-  maxResponseOutputTokens?: number | "inf";
-  /**
-   * Constrains effort on reasoning for reasoning models. Check model documentation for supported values for each model.
-   * Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
-   */
-  reasoningEffort?: ReasoningEffort;
-  /** Configuration for interim response generation during latency or tool calls. */
-  interimResponse?: InterimResponseConfig;
-  /** List of include options for the session (e.g., logprobs, phrases, file search results). */
-  include?: SessionIncludeOption[];
-  /**
-   * Set of up to 16 key-value pairs that can be attached to the session. This is useful for
-   * storing additional information about the session in a structured format, such as tracking IDs,
-   * user context, or application-specific labels. These key-value pairs are also included in
-   * Foundry resource logs for tracing and diagnostics. Keys can be a maximum of 64 characters
-   * long and values can be a maximum of 512 characters long.
-   */
-  metadata?: Record<string, string>;
-}
-
-export function requestSessionSerializer(item: RequestSession): any {
-  return {
-    model: item["model"],
-    modalities: !item["modalities"]
-      ? item["modalities"]
-      : item["modalities"].map((p: any) => {
-          return p;
-        }),
-    animation: !item["animation"] ? item["animation"] : animationSerializer(item["animation"]),
-    voice: !item["voice"] ? item["voice"] : voiceSerializer(item["voice"]),
-    instructions: item["instructions"],
-    input_audio_sampling_rate: item["inputAudioSamplingRate"],
-    input_audio_format: item["inputAudioFormat"],
-    output_audio_format: item["outputAudioFormat"],
-    turn_detection: !item["turnDetection"]
-      ? item["turnDetection"]
-      : turnDetectionUnionSerializer(item["turnDetection"]),
-    input_audio_noise_reduction: !item["inputAudioNoiseReduction"]
-      ? item["inputAudioNoiseReduction"]
-      : audioNoiseReductionSerializer(item["inputAudioNoiseReduction"]),
-    input_audio_echo_cancellation: !item["inputAudioEchoCancellation"]
-      ? item["inputAudioEchoCancellation"]
-      : audioEchoCancellationSerializer(item["inputAudioEchoCancellation"]),
-    avatar: !item["avatar"] ? item["avatar"] : avatarConfigSerializer(item["avatar"]),
-    input_audio_transcription: !item["inputAudioTranscription"]
-      ? item["inputAudioTranscription"]
-      : audioInputTranscriptionOptionsSerializer(item["inputAudioTranscription"]),
-    output_audio_timestamp_types: !item["outputAudioTimestampTypes"]
-      ? item["outputAudioTimestampTypes"]
-      : item["outputAudioTimestampTypes"].map((p: any) => {
-          return p;
-        }),
-    tools: !item["tools"] ? item["tools"] : toolUnionArraySerializer(item["tools"]),
-    tool_choice: !item["toolChoice"]
-      ? item["toolChoice"]
-      : toolChoiceSerializer(item["toolChoice"]),
-    temperature: item["temperature"],
-    max_response_output_tokens: !item["maxResponseOutputTokens"]
-      ? item["maxResponseOutputTokens"]
-      : _requestSessionMaxResponseOutputTokensSerializer(item["maxResponseOutputTokens"]),
-    reasoning_effort: item["reasoningEffort"],
-    interim_response: !item["interimResponse"]
-      ? item["interimResponse"]
-      : interimResponseConfigSerializer(item["interimResponse"]),
-    include: !item["include"]
-      ? item["include"]
-      : item["include"].map((p: any) => {
-          return p;
-        }),
-    metadata: item["metadata"],
-  };
-}
-
-/** Supported modalities for the session. */
-export enum KnownModality {
-  /** Text modality. */
-  Text = "text",
-  /** Audio modality. */
-  Audio = "audio",
-  /** Animation modality. */
-  Animation = "animation",
-  /** Avatar modality. */
-  Avatar = "avatar",
-}
-
-/**
- * Supported modalities for the session. \
- * {@link KnownModality} can be used interchangeably with Modality,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **text**: Text modality. \
- * **audio**: Audio modality. \
- * **animation**: Animation modality. \
- * **avatar**: Avatar modality.
- */
-export type Modality = string;
-
 /** Configuration for animation outputs including blendshapes and visemes metadata. */
 export interface Animation {
   /** The name of the animation model to use. */
@@ -438,15 +112,29 @@ export enum KnownAnimationOutputType {
  * **viseme_id**: Viseme ID output type.
  */
 export type AnimationOutputType = string;
-/** Union of all supported voice configurations. */
-export type Voice = OAIVoice | OpenAIVoice | AzureVoiceUnion;
 
-export function voiceSerializer(item: Voice): any {
-  return item;
+/**
+ * OpenAI voice configuration with explicit type field.
+ *
+ * This provides a unified interface for OpenAI voices, complementing the
+ * existing string-based OAIVoice for backward compatibility.
+ */
+export interface OpenAIVoice {
+  /** The type of the voice. */
+  type: "openai";
+  /** The name of the OpenAI voice. */
+  name: OAIVoice;
 }
 
-export function voiceDeserializer(item: any): Voice {
-  return item;
+export function openAIVoiceSerializer(item: OpenAIVoice): any {
+  return { type: item["type"], name: item["name"] };
+}
+
+export function openAIVoiceDeserializer(item: any): OpenAIVoice {
+  return {
+    type: item["type"],
+    name: item["name"],
+  };
 }
 
 /** Supported OpenAI voice names (string enum). */
@@ -490,117 +178,6 @@ export enum KnownOAIVoice {
  * **cedar**: Cedar voice.
  */
 export type OAIVoice = string;
-
-/**
- * OpenAI voice configuration with explicit type field.
- *
- * This provides a unified interface for OpenAI voices, complementing the
- * existing string-based OAIVoice for backward compatibility.
- */
-export interface OpenAIVoice {
-  /** The type of the voice. */
-  type: "openai";
-  /** The name of the OpenAI voice. */
-  name: OAIVoice;
-}
-
-export function openAIVoiceSerializer(item: OpenAIVoice): any {
-  return { type: item["type"], name: item["name"] };
-}
-
-export function openAIVoiceDeserializer(item: any): OpenAIVoice {
-  return {
-    type: item["type"],
-    name: item["name"],
-  };
-}
-
-/** Base for Azure voice configurations. */
-export interface AzureVoice {
-  /** The type of the Azure voice. */
-  /** The discriminator possible values: azure-custom, azure-standard, azure-personal, avatar-voice-sync */
-  type: AzureVoiceType;
-}
-
-export function azureVoiceSerializer(item: AzureVoice): any {
-  return { type: item["type"] };
-}
-
-export function azureVoiceDeserializer(item: any): AzureVoice {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for AzureVoiceUnion */
-export type AzureVoiceUnion =
-  | AzureCustomVoice
-  | AzureStandardVoice
-  | AzurePersonalVoice
-  | AzureAvatarVoiceSyncVoice
-  | AzureVoice;
-
-export function azureVoiceUnionSerializer(item: AzureVoiceUnion): any {
-  switch (item.type) {
-    case "azure-custom":
-      return azureCustomVoiceSerializer(item as AzureCustomVoice);
-
-    case "azure-standard":
-      return azureStandardVoiceSerializer(item as AzureStandardVoice);
-
-    case "azure-personal":
-      return azurePersonalVoiceSerializer(item as AzurePersonalVoice);
-
-    case "avatar-voice-sync":
-      return azureAvatarVoiceSyncVoiceSerializer(item as AzureAvatarVoiceSyncVoice);
-
-    default:
-      return azureVoiceSerializer(item);
-  }
-}
-
-export function azureVoiceUnionDeserializer(item: any): AzureVoiceUnion {
-  switch (item["type"]) {
-    case "azure-custom":
-      return azureCustomVoiceDeserializer(item as AzureCustomVoice);
-
-    case "azure-standard":
-      return azureStandardVoiceDeserializer(item as AzureStandardVoice);
-
-    case "azure-personal":
-      return azurePersonalVoiceDeserializer(item as AzurePersonalVoice);
-
-    case "avatar-voice-sync":
-      return azureAvatarVoiceSyncVoiceDeserializer(item as AzureAvatarVoiceSyncVoice);
-
-    default:
-      return azureVoiceDeserializer(item);
-  }
-}
-
-/** Union of all supported Azure voice types. */
-export enum KnownAzureVoiceType {
-  /** Azure custom voice. */
-  AzureCustom = "azure-custom",
-  /** Azure standard voice. */
-  AzureStandard = "azure-standard",
-  /** Azure personal voice. */
-  AzurePersonal = "azure-personal",
-  /** Azure avatar voice sync. */
-  AvatarVoiceSync = "avatar-voice-sync",
-}
-
-/**
- * Union of all supported Azure voice types. \
- * {@link KnownAzureVoiceType} can be used interchangeably with AzureVoiceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **azure-custom**: Azure custom voice. \
- * **azure-standard**: Azure standard voice. \
- * **azure-personal**: Azure personal voice. \
- * **avatar-voice-sync**: Azure avatar voice sync.
- */
-export type AzureVoiceType = string;
 
 /** Azure custom voice configuration. */
 export interface AzureCustomVoice extends AzureVoice {
@@ -700,6 +277,93 @@ export function azureCustomVoiceDeserializer(item: any): AzureCustomVoice {
     volume: item["volume"],
   };
 }
+
+/** Base for Azure voice configurations. */
+export interface AzureVoice {
+  /** The type of the Azure voice. */
+  /** The discriminator possible values: azure-custom, azure-standard, azure-personal, avatar-voice-sync */
+  type: AzureVoiceType;
+}
+
+export function azureVoiceSerializer(item: AzureVoice): any {
+  return { type: item["type"] };
+}
+
+export function azureVoiceDeserializer(item: any): AzureVoice {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for AzureVoiceUnion */
+export type AzureVoiceUnion =
+  | AzureCustomVoice
+  | AzureStandardVoice
+  | AzurePersonalVoice
+  | AzureAvatarVoiceSyncVoice
+  | AzureVoice;
+
+export function azureVoiceUnionSerializer(item: AzureVoiceUnion): any {
+  switch (item.type) {
+    case "azure-custom":
+      return azureCustomVoiceSerializer(item as AzureCustomVoice);
+
+    case "azure-standard":
+      return azureStandardVoiceSerializer(item as AzureStandardVoice);
+
+    case "azure-personal":
+      return azurePersonalVoiceSerializer(item as AzurePersonalVoice);
+
+    case "avatar-voice-sync":
+      return azureAvatarVoiceSyncVoiceSerializer(item as AzureAvatarVoiceSyncVoice);
+
+    default:
+      return azureVoiceSerializer(item);
+  }
+}
+
+export function azureVoiceUnionDeserializer(item: any): AzureVoiceUnion {
+  switch (item["type"]) {
+    case "azure-custom":
+      return azureCustomVoiceDeserializer(item as AzureCustomVoice);
+
+    case "azure-standard":
+      return azureStandardVoiceDeserializer(item as AzureStandardVoice);
+
+    case "azure-personal":
+      return azurePersonalVoiceDeserializer(item as AzurePersonalVoice);
+
+    case "avatar-voice-sync":
+      return azureAvatarVoiceSyncVoiceDeserializer(item as AzureAvatarVoiceSyncVoice);
+
+    default:
+      return azureVoiceDeserializer(item);
+  }
+}
+
+/** Union of all supported Azure voice types. */
+export enum KnownAzureVoiceType {
+  /** Azure custom voice. */
+  AzureCustom = "azure-custom",
+  /** Azure standard voice. */
+  AzureStandard = "azure-standard",
+  /** Azure personal voice. */
+  AzurePersonal = "azure-personal",
+  /** Azure avatar voice sync. */
+  AvatarVoiceSync = "avatar-voice-sync",
+}
+
+/**
+ * Union of all supported Azure voice types. \
+ * {@link KnownAzureVoiceType} can be used interchangeably with AzureVoiceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **azure-custom**: Azure custom voice. \
+ * **azure-standard**: Azure standard voice. \
+ * **azure-personal**: Azure personal voice. \
+ * **avatar-voice-sync**: Azure avatar voice sync.
+ */
+export type AzureVoiceType = string;
 
 /** Azure standard voice configuration. */
 export interface AzureStandardVoice extends AzureVoice {
@@ -1017,53 +681,329 @@ export function azureAvatarVoiceSyncVoiceDeserializer(item: any): AzureAvatarVoi
   };
 }
 
-/** Input audio format types supported. */
-export enum KnownInputAudioFormat {
-  /** 16-bit PCM audio format at default sampling rate (24kHz) */
-  Pcm16 = "pcm16",
-  /** G.711 μ-law (mu-law) audio format at 8kHz sampling rate */
-  G711Ulaw = "g711_ulaw",
-  /** G.711 A-law audio format at 8kHz sampling rate */
-  G711Alaw = "g711_alaw",
+/**
+ * Azure realtime native voice configuration. These voices are natively
+ * supported by the `azure-realtime` model and offer higher quality speech
+ * synthesis than standard Azure voices. Only valid when using the
+ * `azure-realtime` model.
+ */
+export interface AzureRealtimeNativeVoice {
+  /** The type of the voice. */
+  type: "azure-realtime-native";
+  /** The name of the Azure realtime native voice. */
+  name: AzureRealtimeNativeVoiceName;
+}
+
+export function azureRealtimeNativeVoiceSerializer(item: AzureRealtimeNativeVoice): any {
+  return { type: item["type"], name: item["name"] };
+}
+
+export function azureRealtimeNativeVoiceDeserializer(item: any): AzureRealtimeNativeVoice {
+  return {
+    type: item["type"],
+    name: item["name"],
+  };
 }
 
 /**
- * Input audio format types supported. \
- * {@link KnownInputAudioFormat} can be used interchangeably with InputAudioFormat,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **pcm16**: 16-bit PCM audio format at default sampling rate (24kHz) \
- * **g711_ulaw**: G.711 μ-law (mu-law) audio format at 8kHz sampling rate \
- * **g711_alaw**: G.711 A-law audio format at 8kHz sampling rate
+ * Currently known voice names for the Azure realtime native voice type.
+ * This is an extensible enum; additional voice names may be accepted by the
+ * service in the future.
  */
-export type InputAudioFormat = string;
-
-/** Output audio format types supported. */
-export enum KnownOutputAudioFormat {
-  /** 16-bit PCM audio format at default sampling rate (24kHz) */
-  Pcm16 = "pcm16",
-  /** 16-bit PCM audio format at 8kHz sampling rate */
-  Pcm168000Hz = "pcm16_8000hz",
-  /** 16-bit PCM audio format at 16kHz sampling rate */
-  Pcm1616000Hz = "pcm16_16000hz",
-  /** G.711 μ-law (mu-law) audio format at 8kHz sampling rate */
-  G711Ulaw = "g711_ulaw",
-  /** G.711 A-law audio format at 8kHz sampling rate */
-  G711Alaw = "g711_alaw",
+export enum KnownAzureRealtimeNativeVoiceName {
+  /** Aarti voice. */
+  Aarti = "aarti",
+  /** Andrew voice. */
+  Andrew = "andrew",
+  /** Ava voice. */
+  Ava = "ava",
+  /** Denise voice. */
+  Denise = "denise",
+  /** Diya voice. */
+  Diya = "diya",
+  /** Elsa voice. */
+  Elsa = "elsa",
+  /** Florian voice. */
+  Florian = "florian",
+  /** Francisca voice. */
+  Francisca = "francisca",
+  /** Meera voice. */
+  Meera = "meera",
+  /** Xiaoxiao voice. */
+  Xiaoxiao = "xiaoxiao",
+  /** Yunxi voice. */
+  Yunxi = "yunxi",
+  /** Ximena voice. */
+  Ximena = "ximena",
 }
 
 /**
- * Output audio format types supported. \
- * {@link KnownOutputAudioFormat} can be used interchangeably with OutputAudioFormat,
+ * Currently known voice names for the Azure realtime native voice type.
+ * This is an extensible enum; additional voice names may be accepted by the
+ * service in the future. \
+ * {@link KnownAzureRealtimeNativeVoiceName} can be used interchangeably with AzureRealtimeNativeVoiceName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **pcm16**: 16-bit PCM audio format at default sampling rate (24kHz) \
- * **pcm16_8000hz**: 16-bit PCM audio format at 8kHz sampling rate \
- * **pcm16_16000hz**: 16-bit PCM audio format at 16kHz sampling rate \
- * **g711_ulaw**: G.711 μ-law (mu-law) audio format at 8kHz sampling rate \
- * **g711_alaw**: G.711 A-law audio format at 8kHz sampling rate
+ * **aarti**: Aarti voice. \
+ * **andrew**: Andrew voice. \
+ * **ava**: Ava voice. \
+ * **denise**: Denise voice. \
+ * **diya**: Diya voice. \
+ * **elsa**: Elsa voice. \
+ * **florian**: Florian voice. \
+ * **francisca**: Francisca voice. \
+ * **meera**: Meera voice. \
+ * **xiaoxiao**: Xiaoxiao voice. \
+ * **yunxi**: Yunxi voice. \
+ * **ximena**: Ximena voice.
  */
-export type OutputAudioFormat = string;
+export type AzureRealtimeNativeVoiceName = string;
+
+/** Azure semantic end-of-utterance detection (default). */
+export interface AzureSemanticDetection extends EouDetection {
+  model: "semantic_detection_v1";
+  /** Threshold level setting. Recommended instead of `threshold`. One of `low`, `medium`, `high`, or `default`. */
+  thresholdLevel?: EouThresholdLevel;
+  /** Timeout in milliseconds. Recommended instead of `timeout`. */
+  timeoutInMs?: number;
+}
+
+export function azureSemanticDetectionSerializer(item: AzureSemanticDetection): any {
+  return {
+    model: item["model"],
+    threshold_level: item["thresholdLevel"],
+    timeout_ms: item["timeoutInMs"],
+  };
+}
+
+export function azureSemanticDetectionDeserializer(item: any): AzureSemanticDetection {
+  return {
+    model: item["model"],
+    thresholdLevel: item["threshold_level"],
+    timeoutInMs: item["timeout_ms"],
+  };
+}
+
+/** Threshold level settings for Azure semantic end-of-utterance detection. */
+export enum KnownEouThresholdLevel {
+  /** Low sensitivity threshold level. */
+  Low = "low",
+  /** Medium sensitivity threshold level. */
+  Medium = "medium",
+  /** High sensitivity threshold level. */
+  High = "high",
+  /** Default sensitivity threshold level. */
+  Default = "default",
+}
+
+/**
+ * Threshold level settings for Azure semantic end-of-utterance detection. \
+ * {@link KnownEouThresholdLevel} can be used interchangeably with EouThresholdLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **low**: Low sensitivity threshold level. \
+ * **medium**: Medium sensitivity threshold level. \
+ * **high**: High sensitivity threshold level. \
+ * **default**: Default sensitivity threshold level.
+ */
+export type EouThresholdLevel = string;
+
+/** Top-level union for end-of-utterance (EOU) semantic detection configuration. */
+export interface EouDetection {
+  model: string;
+}
+
+export function eouDetectionSerializer(item: EouDetection): any {
+  return { model: item["model"] };
+}
+
+export function eouDetectionDeserializer(item: any): EouDetection {
+  return {
+    model: item["model"],
+  };
+}
+
+/** Alias for EouDetectionUnion */
+export type EouDetectionUnion =
+  | AzureSemanticDetection
+  | AzureSemanticDetectionEn
+  | AzureSemanticDetectionMultilingual
+  | SmartEndOfTurnDetection
+  | EouDetection;
+
+export function eouDetectionUnionSerializer(item: EouDetectionUnion): any {
+  switch (item.model) {
+    case "semantic_detection_v1":
+      return azureSemanticDetectionSerializer(item as AzureSemanticDetection);
+
+    case "semantic_detection_v1_en":
+      return azureSemanticDetectionEnSerializer(item as AzureSemanticDetectionEn);
+
+    case "semantic_detection_v1_multilingual":
+      return azureSemanticDetectionMultilingualSerializer(
+        item as AzureSemanticDetectionMultilingual,
+      );
+
+    case "smart_end_of_turn_detection":
+      return smartEndOfTurnDetectionSerializer(item as SmartEndOfTurnDetection);
+
+    default:
+      return eouDetectionSerializer(item);
+  }
+}
+
+export function eouDetectionUnionDeserializer(item: any): EouDetectionUnion {
+  switch (item["model"]) {
+    case "semantic_detection_v1":
+      return azureSemanticDetectionDeserializer(item as AzureSemanticDetection);
+
+    case "semantic_detection_v1_en":
+      return azureSemanticDetectionEnDeserializer(item as AzureSemanticDetectionEn);
+
+    case "semantic_detection_v1_multilingual":
+      return azureSemanticDetectionMultilingualDeserializer(
+        item as AzureSemanticDetectionMultilingual,
+      );
+
+    case "smart_end_of_turn_detection":
+      return smartEndOfTurnDetectionDeserializer(item as SmartEndOfTurnDetection);
+
+    default:
+      return eouDetectionDeserializer(item);
+  }
+}
+
+/** Azure semantic end-of-utterance detection (English-optimized). */
+export interface AzureSemanticDetectionEn extends EouDetection {
+  model: "semantic_detection_v1_en";
+  /** Threshold level setting. Recommended instead of `threshold`. One of `low`, `medium`, `high`, or `default`. */
+  thresholdLevel?: EouThresholdLevel;
+  /** Timeout in milliseconds. Recommended instead of `timeout`. */
+  timeoutInMs?: number;
+}
+
+export function azureSemanticDetectionEnSerializer(item: AzureSemanticDetectionEn): any {
+  return {
+    model: item["model"],
+    threshold_level: item["thresholdLevel"],
+    timeout_ms: item["timeoutInMs"],
+  };
+}
+
+export function azureSemanticDetectionEnDeserializer(item: any): AzureSemanticDetectionEn {
+  return {
+    model: item["model"],
+    thresholdLevel: item["threshold_level"],
+    timeoutInMs: item["timeout_ms"],
+  };
+}
+
+/** Azure semantic end-of-utterance detection (multilingual). */
+export interface AzureSemanticDetectionMultilingual extends EouDetection {
+  model: "semantic_detection_v1_multilingual";
+  /** Threshold level setting. Recommended instead of `threshold`. One of `low`, `medium`, `high`, or `default`. */
+  thresholdLevel?: EouThresholdLevel;
+  /** Timeout in milliseconds. Recommended instead of `timeout`. */
+  timeoutInMs?: number;
+}
+
+export function azureSemanticDetectionMultilingualSerializer(
+  item: AzureSemanticDetectionMultilingual,
+): any {
+  return {
+    model: item["model"],
+    threshold_level: item["thresholdLevel"],
+    timeout_ms: item["timeoutInMs"],
+  };
+}
+
+export function azureSemanticDetectionMultilingualDeserializer(
+  item: any,
+): AzureSemanticDetectionMultilingual {
+  return {
+    model: item["model"],
+    thresholdLevel: item["threshold_level"],
+    timeoutInMs: item["timeout_ms"],
+  };
+}
+
+/**
+ * Audio-based end-of-turn detection. Operates directly on the input audio
+ * stream rather than text. Use `threshold_level` and `timeout_ms` to tune
+ * detection.
+ */
+export interface SmartEndOfTurnDetection extends EouDetection {
+  model: "smart_end_of_turn_detection";
+  /** Threshold level setting. One of `low`, `medium`, `high`, or `default`. */
+  thresholdLevel?: EouThresholdLevel;
+  /** Timeout in milliseconds. */
+  timeoutMs?: number;
+}
+
+export function smartEndOfTurnDetectionSerializer(item: SmartEndOfTurnDetection): any {
+  return {
+    model: item["model"],
+    threshold_level: item["thresholdLevel"],
+    timeout_ms: item["timeoutMs"],
+  };
+}
+
+export function smartEndOfTurnDetectionDeserializer(item: any): SmartEndOfTurnDetection {
+  return {
+    model: item["model"],
+    thresholdLevel: item["threshold_level"],
+    timeoutMs: item["timeout_ms"],
+  };
+}
+
+/** Base model for VAD-based turn detection. */
+export interface ServerVad extends TurnDetection {
+  type: "server_vad";
+  /** Activation threshold for VAD detection. Range: 0.0 to 1.0. */
+  threshold?: number;
+  /** Amount of audio to include before speech is detected, in milliseconds. */
+  prefixPaddingInMs?: number;
+  /** Duration of silence required to end speech detection, in milliseconds. */
+  silenceDurationInMs?: number;
+  /** Configuration for end-of-utterance detection. */
+  endOfUtteranceDetection?: EouDetectionUnion;
+  /** Whether to automatically truncate the audio buffer when speech stops. */
+  autoTruncate?: boolean;
+  /** Whether to automatically create a response when speech stops. */
+  createResponse?: boolean;
+  /** Whether to allow the user's speech to interrupt the assistant's response. */
+  interruptResponse?: boolean;
+}
+
+export function serverVadSerializer(item: ServerVad): any {
+  return {
+    type: item["type"],
+    threshold: item["threshold"],
+    prefix_padding_ms: item["prefixPaddingInMs"],
+    silence_duration_ms: item["silenceDurationInMs"],
+    end_of_utterance_detection: !item["endOfUtteranceDetection"]
+      ? item["endOfUtteranceDetection"]
+      : eouDetectionUnionSerializer(item["endOfUtteranceDetection"]),
+    auto_truncate: item["autoTruncate"],
+    create_response: item["createResponse"],
+    interrupt_response: item["interruptResponse"],
+  };
+}
+
+export function serverVadDeserializer(item: any): ServerVad {
+  return {
+    type: item["type"],
+    threshold: item["threshold"],
+    prefixPaddingInMs: item["prefix_padding_ms"],
+    silenceDurationInMs: item["silence_duration_ms"],
+    endOfUtteranceDetection: !item["end_of_utterance_detection"]
+      ? item["end_of_utterance_detection"]
+      : eouDetectionUnionDeserializer(item["end_of_utterance_detection"]),
+    autoTruncate: item["auto_truncate"],
+    createResponse: item["create_response"],
+    interruptResponse: item["interrupt_response"],
+  };
+}
 
 /** Top-level union for turn detection configuration. */
 export interface TurnDetection {
@@ -1140,216 +1080,6 @@ export enum KnownTurnDetectionType {
 
 /** Type of TurnDetectionType */
 export type TurnDetectionType = string;
-
-/** Base model for VAD-based turn detection. */
-export interface ServerVad extends TurnDetection {
-  type: "server_vad";
-  /** Activation threshold for VAD detection. Range: 0.0 to 1.0. */
-  threshold?: number;
-  /** Amount of audio to include before speech is detected, in milliseconds. */
-  prefixPaddingInMs?: number;
-  /** Duration of silence required to end speech detection, in milliseconds. */
-  silenceDurationInMs?: number;
-  /** Configuration for end-of-utterance detection. */
-  endOfUtteranceDetection?: EouDetectionUnion;
-  /** Whether to automatically truncate the audio buffer when speech stops. */
-  autoTruncate?: boolean;
-  /** Whether to automatically create a response when speech stops. */
-  createResponse?: boolean;
-  /** Whether to allow the user's speech to interrupt the assistant's response. */
-  interruptResponse?: boolean;
-}
-
-export function serverVadSerializer(item: ServerVad): any {
-  return {
-    type: item["type"],
-    threshold: item["threshold"],
-    prefix_padding_ms: item["prefixPaddingInMs"],
-    silence_duration_ms: item["silenceDurationInMs"],
-    end_of_utterance_detection: !item["endOfUtteranceDetection"]
-      ? item["endOfUtteranceDetection"]
-      : eouDetectionUnionSerializer(item["endOfUtteranceDetection"]),
-    auto_truncate: item["autoTruncate"],
-    create_response: item["createResponse"],
-    interrupt_response: item["interruptResponse"],
-  };
-}
-
-export function serverVadDeserializer(item: any): ServerVad {
-  return {
-    type: item["type"],
-    threshold: item["threshold"],
-    prefixPaddingInMs: item["prefix_padding_ms"],
-    silenceDurationInMs: item["silence_duration_ms"],
-    endOfUtteranceDetection: !item["end_of_utterance_detection"]
-      ? item["end_of_utterance_detection"]
-      : eouDetectionUnionDeserializer(item["end_of_utterance_detection"]),
-    autoTruncate: item["auto_truncate"],
-    createResponse: item["create_response"],
-    interruptResponse: item["interrupt_response"],
-  };
-}
-
-/** Top-level union for end-of-utterance (EOU) semantic detection configuration. */
-export interface EouDetection {
-  model: string;
-}
-
-export function eouDetectionSerializer(item: EouDetection): any {
-  return { model: item["model"] };
-}
-
-export function eouDetectionDeserializer(item: any): EouDetection {
-  return {
-    model: item["model"],
-  };
-}
-
-/** Alias for EouDetectionUnion */
-export type EouDetectionUnion =
-  | AzureSemanticDetection
-  | AzureSemanticDetectionEn
-  | AzureSemanticDetectionMultilingual
-  | EouDetection;
-
-export function eouDetectionUnionSerializer(item: EouDetectionUnion): any {
-  switch (item.model) {
-    case "semantic_detection_v1":
-      return azureSemanticDetectionSerializer(item as AzureSemanticDetection);
-
-    case "semantic_detection_v1_en":
-      return azureSemanticDetectionEnSerializer(item as AzureSemanticDetectionEn);
-
-    case "semantic_detection_v1_multilingual":
-      return azureSemanticDetectionMultilingualSerializer(
-        item as AzureSemanticDetectionMultilingual,
-      );
-
-    default:
-      return eouDetectionSerializer(item);
-  }
-}
-
-export function eouDetectionUnionDeserializer(item: any): EouDetectionUnion {
-  switch (item["model"]) {
-    case "semantic_detection_v1":
-      return azureSemanticDetectionDeserializer(item as AzureSemanticDetection);
-
-    case "semantic_detection_v1_en":
-      return azureSemanticDetectionEnDeserializer(item as AzureSemanticDetectionEn);
-
-    case "semantic_detection_v1_multilingual":
-      return azureSemanticDetectionMultilingualDeserializer(
-        item as AzureSemanticDetectionMultilingual,
-      );
-
-    default:
-      return eouDetectionDeserializer(item);
-  }
-}
-
-/** Azure semantic end-of-utterance detection (default). */
-export interface AzureSemanticDetection extends EouDetection {
-  model: "semantic_detection_v1";
-  /** Threshold level setting. Recommended instead of `threshold`. One of `low`, `medium`, `high`, or `default`. */
-  thresholdLevel?: EouThresholdLevel;
-  /** Timeout in milliseconds. Recommended instead of `timeout`. */
-  timeoutInMs?: number;
-}
-
-export function azureSemanticDetectionSerializer(item: AzureSemanticDetection): any {
-  return {
-    model: item["model"],
-    threshold_level: item["thresholdLevel"],
-    timeout_ms: item["timeoutInMs"],
-  };
-}
-
-export function azureSemanticDetectionDeserializer(item: any): AzureSemanticDetection {
-  return {
-    model: item["model"],
-    thresholdLevel: item["threshold_level"],
-    timeoutInMs: item["timeout_ms"],
-  };
-}
-
-/** Threshold level settings for Azure semantic end-of-utterance detection. */
-export enum KnownEouThresholdLevel {
-  /** Low sensitivity threshold level. */
-  Low = "low",
-  /** Medium sensitivity threshold level. */
-  Medium = "medium",
-  /** High sensitivity threshold level. */
-  High = "high",
-  /** Default sensitivity threshold level. */
-  Default = "default",
-}
-
-/**
- * Threshold level settings for Azure semantic end-of-utterance detection. \
- * {@link KnownEouThresholdLevel} can be used interchangeably with EouThresholdLevel,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **low**: Low sensitivity threshold level. \
- * **medium**: Medium sensitivity threshold level. \
- * **high**: High sensitivity threshold level. \
- * **default**: Default sensitivity threshold level.
- */
-export type EouThresholdLevel = string;
-
-/** Azure semantic end-of-utterance detection (English-optimized). */
-export interface AzureSemanticDetectionEn extends EouDetection {
-  model: "semantic_detection_v1_en";
-  /** Threshold level setting. Recommended instead of `threshold`. One of `low`, `medium`, `high`, or `default`. */
-  thresholdLevel?: EouThresholdLevel;
-  /** Timeout in milliseconds. Recommended instead of `timeout`. */
-  timeoutInMs?: number;
-}
-
-export function azureSemanticDetectionEnSerializer(item: AzureSemanticDetectionEn): any {
-  return {
-    model: item["model"],
-    threshold_level: item["thresholdLevel"],
-    timeout_ms: item["timeoutInMs"],
-  };
-}
-
-export function azureSemanticDetectionEnDeserializer(item: any): AzureSemanticDetectionEn {
-  return {
-    model: item["model"],
-    thresholdLevel: item["threshold_level"],
-    timeoutInMs: item["timeout_ms"],
-  };
-}
-
-/** Azure semantic end-of-utterance detection (multilingual). */
-export interface AzureSemanticDetectionMultilingual extends EouDetection {
-  model: "semantic_detection_v1_multilingual";
-  /** Threshold level setting. Recommended instead of `threshold`. One of `low`, `medium`, `high`, or `default`. */
-  thresholdLevel?: EouThresholdLevel;
-  /** Timeout in milliseconds. Recommended instead of `timeout`. */
-  timeoutInMs?: number;
-}
-
-export function azureSemanticDetectionMultilingualSerializer(
-  item: AzureSemanticDetectionMultilingual,
-): any {
-  return {
-    model: item["model"],
-    threshold_level: item["thresholdLevel"],
-    timeout_ms: item["timeoutInMs"],
-  };
-}
-
-export function azureSemanticDetectionMultilingualDeserializer(
-  item: any,
-): AzureSemanticDetectionMultilingual {
-  return {
-    model: item["model"],
-    thresholdLevel: item["threshold_level"],
-    timeoutInMs: item["timeout_ms"],
-  };
-}
 
 /** Server Speech Detection (Azure semantic VAD, default variant). */
 export interface AzureSemanticVad extends TurnDetection {
@@ -1566,15 +1296,236 @@ export function audioNoiseReductionDeserializer(item: any): AudioNoiseReduction 
 export interface AudioEchoCancellation {
   /** The type of echo cancellation model to use. */
   type: "server_echo_cancellation";
+  /**
+   * The source of the echo cancellation reference signal.
+   * - `server`: EC uses the internal TTS loopback as the reference signal (default, existing behavior).
+   * - `client`: EC uses the client-supplied reference channel (ch1 of stereo input). Internal TTS loopback is skipped.
+   */
+  referenceSource?: EchoCancellationReferenceSource;
+  /**
+   * Number of input audio channels.
+   * - `1`: Mono input (default).
+   * - `2`: Interleaved stereo input where channel 0 is the microphone signal and channel 1 is the echo reference signal.
+   * When set to 2, `reference_source` must be `client` and `input_audio_format` must be `pcm16`.
+   */
+  channels?: number;
 }
 
 export function audioEchoCancellationSerializer(item: AudioEchoCancellation): any {
-  return { type: item["type"] };
+  return {
+    type: item["type"],
+    reference_source: item["referenceSource"],
+    channels: item["channels"],
+  };
 }
 
 export function audioEchoCancellationDeserializer(item: any): AudioEchoCancellation {
   return {
     type: item["type"],
+    referenceSource: item["reference_source"],
+    channels: item["channels"],
+  };
+}
+
+/** The source of the echo cancellation reference signal. */
+export enum KnownEchoCancellationReferenceSource {
+  /** EC uses the internal TTS loopback as the reference signal. */
+  Server = "server",
+  /** EC uses the client-supplied reference channel from the stereo input stream. */
+  Client = "client",
+}
+
+/**
+ * The source of the echo cancellation reference signal. \
+ * {@link KnownEchoCancellationReferenceSource} can be used interchangeably with EchoCancellationReferenceSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **server**: EC uses the internal TTS loopback as the reference signal. \
+ * **client**: EC uses the client-supplied reference channel from the stereo input stream.
+ */
+export type EchoCancellationReferenceSource = string;
+
+/** ICE server configuration for WebRTC connection negotiation. */
+export interface IceServer {
+  /** List of ICE server URLs (e.g., TURN or STUN endpoints). */
+  urls: string[];
+  /** Optional username used for authentication with the ICE server. */
+  username?: string;
+  /** Optional credential (e.g., password or token) used for authentication. */
+  credential?: string;
+}
+
+export function iceServerSerializer(item: IceServer): any {
+  return {
+    urls: item["urls"].map((p: any) => {
+      return p;
+    }),
+    username: item["username"],
+    credential: item["credential"],
+  };
+}
+
+export function iceServerDeserializer(item: any): IceServer {
+  return {
+    urls: item["urls"].map((p: any) => {
+      return p;
+    }),
+    username: item["username"],
+    credential: item["credential"],
+  };
+}
+
+/** Defines a video crop rectangle using top-left and bottom-right coordinates. */
+export interface VideoCrop {
+  /** Top-left corner of the crop region. Array of [x, y], must be non-negative integers. */
+  topLeft: number[];
+  /** Bottom-right corner of the crop region. Array of [x, y], must be non-negative integers. */
+  bottomRight: number[];
+}
+
+export function videoCropSerializer(item: VideoCrop): any {
+  return {
+    top_left: item["topLeft"].map((p: any) => {
+      return p;
+    }),
+    bottom_right: item["bottomRight"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function videoCropDeserializer(item: any): VideoCrop {
+  return {
+    topLeft: item["top_left"].map((p: any) => {
+      return p;
+    }),
+    bottomRight: item["bottom_right"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** Resolution of the video feed in pixels. */
+export interface VideoResolution {
+  /** Width of the video in pixels. Must be greater than 0. */
+  width: number;
+  /** Height of the video in pixels. Must be greater than 0. */
+  height: number;
+}
+
+export function videoResolutionSerializer(item: VideoResolution): any {
+  return { width: item["width"], height: item["height"] };
+}
+
+export function videoResolutionDeserializer(item: any): VideoResolution {
+  return {
+    width: item["width"],
+    height: item["height"],
+  };
+}
+
+/** Defines a video background, either a solid color or an image URL (mutually exclusive). */
+export interface Background {
+  /** Background color in hex format (e.g., `#00FF00FF`). Cannot be set if `image_url` is provided. */
+  color?: string;
+  /** Background image URL. Cannot be set if `color` is provided. */
+  imageUrl?: string;
+}
+
+export function backgroundSerializer(item: Background): any {
+  return { color: item["color"], image_url: item["imageUrl"] };
+}
+
+export function backgroundDeserializer(item: any): Background {
+  return {
+    color: item["color"],
+    imageUrl: item["image_url"],
+  };
+}
+
+/** Video streaming parameters for avatar. */
+export interface VideoParams {
+  /** Bitrate in bits per second (e.g., 2000000 for 2 Mbps). */
+  bitrate?: number;
+  /** Codec to use for encoding. Currently only 'h264' is supported. */
+  codec?: "h264";
+  /** Optional cropping settings for the video stream. */
+  crop?: VideoCrop;
+  /** Optional resolution settings for the video stream. */
+  resolution?: VideoResolution;
+  /** Optional background settings for the video. Allows specifying either a solid color or an image URL. */
+  background?: Background;
+  /** Group of Pictures (GOP) size for video encoding. Controls the interval between keyframes, affecting compression efficiency and seeking performance. */
+  gopSize?: number;
+}
+
+export function videoParamsSerializer(item: VideoParams): any {
+  return {
+    bitrate: item["bitrate"],
+    codec: item["codec"],
+    crop: !item["crop"] ? item["crop"] : videoCropSerializer(item["crop"]),
+    resolution: !item["resolution"]
+      ? item["resolution"]
+      : videoResolutionSerializer(item["resolution"]),
+    background: !item["background"] ? item["background"] : backgroundSerializer(item["background"]),
+    gop_size: item["gopSize"],
+  };
+}
+
+export function videoParamsDeserializer(item: any): VideoParams {
+  return {
+    bitrate: item["bitrate"],
+    codec: item["codec"],
+    crop: !item["crop"] ? item["crop"] : videoCropDeserializer(item["crop"]),
+    resolution: !item["resolution"]
+      ? item["resolution"]
+      : videoResolutionDeserializer(item["resolution"]),
+    background: !item["background"]
+      ? item["background"]
+      : backgroundDeserializer(item["background"]),
+    gopSize: item["gop_size"],
+  };
+}
+
+/** Configuration for avatar's zoom level, position, rotation and movement amplitude in the video frame. */
+export interface Scene {
+  /** Zoom level of the avatar. Range is (0, +∞). Values less than 1 zoom out, values greater than 1 zoom in. */
+  zoom?: number;
+  /** Horizontal position of the avatar. Range is [-1, 1], as a proportion of frame width. Negative values move left, positive values move right. */
+  positionX?: number;
+  /** Vertical position of the avatar. Range is [-1, 1], as a proportion of frame height. Negative values move up, positive values move down. */
+  positionY?: number;
+  /** Rotation around the X-axis (pitch). Range is [-π, π] in radians. Negative values rotate up, positive values rotate down. */
+  rotationX?: number;
+  /** Rotation around the Y-axis (yaw). Range is [-π, π] in radians. Negative values rotate left, positive values rotate right. */
+  rotationY?: number;
+  /** Rotation around the Z-axis (roll). Range is [-π, π] in radians. Negative values rotate anticlockwise, positive values rotate clockwise. */
+  rotationZ?: number;
+  /** Amplitude of the avatar movement. Range is (0, 1]. Values in (0, 1) mean reduced amplitude, 1 means full amplitude. */
+  amplitude?: number;
+}
+
+export function sceneSerializer(item: Scene): any {
+  return {
+    zoom: item["zoom"],
+    position_x: item["positionX"],
+    position_y: item["positionY"],
+    rotation_x: item["rotationX"],
+    rotation_y: item["rotationY"],
+    rotation_z: item["rotationZ"],
+    amplitude: item["amplitude"],
+  };
+}
+
+export function sceneDeserializer(item: any): Scene {
+  return {
+    zoom: item["zoom"],
+    positionX: item["position_x"],
+    positionY: item["position_y"],
+    rotationX: item["rotation_x"],
+    rotationY: item["rotation_y"],
+    rotationZ: item["rotation_z"],
+    amplitude: item["amplitude"],
   };
 }
 
@@ -1666,36 +1617,6 @@ export function iceServerArrayDeserializer(result: Array<IceServer>): any[] {
   });
 }
 
-/** ICE server configuration for WebRTC connection negotiation. */
-export interface IceServer {
-  /** List of ICE server URLs (e.g., TURN or STUN endpoints). */
-  urls: string[];
-  /** Optional username used for authentication with the ICE server. */
-  username?: string;
-  /** Optional credential (e.g., password or token) used for authentication. */
-  credential?: string;
-}
-
-export function iceServerSerializer(item: IceServer): any {
-  return {
-    urls: item["urls"].map((p: any) => {
-      return p;
-    }),
-    username: item["username"],
-    credential: item["credential"],
-  };
-}
-
-export function iceServerDeserializer(item: any): IceServer {
-  return {
-    urls: item["urls"].map((p: any) => {
-      return p;
-    }),
-    username: item["username"],
-    credential: item["credential"],
-  };
-}
-
 /** Photo avatar base modes */
 export enum KnownPhotoAvatarBaseModes {
   /** VASA-1 model */
@@ -1710,160 +1631,6 @@ export enum KnownPhotoAvatarBaseModes {
  * **vasa-1**: VASA-1 model
  */
 export type PhotoAvatarBaseModes = string;
-
-/** Video streaming parameters for avatar. */
-export interface VideoParams {
-  /** Bitrate in bits per second (e.g., 2000000 for 2 Mbps). */
-  bitrate?: number;
-  /** Codec to use for encoding. Currently only 'h264' is supported. */
-  codec?: "h264";
-  /** Optional cropping settings for the video stream. */
-  crop?: VideoCrop;
-  /** Optional resolution settings for the video stream. */
-  resolution?: VideoResolution;
-  /** Optional background settings for the video. Allows specifying either a solid color or an image URL. */
-  background?: Background;
-  /** Group of Pictures (GOP) size for video encoding. Controls the interval between keyframes, affecting compression efficiency and seeking performance. */
-  gopSize?: number;
-}
-
-export function videoParamsSerializer(item: VideoParams): any {
-  return {
-    bitrate: item["bitrate"],
-    codec: item["codec"],
-    crop: !item["crop"] ? item["crop"] : videoCropSerializer(item["crop"]),
-    resolution: !item["resolution"]
-      ? item["resolution"]
-      : videoResolutionSerializer(item["resolution"]),
-    background: !item["background"] ? item["background"] : backgroundSerializer(item["background"]),
-    gop_size: item["gopSize"],
-  };
-}
-
-export function videoParamsDeserializer(item: any): VideoParams {
-  return {
-    bitrate: item["bitrate"],
-    codec: item["codec"],
-    crop: !item["crop"] ? item["crop"] : videoCropDeserializer(item["crop"]),
-    resolution: !item["resolution"]
-      ? item["resolution"]
-      : videoResolutionDeserializer(item["resolution"]),
-    background: !item["background"]
-      ? item["background"]
-      : backgroundDeserializer(item["background"]),
-    gopSize: item["gop_size"],
-  };
-}
-
-/** Defines a video crop rectangle using top-left and bottom-right coordinates. */
-export interface VideoCrop {
-  /** Top-left corner of the crop region. Array of [x, y], must be non-negative integers. */
-  topLeft: number[];
-  /** Bottom-right corner of the crop region. Array of [x, y], must be non-negative integers. */
-  bottomRight: number[];
-}
-
-export function videoCropSerializer(item: VideoCrop): any {
-  return {
-    top_left: item["topLeft"].map((p: any) => {
-      return p;
-    }),
-    bottom_right: item["bottomRight"].map((p: any) => {
-      return p;
-    }),
-  };
-}
-
-export function videoCropDeserializer(item: any): VideoCrop {
-  return {
-    topLeft: item["top_left"].map((p: any) => {
-      return p;
-    }),
-    bottomRight: item["bottom_right"].map((p: any) => {
-      return p;
-    }),
-  };
-}
-
-/** Resolution of the video feed in pixels. */
-export interface VideoResolution {
-  /** Width of the video in pixels. Must be greater than 0. */
-  width: number;
-  /** Height of the video in pixels. Must be greater than 0. */
-  height: number;
-}
-
-export function videoResolutionSerializer(item: VideoResolution): any {
-  return { width: item["width"], height: item["height"] };
-}
-
-export function videoResolutionDeserializer(item: any): VideoResolution {
-  return {
-    width: item["width"],
-    height: item["height"],
-  };
-}
-
-/** Defines a video background, either a solid color or an image URL (mutually exclusive). */
-export interface Background {
-  /** Background color in hex format (e.g., `#00FF00FF`). Cannot be set if `image_url` is provided. */
-  color?: string;
-  /** Background image URL. Cannot be set if `color` is provided. */
-  imageUrl?: string;
-}
-
-export function backgroundSerializer(item: Background): any {
-  return { color: item["color"], image_url: item["imageUrl"] };
-}
-
-export function backgroundDeserializer(item: any): Background {
-  return {
-    color: item["color"],
-    imageUrl: item["image_url"],
-  };
-}
-
-/** Configuration for avatar's zoom level, position, rotation and movement amplitude in the video frame. */
-export interface Scene {
-  /** Zoom level of the avatar. Range is (0, +∞). Values less than 1 zoom out, values greater than 1 zoom in. */
-  zoom?: number;
-  /** Horizontal position of the avatar. Range is [-1, 1], as a proportion of frame width. Negative values move left, positive values move right. */
-  positionX?: number;
-  /** Vertical position of the avatar. Range is [-1, 1], as a proportion of frame height. Negative values move up, positive values move down. */
-  positionY?: number;
-  /** Rotation around the X-axis (pitch). Range is [-π, π] in radians. Negative values rotate up, positive values rotate down. */
-  rotationX?: number;
-  /** Rotation around the Y-axis (yaw). Range is [-π, π] in radians. Negative values rotate left, positive values rotate right. */
-  rotationY?: number;
-  /** Rotation around the Z-axis (roll). Range is [-π, π] in radians. Negative values rotate anticlockwise, positive values rotate clockwise. */
-  rotationZ?: number;
-  /** Amplitude of the avatar movement. Range is (0, 1]. Values in (0, 1) mean reduced amplitude, 1 means full amplitude. */
-  amplitude?: number;
-}
-
-export function sceneSerializer(item: Scene): any {
-  return {
-    zoom: item["zoom"],
-    position_x: item["positionX"],
-    position_y: item["positionY"],
-    rotation_x: item["rotationX"],
-    rotation_y: item["rotationY"],
-    rotation_z: item["rotationZ"],
-    amplitude: item["amplitude"],
-  };
-}
-
-export function sceneDeserializer(item: any): Scene {
-  return {
-    zoom: item["zoom"],
-    positionX: item["position_x"],
-    positionY: item["position_y"],
-    rotationX: item["rotation_x"],
-    rotationY: item["rotation_y"],
-    rotationZ: item["rotation_z"],
-    amplitude: item["amplitude"],
-  };
-}
 
 /** Avatar config output protocols */
 export enum KnownAvatarOutputProtocol {
@@ -1933,31 +1700,30 @@ export function audioInputTranscriptionOptionsDeserializer(
   };
 }
 
-/** Output timestamp types supported in audio response content. */
-export enum KnownAudioTimestampType {
-  /** Timestamps per word in the output audio. */
-  Word = "word",
+/** The definition of a function tool as used by the voicelive endpoint. */
+export interface FunctionTool extends Tool {
+  type: "function";
+  name: string;
+  description?: string;
+  parameters?: any;
 }
 
-/**
- * Output timestamp types supported in audio response content. \
- * {@link KnownAudioTimestampType} can be used interchangeably with AudioTimestampType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **word**: Timestamps per word in the output audio.
- */
-export type AudioTimestampType = string;
-
-export function toolUnionArraySerializer(result: Array<ToolUnion>): any[] {
-  return result.map((item) => {
-    return toolUnionSerializer(item);
-  });
+export function functionToolSerializer(item: FunctionTool): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    parameters: item["parameters"],
+  };
 }
 
-export function toolUnionArrayDeserializer(result: Array<ToolUnion>): any[] {
-  return result.map((item) => {
-    return toolUnionDeserializer(item);
-  });
+export function functionToolDeserializer(item: any): FunctionTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    parameters: item["parameters"],
+  };
 }
 
 /** The base representation of a voicelive tool definition. */
@@ -2025,32 +1791,6 @@ export enum KnownToolType {
  * **mcp**
  */
 export type ToolType = string;
-
-/** The definition of a function tool as used by the voicelive endpoint. */
-export interface FunctionTool extends Tool {
-  type: "function";
-  name: string;
-  description?: string;
-  parameters?: any;
-}
-
-export function functionToolSerializer(item: FunctionTool): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    description: item["description"],
-    parameters: item["parameters"],
-  };
-}
-
-export function functionToolDeserializer(item: any): FunctionTool {
-  return {
-    type: item["type"],
-    name: item["name"],
-    description: item["description"],
-    parameters: item["parameters"],
-  };
-}
 
 /** The definition of an MCP server as used by the voicelive endpoint. */
 export interface MCPServer extends Tool {
@@ -2129,40 +1869,23 @@ export enum KnownMCPApprovalType {
  * **always**: Approval is always required.
  */
 export type MCPApprovalType = string;
-/**
- * The combined set of available representations for a voicelive tool_choice parameter, encompassing both string
- * literal options like 'auto' as well as structured references to defined tools.
- */
-export type ToolChoice = ToolChoiceLiteral | ToolChoiceSelectionUnion;
 
-export function toolChoiceSerializer(item: ToolChoice): any {
-  return item;
+/** The representation of a voicelive tool_choice selecting a named function tool. */
+export interface ToolChoiceFunctionSelection extends ToolChoiceSelection {
+  type: "function";
+  name: string;
 }
 
-export function toolChoiceDeserializer(item: any): ToolChoice {
-  return item;
+export function toolChoiceFunctionSelectionSerializer(item: ToolChoiceFunctionSelection): any {
+  return { type: item["type"], name: item["name"] };
 }
 
-/** The available set of mode-level, string literal tool_choice options for the voicelive endpoint. */
-export enum KnownToolChoiceLiteral {
-  /** Specifies that the model should freely determine which tool or tools, if any, to call. */
-  Auto = "auto",
-  /** Specifies that the model should call no tools whatsoever. */
-  None = "none",
-  /** Specifies that the model should call at least one tool. */
-  Required = "required",
+export function toolChoiceFunctionSelectionDeserializer(item: any): ToolChoiceFunctionSelection {
+  return {
+    type: item["type"],
+    name: item["name"],
+  };
 }
-
-/**
- * The available set of mode-level, string literal tool_choice options for the voicelive endpoint. \
- * {@link KnownToolChoiceLiteral} can be used interchangeably with ToolChoiceLiteral,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **auto**: Specifies that the model should freely determine which tool or tools, if any, to call. \
- * **none**: Specifies that the model should call no tools whatsoever. \
- * **required**: Specifies that the model should call at least one tool.
- */
-export type ToolChoiceLiteral = string;
 
 /** A base representation for a voicelive tool_choice selecting a named tool. */
 export interface ToolChoiceSelection {
@@ -2202,23 +1925,473 @@ export function toolChoiceSelectionUnionDeserializer(item: any): ToolChoiceSelec
   }
 }
 
-/** The representation of a voicelive tool_choice selecting a named function tool. */
-export interface ToolChoiceFunctionSelection extends ToolChoiceSelection {
-  type: "function";
-  name: string;
+/**
+ * Configuration for LLM-based interim response generation.
+ * Uses LLM to generate context-aware interim responses when any trigger condition is met.
+ */
+export interface LlmInterimResponseConfig extends InterimResponseConfigBase {
+  type: "llm_interim_response";
+  /** The model to use for LLM-based interim response generation. Default is gpt-4.1-mini. */
+  model?: string;
+  /** Custom instructions for generating interim responses. If not provided, a default prompt is used. */
+  instructions?: string;
+  /** Maximum number of tokens to generate for the interim response. */
+  maxCompletionTokens?: number;
 }
 
-export function toolChoiceFunctionSelectionSerializer(item: ToolChoiceFunctionSelection): any {
-  return { type: item["type"], name: item["name"] };
-}
-
-export function toolChoiceFunctionSelectionDeserializer(item: any): ToolChoiceFunctionSelection {
+export function llmInterimResponseConfigSerializer(item: LlmInterimResponseConfig): any {
   return {
     type: item["type"],
-    name: item["name"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latency_threshold_ms: item["latencyThresholdInMs"],
+    model: item["model"],
+    instructions: item["instructions"],
+    max_completion_tokens: item["maxCompletionTokens"],
   };
 }
 
+export function llmInterimResponseConfigDeserializer(item: any): LlmInterimResponseConfig {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latencyThresholdInMs: item["latency_threshold_ms"],
+    model: item["model"],
+    instructions: item["instructions"],
+    maxCompletionTokens: item["max_completion_tokens"],
+  };
+}
+
+/** Base model for interim response configuration. */
+export interface InterimResponseConfigBase {
+  /** The type of interim response configuration. */
+  /** The discriminator possible values: static_interim_response, llm_interim_response */
+  type: InterimResponseConfigType;
+  /**
+   * List of triggers that can fire the interim response. Any trigger can activate it (OR logic).
+   * Supported: 'latency', 'tool'.
+   */
+  triggers?: InterimResponseTrigger[];
+  /** Latency threshold in milliseconds before triggering interim response. Default is 2000ms. */
+  latencyThresholdInMs?: number;
+}
+
+export function interimResponseConfigBaseSerializer(item: InterimResponseConfigBase): any {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latency_threshold_ms: item["latencyThresholdInMs"],
+  };
+}
+
+export function interimResponseConfigBaseDeserializer(item: any): InterimResponseConfigBase {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latencyThresholdInMs: item["latency_threshold_ms"],
+  };
+}
+
+/** Alias for InterimResponseConfigBaseUnion */
+export type InterimResponseConfigBaseUnion =
+  | StaticInterimResponseConfig
+  | LlmInterimResponseConfig
+  | InterimResponseConfigBase;
+
+export function interimResponseConfigBaseUnionSerializer(
+  item: InterimResponseConfigBaseUnion,
+): any {
+  switch (item.type) {
+    case "static_interim_response":
+      return staticInterimResponseConfigSerializer(item as StaticInterimResponseConfig);
+
+    case "llm_interim_response":
+      return llmInterimResponseConfigSerializer(item as LlmInterimResponseConfig);
+
+    default:
+      return interimResponseConfigBaseSerializer(item);
+  }
+}
+
+export function interimResponseConfigBaseUnionDeserializer(
+  item: any,
+): InterimResponseConfigBaseUnion {
+  switch (item["type"]) {
+    case "static_interim_response":
+      return staticInterimResponseConfigDeserializer(item as StaticInterimResponseConfig);
+
+    case "llm_interim_response":
+      return llmInterimResponseConfigDeserializer(item as LlmInterimResponseConfig);
+
+    default:
+      return interimResponseConfigBaseDeserializer(item);
+  }
+}
+
+/** Interim response configuration types. */
+export enum KnownInterimResponseConfigType {
+  /** Static interim response configuration type. */
+  StaticInterimResponse = "static_interim_response",
+  /** LLM-based interim response configuration type. */
+  LlmInterimResponse = "llm_interim_response",
+}
+
+/**
+ * Interim response configuration types. \
+ * {@link KnownInterimResponseConfigType} can be used interchangeably with InterimResponseConfigType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **static_interim_response**: Static interim response configuration type. \
+ * **llm_interim_response**: LLM-based interim response configuration type.
+ */
+export type InterimResponseConfigType = string;
+
+/** Triggers that can activate interim response generation. */
+export enum KnownInterimResponseTrigger {
+  /** Trigger interim response when response latency exceeds threshold. */
+  Latency = "latency",
+  /** Trigger interim response when a tool call is being executed. */
+  Tool = "tool",
+}
+
+/**
+ * Triggers that can activate interim response generation. \
+ * {@link KnownInterimResponseTrigger} can be used interchangeably with InterimResponseTrigger,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **latency**: Trigger interim response when response latency exceeds threshold. \
+ * **tool**: Trigger interim response when a tool call is being executed.
+ */
+export type InterimResponseTrigger = string;
+
+/**
+ * Configuration for static interim response generation.
+ * Randomly selects from configured texts when any trigger condition is met.
+ */
+export interface StaticInterimResponseConfig extends InterimResponseConfigBase {
+  type: "static_interim_response";
+  /** List of interim response text options to randomly select from. */
+  texts?: string[];
+}
+
+export function staticInterimResponseConfigSerializer(item: StaticInterimResponseConfig): any {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latency_threshold_ms: item["latencyThresholdInMs"],
+    texts: !item["texts"]
+      ? item["texts"]
+      : item["texts"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function staticInterimResponseConfigDeserializer(item: any): StaticInterimResponseConfig {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latencyThresholdInMs: item["latency_threshold_ms"],
+    texts: !item["texts"]
+      ? item["texts"]
+      : item["texts"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** VoiceLive session object configuration. */
+export interface SessionBase {}
+
+export function sessionBaseDeserializer(item: any): SessionBase {
+  return item;
+}
+
+/** Base for session configuration shared between request and response. */
+export interface RequestSession {
+  /** The model for the session. */
+  model?: string;
+  /** The modalities to be used in the session. */
+  modalities?: Modality[];
+  /** The animation configuration for the session. */
+  animation?: Animation;
+  /** The voice configuration for the session. */
+  voice?: Voice;
+  /** Optional instructions to guide the model's behavior throughout the session. */
+  instructions?: string;
+  /**
+   * Input audio sampling rate in Hz. Available values:
+   *
+   * - For pcm16: 8000, 16000, 24000
+   *
+   * - For g711_alaw/g711_ulaw: 8000
+   */
+  inputAudioSamplingRate?: number;
+  /** Input audio format. Default is 'pcm16'. */
+  inputAudioFormat?: InputAudioFormat;
+  /** Output audio format. Default is 'pcm16'. */
+  outputAudioFormat?: OutputAudioFormat;
+  /** Type of turn detection to use. */
+  turnDetection?: TurnDetectionUnion;
+  /** Configuration for input audio noise reduction. */
+  inputAudioNoiseReduction?: AudioNoiseReduction;
+  /** Configuration for echo cancellation during server-side audio processing. */
+  inputAudioEchoCancellation?: AudioEchoCancellation;
+  /** Configuration for avatar streaming and behavior during the session. */
+  avatar?: AvatarConfig;
+  /** Configuration for input audio transcription. */
+  inputAudioTranscription?: AudioInputTranscriptionOptions;
+  /** Types of timestamps to include in audio response content. */
+  outputAudioTimestampTypes?: AudioTimestampType[];
+  /** Configuration for tools to be used during the session, if applicable. */
+  tools?: ToolUnion[];
+  /** Specifies which tools the model is allowed to call during the session. */
+  toolChoice?: ToolChoice;
+  /** Whether the model is allowed to call tools in parallel. */
+  parallelToolCalls?: boolean;
+  /** Controls the randomness of the model's output. Range: 0.0 to 1.0. Default is 0.7. */
+  temperature?: number;
+  /** Maximum number of tokens to generate in the response. Default is unlimited. */
+  maxResponseOutputTokens?: number | "inf";
+  /**
+   * Constrains effort on reasoning for reasoning models. Check model documentation for supported values for each model.
+   * Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
+   */
+  reasoningEffort?: ReasoningEffort;
+  /** Configuration for interim response generation during latency or tool calls. */
+  interimResponse?: InterimResponseConfig;
+  /** List of include options for the session (e.g., logprobs, phrases, file search results). */
+  include?: SessionIncludeOption[];
+  /**
+   * Set of up to 16 key-value pairs that can be attached to the session. This is useful for
+   * storing additional information about the session in a structured format, such as tracking IDs,
+   * user context, or application-specific labels. These key-value pairs are also included in
+   * Foundry resource logs for tracing and diagnostics. Keys can be a maximum of 64 characters
+   * long and values can be a maximum of 512 characters long.
+   */
+  metadata?: Record<string, string>;
+}
+
+export function requestSessionSerializer(item: RequestSession): any {
+  return {
+    model: item["model"],
+    modalities: !item["modalities"]
+      ? item["modalities"]
+      : item["modalities"].map((p: any) => {
+          return p;
+        }),
+    animation: !item["animation"] ? item["animation"] : animationSerializer(item["animation"]),
+    voice: !item["voice"] ? item["voice"] : voiceSerializer(item["voice"]),
+    instructions: item["instructions"],
+    input_audio_sampling_rate: item["inputAudioSamplingRate"],
+    input_audio_format: item["inputAudioFormat"],
+    output_audio_format: item["outputAudioFormat"],
+    turn_detection: !item["turnDetection"]
+      ? item["turnDetection"]
+      : turnDetectionUnionSerializer(item["turnDetection"]),
+    input_audio_noise_reduction: !item["inputAudioNoiseReduction"]
+      ? item["inputAudioNoiseReduction"]
+      : audioNoiseReductionSerializer(item["inputAudioNoiseReduction"]),
+    input_audio_echo_cancellation: !item["inputAudioEchoCancellation"]
+      ? item["inputAudioEchoCancellation"]
+      : audioEchoCancellationSerializer(item["inputAudioEchoCancellation"]),
+    avatar: !item["avatar"] ? item["avatar"] : avatarConfigSerializer(item["avatar"]),
+    input_audio_transcription: !item["inputAudioTranscription"]
+      ? item["inputAudioTranscription"]
+      : audioInputTranscriptionOptionsSerializer(item["inputAudioTranscription"]),
+    output_audio_timestamp_types: !item["outputAudioTimestampTypes"]
+      ? item["outputAudioTimestampTypes"]
+      : item["outputAudioTimestampTypes"].map((p: any) => {
+          return p;
+        }),
+    tools: !item["tools"] ? item["tools"] : toolUnionArraySerializer(item["tools"]),
+    tool_choice: !item["toolChoice"]
+      ? item["toolChoice"]
+      : toolChoiceSerializer(item["toolChoice"]),
+    parallel_tool_calls: item["parallelToolCalls"],
+    temperature: item["temperature"],
+    max_response_output_tokens: !item["maxResponseOutputTokens"]
+      ? item["maxResponseOutputTokens"]
+      : _requestSessionMaxResponseOutputTokensSerializer(item["maxResponseOutputTokens"]),
+    reasoning_effort: item["reasoningEffort"],
+    interim_response: !item["interimResponse"]
+      ? item["interimResponse"]
+      : interimResponseConfigSerializer(item["interimResponse"]),
+    include: !item["include"]
+      ? item["include"]
+      : item["include"].map((p: any) => {
+          return p;
+        }),
+    metadata: item["metadata"],
+  };
+}
+
+/** Supported modalities for the session. */
+export enum KnownModality {
+  /** Text modality. */
+  Text = "text",
+  /** Audio modality. */
+  Audio = "audio",
+  /** Animation modality. */
+  Animation = "animation",
+  /** Avatar modality. */
+  Avatar = "avatar",
+}
+
+/**
+ * Supported modalities for the session. \
+ * {@link KnownModality} can be used interchangeably with Modality,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **text**: Text modality. \
+ * **audio**: Audio modality. \
+ * **animation**: Animation modality. \
+ * **avatar**: Avatar modality.
+ */
+export type Modality = string;
+/** Union of all supported voice configurations. */
+export type Voice = OAIVoice | OpenAIVoice | AzureVoiceUnion | AzureRealtimeNativeVoice;
+
+export function voiceSerializer(item: Voice): any {
+  return item;
+}
+
+export function voiceDeserializer(item: any): Voice {
+  return item;
+}
+
+/** Input audio format types supported. */
+export enum KnownInputAudioFormat {
+  /** 16-bit PCM audio format at default sampling rate (24kHz) */
+  Pcm16 = "pcm16",
+  /** G.711 μ-law (mu-law) audio format at 8kHz sampling rate */
+  G711Ulaw = "g711_ulaw",
+  /** G.711 A-law audio format at 8kHz sampling rate */
+  G711Alaw = "g711_alaw",
+}
+
+/**
+ * Input audio format types supported. \
+ * {@link KnownInputAudioFormat} can be used interchangeably with InputAudioFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **pcm16**: 16-bit PCM audio format at default sampling rate (24kHz) \
+ * **g711_ulaw**: G.711 μ-law (mu-law) audio format at 8kHz sampling rate \
+ * **g711_alaw**: G.711 A-law audio format at 8kHz sampling rate
+ */
+export type InputAudioFormat = string;
+
+/** Output audio format types supported. */
+export enum KnownOutputAudioFormat {
+  /** 16-bit PCM audio format at default sampling rate (24kHz) */
+  Pcm16 = "pcm16",
+  /** 16-bit PCM audio format at 8kHz sampling rate */
+  Pcm168000Hz = "pcm16_8000hz",
+  /** 16-bit PCM audio format at 16kHz sampling rate */
+  Pcm1616000Hz = "pcm16_16000hz",
+  /** G.711 μ-law (mu-law) audio format at 8kHz sampling rate */
+  G711Ulaw = "g711_ulaw",
+  /** G.711 A-law audio format at 8kHz sampling rate */
+  G711Alaw = "g711_alaw",
+}
+
+/**
+ * Output audio format types supported. \
+ * {@link KnownOutputAudioFormat} can be used interchangeably with OutputAudioFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **pcm16**: 16-bit PCM audio format at default sampling rate (24kHz) \
+ * **pcm16_8000hz**: 16-bit PCM audio format at 8kHz sampling rate \
+ * **pcm16_16000hz**: 16-bit PCM audio format at 16kHz sampling rate \
+ * **g711_ulaw**: G.711 μ-law (mu-law) audio format at 8kHz sampling rate \
+ * **g711_alaw**: G.711 A-law audio format at 8kHz sampling rate
+ */
+export type OutputAudioFormat = string;
+
+/** Output timestamp types supported in audio response content. */
+export enum KnownAudioTimestampType {
+  /** Timestamps per word in the output audio. */
+  Word = "word",
+}
+
+/**
+ * Output timestamp types supported in audio response content. \
+ * {@link KnownAudioTimestampType} can be used interchangeably with AudioTimestampType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **word**: Timestamps per word in the output audio.
+ */
+export type AudioTimestampType = string;
+
+export function toolUnionArraySerializer(result: Array<ToolUnion>): any[] {
+  return result.map((item) => {
+    return toolUnionSerializer(item);
+  });
+}
+
+export function toolUnionArrayDeserializer(result: Array<ToolUnion>): any[] {
+  return result.map((item) => {
+    return toolUnionDeserializer(item);
+  });
+}
+
+/**
+ * The combined set of available representations for a voicelive tool_choice parameter, encompassing both string
+ * literal options like 'auto' as well as structured references to defined tools.
+ */
+export type ToolChoice = ToolChoiceLiteral | ToolChoiceSelectionUnion;
+
+export function toolChoiceSerializer(item: ToolChoice): any {
+  return item;
+}
+
+export function toolChoiceDeserializer(item: any): ToolChoice {
+  return item;
+}
+
+/** The available set of mode-level, string literal tool_choice options for the voicelive endpoint. */
+export enum KnownToolChoiceLiteral {
+  /** Specifies that the model should freely determine which tool or tools, if any, to call. */
+  Auto = "auto",
+  /** Specifies that the model should call no tools whatsoever. */
+  None = "none",
+  /** Specifies that the model should call at least one tool. */
+  Required = "required",
+}
+
+/**
+ * The available set of mode-level, string literal tool_choice options for the voicelive endpoint. \
+ * {@link KnownToolChoiceLiteral} can be used interchangeably with ToolChoiceLiteral,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **auto**: Specifies that the model should freely determine which tool or tools, if any, to call. \
+ * **none**: Specifies that the model should call no tools whatsoever. \
+ * **required**: Specifies that the model should call at least one tool.
+ */
+export type ToolChoiceLiteral = string;
 /** Alias for _RequestSessionMaxResponseOutputTokens */
 export type _RequestSessionMaxResponseOutputTokens = number | "inf";
 
@@ -2278,94 +2451,6 @@ export function interimResponseConfigDeserializer(item: any): InterimResponseCon
   return item;
 }
 
-/**
- * Configuration for static interim response generation.
- * Randomly selects from configured texts when any trigger condition is met.
- */
-export interface StaticInterimResponseConfig extends InterimResponseConfigBase {
-  type: "static_interim_response";
-  /** List of interim response text options to randomly select from. */
-  texts?: string[];
-}
-
-export function staticInterimResponseConfigSerializer(item: StaticInterimResponseConfig): any {
-  return {
-    type: item["type"],
-    triggers: !item["triggers"]
-      ? item["triggers"]
-      : item["triggers"].map((p: any) => {
-          return p;
-        }),
-    latency_threshold_ms: item["latencyThresholdInMs"],
-    texts: !item["texts"]
-      ? item["texts"]
-      : item["texts"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function staticInterimResponseConfigDeserializer(item: any): StaticInterimResponseConfig {
-  return {
-    type: item["type"],
-    triggers: !item["triggers"]
-      ? item["triggers"]
-      : item["triggers"].map((p: any) => {
-          return p;
-        }),
-    latencyThresholdInMs: item["latency_threshold_ms"],
-    texts: !item["texts"]
-      ? item["texts"]
-      : item["texts"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/**
- * Configuration for LLM-based interim response generation.
- * Uses LLM to generate context-aware interim responses when any trigger condition is met.
- */
-export interface LlmInterimResponseConfig extends InterimResponseConfigBase {
-  type: "llm_interim_response";
-  /** The model to use for LLM-based interim response generation. Default is gpt-4.1-mini. */
-  model?: string;
-  /** Custom instructions for generating interim responses. If not provided, a default prompt is used. */
-  instructions?: string;
-  /** Maximum number of tokens to generate for the interim response. */
-  maxCompletionTokens?: number;
-}
-
-export function llmInterimResponseConfigSerializer(item: LlmInterimResponseConfig): any {
-  return {
-    type: item["type"],
-    triggers: !item["triggers"]
-      ? item["triggers"]
-      : item["triggers"].map((p: any) => {
-          return p;
-        }),
-    latency_threshold_ms: item["latencyThresholdInMs"],
-    model: item["model"],
-    instructions: item["instructions"],
-    max_completion_tokens: item["maxCompletionTokens"],
-  };
-}
-
-export function llmInterimResponseConfigDeserializer(item: any): LlmInterimResponseConfig {
-  return {
-    type: item["type"],
-    triggers: !item["triggers"]
-      ? item["triggers"]
-      : item["triggers"].map((p: any) => {
-          return p;
-        }),
-    latencyThresholdInMs: item["latency_threshold_ms"],
-    model: item["model"],
-    instructions: item["instructions"],
-    maxCompletionTokens: item["max_completion_tokens"],
-  };
-}
-
 /** Options for what additional data to include in session responses. */
 export enum KnownSessionIncludeOption {
   /** Include log probabilities for input audio transcription. */
@@ -2386,6 +2471,213 @@ export enum KnownSessionIncludeOption {
  * **file_search_call.results**: Include file search call results.
  */
 export type SessionIncludeOption = string;
+
+/**
+ * Send this event to update the session’s default configuration.
+ * The client may send this event at any time to update any field,
+ * except for `voice`. However, note that once a session has been
+ * initialized with a particular `model`, it can’t be changed to
+ * another model using `session.update`.
+ * When the server receives a `session.update`, it will respond
+ * with a `session.updated` event showing the full, effective configuration.
+ * Only the fields that are present are updated. To clear a field like
+ * `instructions`, pass an empty string.
+ */
+export interface ClientEventSessionUpdate extends ClientEvent {
+  /** The event type, must be `session.update`. */
+  type: "session.update";
+  session: RequestSession;
+}
+
+export function clientEventSessionUpdateSerializer(item: ClientEventSessionUpdate): any {
+  return {
+    type: item["type"],
+    event_id: item["eventId"],
+    session: requestSessionSerializer(item["session"]),
+  };
+}
+
+/** A voicelive client event. */
+export interface ClientEvent {
+  /** The type of event. */
+  /** The discriminator possible values: session.update, session.avatar.connect, input_audio.turn.start, input_audio.turn.append, input_audio.turn.end, input_audio.turn.cancel, input_audio.clear, input_text.delta, input_text.done, input_audio_buffer.append, input_audio_buffer.commit, input_audio_buffer.clear, conversation.item.create, conversation.item.truncate, conversation.item.delete, response.create, response.cancel, conversation.item.retrieve, output_audio_buffer.clear, rtc.call.sdp.create */
+  type: ClientEventType;
+  eventId?: string;
+}
+
+export function clientEventSerializer(item: ClientEvent): any {
+  return { type: item["type"], event_id: item["eventId"] };
+}
+
+/** Alias for ClientEventUnion */
+export type ClientEventUnion =
+  | ClientEventSessionUpdate
+  | ClientEventSessionAvatarConnect
+  | ClientEventInputAudioTurnStart
+  | ClientEventInputAudioTurnAppend
+  | ClientEventInputAudioTurnEnd
+  | ClientEventInputAudioTurnCancel
+  | ClientEventInputAudioClear
+  | ClientEventInputTextDelta
+  | ClientEventInputTextDone
+  | ClientEventInputAudioBufferAppend
+  | ClientEventInputAudioBufferCommit
+  | ClientEventInputAudioBufferClear
+  | ClientEventConversationItemCreate
+  | ClientEventConversationItemTruncate
+  | ClientEventConversationItemDelete
+  | ClientEventResponseCreate
+  | ClientEventResponseCancel
+  | ClientEventConversationItemRetrieve
+  | ClientEventOutputAudioBufferClear
+  | ClientEventRtcCallSdpCreate
+  | ClientEvent;
+
+export function clientEventUnionSerializer(item: ClientEventUnion): any {
+  switch (item.type) {
+    case "session.update":
+      return clientEventSessionUpdateSerializer(item as ClientEventSessionUpdate);
+
+    case "session.avatar.connect":
+      return clientEventSessionAvatarConnectSerializer(item as ClientEventSessionAvatarConnect);
+
+    case "input_audio.turn.start":
+      return clientEventInputAudioTurnStartSerializer(item as ClientEventInputAudioTurnStart);
+
+    case "input_audio.turn.append":
+      return clientEventInputAudioTurnAppendSerializer(item as ClientEventInputAudioTurnAppend);
+
+    case "input_audio.turn.end":
+      return clientEventInputAudioTurnEndSerializer(item as ClientEventInputAudioTurnEnd);
+
+    case "input_audio.turn.cancel":
+      return clientEventInputAudioTurnCancelSerializer(item as ClientEventInputAudioTurnCancel);
+
+    case "input_audio.clear":
+      return clientEventInputAudioClearSerializer(item as ClientEventInputAudioClear);
+
+    case "input_text.delta":
+      return clientEventInputTextDeltaSerializer(item as ClientEventInputTextDelta);
+
+    case "input_text.done":
+      return clientEventInputTextDoneSerializer(item as ClientEventInputTextDone);
+
+    case "input_audio_buffer.append":
+      return clientEventInputAudioBufferAppendSerializer(item as ClientEventInputAudioBufferAppend);
+
+    case "input_audio_buffer.commit":
+      return clientEventInputAudioBufferCommitSerializer(item as ClientEventInputAudioBufferCommit);
+
+    case "input_audio_buffer.clear":
+      return clientEventInputAudioBufferClearSerializer(item as ClientEventInputAudioBufferClear);
+
+    case "conversation.item.create":
+      return clientEventConversationItemCreateSerializer(item as ClientEventConversationItemCreate);
+
+    case "conversation.item.truncate":
+      return clientEventConversationItemTruncateSerializer(
+        item as ClientEventConversationItemTruncate,
+      );
+
+    case "conversation.item.delete":
+      return clientEventConversationItemDeleteSerializer(item as ClientEventConversationItemDelete);
+
+    case "response.create":
+      return clientEventResponseCreateSerializer(item as ClientEventResponseCreate);
+
+    case "response.cancel":
+      return clientEventResponseCancelSerializer(item as ClientEventResponseCancel);
+
+    case "conversation.item.retrieve":
+      return clientEventConversationItemRetrieveSerializer(
+        item as ClientEventConversationItemRetrieve,
+      );
+
+    case "output_audio_buffer.clear":
+      return clientEventOutputAudioBufferClearSerializer(item as ClientEventOutputAudioBufferClear);
+
+    case "rtc.call.sdp.create":
+      return clientEventRtcCallSdpCreateSerializer(item as ClientEventRtcCallSdpCreate);
+
+    default:
+      return clientEventSerializer(item);
+  }
+}
+
+/** Client event types used in VoiceLive protocol. */
+export enum KnownClientEventType {
+  /** session.update */
+  SessionUpdate = "session.update",
+  /** input_audio_buffer.append */
+  InputAudioBufferAppend = "input_audio_buffer.append",
+  /** input_audio_buffer.commit */
+  InputAudioBufferCommit = "input_audio_buffer.commit",
+  /** input_audio_buffer.clear */
+  InputAudioBufferClear = "input_audio_buffer.clear",
+  /** input_audio.turn.start */
+  InputAudioTurnStart = "input_audio.turn.start",
+  /** input_audio.turn.append */
+  InputAudioTurnAppend = "input_audio.turn.append",
+  /** input_audio.turn.end */
+  InputAudioTurnEnd = "input_audio.turn.end",
+  /** input_audio.turn.cancel */
+  InputAudioTurnCancel = "input_audio.turn.cancel",
+  /** input_audio.clear */
+  InputAudioClear = "input_audio.clear",
+  /** conversation.item.create */
+  ConversationItemCreate = "conversation.item.create",
+  /** conversation.item.retrieve */
+  ConversationItemRetrieve = "conversation.item.retrieve",
+  /** conversation.item.truncate */
+  ConversationItemTruncate = "conversation.item.truncate",
+  /** conversation.item.delete */
+  ConversationItemDelete = "conversation.item.delete",
+  /** response.create */
+  ResponseCreate = "response.create",
+  /** response.cancel */
+  ResponseCancel = "response.cancel",
+  /** session.avatar.connect */
+  SessionAvatarConnect = "session.avatar.connect",
+  /** mcp_approval_response */
+  McpApprovalResponse = "mcp_approval_response",
+  /** Client request to clear the avatar output buffer. */
+  OutputAudioBufferClear = "output_audio_buffer.clear",
+  /** Sent by the client to initiate a WebRTC session with an SDP offer. */
+  RtcCallSdpCreate = "rtc.call.sdp.create",
+  /** Streamed delta of input text content being appended to an item. */
+  InputTextDelta = "input_text.delta",
+  /** Signals that the streamed input text content for an item is complete. */
+  InputTextDone = "input_text.done",
+}
+
+/**
+ * Client event types used in VoiceLive protocol. \
+ * {@link KnownClientEventType} can be used interchangeably with ClientEventType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **session.update** \
+ * **input_audio_buffer.append** \
+ * **input_audio_buffer.commit** \
+ * **input_audio_buffer.clear** \
+ * **input_audio.turn.start** \
+ * **input_audio.turn.append** \
+ * **input_audio.turn.end** \
+ * **input_audio.turn.cancel** \
+ * **input_audio.clear** \
+ * **conversation.item.create** \
+ * **conversation.item.retrieve** \
+ * **conversation.item.truncate** \
+ * **conversation.item.delete** \
+ * **response.create** \
+ * **response.cancel** \
+ * **session.avatar.connect** \
+ * **mcp_approval_response** \
+ * **output_audio_buffer.clear**: Client request to clear the avatar output buffer. \
+ * **rtc.call.sdp.create**: Sent by the client to initiate a WebRTC session with an SDP offer. \
+ * **input_text.delta**: Streamed delta of input text content being appended to an item. \
+ * **input_text.done**: Signals that the streamed input text content for an item is complete.
+ */
+export type ClientEventType = string;
 
 /**
  * Sent when the client connects and provides its SDP (Session Description Protocol)
@@ -2474,6 +2766,47 @@ export interface ClientEventInputAudioClear extends ClientEvent {
 
 export function clientEventInputAudioClearSerializer(item: ClientEventInputAudioClear): any {
   return { type: item["type"], event_id: item["eventId"] };
+}
+
+/** Streams a delta of input text content into the specified item. */
+export interface ClientEventInputTextDelta extends ClientEvent {
+  /** The event type, must be `input_text.delta`. */
+  type: "input_text.delta";
+  /** The ID of the item the text delta is being appended to. */
+  id: string;
+  /** The text delta to append. */
+  delta: string;
+  /** The index of the content part within the item the delta applies to. */
+  contentIndex?: number;
+}
+
+export function clientEventInputTextDeltaSerializer(item: ClientEventInputTextDelta): any {
+  return {
+    type: item["type"],
+    event_id: item["eventId"],
+    id: item["id"],
+    delta: item["delta"],
+    content_index: item["contentIndex"],
+  };
+}
+
+/** Signals that the streamed input text content for the specified item is complete. */
+export interface ClientEventInputTextDone extends ClientEvent {
+  /** The event type, must be `input_text.done`. */
+  type: "input_text.done";
+  /** The ID of the item whose text content has finished streaming. */
+  id: string;
+  /** The index of the content part within the item. */
+  contentIndex?: number;
+}
+
+export function clientEventInputTextDoneSerializer(item: ClientEventInputTextDone): any {
+  return {
+    type: item["type"],
+    event_id: item["eventId"],
+    id: item["id"],
+    content_index: item["contentIndex"],
+  };
 }
 
 /**
@@ -3241,6 +3574,8 @@ export interface ResponseCreateParams {
   metadata?: Record<string, string>;
   /** Configuration for interim response generation during latency or tool calls. */
   interimResponse?: InterimResponseConfig;
+  /** Input data to invoke the hosted agent. This feature is in preview. */
+  invokeInput?: Record<string, any>;
 }
 
 export function responseCreateParamsSerializer(item: ResponseCreateParams): any {
@@ -3275,6 +3610,7 @@ export function responseCreateParamsSerializer(item: ResponseCreateParams): any 
     interim_response: !item["interimResponse"]
       ? item["interimResponse"]
       : interimResponseConfigSerializer(item["interimResponse"]),
+    invoke_input: item["invokeInput"],
   };
 }
 
@@ -3312,6 +3648,11 @@ export function responseCreateParamsDeserializer(item: any): ResponseCreateParam
     interimResponse: !item["interim_response"]
       ? item["interim_response"]
       : interimResponseConfigDeserializer(item["interim_response"]),
+    invokeInput: !item["invoke_input"]
+      ? item["invoke_input"]
+      : Object.fromEntries(
+          Object.entries(item["invoke_input"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
 
@@ -3396,121 +3737,23 @@ export function clientEventOutputAudioBufferClearSerializer(
   return { type: item["type"], event_id: item["eventId"] };
 }
 
-/** Base model for interim response configuration. */
-export interface InterimResponseConfigBase {
-  /** The type of interim response configuration. */
-  /** The discriminator possible values: static_interim_response, llm_interim_response */
-  type: InterimResponseConfigType;
-  /**
-   * List of triggers that can fire the interim response. Any trigger can activate it (OR logic).
-   * Supported: 'latency', 'tool'.
-   */
-  triggers?: InterimResponseTrigger[];
-  /** Latency threshold in milliseconds before triggering interim response. Default is 2000ms. */
-  latencyThresholdInMs?: number;
+/** Sent by the client to initiate a WebRTC session with an SDP offer. */
+export interface ClientEventRtcCallSdpCreate extends ClientEvent {
+  /** The event type, must be `rtc.call.sdp.create`. */
+  type: "rtc.call.sdp.create";
+  /** The SDP offer from the client for WebRTC negotiation. */
+  sdpOffer: string;
+  /** Optional initial session configuration. If provided, applied before the session is established. */
+  session?: RequestSession;
 }
 
-export function interimResponseConfigBaseSerializer(item: InterimResponseConfigBase): any {
+export function clientEventRtcCallSdpCreateSerializer(item: ClientEventRtcCallSdpCreate): any {
   return {
     type: item["type"],
-    triggers: !item["triggers"]
-      ? item["triggers"]
-      : item["triggers"].map((p: any) => {
-          return p;
-        }),
-    latency_threshold_ms: item["latencyThresholdInMs"],
+    event_id: item["eventId"],
+    sdp_offer: item["sdpOffer"],
+    session: !item["session"] ? item["session"] : requestSessionSerializer(item["session"]),
   };
-}
-
-export function interimResponseConfigBaseDeserializer(item: any): InterimResponseConfigBase {
-  return {
-    type: item["type"],
-    triggers: !item["triggers"]
-      ? item["triggers"]
-      : item["triggers"].map((p: any) => {
-          return p;
-        }),
-    latencyThresholdInMs: item["latency_threshold_ms"],
-  };
-}
-
-/** Alias for InterimResponseConfigBaseUnion */
-export type InterimResponseConfigBaseUnion =
-  | StaticInterimResponseConfig
-  | LlmInterimResponseConfig
-  | InterimResponseConfigBase;
-
-export function interimResponseConfigBaseUnionSerializer(
-  item: InterimResponseConfigBaseUnion,
-): any {
-  switch (item.type) {
-    case "static_interim_response":
-      return staticInterimResponseConfigSerializer(item as StaticInterimResponseConfig);
-
-    case "llm_interim_response":
-      return llmInterimResponseConfigSerializer(item as LlmInterimResponseConfig);
-
-    default:
-      return interimResponseConfigBaseSerializer(item);
-  }
-}
-
-export function interimResponseConfigBaseUnionDeserializer(
-  item: any,
-): InterimResponseConfigBaseUnion {
-  switch (item["type"]) {
-    case "static_interim_response":
-      return staticInterimResponseConfigDeserializer(item as StaticInterimResponseConfig);
-
-    case "llm_interim_response":
-      return llmInterimResponseConfigDeserializer(item as LlmInterimResponseConfig);
-
-    default:
-      return interimResponseConfigBaseDeserializer(item);
-  }
-}
-
-/** Interim response configuration types. */
-export enum KnownInterimResponseConfigType {
-  /** Static interim response configuration type. */
-  StaticInterimResponse = "static_interim_response",
-  /** LLM-based interim response configuration type. */
-  LlmInterimResponse = "llm_interim_response",
-}
-
-/**
- * Interim response configuration types. \
- * {@link KnownInterimResponseConfigType} can be used interchangeably with InterimResponseConfigType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **static_interim_response**: Static interim response configuration type. \
- * **llm_interim_response**: LLM-based interim response configuration type.
- */
-export type InterimResponseConfigType = string;
-
-/** Triggers that can activate interim response generation. */
-export enum KnownInterimResponseTrigger {
-  /** Trigger interim response when response latency exceeds threshold. */
-  Latency = "latency",
-  /** Trigger interim response when a tool call is being executed. */
-  Tool = "tool",
-}
-
-/**
- * Triggers that can activate interim response generation. \
- * {@link KnownInterimResponseTrigger} can be used interchangeably with InterimResponseTrigger,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **latency**: Trigger interim response when response latency exceeds threshold. \
- * **tool**: Trigger interim response when a tool call is being executed.
- */
-export type InterimResponseTrigger = string;
-
-/** VoiceLive session object configuration. */
-export interface SessionBase {}
-
-export function sessionBaseDeserializer(item: any): SessionBase {
-  return item;
 }
 
 /** The item to add to the conversation. */
@@ -3520,118 +3763,18 @@ export function conversationItemBaseSerializer(_item: ConversationItemBase): any
   return {};
 }
 
-/** The response resource. */
-export interface VoiceLiveResponse {
-  /** The unique ID of the response. */
-  id?: string;
-  /** The object type, must be `realtime.response`. */
-  object?: "realtime.response";
-  /**
-   * The final status of the response.
-   *
-   * One of: `completed`, `cancelled`, `failed`, `incomplete`, or `in_progress`.
-   */
-  status?: ResponseStatus;
-  /** Additional details about the status. */
-  statusDetails?: ResponseStatusDetailsUnion;
-  /** The list of output items generated by the response. */
-  output?: ResponseItemUnion[];
-  /**
-   * Usage statistics for the Response, this will correspond to billing. A
-   * VoiceLive API session will maintain a conversation context and append new
-   * Items to the Conversation, thus output from previous turns (text and
-   * audio tokens) will become the input for later turns.
-   */
-  usage?: TokenUsage;
-  /**
-   * Which conversation the response is added to, determined by the `conversation`
-   * field in the `response.create` event. If `auto`, the response will be added to
-   * the default conversation and the value of `conversation_id` will be an id like
-   * `conv_1234`. If `none`, the response will not be added to any conversation and
-   * the value of `conversation_id` will be `null`. If responses are being triggered
-   * by server VAD, the response will be added to the default conversation, thus
-   * the `conversation_id` will be an id like `conv_1234`.
-   */
-  conversationId?: string;
-  /** supported voice identifiers and configurations. */
-  voice?: Voice;
-  /**
-   * The set of modalities the model used to respond. If there are multiple modalities,
-   * the model will pick one, for example if `modalities` is `["text", "audio"]`, the model
-   * could be responding in either text or audio.
-   */
-  modalities?: Modality[];
-  /** The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`. */
-  outputAudioFormat?: OutputAudioFormat;
-  /** Sampling temperature for the model, limited to [0.6, 1.2]. Defaults to 0.8. */
-  temperature?: number;
-  /**
-   * Maximum number of output tokens for a single assistant response,
-   * inclusive of tool calls, that was used in this response.
-   */
-  maxOutputTokens?: number | "inf";
-  /**
-   * Set of up to 16 key-value pairs that can be attached to an object.
-   * This can be useful for storing additional information about the object in a structured format.
-   * Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long.
-   */
-  metadata?: Record<string, string>;
+/** Details for a cancelled response. */
+export interface ResponseCancelledDetails extends ResponseStatusDetails {
+  type: "cancelled";
+  reason: string;
 }
 
-export function voiceLiveResponseDeserializer(item: any): VoiceLiveResponse {
+export function responseCancelledDetailsDeserializer(item: any): ResponseCancelledDetails {
   return {
-    id: item["id"],
-    object: item["object"],
-    status: item["status"],
-    statusDetails: !item["status_details"]
-      ? item["status_details"]
-      : responseStatusDetailsUnionDeserializer(item["status_details"]),
-    output: !item["output"] ? item["output"] : responseItemUnionArrayDeserializer(item["output"]),
-    usage: !item["usage"] ? item["usage"] : tokenUsageDeserializer(item["usage"]),
-    conversationId: item["conversation_id"],
-    voice: !item["voice"] ? item["voice"] : voiceDeserializer(item["voice"]),
-    modalities: !item["modalities"]
-      ? item["modalities"]
-      : item["modalities"].map((p: any) => {
-          return p;
-        }),
-    outputAudioFormat: item["output_audio_format"],
-    temperature: item["temperature"],
-    maxOutputTokens: !item["max_output_tokens"]
-      ? item["max_output_tokens"]
-      : _responseMaxOutputTokensDeserializer(item["max_output_tokens"]),
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    type: item["type"],
+    reason: item["reason"],
   };
 }
-
-/** Terminal status of a response. */
-export enum KnownResponseStatus {
-  /** completed */
-  Completed = "completed",
-  /** cancelled */
-  Cancelled = "cancelled",
-  /** failed */
-  Failed = "failed",
-  /** incomplete */
-  Incomplete = "incomplete",
-  /** in_progress */
-  InProgress = "in_progress",
-}
-
-/**
- * Terminal status of a response. \
- * {@link KnownResponseStatus} can be used interchangeably with ResponseStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **completed** \
- * **cancelled** \
- * **failed** \
- * **incomplete** \
- * **in_progress**
- */
-export type ResponseStatus = string;
 
 /** Base for all non-success response details. */
 export interface ResponseStatusDetails {
@@ -3667,18 +3810,32 @@ export function responseStatusDetailsUnionDeserializer(item: any): ResponseStatu
   }
 }
 
-/** Details for a cancelled response. */
-export interface ResponseCancelledDetails extends ResponseStatusDetails {
-  type: "cancelled";
-  reason: string;
+/** Terminal status of a response. */
+export enum KnownResponseStatus {
+  /** completed */
+  Completed = "completed",
+  /** cancelled */
+  Cancelled = "cancelled",
+  /** failed */
+  Failed = "failed",
+  /** incomplete */
+  Incomplete = "incomplete",
+  /** in_progress */
+  InProgress = "in_progress",
 }
 
-export function responseCancelledDetailsDeserializer(item: any): ResponseCancelledDetails {
-  return {
-    type: item["type"],
-    reason: item["reason"],
-  };
-}
+/**
+ * Terminal status of a response. \
+ * {@link KnownResponseStatus} can be used interchangeably with ResponseStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **completed** \
+ * **cancelled** \
+ * **failed** \
+ * **incomplete** \
+ * **in_progress**
+ */
+export type ResponseStatus = string;
 
 /** Details for an incomplete response. */
 export interface ResponseIncompleteDetails extends ResponseStatusDetails {
@@ -3706,104 +3863,45 @@ export function responseFailedDetailsDeserializer(item: any): ResponseFailedDeta
   };
 }
 
-export function responseItemUnionArrayDeserializer(result: Array<ResponseItemUnion>): any[] {
-  return result.map((item) => {
-    return responseItemUnionDeserializer(item);
-  });
+/** Input image content part. */
+export interface RequestImageContentPart extends ContentPart {
+  type: "input_image";
+  imageUrl?: string;
+  detail?: RequestImageContentPartDetail;
 }
 
-/** Base for any response item; discriminated by `type`. */
-export interface ResponseItem {
-  type: ItemType;
-  id?: string;
-  object?: "realtime.item";
+export function requestImageContentPartSerializer(item: RequestImageContentPart): any {
+  return { type: item["type"], image_url: item["imageUrl"], detail: item["detail"] };
 }
 
-export function responseItemDeserializer(item: any): ResponseItem {
+export function requestImageContentPartDeserializer(item: any): RequestImageContentPart {
   return {
     type: item["type"],
-    id: item["id"],
-    object: item["object"],
+    imageUrl: item["image_url"],
+    detail: item["detail"],
   };
 }
 
-/** Alias for ResponseItemUnion */
-export type ResponseItemUnion =
-  | ResponseMessageItem
-  | ResponseFunctionCallItem
-  | ResponseFunctionCallOutputItem
-  | ResponseMCPListToolItem
-  | ResponseMCPCallItem
-  | ResponseMCPApprovalRequestItem
-  | ResponseMCPApprovalResponseItem
-  | ResponseWebSearchCallItem
-  | ResponseFileSearchCallItem
-  | ResponseItem;
-
-export function responseItemUnionDeserializer(item: any): ResponseItemUnion {
-  switch (item["type"]) {
-    case "message":
-      return responseMessageItemDeserializer(item as ResponseMessageItem);
-
-    case "function_call":
-      return responseFunctionCallItemDeserializer(item as ResponseFunctionCallItem);
-
-    case "function_call_output":
-      return responseFunctionCallOutputItemDeserializer(item as ResponseFunctionCallOutputItem);
-
-    case "mcp_list_tools":
-      return responseMCPListToolItemDeserializer(item as ResponseMCPListToolItem);
-
-    case "mcp_call":
-      return responseMCPCallItemDeserializer(item as ResponseMCPCallItem);
-
-    case "mcp_approval_request":
-      return responseMCPApprovalRequestItemDeserializer(item as ResponseMCPApprovalRequestItem);
-
-    case "mcp_approval_response":
-      return responseMCPApprovalResponseItemDeserializer(item as ResponseMCPApprovalResponseItem);
-
-    case "web_search_call":
-      return responseWebSearchCallItemDeserializer(item as ResponseWebSearchCallItem);
-
-    case "file_search_call":
-      return responseFileSearchCallItemDeserializer(item as ResponseFileSearchCallItem);
-
-    default:
-      return responseItemDeserializer(item);
-  }
+/** Specifies an image's detail level. Can be 'auto', 'low', 'high', or an unknown future value. */
+export enum KnownRequestImageContentPartDetail {
+  /** Automatically select an appropriate detail level. */
+  Auto = "auto",
+  /** Use a lower detail level to reduce bandwidth or cost. */
+  Low = "low",
+  /** Use a higher detail level—potentially more resource-intensive. */
+  High = "high",
 }
 
-/** Base type for message item within a conversation. */
-export interface ResponseMessageItem extends ResponseItem {
-  type: "message";
-  role: MessageRole;
-  content: ContentPartUnion[];
-  status: ResponseItemStatus;
-}
-
-export function responseMessageItemDeserializer(item: any): ResponseMessageItem {
-  return {
-    type: item["type"],
-    id: item["id"],
-    object: item["object"],
-    role: item["role"],
-    content: contentPartUnionArrayDeserializer(item["content"]),
-    status: item["status"],
-  };
-}
-
-export function contentPartUnionArraySerializer(result: Array<ContentPartUnion>): any[] {
-  return result.map((item) => {
-    return contentPartUnionSerializer(item);
-  });
-}
-
-export function contentPartUnionArrayDeserializer(result: Array<ContentPartUnion>): any[] {
-  return result.map((item) => {
-    return contentPartUnionDeserializer(item);
-  });
-}
+/**
+ * Specifies an image's detail level. Can be 'auto', 'low', 'high', or an unknown future value. \
+ * {@link KnownRequestImageContentPartDetail} can be used interchangeably with RequestImageContentPartDetail,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **auto**: Automatically select an appropriate detail level. \
+ * **low**: Use a lower detail level to reduce bandwidth or cost. \
+ * **high**: Use a higher detail level—potentially more resource-intensive.
+ */
+export type RequestImageContentPartDetail = string;
 
 /** Base for any content part; discriminated by `type`. */
 export interface ContentPart {
@@ -3866,46 +3964,6 @@ export function contentPartUnionDeserializer(item: any): ContentPartUnion {
       return contentPartDeserializer(item);
   }
 }
-
-/** Input image content part. */
-export interface RequestImageContentPart extends ContentPart {
-  type: "input_image";
-  url?: string;
-  detail?: RequestImageContentPartDetail;
-}
-
-export function requestImageContentPartSerializer(item: RequestImageContentPart): any {
-  return { type: item["type"], url: item["url"], detail: item["detail"] };
-}
-
-export function requestImageContentPartDeserializer(item: any): RequestImageContentPart {
-  return {
-    type: item["type"],
-    url: item["url"],
-    detail: item["detail"],
-  };
-}
-
-/** Specifies an image's detail level. Can be 'auto', 'low', 'high', or an unknown future value. */
-export enum KnownRequestImageContentPartDetail {
-  /** Automatically select an appropriate detail level. */
-  Auto = "auto",
-  /** Use a lower detail level to reduce bandwidth or cost. */
-  Low = "low",
-  /** Use a higher detail level—potentially more resource-intensive. */
-  High = "high",
-}
-
-/**
- * Specifies an image's detail level. Can be 'auto', 'low', 'high', or an unknown future value. \
- * {@link KnownRequestImageContentPartDetail} can be used interchangeably with RequestImageContentPartDetail,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **auto**: Automatically select an appropriate detail level. \
- * **low**: Use a lower detail level to reduce bandwidth or cost. \
- * **high**: Use a higher detail level—potentially more resource-intensive.
- */
-export type RequestImageContentPartDetail = string;
 
 /** A text content part for a request. */
 export interface RequestTextContentPart extends ContentPart {
@@ -3971,6 +4029,37 @@ export function responseAudioContentPartDeserializer(item: any): ResponseAudioCo
   };
 }
 
+/** Base type for message item within a conversation. */
+export interface ResponseMessageItem extends ResponseItem {
+  type: "message";
+  role: MessageRole;
+  content: ContentPartUnion[];
+  status: ResponseItemStatus;
+}
+
+export function responseMessageItemDeserializer(item: any): ResponseMessageItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    role: item["role"],
+    content: contentPartUnionArrayDeserializer(item["content"]),
+    status: item["status"],
+  };
+}
+
+export function contentPartUnionArraySerializer(result: Array<ContentPartUnion>): any[] {
+  return result.map((item) => {
+    return contentPartUnionSerializer(item);
+  });
+}
+
+export function contentPartUnionArrayDeserializer(result: Array<ContentPartUnion>): any[] {
+  return result.map((item) => {
+    return contentPartUnionDeserializer(item);
+  });
+}
+
 /** Indicates the processing status of a response item. */
 export enum KnownResponseItemStatus {
   /** Item that is in progress. */
@@ -3991,6 +4080,68 @@ export enum KnownResponseItemStatus {
  * **incomplete**: Item has been processed but is incomplete.
  */
 export type ResponseItemStatus = string;
+
+/** Base for any response item; discriminated by `type`. */
+export interface ResponseItem {
+  type: ItemType;
+  id?: string;
+  object?: "realtime.item";
+}
+
+export function responseItemDeserializer(item: any): ResponseItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+  };
+}
+
+/** Alias for ResponseItemUnion */
+export type ResponseItemUnion =
+  | ResponseMessageItem
+  | ResponseFunctionCallItem
+  | ResponseFunctionCallOutputItem
+  | ResponseMCPListToolItem
+  | ResponseMCPCallItem
+  | ResponseMCPApprovalRequestItem
+  | ResponseMCPApprovalResponseItem
+  | ResponseWebSearchCallItem
+  | ResponseFileSearchCallItem
+  | ResponseItem;
+
+export function responseItemUnionDeserializer(item: any): ResponseItemUnion {
+  switch (item["type"]) {
+    case "message":
+      return responseMessageItemDeserializer(item as ResponseMessageItem);
+
+    case "function_call":
+      return responseFunctionCallItemDeserializer(item as ResponseFunctionCallItem);
+
+    case "function_call_output":
+      return responseFunctionCallOutputItemDeserializer(item as ResponseFunctionCallOutputItem);
+
+    case "mcp_list_tools":
+      return responseMCPListToolItemDeserializer(item as ResponseMCPListToolItem);
+
+    case "mcp_call":
+      return responseMCPCallItemDeserializer(item as ResponseMCPCallItem);
+
+    case "mcp_approval_request":
+      return responseMCPApprovalRequestItemDeserializer(item as ResponseMCPApprovalRequestItem);
+
+    case "mcp_approval_response":
+      return responseMCPApprovalResponseItemDeserializer(item as ResponseMCPApprovalResponseItem);
+
+    case "web_search_call":
+      return responseWebSearchCallItemDeserializer(item as ResponseWebSearchCallItem);
+
+    case "file_search_call":
+      return responseFileSearchCallItemDeserializer(item as ResponseFileSearchCallItem);
+
+    default:
+      return responseItemDeserializer(item);
+  }
+}
 
 /** A function call item within a conversation. */
 export interface ResponseFunctionCallItem extends ResponseItem {
@@ -4245,27 +4396,21 @@ export function fileSearchResultDeserializer(item: any): FileSearchResult {
   };
 }
 
-/** Overall usage statistics for a response. */
-export interface TokenUsage {
-  /** Total number of tokens (input + output). */
-  totalTokens: number;
-  /** Number of input tokens. */
-  inputTokens: number;
-  /** Number of output tokens. */
-  outputTokens: number;
-  /** Detailed breakdown of input tokens. */
-  inputTokenDetails: InputTokenDetails;
-  /** Detailed breakdown of output tokens. */
-  outputTokenDetails: OutputTokenDetails;
+/** Details of output token usage. */
+export interface CachedTokenDetails {
+  /** Number of cached text tokens. */
+  textTokens: number;
+  /** Number of cached audio tokens. */
+  audioTokens: number;
+  /** Number of cached image tokens. */
+  imageTokens: number;
 }
 
-export function tokenUsageDeserializer(item: any): TokenUsage {
+export function cachedTokenDetailsDeserializer(item: any): CachedTokenDetails {
   return {
-    totalTokens: item["total_tokens"],
-    inputTokens: item["input_tokens"],
-    outputTokens: item["output_tokens"],
-    inputTokenDetails: inputTokenDetailsDeserializer(item["input_token_details"]),
-    outputTokenDetails: outputTokenDetailsDeserializer(item["output_token_details"]),
+    textTokens: item["text_tokens"],
+    audioTokens: item["audio_tokens"],
+    imageTokens: item["image_tokens"],
   };
 }
 
@@ -4294,24 +4439,6 @@ export function inputTokenDetailsDeserializer(item: any): InputTokenDetails {
 }
 
 /** Details of output token usage. */
-export interface CachedTokenDetails {
-  /** Number of cached text tokens. */
-  textTokens: number;
-  /** Number of cached audio tokens. */
-  audioTokens: number;
-  /** Number of cached image tokens. */
-  imageTokens: number;
-}
-
-export function cachedTokenDetailsDeserializer(item: any): CachedTokenDetails {
-  return {
-    textTokens: item["text_tokens"],
-    audioTokens: item["audio_tokens"],
-    imageTokens: item["image_tokens"],
-  };
-}
-
-/** Details of output token usage. */
 export interface OutputTokenDetails {
   /** Number of text tokens generated in the output. */
   textTokens: number;
@@ -4329,6 +4456,122 @@ export function outputTokenDetailsDeserializer(item: any): OutputTokenDetails {
   };
 }
 
+/** Overall usage statistics for a response. */
+export interface TokenUsage {
+  /** Total number of tokens (input + output). */
+  totalTokens: number;
+  /** Number of input tokens. */
+  inputTokens: number;
+  /** Number of output tokens. */
+  outputTokens: number;
+  /** Detailed breakdown of input tokens. */
+  inputTokenDetails: InputTokenDetails;
+  /** Detailed breakdown of output tokens. */
+  outputTokenDetails: OutputTokenDetails;
+}
+
+export function tokenUsageDeserializer(item: any): TokenUsage {
+  return {
+    totalTokens: item["total_tokens"],
+    inputTokens: item["input_tokens"],
+    outputTokens: item["output_tokens"],
+    inputTokenDetails: inputTokenDetailsDeserializer(item["input_token_details"]),
+    outputTokenDetails: outputTokenDetailsDeserializer(item["output_token_details"]),
+  };
+}
+
+/** The response resource. */
+export interface VoiceLiveResponse {
+  /** The unique ID of the response. */
+  id?: string;
+  /** The object type, must be `realtime.response`. */
+  object?: "realtime.response";
+  /**
+   * The final status of the response.
+   *
+   * One of: `completed`, `cancelled`, `failed`, `incomplete`, or `in_progress`.
+   */
+  status?: ResponseStatus;
+  /** Additional details about the status. */
+  statusDetails?: ResponseStatusDetailsUnion;
+  /** The list of output items generated by the response. */
+  output?: ResponseItemUnion[];
+  /**
+   * Usage statistics for the Response, this will correspond to billing. A
+   * VoiceLive API session will maintain a conversation context and append new
+   * Items to the Conversation, thus output from previous turns (text and
+   * audio tokens) will become the input for later turns.
+   */
+  usage?: TokenUsage;
+  /**
+   * Which conversation the response is added to, determined by the `conversation`
+   * field in the `response.create` event. If `auto`, the response will be added to
+   * the default conversation and the value of `conversation_id` will be an id like
+   * `conv_1234`. If `none`, the response will not be added to any conversation and
+   * the value of `conversation_id` will be `null`. If responses are being triggered
+   * by server VAD, the response will be added to the default conversation, thus
+   * the `conversation_id` will be an id like `conv_1234`.
+   */
+  conversationId?: string;
+  /** supported voice identifiers and configurations. */
+  voice?: Voice;
+  /**
+   * The set of modalities the model used to respond. If there are multiple modalities,
+   * the model will pick one, for example if `modalities` is `["text", "audio"]`, the model
+   * could be responding in either text or audio.
+   */
+  modalities?: Modality[];
+  /** The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`. */
+  outputAudioFormat?: OutputAudioFormat;
+  /** Sampling temperature for the model, limited to [0.6, 1.2]. Defaults to 0.8. */
+  temperature?: number;
+  /**
+   * Maximum number of output tokens for a single assistant response,
+   * inclusive of tool calls, that was used in this response.
+   */
+  maxOutputTokens?: number | "inf";
+  /**
+   * Set of up to 16 key-value pairs that can be attached to an object.
+   * This can be useful for storing additional information about the object in a structured format.
+   * Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long.
+   */
+  metadata?: Record<string, string>;
+}
+
+export function voiceLiveResponseDeserializer(item: any): VoiceLiveResponse {
+  return {
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    statusDetails: !item["status_details"]
+      ? item["status_details"]
+      : responseStatusDetailsUnionDeserializer(item["status_details"]),
+    output: !item["output"] ? item["output"] : responseItemUnionArrayDeserializer(item["output"]),
+    usage: !item["usage"] ? item["usage"] : tokenUsageDeserializer(item["usage"]),
+    conversationId: item["conversation_id"],
+    voice: !item["voice"] ? item["voice"] : voiceDeserializer(item["voice"]),
+    modalities: !item["modalities"]
+      ? item["modalities"]
+      : item["modalities"].map((p: any) => {
+          return p;
+        }),
+    outputAudioFormat: item["output_audio_format"],
+    temperature: item["temperature"],
+    maxOutputTokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _responseMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+export function responseItemUnionArrayDeserializer(result: Array<ResponseItemUnion>): any[] {
+  return result.map((item) => {
+    return responseItemUnionDeserializer(item);
+  });
+}
+
 /** Alias for _ResponseMaxOutputTokens */
 export type _ResponseMaxOutputTokens = number | "inf";
 
@@ -4336,10 +4579,54 @@ export function _responseMaxOutputTokensDeserializer(item: any): _ResponseMaxOut
   return item;
 }
 
+/** Details of the error. */
+export interface ServerEventErrorDetails {
+  /** The type of error (e.g., "invalid_request_error", "server_error"). */
+  type: string;
+  /** Error code, if any. */
+  code?: string;
+  /** A human-readable error message. */
+  message: string;
+  /** Parameter related to the error, if any. */
+  param?: string;
+  /** The event_id of the client event that caused the error, if applicable. */
+  eventId?: string;
+}
+
+export function serverEventErrorDetailsDeserializer(item: any): ServerEventErrorDetails {
+  return {
+    type: item["type"],
+    code: item["code"],
+    message: item["message"],
+    param: item["param"],
+    eventId: item["event_id"],
+  };
+}
+
+/**
+ * Returned when an error occurs, which could be a client problem or a server
+ * problem. Most errors are recoverable and the session will stay open, we
+ * recommend to implementors to monitor and log error messages by default.
+ */
+export interface ServerEventError extends ServerEvent {
+  /** The event type, must be `error`. */
+  type: "error";
+  /** Details of the error. */
+  error: ServerEventErrorDetails;
+}
+
+export function serverEventErrorDeserializer(item: any): ServerEventError {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    error: serverEventErrorDetailsDeserializer(item["error"]),
+  };
+}
+
 /** A voicelive server event. */
 export interface ServerEvent {
   /** The type of event. */
-  /** The discriminator possible values: error, warning, session.created, session.updated, session.avatar.connecting, input_audio_buffer.committed, input_audio_buffer.cleared, input_audio_buffer.speech_started, input_audio_buffer.speech_stopped, conversation.item.created, conversation.item.input_audio_transcription.completed, conversation.item.input_audio_transcription.failed, conversation.item.truncated, conversation.item.deleted, response.created, response.done, response.output_item.added, response.output_item.done, response.content_part.added, response.content_part.done, response.text.delta, response.text.done, response.audio_transcript.delta, response.audio_transcript.done, response.audio.delta, response.audio.done, response.animation_blendshapes.delta, response.animation_blendshapes.done, response.audio_timestamp.delta, response.audio_timestamp.done, response.animation_viseme.delta, response.animation_viseme.done, conversation.item.input_audio_transcription.delta, conversation.item.retrieved, response.function_call_arguments.delta, response.function_call_arguments.done, mcp_list_tools.in_progress, mcp_list_tools.completed, mcp_list_tools.failed, response.mcp_call_arguments.delta, response.mcp_call_arguments.done, response.mcp_call.in_progress, response.mcp_call.completed, response.mcp_call.failed, session.avatar.switch_to_speaking, session.avatar.switch_to_idle, response.video.delta, response.web_search_call.searching, response.web_search_call.in_progress, response.web_search_call.completed, response.file_search_call.searching, response.file_search_call.in_progress, response.file_search_call.completed, output_audio_buffer.cleared, response.audio_transcript.annotation.added */
+  /** The discriminator possible values: error, warning, session.created, session.updated, session.avatar.connecting, input_audio_buffer.committed, input_audio_buffer.cleared, input_audio_buffer.speech_started, input_audio_buffer.speech_stopped, conversation.item.created, conversation.item.input_audio_transcription.completed, conversation.item.input_audio_transcription.failed, conversation.item.truncated, conversation.item.deleted, response.created, response.done, response.output_item.added, response.output_item.done, response.content_part.added, response.content_part.done, response.text.delta, response.text.done, response.audio_transcript.delta, response.audio_transcript.done, response.audio.delta, response.audio.done, response.animation_blendshapes.delta, response.animation_blendshapes.done, response.audio_timestamp.delta, response.audio_timestamp.done, response.animation_viseme.delta, response.animation_viseme.done, conversation.item.input_audio_transcription.delta, conversation.item.retrieved, response.function_call_arguments.delta, response.function_call_arguments.done, mcp_list_tools.in_progress, mcp_list_tools.completed, mcp_list_tools.failed, response.mcp_call_arguments.delta, response.mcp_call_arguments.done, response.mcp_call.in_progress, response.mcp_call.completed, response.mcp_call.failed, session.avatar.switch_to_speaking, session.avatar.switch_to_idle, response.video.delta, response.web_search_call.searching, response.web_search_call.in_progress, response.web_search_call.completed, response.file_search_call.searching, response.file_search_call.in_progress, response.file_search_call.completed, output_audio_buffer.cleared, response.audio_transcript.annotation.added, response.invocation.delta, rtc.call.sdp.created, rtc.call.error, output_audio_buffer.started, output_audio_buffer.stopped */
   type: ServerEventType;
   eventId?: string;
 }
@@ -4408,6 +4695,11 @@ export type ServerEventUnion =
   | ServerEventResponseFileSearchCallCompleted
   | ServerEventOutputAudioBufferCleared
   | ServerEventResponseAudioTranscriptAnnotationAdded
+  | ServerEventResponseInvocationDelta
+  | ServerEventRtcCallSdpCreated
+  | ServerEventRtcCallError
+  | ServerEventOutputAudioBufferStarted
+  | ServerEventOutputAudioBufferStopped
   | ServerEvent;
 
 export function serverEventUnionDeserializer(item: any): ServerEventUnion {
@@ -4659,6 +4951,27 @@ export function serverEventUnionDeserializer(item: any): ServerEventUnion {
         item as ServerEventResponseAudioTranscriptAnnotationAdded,
       );
 
+    case "response.invocation.delta":
+      return serverEventResponseInvocationDeltaDeserializer(
+        item as ServerEventResponseInvocationDelta,
+      );
+
+    case "rtc.call.sdp.created":
+      return serverEventRtcCallSdpCreatedDeserializer(item as ServerEventRtcCallSdpCreated);
+
+    case "rtc.call.error":
+      return serverEventRtcCallErrorDeserializer(item as ServerEventRtcCallError);
+
+    case "output_audio_buffer.started":
+      return serverEventOutputAudioBufferStartedDeserializer(
+        item as ServerEventOutputAudioBufferStarted,
+      );
+
+    case "output_audio_buffer.stopped":
+      return serverEventOutputAudioBufferStoppedDeserializer(
+        item as ServerEventOutputAudioBufferStopped,
+      );
+
     default:
       return serverEventDeserializer(item);
   }
@@ -4776,6 +5089,16 @@ export enum KnownServerEventType {
   OutputAudioBufferCleared = "output_audio_buffer.cleared",
   /** Audio transcript annotation added. */
   ResponseAudioTranscriptAnnotationAdded = "response.audio_transcript.annotation.added",
+  /** Invocation passthrough delta from hosted agent. */
+  ResponseInvocationDelta = "response.invocation.delta",
+  /** Returned when the WebRTC SDP negotiation completes successfully. */
+  RtcCallSdpCreated = "rtc.call.sdp.created",
+  /** Returned when a WebRTC call operation fails. */
+  RtcCallError = "rtc.call.error",
+  /** Output audio buffer playback started. */
+  OutputAudioBufferStarted = "output_audio_buffer.started",
+  /** Output audio buffer playback stopped. */
+  OutputAudioBufferStopped = "output_audio_buffer.stopped",
 }
 
 /**
@@ -4837,53 +5160,14 @@ export enum KnownServerEventType {
  * **response.file_search_call.in_progress**: File search call is in progress. \
  * **response.file_search_call.completed**: File search call completed. \
  * **output_audio_buffer.cleared**: Output audio buffer has been cleared. \
- * **response.audio_transcript.annotation.added**: Audio transcript annotation added.
+ * **response.audio_transcript.annotation.added**: Audio transcript annotation added. \
+ * **response.invocation.delta**: Invocation passthrough delta from hosted agent. \
+ * **rtc.call.sdp.created**: Returned when the WebRTC SDP negotiation completes successfully. \
+ * **rtc.call.error**: Returned when a WebRTC call operation fails. \
+ * **output_audio_buffer.started**: Output audio buffer playback started. \
+ * **output_audio_buffer.stopped**: Output audio buffer playback stopped.
  */
 export type ServerEventType = string;
-
-/**
- * Returned when an error occurs, which could be a client problem or a server
- * problem. Most errors are recoverable and the session will stay open, we
- * recommend to implementors to monitor and log error messages by default.
- */
-export interface ServerEventError extends ServerEvent {
-  /** The event type, must be `error`. */
-  type: "error";
-  /** Details of the error. */
-  error: ServerEventErrorDetails;
-}
-
-export function serverEventErrorDeserializer(item: any): ServerEventError {
-  return {
-    type: item["type"],
-    eventId: item["event_id"],
-    error: serverEventErrorDetailsDeserializer(item["error"]),
-  };
-}
-
-/** Details of the error. */
-export interface ServerEventErrorDetails {
-  /** The type of error (e.g., "invalid_request_error", "server_error"). */
-  type: string;
-  /** Error code, if any. */
-  code?: string;
-  /** A human-readable error message. */
-  message: string;
-  /** Parameter related to the error, if any. */
-  param?: string;
-  /** The event_id of the client event that caused the error, if applicable. */
-  eventId?: string;
-}
-
-export function serverEventErrorDetailsDeserializer(item: any): ServerEventErrorDetails {
-  return {
-    type: item["type"],
-    code: item["code"],
-    message: item["message"],
-    param: item["param"],
-    eventId: item["event_id"],
-  };
-}
 
 /**
  * Returned when a warning occurs that does not interrupt the conversation flow.
@@ -4981,6 +5265,8 @@ export interface ResponseSession {
   tools?: ToolUnion[];
   /** Specifies which tools the model is allowed to call during the session. */
   toolChoice?: ToolChoice;
+  /** Whether the model is allowed to call tools in parallel. */
+  parallelToolCalls?: boolean;
   /** Controls the randomness of the model's output. Range: 0.0 to 1.0. Default is 0.7. */
   temperature?: number;
   /** Maximum number of tokens to generate in the response. Default is unlimited. */
@@ -5044,6 +5330,7 @@ export function responseSessionSerializer(item: ResponseSession): any {
     tool_choice: !item["toolChoice"]
       ? item["toolChoice"]
       : toolChoiceSerializer(item["toolChoice"]),
+    parallel_tool_calls: item["parallelToolCalls"],
     temperature: item["temperature"],
     max_response_output_tokens: !item["maxResponseOutputTokens"]
       ? item["maxResponseOutputTokens"]
@@ -5099,6 +5386,7 @@ export function responseSessionDeserializer(item: any): ResponseSession {
     toolChoice: !item["tool_choice"]
       ? item["tool_choice"]
       : toolChoiceDeserializer(item["tool_choice"]),
+    parallelToolCalls: item["parallel_tool_calls"],
     temperature: item["temperature"],
     maxResponseOutputTokens: !item["max_response_output_tokens"]
       ? item["max_response_output_tokens"]
@@ -6562,6 +6850,119 @@ export function serverEventResponseAudioTranscriptAnnotationAddedDeserializer(
     contentIndex: item["content_index"],
     annotationIndex: item["annotation_index"],
     annotation: item["annotation"],
+  };
+}
+
+/** Returned when a hosted agent invocation produces a non-speech SSE event, passed through as-is. */
+export interface ServerEventResponseInvocationDelta extends ServerEvent {
+  /** The event type, must be `response.invocation.delta`. */
+  type: "response.invocation.delta";
+  /** The raw event data from the hosted agent invocation. */
+  delta: Record<string, any>;
+}
+
+export function serverEventResponseInvocationDeltaDeserializer(
+  item: any,
+): ServerEventResponseInvocationDelta {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    delta: Object.fromEntries(Object.entries(item["delta"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** Returned when the WebRTC SDP negotiation completes successfully. */
+export interface ServerEventRtcCallSdpCreated extends ServerEvent {
+  /** The event type, must be `rtc.call.sdp.created`. */
+  type: "rtc.call.sdp.created";
+  /** The unique identifier for this RTC call session. */
+  rtcCallId: string;
+  /** The SDP answer from the server for WebRTC negotiation. */
+  sdpAnswer: string;
+}
+
+export function serverEventRtcCallSdpCreatedDeserializer(item: any): ServerEventRtcCallSdpCreated {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    rtcCallId: item["rtc_call_id"],
+    sdpAnswer: item["sdp_answer"],
+  };
+}
+
+/** Returned when a WebRTC call operation fails. */
+export interface ServerEventRtcCallError extends ServerEvent {
+  /** The event type, must be `rtc.call.error`. */
+  type: "rtc.call.error";
+  /** The operation that caused the error (e.g., `rtc.call.sdp.create`). */
+  operation?: string;
+  /** The RTC call identifier, if available. */
+  rtcCallId?: string;
+  /** The error details. */
+  error: RtcCallErrorDetails;
+}
+
+export function serverEventRtcCallErrorDeserializer(item: any): ServerEventRtcCallError {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    operation: item["operation"],
+    rtcCallId: item["rtc_call_id"],
+    error: rtcCallErrorDetailsDeserializer(item["error"]),
+  };
+}
+
+/** Error details for RTC call errors. */
+export interface RtcCallErrorDetails {
+  /** The error category: `invalid_request_error` or `server_error`. */
+  type: string;
+  /** A machine-readable error code. */
+  code?: string;
+  /** A human-readable error description. */
+  message: string;
+}
+
+export function rtcCallErrorDetailsDeserializer(item: any): RtcCallErrorDetails {
+  return {
+    type: item["type"],
+    code: item["code"],
+    message: item["message"],
+  };
+}
+
+/** Returned when model audio output starts playing. */
+export interface ServerEventOutputAudioBufferStarted extends ServerEvent {
+  /** The event type, must be `output_audio_buffer.started`. */
+  type: "output_audio_buffer.started";
+  /** The ID of the response whose audio started playing. */
+  responseId?: string;
+}
+
+export function serverEventOutputAudioBufferStartedDeserializer(
+  item: any,
+): ServerEventOutputAudioBufferStarted {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    responseId: item["response_id"],
+  };
+}
+
+/** Returned when model audio output finishes playing. */
+export interface ServerEventOutputAudioBufferStopped extends ServerEvent {
+  /** The event type, must be `output_audio_buffer.stopped`. */
+  type: "output_audio_buffer.stopped";
+  /** The ID of the response whose audio stopped playing. */
+  responseId?: string;
+}
+
+export function serverEventOutputAudioBufferStoppedDeserializer(
+  item: any,
+): ServerEventOutputAudioBufferStopped {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    responseId: item["response_id"],
   };
 }
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update Cognitive Services project connection under the specified project.
  *
  * @summary update Cognitive Services project connection under the specified project.
- * x-ms-original-file: 2026-01-15-preview/ProjectConnection/update.json
+ * x-ms-original-file: 2026-03-15-preview/ProjectConnection/update.json
  */
 async function updateProjectConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
