@@ -1,16 +1,6 @@
 # Release History
 
-## 12.0.0-beta.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 12.0.0-preview.5 (Unreleased)
+## 12.0.1-beta.1 (Unreleased)
 
 ### Features Added
 
