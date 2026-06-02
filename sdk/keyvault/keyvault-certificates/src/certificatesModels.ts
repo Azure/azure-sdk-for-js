@@ -16,7 +16,7 @@ import type {
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "2026-03-01-preview";
+export const LATEST_API_VERSION = "2025-07-01";
 
 /**
  * The optional parameters accepted by the KeyVault's CertificateClient
