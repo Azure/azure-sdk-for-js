@@ -77,8 +77,6 @@ Compared with version 2.0.0
   - Operation Monitors.beginCreateOrUpdateAndWait has a new signature
   - Operation Monitors.get has a new signature
   - Operation Monitors.update has a new signature
-  - Class DynatraceObservability no longer has parameter apiVersion
-  - Class DynatraceObservability no longer has parameter subscriptionId
   - Removed Interface AppServiceListResponse
   - Removed Interface LinkableEnvironmentListResponse
   - Removed Interface MonitoredResourceListResponse
