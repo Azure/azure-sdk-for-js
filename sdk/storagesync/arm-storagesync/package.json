@@ -48,18 +48,18 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
-    "./api/operationStatus": {
+    "./api/operationStatusOperations": {
       "browser": {
-        "types": "./dist/browser/api/operationStatus/index.d.ts",
-        "default": "./dist/browser/api/operationStatus/index.js"
+        "types": "./dist/browser/api/operationStatusOperations/index.d.ts",
+        "default": "./dist/browser/api/operationStatusOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/operationStatus/index.d.ts",
-        "default": "./dist/esm/api/operationStatus/index.js"
+        "types": "./dist/esm/api/operationStatusOperations/index.d.ts",
+        "default": "./dist/esm/api/operationStatusOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/operationStatus/index.d.ts",
-        "default": "./dist/commonjs/api/operationStatus/index.js"
+        "types": "./dist/commonjs/api/operationStatusOperations/index.d.ts",
+        "default": "./dist/commonjs/api/operationStatusOperations/index.js"
       }
     },
     "./api/privateLinkResources": {

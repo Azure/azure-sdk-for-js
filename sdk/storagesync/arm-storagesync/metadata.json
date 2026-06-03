@@ -130,7 +130,7 @@
       "@azure/arm-storagesync!KnownVersions:enum": "Microsoft.StorageSync.Versions",
       "@azure/arm-storagesync!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
       "@azure/arm-storagesync!MicrosoftStorageSync#LocationOperationStatus:member(1)": "Microsoft.StorageSync.locationOperationStatusGet",
-      "@azure/arm-storagesync!OperationStatusOperations#get:member": "Microsoft.StorageSync.OperationStatusOperationGroup.get",
+      "@azure/arm-storagesync!OperationStatusOperationsOperations#get:member": "Microsoft.StorageSync.OperationStatusOperationGroup.get",
       "@azure/arm-storagesync!PrivateLinkResourcesOperations#listByStorageSyncService:member": "Microsoft.StorageSync.StorageSyncServices.listByStorageSyncService",
       "@azure/arm-storagesync!WorkflowsOperations#abort:member": "Microsoft.StorageSync.Workflows.abort",
       "@azure/arm-storagesync!WorkflowsOperations#listByStorageSyncService:member": "Microsoft.StorageSync.Workflows.listByStorageSyncService",

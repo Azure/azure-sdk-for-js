@@ -25,6 +25,8 @@ import type {
   TriggerRolloverRequest,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RegisteredServers operations. */
@@ -37,6 +39,22 @@ export interface RegisteredServersOperations {
     parameters: TriggerRolloverRequest,
     options?: RegisteredServersTriggerRolloverOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use triggerRollover instead */
+  beginTriggerRollover: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    serverId: string,
+    parameters: TriggerRolloverRequest,
+    options?: RegisteredServersTriggerRolloverOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use triggerRollover instead */
+  beginTriggerRolloverAndWait: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    serverId: string,
+    parameters: TriggerRolloverRequest,
+    options?: RegisteredServersTriggerRolloverOptionalParams,
+  ) => Promise<void>;
   /** Get a given registered server list. */
   listByStorageSyncService: (
     resourceGroupName: string,
@@ -50,6 +68,20 @@ export interface RegisteredServersOperations {
     serverId: string,
     options?: RegisteredServersDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    serverId: string,
+    options?: RegisteredServersDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    serverId: string,
+    options?: RegisteredServersDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update registered server. */
   update: (
     resourceGroupName: string,
@@ -58,6 +90,22 @@ export interface RegisteredServersOperations {
     parameters: RegisteredServerUpdateParameters,
     options?: RegisteredServersUpdateOptionalParams,
   ) => PollerLike<OperationState<RegisteredServer>, RegisteredServer>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    serverId: string,
+    parameters: RegisteredServerUpdateParameters,
+    options?: RegisteredServersUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<RegisteredServer>, RegisteredServer>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    serverId: string,
+    parameters: RegisteredServerUpdateParameters,
+    options?: RegisteredServersUpdateOptionalParams,
+  ) => Promise<RegisteredServer>;
   /** Add a new registered server. */
   create: (
     resourceGroupName: string,
@@ -66,6 +114,22 @@ export interface RegisteredServersOperations {
     parameters: RegisteredServerCreateParameters,
     options?: RegisteredServersCreateOptionalParams,
   ) => PollerLike<OperationState<RegisteredServer>, RegisteredServer>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    serverId: string,
+    parameters: RegisteredServerCreateParameters,
+    options?: RegisteredServersCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<RegisteredServer>, RegisteredServer>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    serverId: string,
+    parameters: RegisteredServerCreateParameters,
+    options?: RegisteredServersCreateOptionalParams,
+  ) => Promise<RegisteredServer>;
   /** Get a given registered server. */
   get: (
     resourceGroupName: string,
@@ -92,6 +156,40 @@ function _getRegisteredServers(context: MicrosoftStorageSyncContext) {
         parameters,
         options,
       ),
+    beginTriggerRollover: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      serverId: string,
+      parameters: TriggerRolloverRequest,
+      options?: RegisteredServersTriggerRolloverOptionalParams,
+    ) => {
+      const poller = triggerRollover(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        serverId,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginTriggerRolloverAndWait: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      serverId: string,
+      parameters: TriggerRolloverRequest,
+      options?: RegisteredServersTriggerRolloverOptionalParams,
+    ) => {
+      return await triggerRollover(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        serverId,
+        parameters,
+        options,
+      );
+    },
     listByStorageSyncService: (
       resourceGroupName: string,
       storageSyncServiceName: string,
@@ -103,6 +201,24 @@ function _getRegisteredServers(context: MicrosoftStorageSyncContext) {
       serverId: string,
       options?: RegisteredServersDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, storageSyncServiceName, serverId, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      serverId: string,
+      options?: RegisteredServersDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, storageSyncServiceName, serverId, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      serverId: string,
+      options?: RegisteredServersDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, storageSyncServiceName, serverId, options);
+    },
     update: (
       resourceGroupName: string,
       storageSyncServiceName: string,
@@ -110,6 +226,40 @@ function _getRegisteredServers(context: MicrosoftStorageSyncContext) {
       parameters: RegisteredServerUpdateParameters,
       options?: RegisteredServersUpdateOptionalParams,
     ) => update(context, resourceGroupName, storageSyncServiceName, serverId, parameters, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      serverId: string,
+      parameters: RegisteredServerUpdateParameters,
+      options?: RegisteredServersUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        serverId,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      serverId: string,
+      parameters: RegisteredServerUpdateParameters,
+      options?: RegisteredServersUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        serverId,
+        parameters,
+        options,
+      );
+    },
     create: (
       resourceGroupName: string,
       storageSyncServiceName: string,
@@ -117,6 +267,40 @@ function _getRegisteredServers(context: MicrosoftStorageSyncContext) {
       parameters: RegisteredServerCreateParameters,
       options?: RegisteredServersCreateOptionalParams,
     ) => create(context, resourceGroupName, storageSyncServiceName, serverId, parameters, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      serverId: string,
+      parameters: RegisteredServerCreateParameters,
+      options?: RegisteredServersCreateOptionalParams,
+    ) => {
+      const poller = create(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        serverId,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      serverId: string,
+      parameters: RegisteredServerCreateParameters,
+      options?: RegisteredServersCreateOptionalParams,
+    ) => {
+      return await create(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        serverId,
+        parameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       storageSyncServiceName: string,

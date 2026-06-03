@@ -10,6 +10,7 @@ import type {
 } from "./static-helpers/pagingHelpers.js";
 
 export { MicrosoftStorageSync } from "./microsoftStorageSync.js";
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
@@ -168,7 +169,7 @@ export type {
   CloudEndpointsGetOptionalParams,
 } from "./api/cloudEndpoints/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
-export type { OperationStatusGetOptionalParams } from "./api/operationStatus/index.js";
+export type { OperationStatusOperationsGetOptionalParams } from "./api/operationStatusOperations/index.js";
 export type {
   PrivateEndpointConnectionsListByStorageSyncServiceOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
@@ -215,7 +216,7 @@ export type {
 export type {
   CloudEndpointsOperations,
   OperationsOperations,
-  OperationStatusOperations,
+  OperationStatusOperationsOperations,
   PrivateEndpointConnectionsOperations,
   PrivateLinkResourcesOperations,
   RegisteredServersOperations,

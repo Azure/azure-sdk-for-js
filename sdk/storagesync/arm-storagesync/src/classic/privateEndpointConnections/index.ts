@@ -16,6 +16,8 @@ import type {
 } from "../../api/privateEndpointConnections/options.js";
 import type { PrivateEndpointConnection } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateEndpointConnections operations. */
@@ -33,6 +35,20 @@ export interface PrivateEndpointConnectionsOperations {
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update the state of specified private endpoint connection associated with the storage sync service. */
   create: (
     resourceGroupName: string,
@@ -41,6 +57,24 @@ export interface PrivateEndpointConnectionsOperations {
     properties: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOptionalParams,
   ) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    privateEndpointConnectionName: string,
+    properties: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionsCreateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>
+  >;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    privateEndpointConnectionName: string,
+    properties: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionsCreateOptionalParams,
+  ) => Promise<PrivateEndpointConnection>;
   /** Gets the specified private endpoint connection associated with the storage sync service. */
   get: (
     resourceGroupName: string,
@@ -70,6 +104,36 @@ function _getPrivateEndpointConnections(context: MicrosoftStorageSyncContext) {
         privateEndpointConnectionName,
         options,
       ),
+    beginDelete: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      privateEndpointConnectionName: string,
+      options?: PrivateEndpointConnectionsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        privateEndpointConnectionName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      privateEndpointConnectionName: string,
+      options?: PrivateEndpointConnectionsDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        privateEndpointConnectionName,
+        options,
+      );
+    },
     create: (
       resourceGroupName: string,
       storageSyncServiceName: string,
@@ -85,6 +149,40 @@ function _getPrivateEndpointConnections(context: MicrosoftStorageSyncContext) {
         properties,
         options,
       ),
+    beginCreate: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      privateEndpointConnectionName: string,
+      properties: PrivateEndpointConnection,
+      options?: PrivateEndpointConnectionsCreateOptionalParams,
+    ) => {
+      const poller = create(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        privateEndpointConnectionName,
+        properties,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      privateEndpointConnectionName: string,
+      properties: PrivateEndpointConnection,
+      options?: PrivateEndpointConnectionsCreateOptionalParams,
+    ) => {
+      return await create(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        privateEndpointConnectionName,
+        properties,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       storageSyncServiceName: string,

@@ -3,7 +3,7 @@
 
 export type { CloudEndpointsOperations } from "./cloudEndpoints/index.js";
 export type { OperationsOperations } from "./operations/index.js";
-export type { OperationStatusOperations } from "./operationStatus/index.js";
+export type { OperationStatusOperationsOperations } from "./operationStatusOperations/index.js";
 export type { PrivateEndpointConnectionsOperations } from "./privateEndpointConnections/index.js";
 export type { PrivateLinkResourcesOperations } from "./privateLinkResources/index.js";
 export type { RegisteredServersOperations } from "./registeredServers/index.js";

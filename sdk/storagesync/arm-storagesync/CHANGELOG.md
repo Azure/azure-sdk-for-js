@@ -15,6 +15,8 @@ Compared with version 9.1.0
   - Added operation CloudEndpointsOperations.triggerChangeDetection
   - Added operation PrivateEndpointConnectionsOperations.create
   - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation RegisteredServersOperations.beginUpdate
+  - Added operation RegisteredServersOperations.beginUpdateAndWait
   - Added operation RegisteredServersOperations.create
   - Added operation RegisteredServersOperations.delete
   - Added operation RegisteredServersOperations.triggerRollover
@@ -37,6 +39,7 @@ Compared with version 9.1.0
   - Added Interface ErrorDetail
   - Added Interface ErrorResponse
   - Added Interface ManagedServiceIdentity
+  - Added Interface OperationStatusOperationsGetOptionalParams
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface PostBackupResponseProperties
@@ -53,6 +56,7 @@ Compared with version 9.1.0
   - Added Interface ServerEndpointProvisioningStatus
   - Added Interface ServerEndpointProvisioningStepStatus
   - Added Interface ServerEndpointUpdateProperties
+  - Added Interface SimplePollerLike
   - Added Interface StorageSyncServiceCreateParametersProperties
   - Added Interface StorageSyncServiceProperties
   - Added Interface StorageSyncServiceUpdateProperties
@@ -66,7 +70,6 @@ Compared with version 9.1.0
   - Interface OperationResourceMetricSpecification has a new optional parameter supportedAggregationTypes
   - Interface PrivateEndpointConnection has a new optional parameter groupIds
   - Interface PrivateEndpointConnection has a new optional parameter systemData
-  - Interface PrivateLinkResource has a new optional parameter properties
   - Interface PrivateLinkResource has a new optional parameter systemData
   - Interface ProxyResource has a new optional parameter systemData
   - Interface RegisteredServer has a new optional parameter activeAuthType
@@ -114,53 +117,22 @@ Compared with version 9.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation CloudEndpoints.beginCreate
-  - Removed operation CloudEndpoints.beginCreateAndWait
-  - Removed operation CloudEndpoints.beginDelete
-  - Removed operation CloudEndpoints.beginDeleteAndWait
-  - Removed operation CloudEndpoints.beginPostBackup
-  - Removed operation CloudEndpoints.beginPostBackupAndWait
-  - Removed operation CloudEndpoints.beginPostRestore
-  - Removed operation CloudEndpoints.beginPostRestoreAndWait
-  - Removed operation CloudEndpoints.beginPreBackup
-  - Removed operation CloudEndpoints.beginPreBackupAndWait
-  - Removed operation CloudEndpoints.beginPreRestore
-  - Removed operation CloudEndpoints.beginPreRestoreAndWait
-  - Removed operation CloudEndpoints.beginTriggerChangeDetection
-  - Removed operation CloudEndpoints.beginTriggerChangeDetectionAndWait
   - Removed operation CloudEndpoints.restoreheartbeat
-  - Removed operation PrivateEndpointConnections.beginCreate
-  - Removed operation PrivateEndpointConnections.beginCreateAndWait
-  - Removed operation PrivateEndpointConnections.beginDelete
-  - Removed operation PrivateEndpointConnections.beginDeleteAndWait
-  - Removed operation RegisteredServers.beginCreate
-  - Removed operation RegisteredServers.beginCreateAndWait
-  - Removed operation RegisteredServers.beginDelete
-  - Removed operation RegisteredServers.beginDeleteAndWait
-  - Removed operation RegisteredServers.beginTriggerRollover
-  - Removed operation RegisteredServers.beginTriggerRolloverAndWait
-  - Removed operation ServerEndpoints.beginCreate
-  - Removed operation ServerEndpoints.beginCreateAndWait
-  - Removed operation ServerEndpoints.beginDelete
-  - Removed operation ServerEndpoints.beginDeleteAndWait
-  - Removed operation ServerEndpoints.beginRecallAction
-  - Removed operation ServerEndpoints.beginRecallActionAndWait
-  - Removed operation ServerEndpoints.beginUpdate
-  - Removed operation ServerEndpoints.beginUpdateAndWait
-  - Removed operation StorageSyncServices.beginCreate
-  - Removed operation StorageSyncServices.beginCreateAndWait
-  - Removed operation StorageSyncServices.beginDelete
-  - Removed operation StorageSyncServices.beginDeleteAndWait
-  - Removed operation StorageSyncServices.beginUpdate
-  - Removed operation StorageSyncServices.beginUpdateAndWait
+  - Operation CloudEndpoints.beginDeleteAndWait has a new signature
+  - Operation CloudEndpoints.beginPreBackupAndWait has a new signature
+  - Operation RegisteredServers.beginDeleteAndWait has a new signature
+  - Operation RegisteredServers.beginTriggerRolloverAndWait has a new signature
+  - Operation ServerEndpoints.beginDeleteAndWait has a new signature
+  - Operation ServerEndpoints.beginRecallActionAndWait has a new signature
+  - Operation StorageSyncServices.beginDeleteAndWait has a new signature
   - Operation SyncGroups.delete has a new signature
   - Operation Workflows.abort has a new signature
   - Class MicrosoftStorageSync no longer has parameter apiVersion
-  - Class MicrosoftStorageSync no longer has parameter operationStatusOperations
   - Class MicrosoftStorageSync no longer has parameter subscriptionId
   - Removed Interface CloudEndpointArray
   - Removed Interface CloudEndpointsRestoreheartbeatOptionalParams
   - Removed Interface OperationDisplayResource
+  - Removed Interface OperationStatusGetOptionalParams
   - Removed Interface RegisteredServerArray
   - Removed Interface ResourcesMoveInfo
   - Removed Interface ServerEndpointArray
@@ -168,9 +140,6 @@ Compared with version 9.1.0
   - Removed Interface SubscriptionState
   - Removed Interface SyncGroupArray
   - Removed Interface WorkflowArray
-  - Interface PrivateLinkResource no longer has parameter groupId
-  - Interface PrivateLinkResource no longer has parameter requiredMembers
-  - Interface PrivateLinkResource no longer has parameter requiredZoneNames
   - Interface StorageSyncApiError no longer has parameter innerError
   - Removed Type Alias ProgressType
   - Removed Type Alias Reason

@@ -10,8 +10,8 @@ import { locationOperationStatus } from "./api/operations.js";
 import type { LocationOperationStatusOptionalParams } from "./api/options.js";
 import type { CloudEndpointsOperations } from "./classic/cloudEndpoints/index.js";
 import { _getCloudEndpointsOperations } from "./classic/cloudEndpoints/index.js";
-import type { OperationStatusOperations } from "./classic/operationStatus/index.js";
-import { _getOperationStatusOperations } from "./classic/operationStatus/index.js";
+import type { OperationStatusOperationsOperations } from "./classic/operationStatusOperations/index.js";
+import { _getOperationStatusOperationsOperations } from "./classic/operationStatusOperations/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
@@ -69,7 +69,7 @@ export class MicrosoftStorageSync {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.operationStatus = _getOperationStatusOperations(this._client);
+    this.operationStatusOperations = _getOperationStatusOperationsOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.workflows = _getWorkflowsOperations(this._client);
     this.registeredServers = _getRegisteredServersOperations(this._client);
@@ -90,8 +90,8 @@ export class MicrosoftStorageSync {
     return locationOperationStatus(this._client, locationName, operationId, options);
   }
 
-  /** The operation groups for operationStatus */
-  public readonly operationStatus: OperationStatusOperations;
+  /** The operation groups for operationStatusOperations */
+  public readonly operationStatusOperations: OperationStatusOperationsOperations;
   /** The operation groups for privateLinkResources */
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for workflows */

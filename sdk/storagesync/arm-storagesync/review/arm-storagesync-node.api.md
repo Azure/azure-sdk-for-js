@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
@@ -161,6 +162,34 @@ export interface CloudEndpointsListBySyncGroupOptionalParams extends OperationOp
 // @public
 export interface CloudEndpointsOperations {
     afsShareMetadataCertificatePublicKeys: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams) => Promise<CloudEndpointAfsShareMetadataCertificatePublicKeys>;
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: CloudEndpointCreateParameters, options?: CloudEndpointsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<CloudEndpoint>, CloudEndpoint>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: CloudEndpointCreateParameters, options?: CloudEndpointsCreateOptionalParams) => Promise<CloudEndpoint>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPostBackup: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPostBackupOptionalParams) => Promise<SimplePollerLike<OperationState<PostBackupResponse>, PostBackupResponse>>;
+    // @deprecated (undocumented)
+    beginPostBackupAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPostBackupOptionalParams) => Promise<PostBackupResponse>;
+    // @deprecated (undocumented)
+    beginPostRestore: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PostRestoreRequest, options?: CloudEndpointsPostRestoreOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPostRestoreAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PostRestoreRequest, options?: CloudEndpointsPostRestoreOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPreBackup: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPreBackupOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPreBackupAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPreBackupOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPreRestore: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PreRestoreRequest, options?: CloudEndpointsPreRestoreOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPreRestoreAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PreRestoreRequest, options?: CloudEndpointsPreRestoreOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginTriggerChangeDetection: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: TriggerChangeDetectionParameters, options?: CloudEndpointsTriggerChangeDetectionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginTriggerChangeDetectionAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: TriggerChangeDetectionParameters, options?: CloudEndpointsTriggerChangeDetectionOptionalParams) => Promise<void>;
     create: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: CloudEndpointCreateParameters, options?: CloudEndpointsCreateOptionalParams) => PollerLike<OperationState<CloudEndpoint>, CloudEndpoint>;
     delete: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsGetOptionalParams) => Promise<CloudEndpoint>;
@@ -494,7 +523,7 @@ export class MicrosoftStorageSync {
     readonly cloudEndpoints: CloudEndpointsOperations;
     locationOperationStatus(locationName: string, operationId: string, options?: LocationOperationStatusOptionalParams): Promise<LocationOperationStatus>;
     readonly operations: OperationsOperations;
-    readonly operationStatus: OperationStatusOperations;
+    readonly operationStatusOperations: OperationStatusOperationsOperations;
     readonly pipeline: Pipeline;
     readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
     readonly privateLinkResources: PrivateLinkResourcesOperations;
@@ -582,12 +611,12 @@ export interface OperationStatus {
 }
 
 // @public
-export interface OperationStatusGetOptionalParams extends OperationOptions {
+export interface OperationStatusOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationStatusOperations {
-    get: (resourceGroupName: string, locationName: string, workflowId: string, operationId: string, options?: OperationStatusGetOptionalParams) => Promise<OperationStatus>;
+export interface OperationStatusOperationsOperations {
+    get: (resourceGroupName: string, locationName: string, workflowId: string, operationId: string, options?: OperationStatusOperationsGetOptionalParams) => Promise<OperationStatus>;
 }
 
 // @public
@@ -681,6 +710,14 @@ export interface PrivateEndpointConnectionsListByStorageSyncServiceOptionalParam
 
 // @public
 export interface PrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams) => Promise<PrivateEndpointConnection>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
     create: (resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
     delete: (resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
@@ -692,7 +729,9 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
 export interface PrivateLinkResource extends Resource {
-    properties?: PrivateLinkResourceProperties;
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
@@ -848,6 +887,22 @@ export interface RegisteredServersListByStorageSyncServiceOptionalParams extends
 
 // @public
 export interface RegisteredServersOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerCreateParameters, options?: RegisteredServersCreateOptionalParams) => Promise<SimplePollerLike<OperationState<RegisteredServer>, RegisteredServer>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerCreateParameters, options?: RegisteredServersCreateOptionalParams) => Promise<RegisteredServer>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: RegisteredServersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: RegisteredServersDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginTriggerRollover: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: TriggerRolloverRequest, options?: RegisteredServersTriggerRolloverOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginTriggerRolloverAndWait: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: TriggerRolloverRequest, options?: RegisteredServersTriggerRolloverOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerUpdateParameters, options?: RegisteredServersUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<RegisteredServer>, RegisteredServer>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerUpdateParameters, options?: RegisteredServersUpdateOptionalParams) => Promise<RegisteredServer>;
     create: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerCreateParameters, options?: RegisteredServersCreateOptionalParams) => PollerLike<OperationState<RegisteredServer>, RegisteredServer>;
     delete: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: RegisteredServersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: RegisteredServersGetOptionalParams) => Promise<RegisteredServer>;
@@ -1075,6 +1130,22 @@ export interface ServerEndpointsListBySyncGroupOptionalParams extends OperationO
 
 // @public
 export interface ServerEndpointsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: ServerEndpointCreateParameters, options?: ServerEndpointsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ServerEndpoint>, ServerEndpoint>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: ServerEndpointCreateParameters, options?: ServerEndpointsCreateOptionalParams) => Promise<ServerEndpoint>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRecallAction: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: RecallActionParameters, options?: ServerEndpointsRecallActionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRecallActionAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: RecallActionParameters, options?: ServerEndpointsRecallActionOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ServerEndpoint>, ServerEndpoint>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsUpdateOptionalParams) => Promise<ServerEndpoint>;
     create: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: ServerEndpointCreateParameters, options?: ServerEndpointsCreateOptionalParams) => PollerLike<OperationState<ServerEndpoint>, ServerEndpoint>;
     delete: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsGetOptionalParams) => Promise<ServerEndpoint>;
@@ -1162,6 +1233,28 @@ export interface ServerEndpointUpdateProperties {
 
 // @public
 export type ServerProvisioningStatus = string;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export interface StorageSyncApiError {
@@ -1264,6 +1357,18 @@ export interface StorageSyncServicesListBySubscriptionOptionalParams extends Ope
 
 // @public
 export interface StorageSyncServicesOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, storageSyncServiceName: string, parameters: StorageSyncServiceCreateParameters, options?: StorageSyncServicesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<StorageSyncService>, StorageSyncService>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, storageSyncServiceName: string, parameters: StorageSyncServiceCreateParameters, options?: StorageSyncServicesCreateOptionalParams) => Promise<StorageSyncService>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<StorageSyncService>, StorageSyncService>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesUpdateOptionalParams) => Promise<StorageSyncService>;
     checkNameAvailability: (locationName: string, parameters: CheckNameAvailabilityParameters, options?: StorageSyncServicesCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResult>;
     create: (resourceGroupName: string, storageSyncServiceName: string, parameters: StorageSyncServiceCreateParameters, options?: StorageSyncServicesCreateOptionalParams) => PollerLike<OperationState<StorageSyncService>, StorageSyncService>;
     delete: (resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;

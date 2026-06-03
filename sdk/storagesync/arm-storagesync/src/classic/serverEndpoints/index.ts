@@ -24,6 +24,8 @@ import type {
   RecallActionParameters,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ServerEndpoints operations. */
@@ -37,6 +39,24 @@ export interface ServerEndpointsOperations {
     parameters: RecallActionParameters,
     options?: ServerEndpointsRecallActionOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use recallAction instead */
+  beginRecallAction: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    parameters: RecallActionParameters,
+    options?: ServerEndpointsRecallActionOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use recallAction instead */
+  beginRecallActionAndWait: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    parameters: RecallActionParameters,
+    options?: ServerEndpointsRecallActionOptionalParams,
+  ) => Promise<void>;
   /** Get a ServerEndpoint list. */
   listBySyncGroup: (
     resourceGroupName: string,
@@ -52,6 +72,22 @@ export interface ServerEndpointsOperations {
     serverEndpointName: string,
     options?: ServerEndpointsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    options?: ServerEndpointsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    options?: ServerEndpointsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Patch a given ServerEndpoint. */
   update: (
     resourceGroupName: string,
@@ -60,6 +96,22 @@ export interface ServerEndpointsOperations {
     serverEndpointName: string,
     options?: ServerEndpointsUpdateOptionalParams,
   ) => PollerLike<OperationState<ServerEndpoint>, ServerEndpoint>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    options?: ServerEndpointsUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<ServerEndpoint>, ServerEndpoint>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    options?: ServerEndpointsUpdateOptionalParams,
+  ) => Promise<ServerEndpoint>;
   /** Create a new ServerEndpoint. */
   create: (
     resourceGroupName: string,
@@ -69,6 +121,24 @@ export interface ServerEndpointsOperations {
     parameters: ServerEndpointCreateParameters,
     options?: ServerEndpointsCreateOptionalParams,
   ) => PollerLike<OperationState<ServerEndpoint>, ServerEndpoint>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    parameters: ServerEndpointCreateParameters,
+    options?: ServerEndpointsCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<ServerEndpoint>, ServerEndpoint>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    parameters: ServerEndpointCreateParameters,
+    options?: ServerEndpointsCreateOptionalParams,
+  ) => Promise<ServerEndpoint>;
   /** Get a ServerEndpoint. */
   get: (
     resourceGroupName: string,
@@ -98,6 +168,44 @@ function _getServerEndpoints(context: MicrosoftStorageSyncContext) {
         parameters,
         options,
       ),
+    beginRecallAction: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      syncGroupName: string,
+      serverEndpointName: string,
+      parameters: RecallActionParameters,
+      options?: ServerEndpointsRecallActionOptionalParams,
+    ) => {
+      const poller = recallAction(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        syncGroupName,
+        serverEndpointName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRecallActionAndWait: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      syncGroupName: string,
+      serverEndpointName: string,
+      parameters: RecallActionParameters,
+      options?: ServerEndpointsRecallActionOptionalParams,
+    ) => {
+      return await recallAction(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        syncGroupName,
+        serverEndpointName,
+        parameters,
+        options,
+      );
+    },
     listBySyncGroup: (
       resourceGroupName: string,
       storageSyncServiceName: string,
@@ -120,6 +228,40 @@ function _getServerEndpoints(context: MicrosoftStorageSyncContext) {
         serverEndpointName,
         options,
       ),
+    beginDelete: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      syncGroupName: string,
+      serverEndpointName: string,
+      options?: ServerEndpointsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        syncGroupName,
+        serverEndpointName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      syncGroupName: string,
+      serverEndpointName: string,
+      options?: ServerEndpointsDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        syncGroupName,
+        serverEndpointName,
+        options,
+      );
+    },
     update: (
       resourceGroupName: string,
       storageSyncServiceName: string,
@@ -135,6 +277,40 @@ function _getServerEndpoints(context: MicrosoftStorageSyncContext) {
         serverEndpointName,
         options,
       ),
+    beginUpdate: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      syncGroupName: string,
+      serverEndpointName: string,
+      options?: ServerEndpointsUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        syncGroupName,
+        serverEndpointName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      syncGroupName: string,
+      serverEndpointName: string,
+      options?: ServerEndpointsUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        syncGroupName,
+        serverEndpointName,
+        options,
+      );
+    },
     create: (
       resourceGroupName: string,
       storageSyncServiceName: string,
@@ -152,6 +328,44 @@ function _getServerEndpoints(context: MicrosoftStorageSyncContext) {
         parameters,
         options,
       ),
+    beginCreate: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      syncGroupName: string,
+      serverEndpointName: string,
+      parameters: ServerEndpointCreateParameters,
+      options?: ServerEndpointsCreateOptionalParams,
+    ) => {
+      const poller = create(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        syncGroupName,
+        serverEndpointName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      syncGroupName: string,
+      serverEndpointName: string,
+      parameters: ServerEndpointCreateParameters,
+      options?: ServerEndpointsCreateOptionalParams,
+    ) => {
+      return await create(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        syncGroupName,
+        serverEndpointName,
+        parameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       storageSyncServiceName: string,

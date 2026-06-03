@@ -4,7 +4,7 @@ exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
-  "./api/operationStatus": "./src/api/operationStatus/index.ts"
+  "./api/operationStatusOperations": "./src/api/operationStatusOperations/index.ts"
   "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
   "./api/workflows": "./src/api/workflows/index.ts"
   "./api/registeredServers": "./src/api/registeredServers/index.ts"

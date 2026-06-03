@@ -27,6 +27,8 @@ import type {
   CheckNameAvailabilityResult,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StorageSyncServices operations. */
@@ -52,12 +54,36 @@ export interface StorageSyncServicesOperations {
     storageSyncServiceName: string,
     options?: StorageSyncServicesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    options?: StorageSyncServicesDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    options?: StorageSyncServicesDeleteOptionalParams,
+  ) => Promise<void>;
   /** Patch a given StorageSyncService. */
   update: (
     resourceGroupName: string,
     storageSyncServiceName: string,
     options?: StorageSyncServicesUpdateOptionalParams,
   ) => PollerLike<OperationState<StorageSyncService>, StorageSyncService>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    options?: StorageSyncServicesUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<StorageSyncService>, StorageSyncService>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    options?: StorageSyncServicesUpdateOptionalParams,
+  ) => Promise<StorageSyncService>;
   /** Create a new StorageSyncService. */
   create: (
     resourceGroupName: string,
@@ -65,6 +91,20 @@ export interface StorageSyncServicesOperations {
     parameters: StorageSyncServiceCreateParameters,
     options?: StorageSyncServicesCreateOptionalParams,
   ) => PollerLike<OperationState<StorageSyncService>, StorageSyncService>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    parameters: StorageSyncServiceCreateParameters,
+    options?: StorageSyncServicesCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<StorageSyncService>, StorageSyncService>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    parameters: StorageSyncServiceCreateParameters,
+    options?: StorageSyncServicesCreateOptionalParams,
+  ) => Promise<StorageSyncService>;
   /** Get a given StorageSyncService. */
   get: (
     resourceGroupName: string,
@@ -91,17 +131,73 @@ function _getStorageSyncServices(context: MicrosoftStorageSyncContext) {
       storageSyncServiceName: string,
       options?: StorageSyncServicesDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, storageSyncServiceName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      options?: StorageSyncServicesDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, storageSyncServiceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      options?: StorageSyncServicesDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, storageSyncServiceName, options);
+    },
     update: (
       resourceGroupName: string,
       storageSyncServiceName: string,
       options?: StorageSyncServicesUpdateOptionalParams,
     ) => update(context, resourceGroupName, storageSyncServiceName, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      options?: StorageSyncServicesUpdateOptionalParams,
+    ) => {
+      const poller = update(context, resourceGroupName, storageSyncServiceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      options?: StorageSyncServicesUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, storageSyncServiceName, options);
+    },
     create: (
       resourceGroupName: string,
       storageSyncServiceName: string,
       parameters: StorageSyncServiceCreateParameters,
       options?: StorageSyncServicesCreateOptionalParams,
     ) => create(context, resourceGroupName, storageSyncServiceName, parameters, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      parameters: StorageSyncServiceCreateParameters,
+      options?: StorageSyncServicesCreateOptionalParams,
+    ) => {
+      const poller = create(
+        context,
+        resourceGroupName,
+        storageSyncServiceName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      storageSyncServiceName: string,
+      parameters: StorageSyncServiceCreateParameters,
+      options?: StorageSyncServicesCreateOptionalParams,
+    ) => {
+      return await create(context, resourceGroupName, storageSyncServiceName, parameters, options);
+    },
     get: (
       resourceGroupName: string,
       storageSyncServiceName: string,

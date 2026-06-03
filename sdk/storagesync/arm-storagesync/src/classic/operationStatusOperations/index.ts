@@ -2,38 +2,38 @@
 // Licensed under the MIT License.
 
 import type { MicrosoftStorageSyncContext } from "../../api/microsoftStorageSyncContext.js";
-import { get } from "../../api/operationStatus/operations.js";
-import type { OperationStatusGetOptionalParams } from "../../api/operationStatus/options.js";
+import { get } from "../../api/operationStatusOperations/operations.js";
+import type { OperationStatusOperationsGetOptionalParams } from "../../api/operationStatusOperations/options.js";
 import type { OperationStatus } from "../../models/models.js";
 
-/** Interface representing a OperationStatus operations. */
-export interface OperationStatusOperations {
+/** Interface representing a OperationStatusOperations operations. */
+export interface OperationStatusOperationsOperations {
   /** Get Operation status */
   get: (
     resourceGroupName: string,
     locationName: string,
     workflowId: string,
     operationId: string,
-    options?: OperationStatusGetOptionalParams,
+    options?: OperationStatusOperationsGetOptionalParams,
   ) => Promise<OperationStatus>;
 }
 
-function _getOperationStatus(context: MicrosoftStorageSyncContext) {
+function _getOperationStatusOperations(context: MicrosoftStorageSyncContext) {
   return {
     get: (
       resourceGroupName: string,
       locationName: string,
       workflowId: string,
       operationId: string,
-      options?: OperationStatusGetOptionalParams,
+      options?: OperationStatusOperationsGetOptionalParams,
     ) => get(context, resourceGroupName, locationName, workflowId, operationId, options),
   };
 }
 
-export function _getOperationStatusOperations(
+export function _getOperationStatusOperationsOperations(
   context: MicrosoftStorageSyncContext,
-): OperationStatusOperations {
+): OperationStatusOperationsOperations {
   return {
-    ..._getOperationStatus(context),
+    ..._getOperationStatusOperations(context),
   };
 }

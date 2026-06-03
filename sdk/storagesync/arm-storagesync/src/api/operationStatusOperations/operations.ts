@@ -5,7 +5,7 @@ import type { MicrosoftStorageSyncContext as Client } from "../index.js";
 import type { OperationStatus } from "../../models/models.js";
 import { storageSyncErrorDeserializer, operationStatusDeserializer } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { OperationStatusGetOptionalParams } from "./options.js";
+import type { OperationStatusOperationsGetOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
@@ -15,7 +15,7 @@ export function _getSend(
   locationName: string,
   workflowId: string,
   operationId: string,
-  options: OperationStatusGetOptionalParams = { requestOptions: {} },
+  options: OperationStatusOperationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/locations/{locationName}/workflows/{workflowId}/operations/{operationId}{?api%2Dversion}",
@@ -58,7 +58,7 @@ export async function get(
   locationName: string,
   workflowId: string,
   operationId: string,
-  options: OperationStatusGetOptionalParams = { requestOptions: {} },
+  options: OperationStatusOperationsGetOptionalParams = { requestOptions: {} },
 ): Promise<OperationStatus> {
   const result = await _getSend(
     context,

@@ -3158,8 +3158,12 @@ export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkRe
 
 /** A private link resource. */
 export interface PrivateLinkResource extends Resource {
-  /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  /** The private link resource group id. */
+  readonly groupId?: string;
+  /** The private link resource required member names. */
+  readonly requiredMembers?: string[];
+  /** The private link resource private link DNS zone name. */
+  requiredZoneNames?: string[];
 }
 
 export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
@@ -3170,9 +3174,9 @@ export function privateLinkResourceDeserializer(item: any): PrivateLinkResource 
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : privateLinkResourcePropertiesDeserializer(item["properties"]),
+      : _privateLinkResourcePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -3470,5 +3474,21 @@ export function _workflowPropertiesDeserializer(item: any) {
     lastStatusTimestamp: !item["lastStatusTimestamp"]
       ? item["lastStatusTimestamp"]
       : new Date(item["lastStatusTimestamp"]),
+  };
+}
+
+export function _privateLinkResourcePropertiesDeserializer(item: any) {
+  return {
+    groupId: item["groupId"],
+    requiredMembers: !item["requiredMembers"]
+      ? item["requiredMembers"]
+      : item["requiredMembers"].map((p: any) => {
+          return p;
+        }),
+    requiredZoneNames: !item["requiredZoneNames"]
+      ? item["requiredZoneNames"]
+      : item["requiredZoneNames"].map((p: any) => {
+          return p;
+        }),
   };
 }
