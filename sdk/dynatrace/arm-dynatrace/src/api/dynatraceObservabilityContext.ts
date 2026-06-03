@@ -9,7 +9,7 @@ import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
-export interface ObservabilityContext extends Client {
+export interface DynatraceObservabilityContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The API version to use for this operation. */
@@ -18,7 +18,7 @@ export interface ObservabilityContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface ObservabilityClientOptionalParams extends ClientOptions {
+export interface DynatraceObservabilityOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -26,11 +26,11 @@ export interface ObservabilityClientOptionalParams extends ClientOptions {
   cloudSetting?: AzureSupportedClouds;
 }
 
-export function createObservability(
+export function createDynatraceObservability(
   credential: TokenCredential,
   subscriptionId: string,
-  options: ObservabilityClientOptionalParams = {},
-): ObservabilityContext {
+  options: DynatraceObservabilityOptionalParams = {},
+): DynatraceObservabilityContext {
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
@@ -48,5 +48,5 @@ export function createObservability(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion;
-  return { ...clientContext, apiVersion, subscriptionId } as ObservabilityContext;
+  return { ...clientContext, apiVersion, subscriptionId } as DynatraceObservabilityContext;
 }

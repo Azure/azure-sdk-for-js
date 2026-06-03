@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ObservabilityClient } = require("@azure/arm-dynatrace");
+const { DynatraceObservability } = require("@azure/arm-dynatrace");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function monitorsGetMetricStatusMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1d701e7e-3150-4d33-9279-d4ea03e9110e";
-  const client = new ObservabilityClient(credential, subscriptionId);
+  const client = new DynatraceObservability(credential, subscriptionId);
   const result = await client.monitors.getMetricStatus(
     "rgDynatrace",
     "fhcjxnxumkdlgpwanewtkdnyuz",
@@ -37,7 +37,7 @@ async function monitorsGetMetricStatusMaximumSetGen() {
 async function monitorsGetMetricStatusMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1d701e7e-3150-4d33-9279-d4ea03e9110e";
-  const client = new ObservabilityClient(credential, subscriptionId);
+  const client = new DynatraceObservability(credential, subscriptionId);
   const result = await client.monitors.getMetricStatus("rgDynatrace", "fhcjxnxumkdlgpwanewtkdnyuz");
   console.log(result);
 }

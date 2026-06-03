@@ -6,6 +6,8 @@ Compared with version 2.0.0
 ### Features Added
   - Added operation group CreationSupportedOperations
   - Added operation group MonitoredSubscriptionsOperations
+  - Added operation MonitorsOperations.beginUpgradePlan
+  - Added operation MonitorsOperations.beginUpgradePlanAndWait
   - Added operation MonitorsOperations.createOrUpdate
   - Added operation MonitorsOperations.delete
   - Added operation MonitorsOperations.getAllConnectedResourcesCount
@@ -14,7 +16,6 @@ Compared with version 2.0.0
   - Added operation SingleSignOnOperations.createOrUpdate
   - Added operation TagRulesOperations.createOrUpdate
   - Added operation TagRulesOperations.delete
-  - Added Class ObservabilityClient
   - Added Interface ConnectedResourcesCountResponse
   - Added Interface CreateResourceSupportedProperties
   - Added Interface CreateResourceSupportedResponse
@@ -39,10 +40,10 @@ Compared with version 2.0.0
   - Added Interface MonitorsManageAgentInstallationOptionalParams
   - Added Interface MonitorsUpgradePlanOptionalParams
   - Added Interface MonitorUpdateProperties
-  - Added Interface ObservabilityClientOptionalParams
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
   - Added Interface SubscriptionList
   - Added Interface UpgradePlanRequest
   - Interface AccountInfo has a new optional parameter companyName
@@ -72,21 +73,13 @@ Compared with version 2.0.0
   - Enum KnownMonitoringType has a new value Discovery
 
 ### Breaking Changes
-  - Removed operation Monitors.beginCreateOrUpdate
-  - Removed operation Monitors.beginCreateOrUpdateAndWait
-  - Removed operation Monitors.beginDelete
-  - Removed operation Monitors.beginDeleteAndWait
-  - Removed operation SingleSignOn.beginCreateOrUpdate
-  - Removed operation SingleSignOn.beginCreateOrUpdateAndWait
-  - Removed operation TagRules.beginCreateOrUpdate
-  - Removed operation TagRules.beginCreateOrUpdateAndWait
-  - Removed operation TagRules.beginDelete
-  - Removed operation TagRules.beginDeleteAndWait
+  - Operation Monitors.beginCreateOrUpdate has a new signature
+  - Operation Monitors.beginCreateOrUpdateAndWait has a new signature
   - Operation Monitors.get has a new signature
   - Operation Monitors.update has a new signature
-  - Deleted Class DynatraceObservability
+  - Class DynatraceObservability no longer has parameter apiVersion
+  - Class DynatraceObservability no longer has parameter subscriptionId
   - Removed Interface AppServiceListResponse
-  - Removed Interface DynatraceObservabilityOptionalParams
   - Removed Interface LinkableEnvironmentListResponse
   - Removed Interface MonitoredResourceListResponse
   - Removed Interface VMHostsListResponse

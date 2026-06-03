@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ObservabilityClient } from "@azure/arm-dynatrace";
+import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function monitorsCreateOrUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ObservabilityClient(credential, subscriptionId);
+  const client = new DynatraceObservability(credential, subscriptionId);
   const result = await client.monitors.createOrUpdate("myResourceGroup", "myMonitor", {
     identity: { type: "SystemAssigned" },
     location: "West US 2",
@@ -51,7 +51,7 @@ async function monitorsCreateOrUpdateMaximumSetGen(): Promise<void> {
 async function monitorsCreateOrUpdateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ObservabilityClient(credential, subscriptionId);
+  const client = new DynatraceObservability(credential, subscriptionId);
   const result = await client.monitors.createOrUpdate("myResourceGroup", "myMonitor", {
     location: "West US 2",
   });

@@ -9,7 +9,8 @@ import type {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { ObservabilityClient } from "./observabilityClient.js";
+export { DynatraceObservability } from "./dynatraceObservability.js";
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
@@ -120,7 +121,7 @@ export {
   KnownSSOStatus,
   KnownVersions,
 } from "./models/index.js";
-export type { ObservabilityClientOptionalParams } from "./api/index.js";
+export type { DynatraceObservabilityOptionalParams } from "./api/index.js";
 export type {
   CreationSupportedGetOptionalParams,
   CreationSupportedListOptionalParams,

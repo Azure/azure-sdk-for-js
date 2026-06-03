@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ObservabilityContext as Client } from "../index.js";
+import type { DynatraceObservabilityContext as Client } from "../index.js";
 import type { _OperationListResult, Operation } from "../../models/models.js";
 import {
   _operationListResultDeserializer,

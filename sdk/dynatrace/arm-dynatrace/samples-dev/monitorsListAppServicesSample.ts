@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ObservabilityClient } from "@azure/arm-dynatrace";
+import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function monitorsListAppServicesMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ObservabilityClient(credential, subscriptionId);
+  const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.monitors.listAppServices("myResourceGroup", "myMonitor")) {
     resArray.push(item);
@@ -31,7 +31,7 @@ async function monitorsListAppServicesMaximumSetGen(): Promise<void> {
 async function monitorsListAppServicesMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ObservabilityClient(credential, subscriptionId);
+  const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.monitors.listAppServices("myResourceGroup", "myMonitor")) {
     resArray.push(item);

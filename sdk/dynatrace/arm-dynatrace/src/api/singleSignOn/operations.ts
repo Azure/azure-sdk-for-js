@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ObservabilityContext as Client } from "../index.js";
+import type { DynatraceObservabilityContext as Client } from "../index.js";
 import type {
   DynatraceSingleSignOnResource,
   _DynatraceSingleSignOnResourceListResult,

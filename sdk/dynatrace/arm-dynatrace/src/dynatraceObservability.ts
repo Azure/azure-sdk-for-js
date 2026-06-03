@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ObservabilityContext, ObservabilityClientOptionalParams } from "./api/index.js";
-import { createObservability } from "./api/index.js";
+import type {
+  DynatraceObservabilityContext,
+  DynatraceObservabilityOptionalParams,
+} from "./api/index.js";
+import { createDynatraceObservability } from "./api/index.js";
 import type { CreationSupportedOperations } from "./classic/creationSupported/index.js";
 import { _getCreationSupportedOperations } from "./classic/creationSupported/index.js";
 import type { MonitoredSubscriptionsOperations } from "./classic/monitoredSubscriptions/index.js";
@@ -18,23 +21,23 @@ import { _getTagRulesOperations } from "./classic/tagRules/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export type { ObservabilityClientOptionalParams } from "./api/observabilityContext.js";
+export type { DynatraceObservabilityOptionalParams } from "./api/dynatraceObservabilityContext.js";
 
-export class ObservabilityClient {
-  private _client: ObservabilityContext;
+export class DynatraceObservability {
+  private _client: DynatraceObservabilityContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: ObservabilityClientOptionalParams = {},
+    options: DynatraceObservabilityOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createObservability(credential, subscriptionId, {
+    this._client = createDynatraceObservability(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

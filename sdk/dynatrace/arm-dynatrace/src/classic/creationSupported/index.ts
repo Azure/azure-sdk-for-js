@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ObservabilityContext } from "../../api/observabilityContext.js";
+import type { DynatraceObservabilityContext } from "../../api/dynatraceObservabilityContext.js";
 import { get, list } from "../../api/creationSupported/operations.js";
 import type {
   CreationSupportedGetOptionalParams,
@@ -23,7 +23,7 @@ export interface CreationSupportedOperations {
   ) => Promise<CreateResourceSupportedResponse>;
 }
 
-function _getCreationSupported(context: ObservabilityContext) {
+function _getCreationSupported(context: DynatraceObservabilityContext) {
   return {
     get: (dynatraceEnvironmentId: string, options?: CreationSupportedGetOptionalParams) =>
       get(context, dynatraceEnvironmentId, options),
@@ -33,7 +33,7 @@ function _getCreationSupported(context: ObservabilityContext) {
 }
 
 export function _getCreationSupportedOperations(
-  context: ObservabilityContext,
+  context: DynatraceObservabilityContext,
 ): CreationSupportedOperations {
   return {
     ..._getCreationSupported(context),

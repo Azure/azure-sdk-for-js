@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export type {
-  ObservabilityContext,
-  ObservabilityClientOptionalParams,
-} from "./observabilityContext.js";
-export { createObservability } from "./observabilityContext.js";
+  DynatraceObservabilityContext,
+  DynatraceObservabilityOptionalParams,
+} from "./dynatraceObservabilityContext.js";
+export { createDynatraceObservability } from "./dynatraceObservabilityContext.js";

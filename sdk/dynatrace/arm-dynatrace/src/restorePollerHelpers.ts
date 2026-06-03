@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ObservabilityClient } from "./observabilityClient.js";
+import type { DynatraceObservability } from "./dynatraceObservability.js";
 import { _createOrUpdateDeserialize } from "./api/singleSignOn/operations.js";
 import {
   _upgradePlanDeserialize,
@@ -43,7 +43,7 @@ export interface RestorePollerOptions<
  * needs to be constructed after the original one is not in scope.
  */
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
-  client: ObservabilityClient,
+  client: DynatraceObservability,
   serializedState: string,
   sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ObservabilityContext } from "../../api/observabilityContext.js";
+import type { DynatraceObservabilityContext } from "../../api/dynatraceObservabilityContext.js";
 import { list } from "../../api/operations/operations.js";
 import type { OperationsListOptionalParams } from "../../api/operations/options.js";
 import type { Operation } from "../../models/models.js";
@@ -13,13 +13,15 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-function _getOperations(context: ObservabilityContext) {
+function _getOperations(context: DynatraceObservabilityContext) {
   return {
     list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
 
-export function _getOperationsOperations(context: ObservabilityContext): OperationsOperations {
+export function _getOperationsOperations(
+  context: DynatraceObservabilityContext,
+): OperationsOperations {
   return {
     ..._getOperations(context),
   };

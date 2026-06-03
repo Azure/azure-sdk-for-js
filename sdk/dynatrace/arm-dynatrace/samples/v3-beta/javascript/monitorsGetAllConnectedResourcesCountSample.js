@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ObservabilityClient } = require("@azure/arm-dynatrace");
+const { DynatraceObservability } = require("@azure/arm-dynatrace");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function monitorsGetAllConnectedResourcesCountMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ObservabilityClient(credential, subscriptionId);
+  const client = new DynatraceObservability(credential, subscriptionId);
   const result = await client.monitors.getAllConnectedResourcesCount({
     marketplaceSubscriptionId: "00000000-0000-0000-0000-000005430000",
   });
@@ -29,7 +29,7 @@ async function monitorsGetAllConnectedResourcesCountMaximumSetGen() {
 async function monitorsGetAllConnectedResourcesCountMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ObservabilityClient(credential, subscriptionId);
+  const client = new DynatraceObservability(credential, subscriptionId);
   const result = await client.monitors.getAllConnectedResourcesCount({
     marketplaceSubscriptionId: "00000000-0000-0000-0000-000005430000",
   });

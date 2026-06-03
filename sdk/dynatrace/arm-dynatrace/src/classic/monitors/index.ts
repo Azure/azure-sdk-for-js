@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ObservabilityContext } from "../../api/observabilityContext.js";
+import type { DynatraceObservabilityContext } from "../../api/dynatraceObservabilityContext.js";
 import {
   getMarketplaceSaaSResourceDetails,
   getAllConnectedResourcesCount,
@@ -59,6 +59,8 @@ import type {
   MarketplaceSaaSResourceDetailsResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Monitors operations. */
@@ -93,6 +95,20 @@ export interface MonitorsOperations {
     request: UpgradePlanRequest,
     options?: MonitorsUpgradePlanOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use upgradePlan instead */
+  beginUpgradePlan: (
+    resourceGroupName: string,
+    monitorName: string,
+    request: UpgradePlanRequest,
+    options?: MonitorsUpgradePlanOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use upgradePlan instead */
+  beginUpgradePlanAndWait: (
+    resourceGroupName: string,
+    monitorName: string,
+    request: UpgradePlanRequest,
+    options?: MonitorsUpgradePlanOptionalParams,
+  ) => Promise<void>;
   /** Gets list of App Services with Dynatrace PaaS OneAgent enabled */
   listAppServices: (
     resourceGroupName: string,
@@ -145,6 +161,18 @@ export interface MonitorsOperations {
     monitorName: string,
     options?: MonitorsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update a MonitorResource */
   update: (
     resourceGroupName: string,
@@ -159,6 +187,20 @@ export interface MonitorsOperations {
     resource: MonitorResource,
     options?: MonitorsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<MonitorResource>, MonitorResource>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    monitorName: string,
+    resource: MonitorResource,
+    options?: MonitorsCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<MonitorResource>, MonitorResource>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    monitorName: string,
+    resource: MonitorResource,
+    options?: MonitorsCreateOrUpdateOptionalParams,
+  ) => Promise<MonitorResource>;
   /** Get a MonitorResource */
   get: (
     resourceGroupName: string,
@@ -167,7 +209,7 @@ export interface MonitorsOperations {
   ) => Promise<MonitorResource>;
 }
 
-function _getMonitors(context: ObservabilityContext) {
+function _getMonitors(context: DynatraceObservabilityContext) {
   return {
     getMarketplaceSaaSResourceDetails: (
       request: MarketplaceSaaSResourceDetailsRequest,
@@ -194,6 +236,24 @@ function _getMonitors(context: ObservabilityContext) {
       request: UpgradePlanRequest,
       options?: MonitorsUpgradePlanOptionalParams,
     ) => upgradePlan(context, resourceGroupName, monitorName, request, options),
+    beginUpgradePlan: async (
+      resourceGroupName: string,
+      monitorName: string,
+      request: UpgradePlanRequest,
+      options?: MonitorsUpgradePlanOptionalParams,
+    ) => {
+      const poller = upgradePlan(context, resourceGroupName, monitorName, request, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpgradePlanAndWait: async (
+      resourceGroupName: string,
+      monitorName: string,
+      request: UpgradePlanRequest,
+      options?: MonitorsUpgradePlanOptionalParams,
+    ) => {
+      return await upgradePlan(context, resourceGroupName, monitorName, request, options);
+    },
     listAppServices: (
       resourceGroupName: string,
       monitorName: string,
@@ -236,6 +296,22 @@ function _getMonitors(context: ObservabilityContext) {
       monitorName: string,
       options?: MonitorsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, monitorName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      monitorName: string,
+      options?: MonitorsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, monitorName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      monitorName: string,
+      options?: MonitorsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, monitorName, options);
+    },
     update: (
       resourceGroupName: string,
       monitorName: string,
@@ -248,12 +324,30 @@ function _getMonitors(context: ObservabilityContext) {
       resource: MonitorResource,
       options?: MonitorsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, monitorName, resource, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      monitorName: string,
+      resource: MonitorResource,
+      options?: MonitorsCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(context, resourceGroupName, monitorName, resource, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      monitorName: string,
+      resource: MonitorResource,
+      options?: MonitorsCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, resourceGroupName, monitorName, resource, options);
+    },
     get: (resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams) =>
       get(context, resourceGroupName, monitorName, options),
   };
 }
 
-export function _getMonitorsOperations(context: ObservabilityContext): MonitorsOperations {
+export function _getMonitorsOperations(context: DynatraceObservabilityContext): MonitorsOperations {
   return {
     ..._getMonitors(context),
   };

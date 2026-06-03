@@ -177,7 +177,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/api/observabilityContext.ts",
+        "path": "src/api/dynatraceObservabilityContext.ts",
         "prefix": "userAgentInfo"
       }
     ]
