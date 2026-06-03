@@ -88,7 +88,6 @@ export const ServiceErrorMessageConstants = {
     key: "InvalidStorageUri",
     message:
       "The storage URI configured on this Playwright Workspace is not a valid Azure Storage endpoint. " +
-      "Reporting upload has been aborted to protect your credentials. " +
       "Please ask a workspace administrator to relink a valid Azure Storage account. " +
       "For more information, see https://aka.ms/pww-reporting",
   },
