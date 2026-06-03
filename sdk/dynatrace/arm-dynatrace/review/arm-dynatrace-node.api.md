@@ -4,17 +4,26 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccountInfo {
     accountId?: string;
+    companyName?: string;
     regionId?: string;
 }
+
+// @public
+export type Action = string;
 
 // @public
 export type ActionType = string;
@@ -33,19 +42,59 @@ export interface AppServiceInfo {
 }
 
 // @public
-export interface AppServiceListResponse {
-    nextLink?: string;
-    value?: AppServiceInfo[];
-}
-
-// @public
 export type AutoUpdateSetting = string;
 
 // @public
 export type AvailabilityState = string;
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export interface ConnectedResourcesCountResponse {
+    connectedResourcesCount?: number;
+}
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface CreateResourceSupportedProperties {
+    readonly creationSupported?: boolean;
+    readonly name?: string;
+}
+
+// @public
+export interface CreateResourceSupportedResponse {
+    nextLink?: string;
+    value?: CreateResourceSupportedProperties[];
+}
+
+// @public
+export interface CreationSupportedGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CreationSupportedListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CreationSupportedOperations {
+    get: (dynatraceEnvironmentId: string, options?: CreationSupportedGetOptionalParams) => Promise<CreateResourceSupportedResponse>;
+    list: (dynatraceEnvironmentId: string, options?: CreationSupportedListOptionalParams) => Promise<CreateResourceSupportedResponse>;
+}
 
 // @public
 export interface DynatraceEnvironmentProperties {
@@ -53,32 +102,6 @@ export interface DynatraceEnvironmentProperties {
     environmentInfo?: EnvironmentInfo;
     singleSignOnProperties?: DynatraceSingleSignOnProperties;
     userId?: string;
-}
-
-// @public (undocumented)
-export class DynatraceObservability extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DynatraceObservabilityOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    monitors: Monitors;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    singleSignOn: SingleSignOn;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    tagRules: TagRules;
-}
-
-// @public
-export interface DynatraceObservabilityOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
 }
 
 // @public
@@ -97,13 +120,6 @@ export interface DynatraceSingleSignOnResource extends ProxyResource {
     readonly provisioningState?: ProvisioningState;
     singleSignOnState?: SingleSignOnStates;
     singleSignOnUrl?: string;
-    readonly systemData?: SystemData;
-}
-
-// @public
-export interface DynatraceSingleSignOnResourceListResult {
-    nextLink?: string;
-    value: DynatraceSingleSignOnResource[];
 }
 
 // @public
@@ -116,7 +132,7 @@ export interface EnvironmentInfo {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -142,16 +158,19 @@ export interface FilteringTag {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface IdentityProperties {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export { isRestError }
+
+// @public
+export enum KnownAction {
+    Install = "Install",
+    Uninstall = "Uninstall"
 }
 
 // @public
@@ -205,9 +224,24 @@ export enum KnownManagedIdentityType {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownMarketplaceSaasAutoRenew {
+    Off = "Off",
+    On = "On"
+}
+
+// @public
 export enum KnownMarketplaceSubscriptionStatus {
     Active = "Active",
-    Suspended = "Suspended"
+    Suspended = "Suspended",
+    Unsubscribed = "Unsubscribed"
 }
 
 // @public
@@ -219,6 +253,7 @@ export enum KnownMonitoringStatus {
 // @public
 export enum KnownMonitoringType {
     CloudInfrastructure = "CLOUD_INFRASTRUCTURE",
+    Discovery = "DISCOVERY",
     FullStack = "FULL_STACK"
 }
 
@@ -287,6 +322,23 @@ export enum KnownSSOStatus {
 }
 
 // @public
+export enum KnownStatus {
+    Active = "Active",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InProgress = "InProgress"
+}
+
+// @public
+export enum KnownSubscriptionListOperation {
+    Active = "Active",
+    AddBegin = "AddBegin",
+    AddComplete = "AddComplete",
+    DeleteBegin = "DeleteBegin",
+    DeleteComplete = "DeleteComplete"
+}
+
+// @public
 export enum KnownTagAction {
     Exclude = "Exclude",
     Include = "Include"
@@ -306,13 +358,12 @@ export enum KnownUpdateStatus {
 }
 
 // @public
-export type LiftrResourceCategories = string;
+export enum KnownVersions {
+    V20240424 = "2024-04-24"
+}
 
 // @public
-export interface LinkableEnvironmentListResponse {
-    nextLink?: string;
-    value?: LinkableEnvironmentResponse[];
-}
+export type LiftrResourceCategories = string;
 
 // @public
 export interface LinkableEnvironmentRequest {
@@ -340,7 +391,37 @@ export interface LogRules {
 }
 
 // @public
+export interface LogStatusRequest {
+    monitoredResourceIds?: string[];
+}
+
+// @public
+export interface ManageAgentInstallationRequest {
+    action: Action;
+    manageAgentInstallationList: ManageAgentList[];
+}
+
+// @public
+export interface ManageAgentList {
+    id?: string;
+}
+
+// @public
 export type ManagedIdentityType = string;
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
+
+// @public
+export type MarketplaceSaasAutoRenew = string;
 
 // @public
 export interface MarketplaceSaaSResourceDetailsRequest {
@@ -350,8 +431,14 @@ export interface MarketplaceSaaSResourceDetailsRequest {
 // @public
 export interface MarketplaceSaaSResourceDetailsResponse {
     marketplaceSaaSResourceId?: string;
+    marketplaceSaaSResourceName?: string;
     marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
     planId?: string;
+}
+
+// @public
+export interface MarketplaceSubscriptionIdRequest {
+    marketplaceSubscriptionId: string;
 }
 
 // @public
@@ -369,6 +456,11 @@ export interface MetricsStatusResponse {
 }
 
 // @public
+export interface MetricStatusRequest {
+    monitoredResourceIds?: string[];
+}
+
+// @public
 export interface MonitoredResource {
     id?: string;
     reasonForLogsStatus?: string;
@@ -378,16 +470,79 @@ export interface MonitoredResource {
 }
 
 // @public
-export interface MonitoredResourceListResponse {
-    nextLink?: string;
-    value?: MonitoredResource[];
+export interface MonitoredSubscription {
+    error?: string;
+    status?: Status;
+    subscriptionId: string;
+    tagRules?: MonitoringTagRulesProperties;
+}
+
+// @public
+export interface MonitoredSubscriptionProperties extends ProxyResource {
+    properties?: SubscriptionList;
+}
+
+// @public
+export interface MonitoredSubscriptionsCreateOrUpdateOptionalParams extends OperationOptions {
+    // (undocumented)
+    body?: MonitoredSubscriptionProperties;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MonitoredSubscriptionsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MonitoredSubscriptionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MonitoredSubscriptionsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MonitoredSubscriptionsOperations {
+    createOrUpdate: (resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<MonitoredSubscriptionProperties>, MonitoredSubscriptionProperties>;
+    delete: (resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsGetOptionalParams) => Promise<MonitoredSubscriptionProperties>;
+    list: (resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsListOptionalParams) => PagedAsyncIterableIterator<MonitoredSubscriptionProperties>;
+    update: (resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsUpdateOptionalParams) => PollerLike<OperationState<MonitoredSubscriptionProperties>, MonitoredSubscriptionProperties>;
+}
+
+// @public
+export interface MonitoredSubscriptionsUpdateOptionalParams extends OperationOptions {
+    // (undocumented)
+    body?: MonitoredSubscriptionProperties;
+    updateIntervalInMs?: number;
 }
 
 // @public
 export type MonitoringStatus = string;
 
 // @public
+export interface MonitoringTagRulesProperties {
+    logRules?: LogRules;
+    metricRules?: MetricRules;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
 export type MonitoringType = string;
+
+// @public
+export interface MonitorProperties {
+    dynatraceEnvironmentProperties?: DynatraceEnvironmentProperties;
+    readonly liftrResourceCategory?: LiftrResourceCategories;
+    readonly liftrResourcePreference?: number;
+    marketplaceSaasAutoRenew?: MarketplaceSaasAutoRenew;
+    marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
+    monitoringStatus?: MonitoringStatus;
+    planData?: PlanData;
+    readonly provisioningState?: ProvisioningState;
+    userInfo?: UserInfo;
+}
 
 // @public
 export interface MonitorResource extends TrackedResource {
@@ -395,188 +550,138 @@ export interface MonitorResource extends TrackedResource {
     identity?: IdentityProperties;
     readonly liftrResourceCategory?: LiftrResourceCategories;
     readonly liftrResourcePreference?: number;
+    marketplaceSaasAutoRenew?: MarketplaceSaasAutoRenew;
     marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
     monitoringStatus?: MonitoringStatus;
     planData?: PlanData;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
     userInfo?: UserInfo;
 }
 
 // @public
-export interface MonitorResourceListResult {
-    nextLink?: string;
-    value: MonitorResource[];
-}
-
-// @public
 export interface MonitorResourceUpdate {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    identity?: ManagedServiceIdentity;
+    properties?: MonitorUpdateProperties;
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface Monitors {
-    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, resource: MonitorResource, options?: MonitorsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsCreateOrUpdateResponse>, MonitorsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, resource: MonitorResource, options?: MonitorsCreateOrUpdateOptionalParams): Promise<MonitorsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams): Promise<MonitorsGetResponse>;
-    getMarketplaceSaaSResourceDetails(request: MarketplaceSaaSResourceDetailsRequest, options?: MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams): Promise<MonitorsGetMarketplaceSaaSResourceDetailsResponse>;
-    getMetricStatus(resourceGroupName: string, monitorName: string, options?: MonitorsGetMetricStatusOptionalParams): Promise<MonitorsGetMetricStatusResponse>;
-    getSSODetails(resourceGroupName: string, monitorName: string, options?: MonitorsGetSSODetailsOptionalParams): Promise<MonitorsGetSSODetailsResponse>;
-    getVMHostPayload(resourceGroupName: string, monitorName: string, options?: MonitorsGetVMHostPayloadOptionalParams): Promise<MonitorsGetVMHostPayloadResponse>;
-    listAppServices(resourceGroupName: string, monitorName: string, options?: MonitorsListAppServicesOptionalParams): PagedAsyncIterableIterator<AppServiceInfo>;
-    listByResourceGroup(resourceGroupName: string, options?: MonitorsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<MonitorResource>;
-    listBySubscriptionId(options?: MonitorsListBySubscriptionIdOptionalParams): PagedAsyncIterableIterator<MonitorResource>;
-    listHosts(resourceGroupName: string, monitorName: string, options?: MonitorsListHostsOptionalParams): PagedAsyncIterableIterator<VMInfo>;
-    listLinkableEnvironments(resourceGroupName: string, monitorName: string, request: LinkableEnvironmentRequest, options?: MonitorsListLinkableEnvironmentsOptionalParams): PagedAsyncIterableIterator<LinkableEnvironmentResponse>;
-    listMonitoredResources(resourceGroupName: string, monitorName: string, options?: MonitorsListMonitoredResourcesOptionalParams): PagedAsyncIterableIterator<MonitoredResource>;
-    update(resourceGroupName: string, monitorName: string, resource: MonitorResourceUpdate, options?: MonitorsUpdateOptionalParams): Promise<MonitorsUpdateResponse>;
-}
-
-// @public
-export interface MonitorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface MonitorsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type MonitorsCreateOrUpdateResponse = MonitorResource;
-
-// @public
-export interface MonitorsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface MonitorsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsGetAllConnectedResourcesCountOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsGetMarketplaceSaaSResourceDetailsResponse = MarketplaceSaaSResourceDetailsResponse;
-
-// @public
-export interface MonitorsGetMetricStatusOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsGetMetricStatusResponse = MetricsStatusResponse;
-
-// @public
-export interface MonitorsGetOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsGetMetricStatusOptionalParams extends OperationOptions {
+    request?: MetricStatusRequest;
 }
 
 // @public
-export type MonitorsGetResponse = MonitorResource;
+export interface MonitorsGetOptionalParams extends OperationOptions {
+}
 
 // @public
-export interface MonitorsGetSSODetailsOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsGetSSODetailsOptionalParams extends OperationOptions {
     request?: SSODetailsRequest;
 }
 
 // @public
-export type MonitorsGetSSODetailsResponse = SSODetailsResponse;
-
-// @public
-export interface MonitorsGetVMHostPayloadOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsGetVMHostPayloadOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsGetVMHostPayloadResponse = VMExtensionPayload;
-
-// @public
-export interface MonitorsListAppServicesNextOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsListAppServicesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsListAppServicesNextResponse = AppServiceListResponse;
-
-// @public
-export interface MonitorsListAppServicesOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsListAppServicesResponse = AppServiceListResponse;
-
-// @public
-export interface MonitorsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsListBySubscriptionIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsListByResourceGroupNextResponse = MonitorResourceListResult;
-
-// @public
-export interface MonitorsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsListHostsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsListByResourceGroupResponse = MonitorResourceListResult;
-
-// @public
-export interface MonitorsListBySubscriptionIdNextOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsListLinkableEnvironmentsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsListBySubscriptionIdNextResponse = MonitorResourceListResult;
-
-// @public
-export interface MonitorsListBySubscriptionIdOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsListMonitoredResourcesOptionalParams extends OperationOptions {
+    request?: LogStatusRequest;
 }
 
 // @public
-export type MonitorsListBySubscriptionIdResponse = MonitorResourceListResult;
-
-// @public
-export interface MonitorsListHostsNextOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsManageAgentInstallationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsListHostsNextResponse = VMHostsListResponse;
-
-// @public
-export interface MonitorsListHostsOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsOperations {
+    createOrUpdate: (resourceGroupName: string, monitorName: string, resource: MonitorResource, options?: MonitorsCreateOrUpdateOptionalParams) => PollerLike<OperationState<MonitorResource>, MonitorResource>;
+    delete: (resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams) => Promise<MonitorResource>;
+    getAllConnectedResourcesCount: (request: MarketplaceSubscriptionIdRequest, options?: MonitorsGetAllConnectedResourcesCountOptionalParams) => Promise<ConnectedResourcesCountResponse>;
+    getMarketplaceSaaSResourceDetails: (request: MarketplaceSaaSResourceDetailsRequest, options?: MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams) => Promise<MarketplaceSaaSResourceDetailsResponse>;
+    getMetricStatus: (resourceGroupName: string, monitorName: string, options?: MonitorsGetMetricStatusOptionalParams) => Promise<MetricsStatusResponse>;
+    getSSODetails: (resourceGroupName: string, monitorName: string, options?: MonitorsGetSSODetailsOptionalParams) => Promise<SSODetailsResponse>;
+    getVMHostPayload: (resourceGroupName: string, monitorName: string, options?: MonitorsGetVMHostPayloadOptionalParams) => Promise<VMExtensionPayload>;
+    listAppServices: (resourceGroupName: string, monitorName: string, options?: MonitorsListAppServicesOptionalParams) => PagedAsyncIterableIterator<AppServiceInfo>;
+    listByResourceGroup: (resourceGroupName: string, options?: MonitorsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<MonitorResource>;
+    listBySubscriptionId: (options?: MonitorsListBySubscriptionIdOptionalParams) => PagedAsyncIterableIterator<MonitorResource>;
+    listHosts: (resourceGroupName: string, monitorName: string, options?: MonitorsListHostsOptionalParams) => PagedAsyncIterableIterator<VMInfo>;
+    listLinkableEnvironments: (resourceGroupName: string, monitorName: string, request: LinkableEnvironmentRequest, options?: MonitorsListLinkableEnvironmentsOptionalParams) => PagedAsyncIterableIterator<LinkableEnvironmentResponse>;
+    listMonitoredResources: (resourceGroupName: string, monitorName: string, options?: MonitorsListMonitoredResourcesOptionalParams) => PagedAsyncIterableIterator<MonitoredResource>;
+    manageAgentInstallation: (resourceGroupName: string, monitorName: string, request: ManageAgentInstallationRequest, options?: MonitorsManageAgentInstallationOptionalParams) => Promise<void>;
+    update: (resourceGroupName: string, monitorName: string, resource: MonitorResourceUpdate, options?: MonitorsUpdateOptionalParams) => Promise<MonitorResource>;
+    upgradePlan: (resourceGroupName: string, monitorName: string, request: UpgradePlanRequest, options?: MonitorsUpgradePlanOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export type MonitorsListHostsResponse = VMHostsListResponse;
-
-// @public
-export interface MonitorsListLinkableEnvironmentsNextOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsListLinkableEnvironmentsNextResponse = LinkableEnvironmentListResponse;
-
-// @public
-export interface MonitorsListLinkableEnvironmentsOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsUpgradePlanOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type MonitorsListLinkableEnvironmentsResponse = LinkableEnvironmentListResponse;
+export interface MonitorUpdateProperties {
+    planData?: PlanData;
+}
 
-// @public
-export interface MonitorsListMonitoredResourcesNextOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export class ObservabilityClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ObservabilityClientOptionalParams);
+    readonly creationSupported: CreationSupportedOperations;
+    readonly monitoredSubscriptions: MonitoredSubscriptionsOperations;
+    readonly monitors: MonitorsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly singleSignOn: SingleSignOnOperations;
+    readonly tagRules: TagRulesOperations;
 }
 
 // @public
-export type MonitorsListMonitoredResourcesNextResponse = MonitoredResourceListResponse;
-
-// @public
-export interface MonitorsListMonitoredResourcesOptionalParams extends coreClient.OperationOptions {
+export interface ObservabilityClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
-
-// @public
-export type MonitorsListMonitoredResourcesResponse = MonitoredResourceListResponse;
-
-// @public
-export interface MonitorsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MonitorsUpdateResponse = MonitorResource;
 
 // @public
 export interface Operation {
@@ -596,32 +701,28 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface PlanData {
@@ -642,7 +743,20 @@ export interface ProxyResource extends Resource {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ObservabilityClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -661,42 +775,24 @@ export type SendingMetricsStatus = string;
 export type SendSubscriptionLogsStatus = string;
 
 // @public
-export interface SingleSignOn {
-    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, configurationName: string, resource: DynatraceSingleSignOnResource, options?: SingleSignOnCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SingleSignOnCreateOrUpdateResponse>, SingleSignOnCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: string, resource: DynatraceSingleSignOnResource, options?: SingleSignOnCreateOrUpdateOptionalParams): Promise<SingleSignOnCreateOrUpdateResponse>;
-    get(resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnGetOptionalParams): Promise<SingleSignOnGetResponse>;
-    list(resourceGroupName: string, monitorName: string, options?: SingleSignOnListOptionalParams): PagedAsyncIterableIterator<DynatraceSingleSignOnResource>;
-}
-
-// @public
-export interface SingleSignOnCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SingleSignOnCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SingleSignOnCreateOrUpdateResponse = DynatraceSingleSignOnResource;
-
-// @public
-export interface SingleSignOnGetOptionalParams extends coreClient.OperationOptions {
+export interface SingleSignOnGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SingleSignOnGetResponse = DynatraceSingleSignOnResource;
-
-// @public
-export interface SingleSignOnListNextOptionalParams extends coreClient.OperationOptions {
+export interface SingleSignOnListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SingleSignOnListNextResponse = DynatraceSingleSignOnResourceListResult;
-
-// @public
-export interface SingleSignOnListOptionalParams extends coreClient.OperationOptions {
+export interface SingleSignOnOperations {
+    createOrUpdate: (resourceGroupName: string, monitorName: string, configurationName: string, resource: DynatraceSingleSignOnResource, options?: SingleSignOnCreateOrUpdateOptionalParams) => PollerLike<OperationState<DynatraceSingleSignOnResource>, DynatraceSingleSignOnResource>;
+    get: (resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnGetOptionalParams) => Promise<DynatraceSingleSignOnResource>;
+    list: (resourceGroupName: string, monitorName: string, options?: SingleSignOnListOptionalParams) => PagedAsyncIterableIterator<DynatraceSingleSignOnResource>;
 }
-
-// @public
-export type SingleSignOnListResponse = DynatraceSingleSignOnResourceListResult;
 
 // @public
 export type SingleSignOnStates = string;
@@ -719,6 +815,19 @@ export interface SSODetailsResponse {
 export type SSOStatus = string;
 
 // @public
+export type Status = string;
+
+// @public
+export interface SubscriptionList {
+    monitoredSubscriptionList?: MonitoredSubscription[];
+    operation?: SubscriptionListOperation;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export type SubscriptionListOperation = string;
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -736,76 +845,52 @@ export interface TagRule extends ProxyResource {
     logRules?: LogRules;
     metricRules?: MetricRules;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
 }
 
 // @public
-export interface TagRuleListResult {
-    nextLink?: string;
-    value: TagRule[];
-}
-
-// @public
-export interface TagRules {
-    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, ruleSetName: string, resource: TagRule, options?: TagRulesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TagRulesCreateOrUpdateResponse>, TagRulesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, ruleSetName: string, resource: TagRule, options?: TagRulesCreateOrUpdateOptionalParams): Promise<TagRulesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesGetOptionalParams): Promise<TagRulesGetResponse>;
-    list(resourceGroupName: string, monitorName: string, options?: TagRulesListOptionalParams): PagedAsyncIterableIterator<TagRule>;
-}
-
-// @public
-export interface TagRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface TagRulesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type TagRulesCreateOrUpdateResponse = TagRule;
-
-// @public
-export interface TagRulesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface TagRulesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface TagRulesGetOptionalParams extends coreClient.OperationOptions {
+export interface TagRulesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TagRulesGetResponse = TagRule;
-
-// @public
-export interface TagRulesListNextOptionalParams extends coreClient.OperationOptions {
+export interface TagRulesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TagRulesListNextResponse = TagRuleListResult;
-
-// @public
-export interface TagRulesListOptionalParams extends coreClient.OperationOptions {
+export interface TagRulesOperations {
+    createOrUpdate: (resourceGroupName: string, monitorName: string, ruleSetName: string, resource: TagRule, options?: TagRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<TagRule>, TagRule>;
+    delete: (resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesGetOptionalParams) => Promise<TagRule>;
+    list: (resourceGroupName: string, monitorName: string, options?: TagRulesListOptionalParams) => PagedAsyncIterableIterator<TagRule>;
 }
-
-// @public
-export type TagRulesListResponse = TagRuleListResult;
 
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export type UpdateStatus = string;
 
 // @public
+export interface UpgradePlanRequest {
+    planData?: PlanData;
+}
+
+// @public
 export interface UserAssignedIdentity {
-    clientId: string;
-    principalId: string;
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public
@@ -821,12 +906,6 @@ export interface UserInfo {
 export interface VMExtensionPayload {
     environmentId?: string;
     ingestionKey?: string;
-}
-
-// @public
-export interface VMHostsListResponse {
-    nextLink?: string;
-    value?: VMInfo[];
 }
 
 // @public

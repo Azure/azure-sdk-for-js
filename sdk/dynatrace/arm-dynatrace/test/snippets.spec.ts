@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DynatraceObservability } from "../src/index.js";
+import { ObservabilityClient } from "../src/index.js";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -9,16 +9,16 @@ import { describe, it } from "vitest";
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new DynatraceObservability(new DefaultAzureCredential(), subscriptionId);
+    const client = new ObservabilityClient(new DefaultAzureCredential(), subscriptionId);
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
-    const subscriptionId = "00000000-0000-0000-0000-000000000000";
     const credential = new InteractiveBrowserCredential({
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
-    const client = new DynatraceObservability(credential, subscriptionId);
+    const subscriptionId = "00000000-0000-0000-0000-000000000000";
+    const client = new ObservabilityClient(credential, subscriptionId);
   });
 
   it("SetLogLevel", async () => {
