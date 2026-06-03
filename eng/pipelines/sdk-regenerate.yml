@@ -352,10 +352,13 @@ stages:
                 targetType: inline
                 script: |
                   $ErrorActionPreference = 'Stop'
+                  $repoRoot = '$(Build.SourcesDirectory)'
                   $aggPath = Join-Path '$(Pipeline.Workspace)' 'regen_summary/aggregated-results.json'
                   $failedLog = Join-Path '$(Pipeline.Workspace)' 'failed-patches.txt'
                   $bodyPath = Join-Path '$(Pipeline.Workspace)' 'regen-pr-body.md'
-                  & ./eng/pipelines/scripts/format-regen-pr-body.ps1 `
+                  $formatPrBodyScript = Join-Path $repoRoot 'eng/pipelines/scripts/format-regen-pr-body.ps1'
+                  $submitPrScript = Join-Path $repoRoot 'eng/common/scripts/Submit-PullRequest.ps1'
+                  & $formatPrBodyScript `
                     -AggPath $aggPath `
                     -FailedLogPath $failedLog `
                     -BuildDefinitionName '$(Build.DefinitionName)' `
@@ -368,7 +371,7 @@ stages:
 
                   $bodyText = Get-Content $bodyPath -Raw
                   $prTitle  = 'TypeSpec regeneration: emitter $(emitterVersion) [${{ parameters.ChangePushMode }}]'
-                  & ./eng/common/scripts/Submit-PullRequest.ps1 `
+                  & $submitPrScript `
                     -RepoOwner '$(RepoOwner)' `
                     -RepoName '$(RepoNameOnly)' `
                     -BaseBranch '${{ parameters.PullRequestTargetBranch }}' `
