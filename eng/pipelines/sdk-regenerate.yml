@@ -1,15 +1,18 @@
 # JS SDK TypeSpec breaking-change check pipeline (ARM only).
 #
-# Flow: resolve emitter dev tag → patch eng/emitter-package.json + regenerate
-# lock file → shard ARM packages with the shared New-RegenerateMatrix.ps1 →
-# per shard run eng/pipelines/scripts/regenerate-shard.js, which delegates
-# every per-package step to shared scripts (TypeSpec-Project-Sync.ps1,
-# TypeSpec-Project-Generate.ps1) plus a direct `npm exec update-changelog`
-# call (we bypass eng/scripts/update-changelog-content.ps1, which currently
-# uses Windows-only backslash paths and breaks on Linux agents) and a single
-# `pnpm turbo build --filter` invocation. Summary stage aggregates per-shard
-# result.json; optional CreatePR stage 3-way applies the per-shard
-# changes.patch artifacts and pushes via the shared git-push-changes template.
+# All non-trivial logic lives in eng/pipelines/scripts/regenerate-shard.js
+# (5 subcommands: resolve-emitter, prepare, shard, aggregate, apply-patches).
+# This YAML is the orchestration shell:
+#
+#   Setup              → resolve emitter dev tag + build per-shard matrix
+#   RegenerateAndBuild → per matrix shard: patch emitter-package.json, run
+#                        TypeSpec-Project-{Sync,Generate}.ps1 per pkg, single
+#                        `pnpm turbo build`, `npm exec update-changelog` per
+#                        built pkg, emit result.json + changes.patch
+#   SummaryAndPR       → aggregate per-shard result.json → summary artifact;
+#                        if CreatePullRequest=true and regen succeeded, 3-way
+#                        apply per-shard patches onto target branch (fork or
+#                        upstream), push, then Submit-PullRequest.ps1.
 
 trigger:
   branches:
@@ -44,11 +47,11 @@ parameters:
   - name: MaxWorkers
     displayName: "Per-shard regen concurrency"
     type: number
-    default: 2
+    default: 4
   - name: BuildConcurrency
     displayName: "pnpm turbo --concurrency per shard"
     type: number
-    default: 2
+    default: 4
   - name: RegenerationJobCount
     displayName: "Matrix shard count"
     type: number
@@ -112,33 +115,8 @@ stages:
   displayName: 'TypeSpec emitter breaking-change check'
   jobs:
 
-  # ----- Setup: resolve emitter version + bake emitter-package(-lock).json -----
+  # ----- Setup: resolve emitter version + build per-shard matrix -----
   - job: Setup
-    steps:
-      - checkout: self
-        fetchDepth: 1
-        fetchTags: false
-        submodules: false
-      - task: NodeTool@0
-        inputs: { versionSpec: $(nodeVersion) }
-      - bash: |
-          set -euo pipefail
-          raw='${{ parameters.EmitterVersion }}'
-          norm=$(echo "$raw" | tr '[:upper:]' '[:lower:]' | xargs)
-          if [[ -z "$norm" || "$norm" == "empty" || "$norm" == "latest" || "$norm" == "auto" || "$norm" == "dev" ]]; then
-            v=$(npm view @azure-tools/typespec-ts dist-tags.dev)
-            [[ -n "$v" ]] || { echo "##[error]npm view returned empty dev tag"; exit 1; }
-          else
-            v="$raw"
-          fi
-          echo "Emitter version: $v"
-          echo "##vso[task.setvariable variable=emitterVersion;isOutput=true]$v"
-        name: resolveVersion
-        displayName: 'Resolve emitter version'
-
-  # ----- GenerateMatrix: shared shared matrix builder (only TypeSpec packages) -----
-  - job: GenerateMatrix
-    dependsOn: Setup
     variables:
       ${{ if parameters.QuickTest }}:
         effFilter: 'arm-alertprocessingrules,arm-alertrulerecommendations,arm-alertsmanagement'
@@ -153,6 +131,13 @@ stages:
         fetchDepth: 1
         fetchTags: false
         submodules: false
+      - task: NodeTool@0
+        inputs: { versionSpec: $(nodeVersion) }
+      - bash: |
+          node $(sdkRoot)/eng/pipelines/scripts/regenerate-shard.js resolve-emitter \
+            --input '${{ parameters.EmitterVersion }}'
+        name: resolveVersion
+        displayName: 'Resolve emitter version'
       - task: PowerShell@2
         name: generateMatrix
         displayName: 'Build matrix'
@@ -173,10 +158,10 @@ stages:
 
   # ----- Regenerate & build per shard -----
   - job: RegenerateAndBuild
-    dependsOn: [Setup, GenerateMatrix]
+    dependsOn: Setup
     timeoutInMinutes: 180
     strategy:
-      matrix: $[ dependencies.GenerateMatrix.outputs['generateMatrix.matrix'] ]
+      matrix: $[ dependencies.Setup.outputs['generateMatrix.matrix'] ]
     variables:
       emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
     steps:
@@ -189,78 +174,35 @@ stages:
       - download: current
         artifact: matrix_artifacts
 
-      # Patch eng/emitter-package.json with the resolved emitter version and
-      # regenerate eng/emitter-package-lock.json so TypeSpec-Project-Generate
-      # uses the candidate emitter.
+      # Patch eng/emitter-package.json with the resolved emitter version,
+      # regenerate the lock file, pre-install js-sdk-release-tools (avoids the
+      # Windows-backslash bug in update-changelog-content.ps1), and shallow-clone
+      # the spec repo so TypeSpec-Project-Sync can copy from it.
       - bash: |
-          set -euo pipefail
-          npm install -g @azure-tools/typespec-client-generator-cli pnpm
-          # Persist legacy-peer-deps to ~/.npmrc so it applies to every later
-          # npm invocation on this agent (tsp-client generate-lock-file *and*
-          # the `npm ci` inside TypeSpec-Project-Generate.ps1, which is where
-          # dev-emitter peer-dep drift would otherwise blow up).
-          npm config set legacy-peer-deps true
-          node -e '
-            const fs=require("fs"),p="$(sdkRoot)/eng/emitter-package.json";
-            const j=JSON.parse(fs.readFileSync(p,"utf8"));
-            j.dependencies["@azure-tools/typespec-ts"]="$(emitterVersion)";
-            // Inject peer-deps that the dev typespec-client-generator-core imports
-            // at runtime but main`s emitter-package.json does not yet declare. Track
-            // upstream fix at https://github.com/Azure/autorest.typescript/issues/.
-            const v=j.dependencies["@typespec/events"]||"0.82.0";
-            j.dependencies["@typespec/xml"]=j.dependencies["@typespec/xml"]||v;
-            j.dependencies["@typespec/sse"]=j.dependencies["@typespec/sse"]||v;
-            fs.writeFileSync(p,JSON.stringify(j,null,2)+"\n");'
-          cd "$(sdkRoot)"
-          tsp-client generate-lock-file
-
-          # Pre-install js-sdk-release-tools once per shard with a POSIX --prefix.
-          # regenerate-shard.js calls `npm exec update-changelog` against this
-          # install for every package; doing it here avoids the Windows-backslash
-          # bug in eng/scripts/update-changelog-content.ps1 and avoids reinstalling
-          # for every package.
-          npm --prefix eng/tools/js-sdk-release-tools ci
-
-          # Shallow-clone the spec repo once per shard (TypeSpec-Project-Sync
-          # will copy from this via -LocalSpecRepoPath).
-          git clone --depth 1 --branch "${{ parameters.SpecRepoBranch }}" \
-            https://github.com/Azure/azure-rest-api-specs.git "$(specRepoRoot)"
+          node $(sdkRoot)/eng/pipelines/scripts/regenerate-shard.js prepare \
+            --emitterVersion "$(emitterVersion)" \
+            --specRepoBranch "${{ parameters.SpecRepoBranch }}" \
+            --specRepoRoot "$(specRepoRoot)"
         displayName: 'Prepare emitter + spec repo'
 
       - bash: |
-          set -euo pipefail
-          mkdir -p "$(Build.ArtifactStagingDirectory)/results/$(JobKey)"
-          node $(sdkRoot)/eng/pipelines/scripts/regenerate-shard.js \
+          node $(sdkRoot)/eng/pipelines/scripts/regenerate-shard.js shard \
             --specRepoRoot "$(specRepoRoot)" \
             --directoryList "$(Pipeline.Workspace)/matrix_artifacts/$(DirectoryList)" \
             --resultOutputDir "$(Build.ArtifactStagingDirectory)/results/$(JobKey)" \
             --maxWorkers "${{ parameters.MaxWorkers }}" \
             --buildConcurrency "${{ parameters.BuildConcurrency }}" \
-            --skipBuild "${{ parameters.SkipBuild }}"
+            --skipBuild "${{ parameters.SkipBuild }}" \
+            --pushMode "${{ parameters.ChangePushMode }}"
         displayName: 'Regenerate + build shard'
         workingDirectory: $(sdkRoot)
-
-      - bash: |
-          set -euo pipefail
-          cd "$(sdkRoot)"
-          echo "===== Generated changes ====="; git diff --stat
-          if [[ "${{ parameters.CreatePullRequest }}" == "True" || "${{ parameters.CreatePullRequest }}" == "true" ]]; then
-            out="$(Build.ArtifactStagingDirectory)/results/$(JobKey)/changes.patch"
-            if [[ "${{ parameters.ChangePushMode }}" == "api-md" ]]; then
-              git diff --binary -- ':(glob)sdk/**/review/*.api.md' ':(glob)sdk/**/CHANGELOG.md' > "$out"
-            else
-              git diff --binary -- sdk/ > "$out"
-            fi
-          fi
-        displayName: 'Capture shard diff/patch'
-        condition: always()
 
       - publish: $(Build.ArtifactStagingDirectory)/results/$(JobKey)
         artifact: regen_result_$(JobKey)
         condition: always()
 
-  # ----- Summary: aggregate per-shard result.json -----
-  - job: Summary
+  # ----- Aggregate results + (optionally) open PR -----
+  - job: SummaryAndPR
     dependsOn: [Setup, RegenerateAndBuild]
     condition: succeededOrFailed()
     variables:
@@ -270,151 +212,66 @@ stages:
         fetchDepth: 1
         fetchTags: false
         submodules: false
+      - task: NodeTool@0
+        inputs: { versionSpec: $(nodeVersion) }
       - download: current
-      - task: PowerShell@2
+
+      # Always aggregate first — exit 1 on regen/build failures naturally gates
+      # the conditional PR steps below (their default succeeded() condition skips
+      # them when this step fails), reproducing the old Summary→CreatePR gate.
+      - bash: |
+          node "$(sdkRoot)/eng/pipelines/scripts/regenerate-shard.js" aggregate \
+            --workspace "$(Pipeline.Workspace)" \
+            --outDir "$(Build.ArtifactStagingDirectory)/summary" \
+            --emitterVersion "$(emitterVersion)" \
+            --buildNumber "$(Build.BuildNumber)" \
+            --buildUrl "$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)" \
+            --definitionName "$(Build.DefinitionName)" \
+            --pushMode "${{ parameters.ChangePushMode }}"
         displayName: 'Aggregate shard results'
-        inputs:
-          pwsh: true
-          targetType: inline
-          script: |
-            $files = Get-ChildItem -Path '$(Pipeline.Workspace)' -Recurse -Filter 'result.json' -ErrorAction SilentlyContinue
-            $agg = [pscustomobject]@{
-              emitterVersion = '$(emitterVersion)'
-              regeneration   = @{ total=0; success=0; failed=0; failures=@() }
-              build          = @{ total=0; success=0; failed=0; failures=@() }
-              changelog      = @{ total=0; generated=0; failed=@(); withBreaking=0; breakingPackages=@() }
-            }
-            foreach ($f in $files) {
-              $r = Get-Content $f.FullName -Raw | ConvertFrom-Json
-              if ($r.regeneration) {
-                $agg.regeneration.total   += $r.regeneration.total
-                $agg.regeneration.success += $r.regeneration.success
-                $agg.regeneration.failed  += $r.regeneration.failed
-                $agg.regeneration.failures += $r.regeneration.failures
-              }
-              if ($r.build) {
-                $agg.build.total   += $r.build.total
-                $agg.build.success += $r.build.success
-                $agg.build.failed  += $r.build.failed
-                $agg.build.failures += $r.build.failures
-              }
-              if ($r.changelog) {
-                $agg.changelog.total            += $r.changelog.total
-                $agg.changelog.generated        += $r.changelog.generated
-                $agg.changelog.failed           += $r.changelog.failed
-                $agg.changelog.withBreaking     += $r.changelog.withBreaking
-                $agg.changelog.breakingPackages += $r.changelog.breakingPackages
-              }
-            }
-            $agg.changelog.breakingPackages = $agg.changelog.breakingPackages | Sort-Object -Unique
-            Write-Host "===== AGGREGATED SUMMARY ====="
-            Write-Host ("Emitter      : {0}" -f $agg.emitterVersion)
-            Write-Host ("Regenerated  : {0}/{1}  (failed: {2})" -f $agg.regeneration.success, $agg.regeneration.total, $agg.regeneration.failed)
-            Write-Host ("Built        : {0}/{1}  (failed: {2})" -f $agg.build.success, $agg.build.total, $agg.build.failed)
-            Write-Host ("Changelogs   : {0}/{1}  (breaking: {2})" -f $agg.changelog.generated, $agg.changelog.total, $agg.changelog.withBreaking)
-            if ($agg.changelog.breakingPackages.Count -gt 0) {
-              Write-Host "`nBreaking packages:"
-              $agg.changelog.breakingPackages | ForEach-Object { Write-Host "  - $_" }
-            }
-            New-Item -ItemType Directory -Force -Path '$(Build.ArtifactStagingDirectory)/summary' | Out-Null
-            $agg | ConvertTo-Json -Depth 6 | Set-Content '$(Build.ArtifactStagingDirectory)/summary/aggregated-results.json'
-            if ($agg.regeneration.failed -gt 0 -or $agg.build.failed -gt 0) { exit 1 }
       - publish: $(Build.ArtifactStagingDirectory)/summary
         artifact: regen_summary
         condition: always()
 
-  # ----- Optional CreatePR: 3-way apply per-shard patches and open PR -----
-  - ${{ if parameters.CreatePullRequest }}:
-    - job: CreatePR
-      dependsOn: [Setup, Summary]
-      condition: succeeded()
-      variables:
-        emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
-      steps:
-        - checkout: self
-          fetchDepth: 1
-          fetchTags: false
-          submodules: false
-        # Only request the org-level GitHub App token when we're NOT targeting a fork.
-        # When targeting a fork, the user's PAT (FORK_TOKEN env) is used instead.
+      - ${{ if parameters.CreatePullRequest }}:
+        # Use the org-level GitHub App token only when not targeting a fork;
+        # otherwise the user PAT from FORK_TOKEN is used by apply-patches.
         - ${{ if eq(parameters.PullRequestRepoOwner, '') }}:
           - template: /eng/common/pipelines/templates/steps/login-to-github.yml
             parameters:
               TokenOwners: [Azure]
-        - download: current
 
         - bash: |
-            set -euo pipefail
-            cd "$(sdkRoot)"
-
-            # Source repo (where the build was triggered from); GitHub provides "owner/name".
-            full='$(Build.Repository.Name)'
-            src_owner="${full%%/*}"
-            src_name="${full##*/}"
-
-            # Target repo for the PR — override owner/name to push to a fork.
-            target_owner='${{ parameters.PullRequestRepoOwner }}'
-            target_name='${{ parameters.PullRequestRepoName }}'
-            [[ -z "$target_owner" ]] && target_owner="$src_owner"
-            [[ -z "$target_name"  ]] && target_name="$src_name"
-
-            is_fork="false"
-            if [[ "$target_owner" != "$src_owner" || "$target_name" != "$src_name" ]]; then
-              is_fork="true"
-            fi
-
-            # Pick the push/PR token.
-            if [[ "$is_fork" == "true" ]]; then
-              push_token="${FORK_TOKEN:-}"
-              if [[ -z "$push_token" ]]; then
-                echo "##[error]Targeting fork ${target_owner}/${target_name} but no PAT was provided. Set ForkTokenVariableName to an ADO secret variable holding a GitHub PAT (repo scope)."
-                exit 1
-              fi
-              echo "Targeting fork: ${target_owner}/${target_name} (using user PAT)"
-            else
-              push_token="${GH_TOKEN_VAL:-}"
-              echo "Targeting source repo: ${target_owner}/${target_name} (using GH App token)"
-            fi
-
-            branch='${{ parameters.PullRequestBranch }}'
-            blc=$(echo "$branch" | tr '[:upper:]' '[:lower:]')
-            if [[ -z "$branch" || "$blc" == "empty" || "$blc" == "auto" ]]; then
-              branch="sdk-regenerate-$(Build.BuildId)"
-            fi
-
-            # 3-way apply each shard's patch on top of the target branch.
-            git remote set-url origin "https://x-access-token:${push_token}@github.com/${target_owner}/${target_name}.git"
-            git fetch origin "${{ parameters.PullRequestTargetBranch }}" --depth=1
-            git checkout -B "$branch" "FETCH_HEAD"
-
-            failed='$(Pipeline.Workspace)/failed-patches.txt'
-            : > "$failed"
-            mapfile -t patches < <(find '$(Pipeline.Workspace)' -type f -name changes.patch | sort)
-            for p in "${patches[@]}"; do
-              [[ -s "$p" ]] || continue
-              echo "Applying $p"
-              if ! git apply --3way "$p"; then
-                conflicts=$(git diff --name-only --diff-filter=U)
-                while IFS= read -r f; do
-                  [[ -z "$f" ]] && continue
-                  git checkout HEAD -- "$f" 2>/dev/null || git rm -f "$f" 2>/dev/null || true
-                  echo "$f" >> "$failed"
-                done <<< "$conflicts"
-              fi
-            done
-            # Never push the temporary emitter patches.
-            git checkout -- eng/emitter-package.json eng/emitter-package-lock.json 2>/dev/null || true
-
-            echo "##vso[task.setvariable variable=PRBranchName]$branch"
-            echo "##vso[task.setvariable variable=TargetRepoOwner]$target_owner"
-            echo "##vso[task.setvariable variable=TargetRepoName]$target_name"
-            echo "##vso[task.setvariable variable=PushToken;issecret=true]$push_token"
+            node "$(sdkRoot)/eng/pipelines/scripts/regenerate-shard.js" apply-patches \
+              --sourceRepo "$(Build.Repository.Name)" \
+              --targetOwner "${{ parameters.PullRequestRepoOwner }}" \
+              --targetName "${{ parameters.PullRequestRepoName }}" \
+              --targetBranch "${{ parameters.PullRequestTargetBranch }}" \
+              --branch "${{ parameters.PullRequestBranch }}" \
+              --buildId "$(Build.BuildId)" \
+              --workspace "$(Pipeline.Workspace)" \
+              --failedPatchesFile "$(Pipeline.Workspace)/failed-patches.txt"
+          workingDirectory: $(sdkRoot)
           displayName: 'Apply shard patches'
           env:
             ${{ if ne(parameters.ForkTokenVariableName, '') }}:
               FORK_TOKEN: $(${{ parameters.ForkTokenVariableName }})
             ${{ if eq(parameters.PullRequestRepoOwner, '') }}:
               GH_TOKEN_VAL: $(GH_TOKEN)
+
+        # Re-aggregate so pr-body.md includes the "files dropped due to upstream
+        # conflicts" section from failed-patches.txt. Overwrites the summary/.
+        - bash: |
+            node "$(sdkRoot)/eng/pipelines/scripts/regenerate-shard.js" aggregate \
+              --workspace "$(Pipeline.Workspace)" \
+              --outDir "$(Build.ArtifactStagingDirectory)/summary" \
+              --emitterVersion "$(emitterVersion)" \
+              --buildNumber "$(Build.BuildNumber)" \
+              --buildUrl "$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)" \
+              --definitionName "$(Build.DefinitionName)" \
+              --pushMode "${{ parameters.ChangePushMode }}" \
+              --failedPatchesFile "$(Pipeline.Workspace)/failed-patches.txt" || true
+          displayName: 'Compose PR body'
 
         - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
           parameters:
@@ -434,28 +291,11 @@ stages:
             pwsh: true
             targetType: inline
             script: |
-              $agg = Get-Content '$(Pipeline.Workspace)/regen_summary/aggregated-results.json' -Raw | ConvertFrom-Json
-              $failedFile = Join-Path '$(Pipeline.Workspace)' 'failed-patches.txt'
-              $lines = @(
-                "Generated by ``$(Build.DefinitionName)`` build [$(Build.BuildNumber)]($(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)).",
-                "Emitter version: ``$(emitterVersion)``. Push mode: ``${{ parameters.ChangePushMode }}``.",
-                "",
-                "## Regeneration summary",
-                "- Regenerated: **$($agg.regeneration.success)/$($agg.regeneration.total)**",
-                "- Built OK:    **$($agg.build.success)/$($agg.build.total)**",
-                "- Changelog generated: **$($agg.changelog.generated)/$($agg.changelog.total)**",
-                "- Packages with breaking changes: **$($agg.changelog.withBreaking)**"
-              )
-              if ($agg.changelog.breakingPackages.Count -gt 0) {
-                $lines += @("", "## Packages with breaking changes ($($agg.changelog.breakingPackages.Count))") + ($agg.changelog.breakingPackages | ForEach-Object { "- ``$_``" })
-              }
-              if ((Test-Path $failedFile) -and ($drops = Get-Content $failedFile | Where-Object { $_.Trim() }).Count -gt 0) {
-                $lines += @("", "## Files dropped due to upstream conflicts ($($drops.Count))") + ($drops | ForEach-Object { "- ``$_``" })
-              }
+              $body = Get-Content '$(Build.ArtifactStagingDirectory)/summary/pr-body.md' -Raw
               & '$(sdkRoot)/eng/common/scripts/Submit-PullRequest.ps1' `
                 -RepoOwner '$(TargetRepoOwner)' -RepoName '$(TargetRepoName)' `
                 -BaseBranch '${{ parameters.PullRequestTargetBranch }}' `
                 -PROwner '$(TargetRepoOwner)' -PRBranch '$(PRBranchName)' `
                 -AuthToken '$(PushToken)' `
                 -PRTitle "TypeSpec regeneration: emitter $(emitterVersion) [${{ parameters.ChangePushMode }}]" `
-                -PRBody ($lines -join "`n")
+                -PRBody $body
