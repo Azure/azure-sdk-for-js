@@ -74,7 +74,7 @@ See [OpenAI's Assistants API overview](https://platform.openai.com/docs/assistan
 
 ### Audio transcription/translation and text-to-speech generation
 
-See [OpenAI Capabilities: Speech to text](https://developers.openai.com/api/docs/guides/speech-to-text/speech-to-text).
+See [OpenAI Capabilities: Speech to text](https://developers.openai.com/api/docs/guides/speech-to-text).
 
 ### Batch
 
