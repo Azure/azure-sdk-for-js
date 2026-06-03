@@ -82,6 +82,18 @@ parameters:
     displayName: "PR source branch (empty = auto)"
     type: string
     default: ''
+  - name: PullRequestRepoOwner
+    displayName: "PR target repo OWNER (empty = same as source; e.g. 'wxl534' to PR to a fork)"
+    type: string
+    default: ''
+  - name: PullRequestRepoName
+    displayName: "PR target repo NAME (empty = same as source repo name)"
+    type: string
+    default: ''
+  - name: ForkTokenVariableName
+    displayName: "ADO secret variable holding the GitHub PAT (required when targeting a fork)"
+    type: string
+    default: ''
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -273,21 +285,57 @@ stages:
         emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
       steps:
         - checkout: self
-        - template: /eng/common/pipelines/templates/steps/login-to-github.yml
-          parameters:
-            TokenOwners: [Azure]
+        # Only request the org-level GitHub App token when we're NOT targeting a fork.
+        # When targeting a fork, the user's PAT (FORK_TOKEN env) is used instead.
+        - ${{ if eq(parameters.PullRequestRepoOwner, '') }}:
+          - template: /eng/common/pipelines/templates/steps/login-to-github.yml
+            parameters:
+              TokenOwners: [Azure]
         - download: current
 
         - bash: |
             set -euo pipefail
             cd "$(sdkRoot)"
+
+            # Source repo (where the build was triggered from); GitHub provides "owner/name".
+            full='$(Build.Repository.Name)'
+            src_owner="${full%%/*}"
+            src_name="${full##*/}"
+
+            # Target repo for the PR — override owner/name to push to a fork.
+            target_owner='${{ parameters.PullRequestRepoOwner }}'
+            target_name='${{ parameters.PullRequestRepoName }}'
+            [[ -z "$target_owner" ]] && target_owner="$src_owner"
+            [[ -z "$target_name"  ]] && target_name="$src_name"
+
+            is_fork="false"
+            if [[ "$target_owner" != "$src_owner" || "$target_name" != "$src_name" ]]; then
+              is_fork="true"
+            fi
+
+            # Pick the push/PR token.
+            if [[ "$is_fork" == "true" ]]; then
+              push_token="${FORK_TOKEN:-}"
+              if [[ -z "$push_token" ]]; then
+                echo "##[error]Targeting fork ${target_owner}/${target_name} but no PAT was provided. Set ForkTokenVariableName to an ADO secret variable holding a GitHub PAT (repo scope)."
+                exit 1
+              fi
+              echo "Targeting fork: ${target_owner}/${target_name} (using user PAT)"
+            else
+              push_token="${GH_TOKEN_VAL:-}"
+              echo "Targeting source repo: ${target_owner}/${target_name} (using GH App token)"
+            fi
+
             branch='${{ parameters.PullRequestBranch }}'
             blc=$(echo "$branch" | tr '[:upper:]' '[:lower:]')
             if [[ -z "$branch" || "$blc" == "empty" || "$blc" == "auto" ]]; then
               branch="sdk-regenerate-$(Build.BuildId)"
             fi
+
+            # 3-way apply each shard's patch on top of the target branch.
+            git remote set-url origin "https://x-access-token:${push_token}@github.com/${target_owner}/${target_name}.git"
             git fetch origin "${{ parameters.PullRequestTargetBranch }}" --depth=1
-            git checkout -B "$branch" "origin/${{ parameters.PullRequestTargetBranch }}"
+            git checkout -B "$branch" "FETCH_HEAD"
 
             failed='$(Pipeline.Workspace)/failed-patches.txt'
             : > "$failed"
@@ -307,24 +355,27 @@ stages:
             # Never push the temporary emitter patches.
             git checkout -- eng/emitter-package.json eng/emitter-package-lock.json 2>/dev/null || true
 
-            # Build.Repository.Name is "owner/name" on GitHub; split for downstream steps.
-            full='$(Build.Repository.Name)'
-            owner="${full%%/*}"
-            name="${full##*/}"
             echo "##vso[task.setvariable variable=PRBranchName]$branch"
-            echo "##vso[task.setvariable variable=RepoOwner]$owner"
-            echo "##vso[task.setvariable variable=RepoNameOnly]$name"
+            echo "##vso[task.setvariable variable=TargetRepoOwner]$target_owner"
+            echo "##vso[task.setvariable variable=TargetRepoName]$target_name"
+            echo "##vso[task.setvariable variable=PushToken;issecret=true]$push_token"
           displayName: 'Apply shard patches'
+          env:
+            ${{ if ne(parameters.ForkTokenVariableName, '') }}:
+              FORK_TOKEN: $(${{ parameters.ForkTokenVariableName }})
+            ${{ if eq(parameters.PullRequestRepoOwner, '') }}:
+              GH_TOKEN_VAL: $(GH_TOKEN)
 
         - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
           parameters:
             BaseRepoBranch: $(PRBranchName)
-            BaseRepoOwner: $(RepoOwner)
-            TargetRepoOwner: $(RepoOwner)
-            TargetRepoName: $(RepoNameOnly)
+            BaseRepoOwner: $(TargetRepoOwner)
+            TargetRepoOwner: $(TargetRepoOwner)
+            TargetRepoName: $(TargetRepoName)
             CommitMsg: 'TypeSpec regeneration (${{ parameters.ChangePushMode }}) for emitter $(emitterVersion)'
             PushArgs: --force
             WorkingDirectory: $(sdkRoot)
+            AuthToken: $(PushToken)
 
         - task: PowerShell@2
           displayName: 'Create pull request'
@@ -357,12 +408,10 @@ stages:
                   foreach ($e in $entries) { $body.Add("- ``$e``") }
                 }
               }
-              $owner = '$(RepoOwner)'
-              $name  = '$(RepoNameOnly)'
               & '$(sdkRoot)/eng/common/scripts/Submit-PullRequest.ps1' `
-                -RepoOwner $owner -RepoName $name `
+                -RepoOwner '$(TargetRepoOwner)' -RepoName '$(TargetRepoName)' `
                 -BaseBranch '${{ parameters.PullRequestTargetBranch }}' `
-                -PROwner $owner -PRBranch '$(PRBranchName)' `
-                -AuthToken '$(GH_TOKEN)' `
+                -PROwner '$(TargetRepoOwner)' -PRBranch '$(PRBranchName)' `
+                -AuthToken '$(PushToken)' `
                 -PRTitle "TypeSpec regeneration: emitter $(emitterVersion) [${{ parameters.ChangePushMode }}]" `
                 -PRBody ($body -join "`n")
