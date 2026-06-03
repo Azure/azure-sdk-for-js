@@ -1,5 +1,27 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/lots": "./src/api/lots/index.ts"
+  "./api/events": "./src/api/events/index.ts"
+  "./api/aggregatedCost": "./src/api/aggregatedCost/index.ts"
+  "./api/reservationTransactions": "./src/api/reservationTransactions/index.ts"
+  "./api/reservationRecommendationDetails": "./src/api/reservationRecommendationDetails/index.ts"
+  "./api/reservationRecommendations": "./src/api/reservationRecommendations/index.ts"
+  "./api/reservationsDetails": "./src/api/reservationsDetails/index.ts"
+  "./api/reservationsSummaries": "./src/api/reservationsSummaries/index.ts"
+  "./api/balances": "./src/api/balances/index.ts"
+  "./api/charges": "./src/api/charges/index.ts"
+  "./api/tags": "./src/api/tags/index.ts"
+  "./api/marketplaces": "./src/api/marketplaces/index.ts"
+  "./api/usageDetails": "./src/api/usageDetails/index.ts"
+  "./api/credits": "./src/api/credits/index.ts"
+  "./api/budgets": "./src/api/budgets/index.ts"
+  "./api/priceSheet": "./src/api/priceSheet/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

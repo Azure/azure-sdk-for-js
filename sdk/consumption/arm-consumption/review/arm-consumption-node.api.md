@@ -4,30 +4,31 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AggregatedCost {
-    getByManagementGroup(managementGroupId: string, options?: AggregatedCostGetByManagementGroupOptionalParams): Promise<AggregatedCostGetByManagementGroupResponse>;
-    getForBillingPeriodByManagementGroup(managementGroupId: string, billingPeriodName: string, options?: AggregatedCostGetForBillingPeriodByManagementGroupOptionalParams): Promise<AggregatedCostGetForBillingPeriodByManagementGroupResponse>;
-}
-
-// @public
-export interface AggregatedCostGetByManagementGroupOptionalParams extends coreClient.OperationOptions {
+export interface AggregatedCostGetByManagementGroupOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type AggregatedCostGetByManagementGroupResponse = ManagementGroupAggregatedCostResult;
-
-// @public
-export interface AggregatedCostGetForBillingPeriodByManagementGroupOptionalParams extends coreClient.OperationOptions {
+export interface AggregatedCostGetForBillingPeriodByManagementGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AggregatedCostGetForBillingPeriodByManagementGroupResponse = ManagementGroupAggregatedCostResult;
+export interface AggregatedCostOperations {
+    getByManagementGroup: (managementGroupId: string, options?: AggregatedCostGetByManagementGroupOptionalParams) => Promise<ManagementGroupAggregatedCostResult>;
+    getForBillingPeriodByManagementGroup: (managementGroupId: string, billingPeriodName: string, options?: AggregatedCostGetForBillingPeriodByManagementGroupOptionalParams) => Promise<ManagementGroupAggregatedCostResult>;
+}
 
 // @public
 export interface Amount {
@@ -42,7 +43,39 @@ export interface AmountWithExchangeRate extends Amount {
 }
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface Balance extends Resource {
+    readonly adjustmentDetails?: BalancePropertiesAdjustmentDetailsItem[];
+    readonly adjustments?: number;
+    readonly azureMarketplaceServiceCharges?: number;
+    readonly beginningBalance?: number;
+    billingFrequency?: BillingFrequency;
+    readonly chargesBilledSeparately?: number;
+    readonly currency?: string;
+    readonly endingBalance?: number;
+    readonly etag?: string;
+    readonly newPurchases?: number;
+    readonly newPurchasesDetails?: BalancePropertiesNewPurchasesDetailsItem[];
+    readonly overageRefund?: number;
+    readonly priceHidden?: boolean;
+    readonly serviceOverage?: number;
+    readonly tags?: Record<string, string>;
+    readonly totalOverage?: number;
+    readonly totalUsage?: number;
+    readonly utilized?: number;
+}
+
+// @public
+export interface BalanceProperties {
     readonly adjustmentDetails?: BalancePropertiesAdjustmentDetailsItem[];
     readonly adjustments?: number;
     readonly azureMarketplaceServiceCharges?: number;
@@ -53,6 +86,7 @@ export interface Balance extends Resource {
     readonly endingBalance?: number;
     readonly newPurchases?: number;
     readonly newPurchasesDetails?: BalancePropertiesNewPurchasesDetailsItem[];
+    readonly overageRefund?: number;
     readonly priceHidden?: boolean;
     readonly serviceOverage?: number;
     readonly totalOverage?: number;
@@ -60,51 +94,44 @@ export interface Balance extends Resource {
     readonly utilized?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface BalancePropertiesAdjustmentDetailsItem {
     readonly name?: string;
     readonly value?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface BalancePropertiesNewPurchasesDetailsItem {
     readonly name?: string;
     readonly value?: number;
 }
 
 // @public
-export interface Balances {
-    getByBillingAccount(billingAccountId: string, options?: BalancesGetByBillingAccountOptionalParams): Promise<BalancesGetByBillingAccountResponse>;
-    getForBillingPeriodByBillingAccount(billingAccountId: string, billingPeriodName: string, options?: BalancesGetForBillingPeriodByBillingAccountOptionalParams): Promise<BalancesGetForBillingPeriodByBillingAccountResponse>;
+export interface BalancesGetByBillingAccountOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BalancesGetByBillingAccountOptionalParams extends coreClient.OperationOptions {
+export interface BalancesGetForBillingPeriodByBillingAccountOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BalancesGetByBillingAccountResponse = Balance;
-
-// @public
-export interface BalancesGetForBillingPeriodByBillingAccountOptionalParams extends coreClient.OperationOptions {
+export interface BalancesOperations {
+    getByBillingAccount: (billingAccountId: string, options?: BalancesGetByBillingAccountOptionalParams) => Promise<Balance>;
+    getForBillingPeriodByBillingAccount: (billingAccountId: string, billingPeriodName: string, options?: BalancesGetForBillingPeriodByBillingAccountOptionalParams) => Promise<Balance>;
 }
-
-// @public
-export type BalancesGetForBillingPeriodByBillingAccountResponse = Balance;
 
 // @public
 export type BillingFrequency = string;
 
 // @public
-export interface Budget extends ProxyResource {
+export interface Budget extends ExtensionResource {
     amount?: number;
     category?: CategoryType;
     readonly currentSpend?: CurrentSpend;
+    eTag?: string;
     filter?: BudgetFilter;
     readonly forecastSpend?: ForecastSpend;
-    notifications?: {
-        [propertyName: string]: Notification;
-    };
+    notifications?: Record<string, Notification>;
     timeGrain?: TimeGrainType;
     timePeriod?: BudgetTimePeriod;
 }
@@ -120,7 +147,6 @@ export interface BudgetComparisonExpression {
 export interface BudgetFilter {
     and?: BudgetFilterProperties[];
     dimensions?: BudgetComparisonExpression;
-    not?: BudgetFilterProperties;
     tags?: BudgetComparisonExpression;
 }
 
@@ -134,49 +160,39 @@ export interface BudgetFilterProperties {
 export type BudgetOperatorType = string;
 
 // @public
-export interface Budgets {
-    createOrUpdate(scope: string, budgetName: string, parameters: Budget, options?: BudgetsCreateOrUpdateOptionalParams): Promise<BudgetsCreateOrUpdateResponse>;
-    delete(scope: string, budgetName: string, options?: BudgetsDeleteOptionalParams): Promise<void>;
-    get(scope: string, budgetName: string, options?: BudgetsGetOptionalParams): Promise<BudgetsGetResponse>;
-    list(scope: string, options?: BudgetsListOptionalParams): PagedAsyncIterableIterator<Budget>;
+export interface BudgetProperties {
+    amount: number;
+    category: CategoryType;
+    readonly currentSpend?: CurrentSpend;
+    filter?: BudgetFilter;
+    readonly forecastSpend?: ForecastSpend;
+    notifications?: Record<string, Notification>;
+    timeGrain: TimeGrainType;
+    timePeriod: BudgetTimePeriod;
 }
 
 // @public
-export interface BudgetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface BudgetsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BudgetsCreateOrUpdateResponse = Budget;
-
-// @public
-export interface BudgetsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface BudgetsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BudgetsGetOptionalParams extends coreClient.OperationOptions {
+export interface BudgetsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BudgetsGetResponse = Budget;
-
-// @public
-export interface BudgetsListNextOptionalParams extends coreClient.OperationOptions {
+export interface BudgetsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BudgetsListNextResponse = BudgetsListResult;
-
-// @public
-export interface BudgetsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BudgetsListResponse = BudgetsListResult;
-
-// @public
-export interface BudgetsListResult {
-    readonly nextLink?: string;
-    readonly value?: Budget[];
+export interface BudgetsOperations {
+    createOrUpdate: (scope: string, budgetName: string, parameters: Budget, options?: BudgetsCreateOrUpdateOptionalParams) => Promise<Budget>;
+    delete: (scope: string, budgetName: string, options?: BudgetsDeleteOptionalParams) => Promise<void>;
+    get: (scope: string, budgetName: string, options?: BudgetsGetOptionalParams) => Promise<Budget>;
+    list: (scope: string, options?: BudgetsListOptionalParams) => PagedAsyncIterableIterator<Budget>;
 }
 
 // @public
@@ -189,12 +205,7 @@ export interface BudgetTimePeriod {
 export type CategoryType = string;
 
 // @public
-export interface Charges {
-    list(scope: string, options?: ChargesListOptionalParams): Promise<ChargesListResponse>;
-}
-
-// @public
-export interface ChargesListOptionalParams extends coreClient.OperationOptions {
+export interface ChargesListOptionalParams extends OperationOptions {
     apply?: string;
     endDate?: string;
     filter?: string;
@@ -202,75 +213,64 @@ export interface ChargesListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ChargesListResponse = ChargesListResult;
-
-// @public
 export interface ChargesListResult {
     readonly value?: ChargeSummaryUnion[];
 }
 
 // @public
+export interface ChargesOperations {
+    list: (scope: string, options?: ChargesListOptionalParams) => Promise<ChargesListResult>;
+}
+
+// @public
 export interface ChargeSummary extends ProxyResource {
+    eTag?: string;
     kind: ChargeSummaryKind;
 }
 
 // @public
 export type ChargeSummaryKind = string;
 
-// @public (undocumented)
-export type ChargeSummaryUnion = ChargeSummary | LegacyChargeSummary | ModernChargeSummary;
+// @public
+export type ChargeSummaryUnion = LegacyChargeSummary | ModernChargeSummary | ChargeSummary;
 
 // @public (undocumented)
-export class ConsumptionManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ConsumptionManagementClientOptionalParams);
-    // (undocumented)
-    aggregatedCost: AggregatedCost;
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    balances: Balances;
-    // (undocumented)
-    budgets: Budgets;
-    // (undocumented)
-    charges: Charges;
-    // (undocumented)
-    credits: Credits;
-    // (undocumented)
-    eventsOperations: EventsOperations;
-    // (undocumented)
-    lotsOperations: LotsOperations;
-    // (undocumented)
-    marketplaces: Marketplaces;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    priceSheet: PriceSheet;
-    // (undocumented)
-    reservationRecommendationDetails: ReservationRecommendationDetails;
-    // (undocumented)
-    reservationRecommendations: ReservationRecommendations;
-    // (undocumented)
-    reservationsDetails: ReservationsDetails;
-    // (undocumented)
-    reservationsSummaries: ReservationsSummaries;
-    // (undocumented)
-    reservationTransactions: ReservationTransactions;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    tags: Tags;
-    // (undocumented)
-    usageDetails: UsageDetails;
+export class ConsumptionManagementClient {
+    constructor(credential: TokenCredential, options?: ConsumptionManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ConsumptionManagementClientOptionalParams);
+    readonly aggregatedCost: AggregatedCostOperations;
+    readonly balances: BalancesOperations;
+    readonly budgets: BudgetsOperations;
+    readonly charges: ChargesOperations;
+    readonly credits: CreditsOperations;
+    readonly events: EventsOperations;
+    readonly lots: LotsOperations;
+    readonly marketplaces: MarketplacesOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly priceSheet: PriceSheetOperations;
+    readonly reservationRecommendationDetails: ReservationRecommendationDetailsOperations;
+    readonly reservationRecommendations: ReservationRecommendationsOperations;
+    readonly reservationsDetails: ReservationsDetailsOperations;
+    readonly reservationsSummaries: ReservationsSummariesOperations;
+    readonly reservationTransactions: ReservationTransactionsOperations;
+    readonly tags: TagsOperations;
+    readonly usageDetails: UsageDetailsOperations;
 }
 
 // @public
-export interface ConsumptionManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface ConsumptionManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface CreditBalanceSummary {
@@ -280,24 +280,37 @@ export interface CreditBalanceSummary {
 }
 
 // @public
-export interface Credits {
-    get(billingAccountId: string, billingProfileId: string, options?: CreditsGetOptionalParams): Promise<CreditsGetResponse>;
+export interface CreditsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CreditsGetOptionalParams extends coreClient.OperationOptions {
+export interface CreditsOperations {
+    get: (billingAccountId: string, billingProfileId: string, options?: CreditsGetOptionalParams) => Promise<CreditSummary | undefined>;
 }
 
 // @public
-export type CreditsGetResponse = CreditSummary;
+export interface CreditSummary extends ProxyResource {
+    readonly balanceSummary?: CreditBalanceSummary;
+    readonly billingCurrency?: string;
+    readonly creditCurrency?: string;
+    eTag?: string;
+    readonly eTagPropertiesETag?: string;
+    readonly expiredCredit?: Amount;
+    readonly isEstimatedBalance?: boolean;
+    readonly pendingCreditAdjustments?: Amount;
+    readonly pendingEligibleCharges?: Amount;
+    readonly reseller?: Reseller;
+    tags?: Record<string, string>;
+}
 
 // @public
-export interface CreditSummary extends Resource {
+export interface CreditSummaryProperties {
     readonly balanceSummary?: CreditBalanceSummary;
     readonly billingCurrency?: string;
     readonly creditCurrency?: string;
     readonly eTag?: string;
     readonly expiredCredit?: Amount;
+    readonly isEstimatedBalance?: boolean;
     readonly pendingCreditAdjustments?: Amount;
     readonly pendingEligibleCharges?: Amount;
     readonly reseller?: Reseller;
@@ -316,67 +329,31 @@ export interface CurrentSpend {
 export type Datagrain = string;
 
 // @public
-export interface DownloadProperties {
-    readonly downloadUrl?: string;
-    readonly validTill?: string;
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
 }
 
 // @public
-export interface ErrorDetails {
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
     readonly code?: string;
+    readonly details?: ErrorDetail[];
     readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
 export interface ErrorResponse {
-    error?: ErrorDetails;
+    error?: ErrorDetail;
 }
 
 // @public
-export interface Events {
-    readonly nextLink?: string;
-    readonly value?: EventSummary[];
-}
-
-// @public
-export interface EventsListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EventsListByBillingAccountNextResponse = Events;
-
-// @public
-export interface EventsListByBillingAccountOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-}
-
-// @public
-export type EventsListByBillingAccountResponse = Events;
-
-// @public
-export interface EventsListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EventsListByBillingProfileNextResponse = Events;
-
-// @public
-export interface EventsListByBillingProfileOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EventsListByBillingProfileResponse = Events;
-
-// @public
-export interface EventsOperations {
-    listByBillingAccount(billingAccountId: string, options?: EventsListByBillingAccountOptionalParams): PagedAsyncIterableIterator<EventSummary>;
-    listByBillingProfile(billingAccountId: string, billingProfileId: string, startDate: string, endDate: string, options?: EventsListByBillingProfileOptionalParams): PagedAsyncIterableIterator<EventSummary>;
-}
-
-// @public
-export interface EventSummary extends ProxyResource {
+export interface EventProperties {
     readonly adjustments?: Amount;
     readonly adjustmentsInBillingCurrency?: AmountWithExchangeRate;
+    readonly billingAccountDisplayName?: string;
+    readonly billingAccountId?: string;
     readonly billingCurrency?: string;
     readonly billingProfileDisplayName?: string;
     readonly billingProfileId?: string;
@@ -389,9 +366,56 @@ export interface EventSummary extends ProxyResource {
     readonly creditExpired?: Amount;
     readonly creditExpiredInBillingCurrency?: AmountWithExchangeRate;
     readonly description?: string;
+    readonly eTag?: string;
+    eventType?: EventType;
+    readonly invoiceNumber?: string;
+    readonly isEstimatedBalance?: boolean;
+    readonly lotId?: string;
+    readonly lotSource?: string;
+    readonly newCredit?: Amount;
+    readonly newCreditInBillingCurrency?: AmountWithExchangeRate;
+    readonly reseller?: Reseller;
+    readonly transactionDate?: Date;
+}
+
+// @public
+export interface EventsListByBillingAccountOptionalParams extends OperationOptions {
+    filter?: string;
+}
+
+// @public
+export interface EventsListByBillingProfileOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EventsOperations {
+    listByBillingAccount: (billingAccountId: string, options?: EventsListByBillingAccountOptionalParams) => PagedAsyncIterableIterator<EventSummary>;
+    listByBillingProfile: (billingAccountId: string, billingProfileId: string, startDate: string, endDate: string, options?: EventsListByBillingProfileOptionalParams) => PagedAsyncIterableIterator<EventSummary>;
+}
+
+// @public
+export interface EventSummary extends ProxyResource {
+    readonly adjustments?: Amount;
+    readonly adjustmentsInBillingCurrency?: AmountWithExchangeRate;
+    readonly billingAccountDisplayName?: string;
+    readonly billingAccountId?: string;
+    readonly billingCurrency?: string;
+    readonly billingProfileDisplayName?: string;
+    readonly billingProfileId?: string;
+    readonly canceledCredit?: Amount;
+    readonly charges?: Amount;
+    readonly chargesInBillingCurrency?: AmountWithExchangeRate;
+    readonly closedBalance?: Amount;
+    readonly closedBalanceInBillingCurrency?: AmountWithExchangeRate;
+    readonly creditCurrency?: string;
+    readonly creditExpired?: Amount;
+    readonly creditExpiredInBillingCurrency?: AmountWithExchangeRate;
+    readonly description?: string;
+    readonly eTag?: string;
     readonly eTagPropertiesETag?: string;
     eventType?: EventType;
     readonly invoiceNumber?: string;
+    readonly isEstimatedBalance?: boolean;
     readonly lotId?: string;
     readonly lotSource?: string;
     readonly newCredit?: Amount;
@@ -404,13 +428,14 @@ export interface EventSummary extends ProxyResource {
 export type EventType = string;
 
 // @public
+export interface ExtensionResource extends Resource {
+}
+
+// @public
 export interface ForecastSpend {
     readonly amount?: number;
     readonly unit?: string;
 }
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface HighCasedErrorDetails {
@@ -422,6 +447,8 @@ export interface HighCasedErrorDetails {
 export interface HighCasedErrorResponse {
     error?: HighCasedErrorDetails;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownBillingFrequency {
@@ -444,6 +471,14 @@ export enum KnownCategoryType {
 export enum KnownChargeSummaryKind {
     Legacy = "legacy",
     Modern = "modern"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -479,6 +514,7 @@ export enum KnownDatagrain {
 
 // @public
 export enum KnownEventType {
+    CreditExpired = "CreditExpired",
     NewCredit = "NewCredit",
     PendingAdjustments = "PendingAdjustments",
     PendingCharges = "PendingCharges",
@@ -510,10 +546,23 @@ export enum KnownMetrictype {
 }
 
 // @public
+export enum KnownOperationStatusType {
+    Completed = "Completed",
+    Failed = "Failed",
+    Running = "Running"
+}
+
+// @public
 export enum KnownOperatorType {
     EqualTo = "EqualTo",
     GreaterThan = "GreaterThan",
     GreaterThanOrEqualTo = "GreaterThanOrEqualTo"
+}
+
+// @public
+export enum KnownOrganizationType {
+    ContributorOrganizationType = "Contributor",
+    PrimaryOrganizationType = "Primary"
 }
 
 // @public
@@ -547,6 +596,7 @@ export enum KnownStatus {
 
 // @public
 export enum KnownTerm {
+    P1M = "P1M",
     P1Y = "P1Y",
     P3Y = "P3Y"
 }
@@ -574,24 +624,46 @@ export enum KnownUsageDetailsKind {
 }
 
 // @public
+export enum KnownVersions {
+    V20240801 = "2024-08-01"
+}
+
+// @public
 export interface LegacyChargeSummary extends ChargeSummary {
     readonly azureCharges?: number;
+    readonly azureMarketplaceCharges?: number;
     readonly billingPeriodId?: string;
     readonly chargesBilledSeparately?: number;
     readonly currency?: string;
     kind: "legacy";
-    readonly marketplaceCharges?: number;
+    readonly usageEnd?: string;
+    readonly usageStart?: string;
+}
+
+// @public
+export interface LegacyChargeSummaryProperties {
+    readonly azureCharges?: number;
+    readonly azureMarketplaceCharges?: number;
+    readonly billingPeriodId?: string;
+    readonly chargesBilledSeparately?: number;
+    readonly currency?: string;
     readonly usageEnd?: string;
     readonly usageStart?: string;
 }
 
 // @public
 export interface LegacyReservationRecommendation extends ReservationRecommendation {
+    kind: "legacy";
+    properties: LegacyReservationRecommendationPropertiesUnion;
+}
+
+// @public
+export interface LegacyReservationRecommendationProperties {
     readonly costWithNoReservedInstances?: number;
     readonly firstUsageDate?: Date;
     readonly instanceFlexibilityGroup?: string;
     readonly instanceFlexibilityRatio?: number;
-    kind: "legacy";
+    readonly lastUsageDate?: Date;
     readonly lookBackPeriod?: string;
     readonly meterId?: string;
     readonly netSavings?: number;
@@ -603,32 +675,37 @@ export interface LegacyReservationRecommendation extends ReservationRecommendati
     readonly skuProperties?: SkuProperty[];
     readonly term?: string;
     readonly totalCostWithReservedInstances?: number;
+    readonly totalHours?: number;
 }
 
 // @public
-export interface LegacyReservationRecommendationProperties {
-    readonly costWithNoReservedInstances?: number;
-    readonly firstUsageDate?: Date;
-    readonly instanceFlexibilityGroup?: string;
-    readonly instanceFlexibilityRatio?: number;
-    readonly lookBackPeriod?: string;
-    readonly meterId?: string;
-    readonly netSavings?: number;
-    readonly normalizedSize?: string;
-    readonly recommendedQuantity?: number;
-    readonly recommendedQuantityNormalized?: number;
-    readonly resourceType?: string;
-    scope: "Single" | "Shared";
-    readonly skuProperties?: SkuProperty[];
+export type LegacyReservationRecommendationPropertiesUnion = LegacySingleScopeReservationRecommendationProperties | LegacySharedScopeReservationRecommendationProperties | LegacyReservationRecommendationProperties;
+
+// @public
+export interface LegacyReservationTransactionProperties {
+    readonly accountName?: string;
+    readonly accountOwnerEmail?: string;
+    readonly amount?: number;
+    readonly armSkuName?: string;
+    readonly billingFrequency?: string;
+    readonly billingMonth?: number;
+    readonly costCenter?: string;
+    readonly currency?: string;
+    readonly currentEnrollment?: string;
+    readonly departmentName?: string;
+    readonly description?: string;
+    readonly eventDate?: Date;
+    readonly eventType?: string;
+    readonly monetaryCommitment?: number;
+    readonly overage?: number;
+    readonly purchasingEnrollment?: string;
+    readonly purchasingSubscriptionGuid?: string;
+    readonly purchasingSubscriptionName?: string;
+    readonly quantity?: number;
+    readonly region?: string;
+    readonly reservationOrderId?: string;
+    readonly reservationOrderName?: string;
     readonly term?: string;
-    readonly totalCostWithReservedInstances?: number;
-}
-
-// @public (undocumented)
-export type LegacyReservationRecommendationPropertiesUnion = LegacyReservationRecommendationProperties | LegacySingleScopeReservationRecommendationProperties | LegacySharedScopeReservationRecommendationProperties;
-
-// @public
-export interface LegacyReservationTransaction extends ReservationTransaction {
 }
 
 // @public
@@ -647,6 +724,8 @@ export interface LegacyUsageDetail extends UsageDetail {
     readonly accountName?: string;
     readonly accountOwnerId?: string;
     readonly additionalInfo?: string;
+    readonly benefitId?: string;
+    readonly benefitName?: string;
     readonly billingAccountId?: string;
     readonly billingAccountName?: string;
     readonly billingCurrency?: string;
@@ -692,47 +771,98 @@ export interface LegacyUsageDetail extends UsageDetail {
 }
 
 // @public
+export interface LegacyUsageDetailProperties {
+    readonly accountName?: string;
+    readonly accountOwnerId?: string;
+    readonly additionalInfo?: string;
+    readonly benefitId?: string;
+    readonly benefitName?: string;
+    readonly billingAccountId?: string;
+    readonly billingAccountName?: string;
+    readonly billingCurrency?: string;
+    readonly billingPeriodEndDate?: Date;
+    readonly billingPeriodStartDate?: Date;
+    readonly billingProfileId?: string;
+    readonly billingProfileName?: string;
+    readonly chargeType?: string;
+    readonly consumedService?: string;
+    readonly cost?: number;
+    readonly costCenter?: string;
+    readonly date?: Date;
+    readonly effectivePrice?: number;
+    readonly frequency?: string;
+    readonly invoiceSection?: string;
+    readonly isAzureCreditEligible?: boolean;
+    readonly meterDetails?: MeterDetailsResponse;
+    readonly meterId?: string;
+    readonly offerId?: string;
+    readonly partNumber?: string;
+    readonly payGPrice?: number;
+    readonly planName?: string;
+    readonly pricingModel?: PricingModelType;
+    readonly product?: string;
+    readonly productOrderId?: string;
+    readonly productOrderName?: string;
+    readonly publisherName?: string;
+    readonly publisherType?: string;
+    readonly quantity?: number;
+    readonly reservationId?: string;
+    readonly reservationName?: string;
+    readonly resourceGroup?: string;
+    readonly resourceId?: string;
+    readonly resourceLocation?: string;
+    readonly resourceName?: string;
+    readonly serviceInfo1?: string;
+    readonly serviceInfo2?: string;
+    readonly subscriptionId?: string;
+    readonly subscriptionName?: string;
+    readonly term?: string;
+    readonly unitPrice?: number;
+}
+
+// @public
 export type LookBackPeriod = string;
 
 // @public
-export interface Lots {
-    readonly nextLink?: string;
-    readonly value?: LotSummary[];
+export interface LotProperties {
+    readonly billingCurrency?: string;
+    readonly closedBalance?: Amount;
+    readonly closedBalanceInBillingCurrency?: AmountWithExchangeRate;
+    readonly creditCurrency?: string;
+    readonly eTag?: string;
+    readonly expirationDate?: Date;
+    readonly isEstimatedBalance?: boolean;
+    readonly organizationType?: OrganizationType;
+    readonly originalAmount?: Amount;
+    readonly originalAmountInBillingCurrency?: AmountWithExchangeRate;
+    readonly poNumber?: string;
+    readonly purchasedDate?: Date;
+    readonly reseller?: Reseller;
+    readonly source?: LotSource;
+    readonly startDate?: Date;
+    readonly status?: Status;
+    readonly usedAmount?: Amount;
 }
 
 // @public
-export interface LotsListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LotsListByBillingAccountNextResponse = Lots;
-
-// @public
-export interface LotsListByBillingAccountOptionalParams extends coreClient.OperationOptions {
+export interface LotsListByBillingAccountOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type LotsListByBillingAccountResponse = Lots;
-
-// @public
-export interface LotsListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {
+export interface LotsListByBillingProfileOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LotsListByBillingProfileNextResponse = Lots;
-
-// @public
-export interface LotsListByBillingProfileOptionalParams extends coreClient.OperationOptions {
+export interface LotsListByCustomerOptionalParams extends OperationOptions {
+    filter?: string;
 }
-
-// @public
-export type LotsListByBillingProfileResponse = Lots;
 
 // @public
 export interface LotsOperations {
-    listByBillingAccount(billingAccountId: string, options?: LotsListByBillingAccountOptionalParams): PagedAsyncIterableIterator<LotSummary>;
-    listByBillingProfile(billingAccountId: string, billingProfileId: string, options?: LotsListByBillingProfileOptionalParams): PagedAsyncIterableIterator<LotSummary>;
+    listByBillingAccount: (billingAccountId: string, options?: LotsListByBillingAccountOptionalParams) => PagedAsyncIterableIterator<LotSummary>;
+    listByBillingProfile: (billingAccountId: string, billingProfileId: string, options?: LotsListByBillingProfileOptionalParams) => PagedAsyncIterableIterator<LotSummary>;
+    listByCustomer: (billingAccountId: string, customerId: string, options?: LotsListByCustomerOptionalParams) => PagedAsyncIterableIterator<LotSummary>;
 }
 
 // @public
@@ -744,8 +874,11 @@ export interface LotSummary extends ProxyResource {
     readonly closedBalance?: Amount;
     readonly closedBalanceInBillingCurrency?: AmountWithExchangeRate;
     readonly creditCurrency?: string;
+    eTag?: string;
     readonly eTagPropertiesETag?: string;
     readonly expirationDate?: Date;
+    readonly isEstimatedBalance?: boolean;
+    readonly organizationType?: OrganizationType;
     readonly originalAmount?: Amount;
     readonly originalAmountInBillingCurrency?: AmountWithExchangeRate;
     readonly poNumber?: string;
@@ -754,10 +887,11 @@ export interface LotSummary extends ProxyResource {
     readonly source?: LotSource;
     readonly startDate?: Date;
     readonly status?: Status;
+    readonly usedAmount?: Amount;
 }
 
 // @public
-export interface ManagementGroupAggregatedCostResult extends Resource {
+export interface ManagementGroupAggregatedCostProperties {
     readonly azureCharges?: number;
     readonly billingPeriodId?: string;
     readonly chargesBilledSeparately?: number;
@@ -771,7 +905,55 @@ export interface ManagementGroupAggregatedCostResult extends Resource {
 }
 
 // @public
+export interface ManagementGroupAggregatedCostResult extends Resource {
+    readonly azureCharges?: number;
+    readonly billingPeriodId?: string;
+    readonly chargesBilledSeparately?: number;
+    children?: ManagementGroupAggregatedCostResult[];
+    readonly currency?: string;
+    readonly etag?: string;
+    excludedSubscriptions?: string[];
+    includedSubscriptions?: string[];
+    readonly marketplaceCharges?: number;
+    readonly tags?: Record<string, string>;
+    readonly usageEnd?: Date;
+    readonly usageStart?: Date;
+}
+
+// @public
 export interface Marketplace extends Resource {
+    readonly accountName?: string;
+    readonly additionalInfo?: string;
+    readonly additionalProperties?: string;
+    readonly billingPeriodId?: string;
+    readonly consumedQuantity?: number;
+    readonly consumedService?: string;
+    readonly costCenter?: string;
+    readonly currency?: string;
+    readonly departmentName?: string;
+    readonly etag?: string;
+    readonly instanceId?: string;
+    readonly instanceName?: string;
+    readonly isEstimated?: boolean;
+    readonly isRecurringCharge?: boolean;
+    readonly meterId?: string;
+    readonly offerName?: string;
+    readonly orderNumber?: string;
+    readonly planName?: string;
+    readonly pretaxCost?: number;
+    readonly publisherName?: string;
+    readonly resourceGroup?: string;
+    readonly resourceRate?: number;
+    readonly subscriptionGuid?: string;
+    readonly subscriptionName?: string;
+    readonly tags?: Record<string, string>;
+    readonly unitOfMeasure?: string;
+    readonly usageEnd?: Date;
+    readonly usageStart?: Date;
+}
+
+// @public
+export interface MarketplaceProperties {
     readonly accountName?: string;
     readonly additionalInfo?: string;
     readonly additionalProperties?: string;
@@ -801,31 +983,15 @@ export interface Marketplace extends Resource {
 }
 
 // @public
-export interface Marketplaces {
-    list(scope: string, options?: MarketplacesListOptionalParams): PagedAsyncIterableIterator<Marketplace>;
-}
-
-// @public
-export interface MarketplacesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MarketplacesListNextResponse = MarketplacesListResult;
-
-// @public
-export interface MarketplacesListOptionalParams extends coreClient.OperationOptions {
+export interface MarketplacesListOptionalParams extends OperationOptions {
     filter?: string;
     skiptoken?: string;
     top?: number;
 }
 
 // @public
-export type MarketplacesListResponse = MarketplacesListResult;
-
-// @public
-export interface MarketplacesListResult {
-    readonly nextLink?: string;
-    readonly value?: Marketplace[];
+export interface MarketplacesOperations {
+    list: (scope: string, options?: MarketplacesListOptionalParams) => PagedAsyncIterableIterator<Marketplace>;
 }
 
 // @public
@@ -865,33 +1031,86 @@ export interface ModernChargeSummary extends ChargeSummary {
     readonly isInvoiced?: boolean;
     kind: "modern";
     readonly marketplaceCharges?: Amount;
+    readonly subscriptionId?: string;
+    readonly usageEnd?: string;
+    readonly usageStart?: string;
+}
+
+// @public
+export interface ModernChargeSummaryProperties {
+    readonly azureCharges?: Amount;
+    readonly billingAccountId?: string;
+    readonly billingPeriodId?: string;
+    readonly billingProfileId?: string;
+    readonly chargesBilledSeparately?: Amount;
+    readonly customerId?: string;
+    readonly invoiceSectionId?: string;
+    readonly isInvoiced?: boolean;
+    readonly marketplaceCharges?: Amount;
+    readonly subscriptionId?: string;
     readonly usageEnd?: string;
     readonly usageStart?: string;
 }
 
 // @public
 export interface ModernReservationRecommendation extends ReservationRecommendation {
+    kind: "modern";
+    properties: ModernReservationRecommendationPropertiesUnion;
+}
+
+// @public
+export interface ModernReservationRecommendationProperties {
     readonly costWithNoReservedInstances?: Amount;
     readonly firstUsageDate?: Date;
     readonly instanceFlexibilityGroup?: string;
     readonly instanceFlexibilityRatio?: number;
-    kind: "modern";
-    readonly locationPropertiesLocation?: string;
+    readonly lastUsageDate?: Date;
+    readonly location?: string;
     readonly lookBackPeriod?: number;
     readonly meterId?: string;
     readonly netSavings?: Amount;
     readonly normalizedSize?: string;
     readonly recommendedQuantity?: number;
     readonly recommendedQuantityNormalized?: number;
-    readonly scope?: string;
+    readonly resourceType?: string;
+    scope: string;
     readonly skuName?: string;
     readonly skuProperties?: SkuProperty[];
     readonly term?: string;
     readonly totalCostWithReservedInstances?: Amount;
+    readonly totalHours?: number;
 }
 
 // @public
-export interface ModernReservationTransaction extends ReservationTransactionResource {
+export type ModernReservationRecommendationPropertiesUnion = ModernSingleScopeReservationRecommendationProperties | ModernSharedScopeReservationRecommendationProperties | ModernReservationRecommendationProperties;
+
+// @public
+export interface ModernReservationTransaction extends Resource {
+    readonly amount?: number;
+    readonly armSkuName?: string;
+    readonly billingFrequency?: string;
+    readonly billingProfileId?: string;
+    readonly billingProfileName?: string;
+    readonly currency?: string;
+    readonly description?: string;
+    readonly eventDate?: Date;
+    readonly eventType?: string;
+    readonly invoice?: string;
+    readonly invoiceId?: string;
+    readonly invoiceSectionId?: string;
+    readonly invoiceSectionName?: string;
+    readonly purchasingSubscriptionGuid?: string;
+    readonly purchasingSubscriptionName?: string;
+    readonly quantity?: number;
+    readonly region?: string;
+    readonly reservationOrderId?: string;
+    readonly reservationOrderName?: string;
+    readonly tags?: string[];
+    readonly term?: string;
+}
+
+// @public
+export interface ModernReservationTransactionProperties {
     readonly amount?: number;
     readonly armSkuName?: string;
     readonly billingFrequency?: string;
@@ -915,9 +1134,14 @@ export interface ModernReservationTransaction extends ReservationTransactionReso
 }
 
 // @public
-export interface ModernReservationTransactionsListResult {
-    readonly nextLink?: string;
-    readonly value?: ModernReservationTransaction[];
+export interface ModernSharedScopeReservationRecommendationProperties extends ModernReservationRecommendationProperties {
+    scope: "Shared";
+}
+
+// @public
+export interface ModernSingleScopeReservationRecommendationProperties extends ModernReservationRecommendationProperties {
+    scope: "Single";
+    readonly subscriptionId?: string;
 }
 
 // @public
@@ -998,6 +1222,82 @@ export interface ModernUsageDetail extends UsageDetail {
 }
 
 // @public
+export interface ModernUsageDetailProperties {
+    readonly additionalInfo?: string;
+    readonly benefitId?: string;
+    readonly benefitName?: string;
+    readonly billingAccountId?: string;
+    readonly billingAccountName?: string;
+    readonly billingCurrencyCode?: string;
+    readonly billingPeriodEndDate?: Date;
+    readonly billingPeriodStartDate?: Date;
+    readonly billingProfileId?: string;
+    readonly billingProfileName?: string;
+    readonly chargeType?: string;
+    readonly consumedService?: string;
+    readonly costAllocationRuleName?: string;
+    readonly costCenter?: string;
+    readonly costInBillingCurrency?: number;
+    readonly costInPricingCurrency?: number;
+    readonly costInUSD?: number;
+    readonly customerName?: string;
+    readonly customerTenantId?: string;
+    readonly date?: Date;
+    readonly effectivePrice?: number;
+    readonly exchangeRate?: string;
+    readonly exchangeRateDate?: Date;
+    readonly exchangeRatePricingToBilling?: number;
+    readonly frequency?: string;
+    readonly instanceName?: string;
+    readonly invoiceId?: string;
+    readonly invoiceSectionId?: string;
+    readonly invoiceSectionName?: string;
+    readonly isAzureCreditEligible?: boolean;
+    readonly marketPrice?: number;
+    readonly meterCategory?: string;
+    readonly meterId?: string;
+    readonly meterName?: string;
+    readonly meterRegion?: string;
+    readonly meterSubCategory?: string;
+    readonly partnerEarnedCreditApplied?: string;
+    readonly partnerEarnedCreditRate?: number;
+    readonly partnerName?: string;
+    readonly partnerTenantId?: string;
+    readonly paygCostInBillingCurrency?: number;
+    readonly paygCostInUSD?: number;
+    readonly payGPrice?: number;
+    readonly previousInvoiceId?: string;
+    readonly pricingCurrencyCode?: string;
+    readonly pricingModel?: PricingModelType;
+    readonly product?: string;
+    readonly productIdentifier?: string;
+    readonly productOrderId?: string;
+    readonly productOrderName?: string;
+    readonly provider?: string;
+    readonly publisherId?: string;
+    readonly publisherName?: string;
+    readonly publisherType?: string;
+    readonly quantity?: number;
+    readonly resellerMpnId?: string;
+    readonly resellerName?: string;
+    readonly reservationId?: string;
+    readonly reservationName?: string;
+    readonly resourceGroup?: string;
+    readonly resourceLocation?: string;
+    readonly resourceLocationNormalized?: string;
+    readonly serviceFamily?: string;
+    readonly serviceInfo1?: string;
+    readonly serviceInfo2?: string;
+    readonly servicePeriodEndDate?: Date;
+    readonly servicePeriodStartDate?: Date;
+    readonly subscriptionGuid?: string;
+    readonly subscriptionName?: string;
+    readonly term?: string;
+    readonly unitOfMeasure?: string;
+    readonly unitPrice?: number;
+}
+
+// @public
 export interface Notification {
     contactEmails: string[];
     contactGroups?: string[];
@@ -1025,58 +1325,80 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationStatus {
+    readonly downloadUrl?: string;
+    status?: OperationStatusType;
+    readonly validTill?: Date;
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
+export type OperationStatusType = string;
 
 // @public
 export type OperatorType = string;
 
 // @public
-export interface PriceSheet {
-    get(options?: PriceSheetGetOptionalParams): Promise<PriceSheetGetResponse>;
-    getByBillingPeriod(billingPeriodName: string, options?: PriceSheetGetByBillingPeriodOptionalParams): Promise<PriceSheetGetByBillingPeriodResponse>;
+export type OrganizationType = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export interface PriceSheetGetByBillingPeriodOptionalParams extends coreClient.OperationOptions {
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export interface PriceSheetDownloadByBillingAccountPeriodOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PricesheetDownloadProperties {
+    readonly downloadUrl?: string;
+    readonly validTill?: Date;
+}
+
+// @public
+export interface PriceSheetGetByBillingPeriodOptionalParams extends OperationOptions {
     expand?: string;
     skiptoken?: string;
     top?: number;
 }
 
 // @public
-export type PriceSheetGetByBillingPeriodResponse = PriceSheetResult;
-
-// @public
-export interface PriceSheetGetOptionalParams extends coreClient.OperationOptions {
+export interface PriceSheetGetOptionalParams extends OperationOptions {
     expand?: string;
     skiptoken?: string;
     top?: number;
 }
 
 // @public
-export type PriceSheetGetResponse = PriceSheetResult;
+export interface PriceSheetModel {
+    readonly download?: MeterDetails;
+    readonly nextLink?: string;
+    readonly pricesheets?: PriceSheetProperties[];
+}
+
+// @public
+export interface PriceSheetOperations {
+    downloadByBillingAccountPeriod: (billingAccountId: string, billingPeriodName: string, options?: PriceSheetDownloadByBillingAccountPeriodOptionalParams) => PollerLike<OperationState<OperationStatus>, OperationStatus>;
+    get: (options?: PriceSheetGetOptionalParams) => Promise<PriceSheetResult>;
+    getByBillingPeriod: (billingPeriodName: string, options?: PriceSheetGetByBillingPeriodOptionalParams) => Promise<PriceSheetResult>;
+}
 
 // @public
 export interface PriceSheetProperties {
@@ -1087,26 +1409,25 @@ export interface PriceSheetProperties {
     readonly meterId?: string;
     readonly offerId?: string;
     readonly partNumber?: string;
+    readonly savingsPlan?: SavingsPlan;
     readonly unitOfMeasure?: string;
     readonly unitPrice?: number;
 }
 
 // @public
-export interface PriceSheetResult extends Resource {
+export interface PriceSheetResult extends ProxyResource {
     readonly download?: MeterDetails;
+    readonly etag?: string;
     readonly nextLink?: string;
     readonly pricesheets?: PriceSheetProperties[];
+    readonly tags?: Record<string, string>;
 }
 
 // @public
 export type PricingModelType = string;
 
 // @public
-export interface ProxyResource {
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    readonly type?: string;
+export interface ProxyResource extends Resource {
 }
 
 // @public
@@ -1117,6 +1438,23 @@ export interface Reseller {
 
 // @public
 export interface ReservationDetail extends Resource {
+    readonly etag?: string;
+    readonly instanceFlexibilityGroup?: string;
+    readonly instanceFlexibilityRatio?: string;
+    readonly instanceId?: string;
+    readonly kind?: string;
+    readonly reservationId?: string;
+    readonly reservationOrderId?: string;
+    readonly reservedHours?: number;
+    readonly skuName?: string;
+    readonly tags?: Record<string, string>;
+    readonly totalReservedQuantity?: number;
+    readonly usageDate?: Date;
+    readonly usedHours?: number;
+}
+
+// @public
+export interface ReservationDetailProperties {
     readonly instanceFlexibilityGroup?: string;
     readonly instanceFlexibilityRatio?: string;
     readonly instanceId?: string;
@@ -1131,19 +1469,16 @@ export interface ReservationDetail extends Resource {
 }
 
 // @public
-export interface ReservationDetailsListResult {
-    readonly nextLink?: string;
-    readonly value?: ReservationDetail[];
-}
-
-// @public
-export interface ReservationRecommendation extends Resource, ResourceAttributes {
+export interface ReservationRecommendation {
+    readonly etag?: string;
+    readonly id?: string;
     kind: ReservationRecommendationKind;
-}
-
-// @public
-export interface ReservationRecommendationDetails {
-    get(scope: string, region: string, term: Term, lookBackPeriod: LookBackPeriod, product: string, options?: ReservationRecommendationDetailsGetOptionalParams): Promise<ReservationRecommendationDetailsGetResponse>;
+    readonly location?: string;
+    readonly name?: string;
+    readonly sku?: string;
+    readonly systemData?: SystemData;
+    readonly tags?: Record<string, string>;
+    readonly type?: string;
 }
 
 // @public
@@ -1158,21 +1493,36 @@ export interface ReservationRecommendationDetailsCalculatedSavingsProperties {
 }
 
 // @public
-export interface ReservationRecommendationDetailsGetOptionalParams extends coreClient.OperationOptions {
+export interface ReservationRecommendationDetailsGetOptionalParams extends OperationOptions {
+    filter?: string;
 }
-
-// @public
-export type ReservationRecommendationDetailsGetResponse = ReservationRecommendationDetailsModel;
 
 // @public
 export interface ReservationRecommendationDetailsModel extends Resource {
     readonly currency?: string;
+    readonly etag?: string;
     location?: string;
     readonly resource?: ReservationRecommendationDetailsResourceProperties;
     readonly resourceGroup?: string;
     readonly savings?: ReservationRecommendationDetailsSavingsProperties;
     readonly scope?: string;
     sku?: string;
+    readonly tags?: Record<string, string>;
+    readonly usage?: ReservationRecommendationDetailsUsageProperties;
+}
+
+// @public
+export interface ReservationRecommendationDetailsOperations {
+    get: (resourceScope: string, scope: Scope, region: string, term: Term, lookBackPeriod: LookBackPeriod, product: string, options?: ReservationRecommendationDetailsGetOptionalParams) => Promise<ReservationRecommendationDetailsModel | undefined>;
+}
+
+// @public
+export interface ReservationRecommendationDetailsProperties {
+    readonly currency?: string;
+    readonly resource?: ReservationRecommendationDetailsResourceProperties;
+    readonly resourceGroup?: string;
+    readonly savings?: ReservationRecommendationDetailsSavingsProperties;
+    readonly scope?: string;
     readonly usage?: ReservationRecommendationDetailsUsageProperties;
 }
 
@@ -1209,79 +1559,28 @@ export interface ReservationRecommendationDetailsUsageProperties {
 export type ReservationRecommendationKind = string;
 
 // @public
-export interface ReservationRecommendations {
-    list(scope: string, options?: ReservationRecommendationsListOptionalParams): PagedAsyncIterableIterator<ReservationRecommendationUnion>;
-}
-
-// @public
-export interface ReservationRecommendationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReservationRecommendationsListNextResponse = ReservationRecommendationsListResult;
-
-// @public
-export interface ReservationRecommendationsListOptionalParams extends coreClient.OperationOptions {
+export interface ReservationRecommendationsListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ReservationRecommendationsListResponse = ReservationRecommendationsListResult;
-
-// @public
-export interface ReservationRecommendationsListResult {
-    readonly nextLink?: string;
-    readonly previousLink?: string;
-    readonly value?: ReservationRecommendationUnion[];
-}
-
-// @public (undocumented)
-export type ReservationRecommendationUnion = ReservationRecommendation | LegacyReservationRecommendation | ModernReservationRecommendation;
-
-// @public
-export interface ReservationsDetails {
-    list(scope: string, options?: ReservationsDetailsListOptionalParams): PagedAsyncIterableIterator<ReservationDetail>;
-    listByReservationOrder(reservationOrderId: string, filter: string, options?: ReservationsDetailsListByReservationOrderOptionalParams): PagedAsyncIterableIterator<ReservationDetail>;
-    listByReservationOrderAndReservation(reservationOrderId: string, reservationId: string, filter: string, options?: ReservationsDetailsListByReservationOrderAndReservationOptionalParams): PagedAsyncIterableIterator<ReservationDetail>;
+export interface ReservationRecommendationsOperations {
+    list: (resourceScope: string, options?: ReservationRecommendationsListOptionalParams) => PagedAsyncIterableIterator<ReservationRecommendationUnion>;
 }
 
 // @public
-export interface ReservationsDetailsListByReservationOrderAndReservationNextOptionalParams extends coreClient.OperationOptions {
+export type ReservationRecommendationUnion = LegacyReservationRecommendation | ModernReservationRecommendation | ReservationRecommendation;
+
+// @public
+export interface ReservationsDetailsListByReservationOrderAndReservationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReservationsDetailsListByReservationOrderAndReservationNextResponse = ReservationDetailsListResult;
-
-// @public
-export interface ReservationsDetailsListByReservationOrderAndReservationOptionalParams extends coreClient.OperationOptions {
+export interface ReservationsDetailsListByReservationOrderOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReservationsDetailsListByReservationOrderAndReservationResponse = ReservationDetailsListResult;
-
-// @public
-export interface ReservationsDetailsListByReservationOrderNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReservationsDetailsListByReservationOrderNextResponse = ReservationDetailsListResult;
-
-// @public
-export interface ReservationsDetailsListByReservationOrderOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReservationsDetailsListByReservationOrderResponse = ReservationDetailsListResult;
-
-// @public
-export interface ReservationsDetailsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReservationsDetailsListNextResponse = ReservationDetailsListResult;
-
-// @public
-export interface ReservationsDetailsListOptionalParams extends coreClient.OperationOptions {
+export interface ReservationsDetailsListOptionalParams extends OperationOptions {
     endDate?: string;
     filter?: string;
     reservationId?: string;
@@ -1290,54 +1589,24 @@ export interface ReservationsDetailsListOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type ReservationsDetailsListResponse = ReservationDetailsListResult;
-
-// @public
-export interface ReservationsSummaries {
-    list(scope: string, grain: Datagrain, options?: ReservationsSummariesListOptionalParams): PagedAsyncIterableIterator<ReservationSummary>;
-    listByReservationOrder(reservationOrderId: string, grain: Datagrain, options?: ReservationsSummariesListByReservationOrderOptionalParams): PagedAsyncIterableIterator<ReservationSummary>;
-    listByReservationOrderAndReservation(reservationOrderId: string, reservationId: string, grain: Datagrain, options?: ReservationsSummariesListByReservationOrderAndReservationOptionalParams): PagedAsyncIterableIterator<ReservationSummary>;
+export interface ReservationsDetailsOperations {
+    list: (resourceScope: string, options?: ReservationsDetailsListOptionalParams) => PagedAsyncIterableIterator<ReservationDetail>;
+    listByReservationOrder: (reservationOrderId: string, filter: string, options?: ReservationsDetailsListByReservationOrderOptionalParams) => PagedAsyncIterableIterator<ReservationDetail>;
+    listByReservationOrderAndReservation: (reservationOrderId: string, reservationId: string, filter: string, options?: ReservationsDetailsListByReservationOrderAndReservationOptionalParams) => PagedAsyncIterableIterator<ReservationDetail>;
 }
 
 // @public
-export interface ReservationsSummariesListByReservationOrderAndReservationNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReservationsSummariesListByReservationOrderAndReservationNextResponse = ReservationSummariesListResult;
-
-// @public
-export interface ReservationsSummariesListByReservationOrderAndReservationOptionalParams extends coreClient.OperationOptions {
+export interface ReservationsSummariesListByReservationOrderAndReservationOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ReservationsSummariesListByReservationOrderAndReservationResponse = ReservationSummariesListResult;
-
-// @public
-export interface ReservationsSummariesListByReservationOrderNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReservationsSummariesListByReservationOrderNextResponse = ReservationSummariesListResult;
-
-// @public
-export interface ReservationsSummariesListByReservationOrderOptionalParams extends coreClient.OperationOptions {
+export interface ReservationsSummariesListByReservationOrderOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ReservationsSummariesListByReservationOrderResponse = ReservationSummariesListResult;
-
-// @public
-export interface ReservationsSummariesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReservationsSummariesListNextResponse = ReservationSummariesListResult;
-
-// @public
-export interface ReservationsSummariesListOptionalParams extends coreClient.OperationOptions {
+export interface ReservationsSummariesListOptionalParams extends OperationOptions {
     endDate?: string;
     filter?: string;
     reservationId?: string;
@@ -1346,16 +1615,35 @@ export interface ReservationsSummariesListOptionalParams extends coreClient.Oper
 }
 
 // @public
-export type ReservationsSummariesListResponse = ReservationSummariesListResult;
-
-// @public
-export interface ReservationSummariesListResult {
-    readonly nextLink?: string;
-    readonly value?: ReservationSummary[];
+export interface ReservationsSummariesOperations {
+    list: (resourceScope: string, grain: Datagrain, options?: ReservationsSummariesListOptionalParams) => PagedAsyncIterableIterator<ReservationSummary>;
+    listByReservationOrder: (reservationOrderId: string, grain: Datagrain, options?: ReservationsSummariesListByReservationOrderOptionalParams) => PagedAsyncIterableIterator<ReservationSummary>;
+    listByReservationOrderAndReservation: (reservationOrderId: string, reservationId: string, grain: Datagrain, options?: ReservationsSummariesListByReservationOrderAndReservationOptionalParams) => PagedAsyncIterableIterator<ReservationSummary>;
 }
 
 // @public
 export interface ReservationSummary extends Resource {
+    readonly avgUtilizationPercentage?: number;
+    readonly etag?: string;
+    readonly kind?: string;
+    readonly maxUtilizationPercentage?: number;
+    readonly minUtilizationPercentage?: number;
+    readonly purchasedQuantity?: number;
+    readonly remainingQuantity?: number;
+    readonly reservationId?: string;
+    readonly reservationOrderId?: string;
+    readonly reservedHours?: number;
+    readonly skuName?: string;
+    readonly tags?: Record<string, string>;
+    readonly totalReservedQuantity?: number;
+    readonly usageDate?: Date;
+    readonly usedHours?: number;
+    readonly usedQuantity?: number;
+    readonly utilizedPercentage?: number;
+}
+
+// @public
+export interface ReservationSummaryProperties {
     readonly avgUtilizationPercentage?: number;
     readonly kind?: string;
     readonly maxUtilizationPercentage?: number;
@@ -1374,7 +1662,7 @@ export interface ReservationSummary extends Resource {
 }
 
 // @public
-export interface ReservationTransaction extends ReservationTransactionResource {
+export interface ReservationTransaction extends Resource {
     readonly accountName?: string;
     readonly accountOwnerEmail?: string;
     readonly amount?: number;
@@ -1397,74 +1685,53 @@ export interface ReservationTransaction extends ReservationTransactionResource {
     readonly region?: string;
     readonly reservationOrderId?: string;
     readonly reservationOrderName?: string;
+    readonly tags?: string[];
     readonly term?: string;
 }
 
 // @public
-export interface ReservationTransactionResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly tags?: string[];
-    readonly type?: string;
-}
-
-// @public
-export interface ReservationTransactions {
-    list(billingAccountId: string, options?: ReservationTransactionsListOptionalParams): PagedAsyncIterableIterator<ReservationTransaction>;
-    listByBillingProfile(billingAccountId: string, billingProfileId: string, options?: ReservationTransactionsListByBillingProfileOptionalParams): PagedAsyncIterableIterator<ModernReservationTransaction>;
-}
-
-// @public
-export interface ReservationTransactionsListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReservationTransactionsListByBillingProfileNextResponse = ModernReservationTransactionsListResult;
-
-// @public
-export interface ReservationTransactionsListByBillingProfileOptionalParams extends coreClient.OperationOptions {
+export interface ReservationTransactionsListByBillingProfileOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ReservationTransactionsListByBillingProfileResponse = ModernReservationTransactionsListResult;
-
-// @public
-export interface ReservationTransactionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReservationTransactionsListNextResponse = ReservationTransactionsListResult;
-
-// @public
-export interface ReservationTransactionsListOptionalParams extends coreClient.OperationOptions {
+export interface ReservationTransactionsListOptionalParams extends OperationOptions {
     filter?: string;
+    previewMarkupPercentage?: number;
+    useMarkupIfPartner?: boolean;
 }
 
 // @public
-export type ReservationTransactionsListResponse = ReservationTransactionsListResult;
-
-// @public
-export interface ReservationTransactionsListResult {
-    readonly nextLink?: string;
-    readonly value?: ReservationTransaction[];
+export interface ReservationTransactionsOperations {
+    list: (billingAccountId: string, options?: ReservationTransactionsListOptionalParams) => PagedAsyncIterableIterator<ReservationTransaction>;
+    listByBillingProfile: (billingAccountId: string, billingProfileId: string, options?: ReservationTransactionsListByBillingProfileOptionalParams) => PagedAsyncIterableIterator<ModernReservationTransaction>;
 }
 
 // @public
 export interface Resource {
-    readonly etag?: string;
     readonly id?: string;
     readonly name?: string;
-    readonly tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
-export interface ResourceAttributes {
-    readonly location?: string;
-    readonly sku?: string;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ConsumptionManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SavingsPlan {
+    readonly effectivePrice?: number;
+    readonly marketPrice?: number;
+    readonly term?: string;
 }
 
 // @public
@@ -1480,25 +1747,40 @@ export interface SkuProperty {
 export type Status = string;
 
 // @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
 export interface Tag {
     key?: string;
     value?: string[];
 }
 
 // @public
-export interface Tags {
-    get(scope: string, options?: TagsGetOptionalParams): Promise<TagsGetResponse>;
+export interface TagProperties {
+    readonly nextLink?: string;
+    readonly previousLink?: string;
+    tags?: Tag[];
 }
 
 // @public
-export interface TagsGetOptionalParams extends coreClient.OperationOptions {
+export interface TagsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TagsGetResponse = TagsResult;
+export interface TagsOperations {
+    get: (scope: string, options?: TagsGetOptionalParams) => Promise<TagsResult | undefined>;
+}
 
 // @public
 export interface TagsResult extends ProxyResource {
+    eTag?: string;
     readonly nextLink?: string;
     readonly previousLink?: string;
     tags?: Tag[];
@@ -1515,26 +1797,16 @@ export type TimeGrainType = string;
 
 // @public
 export interface UsageDetail extends Resource {
+    readonly etag?: string;
     kind: UsageDetailsKind;
-}
-
-// @public
-export interface UsageDetails {
-    list(scope: string, options?: UsageDetailsListOptionalParams): PagedAsyncIterableIterator<UsageDetailUnion>;
+    readonly tags?: Record<string, string>;
 }
 
 // @public
 export type UsageDetailsKind = string;
 
 // @public
-export interface UsageDetailsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type UsageDetailsListNextResponse = UsageDetailsListResult;
-
-// @public
-export interface UsageDetailsListOptionalParams extends coreClient.OperationOptions {
+export interface UsageDetailsListOptionalParams extends OperationOptions {
     expand?: string;
     filter?: string;
     metric?: Metrictype;
@@ -1543,16 +1815,12 @@ export interface UsageDetailsListOptionalParams extends coreClient.OperationOpti
 }
 
 // @public
-export type UsageDetailsListResponse = UsageDetailsListResult;
-
-// @public
-export interface UsageDetailsListResult {
-    readonly nextLink?: string;
-    readonly value?: UsageDetailUnion[];
+export interface UsageDetailsOperations {
+    list: (scope: string, options?: UsageDetailsListOptionalParams) => PagedAsyncIterableIterator<UsageDetailUnion>;
 }
 
-// @public (undocumented)
-export type UsageDetailUnion = UsageDetail | LegacyUsageDetail | ModernUsageDetail;
+// @public
+export type UsageDetailUnion = LegacyUsageDetail | ModernUsageDetail | UsageDetail;
 
 // (No @packageDocumentation comment for this package)
 
