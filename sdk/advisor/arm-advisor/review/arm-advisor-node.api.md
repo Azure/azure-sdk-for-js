@@ -4,40 +4,69 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-export class AdvisorManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AdvisorManagementClientOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: AdvisorManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    configurations: Configurations;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    recommendationMetadata: RecommendationMetadata;
-    // (undocumented)
-    recommendations: Recommendations;
-    // (undocumented)
-    subscriptionId?: string;
-    // (undocumented)
-    suppressions: Suppressions;
+export class AdvisorManagementClient {
+    constructor(credential: TokenCredential, options?: AdvisorManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: AdvisorManagementClientOptionalParams);
+    readonly advisorScores: AdvisorScoresOperations;
+    readonly assessments: AssessmentsOperations;
+    readonly assessmentTypes: AssessmentTypesOperations;
+    readonly configurations: ConfigurationsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    predict(predictionRequest: PredictionRequest, options?: PredictOptionalParams): Promise<PredictionResponse>;
+    readonly recommendationMetadata: RecommendationMetadataOperations;
+    readonly recommendations: RecommendationsOperations;
+    readonly resiliencyReviews: ResiliencyReviewsOperations;
+    readonly suppressions: SuppressionsOperations;
+    readonly triageRecommendations: TriageRecommendationsOperations;
+    readonly triageResources: TriageResourcesOperations;
+    readonly workloads: WorkloadsOperations;
 }
 
 // @public
-export interface AdvisorManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface AdvisorManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
-// @public (undocumented)
+// @public
+export interface AdvisorScoreEntity extends ProxyResource {
+    lastRefreshedScore?: ScoreEntity;
+    timeSeries?: TimeSeriesEntity[];
+}
+
+// @public
+export interface AdvisorScoreEntityProperties {
+    lastRefreshedScore?: ScoreEntity;
+    timeSeries?: TimeSeriesEntity[];
+}
+
+// @public
+export interface AdvisorScoresGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AdvisorScoresListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AdvisorScoresOperations {
+    get: (name: string, options?: AdvisorScoresGetOptionalParams) => Promise<AdvisorScoreEntity>;
+    list: (options?: AdvisorScoresListOptionalParams) => PagedAsyncIterableIterator<AdvisorScoreEntity>;
+}
+
+// @public
+export type Aggregated = string;
+
+// @public
 export interface ArmErrorResponse {
     error?: ARMErrorResponseBody;
 }
@@ -49,69 +78,146 @@ export interface ARMErrorResponseBody {
 }
 
 // @public
+export interface AssessmentResult extends ProxyResource {
+    readonly assessmentId?: string;
+    readonly description?: string;
+    locale?: string;
+    readonly score?: number;
+    readonly state?: string;
+    typeId?: string;
+    readonly typePropertiesType?: string;
+    readonly typeVersion?: string;
+    workloadId?: string;
+    readonly workloadName?: string;
+}
+
+// @public
+export interface AssessmentResultProperties {
+    readonly assessmentId?: string;
+    readonly description?: string;
+    locale?: string;
+    readonly score?: number;
+    readonly state?: string;
+    readonly type?: string;
+    typeId?: string;
+    readonly typeVersion?: string;
+    workloadId?: string;
+    readonly workloadName?: string;
+}
+
+// @public
+export interface AssessmentsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AssessmentsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AssessmentsListOptionalParams extends OperationOptions {
+    skiptoken?: string;
+    top?: string;
+}
+
+// @public
+export interface AssessmentsOperations {
+    delete: (assessmentName: string, options?: AssessmentsDeleteOptionalParams) => Promise<void>;
+    get: (assessmentName: string, options?: AssessmentsGetOptionalParams) => Promise<AssessmentResult>;
+    list: (options?: AssessmentsListOptionalParams) => PagedAsyncIterableIterator<AssessmentResult>;
+    put: (assessmentName: string, assessmentContract: AssessmentResult, options?: AssessmentsPutOptionalParams) => Promise<AssessmentResult>;
+}
+
+// @public
+export interface AssessmentsPutOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AssessmentTypeResult {
+    description?: string;
+    id?: string;
+    locale?: string;
+    title?: string;
+    version?: string;
+}
+
+// @public
+export interface AssessmentTypesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AssessmentTypesOperations {
+    list: (options?: AssessmentTypesListOptionalParams) => PagedAsyncIterableIterator<AssessmentTypeResult>;
+}
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export type Category = string;
 
 // @public
 export interface ConfigData extends Resource {
     digests?: DigestConfig[];
+    duration?: Duration;
     exclude?: boolean;
     lowCpuThreshold?: CpuThreshold;
 }
 
 // @public
-export interface ConfigurationListResult {
-    nextLink?: string;
-    value?: ConfigData[];
+export interface ConfigDataProperties {
+    digests?: DigestConfig[];
+    duration?: Duration;
+    exclude?: boolean;
+    lowCpuThreshold?: CpuThreshold;
 }
 
 // @public
 export type ConfigurationName = string;
 
 // @public
-export interface Configurations {
-    createInResourceGroup(configurationName: ConfigurationName, resourceGroup: string, configContract: ConfigData, options?: ConfigurationsCreateInResourceGroupOptionalParams): Promise<ConfigurationsCreateInResourceGroupResponse>;
-    createInSubscription(configurationName: ConfigurationName, configContract: ConfigData, options?: ConfigurationsCreateInSubscriptionOptionalParams): Promise<ConfigurationsCreateInSubscriptionResponse>;
-    listByResourceGroup(resourceGroup: string, options?: ConfigurationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ConfigData>;
-    listBySubscription(options?: ConfigurationsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ConfigData>;
+export interface ConfigurationsCreateInResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConfigurationsCreateInResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationsCreateInSubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationsCreateInResourceGroupResponse = ConfigData;
-
-// @public
-export interface ConfigurationsCreateInSubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationsCreateInSubscriptionResponse = ConfigData;
-
-// @public
-export interface ConfigurationsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationsListByResourceGroupResponse = ConfigurationListResult;
-
-// @public
-export interface ConfigurationsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationsOperations {
+    createInResourceGroup: (configurationName: ConfigurationName, resourceGroup: string, configContract: ConfigData, options?: ConfigurationsCreateInResourceGroupOptionalParams) => Promise<ConfigData>;
+    createInSubscription: (configurationName: ConfigurationName, configContract: ConfigData, options?: ConfigurationsCreateInSubscriptionOptionalParams) => Promise<ConfigData>;
+    listByResourceGroup: (resourceGroup: string, options?: ConfigurationsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ConfigData>;
+    listBySubscription: (options?: ConfigurationsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ConfigData>;
 }
 
 // @public
-export type ConfigurationsListBySubscriptionNextResponse = ConfigurationListResult;
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
-export interface ConfigurationsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ConfigurationsListBySubscriptionResponse = ConfigurationListResult;
+export type Control = string;
 
 // @public
 export type CpuThreshold = string;
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface DigestConfig {
@@ -127,10 +233,43 @@ export interface DigestConfig {
 export type DigestConfigState = string;
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export type Duration = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export interface ExtensionResource extends Resource {
+}
 
 // @public
 export type Impact = string;
+
+export { isRestError }
+
+// @public
+export enum KnownAggregated {
+    Day = "day",
+    Month = "month",
+    Week = "week"
+}
 
 // @public
 export enum KnownCategory {
@@ -147,11 +286,33 @@ export enum KnownConfigurationName {
 }
 
 // @public
+export enum KnownControl {
+    BusinessContinuity = "BusinessContinuity",
+    DisasterRecovery = "DisasterRecovery",
+    HighAvailability = "HighAvailability",
+    MonitoringAndAlerting = "MonitoringAndAlerting",
+    Other = "Other",
+    Personalized = "Personalized",
+    PrioritizedRecommendations = "PrioritizedRecommendations",
+    Scalability = "Scalability",
+    ServiceUpgradeAndRetirement = "ServiceUpgradeAndRetirement"
+}
+
+// @public
 export enum KnownCpuThreshold {
     Fifteen = "15",
+    // (undocumented)
     Five = "5",
     Ten = "10",
     Twenty = "20"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -161,10 +322,82 @@ export enum KnownDigestConfigState {
 }
 
 // @public
+export enum KnownDuration {
+    Duration14 = "14",
+    Duration21 = "21",
+    Duration30 = "30",
+    Duration60 = "60",
+    // (undocumented)
+    Duration7 = "7",
+    Duration90 = "90"
+}
+
+// @public
 export enum KnownImpact {
     High = "High",
     Low = "Low",
     Medium = "Medium"
+}
+
+// @public
+export enum KnownPredictionType {
+    PredictiveRightsizing = "PredictiveRightsizing"
+}
+
+// @public
+export enum KnownPriority {
+    Critical = "Critical",
+    High = "High",
+    Informational = "Informational",
+    Low = "Low",
+    Medium = "Medium"
+}
+
+// @public
+export enum KnownPriorityName {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium"
+}
+
+// @public
+export enum KnownReasonForRejectionName {
+    NotARisk = "NotARisk",
+    RiskAccepted = "RiskAccepted"
+}
+
+// @public
+export enum KnownRecommendationDismissReason {
+    AnAlternativeSolutionIsAlreadyInPlace = "AnAlternativeSolutionIsAlreadyInPlace",
+    ExcessiveCostInvestmentRequired = "ExcessiveCostInvestmentRequired",
+    ImplementationStepsAreUnclear = "ImplementationStepsAreUnclear",
+    IncompatibleWithTheCurrentConfiguration = "IncompatibleWithTheCurrentConfiguration",
+    Other = "Other",
+    RiskIsAcceptable = "RiskIsAcceptable",
+    TooComplexOrImpracticalToImplement = "TooComplexOrImpracticalToImplement"
+}
+
+// @public
+export enum KnownRecommendationStatus {
+    Completed = "Completed",
+    Dismissed = "Dismissed",
+    New = "New",
+    Postponed = "Postponed"
+}
+
+// @public
+export enum KnownRecommendationStatusName {
+    Approved = "Approved",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownReviewStatus {
+    Completed = "Completed",
+    InProgress = "InProgress",
+    New = "New",
+    Triaged = "Triaged"
 }
 
 // @public
@@ -180,20 +413,25 @@ export enum KnownScenario {
 }
 
 // @public
-export interface MetadataEntity {
-    applicableScenarios?: Scenario[];
-    dependsOn?: string[];
-    displayName?: string;
-    id?: string;
-    name?: string;
-    supportedValues?: MetadataSupportedValueDetail[];
-    type?: string;
+export enum KnownVersions {
+    V20250501Preview = "2025-05-01-preview",
+    V20260201Preview = "2026-02-01-preview"
 }
 
 // @public
-export interface MetadataEntityListResult {
-    nextLink?: string;
-    value?: MetadataEntity[];
+export interface MetadataEntity extends ProxyResource {
+    applicableScenarios?: Scenario[];
+    dependsOn?: string[];
+    displayName?: string;
+    supportedValues?: MetadataSupportedValueDetail[];
+}
+
+// @public
+export interface MetadataEntityProperties {
+    applicableScenarios?: Scenario[];
+    dependsOn?: string[];
+    displayName?: string;
+    supportedValues?: MetadataSupportedValueDetail[];
 }
 
 // @public
@@ -217,118 +455,255 @@ export interface OperationEntity {
 }
 
 // @public
-export interface OperationEntityListResult {
-    nextLink?: string;
-    value?: OperationEntity[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationEntity>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationEntity>;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListNextResponse = OperationEntityListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
-export type OperationsListResponse = OperationEntityListResult;
-
-// @public
-export interface RecommendationMetadata {
-    get(name: string, options?: RecommendationMetadataGetOptionalParams): Promise<RecommendationMetadataGetResponse>;
-    list(options?: RecommendationMetadataListOptionalParams): PagedAsyncIterableIterator<MetadataEntity>;
+export interface PredictionRequest {
+    extendedProperties?: any;
+    predictionType?: PredictionType;
 }
 
 // @public
-export interface RecommendationMetadataGetOptionalParams extends coreClient.OperationOptions {
+export interface PredictionRequestProperties {
+    extendedProperties?: any;
+    predictionType?: PredictionType;
 }
 
 // @public
-export type RecommendationMetadataGetResponse = MetadataEntity;
-
-// @public
-export interface RecommendationMetadataListNextOptionalParams extends coreClient.OperationOptions {
+export interface PredictionResponse {
+    category?: Category;
+    extendedProperties?: any;
+    impact?: Impact;
+    impactedField?: string;
+    lastUpdated?: Date;
+    predictionType?: PredictionType;
+    shortDescription?: ShortDescription;
 }
 
 // @public
-export type RecommendationMetadataListNextResponse = MetadataEntityListResult;
-
-// @public
-export interface RecommendationMetadataListOptionalParams extends coreClient.OperationOptions {
+export interface PredictionResponseProperties {
+    category?: Category;
+    extendedProperties?: any;
+    impact?: Impact;
+    impactedField?: string;
+    lastUpdated?: Date;
+    predictionType?: PredictionType;
+    shortDescription?: ShortDescription;
 }
 
 // @public
-export type RecommendationMetadataListResponse = MetadataEntityListResult;
+export type PredictionType = string;
 
 // @public
-export interface Recommendations {
-    generate(options?: RecommendationsGenerateOptionalParams): Promise<RecommendationsGenerateResponse>;
-    get(resourceUri: string, recommendationId: string, options?: RecommendationsGetOptionalParams): Promise<RecommendationsGetResponse>;
-    getGenerateStatus(operationId: string, options?: RecommendationsGetGenerateStatusOptionalParams): Promise<void>;
-    list(options?: RecommendationsListOptionalParams): PagedAsyncIterableIterator<ResourceRecommendationBase>;
+export interface PredictOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RecommendationsGenerateHeaders {
-    location?: string;
-    retryAfter?: string;
+export type Priority = string;
+
+// @public
+export type PriorityName = string;
+
+// @public
+export interface ProxyResource extends Resource {
 }
 
 // @public
-export interface RecommendationsGenerateOptionalParams extends coreClient.OperationOptions {
+export type ReasonForRejectionName = string;
+
+// @public
+export type RecommendationDismissReason = string;
+
+// @public
+export interface RecommendationMetadataGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RecommendationsGenerateResponse = RecommendationsGenerateHeaders;
-
-// @public
-export interface RecommendationsGetGenerateStatusOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationMetadataListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RecommendationsGetOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationMetadataOperations {
+    get: (name: string, options?: RecommendationMetadataGetOptionalParams) => Promise<MetadataEntity>;
+    list: (options?: RecommendationMetadataListOptionalParams) => PagedAsyncIterableIterator<MetadataEntity>;
 }
 
 // @public
-export type RecommendationsGetResponse = ResourceRecommendationBase;
-
-// @public
-export interface RecommendationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationPatchPayload {
+    properties?: RecommendationStatePropertiesPayload;
 }
 
 // @public
-export type RecommendationsListNextResponse = ResourceRecommendationBaseListResult;
+export interface RecommendationProperties {
+    actions?: Record<string, any>[];
+    category?: Category;
+    completionType?: string;
+    control?: Control;
+    createdTime?: Date;
+    description?: string;
+    exposedMetadataProperties?: Record<string, any>;
+    extendedProperties?: Record<string, string>;
+    impact?: Impact;
+    impactedField?: string;
+    impactedValue?: string;
+    label?: string;
+    lastRefreshed?: Date;
+    lastUpdated?: Date;
+    learnMoreLink?: string;
+    metadata?: Record<string, any>;
+    notes?: string;
+    postponedUntilDateTime?: Date;
+    potentialBenefits?: string;
+    recommendationDismissReason?: RecommendationDismissReason;
+    recommendationStatus?: RecommendationStatus;
+    recommendationTypeId?: string;
+    remediation?: Record<string, any>;
+    resourceMetadata?: ResourceMetadata;
+    resourceWorkload?: RecommendationPropertiesResourceWorkload;
+    review?: RecommendationPropertiesReview;
+    risk?: Risk;
+    shortDescription?: ShortDescription;
+    sourceSystem?: string;
+    suppressionId?: string;
+    trackedProperties?: TrackedRecommendationProperties;
+}
 
 // @public
-export interface RecommendationsListOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationPropertiesResourceWorkload {
+    id?: string;
+    name?: string;
+}
+
+// @public
+export interface RecommendationPropertiesReview {
+    id?: string;
+    name?: string;
+}
+
+// @public
+export interface RecommendationRejectBody {
+    reasonForRejection?: ReasonForRejectionName;
+}
+
+// @public
+export interface RecommendationsGenerateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RecommendationsGetGenerateStatusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RecommendationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RecommendationsListByTenantOptionalParams extends OperationOptions {
     filter?: string;
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type RecommendationsListResponse = ResourceRecommendationBaseListResult;
+export interface RecommendationsListOptionalParams extends OperationOptions {
+    filter?: string;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export interface RecommendationsOperations {
+    generate: (options?: RecommendationsGenerateOptionalParams) => Promise<void>;
+    get: (resourceUri: string, recommendationId: string, options?: RecommendationsGetOptionalParams) => Promise<ResourceRecommendationBase>;
+    getGenerateStatus: (operationId: string, options?: RecommendationsGetGenerateStatusOptionalParams) => Promise<void>;
+    list: (options?: RecommendationsListOptionalParams) => PagedAsyncIterableIterator<ResourceRecommendationBase>;
+    listByTenant: (resourceUri: string, options?: RecommendationsListByTenantOptionalParams) => PagedAsyncIterableIterator<ResourceRecommendationBase>;
+    update: (recommendationId: string, properties: RecommendationPatchPayload, options?: RecommendationsUpdateOptionalParams) => Promise<ResourceRecommendationBase>;
+}
+
+// @public
+export interface RecommendationStatePropertiesPayload {
+    postponedUntilDateTime?: Date;
+    recommendationDismissReason?: RecommendationDismissReason;
+    recommendationStatus?: RecommendationStatus;
+}
+
+// @public
+export type RecommendationStatus = string;
+
+// @public
+export type RecommendationStatusName = string;
+
+// @public
+export interface RecommendationsUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ResiliencyReview extends ProxyResource {
+    readonly publishedAt?: string;
+    readonly recommendationsCount?: number;
+    readonly reviewName?: string;
+    readonly reviewStatus?: ReviewStatus;
+    readonly updatedAt?: string;
+    readonly workloadName?: string;
+}
+
+// @public
+export interface ResiliencyReviewProperties {
+    readonly publishedAt?: string;
+    readonly recommendationsCount?: number;
+    readonly reviewName?: string;
+    readonly reviewStatus?: ReviewStatus;
+    readonly updatedAt?: string;
+    readonly workloadName?: string;
+}
+
+// @public
+export interface ResiliencyReviewsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ResiliencyReviewsListOptionalParams extends OperationOptions {
+    filter?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface ResiliencyReviewsOperations {
+    get: (reviewId: string, options?: ResiliencyReviewsGetOptionalParams) => Promise<ResiliencyReview>;
+    list: (options?: ResiliencyReviewsListOptionalParams) => PagedAsyncIterableIterator<ResiliencyReview>;
+}
 
 // @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
 export interface ResourceMetadata {
-    action?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    action?: Record<string, any>;
     plural?: string;
     resourceId?: string;
     singular?: string;
@@ -336,43 +711,44 @@ export interface ResourceMetadata {
 }
 
 // @public
-export interface ResourceRecommendationBase extends Resource {
-    actions?: {
-        [propertyName: string]: Record<string, unknown>;
-    }[];
+export interface ResourceRecommendationBase extends ExtensionResource {
+    actions?: Record<string, any>[];
     category?: Category;
+    completionType?: string;
+    control?: Control;
+    createdTime?: Date;
     description?: string;
-    exposedMetadataProperties?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
-    extendedProperties?: {
-        [propertyName: string]: string;
-    };
+    exposedMetadataProperties?: Record<string, any>;
+    extendedProperties?: Record<string, string>;
     impact?: Impact;
     impactedField?: string;
     impactedValue?: string;
     label?: string;
+    lastRefreshed?: Date;
     lastUpdated?: Date;
     learnMoreLink?: string;
-    metadata?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    metadata?: Record<string, any>;
+    notes?: string;
+    postponedUntilDateTime?: Date;
     potentialBenefits?: string;
+    recommendationDismissReason?: RecommendationDismissReason;
+    recommendationStatus?: RecommendationStatus;
     recommendationTypeId?: string;
-    remediation?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    remediation?: Record<string, any>;
     resourceMetadata?: ResourceMetadata;
+    resourceWorkload?: RecommendationPropertiesResourceWorkload;
+    review?: RecommendationPropertiesReview;
     risk?: Risk;
     shortDescription?: ShortDescription;
-    suppressionIds?: string[];
+    sourceSystem?: string;
+    suppressionId?: string;
+    trackedProperties?: TrackedRecommendationProperties;
 }
 
+export { RestError }
+
 // @public
-export interface ResourceRecommendationBaseListResult {
-    nextLink?: string;
-    value?: ResourceRecommendationBase[];
-}
+export type ReviewStatus = string;
 
 // @public
 export type Risk = string;
@@ -381,65 +757,193 @@ export type Risk = string;
 export type Scenario = string;
 
 // @public
+export interface ScoreEntity {
+    readonly categoryCount?: number;
+    consumptionUnits?: number;
+    date?: string;
+    impactedResourceCount?: number;
+    potentialScoreIncrease?: number;
+    score?: number;
+}
+
+// @public
 export interface ShortDescription {
     problem?: string;
     solution?: string;
 }
 
 // @public
-export interface SuppressionContract extends Resource {
+export interface SuppressionContract extends ExtensionResource {
     readonly expirationTimeStamp?: Date;
     suppressionId?: string;
     ttl?: string;
 }
 
 // @public
-export interface SuppressionContractListResult {
-    nextLink?: string;
-    value?: SuppressionContract[];
+export interface SuppressionProperties {
+    readonly expirationTimeStamp?: Date;
+    suppressionId?: string;
+    ttl?: string;
 }
 
 // @public
-export interface Suppressions {
-    create(resourceUri: string, recommendationId: string, name: string, suppressionContract: SuppressionContract, options?: SuppressionsCreateOptionalParams): Promise<SuppressionsCreateResponse>;
-    delete(resourceUri: string, recommendationId: string, name: string, options?: SuppressionsDeleteOptionalParams): Promise<void>;
-    get(resourceUri: string, recommendationId: string, name: string, options?: SuppressionsGetOptionalParams): Promise<SuppressionsGetResponse>;
-    list(options?: SuppressionsListOptionalParams): PagedAsyncIterableIterator<SuppressionContract>;
+export interface SuppressionsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SuppressionsCreateOptionalParams extends coreClient.OperationOptions {
+export interface SuppressionsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SuppressionsCreateResponse = SuppressionContract;
-
-// @public
-export interface SuppressionsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface SuppressionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SuppressionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SuppressionsGetResponse = SuppressionContract;
-
-// @public
-export interface SuppressionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SuppressionsListNextResponse = SuppressionContractListResult;
-
-// @public
-export interface SuppressionsListOptionalParams extends coreClient.OperationOptions {
+export interface SuppressionsListOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type SuppressionsListResponse = SuppressionContractListResult;
+export interface SuppressionsOperations {
+    create: (resourceUri: string, recommendationId: string, name: string, suppressionContract: SuppressionContract, options?: SuppressionsCreateOptionalParams) => Promise<SuppressionContract>;
+    delete: (resourceUri: string, recommendationId: string, name: string, options?: SuppressionsDeleteOptionalParams) => Promise<void>;
+    get: (resourceUri: string, recommendationId: string, name: string, options?: SuppressionsGetOptionalParams) => Promise<SuppressionContract>;
+    list: (options?: SuppressionsListOptionalParams) => PagedAsyncIterableIterator<SuppressionContract>;
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TimeSeriesEntity {
+    aggregationLevel?: Aggregated;
+    scoreHistory?: ScoreEntity[];
+}
+
+// @public
+export interface TrackedRecommendationProperties {
+    priority?: Priority;
+}
+
+// @public
+export interface TriageRecommendation extends ProxyResource {
+    readonly appliesToSubscriptions?: string[];
+    readonly description?: string;
+    readonly notes?: string;
+    readonly potentialBenefits?: string;
+    readonly priority?: PriorityName;
+    readonly recommendationStatus?: RecommendationStatusName;
+    readonly rejectReason?: string;
+    readonly reviewId?: string;
+    readonly title?: string;
+    readonly updatedAt?: string;
+}
+
+// @public
+export interface TriageRecommendationProperties {
+    readonly appliesToSubscriptions?: string[];
+    readonly description?: string;
+    readonly notes?: string;
+    readonly potentialBenefits?: string;
+    readonly priority?: PriorityName;
+    readonly recommendationStatus?: RecommendationStatusName;
+    readonly rejectReason?: string;
+    readonly reviewId?: string;
+    readonly title?: string;
+    readonly updatedAt?: string;
+}
+
+// @public
+export interface TriageRecommendationsApproveTriageRecommendationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TriageRecommendationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TriageRecommendationsListOptionalParams extends OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface TriageRecommendationsOperations {
+    approveTriageRecommendation: (reviewId: string, recommendationId: string, options?: TriageRecommendationsApproveTriageRecommendationOptionalParams) => Promise<void>;
+    get: (reviewId: string, recommendationId: string, options?: TriageRecommendationsGetOptionalParams) => Promise<TriageRecommendation>;
+    list: (reviewId: string, options?: TriageRecommendationsListOptionalParams) => PagedAsyncIterableIterator<TriageRecommendation>;
+    rejectTriageRecommendation: (reviewId: string, recommendationId: string, recommendationRejectBody: RecommendationRejectBody, options?: TriageRecommendationsRejectTriageRecommendationOptionalParams) => Promise<void>;
+    resetTriageRecommendation: (reviewId: string, recommendationId: string, options?: TriageRecommendationsResetTriageRecommendationOptionalParams) => Promise<void>;
+}
+
+// @public
+export interface TriageRecommendationsRejectTriageRecommendationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TriageRecommendationsResetTriageRecommendationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TriageResource extends ProxyResource {
+    readonly recommendationId?: string;
+    readonly resourceGroup?: string;
+    readonly resourceId?: string;
+    readonly resourceName?: string;
+    readonly resourceType?: string;
+    readonly reviewId?: string;
+    readonly subscriptionId?: string;
+}
+
+// @public
+export interface TriageResourceProperties {
+    readonly recommendationId?: string;
+    readonly resourceGroup?: string;
+    readonly resourceId?: string;
+    readonly resourceName?: string;
+    readonly resourceType?: string;
+    readonly reviewId?: string;
+    readonly subscriptionId?: string;
+}
+
+// @public
+export interface TriageResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TriageResourcesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TriageResourcesOperations {
+    get: (reviewId: string, recommendationId: string, recommendationResourceId: string, options?: TriageResourcesGetOptionalParams) => Promise<TriageResource>;
+    list: (reviewId: string, recommendationId: string, options?: TriageResourcesListOptionalParams) => PagedAsyncIterableIterator<TriageResource>;
+}
+
+// @public
+export interface WorkloadResult {
+    id?: string;
+    name?: string;
+    subscriptionId?: string;
+    subscriptionName?: string;
+}
+
+// @public
+export interface WorkloadsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WorkloadsOperations {
+    list: (options?: WorkloadsListOptionalParams) => PagedAsyncIterableIterator<WorkloadResult>;
+}
 
 // (No @packageDocumentation comment for this package)
 

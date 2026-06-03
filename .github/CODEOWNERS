@@ -332,7 +332,7 @@
 # Management Libraries
 ####################
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/advisor/arm-advisor/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
