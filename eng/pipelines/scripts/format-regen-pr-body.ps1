@@ -55,49 +55,6 @@ if (Test-Path $AggPath) {
     }
     $lines.Add("")
   }
-
-  if ($agg.skippedNoTspLocation -and $agg.skippedNoTspLocation.Count -gt 0) {
-    $lines.Add("## Packages skipped — no usable tsp-location.yaml ($($agg.skippedNoTspLocation.Count))")
-    $lines.Add("These packages were filtered out by matrix gen (`-OnlyTypeSpec true`) and are NOT covered by this PR.")
-    $lines.Add("**Spec / SDK team action**: please add a `tsp-location.yaml` (or fix the existing one) so these packages participate in the next regeneration run.")
-    $lines.Add("")
-
-    $reasonBuckets = @{}
-    foreach ($skipped in $agg.skippedNoTspLocation) {
-      $reason = $skipped.reason
-      if ($reason -like "no tsp-location.yaml*") {
-        $bucket = "no tsp-location.yaml"
-      }
-      elseif ($reason -like "stale path*") {
-        $bucket = "stale path (tspconfig.yaml missing in spec)"
-      }
-      elseif ($reason -like "relative repo*") {
-        $bucket = "relative repo (local-only tsp-location)"
-      }
-      else {
-        $bucket = $reason
-      }
-
-      if (-not $reasonBuckets.ContainsKey($bucket)) {
-        $reasonBuckets[$bucket] = 0
-      }
-      $reasonBuckets[$bucket]++
-    }
-
-    $lines.Add("**Breakdown by reason:**")
-    foreach ($bucket in ($reasonBuckets.Keys | Sort-Object { -$reasonBuckets[$_] })) {
-      $lines.Add("- $bucket — **$($reasonBuckets[$bucket])**")
-    }
-    $lines.Add("")
-    $lines.Add("<details><summary>Click to expand the full list</summary>")
-    $lines.Add("")
-    foreach ($skipped in $agg.skippedNoTspLocation) {
-      $lines.Add("- ``$($skipped.name)`` — $($skipped.reason)")
-    }
-    $lines.Add("")
-    $lines.Add("</details>")
-    $lines.Add("")
-  }
 }
 else {
   $lines.Add("_(aggregated-results.json not found; falling back to minimal description)_")

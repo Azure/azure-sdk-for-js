@@ -29,7 +29,6 @@ const totals = {
     breakingPackages: [],
     failedPackages: [],
   },
-  skippedNoTspLocation: [],
 };
 
 const addNums = (dst, src, keys) => {
@@ -47,29 +46,7 @@ for (const file of resultFiles) {
   totals.build.failures.push(...(result.build?.failures ?? []));
   totals.changelog.breakingPackages.push(...(result.changelog?.breakingPackages ?? []));
   totals.changelog.failedPackages.push(...(result.changelog?.failedPackages ?? []));
-  if (Array.isArray(result.skippedNoTspLocation)) {
-    totals.skippedNoTspLocation.push(...result.skippedNoTspLocation);
-  }
 }
-
-const setupSkipped = path.join(root, "matrix_artifacts", "skipped-no-tsp-location.json");
-if (fs.existsSync(setupSkipped)) {
-  try {
-    const skipped = JSON.parse(fs.readFileSync(setupSkipped, "utf8"));
-    if (Array.isArray(skipped)) totals.skippedNoTspLocation.push(...skipped);
-  } catch (err) {
-    console.log(`Warning: ${err.message}`);
-  }
-}
-
-const skipMap = new Map();
-for (const item of totals.skippedNoTspLocation) {
-  if (!skipMap.has(item.name)) skipMap.set(item.name, item.reason);
-}
-
-const skipped = [...skipMap.entries()]
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([name, reason]) => ({ name, reason }));
 const breaking = [...new Set(totals.changelog.breakingPackages)].sort();
 const changelogFailed = [...new Set(totals.changelog.failedPackages)].sort();
 const pct = (n, d) => (d === 0 ? "0.0" : ((n * 100) / d).toFixed(1));
@@ -85,10 +62,9 @@ const printList = (title, items, format = (value) => value) => {
   console.log(`\n${title} (${items.length}):`);
   for (const item of items) console.log(`  - ${format(item)}`);
 };
-
 printList("Breaking changes (see CHANGELOG.md in PR diff)", breaking);
 printList("Changelog tool failures (see logs/changelog/<pkg>.log)", changelogFailed);
-printList("Skipped — no tsp-location.yaml (filtered by matrix gen)", skipped, ({ name, reason }) => `${name} (${reason})`);
+printList("Changelog tool failures (see logs/changelog/<pkg>.log)", changelogFailed);
 printList("Regen failures", totals.regen.failures, (failure) => `${failure.pkg}: ${failure.error}`);
 printList("Build failures", totals.build.failures, (failure) => `${failure.pkg} (${failure.phase}): ${failure.error}`);
 console.log("====================================");
@@ -114,13 +90,12 @@ const aggregated = {
     breakingPackages: breaking,
     failedPackages: changelogFailed,
   },
-  skippedNoTspLocation: skipped,
 };
 
 const outDir = path.join(process.env.BUILD_ARTIFACTSTAGINGDIRECTORY || ".", "summary");
 fs.mkdirSync(outDir, { recursive: true });
 fs.writeFileSync(path.join(outDir, "aggregated-results.json"), JSON.stringify(aggregated, null, 2));
-console.log(`Wrote aggregated-results.json (${skipped.length} skipped, ${breaking.length} breaking)`);
+console.log(`Wrote aggregated-results.json (${breaking.length} breaking)`);
 
 if (resultFiles.length === 0 || totals.regen.failed > 0 || totals.build.failed > 0) {
   process.exit(1);

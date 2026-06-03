@@ -118,7 +118,7 @@ variables:
   nodeVersion: '22.x'
 
 stages:
-  - stage: BreakCheck
+  - stage: SDKRegenerate
     displayName: 'TypeSpec emitter breaking-change check'
     jobs:
       - job: Setup
@@ -169,7 +169,7 @@ stages:
             effFilter: ${{ parameters.PackageFilter }}
         steps:
           - task: PowerShell@2
-            displayName: 'Build matrix (split + scan skipped)'
+            displayName: 'Build matrix'
             name: generateMatrix
             inputs:
               pwsh: true

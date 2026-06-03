@@ -40,12 +40,7 @@ if (!specRepoRoot || !fs.existsSync(specRepoRoot)) {
 
 // Per-package spec lookup goes through each SDK's tsp-location.yaml only.
 // We deliberately do NOT scan the cloned spec repo to discover tspconfigs:
-// (1) the matrix-stage filter `-OnlyTypeSpec true` already keeps only packages
-//     that have tsp-location.yaml on the SDK side, so any spec-index "rescue"
-//     would never fire; (2) reviewers (mentor comment #3) want the regeneration
-//     contract to be exactly "what tsp-location.yaml points at", with the small
-//     set of packages that lack tsp-location.yaml surfaced in the PR description
-//     so the spec/SDK team can on-board them properly.
+// the regeneration contract is exactly "what tsp-location.yaml points at".
 //
 // Helper: parse `directory:` (and optionally `commit:`/`repo:`) out of a
 // tsp-location.yaml. Returns null if the file is missing the directory field
@@ -125,22 +120,22 @@ async function runUpdateChangelog(packageRelPath) {
 
 // Resolve one SDK directory's spec location from its tsp-location.yaml.
 // Returns { ok: true, package } if the SDK has a usable tsp-location.yaml,
-// or { ok: false, reason } if it should be reported as skipped in the PR.
+// or { ok: false } if it should be ignored by this run.
 function resolvePackageFromTspLocation(sdkDir) {
   const dir = normalizePath(sdkDir);
   const pkgDir = path.join(sdkRoot, sdkDir);
   const tspLocationPath = path.join(pkgDir, "tsp-location.yaml");
   if (!fs.existsSync(tspLocationPath)) {
-    return { ok: false, reason: "no tsp-location.yaml" };
+    return { ok: false };
   }
   const parsed = readTspLocation(tspLocationPath);
   if (parsed.error) {
-    return { ok: false, reason: parsed.error };
+    return { ok: false };
   }
   const localSpecPath = normalizePath(path.join(specRepoRoot, parsed.directory));
   const tspConfigPath = path.join(localSpecPath, "tspconfig.yaml");
   if (!fs.existsSync(tspConfigPath)) {
-    return { ok: false, reason: `stale path: ${parsed.directory} (tspconfig.yaml not in cloned spec)` };
+    return { ok: false };
   }
   return {
     ok: true,
@@ -158,36 +153,21 @@ function resolvePackageFromTspLocation(sdkDir) {
 }
 
 // Single-job mode: scan sdk/ for arm-* dirs and resolve each via tsp-location.yaml.
-// Returns { packages, skippedNoTspLocation } — packages without a usable
-// tsp-location.yaml are surfaced for the PR description, not silently dropped.
 function classifySdkDirs(sdkDirs) {
   const packages = [];
-  const skippedNoTspLocation = [];
 
   for (const dir of sdkDirs) {
     const r = resolvePackageFromTspLocation(dir);
     if (r.ok) packages.push(r.package);
-    else skippedNoTspLocation.push({ name: normalizePath(dir), reason: r.reason });
   }
 
-  return { packages, skippedNoTspLocation };
+  return { packages };
 }
 
-function logClassificationSummary(packages, skippedNoTspLocation, options = {}) {
-  const {
-    includeResolvedMessage = false,
-    skippedLabel = "packages without a usable tsp-location.yaml",
-    showOnboardingNote = false,
-  } = options;
+function logClassificationSummary(packages, options = {}) {
+  const { includeResolvedMessage = false } = options;
   console.log("");
   console.log(`  ✅ Will run: ${packages.length} packages${includeResolvedMessage ? " (resolved via tsp-location.yaml)" : ""}`);
-  if (skippedNoTspLocation.length > 0) {
-    console.log(`  ⚠️  Skipped: ${skippedNoTspLocation.length} ${skippedLabel}`);
-    if (showOnboardingNote) {
-      console.log("     (these are surfaced in the PR description for follow-up on-boarding)");
-    }
-    for (const item of skippedNoTspLocation) console.log(`       [SKIP] ${item.name} — ${item.reason}`);
-  }
   console.log("");
 }
 
@@ -210,21 +190,12 @@ function classifyPackages() {
   }
   const allArmDirs = findArmDirs(path.join(sdkRoot, "sdk"), []).sort();
   const classified = classifySdkDirs(allArmDirs);
-  logClassificationSummary(classified.packages, classified.skippedNoTspLocation, {
-    includeResolvedMessage: true,
-    skippedLabel: "arm-* packages without a usable tsp-location.yaml",
-    showOnboardingNote: true,
-  });
+  logClassificationSummary(classified.packages, { includeResolvedMessage: true });
   return classified;
 }
 
 // Matrix mode: caller passes a directoryList JSON (entries like
-// "advisor/arm-advisor"). We resolve each entry the same way as single-job
-// mode (tsp-location.yaml only). When matrix gen runs with `-OnlyTypeSpec
-// true`, every entry in the list will already have tsp-location.yaml — the
-// skipped list normally stays empty here. The list is still computed (and
-// emitted) so an edge-case (e.g. yaml gets deleted between matrix-gen and
-// shard run) is visible in result.json.
+// "advisor/arm-advisor"). We resolve each entry the same way as single-job mode.
 function classifyFromDirectoryList(directoryListPath) {
   console.log(`Reading directory list from: ${directoryListPath}`);
   const entries = JSON.parse(fs.readFileSync(directoryListPath, "utf8"));
@@ -233,9 +204,7 @@ function classifyFromDirectoryList(directoryListPath) {
     process.exit(1);
   }
   console.log(`  Directory list contains ${entries.length} packages`);
-
   const sdkDirs = [];
-  const skippedBeforeResolve = [];
 
   for (const entry of entries) {
     if (entry.includes("..") || path.isAbsolute(entry)) {
@@ -244,17 +213,12 @@ function classifyFromDirectoryList(directoryListPath) {
     }
 
     const sdkDir = normalizePath(path.join("sdk", entry));
-    if (!fs.existsSync(path.join(sdkRoot, sdkDir))) {
-      skippedBeforeResolve.push({ name: sdkDir, reason: "directory does not exist" });
-      continue;
-    }
-    sdkDirs.push(sdkDir);
+    if (fs.existsSync(path.join(sdkRoot, sdkDir))) sdkDirs.push(sdkDir);
   }
 
   const classified = classifySdkDirs(sdkDirs);
-  const skippedNoTspLocation = [...skippedBeforeResolve, ...classified.skippedNoTspLocation];
-  logClassificationSummary(classified.packages, skippedNoTspLocation);
-  return { packages: classified.packages, skippedNoTspLocation };
+  logClassificationSummary(classified.packages);
+  return classified;
 }
 
 async function runWithConcurrency(items, limit, worker) {
@@ -420,7 +384,6 @@ async function buildAll(regenResults) {
 
 function buildResultSummary({
   packages,
-  skippedNoTspLocation,
   regenResults,
   regenSuccess,
   regenFail,
@@ -433,7 +396,6 @@ function buildResultSummary({
     emitterVersion,
     directoryList: directoryListFile || null,
     packages: packages.map((p) => p.pkg),
-    skippedNoTspLocation: skippedNoTspLocation || [],
     regeneration: {
       total: packages.length,
       success: regenSuccess,
@@ -477,15 +439,14 @@ async function main() {
 
   console.log("===== Step 3: Resolve spec paths via tsp-location.yaml =====");
   let packages;
-  let skippedNoTspLocation;
 
   if (directoryListFile) {
     // Matrix mode: package list provided by GenerateMatrix job
     console.log("(Matrix mode: using --directoryList)");
-    ({ packages, skippedNoTspLocation } = classifyFromDirectoryList(directoryListFile));
+    ({ packages } = classifyFromDirectoryList(directoryListFile));
   } else {
     // Single-job mode: scan all ARM packages
-    ({ packages, skippedNoTspLocation } = classifyPackages());
+    ({ packages } = classifyPackages());
     if (maxPackages > 0) {
       packages = packages.slice(0, maxPackages);
       console.log(`Limited to first ${maxPackages} packages`);
@@ -539,7 +500,6 @@ async function main() {
   if (resultOutputDir) {
     const resultSummary = buildResultSummary({
       packages,
-      skippedNoTspLocation,
       regenResults,
       regenSuccess,
       regenFail,
