@@ -132,7 +132,7 @@ concurrent regen + `BuildWorkers` concurrent build inside each shard.
 
 | Failure | Behavior |
 |---|---|
-| Package has no `tsp-location.yaml` | Filtered out at matrix gen (`-OnlyTypeSpec true`), listed in PR body under "Packages skipped — no usable tsp-location.yaml" with reason ("no tsp-location.yaml" / "stale path" / "relative repo"), grouped by reason for triage. |
+| Package has no `tsp-location.yaml` | Excluded from this pipeline's regeneration scope. No extra skipped-package report is generated. |
 | Single package's `tsp-client init` fails | Logged to `logs/regenerate/<pkg>.log`, shard continues with next package, surfaced in aggregated summary. Shard does NOT abort. |
 | Single package's `pnpm build` fails | Same: logged + reported, shard continues. The CHANGELOG step is skipped for that package. |
 | Entire shard times out (180 min) | ADO marks shard failed; other shards complete independently; Summary stage still runs (`condition: succeededOrFailed()`). CreatePR requires Summary success — currently the only "whole pipeline aborts" path. |
@@ -166,14 +166,13 @@ concurrent regen + `BuildWorkers` concurrent build inside each shard.
 ## 6. Outputs
 
 - **Pipeline artifacts**
-  - `matrix_artifacts/` — sharded directory lists + `skipped-no-tsp-location.json`
+  - `matrix_artifacts/` — sharded directory lists
   - `regen_result_<JobKey>/` — per-shard logs and `result.json`
   - `regen_summary/aggregated-results.json` — flat summary consumed by CreatePR
 - **GitHub PR** (when `CreatePullRequest=true`)
   - Aggregated commit titled `TypeSpec regeneration changes (<mode>) for emitter <version>`
   - Body sections: regeneration summary, breaking-change packages (clickable
-    links to per-package `CHANGELOG.md`), skipped packages (with reason
-    breakdown), patches skipped due to conflicts.
+    links to per-package `CHANGELOG.md`), patches skipped due to conflicts.
 - **Per-package logs** (under `logs/{regenerate,build,changelog}/<pkg>.log`)
   are published in the shard artifact for deep-dive debugging.
 

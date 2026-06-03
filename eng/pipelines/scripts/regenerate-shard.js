@@ -10,8 +10,9 @@
 //   3. Runs a single `pnpm turbo build --filter @azure/<pkg>...` invocation
 //      spanning every successfully-regenerated package, with turbo handling
 //      the dep graph + per-task parallelism.
-//   4. Runs `eng/scripts/update-changelog-content.ps1` per built package,
-//      scrapes the resulting CHANGELOG.md for an unreleased "### Breaking Changes"
+//   4. Invokes `npm exec update-changelog` (from the pre-installed
+//      `eng/tools/js-sdk-release-tools`) per built package, scrapes the
+//      resulting CHANGELOG.md for an unreleased "### Breaking Changes"
 //      heading, and records the signal.
 //   5. Emits result.json (regen / build / changelog counts and failure lists)
 //      consumed by the Summary stage.
@@ -48,7 +49,11 @@ if (!directoryListFile || !fs.existsSync(directoryListFile)) {
 
 const tspSync = path.join(sdkRoot, "eng/common/scripts/TypeSpec-Project-Sync.ps1");
 const tspGenerate = path.join(sdkRoot, "eng/common/scripts/TypeSpec-Project-Generate.ps1");
-const updateChangelog = path.join(sdkRoot, "eng/scripts/update-changelog-content.ps1");
+// js-sdk-release-tools is pre-installed by the YAML "Prepare" step. We invoke
+// its `update-changelog` CLI directly (forward-slash --prefix) instead of going
+// through eng/scripts/update-changelog-content.ps1 — that wrapper hard-codes a
+// Windows backslash path and fails on Linux agents.
+const releaseToolsPrefix = "eng/tools/js-sdk-release-tools";
 
 function run(cmd, args, cwd) {
   return new Promise((resolve) => {
@@ -115,12 +120,10 @@ async function regenerateOne(pkg, counter, total) {
 }
 
 async function changelogOne(pkg) {
-  if (!fs.existsSync(updateChangelog)) {
-    return { pkg: pkg.pkg, success: false, hasBreaking: false, output: "(update-changelog-content.ps1 not found)" };
-  }
   const res = await run(
-    "pwsh",
-    ["-File", updateChangelog, "-SdkRepoPath", sdkRoot, "-PackagePath", pkg.pkgDir],
+    "npm",
+    ["--prefix", releaseToolsPrefix, "exec", "--no", "--",
+     "update-changelog", "--", "--sdkRepoPath", sdkRoot, "--packagePath", pkg.pkgDir],
     sdkRoot,
   );
   let hasBreaking = false;

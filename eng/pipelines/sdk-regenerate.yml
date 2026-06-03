@@ -4,7 +4,9 @@
 # lock file → shard ARM packages with the shared New-RegenerateMatrix.ps1 →
 # per shard run eng/pipelines/scripts/regenerate-shard.js, which delegates
 # every per-package step to shared scripts (TypeSpec-Project-Sync.ps1,
-# TypeSpec-Project-Generate.ps1, update-changelog-content.ps1) and a single
+# TypeSpec-Project-Generate.ps1) plus a direct `npm exec update-changelog`
+# call (we bypass eng/scripts/update-changelog-content.ps1, which currently
+# uses Windows-only backslash paths and breaks on Linux agents) and a single
 # `pnpm turbo build --filter` invocation. Summary stage aggregates per-shard
 # result.json; optional CreatePR stage 3-way applies the per-shard
 # changes.patch artifacts and pushes via the shared git-push-changes template.
@@ -15,7 +17,6 @@ trigger:
   paths:
     include:
       - eng/emitter-package.json
-      - eng/scripts/update-changelog-content.ps1
       - eng/common/scripts/TypeSpec-*
       - eng/pipelines/sdk-regenerate.yml
       - eng/pipelines/scripts/**
@@ -26,7 +27,6 @@ pr:
   paths:
     include:
       - eng/emitter-package.json
-      - eng/scripts/update-changelog-content.ps1
       - eng/common/scripts/TypeSpec-*
       - eng/pipelines/sdk-regenerate.yml
       - eng/pipelines/scripts/**
@@ -201,6 +201,13 @@ stages:
             fs.writeFileSync(p,JSON.stringify(j,null,2)+"\n");'
           cd "$(sdkRoot)"
           tsp-client generate-lock-file
+
+          # Pre-install js-sdk-release-tools once per shard with a POSIX --prefix.
+          # regenerate-shard.js calls `npm exec update-changelog` against this
+          # install for every package; doing it here avoids the Windows-backslash
+          # bug in eng/scripts/update-changelog-content.ps1 and avoids reinstalling
+          # for every package.
+          npm --prefix eng/tools/js-sdk-release-tools ci
 
           # Shallow-clone the spec repo once per shard (TypeSpec-Project-Sync
           # will copy from this via -LocalSpecRepoPath).
