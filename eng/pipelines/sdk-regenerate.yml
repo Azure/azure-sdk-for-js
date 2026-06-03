@@ -192,6 +192,12 @@ stages:
             const fs=require("fs"),p="$(sdkRoot)/eng/emitter-package.json";
             const j=JSON.parse(fs.readFileSync(p,"utf8"));
             j.dependencies["@azure-tools/typespec-ts"]="$(emitterVersion)";
+            // Inject peer-deps that the dev typespec-client-generator-core imports
+            // at runtime but main`s emitter-package.json does not yet declare. Track
+            // upstream fix at https://github.com/Azure/autorest.typescript/issues/.
+            const v=j.dependencies["@typespec/events"]||"0.82.0";
+            j.dependencies["@typespec/xml"]=j.dependencies["@typespec/xml"]||v;
+            j.dependencies["@typespec/sse"]=j.dependencies["@typespec/sse"]||v;
             fs.writeFileSync(p,JSON.stringify(j,null,2)+"\n");'
           cd "$(sdkRoot)"
           tsp-client generate-lock-file
