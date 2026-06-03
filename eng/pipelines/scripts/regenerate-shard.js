@@ -223,7 +223,10 @@ async function runShard() {
     counter.value++;
     console.log(`  ${success ? "✅" : "❌"} [${counter.value}/${total}] ${pkg.pkg} (${dur}s)`);
     logGroup(`regen log: ${pkg.pkg}`, output);
-    return { ...pkg, success, output };
+    // Last 25 non-empty lines of output as the human-readable failure reason.
+    const errorTail = success ? null
+      : output.split("\n").map((l) => l.replace(/\s+$/, "")).filter(Boolean).slice(-25).join("\n");
+    return { ...pkg, success, output, errorTail };
   }
 
   async function changelogOne(pkg) {
@@ -231,21 +234,24 @@ async function runShard() {
       ["--prefix", releaseToolsPrefix, "exec", "--no", "--",
        "update-changelog", "--sdkRepoPath", sdkRoot, "--packagePath", pkg.pkgDir],
       sdkRoot);
-    let hasBreaking = false;
+    let hasBreaking = false, breakingText = "";
     try {
       const cl = path.join(pkg.pkgDir, "CHANGELOG.md");
       if (fs.existsSync(cl)) {
         // Inspect only the top (unreleased) section, before the next "## " version heading.
-        const head = fs.readFileSync(cl, "utf8").split("\n").slice(0, 200).join("\n");
+        const full = fs.readFileSync(cl, "utf8");
+        const head = full.split("\n").slice(0, 200).join("\n");
         const i1 = head.indexOf("\n## "), i2 = i1 >= 0 ? head.indexOf("\n## ", i1 + 1) : -1;
         const top = i1 >= 0 ? head.slice(0, i2 > 0 ? i2 : head.length) : head;
-        hasBreaking = /^###\s+Breaking Changes\b/m.test(top);
+        // Extract "### Breaking Changes" section up to next "### " heading.
+        const m = top.match(/^###\s+Breaking Changes\b[^\n]*\n([\s\S]*?)(?=\n###\s|\n##\s|$)/m);
+        if (m) { hasBreaking = true; breakingText = m[1].trim(); }
       }
     } catch {
       /* best-effort */
     }
     logGroup(`changelog log: ${pkg.pkg}`, res.out);
-    return { pkg: pkg.pkg, success: res.code === 0, hasBreaking, output: res.out };
+    return { pkg: pkg.pkg, success: res.code === 0, hasBreaking, breakingText, output: res.out };
   }
 
   const entries = JSON.parse(fs.readFileSync(directoryListFile, "utf8"));
@@ -264,6 +270,16 @@ async function runShard() {
   let buildSkipped = skipBuild || regenOk.length === 0;
   if (!buildSkipped) {
     console.log(`\n===== Build (pnpm turbo, concurrency=${buildConcurrency}) =====`);
+    // tsp-client leaves a `TempTypeSpecFiles/<svc>/package.json` in every
+    // regen'd package; pnpm workspace install will try to fetch the dev
+    // @azure-tools/typespec-ts pinned in there from the internal Azure feed
+    // and 401 — wiping the whole shard's build. The directory is just an
+    // intermediate copy of the spec, the actual SDK output is at the package
+    // root, so deleting it before install is safe.
+    for (const p of regenOk) {
+      const tmp = path.join(p.pkgDir, "TempTypeSpecFiles");
+      if (fs.existsSync(tmp)) fs.rmSync(tmp, { recursive: true, force: true });
+    }
     const install = await run("pnpm", ["install", "--no-frozen-lockfile"], sdkRoot);
     if (install.code !== 0) {
       logGroup("pnpm install output", install.out.slice(-2000));
@@ -290,14 +306,14 @@ async function runShard() {
     packages: packages.map((p) => p.pkg),
     regeneration: {
       total: packages.length, success: regenOk.length, failed: packages.length - regenOk.length,
-      failures: regen.filter((r) => !r.success).map((r) => r.pkg),
+      failures: regen.filter((r) => !r.success).map((r) => ({ pkg: r.pkg, errorTail: r.errorTail })),
     },
-    build: buildSkipped ? null : { total: regenOk.length, success: buildOk.length, failed: buildFail.length, failures: buildFail },
+    build: buildSkipped ? null : { total: regenOk.length, success: buildOk.length, failed: buildFail.length, failures: buildFail.map((p) => ({ pkg: p })) },
     changelog: buildSkipped ? null : {
       total: cl.length, generated: cl.filter((r) => r.success).length,
       failed: cl.filter((r) => !r.success).map((r) => r.pkg),
       withBreaking: cl.filter((r) => r.success && r.hasBreaking).length,
-      breakingPackages: cl.filter((r) => r.success && r.hasBreaking).map((r) => r.pkg),
+      breakingPackages: cl.filter((r) => r.success && r.hasBreaking).map((r) => ({ pkg: r.pkg, breakingText: r.breakingText })),
     },
   };
 
@@ -348,7 +364,16 @@ function runAggregate() {
       agg.changelog.breakingPackages.push(...(r.changelog.breakingPackages || []));
     }
   });
-  agg.changelog.breakingPackages = [...new Set(agg.changelog.breakingPackages)].sort();
+  // Normalize failure entries (older shape was just strings; new shape is {pkg, errorTail}).
+  const norm = (x) => (typeof x === "string" ? { pkg: x } : x);
+  agg.regeneration.failures = agg.regeneration.failures.map(norm);
+  agg.build.failures = agg.build.failures.map(norm);
+  agg.changelog.breakingPackages = agg.changelog.breakingPackages.map(norm);
+  // De-dupe by pkg, keeping the first entry (which has errorTail/breakingText).
+  const dedupe = (arr) => Array.from(new Map(arr.map((x) => [x.pkg, x])).values()).sort((a, b) => a.pkg.localeCompare(b.pkg));
+  agg.regeneration.failures = dedupe(agg.regeneration.failures);
+  agg.build.failures = dedupe(agg.build.failures);
+  agg.changelog.breakingPackages = dedupe(agg.changelog.breakingPackages);
 
   console.log("===== AGGREGATED SUMMARY =====");
   console.log(`Emitter      : ${agg.emitterVersion}`);
@@ -357,42 +382,77 @@ function runAggregate() {
   console.log(`Changelogs   : ${agg.changelog.generated}/${agg.changelog.total}  (breaking: ${agg.changelog.withBreaking})`);
   if (agg.changelog.breakingPackages.length) {
     console.log("\nBreaking packages:");
-    agg.changelog.breakingPackages.forEach((p) => console.log(`  - ${p}`));
+    agg.changelog.breakingPackages.forEach((p) => console.log(`  - ${p.pkg}`));
   }
 
   fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(path.join(outDir, "aggregated-results.json"), JSON.stringify(agg, null, 2));
 
-  const body = [
-    `Generated by \`${definitionName}\` build [${buildNumber}](${buildUrl}).`,
-    `Emitter version: \`${agg.emitterVersion}\`. Push mode: \`${pushMode}\`.`, "",
+  const header = [
+    `_Generated by \`${definitionName}\` build [${buildNumber}](${buildUrl})._`,
+    `_Emitter version: \`${agg.emitterVersion}\`. Push mode: \`${pushMode}\`._`, "",
+  ];
+
+  // ─── pr-body.md (PR description) ─────────────────────────────────────────
+  const body = [...header,
     "## Regeneration summary",
     `- Regenerated: **${agg.regeneration.success}/${agg.regeneration.total}**`,
     `- Built OK:    **${agg.build.success}/${agg.build.total}**`,
     `- Changelog generated: **${agg.changelog.generated}/${agg.changelog.total}**`,
-    `- Packages with breaking changes: **${agg.changelog.withBreaking}**`,
+    `- Packages with breaking changes: **${agg.changelog.withBreaking}**`, "",
+    "See `eng/regen-reports/REGEN-SUMMARY.md` for the full per-package list and",
+    "`eng/regen-reports/BREAKING-CHANGES.md` for breaking-change details.",
   ];
-  if (agg.changelog.breakingPackages.length) {
-    body.push("", `## Packages with breaking changes (${agg.changelog.breakingPackages.length})`,
-      ...agg.changelog.breakingPackages.map((p) => `- \`${p}\``));
-  }
-  if (agg.regeneration.failures.length) {
-    body.push("", `## Packages that failed to regenerate (${agg.regeneration.failures.length})`,
-      "These failures are upstream issues (stale tsp-location.yaml or broken spec); see aggregated-results.json for the per-package error.",
-      ...agg.regeneration.failures.map((f) => `- \`${f.pkg || f}\``));
-  }
-  if (agg.build.failures.length) {
-    body.push("", `## Packages that built failed (${agg.build.failures.length})`,
-      ...agg.build.failures.map((f) => `- \`${f.pkg || f}\``));
-  }
   if (failedPatchesFile && fs.existsSync(failedPatchesFile)) {
     const drops = fs.readFileSync(failedPatchesFile, "utf8").split("\n").map((s) => s.trim()).filter(Boolean);
     if (drops.length) body.push("", `## Files dropped due to upstream conflicts (${drops.length})`,
       ...drops.map((f) => `- \`${f}\``));
   }
   fs.writeFileSync(path.join(outDir, "pr-body.md"), body.join("\n"));
+
+  // ─── REGEN-SUMMARY.md (committed) — per-package status + error tails ────
+  const summaryMd = [...header,
+    "# Regeneration report", "",
+    "| Stage | Success | Failed | Total |",
+    "|---|---|---|---|",
+    `| Regenerate | ${agg.regeneration.success} | ${agg.regeneration.failed} | ${agg.regeneration.total} |`,
+    `| Build      | ${agg.build.success} | ${agg.build.failed} | ${agg.build.total} |`,
+    `| Changelog  | ${agg.changelog.generated} | ${agg.changelog.failed.length} | ${agg.changelog.total} |`,
+  ];
+  if (agg.regeneration.failures.length) {
+    summaryMd.push("", `## ❌ Regenerate failures (${agg.regeneration.failures.length})`,
+      "_Almost always upstream: stale `tsp-location.yaml`, or a broken spec on `azure-rest-api-specs/main`._");
+    for (const f of agg.regeneration.failures) {
+      summaryMd.push("", `### \`${f.pkg}\``);
+      if (f.errorTail) summaryMd.push("```", f.errorTail, "```");
+    }
+  }
+  if (agg.build.failures.length) {
+    summaryMd.push("", `## ❌ Build failures (${agg.build.failures.length})`,
+      ...agg.build.failures.map((f) => `- \`${f.pkg}\``));
+  }
+  if (agg.changelog.failed.length) {
+    summaryMd.push("", `## ⚠ Changelog generation failures (${agg.changelog.failed.length})`,
+      ...agg.changelog.failed.map((p) => `- \`${p}\``));
+  }
+  fs.writeFileSync(path.join(outDir, "REGEN-SUMMARY.md"), summaryMd.join("\n") + "\n");
+
+  // ─── BREAKING-CHANGES.md (committed) — the headline artifact ────────────
+  const breakingMd = [...header,
+    "# Breaking changes", "",
+    `**${agg.changelog.breakingPackages.length}** package(s) reported \`### Breaking Changes\` in their CHANGELOG.md.`, "",
+  ];
+  if (agg.changelog.breakingPackages.length === 0) {
+    breakingMd.push("_No breaking changes detected in this regeneration._ 🎉");
+  } else {
+    for (const b of agg.changelog.breakingPackages) {
+      breakingMd.push(`## \`${b.pkg}\``, "",
+        (b.breakingText && b.breakingText.trim()) || "_(no detail captured; see the package CHANGELOG.md)_", "");
+    }
+  }
+  fs.writeFileSync(path.join(outDir, "BREAKING-CHANGES.md"), breakingMd.join("\n"));
   // Don't exit non-zero on regen/build failures — we still want a PR for the
-  // packages that DID succeed, with the failure list embedded in pr-body.md.
+  // packages that DID succeed, with the failure list embedded in the reports.
 }
 
 // ─── Dispatcher ─────────────────────────────────────────────────────────────

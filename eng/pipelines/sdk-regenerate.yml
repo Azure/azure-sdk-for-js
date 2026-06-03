@@ -257,8 +257,10 @@ stages:
             ${{ if eq(parameters.PullRequestRepoOwner, '') }}:
               GH_TOKEN_VAL: $(GH_TOKEN)
 
-        # Re-aggregate so pr-body.md includes the "files dropped due to upstream
-        # conflicts" section from failed-patches.txt. Overwrites the summary/.
+        # Re-aggregate so the reports include the "files dropped due to upstream
+        # conflicts" section from failed-patches.txt, then stage the up-to-date
+        # reports for the PR commit (apply-patches staged stale versions earlier
+        # before failed-patches.txt existed).
         - bash: |
             node "$(sdkRoot)/eng/pipelines/scripts/regenerate-shard.js" aggregate \
               --workspace "$(Pipeline.Workspace)" \
@@ -269,7 +271,12 @@ stages:
               --definitionName "$(Build.DefinitionName)" \
               --pushMode "${{ parameters.ChangePushMode }}" \
               --failedPatchesFile "$(Pipeline.Workspace)/failed-patches.txt" || true
-          displayName: 'Compose PR body'
+            mkdir -p eng/regen-reports
+            cp "$(Build.ArtifactStagingDirectory)/summary/REGEN-SUMMARY.md"   eng/regen-reports/
+            cp "$(Build.ArtifactStagingDirectory)/summary/BREAKING-CHANGES.md" eng/regen-reports/
+            git add eng/regen-reports/REGEN-SUMMARY.md eng/regen-reports/BREAKING-CHANGES.md
+          workingDirectory: $(sdkRoot)
+          displayName: 'Compose PR body + stage reports'
 
         - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
           parameters:
