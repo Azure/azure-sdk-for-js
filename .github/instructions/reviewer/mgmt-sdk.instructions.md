@@ -28,7 +28,7 @@ Breaking changes are acceptable in mgmt SDKs with proper CHANGELOG documentation
 **Root-cause analysis:** Trace breaking changes to their source:
 - API version change in spec → expected, document in changelog
 - TypeSpec migration artifact → may be approved pattern, check with architects
-- Emitter/tooling bug → report to autorest.typescript
+- Emitter/tooling bug → report to typespec-ts
 - Do NOT flag cosmetic changes: `XxxOptionalParams→XxxOptions`, response wrapper removal
 
 **Changelog alignment:** Public API changes in `review/*.api.md` must be documented:
@@ -76,6 +76,6 @@ Flag patterns indicating spec problems:
 - Do NOT post the same comment on every file that has the same issue
 
 ## Issue Types
-**🔴 Tool Issue:** Generation bug → fix + report to [autorest.typescript](https://github.com/Azure/autorest.typescript/issues)
+**🔴 Tool Issue:** Generation bug → fix + report to [typespec-ts](https://github.com/Azure/typespec-azure/issues)
 **🔴 Design Issue:** API problem → `@clientName`/`@override` in spec repo
 **🔵 Suggestion:** Optional improvement

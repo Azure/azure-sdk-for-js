@@ -152,7 +152,7 @@ line using `create-pull-request-review-comment`:
 > 🔴 **Tool Issue** — `CHANGELOG.md:42`
 > `Compared with 1.0.0-alpha.20260311.1:`.
 > We should not compare with alpha versions in `CHANGELOG.md`; this suggests a tooling bug.
-> **Fix:** Update `CHANGELOG.md` to compare with the latest preview or stable version, and report the issue in the [generation tool repository](https://github.com/Azure/autorest.typescript/issues).
+> **Fix:** Update `CHANGELOG.md` to compare with the latest preview or stable version, and report the issue in the [generation tool repository](https://github.com/Azure/typespec-azure/issues).
 
 After all inline comments, **submit the review** using
 `submit-pull-request-review` with:
