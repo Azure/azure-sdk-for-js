@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { KeyCredential } from "@azure/core-auth";
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, afterEach } from "vitest";
 import { VoiceLiveClient, type RequestSession, type VoiceLiveSession } from "../../src/index.js";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -34,6 +34,9 @@ describe.runIf(isLiveMode())("Realtime Service Matrix Tests", () => {
   const apiVersions = ["2025-10-01", "2026-04-10"];
 
   // Models exercised by the Python `test_realtime_service` smoke matrix.
+  // These run against the AI Services account provisioned by
+  // sdk/voicelive/test-resources.bicep, which is pinned to a region that
+  // exposes the full VoiceLive built-in model set.
   const models = [
     "gpt-realtime",
     "gpt-4o",
