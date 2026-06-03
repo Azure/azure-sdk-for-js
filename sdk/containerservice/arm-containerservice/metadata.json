@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.ContainerService": "2026-03-02-preview"
+    "Microsoft.ContainerService": "2026-04-02-preview"
   },
-  "emitterVersion": "0.52.3",
+  "emitterVersion": "0.54.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ContainerService",
     "CrossLanguageDefinitionId": {
@@ -85,6 +85,7 @@
       "@azure/arm-containerservice!ManagedClusterLoadBalancerProfileOutboundIPPrefixes:interface": "Microsoft.ContainerService.ManagedClusterLoadBalancerProfileOutboundIPPrefixes",
       "@azure/arm-containerservice!ResourceReference:interface": "Microsoft.ContainerService.ResourceReference",
       "@azure/arm-containerservice!ManagedClusterLoadBalancerProfileOutboundIPs:interface": "Microsoft.ContainerService.ManagedClusterLoadBalancerProfileOutboundIPs",
+      "@azure/arm-containerservice!BastionProfile:interface": "Microsoft.ContainerService.BastionProfile",
       "@azure/arm-containerservice!ManagedClusterNATGatewayProfile:interface": "Microsoft.ContainerService.ManagedClusterNATGatewayProfile",
       "@azure/arm-containerservice!ManagedClusterManagedOutboundIPProfile:interface": "Microsoft.ContainerService.ManagedClusterManagedOutboundIPProfile",
       "@azure/arm-containerservice!ManagedClusterNATGatewayProfileOutboundIpPrefixes:interface": "Microsoft.ContainerService.ManagedClusterNATGatewayProfile.outboundIPPrefixes.anonymous",
@@ -211,6 +212,9 @@
       "@azure/arm-containerservice!RelativeMonthlySchedule:interface": "Microsoft.ContainerService.RelativeMonthlySchedule",
       "@azure/arm-containerservice!DateSpan:interface": "Microsoft.ContainerService.DateSpan",
       "@azure/arm-containerservice!MaintenanceConfigurationListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-containerservice!MaintenanceWindowResource:interface": "Microsoft.ContainerService.MaintenanceWindowResource",
+      "@azure/arm-containerservice!MaintenanceWindowResourceProperties:interface": "Microsoft.ContainerService.MaintenanceWindowResourceProperties",
+      "@azure/arm-containerservice!MaintenanceWindowResourceListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-containerservice!ManagedNamespace:interface": "Microsoft.ContainerService.ManagedNamespace",
       "@azure/arm-containerservice!NamespaceProperties:interface": "Microsoft.ContainerService.NamespaceProperties",
       "@azure/arm-containerservice!ResourceQuota:interface": "Microsoft.ContainerService.ResourceQuota",
@@ -334,6 +338,7 @@
       "@azure/arm-containerservice!KnownLoadBalancerSku:enum": "Microsoft.ContainerService.LoadBalancerSku",
       "@azure/arm-containerservice!KnownBackendPoolType:enum": "Microsoft.ContainerService.BackendPoolType",
       "@azure/arm-containerservice!KnownClusterServiceLoadBalancerHealthProbeMode:enum": "Microsoft.ContainerService.ClusterServiceLoadBalancerHealthProbeMode",
+      "@azure/arm-containerservice!KnownBastionSku:enum": "Microsoft.ContainerService.BastionSku",
       "@azure/arm-containerservice!KnownIpFamily:enum": "Microsoft.ContainerService.IPFamily",
       "@azure/arm-containerservice!KnownPodLinkLocalAccess:enum": "Microsoft.ContainerService.PodLinkLocalAccess",
       "@azure/arm-containerservice!KnownMode:enum": "Microsoft.ContainerService.Mode",
@@ -439,6 +444,12 @@
       "@azure/arm-containerservice!ManagedNamespacesOperations#update:member": "Microsoft.ContainerService.ManagedNamespaces.update",
       "@azure/arm-containerservice!ManagedNamespacesOperations#createOrUpdate:member": "Microsoft.ContainerService.ManagedNamespaces.createOrUpdate",
       "@azure/arm-containerservice!ManagedNamespacesOperations#get:member": "Microsoft.ContainerService.ManagedNamespaces.get",
+      "@azure/arm-containerservice!MaintenanceWindowsOperations#listBySubscription:member": "Microsoft.ContainerService.MaintenanceWindows.listBySubscription",
+      "@azure/arm-containerservice!MaintenanceWindowsOperations#list:member": "Microsoft.ContainerService.MaintenanceWindows.list",
+      "@azure/arm-containerservice!MaintenanceWindowsOperations#delete:member": "Microsoft.ContainerService.MaintenanceWindows.delete",
+      "@azure/arm-containerservice!MaintenanceWindowsOperations#updateTags:member": "Microsoft.ContainerService.MaintenanceWindows.updateTags",
+      "@azure/arm-containerservice!MaintenanceWindowsOperations#createOrUpdate:member": "Microsoft.ContainerService.MaintenanceWindows.createOrUpdate",
+      "@azure/arm-containerservice!MaintenanceWindowsOperations#get:member": "Microsoft.ContainerService.MaintenanceWindows.get",
       "@azure/arm-containerservice!MaintenanceConfigurationsOperations#listByManagedCluster:member": "Microsoft.ContainerService.MaintenanceConfigurations.listByManagedCluster",
       "@azure/arm-containerservice!MaintenanceConfigurationsOperations#delete:member": "Microsoft.ContainerService.MaintenanceConfigurations.delete",
       "@azure/arm-containerservice!MaintenanceConfigurationsOperations#createOrUpdate:member": "Microsoft.ContainerService.MaintenanceConfigurations.createOrUpdate",
