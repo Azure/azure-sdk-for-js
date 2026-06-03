@@ -42,8 +42,8 @@ import type {
   Tags,
   ContainerRequestConditions,
   ModifiedAccessConditions,
-  BlobClientOptions,
   BlobClientConfig,
+  ContainerClientOptions,
 } from "./models.js";
 import {
   fromTspImmutabilityPolicyMode,
@@ -649,7 +649,7 @@ export class ContainerClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: ContainerClientOptions,
   );
   /**
    * Creates an instance of ContainerClient.
@@ -675,7 +675,7 @@ export class ContainerClient extends StorageClient {
       | PipelineLike,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: ContainerClientOptions,
   ) {
     let pipeline: PipelineLike;
     let url: string;

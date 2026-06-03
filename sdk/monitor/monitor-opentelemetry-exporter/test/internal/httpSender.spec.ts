@@ -482,7 +482,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+      const redirectHost = "https://westus.services.visualstudio.com";
       const redirectLocation = redirectHost + "/v2.1/track";
       // Redirect endpoint
       const redirectScope = nock(redirectHost).post("/v2.1/track", () => {
@@ -508,7 +508,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+      const redirectHost = "https://westus.services.visualstudio.com";
       const redirectLocation = redirectHost + "/v2.1/track";
       // Redirect endpoint
       const redirectScope = nock(redirectHost).post("/v2.1/track", () => {
@@ -536,7 +536,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+      const redirectHost = "https://westus.services.visualstudio.com";
       const redirectLocation = redirectHost + "/v2.1/track";
       // Redirect endpoint
       const redirectScope = nock(redirectHost).post("/v2.1/track", () => {
@@ -567,7 +567,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+      const redirectHost = "https://westus.services.visualstudio.com";
       const redirectLocation = redirectHost + "/v2.1/track";
       // Redirect endpoint
       const redirectScope = nock(redirectHost).post("/v2.1/track", () => {
@@ -590,6 +590,38 @@ describe("HttpSender", () => {
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
+    });
+
+    it("should refuse a cross-origin redirect and not leak telemetry to a foreign host", async () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
+      // The attacker host is neither the configured ingestion host nor under a trusted
+      // Azure Monitor / Application Insights ingestion suffix. The exporter MUST refuse to
+      // mutate the client or replay the envelopes against this host -- otherwise the bearer
+      // auth policy attached for `monitor.azure.com` would re-sign and send the AAD token
+      // (and the telemetry envelope) to the attacker on the recursive `exportEnvelopes` call.
+      const attackerHost = "https://attacker.example.invalid";
+      const attackerLocation = attackerHost + "/v2.1/track";
+      const attackerScope = nock(attackerHost).post("/v2.1/track").reply(200, "should-not-be-hit");
+
+      scope.reply(307, {}, { location: attackerLocation });
+
+      const result = await sender.exportEnvelopes([envelope]);
+
+      assert.strictEqual(result.code, ExportResultCode.FAILED);
+      assert.match(result.error?.message ?? "", /Refused cross-origin redirect/);
+      // The exporter must NOT have contacted the attacker host.
+      assert.isFalse(attackerScope.isDone(), "exporter must not POST to the cross-origin host");
+      // The host on the underlying client must be unchanged so subsequent exports do not
+      // continue talking to the attacker (no persistent host poisoning).
+      const client = (sender as any)["appInsightsClient"] as any;
+      assert.strictEqual(client["host"], DEFAULT_BREEZE_ENDPOINT);
+
+      nock.cleanAll();
     });
   });
 

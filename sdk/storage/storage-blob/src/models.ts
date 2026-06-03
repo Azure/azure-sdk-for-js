@@ -513,6 +513,26 @@ export interface BlobClientConfig {
 }
 
 /**
- * Options for creating blob client instances
+ * Options for creating BlobClient instances
  */
 export type BlobClientOptions = StoragePipelineOptions & BlobClientConfig;
+/**
+ * Options for creating BlockBlobClient instances
+ */
+export type BlockBlobClientOptions = StoragePipelineOptions & BlobClientConfig;
+/**
+ * Options for creating PageBlobClient instances
+ */
+export type PageBlobClientOptions = StoragePipelineOptions & BlobClientConfig;
+/**
+ * Options for creating AppendBlobClient instances
+ */
+export type AppendBlobClientOptions = StoragePipelineOptions & BlobClientConfig;
+/**
+ * Options for creating ContainerClient instances
+ */
+export type ContainerClientOptions = StoragePipelineOptions & BlobClientConfig;
+/**
+ * Options for creating BlobServiceClient instances
+ */
+export type BlobServiceClientOptions = StoragePipelineOptions & BlobClientConfig;

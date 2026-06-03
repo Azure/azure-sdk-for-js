@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update Cognitive Services project connection under the specified project.
  *
  * @summary create or update Cognitive Services project connection under the specified project.
- * x-ms-original-file: 2026-01-15-preview/ProjectConnection/create.json
+ * x-ms-original-file: 2026-03-15-preview/ProjectConnection/create.json
  */
 async function createProjectConnection() {
   const credential = new DefaultAzureCredential();

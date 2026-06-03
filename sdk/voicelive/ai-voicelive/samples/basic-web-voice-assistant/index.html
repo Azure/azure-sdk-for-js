@@ -56,6 +56,11 @@
                                 <option value="en-US-JennyNeural">Jenny (Neural)</option>
                                 <option value="en-US-GuyNeural">Guy (Neural)</option>
                             </optgroup>
+                            <optgroup label="Azure Realtime Native Voices (Preview)">
+                                <option value="ava-native">Ava (Native)</option>
+                                <option value="andrew-native">Andrew (Native)</option>
+                                <option value="xiaoxiao-native">Xiaoxiao (Native)</option>
+                            </optgroup>
                         </select>
                     </div>
                     <div class="config-item">
@@ -66,8 +71,9 @@
                     <div class="config-item">
                         <label>
                             <input type="checkbox" id="debugMode" checked>
-                            Enable Debug Mode (Verbose SDK Logging)
+                            Show debug logging hints in console
                         </label>
+                        <small>SDK log verbosity is controlled by <code>@azure/logger</code> (e.g. <code>setLogLevel("verbose")</code> or <code>AZURE_LOG_LEVEL=verbose</code>).</small>
                     </div>
                 </div>
             </section>

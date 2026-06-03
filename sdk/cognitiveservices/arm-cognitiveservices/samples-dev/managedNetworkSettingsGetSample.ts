@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get API for managed network settings of a cognitive services account.
  *
  * @summary get API for managed network settings of a cognitive services account.
- * x-ms-original-file: 2026-01-15-preview/ManagedNetwork/getManagedNetworkV2.json
+ * x-ms-original-file: 2026-03-15-preview/ManagedNetwork/getManagedNetworkV2.json
  */
 async function getManagedNetworkSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,13 +8,15 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to enables a compute limit feature for the subscription at the specified location.
  *
  * @summary enables a compute limit feature for the subscription at the specified location.
- * x-ms-original-file: 2026-04-30/Features_Enable.json
+ * x-ms-original-file: 2026-06-01/Features_Enable.json
  */
 async function enableFeature() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "74219ad7-63fc-442f-8037-4b43c627c07d";
   const client = new ComputeLimitClient(credential, subscriptionId);
-  const result = await client.features.enable("eastus", "VmCategoryQuota");
+  const result = await client.features.enable("eastus", "VmCategoryQuota", {
+    body: { serviceTreeId: "a1b2c3d4-5678-90ab-cdef-1234567890ab" },
+  });
   console.log(result);
 }
 
