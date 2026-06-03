@@ -13,6 +13,10 @@ build_id="$9"
 
 cd "$repo_root"
 
+workspace_pr_body_script="${pipeline_workspace}/format-regen-pr-body.ps1"
+mkdir -p "$pipeline_workspace"
+cp "$repo_root/eng/pipelines/scripts/format-regen-pr-body.ps1" "$workspace_pr_body_script"
+
 if [[ "$source_repo_full" == */* ]]; then
   src_owner="${source_repo_full%%/*}"
   src_name="${source_repo_full##*/}"

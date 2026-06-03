@@ -356,7 +356,7 @@ stages:
                   $aggPath = Join-Path '$(Pipeline.Workspace)' 'regen_summary/aggregated-results.json'
                   $failedLog = Join-Path '$(Pipeline.Workspace)' 'failed-patches.txt'
                   $bodyPath = Join-Path '$(Pipeline.Workspace)' 'regen-pr-body.md'
-                  $formatPrBodyScript = Join-Path $repoRoot 'eng/pipelines/scripts/format-regen-pr-body.ps1'
+                  $formatPrBodyScript = Join-Path '$(Pipeline.Workspace)' 'format-regen-pr-body.ps1'
                   $submitPrScript = Join-Path $repoRoot 'eng/common/scripts/Submit-PullRequest.ps1'
                   & $formatPrBodyScript `
                     -AggPath $aggPath `
