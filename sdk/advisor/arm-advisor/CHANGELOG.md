@@ -119,8 +119,6 @@ Compared with version 3.2.0
 
 ### Breaking Changes
   - Operation Recommendations.generate has a new signature
-  - Class AdvisorManagementClient no longer has parameter apiVersion
-  - Class AdvisorManagementClient no longer has parameter subscriptionId
   - Interface ResourceRecommendationBase no longer has parameter suppressionIds
 
 ## 3.2.0 (2023-08-03)
@@ -156,7 +154,7 @@ Compared with version 3.2.0
 
 ## 3.0.1 (2022-03-22)
 
-**features**
+### Features Added
 
 - bug fix
 
