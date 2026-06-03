@@ -18,7 +18,8 @@ import { PathOperationsImpl as Path } from "./generated/src/operations/index.js"
 import type {
   AccessControlChanges,
   DataLakeClientConfig,
-  DataLakeClientOptions,
+  DataLakeFileClientOptions,
+  DataLakePathClientOptions,
   DirectoryCreateIfNotExistsOptions,
   DirectoryCreateIfNotExistsResponse,
   DirectoryCreateOptions,
@@ -238,7 +239,7 @@ export class DataLakePathClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: DataLakeClientOptions,
+    options?: DataLakePathClientOptions,
   );
 
   /**
@@ -261,7 +262,7 @@ export class DataLakePathClient extends StorageClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: DataLakeClientOptions,
+    options?: DataLakePathClientOptions,
   ) {
     if (isPipelineLike(credentialOrPipeline)) {
       super(url, credentialOrPipeline, options);
@@ -1135,7 +1136,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: DataLakeClientOptions,
+    options?: DataLakeFileClientOptions,
   );
 
   /**
@@ -1158,7 +1159,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: DataLakeClientOptions,
+    options?: DataLakeFileClientOptions,
   ) {
     if (isPipelineLike(credentialOrPipeline)) {
       super(url, credentialOrPipeline, options);

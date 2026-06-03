@@ -38,14 +38,13 @@ export async function main(): Promise<void> {
   console.log(`Agent created: ${agent.name} (version: ${agent.version})`);
 
   // Create or update a routine
-  const routine = await project.beta.routines.createOrUpdate(
-    routineName,
-    { daily: { type: "schedule", cron_expression: "0 9 * * *", time_zone: "UTC" } },
-    { type: "invoke_agent_responses_api", agent_name: agentName },
-    {
-      description: "A routine that invokes an agent daily at 9 AM.",
+  const routine = await project.beta.routines.createOrUpdate(routineName, {
+    triggers: {
+      daily: { type: "schedule", cron_expression: "0 9 * * *", time_zone: "UTC" },
     },
-  );
+    action: { type: "invoke_agent_responses_api", agent_name: agentName },
+    description: "A routine that invokes an agent daily at 9 AM.",
+  });
   console.log(`Routine created: ${routine.name}`);
 
   // Retrieve the routine

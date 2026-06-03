@@ -20,6 +20,16 @@ export type {
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
+  ClusterMeshProfile,
+  ClusterMeshProfileProperties,
+  ClusterMeshProfileProvisioningState,
+  MemberSelector,
+  ClusterMeshProfileStatus,
+  ClusterMeshState,
+  ProxyResource,
+  Resource,
+  SystemData,
+  CreatedByType,
   Fleet,
   FleetProperties,
   FleetProvisioningState,
@@ -31,9 +41,6 @@ export type {
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   TrackedResource,
-  Resource,
-  SystemData,
-  CreatedByType,
   FleetPatch,
   FleetCredentialResults,
   FleetCredentialResult,
@@ -41,7 +48,10 @@ export type {
   FleetMemberProperties,
   FleetMemberProvisioningState,
   FleetMemberStatus,
-  ProxyResource,
+  MeshProperties,
+  CiliumProperties,
+  MeshMemberStatus,
+  MeshMemberState,
   FleetMemberUpdate,
   FleetMemberUpdateProperties,
   FleetManagedNamespace,
@@ -125,10 +135,13 @@ export type {
 export {
   KnownOrigin,
   KnownActionType,
+  KnownClusterMeshProfileProvisioningState,
+  KnownClusterMeshState,
+  KnownCreatedByType,
   KnownFleetProvisioningState,
   KnownManagedServiceIdentityType,
-  KnownCreatedByType,
   KnownFleetMemberProvisioningState,
+  KnownMeshMemberState,
   KnownFleetManagedNamespaceProvisioningState,
   KnownPolicyRule,
   KnownAdoptionPolicy,
@@ -163,6 +176,13 @@ export type {
   AutoUpgradeProfilesCreateOrUpdateOptionalParams,
   AutoUpgradeProfilesGetOptionalParams,
 } from "./api/autoUpgradeProfiles/index.js";
+export type {
+  ClusterMeshProfilesApplyOptionalParams,
+  ClusterMeshProfilesListByFleetOptionalParams,
+  ClusterMeshProfilesDeleteOptionalParams,
+  ClusterMeshProfilesCreateOrUpdateOptionalParams,
+  ClusterMeshProfilesGetOptionalParams,
+} from "./api/clusterMeshProfiles/index.js";
 export type {
   FleetManagedNamespacesUpdateOptionalParams,
   FleetManagedNamespacesListByFleetOptionalParams,
@@ -210,6 +230,7 @@ export type {
 export type {
   AutoUpgradeProfileOperationsOperations,
   AutoUpgradeProfilesOperations,
+  ClusterMeshProfilesOperations,
   FleetManagedNamespacesOperations,
   FleetMembersOperations,
   FleetsOperations,
@@ -221,3 +242,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

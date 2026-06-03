@@ -41,8 +41,8 @@ import type {
   FileSystemUndeletePathOption,
   ListDeletedPathsSegmentOptions,
   PathUndeleteHeaders,
-  DataLakeClientOptions,
   DataLakeClientConfig,
+  DataLakeFileSystemClientOptions,
 } from "./models.js";
 import { StorageClient } from "./StorageClient.js";
 import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms.js";
@@ -97,7 +97,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: DataLakeClientOptions,
+    options?: DataLakeFileSystemClientOptions,
   );
 
   /**
@@ -120,7 +120,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: DataLakeClientOptions,
+    options?: DataLakeFileSystemClientOptions,
   ) {
     if (isPipelineLike(credentialOrPipeline)) {
       super(url, credentialOrPipeline, options);
