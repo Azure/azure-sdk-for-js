@@ -271,12 +271,14 @@ async function runShard() {
   if (!buildSkipped) {
     console.log(`\n===== Build (pnpm turbo, concurrency=${buildConcurrency}) =====`);
     // tsp-client leaves a `TempTypeSpecFiles/<svc>/package.json` in every
-    // regen'd package; pnpm workspace install will try to fetch the dev
+    // package whose TypeSpec-Project-Sync ran — INCLUDING packages whose
+    // Generate later failed. pnpm workspace install will try to fetch the dev
     // @azure-tools/typespec-ts pinned in there from the internal Azure feed
     // and 401 — wiping the whole shard's build. The directory is just an
     // intermediate copy of the spec, the actual SDK output is at the package
-    // root, so deleting it before install is safe.
-    for (const p of regenOk) {
+    // root, so deleting it for *all* packages (regen-OK and regen-failed) is
+    // safe and required.
+    for (const p of packages) {
       const tmp = path.join(p.pkgDir, "TempTypeSpecFiles");
       if (fs.existsSync(tmp)) fs.rmSync(tmp, { recursive: true, force: true });
     }
