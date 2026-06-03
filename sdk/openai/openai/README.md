@@ -74,7 +74,7 @@ See [OpenAI's Assistants API overview](https://platform.openai.com/docs/assistan
 
 ### Audio transcription/translation and text-to-speech generation
 
-See [OpenAI Capabilities: Speech to text](https://platform.openai.com/docs/guides/speech-to-text/speech-to-text).
+See [OpenAI Capabilities: Speech to text](https://developers.openai.com/api/docs/guides/speech-to-text/speech-to-text).
 
 ### Batch
 
@@ -89,7 +89,7 @@ See [OpenAI Capabilities: Chat completion](https://platform.openai.com/docs/guid
 
 ### Image generation
 
-See [OpenAI Capabilities: Image generation](https://platform.openai.com/docs/guides/images/introduction).
+See [OpenAI Capabilities: Image generation](https://developers.openai.com/api/docs/guides/images-vision).
 
 ### Files
 
@@ -97,7 +97,7 @@ See [OpenAI's Files API reference](https://platform.openai.com/docs/api-referenc
 
 ### Text embeddings
 
-See [OpenAI Capabilities: Embeddings](https://platform.openai.com/docs/guides/embeddings/embeddings).
+See [OpenAI Capabilities: Embeddings](https://developers.openai.com/api/docs/guides/embeddings).
 
 ## Examples
 
