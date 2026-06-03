@@ -173,23 +173,12 @@ async function main() {
         sdkRoot,
       );
       logGroup("turbo build output", build.out.slice(-4000));
-      // Turbo prints per-task status; parse a simple FAIL list. Fallback: if exit != 0 mark all as failed.
+      // Coarse signal only: turbo's exit code reflects the whole batch. Per-task
+      // logs are surfaced in the group above; matches Go / .NET regen pipelines.
       if (build.code === 0) {
         buildOk = regenOk.map((p) => p.pkg);
       } else {
-        // Best effort: any package whose name shows up after "FAIL" in turbo output is failed; rest are OK.
-        const failed = new Set();
-        for (const line of build.out.split("\n")) {
-          const m = line.match(/^(?:.*\s)?(@azure[\/\w\-]+):.*\b(?:ERROR|failed)\b/i);
-          if (m) failed.add(m[1]);
-        }
-        buildOk = regenOk.filter((p) => !failed.has(p.packageName)).map((p) => p.pkg);
-        buildFail = regenOk.filter((p) => failed.has(p.packageName)).map((p) => p.pkg);
-        if (buildFail.length === 0) {
-          // Couldn't determine which package failed — be conservative and mark all as failed.
-          buildOk = [];
-          buildFail = regenOk.map((p) => p.pkg);
-        }
+        buildFail = regenOk.map((p) => p.pkg);
       }
     }
   }
@@ -237,6 +226,11 @@ async function main() {
 
   console.log("\n========== SHARD SUMMARY ==========");
   console.log(JSON.stringify(summary, null, 2));
+
+  // Fail the step when any package failed to regenerate or build, so the
+  // shard job is visibly red in ADO (not just the Summary stage).
+  const buildFailed = summary.build ? summary.build.failed : 0;
+  if (summary.regeneration.failed > 0 || buildFailed > 0) process.exit(1);
 }
 
 main().catch((e) => {
