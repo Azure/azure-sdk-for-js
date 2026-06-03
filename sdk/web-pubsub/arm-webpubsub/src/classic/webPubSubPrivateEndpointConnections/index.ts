@@ -16,6 +16,8 @@ import type {
 } from "../../api/webPubSubPrivateEndpointConnections/options.js";
 import type { PrivateEndpointConnection } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WebPubSubPrivateEndpointConnections operations. */
@@ -33,6 +35,20 @@ export interface WebPubSubPrivateEndpointConnectionsOperations {
     resourceName: string,
     options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    privateEndpointConnectionName: string,
+    resourceGroupName: string,
+    resourceName: string,
+    options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    privateEndpointConnectionName: string,
+    resourceGroupName: string,
+    resourceName: string,
+    options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update the state of specified private endpoint connection */
   update: (
     privateEndpointConnectionName: string,
@@ -63,6 +79,36 @@ function _getWebPubSubPrivateEndpointConnections(context: WebPubSubManagementCon
       resourceName: string,
       options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams,
     ) => $delete(context, privateEndpointConnectionName, resourceGroupName, resourceName, options),
+    beginDelete: async (
+      privateEndpointConnectionName: string,
+      resourceGroupName: string,
+      resourceName: string,
+      options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        privateEndpointConnectionName,
+        resourceGroupName,
+        resourceName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      privateEndpointConnectionName: string,
+      resourceGroupName: string,
+      resourceName: string,
+      options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        privateEndpointConnectionName,
+        resourceGroupName,
+        resourceName,
+        options,
+      );
+    },
     update: (
       privateEndpointConnectionName: string,
       resourceGroupName: string,

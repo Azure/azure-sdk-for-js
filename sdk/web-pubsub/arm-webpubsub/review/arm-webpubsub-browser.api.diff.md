@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -142,12 +142,13 @@
+@@ -143,12 +143,13 @@
      type: "EventHub";
  }
  
@@ -22,7 +22,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface EventListenerEndpoint {
      // (undocumented)
-@@ -197,9 +198,10 @@
+@@ -198,9 +199,10 @@
  
  export { isRestError }
  
@@ -34,7 +34,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export enum KnownACLAction {
      Allow = "Allow",
-@@ -497,9 +499,9 @@
+@@ -498,9 +500,9 @@
  }
  
  // @public
@@ -45,7 +45,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface Replica extends TrackedResource {
-@@ -810,9 +812,9 @@
+@@ -845,9 +847,9 @@
  // @public
  export interface WebPubSubHubProperties {
      anonymousConnectPolicy?: string;

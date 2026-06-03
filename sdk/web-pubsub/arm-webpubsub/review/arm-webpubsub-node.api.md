@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
@@ -625,6 +626,28 @@ export interface SignalRServiceUsageName {
 }
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface Sku {
     readonly capacity?: SkuCapacity;
     readonly resourceType?: string;
@@ -761,6 +784,10 @@ export interface WebPubSubCustomCertificatesListOptionalParams extends Operation
 
 // @public
 export interface WebPubSubCustomCertificatesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, certificateName: string, parameters: CustomCertificate, options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CustomCertificate>, CustomCertificate>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, certificateName: string, parameters: CustomCertificate, options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams) => Promise<CustomCertificate>;
     createOrUpdate: (resourceGroupName: string, resourceName: string, certificateName: string, parameters: CustomCertificate, options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams) => PollerLike<OperationState<CustomCertificate>, CustomCertificate>;
     delete: (resourceGroupName: string, resourceName: string, certificateName: string, options?: WebPubSubCustomCertificatesDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, resourceName: string, certificateName: string, options?: WebPubSubCustomCertificatesGetOptionalParams) => Promise<CustomCertificate>;
@@ -787,6 +814,14 @@ export interface WebPubSubCustomDomainsListOptionalParams extends OperationOptio
 
 // @public
 export interface WebPubSubCustomDomainsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, name: string, parameters: CustomDomain, options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CustomDomain>, CustomDomain>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, name: string, parameters: CustomDomain, options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams) => Promise<CustomDomain>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, name: string, options?: WebPubSubCustomDomainsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, name: string, options?: WebPubSubCustomDomainsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, resourceName: string, name: string, parameters: CustomDomain, options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams) => PollerLike<OperationState<CustomDomain>, CustomDomain>;
     delete: (resourceGroupName: string, resourceName: string, name: string, options?: WebPubSubCustomDomainsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, resourceName: string, name: string, options?: WebPubSubCustomDomainsGetOptionalParams) => Promise<CustomDomain>;
@@ -835,6 +870,14 @@ export interface WebPubSubHubsListOptionalParams extends OperationOptions {
 
 // @public
 export interface WebPubSubHubsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (hubName: string, resourceGroupName: string, resourceName: string, parameters: WebPubSubHub, options?: WebPubSubHubsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<WebPubSubHub>, WebPubSubHub>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (hubName: string, resourceGroupName: string, resourceName: string, parameters: WebPubSubHub, options?: WebPubSubHubsCreateOrUpdateOptionalParams) => Promise<WebPubSubHub>;
+    // @deprecated (undocumented)
+    beginDelete: (hubName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubHubsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (hubName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubHubsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (hubName: string, resourceGroupName: string, resourceName: string, parameters: WebPubSubHub, options?: WebPubSubHubsCreateOrUpdateOptionalParams) => PollerLike<OperationState<WebPubSubHub>, WebPubSubHub>;
     delete: (hubName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubHubsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (hubName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubHubsGetOptionalParams) => Promise<WebPubSubHub>;
@@ -903,6 +946,26 @@ export interface WebPubSubNetworkACLs {
 
 // @public
 export interface WebPubSubOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, parameters: WebPubSubResource, options?: WebPubSubCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<WebPubSubResource>, WebPubSubResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, parameters: WebPubSubResource, options?: WebPubSubCreateOrUpdateOptionalParams) => Promise<WebPubSubResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, options?: WebPubSubDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, options?: WebPubSubDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRegenerateKey: (resourceGroupName: string, resourceName: string, parameters: RegenerateKeyParameters, options?: WebPubSubRegenerateKeyOptionalParams) => Promise<SimplePollerLike<OperationState<WebPubSubKeys>, WebPubSubKeys>>;
+    // @deprecated (undocumented)
+    beginRegenerateKeyAndWait: (resourceGroupName: string, resourceName: string, parameters: RegenerateKeyParameters, options?: WebPubSubRegenerateKeyOptionalParams) => Promise<WebPubSubKeys>;
+    // @deprecated (undocumented)
+    beginRestart: (resourceGroupName: string, resourceName: string, options?: WebPubSubRestartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestartAndWait: (resourceGroupName: string, resourceName: string, options?: WebPubSubRestartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, parameters: WebPubSubResource, options?: WebPubSubUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<WebPubSubResource>, WebPubSubResource>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, parameters: WebPubSubResource, options?: WebPubSubUpdateOptionalParams) => Promise<WebPubSubResource>;
     checkNameAvailability: (location: string, parameters: NameAvailabilityParameters, options?: WebPubSubCheckNameAvailabilityOptionalParams) => Promise<NameAvailability>;
     createOrUpdate: (resourceGroupName: string, resourceName: string, parameters: WebPubSubResource, options?: WebPubSubCreateOrUpdateOptionalParams) => PollerLike<OperationState<WebPubSubResource>, WebPubSubResource>;
     delete: (resourceGroupName: string, resourceName: string, options?: WebPubSubDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -932,6 +995,10 @@ export interface WebPubSubPrivateEndpointConnectionsListOptionalParams extends O
 
 // @public
 export interface WebPubSubPrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
     delete: (privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubPrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
     list: (resourceGroupName: string, resourceName: string, options?: WebPubSubPrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -1008,6 +1075,10 @@ export interface WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams ex
 
 // @public
 export interface WebPubSubReplicaSharedPrivateLinkResourcesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, parameters: SharedPrivateLinkResource, options?: WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, parameters: SharedPrivateLinkResource, options?: WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams) => Promise<SharedPrivateLinkResource>;
     createOrUpdate: (resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, parameters: SharedPrivateLinkResource, options?: WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams) => PollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>;
     get: (resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, options?: WebPubSubReplicaSharedPrivateLinkResourcesGetOptionalParams) => Promise<SharedPrivateLinkResource>;
     list: (resourceGroupName: string, resourceName: string, replicaName: string, options?: WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams) => PagedAsyncIterableIterator<SharedPrivateLinkResource>;
@@ -1019,6 +1090,18 @@ export interface WebPubSubReplicasListOptionalParams extends OperationOptions {
 
 // @public
 export interface WebPubSubReplicasOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: WebPubSubReplicasCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Replica>, Replica>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: WebPubSubReplicasCreateOrUpdateOptionalParams) => Promise<Replica>;
+    // @deprecated (undocumented)
+    beginRestart: (resourceGroupName: string, resourceName: string, replicaName: string, options?: WebPubSubReplicasRestartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestartAndWait: (resourceGroupName: string, resourceName: string, replicaName: string, options?: WebPubSubReplicasRestartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: WebPubSubReplicasUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Replica>, Replica>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: WebPubSubReplicasUpdateOptionalParams) => Promise<Replica>;
     createOrUpdate: (resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: WebPubSubReplicasCreateOrUpdateOptionalParams) => PollerLike<OperationState<Replica>, Replica>;
     delete: (resourceGroupName: string, resourceName: string, replicaName: string, options?: WebPubSubReplicasDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, resourceName: string, replicaName: string, options?: WebPubSubReplicasGetOptionalParams) => Promise<Replica>;
@@ -1092,6 +1175,14 @@ export interface WebPubSubSharedPrivateLinkResourcesListOptionalParams extends O
 
 // @public
 export interface WebPubSubSharedPrivateLinkResourcesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, parameters: SharedPrivateLinkResource, options?: WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, parameters: SharedPrivateLinkResource, options?: WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams) => Promise<SharedPrivateLinkResource>;
+    // @deprecated (undocumented)
+    beginDelete: (sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, parameters: SharedPrivateLinkResource, options?: WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams) => PollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>;
     delete: (sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubSharedPrivateLinkResourcesGetOptionalParams) => Promise<SharedPrivateLinkResource>;

@@ -14,6 +14,8 @@ import type {
 } from "../../api/webPubSubReplicaSharedPrivateLinkResources/options.js";
 import type { SharedPrivateLinkResource } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WebPubSubReplicaSharedPrivateLinkResources operations. */
@@ -34,6 +36,26 @@ export interface WebPubSubReplicaSharedPrivateLinkResourcesOperations {
     parameters: SharedPrivateLinkResource,
     options?: WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    resourceName: string,
+    replicaName: string,
+    sharedPrivateLinkResourceName: string,
+    parameters: SharedPrivateLinkResource,
+    options?: WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>
+  >;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    resourceName: string,
+    replicaName: string,
+    sharedPrivateLinkResourceName: string,
+    parameters: SharedPrivateLinkResource,
+    options?: WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
+  ) => Promise<SharedPrivateLinkResource>;
   /** Get the specified shared private link resource */
   get: (
     resourceGroupName: string,
@@ -69,6 +91,44 @@ function _getWebPubSubReplicaSharedPrivateLinkResources(context: WebPubSubManage
         parameters,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      resourceName: string,
+      replicaName: string,
+      sharedPrivateLinkResourceName: string,
+      parameters: SharedPrivateLinkResource,
+      options?: WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        resourceName,
+        replicaName,
+        sharedPrivateLinkResourceName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      resourceName: string,
+      replicaName: string,
+      sharedPrivateLinkResourceName: string,
+      parameters: SharedPrivateLinkResource,
+      options?: WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        resourceName,
+        replicaName,
+        sharedPrivateLinkResourceName,
+        parameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       resourceName: string,

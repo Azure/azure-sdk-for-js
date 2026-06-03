@@ -36,6 +36,7 @@ Compared with version 1.2.0
   - Added Interface ReplicaProperties
   - Added Interface RestorePollerOptions
   - Added Interface SharedPrivateLinkResourceProperties
+  - Added Interface SimplePollerLike
   - Added Interface ThrottleByJwtCustomClaimRule
   - Added Interface ThrottleByJwtSignatureRule
   - Added Interface ThrottleByUserIdRule
@@ -60,41 +61,11 @@ Compared with version 1.2.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation WebPubSub.beginCreateOrUpdate
-  - Removed operation WebPubSub.beginCreateOrUpdateAndWait
-  - Removed operation WebPubSub.beginDelete
-  - Removed operation WebPubSub.beginDeleteAndWait
-  - Removed operation WebPubSub.beginRegenerateKey
-  - Removed operation WebPubSub.beginRegenerateKeyAndWait
-  - Removed operation WebPubSub.beginRestart
-  - Removed operation WebPubSub.beginRestartAndWait
-  - Removed operation WebPubSub.beginUpdate
-  - Removed operation WebPubSub.beginUpdateAndWait
-  - Removed operation WebPubSubCustomCertificates.beginCreateOrUpdate
-  - Removed operation WebPubSubCustomCertificates.beginCreateOrUpdateAndWait
-  - Removed operation WebPubSubCustomDomains.beginCreateOrUpdate
-  - Removed operation WebPubSubCustomDomains.beginCreateOrUpdateAndWait
-  - Removed operation WebPubSubCustomDomains.beginDelete
-  - Removed operation WebPubSubCustomDomains.beginDeleteAndWait
-  - Removed operation WebPubSubHubs.beginCreateOrUpdate
-  - Removed operation WebPubSubHubs.beginCreateOrUpdateAndWait
-  - Removed operation WebPubSubHubs.beginDelete
-  - Removed operation WebPubSubHubs.beginDeleteAndWait
-  - Removed operation WebPubSubPrivateEndpointConnections.beginDelete
-  - Removed operation WebPubSubPrivateEndpointConnections.beginDeleteAndWait
-  - Removed operation WebPubSubReplicas.beginCreateOrUpdate
-  - Removed operation WebPubSubReplicas.beginCreateOrUpdateAndWait
-  - Removed operation WebPubSubReplicas.beginRestart
-  - Removed operation WebPubSubReplicas.beginRestartAndWait
-  - Removed operation WebPubSubReplicas.beginUpdate
-  - Removed operation WebPubSubReplicas.beginUpdateAndWait
-  - Removed operation WebPubSubReplicaSharedPrivateLinkResources.beginCreateOrUpdate
-  - Removed operation WebPubSubReplicaSharedPrivateLinkResources.beginCreateOrUpdateAndWait
-  - Removed operation WebPubSubSharedPrivateLinkResources.beginCreateOrUpdate
-  - Removed operation WebPubSubSharedPrivateLinkResources.beginCreateOrUpdateAndWait
-  - Removed operation WebPubSubSharedPrivateLinkResources.beginDelete
-  - Removed operation WebPubSubSharedPrivateLinkResources.beginDeleteAndWait
+  - Operation WebPubSub.beginRestartAndWait has a new signature
+  - Operation WebPubSubHubs.beginCreateOrUpdate has a new signature
+  - Operation WebPubSubHubs.beginCreateOrUpdateAndWait has a new signature
   - Operation WebPubSubHubs.get has a new signature
+  - Operation WebPubSubReplicas.beginRestartAndWait has a new signature
   - Class WebPubSubManagementClient no longer has parameter apiVersion
   - Class WebPubSubManagementClient no longer has parameter subscriptionId
   - Removed Interface CustomCertificateList

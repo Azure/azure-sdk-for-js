@@ -39,6 +39,8 @@ import type {
   NameAvailability,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WebPubSub operations. */
@@ -68,6 +70,18 @@ export interface WebPubSubOperations {
     resourceName: string,
     options?: WebPubSubRestartOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use restart instead */
+  beginRestart: (
+    resourceGroupName: string,
+    resourceName: string,
+    options?: WebPubSubRestartOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use restart instead */
+  beginRestartAndWait: (
+    resourceGroupName: string,
+    resourceName: string,
+    options?: WebPubSubRestartOptionalParams,
+  ) => Promise<void>;
   /** Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the same time. */
   regenerateKey: (
     resourceGroupName: string,
@@ -75,6 +89,20 @@ export interface WebPubSubOperations {
     parameters: RegenerateKeyParameters,
     options?: WebPubSubRegenerateKeyOptionalParams,
   ) => PollerLike<OperationState<WebPubSubKeys>, WebPubSubKeys>;
+  /** @deprecated use regenerateKey instead */
+  beginRegenerateKey: (
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: RegenerateKeyParameters,
+    options?: WebPubSubRegenerateKeyOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<WebPubSubKeys>, WebPubSubKeys>>;
+  /** @deprecated use regenerateKey instead */
+  beginRegenerateKeyAndWait: (
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: RegenerateKeyParameters,
+    options?: WebPubSubRegenerateKeyOptionalParams,
+  ) => Promise<WebPubSubKeys>;
   /** Get the access keys of the resource. */
   listKeys: (
     resourceGroupName: string,
@@ -96,6 +124,18 @@ export interface WebPubSubOperations {
     resourceName: string,
     options?: WebPubSubDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    resourceName: string,
+    options?: WebPubSubDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    resourceName: string,
+    options?: WebPubSubDeleteOptionalParams,
+  ) => Promise<void>;
   /** Operation to update an exiting resource. */
   update: (
     resourceGroupName: string,
@@ -103,6 +143,20 @@ export interface WebPubSubOperations {
     parameters: WebPubSubResource,
     options?: WebPubSubUpdateOptionalParams,
   ) => PollerLike<OperationState<WebPubSubResource>, WebPubSubResource>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: WebPubSubResource,
+    options?: WebPubSubUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<WebPubSubResource>, WebPubSubResource>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: WebPubSubResource,
+    options?: WebPubSubUpdateOptionalParams,
+  ) => Promise<WebPubSubResource>;
   /** Create or update a resource. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -110,6 +164,20 @@ export interface WebPubSubOperations {
     parameters: WebPubSubResource,
     options?: WebPubSubCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<WebPubSubResource>, WebPubSubResource>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: WebPubSubResource,
+    options?: WebPubSubCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<WebPubSubResource>, WebPubSubResource>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: WebPubSubResource,
+    options?: WebPubSubCreateOrUpdateOptionalParams,
+  ) => Promise<WebPubSubResource>;
   /** Get the resource and its properties. */
   get: (
     resourceGroupName: string,
@@ -141,12 +209,46 @@ function _getWebPubSub(context: WebPubSubManagementContext) {
       resourceName: string,
       options?: WebPubSubRestartOptionalParams,
     ) => restart(context, resourceGroupName, resourceName, options),
+    beginRestart: async (
+      resourceGroupName: string,
+      resourceName: string,
+      options?: WebPubSubRestartOptionalParams,
+    ) => {
+      const poller = restart(context, resourceGroupName, resourceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRestartAndWait: async (
+      resourceGroupName: string,
+      resourceName: string,
+      options?: WebPubSubRestartOptionalParams,
+    ) => {
+      return await restart(context, resourceGroupName, resourceName, options);
+    },
     regenerateKey: (
       resourceGroupName: string,
       resourceName: string,
       parameters: RegenerateKeyParameters,
       options?: WebPubSubRegenerateKeyOptionalParams,
     ) => regenerateKey(context, resourceGroupName, resourceName, parameters, options),
+    beginRegenerateKey: async (
+      resourceGroupName: string,
+      resourceName: string,
+      parameters: RegenerateKeyParameters,
+      options?: WebPubSubRegenerateKeyOptionalParams,
+    ) => {
+      const poller = regenerateKey(context, resourceGroupName, resourceName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRegenerateKeyAndWait: async (
+      resourceGroupName: string,
+      resourceName: string,
+      parameters: RegenerateKeyParameters,
+      options?: WebPubSubRegenerateKeyOptionalParams,
+    ) => {
+      return await regenerateKey(context, resourceGroupName, resourceName, parameters, options);
+    },
     listKeys: (
       resourceGroupName: string,
       resourceName: string,
@@ -163,18 +265,70 @@ function _getWebPubSub(context: WebPubSubManagementContext) {
       resourceName: string,
       options?: WebPubSubDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, resourceName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      resourceName: string,
+      options?: WebPubSubDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, resourceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      resourceName: string,
+      options?: WebPubSubDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, resourceName, options);
+    },
     update: (
       resourceGroupName: string,
       resourceName: string,
       parameters: WebPubSubResource,
       options?: WebPubSubUpdateOptionalParams,
     ) => update(context, resourceGroupName, resourceName, parameters, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      resourceName: string,
+      parameters: WebPubSubResource,
+      options?: WebPubSubUpdateOptionalParams,
+    ) => {
+      const poller = update(context, resourceGroupName, resourceName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      resourceName: string,
+      parameters: WebPubSubResource,
+      options?: WebPubSubUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, resourceName, parameters, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       resourceName: string,
       parameters: WebPubSubResource,
       options?: WebPubSubCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, resourceName, parameters, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      resourceName: string,
+      parameters: WebPubSubResource,
+      options?: WebPubSubCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(context, resourceGroupName, resourceName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      resourceName: string,
+      parameters: WebPubSubResource,
+      options?: WebPubSubCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, resourceGroupName, resourceName, parameters, options);
+    },
     get: (resourceGroupName: string, resourceName: string, options?: WebPubSubGetOptionalParams) =>
       get(context, resourceGroupName, resourceName, options),
   };
