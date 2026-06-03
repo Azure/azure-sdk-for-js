@@ -11,6 +11,8 @@ export type { CapturedLogsOperations } from "./capturedLogs/index.js";
 export type { ConfigurationsOperations } from "./configurations/index.js";
 export type { DatabasesOperations } from "./databases/index.js";
 export type { FirewallRulesOperations } from "./firewallRules/index.js";
+export type { MaintenanceEventsOperations } from "./maintenanceEvents/index.js";
+export type { MajorVersionUpgradePrecheckOperations } from "./majorVersionUpgradePrecheck/index.js";
 export type { MigrationsOperations } from "./migrations/index.js";
 export type { NameAvailabilityOperations } from "./nameAvailability/index.js";
 export type { OperationsOperations } from "./operations/index.js";

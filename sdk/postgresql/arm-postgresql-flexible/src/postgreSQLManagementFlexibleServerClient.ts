@@ -26,6 +26,10 @@ import type { DatabasesOperations } from "./classic/databases/index.js";
 import { _getDatabasesOperations } from "./classic/databases/index.js";
 import type { FirewallRulesOperations } from "./classic/firewallRules/index.js";
 import { _getFirewallRulesOperations } from "./classic/firewallRules/index.js";
+import type { MaintenanceEventsOperations } from "./classic/maintenanceEvents/index.js";
+import { _getMaintenanceEventsOperations } from "./classic/maintenanceEvents/index.js";
+import type { MajorVersionUpgradePrecheckOperations } from "./classic/majorVersionUpgradePrecheck/index.js";
+import { _getMajorVersionUpgradePrecheckOperations } from "./classic/majorVersionUpgradePrecheck/index.js";
 import type { MigrationsOperations } from "./classic/migrations/index.js";
 import { _getMigrationsOperations } from "./classic/migrations/index.js";
 import type { NameAvailabilityOperations } from "./classic/nameAvailability/index.js";
@@ -113,6 +117,8 @@ export class PostgreSQLManagementFlexibleServerClient {
     this.capturedLogs = _getCapturedLogsOperations(this._client);
     this.capabilitiesByServer = _getCapabilitiesByServerOperations(this._client);
     this.administratorsMicrosoftEntra = _getAdministratorsMicrosoftEntraOperations(this._client);
+    this.majorVersionUpgradePrecheck = _getMajorVersionUpgradePrecheckOperations(this._client);
+    this.maintenanceEvents = _getMaintenanceEventsOperations(this._client);
     this.virtualEndpoints = _getVirtualEndpointsOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
@@ -152,6 +158,10 @@ export class PostgreSQLManagementFlexibleServerClient {
   public readonly capabilitiesByServer: CapabilitiesByServerOperations;
   /** The operation groups for administratorsMicrosoftEntra */
   public readonly administratorsMicrosoftEntra: AdministratorsMicrosoftEntraOperations;
+  /** The operation groups for majorVersionUpgradePrecheck */
+  public readonly majorVersionUpgradePrecheck: MajorVersionUpgradePrecheckOperations;
+  /** The operation groups for maintenanceEvents */
+  public readonly maintenanceEvents: MaintenanceEventsOperations;
   /** The operation groups for virtualEndpoints */
   public readonly virtualEndpoints: VirtualEndpointsOperations;
   /** The operation groups for privateLinkResources */

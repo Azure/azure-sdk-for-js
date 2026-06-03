@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the tuning options of a server.
  *
  * @summary lists the tuning options of a server.
- * x-ms-original-file: 2026-01-01-preview/TuningOptionsListByServer.json
+ * x-ms-original-file: 2026-04-01-preview/TuningOptionsListByServer.json
  */
 async function listTheTuningOptionsOfAServer() {
   const credential = new DefaultAzureCredential();

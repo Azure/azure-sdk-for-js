@@ -836,7 +836,7 @@
 # PRLabel: %Mgmt
 /sdk/purestorageblock/arm-purestorageblock/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/postgresql/arm-postgresql-flexible/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

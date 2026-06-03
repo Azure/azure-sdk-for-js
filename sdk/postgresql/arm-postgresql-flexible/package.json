@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-postgresql-flexible",
-  "version": "10.0.0-beta.1",
+  "version": "10.0.0-beta.2",
   "description": "A generated SDK for PostgreSQLManagementFlexibleServerClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -324,6 +324,34 @@
         "default": "./dist/commonjs/api/administratorsMicrosoftEntra/index.js"
       }
     },
+    "./api/majorVersionUpgradePrecheck": {
+      "browser": {
+        "types": "./dist/browser/api/majorVersionUpgradePrecheck/index.d.ts",
+        "default": "./dist/browser/api/majorVersionUpgradePrecheck/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/majorVersionUpgradePrecheck/index.d.ts",
+        "default": "./dist/esm/api/majorVersionUpgradePrecheck/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/majorVersionUpgradePrecheck/index.d.ts",
+        "default": "./dist/commonjs/api/majorVersionUpgradePrecheck/index.js"
+      }
+    },
+    "./api/maintenanceEvents": {
+      "browser": {
+        "types": "./dist/browser/api/maintenanceEvents/index.d.ts",
+        "default": "./dist/browser/api/maintenanceEvents/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/maintenanceEvents/index.d.ts",
+        "default": "./dist/esm/api/maintenanceEvents/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/maintenanceEvents/index.d.ts",
+        "default": "./dist/commonjs/api/maintenanceEvents/index.js"
+      }
+    },
     "./api/virtualEndpoints": {
       "browser": {
         "types": "./dist/browser/api/virtualEndpoints/index.d.ts",
@@ -470,6 +498,7 @@
   "module": "./dist/esm/index.js",
   "imports": {
     "#platform/*": {
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }
