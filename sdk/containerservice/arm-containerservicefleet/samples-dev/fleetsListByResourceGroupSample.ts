@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists fleets in the specified subscription and resource group.
  *
  * @summary lists fleets in the specified subscription and resource group.
- * x-ms-original-file: 2026-02-01-preview/Fleets_ListByResourceGroup.json
+ * x-ms-original-file: 2026-03-02-preview/Fleets_ListByResourceGroup.json
  */
 async function listsTheFleetResourcesInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

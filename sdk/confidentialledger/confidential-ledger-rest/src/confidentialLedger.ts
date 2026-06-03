@@ -36,7 +36,7 @@ export default function createClient(
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
       : `${userAgentInfo}`;
-  options = {
+  const updatedOptions = {
     ...options,
     userAgentOptions: {
       userAgentPrefix,
@@ -48,7 +48,7 @@ export default function createClient(
       scopes: options.credentials?.scopes ?? ["https://confidential-ledger.azure.com/.default"],
     },
   };
-  const client = getClient(endpointUrl, credentials, options) as ConfidentialLedgerClient;
+  const client = getClient(endpointUrl, credentials, updatedOptions) as ConfidentialLedgerClient;
 
   // Replace the default redirect policy with one that preserves headers (including
   // Authorization) on redirects, but ONLY for targets that remain within the trust
@@ -61,6 +61,14 @@ export default function createClient(
   client.pipeline.addPolicy(confidentialLedgerRedirectPolicy(endpointUrl), {
     afterPhase: "Retry",
   });
+
+  // Ensure PATCH requests to user management endpoints send the correct
+  // Content-Type. The service requires "application/merge-patch+json" for
+  // /app/users/{userId} and /app/ledgerUsers/{userId}, but the generated
+  // parameter types declare contentType as optional — so when callers omit it,
+  // @azure-rest/core-client defaults to "application/json" which the service
+  // rejects with UnsupportedContentType (415).
+  client.pipeline.addPolicy(confidentialLedgerMergePatchContentTypePolicy());
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({
@@ -289,6 +297,41 @@ function isTrustedRedirectTarget(target: URL, ledgerHostname: string, ledgerPort
   const host = canonicalHostname(target.hostname);
   if (host === ledgerHostname) return true;
   return host.endsWith("." + ledgerHostname);
+}
+
+/**
+ * Regex matching the path portion of user management endpoints that require
+ * the "application/merge-patch+json" content type on PATCH requests.
+ * Matches /app/users/\{userId\} and /app/ledgerUsers/\{userId\}.
+ */
+const usersPatchPathRe = /\/app\/(?:users|ledgerUsers)\/[^/?#]+\/?$/i;
+
+/**
+ * Pipeline policy that ensures PATCH requests to user management endpoints
+ * (/app/users/\{userId\} and /app/ledgerUsers/\{userId\}) use the
+ * "application/merge-patch+json" content type required by the service.
+ *
+ * The generated parameter types declare contentType as optional, so when
+ * callers omit it the framework defaults to "application/json", which TPAL
+ * rejects for api-versions after 2022-04-20-preview. This policy corrects the
+ * header transparently so callers don't need to remember to set it.
+ *
+ * Other PATCH endpoints (e.g. /app/roles, /app/userDefinedEndpoints/runtimeOptions)
+ * are intentionally excluded — those accept "application/json".
+ */
+function confidentialLedgerMergePatchContentTypePolicy(): PipelinePolicy {
+  return {
+    name: "confidentialLedgerMergePatchContentTypePolicy",
+    sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      if (request.method.toUpperCase() === "PATCH") {
+        const path = new URL(request.url).pathname;
+        if (usersPatchPathRe.test(path)) {
+          request.headers.set("Content-Type", "application/merge-patch+json");
+        }
+      }
+      return next(request);
+    },
+  };
 }
 
 async function handleRedirect(

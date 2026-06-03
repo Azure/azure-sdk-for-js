@@ -164,7 +164,9 @@ import { isRetriable } from "../../src/utils/breezeUtils.js";
 class TestBaseSender extends BaseSender {
   public sendMock = vi.fn();
   public shutdownMock = vi.fn();
-  public handlePermanentRedirectMock = vi.fn();
+  // Default to accepting the redirect so legacy tests that exercise the success path keep working;
+  // tests that want to assert the cross-origin refusal path override this with mockReturnValue(false).
+  public handlePermanentRedirectMock = vi.fn().mockReturnValue(true);
   public persistMock = vi.fn();
 
   // Access mock objects for verification in tests
@@ -231,8 +233,8 @@ class TestBaseSender extends BaseSender {
     return this.shutdownMock();
   }
 
-  handlePermanentRedirect(location: string | undefined): void {
-    this.handlePermanentRedirectMock(location);
+  handlePermanentRedirect(location: string | undefined): boolean {
+    return this.handlePermanentRedirectMock(location);
   }
 
   // For testing access to private methods
@@ -451,6 +453,36 @@ describe("BaseSender", () => {
       expect(sender.getNetworkStats().countException).toHaveBeenCalled();
       expect(result.error).toBeDefined();
       expect(result.error?.message).toContain("Circular redirect");
+    });
+
+    it("should refuse cross-origin redirects without retrying", async () => {
+      // A 307 to a cross-origin target whose host is outside the configured ingestion host
+      // and outside the trusted Azure Monitor ingestion suffix list. handlePermanentRedirect
+      // (mocked here) reports false so baseSender must NOT recurse into another `send` call --
+      // otherwise the auth policy would attach a freshly-signed AAD token (and the telemetry
+      // body) to the attacker host on the retry.
+      const redirectError: any = new Error("Temporary redirect");
+      redirectError.statusCode = 307;
+      redirectError.response = {
+        headers: {
+          get: (name: string) => (name === "location" ? "https://attacker.example.invalid" : null),
+        },
+      };
+
+      sender.sendMock.mockRejectedValue(redirectError);
+      sender.handlePermanentRedirectMock.mockReturnValue(false);
+
+      const envelopes = [{ name: "test", time: new Date() }];
+      const result = await sender.exportEnvelopes(envelopes);
+
+      expect(sender.handlePermanentRedirectMock).toHaveBeenCalledWith(
+        "https://attacker.example.invalid",
+      );
+      // No retry: send is called exactly once and never reaches the redirect target.
+      expect(sender.sendMock).toHaveBeenCalledTimes(1);
+      expect(result.code).toBe(ExportResultCode.FAILED);
+      expect(result.error?.message).toContain("Refused cross-origin redirect");
+      expect(sender.getNetworkStats().countException).toHaveBeenCalled();
     });
 
     it("should handle invalid instrumentation key error", async () => {
@@ -1120,8 +1152,9 @@ describe("BaseSender", () => {
           return this.shutdownMock();
         }
 
-        handlePermanentRedirect(_location: string | undefined): void {
+        handlePermanentRedirect(_location: string | undefined): boolean {
           // No-op
+          return true;
         }
 
         getCustomerSDKStatsMetrics(): any {
