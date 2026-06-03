@@ -1,111 +1,85 @@
-# JS SDK TypeSpec Breaking Change Check Pipeline (ARM Only)
-# Purpose: Validate that the latest emitter (@azure-tools/typespec-ts) doesn't break existing ARM SDK packages
-# Flow: Fetch latest emitter version → update emitter-package.json → regenerate lock file
-#       → clone latest azure-rest-api-specs (local spec source)
-#       → TypeSpec-Project-Sync.ps1 + TypeSpec-Project-Generate.ps1 (concurrent)
-#       → pnpm build (concurrent)
+# JS SDK TypeSpec breaking-change check pipeline (ARM only).
+#
+# Flow: resolve emitter dev tag → patch eng/emitter-package.json + regenerate
+# lock file → shard ARM packages with the shared New-RegenerateMatrix.ps1 →
+# per shard run eng/pipelines/scripts/regenerate-shard.js, which delegates
+# every per-package step to shared scripts (TypeSpec-Project-Sync.ps1,
+# TypeSpec-Project-Generate.ps1, update-changelog-content.ps1) and a single
+# `pnpm turbo build --filter` invocation. Summary stage aggregates per-shard
+# result.json; optional CreatePR stage 3-way applies the per-shard
+# changes.patch artifacts and pushes via the shared git-push-changes template.
 
 trigger:
   branches:
-    include:
-      - main
+    include: [main]
   paths:
     include:
       - eng/emitter-package.json
       - eng/scripts/update-changelog-content.ps1
       - eng/common/scripts/TypeSpec-*
-      - eng/common/tsp-client/
       - eng/pipelines/sdk-regenerate.yml
       - eng/pipelines/scripts/**
 
 pr:
   branches:
-    include:
-      - main
-      - feature/*
-      - hotfix/*
+    include: [main, feature/*, hotfix/*]
   paths:
     include:
       - eng/emitter-package.json
       - eng/scripts/update-changelog-content.ps1
       - eng/common/scripts/TypeSpec-*
-      - eng/common/tsp-client/
       - eng/pipelines/sdk-regenerate.yml
       - eng/pipelines/scripts/**
 
 schedules:
   - cron: "0 2 * * 1"
     displayName: Weekly TypeSpec break check (Monday 2AM UTC)
-    branches:
-      include:
-        - main
+    branches: { include: [main] }
 
 parameters:
   - name: EmitterVersion
-    displayName: "Emitter version to test (use 'empty' or leave default for latest dev tag)"
+    displayName: "Emitter version (default 'empty' = latest dev tag)"
     type: string
     default: 'empty'
   - name: MaxWorkers
-    displayName: "Regenerate concurrent workers"
+    displayName: "Per-shard regen concurrency"
     type: number
     default: 2
-  - name: BuildWorkers
-    displayName: "Build concurrent workers"
+  - name: BuildConcurrency
+    displayName: "pnpm turbo --concurrency per shard"
     type: number
     default: 2
   - name: RegenerationJobCount
-    displayName: "Matrix jobs for regeneration"
+    displayName: "Matrix shard count"
     type: number
     default: 10
   - name: MinimumPerJob
-    displayName: "Minimum packages per matrix job"
+    displayName: "Minimum packages per shard"
     type: number
     default: 10
   - name: SkipBuild
-    displayName: "Skip build verification"
-    type: boolean
-    default: false
-  - name: QuickTest
-    displayName: "Quick test mode (only first 3 valid packages: arm-alertprocessingrules, arm-alertrulerecommendations, arm-alertsmanagement). Overrides Package filter, Matrix jobs, Minimum per job."
     type: boolean
     default: false
   - name: PackageFilter
-    displayName: "Package filter (wildcard, comma-separated). Ignored when Quick test mode is checked. 'arm-*' = all"
+    displayName: "Package filter (comma-separated wildcards; 'arm-*' = all)"
     type: string
     default: 'arm-*'
   - name: SpecRepoBranch
-    displayName: "azure-rest-api-specs branch to clone"
     type: string
     default: 'main'
   - name: CreatePullRequest
-    displayName: "Create PR with generated changes"
     type: boolean
     default: false
   - name: ChangePushMode
-    displayName: "Changes included in PR commit"
+    displayName: "Changes pushed in PR ('all' or 'api-md')"
     type: string
     default: 'all'
-    values:
-      - all
-      - api-md
+    values: [all, api-md]
   - name: PullRequestTargetBranch
-    displayName: "PR target branch"
     type: string
     default: 'main'
   - name: PullRequestBranch
     displayName: "PR source branch (empty = auto)"
-    type: string
-    default: ''
-  - name: PullRequestRepoOwner
-    displayName: "PR target repo OWNER (empty = same as source repo, e.g. 'wxl534' for fork)"
-    type: string
-    default: ''
-  - name: PullRequestRepoName
-    displayName: "PR target repo NAME (empty = same as source repo name)"
-    type: string
-    default: ''
-  - name: ForkTokenVariableName
-    displayName: "ADO secret variable name holding the GitHub PAT (only needed when pushing to a fork)"
     type: string
     default: ''
 
@@ -118,265 +92,277 @@ variables:
   nodeVersion: '22.x'
 
 stages:
-  - stage: SDKRegenerate
-    displayName: 'TypeSpec emitter breaking-change check'
-    jobs:
-      - job: Setup
-        displayName: 'Setup'
-        steps:
-          # Step 1: Install Node.js
-          - task: NodeTool@0
-            displayName: 'Step 1: Install Node.js'
-            inputs:
-              versionSpec: $(nodeVersion)
+- stage: SDKRegenerate
+  displayName: 'TypeSpec emitter breaking-change check'
+  jobs:
 
-          # Step 2: Resolve emitter version
-          - script: |
-              set -euo pipefail
+  # ----- Setup: resolve emitter version + bake emitter-package(-lock).json -----
+  - job: Setup
+    steps:
+      - task: NodeTool@0
+        inputs: { versionSpec: $(nodeVersion) }
+      - bash: |
+          set -euo pipefail
+          raw='${{ parameters.EmitterVersion }}'
+          norm=$(echo "$raw" | tr '[:upper:]' '[:lower:]' | xargs)
+          if [[ -z "$norm" || "$norm" == "empty" || "$norm" == "latest" || "$norm" == "auto" || "$norm" == "dev" ]]; then
+            v=$(npm view @azure-tools/typespec-ts dist-tags.dev)
+            [[ -n "$v" ]] || { echo "##[error]npm view returned empty dev tag"; exit 1; }
+          else
+            v="$raw"
+          fi
+          echo "Emitter version: $v"
+          echo "##vso[task.setvariable variable=emitterVersion;isOutput=true]$v"
+        name: resolveVersion
+        displayName: 'Resolve emitter version'
 
-              # Treat empty / common sentinel values ('empty', 'latest', 'auto', 'dev')
-              # as "use the latest dev tag from npm", because the ADO manual-run UI
-              # forces string params to be non-empty.
-              RAW_INPUT='${{ parameters.EmitterVersion }}'
-              NORMALIZED=$(echo "$RAW_INPUT" | tr '[:upper:]' '[:lower:]' | xargs)
-              if [ -z "$NORMALIZED" ] || [ "$NORMALIZED" = "empty" ] || [ "$NORMALIZED" = "latest" ] || [ "$NORMALIZED" = "auto" ] || [ "$NORMALIZED" = "dev" ]; then
-                EMITTER_VERSION=$(npm view @azure-tools/typespec-ts dist-tags.dev)
-                if [ -z "$EMITTER_VERSION" ]; then
-                  echo "##[error]npm view returned empty dev tag for @azure-tools/typespec-ts"
-                  exit 1
-                fi
-                echo "Resolved from npm dev tag: $EMITTER_VERSION"
-              else
-                EMITTER_VERSION="$RAW_INPUT"
-                echo "Using specified version: $EMITTER_VERSION"
+  # ----- GenerateMatrix: shared shared matrix builder (only TypeSpec packages) -----
+  - job: GenerateMatrix
+    dependsOn: Setup
+    steps:
+      - task: PowerShell@2
+        name: generateMatrix
+        displayName: 'Build matrix'
+        inputs:
+          pwsh: true
+          targetType: inline
+          script: |
+            & $(Build.SourcesDirectory)/eng/common/scripts/New-RegenerateMatrix.ps1 `
+              -OutputDirectory $(Build.ArtifactStagingDirectory)/matrix `
+              -OutputVariableName matrix `
+              -JobCount ${{ parameters.RegenerationJobCount }} `
+              -MinimumPerJob ${{ parameters.MinimumPerJob }} `
+              -OnlyTypeSpec true `
+              -DirectoryFilterPattern '${{ parameters.PackageFilter }}'
+            if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - publish: $(Build.ArtifactStagingDirectory)/matrix
+        artifact: matrix_artifacts
+
+  # ----- Regenerate & build per shard -----
+  - job: RegenerateAndBuild
+    dependsOn: [Setup, GenerateMatrix]
+    timeoutInMinutes: 180
+    strategy:
+      matrix: $[ dependencies.GenerateMatrix.outputs['generateMatrix.matrix'] ]
+    variables:
+      emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
+    steps:
+      - task: NodeTool@0
+        inputs: { versionSpec: $(nodeVersion) }
+      - download: current
+        artifact: matrix_artifacts
+
+      # Patch eng/emitter-package.json with the resolved emitter version and
+      # regenerate eng/emitter-package-lock.json so TypeSpec-Project-Generate
+      # uses the candidate emitter.
+      - bash: |
+          set -euo pipefail
+          npm install -g @azure-tools/typespec-client-generator-cli pnpm
+          node -e '
+            const fs=require("fs"),p="$(sdkRoot)/eng/emitter-package.json";
+            const j=JSON.parse(fs.readFileSync(p,"utf8"));
+            j.dependencies["@azure-tools/typespec-ts"]="$(emitterVersion)";
+            fs.writeFileSync(p,JSON.stringify(j,null,2)+"\n");'
+          cd "$(sdkRoot)"
+          tsp-client generate-lock-file
+
+          # Shallow-clone the spec repo once per shard (TypeSpec-Project-Sync
+          # will copy from this via -LocalSpecRepoPath).
+          git clone --depth 1 --branch "${{ parameters.SpecRepoBranch }}" \
+            https://github.com/Azure/azure-rest-api-specs.git "$(specRepoRoot)"
+        displayName: 'Prepare emitter + spec repo'
+
+      - bash: |
+          set -euo pipefail
+          mkdir -p "$(Build.ArtifactStagingDirectory)/results/$(JobKey)"
+          node $(sdkRoot)/eng/pipelines/scripts/regenerate-shard.js \
+            --specRepoRoot "$(specRepoRoot)" \
+            --directoryList "$(Pipeline.Workspace)/matrix_artifacts/$(DirectoryList)" \
+            --resultOutputDir "$(Build.ArtifactStagingDirectory)/results/$(JobKey)" \
+            --maxWorkers "${{ parameters.MaxWorkers }}" \
+            --buildConcurrency "${{ parameters.BuildConcurrency }}" \
+            --skipBuild "${{ parameters.SkipBuild }}"
+        displayName: 'Regenerate + build shard'
+        workingDirectory: $(sdkRoot)
+
+      - bash: |
+          set -euo pipefail
+          cd "$(sdkRoot)"
+          echo "===== Generated changes ====="; git diff --stat
+          if [[ "${{ parameters.CreatePullRequest }}" == "True" || "${{ parameters.CreatePullRequest }}" == "true" ]]; then
+            out="$(Build.ArtifactStagingDirectory)/results/$(JobKey)/changes.patch"
+            if [[ "${{ parameters.ChangePushMode }}" == "api-md" ]]; then
+              git diff --binary -- ':(glob)sdk/**/review/*.api.md' ':(glob)sdk/**/CHANGELOG.md' > "$out"
+            else
+              git diff --binary -- sdk/ > "$out"
+            fi
+          fi
+        displayName: 'Capture shard diff/patch'
+        condition: always()
+
+      - publish: $(Build.ArtifactStagingDirectory)/results/$(JobKey)
+        artifact: regen_result_$(JobKey)
+        condition: always()
+
+  # ----- Summary: aggregate per-shard result.json -----
+  - job: Summary
+    dependsOn: [Setup, RegenerateAndBuild]
+    condition: succeededOrFailed()
+    variables:
+      emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
+    steps:
+      - download: current
+      - task: PowerShell@2
+        displayName: 'Aggregate shard results'
+        inputs:
+          pwsh: true
+          targetType: inline
+          script: |
+            $files = Get-ChildItem -Path '$(Pipeline.Workspace)' -Recurse -Filter 'result.json' -ErrorAction SilentlyContinue
+            $agg = [pscustomobject]@{
+              emitterVersion = '$(emitterVersion)'
+              regeneration   = @{ total=0; success=0; failed=0; failures=@() }
+              build          = @{ total=0; success=0; failed=0; failures=@() }
+              changelog      = @{ total=0; generated=0; failed=@(); withBreaking=0; breakingPackages=@() }
+            }
+            foreach ($f in $files) {
+              $r = Get-Content $f.FullName -Raw | ConvertFrom-Json
+              if ($r.regeneration) {
+                $agg.regeneration.total   += $r.regeneration.total
+                $agg.regeneration.success += $r.regeneration.success
+                $agg.regeneration.failed  += $r.regeneration.failed
+                $agg.regeneration.failures += $r.regeneration.failures
+              }
+              if ($r.build) {
+                $agg.build.total   += $r.build.total
+                $agg.build.success += $r.build.success
+                $agg.build.failed  += $r.build.failed
+                $agg.build.failures += $r.build.failures
+              }
+              if ($r.changelog) {
+                $agg.changelog.total            += $r.changelog.total
+                $agg.changelog.generated        += $r.changelog.generated
+                $agg.changelog.failed           += $r.changelog.failed
+                $agg.changelog.withBreaking     += $r.changelog.withBreaking
+                $agg.changelog.breakingPackages += $r.changelog.breakingPackages
+              }
+            }
+            $agg.changelog.breakingPackages = $agg.changelog.breakingPackages | Sort-Object -Unique
+            Write-Host "===== AGGREGATED SUMMARY ====="
+            Write-Host ("Emitter      : {0}" -f $agg.emitterVersion)
+            Write-Host ("Regenerated  : {0}/{1}  (failed: {2})" -f $agg.regeneration.success, $agg.regeneration.total, $agg.regeneration.failed)
+            Write-Host ("Built        : {0}/{1}  (failed: {2})" -f $agg.build.success, $agg.build.total, $agg.build.failed)
+            Write-Host ("Changelogs   : {0}/{1}  (breaking: {2})" -f $agg.changelog.generated, $agg.changelog.total, $agg.changelog.withBreaking)
+            if ($agg.changelog.breakingPackages.Count -gt 0) {
+              Write-Host "`nBreaking packages:"
+              $agg.changelog.breakingPackages | ForEach-Object { Write-Host "  - $_" }
+            }
+            New-Item -ItemType Directory -Force -Path '$(Build.ArtifactStagingDirectory)/summary' | Out-Null
+            $agg | ConvertTo-Json -Depth 6 | Set-Content '$(Build.ArtifactStagingDirectory)/summary/aggregated-results.json'
+            if ($agg.regeneration.failed -gt 0 -or $agg.build.failed -gt 0) { exit 1 }
+      - publish: $(Build.ArtifactStagingDirectory)/summary
+        artifact: regen_summary
+        condition: always()
+
+  # ----- Optional CreatePR: 3-way apply per-shard patches and open PR -----
+  - ${{ if parameters.CreatePullRequest }}:
+    - job: CreatePR
+      dependsOn: [Setup, Summary]
+      condition: succeeded()
+      variables:
+        emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
+      steps:
+        - checkout: self
+        - template: /eng/common/pipelines/templates/steps/login-to-github.yml
+          parameters:
+            TokenOwners: [Azure]
+        - download: current
+
+        - bash: |
+            set -euo pipefail
+            cd "$(sdkRoot)"
+            branch='${{ parameters.PullRequestBranch }}'
+            blc=$(echo "$branch" | tr '[:upper:]' '[:lower:]')
+            if [[ -z "$branch" || "$blc" == "empty" || "$blc" == "auto" ]]; then
+              branch="sdk-regenerate-$(Build.BuildId)"
+            fi
+            git fetch origin "${{ parameters.PullRequestTargetBranch }}" --depth=1
+            git checkout -B "$branch" "origin/${{ parameters.PullRequestTargetBranch }}"
+
+            failed='$(Pipeline.Workspace)/failed-patches.txt'
+            : > "$failed"
+            mapfile -t patches < <(find '$(Pipeline.Workspace)' -type f -name changes.patch | sort)
+            for p in "${patches[@]}"; do
+              [[ -s "$p" ]] || continue
+              echo "Applying $p"
+              if ! git apply --3way "$p"; then
+                conflicts=$(git diff --name-only --diff-filter=U)
+                while IFS= read -r f; do
+                  [[ -z "$f" ]] && continue
+                  git checkout HEAD -- "$f" 2>/dev/null || git rm -f "$f" 2>/dev/null || true
+                  echo "$f" >> "$failed"
+                done <<< "$conflicts"
               fi
+            done
+            # Never push the temporary emitter patches.
+            git checkout -- eng/emitter-package.json eng/emitter-package-lock.json 2>/dev/null || true
 
-              echo "##vso[task.setvariable variable=emitterVersion;isOutput=true]$EMITTER_VERSION"
-            displayName: 'Step 2: Resolve emitter version'
-            name: resolveVersion
+            # Build.Repository.Name is "owner/name" on GitHub; split for downstream steps.
+            full='$(Build.Repository.Name)'
+            owner="${full%%/*}"
+            name="${full##*/}"
+            echo "##vso[task.setvariable variable=PRBranchName]$branch"
+            echo "##vso[task.setvariable variable=RepoOwner]$owner"
+            echo "##vso[task.setvariable variable=RepoNameOnly]$name"
+          displayName: 'Apply shard patches'
 
-      - job: GenerateMatrix
-        displayName: 'Generate package matrix'
-        dependsOn: Setup
-        variables:
-          ${{ if eq(parameters.QuickTest, true) }}:
-            effJobCount: 3
-            effMinPerJob: 1
-            effFilter: 'arm-alertprocessingrules,arm-alertrulerecommendations,arm-alertsmanagement'
-          ${{ else }}:
-            effJobCount: ${{ parameters.RegenerationJobCount }}
-            effMinPerJob: ${{ parameters.MinimumPerJob }}
-            effFilter: ${{ parameters.PackageFilter }}
-        steps:
-          - task: PowerShell@2
-            displayName: 'Build matrix'
-            name: generateMatrix
-            inputs:
-              pwsh: true
-              filePath: ./eng/pipelines/scripts/build-regen-matrix.ps1
-              workingDirectory: $(Build.SourcesDirectory)
-              arguments: >
-                -BuildSourcesDirectory "$(Build.SourcesDirectory)"
-                -MatrixOutDir "$(Build.ArtifactStagingDirectory)/matrix"
-                -JobCount $(effJobCount)
-                -MinimumPerJob $(effMinPerJob)
-                -DirectoryFilterPattern '$(effFilter)'
+        - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
+          parameters:
+            BaseRepoBranch: $(PRBranchName)
+            BaseRepoOwner: $(RepoOwner)
+            TargetRepoOwner: $(RepoOwner)
+            TargetRepoName: $(RepoNameOnly)
+            CommitMsg: 'TypeSpec regeneration (${{ parameters.ChangePushMode }}) for emitter $(emitterVersion)'
+            PushArgs: --force
+            WorkingDirectory: $(sdkRoot)
 
-          - task: PublishPipelineArtifact@1
-            displayName: 'Publish matrix artifacts'
-            inputs:
-              targetPath: $(Build.ArtifactStagingDirectory)/matrix
-              artifact: matrix_artifacts
-
-      - job: RegenerateAndBuild
-        displayName: 'RegenerateAndBuild'
-        dependsOn:
-          - Setup
-          - GenerateMatrix
-        timeoutInMinutes: 180
-        strategy:
-          matrix: $[ dependencies.GenerateMatrix.outputs['generateMatrix.matrix'] ]
-        variables:
-          emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
-        steps:
-          - task: NodeTool@0
-            displayName: 'Install Node.js'
-            inputs:
-              versionSpec: $(nodeVersion)
-
-          - download: current
-            displayName: 'Download matrix artifacts'
-            artifact: matrix_artifacts
-
-          - script: >
-              bash ./eng/pipelines/scripts/prepare-regen-workspace.sh
-              "$(sdkRoot)"
-              "$(specRepoRoot)"
-              "${{ parameters.SpecRepoBranch }}"
-              "$(emitterVersion)"
-            displayName: 'Prepare workspace (deps + specs + emitter)'
-
-          # Step 3: Regenerate (shared TypeSpec scripts) → build (pnpm build) for this batch
-          - script: |
-              cd $(sdkRoot)
-              mkdir -p "$(Build.ArtifactStagingDirectory)/results/$(JobKey)"
-              node eng/pipelines/scripts/regenerate-runner.js \
-                --specRepoRoot "$(specRepoRoot)" \
-                --maxWorkers "${{ parameters.MaxWorkers }}" \
-                --buildWorkers "${{ parameters.BuildWorkers }}" \
-                --skipBuild "${{ parameters.SkipBuild }}" \
-                --emitterVersion "$(emitterVersion)" \
-                --directoryList "$(Pipeline.Workspace)/matrix_artifacts/$(DirectoryList)" \
-                --resultOutputDir "$(Build.ArtifactStagingDirectory)/results/$(JobKey)"
-            displayName: 'Regenerate & build ARM package batch'
-
-          # Shows the per-batch diff; if CreatePullRequest is on, also writes
-          # changes.patch (filtered by ChangePushMode) for the PR job to apply.
-          - script: |
-              cd $(sdkRoot)
-              echo "===== Show generated changes ====="
-              git diff --stat
-              CREATE_PR="${{ parameters.CreatePullRequest }}"
-              if [ "$CREATE_PR" = "True" ] || [ "$CREATE_PR" = "true" ]; then
-                echo "===== Create patch for PR job ====="
-                PATCH_FILE="$(Build.ArtifactStagingDirectory)/results/$(JobKey)/changes.patch"
-                MODE="${{ parameters.ChangePushMode }}"
-                if [ "$MODE" = "api-md" ]; then
-                  git diff --binary -- ':(glob)sdk/**/review/*.api.md' ':(glob)sdk/**/CHANGELOG.md' > "$PATCH_FILE"
-                else
-                  git diff --binary -- sdk/ > "$PATCH_FILE"
-                fi
-                echo "Patch mode: $MODE"
-                echo "Patch file: $PATCH_FILE"
-                wc -l "$PATCH_FILE" || true
-              fi
-            displayName: 'Capture changes (diff + patch)'
-            condition: always()
-
-          - task: PublishPipelineArtifact@1
-            displayName: 'Publish batch result'
-            condition: always()
-            inputs:
-              targetPath: $(Build.ArtifactStagingDirectory)/results/$(JobKey)
-              artifact: regen_result_$(JobKey)
-
-      - job: Summary
-        displayName: 'Summarize matrix results'
-        dependsOn:
-          - Setup
-          - RegenerateAndBuild
-        condition: succeededOrFailed()
-        variables:
-          emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
-        steps:
-          - task: NodeTool@0
-            displayName: 'Install Node.js'
-            inputs:
-              versionSpec: $(nodeVersion)
-
-          - download: current
-            displayName: 'Download result artifacts'
-
-          - script: node ./eng/pipelines/scripts/aggregate-regeneration-results.js
-            displayName: 'Aggregate regeneration results'
-            env:
-              PIPELINE_WORKSPACE: $(Pipeline.Workspace)
-              BUILD_ARTIFACTSTAGINGDIRECTORY: $(Build.ArtifactStagingDirectory)
-              EMITTER_VERSION: $(emitterVersion)
-
-          - task: PublishPipelineArtifact@1
-            displayName: 'Publish aggregated summary'
-            condition: always()
-            inputs:
-              targetPath: $(Build.ArtifactStagingDirectory)/summary
-              artifact: regen_summary
-
-      - ${{ if parameters.CreatePullRequest }}:
-        - job: CreatePR
-          displayName: 'Create PR with generated changes'
-          dependsOn:
-            - Setup
-            - Summary
-          condition: succeeded()
-          variables:
-            emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
-          steps:
-            - checkout: self
-
-            # Only request the org-level GitHub App token when we're NOT pushing to a fork
-            # (otherwise the fork user's PAT is used and this template would needlessly
-            # require Azure Key Vault access).
-            - ${{ if eq(parameters.PullRequestRepoOwner, '') }}:
-              - template: /eng/common/pipelines/templates/steps/login-to-github.yml
-                parameters:
-                  TokenOwners:
-                    - Azure
-
-            - download: current
-              displayName: 'Download result artifacts'
-
-            - script: >
-                bash ./eng/pipelines/scripts/prepare-regen-pr-branch.sh
-                "$(Build.SourcesDirectory)"
-                "$(Pipeline.Workspace)"
-                "$(Build.Repository.Name)"
-                "${{ parameters.PullRequestRepoOwner }}"
-                "${{ parameters.PullRequestRepoName }}"
-                "${{ parameters.PullRequestBranch }}"
-                "${{ parameters.PullRequestTargetBranch }}"
-                "${{ parameters.ChangePushMode }}"
-                "$(Build.BuildId)"
-              displayName: 'Apply patches and prepare branch'
-              env:
-                ${{ if ne(parameters.ForkTokenVariableName, '') }}:
-                  FORK_TOKEN: $(${{ parameters.ForkTokenVariableName }})
-                ${{ if eq(parameters.PullRequestRepoOwner, '') }}:
-                  GH_TOKEN_VAL: $(GH_TOKEN)
-
-            - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
-              parameters:
-                BaseRepoBranch: $(PRBranchName)
-                BaseRepoOwner: $(RepoOwner)
-                TargetRepoOwner: $(RepoOwner)
-                TargetRepoName: $(RepoNameOnly)
-                CommitMsg: TypeSpec regeneration changes (${{ parameters.ChangePushMode }}) for emitter $(emitterVersion)
-                PushArgs: --force
-                WorkingDirectory: $(Build.SourcesDirectory)
-                AuthToken: $(PushToken)
-
-            - task: PowerShell@2
-              displayName: 'Create pull request'
-              condition: and(succeeded(), eq(variables['HasChanges'], 'true'))
-              inputs:
-                pwsh: true
-                targetType: inline
-                script: |
-                  $ErrorActionPreference = 'Stop'
-                  $repoRoot = '$(Build.SourcesDirectory)'
-                  $aggPath = Join-Path '$(Pipeline.Workspace)' 'regen_summary/aggregated-results.json'
-                  $failedLog = Join-Path '$(Pipeline.Workspace)' 'failed-patches.txt'
-                  $bodyPath = Join-Path '$(Pipeline.Workspace)' 'regen-pr-body.md'
-                  $formatPrBodyScript = Join-Path '$(Pipeline.Workspace)' 'format-regen-pr-body.ps1'
-                  $submitPrScript = Join-Path $repoRoot 'eng/common/scripts/Submit-PullRequest.ps1'
-                  & $formatPrBodyScript `
-                    -AggPath $aggPath `
-                    -FailedLogPath $failedLog `
-                    -BuildDefinitionName '$(Build.DefinitionName)' `
-                    -BuildNumber '$(Build.BuildNumber)' `
-                    -BuildResultsUrl '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)' `
-                    -EmitterVersion '$(emitterVersion)' `
-                    -ChangePushMode '${{ parameters.ChangePushMode }}' `
-                    -PullRequestTargetBranch '${{ parameters.PullRequestTargetBranch }}' `
-                    -OutputPath $bodyPath
-
-                  $bodyText = Get-Content $bodyPath -Raw
-                  $prTitle  = 'TypeSpec regeneration: emitter $(emitterVersion) [${{ parameters.ChangePushMode }}]'
-                  & $submitPrScript `
-                    -RepoOwner '$(RepoOwner)' `
-                    -RepoName '$(RepoNameOnly)' `
-                    -BaseBranch '${{ parameters.PullRequestTargetBranch }}' `
-                    -PROwner '$(RepoOwner)' `
-                    -PRBranch '$(PRBranchName)' `
-                    -AuthToken '$(PushToken)' `
-                    -PRTitle $prTitle `
-                    -PRBody $bodyText
+        - task: PowerShell@2
+          displayName: 'Create pull request'
+          condition: and(succeeded(), eq(variables['HasChanges'], 'true'))
+          inputs:
+            pwsh: true
+            targetType: inline
+            script: |
+              $agg = Get-Content '$(Pipeline.Workspace)/regen_summary/aggregated-results.json' -Raw | ConvertFrom-Json
+              $failed = Join-Path '$(Pipeline.Workspace)' 'failed-patches.txt'
+              $body = New-Object System.Collections.Generic.List[string]
+              $body.Add("Generated by ``$(Build.DefinitionName)`` build [$(Build.BuildNumber)]($(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)).")
+              $body.Add("Emitter version: ``$(emitterVersion)``. Push mode: ``${{ parameters.ChangePushMode }}``.")
+              $body.Add("")
+              $body.Add("## Regeneration summary")
+              $body.Add("- Regenerated: **$($agg.regeneration.success)/$($agg.regeneration.total)**")
+              $body.Add("- Built OK:    **$($agg.build.success)/$($agg.build.total)**")
+              $body.Add("- Changelog generated: **$($agg.changelog.generated)/$($agg.changelog.total)**")
+              $body.Add("- Packages with breaking changes: **$($agg.changelog.withBreaking)**")
+              if ($agg.changelog.breakingPackages.Count -gt 0) {
+                $body.Add("")
+                $body.Add("## Packages with breaking changes ($($agg.changelog.breakingPackages.Count))")
+                foreach ($p in $agg.changelog.breakingPackages) { $body.Add("- ``$p``") }
+              }
+              if (Test-Path $failed) {
+                $entries = Get-Content $failed | Where-Object { $_.Trim().Length -gt 0 }
+                if ($entries.Count -gt 0) {
+                  $body.Add("")
+                  $body.Add("## Files dropped due to upstream conflicts ($($entries.Count))")
+                  foreach ($e in $entries) { $body.Add("- ``$e``") }
+                }
+              }
+              $owner = '$(RepoOwner)'
+              $name  = '$(RepoNameOnly)'
+              & '$(sdkRoot)/eng/common/scripts/Submit-PullRequest.ps1' `
+                -RepoOwner $owner -RepoName $name `
+                -BaseBranch '${{ parameters.PullRequestTargetBranch }}' `
+                -PROwner $owner -PRBranch '$(PRBranchName)' `
+                -AuthToken '$(GH_TOKEN)' `
+                -PRTitle "TypeSpec regeneration: emitter $(emitterVersion) [${{ parameters.ChangePushMode }}]" `
+                -PRBody ($body -join "`n")
