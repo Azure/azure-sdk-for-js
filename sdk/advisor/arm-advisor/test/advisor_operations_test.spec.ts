@@ -27,7 +27,7 @@ const recorderOptions: RecorderStartOptions = {
   ],
   // sanitizerOptions: {
   //   generalSanitizers: [
-  //     { 
+  //     {
   //       regex: true,
   //       target:`"nextLink":"[^"]*"`,
   //       value: `"nextLink":"sanitized_nextLink"`
