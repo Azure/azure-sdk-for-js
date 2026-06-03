@@ -115,6 +115,10 @@ stages:
   # ----- Setup: resolve emitter version + bake emitter-package(-lock).json -----
   - job: Setup
     steps:
+      - checkout: self
+        fetchDepth: 1
+        fetchTags: false
+        submodules: false
       - task: NodeTool@0
         inputs: { versionSpec: $(nodeVersion) }
       - bash: |
@@ -145,6 +149,10 @@ stages:
         effJobCount: ${{ parameters.RegenerationJobCount }}
         effMinPerJob: ${{ parameters.MinimumPerJob }}
     steps:
+      - checkout: self
+        fetchDepth: 1
+        fetchTags: false
+        submodules: false
       - task: PowerShell@2
         name: generateMatrix
         displayName: 'Build matrix'
@@ -172,6 +180,10 @@ stages:
     variables:
       emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
     steps:
+      - checkout: self
+        fetchDepth: 1
+        fetchTags: false
+        submodules: false
       - task: NodeTool@0
         inputs: { versionSpec: $(nodeVersion) }
       - download: current
@@ -254,6 +266,10 @@ stages:
     variables:
       emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
     steps:
+      - checkout: self
+        fetchDepth: 1
+        fetchTags: false
+        submodules: false
       - download: current
       - task: PowerShell@2
         displayName: 'Aggregate shard results'
@@ -316,6 +332,9 @@ stages:
         emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
       steps:
         - checkout: self
+          fetchDepth: 1
+          fetchTags: false
+          submodules: false
         # Only request the org-level GitHub App token when we're NOT targeting a fork.
         # When targeting a fork, the user's PAT (FORK_TOKEN env) is used instead.
         - ${{ if eq(parameters.PullRequestRepoOwner, '') }}:
