@@ -260,9 +260,7 @@ export default class PlaywrightReporter implements Reporter {
 
     if (!isValidAzureStorageBlobUri(storageUri)) {
       console.error(ServiceErrorMessageConstants.INVALID_STORAGE_URI.message);
-      coreLogger.error(
-        `Reporting disabled: storageUri "${storageUri}" is not a valid Azure Storage Blob endpoint.`,
-      );
+      coreLogger.error("Reporting disabled: storageUri is not a valid Azure Storage endpoint.");
       return false;
     }
 
