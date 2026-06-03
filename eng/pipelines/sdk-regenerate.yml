@@ -216,9 +216,10 @@ stages:
         inputs: { versionSpec: $(nodeVersion) }
       - download: current
 
-      # Always aggregate first — exit 1 on regen/build failures naturally gates
-      # the conditional PR steps below (their default succeeded() condition skips
-      # them when this step fails), reproducing the old Summary→CreatePR gate.
+      # First aggregate runs in any case (succeededOrFailed) so a regen-failure
+      # run still produces a summary artifact. Removed exit-1 on regen failures
+      # so PR steps below are no longer gated — we want a PR with whatever
+      # succeeded, listing the failures in pr-body.md.
       - bash: |
           node "$(sdkRoot)/eng/pipelines/scripts/regenerate-shard.js" aggregate \
             --workspace "$(Pipeline.Workspace)" \
@@ -229,9 +230,6 @@ stages:
             --definitionName "$(Build.DefinitionName)" \
             --pushMode "${{ parameters.ChangePushMode }}"
         displayName: 'Aggregate shard results'
-      - publish: $(Build.ArtifactStagingDirectory)/summary
-        artifact: regen_summary
-        condition: always()
 
       - ${{ if parameters.CreatePullRequest }}:
         # Use the org-level GitHub App token only when not targeting a fork;
@@ -299,3 +297,7 @@ stages:
                 -AuthToken '$(PushToken)' `
                 -PRTitle "TypeSpec regeneration: emitter $(emitterVersion) [${{ parameters.ChangePushMode }}]" `
                 -PRBody $body
+
+      - publish: $(Build.ArtifactStagingDirectory)/summary
+        artifact: regen_summary
+        condition: always()

@@ -229,7 +229,7 @@ async function runShard() {
   async function changelogOne(pkg) {
     const res = await run("npm",
       ["--prefix", releaseToolsPrefix, "exec", "--no", "--",
-       "update-changelog", "--", "--sdkRepoPath", sdkRoot, "--packagePath", pkg.pkgDir],
+       "update-changelog", "--sdkRepoPath", sdkRoot, "--packagePath", pkg.pkgDir],
       sdkRoot);
     let hasBreaking = false;
     try {
@@ -376,14 +376,23 @@ function runAggregate() {
     body.push("", `## Packages with breaking changes (${agg.changelog.breakingPackages.length})`,
       ...agg.changelog.breakingPackages.map((p) => `- \`${p}\``));
   }
+  if (agg.regeneration.failures.length) {
+    body.push("", `## Packages that failed to regenerate (${agg.regeneration.failures.length})`,
+      "These failures are upstream issues (stale tsp-location.yaml or broken spec); see aggregated-results.json for the per-package error.",
+      ...agg.regeneration.failures.map((f) => `- \`${f.pkg || f}\``));
+  }
+  if (agg.build.failures.length) {
+    body.push("", `## Packages that built failed (${agg.build.failures.length})`,
+      ...agg.build.failures.map((f) => `- \`${f.pkg || f}\``));
+  }
   if (failedPatchesFile && fs.existsSync(failedPatchesFile)) {
     const drops = fs.readFileSync(failedPatchesFile, "utf8").split("\n").map((s) => s.trim()).filter(Boolean);
     if (drops.length) body.push("", `## Files dropped due to upstream conflicts (${drops.length})`,
       ...drops.map((f) => `- \`${f}\``));
   }
   fs.writeFileSync(path.join(outDir, "pr-body.md"), body.join("\n"));
-
-  if (agg.regeneration.failed > 0 || agg.build.failed > 0) process.exit(1);
+  // Don't exit non-zero on regen/build failures — we still want a PR for the
+  // packages that DID succeed, with the failure list embedded in pr-body.md.
 }
 
 // ─── Dispatcher ─────────────────────────────────────────────────────────────

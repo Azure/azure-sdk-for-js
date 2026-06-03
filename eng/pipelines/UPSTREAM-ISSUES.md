@@ -124,6 +124,35 @@ missing deps — are intentionally **not** worked around any more).
 
 ---
 
+---
+
+## 7. 🟡 Stale `tsp-location.yaml` in SDK repo points to non-existent spec paths
+
+| | |
+|---|---|
+| Discovered | 2026-06-03 `Build 6388794` (13 of 14 regen failures) |
+| Symptom | `TypeSpec-Project-Sync.ps1` aborts with `Cannot find path '/.../azure-rest-api-specs/specification/<X>' because it does not exist.` Example packages: `arm-fabric` (`specification/fabric/Microsoft.Fabric.Management`), `arm-azurestackhcivm` (`AzureStackHCI.StackHCIVM.Management`), `arm-resourcesbicep` (`resources/Bicep.Management`), `arm-disconnectedoperations`, `arm-discovery`, `arm-hardwaresecuritymodules`, `arm-computerecommender`, `arm-computefleet`, `arm-containerservicesafeguards`, `arm-kubernetesconfiguration-privatelinkscopes`, `arm-quota`, `arm-recoveryservicesdatareplication`, `arm-servicenetworking`. |
+| Root cause | The SDK package's `tsp-location.yaml` `directory:` field is stale — the spec was moved/renamed/deleted upstream in `Azure/azure-rest-api-specs/main` but the SDK repo wasn't updated. |
+| Upstream repos | `Azure/azure-sdk-for-js` (each affected package's `tsp-location.yaml`) and/or `Azure/azure-rest-api-specs` (whoever did the rename). |
+| Suggested fix | Per package: bump `tsp-location.yaml` to the new spec path, OR delete the SDK package if the spec was retired. |
+| Local workaround | **None** — the pipeline reports these as failures in `pr-body.md` (§ "Packages that failed to regenerate") and still opens the PR for the packages that did succeed. |
+| When to remove | n/a — this is operator follow-up, not a workaround. |
+
+---
+
+## 8. 🟡 `arm-eventgrid` spec on `azure-rest-api-specs/main` does not compile
+
+| | |
+|---|---|
+| Discovered | 2026-06-03 `Build 6388794` (shard el_io_4) |
+| Symptom | `tsp compile` reports `arm-resource-missing-arm-namespace` on `Namespace.tsp:16` and `Client.tsp:20`, and `invalid-ref: Unknown identifier <Channel\|VerifiedPartner\|Domain\|EventSubscription\|PartnerDestination>` in `models.tsp`. |
+| Root cause | `specification/eventgrid/resource-manager/Microsoft.EventGrid/EventGrid` on `main` is missing `@armProviderNamespace` decoration and references types not declared anywhere in scope. |
+| Upstream repos | `Azure/azure-rest-api-specs` (the EventGrid spec author). |
+| Suggested fix | File an issue against the spec; either fix the TypeSpec source or revert to the last green commit. |
+| Local workaround | None — reported in `pr-body.md`. |
+
+---
+
 ## When you fix one upstream
 
 1. Open a PR here that **deletes** the corresponding workaround from
