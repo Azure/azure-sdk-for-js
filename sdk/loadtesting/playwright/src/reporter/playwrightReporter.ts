@@ -6,6 +6,7 @@ import {
   getHtmlReporterOutputFolder,
   getPortalTestRunUrl,
   getVersionInfo,
+  isValidAzureStorageBlobUri,
 } from "../utils/utils.js";
 import { coreLogger } from "../common/logger.js";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
@@ -238,28 +239,30 @@ export default class PlaywrightReporter implements Reporter {
         return false;
       }
 
-      if (normalizedReporting === "enabled") {
-        if (!storageUri) {
-          console.error(
-            ServiceErrorMessageConstants.WORKSPACE_REPORTING_STORAGE_NOT_LINKED.message,
-          );
-          coreLogger.info("Reporting enabled in metadata but storage URI not configured");
-          return false;
-        }
-        coreLogger.info("Reporting enabled via workspace metadata configuration");
-        return true;
+      if (normalizedReporting === "enabled" && !storageUri) {
+        console.error(ServiceErrorMessageConstants.WORKSPACE_REPORTING_STORAGE_NOT_LINKED.message);
+        coreLogger.info("Reporting enabled in metadata but storage URI not configured");
+        return false;
       }
 
-      // If reporting has an unexpected value, log warning and fall back to storageUri check
-      coreLogger.info(
-        `Unexpected reporting value in workspace metadata: ${reporting}. Falling back to storage URI check.`,
-      );
+      if (normalizedReporting !== "enabled") {
+        coreLogger.info(
+          `Unexpected reporting value in workspace metadata: ${reporting}. Falling back to storage URI check.`,
+        );
+      }
     }
 
-    // Fallback to current logic: check only storageUri (when reporting field is not present or has unexpected value)
     if (!storageUri) {
       console.error(ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message);
       coreLogger.info("Storage URI not configured in workspace metadata");
+      return false;
+    }
+
+    if (!isValidAzureStorageBlobUri(storageUri)) {
+      console.error(ServiceErrorMessageConstants.INVALID_STORAGE_URI.message);
+      coreLogger.error(
+        `Reporting disabled: storageUri "${storageUri}" is not a valid Azure Storage Blob endpoint.`,
+      );
       return false;
     }
 

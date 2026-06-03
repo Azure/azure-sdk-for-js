@@ -7,6 +7,7 @@ import {
   InternalEnvironmentVariables,
   RunConfigConstants,
   ServiceEnvironmentVariable,
+  StorageUriValidationConstants,
   UploadConstants,
 } from "../../src/common/constants.js";
 import {
@@ -32,6 +33,7 @@ import {
   getPortalTestRunUrl,
   getStorageAccountNameFromUri,
   getTestRunConfig,
+  isValidAzureStorageBlobUri,
 } from "../../src/utils/utils.js";
 import * as packageManager from "../../src/utils/packageManager.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
@@ -972,6 +974,87 @@ describe("Service Utils", () => {
         sdkLanguage: RunConfigConstants.TEST_SDK_LANGUAGE,
         maxWorkers: 6,
       });
+    });
+  });
+
+  describe("isValidAzureStorageBlobUri", () => {
+    // ── valid endpoints ─────────────────────────────────────────────────────
+    it.each([
+      // Standard public-cloud blob endpoints
+      "https://myaccount.blob.core.windows.net",
+      "https://myaccount.blob.core.windows.net/",
+      // Data-lake (DFS) endpoint
+      "https://myaccount.dfs.core.windows.net",
+      // US Government cloud
+      "https://myaccount.blob.core.usgovcloudapi.net",
+      // China cloud
+      "https://myaccount.blob.core.chinacloudapi.cn",
+      // Custom port is permitted (mirrors RP behaviour)
+      "https://myaccount.blob.core.windows.net:8443",
+      // Non-standard account label is fine as long as suffix matches
+      "https://account-with-dashes.blob.core.windows.net",
+    ])("accepts valid URI: %s", (uri) => {
+      expect(isValidAzureStorageBlobUri(uri)).toBe(true);
+    });
+
+    // ── attacker-controlled host ─────────────────────────────────────────────
+    it.each([
+      // Completely different domain
+      "https://attacker.example.com",
+      // Suffix in path, not hostname
+      "https://attacker.example.com/account.blob.core.windows.net",
+      // Suffix appended to attacker hostname (subdomain bypass)
+      "https://account.blob.core.windows.net.attacker.com",
+      // Wrong service type – table storage is not in the allowlist
+      "https://account.table.core.windows.net",
+      // Retired German sovereign cloud – not in the allowlist
+      "https://account.blob.core.cloudapi.de",
+    ])("rejects attacker-controlled host: %s", (uri) => {
+      expect(isValidAzureStorageBlobUri(uri)).toBe(false);
+    });
+
+    // ── scheme ───────────────────────────────────────────────────────────────
+    it.each([
+      "http://account.blob.core.windows.net",
+      "ftp://account.blob.core.windows.net",
+      "file:///etc/passwd",
+      "javascript:alert(1)",
+    ])("rejects non-https scheme: %s", (uri) => {
+      expect(isValidAzureStorageBlobUri(uri)).toBe(false);
+    });
+
+    // ── embedded credentials ─────────────────────────────────────────────────
+    it("rejects URI with userinfo (username:password)", () => {
+      expect(isValidAzureStorageBlobUri("https://user:pass@account.blob.core.windows.net")).toBe(
+        false,
+      );
+    });
+
+    // ── query string and fragment ────────────────────────────────────────────
+    it("rejects URI with query string", () => {
+      expect(isValidAzureStorageBlobUri("https://account.blob.core.windows.net/?sig=stolen")).toBe(
+        false,
+      );
+    });
+
+    it("rejects URI with fragment", () => {
+      expect(isValidAzureStorageBlobUri("https://account.blob.core.windows.net/#frag")).toBe(false);
+    });
+
+    // ── null / empty / malformed ─────────────────────────────────────────────
+    it.each([undefined, null, "", "   ", "not-a-url"])(
+      "rejects null/empty/malformed input: %s",
+      (input) => {
+        expect(isValidAzureStorageBlobUri(input as any)).toBe(false);
+      },
+    );
+
+    // ── hostname-suffix allowlist is exhaustive ──────────────────────────────
+    it("covers every suffix in StorageUriValidationConstants", () => {
+      for (const suffix of StorageUriValidationConstants.AllowedHostnameSuffixes) {
+        const uri = `https://account${suffix}`;
+        expect(isValidAzureStorageBlobUri(uri)).toBe(true);
+      }
     });
   });
 });
