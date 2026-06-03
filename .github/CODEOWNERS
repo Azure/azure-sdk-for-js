@@ -974,7 +974,7 @@
 # PRLabel: %Mgmt
 /sdk/storageimportexport/arm-storageimportexport/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/storagesync/arm-storagesync/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
