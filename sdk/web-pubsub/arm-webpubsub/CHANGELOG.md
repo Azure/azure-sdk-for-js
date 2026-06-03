@@ -66,8 +66,6 @@ Compared with version 1.2.0
   - Operation WebPubSubHubs.beginCreateOrUpdateAndWait has a new signature
   - Operation WebPubSubHubs.get has a new signature
   - Operation WebPubSubReplicas.beginRestartAndWait has a new signature
-  - Class WebPubSubManagementClient no longer has parameter apiVersion
-  - Class WebPubSubManagementClient no longer has parameter subscriptionId
   - Removed Interface CustomCertificateList
   - Removed Interface CustomDomainList
   - Removed Interface EventListener_2
