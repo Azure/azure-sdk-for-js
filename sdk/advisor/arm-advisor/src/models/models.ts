@@ -14,7 +14,7 @@ export interface PredictionRequest {
   /** Type of the prediction. */
   predictionType?: PredictionType;
   /** Extended properties are arguments specific for each prediction type. */
-  extendedProperties?: any;
+  extendedProperties?: Record<string, unknown>;
 }
 
 export function predictionRequestSerializer(item: PredictionRequest): any {
@@ -30,7 +30,7 @@ export interface PredictionRequestProperties {
   /** Type of the prediction. */
   predictionType?: PredictionType;
   /** Extended properties are arguments specific for each prediction type. */
-  extendedProperties?: any;
+  extendedProperties?: Record<string, unknown>;
 }
 
 export function predictionRequestPropertiesSerializer(item: PredictionRequestProperties): any {
@@ -55,7 +55,7 @@ export type PredictionType = string;
 /** Response used by predictions. */
 export interface PredictionResponse {
   /** Extended properties */
-  extendedProperties?: any;
+  extendedProperties?: Record<string, unknown>;
   /** Type of the prediction. */
   predictionType?: PredictionType;
   /** The category of the recommendation. */
@@ -81,7 +81,7 @@ export function predictionResponseDeserializer(item: any): PredictionResponse {
 /** Properties of the prediction */
 export interface PredictionResponseProperties {
   /** Extended properties */
-  extendedProperties?: any;
+  extendedProperties?: Record<string, unknown>;
   /** Type of the prediction. */
   predictionType?: PredictionType;
   /** The category of the recommendation. */
@@ -498,7 +498,7 @@ export interface ResourceRecommendationBase extends ExtensionResource {
   /** The created time of the recommendation. */
   createdTime?: Date;
   /** The recommendation metadata. */
-  metadata?: Record<string, any>;
+  metadata?: Record<string, Record<string, unknown>>;
   /** The recommendation-type GUID. */
   recommendationTypeId?: string;
   /** The potential risk of not implementing the recommendation. */
@@ -520,11 +520,11 @@ export interface ResourceRecommendationBase extends ExtensionResource {
   /** The potential benefit of implementing recommendation. */
   potentialBenefits?: string;
   /** The list of recommended actions to implement recommendation. */
-  actions?: Record<string, any>[];
+  actions?: Record<string, Record<string, unknown>>[];
   /** The automated way to apply recommendation. */
-  remediation?: Record<string, any>;
+  remediation?: Record<string, Record<string, unknown>>;
   /** The recommendation metadata properties exposed to customer to provide additional information. */
-  exposedMetadataProperties?: Record<string, any>;
+  exposedMetadataProperties?: Record<string, Record<string, unknown>>;
   /** The properties of a tracked recommendation. */
   trackedProperties?: TrackedRecommendationProperties;
   /** The Review that this Recommendation belongs to. */
@@ -578,7 +578,7 @@ export interface RecommendationProperties {
   /** The created time of the recommendation. */
   createdTime?: Date;
   /** The recommendation metadata. */
-  metadata?: Record<string, any>;
+  metadata?: Record<string, Record<string, unknown>>;
   /** The recommendation-type GUID. */
   recommendationTypeId?: string;
   /** The potential risk of not implementing the recommendation. */
@@ -600,11 +600,11 @@ export interface RecommendationProperties {
   /** The potential benefit of implementing recommendation. */
   potentialBenefits?: string;
   /** The list of recommended actions to implement recommendation. */
-  actions?: Record<string, any>[];
+  actions?: Record<string, Record<string, unknown>>[];
   /** The automated way to apply recommendation. */
-  remediation?: Record<string, any>;
+  remediation?: Record<string, Record<string, unknown>>;
   /** The recommendation metadata properties exposed to customer to provide additional information. */
-  exposedMetadataProperties?: Record<string, any>;
+  exposedMetadataProperties?: Record<string, Record<string, unknown>>;
   /** The properties of a tracked recommendation. */
   trackedProperties?: TrackedRecommendationProperties;
   /** The Review that this Recommendation belongs to. */
@@ -807,7 +807,7 @@ export interface ResourceMetadata {
   /** Source from which recommendation is generated */
   source?: string;
   /** The action to view resource. */
-  action?: Record<string, any>;
+  action?: Record<string, Record<string, unknown>>;
   /** The singular user friendly name of resource type. eg: virtual machine */
   singular?: string;
   /** The plural user friendly name of resource type. eg: virtual machines */
@@ -1010,7 +1010,7 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: any;
+  readonly info?: Record<string, unknown>;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
@@ -1441,13 +1441,13 @@ export function resiliencyReviewPropertiesDeserializer(item: any): ResiliencyRev
 
 /** Review status. */
 export enum KnownReviewStatus {
-  /** New */
+  /** The review has been newly created. */
   New = "New",
-  /** In Progress */
+  /** The review is currently in progress. */
   InProgress = "InProgress",
-  /** Triaged */
+  /** The review has been triaged. */
   Triaged = "Triaged",
-  /** Completed */
+  /** The review has been completed. */
   Completed = "Completed",
 }
 
@@ -1456,10 +1456,10 @@ export enum KnownReviewStatus {
  * {@link KnownReviewStatus} can be used interchangeably with ReviewStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **New**: New \
- * **InProgress**: In Progress \
- * **Triaged**: Triaged \
- * **Completed**: Completed
+ * **New**: The review has been newly created. \
+ * **InProgress**: The review is currently in progress. \
+ * **Triaged**: The review has been triaged. \
+ * **Completed**: The review has been completed.
  */
 export type ReviewStatus = string;
 

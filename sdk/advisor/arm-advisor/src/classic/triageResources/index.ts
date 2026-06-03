@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
+import type { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
 import { list, get } from "../../api/triageResources/operations.js";
-import {
+import type {
   TriageResourcesListOptionalParams,
   TriageResourcesGetOptionalParams,
 } from "../../api/triageResources/options.js";
-import { TriageResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { TriageResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a TriageResources operations. */
 export interface TriageResourcesOperations {

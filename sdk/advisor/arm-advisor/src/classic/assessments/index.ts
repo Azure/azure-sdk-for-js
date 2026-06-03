@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
+import type { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
 import { list, $delete, put, get } from "../../api/assessments/operations.js";
-import {
+import type {
   AssessmentsListOptionalParams,
   AssessmentsDeleteOptionalParams,
   AssessmentsPutOptionalParams,
   AssessmentsGetOptionalParams,
 } from "../../api/assessments/options.js";
-import { AssessmentResult } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { AssessmentResult } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Assessments operations. */
 export interface AssessmentsOperations {

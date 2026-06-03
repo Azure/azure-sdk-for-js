@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
+import type { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
 import { list, $delete, create, get } from "../../api/suppressions/operations.js";
-import {
+import type {
   SuppressionsListOptionalParams,
   SuppressionsDeleteOptionalParams,
   SuppressionsCreateOptionalParams,
   SuppressionsGetOptionalParams,
 } from "../../api/suppressions/options.js";
-import { SuppressionContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SuppressionContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Suppressions operations. */
 export interface SuppressionsOperations {

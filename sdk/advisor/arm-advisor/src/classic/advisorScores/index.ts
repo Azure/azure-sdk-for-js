@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
+import type { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
 import { list, get } from "../../api/advisorScores/operations.js";
-import {
+import type {
   AdvisorScoresListOptionalParams,
   AdvisorScoresGetOptionalParams,
 } from "../../api/advisorScores/options.js";
-import { AdvisorScoreEntity } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { AdvisorScoreEntity } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AdvisorScores operations. */
 export interface AdvisorScoresOperations {

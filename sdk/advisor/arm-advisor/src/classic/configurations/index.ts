@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
+import type { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
 import {
   createInResourceGroup,
   listByResourceGroup,
   createInSubscription,
   listBySubscription,
 } from "../../api/configurations/operations.js";
-import {
+import type {
   ConfigurationsCreateInResourceGroupOptionalParams,
   ConfigurationsListByResourceGroupOptionalParams,
   ConfigurationsCreateInSubscriptionOptionalParams,
   ConfigurationsListBySubscriptionOptionalParams,
 } from "../../api/configurations/options.js";
-import { ConfigData, ConfigurationName } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ConfigData, ConfigurationName } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Configurations operations. */
 export interface ConfigurationsOperations {

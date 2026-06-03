@@ -1,33 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AdvisorManagementContext as Client } from "../index.js";
-import {
-  armErrorResponseDeserializer,
+import type { AdvisorManagementContext as Client } from "../index.js";
+import type {
   _ConfigurationListResult,
-  _configurationListResultDeserializer,
   ConfigData,
-  configDataSerializer,
-  configDataDeserializer,
   ConfigurationName,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  armErrorResponseDeserializer,
+  _configurationListResultDeserializer,
+  configDataSerializer,
+  configDataDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ConfigurationsCreateInResourceGroupOptionalParams,
   ConfigurationsListByResourceGroupOptionalParams,
   ConfigurationsCreateInSubscriptionOptionalParams,
   ConfigurationsListBySubscriptionOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _createInResourceGroupSend(
   context: Client,
@@ -62,7 +58,9 @@ export async function _createInResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = armErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = armErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -116,7 +114,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = armErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = armErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -174,7 +174,9 @@ export async function _createInSubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = armErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = armErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -224,7 +226,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = armErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = armErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

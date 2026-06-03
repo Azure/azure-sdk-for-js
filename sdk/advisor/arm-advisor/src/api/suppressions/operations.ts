@@ -1,32 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AdvisorManagementContext as Client } from "../index.js";
+import type { AdvisorManagementContext as Client } from "../index.js";
+import type { SuppressionContract, _SuppressionContractListResult } from "../../models/models.js";
 import {
   armErrorResponseDeserializer,
-  SuppressionContract,
   suppressionContractSerializer,
   suppressionContractDeserializer,
-  _SuppressionContractListResult,
   _suppressionContractListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   SuppressionsListOptionalParams,
   SuppressionsDeleteOptionalParams,
   SuppressionsCreateOptionalParams,
   SuppressionsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -56,7 +49,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = armErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = armErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -108,7 +103,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = armErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = armErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -164,9 +161,13 @@ export async function _createDeserialize(
     const error = createRestError(result);
     const statusCode = Number.parseInt(result.status);
     if (statusCode === 404) {
-      error.details = armErrorResponseDeserializer(result.body);
+      if (result.body) {
+        error.details = armErrorResponseDeserializer(result.body);
+      }
     } else {
-      error.details = armErrorResponseDeserializer(result.body);
+      if (result.body) {
+        error.details = armErrorResponseDeserializer(result.body);
+      }
     }
     throw error;
   }
@@ -225,9 +226,13 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Su
     const error = createRestError(result);
     const statusCode = Number.parseInt(result.status);
     if (statusCode === 404) {
-      error.details = armErrorResponseDeserializer(result.body);
+      if (result.body) {
+        error.details = armErrorResponseDeserializer(result.body);
+      }
     } else {
-      error.details = armErrorResponseDeserializer(result.body);
+      if (result.body) {
+        error.details = armErrorResponseDeserializer(result.body);
+      }
     }
     throw error;
   }

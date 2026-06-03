@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
+import type { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
 import { list, get } from "../../api/recommendationMetadata/operations.js";
-import {
+import type {
   RecommendationMetadataListOptionalParams,
   RecommendationMetadataGetOptionalParams,
 } from "../../api/recommendationMetadata/options.js";
-import { MetadataEntity } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { MetadataEntity } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RecommendationMetadata operations. */
 export interface RecommendationMetadataOperations {

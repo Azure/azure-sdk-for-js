@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
+import type { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
 import { list } from "../../api/assessmentTypes/operations.js";
-import { AssessmentTypesListOptionalParams } from "../../api/assessmentTypes/options.js";
-import { AssessmentTypeResult } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { AssessmentTypesListOptionalParams } from "../../api/assessmentTypes/options.js";
+import type { AssessmentTypeResult } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AssessmentTypes operations. */
 export interface AssessmentTypesOperations {

@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.1 (2026-05-29)
+## 4.0.0-beta.1 (2026-06-03)
 Compared with version 3.2.0
 
 ### Features Added
@@ -13,6 +13,7 @@ Compared with version 3.2.0
   - Added operation group WorkloadsOperations
   - Added operation RecommendationsOperations.listByTenant
   - Added operation RecommendationsOperations.update
+  - Class AdvisorManagementClient has a new constructor "predict(predictionRequest: PredictionRequest, options?: PredictOptionalParams): Promise<PredictionResponse>;"
   - Added Interface AdvisorScoreEntity
   - Added Interface AdvisorScoreEntityProperties
   - Added Interface AdvisorScoresGetOptionalParams
@@ -118,6 +119,8 @@ Compared with version 3.2.0
 
 ### Breaking Changes
   - Operation Recommendations.generate has a new signature
+  - Class AdvisorManagementClient no longer has parameter apiVersion
+  - Class AdvisorManagementClient no longer has parameter subscriptionId
   - Interface ResourceRecommendationBase no longer has parameter suppressionIds
 
 ## 3.2.0 (2023-08-03)
@@ -153,7 +156,7 @@ Compared with version 3.2.0
 
 ## 3.0.1 (2022-03-22)
 
-### Features Added
+**features**
 
 - bug fix
 

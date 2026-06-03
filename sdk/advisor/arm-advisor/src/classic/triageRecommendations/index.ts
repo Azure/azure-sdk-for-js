@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
+import type { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
 import {
   resetTriageRecommendation,
   rejectTriageRecommendation,
@@ -9,15 +9,15 @@ import {
   list,
   get,
 } from "../../api/triageRecommendations/operations.js";
-import {
+import type {
   TriageRecommendationsResetTriageRecommendationOptionalParams,
   TriageRecommendationsRejectTriageRecommendationOptionalParams,
   TriageRecommendationsApproveTriageRecommendationOptionalParams,
   TriageRecommendationsListOptionalParams,
   TriageRecommendationsGetOptionalParams,
 } from "../../api/triageRecommendations/options.js";
-import { TriageRecommendation, RecommendationRejectBody } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { TriageRecommendation, RecommendationRejectBody } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a TriageRecommendations operations. */
 export interface TriageRecommendationsOperations {

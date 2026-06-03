@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
+import type { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
 import {
   getGenerateStatus,
   generate,
@@ -10,7 +10,7 @@ import {
   update,
   get,
 } from "../../api/recommendations/operations.js";
-import {
+import type {
   RecommendationsGetGenerateStatusOptionalParams,
   RecommendationsGenerateOptionalParams,
   RecommendationsListByTenantOptionalParams,
@@ -18,8 +18,11 @@ import {
   RecommendationsUpdateOptionalParams,
   RecommendationsGetOptionalParams,
 } from "../../api/recommendations/options.js";
-import { ResourceRecommendationBase, RecommendationPatchPayload } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type {
+  ResourceRecommendationBase,
+  RecommendationPatchPayload,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Recommendations operations. */
 export interface RecommendationsOperations {

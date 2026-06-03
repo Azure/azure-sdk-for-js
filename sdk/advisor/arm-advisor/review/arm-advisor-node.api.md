@@ -4,12 +4,12 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export class AdvisorManagementClient {
@@ -237,7 +237,7 @@ export type Duration = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: any;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 
@@ -477,20 +477,20 @@ export interface PageSettings {
 
 // @public
 export interface PredictionRequest {
-    extendedProperties?: any;
+    extendedProperties?: Record<string, unknown>;
     predictionType?: PredictionType;
 }
 
 // @public
 export interface PredictionRequestProperties {
-    extendedProperties?: any;
+    extendedProperties?: Record<string, unknown>;
     predictionType?: PredictionType;
 }
 
 // @public
 export interface PredictionResponse {
     category?: Category;
-    extendedProperties?: any;
+    extendedProperties?: Record<string, unknown>;
     impact?: Impact;
     impactedField?: string;
     lastUpdated?: Date;
@@ -501,7 +501,7 @@ export interface PredictionResponse {
 // @public
 export interface PredictionResponseProperties {
     category?: Category;
-    extendedProperties?: any;
+    extendedProperties?: Record<string, unknown>;
     impact?: Impact;
     impactedField?: string;
     lastUpdated?: Date;
@@ -553,13 +553,13 @@ export interface RecommendationPatchPayload {
 
 // @public
 export interface RecommendationProperties {
-    actions?: Record<string, any>[];
+    actions?: Record<string, Record<string, unknown>>[];
     category?: Category;
     completionType?: string;
     control?: Control;
     createdTime?: Date;
     description?: string;
-    exposedMetadataProperties?: Record<string, any>;
+    exposedMetadataProperties?: Record<string, Record<string, unknown>>;
     extendedProperties?: Record<string, string>;
     impact?: Impact;
     impactedField?: string;
@@ -568,14 +568,14 @@ export interface RecommendationProperties {
     lastRefreshed?: Date;
     lastUpdated?: Date;
     learnMoreLink?: string;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, Record<string, unknown>>;
     notes?: string;
     postponedUntilDateTime?: Date;
     potentialBenefits?: string;
     recommendationDismissReason?: RecommendationDismissReason;
     recommendationStatus?: RecommendationStatus;
     recommendationTypeId?: string;
-    remediation?: Record<string, any>;
+    remediation?: Record<string, Record<string, unknown>>;
     resourceMetadata?: ResourceMetadata;
     resourceWorkload?: RecommendationPropertiesResourceWorkload;
     review?: RecommendationPropertiesReview;
@@ -703,7 +703,7 @@ export interface Resource {
 
 // @public
 export interface ResourceMetadata {
-    action?: Record<string, any>;
+    action?: Record<string, Record<string, unknown>>;
     plural?: string;
     resourceId?: string;
     singular?: string;
@@ -712,13 +712,13 @@ export interface ResourceMetadata {
 
 // @public
 export interface ResourceRecommendationBase extends ExtensionResource {
-    actions?: Record<string, any>[];
+    actions?: Record<string, Record<string, unknown>>[];
     category?: Category;
     completionType?: string;
     control?: Control;
     createdTime?: Date;
     description?: string;
-    exposedMetadataProperties?: Record<string, any>;
+    exposedMetadataProperties?: Record<string, Record<string, unknown>>;
     extendedProperties?: Record<string, string>;
     impact?: Impact;
     impactedField?: string;
@@ -727,14 +727,14 @@ export interface ResourceRecommendationBase extends ExtensionResource {
     lastRefreshed?: Date;
     lastUpdated?: Date;
     learnMoreLink?: string;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, Record<string, unknown>>;
     notes?: string;
     postponedUntilDateTime?: Date;
     potentialBenefits?: string;
     recommendationDismissReason?: RecommendationDismissReason;
     recommendationStatus?: RecommendationStatus;
     recommendationTypeId?: string;
-    remediation?: Record<string, any>;
+    remediation?: Record<string, Record<string, unknown>>;
     resourceMetadata?: ResourceMetadata;
     resourceWorkload?: RecommendationPropertiesResourceWorkload;
     review?: RecommendationPropertiesReview;
