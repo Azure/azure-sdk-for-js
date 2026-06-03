@@ -60,6 +60,10 @@ parameters:
   - name: SkipBuild
     type: boolean
     default: false
+  - name: QuickTest
+    displayName: "Quick test (only 3 small ARM packages, 1 shard; overrides PackageFilter / matrix sizing)"
+    type: boolean
+    default: false
   - name: PackageFilter
     displayName: "Package filter (comma-separated wildcards; 'arm-*' = all)"
     type: string
@@ -131,6 +135,15 @@ stages:
   # ----- GenerateMatrix: shared shared matrix builder (only TypeSpec packages) -----
   - job: GenerateMatrix
     dependsOn: Setup
+    variables:
+      ${{ if parameters.QuickTest }}:
+        effFilter: 'arm-alertprocessingrules,arm-alertrulerecommendations,arm-alertsmanagement'
+        effJobCount: 1
+        effMinPerJob: 1
+      ${{ else }}:
+        effFilter: ${{ parameters.PackageFilter }}
+        effJobCount: ${{ parameters.RegenerationJobCount }}
+        effMinPerJob: ${{ parameters.MinimumPerJob }}
     steps:
       - task: PowerShell@2
         name: generateMatrix
@@ -142,10 +155,10 @@ stages:
             & $(Build.SourcesDirectory)/eng/common/scripts/New-RegenerateMatrix.ps1 `
               -OutputDirectory $(Build.ArtifactStagingDirectory)/matrix `
               -OutputVariableName matrix `
-              -JobCount ${{ parameters.RegenerationJobCount }} `
-              -MinimumPerJob ${{ parameters.MinimumPerJob }} `
+              -JobCount $(effJobCount) `
+              -MinimumPerJob $(effMinPerJob) `
               -OnlyTypeSpec true `
-              -DirectoryFilterPattern '${{ parameters.PackageFilter }}'
+              -DirectoryFilterPattern '$(effFilter)'
             if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - publish: $(Build.ArtifactStagingDirectory)/matrix
         artifact: matrix_artifacts
@@ -176,7 +189,7 @@ stages:
             j.dependencies["@azure-tools/typespec-ts"]="$(emitterVersion)";
             fs.writeFileSync(p,JSON.stringify(j,null,2)+"\n");'
           cd "$(sdkRoot)"
-          tsp-client generate-lock-file
+          tsp-client generate-lock-file --npm-args="--legacy-peer-deps"
 
           # Shallow-clone the spec repo once per shard (TypeSpec-Project-Sync
           # will copy from this via -LocalSpecRepoPath).
