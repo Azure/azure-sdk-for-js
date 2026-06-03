@@ -1,6 +1,6 @@
 {
   "name": "@azure/keyvault-certificates",
-  "version": "4.11.0-beta.2",
+  "version": "4.11.0-beta.1",
   "description": "Azure Key Vault Certificates",
   "engines": {
     "node": ">=20.0.0"
