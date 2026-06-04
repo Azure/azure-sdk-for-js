@@ -102,8 +102,6 @@ TestResults/*
 **/esm/
 **/lib/**/*.js
 **/lib/**/*.js.map
-!eng/pipelines/scripts/lib/**/*.js
-!eng/pipelines/scripts/lib/**/*.js.map
 **/*Bundle.js
 **/*Bundle.js.map
 **/package-lock.json

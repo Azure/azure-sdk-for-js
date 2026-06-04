@@ -52,16 +52,9 @@ try {
     throw "Release tools path does not exist: $releaseToolsPath"
   }
   
-  $releaseToolsNodeModules = Join-Path $releaseToolsPath "node_modules"
-  if (-not (Test-Path $releaseToolsNodeModules)) {
-    Write-Host "Installing js-sdk-release-tools dependencies..." -ForegroundColor Cyan
-    Invoke-LoggedCommand "npm --prefix $releaseToolsPath ci"
-    Write-Host ""
-  }
-  else {
-    Write-Host "Reusing existing js-sdk-release-tools install." -ForegroundColor Cyan
-    Write-Host ""
-  }
+  Write-Host "Installing js-sdk-release-tools dependencies..." -ForegroundColor Cyan
+  Invoke-LoggedCommand "npm --prefix $releaseToolsPath ci"
+  Write-Host ""
   
  
   # Run the update-changelog command using npm exec
