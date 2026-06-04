@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.6 (Unreleased)
+## 1.1.6 (2026-06-05)
 
 ### Features Added
 
@@ -12,6 +12,8 @@
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Validated workspace `storageUri` against an Azure Storage Blob allowlist before uploading reports.
 
 ### Other Changes
 
