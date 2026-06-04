@@ -1,29 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve the source control identified by source control name.
- *
- * @summary Retrieve the source control identified by source control name.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/sourceControl/getSourceControl.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieve the source control identified by source control name.
+ *
+ * @summary retrieve the source control identified by source control name.
+ * x-ms-original-file: 2024-10-23/sourceControl/getSourceControl.json
+ */
 async function getASourceControl(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "sampleAccount9";
-  const sourceControlName = "sampleSourceControl";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.sourceControlOperations.get(
-    resourceGroupName,
-    automationAccountName,
-    sourceControlName,
-  );
+  const result = await client.sourceControl.get("rg", "sampleAccount9", "sampleSourceControl");
   console.log(result);
 }
 

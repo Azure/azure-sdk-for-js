@@ -1,28 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve the job schedule identified by job schedule name.
- *
- * @summary Retrieve the job schedule identified by job schedule name.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/getJobSchedule.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieve the job schedule identified by job schedule name.
+ *
+ * @summary retrieve the job schedule identified by job schedule name.
+ * x-ms-original-file: 2024-10-23/getJobSchedule.json
+ */
 async function getAJobSchedule(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "ContoseAutomationAccount";
-  const jobScheduleId = "0fa462ba-3aa2-4138-83ca-9ebc3bc55cdc";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.jobScheduleOperations.get(
-    resourceGroupName,
-    automationAccountName,
-    jobScheduleId,
+  const result = await client.jobSchedule.get(
+    "rg",
+    "ContoseAutomationAccount",
+    "0fa462ba-3aa2-4138-83ca-9ebc3bc55cdc",
   );
   console.log(result);
 }

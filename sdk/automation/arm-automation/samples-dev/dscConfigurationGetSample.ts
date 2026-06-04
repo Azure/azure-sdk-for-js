@@ -1,34 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve the configuration identified by configuration name.
- *
- * @summary Retrieve the configuration identified by configuration name.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/getDscConfiguration.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getADscConfiguration(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "myAutomationAccount33";
-  const configurationName = "TemplateBasic";
+/**
+ * This sample demonstrates how to retrieve the configuration identified by configuration name.
+ *
+ * @summary retrieve the configuration identified by configuration name.
+ * x-ms-original-file: 2024-10-23/getDscConfiguration.json
+ */
+async function getADSCConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.dscConfigurationOperations.get(
-    resourceGroupName,
-    automationAccountName,
-    configurationName,
-  );
+  const result = await client.dscConfiguration.get("rg", "myAutomationAccount33", "TemplateBasic");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getADscConfiguration();
+  await getADSCConfiguration();
 }
 
 main().catch(console.error);

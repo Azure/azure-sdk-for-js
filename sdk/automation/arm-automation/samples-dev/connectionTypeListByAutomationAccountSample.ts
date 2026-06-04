@@ -1,52 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve a list of connection types.
- *
- * @summary Retrieve a list of connection types.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/getAllConnectionTypes_First100.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieve a list of connection types.
+ *
+ * @summary retrieve a list of connection types.
+ * x-ms-original-file: 2024-10-23/getAllConnectionTypes_First100.json
+ */
 async function getConnectionTypesFirst100(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "myAutomationAccount25";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.connectionTypeOperations.listByAutomationAccount(
-    resourceGroupName,
-    automationAccountName,
+  for await (const item of client.connectionType.listByAutomationAccount(
+    "rg",
+    "myAutomationAccount25",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Retrieve a list of connection types.
+ * This sample demonstrates how to retrieve a list of connection types.
  *
- * @summary Retrieve a list of connection types.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/getAllConnectionTypes_Next100.json
+ * @summary retrieve a list of connection types.
+ * x-ms-original-file: 2024-10-23/getAllConnectionTypes_Next100.json
  */
 async function getConnectionTypesNext100(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "myAutomationAccount25";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.connectionTypeOperations.listByAutomationAccount(
-    resourceGroupName,
-    automationAccountName,
+  for await (const item of client.connectionType.listByAutomationAccount(
+    "rg",
+    "myAutomationAccount25",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

@@ -1,36 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update the schedule identified by schedule name.
- *
- * @summary Update the schedule identified by schedule name.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/updateSchedule.json
- */
-
-import type { ScheduleUpdateParameters } from "@azure/arm-automation";
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update the schedule identified by schedule name.
+ *
+ * @summary update the schedule identified by schedule name.
+ * x-ms-original-file: 2024-10-23/updateSchedule.json
+ */
 async function updateASchedule(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "myAutomationAccount33";
-  const scheduleName = "mySchedule";
-  const parameters: ScheduleUpdateParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
+  const client = new AutomationClient(credential, subscriptionId);
+  const result = await client.schedule.update("rg", "myAutomationAccount33", "mySchedule", {
     name: "mySchedule",
     description: "my updated description of schedule goes here",
     isEnabled: false,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.scheduleOperations.update(
-    resourceGroupName,
-    automationAccountName,
-    scheduleName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

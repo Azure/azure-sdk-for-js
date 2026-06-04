@@ -1,34 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update a hybrid runbook worker group.
- *
- * @summary Update a hybrid runbook worker group.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-02-22/examples/updateHybridRunbookWorkerGroup.json
- */
-
-import type { HybridRunbookWorkerGroupCreateOrUpdateParameters } from "@azure/arm-automation";
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update a hybrid runbook worker group.
+ *
+ * @summary update a hybrid runbook worker group.
+ * x-ms-original-file: 2024-10-23/updateHybridRunbookWorkerGroup.json
+ */
 async function updateHybridWorkerGroup(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "testaccount";
-  const hybridRunbookWorkerGroupName = "TestHybridGroup";
-  const hybridRunbookWorkerGroupUpdationParameters: HybridRunbookWorkerGroupCreateOrUpdateParameters =
-    {
-      credential: { name: "myRunAsCredentialUpdatedName" },
-    };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.hybridRunbookWorkerGroupOperations.update(
-    resourceGroupName,
-    automationAccountName,
-    hybridRunbookWorkerGroupName,
-    hybridRunbookWorkerGroupUpdationParameters,
+  const result = await client.hybridRunbookWorkerGroup.update(
+    "rg",
+    "testaccount",
+    "TestHybridGroup",
+    { credential: { name: "myRunAsCredentialUpdatedName" } },
   );
   console.log(result);
 }

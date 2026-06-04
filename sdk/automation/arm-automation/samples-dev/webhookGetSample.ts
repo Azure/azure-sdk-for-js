@@ -1,29 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve the webhook identified by webhook name.
- *
- * @summary Retrieve the webhook identified by webhook name.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2015-10-31/examples/getWebhook.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieve the webhook identified by webhook name.
+ *
+ * @summary retrieve the webhook identified by webhook name.
+ * x-ms-original-file: 2024-10-23/getWebhook.json
+ */
 async function getWebhook(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "myAutomationAccount33";
-  const webhookName = "TestWebhook";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.webhookOperations.get(
-    resourceGroupName,
-    automationAccountName,
-    webhookName,
-  );
+  const result = await client.webhook.get("rg", "myAutomationAccount33", "TestWebhook");
   console.log(result);
 }
 

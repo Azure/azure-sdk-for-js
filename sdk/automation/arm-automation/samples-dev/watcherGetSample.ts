@@ -1,29 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve the watcher identified by watcher name.
- *
- * @summary Retrieve the watcher identified by watcher name.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/getWatcher.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieve the watcher identified by watcher name.
+ *
+ * @summary retrieve the watcher identified by watcher name.
+ * x-ms-original-file: 2024-10-23/getWatcher.json
+ */
 async function getWatcher(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "MyTestAutomationAccount";
-  const watcherName = "MyTestWatcher";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.watcherOperations.get(
-    resourceGroupName,
-    automationAccountName,
-    watcherName,
-  );
+  const result = await client.watcher.get("rg", "MyTestAutomationAccount", "MyTestWatcher");
   console.log(result);
 }
 

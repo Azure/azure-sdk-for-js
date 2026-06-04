@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete the variable.
- *
- * @summary Delete the variable.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/deleteVariable.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to delete the variable.
+ *
+ * @summary delete the variable.
+ * x-ms-original-file: 2024-10-23/deleteVariable.json
+ */
 async function deleteAVariable(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "sampleAccount9";
-  const variableName = "sampleVariable";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.variableOperations.delete(
-    resourceGroupName,
-    automationAccountName,
-    variableName,
-  );
-  console.log(result);
+  await client.variable.delete("rg", "sampleAccount9", "sampleVariable");
 }
 
 async function main(): Promise<void> {

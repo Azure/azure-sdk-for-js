@@ -1,35 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update the watcher identified by watcher name.
- *
- * @summary Update the watcher identified by watcher name.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/updateWatcher.json
- */
-
-import type { WatcherUpdateParameters } from "@azure/arm-automation";
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update the watcher identified by watcher name.
+ *
+ * @summary update the watcher identified by watcher name.
+ * x-ms-original-file: 2024-10-23/updateWatcher.json
+ */
 async function updateWatcher(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "MyTestAutomationAccount";
-  const watcherName = "MyTestWatcher";
-  const parameters: WatcherUpdateParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
+  const client = new AutomationClient(credential, subscriptionId);
+  const result = await client.watcher.update("rg", "MyTestAutomationAccount", "MyTestWatcher", {
     name: "MyTestWatcher",
     executionFrequencyInSeconds: 600,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.watcherOperations.update(
-    resourceGroupName,
-    automationAccountName,
-    watcherName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

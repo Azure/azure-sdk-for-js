@@ -1,29 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve the variable identified by variable name.
- *
- * @summary Retrieve the variable identified by variable name.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/getVariable.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieve the variable identified by variable name.
+ *
+ * @summary retrieve the variable identified by variable name.
+ * x-ms-original-file: 2024-10-23/getVariable.json
+ */
 async function getAVariable(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "sampleAccount9";
-  const variableName = "sampleVariable";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.variableOperations.get(
-    resourceGroupName,
-    automationAccountName,
-    variableName,
-  );
+  const result = await client.variable.get("rg", "sampleAccount9", "sampleVariable");
   console.log(result);
 }
 

@@ -1,34 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve the Dsc node configurations by node configuration.
- *
- * @summary Retrieve the Dsc node configurations by node configuration.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/getDscNodeConfiguration.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getADscNodeConfiguration(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "myAutomationAccount33";
-  const nodeConfigurationName = "SetupServer.localhost";
+/**
+ * This sample demonstrates how to retrieve the Dsc node configurations by node configuration.
+ *
+ * @summary retrieve the Dsc node configurations by node configuration.
+ * x-ms-original-file: 2024-10-23/getDscNodeConfiguration.json
+ */
+async function getADSCNodeConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.dscNodeConfigurationOperations.get(
-    resourceGroupName,
-    automationAccountName,
-    nodeConfigurationName,
+  const result = await client.dscNodeConfiguration.get(
+    "rg",
+    "myAutomationAccount33",
+    "SetupServer.localhost",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getADscNodeConfiguration();
+  await getADSCNodeConfiguration();
 }
 
 main().catch(console.error);

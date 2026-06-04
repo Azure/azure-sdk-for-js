@@ -1,34 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete the dsc node identified by node id.
- *
- * @summary Delete the dsc node identified by node id.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/deleteDscNode.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function deleteADscNode(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "myAutomationAccount9";
-  const nodeId = "e1243a76-a9bd-432f-bde3-ad8f317ee786";
+/**
+ * This sample demonstrates how to delete the dsc node identified by node id.
+ *
+ * @summary delete the dsc node identified by node id.
+ * x-ms-original-file: 2024-10-23/deleteDscNode.json
+ */
+async function deleteADSCNode(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.dscNodeOperations.delete(
-    resourceGroupName,
-    automationAccountName,
-    nodeId,
-  );
-  console.log(result);
+  await client.dscNode.delete("rg", "myAutomationAccount9", "e1243a76-a9bd-432f-bde3-ad8f317ee786");
 }
 
 async function main(): Promise<void> {
-  await deleteADscNode();
+  await deleteADSCNode();
 }
 
 main().catch(console.error);

@@ -1,28 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve the content of runbook draft identified by runbook name.
- *
- * @summary Retrieve the content of runbook draft identified by runbook name.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2018-06-30/examples/getRunbookDraftContent.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieve the content of runbook draft identified by runbook name.
+ *
+ * @summary retrieve the content of runbook draft identified by runbook name.
+ * x-ms-original-file: 2024-10-23/runbook/getRunbookDraftContent.json
+ */
 async function getRunbookDraftContent(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "ContoseAutomationAccount";
-  const runbookName = "Get-AzureVMTutorial";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.runbookDraftOperations.getContent(
-    resourceGroupName,
-    automationAccountName,
-    runbookName,
+  const result = await client.runbookDraft.getContent(
+    "rg",
+    "ContoseAutomationAccount",
+    "Get-AzureVMTutorial",
   );
   console.log(result);
 }

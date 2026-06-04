@@ -1,29 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve the test job for the specified runbook.
- *
- * @summary Retrieve the test job for the specified runbook.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2018-06-30/examples/getTestJob.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieve the test job for the specified runbook.
+ *
+ * @summary retrieve the test job for the specified runbook.
+ * x-ms-original-file: 2024-10-23/runbook/getTestJob.json
+ */
 async function getTestJob(): Promise<void> {
-  const subscriptionId =
-    process.env["AUTOMATION_SUBSCRIPTION_ID"] || "51766542-3ed7-4a72-a187-0c8ab644ddab";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "mygroup";
-  const automationAccountName = "ContoseAutomationAccount";
-  const runbookName = "Get-AzureVMTutorial";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "51766542-3ed7-4a72-a187-0c8ab644ddab";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.testJobOperations.get(
-    resourceGroupName,
-    automationAccountName,
-    runbookName,
+  const result = await client.testJob.get(
+    "mygroup",
+    "ContoseAutomationAccount",
+    "Get-AzureVMTutorial",
   );
   console.log(result);
 }

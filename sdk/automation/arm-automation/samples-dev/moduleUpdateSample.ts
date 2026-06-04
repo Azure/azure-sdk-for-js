@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update the module identified by module name.
- *
- * @summary Update the module identified by module name.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/updateModule.json
- */
-
-import type { ModuleUpdateParameters } from "@azure/arm-automation";
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update the module identified by module name.
+ *
+ * @summary update the module identified by module name.
+ * x-ms-original-file: 2024-10-23/updateModule.json
+ */
 async function updateAModule(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "MyAutomationAccount";
-  const moduleName = "MyModule";
-  const parameters: ModuleUpdateParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
+  const client = new AutomationClient(credential, subscriptionId);
+  const result = await client.module.update("rg", "MyAutomationAccount", "MyModule", {
     contentLink: {
       contentHash: {
         algorithm: "sha265",
@@ -27,15 +23,7 @@ async function updateAModule(): Promise<void> {
       uri: "https://teststorage.blob.core.windows.net/mycontainer/MyModule.zip",
       version: "1.0.0.0",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.moduleOperations.update(
-    resourceGroupName,
-    automationAccountName,
-    moduleName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

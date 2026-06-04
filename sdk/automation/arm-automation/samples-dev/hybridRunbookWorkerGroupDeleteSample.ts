@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete a hybrid runbook worker group.
- *
- * @summary Delete a hybrid runbook worker group.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-02-22/examples/deleteHybridRunbookWorkerGroup.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to delete a hybrid runbook worker group.
+ *
+ * @summary delete a hybrid runbook worker group.
+ * x-ms-original-file: 2024-10-23/deleteHybridRunbookWorkerGroup.json
+ */
 async function deleteAHybridWorkerGroup(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "myAutomationAccount20";
-  const hybridRunbookWorkerGroupName = "myGroup";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.hybridRunbookWorkerGroupOperations.delete(
-    resourceGroupName,
-    automationAccountName,
-    hybridRunbookWorkerGroupName,
-  );
-  console.log(result);
+  await client.hybridRunbookWorkerGroup.delete("rg", "myAutomationAccount20", "myGroup");
 }
 
 async function main(): Promise<void> {

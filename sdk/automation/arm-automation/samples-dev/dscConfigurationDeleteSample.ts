@@ -1,34 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete the dsc configuration identified by configuration name.
- *
- * @summary Delete the dsc configuration identified by configuration name.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/deleteDscConfiguration.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function deleteDscConfiguration(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "myAutomationAccount33";
-  const configurationName = "TemplateBasic";
+/**
+ * This sample demonstrates how to delete the dsc configuration identified by configuration name.
+ *
+ * @summary delete the dsc configuration identified by configuration name.
+ * x-ms-original-file: 2024-10-23/deleteDscConfiguration.json
+ */
+async function deleteDSCConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.dscConfigurationOperations.delete(
-    resourceGroupName,
-    automationAccountName,
-    configurationName,
-  );
-  console.log(result);
+  await client.dscConfiguration.delete("rg", "myAutomationAccount33", "TemplateBasic");
 }
 
 async function main(): Promise<void> {
-  await deleteDscConfiguration();
+  await deleteDSCConfiguration();
 }
 
 main().catch(console.error);
