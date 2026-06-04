@@ -238,6 +238,10 @@ if (result.error !== undefined) {
 - [Custom Single-lable Classfication](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/customSingleLabelClassification.ts)
 - [Custom Multi-lable Classfication](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/customMultiLabelClassification.ts)
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for JavaScript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 ### Logging

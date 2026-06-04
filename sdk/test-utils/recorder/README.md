@@ -413,6 +413,10 @@ Since new resources are likely to get accumulated because some tests would crash
 
 `@azure-tools/test-recorder` does support running tests in the browser. If you use vitest, as long as your vitest configuration is correct, your tests should work both on NodeJS and in the browsers!
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for JavaScript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 ### 🤖 The test recording agent

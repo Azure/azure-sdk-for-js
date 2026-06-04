@@ -382,6 +382,10 @@ console.log(text);
 See the [advanced sample][js_cu_sample_to_llm_input] for output options (fields-only,
 markdown-only, custom metadata), multi-page content ranges, and multi-segment video.
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for JavaScript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 ### Common issues

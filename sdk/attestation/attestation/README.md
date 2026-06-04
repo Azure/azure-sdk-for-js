@@ -396,6 +396,10 @@ const attestationSigners = await client.getAttestationSigners();
 console.log(`There are ${attestationSigners.length} signers`);
 ```
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for JavaScript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 Most Attestation service operations will raise exceptions defined in [Azure Core](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/README.md). The attestation service APIs will throw a `RestError` on failure with helpful error codes. Many of these errors are recoverable.

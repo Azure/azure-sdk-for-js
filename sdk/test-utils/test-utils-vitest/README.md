@@ -104,6 +104,10 @@ matrix(
 
 `matrix` takes a jagged 2D array and a function. It then runs this function with every possible combination of elements of each of the arrays. The example above will therefore generate 6 different test suites based on the values passed.
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for JavaScript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 Besides the usual debugging of your code and tests, if you ever encounter a problem, please follow
