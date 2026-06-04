@@ -21,6 +21,9 @@ tools:
 safe-outputs:
   create-issue:
     labels: [test-reliability]
+  add-comment:
+    max: 1
+    target: "*"
 network:
   allowed:
     - defaults
@@ -42,31 +45,34 @@ failure.
   **not** real tests — ignore failures in those files.
 - Do **not** follow `details_url` links on check runs — they point to Azure DevOps
   which is not accessible from this environment.
-- Do **not** create pull requests or modify source files. The only mutable outputs
-  of this workflow are GitHub issues managed by the workflow; when no new
-  failures exist the workflow exits silently with no issue created.
+- Do **not** create pull requests or modify source files. The only mutable output
+  of this workflow is a GitHub issue; when no new failures exist the workflow
+  exits silently with no issue created.
 
 ## Known Pre-existing Failures
 
 Some CI test failures are caused by infrastructure or service-side issues that are
 already tracked. Before filing a new issue, check the **known failures tracking
 issue** (https://github.com/Azure/azure-sdk-for-js/issues/37864) for pre-existing
-failures. When this workflow creates a new issue, the workflow appends a compact
-summary of that issue back into the tracking issue so future runs can detect it.
+failures.
 
 1. Fetch the body of issue #37864 using the GitHub API.
-2. For each failing check run identified later in "Step 1 — Identify Failing
+2. Fetch the **comments** on issue #37864 using the GitHub API
+   (`GET /repos/{owner}/{repo}/issues/37864/comments`). Previous workflow runs
+   append tracking summaries as comments to this issue; these comments also count
+   as known pre-existing failures.
+3. For each failing check run identified later in "Step 1 — Identify Failing
    Packages", check whether the **service directory** (from the check-run name,
    e.g. `attestation` in `js - attestation (Build UnitTest ...)`) or the **npm
    package name** (from annotations/file paths) and the **error pattern** match an
-   entry in the known failures list.
-3. If a failure matches a known pre-existing issue:
+   entry in the known failures list (body **or** comments).
+4. If a failure matches a known pre-existing issue:
    - **Exclude** it from the new GitHub issue entirely.
    - Do **not** attempt to reproduce or root-cause it — it is already tracked.
-4. If **all** detected failures are known pre-existing issues, **stop immediately** —
+5. If **all** detected failures are known pre-existing issues, **stop immediately** —
    do **not** create a GitHub issue. Simply report that all failures are known and
    already tracked.
-5. If some failures are new and some are known, create the issue for **new failures
+6. If some failures are new and some are known, create the issue for **new failures
    only**. Add a brief note in the "Additional Notes" section listing which known
    failures were excluded and linking to their tracking issues.
 
@@ -203,6 +209,17 @@ multiple failures, or packages where CI failed but tests pass locally.>
 ```
 
 Labels are applied automatically via the `safe-outputs.create-issue` configuration.
-After the issue is created, the workflow updates issue #37864 with a compact
-tracking entry that includes the linked issue, affected package/service names,
-and representative error patterns.
+
+## Step 6 — Record Created Issue in Tracking Log
+
+After creating the GitHub issue, add a comment to the **known failures tracking
+issue** (#37864) so that future runs can detect this issue and avoid filing a
+duplicate. Use `add_comment` on issue #37864 with the following format:
+
+```
+<!-- workflow-created-issue -->
+**Service(s)/Package(s):** <affected service directories or npm package names, comma-separated>
+**Error patterns:** <brief description of the error types seen, e.g. `TypeError: cannot read ...`, `AssertionError`>
+**Issue title:** <exact title of the issue just created>
+**Date:** <today's date in YYYY-MM-DD format>
+```
