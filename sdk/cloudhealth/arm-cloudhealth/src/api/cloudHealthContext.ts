@@ -43,7 +43,7 @@ export function createCloudHealth(
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://management.azure.com/.default"],
+      scopes: options.credentials?.scopes ?? [`${endpointUrl.replace(/\/$/, "")}/.default`],
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
