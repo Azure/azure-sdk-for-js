@@ -21,7 +21,7 @@ Write-Host "Repo root: $RepoRoot"
 $EngCommonScriptsPath = Join-Path (Resolve-Path "${PSScriptRoot}/..") "common" "scripts"
 . (Join-Path $EngCommonScriptsPath common.ps1)
 
-$ghIssues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -CreatedBy "azure-sdk" -Labels "dependency-upgrade-required" -AuthToken $AuthToken
+$ghIssues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -CreatedBy "azure-sdk" -State "all" -Labels "dependency-upgrade-required" -AuthToken $AuthToken
 # Check and return if an issue already exists to upgrade the package
 function Get-GithubIssue($IssueTitle) {
   foreach ($issue in $ghIssues) {
@@ -52,15 +52,35 @@ function Set-GitHubIssue($Package) {
 
   $issue = Get-GithubIssue -IssueTitle $issueTitle
   if ($issue) {
-    if ($issue.body -ne $issueDesc) {
+    $shouldUpdateBody = $issue.body -ne $issueDesc
+    $shouldReopen = $issue.state -eq "closed"
+
+    if ($shouldUpdateBody -or $shouldReopen) {
       # Copy over current labels to avoid removing manually tagged labels
       foreach($lbl in $issue.labels)
       {
         $labels += ",$($lbl.name)"
       }
+
+      $updateIssueParameters = @{
+        RepoOwner = $RepoOwner
+        RepoName = $RepoName
+        AuthToken = $AuthToken
+        IssueNumber = $issue.number
+        Labels = $labels
+      }
+
+      if ($shouldUpdateBody) {
+        $updateIssueParameters["Body"] = $issueDesc
+      }
+
+      if ($shouldReopen) {
+        $updateIssueParameters["State"] = "open"
+      }
+
       Write-Host "Updating existing issue  $($issue.number). Labels: $($labels)"
-      $oldIssue = Update-GitHubIssue -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -IssueNumber $issue.number -Body $issueDesc -Labels $labels
-      Write-Host "Updated existing issue $($oldIssue.number)"
+      $updatedIssue = Update-GitHubIssue @updateIssueParameters
+      Write-Host "Updated existing issue $($updatedIssue.number)"
     }
     else {
       Write-Host "Found existing issue for package $($Package.Name)"

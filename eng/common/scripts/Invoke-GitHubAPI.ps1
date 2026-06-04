@@ -209,6 +209,8 @@ function Get-GitHubIssues {
     [Parameter(Mandatory = $true)]
     $RepoName,
     $CreatedBy,
+    [ValidateSet("open","closed","all")]
+    [string]$State = "open",
     [Parameter(Mandatory = $true)]
     $Labels,
     [ValidateNotNullOrEmpty()]
@@ -216,7 +218,7 @@ function Get-GitHubIssues {
     $AuthToken
   )
 
-  $uri = "$GithubAPIBaseURI/$RepoOwner/$RepoName/issues?labels=$Labels&per_page=100"
+  $uri = "$GithubAPIBaseURI/$RepoOwner/$RepoName/issues?labels=$Labels&state=$State&per_page=100"
 
   if ($CreatedBy) {
     $uri += "&creator=$CreatedBy"
