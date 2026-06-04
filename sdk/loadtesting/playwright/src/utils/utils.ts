@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccessTokenClaims, VersionInfo, JwtPayload, RunConfig } from "../common/types.js";
+import type {
+  AccessTokenClaims,
+  BrowserSessionSourceTypeValue,
+  VersionInfo,
+  JwtPayload,
+  RunConfig,
+} from "../common/types.js";
 import {
   Constants,
   InternalEnvironmentVariables,
@@ -129,8 +135,13 @@ export const getAndSetRunId = (): string => {
   return runId;
 };
 
-export const getServiceWSEndpoint = (runId: string, os: string, apiVersion: string): string => {
-  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&os=${os}&sourceType=${BrowserSessionSourceType.PLAYWRIGHT_WORKSPACES_TEST_RUN}&api-version=${apiVersion}`;
+export const getServiceWSEndpoint = (
+  runId: string,
+  os: string,
+  apiVersion: string,
+  sourceType: BrowserSessionSourceTypeValue = BrowserSessionSourceType.PLAYWRIGHT_WORKSPACES_TEST_RUN,
+): string => {
+  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&os=${os}&sourceType=${encodeURIComponent(sourceType)}&api-version=${apiVersion}`;
 };
 
 export const validateServiceUrl = (): void => {

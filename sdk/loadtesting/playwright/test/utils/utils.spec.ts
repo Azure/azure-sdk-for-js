@@ -186,6 +186,33 @@ describe("Service Utils", () => {
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
   });
 
+  it("should use the provided sourceType when specified", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
+    const runId = "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6";
+    const escapeRunId = encodeURIComponent(runId);
+    const os = "linux";
+    const sourceType = "Others";
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&sourceType=${sourceType}&api-version=${Constants.LatestAPIVersion}`;
+    expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion, sourceType)).to.equal(
+      expected,
+    );
+
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
+  });
+
+  it("should default sourceType to PlaywrightWorkspacesTestRun when omitted", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
+    const runId = "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6";
+    const escapeRunId = encodeURIComponent(runId);
+    const os = "linux";
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`;
+    expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
+
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
+  });
+
   it("should exit with error message if service url is not set", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] = "";
     const exitStub = vi.mocked(process.exit).mockImplementation(() => {
