@@ -1,25 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a list of workflows associated with the specified subscription.
- *
- * @summary Gets a list of workflows associated with the specified subscription.
- * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_List.json
- */
-
 import { DeveloperHubServiceClient } from "@azure/arm-devhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets a list of workflows associated with the specified subscription.
+ *
+ * @summary gets a list of workflows associated with the specified subscription.
+ * x-ms-original-file: 2025-03-01-preview/Workflow_List.json
+ */
 async function listWorkflows(): Promise<void> {
-  const subscriptionId = process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeveloperHubServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.workflowOperations.list()) {
+  for await (const item of client.workflow.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

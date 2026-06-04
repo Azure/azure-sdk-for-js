@@ -1,32 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates tags on a workflow.
- *
- * @summary Updates tags on a workflow.
- * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_UpdateTags.json
- */
-
-import type { TagsObject } from "@azure/arm-devhub";
 import { DeveloperHubServiceClient } from "@azure/arm-devhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates tags on a workflow.
+ *
+ * @summary updates tags on a workflow.
+ * x-ms-original-file: 2025-03-01-preview/Workflow_UpdateTags.json
+ */
 async function updateManagedClusterTags(): Promise<void> {
-  const subscriptionId = process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
-  const resourceGroupName = process.env["DEVHUB_RESOURCE_GROUP"] || "resourceGroup1";
-  const workflowName = "workflow1";
-  const parameters: TagsObject = {
-    tags: { promote: "false", resourceEnv: "testing" },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeveloperHubServiceClient(credential, subscriptionId);
-  const result = await client.workflowOperations.updateTags(
-    resourceGroupName,
-    workflowName,
-    parameters,
-  );
+  const result = await client.workflow.updateTags("resourceGroup1", "workflow1", {
+    tags: { promote: "false", resourceEnv: "testing" },
+  });
   console.log(result);
 }
 

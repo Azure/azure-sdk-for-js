@@ -1,5 +1,16 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/versionedTemplate": "./src/api/versionedTemplate/index.ts"
+  "./api/template": "./src/api/template/index.ts"
+  "./api/adooAuth": "./src/api/adooAuth/index.ts"
+  "./api/workflow": "./src/api/workflow/index.ts"
+  "./api/iacProfiles": "./src/api/iacProfiles/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
