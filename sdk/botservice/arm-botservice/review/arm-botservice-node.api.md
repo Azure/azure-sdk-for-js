@@ -4,11 +4,19 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export type AccessMode = string;
 
 // @public
 export interface AcsChatChannel extends Channel {
@@ -30,124 +38,104 @@ export interface AlexaChannelProperties {
 }
 
 // @public (undocumented)
-export class AzureBotService extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureBotServiceOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    botConnection: BotConnection;
-    // (undocumented)
-    bots: Bots;
-    // (undocumented)
-    channels: Channels;
-    // (undocumented)
-    directLine: DirectLine;
-    // (undocumented)
-    email: Email;
-    // (undocumented)
-    hostSettings: HostSettings;
-    // (undocumented)
-    operationResults: OperationResults;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
-    // (undocumented)
-    privateLinkResources: PrivateLinkResources;
-    // (undocumented)
-    qnAMakerEndpointKeys: QnAMakerEndpointKeys;
-    // (undocumented)
-    subscriptionId: string;
+export class AzureBotService {
+    constructor(credential: TokenCredential, options?: AzureBotServiceOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: AzureBotServiceOptionalParams);
+    readonly botConnection: BotConnectionOperations;
+    readonly bots: BotsOperations;
+    readonly channels: ChannelsOperations;
+    readonly directLine: DirectLineOperations;
+    readonly email: EmailOperations;
+    readonly hostSettings: HostSettingsOperations;
+    readonly networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurationsOperations;
+    readonly operationResults: OperationResultsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
+    readonly qnAMakerEndpointKeys: QnAMakerEndpointKeysOperations;
 }
 
 // @public
-export interface AzureBotServiceOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface AzureBotServiceOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface Bot extends Resource {
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export interface Bot extends ProxyResource {
+    etag?: string;
+    kind?: Kind;
+    location?: string;
     properties?: BotProperties;
+    sku?: Sku;
+    tags?: Record<string, string>;
+    readonly zones?: string[];
 }
 
 // @public
-export interface BotChannel extends Resource {
+export interface BotChannel extends ProxyResource {
+    etag?: string;
+    kind?: Kind;
+    location?: string;
     properties?: ChannelUnion;
+    sku?: Sku;
+    tags?: Record<string, string>;
+    readonly zones?: string[];
 }
 
 // @public
-export interface BotConnection {
-    create(resourceGroupName: string, resourceName: string, connectionName: string, parameters: ConnectionSetting, options?: BotConnectionCreateOptionalParams): Promise<BotConnectionCreateResponse>;
-    delete(resourceGroupName: string, resourceName: string, connectionName: string, options?: BotConnectionDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, connectionName: string, options?: BotConnectionGetOptionalParams): Promise<BotConnectionGetResponse>;
-    listByBotService(resourceGroupName: string, resourceName: string, options?: BotConnectionListByBotServiceOptionalParams): PagedAsyncIterableIterator<ConnectionSetting>;
-    listServiceProviders(options?: BotConnectionListServiceProvidersOptionalParams): Promise<BotConnectionListServiceProvidersResponse>;
-    listWithSecrets(resourceGroupName: string, resourceName: string, connectionName: string, options?: BotConnectionListWithSecretsOptionalParams): Promise<BotConnectionListWithSecretsResponse>;
-    update(resourceGroupName: string, resourceName: string, connectionName: string, parameters: ConnectionSetting, options?: BotConnectionUpdateOptionalParams): Promise<BotConnectionUpdateResponse>;
+export interface BotConnectionCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BotConnectionCreateOptionalParams extends coreClient.OperationOptions {
+export interface BotConnectionDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BotConnectionCreateResponse = ConnectionSetting;
-
-// @public
-export interface BotConnectionDeleteOptionalParams extends coreClient.OperationOptions {
+export interface BotConnectionGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BotConnectionGetOptionalParams extends coreClient.OperationOptions {
+export interface BotConnectionListByBotServiceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BotConnectionGetResponse = ConnectionSetting;
-
-// @public
-export interface BotConnectionListByBotServiceNextOptionalParams extends coreClient.OperationOptions {
+export interface BotConnectionListServiceProvidersOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BotConnectionListByBotServiceNextResponse = ConnectionSettingResponseList;
-
-// @public
-export interface BotConnectionListByBotServiceOptionalParams extends coreClient.OperationOptions {
+export interface BotConnectionListWithSecretsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BotConnectionListByBotServiceResponse = ConnectionSettingResponseList;
-
-// @public
-export interface BotConnectionListServiceProvidersOptionalParams extends coreClient.OperationOptions {
+export interface BotConnectionOperations {
+    create: (resourceGroupName: string, resourceName: string, connectionName: string, parameters: ConnectionSetting, options?: BotConnectionCreateOptionalParams) => Promise<ConnectionSetting>;
+    delete: (resourceGroupName: string, resourceName: string, connectionName: string, options?: BotConnectionDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, resourceName: string, connectionName: string, options?: BotConnectionGetOptionalParams) => Promise<ConnectionSetting>;
+    listByBotService: (resourceGroupName: string, resourceName: string, options?: BotConnectionListByBotServiceOptionalParams) => PagedAsyncIterableIterator<ConnectionSetting>;
+    listServiceProviders: (options?: BotConnectionListServiceProvidersOptionalParams) => Promise<ServiceProviderResponseList>;
+    listWithSecrets: (resourceGroupName: string, resourceName: string, connectionName: string, options?: BotConnectionListWithSecretsOptionalParams) => Promise<ConnectionSetting>;
+    update: (resourceGroupName: string, resourceName: string, connectionName: string, parameters: ConnectionSetting, options?: BotConnectionUpdateOptionalParams) => Promise<ConnectionSetting>;
 }
 
 // @public
-export type BotConnectionListServiceProvidersResponse = ServiceProviderResponseList;
-
-// @public
-export interface BotConnectionListWithSecretsOptionalParams extends coreClient.OperationOptions {
+export interface BotConnectionUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type BotConnectionListWithSecretsResponse = ConnectionSetting;
-
-// @public
-export interface BotConnectionUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BotConnectionUpdateResponse = ConnectionSetting;
 
 // @public
 export interface BotProperties {
-    allSettings?: {
-        [propertyName: string]: string;
-    };
+    allSettings?: Record<string, string>;
     appPasswordHint?: string;
     readonly cmekEncryptionStatus?: string;
     cmekKeyVaultUrl?: string;
@@ -173,10 +161,9 @@ export interface BotProperties {
     msaAppMSIResourceId?: string;
     msaAppTenantId?: string;
     msaAppType?: MsaAppType;
+    readonly networkSecurityPerimeterConfigurations?: NetworkSecurityPerimeterConfiguration[];
     openWithHint?: string;
-    parameters?: {
-        [propertyName: string]: string;
-    };
+    parameters?: Record<string, string>;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -187,93 +174,47 @@ export interface BotProperties {
 }
 
 // @public
-export interface BotResponseList {
-    nextLink?: string;
-    readonly value?: Bot[];
+export interface BotsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Bots {
-    create(resourceGroupName: string, resourceName: string, parameters: Bot, options?: BotsCreateOptionalParams): Promise<BotsCreateResponse>;
-    delete(resourceGroupName: string, resourceName: string, options?: BotsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, options?: BotsGetOptionalParams): Promise<BotsGetResponse>;
-    getCheckNameAvailability(parameters: CheckNameAvailabilityRequestBody, options?: BotsGetCheckNameAvailabilityOptionalParams): Promise<BotsGetCheckNameAvailabilityResponse>;
-    list(options?: BotsListOptionalParams): PagedAsyncIterableIterator<Bot>;
-    listByResourceGroup(resourceGroupName: string, options?: BotsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Bot>;
-    update(resourceGroupName: string, resourceName: string, options?: BotsUpdateOptionalParams): Promise<BotsUpdateResponse>;
+export interface BotsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BotsCreateOptionalParams extends coreClient.OperationOptions {
+export interface BotsGetCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BotsCreateResponse = Bot;
-
-// @public
-export interface BotsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface BotsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BotsGetCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface BotsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BotsGetCheckNameAvailabilityResponse = CheckNameAvailabilityResponseBody;
-
-// @public
-export interface BotsGetOptionalParams extends coreClient.OperationOptions {
+export interface BotsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BotsGetResponse = Bot;
-
-// @public
-export interface BotsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface BotsOperations {
+    create: (resourceGroupName: string, resourceName: string, parameters: Bot, options?: BotsCreateOptionalParams) => Promise<Bot>;
+    delete: (resourceGroupName: string, resourceName: string, options?: BotsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, resourceName: string, options?: BotsGetOptionalParams) => Promise<Bot>;
+    getCheckNameAvailability: (parameters: CheckNameAvailabilityRequestBody, options?: BotsGetCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResponseBody>;
+    list: (options?: BotsListOptionalParams) => PagedAsyncIterableIterator<Bot>;
+    listByResourceGroup: (resourceGroupName: string, options?: BotsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Bot>;
+    update: (resourceGroupName: string, resourceName: string, parameters: Bot, options?: BotsUpdateOptionalParams) => Promise<Bot>;
 }
 
 // @public
-export type BotsListByResourceGroupNextResponse = BotResponseList;
-
-// @public
-export interface BotsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface BotsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type BotsListByResourceGroupResponse = BotResponseList;
-
-// @public
-export interface BotsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BotsListNextResponse = BotResponseList;
-
-// @public
-export interface BotsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BotsListResponse = BotResponseList;
-
-// @public
-export interface BotsUpdateOptionalParams extends coreClient.OperationOptions {
-    etag?: string;
-    kind?: Kind;
-    location?: string;
-    properties?: BotProperties;
-    sku?: Sku;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export type BotsUpdateResponse = Bot;
 
 // @public
 export interface Channel {
-    channelName: "AlexaChannel" | "FacebookChannel" | "EmailChannel" | "OutlookChannel" | "MsTeamsChannel" | "SkypeChannel" | "KikChannel" | "WebChatChannel" | "DirectLineChannel" | "TelegramChannel" | "SmsChannel" | "SlackChannel" | "LineChannel" | "DirectLineSpeechChannel" | "Omnichannel" | "TelephonyChannel" | "AcsChatChannel" | "SearchAssistant" | "M365Extensions";
+    channelName: string;
     etag?: string;
     location?: string;
     readonly provisioningState?: string;
@@ -283,30 +224,11 @@ export interface Channel {
 export type ChannelName = "AlexaChannel" | "FacebookChannel" | "EmailChannel" | "KikChannel" | "TelegramChannel" | "SlackChannel" | "MsTeamsChannel" | "SkypeChannel" | "WebChatChannel" | "DirectLineChannel" | "SmsChannel" | "LineChannel" | "DirectLineSpeechChannel" | "OutlookChannel" | "Omnichannel" | "TelephonyChannel" | "AcsChatChannel" | "SearchAssistant" | "M365Extensions";
 
 // @public
-export interface ChannelResponseList {
-    nextLink?: string;
-    readonly value?: BotChannel[];
+export interface ChannelsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Channels {
-    create(resourceGroupName: string, resourceName: string, channelName: ChannelName, parameters: BotChannel, options?: ChannelsCreateOptionalParams): Promise<ChannelsCreateResponse>;
-    delete(resourceGroupName: string, resourceName: string, channelName: string, options?: ChannelsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, channelName: string, options?: ChannelsGetOptionalParams): Promise<ChannelsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, resourceName: string, options?: ChannelsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<BotChannel>;
-    listWithKeys(resourceGroupName: string, resourceName: string, channelName: ChannelName, options?: ChannelsListWithKeysOptionalParams): Promise<ChannelsListWithKeysResponse>;
-    update(resourceGroupName: string, resourceName: string, channelName: ChannelName, options?: ChannelsUpdateOptionalParams): Promise<ChannelsUpdateResponse>;
-}
-
-// @public
-export interface ChannelsCreateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ChannelsCreateResponse = BotChannel;
-
-// @public
-export interface ChannelsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ChannelsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -324,50 +246,33 @@ export interface ChannelSettings {
 }
 
 // @public
-export interface ChannelsGetOptionalParams extends coreClient.OperationOptions {
+export interface ChannelsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ChannelsGetResponse = BotChannel;
-
-// @public
-export interface ChannelsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ChannelsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ChannelsListByResourceGroupNextResponse = ChannelResponseList;
-
-// @public
-export interface ChannelsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ChannelsListWithKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ChannelsListByResourceGroupResponse = ChannelResponseList;
-
-// @public
-export interface ChannelsListWithKeysOptionalParams extends coreClient.OperationOptions {
+export interface ChannelsOperations {
+    create: (resourceGroupName: string, resourceName: string, channelName: ChannelName, parameters: BotChannel, options?: ChannelsCreateOptionalParams) => Promise<BotChannel>;
+    delete: (resourceGroupName: string, resourceName: string, channelName: string, options?: ChannelsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, resourceName: string, channelName: string, options?: ChannelsGetOptionalParams) => Promise<BotChannel>;
+    listByResourceGroup: (resourceGroupName: string, resourceName: string, options?: ChannelsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<BotChannel>;
+    listWithKeys: (resourceGroupName: string, resourceName: string, channelName: ChannelName, options?: ChannelsListWithKeysOptionalParams) => Promise<ListChannelWithKeysResponse>;
+    update: (resourceGroupName: string, resourceName: string, channelName: ChannelName, parameters: BotChannel, options?: ChannelsUpdateOptionalParams) => Promise<BotChannel>;
 }
 
 // @public
-export type ChannelsListWithKeysResponse = ListChannelWithKeysResponse;
-
-// @public
-export interface ChannelsUpdateOptionalParams extends coreClient.OperationOptions {
-    etag?: string;
-    kind?: Kind;
-    location?: string;
-    properties?: ChannelUnion;
-    sku?: Sku;
-    tags?: {
-        [propertyName: string]: string;
-    };
+export interface ChannelsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ChannelsUpdateResponse = BotChannel;
-
-// @public (undocumented)
-export type ChannelUnion = Channel | AlexaChannel | FacebookChannel | EmailChannel | OutlookChannel | MsTeamsChannel | SkypeChannel | KikChannel | WebChatChannel | DirectLineChannel | TelegramChannel | SmsChannel | SlackChannel | LineChannel | DirectLineSpeechChannel | Omnichannel | TelephonyChannel | AcsChatChannel | SearchAssistant | M365Extensions;
+export type ChannelUnion = AlexaChannel | FacebookChannel | EmailChannel | OutlookChannel | MsTeamsChannel | SkypeChannel | KikChannel | WebChatChannel | DirectLineChannel | TelegramChannel | SmsChannel | SlackChannel | LineChannel | DirectLineSpeechChannel | Omnichannel | TelephonyChannel | AcsChatChannel | SearchAssistant | M365Extensions | Channel;
 
 // @public
 export interface CheckNameAvailabilityRequestBody {
@@ -383,13 +288,14 @@ export interface CheckNameAvailabilityResponseBody {
 }
 
 // @public
-export interface ConnectionItemName {
-    readonly name?: string;
-}
-
-// @public
-export interface ConnectionSetting extends Resource {
+export interface ConnectionSetting extends ProxyResource {
+    etag?: string;
+    kind?: Kind;
+    location?: string;
     properties?: ConnectionSettingProperties;
+    sku?: Sku;
+    tags?: Record<string, string>;
+    readonly zones?: string[];
 }
 
 // @public
@@ -402,6 +308,8 @@ export interface ConnectionSettingParameter {
 export interface ConnectionSettingProperties {
     clientId?: string;
     clientSecret?: string;
+    id?: string;
+    name?: string;
     parameters?: ConnectionSettingParameter[];
     provisioningState?: string;
     scopes?: string;
@@ -411,10 +319,12 @@ export interface ConnectionSettingProperties {
 }
 
 // @public
-export interface ConnectionSettingResponseList {
-    nextLink?: string;
-    readonly value?: ConnectionSetting[];
-}
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface CreateEmailSignInUrlResponse {
@@ -426,11 +336,6 @@ export interface CreateEmailSignInUrlResponse {
 // @public
 export interface CreateEmailSignInUrlResponseProperties {
     url?: string;
-}
-
-// @public
-export interface DirectLine {
-    regenerateKeys(resourceGroupName: string, resourceName: string, channelName: RegenerateKeysChannelName, parameters: SiteInfo, options?: DirectLineRegenerateKeysOptionalParams): Promise<DirectLineRegenerateKeysResponse>;
 }
 
 // @public
@@ -448,11 +353,13 @@ export interface DirectLineChannelProperties {
 }
 
 // @public
-export interface DirectLineRegenerateKeysOptionalParams extends coreClient.OperationOptions {
+export interface DirectLineOperations {
+    regenerateKeys: (resourceGroupName: string, resourceName: string, channelName: RegenerateKeysChannelName, parameters: SiteInfo, options?: DirectLineRegenerateKeysOptionalParams) => Promise<BotChannel>;
 }
 
 // @public
-export type DirectLineRegenerateKeysResponse = BotChannel;
+export interface DirectLineRegenerateKeysOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface DirectLineSite extends Site {
@@ -476,11 +383,6 @@ export interface DirectLineSpeechChannelProperties {
 }
 
 // @public
-export interface Email {
-    createSignInUrl(resourceGroupName: string, resourceName: string, options?: EmailCreateSignInUrlOptionalParams): Promise<EmailCreateSignInUrlResponse>;
-}
-
-// @public
 export interface EmailChannel extends Channel {
     channelName: "EmailChannel";
     properties?: EmailChannelProperties;
@@ -499,11 +401,19 @@ export interface EmailChannelProperties {
 }
 
 // @public
-export interface EmailCreateSignInUrlOptionalParams extends coreClient.OperationOptions {
+export interface EmailCreateSignInUrlOptionalParams extends OperationOptions {
 }
 
 // @public
-export type EmailCreateSignInUrlResponse = CreateEmailSignInUrlResponse;
+export interface EmailOperations {
+    createSignInUrl: (resourceGroupName: string, resourceName: string, options?: EmailCreateSignInUrlOptionalParams) => Promise<CreateEmailSignInUrlResponse>;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
 
 // @public
 export interface ErrorBody {
@@ -512,8 +422,22 @@ export interface ErrorBody {
 }
 
 // @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
 export interface ErrorModel {
     error?: ErrorBody;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -539,19 +463,13 @@ export interface FacebookPage {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export interface HostSettings {
-    get(options?: HostSettingsGetOptionalParams): Promise<HostSettingsGetResponse>;
+export interface HostSettingsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface HostSettingsGetOptionalParams extends coreClient.OperationOptions {
+export interface HostSettingsOperations {
+    get: (options?: HostSettingsGetOptionalParams) => Promise<HostSettingsResponse>;
 }
-
-// @public
-export type HostSettingsGetResponse = HostSettingsResponse;
 
 // @public
 export interface HostSettingsResponse {
@@ -564,6 +482,8 @@ export interface HostSettingsResponse {
     toChannelFromBotOAuthScope?: string;
     validateAuthority?: boolean;
 }
+
+export { isRestError }
 
 // @public
 export type Key = "key1" | "key2";
@@ -586,6 +506,21 @@ export interface KikChannelProperties {
 export type Kind = string;
 
 // @public
+export enum KnownAccessMode {
+    Audit = "Audit",
+    Enforced = "Enforced",
+    Learning = "Learning"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownKind {
     Azurebot = "azurebot",
     Bot = "bot",
@@ -599,6 +534,12 @@ export enum KnownMsaAppType {
     MultiTenant = "MultiTenant",
     SingleTenant = "SingleTenant",
     UserAssignedMSI = "UserAssignedMSI"
+}
+
+// @public
+export enum KnownNspAccessRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
 }
 
 // @public
@@ -626,9 +567,26 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 }
 
 // @public
+export enum KnownProvisioningState {
+    Accepted = "Accepted",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    SecuredByPerimeter = "SecuredByPerimeter"
+}
+
+// @public
+export enum KnownSeverity {
+    Error = "Error",
+    Warning = "Warning"
 }
 
 // @public
@@ -641,6 +599,11 @@ export enum KnownSkuName {
 export enum KnownSkuTier {
     Free = "Free",
     Standard = "Standard"
+}
+
+// @public
+export enum KnownVersions {
+    V20230915Preview = "2023-09-15-preview"
 }
 
 // @public
@@ -697,6 +660,73 @@ export interface MsTeamsChannelProperties {
 }
 
 // @public
+export interface NetworkSecurityPerimeter {
+    readonly id?: string;
+    location?: string;
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+    properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationProperties {
+    readonly networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    readonly profile?: Profile;
+    provisioningIssues?: ProvisioningIssue[];
+    // (undocumented)
+    provisioningState?: ProvisioningState;
+    readonly resourceAssociation?: ResourceAssociation;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsOperations {
+    get: (resourceGroupName: string, resourceName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
+    list: (resourceGroupName: string, resourceName: string, options?: NetworkSecurityPerimeterConfigurationsListOptionalParams) => PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+    reconcile: (resourceGroupName: string, resourceName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams) => PollerLike<OperationState<NetworkSecurityPerimeterConfiguration>, NetworkSecurityPerimeterConfiguration>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NspAccessRule {
+    name?: string;
+    readonly properties?: NspAccessRuleProperties;
+}
+
+// @public
+export type NspAccessRuleDirection = string;
+
+// @public
+export interface NspAccessRuleProperties {
+    addressPrefixes?: string[];
+    direction?: NspAccessRuleDirection;
+    readonly emailAddresses?: string[];
+    readonly fullyQualifiedDomainNames?: string[];
+    readonly networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    readonly phoneNumbers?: string[];
+    subscriptions?: NspAccessRulePropertiesSubscriptionsItem[];
+}
+
+// @public
+export interface NspAccessRulePropertiesSubscriptionsItem {
+    id?: string;
+}
+
+// @public
 export interface Omnichannel extends Channel {
     channelName: "Omnichannel";
 }
@@ -714,19 +744,7 @@ export interface OperationEntity {
     display?: OperationDisplayInfo;
     name?: string;
     origin?: string;
-    properties?: Record<string, unknown>;
-}
-
-// @public
-export interface OperationEntityListResult {
-    nextLink?: string;
-    value?: OperationEntity[];
-}
-
-// @public
-export interface OperationResults {
-    beginGet(operationResultId: string, options?: OperationResultsGetOptionalParams): Promise<PollerLike<PollOperationState<OperationResultsGetResponse>, OperationResultsGetResponse>>;
-    beginGetAndWait(operationResultId: string, options?: OperationResultsGetOptionalParams): Promise<OperationResultsGetResponse>;
+    properties?: any;
 }
 
 // @public
@@ -738,39 +756,42 @@ export interface OperationResultsDescription {
 }
 
 // @public
-export interface OperationResultsGetOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface OperationResultsGetOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type OperationResultsGetResponse = OperationResultsDescription;
+export interface OperationResultsOperations {
+    get: (operationResultId: string, options?: OperationResultsGetOptionalParams) => PollerLike<OperationState<OperationResultsDescription>, OperationResultsDescription>;
+}
 
 // @public
 export type OperationResultStatus = string;
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationEntity>;
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationEntity>;
 }
-
-// @public
-export type OperationsListNextResponse = OperationEntityListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationEntityListResult;
 
 // @public
 export interface OutlookChannel extends Channel {
     channelName: "OutlookChannel";
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
@@ -779,7 +800,7 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnection extends PrivateLinkResourceBase {
+export interface PrivateEndpointConnection extends ProxyResource {
     groupIds?: string[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
@@ -787,45 +808,39 @@ export interface PrivateEndpointConnection extends PrivateLinkResourceBase {
 }
 
 // @public
-export interface PrivateEndpointConnectionListResult {
-    value?: PrivateEndpointConnection[];
+export interface PrivateEndpointConnectionProperties {
+    groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
 export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
-export interface PrivateEndpointConnections {
-    create(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<PrivateEndpointConnectionsCreateResponse>;
-    delete(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+export interface PrivateEndpointConnectionsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnectionsCreateOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsOperations {
+    create: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams) => Promise<PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    list: (resourceGroupName: string, resourceName: string, options?: PrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
-
-// @public
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
 
 // @public
 export type PrivateEndpointServiceConnectionStatus = string;
@@ -850,16 +865,20 @@ export interface PrivateLinkResourceListResult {
 }
 
 // @public
-export interface PrivateLinkResources {
-    listByBotResource(resourceGroupName: string, resourceName: string, options?: PrivateLinkResourcesListByBotResourceOptionalParams): Promise<PrivateLinkResourcesListByBotResourceResponse>;
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
-export interface PrivateLinkResourcesListByBotResourceOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesListByBotResourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateLinkResourcesListByBotResourceResponse = PrivateLinkResourceListResult;
+export interface PrivateLinkResourcesOperations {
+    listByBotResource: (resourceGroupName: string, resourceName: string, options?: PrivateLinkResourcesListByBotResourceOptionalParams) => Promise<PrivateLinkResourceListResult>;
+}
 
 // @public
 export interface PrivateLinkServiceConnectionState {
@@ -869,19 +888,47 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
+export interface Profile {
+    accessRules?: NspAccessRule[];
+    accessRulesVersion?: number;
+    diagnosticSettingsVersion?: number;
+    readonly enabledLogCategories?: string[];
+    name?: string;
+}
+
+// @public
+export interface ProvisioningIssue {
+    name?: string;
+    readonly properties?: ProvisioningIssueProperties;
+}
+
+// @public
+export interface ProvisioningIssueProperties {
+    description?: string;
+    issueType?: string;
+    severity?: Severity;
+    suggestedAccessRules?: NspAccessRule[];
+    readonly suggestedResourceIds?: string[];
+}
+
+// @public
+export type ProvisioningState = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export type PublicNetworkAccess = string;
 
 // @public
-export interface QnAMakerEndpointKeys {
-    get(parameters: QnAMakerEndpointKeysRequestBody, options?: QnAMakerEndpointKeysGetOptionalParams): Promise<QnAMakerEndpointKeysGetResponse>;
+export interface QnAMakerEndpointKeysGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface QnAMakerEndpointKeysGetOptionalParams extends coreClient.OperationOptions {
+export interface QnAMakerEndpointKeysOperations {
+    get: (parameters: QnAMakerEndpointKeysRequestBody, options?: QnAMakerEndpointKeysGetOptionalParams) => Promise<QnAMakerEndpointKeysResponse>;
 }
-
-// @public
-export type QnAMakerEndpointKeysGetResponse = QnAMakerEndpointKeysResponse;
 
 // @public
 export interface QnAMakerEndpointKeysRequestBody {
@@ -902,17 +949,28 @@ export type RegenerateKeysChannelName = "WebChatChannel" | "DirectLineChannel";
 
 // @public
 export interface Resource {
-    etag?: string;
     readonly id?: string;
-    kind?: Kind;
-    location?: string;
     readonly name?: string;
-    sku?: Sku;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
-    readonly zones?: string[];
+}
+
+// @public
+export interface ResourceAssociation {
+    accessMode?: AccessMode;
+    name?: string;
+}
+
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureBotService, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -961,6 +1019,9 @@ export interface ServiceProviderResponseList {
     nextLink?: string;
     readonly value?: ServiceProvider[];
 }
+
+// @public
+export type Severity = string;
 
 // @public
 export interface Site {
@@ -1057,6 +1118,16 @@ export interface SmsChannelProperties {
     isEnabled: boolean;
     isValidated?: boolean;
     phone: string;
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
