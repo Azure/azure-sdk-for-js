@@ -1,30 +1,11 @@
 # JS SDK TypeSpec breaking-change check pipeline (ARM only).
-#
-# Architecture (modelled on autorest.go's sdk-regenerate.yml):
-#   All logic lives in eng/pipelines/scripts/regenerate-shard.js — this YAML
-#   only orchestrates ADO primitives (triggers, parameters, matrix fan-out,
-#   shared-template references) and dispatches into one of the five JS
-#   subcommands. Read the script's header banner for what each one does.
-#
-# Stage layout:
-#   ┌─ Setup ────────────────────────────────── single short job
-#   │    resolve-emitter  → ADO output var $emitterVersion
-#   │    New-RegenerateMatrix.ps1 → matrix_artifacts
-#   │
-#   ├─ RegenerateAndBuild ──────────────────── matrix fan-out (N shards)
-#   │    prepare          (once per agent)
-#   │    shard            (work)
-#   │
-#   └─ SummaryAndPR ────────────────────────── single job
-#        aggregate        (always — publishes the summary artifact)
-#        login-to-github  (only when targeting the source repo, not a fork)
-#        apply-patches    (3-way merge + re-aggregate + stage committed reports)
-#        git-push-changes (shared template)
-#        Submit-PullRequest.ps1 (shared script)
+# All logic lives in eng/pipelines/scripts/regenerate-shard.js; this YAML only
+# defines ADO primitives (triggers, params, matrix fan-out) and dispatches
+# subcommands. Stages: Setup → RegenerateAndBuild (matrix) → SummaryAndPR.
 
 trigger:
   branches: { include: [main] }
-  paths:
+  paths: &regenPaths
     include:
       - eng/emitter-package.json
       - eng/common/scripts/TypeSpec-*
@@ -33,47 +14,20 @@ trigger:
 
 pr:
   branches: { include: [main, feature/*, hotfix/*] }
-  paths:
-    include:
-      - eng/emitter-package.json
-      - eng/common/scripts/TypeSpec-*
-      - eng/pipelines/sdk-regenerate.yml
-      - eng/pipelines/scripts/regenerate-shard.js
+  paths: *regenPaths
 
 schedules:
   - cron: "0 2 * * 1"
     displayName: Weekly TypeSpec break check (Monday 2AM UTC)
     branches: { include: [main] }
 
-# ── User-tunable inputs ─────────────────────────────────────────────────────
 parameters:
   - name: EmitterVersion
     displayName: "Emitter version (default 'empty' = latest dev tag)"
     type: string
     default: 'empty'
 
-  - name: MaxWorkers
-    displayName: "Per-shard regen/changelog concurrency"
-    type: number
-    default: 4
-  - name: BuildConcurrency
-    displayName: "pnpm turbo --concurrency per shard"
-    type: number
-    default: 4
-  - name: RegenerationJobCount
-    displayName: "Matrix shard count"
-    type: number
-    default: 10
-  - name: MinimumPerJob
-    displayName: "Minimum packages per shard"
-    type: number
-    default: 10
-
   - name: SkipBuild
-    type: boolean
-    default: false
-  - name: QuickTest
-    displayName: "Quick test (3 small ARM packages, 1 shard — overrides PackageFilter / matrix sizing)"
     type: boolean
     default: false
   - name: PackageFilter
@@ -84,7 +38,6 @@ parameters:
     type: string
     default: 'main'
 
-  # ── Pull request options (only honored when CreatePullRequest=true) ──────
   - name: CreatePullRequest
     type: boolean
     default: false
@@ -120,10 +73,7 @@ variables:
   sdkRoot:      $(Build.SourcesDirectory)
   specRepoRoot: $(Agent.BuildDirectory)/azure-rest-api-specs
   nodeVersion:  '22.x'
-  # Shorthand: full script invocation path.
   shardScript:  $(Build.SourcesDirectory)/eng/pipelines/scripts/regenerate-shard.js
-  # Shorthand: where aggregate writes its outputs (the two committed reports
-  # are copied out of here in apply-patches).
   summaryDir:   $(Build.ArtifactStagingDirectory)/summary
 
 stages:
@@ -131,19 +81,7 @@ stages:
   displayName: 'TypeSpec emitter breaking-change check'
   jobs:
 
-  # ════════════════════════════════════════════════════════════════════════
-  # JOB 1 — Setup: resolve emitter version + build per-shard matrix
-  # ════════════════════════════════════════════════════════════════════════
   - job: Setup
-    variables:
-      ${{ if parameters.QuickTest }}:
-        effFilter:    'arm-alertprocessingrules,arm-alertrulerecommendations,arm-alertsmanagement'
-        effJobCount:  1
-        effMinPerJob: 1
-      ${{ else }}:
-        effFilter:    ${{ parameters.PackageFilter }}
-        effJobCount:  ${{ parameters.RegenerationJobCount }}
-        effMinPerJob: ${{ parameters.MinimumPerJob }}
     steps:
       - checkout: self
         fetchDepth: 1
@@ -156,28 +94,16 @@ stages:
         name: resolveVersion
         displayName: 'Resolve emitter version → $emitterVersion'
 
-      - task: PowerShell@2
+      - bash: |
+          node $(shardScript) build-matrix \
+            --filter "${{ parameters.PackageFilter }}" \
+            --outDir "$(Build.ArtifactStagingDirectory)/matrix"
         name: generateMatrix
         displayName: 'Build shard matrix'
-        inputs:
-          pwsh: true
-          targetType: inline
-          script: |
-            & $(sdkRoot)/eng/common/scripts/New-RegenerateMatrix.ps1 `
-              -OutputDirectory $(Build.ArtifactStagingDirectory)/matrix `
-              -OutputVariableName matrix `
-              -JobCount $(effJobCount) `
-              -MinimumPerJob $(effMinPerJob) `
-              -OnlyTypeSpec true `
-              -DirectoryFilterPattern '$(effFilter)'
-            if ($LASTEXITCODE) { exit $LASTEXITCODE }
 
       - publish: $(Build.ArtifactStagingDirectory)/matrix
         artifact: matrix_artifacts
 
-  # ════════════════════════════════════════════════════════════════════════
-  # JOB 2 — RegenerateAndBuild: per matrix shard, regen + build + changelog
-  # ════════════════════════════════════════════════════════════════════════
   - job: RegenerateAndBuild
     dependsOn: Setup
     timeoutInMinutes: 180
@@ -204,13 +130,11 @@ stages:
 
       - bash: |
           node $(shardScript) shard \
-            --specRepoRoot     "$(specRepoRoot)" \
-            --directoryList    "$(Pipeline.Workspace)/matrix_artifacts/$(DirectoryList)" \
-            --resultOutputDir  "$(Build.ArtifactStagingDirectory)/results/$(JobKey)" \
-            --maxWorkers       "${{ parameters.MaxWorkers }}" \
-            --buildConcurrency "${{ parameters.BuildConcurrency }}" \
-            --skipBuild        "${{ parameters.SkipBuild }}" \
-            --pushMode         "${{ parameters.ChangePushMode }}"
+            --specRepoRoot    "$(specRepoRoot)" \
+            --directoryList   "$(Pipeline.Workspace)/matrix_artifacts/$(DirectoryList)" \
+            --resultOutputDir "$(Build.ArtifactStagingDirectory)/results/$(JobKey)" \
+            --skipBuild       "${{ parameters.SkipBuild }}" \
+            --pushMode        "${{ parameters.ChangePushMode }}"
         displayName: 'Regenerate + build shard'
         workingDirectory: $(sdkRoot)
 
@@ -218,9 +142,6 @@ stages:
         artifact: regen_result_$(JobKey)
         condition: always()
 
-  # ════════════════════════════════════════════════════════════════════════
-  # JOB 3 — SummaryAndPR: aggregate + (optionally) open the PR
-  # ════════════════════════════════════════════════════════════════════════
   - job: SummaryAndPR
     dependsOn: [Setup, RegenerateAndBuild]
     condition: succeededOrFailed()
@@ -235,9 +156,6 @@ stages:
         inputs: { versionSpec: $(nodeVersion) }
       - download: current
 
-      # Always run aggregate, even on shard failures, so we publish a summary
-      # artifact for every build. (When CreatePR=true apply-patches re-runs
-      # this internally to pick up the conflict-drop list.)
       - bash: |
           node "$(shardScript)" aggregate \
             --workspace      "$(Pipeline.Workspace)" \
@@ -250,8 +168,8 @@ stages:
         displayName: 'Aggregate shard results'
 
       - ${{ if parameters.CreatePullRequest }}:
-        # GitHub App token (only when NOT targeting a fork; for forks we use
-        # the user PAT passed in via ForkTokenVariableName).
+        # GitHub App token (only when NOT targeting a fork; for forks the user PAT
+        # comes in via ForkTokenVariableName below).
         - ${{ if eq(parameters.PullRequestRepoOwner, '') }}:
           - template: /eng/common/pipelines/templates/steps/login-to-github.yml
             parameters:
@@ -274,39 +192,12 @@ stages:
               --definitionName    "$(Build.DefinitionName)" \
               --pushMode          "${{ parameters.ChangePushMode }}"
           workingDirectory: $(sdkRoot)
-          displayName: 'Apply shard patches + stage reports'
+          displayName: 'Apply patches, push branch, create PR'
           env:
             ${{ if ne(parameters.ForkTokenVariableName, '') }}:
               FORK_TOKEN: $(${{ parameters.ForkTokenVariableName }})
             ${{ if eq(parameters.PullRequestRepoOwner, '') }}:
               GH_TOKEN_VAL: $(GH_TOKEN)
-
-        - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
-          parameters:
-            BaseRepoBranch:  $(PRBranchName)
-            BaseRepoOwner:   $(TargetRepoOwner)
-            TargetRepoOwner: $(TargetRepoOwner)
-            TargetRepoName:  $(TargetRepoName)
-            CommitMsg:       'TypeSpec regeneration (${{ parameters.ChangePushMode }}) for emitter $(emitterVersion)'
-            PushArgs:        --force
-            WorkingDirectory: $(sdkRoot)
-            AuthToken:       $(PushToken)
-
-        - task: PowerShell@2
-          displayName: 'Create pull request'
-          condition: and(succeeded(), eq(variables['HasChanges'], 'true'))
-          inputs:
-            pwsh: true
-            targetType: inline
-            script: |
-              $body = Get-Content '$(summaryDir)/pr-body.md' -Raw
-              & '$(sdkRoot)/eng/common/scripts/Submit-PullRequest.ps1' `
-                -RepoOwner '$(TargetRepoOwner)' -RepoName '$(TargetRepoName)' `
-                -BaseBranch '${{ parameters.PullRequestTargetBranch }}' `
-                -PROwner '$(TargetRepoOwner)' -PRBranch '$(PRBranchName)' `
-                -AuthToken '$(PushToken)' `
-                -PRTitle "TypeSpec regeneration: emitter $(emitterVersion) [${{ parameters.ChangePushMode }}]" `
-                -PRBody $body
 
       - publish: $(summaryDir)
         artifact: regen_summary

@@ -222,8 +222,8 @@ async function runShard() {
   const specRepoCloneDir = getFlag("--specRepoRoot");
   const directoryListFile = getFlag("--directoryList");
   const shardResultDir = getFlag("--resultOutputDir");
-  const perPackageConcurrency = parsePositiveInt(getFlag("--maxWorkers", "2"));
-  const turboBuildConcurrency = parsePositiveInt(getFlag("--buildConcurrency", "2"));
+  const perPackageConcurrency = 4;
+  const turboBuildConcurrency = 4;
   const skipBuild = getFlag("--skipBuild", "false").toLowerCase() === "true";
   const patchScope = getFlag("--pushMode", "api-md");
 
@@ -640,6 +640,8 @@ function runApplyPatches() {
   const shardArtifactsRoot = getFlag("--workspace");
   const droppedFilesListPath = getFlag("--failedPatchesFile");
   const outDir = getFlag("--outDir");
+  const pushMode        = getFlag("--pushMode", "all");
+  const emitterVersion  = getFlag("--emitterVersion", "");
 
   const isTargetingFork = targetRepoOwner !== sourceRepoOwner || targetRepoName !== sourceRepoName;
   const pushToken = selectPushToken(isTargetingFork, targetRepoOwner, targetRepoName);
@@ -654,10 +656,56 @@ function runApplyPatches() {
   // Re-aggregate so pr-body.md picks up the conflict drops.
   if (outDir) runAggregate();
 
-  setPipelineVariable("PRBranchName",     headBranchName);
-  setPipelineVariable("TargetRepoOwner",  targetRepoOwner);
-  setPipelineVariable("TargetRepoName",   targetRepoName);
-  setPipelineVariable("PushToken", pushToken, { isSecret: true });
+  const hasChanges = commitAllChanges(pushMode, emitterVersion);
+  if (hasChanges) {
+    runShell(`git push origin ${headBranchName} --force`, SDK_ROOT);
+    submitPullRequest({
+      targetRepoOwner, targetRepoName, baseBranch, headBranchName,
+      pushToken, outDir, pushMode, emitterVersion,
+    });
+  } else {
+    console.log("No file changes to commit — skipping push and PR creation.");
+  }
+}
+
+function commitAllChanges(pushMode, emitterVersion) {
+  runShell("git add -A", SDK_ROOT);
+  const commitMessage = `TypeSpec regeneration (${pushMode}) for emitter ${emitterVersion}`;
+  const commitResult = spawnSync(
+    "git",
+    [
+      "-c", "user.name=azure-sdk",
+      "-c", "user.email=azuresdk@microsoft.com",
+      "commit", "-m", commitMessage,
+    ],
+    { cwd: SDK_ROOT, stdio: "inherit" }
+  );
+  return commitResult.status === 0;
+}
+
+function submitPullRequest({
+  targetRepoOwner, targetRepoName, baseBranch, headBranchName,
+  pushToken, outDir, pushMode, emitterVersion,
+}) {
+  const prBodyPath = path.join(outDir, "pr-body.md");
+  const prTitle = `TypeSpec regeneration: emitter ${emitterVersion} [${pushMode}]`;
+  const submitScript = path.join(SDK_ROOT, "eng/common/scripts/Submit-PullRequest.ps1");
+  const pwshCommand =
+    `& '${submitScript}' ` +
+    `-RepoOwner '${targetRepoOwner}' -RepoName '${targetRepoName}' ` +
+    `-BaseBranch '${baseBranch}' ` +
+    `-PROwner '${targetRepoOwner}' -PRBranch '${headBranchName}' ` +
+    `-AuthToken '${pushToken}' ` +
+    `-PRTitle '${prTitle}' ` +
+    `-PRBody (Get-Content '${prBodyPath}' -Raw)`;
+  const submitResult = spawnSync(
+    "pwsh", ["-NoProfile", "-Command", pwshCommand],
+    { cwd: SDK_ROOT, stdio: "inherit" }
+  );
+  if (submitResult.status !== 0) {
+    console.error("##[error]Submit-PullRequest.ps1 failed");
+    process.exit(submitResult.status || 1);
+  }
 }
 
 function selectPushToken(isTargetingFork, targetOwner, targetName) {
@@ -735,11 +783,44 @@ function discardLocalEmitterPackageEdits() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Subcommand: build-matrix
+// Wraps eng/common/scripts/New-RegenerateMatrix.ps1 with the argument
+// forwarding the YAML needs.
+// ─────────────────────────────────────────────────────────────────────────────
+
+function runBuildMatrix() {
+  const outDir = getFlag("--outDir");
+  if (!outDir) {
+    console.error("ERROR: --outDir is required");
+    process.exit(2);
+  }
+  const packageFilter = getFlag("--filter", "arm-*");
+  const jobCount  = 10;
+  const minPerJob = 10;
+
+  const matrixScript = path.join(SDK_ROOT, "eng/common/scripts/New-RegenerateMatrix.ps1");
+  const matrixCommand =
+    `& '${matrixScript}' ` +
+    `-OutputDirectory '${outDir}' ` +
+    `-OutputVariableName matrix ` +
+    `-JobCount ${jobCount} ` +
+    `-MinimumPerJob ${minPerJob} ` +
+    `-OnlyTypeSpec true ` +
+    `-DirectoryFilterPattern '${packageFilter}'`;
+  const result = spawnSync(
+    "pwsh", ["-NoProfile", "-Command", matrixCommand],
+    { cwd: SDK_ROOT, stdio: "inherit" }
+  );
+  if (result.status !== 0) process.exit(result.status || 1);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Dispatcher
 // ─────────────────────────────────────────────────────────────────────────────
 
 const SUBCOMMANDS = {
   "resolve-emitter": runResolveEmitter,
+  "build-matrix":    runBuildMatrix,
   "prepare":         runPrepare,
   "shard":           runShard,
   "aggregate":       runAggregate,

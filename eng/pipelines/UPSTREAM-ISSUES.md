@@ -5,8 +5,8 @@ and the workarounds (if any) we currently carry locally. **Every workaround here
 should be deleted once the corresponding upstream issue is fixed.**
 
 > Maintainer reminder: when you touch any item below, also re-trigger the
-> regenerate pipeline (or its `QuickTest` mode) to confirm the workaround is
-> still necessary / still works.
+> regenerate pipeline to confirm the workaround is still necessary / still
+> works.
 
 ## Legend
 - 🔴 **active workaround** in this repo — has to stay until upstream lands
@@ -153,12 +153,27 @@ missing deps — are intentionally **not** worked around any more).
 
 ---
 
+## 9. 🔴 `pnpm install` 401s on dev `@azure-tools/typespec-ts` referenced inside `TempTypeSpecFiles/`
+
+| | |
+|---|---|
+| Discovered | 2026-06-03 `Build 6389047` (shards `da_ed_3` and `el_io_4`; 21 packages had no build result) |
+| Symptom | `pnpm install --no-frozen-lockfile` aborts with `ERR_PNPM_FETCH_401  GET https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js/npm/registry/@azure-tools/typespec-ts/-/typespec-ts-0.54.0-alpha.X.tgz: Unauthorized - 401`. Whole shard's `build` field becomes `null` (skipped) → those packages disappear from `build.total` in `aggregated-results.json`. |
+| Root cause | `tsp-client generate` leaves a `<pkgDir>/TempTypeSpecFiles/<svc>/package.json` that pins the dev `@azure-tools/typespec-ts` version. pnpm's workspace install discovers these and tries to fetch them from `eng/.npmrc`'s default Azure internal feed where the dev alpha tarball is not published. |
+| Upstream repos | `Azure/azure-sdk-tools` (the `tsp-client generate` workflow that leaves the temp dir) and/or `Azure/azure-sdk-for-js` (could exclude `**/TempTypeSpecFiles/**` from `pnpm-workspace.yaml`). |
+| Suggested fix | Either (a) make `tsp-client generate` delete `TempTypeSpecFiles/` on success, or (b) add `!**/TempTypeSpecFiles/**` to `pnpm-workspace.yaml` excludes. |
+| Local workaround | `regenerate-shard.js` deletes every regen-ok package's `TempTypeSpecFiles/` before running `pnpm install`. |
+| When to remove | When `tsp-client generate` cleans up or `pnpm-workspace.yaml` excludes the path. |
+
+---
+
 ## When you fix one upstream
 
 1. Open a PR here that **deletes** the corresponding workaround from
    `eng/pipelines/sdk-regenerate.yml`.
-2. Trigger the regenerate pipeline once with `QuickTest` enabled and confirm
-   the 3 sentinel packages still regenerate green without the workaround.
+2. Trigger the regenerate pipeline once on a small `PackageFilter` (e.g. a
+   single arm-* glob) and confirm regeneration still goes green without the
+   workaround.
 3. Flip the row above from 🔴 to ✅ and add a `Fixed in <upstream-PR-link>` note.
 4. After two consecutive weekly scheduled runs stay green, delete the ✅ row
    entirely (this document is a working set, not a history log — that is what
