@@ -11,6 +11,7 @@ import {
   BrowserSessionSourceType,
   UrlConstants,
   UploadConstants,
+  StorageUriValidationConstants,
 } from "../common/constants.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { coreLogger } from "../common/logger.js";
@@ -503,4 +504,37 @@ export const getStorageAccountNameFromUri = (storageUri: string): string | null 
     console.warn("Failed to extract storage account name from URI:", storageUri, error);
     return null;
   }
+};
+
+export const isValidAzureStorageBlobUri = (storageUri: string | undefined | null): boolean => {
+  if (!storageUri || typeof storageUri !== "string" || storageUri.trim() === "") {
+    return false;
+  }
+
+  let url: URL;
+  try {
+    url = new URL(storageUri);
+  } catch {
+    return false;
+  }
+
+  if (url.protocol !== StorageUriValidationConstants.AllowedProtocol) {
+    return false;
+  }
+
+  // Reject embedded credentials (username / password in the URI)
+  if (url.username !== "" || url.password !== "") {
+    return false;
+  }
+
+  // Reject query strings and fragments — they can carry attacker-controlled data
+  if (url.search !== "" || url.hash !== "") {
+    return false;
+  }
+
+  // The URL spec lower-cases the hostname, so the comparison is already case-insensitive
+  const hostname = url.hostname;
+  return StorageUriValidationConstants.AllowedHostnameSuffixes.some((suffix) =>
+    hostname.endsWith(suffix),
+  );
 };

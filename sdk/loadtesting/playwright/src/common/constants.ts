@@ -116,3 +116,12 @@ export const UploadConstants = {
 export const BrowserSessionSourceType = {
   PLAYWRIGHT_WORKSPACES_TEST_RUN: "PlaywrightWorkspacesTestRun",
 };
+
+export const StorageUriValidationConstants = {
+  AllowedProtocol: "https:",
+  AllowedHostnameSuffixes: [
+    ".blob.core.windows.net",
+    ".blob.core.usgovcloudapi.net",
+    ".blob.core.chinacloudapi.cn",
+  ] as const,
+};
