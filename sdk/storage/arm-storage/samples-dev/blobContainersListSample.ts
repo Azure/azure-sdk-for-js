@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
  *
  * @summary lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
- * x-ms-original-file: 2025-08-01/BlobContainersList.json
+ * x-ms-original-file: 2026-04-01/BlobContainersList.json
  */
 async function listContainers(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listContainers(): Promise<void> {
  * This sample demonstrates how to lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
  *
  * @summary lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
- * x-ms-original-file: 2025-08-01/DeletedBlobContainersList.json
+ * x-ms-original-file: 2026-04-01/DeletedBlobContainersList.json
  */
 async function listDeletedContainers(): Promise<void> {
   const credential = new DefaultAzureCredential();
