@@ -962,7 +962,7 @@
 # PRLabel: %Mgmt
 /sdk/storage/arm-storage-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/storagecache/arm-storagecache/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

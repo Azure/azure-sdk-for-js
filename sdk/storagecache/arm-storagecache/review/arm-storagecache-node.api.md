@@ -4,11 +4,17 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AmlFilesystem extends TrackedResource {
@@ -104,13 +110,27 @@ export interface AmlFilesystemIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: AmlFilesystemIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentitiesValue;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
 
 // @public
 export type AmlFilesystemIdentityType = "UserAssigned" | "None";
+
+// @public
+export interface AmlFilesystemProperties {
+    readonly clientInfo?: AmlFilesystemClientInfo;
+    readonly clusterUuid?: string;
+    readonly currentStorageCapacityTiB?: number;
+    encryptionSettings?: AmlFilesystemEncryptionSettings;
+    filesystemSubnet: string;
+    readonly health?: AmlFilesystemHealth;
+    hsm?: AmlFilesystemPropertiesHsm;
+    maintenanceWindow: AmlFilesystemPropertiesMaintenanceWindow;
+    readonly provisioningState?: AmlFilesystemProvisioningStateType;
+    rootSquashSettings?: AmlFilesystemRootSquashSettings;
+    storageCapacityTiB: number;
+    readonly throughputProvisionedMBps?: number;
+}
 
 // @public
 export interface AmlFilesystemPropertiesHsm {
@@ -137,94 +157,58 @@ export interface AmlFilesystemRootSquashSettings {
 }
 
 // @public
-export interface AmlFilesystems {
-    archive(resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsArchiveOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, amlFilesystemName: string, amlFilesystem: AmlFilesystem, options?: AmlFilesystemsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AmlFilesystemsCreateOrUpdateResponse>, AmlFilesystemsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, amlFilesystem: AmlFilesystem, options?: AmlFilesystemsCreateOrUpdateOptionalParams): Promise<AmlFilesystemsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, amlFilesystemName: string, amlFilesystem: AmlFilesystemUpdate, options?: AmlFilesystemsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AmlFilesystemsUpdateResponse>, AmlFilesystemsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, amlFilesystem: AmlFilesystemUpdate, options?: AmlFilesystemsUpdateOptionalParams): Promise<AmlFilesystemsUpdateResponse>;
-    cancelArchive(resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsCancelArchiveOptionalParams): Promise<void>;
-    get(resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsGetOptionalParams): Promise<AmlFilesystemsGetResponse>;
-    list(options?: AmlFilesystemsListOptionalParams): PagedAsyncIterableIterator<AmlFilesystem>;
-    listByResourceGroup(resourceGroupName: string, options?: AmlFilesystemsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AmlFilesystem>;
-}
-
-// @public
-export interface AmlFilesystemsArchiveOptionalParams extends coreClient.OperationOptions {
+export interface AmlFilesystemsArchiveOptionalParams extends OperationOptions {
     archiveInfo?: AmlFilesystemArchiveInfo;
 }
 
 // @public
-export interface AmlFilesystemsCancelArchiveOptionalParams extends coreClient.OperationOptions {
+export interface AmlFilesystemsCancelArchiveOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AmlFilesystemsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface AmlFilesystemsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AmlFilesystemsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AmlFilesystemsCreateOrUpdateResponse = AmlFilesystem;
-
-// @public
-export interface AmlFilesystemsDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface AmlFilesystemsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AmlFilesystemsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AmlFilesystemsGetOptionalParams extends coreClient.OperationOptions {
+export interface AmlFilesystemsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AmlFilesystemsGetResponse = AmlFilesystem;
-
-// @public
-export interface AmlFilesystemsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface AmlFilesystemsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AmlFilesystemsListByResourceGroupNextResponse = AmlFilesystemsListResult;
-
-// @public
-export interface AmlFilesystemsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface AmlFilesystemsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AmlFilesystemsListByResourceGroupResponse = AmlFilesystemsListResult;
-
-// @public
-export interface AmlFilesystemsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AmlFilesystemsListNextResponse = AmlFilesystemsListResult;
-
-// @public
-export interface AmlFilesystemsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AmlFilesystemsListResponse = AmlFilesystemsListResult;
-
-// @public
-export interface AmlFilesystemsListResult {
-    nextLink?: string;
-    value?: AmlFilesystem[];
+export interface AmlFilesystemsOperations {
+    archive: (resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsArchiveOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, amlFilesystemName: string, amlFilesystem: AmlFilesystem, options?: AmlFilesystemsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AmlFilesystem>, AmlFilesystem>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, amlFilesystemName: string, amlFilesystem: AmlFilesystem, options?: AmlFilesystemsCreateOrUpdateOptionalParams) => Promise<AmlFilesystem>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, amlFilesystemName: string, amlFilesystem: AmlFilesystemUpdate, options?: AmlFilesystemsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AmlFilesystem>, AmlFilesystem>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, amlFilesystemName: string, amlFilesystem: AmlFilesystemUpdate, options?: AmlFilesystemsUpdateOptionalParams) => Promise<AmlFilesystem>;
+    cancelArchive: (resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsCancelArchiveOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, amlFilesystemName: string, amlFilesystem: AmlFilesystem, options?: AmlFilesystemsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AmlFilesystem>, AmlFilesystem>;
+    delete: (resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsGetOptionalParams) => Promise<AmlFilesystem>;
+    list: (options?: AmlFilesystemsListOptionalParams) => PagedAsyncIterableIterator<AmlFilesystem>;
+    listByResourceGroup: (resourceGroupName: string, options?: AmlFilesystemsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AmlFilesystem>;
+    update: (resourceGroupName: string, amlFilesystemName: string, amlFilesystem: AmlFilesystemUpdate, options?: AmlFilesystemsUpdateOptionalParams) => PollerLike<OperationState<AmlFilesystem>, AmlFilesystem>;
 }
 
 // @public
@@ -239,28 +223,23 @@ export interface AmlFilesystemSubnetInfo {
 }
 
 // @public
-export interface AmlFilesystemsUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface AmlFilesystemsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AmlFilesystemsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type AmlFilesystemsUpdateResponse = AmlFilesystem;
 
 // @public
 export interface AmlFilesystemUpdate {
     encryptionSettings?: AmlFilesystemEncryptionSettings;
     maintenanceWindow?: AmlFilesystemUpdatePropertiesMaintenanceWindow;
     rootSquashSettings?: AmlFilesystemRootSquashSettings;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface AmlFilesystemUpdateProperties {
+    encryptionSettings?: AmlFilesystemEncryptionSettings;
+    maintenanceWindow?: AmlFilesystemUpdatePropertiesMaintenanceWindow;
+    rootSquashSettings?: AmlFilesystemRootSquashSettings;
 }
 
 // @public
@@ -287,9 +266,8 @@ export interface ApiOperationDisplay {
 }
 
 // @public
-export interface ApiOperationListResult {
-    nextLink?: string;
-    value?: ApiOperation[];
+export interface ApiOperationProperties {
+    serviceSpecification?: ApiOperationPropertiesServiceSpecification;
 }
 
 // @public
@@ -307,9 +285,7 @@ export interface AscOperation {
     error?: AscOperationErrorResponse;
     id?: string;
     name?: string;
-    output?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    output?: Record<string, any>;
     startTime?: string;
     status?: string;
 }
@@ -321,38 +297,41 @@ export interface AscOperationErrorResponse {
 }
 
 // @public
-export interface AscOperations {
-    get(location: string, operationId: string, options?: AscOperationsGetOptionalParams): Promise<AscOperationsGetResponse>;
+export interface AscOperationProperties {
+    output?: Record<string, any>;
 }
 
 // @public
-export interface AscOperationsGetOptionalParams extends coreClient.OperationOptions {
+export interface AscOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AscOperationsGetResponse = AscOperation;
-
-// @public
-export interface AscUsages {
-    list(location: string, options?: AscUsagesListOptionalParams): PagedAsyncIterableIterator<ResourceUsage>;
+export interface AscOperationsOperations {
+    get: (location: string, operationId: string, options?: AscOperationsGetOptionalParams) => Promise<AscOperation>;
 }
 
 // @public
-export interface AscUsagesListNextOptionalParams extends coreClient.OperationOptions {
+export interface AscUsagesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AscUsagesListNextResponse = ResourceUsagesListResult;
-
-// @public
-export interface AscUsagesListOptionalParams extends coreClient.OperationOptions {
+export interface AscUsagesOperations {
+    list: (location: string, options?: AscUsagesListOptionalParams) => PagedAsyncIterableIterator<ResourceUsage>;
 }
-
-// @public
-export type AscUsagesListResponse = ResourceUsagesListResult;
 
 // @public
 export interface AutoExportJob extends TrackedResource {
+    adminStatus?: AutoExportJobAdminStatus;
+    autoExportPrefixes?: string[];
+    readonly provisioningState?: AutoExportJobProvisioningStateType;
+    readonly status?: AutoExportJobPropertiesStatus;
+}
+
+// @public
+export type AutoExportJobAdminStatus = string;
+
+// @public
+export interface AutoExportJobProperties {
     adminStatus?: AutoExportJobAdminStatus;
     autoExportPrefixes?: string[];
     readonly currentIterationFilesDiscovered?: number;
@@ -374,100 +353,80 @@ export interface AutoExportJob extends TrackedResource {
 }
 
 // @public
-export type AutoExportJobAdminStatus = string;
+export interface AutoExportJobPropertiesStatus {
+    readonly currentIterationFilesDiscovered?: number;
+    readonly currentIterationFilesExported?: number;
+    readonly currentIterationFilesFailed?: number;
+    readonly currentIterationMiBDiscovered?: number;
+    readonly currentIterationMiBExported?: number;
+    readonly exportIterationCount?: number;
+    readonly lastCompletionTimeUTC?: Date;
+    readonly lastStartedTimeUTC?: Date;
+    readonly lastSuccessfulIterationCompletionTimeUTC?: Date;
+    state?: AutoExportStatusType;
+    readonly statusCode?: string;
+    readonly statusMessage?: string;
+    readonly totalFilesExported?: number;
+    readonly totalFilesFailed?: number;
+    readonly totalMiBExported?: number;
+}
 
 // @public
 export type AutoExportJobProvisioningStateType = string;
 
 // @public
-export interface AutoExportJobs {
-    beginCreateOrUpdate(resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, autoExportJob: AutoExportJob, options?: AutoExportJobsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutoExportJobsCreateOrUpdateResponse>, AutoExportJobsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, autoExportJob: AutoExportJob, options?: AutoExportJobsCreateOrUpdateOptionalParams): Promise<AutoExportJobsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, options?: AutoExportJobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AutoExportJobsDeleteResponse>, AutoExportJobsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, options?: AutoExportJobsDeleteOptionalParams): Promise<AutoExportJobsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, autoExportJob: AutoExportJobUpdate, options?: AutoExportJobsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutoExportJobsUpdateResponse>, AutoExportJobsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, autoExportJob: AutoExportJobUpdate, options?: AutoExportJobsUpdateOptionalParams): Promise<AutoExportJobsUpdateResponse>;
-    get(resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, options?: AutoExportJobsGetOptionalParams): Promise<AutoExportJobsGetResponse>;
-    listByAmlFilesystem(resourceGroupName: string, amlFilesystemName: string, options?: AutoExportJobsListByAmlFilesystemOptionalParams): PagedAsyncIterableIterator<AutoExportJob>;
-}
-
-// @public
-export interface AutoExportJobsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface AutoExportJobsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AutoExportJobsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AutoExportJobsCreateOrUpdateResponse = AutoExportJob;
-
-// @public
-export interface AutoExportJobsDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface AutoExportJobsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AutoExportJobsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AutoExportJobsDeleteResponse = AutoExportJobsDeleteHeaders;
-
-// @public
-export interface AutoExportJobsGetOptionalParams extends coreClient.OperationOptions {
+export interface AutoExportJobsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AutoExportJobsGetResponse = AutoExportJob;
-
-// @public
-export interface AutoExportJobsListByAmlFilesystemNextOptionalParams extends coreClient.OperationOptions {
+export interface AutoExportJobsListByAmlFilesystemOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AutoExportJobsListByAmlFilesystemNextResponse = AutoExportJobsListResult;
-
-// @public
-export interface AutoExportJobsListByAmlFilesystemOptionalParams extends coreClient.OperationOptions {
+export interface AutoExportJobsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, autoExportJob: AutoExportJob, options?: AutoExportJobsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AutoExportJob>, AutoExportJob>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, autoExportJob: AutoExportJob, options?: AutoExportJobsCreateOrUpdateOptionalParams) => Promise<AutoExportJob>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, options?: AutoExportJobsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, options?: AutoExportJobsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, autoExportJob: AutoExportJobUpdate, options?: AutoExportJobsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AutoExportJob>, AutoExportJob>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, autoExportJob: AutoExportJobUpdate, options?: AutoExportJobsUpdateOptionalParams) => Promise<AutoExportJob>;
+    createOrUpdate: (resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, autoExportJob: AutoExportJob, options?: AutoExportJobsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AutoExportJob>, AutoExportJob>;
+    delete: (resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, options?: AutoExportJobsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, options?: AutoExportJobsGetOptionalParams) => Promise<AutoExportJob>;
+    listByAmlFilesystem: (resourceGroupName: string, amlFilesystemName: string, options?: AutoExportJobsListByAmlFilesystemOptionalParams) => PagedAsyncIterableIterator<AutoExportJob>;
+    update: (resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, autoExportJob: AutoExportJobUpdate, options?: AutoExportJobsUpdateOptionalParams) => PollerLike<OperationState<AutoExportJob>, AutoExportJob>;
 }
 
 // @public
-export type AutoExportJobsListByAmlFilesystemResponse = AutoExportJobsListResult;
-
-// @public
-export interface AutoExportJobsListResult {
-    nextLink?: string;
-    value?: AutoExportJob[];
-}
-
-// @public
-export interface AutoExportJobsUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface AutoExportJobsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AutoExportJobsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type AutoExportJobsUpdateResponse = AutoExportJob;
 
 // @public
 export interface AutoExportJobUpdate {
     adminStatus?: AutoExportJobAdminStatus;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface AutoExportJobUpdateProperties {
+    adminStatus?: AutoExportJobAdminStatus;
 }
 
 // @public
@@ -475,6 +434,17 @@ export type AutoExportStatusType = string;
 
 // @public
 export interface AutoImportJob extends TrackedResource {
+    adminStatus?: AutoImportJobPropertiesAdminStatus;
+    autoImportPrefixes?: string[];
+    conflictResolutionMode?: ConflictResolutionMode;
+    enableDeletions?: boolean;
+    maximumErrors?: number;
+    readonly provisioningState?: AutoImportJobPropertiesProvisioningState;
+    readonly status?: AutoImportJobPropertiesStatus;
+}
+
+// @public
+export interface AutoImportJobProperties {
     adminStatus?: AutoImportJobPropertiesAdminStatus;
     autoImportPrefixes?: string[];
     readonly blobSyncEvents?: AutoImportJobPropertiesStatusBlobSyncEvents;
@@ -510,6 +480,30 @@ export type AutoImportJobPropertiesAdminStatus = string;
 export type AutoImportJobPropertiesProvisioningState = string;
 
 // @public
+export interface AutoImportJobPropertiesStatus {
+    readonly blobSyncEvents?: AutoImportJobPropertiesStatusBlobSyncEvents;
+    readonly importedDirectories?: number;
+    readonly importedFiles?: number;
+    readonly importedSymlinks?: number;
+    readonly lastCompletionTimeUTC?: Date;
+    readonly lastStartedTimeUTC?: Date;
+    readonly preexistingDirectories?: number;
+    readonly preexistingFiles?: number;
+    readonly preexistingSymlinks?: number;
+    readonly rateOfBlobImport?: number;
+    readonly rateOfBlobWalk?: number;
+    readonly scanEndTime?: Date;
+    readonly scanStartTime?: Date;
+    readonly state?: AutoImportJobState;
+    readonly statusCode?: string;
+    readonly statusMessage?: string;
+    readonly totalBlobsImported?: number;
+    readonly totalBlobsWalked?: number;
+    readonly totalConflicts?: number;
+    readonly totalErrors?: number;
+}
+
+// @public
 export interface AutoImportJobPropertiesStatusBlobSyncEvents {
     readonly deletions?: number;
     readonly importedDirectories?: number;
@@ -527,106 +521,75 @@ export interface AutoImportJobPropertiesStatusBlobSyncEvents {
 }
 
 // @public
-export interface AutoImportJobs {
-    beginCreateOrUpdate(resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, autoImportJob: AutoImportJob, options?: AutoImportJobsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutoImportJobsCreateOrUpdateResponse>, AutoImportJobsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, autoImportJob: AutoImportJob, options?: AutoImportJobsCreateOrUpdateOptionalParams): Promise<AutoImportJobsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, options?: AutoImportJobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AutoImportJobsDeleteResponse>, AutoImportJobsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, options?: AutoImportJobsDeleteOptionalParams): Promise<AutoImportJobsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, autoImportJob: AutoImportJobUpdate, options?: AutoImportJobsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutoImportJobsUpdateResponse>, AutoImportJobsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, autoImportJob: AutoImportJobUpdate, options?: AutoImportJobsUpdateOptionalParams): Promise<AutoImportJobsUpdateResponse>;
-    get(resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, options?: AutoImportJobsGetOptionalParams): Promise<AutoImportJobsGetResponse>;
-    listByAmlFilesystem(resourceGroupName: string, amlFilesystemName: string, options?: AutoImportJobsListByAmlFilesystemOptionalParams): PagedAsyncIterableIterator<AutoImportJob>;
-}
-
-// @public
-export interface AutoImportJobsCreateOrUpdateHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface AutoImportJobsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AutoImportJobsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AutoImportJobsCreateOrUpdateResponse = AutoImportJob;
-
-// @public
-export interface AutoImportJobsDeleteHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface AutoImportJobsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AutoImportJobsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AutoImportJobsDeleteResponse = AutoImportJobsDeleteHeaders;
-
-// @public
-export interface AutoImportJobsGetOptionalParams extends coreClient.OperationOptions {
+export interface AutoImportJobsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AutoImportJobsGetResponse = AutoImportJob;
-
-// @public
-export interface AutoImportJobsListByAmlFilesystemNextOptionalParams extends coreClient.OperationOptions {
+export interface AutoImportJobsListByAmlFilesystemOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AutoImportJobsListByAmlFilesystemNextResponse = AutoImportJobsListResult;
-
-// @public
-export interface AutoImportJobsListByAmlFilesystemOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AutoImportJobsListByAmlFilesystemResponse = AutoImportJobsListResult;
-
-// @public
-export interface AutoImportJobsListResult {
-    nextLink?: string;
-    value?: AutoImportJob[];
+export interface AutoImportJobsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, autoImportJob: AutoImportJob, options?: AutoImportJobsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AutoImportJob>, AutoImportJob>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, autoImportJob: AutoImportJob, options?: AutoImportJobsCreateOrUpdateOptionalParams) => Promise<AutoImportJob>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, options?: AutoImportJobsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, options?: AutoImportJobsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, autoImportJob: AutoImportJobUpdate, options?: AutoImportJobsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AutoImportJob>, AutoImportJob>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, autoImportJob: AutoImportJobUpdate, options?: AutoImportJobsUpdateOptionalParams) => Promise<AutoImportJob>;
+    createOrUpdate: (resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, autoImportJob: AutoImportJob, options?: AutoImportJobsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AutoImportJob>, AutoImportJob>;
+    delete: (resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, options?: AutoImportJobsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, options?: AutoImportJobsGetOptionalParams) => Promise<AutoImportJob>;
+    listByAmlFilesystem: (resourceGroupName: string, amlFilesystemName: string, options?: AutoImportJobsListByAmlFilesystemOptionalParams) => PagedAsyncIterableIterator<AutoImportJob>;
+    update: (resourceGroupName: string, amlFilesystemName: string, autoImportJobName: string, autoImportJob: AutoImportJobUpdate, options?: AutoImportJobsUpdateOptionalParams) => PollerLike<OperationState<AutoImportJob>, AutoImportJob>;
 }
 
 // @public
 export type AutoImportJobState = string;
 
 // @public
-export interface AutoImportJobsUpdateHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface AutoImportJobsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AutoImportJobsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AutoImportJobsUpdateResponse = AutoImportJob;
-
-// @public
 export interface AutoImportJobUpdate {
     adminStatus?: AutoImportJobUpdatePropertiesAdminStatus;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface AutoImportJobUpdateProperties {
+    adminStatus?: AutoImportJobUpdatePropertiesAdminStatus;
 }
 
 // @public
 export type AutoImportJobUpdatePropertiesAdminStatus = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface BlobNfsTarget {
@@ -637,28 +600,22 @@ export interface BlobNfsTarget {
 }
 
 // @public
-export interface Cache {
+export interface Cache extends ProxyResource {
     cacheSizeGB?: number;
     directoryServicesSettings?: CacheDirectorySettings;
     encryptionSettings?: CacheEncryptionSettings;
     readonly health?: CacheHealth;
-    readonly id?: string;
     identity?: CacheIdentity;
     location?: string;
     readonly mountAddresses?: string[];
-    readonly name?: string;
     networkSettings?: CacheNetworkSettings;
-    readonly primingJobs?: PrimingJob[];
+    primingJobs?: PrimingJob[];
     readonly provisioningState?: ProvisioningStateType;
     securitySettings?: CacheSecuritySettings;
     sku?: CacheSku;
     readonly spaceAllocation?: StorageTargetSpaceAllocation[];
     subnet?: string;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
+    tags?: Record<string, string>;
     upgradeSettings?: CacheUpgradeSettings;
     readonly upgradeStatus?: CacheUpgradeStatus;
     zones?: string[];
@@ -705,9 +662,7 @@ export interface CacheIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: CacheIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentitiesValue;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
 
 // @public
@@ -723,68 +678,35 @@ export interface CacheNetworkSettings {
 }
 
 // @public
-export interface Caches {
-    beginCreateOrUpdate(resourceGroupName: string, cacheName: string, cache: Cache, options?: CachesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CachesCreateOrUpdateResponse>, CachesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, cacheName: string, cache: Cache, options?: CachesCreateOrUpdateOptionalParams): Promise<CachesCreateOrUpdateResponse>;
-    beginDebugInfo(resourceGroupName: string, cacheName: string, options?: CachesDebugInfoOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDebugInfoAndWait(resourceGroupName: string, cacheName: string, options?: CachesDebugInfoOptionalParams): Promise<void>;
-    beginDelete(resourceGroupName: string, cacheName: string, options?: CachesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, cacheName: string, options?: CachesDeleteOptionalParams): Promise<void>;
-    beginFlush(resourceGroupName: string, cacheName: string, options?: CachesFlushOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginFlushAndWait(resourceGroupName: string, cacheName: string, options?: CachesFlushOptionalParams): Promise<void>;
-    beginPausePrimingJob(resourceGroupName: string, cacheName: string, options?: CachesPausePrimingJobOptionalParams): Promise<SimplePollerLike<OperationState<CachesPausePrimingJobResponse>, CachesPausePrimingJobResponse>>;
-    beginPausePrimingJobAndWait(resourceGroupName: string, cacheName: string, options?: CachesPausePrimingJobOptionalParams): Promise<CachesPausePrimingJobResponse>;
-    beginResumePrimingJob(resourceGroupName: string, cacheName: string, options?: CachesResumePrimingJobOptionalParams): Promise<SimplePollerLike<OperationState<CachesResumePrimingJobResponse>, CachesResumePrimingJobResponse>>;
-    beginResumePrimingJobAndWait(resourceGroupName: string, cacheName: string, options?: CachesResumePrimingJobOptionalParams): Promise<CachesResumePrimingJobResponse>;
-    beginSpaceAllocation(resourceGroupName: string, cacheName: string, options?: CachesSpaceAllocationOptionalParams): Promise<SimplePollerLike<OperationState<CachesSpaceAllocationResponse>, CachesSpaceAllocationResponse>>;
-    beginSpaceAllocationAndWait(resourceGroupName: string, cacheName: string, options?: CachesSpaceAllocationOptionalParams): Promise<CachesSpaceAllocationResponse>;
-    beginStart(resourceGroupName: string, cacheName: string, options?: CachesStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStartAndWait(resourceGroupName: string, cacheName: string, options?: CachesStartOptionalParams): Promise<void>;
-    beginStartPrimingJob(resourceGroupName: string, cacheName: string, options?: CachesStartPrimingJobOptionalParams): Promise<SimplePollerLike<OperationState<CachesStartPrimingJobResponse>, CachesStartPrimingJobResponse>>;
-    beginStartPrimingJobAndWait(resourceGroupName: string, cacheName: string, options?: CachesStartPrimingJobOptionalParams): Promise<CachesStartPrimingJobResponse>;
-    beginStop(resourceGroupName: string, cacheName: string, options?: CachesStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStopAndWait(resourceGroupName: string, cacheName: string, options?: CachesStopOptionalParams): Promise<void>;
-    beginStopPrimingJob(resourceGroupName: string, cacheName: string, options?: CachesStopPrimingJobOptionalParams): Promise<SimplePollerLike<OperationState<CachesStopPrimingJobResponse>, CachesStopPrimingJobResponse>>;
-    beginStopPrimingJobAndWait(resourceGroupName: string, cacheName: string, options?: CachesStopPrimingJobOptionalParams): Promise<CachesStopPrimingJobResponse>;
-    beginUpdate(resourceGroupName: string, cacheName: string, options?: CachesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CachesUpdateResponse>, CachesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, cacheName: string, options?: CachesUpdateOptionalParams): Promise<CachesUpdateResponse>;
-    beginUpgradeFirmware(resourceGroupName: string, cacheName: string, options?: CachesUpgradeFirmwareOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginUpgradeFirmwareAndWait(resourceGroupName: string, cacheName: string, options?: CachesUpgradeFirmwareOptionalParams): Promise<void>;
-    get(resourceGroupName: string, cacheName: string, options?: CachesGetOptionalParams): Promise<CachesGetResponse>;
-    list(options?: CachesListOptionalParams): PagedAsyncIterableIterator<Cache>;
-    listByResourceGroup(resourceGroupName: string, options?: CachesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cache>;
+export interface CacheProperties {
+    cacheSizeGB?: number;
+    directoryServicesSettings?: CacheDirectorySettings;
+    encryptionSettings?: CacheEncryptionSettings;
+    readonly health?: CacheHealth;
+    readonly mountAddresses?: string[];
+    networkSettings?: CacheNetworkSettings;
+    primingJobs?: PrimingJob[];
+    readonly provisioningState?: ProvisioningStateType;
+    securitySettings?: CacheSecuritySettings;
+    readonly spaceAllocation?: StorageTargetSpaceAllocation[];
+    subnet?: string;
+    upgradeSettings?: CacheUpgradeSettings;
+    readonly upgradeStatus?: CacheUpgradeStatus;
+    zones?: string[];
 }
 
 // @public
-export interface CachesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CachesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CachesCreateOrUpdateResponse = Cache;
-
-// @public
-export interface CachesDebugInfoHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CachesDebugInfoOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CachesDebugInfoOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CachesDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CachesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CachesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -794,23 +716,13 @@ export interface CacheSecuritySettings {
 }
 
 // @public
-export interface CachesFlushHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CachesFlushOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CachesFlushOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CachesGetOptionalParams extends coreClient.OperationOptions {
+export interface CachesGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type CachesGetResponse = Cache;
 
 // @public
 export interface CacheSku {
@@ -818,168 +730,133 @@ export interface CacheSku {
 }
 
 // @public
-export interface CachesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface CachesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CachesListByResourceGroupNextResponse = CachesListResult;
-
-// @public
-export interface CachesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface CachesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CachesListByResourceGroupResponse = CachesListResult;
-
-// @public
-export interface CachesListNextOptionalParams extends coreClient.OperationOptions {
+export interface CachesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, cacheName: string, cache: Cache, options?: CachesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Cache>, Cache>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, cacheName: string, cache: Cache, options?: CachesCreateOrUpdateOptionalParams) => Promise<Cache>;
+    // @deprecated (undocumented)
+    beginDebugInfo: (resourceGroupName: string, cacheName: string, options?: CachesDebugInfoOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDebugInfoAndWait: (resourceGroupName: string, cacheName: string, options?: CachesDebugInfoOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, cacheName: string, options?: CachesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, cacheName: string, options?: CachesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginFlush: (resourceGroupName: string, cacheName: string, options?: CachesFlushOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginFlushAndWait: (resourceGroupName: string, cacheName: string, options?: CachesFlushOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPausePrimingJob: (resourceGroupName: string, cacheName: string, options?: CachesPausePrimingJobOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPausePrimingJobAndWait: (resourceGroupName: string, cacheName: string, options?: CachesPausePrimingJobOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginResumePrimingJob: (resourceGroupName: string, cacheName: string, options?: CachesResumePrimingJobOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginResumePrimingJobAndWait: (resourceGroupName: string, cacheName: string, options?: CachesResumePrimingJobOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginSpaceAllocation: (resourceGroupName: string, cacheName: string, options?: CachesSpaceAllocationOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginSpaceAllocationAndWait: (resourceGroupName: string, cacheName: string, options?: CachesSpaceAllocationOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, cacheName: string, options?: CachesStartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, cacheName: string, options?: CachesStartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStartPrimingJob: (resourceGroupName: string, cacheName: string, options?: CachesStartPrimingJobOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartPrimingJobAndWait: (resourceGroupName: string, cacheName: string, options?: CachesStartPrimingJobOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStop: (resourceGroupName: string, cacheName: string, options?: CachesStopOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStopAndWait: (resourceGroupName: string, cacheName: string, options?: CachesStopOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStopPrimingJob: (resourceGroupName: string, cacheName: string, options?: CachesStopPrimingJobOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStopPrimingJobAndWait: (resourceGroupName: string, cacheName: string, options?: CachesStopPrimingJobOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, cacheName: string, options?: CachesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Cache>, Cache>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, cacheName: string, options?: CachesUpdateOptionalParams) => Promise<Cache>;
+    // @deprecated (undocumented)
+    beginUpgradeFirmware: (resourceGroupName: string, cacheName: string, options?: CachesUpgradeFirmwareOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginUpgradeFirmwareAndWait: (resourceGroupName: string, cacheName: string, options?: CachesUpgradeFirmwareOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, cacheName: string, cache: Cache, options?: CachesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Cache>, Cache>;
+    debugInfo: (resourceGroupName: string, cacheName: string, options?: CachesDebugInfoOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, cacheName: string, options?: CachesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    flush: (resourceGroupName: string, cacheName: string, options?: CachesFlushOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, cacheName: string, options?: CachesGetOptionalParams) => Promise<Cache>;
+    list: (options?: CachesListOptionalParams) => PagedAsyncIterableIterator<Cache>;
+    listByResourceGroup: (resourceGroupName: string, options?: CachesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Cache>;
+    pausePrimingJob: (resourceGroupName: string, cacheName: string, options?: CachesPausePrimingJobOptionalParams) => PollerLike<OperationState<void>, void>;
+    resumePrimingJob: (resourceGroupName: string, cacheName: string, options?: CachesResumePrimingJobOptionalParams) => PollerLike<OperationState<void>, void>;
+    spaceAllocation: (resourceGroupName: string, cacheName: string, options?: CachesSpaceAllocationOptionalParams) => PollerLike<OperationState<void>, void>;
+    start: (resourceGroupName: string, cacheName: string, options?: CachesStartOptionalParams) => PollerLike<OperationState<void>, void>;
+    startPrimingJob: (resourceGroupName: string, cacheName: string, options?: CachesStartPrimingJobOptionalParams) => PollerLike<OperationState<void>, void>;
+    stop: (resourceGroupName: string, cacheName: string, options?: CachesStopOptionalParams) => PollerLike<OperationState<void>, void>;
+    stopPrimingJob: (resourceGroupName: string, cacheName: string, options?: CachesStopPrimingJobOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, cacheName: string, options?: CachesUpdateOptionalParams) => PollerLike<OperationState<Cache>, Cache>;
+    upgradeFirmware: (resourceGroupName: string, cacheName: string, options?: CachesUpgradeFirmwareOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export type CachesListNextResponse = CachesListResult;
-
-// @public
-export interface CachesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CachesListResponse = CachesListResult;
-
-// @public
-export interface CachesListResult {
-    nextLink?: string;
-    value?: Cache[];
-}
-
-// @public
-export interface CachesPausePrimingJobHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CachesPausePrimingJobOptionalParams extends coreClient.OperationOptions {
+export interface CachesPausePrimingJobOptionalParams extends OperationOptions {
     primingJobId?: PrimingJobIdParameter;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CachesPausePrimingJobResponse = CachesPausePrimingJobHeaders;
-
-// @public
-export interface CachesResumePrimingJobHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CachesResumePrimingJobOptionalParams extends coreClient.OperationOptions {
+export interface CachesResumePrimingJobOptionalParams extends OperationOptions {
     primingJobId?: PrimingJobIdParameter;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CachesResumePrimingJobResponse = CachesResumePrimingJobHeaders;
-
-// @public
-export interface CachesSpaceAllocationHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CachesSpaceAllocationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    spaceAllocation?: StorageTargetSpaceAllocation[];
+export interface CachesSpaceAllocationOptionalParams extends OperationOptions {
+    spaceAllocationParameter?: StorageTargetSpaceAllocation[];
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CachesSpaceAllocationResponse = CachesSpaceAllocationHeaders;
-
-// @public
-export interface CachesStartHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CachesStartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CachesStartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CachesStartPrimingJobHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CachesStartPrimingJobOptionalParams extends coreClient.OperationOptions {
+export interface CachesStartPrimingJobOptionalParams extends OperationOptions {
     primingjob?: PrimingJob;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CachesStartPrimingJobResponse = CachesStartPrimingJobHeaders;
-
-// @public
-export interface CachesStopHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CachesStopOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CachesStopOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CachesStopPrimingJobHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CachesStopPrimingJobOptionalParams extends coreClient.OperationOptions {
+export interface CachesStopPrimingJobOptionalParams extends OperationOptions {
     primingJobId?: PrimingJobIdParameter;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CachesStopPrimingJobResponse = CachesStopPrimingJobHeaders;
-
-// @public
-export interface CachesUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CachesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface CachesUpdateOptionalParams extends OperationOptions {
     cache?: Cache;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CachesUpdateResponse = Cache;
-
-// @public
-export interface CachesUpgradeFirmwareHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CachesUpgradeFirmwareOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CachesUpgradeFirmwareOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -1021,7 +898,7 @@ export interface CacheUsernameDownloadSettingsCredentials {
 }
 
 // @public
-export interface CheckAmlFSSubnetsOptionalParams extends coreClient.OperationOptions {
+export interface CheckAmlFSSubnetsOptionalParams extends OperationOptions {
     amlFilesystemSubnetInfo?: AmlFilesystemSubnetInfo;
 }
 
@@ -1053,6 +930,11 @@ export interface Condition {
 export type ConflictResolutionMode = string;
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -1060,7 +942,7 @@ export type DomainJoinedType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -1080,6 +962,13 @@ export interface ErrorResponse {
 
 // @public
 export interface ExpansionJob extends TrackedResource {
+    newStorageCapacityTiB?: number;
+    readonly provisioningState?: ExpansionJobPropertiesProvisioningState;
+    readonly status?: ExpansionJobPropertiesStatus;
+}
+
+// @public
+export interface ExpansionJobProperties {
     readonly completionTimeUTC?: Date;
     newStorageCapacityTiB?: number;
     readonly percentComplete?: number;
@@ -1094,97 +983,65 @@ export interface ExpansionJob extends TrackedResource {
 export type ExpansionJobPropertiesProvisioningState = string;
 
 // @public
-export interface ExpansionJobs {
-    beginCreateOrUpdate(resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, expansionJob: ExpansionJob, options?: ExpansionJobsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExpansionJobsCreateOrUpdateResponse>, ExpansionJobsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, expansionJob: ExpansionJob, options?: ExpansionJobsCreateOrUpdateOptionalParams): Promise<ExpansionJobsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, options?: ExpansionJobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ExpansionJobsDeleteResponse>, ExpansionJobsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, options?: ExpansionJobsDeleteOptionalParams): Promise<ExpansionJobsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, expansionJob: ExpansionJobUpdate, options?: ExpansionJobsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExpansionJobsUpdateResponse>, ExpansionJobsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, expansionJob: ExpansionJobUpdate, options?: ExpansionJobsUpdateOptionalParams): Promise<ExpansionJobsUpdateResponse>;
-    get(resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, options?: ExpansionJobsGetOptionalParams): Promise<ExpansionJobsGetResponse>;
-    listByAmlFilesystem(resourceGroupName: string, amlFilesystemName: string, options?: ExpansionJobsListByAmlFilesystemOptionalParams): PagedAsyncIterableIterator<ExpansionJob>;
+export interface ExpansionJobPropertiesStatus {
+    readonly completionTimeUTC?: Date;
+    readonly percentComplete?: number;
+    readonly startTimeUTC?: Date;
+    readonly state?: ExpansionJobStatusType;
+    readonly statusCode?: string;
+    readonly statusMessage?: string;
 }
 
 // @public
-export interface ExpansionJobsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ExpansionJobsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExpansionJobsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ExpansionJobsCreateOrUpdateResponse = ExpansionJob;
-
-// @public
-export interface ExpansionJobsDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ExpansionJobsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExpansionJobsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ExpansionJobsDeleteResponse = ExpansionJobsDeleteHeaders;
-
-// @public
-export interface ExpansionJobsGetOptionalParams extends coreClient.OperationOptions {
+export interface ExpansionJobsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExpansionJobsGetResponse = ExpansionJob;
-
-// @public
-export interface ExpansionJobsListByAmlFilesystemNextOptionalParams extends coreClient.OperationOptions {
+export interface ExpansionJobsListByAmlFilesystemOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExpansionJobsListByAmlFilesystemNextResponse = ExpansionJobsListResult;
-
-// @public
-export interface ExpansionJobsListByAmlFilesystemOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExpansionJobsListByAmlFilesystemResponse = ExpansionJobsListResult;
-
-// @public
-export interface ExpansionJobsListResult {
-    nextLink?: string;
-    value?: ExpansionJob[];
+export interface ExpansionJobsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, expansionJob: ExpansionJob, options?: ExpansionJobsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ExpansionJob>, ExpansionJob>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, expansionJob: ExpansionJob, options?: ExpansionJobsCreateOrUpdateOptionalParams) => Promise<ExpansionJob>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, options?: ExpansionJobsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, options?: ExpansionJobsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, expansionJob: ExpansionJobUpdate, options?: ExpansionJobsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ExpansionJob>, ExpansionJob>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, expansionJob: ExpansionJobUpdate, options?: ExpansionJobsUpdateOptionalParams) => Promise<ExpansionJob>;
+    createOrUpdate: (resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, expansionJob: ExpansionJob, options?: ExpansionJobsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ExpansionJob>, ExpansionJob>;
+    delete: (resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, options?: ExpansionJobsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, options?: ExpansionJobsGetOptionalParams) => Promise<ExpansionJob>;
+    listByAmlFilesystem: (resourceGroupName: string, amlFilesystemName: string, options?: ExpansionJobsListByAmlFilesystemOptionalParams) => PagedAsyncIterableIterator<ExpansionJob>;
+    update: (resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, expansionJob: ExpansionJobUpdate, options?: ExpansionJobsUpdateOptionalParams) => PollerLike<OperationState<ExpansionJob>, ExpansionJob>;
 }
 
 // @public
 export type ExpansionJobStatusType = string;
 
 // @public
-export interface ExpansionJobsUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ExpansionJobsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExpansionJobsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ExpansionJobsUpdateResponse = ExpansionJob;
-
-// @public
 export interface ExpansionJobUpdate {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1194,21 +1051,28 @@ export type FilesystemSubnetStatusType = string;
 export type FirmwareStatusType = string;
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export interface GetRequiredAmlFSSubnetsSizeOptionalParams extends coreClient.OperationOptions {
+export interface GetRequiredAmlFSSubnetsSizeOptionalParams extends OperationOptions {
     requiredAMLFilesystemSubnetsSizeInfo?: RequiredAmlFilesystemSubnetsSizeInfo;
 }
-
-// @public
-export type GetRequiredAmlFSSubnetsSizeResponse = RequiredAmlFilesystemSubnetsSize;
 
 // @public
 export type HealthStateType = string;
 
 // @public
 export interface ImportJob extends TrackedResource {
+    adminStatus?: ImportJobAdminStatus;
+    conflictResolutionMode?: ConflictResolutionMode;
+    importPrefixes?: string[];
+    maximumErrors?: number;
+    readonly provisioningState?: ImportJobProvisioningStateType;
+    readonly status?: ImportJobPropertiesStatus;
+}
+
+// @public
+export type ImportJobAdminStatus = string;
+
+// @public
+export interface ImportJobProperties {
     adminStatus?: ImportJobAdminStatus;
     readonly blobsImportedPerSecond?: number;
     readonly blobsWalkedPerSecond?: number;
@@ -1233,104 +1097,87 @@ export interface ImportJob extends TrackedResource {
 }
 
 // @public
-export type ImportJobAdminStatus = string;
+export interface ImportJobPropertiesStatus {
+    readonly blobsImportedPerSecond?: number;
+    readonly blobsWalkedPerSecond?: number;
+    readonly importedDirectories?: number;
+    readonly importedFiles?: number;
+    readonly importedSymlinks?: number;
+    readonly lastCompletionTime?: Date;
+    readonly lastStartedTime?: Date;
+    readonly preexistingDirectories?: number;
+    readonly preexistingFiles?: number;
+    readonly preexistingSymlinks?: number;
+    readonly state?: ImportStatusType;
+    readonly statusMessage?: string;
+    readonly totalBlobsImported?: number;
+    readonly totalBlobsWalked?: number;
+    readonly totalConflicts?: number;
+    readonly totalErrors?: number;
+}
 
 // @public
 export type ImportJobProvisioningStateType = string;
 
 // @public
-export interface ImportJobs {
-    beginCreateOrUpdate(resourceGroupName: string, amlFilesystemName: string, importJobName: string, importJob: ImportJob, options?: ImportJobsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ImportJobsCreateOrUpdateResponse>, ImportJobsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, importJobName: string, importJob: ImportJob, options?: ImportJobsCreateOrUpdateOptionalParams): Promise<ImportJobsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, amlFilesystemName: string, importJobName: string, options?: ImportJobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ImportJobsDeleteResponse>, ImportJobsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, amlFilesystemName: string, importJobName: string, options?: ImportJobsDeleteOptionalParams): Promise<ImportJobsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, amlFilesystemName: string, importJobName: string, importJob: ImportJobUpdate, options?: ImportJobsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ImportJobsUpdateResponse>, ImportJobsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, importJobName: string, importJob: ImportJobUpdate, options?: ImportJobsUpdateOptionalParams): Promise<ImportJobsUpdateResponse>;
-    get(resourceGroupName: string, amlFilesystemName: string, importJobName: string, options?: ImportJobsGetOptionalParams): Promise<ImportJobsGetResponse>;
-    listByAmlFilesystem(resourceGroupName: string, amlFilesystemName: string, options?: ImportJobsListByAmlFilesystemOptionalParams): PagedAsyncIterableIterator<ImportJob>;
-}
-
-// @public
-export interface ImportJobsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ImportJobsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ImportJobsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ImportJobsCreateOrUpdateResponse = ImportJob;
-
-// @public
-export interface ImportJobsDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ImportJobsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ImportJobsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ImportJobsDeleteResponse = ImportJobsDeleteHeaders;
-
-// @public
-export interface ImportJobsGetOptionalParams extends coreClient.OperationOptions {
+export interface ImportJobsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ImportJobsGetResponse = ImportJob;
-
-// @public
-export interface ImportJobsListByAmlFilesystemNextOptionalParams extends coreClient.OperationOptions {
+export interface ImportJobsListByAmlFilesystemOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ImportJobsListByAmlFilesystemNextResponse = ImportJobsListResult;
-
-// @public
-export interface ImportJobsListByAmlFilesystemOptionalParams extends coreClient.OperationOptions {
+export interface ImportJobsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, amlFilesystemName: string, importJobName: string, importJob: ImportJob, options?: ImportJobsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ImportJob>, ImportJob>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, amlFilesystemName: string, importJobName: string, importJob: ImportJob, options?: ImportJobsCreateOrUpdateOptionalParams) => Promise<ImportJob>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, amlFilesystemName: string, importJobName: string, options?: ImportJobsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, amlFilesystemName: string, importJobName: string, options?: ImportJobsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, amlFilesystemName: string, importJobName: string, importJob: ImportJobUpdate, options?: ImportJobsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ImportJob>, ImportJob>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, amlFilesystemName: string, importJobName: string, importJob: ImportJobUpdate, options?: ImportJobsUpdateOptionalParams) => Promise<ImportJob>;
+    createOrUpdate: (resourceGroupName: string, amlFilesystemName: string, importJobName: string, importJob: ImportJob, options?: ImportJobsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ImportJob>, ImportJob>;
+    delete: (resourceGroupName: string, amlFilesystemName: string, importJobName: string, options?: ImportJobsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, amlFilesystemName: string, importJobName: string, options?: ImportJobsGetOptionalParams) => Promise<ImportJob>;
+    listByAmlFilesystem: (resourceGroupName: string, amlFilesystemName: string, options?: ImportJobsListByAmlFilesystemOptionalParams) => PagedAsyncIterableIterator<ImportJob>;
+    update: (resourceGroupName: string, amlFilesystemName: string, importJobName: string, importJob: ImportJobUpdate, options?: ImportJobsUpdateOptionalParams) => PollerLike<OperationState<ImportJob>, ImportJob>;
 }
 
 // @public
-export type ImportJobsListByAmlFilesystemResponse = ImportJobsListResult;
-
-// @public
-export interface ImportJobsListResult {
-    nextLink?: string;
-    value?: ImportJob[];
-}
-
-// @public
-export interface ImportJobsUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ImportJobsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ImportJobsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ImportJobsUpdateResponse = ImportJob;
 
 // @public
 export interface ImportJobUpdate {
     adminStatus?: ImportJobAdminStatus;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ImportJobUpdateProperties {
+    adminStatus?: ImportJobAdminStatus;
 }
 
 // @public
 export type ImportStatusType = string;
+
+export { isRestError }
 
 // @public
 export interface KeyVaultKeyReference {
@@ -1614,6 +1461,11 @@ export enum KnownUsernameSource {
 }
 
 // @public
+export enum KnownVersions {
+    V20260101 = "2026-01-01"
+}
+
+// @public
 export interface LogSpecification {
     displayName?: string;
     name?: string;
@@ -1689,23 +1541,25 @@ export type NfsAccessRuleScope = string;
 export type OperationalStateType = string;
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<ApiOperation>;
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<ApiOperation>;
 }
 
 // @public
-export type OperationsListNextResponse = ApiOperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListResponse = ApiOperationListResult;
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface PrimingJob {
@@ -1728,6 +1582,10 @@ export type PrimingJobState = string;
 
 // @public
 export type ProvisioningStateType = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type ReasonCode = string;
@@ -1774,12 +1632,6 @@ export interface ResourceSkuLocationInfo {
 }
 
 // @public
-export interface ResourceSkusResult {
-    nextLink?: string;
-    readonly value?: ResourceSku[];
-}
-
-// @public
 export interface ResourceUsage {
     readonly currentValue?: number;
     readonly limit?: number;
@@ -1793,10 +1645,16 @@ export interface ResourceUsageName {
     value?: string;
 }
 
+export { RestError }
+
 // @public
-export interface ResourceUsagesListResult {
-    readonly nextLink?: string;
-    readonly value?: ResourceUsage[];
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: StorageCacheManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1807,81 +1665,76 @@ export interface Restriction {
 }
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface SkuName {
     name?: string;
 }
 
 // @public
-export interface Skus {
-    list(options?: SkusListOptionalParams): PagedAsyncIterableIterator<ResourceSku>;
+export interface SkusListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SkusListNextOptionalParams extends coreClient.OperationOptions {
+export interface SkusOperations {
+    list: (options?: SkusListOptionalParams) => PagedAsyncIterableIterator<ResourceSku>;
 }
-
-// @public
-export type SkusListNextResponse = ResourceSkusResult;
-
-// @public
-export interface SkusListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SkusListResponse = ResourceSkusResult;
 
 // @public (undocumented)
-export class StorageCacheManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: StorageCacheManagementClientOptionalParams);
-    // (undocumented)
-    amlFilesystems: AmlFilesystems;
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    ascOperations: AscOperations;
-    // (undocumented)
-    ascUsages: AscUsages;
-    // (undocumented)
-    autoExportJobs: AutoExportJobs;
-    // (undocumented)
-    autoImportJobs: AutoImportJobs;
-    // (undocumented)
-    caches: Caches;
+export class StorageCacheManagementClient {
+    constructor(credential: TokenCredential, options?: StorageCacheManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: StorageCacheManagementClientOptionalParams);
+    readonly amlFilesystems: AmlFilesystemsOperations;
+    readonly ascOperations: AscOperationsOperations;
+    readonly ascUsages: AscUsagesOperations;
+    readonly autoExportJobs: AutoExportJobsOperations;
+    readonly autoImportJobs: AutoImportJobsOperations;
+    readonly caches: CachesOperations;
     checkAmlFSSubnets(options?: CheckAmlFSSubnetsOptionalParams): Promise<void>;
-    // (undocumented)
-    expansionJobs: ExpansionJobs;
-    getRequiredAmlFSSubnetsSize(options?: GetRequiredAmlFSSubnetsSizeOptionalParams): Promise<GetRequiredAmlFSSubnetsSizeResponse>;
-    // (undocumented)
-    importJobs: ImportJobs;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    skus: Skus;
-    // (undocumented)
-    storageTargetOperations: StorageTargetOperations;
-    // (undocumented)
-    storageTargets: StorageTargets;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    usageModels: UsageModels;
+    readonly expansionJobs: ExpansionJobsOperations;
+    getRequiredAmlFSSubnetsSize(options?: GetRequiredAmlFSSubnetsSizeOptionalParams): Promise<RequiredAmlFilesystemSubnetsSize>;
+    readonly importJobs: ImportJobsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly skus: SkusOperations;
+    readonly storageTarget: StorageTargetOperations;
+    readonly storageTargets: StorageTargetsOperations;
+    readonly usageModels: UsageModelsOperations;
 }
 
 // @public
-export interface StorageCacheManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface StorageCacheManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface StorageTarget extends StorageTargetResource {
+export interface StorageTarget extends ProxyResource {
     readonly allocationPercentage?: number;
     blobNfs?: BlobNfsTarget;
     clfs?: ClfsTarget;
     junctions?: NamespaceJunction[];
+    readonly location?: string;
     nfs3?: Nfs3Target;
     readonly provisioningState?: ProvisioningStateType;
     state?: OperationalStateType;
@@ -1890,130 +1743,106 @@ export interface StorageTarget extends StorageTargetResource {
 }
 
 // @public
-export interface StorageTargetFlushHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface StorageTargetFlushOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StorageTargetFlushOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StorageTargetInvalidateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface StorageTargetInvalidateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StorageTargetInvalidateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface StorageTargetOperations {
-    beginFlush(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginFlushAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams): Promise<void>;
-    beginInvalidate(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginInvalidateAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams): Promise<void>;
-    beginResume(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginResumeAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams): Promise<void>;
-    beginSuspend(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetSuspendOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginSuspendAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetSuspendOptionalParams): Promise<void>;
+    // @deprecated (undocumented)
+    beginFlush: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginFlushAndWait: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginInvalidate: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginInvalidateAndWait: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginResume: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginResumeAndWait: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginSuspend: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetSuspendOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginSuspendAndWait: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetSuspendOptionalParams) => Promise<void>;
+    flush: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams) => PollerLike<OperationState<void>, void>;
+    invalidate: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams) => PollerLike<OperationState<void>, void>;
+    resume: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams) => PollerLike<OperationState<void>, void>;
+    suspend: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetSuspendOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export interface StorageTargetResource {
-    readonly id?: string;
-    readonly location?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    readonly type?: string;
+export interface StorageTargetProperties {
+    readonly allocationPercentage?: number;
+    blobNfs?: BlobNfsTarget;
+    clfs?: ClfsTarget;
+    junctions?: NamespaceJunction[];
+    nfs3?: Nfs3Target;
+    readonly provisioningState?: ProvisioningStateType;
+    state?: OperationalStateType;
+    targetType: StorageTargetType;
+    unknown?: UnknownTarget;
 }
 
 // @public
-export interface StorageTargetResumeHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface StorageTargetResumeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StorageTargetResumeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StorageTargets {
-    beginCreateOrUpdate(resourceGroupName: string, cacheName: string, storageTargetName: string, storagetarget: StorageTarget, options?: StorageTargetsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageTargetsCreateOrUpdateResponse>, StorageTargetsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, storagetarget: StorageTarget, options?: StorageTargetsCreateOrUpdateOptionalParams): Promise<StorageTargetsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsDeleteOptionalParams): Promise<void>;
-    beginDnsRefresh(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsDnsRefreshOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDnsRefreshAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsDnsRefreshOptionalParams): Promise<void>;
-    beginRestoreDefaults(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsRestoreDefaultsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestoreDefaultsAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsRestoreDefaultsOptionalParams): Promise<void>;
-    get(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsGetOptionalParams): Promise<StorageTargetsGetResponse>;
-    listByCache(resourceGroupName: string, cacheName: string, options?: StorageTargetsListByCacheOptionalParams): PagedAsyncIterableIterator<StorageTarget>;
-}
-
-// @public
-export interface StorageTargetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StorageTargetsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StorageTargetsCreateOrUpdateResponse = StorageTarget;
-
-// @public
-export interface StorageTargetsDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface StorageTargetsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface StorageTargetsDeleteOptionalParams extends OperationOptions {
     force?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StorageTargetsDnsRefreshHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface StorageTargetsDnsRefreshOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StorageTargetsDnsRefreshOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StorageTargetsGetOptionalParams extends coreClient.OperationOptions {
+export interface StorageTargetsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StorageTargetsGetResponse = StorageTarget;
-
-// @public
-export interface StorageTargetsListByCacheNextOptionalParams extends coreClient.OperationOptions {
+export interface StorageTargetsListByCacheOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StorageTargetsListByCacheNextResponse = StorageTargetsResult;
-
-// @public
-export interface StorageTargetsListByCacheOptionalParams extends coreClient.OperationOptions {
+export interface StorageTargetsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, cacheName: string, storageTargetName: string, storagetarget: StorageTarget, options?: StorageTargetsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<StorageTarget>, StorageTarget>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, cacheName: string, storageTargetName: string, storagetarget: StorageTarget, options?: StorageTargetsCreateOrUpdateOptionalParams) => Promise<StorageTarget>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDnsRefresh: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsDnsRefreshOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDnsRefreshAndWait: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsDnsRefreshOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestoreDefaults: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsRestoreDefaultsOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreDefaultsAndWait: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsRestoreDefaultsOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, cacheName: string, storageTargetName: string, storagetarget: StorageTarget, options?: StorageTargetsCreateOrUpdateOptionalParams) => PollerLike<OperationState<StorageTarget>, StorageTarget>;
+    delete: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    dnsRefresh: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsDnsRefreshOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsGetOptionalParams) => Promise<StorageTarget>;
+    listByCache: (resourceGroupName: string, cacheName: string, options?: StorageTargetsListByCacheOptionalParams) => PagedAsyncIterableIterator<StorageTarget>;
+    restoreDefaults: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsRestoreDefaultsOptionalParams) => PollerLike<OperationState<void>, void>;
 }
-
-// @public
-export type StorageTargetsListByCacheResponse = StorageTargetsResult;
 
 // @public
 export interface StorageTargetSpaceAllocation {
@@ -2022,32 +1851,12 @@ export interface StorageTargetSpaceAllocation {
 }
 
 // @public
-export interface StorageTargetsRestoreDefaultsHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface StorageTargetsRestoreDefaultsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StorageTargetsRestoreDefaultsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StorageTargetsResult {
-    nextLink?: string;
-    value?: StorageTarget[];
-}
-
-// @public
-export interface StorageTargetSuspendHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface StorageTargetSuspendOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StorageTargetSuspendOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -2067,16 +1876,12 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface UnknownTarget {
-    attributes?: {
-        [propertyName: string]: string;
-    };
+    attributes?: Record<string, string>;
 }
 
 // @public
@@ -2092,31 +1897,15 @@ export interface UsageModelDisplay {
 }
 
 // @public
-export interface UsageModels {
-    list(options?: UsageModelsListOptionalParams): PagedAsyncIterableIterator<UsageModel>;
+export interface UsageModelsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface UsageModelsListNextOptionalParams extends coreClient.OperationOptions {
+export interface UsageModelsOperations {
+    list: (options?: UsageModelsListOptionalParams) => PagedAsyncIterableIterator<UsageModel>;
 }
 
 // @public
-export type UsageModelsListNextResponse = UsageModelsResult;
-
-// @public
-export interface UsageModelsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type UsageModelsListResponse = UsageModelsResult;
-
-// @public
-export interface UsageModelsResult {
-    nextLink?: string;
-    value?: UsageModel[];
-}
-
-// @public (undocumented)
 export interface UserAssignedIdentitiesValue {
     readonly clientId?: string;
     readonly principalId?: string;

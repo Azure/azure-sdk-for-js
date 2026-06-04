@@ -1,5 +1,148 @@
 # Release History
 
+## 9.0.0-beta.1 (2026-06-04)
+Compared with version 8.2.0
+
+### Features Added
+  - Added operation AmlFilesystemsOperations.createOrUpdate
+  - Added operation AmlFilesystemsOperations.delete
+  - Added operation AmlFilesystemsOperations.update
+  - Added operation AutoExportJobsOperations.createOrUpdate
+  - Added operation AutoExportJobsOperations.delete
+  - Added operation AutoExportJobsOperations.update
+  - Added operation AutoImportJobsOperations.createOrUpdate
+  - Added operation AutoImportJobsOperations.delete
+  - Added operation AutoImportJobsOperations.update
+  - Added operation CachesOperations.createOrUpdate
+  - Added operation CachesOperations.debugInfo
+  - Added operation CachesOperations.delete
+  - Added operation CachesOperations.flush
+  - Added operation CachesOperations.pausePrimingJob
+  - Added operation CachesOperations.resumePrimingJob
+  - Added operation CachesOperations.spaceAllocation
+  - Added operation CachesOperations.start
+  - Added operation CachesOperations.startPrimingJob
+  - Added operation CachesOperations.stop
+  - Added operation CachesOperations.stopPrimingJob
+  - Added operation CachesOperations.update
+  - Added operation CachesOperations.upgradeFirmware
+  - Added operation ExpansionJobsOperations.createOrUpdate
+  - Added operation ExpansionJobsOperations.delete
+  - Added operation ExpansionJobsOperations.update
+  - Added operation ImportJobsOperations.createOrUpdate
+  - Added operation ImportJobsOperations.delete
+  - Added operation ImportJobsOperations.update
+  - Added operation StorageTargetOperations.flush
+  - Added operation StorageTargetOperations.invalidate
+  - Added operation StorageTargetOperations.resume
+  - Added operation StorageTargetOperations.suspend
+  - Added operation StorageTargetsOperations.createOrUpdate
+  - Added operation StorageTargetsOperations.delete
+  - Added operation StorageTargetsOperations.dnsRefresh
+  - Added operation StorageTargetsOperations.restoreDefaults
+  - Class StorageCacheManagementClient has a new constructor "constructor(credential: TokenCredential, options?: StorageCacheManagementClientOptionalParams);"
+  - Added Interface AmlFilesystemProperties
+  - Added Interface AmlFilesystemUpdateProperties
+  - Added Interface ApiOperationProperties
+  - Added Interface AscOperationProperties
+  - Added Interface AutoExportJobProperties
+  - Added Interface AutoExportJobPropertiesStatus
+  - Added Interface AutoExportJobUpdateProperties
+  - Added Interface AutoImportJobProperties
+  - Added Interface AutoImportJobPropertiesStatus
+  - Added Interface AutoImportJobUpdateProperties
+  - Added Interface CacheProperties
+  - Added Interface ExpansionJobProperties
+  - Added Interface ExpansionJobPropertiesStatus
+  - Added Interface ImportJobProperties
+  - Added Interface ImportJobPropertiesStatus
+  - Added Interface ImportJobUpdateProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Added Interface StorageTargetProperties
+  - Interface AutoExportJob has a new optional parameter status
+  - Interface AutoImportJob has a new optional parameter status
+  - Interface ExpansionJob has a new optional parameter status
+  - Interface ImportJob has a new optional parameter status
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Operation AutoExportJobs.beginDeleteAndWait has a new signature
+  - Operation AutoImportJobs.beginDeleteAndWait has a new signature
+  - Operation Caches.beginPausePrimingJobAndWait has a new signature
+  - Operation Caches.beginResumePrimingJobAndWait has a new signature
+  - Operation Caches.beginSpaceAllocationAndWait has a new signature
+  - Operation Caches.beginStartPrimingJobAndWait has a new signature
+  - Operation Caches.beginStopPrimingJobAndWait has a new signature
+  - Operation ExpansionJobs.beginDeleteAndWait has a new signature
+  - Operation ImportJobs.beginDeleteAndWait has a new signature
+  - Class StorageCacheManagementClient no longer has parameter apiVersion
+  - Class StorageCacheManagementClient no longer has parameter storageTargetOperations
+  - Class StorageCacheManagementClient no longer has parameter subscriptionId
+  - Removed Interface StorageTargetResource
+  - Interface AutoExportJob no longer has parameter currentIterationFilesDiscovered
+  - Interface AutoExportJob no longer has parameter currentIterationFilesExported
+  - Interface AutoExportJob no longer has parameter currentIterationFilesFailed
+  - Interface AutoExportJob no longer has parameter currentIterationMiBDiscovered
+  - Interface AutoExportJob no longer has parameter currentIterationMiBExported
+  - Interface AutoExportJob no longer has parameter exportIterationCount
+  - Interface AutoExportJob no longer has parameter lastCompletionTimeUTC
+  - Interface AutoExportJob no longer has parameter lastStartedTimeUTC
+  - Interface AutoExportJob no longer has parameter lastSuccessfulIterationCompletionTimeUTC
+  - Interface AutoExportJob no longer has parameter state
+  - Interface AutoExportJob no longer has parameter statusCode
+  - Interface AutoExportJob no longer has parameter statusMessage
+  - Interface AutoExportJob no longer has parameter totalFilesExported
+  - Interface AutoExportJob no longer has parameter totalFilesFailed
+  - Interface AutoExportJob no longer has parameter totalMiBExported
+  - Interface AutoImportJob no longer has parameter blobSyncEvents
+  - Interface AutoImportJob no longer has parameter importedDirectories
+  - Interface AutoImportJob no longer has parameter importedFiles
+  - Interface AutoImportJob no longer has parameter importedSymlinks
+  - Interface AutoImportJob no longer has parameter lastCompletionTimeUTC
+  - Interface AutoImportJob no longer has parameter lastStartedTimeUTC
+  - Interface AutoImportJob no longer has parameter preexistingDirectories
+  - Interface AutoImportJob no longer has parameter preexistingFiles
+  - Interface AutoImportJob no longer has parameter preexistingSymlinks
+  - Interface AutoImportJob no longer has parameter rateOfBlobImport
+  - Interface AutoImportJob no longer has parameter rateOfBlobWalk
+  - Interface AutoImportJob no longer has parameter scanEndTime
+  - Interface AutoImportJob no longer has parameter scanStartTime
+  - Interface AutoImportJob no longer has parameter state
+  - Interface AutoImportJob no longer has parameter statusCode
+  - Interface AutoImportJob no longer has parameter statusMessage
+  - Interface AutoImportJob no longer has parameter totalBlobsImported
+  - Interface AutoImportJob no longer has parameter totalBlobsWalked
+  - Interface AutoImportJob no longer has parameter totalConflicts
+  - Interface AutoImportJob no longer has parameter totalErrors
+  - Interface ExpansionJob no longer has parameter completionTimeUTC
+  - Interface ExpansionJob no longer has parameter percentComplete
+  - Interface ExpansionJob no longer has parameter startTimeUTC
+  - Interface ExpansionJob no longer has parameter state
+  - Interface ExpansionJob no longer has parameter statusCode
+  - Interface ExpansionJob no longer has parameter statusMessage
+  - Interface ImportJob no longer has parameter blobsImportedPerSecond
+  - Interface ImportJob no longer has parameter blobsWalkedPerSecond
+  - Interface ImportJob no longer has parameter importedDirectories
+  - Interface ImportJob no longer has parameter importedFiles
+  - Interface ImportJob no longer has parameter importedSymlinks
+  - Interface ImportJob no longer has parameter lastCompletionTime
+  - Interface ImportJob no longer has parameter lastStartedTime
+  - Interface ImportJob no longer has parameter preexistingDirectories
+  - Interface ImportJob no longer has parameter preexistingFiles
+  - Interface ImportJob no longer has parameter preexistingSymlinks
+  - Interface ImportJob no longer has parameter state
+  - Interface ImportJob no longer has parameter statusMessage
+  - Interface ImportJob no longer has parameter totalBlobsImported
+  - Interface ImportJob no longer has parameter totalBlobsWalked
+  - Interface ImportJob no longer has parameter totalConflicts
+  - Interface ImportJob no longer has parameter totalErrors
+
 ## 8.2.0 (2026-03-19)
 
 ### Features Added
