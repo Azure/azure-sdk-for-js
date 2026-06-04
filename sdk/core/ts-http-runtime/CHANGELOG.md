@@ -1,14 +1,11 @@
 # Release History
 
-## 0.3.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 0.3.6 (2026-06-04)
 
 ### Bugs Fixed
 
-- Fix an issue in `NodeHttpClient` where we incorrectly send the whole backing buffer when request body is an `ArrayBufferView`.
+- Fix an issue in `NodeHttpClient` where we incorrectly send the whole backing buffer when request body is an `ArrayBufferView`. [PR #38718](https://github.com/Azure/azure-sdk-for-js/pull/38718)
+- `createHttpHeaders` now strips CR (`\r`) and LF (`\n`) characters from header values to prevent obs-fold (line folding) sequences, as required by RFC 7230 §3.2.4. [PR #38744](https://github.com/Azure/azure-sdk-for-js/pull/38744)
 
 ### Other Changes
 

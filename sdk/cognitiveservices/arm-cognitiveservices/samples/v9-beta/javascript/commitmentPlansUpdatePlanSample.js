@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create Cognitive Services commitment plan.
  *
  * @summary create Cognitive Services commitment plan.
- * x-ms-original-file: 2026-01-15-preview/UpdateSharedCommitmentPlan.json
+ * x-ms-original-file: 2026-03-15-preview/UpdateSharedCommitmentPlan.json
  */
 async function createCommitmentPlan() {
   const credential = new DefaultAzureCredential();

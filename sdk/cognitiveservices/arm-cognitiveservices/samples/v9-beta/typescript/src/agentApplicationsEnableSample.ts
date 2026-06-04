@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to enables an Agent Application.
  *
  * @summary enables an Agent Application.
- * x-ms-original-file: 2026-01-15-preview/AgentApplication/enable.json
+ * x-ms-original-file: 2026-03-15-preview/AgentApplication/enable.json
  */
 async function enableAgentApplication(): Promise<void> {
   const credential = new DefaultAzureCredential();

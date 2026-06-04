@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the storage accounts available under the subscription. Note that storage keys are not returned; use the ListKeys operation for this.
  *
  * @summary lists all the storage accounts available under the subscription. Note that storage keys are not returned; use the ListKeys operation for this.
- * x-ms-original-file: 2025-08-01/StorageAccountList.json
+ * x-ms-original-file: 2026-04-01/StorageAccountList.json
  */
 async function storageAccountList(): Promise<void> {
   const credential = new DefaultAzureCredential();

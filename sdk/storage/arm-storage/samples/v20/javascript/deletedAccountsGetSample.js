@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get properties of specified deleted account resource.
  *
  * @summary get properties of specified deleted account resource.
- * x-ms-original-file: 2025-08-01/DeletedAccountGet.json
+ * x-ms-original-file: 2026-04-01/DeletedAccountGet.json
  */
 async function deletedAccountGet() {
   const credential = new DefaultAzureCredential();

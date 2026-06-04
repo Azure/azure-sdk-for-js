@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the available  Cognitive Services account connections under the specified account.
  *
  * @summary lists all the available  Cognitive Services account connections under the specified account.
- * x-ms-original-file: 2026-01-15-preview/AccountConnection/list.json
+ * x-ms-original-file: 2026-03-15-preview/AccountConnection/list.json
  */
 async function listAccountConnections() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns all the projects in a Cognitive Services account.
  *
  * @summary returns all the projects in a Cognitive Services account.
- * x-ms-original-file: 2026-01-15-preview/ListProjects.json
+ * x-ms-original-file: 2026-03-15-preview/ListProjects.json
  */
 async function listProject() {
   const credential = new DefaultAzureCredential();

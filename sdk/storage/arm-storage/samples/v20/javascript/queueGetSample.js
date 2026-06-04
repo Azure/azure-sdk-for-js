@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the queue with the specified queue name, under the specified account if it exists.
  *
  * @summary gets the queue with the specified queue name, under the specified account if it exists.
- * x-ms-original-file: 2025-08-01/QueueOperationGet.json
+ * x-ms-original-file: 2026-04-01/QueueOperationGet.json
  */
 async function queueOperationGet() {
   const credential = new DefaultAzureCredential();

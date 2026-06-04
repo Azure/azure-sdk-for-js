@@ -1,11 +1,22 @@
 # Release History
 
-## 1.19.0 (Unreleased)
+## 1.18.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.18.1 (2026-05-29)
 
 ### Other Changes
 
 - Updated OpenTelemetry experimental dependencies from `^0.217.0` to `^0.218.0` (`@opentelemetry/api-logs`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`, `@opentelemetry/sdk-logs`, `@opentelemetry/sdk-node`, `@opentelemetry/exporter-metrics-otlp-http`, `@opentelemetry/exporter-trace-otlp-http`). The `otlp-transformer` in this release replaces its `protobufjs` dependency with a custom serializer, resolving related `npm audit` advisories.
 - Removed the redundant private `quickpulseClientOptions` field from `QuickpulseSender`; tests now read `credential` and `credentialScopes` directly via bracket notation.
+- Updated to using exporter version 1.0.0-beta.42.
 
 ## 1.18.0 (2026-05-12)
 
@@ -53,13 +64,13 @@
 
 - Fixed OpenTelemetry API version mismatch causing Noop providers in VS Code extensions. When a different version of `@opentelemetry/api` was already loaded (e.g. by the VS Code extension host), `useAzureMonitor` would silently fall back to Noop providers, discarding all telemetry. The fix clears the stale global API state before initializing the SDK.
 
-### 1.15.1 (2026-01-16)
+## 1.15.1 (2026-01-16)
 
 ### Other Changes
 
 - Updated to using exporter version 1.0.0-beta.38.
 
-### 1.15.0 (2026-01-15)
+## 1.15.0 (2026-01-15)
 
 ### Features Added
 
@@ -69,25 +80,25 @@
 
 - Add support for automatic instrumentation in ESM environments.
 
-### 1.14.2 (2025-11-13)
+## 1.14.2 (2025-11-13)
 
 ### Bugs Fixed
 
 - Fix azure SDK dependency version imports.
 
-### 1.14.1 (2025-11-10)
+## 1.14.1 (2025-11-10)
 
 ### Bugs Fixed
 
 - Fix dynamically importing the monitor-opentelemetry packages in Next.js.
 
-### 1.14.0 (2025-09-16)
+## 1.14.0 (2025-09-16)
 
 ### Other Changes
 
 - Update exporter version.
 
-### 1.13.1 (2025-09-10)
+## 1.13.1 (2025-09-10)
 
 ### Bugs Fixed
 
@@ -97,7 +108,7 @@
 
 - Update OpenTelemetry dependencies.
 
-### 1.13.0 (2025-09-05)
+## 1.13.0 (2025-09-05)
 
 ### Features Added
 
