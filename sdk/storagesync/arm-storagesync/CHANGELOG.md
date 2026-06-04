@@ -125,8 +125,6 @@ Compared with version 9.1.0
   - Operation StorageSyncServices.beginDeleteAndWait has a new signature
   - Operation SyncGroups.delete has a new signature
   - Operation Workflows.abort has a new signature
-  - Class MicrosoftStorageSync no longer has parameter apiVersion
-  - Class MicrosoftStorageSync no longer has parameter subscriptionId
   - Removed Interface CloudEndpointArray
   - Removed Interface OperationDisplayResource
   - Removed Interface OperationStatusGetOptionalParams
