@@ -10,9 +10,7 @@ import type { NodeReadableStream } from "#platform/static-helpers/platform-types
  * Error handling is left to the caller so that generated deserializers can apply
  * operation-specific error deserialization (per-status-code details, exception headers, etc.).
  */
-export async function getBinaryStreamResponse(
-  streamableMethod: StreamableMethod
-): Promise<
+export async function getBinaryStreamResponse(streamableMethod: StreamableMethod): Promise<
   HttpResponse & {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeReadableStream;

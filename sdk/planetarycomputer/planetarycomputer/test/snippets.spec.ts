@@ -80,10 +80,9 @@ describe("snippets", () => {
     });
     console.log(`Search ID: ${registration.searchId}`);
 
-    const tileJson = await client.data.getSearchTileJson(
-      registration.searchId,
-      { assets: ["image"] },
-    );
+    const tileJson = await client.data.getSearchTileJson(registration.searchId, {
+      assets: ["image"],
+    });
     console.log(`Tile URLs: ${tileJson.tiles}`);
   });
 
@@ -110,7 +109,9 @@ describe("snippets", () => {
       "naip",
       "ga_m_3308421_se_16_060_20211114",
       "WebMercatorQuad",
-      14, 4322, 6463,
+      14,
+      4322,
+      6463,
       { assets: ["image"] },
     );
     console.log(`Tile size: ${tileResponse.length} bytes`);
