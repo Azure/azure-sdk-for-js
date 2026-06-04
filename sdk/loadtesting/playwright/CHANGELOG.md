@@ -9,13 +9,9 @@
   endpoint. Supported values are `PlaywrightWorkspacesTestRun` (default) and
   `Others`. Defaults remain unchanged for existing callers.
 
-### Breaking Changes
-
 ### Bugs Fixed
 
 - Validated workspace `storageUri` against an Azure Storage Blob allowlist before uploading reports.
-
-### Other Changes
 
 ## 1.1.5 (2026-04-24)
 
