@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a Fleet
  *
  * @summary update a Fleet
- * x-ms-original-file: 2026-02-01-preview/Fleets_PatchTags.json
+ * x-ms-original-file: 2026-03-02-preview/Fleets_PatchTags.json
  */
 async function patchTagsOfAFleetDuringUpdate() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function patchTagsOfAFleetDuringUpdate() {
  * This sample demonstrates how to update a Fleet
  *
  * @summary update a Fleet
- * x-ms-original-file: 2026-02-01-preview/Fleets_Update.json
+ * x-ms-original-file: 2026-03-02-preview/Fleets_Update.json
  */
 async function updateAFleet() {
   const credential = new DefaultAzureCredential();

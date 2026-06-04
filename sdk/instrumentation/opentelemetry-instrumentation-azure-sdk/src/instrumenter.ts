@@ -85,3 +85,10 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
     return headers;
   }
 }
+
+/**
+ * Creates an OpenTelemetry-backed {@link Instrumenter} for the Azure SDK.
+ */
+export function createOpenTelemetryInstrumenter(): Instrumenter {
+  return new OpenTelemetryInstrumenter();
+}

@@ -1,114 +1,82 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a new server or updates an existing server. The update action will overwrite the existing server.
- *
- * @summary Creates a new server or updates an existing server. The update action will overwrite the existing server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerCreate.json
- */
-
 const { MySQLManagementFlexibleServerClient } = require("@azure/arm-mysql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
+/**
+ * This sample demonstrates how to creates a new server or updates an existing server. The update action will overwrite the existing server.
+ *
+ * @summary creates a new server or updates an existing server. The update action will overwrite the existing server.
+ * x-ms-original-file: 2025-06-01-preview/ServerCreate.json
+ */
 async function createANewServer() {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "testrg";
-  const serverName = "mysqltestserver";
-  const parameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.create("testrg", "mysqltestserver", {
+    location: "southeastasia",
     administratorLogin: "cloudsa",
     administratorLoginPassword: "your_password",
     availabilityZone: "1",
-    backup: {
-      backupIntervalHours: 24,
-      backupRetentionDays: 7,
-      geoRedundantBackup: "Disabled",
-    },
+    backup: { backupIntervalHours: 24, backupRetentionDays: 7, geoRedundantBackup: "Disabled" },
     createMode: "Default",
     highAvailability: { mode: "ZoneRedundant", standbyAvailabilityZone: "3" },
-    location: "southeastasia",
-    sku: { name: "Standard_D2ds_v4", tier: "GeneralPurpose" },
-    storage: { autoGrow: "Disabled", iops: 600, storageSizeGB: 100 },
-    tags: { num: "1" },
+    storage: {
+      autoGrow: "Disabled",
+      iops: 600,
+      storageRedundancy: "ZoneRedundancy",
+      storageSizeGB: 100,
+    },
     version: "5.7",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
+    sku: { name: "Standard_D2ds_v4", tier: "GeneralPurpose" },
+    tags: { num: "1" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a new server or updates an existing server. The update action will overwrite the existing server.
+ * This sample demonstrates how to creates a new server or updates an existing server. The update action will overwrite the existing server.
  *
- * @summary Creates a new server or updates an existing server. The update action will overwrite the existing server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerCreateReplica.json
+ * @summary creates a new server or updates an existing server. The update action will overwrite the existing server.
+ * x-ms-original-file: 2025-06-01-preview/ServerCreateReplica.json
  */
 async function createAReplicaServer() {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "testgr";
-  const serverName = "replica-server";
-  const parameters = {
-    createMode: "Replica",
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.create("testgr", "replica-server", {
     location: "SoutheastAsia",
+    createMode: "Replica",
     sourceServerResourceId:
       "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testgr/providers/Microsoft.DBforMySQL/flexibleServers/source-server",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates a new server or updates an existing server. The update action will overwrite the existing server.
+ * This sample demonstrates how to creates a new server or updates an existing server. The update action will overwrite the existing server.
  *
- * @summary Creates a new server or updates an existing server. The update action will overwrite the existing server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerCreateWithPointInTimeRestore.json
- */
-async function createAServerAsAPointInTimeRestore() {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "TargetResourceGroup";
-  const serverName = "targetserver";
-  const parameters = {
-    createMode: "PointInTimeRestore",
-    location: "SoutheastAsia",
-    restorePointInTime: new Date("2021-06-24T00:00:37.467Z"),
-    sku: { name: "Standard_D14_v2", tier: "GeneralPurpose" },
-    sourceServerResourceId:
-      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/SourceResourceGroup/providers/Microsoft.DBforMySQL/flexibleServers/sourceserver",
-    tags: { num: "1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates a new server or updates an existing server. The update action will overwrite the existing server.
- *
- * @summary Creates a new server or updates an existing server. The update action will overwrite the existing server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerCreateWithBYOK.json
+ * @summary creates a new server or updates an existing server. The update action will overwrite the existing server.
+ * x-ms-original-file: 2025-06-01-preview/ServerCreateWithBYOK.json
  */
 async function createAServerWithByok() {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "testrg";
-  const serverName = "mysqltestserver";
-  const parameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.create("testrg", "mysqltestserver", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-identity":
+          {},
+      },
+    },
+    location: "southeastasia",
     administratorLogin: "cloudsa",
     administratorLoginPassword: "your_password",
     availabilityZone: "1",
-    backup: {
-      backupIntervalHours: 24,
-      backupRetentionDays: 7,
-      geoRedundantBackup: "Disabled",
-    },
+    backup: { backupIntervalHours: 24, backupRetentionDays: 7, geoRedundantBackup: "Disabled" },
     createMode: "Default",
     dataEncryption: {
       type: "AzureKeyVault",
@@ -120,30 +88,117 @@ async function createAServerWithByok() {
         "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-identity",
     },
     highAvailability: { mode: "ZoneRedundant", standbyAvailabilityZone: "3" },
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/ffffffffFfffFfffFfffFfffffffffff/resourceGroups/testrg/providers/MicrosoftManagedIdentity/userAssignedIdentities/testIdentity":
-          {},
-      },
+    storage: {
+      autoGrow: "Disabled",
+      iops: 600,
+      storageRedundancy: "LocalRedundancy",
+      storageSizeGB: 100,
     },
-    location: "southeastasia",
-    sku: { name: "Standard_D2ds_v4", tier: "GeneralPurpose" },
-    storage: { autoGrow: "Disabled", iops: 600, storageSizeGB: 100 },
-    tags: { num: "1" },
     version: "5.7",
-  };
+    sku: { name: "Standard_D2ds_v4", tier: "GeneralPurpose" },
+    tags: { num: "1" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new server or updates an existing server. The update action will overwrite the existing server.
+ *
+ * @summary creates a new server or updates an existing server. The update action will overwrite the existing server.
+ * x-ms-original-file: 2025-06-01-preview/ServerCreateWithDatabasePort.json
+ */
+async function createAServerWithNonDefaultDatabasePort() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
+  const result = await client.servers.create("testrg", "mysqltestserver", {
+    location: "southeastasia",
+    administratorLogin: "cloudsa",
+    administratorLoginPassword: "your_password",
+    availabilityZone: "1",
+    backup: { backupIntervalHours: 24, backupRetentionDays: 7, geoRedundantBackup: "Disabled" },
+    createMode: "Default",
+    databasePort: 8888,
+    highAvailability: { mode: "ZoneRedundant", standbyAvailabilityZone: "3" },
+    storage: {
+      autoGrow: "Disabled",
+      iops: 600,
+      storageRedundancy: "LocalRedundancy",
+      storageSizeGB: 100,
+    },
+    version: "5.7",
+    sku: { name: "Standard_D2ds_v4", tier: "GeneralPurpose" },
+    tags: { num: "1" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new server or updates an existing server. The update action will overwrite the existing server.
+ *
+ * @summary creates a new server or updates an existing server. The update action will overwrite the existing server.
+ * x-ms-original-file: 2025-06-01-preview/ServerCreateWithLowerCaseTableNames.json
+ */
+async function createAServerWithLowerCaseTableNames() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.create("testrg", "mysqltestserver", {
+    sku: { name: "Standard_D2ds_v4", tier: "GeneralPurpose" },
+    administratorLogin: "cloudsa",
+    administratorLoginPassword: "your_password",
+    availabilityZone: "1",
+    version: "8.0.21",
+    createMode: "Default",
+    storage: {
+      storageSizeGB: 100,
+      iops: 600,
+      autoGrow: "Disabled",
+      storageRedundancy: "LocalRedundancy",
+    },
+    backup: { backupRetentionDays: 7, backupIntervalHours: 24, geoRedundantBackup: "Disabled" },
+    highAvailability: {
+      mode: "ZoneRedundant",
+      standbyAvailabilityZone: "3",
+      replicationMode: "BinaryLog",
+    },
+    databasePort: 8888,
+    lowerCaseTableNames: 1,
+    location: "southeastasia",
+    tags: { num: "1" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new server or updates an existing server. The update action will overwrite the existing server.
+ *
+ * @summary creates a new server or updates an existing server. The update action will overwrite the existing server.
+ * x-ms-original-file: 2025-06-01-preview/ServerCreateWithPointInTimeRestore.json
+ */
+async function createAServerAsAPointInTimeRestore() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.create("TargetResourceGroup", "targetserver", {
+    location: "SoutheastAsia",
+    createMode: "PointInTimeRestore",
+    restorePointInTime: new Date("2021-06-24T00:00:37.467Z"),
+    sourceServerResourceId:
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/SourceResourceGroup/providers/Microsoft.DBforMySQL/flexibleServers/sourceserver",
+    sku: { name: "Standard_D14_v2", tier: "GeneralPurpose" },
+    tags: { num: "1" },
+  });
   console.log(result);
 }
 
 async function main() {
   await createANewServer();
   await createAReplicaServer();
-  await createAServerAsAPointInTimeRestore();
   await createAServerWithByok();
+  await createAServerWithNonDefaultDatabasePort();
+  await createAServerWithLowerCaseTableNames();
+  await createAServerAsAPointInTimeRestore();
 }
 
 main().catch(console.error);

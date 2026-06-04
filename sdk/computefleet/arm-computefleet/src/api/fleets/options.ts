@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
-
-/** Optional parameters. */
-export interface FleetsCancelOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface FleetsListVirtualMachinesOptionalParams extends OperationOptions {

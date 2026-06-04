@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
  *
  * @summary create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
- * x-ms-original-file: 2026-01-15-preview/CreateAccount.json
+ * x-ms-original-file: 2026-03-15-preview/CreateAccount.json
  */
 async function createAccount() {
   const credential = new DefaultAzureCredential();
@@ -43,7 +43,7 @@ async function createAccount() {
  * This sample demonstrates how to create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
  *
  * @summary create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
- * x-ms-original-file: 2026-01-15-preview/CreateAccountMin.json
+ * x-ms-original-file: 2026-03-15-preview/CreateAccountMin.json
  */
 async function createAccountMin() {
   const credential = new DefaultAzureCredential();

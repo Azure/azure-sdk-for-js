@@ -32,7 +32,7 @@ export function _updateSend(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",
   name: string,
-  body: EvaluationTaxonomy,
+  taxonomy: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -55,7 +55,7 @@ export function _updateSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: evaluationTaxonomySerializer(body),
+      body: evaluationTaxonomySerializer(taxonomy),
     });
 }
 
@@ -75,10 +75,10 @@ export async function update(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",
   name: string,
-  body: EvaluationTaxonomy,
+  taxonomy: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesUpdateOptionalParams = { requestOptions: {} },
 ): Promise<EvaluationTaxonomy> {
-  const result = await _updateSend(context, foundryFeatures, name, body, options);
+  const result = await _updateSend(context, foundryFeatures, name, taxonomy, options);
   return _updateDeserialize(result);
 }
 
@@ -86,7 +86,7 @@ export function _createSend(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",
   name: string,
-  body: EvaluationTaxonomy,
+  taxonomy: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -109,7 +109,7 @@ export function _createSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: evaluationTaxonomySerializer(body),
+      body: evaluationTaxonomySerializer(taxonomy),
     });
 }
 
@@ -129,10 +129,10 @@ export async function create(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",
   name: string,
-  body: EvaluationTaxonomy,
+  taxonomy: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesCreateOptionalParams = { requestOptions: {} },
 ): Promise<EvaluationTaxonomy> {
-  const result = await _createSend(context, foundryFeatures, name, body, options);
+  const result = await _createSend(context, foundryFeatures, name, taxonomy, options);
   return _createDeserialize(result);
 }
 

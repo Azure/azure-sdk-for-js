@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update the state of specified Content Filters associated with the subscription.
  *
  * @summary update the state of specified Content Filters associated with the subscription.
- * x-ms-original-file: 2026-01-15-preview/PutSubscriptionRaiPolicy.json
+ * x-ms-original-file: 2026-03-15-preview/PutSubscriptionRaiPolicy.json
  */
 async function putRaiPolicy() {
   const credential = new DefaultAzureCredential();
