@@ -33,7 +33,7 @@ import type {
   CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams,
   CloudEndpointsTriggerChangeDetectionOptionalParams,
   CloudEndpointsPostRestoreOptionalParams,
-  CloudEndpointsRestoreHeartbeatOptionalParams,
+  CloudEndpointsRestoreheartbeatOptionalParams,
   CloudEndpointsPreRestoreOptionalParams,
   CloudEndpointsPostBackupOptionalParams,
   CloudEndpointsPreBackupOptionalParams,
@@ -260,13 +260,13 @@ export function postRestore(
   }) as PollerLike<OperationState<void>, void>;
 }
 
-export function _restoreHeartbeatSend(
+export function _restoreheartbeatSend(
   context: Client,
   resourceGroupName: string,
   storageSyncServiceName: string,
   syncGroupName: string,
   cloudEndpointName: string,
-  options: CloudEndpointsRestoreHeartbeatOptionalParams = { requestOptions: {} },
+  options: CloudEndpointsRestoreheartbeatOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/restoreheartbeat{?api%2Dversion}",
@@ -285,7 +285,7 @@ export function _restoreHeartbeatSend(
   return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _restoreHeartbeatDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _restoreheartbeatDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -300,15 +300,15 @@ export async function _restoreHeartbeatDeserialize(result: PathUncheckedResponse
 }
 
 /** Restore Heartbeat a given CloudEndpoint. */
-export async function restoreHeartbeat(
+export async function restoreheartbeat(
   context: Client,
   resourceGroupName: string,
   storageSyncServiceName: string,
   syncGroupName: string,
   cloudEndpointName: string,
-  options: CloudEndpointsRestoreHeartbeatOptionalParams = { requestOptions: {} },
+  options: CloudEndpointsRestoreheartbeatOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _restoreHeartbeatSend(
+  const result = await _restoreheartbeatSend(
     context,
     resourceGroupName,
     storageSyncServiceName,
@@ -316,7 +316,7 @@ export async function restoreHeartbeat(
     cloudEndpointName,
     options,
   );
-  return _restoreHeartbeatDeserialize(result);
+  return _restoreheartbeatDeserialize(result);
 }
 
 export function _preRestoreSend(

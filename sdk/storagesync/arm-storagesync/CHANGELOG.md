@@ -1,6 +1,6 @@
 # Release History
 
-## 10.0.0-beta.1 (2026-06-03)
+## 10.0.0-beta.1 (2026-06-04)
 Compared with version 9.1.0
 
 ### Features Added
@@ -11,7 +11,6 @@ Compared with version 9.1.0
   - Added operation CloudEndpointsOperations.postRestore
   - Added operation CloudEndpointsOperations.preBackup
   - Added operation CloudEndpointsOperations.preRestore
-  - Added operation CloudEndpointsOperations.restoreHeartbeat
   - Added operation CloudEndpointsOperations.triggerChangeDetection
   - Added operation PrivateEndpointConnectionsOperations.create
   - Added operation PrivateEndpointConnectionsOperations.delete
@@ -33,7 +32,6 @@ Compared with version 9.1.0
   - Added Interface CloudEndpointCreateParametersProperties
   - Added Interface CloudEndpointProperties
   - Added Interface CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams
-  - Added Interface CloudEndpointsRestoreHeartbeatOptionalParams
   - Added Interface CloudTieringLowDiskMode
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
@@ -117,9 +115,9 @@ Compared with version 9.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation CloudEndpoints.restoreheartbeat
   - Operation CloudEndpoints.beginDeleteAndWait has a new signature
   - Operation CloudEndpoints.beginPreBackupAndWait has a new signature
+  - Operation CloudEndpoints.restoreheartbeat has a new signature
   - Operation RegisteredServers.beginDeleteAndWait has a new signature
   - Operation RegisteredServers.beginTriggerRolloverAndWait has a new signature
   - Operation ServerEndpoints.beginDeleteAndWait has a new signature
@@ -127,8 +125,9 @@ Compared with version 9.1.0
   - Operation StorageSyncServices.beginDeleteAndWait has a new signature
   - Operation SyncGroups.delete has a new signature
   - Operation Workflows.abort has a new signature
+  - Class MicrosoftStorageSync no longer has parameter apiVersion
+  - Class MicrosoftStorageSync no longer has parameter subscriptionId
   - Removed Interface CloudEndpointArray
-  - Removed Interface CloudEndpointsRestoreheartbeatOptionalParams
   - Removed Interface OperationDisplayResource
   - Removed Interface OperationStatusGetOptionalParams
   - Removed Interface RegisteredServerArray

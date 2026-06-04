@@ -150,7 +150,7 @@
       "@azure/arm-storagesync!CloudEndpointsOperations#afsShareMetadataCertificatePublicKeys:member": "Microsoft.StorageSync.CloudEndpoints.afsShareMetadataCertificatePublicKeys",
       "@azure/arm-storagesync!CloudEndpointsOperations#triggerChangeDetection:member": "Microsoft.StorageSync.CloudEndpoints.triggerChangeDetection",
       "@azure/arm-storagesync!CloudEndpointsOperations#postRestore:member": "Microsoft.StorageSync.CloudEndpoints.postRestore",
-      "@azure/arm-storagesync!CloudEndpointsOperations#restoreHeartbeat:member": "Microsoft.StorageSync.CloudEndpoints.restoreheartbeat",
+      "@azure/arm-storagesync!CloudEndpointsOperations#restoreheartbeat:member": "Microsoft.StorageSync.CloudEndpoints.restoreheartbeat",
       "@azure/arm-storagesync!CloudEndpointsOperations#preRestore:member": "Microsoft.StorageSync.CloudEndpoints.preRestore",
       "@azure/arm-storagesync!CloudEndpointsOperations#postBackup:member": "Microsoft.StorageSync.CloudEndpoints.postBackup",
       "@azure/arm-storagesync!CloudEndpointsOperations#preBackup:member": "Microsoft.StorageSync.CloudEndpoints.preBackup",

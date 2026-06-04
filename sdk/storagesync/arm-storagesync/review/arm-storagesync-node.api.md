@@ -198,7 +198,7 @@ export interface CloudEndpointsOperations {
     postRestore: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PostRestoreRequest, options?: CloudEndpointsPostRestoreOptionalParams) => PollerLike<OperationState<void>, void>;
     preBackup: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPreBackupOptionalParams) => PollerLike<OperationState<void>, void>;
     preRestore: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PreRestoreRequest, options?: CloudEndpointsPreRestoreOptionalParams) => PollerLike<OperationState<void>, void>;
-    restoreHeartbeat: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsRestoreHeartbeatOptionalParams) => Promise<void>;
+    restoreheartbeat: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsRestoreheartbeatOptionalParams) => Promise<void>;
     triggerChangeDetection: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: TriggerChangeDetectionParameters, options?: CloudEndpointsTriggerChangeDetectionOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
@@ -223,7 +223,7 @@ export interface CloudEndpointsPreRestoreOptionalParams extends OperationOptions
 }
 
 // @public
-export interface CloudEndpointsRestoreHeartbeatOptionalParams extends OperationOptions {
+export interface CloudEndpointsRestoreheartbeatOptionalParams extends OperationOptions {
 }
 
 // @public

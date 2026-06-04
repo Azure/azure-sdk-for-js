@@ -6,7 +6,7 @@ import {
   afsShareMetadataCertificatePublicKeys,
   triggerChangeDetection,
   postRestore,
-  restoreHeartbeat,
+  restoreheartbeat,
   preRestore,
   postBackup,
   preBackup,
@@ -19,7 +19,7 @@ import type {
   CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams,
   CloudEndpointsTriggerChangeDetectionOptionalParams,
   CloudEndpointsPostRestoreOptionalParams,
-  CloudEndpointsRestoreHeartbeatOptionalParams,
+  CloudEndpointsRestoreheartbeatOptionalParams,
   CloudEndpointsPreRestoreOptionalParams,
   CloudEndpointsPostBackupOptionalParams,
   CloudEndpointsPreBackupOptionalParams,
@@ -108,12 +108,12 @@ export interface CloudEndpointsOperations {
     options?: CloudEndpointsPostRestoreOptionalParams,
   ) => Promise<void>;
   /** Restore Heartbeat a given CloudEndpoint. */
-  restoreHeartbeat: (
+  restoreheartbeat: (
     resourceGroupName: string,
     storageSyncServiceName: string,
     syncGroupName: string,
     cloudEndpointName: string,
-    options?: CloudEndpointsRestoreHeartbeatOptionalParams,
+    options?: CloudEndpointsRestoreheartbeatOptionalParams,
   ) => Promise<void>;
   /** Pre Restore a given CloudEndpoint. */
   preRestore: (
@@ -391,14 +391,14 @@ function _getCloudEndpoints(context: MicrosoftStorageSyncContext) {
         options,
       );
     },
-    restoreHeartbeat: (
+    restoreheartbeat: (
       resourceGroupName: string,
       storageSyncServiceName: string,
       syncGroupName: string,
       cloudEndpointName: string,
-      options?: CloudEndpointsRestoreHeartbeatOptionalParams,
+      options?: CloudEndpointsRestoreheartbeatOptionalParams,
     ) =>
-      restoreHeartbeat(
+      restoreheartbeat(
         context,
         resourceGroupName,
         storageSyncServiceName,

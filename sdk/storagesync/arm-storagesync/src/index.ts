@@ -159,7 +159,7 @@ export type {
   CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams,
   CloudEndpointsTriggerChangeDetectionOptionalParams,
   CloudEndpointsPostRestoreOptionalParams,
-  CloudEndpointsRestoreHeartbeatOptionalParams,
+  CloudEndpointsRestoreheartbeatOptionalParams,
   CloudEndpointsPreRestoreOptionalParams,
   CloudEndpointsPostBackupOptionalParams,
   CloudEndpointsPreBackupOptionalParams,

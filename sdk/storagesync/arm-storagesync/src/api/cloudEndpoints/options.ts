@@ -19,7 +19,7 @@ export interface CloudEndpointsPostRestoreOptionalParams extends OperationOption
 }
 
 /** Optional parameters. */
-export interface CloudEndpointsRestoreHeartbeatOptionalParams extends OperationOptions {}
+export interface CloudEndpointsRestoreheartbeatOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface CloudEndpointsPreRestoreOptionalParams extends OperationOptions {

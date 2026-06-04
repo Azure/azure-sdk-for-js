@@ -14,7 +14,7 @@ async function cloudEndpointsRestoreheartbeat() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
   const client = new MicrosoftStorageSync(credential, subscriptionId);
-  await client.cloudEndpoints.restoreHeartbeat(
+  await client.cloudEndpoints.restoreheartbeat(
     "SampleResourceGroup_1",
     "SampleStorageSyncService_1",
     "SampleSyncGroup_1",
