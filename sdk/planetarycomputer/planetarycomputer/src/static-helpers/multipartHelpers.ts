@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NodeReadableStream } from "#platform/static-helpers/platform-types.js";
+import { NodeReadableStream } from "#platform/static-helpers/platform-types";
 
 /**
  * Valid values for the contents of a binary file.

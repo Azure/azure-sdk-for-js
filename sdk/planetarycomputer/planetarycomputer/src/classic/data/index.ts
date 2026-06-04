@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlanetaryComputerProContext } from "../../api/planetaryComputerProContext.js";
+import { PlanetaryComputerProContext } from "../../api/planetaryComputerProContext.js";
 import {
   getSearchPointWithAssets,
   getSearchPoint,
@@ -89,7 +89,7 @@ import {
   getTileMatrices,
   getTileMatrixDefinitions,
 } from "../../api/data/operations.js";
-import type {
+import {
   DataGetSearchPointWithAssetsOptionalParams,
   DataGetSearchPointOptionalParams,
   DataGetSearchAssetsForTileNoTmsOptionalParams,
@@ -176,7 +176,7 @@ import type {
   DataGetTileMatricesOptionalParams,
   DataGetTileMatrixDefinitionsOptionalParams,
 } from "../../api/data/options.js";
-import type {
+import {
   TileMatrixSet,
   ClassMapLegendResponse,
   TilerMosaicSearchRegistrationResponse,

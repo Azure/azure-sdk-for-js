@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   GeometryUnion,
   StacSortExtension,
   FilterLanguage,
@@ -15,7 +15,7 @@ import type {
   TileMatrixSetId,
   PixelSelection,
 } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface DataGetSearchPointWithAssetsOptionalParams extends OperationOptions {
@@ -38,7 +38,23 @@ export interface DataGetSearchPointWithAssetsOptionalParams extends OperationOpt
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -69,7 +85,23 @@ export interface DataGetSearchPointOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -118,7 +150,23 @@ export interface DataGetSearchAssetsForTileNoTmsOptionalParams extends Operation
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -165,7 +213,23 @@ export interface DataGetSearchTileNoTmsByScaleAndFormatOptionalParams extends Op
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -240,7 +304,23 @@ export interface DataGetSearchTileNoTmsByScaleOptionalParams extends OperationOp
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -317,7 +397,23 @@ export interface DataGetSearchTileNoTmsByFormatOptionalParams extends OperationO
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -394,7 +490,23 @@ export interface DataGetSearchTileNoTmsOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -473,7 +585,23 @@ export interface DataGetSearchTileJsonOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -592,7 +720,23 @@ export interface DataCropSearchFeatureWidthByHeightOptionalParams extends Operat
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -663,7 +807,23 @@ export interface DataCropSearchFeatureByFormatOptionalParams extends OperationOp
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -738,7 +898,23 @@ export interface DataCropSearchFeatureOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -799,7 +975,23 @@ export interface DataGetSearchBboxAssetsOptionalParams extends OperationOptions 
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -846,7 +1038,23 @@ export interface DataGetSearchBboxCropWithDimensionsOptionalParams extends Opera
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -917,7 +1125,23 @@ export interface DataGetSearchBboxCropOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -1023,7 +1247,23 @@ export interface DataGetSearchTileJsonByTmsOptionalParams extends OperationOptio
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -1091,7 +1331,23 @@ export interface DataGetSearchAssetsForTileOptionalParams extends OperationOptio
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -1136,7 +1392,23 @@ export interface DataGetSearchTileByScaleOptionalParams extends OperationOptions
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -1211,7 +1483,23 @@ export interface DataGetSearchTileByFormatOptionalParams extends OperationOption
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -1286,7 +1574,23 @@ export interface DataGetSearchTileOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -1363,7 +1667,23 @@ export interface DataGetSearchTileByScaleAndFormatOptionalParams extends Operati
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -1407,7 +1727,23 @@ export interface DataGetSearchTilesetMetadataOptionalParams extends OperationOpt
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -1423,7 +1759,23 @@ export interface DataGetSearchTilesetsOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -1454,7 +1806,23 @@ export interface DataGetCollectionPointAssetsOptionalParams extends OperationOpt
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -1493,7 +1861,23 @@ export interface DataGetCollectionPointOptionalParams extends OperationOptions {
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -1566,7 +1950,23 @@ export interface DataCropCollectionFeatureWidthByHeightOptionalParams extends Op
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -1645,7 +2045,23 @@ export interface DataCropCollectionFeatureByFormatOptionalParams extends Operati
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -1728,7 +2144,23 @@ export interface DataCropCollectionFeatureOptionalParams extends OperationOption
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -1813,7 +2245,23 @@ export interface DataGetCollectionBboxCropWithDimensionsOptionalParams extends O
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -1892,7 +2340,23 @@ export interface DataGetCollectionBboxCropOptionalParams extends OperationOption
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -1962,7 +2426,23 @@ export interface DataGetCollectionAssetsForBboxOptionalParams extends OperationO
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -2001,7 +2481,23 @@ export interface DataGetCollectionAssetsForTileNoTmsOptionalParams extends Opera
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -2043,7 +2539,23 @@ export interface DataGetCollectionAssetsForTileOptionalParams extends OperationO
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -2067,7 +2579,23 @@ export interface DataGetCollectionWmtsCapabilitiesByTmsOptionalParams extends Op
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Output image type. Default is png. */
   tileFormat?: TilerImageFormat;
@@ -2105,7 +2633,23 @@ export interface DataGetCollectionWmtsCapabilitiesOptionalParams extends Operati
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /**
    * Identifier selecting one of the TileMatrixSetId supported (default:
@@ -2177,7 +2721,23 @@ export interface DataGetCollectionTileJsonByTmsOptionalParams extends OperationO
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -2269,7 +2829,23 @@ export interface DataGetCollectionTileJsonOptionalParams extends OperationOption
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -2366,7 +2942,23 @@ export interface DataGetCollectionTileNoTmsByScaleOptionalParams extends Operati
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -2454,7 +3046,23 @@ export interface DataGetCollectionTileNoTmsByFormatOptionalParams extends Operat
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -2542,7 +3150,23 @@ export interface DataGetCollectionTileNoTmsOptionalParams extends OperationOptio
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -2632,7 +3256,23 @@ export interface DataGetCollectionTileNoTmsByScaleAndFormatOptionalParams extend
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -2718,7 +3358,23 @@ export interface DataGetCollectionTileByScaleOptionalParams extends OperationOpt
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -2801,7 +3457,23 @@ export interface DataGetCollectionTileByFormatOptionalParams extends OperationOp
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -2884,7 +3556,23 @@ export interface DataGetCollectionTileOptionalParams extends OperationOptions {
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -2969,7 +3657,23 @@ export interface DataGetCollectionTileByScaleAndFormatOptionalParams extends Ope
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -3021,7 +3725,23 @@ export interface DataGetCollectionTilesetMetadataOptionalParams extends Operatio
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -3045,7 +3765,23 @@ export interface DataGetCollectionTilesetsOptionalParams extends OperationOption
   query?: string;
   /** Sorting expression (e.g. +/-property). */
   sortby?: string;
-  /** Datetime filter expression (single datetime or range using `/` separator). */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** The name of a subdataset within the asset. */
   subdatasetName?: string;
@@ -3105,7 +3841,23 @@ export interface DataGetItemBboxCropWithDimensionsOptionalParams extends Operati
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3163,7 +3915,23 @@ export interface DataGetItemBboxCropOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3219,7 +3987,23 @@ export interface DataGetItemPreviewWithFormatOptionalParams extends OperationOpt
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3277,7 +4061,23 @@ export interface DataGetItemPreviewOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3309,7 +4109,23 @@ export interface DataGetItemPointOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3377,7 +4193,23 @@ export interface DataGetItemWmtsCapabilitiesByTmsOptionalParams extends Operatio
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3446,7 +4278,23 @@ export interface DataGetItemWmtsCapabilitiesOptionalParams extends OperationOpti
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3513,7 +4361,23 @@ export interface DataGetItemTileJsonByTmsOptionalParams extends OperationOptions
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3585,7 +4449,23 @@ export interface DataGetItemTileJsonOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3654,7 +4534,23 @@ export interface DataGetItemFeatureStatisticsOptionalParams extends OperationOpt
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3727,7 +4623,23 @@ export interface DataGetItemStatisticsOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3796,7 +4708,23 @@ export interface DataGetItemAssetStatisticsOptionalParams extends OperationOptio
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3818,7 +4746,23 @@ export interface DataGetItemAvailableAssetsOptionalParams extends OperationOptio
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3834,7 +4778,23 @@ export interface DataGetItemInfoGeoJsonOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3852,7 +4812,23 @@ export interface DataGetItemInfoOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3870,7 +4846,23 @@ export interface DataGetItemBoundsOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3924,7 +4916,23 @@ export interface DataCropFeatureWidthByHeightOptionalParams extends OperationOpt
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -3982,7 +4990,23 @@ export interface DataCropFeatureByFormatOptionalParams extends OperationOptions 
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -4040,7 +5064,23 @@ export interface DataCropFeatureOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -4103,7 +5143,23 @@ export interface DataGetTileNoTmsByScaleAndFormatOptionalParams extends Operatio
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -4166,7 +5222,23 @@ export interface DataGetTileNoTmsByScaleOptionalParams extends OperationOptions 
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -4229,7 +5301,23 @@ export interface DataGetTileNoTmsByFormatOptionalParams extends OperationOptions
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -4294,7 +5382,23 @@ export interface DataGetTileNoTmsOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -4350,7 +5454,23 @@ export interface DataGetTileByScaleAndFormatOptionalParams extends OperationOpti
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -4408,7 +5528,23 @@ export interface DataGetTileByScaleOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -4466,7 +5602,23 @@ export interface DataGetTileByFormatOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -4526,7 +5678,23 @@ export interface DataGetTileOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -4542,7 +5710,23 @@ export interface DataGetTilesetMetadataOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -4558,7 +5742,23 @@ export interface DataGetTilesetsOptionalParams extends OperationOptions {
   subdatasetBands?: number[];
   /** Coordinate Reference System. */
   crs?: string;
-  /** Datetime to use for subsetting the asset. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Xarray Indexing using dimension names `{dimension}={value}`. */
   sel?: string[];
@@ -4580,7 +5780,23 @@ export interface DataRegisterMosaicsSearchOptionalParams extends OperationOption
   query?: Record<string, any>;
   /** Filter */
   filter?: Record<string, any>;
-  /** Temporal filter in RFC 3339 format or interval */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Criteria for ordering items in the mosaic */
   sortBy?: StacSortExtension[];

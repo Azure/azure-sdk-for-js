@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NodeReadableStream } from "#platform/static-helpers/platform-types.js";
-import type { FileContents } from "../static-helpers/multipartHelpers.js";
-import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+import { NodeReadableStream } from "#platform/static-helpers/platform-types";
+import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
-import type { ErrorModel } from "@azure-rest/core-client";
+import { ErrorModel } from "@azure-rest/core-client";
 
 /**
  * This file contains only generated model types and their (de)serializers.
@@ -2769,7 +2768,23 @@ export interface StacSearchParameters {
   boundingBox?: number[];
   /** GeoJSON geometry for spatial filtering. */
   intersects?: GeometryUnion;
-  /** Temporal filter in RFC 3339 format, can be a single time or range. */
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions
+   * adhere to RFC 3339. Open intervals are expressed using double-dots.
+   *
+   * Examples:
+   *
+   * - A date-time: "2018-02-12T23:20:50Z"
+   * - A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * - Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of
+   * `datetime` are selected.
+   *
+   * If a feature has multiple temporal properties, it is the decision of the
+   * server whether only a single temporal property is used to determine
+   * the extent or all relevant temporal properties.
+   */
   datetime?: string;
   /** Maximum number of results to return. */
   limit?: number;

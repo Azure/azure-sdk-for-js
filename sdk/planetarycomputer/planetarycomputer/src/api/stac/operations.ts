@@ -1,59 +1,57 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlanetaryComputerProContext as Client } from "../index.js";
-import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response.js";
-import type {
-  StacAssetData,
-  StacCollection,
-  UserCollectionSettings,
-  TileSettings,
-  StacMosaic,
-  RenderOption,
-  StacCatalogCollections,
-  PartitionType,
-  StacConformanceClasses,
-  StacLandingPage,
-  StacItemOrStacItemCollectionUnion,
-  StacItemCollection,
-  StacItem,
-  StacQueryable,
-  QueryableDefinitionsResponse,
-  StacSearchParameters,
-  StacGetCollectionThumbnailResponse,
-} from "../../models/models.js";
+import { PlanetaryComputerProContext as Client } from "../index.js";
+import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
 import {
+  StacAssetData,
   stacAssetDataSerializer,
+  StacCollection,
   stacCollectionSerializer,
   stacCollectionDeserializer,
+  UserCollectionSettings,
   userCollectionSettingsDeserializer,
+  TileSettings,
   tileSettingsSerializer,
   tileSettingsDeserializer,
   stacMosaicArrayDeserializer,
+  StacMosaic,
   stacMosaicSerializer,
   stacMosaicDeserializer,
   renderOptionArrayDeserializer,
+  RenderOption,
   renderOptionSerializer,
   renderOptionDeserializer,
+  StacCatalogCollections,
   stacCatalogCollectionsDeserializer,
+  PartitionType,
   partitionTypeSerializer,
   partitionTypeDeserializer,
+  StacConformanceClasses,
   stacConformanceClassesDeserializer,
+  StacLandingPage,
   stacLandingPageDeserializer,
   stacItemOrStacItemCollectionUnionSerializer,
+  StacItemOrStacItemCollectionUnion,
+  StacItemCollection,
   stacItemCollectionDeserializer,
+  StacItem,
   stacItemSerializer,
   stacItemDeserializer,
+  StacQueryable,
   stacQueryableSerializer,
   stacQueryableDeserializer,
+  QueryableDefinitionsResponse,
   queryableDefinitionsResponseDeserializer,
+  StacSearchParameters,
   stacSearchParametersSerializer,
   stacQueryableArraySerializer,
   stacQueryableArrayDeserializer,
+  StacGetCollectionThumbnailResponse,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   StacSearchOptionalParams,
   StacGetCollectionQueryablesOptionalParams,
   StacGetQueryablesOptionalParams,
@@ -93,9 +91,13 @@ import type {
   StacReplaceCollectionAssetOptionalParams,
   StacCreateCollectionAssetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _searchSend(
   context: Client,
@@ -113,12 +115,14 @@ export function _searchSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacSearchParametersSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacSearchParametersSerializer(body),
+    });
 }
 
 export async function _searchDeserialize(
@@ -157,10 +161,12 @@ export function _getCollectionQueryablesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCollectionQueryablesDeserialize(
@@ -197,10 +203,12 @@ export function _getQueryablesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getQueryablesDeserialize(
@@ -281,12 +289,14 @@ export function _replaceQueryableSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacQueryableSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacQueryableSerializer(body),
+    });
 }
 
 export async function _replaceQueryableDeserialize(
@@ -331,12 +341,14 @@ export function _createQueryablesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacQueryableArraySerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacQueryableArraySerializer(body),
+    });
 }
 
 export async function _createQueryablesDeserialize(
@@ -379,12 +391,14 @@ export function _updateItemSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/merge-patch+json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacItemSerializer(body),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/merge-patch+json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacItemSerializer(body),
+    });
 }
 
 export async function _updateItemDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -438,10 +452,12 @@ export function _getItemCollectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getItemCollectionDeserialize(
@@ -490,10 +506,12 @@ export function _getItemSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getItemDeserialize(result: PathUncheckedResponse): Promise<StacItem> {
@@ -533,10 +551,12 @@ export function _deleteItemSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteItemDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -582,12 +602,14 @@ export function _replaceItemSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacItemSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacItemSerializer(body),
+    });
 }
 
 export async function _replaceItemDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -632,12 +654,14 @@ export function _createItemSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacItemOrStacItemCollectionUnionSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacItemOrStacItemCollectionUnionSerializer(body),
+    });
 }
 
 export async function _createItemDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -678,10 +702,12 @@ export function _getLandingPageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getLandingPageDeserialize(
@@ -717,10 +743,12 @@ export function _getConformanceClassesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getConformanceClassesDeserialize(
@@ -759,12 +787,14 @@ export function _replaceTileSettingsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: tileSettingsSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: tileSettingsSerializer(body),
+    });
 }
 
 export async function _replaceTileSettingsDeserialize(
@@ -804,10 +834,12 @@ export function _getTileSettingsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTileSettingsDeserialize(
@@ -846,14 +878,16 @@ export function _getCollectionThumbnailSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept:
-        "image/png, image/jpeg, image/jpg, image/webp, image/jp2, image/tiff; application=geotiff, application/x-binary",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept:
+          "image/png, image/jpeg, image/jpg, image/webp, image/jp2, image/tiff; application=geotiff, application/x-binary",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getCollectionThumbnailDeserialize(
@@ -893,10 +927,12 @@ export function _getRenderOptionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getRenderOptionsDeserialize(
@@ -937,10 +973,12 @@ export function _getRenderOptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getRenderOptionDeserialize(
@@ -1023,12 +1061,14 @@ export function _replaceRenderOptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: renderOptionSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: renderOptionSerializer(body),
+    });
 }
 
 export async function _replaceRenderOptionDeserialize(
@@ -1076,12 +1116,14 @@ export function _createRenderOptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: renderOptionSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: renderOptionSerializer(body),
+    });
 }
 
 export async function _createRenderOptionDeserialize(
@@ -1122,11 +1164,13 @@ export function _replacePartitionTypeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: partitionTypeSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: partitionTypeSerializer(body),
+    });
 }
 
 export async function _replacePartitionTypeDeserialize(
@@ -1174,10 +1218,12 @@ export function _getPartitionTypeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getPartitionTypeDeserialize(
@@ -1216,10 +1262,12 @@ export function _getCollectionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCollectionsDeserialize(
@@ -1259,10 +1307,12 @@ export function _getCollectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCollectionDeserialize(
@@ -1301,10 +1351,12 @@ export function _deleteCollectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteCollectionDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -1347,12 +1399,14 @@ export function _replaceCollectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacCollectionSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacCollectionSerializer(body),
+    });
 }
 
 export async function _replaceCollectionDeserialize(
@@ -1391,12 +1445,14 @@ export function _createCollectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacCollectionSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacCollectionSerializer(body),
+    });
 }
 
 export async function _createCollectionDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -1438,10 +1494,12 @@ export function _getMosaicsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicsDeserialize(result: PathUncheckedResponse): Promise<StacMosaic[]> {
@@ -1480,10 +1538,12 @@ export function _getMosaicSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicDeserialize(result: PathUncheckedResponse): Promise<StacMosaic> {
@@ -1564,12 +1624,14 @@ export function _replaceMosaicSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacMosaicSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacMosaicSerializer(body),
+    });
 }
 
 export async function _replaceMosaicDeserialize(
@@ -1611,12 +1673,14 @@ export function _addMosaicSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacMosaicSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacMosaicSerializer(body),
+    });
 }
 
 export async function _addMosaicDeserialize(result: PathUncheckedResponse): Promise<StacMosaic> {
@@ -1654,10 +1718,12 @@ export function _getCollectionConfigurationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCollectionConfigurationDeserialize(
@@ -1698,10 +1764,12 @@ export function _deleteCollectionAssetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteCollectionAssetDeserialize(
@@ -1744,12 +1812,14 @@ export function _replaceCollectionAssetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "multipart/form-data",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacAssetDataSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "multipart/form-data",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacAssetDataSerializer(body),
+    });
 }
 
 export async function _replaceCollectionAssetDeserialize(
@@ -1791,12 +1861,14 @@ export function _createCollectionAssetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "multipart/form-data",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacAssetDataSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "multipart/form-data",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacAssetDataSerializer(body),
+    });
 }
 
 export async function _createCollectionAssetDeserialize(

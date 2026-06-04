@@ -1,23 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlanetaryComputerProContext as Client } from "../index.js";
-import type {
-  SharedAccessSignatureSignedLink,
-  SharedAccessSignatureToken,
-} from "../../models/models.js";
+import { PlanetaryComputerProContext as Client } from "../index.js";
 import {
+  SharedAccessSignatureSignedLink,
   sharedAccessSignatureSignedLinkDeserializer,
+  SharedAccessSignatureToken,
   sharedAccessSignatureTokenDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   SharedAccessSignatureRevokeTokenOptionalParams,
   SharedAccessSignatureGetTokenOptionalParams,
   SharedAccessSignatureGetUrlOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _revokeTokenSend(
   context: Client,
@@ -73,10 +75,12 @@ export function _getTokenSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTokenDeserialize(
@@ -120,10 +124,12 @@ export function _getUrlSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getUrlDeserialize(

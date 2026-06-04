@@ -13,10 +13,9 @@
   "types": "./dist/commonjs/index.d.ts",
   "browser": "./dist/browser/index.js",
   "imports": {
-    "#platform/*.js": {
-      "browser": "./src/*-browser.ts",
-      "react-native": "./src/*-react-native.ts",
-      "default": "./src/*.js"
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
     }
   },
   "exports": {
@@ -25,10 +24,6 @@
       "browser": {
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
       },
       "import": {
         "types": "./dist/esm/index.d.ts",
@@ -44,10 +39,6 @@
         "types": "./dist/browser/api/index.d.ts",
         "default": "./dist/browser/api/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/index.d.ts",
-        "default": "./dist/react-native/api/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/index.d.ts",
         "default": "./dist/esm/api/index.js"
@@ -61,10 +52,6 @@
       "browser": {
         "types": "./dist/browser/api/sharedAccessSignature/index.d.ts",
         "default": "./dist/browser/api/sharedAccessSignature/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/sharedAccessSignature/index.d.ts",
-        "default": "./dist/react-native/api/sharedAccessSignature/index.js"
       },
       "import": {
         "types": "./dist/esm/api/sharedAccessSignature/index.d.ts",
@@ -80,10 +67,6 @@
         "types": "./dist/browser/api/data/index.d.ts",
         "default": "./dist/browser/api/data/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/data/index.d.ts",
-        "default": "./dist/react-native/api/data/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/data/index.d.ts",
         "default": "./dist/esm/api/data/index.js"
@@ -97,10 +80,6 @@
       "browser": {
         "types": "./dist/browser/api/stac/index.d.ts",
         "default": "./dist/browser/api/stac/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/stac/index.d.ts",
-        "default": "./dist/react-native/api/stac/index.js"
       },
       "import": {
         "types": "./dist/esm/api/stac/index.d.ts",
@@ -116,10 +95,6 @@
         "types": "./dist/browser/api/ingestion/index.d.ts",
         "default": "./dist/browser/api/ingestion/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/ingestion/index.d.ts",
-        "default": "./dist/react-native/api/ingestion/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/ingestion/index.d.ts",
         "default": "./dist/esm/api/ingestion/index.js"
@@ -133,10 +108,6 @@
       "browser": {
         "types": "./dist/browser/models/index.d.ts",
         "default": "./dist/browser/models/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/index.d.ts",
-        "default": "./dist/react-native/models/index.js"
       },
       "import": {
         "types": "./dist/esm/models/index.d.ts",

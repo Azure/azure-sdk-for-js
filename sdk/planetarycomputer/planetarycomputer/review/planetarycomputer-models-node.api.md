@@ -4,7 +4,7 @@
 
 ```ts
 
-import type { ErrorModel } from '@azure-rest/core-client';
+import { ErrorModel } from '@azure-rest/core-client';
 
 // @public
 export interface AssetMetadata {
