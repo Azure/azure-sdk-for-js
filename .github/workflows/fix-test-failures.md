@@ -22,11 +22,12 @@ safe-outputs:
   create-issue:
     labels: [test-reliability]
   update-issue:
+    max: 10
     status:
     target: "*"
   add-comment:
     max: 1
-    target: "*"
+    target: "37864"
 network:
   allowed:
     - defaults
