@@ -1,5 +1,17 @@
 # Release History
 
+## 1.1.0-beta.1 (2026-05-28)
+
+### Features Added
+
+- Export `createOpenTelemetryInstrumenter` factory function from the package entry point.
+
+## 1.0.0 (2026-05-05)
+
+### Features Added
+
+- First stable release of the Azure SDK OpenTelemetry Instrumentation library.
+
 ## 1.0.0-beta.10 (2026-03-04)
 
 ### Other Changes

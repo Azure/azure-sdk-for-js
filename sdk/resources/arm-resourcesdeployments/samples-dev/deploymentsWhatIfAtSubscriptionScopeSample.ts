@@ -1,39 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns changes that will be made by the deployment if executed at the scope of the subscription.
- *
- * @summary Returns changes that will be made by the deployment if executed at the scope of the subscription.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/deployments/stable/2025-04-01/examples/PostDeploymentWhatIfOnSubscription.json
- */
-
-import {
-  DeploymentWhatIf,
-  DeploymentsClient,
-} from "@azure/arm-resourcesdeployments";
+import { DeploymentsClient } from "@azure/arm-resourcesdeployments";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to returns changes that will be made by the deployment if executed at the scope of the subscription.
+ *
+ * @summary returns changes that will be made by the deployment if executed at the scope of the subscription.
+ * x-ms-original-file: 2025-04-01/PostDeploymentWhatIfOnSubscription.json
+ */
 async function predictTemplateChangesAtSubscriptionScope(): Promise<void> {
-  const subscriptionId =
-    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000001";
-  const deploymentName = "my-deployment";
-  const parameters: DeploymentWhatIf = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000001";
+  const client = new DeploymentsClient(credential, subscriptionId);
+  const result = await client.deployments.whatIfAtSubscriptionScope("my-deployment", {
     location: "westus",
     properties: {
       mode: "Incremental",
       parameters: {},
       templateLink: { uri: "https://example.com/exampleTemplate.json" },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DeploymentsClient(credential, subscriptionId);
-  const result = await client.deployments.beginWhatIfAtSubscriptionScopeAndWait(
-    deploymentName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

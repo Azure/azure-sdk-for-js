@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
  *
  * @summary deletes a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresDeleteKeyValue.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresDeleteKeyValue.json
  */
 async function keyValuesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -2,8 +2,13 @@
 // Licensed under the MIT License.
 
 export {
+  deleteGenerationJob,
+  cancelGenerationJob,
+  listGenerationJobs,
+  getGenerationJob,
+  createGenerationJob,
   getCredentials,
-  startPendingUpload,
+  pendingUpload,
   updateVersion,
   createVersion,
   deleteVersion,
@@ -12,8 +17,13 @@ export {
   listVersions,
 } from "./operations.js";
 export type {
+  BetaEvaluatorsDeleteGenerationJobOptionalParams,
+  BetaEvaluatorsCancelGenerationJobOptionalParams,
+  BetaEvaluatorsListGenerationJobsOptionalParams,
+  BetaEvaluatorsGetGenerationJobOptionalParams,
+  BetaEvaluatorsCreateGenerationJobOptionalParams,
   BetaEvaluatorsGetCredentialsOptionalParams,
-  BetaEvaluatorsStartPendingUploadOptionalParams,
+  BetaEvaluatorsPendingUploadOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,

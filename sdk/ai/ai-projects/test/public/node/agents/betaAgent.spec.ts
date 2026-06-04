@@ -44,10 +44,8 @@ describe("beta agents - session CRUD and file operations", () => {
         kind: "hosted",
         cpu: "0.5",
         memory: "1Gi",
-        image,
-        container_protocol_versions: [
-          { protocol: "responses", version: "v1" } as ProtocolVersionRecord,
-        ],
+        container_configuration: { image },
+        protocol_versions: [{ protocol: "responses", version: "v1" } as ProtocolVersionRecord],
       } as HostedAgentDefinition,
       {
         foundryFeatures: "HostedAgents=V1Preview",
@@ -72,14 +70,12 @@ describe("beta agents - session CRUD and file operations", () => {
       }
     }
 
-    const isolationKey = "test-isolation-key";
-
     // Create a session
     const versionIndicator: VersionRefIndicator = {
       type: "version_ref",
       agent_version: agent.version,
     };
-    const session = await betaAgents.createSession(agentName, isolationKey, versionIndicator);
+    const session = await betaAgents.createSession(agentName, versionIndicator);
     assert.isNotNull(session);
     assert.isNotNull(session.agent_session_id);
     assert.isNotNull(session.status);
@@ -110,14 +106,13 @@ describe("beta agents - session CRUD and file operations", () => {
     assert.isTrue(uploadResult.bytes_written > 0);
 
     // List files in the session sandbox
-    const listing = await betaAgents.listSessionFiles(
-      agentName,
-      session.agent_session_id,
-      "/sandbox",
-    );
-    assert.isNotNull(listing);
-    assert.isArray(listing.entries);
-    assert.isTrue(listing.entries.length >= 1);
+    const files = [];
+    for await (const entry of betaAgents.listSessionFiles(agentName, session.agent_session_id, {
+      path: "/sandbox",
+    })) {
+      files.push(entry);
+    }
+    assert.isTrue(files.length >= 1);
 
     // Download the file back
     const downloadResult = await betaAgents.downloadSessionFile(
@@ -142,7 +137,7 @@ describe("beta agents - session CRUD and file operations", () => {
     await betaAgents.deleteSessionFile(agentName, session.agent_session_id, filePath);
 
     // Delete the session
-    await betaAgents.deleteSession(agentName, session.agent_session_id, isolationKey);
+    await betaAgents.deleteSession(agentName, session.agent_session_id);
 
     // Delete the agent version
     await agents.deleteVersion(agentName, agent.version);

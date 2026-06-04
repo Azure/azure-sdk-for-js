@@ -29,11 +29,6 @@ export interface LoadBalancersOperations {
     options?: LoadBalancersListByManagedClusterOptionalParams,
   ) => PagedAsyncIterableIterator<LoadBalancer>;
   /** Deletes a load balancer in the specified managed cluster. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     resourceName: string,

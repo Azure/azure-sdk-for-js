@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createAppConfigurationManagement,
-  type AppConfigurationManagementContext,
-  type AppConfigurationManagementClientOptionalParams,
+export type {
+  AppConfigurationManagementContext,
+  AppConfigurationManagementClientOptionalParams,
 } from "./appConfigurationManagementContext.js";
+export { createAppConfigurationManagement } from "./appConfigurationManagementContext.js";

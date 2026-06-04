@@ -3,6 +3,11 @@
 
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
+  deleteMemory,
+  listMemories,
+  getMemory,
+  updateMemory,
+  createMemory,
   deleteScope,
   getUpdateResult,
   updateMemories,
@@ -14,6 +19,11 @@ import {
   create,
 } from "../../../api/beta/memoryStores/operations.js";
 import type {
+  BetaMemoryStoresDeleteMemoryOptionalParams,
+  BetaMemoryStoresListMemoriesOptionalParams,
+  BetaMemoryStoresGetMemoryOptionalParams,
+  BetaMemoryStoresUpdateMemoryOptionalParams,
+  BetaMemoryStoresCreateMemoryOptionalParams,
   BetaMemoryStoresDeleteScopeOptionalParams,
   BetaMemoryStoresGetUpdateResultOptionalParams,
   BetaMemoryStoresUpdateMemoriesOptionalParams,
@@ -29,15 +39,51 @@ import type {
   MemoryStore,
   DeleteMemoryStoreResponse,
   MemoryStoreSearchResponse,
+  MemoryItemUnion,
+  MemoryItemKind,
   MemoryStoreUpdateResponse,
   MemoryStoreUpdateCompletedResult,
   MemoryStoreDeleteScopeResponse,
+  DeleteMemoryResponse,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BetaMemoryStores operations. */
 export interface BetaMemoryStoresOperations {
+  /** Delete a memory item from a memory store. */
+  deleteMemory: (
+    name: string,
+    memoryId: string,
+    options?: BetaMemoryStoresDeleteMemoryOptionalParams,
+  ) => Promise<DeleteMemoryResponse>;
+  /** List all memory items in a memory store. */
+  listMemories: (
+    name: string,
+    scope: string,
+    options?: BetaMemoryStoresListMemoriesOptionalParams,
+  ) => PagedAsyncIterableIterator<MemoryItemUnion>;
+  /** Retrieve a memory item from a memory store. */
+  getMemory: (
+    name: string,
+    memoryId: string,
+    options?: BetaMemoryStoresGetMemoryOptionalParams,
+  ) => Promise<MemoryItemUnion>;
+  /** Update a memory item in a memory store. */
+  updateMemory: (
+    name: string,
+    memoryId: string,
+    content: string,
+    options?: BetaMemoryStoresUpdateMemoryOptionalParams,
+  ) => Promise<MemoryItemUnion>;
+  /** Create a memory item in a memory store. */
+  createMemory: (
+    name: string,
+    scope: string,
+    content: string,
+    kind: MemoryItemKind,
+    options?: BetaMemoryStoresCreateMemoryOptionalParams,
+  ) => Promise<MemoryItemUnion>;
   /** Delete all memories associated with a specific scope from a memory store. */
   deleteScope: (
     name: string,
@@ -86,6 +132,34 @@ export interface BetaMemoryStoresOperations {
 
 function _getBetaMemoryStores(context: AIProjectContext) {
   return {
+    deleteMemory: (
+      name: string,
+      memoryId: string,
+      options?: BetaMemoryStoresDeleteMemoryOptionalParams,
+    ) => deleteMemory(context, name, memoryId, options),
+    listMemories: (
+      name: string,
+      scope: string,
+      options?: BetaMemoryStoresListMemoriesOptionalParams,
+    ) => listMemories(context, name, scope, options),
+    getMemory: (
+      name: string,
+      memoryId: string,
+      options?: BetaMemoryStoresGetMemoryOptionalParams,
+    ) => getMemory(context, name, memoryId, options),
+    updateMemory: (
+      name: string,
+      memoryId: string,
+      content: string,
+      options?: BetaMemoryStoresUpdateMemoryOptionalParams,
+    ) => updateMemory(context, name, memoryId, content, options),
+    createMemory: (
+      name: string,
+      scope: string,
+      content: string,
+      kind: MemoryItemKind,
+      options?: BetaMemoryStoresCreateMemoryOptionalParams,
+    ) => createMemory(context, name, scope, content, kind, options),
     deleteScope: (
       name: string,
       scope: string,

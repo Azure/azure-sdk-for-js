@@ -8,7 +8,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { BatchClient } from "./batchClient.js";
-export {
+export type {
   BatchApplication,
   BatchError,
   BatchErrorMessage,
@@ -80,7 +80,7 @@ export {
   MountConfiguration,
   AzureBlobFileSystemConfiguration,
   NfsMountConfiguration,
-  CifsMountConfiguration,
+  BatchCifsMountConfiguration,
   AzureFileShareConfiguration,
   UpgradePolicy,
   UpgradeMode,
@@ -122,8 +122,6 @@ export {
   OutputFileUploadConfig,
   OutputFileUploadCondition,
   BatchTaskConstraints,
-  AuthenticationTokenSettings,
-  BatchAccessScope,
   BatchJobPreparationTask,
   BatchJobReleaseTask,
   BatchPoolInfo,
@@ -214,9 +212,9 @@ export {
   VMExtensionInstanceView,
   InstanceViewStatus,
   StatusLevelTypes,
-  KnownVersions,
 } from "./models/index.js";
-export {
+export { KnownVersions } from "./models/index.js";
+export type {
   BatchClientOptionalParams,
   ListNodeFilesOptionalParams,
   GetNodeFilePropertiesOptionalParams,
@@ -291,4 +289,4 @@ export {
   GetApplicationOptionalParams,
   ListApplicationsOptionalParams,
 } from "./api/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

@@ -1,75 +1,82 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- *
- * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerUpdate.json
- */
-
-import type { ServerForUpdate } from "@azure/arm-mysql-flexible";
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+ *
+ * @summary updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+ * x-ms-original-file: 2025-06-01-preview/MaintenancePolicyPatchOptInVirtualCanary.json
+ */
+async function updateServerToOptInVirtualCanary(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.update("testrg", "mysqltestserver", {
+    maintenancePolicy: { patchStrategy: "VirtualCanary" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+ *
+ * @summary updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+ * x-ms-original-file: 2025-06-01-preview/MaintenancePolicyPatchOptOutVirtualCanary.json
+ */
+async function updateServerToOptOutVirtualCanary(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.update("testrg", "mysqltestserver", {
+    maintenancePolicy: { patchStrategy: "Default" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+ *
+ * @summary updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+ * x-ms-original-file: 2025-06-01-preview/ServerUpdate.json
+ */
 async function updateAServer(): Promise<void> {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "testrg";
-  const serverName = "mysqltestserver";
-  const parameters: ServerForUpdate = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.update("testrg", "mysqltestserver", {
     network: { publicNetworkAccess: "Disabled" },
     storage: {
       autoGrow: "Disabled",
       autoIoScaling: "Disabled",
       iops: 200,
+      storageRedundancy: "LocalRedundancy",
       storageSizeGB: 30,
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.servers.beginUpdateAndWait(resourceGroupName, serverName, parameters);
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+ * This sample demonstrates how to updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
- * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerUpdateWithCustomerMaintenanceWindow.json
- */
-async function updateServerCustomerMaintenanceWindow(): Promise<void> {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "testrg";
-  const serverName = "mysqltestserver";
-  const parameters: ServerForUpdate = {
-    maintenanceWindow: {
-      customWindow: "Enabled",
-      dayOfWeek: 1,
-      startHour: 8,
-      startMinute: 0,
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.servers.beginUpdateAndWait(resourceGroupName, serverName, parameters);
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- *
- * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerUpdateWithBYOK.json
+ * @summary updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+ * x-ms-original-file: 2025-06-01-preview/ServerUpdateWithBYOK.json
  */
 async function updateServerWithByok(): Promise<void> {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "testrg";
-  const serverName = "mysqltestserver";
-  const parameters: ServerForUpdate = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.update("testrg", "mysqltestserver", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-identity":
+          {},
+      },
+    },
     dataEncryption: {
       type: "AzureKeyVault",
       geoBackupKeyURI: "https://test-geo.vault.azure.net/keys/key/c8a92236622244c0a4fdb892666f671a",
@@ -79,24 +86,38 @@ async function updateServerWithByok(): Promise<void> {
       primaryUserAssignedIdentityId:
         "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-identity",
     },
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/ffffffffFfffFfffFfffFfffffffffff/resourceGroups/testrg/providers/MicrosoftManagedIdentity/userAssignedIdentities/testIdentity":
-          {},
-      },
-    },
-  };
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+ *
+ * @summary updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+ * x-ms-original-file: 2025-06-01-preview/ServerUpdateWithCustomerMaintenanceWindow.json
+ */
+async function updateServerCustomerMaintenanceWindow(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.servers.beginUpdateAndWait(resourceGroupName, serverName, parameters);
+  const result = await client.servers.update("testrg", "mysqltestserver", {
+    maintenanceWindow: {
+      batchOfMaintenance: "Batch1",
+      customWindow: "Enabled",
+      dayOfWeek: 1,
+      startHour: 8,
+      startMinute: 0,
+    },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
+  await updateServerToOptInVirtualCanary();
+  await updateServerToOptOutVirtualCanary();
   await updateAServer();
-  await updateServerCustomerMaintenanceWindow();
   await updateServerWithByok();
+  await updateServerCustomerMaintenanceWindow();
 }
 
 main().catch(console.error);

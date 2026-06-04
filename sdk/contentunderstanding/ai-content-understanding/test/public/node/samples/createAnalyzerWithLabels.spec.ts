@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for createAnalyzerWithLabels.ts - Create a custom analyzer with labeled
+ * Sample test for createAnalyzerWithLabels.ts - Create a custom analyzer with labeled
  * training data.
  */
 

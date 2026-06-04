@@ -8,10 +8,10 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { KeyVaultClient } from "./keyVaultClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   FullBackupOperation,
-  KnownOperationStatus,
   OperationStatus,
   ErrorModel,
   KeyVaultError,
@@ -24,28 +24,31 @@ export {
   SelectiveKeyRestoreOperationParameters,
   UpdateSettingRequest,
   Setting,
-  KnownSettingTypeEnum,
   SettingTypeEnum,
   SettingsListResult,
   RoleDefinition,
-  KnownRoleDefinitionType,
   RoleDefinitionType,
   RoleDefinitionProperties,
-  KnownRoleType,
   RoleType,
   Permission,
-  KnownDataAction,
   DataAction,
-  KnownRoleScope,
   RoleScope,
   RoleDefinitionCreateParameters,
   RoleAssignment,
   RoleAssignmentPropertiesWithScope,
   RoleAssignmentCreateParameters,
   RoleAssignmentProperties,
-  KnownVersions,
 } from "./models/index.js";
 export {
+  KnownOperationStatus,
+  KnownSettingTypeEnum,
+  KnownRoleDefinitionType,
+  KnownRoleType,
+  KnownDataAction,
+  KnownRoleScope,
+  KnownVersions,
+} from "./models/index.js";
+export type {
   KeyVaultClientOptionalParams,
   GetSettingsOptionalParams,
   GetSettingOptionalParams,
@@ -59,17 +62,18 @@ export {
   FullBackupOptionalParams,
   FullBackupStatusOptionalParams,
 } from "./api/index.js";
-export {
+export type {
   RoleAssignmentsListForScopeOptionalParams,
   RoleAssignmentsGetOptionalParams,
   RoleAssignmentsCreateOptionalParams,
   RoleAssignmentsDeleteOptionalParams,
 } from "./api/roleAssignments/index.js";
-export {
+export type {
   RoleDefinitionsListOptionalParams,
   RoleDefinitionsGetOptionalParams,
   RoleDefinitionsCreateOrUpdateOptionalParams,
   RoleDefinitionsDeleteOptionalParams,
 } from "./api/roleDefinitions/index.js";
-export { RoleAssignmentsOperations, RoleDefinitionsOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { RoleAssignmentsOperations, RoleDefinitionsOperations } from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

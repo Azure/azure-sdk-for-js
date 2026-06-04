@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-tools/communication-toll-free-verification": ["../src/index.ts"],
+      "@azure-tools/communication-toll-free-verification/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

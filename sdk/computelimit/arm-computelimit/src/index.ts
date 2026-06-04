@@ -33,7 +33,10 @@ export type {
   Feature,
   FeatureProperties,
   FeatureState,
+  FeatureEnableRequest,
   OperationStatusResult,
+  VmFamily,
+  VmFamilyProperties,
 } from "./models/index.js";
 export {
   KnownOrigin,
@@ -45,6 +48,7 @@ export {
 } from "./models/index.js";
 export type { ComputeLimitClientOptionalParams } from "./api/index.js";
 export type {
+  FeaturesDisableOptionalParams,
   FeaturesEnableOptionalParams,
   FeaturesListBySubscriptionLocationResourceOptionalParams,
   FeaturesGetOptionalParams,
@@ -63,11 +67,17 @@ export type {
   SharedLimitsGetOptionalParams,
 } from "./api/sharedLimits/index.js";
 export type {
+  VmFamiliesListBySubscriptionLocationResourceOptionalParams,
+  VmFamiliesGetOptionalParams,
+} from "./api/vmFamilies/index.js";
+export type {
   FeaturesOperations,
   GuestSubscriptionsOperations,
   OperationsOperations,
   SharedLimitsOperations,
+  VmFamiliesOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

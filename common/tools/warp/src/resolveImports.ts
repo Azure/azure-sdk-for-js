@@ -553,16 +553,12 @@ export async function resolveImportsInDir(
 // Direct import bypass validation
 // ---------------------------------------------------------------------------
 
-/** A direct import that bypasses the `#imports` mechanism. */
-export interface DirectImportViolation {
-  /** Absolute path of the source file containing the violation. */
-  file: string;
-  /** The relative import specifier that bypasses `#imports`. */
-  specifier: string;
-  /** The `#`-prefixed key that should be used instead. */
-  suggestedImport: string;
-  /** 1-based line number of the offending import. */
-  line: number;
+/**
+ * Entry in the exact paths index, tracking key and condition.
+ */
+interface ExactPathEntry {
+  key: string;
+  condition?: string;
 }
 
 /**
@@ -574,49 +570,55 @@ interface WildcardPattern {
   regex: RegExp;
   /** The `#`-prefixed key (with `*`) from the imports map, e.g., `#platform/*`. */
   key: string;
+  /** The condition under which this pattern applies (e.g., "browser", "default"). */
+  condition?: string;
 }
 
 /**
  * Build lookup structures for matching resolved file paths against an imports map.
  *
  * Returns:
- * - `exactPaths`: Map from absolute path → `#key` for non-wildcard entries
+ * - `exactPaths`: Map from absolute path → {key, condition} for non-wildcard entries
  * - `wildcardPatterns`: Array of regex patterns for wildcard (`*`) entries
  */
 export function buildImportTargetIndex(
   importsMap: ImportsMap,
   packageRoot: string,
-): { exactPaths: Map<string, string>; wildcardPatterns: WildcardPattern[] } {
-  const exactPaths = new Map<string, string>();
+): { exactPaths: Map<string, ExactPathEntry>; wildcardPatterns: WildcardPattern[] } {
+  const exactPaths = new Map<string, ExactPathEntry>();
   const wildcardPatterns: WildcardPattern[] = [];
-  // Deduplicate wildcard regexes by their source string
   const seenPatterns = new Set<string>();
 
-  function collectFromTarget(target: PackageTarget, key: string, hasWildcard: boolean): void {
+  function collectFromTarget(
+    target: PackageTarget,
+    key: string,
+    hasWildcard: boolean,
+    condition?: string,
+  ): void {
     if (target === null || target === undefined) return;
     if (typeof target === "string") {
       if (hasWildcard && target.includes("*")) {
-        // Convert wildcard target to regex: "./src/*-browser.mts" → /^\/abs\/src\/(.+)-browser\.mts$/
         const abs = path.resolve(packageRoot, target);
         const escaped = abs.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
         const regexSource = "^" + escaped.replace("\\*", "(.+)") + "$";
-        if (!seenPatterns.has(regexSource)) {
-          seenPatterns.add(regexSource);
-          wildcardPatterns.push({ regex: new RegExp(regexSource), key });
+        const dedupKey = `${regexSource}:${condition ?? ""}`;
+        if (!seenPatterns.has(dedupKey)) {
+          seenPatterns.add(dedupKey);
+          wildcardPatterns.push({ regex: new RegExp(regexSource), key, condition });
         }
       } else {
         const abs = path.resolve(packageRoot, target);
-        exactPaths.set(abs, key);
+        exactPaths.set(abs, { key, condition });
       }
       return;
     }
     if (Array.isArray(target)) {
-      for (const item of target) collectFromTarget(item, key, hasWildcard);
+      for (const item of target) collectFromTarget(item, key, hasWildcard, condition);
       return;
     }
-    // Conditional object — recurse into all branches
-    for (const nested of Object.values(target)) {
-      collectFromTarget(nested, key, hasWildcard);
+    // Conditional object — recurse into branches with condition tracking
+    for (const [cond, nested] of Object.entries(target)) {
+      collectFromTarget(nested, key, hasWildcard, cond);
     }
   }
 
@@ -632,6 +634,16 @@ export function buildImportTargetIndex(
 }
 
 /**
+ * Result of looking up a file path in the import target index.
+ */
+interface ImportTargetMatch {
+  /** The resolved `#`-prefixed key (wildcards replaced). */
+  key: string;
+  /** The condition under which this target applies, if any. */
+  condition?: string;
+}
+
+/**
  * Look up a resolved file path in the import target index.
  * Returns the `#`-prefixed key if the path is a target, or undefined.
  *
@@ -640,19 +652,18 @@ export function buildImportTargetIndex(
  */
 function lookupImportTarget(
   resolvedPath: string,
-  exactPaths: Map<string, string>,
+  exactPaths: Map<string, ExactPathEntry>,
   wildcardPatterns: WildcardPattern[],
-): string | undefined {
+): ImportTargetMatch | undefined {
   // Fast exact check first
-  const exactKey = exactPaths.get(resolvedPath);
-  if (exactKey) return exactKey;
+  const exact = exactPaths.get(resolvedPath);
+  if (exact) return { key: exact.key, condition: exact.condition };
 
   // Try wildcard patterns
-  for (const { regex, key } of wildcardPatterns) {
+  for (const { regex, key, condition } of wildcardPatterns) {
     const match = resolvedPath.match(regex);
     if (match && match[1]) {
-      // Replace * in key with matched portion
-      return key.replace("*", match[1]);
+      return { key: key.replace("*", match[1].replaceAll("\\", "/")), condition };
     }
   }
   return undefined;
@@ -670,7 +681,12 @@ export function collectImportTargetPaths(
   importsMap: ImportsMap,
   packageRoot: string,
 ): Map<string, string> {
-  return buildImportTargetIndex(importsMap, packageRoot).exactPaths;
+  const index = buildImportTargetIndex(importsMap, packageRoot);
+  const result = new Map<string, string>();
+  for (const [absPath, entry] of index.exactPaths) {
+    result.set(absPath, entry.key);
+  }
+  return result;
 }
 
 /**
@@ -813,38 +829,65 @@ function hasDivergentResolutions(
   return result;
 }
 
+/** Violation found when a direct import bypasses the #imports mechanism. */
+export interface DirectImportViolation {
+  file: string;
+  specifier: string;
+  suggestedImport: string;
+  line: number;
+  /** If the violating file is a platform-specific file, its condition (e.g., "browser"). */
+  targetPlatform?: string;
+}
+
 /**
- * Validate that no source file directly imports a file that should be accessed
- * via the `#imports` mechanism.
+ * Validate that source files use #-prefixed imports correctly.
  *
- * Scans the provided source files for relative imports and checks whether any
- * of them resolve to a file that is a target in the package's imports map.
+ * This combines two complementary checks in a single pass:
+ * 1. Non-platform files must not directly import files behind #imports
+ * 2. Platform-specific files must use #imports for any divergent dependency
  *
  * @param sourceFiles - Absolute paths of source files to scan
  * @param importsMap - The package.json `imports` field
  * @param packageRoot - Absolute path to the package root
+ * @param validatePlatformFiles - If true, also validate platform-specific files
  * @returns Array of violations found
  */
 export function validateNoDirectImports(
   sourceFiles: readonly string[],
   importsMap: ImportsMap,
   packageRoot: string,
+  validatePlatformFiles = false,
 ): DirectImportViolation[] {
   const { exactPaths, wildcardPatterns } = buildImportTargetIndex(importsMap, packageRoot);
   const divergenceCache = new Map<string, boolean>();
   const violations: DirectImportViolation[] = [];
 
+  let platformFileCount = 0;
+
   for (const filePath of sourceFiles) {
-    // Skip implementation files — files that are targets of import map entries
-    // with divergent resolutions. These files only run under their specific
-    // condition (e.g., Node default), so their direct imports to other
-    // same-condition files are correct.
-    const selfKey = lookupImportTarget(filePath, exactPaths, wildcardPatterns);
-    if (selfKey) {
-      const selfIsWildcard = selfKey !== exactPaths.get(filePath);
-      if (
-        hasDivergentResolutions(selfKey, importsMap, packageRoot, selfIsWildcard, divergenceCache)
-      ) {
+    const selfMatch = lookupImportTarget(filePath, exactPaths, wildcardPatterns);
+
+    // Determine if this is a platform-specific file (non-default condition)
+    const platformCondition =
+      selfMatch?.condition && selfMatch.condition !== "default" ? selfMatch.condition : undefined;
+
+    // For platform files, only validate if requested
+    if (platformCondition) {
+      platformFileCount++;
+      if (!validatePlatformFiles) continue;
+    } else if (selfMatch) {
+      // Default-condition file that is an import target - check if divergent
+      const exactEntry = exactPaths.get(filePath);
+      const isWildcard = !exactEntry || exactEntry.key !== selfMatch.key;
+      const selfIsDivergent = hasDivergentResolutions(
+        selfMatch.key,
+        importsMap,
+        packageRoot,
+        isWildcard,
+        divergenceCache,
+      );
+      if (selfIsDivergent) {
+        // Its imports are correct for its condition (default)
         continue;
       }
     }
@@ -852,40 +895,60 @@ export function validateNoDirectImports(
     const content = ts.sys.readFile(filePath);
     if (!content) continue;
 
-    // Quick check: skip files without any relative import
     if (!content.includes("./") && !content.includes("../")) continue;
 
     const sourceFile = ts.createSourceFile(
       path.basename(filePath),
       content,
       ts.ScriptTarget.Latest,
-      /* setParentNodes */ false,
+      false,
     );
 
     const relativeSpecifiers = collectRelativeSpecifiers(sourceFile);
+
+    // For platform files, derive module type from file extension
+    const moduleType = filePath.endsWith(".cts") ? "require" : "import";
+    const conditions = platformCondition
+      ? new Set([platformCondition, moduleType, "default"])
+      : undefined;
 
     for (const { text: specifier, line } of relativeSpecifiers) {
       const resolved = resolveRelativeSpecifier(specifier, filePath);
       if (!resolved) continue;
 
-      const key = lookupImportTarget(resolved, exactPaths, wildcardPatterns);
-      if (!key) continue;
+      const match = lookupImportTarget(resolved, exactPaths, wildcardPatterns);
+      if (!match) continue;
 
-      // Only flag if the imported target has divergent resolutions.
-      // For example, importing `./helper.js` is fine if `#platform/helper`
-      // has only a `default` entry and no condition-specific variants.
-      const isWildcard = key !== exactPaths.get(resolved);
-      if (!hasDivergentResolutions(key, importsMap, packageRoot, isWildcard, divergenceCache)) {
+      const exactEntry = exactPaths.get(resolved);
+      const isWildcard = !exactEntry || exactEntry.key !== match.key;
+      if (
+        !hasDivergentResolutions(match.key, importsMap, packageRoot, isWildcard, divergenceCache)
+      ) {
         continue;
+      }
+
+      // For platform files, check if the import resolves to the wrong variant
+      if (platformCondition && conditions) {
+        const platformResolved = resolveSubpathImport(match.key, importsMap, conditions);
+        if (platformResolved) {
+          const platformAbsPath = path.resolve(packageRoot, platformResolved);
+          if (platformAbsPath === resolved) continue; // Correct resolution
+        }
       }
 
       violations.push({
         file: filePath,
         specifier,
-        suggestedImport: key,
+        suggestedImport: match.key,
         line,
+        targetPlatform: platformCondition,
       });
     }
+  }
+
+  if (validatePlatformFiles) {
+    const log = getLogger();
+    log.verbose(`[warp] Validated ${platformFileCount} platform-specific file(s)`);
   }
 
   return violations;

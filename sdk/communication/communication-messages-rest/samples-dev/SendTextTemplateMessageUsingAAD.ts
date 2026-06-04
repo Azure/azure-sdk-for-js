@@ -5,9 +5,7 @@
  * @summary Use AAD token credentials when sending a whatsapp template message.
  */
 
-import { isNodeLike } from "@azure/core-util";
-import type { TokenCredential } from "@azure/identity";
-import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import type {
   MessageTemplate,
   MessageTemplateValue,
@@ -34,14 +32,7 @@ export async function main(): Promise<void> {
     return;
   }
 
-  // get credentials
-  const credential: TokenCredential = isNodeLike
-    ? new DefaultAzureCredential()
-    : new ClientSecretCredential(
-        process.env.AZURE_TENANT_ID,
-        process.env.AZURE_CLIENT_ID,
-        process.env.AZURE_CLIENT_SECRET,
-      );
+  const credential = new DefaultAzureCredential();
 
   const client = NotificationClient(endpoint, credential);
 

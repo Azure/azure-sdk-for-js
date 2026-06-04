@@ -96,8 +96,7 @@ export interface AgentPool extends ProxyResource {
     minCount?: number;
     mode?: AgentPoolMode;
     networkProfile?: AgentPoolNetworkProfile;
-    nodeCustomizationProfile?: NodeCustomizationProfile;
-    readonly nodeImageVersion?: string;
+    nodeImageVersion?: string;
     nodeInitializationTaints?: string[];
     nodeLabels?: Record<string, string>;
     nodePublicIPPrefixID?: string;
@@ -110,6 +109,7 @@ export interface AgentPool extends ProxyResource {
     podIPAllocationMode?: PodIPAllocationMode;
     podSubnetID?: string;
     powerState?: PowerState;
+    preparedImageSpecificationProfile?: PreparedImageSpecificationProfile;
     readonly provisioningState?: string;
     proximityPlacementGroupID?: string;
     scaleDownMode?: ScaleDownMode;
@@ -178,10 +178,22 @@ export interface AgentPoolGatewayProfile {
 export type AgentPoolMode = string;
 
 // @public
+export interface AgentPoolNetworkInterface {
+    enableAcceleratedNetworking?: boolean;
+    type?: AgentPoolNetworkInterfaceType;
+    vnetSubnetId?: string;
+}
+
+// @public
+export type AgentPoolNetworkInterfaceType = string;
+
+// @public
 export interface AgentPoolNetworkProfile {
     allowedHostPorts?: PortRange[];
     applicationSecurityGroups?: string[];
+    nodePublicIPPrefixIDs?: string[];
     nodePublicIPTags?: IPTag[];
+    secondaryNetworkInterfaces?: AgentPoolNetworkInterface[];
 }
 
 // @public
@@ -518,6 +530,9 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 };
 
 // @public
+export type ControlPlaneScalingSize = string;
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -642,6 +657,13 @@ export interface GuardrailsAvailableVersionsProperties {
 
 // @public
 export type GuardrailsSupport = string;
+
+// @public
+export interface HardEvictionThreshold {
+    memoryAvailable?: string;
+    nodeFsAvailable?: string;
+    nodeFsInodesFree?: string;
+}
 
 // @public
 export interface IdentityBinding extends ProxyResource {
@@ -887,6 +909,12 @@ export enum KnownAgentPoolMode {
 }
 
 // @public
+export enum KnownAgentPoolNetworkInterfaceType {
+    Dynamic = "Dynamic",
+    Standard = "Standard"
+}
+
+// @public
 export enum KnownAgentPoolSSHAccess {
     Disabled = "Disabled",
     EntraId = "EntraId",
@@ -936,6 +964,13 @@ export enum KnownConnectionStatus {
 export enum KnownContainerNetworkLogs {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownControlPlaneScalingSize {
+    H2 = "H2",
+    H4 = "H4",
+    H8 = "H8"
 }
 
 // @public
@@ -1239,6 +1274,13 @@ export enum KnownNginxIngressControllerType {
 }
 
 // @public
+export enum KnownNodeDisruptionPolicy {
+    Allow = "Allow",
+    AllowDuringMaintenanceWindow = "AllowDuringMaintenanceWindow",
+    Block = "Block"
+}
+
+// @public
 export enum KnownNodeOSUpgradeChannel {
     NodeImage = "NodeImage",
     None = "None",
@@ -1274,6 +1316,7 @@ export enum KnownOSDiskType {
 
 // @public
 export enum KnownOssku {
+    AzureContainerLinux = "AzureContainerLinux",
     AzureLinux = "AzureLinux",
     AzureLinux3 = "AzureLinux3",
     CBLMariner = "CBLMariner",
@@ -1481,7 +1524,9 @@ export enum KnownUpgradeStrategy {
 export enum KnownVersions {
     V20251001 = "2025-10-01",
     V20260101 = "2026-01-01",
-    V20260102Preview = "2026-01-02-preview"
+    V20260201 = "2026-02-01",
+    V20260301 = "2026-03-01",
+    V20260302Preview = "2026-03-02-preview"
 }
 
 // @public
@@ -1518,8 +1563,10 @@ export interface KubeletConfig {
     cpuCfsQuotaPeriod?: string;
     cpuManagerPolicy?: string;
     failSwapOn?: boolean;
+    hardEvictionThreshold?: HardEvictionThreshold;
     imageGcHighThreshold?: number;
     imageGcLowThreshold?: number;
+    kubeReserved?: KubeReserved;
     podMaxPids?: number;
     seccompDefault?: SeccompDefault;
     topologyManagerPolicy?: string;
@@ -1527,6 +1574,12 @@ export interface KubeletConfig {
 
 // @public
 export type KubeletDiskType = string;
+
+// @public
+export interface KubeReserved {
+    cpuMillicores?: number;
+    memoryMB?: number;
+}
 
 // @public
 export interface KubernetesPatchVersion {
@@ -1680,7 +1733,7 @@ export type LocalDNSState = string;
 // @public
 export interface Machine extends ProxyResource {
     properties?: MachineProperties;
-    readonly zones?: string[];
+    zones?: string[];
 }
 
 // @public
@@ -1753,7 +1806,7 @@ export interface MachineProperties {
     kubernetes?: MachineKubernetesProfile;
     localDNSProfile?: LocalDNSProfile;
     mode?: AgentPoolMode;
-    readonly network?: MachineNetworkProperties;
+    network?: MachineNetworkProperties;
     readonly nodeImageVersion?: string;
     operatingSystem?: MachineOSProfile;
     priority?: ScaleSetPriority;
@@ -1867,11 +1920,13 @@ export interface ManagedCluster extends TrackedResource {
     azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
     readonly azurePortalFqdn?: string;
     bootstrapProfile?: ManagedClusterBootstrapProfile;
+    controlPlaneScalingProfile?: ManagedClusterControlPlaneScalingProfile;
     creationData?: CreationData;
     readonly currentKubernetesVersion?: string;
     disableLocalAccounts?: boolean;
     diskEncryptionSetID?: string;
     dnsPrefix?: string;
+    enableFips?: boolean;
     enableNamespaceResources?: boolean;
     enableRbac?: boolean;
     readonly eTag?: string;
@@ -1890,6 +1945,7 @@ export interface ManagedCluster extends TrackedResource {
     readonly maxAgentPools?: number;
     metricsProfile?: ManagedClusterMetricsProfile;
     networkProfile?: ContainerServiceNetworkProfile;
+    nodeDisruptionProfile?: NodeDisruptionProfile;
     nodeProvisioningProfile?: ManagedClusterNodeProvisioningProfile;
     nodeResourceGroup?: string;
     nodeResourceGroupProfile?: ManagedClusterNodeResourceGroupProfile;
@@ -1975,8 +2031,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     minCount?: number;
     mode?: AgentPoolMode;
     networkProfile?: AgentPoolNetworkProfile;
-    nodeCustomizationProfile?: NodeCustomizationProfile;
-    readonly nodeImageVersion?: string;
+    nodeImageVersion?: string;
     nodeInitializationTaints?: string[];
     nodeLabels?: Record<string, string>;
     nodePublicIPPrefixID?: string;
@@ -1989,6 +2044,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     podIPAllocationMode?: PodIPAllocationMode;
     podSubnetID?: string;
     powerState?: PowerState;
+    preparedImageSpecificationProfile?: PreparedImageSpecificationProfile;
     readonly provisioningState?: string;
     proximityPlacementGroupID?: string;
     scaleDownMode?: ScaleDownMode;
@@ -2047,7 +2103,7 @@ export interface ManagedClusterAzureMonitorProfile {
 // @public
 export interface ManagedClusterAzureMonitorProfileAppMonitoring {
     autoInstrumentation?: ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation;
-    openTelemetryLogs?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs;
+    openTelemetryLogsAndTraces?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces;
     openTelemetryMetrics?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics;
 }
 
@@ -2057,15 +2113,17 @@ export interface ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentati
 }
 
 // @public
-export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs {
+export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces {
     enabled?: boolean;
-    port?: number;
+    grpcPort?: number;
+    httpPort?: number;
 }
 
 // @public
 export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
     enabled?: boolean;
-    port?: number;
+    grpcPort?: number;
+    httpPort?: number;
 }
 
 // @public
@@ -2086,14 +2144,25 @@ export interface ManagedClusterAzureMonitorProfileKubeStateMetrics {
 
 // @public
 export interface ManagedClusterAzureMonitorProfileMetrics {
+    controlPlane?: ManagedClusterAzureMonitorProfileMetricsControlPlane;
     enabled: boolean;
     kubeStateMetrics?: ManagedClusterAzureMonitorProfileKubeStateMetrics;
+}
+
+// @public
+export interface ManagedClusterAzureMonitorProfileMetricsControlPlane {
+    enabled?: boolean;
 }
 
 // @public
 export interface ManagedClusterBootstrapProfile {
     artifactSource?: ArtifactSource;
     containerRegistryId?: string;
+}
+
+// @public
+export interface ManagedClusterControlPlaneScalingProfile {
+    scalingSize: ControlPlaneScalingSize;
 }
 
 // @public
@@ -2110,6 +2179,8 @@ export interface ManagedClusterHealthMonitorProfile {
 // @public
 export interface ManagedClusterHostedSystemProfile {
     enabled?: boolean;
+    nodeSubnetID?: string;
+    systemNodeSubnetID?: string;
 }
 
 // @public
@@ -2314,11 +2385,13 @@ export interface ManagedClusterProperties {
     azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
     readonly azurePortalFqdn?: string;
     bootstrapProfile?: ManagedClusterBootstrapProfile;
+    controlPlaneScalingProfile?: ManagedClusterControlPlaneScalingProfile;
     creationData?: CreationData;
     readonly currentKubernetesVersion?: string;
     disableLocalAccounts?: boolean;
     diskEncryptionSetID?: string;
     dnsPrefix?: string;
+    enableFips?: boolean;
     enableNamespaceResources?: boolean;
     enableRbac?: boolean;
     readonly fqdn?: string;
@@ -2333,6 +2406,7 @@ export interface ManagedClusterProperties {
     readonly maxAgentPools?: number;
     metricsProfile?: ManagedClusterMetricsProfile;
     networkProfile?: ContainerServiceNetworkProfile;
+    nodeDisruptionProfile?: NodeDisruptionProfile;
     nodeProvisioningProfile?: ManagedClusterNodeProvisioningProfile;
     nodeResourceGroup?: string;
     nodeResourceGroupProfile?: ManagedClusterNodeResourceGroupProfile;
@@ -2382,10 +2456,10 @@ export interface ManagedClusterPropertiesAutoScalerProfile {
 
 // @public
 export interface ManagedClusterPropertiesForSnapshot {
-    enableRbac?: boolean;
-    kubernetesVersion?: string;
+    readonly enableRbac?: boolean;
+    readonly kubernetesVersion?: string;
     readonly networkProfile?: NetworkProfileForSnapshot;
-    sku?: ManagedClusterSKU;
+    readonly sku?: ManagedClusterSKU;
 }
 
 // @public
@@ -2761,7 +2835,6 @@ export interface ManagedClusterStorageProfileBlobCSIDriver {
 // @public
 export interface ManagedClusterStorageProfileDiskCSIDriver {
     enabled?: boolean;
-    version?: string;
 }
 
 // @public
@@ -3029,8 +3102,11 @@ export interface NetworkProfileForSnapshot {
 export type NginxIngressControllerType = string;
 
 // @public
-export interface NodeCustomizationProfile {
-    nodeCustomizationId?: string;
+export type NodeDisruptionPolicy = string;
+
+// @public
+export interface NodeDisruptionProfile {
+    nodeDisruptionPolicy?: NodeDisruptionPolicy;
 }
 
 // @public
@@ -3167,6 +3243,11 @@ export interface PortRange {
 // @public
 export interface PowerState {
     code?: Code;
+}
+
+// @public
+export interface PreparedImageSpecificationProfile {
+    preparedImageSpecificationId?: string;
 }
 
 // @public
@@ -3439,7 +3520,7 @@ export type ScaleDownMode = string;
 
 // @public
 export interface ScaleProfile {
-    autoscale?: AutoScaleProfile;
+    autoscale?: AutoScaleProfile[];
     manual?: ManualScaleProfile[];
 }
 

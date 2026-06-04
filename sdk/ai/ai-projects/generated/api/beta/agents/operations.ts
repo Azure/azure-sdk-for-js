@@ -5,43 +5,68 @@ import { AIProjectContext as Client } from "../../index.js";
 import {
   Agent,
   agentDeserializer,
-  agentEndpointSerializer,
+  AgentVersion,
+  agentVersionDeserializer,
+  agentEndpointConfigSerializer,
   agentCardSerializer,
   apiErrorResponseDeserializer,
+  CreateAgentVersionFromCodeContent,
+  createAgentVersionFromCodeContentSerializer,
   versionIndicatorUnionSerializer,
   VersionIndicatorUnion,
   AgentSessionResource,
   agentSessionResourceDeserializer,
   _AgentsPagedResultAgentSessionResource,
   _agentsPagedResultAgentSessionResourceDeserializer,
+  SessionLogEvent,
+  sessionLogEventDeserializer,
   SessionFileWriteResponse,
   sessionFileWriteResponseDeserializer,
   SessionDirectoryListResponse,
   sessionDirectoryListResponseDeserializer,
-  ManagedAgentIdentityBlueprint,
-  managedAgentIdentityBlueprintDeserializer,
-  PagedManagedAgentIdentityBlueprint,
-  pagedManagedAgentIdentityBlueprintDeserializer,
+  OptimizationJob,
+  optimizationJobSerializer,
+  optimizationJobDeserializer,
+  OptimizationCandidate,
+  optimizationCandidateDeserializer,
+  _AgentsPagedResultOptimizationJob,
+  _agentsPagedResultOptimizationJobDeserializer,
+  AgentsPagedResultOptimizationCandidate,
+  agentsPagedResultOptimizationCandidateDeserializer,
+  CandidateDeployConfig,
+  candidateDeployConfigDeserializer,
+  CandidateResults,
+  candidateResultsDeserializer,
   BetaAgentsDownloadSessionFileResponse,
+  BetaAgentsDownloadAgentCodeResponse,
 } from "../../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../../static-helpers/pagingHelpers.js";
+import { getBinaryStreamResponse } from "../../../static-helpers/serialization/get-binary-stream-response.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import {
-  ListManagedIdentityBlueprintsOptionalParams,
-  DeleteManagedIdentityBlueprintOptionalParams,
-  GetManagedIdentityBlueprintOptionalParams,
-  CreateOrUpdateManagedIdentityBlueprintOptionalParams,
+  BetaAgentsGetOptimizationCandidateResultsOptionalParams,
+  BetaAgentsGetOptimizationCandidateConfigOptionalParams,
+  BetaAgentsGetOptimizationCandidateOptionalParams,
+  BetaAgentsListOptimizationCandidatesOptionalParams,
+  BetaAgentsDeleteOptimizationJobOptionalParams,
+  BetaAgentsCancelOptimizationJobOptionalParams,
+  BetaAgentsListOptimizationJobsOptionalParams,
+  BetaAgentsGetOptimizationJobOptionalParams,
+  BetaAgentsCreateOptimizationJobOptionalParams,
   BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsListSessionFilesOptionalParams,
+  BetaAgentsGetSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
   BetaAgentsUploadSessionFileOptionalParams,
+  BetaAgentsGetSessionLogStreamOptionalParams,
   BetaAgentsListSessionsOptionalParams,
   BetaAgentsDeleteSessionOptionalParams,
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
+  BetaAgentsDownloadAgentCodeOptionalParams,
+  BetaAgentsCreateVersionFromCodeOptionalParams,
   BetaAgentsPatchAgentObjectOptionalParams,
 } from "./options.js";
 import {
@@ -51,16 +76,17 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _listManagedIdentityBlueprintsSend(
+export function _getOptimizationCandidateResultsSend(
   context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
-  options: ListManagedIdentityBlueprintsOptionalParams = { requestOptions: {} },
+  jobId: string,
+  candidateId: string,
+  options: BetaAgentsGetOptimizationCandidateResultsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/managedAgentIdentityBlueprints{?order,limit,api%2Dversion}",
+    "/agent_optimization_jobs/{jobId}/candidates/{candidateId}/results{?api%2Dversion}",
     {
-      order: options?.order,
-      limit: options?.limit,
+      jobId: jobId,
+      candidateId: candidateId,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -72,16 +98,18 @@ export function _listManagedIdentityBlueprintsSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "foundry-features": foundryFeatures,
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
     });
 }
 
-export async function _listManagedIdentityBlueprintsDeserialize(
+export async function _getOptimizationCandidateResultsDeserialize(
   result: PathUncheckedResponse,
-): Promise<PagedManagedAgentIdentityBlueprint> {
+): Promise<CandidateResults> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -90,28 +118,198 @@ export async function _listManagedIdentityBlueprintsDeserialize(
     throw error;
   }
 
-  return pagedManagedAgentIdentityBlueprintDeserializer(result.body);
+  return candidateResultsDeserializer(result.body);
 }
 
-export async function listManagedIdentityBlueprints(
+/** Get full per-task evaluation results for a candidate. */
+export async function getOptimizationCandidateResults(
   context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
-  options: ListManagedIdentityBlueprintsOptionalParams = { requestOptions: {} },
-): Promise<PagedManagedAgentIdentityBlueprint> {
-  const result = await _listManagedIdentityBlueprintsSend(context, foundryFeatures, options);
-  return _listManagedIdentityBlueprintsDeserialize(result);
+  jobId: string,
+  candidateId: string,
+  options: BetaAgentsGetOptimizationCandidateResultsOptionalParams = { requestOptions: {} },
+): Promise<CandidateResults> {
+  const result = await _getOptimizationCandidateResultsSend(context, jobId, candidateId, options);
+  return _getOptimizationCandidateResultsDeserialize(result);
 }
 
-export function _deleteManagedIdentityBlueprintSend(
+export function _getOptimizationCandidateConfigSend(
   context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
-  blueprintName: string,
-  options: DeleteManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
+  jobId: string,
+  candidateId: string,
+  options: BetaAgentsGetOptimizationCandidateConfigOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/managedAgentIdentityBlueprints/{blueprint_name}{?api%2Dversion}",
+    "/agent_optimization_jobs/{jobId}/candidates/{candidateId}/config{?api%2Dversion}",
     {
-      blueprint_name: blueprintName,
+      jobId: jobId,
+      candidateId: candidateId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getOptimizationCandidateConfigDeserialize(
+  result: PathUncheckedResponse,
+): Promise<CandidateDeployConfig> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return candidateDeployConfigDeserializer(result.body);
+}
+
+/** Get the candidate's deploy config JSON. Used to compose `agents.create_version(...)` from a candidate. */
+export async function getOptimizationCandidateConfig(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  options: BetaAgentsGetOptimizationCandidateConfigOptionalParams = { requestOptions: {} },
+): Promise<CandidateDeployConfig> {
+  const result = await _getOptimizationCandidateConfigSend(context, jobId, candidateId, options);
+  return _getOptimizationCandidateConfigDeserialize(result);
+}
+
+export function _getOptimizationCandidateSend(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  options: BetaAgentsGetOptimizationCandidateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}/candidates/{candidateId}{?api%2Dversion}",
+    {
+      jobId: jobId,
+      candidateId: candidateId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getOptimizationCandidateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<OptimizationCandidate> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return optimizationCandidateDeserializer(result.body);
+}
+
+/** Get a single candidate manifest and aggregated evaluation summary. */
+export async function getOptimizationCandidate(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  options: BetaAgentsGetOptimizationCandidateOptionalParams = { requestOptions: {} },
+): Promise<OptimizationCandidate> {
+  const result = await _getOptimizationCandidateSend(context, jobId, candidateId, options);
+  return _getOptimizationCandidateDeserialize(result);
+}
+
+export function _listOptimizationCandidatesSend(
+  context: Client,
+  jobId: string,
+  options: BetaAgentsListOptimizationCandidatesOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}/candidates{?limit,order,after,before,api%2Dversion}",
+    {
+      jobId: jobId,
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _listOptimizationCandidatesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentsPagedResultOptimizationCandidate> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return agentsPagedResultOptimizationCandidateDeserializer(result.body);
+}
+
+/** List candidates produced by a job. */
+export async function listOptimizationCandidates(
+  context: Client,
+  jobId: string,
+  options: BetaAgentsListOptimizationCandidatesOptionalParams = { requestOptions: {} },
+): Promise<AgentsPagedResultOptimizationCandidate> {
+  const result = await _listOptimizationCandidatesSend(context, jobId, options);
+  return _listOptimizationCandidatesDeserialize(result);
+}
+
+export function _deleteOptimizationJobSend(
+  context: Client,
+  jobId: string,
+  options: BetaAgentsDeleteOptimizationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}{?api%2Dversion}",
+    {
+      jobId: jobId,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -122,11 +320,16 @@ export function _deleteManagedIdentityBlueprintSend(
     .path(path)
     .delete({
       ...operationOptionsToRequestParameters(options),
-      headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
     });
 }
 
-export async function _deleteManagedIdentityBlueprintDeserialize(
+export async function _deleteOptimizationJobDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
   const expectedStatuses = ["204"];
@@ -140,32 +343,82 @@ export async function _deleteManagedIdentityBlueprintDeserialize(
   return;
 }
 
-/** Deletes a managed agent identity blueprint by name. */
-export async function deleteManagedIdentityBlueprint(
+/** Delete the job and its candidate artifacts. Cancels first if non-terminal. */
+export async function deleteOptimizationJob(
   context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
-  blueprintName: string,
-  options: DeleteManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
+  jobId: string,
+  options: BetaAgentsDeleteOptimizationJobOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _deleteManagedIdentityBlueprintSend(
-    context,
-    foundryFeatures,
-    blueprintName,
-    options,
-  );
-  return _deleteManagedIdentityBlueprintDeserialize(result);
+  const result = await _deleteOptimizationJobSend(context, jobId, options);
+  return _deleteOptimizationJobDeserialize(result);
 }
 
-export function _getManagedIdentityBlueprintSend(
+export function _cancelOptimizationJobSend(
   context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
-  blueprintName: string,
-  options: GetManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
+  jobId: string,
+  options: BetaAgentsCancelOptimizationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/managedAgentIdentityBlueprints/{blueprint_name}{?api%2Dversion}",
+    "/agent_optimization_jobs/{jobId}:cancel{?api%2Dversion}",
     {
-      blueprint_name: blueprintName,
+      jobId: jobId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _cancelOptimizationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<OptimizationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return optimizationJobDeserializer(result.body);
+}
+
+/** Request cancellation. Idempotent on terminal states. */
+export async function cancelOptimizationJob(
+  context: Client,
+  jobId: string,
+  options: BetaAgentsCancelOptimizationJobOptionalParams = { requestOptions: {} },
+): Promise<OptimizationJob> {
+  const result = await _cancelOptimizationJobSend(context, jobId, options);
+  return _cancelOptimizationJobDeserialize(result);
+}
+
+export function _listOptimizationJobsSend(
+  context: Client,
+  options: BetaAgentsListOptimizationJobsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs{?limit,order,after,before,status,agent_name,api%2Dversion}",
+    {
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      status: options?.status,
+      agent_name: options?.agentName,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -177,16 +430,18 @@ export function _getManagedIdentityBlueprintSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "foundry-features": foundryFeatures,
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
     });
 }
 
-export async function _getManagedIdentityBlueprintDeserialize(
+export async function _listOptimizationJobsDeserialize(
   result: PathUncheckedResponse,
-): Promise<ManagedAgentIdentityBlueprint> {
+): Promise<_AgentsPagedResultOptimizationJob> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -195,36 +450,32 @@ export async function _getManagedIdentityBlueprintDeserialize(
     throw error;
   }
 
-  return managedAgentIdentityBlueprintDeserializer(result.body);
+  return _agentsPagedResultOptimizationJobDeserializer(result.body);
 }
 
-/** Retrieves a managed agent identity blueprint by name. */
-export async function getManagedIdentityBlueprint(
+/** List optimization jobs. Supports cursor pagination and optional `status` / `agent_name` filters. */
+export function listOptimizationJobs(
   context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
-  blueprintName: string,
-  options: GetManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
-): Promise<ManagedAgentIdentityBlueprint> {
-  const result = await _getManagedIdentityBlueprintSend(
+  options: BetaAgentsListOptimizationJobsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<OptimizationJob> {
+  return buildPagedAsyncIterator(
     context,
-    foundryFeatures,
-    blueprintName,
-    options,
+    () => _listOptimizationJobsSend(context, options),
+    _listOptimizationJobsDeserialize,
+    ["200"],
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
   );
-  return _getManagedIdentityBlueprintDeserialize(result);
 }
 
-export function _createOrUpdateManagedIdentityBlueprintSend(
+export function _getOptimizationJobSend(
   context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
-  blueprintName: string,
-  name: string,
-  options: CreateOrUpdateManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
+  jobId: string,
+  options: BetaAgentsGetOptimizationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/managedAgentIdentityBlueprints/{blueprint_name}{?api%2Dversion}",
+    "/agent_optimization_jobs/{jobId}{?api%2Dversion}",
     {
-      blueprint_name: blueprintName,
+      jobId: jobId,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -233,21 +484,21 @@ export function _createOrUpdateManagedIdentityBlueprintSend(
   );
   return context
     .path(path)
-    .put({
+    .get({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
       headers: {
-        "foundry-features": foundryFeatures,
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: { name: name },
     });
 }
 
-export async function _createOrUpdateManagedIdentityBlueprintDeserialize(
+export async function _getOptimizationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<ManagedAgentIdentityBlueprint> {
+): Promise<OptimizationJob> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -256,38 +507,86 @@ export async function _createOrUpdateManagedIdentityBlueprintDeserialize(
     throw error;
   }
 
-  return managedAgentIdentityBlueprintDeserializer(result.body);
+  return optimizationJobDeserializer(result.body);
 }
 
-export async function createOrUpdateManagedIdentityBlueprint(
+/** Get an optimization job by id. Emits `Retry-After` while the job is non-terminal. */
+export async function getOptimizationJob(
   context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
-  blueprintName: string,
-  name: string,
-  options: CreateOrUpdateManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
-): Promise<ManagedAgentIdentityBlueprint> {
-  const result = await _createOrUpdateManagedIdentityBlueprintSend(
-    context,
-    foundryFeatures,
-    blueprintName,
-    name,
-    options,
+  jobId: string,
+  options: BetaAgentsGetOptimizationJobOptionalParams = { requestOptions: {} },
+): Promise<OptimizationJob> {
+  const result = await _getOptimizationJobSend(context, jobId, options);
+  return _getOptimizationJobDeserialize(result);
+}
+
+export function _createOptimizationJobSend(
+  context: Client,
+  job: OptimizationJob,
+  options: BetaAgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
   );
-  return _createOrUpdateManagedIdentityBlueprintDeserialize(result);
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: optimizationJobSerializer(job),
+    });
+}
+
+export async function _createOptimizationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<OptimizationJob> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return optimizationJobDeserializer(result.body);
+}
+
+/** Create an optimization job. Returns 201 with the queued job. Honours `Operation-Id` for idempotent retry. */
+export async function createOptimizationJob(
+  context: Client,
+  job: OptimizationJob,
+  options: BetaAgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
+): Promise<OptimizationJob> {
+  const result = await _createOptimizationJobSend(context, job, options);
+  return _createOptimizationJobDeserialize(result);
 }
 
 export function _deleteSessionFileSend(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   options: BetaAgentsDeleteSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}/files{?path,recursive,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?path,recursive,api%2Dversion}",
     {
       agent_name: agentName,
-      session_id: sessionId,
+      agent_session_id: agentSessionId,
       path: path,
       recursive: options?.recursive,
       "api%2Dversion": context.apiVersion ?? "v1",
@@ -303,6 +602,9 @@ export function _deleteSessionFileSend(
       headers: {
         ...(options?.foundryFeatures !== undefined
           ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        ...(options?.userIsolationKey !== undefined
+          ? { "x-ms-user-isolation-key": options?.userIsolationKey }
           : {}),
         ...options.requestOptions?.headers,
       },
@@ -328,26 +630,26 @@ export async function _deleteSessionFileDeserialize(result: PathUncheckedRespons
 export async function deleteSessionFile(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   options: BetaAgentsDeleteSessionFileOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _deleteSessionFileSend(context, agentName, sessionId, path, options);
+  const result = await _deleteSessionFileSend(context, agentName, agentSessionId, path, options);
   return _deleteSessionFileDeserialize(result);
 }
 
-export function _listSessionFilesSend(
+export function _getSessionFilesSend(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
-  options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
+  options: BetaAgentsGetSessionFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}/files{?path,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?path,api%2Dversion}",
     {
       agent_name: agentName,
-      session_id: sessionId,
+      agent_session_id: agentSessionId,
       path: path,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
@@ -363,13 +665,16 @@ export function _listSessionFilesSend(
         ...(options?.foundryFeatures !== undefined
           ? { "foundry-features": options?.foundryFeatures }
           : {}),
+        ...(options?.userIsolationKey !== undefined
+          ? { "x-ms-user-isolation-key": options?.userIsolationKey }
+          : {}),
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
     });
 }
 
-export async function _listSessionFilesDeserialize(
+export async function _getSessionFilesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SessionDirectoryListResponse> {
   const expectedStatuses = ["200"];
@@ -387,29 +692,29 @@ export async function _listSessionFilesDeserialize(
  * List files and directories at a given path in the session sandbox.
  * Returns only the immediate children of the specified directory (non-recursive).
  */
-export async function listSessionFiles(
+export async function getSessionFiles(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
-  options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
+  options: BetaAgentsGetSessionFilesOptionalParams = { requestOptions: {} },
 ): Promise<SessionDirectoryListResponse> {
-  const result = await _listSessionFilesSend(context, agentName, sessionId, path, options);
-  return _listSessionFilesDeserialize(result);
+  const result = await _getSessionFilesSend(context, agentName, agentSessionId, path, options);
+  return _getSessionFilesDeserialize(result);
 }
 
 export function _downloadSessionFileSend(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   options: BetaAgentsDownloadSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}/files/content{?path,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files/content{?path,api%2Dversion}",
     {
       agent_name: agentName,
-      session_id: sessionId,
+      agent_session_id: agentSessionId,
       path: path,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
@@ -424,6 +729,9 @@ export function _downloadSessionFileSend(
       headers: {
         ...(options?.foundryFeatures !== undefined
           ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        ...(options?.userIsolationKey !== undefined
+          ? { "x-ms-user-isolation-key": options?.userIsolationKey }
           : {}),
         accept: "application/octet-stream",
         ...options.requestOptions?.headers,
@@ -449,27 +757,27 @@ export async function _downloadSessionFileDeserialize(
 export async function downloadSessionFile(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   options: BetaAgentsDownloadSessionFileOptionalParams = { requestOptions: {} },
 ): Promise<BetaAgentsDownloadSessionFileResponse> {
-  const result = await _downloadSessionFileSend(context, agentName, sessionId, path, options);
+  const result = await _downloadSessionFileSend(context, agentName, agentSessionId, path, options);
   return _downloadSessionFileDeserialize(result);
 }
 
 export function _uploadSessionFileSend(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   content: Uint8Array,
   options: BetaAgentsUploadSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}/files/content{?path,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files/content{?path,api%2Dversion}",
     {
       agent_name: agentName,
-      session_id: sessionId,
+      agent_session_id: agentSessionId,
       path: path,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
@@ -486,6 +794,9 @@ export function _uploadSessionFileSend(
         ...(options?.foundryFeatures !== undefined
           ? { "foundry-features": options?.foundryFeatures }
           : {}),
+        ...(options?.userIsolationKey !== undefined
+          ? { "x-ms-user-isolation-key": options?.userIsolationKey }
+          : {}),
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
@@ -496,7 +807,7 @@ export function _uploadSessionFileSend(
 export async function _uploadSessionFileDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SessionFileWriteResponse> {
-  const expectedStatuses = ["200"];
+  const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
@@ -514,7 +825,7 @@ export async function _uploadSessionFileDeserialize(
 export async function uploadSessionFile(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   content: Uint8Array,
   options: BetaAgentsUploadSessionFileOptionalParams = { requestOptions: {} },
@@ -522,12 +833,104 @@ export async function uploadSessionFile(
   const result = await _uploadSessionFileSend(
     context,
     agentName,
-    sessionId,
+    agentSessionId,
     path,
     content,
     options,
   );
   return _uploadSessionFileDeserialize(result);
+}
+
+export function _getSessionLogStreamSend(
+  context: Client,
+  agentName: string,
+  agentVersion: string,
+  sessionId: string,
+  options: BetaAgentsGetSessionLogStreamOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/versions/{agent_version}/sessions/{session_id}:logstream{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      agent_version: agentVersion,
+      session_id: sessionId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "text/event-stream",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getSessionLogStreamDeserialize(
+  result: PathUncheckedResponse,
+): Promise<SessionLogEvent> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return sessionLogEventDeserializer(result.body);
+}
+
+/**
+ * Streams console logs (stdout / stderr) for a specific hosted agent session
+ * as a Server-Sent Events (SSE) stream.
+ *
+ * Each SSE frame contains:
+ * - `event`: always `"log"`
+ * - `data`: a plain-text log line (currently JSON-formatted, but the schema
+ * is not contractual and may include additional keys or change format
+ * over time — clients should treat it as an opaque string)
+ *
+ * Example SSE frames:
+ * ```
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:33:17.121Z","stream":"stdout","message":"Starting FoundryCBAgent server on port 8088"}
+ *
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:33:17.130Z","stream":"stderr","message":"INFO: Application startup complete."}
+ *
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:34:52.714Z","stream":"status","message":"Successfully connected to container"}
+ *
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:35:52.714Z","stream":"status","message":"No logs since last 60 seconds"}
+ * ```
+ *
+ * The stream remains open until the client disconnects or the server
+ * terminates the connection. Clients should handle reconnection as needed.
+ */
+export async function getSessionLogStream(
+  context: Client,
+  agentName: string,
+  agentVersion: string,
+  sessionId: string,
+  options: BetaAgentsGetSessionLogStreamOptionalParams = { requestOptions: {} },
+): Promise<SessionLogEvent> {
+  const result = await _getSessionLogStreamSend(
+    context,
+    agentName,
+    agentVersion,
+    sessionId,
+    options,
+  );
+  return _getSessionLogStreamDeserialize(result);
 }
 
 export function _listSessionsSend(
@@ -556,6 +959,9 @@ export function _listSessionsSend(
       headers: {
         ...(options?.foundryFeatures !== undefined
           ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        ...(options?.userIsolationKey !== undefined
+          ? { "x-ms-user-isolation-key": options?.userIsolationKey }
           : {}),
         accept: "application/json",
         ...options.requestOptions?.headers,
@@ -596,7 +1002,6 @@ export function _deleteSessionSend(
   context: Client,
   agentName: string,
   sessionId: string,
-  isolationKey: string,
   options: BetaAgentsDeleteSessionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -618,7 +1023,9 @@ export function _deleteSessionSend(
         ...(options?.foundryFeatures !== undefined
           ? { "foundry-features": options?.foundryFeatures }
           : {}),
-        "x-session-isolation-key": isolationKey,
+        ...(options?.userIsolationKey !== undefined
+          ? { "x-ms-user-isolation-key": options?.userIsolationKey }
+          : {}),
         ...options.requestOptions?.headers,
       },
     });
@@ -644,10 +1051,9 @@ export async function deleteSession(
   context: Client,
   agentName: string,
   sessionId: string,
-  isolationKey: string,
   options: BetaAgentsDeleteSessionOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _deleteSessionSend(context, agentName, sessionId, isolationKey, options);
+  const result = await _deleteSessionSend(context, agentName, sessionId, options);
   return _deleteSessionDeserialize(result);
 }
 
@@ -675,6 +1081,9 @@ export function _getSessionSend(
       headers: {
         ...(options?.foundryFeatures !== undefined
           ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        ...(options?.userIsolationKey !== undefined
+          ? { "x-ms-user-isolation-key": options?.userIsolationKey }
           : {}),
         accept: "application/json",
         ...options.requestOptions?.headers,
@@ -710,7 +1119,6 @@ export async function getSession(
 export function _createSessionSend(
   context: Client,
   agentName: string,
-  isolationKey: string,
   versionIndicator: VersionIndicatorUnion,
   options: BetaAgentsCreateSessionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -733,7 +1141,9 @@ export function _createSessionSend(
         ...(options?.foundryFeatures !== undefined
           ? { "foundry-features": options?.foundryFeatures }
           : {}),
-        "x-session-isolation-key": isolationKey,
+        ...(options?.userIsolationKey !== undefined
+          ? { "x-ms-user-isolation-key": options?.userIsolationKey }
+          : {}),
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
@@ -766,18 +1176,140 @@ export async function _createSessionDeserialize(
 export async function createSession(
   context: Client,
   agentName: string,
-  isolationKey: string,
   versionIndicator: VersionIndicatorUnion,
   options: BetaAgentsCreateSessionOptionalParams = { requestOptions: {} },
 ): Promise<AgentSessionResource> {
-  const result = await _createSessionSend(
+  const result = await _createSessionSend(context, agentName, versionIndicator, options);
+  return _createSessionDeserialize(result);
+}
+
+export function _downloadAgentCodeSend(
+  context: Client,
+  agentName: string,
+  options: BetaAgentsDownloadAgentCodeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/code:download{?agent_version,api%2Dversion}",
+    {
+      agent_name: agentName,
+      agent_version: options?.agentVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/zip",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _downloadAgentCodeDeserialize(
+  result: PathUncheckedResponse & BetaAgentsDownloadAgentCodeResponse,
+): Promise<BetaAgentsDownloadAgentCodeResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+}
+
+/**
+ * Download the code zip for a code-based hosted agent.
+ * Returns the previously-uploaded zip (`application/zip`).
+ *
+ * If `agent_version` is supplied, returns that version's code zip; otherwise
+ * returns the latest version's code zip.
+ *
+ * The SHA-256 digest of the returned bytes matches the `content_hash` on the
+ * resolved version's `code_configuration`.
+ */
+export async function downloadAgentCode(
+  context: Client,
+  agentName: string,
+  options: BetaAgentsDownloadAgentCodeOptionalParams = { requestOptions: {} },
+): Promise<BetaAgentsDownloadAgentCodeResponse> {
+  const streamableMethod = _downloadAgentCodeSend(context, agentName, options);
+  const result = await getBinaryStreamResponse(streamableMethod);
+  return _downloadAgentCodeDeserialize(result);
+}
+
+export function _createVersionFromCodeSend(
+  context: Client,
+  agentName: string,
+  codeZipSha256: string,
+  content: CreateAgentVersionFromCodeContent,
+  options: BetaAgentsCreateVersionFromCodeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/versions{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "multipart/form-data",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        "x-ms-code-zip-sha256": codeZipSha256,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: createAgentVersionFromCodeContentSerializer(content),
+    });
+}
+
+export async function _createVersionFromCodeDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentVersion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return agentVersionDeserializer(result.body);
+}
+
+export async function createVersionFromCode(
+  context: Client,
+  agentName: string,
+  codeZipSha256: string,
+  content: CreateAgentVersionFromCodeContent,
+  options: BetaAgentsCreateVersionFromCodeOptionalParams = { requestOptions: {} },
+): Promise<AgentVersion> {
+  const result = await _createVersionFromCodeSend(
     context,
     agentName,
-    isolationKey,
-    versionIndicator,
+    codeZipSha256,
+    content,
     options,
   );
-  return _createSessionDeserialize(result);
+  return _createVersionFromCodeDeserialize(result);
 }
 
 export function _patchAgentObjectSend(
@@ -810,7 +1342,7 @@ export function _patchAgentObjectSend(
       body: {
         agent_endpoint: !options?.agentEndpoint
           ? options?.agentEndpoint
-          : agentEndpointSerializer(options?.agentEndpoint),
+          : agentEndpointConfigSerializer(options?.agentEndpoint),
         agent_card: !options?.agentCard
           ? options?.agentCard
           : agentCardSerializer(options?.agentCard),

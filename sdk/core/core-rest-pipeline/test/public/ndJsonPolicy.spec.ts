@@ -29,4 +29,32 @@ describe("NdJsonPolicy", function () {
     const result = await policy.sendRequest(request, next);
     assert.strictEqual(result.request.body, `{"a":1}\n{"b":2}\n{"c":3}\n`);
   });
+
+  function createMockNext(): SendRequest {
+    const next = vi.fn<SendRequest>();
+    next.mockImplementation(async (request) => ({
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    }));
+    return next;
+  }
+
+  it("passes through when body is not a string", async function () {
+    const policy = ndJsonPolicy();
+    const request = createPipelineRequest({ url: "https://example.com" });
+    request.body = undefined;
+    const next = createMockNext();
+    await policy.sendRequest(request, next);
+    assert.isUndefined(request.body);
+  });
+
+  it("passes through when body is a string not starting with [", async function () {
+    const policy = ndJsonPolicy();
+    const request = createPipelineRequest({ url: "https://example.com" });
+    request.body = '{"key": "value"}';
+    const next = createMockNext();
+    await policy.sendRequest(request, next);
+    assert.equal(request.body, '{"key": "value"}');
+  });
 });

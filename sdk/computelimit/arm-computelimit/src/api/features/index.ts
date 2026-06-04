@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { enable, listBySubscriptionLocationResource, get } from "./operations.js";
+export { disable, enable, listBySubscriptionLocationResource, get } from "./operations.js";
 export type {
+  FeaturesDisableOptionalParams,
   FeaturesEnableOptionalParams,
   FeaturesListBySubscriptionLocationResourceOptionalParams,
   FeaturesGetOptionalParams,
