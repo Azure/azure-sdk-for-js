@@ -203,6 +203,10 @@ console.log(finalOutput.body);
 
 Find a bug, or have feedback? Raise an issue with the [Health Deidentification][github_issue_label] label.
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for Javascript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 - **Unable to Access Source or Target Storage**

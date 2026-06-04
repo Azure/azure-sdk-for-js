@@ -138,6 +138,10 @@ For more information on the OpenTelemetry project, please review the [**OpenTele
 
 By default, custom dimension values are truncated to 64KB. This protects against unexpectedly large payloads.
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for Javascript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 ### Enable debug logging

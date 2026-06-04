@@ -391,6 +391,10 @@ for (const fileFormatType of response.body.value) {
 }
 ```
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for Javascript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 When you interact with the Translator Service using the DocumentTranslator client library, errors returned by the Translator service correspond to the same HTTP status codes returned for REST API requests.

@@ -168,6 +168,10 @@ const entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
 const credential = new AzureCommunicationTokenCredential(entraTokenCredentialOptions);
 ```
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for Javascript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 - **Invalid token specified**: Make sure the token you are passing to the `AzureCommunicationTokenCredential` constructor or to the `tokenRefresher` callback is a bare JWT token string. E.g. if you're using the [Azure Communication Identity library][invalid_token_sdk] or [REST API][invalid_token_rest] to obtain the token, make sure you're passing just the `token` part of the response object.

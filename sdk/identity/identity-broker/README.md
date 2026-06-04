@@ -145,6 +145,10 @@ const scope = "https://graph.microsoft.com/.default";
 console.log((await credential.getToken(scope)).token.substr(0, 10), "...");
 ```
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for Javascript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 See the Azure Identity [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md) for details on how to diagnose various failure scenarios.
