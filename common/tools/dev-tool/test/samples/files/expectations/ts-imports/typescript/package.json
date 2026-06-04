@@ -1,0 +1,37 @@
+{
+  "name": "@azure-samples/ts-imports-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Template client library samples for TypeScript",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "common/tools/dev-tool/test/samples/files/expectations/ts-imports"
+  },
+  "keywords": [
+    "ts-imports"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/test/samples/files/expectations/ts-imports",
+  "dependencies": {
+    "ts-imports": "latest",
+    "dotenv": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~6.0.2"
+  }
+}

@@ -25,7 +25,7 @@ import {
   loadScreenshotAssets,
   handleComputerActionAndTakeScreenshot,
   printFinalOutput,
-} from "./computerUseUtil.js";
+} from "./computerUseUtil.ts";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName =

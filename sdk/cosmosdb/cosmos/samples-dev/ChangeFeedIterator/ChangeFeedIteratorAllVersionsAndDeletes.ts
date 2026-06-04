@@ -6,7 +6,7 @@
  */
 
 import "dotenv/config";
-import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError.js";
+import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError.ts";
 import type {
   Container,
   ChangeFeedIteratorOptions,

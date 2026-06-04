@@ -6,7 +6,7 @@
  */
 
 import "dotenv/config";
-import { handleError, logSampleHeader, finish } from "./Shared/handleError.js";
+import { handleError, logSampleHeader, finish } from "./Shared/handleError.ts";
 import type { PatchOperation, OperationInput } from "@azure/cosmos";
 import {
   CosmosClient,

@@ -6,7 +6,7 @@
  */
 import "dotenv/config";
 import { ChangeFeedStartFrom, CosmosClient, type Container } from "@azure/cosmos";
-import { logSampleHeader, handleError, logStep } from "./Shared/handleError.js";
+import { logSampleHeader, handleError, logStep } from "./Shared/handleError.ts";
 import { randomUUID } from "@azure/core-util";
 
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";

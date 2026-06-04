@@ -1,0 +1,30 @@
+{
+  "name": "@azure-samples/ts-imports-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Template client library samples for JavaScript",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "common/tools/dev-tool/test/samples/files/expectations/ts-imports"
+  },
+  "keywords": [
+    "ts-imports"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/test/samples/files/expectations/ts-imports",
+  "dependencies": {
+    "ts-imports": "latest",
+    "dotenv": "latest"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
+  }
+}
