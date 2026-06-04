@@ -983,8 +983,6 @@ describe("Service Utils", () => {
       // Standard public-cloud blob endpoints
       "https://myaccount.blob.core.windows.net",
       "https://myaccount.blob.core.windows.net/",
-      // Data-lake (DFS) endpoint
-      "https://myaccount.dfs.core.windows.net",
       // US Government cloud
       "https://myaccount.blob.core.usgovcloudapi.net",
       // China cloud

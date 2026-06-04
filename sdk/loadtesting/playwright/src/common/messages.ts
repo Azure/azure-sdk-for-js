@@ -87,8 +87,8 @@ export const ServiceErrorMessageConstants = {
   INVALID_STORAGE_URI: {
     key: "InvalidStorageUri",
     message:
-      "The storage URI configured on this Playwright Workspace is not a valid Azure Storage endpoint. " +
-      "Please ask a workspace administrator to relink a valid Azure Storage account. " +
+      "The storage URI configured on this Playwright Workspace is not a valid Azure Storage Blob endpoint. " +
+      "Please ask a workspace administrator to relink a valid Azure Storage Blob account. " +
       "For more information, see https://aka.ms/pww-reporting",
   },
   STORAGE_AUTHORIZATION_FAILED: {

@@ -121,7 +121,6 @@ export const StorageUriValidationConstants = {
   AllowedProtocol: "https:",
   AllowedHostnameSuffixes: [
     ".blob.core.windows.net",
-    ".dfs.core.windows.net",
     ".blob.core.usgovcloudapi.net",
     ".blob.core.chinacloudapi.cn",
   ] as const,
