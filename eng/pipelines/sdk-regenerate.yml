@@ -1,7 +1,19 @@
 # JS SDK TypeSpec breaking-change check pipeline (ARM only).
-# All logic lives in eng/pipelines/scripts/regenerate-shard.js; this YAML only
-# defines ADO primitives (triggers, params, matrix fan-out) and dispatches
-# subcommands. Stages: Setup → RegenerateAndBuild (matrix) → SummaryAndPR.
+#
+# Architecture (mirrors azure-sdk-for-net's archetype-typespec-emitter.yml):
+#   Setup              Resolve emitter version, build shard matrix, and
+#                      (when CreatePullRequest=true) push an initial commit
+#                      containing the resolved eng/emitter-package* to the
+#                      PR branch on the target repo / fork.
+#   RegenerateAndBuild Matrix shards. Each shard switches to the PR branch,
+#                      regenerates its slice of packages, then uses the
+#                      shared git-push-changes.yml template to commit + push
+#                      (the template's git-branch-push.ps1 already handles
+#                      fetch / rebase / retry on push conflicts).
+#   CreatePR           Opens the GitHub PR. Body is build-metadata only —
+#                      per-package outcomes live in the ADO build log.
+#
+# All shard logic lives in eng/pipelines/scripts/regenerate-shard.js.
 
 trigger:
   branches: { include: [main] }
@@ -46,11 +58,6 @@ parameters:
   - name: CreatePullRequest
     type: boolean
     default: false
-  - name: ChangePushMode
-    displayName: "Files included in the PR ('all' = whole SDK; 'api-md' = api.md + CHANGELOG.md only)"
-    type: string
-    default: 'all'
-    values: [all, api-md]
   - name: PullRequestTargetBranch
     type: string
     default: 'main'
@@ -59,15 +66,15 @@ parameters:
     type: string
     default: ''
   - name: PullRequestRepoOwner
-    displayName: "PR target repo OWNER (empty = same as source; e.g. 'wxl534' to PR to a fork)"
+    displayName: "PR target repo OWNER (e.g. 'wxl534' for a fork; default 'Azure')"
     type: string
     default: ''
   - name: PullRequestRepoName
-    displayName: "PR target repo NAME (empty = same as source repo name)"
+    displayName: "PR target repo NAME (default 'azure-sdk-for-js')"
     type: string
     default: ''
   - name: ForkTokenVariableName
-    displayName: "ADO secret variable holding the GitHub PAT (required when targeting a fork)"
+    displayName: "ADO secret variable holding the GitHub PAT (required when CreatePullRequest=true)"
     type: string
     default: ''
 
@@ -75,11 +82,42 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  sdkRoot:      $(Build.SourcesDirectory)
-  specRepoRoot: $(Agent.BuildDirectory)/azure-rest-api-specs
-  nodeVersion:  '22.x'
-  shardScript:  $(Build.SourcesDirectory)/eng/pipelines/scripts/regenerate-shard.js
-  summaryDir:   $(Build.ArtifactStagingDirectory)/summary
+  - name: sdkRoot
+    value: $(Build.SourcesDirectory)
+  - name: specRepoRoot
+    value: $(Agent.BuildDirectory)/azure-rest-api-specs
+  - name: nodeVersion
+    value: '22.x'
+  - name: shardScript
+    value: $(Build.SourcesDirectory)/eng/pipelines/scripts/regenerate-shard.js
+  - ${{ if ne(parameters.PullRequestBranch, '') }}:
+    - name: prBranchName
+      value: ${{ parameters.PullRequestBranch }}
+  - ${{ else }}:
+    - name: prBranchName
+      value: sdk-regenerate-$(Build.BuildId)
+  - ${{ if ne(parameters.PullRequestRepoOwner, '') }}:
+    - name: targetOwner
+      value: ${{ parameters.PullRequestRepoOwner }}
+  - ${{ else }}:
+    - name: targetOwner
+      value: Azure
+  - ${{ if ne(parameters.PullRequestRepoName, '') }}:
+    - name: targetName
+      value: ${{ parameters.PullRequestRepoName }}
+  - ${{ else }}:
+    - name: targetName
+      value: azure-sdk-for-js
+  - ${{ if parameters.CreatePullRequest }}:
+    - name: shardPrepareMode
+      value: shard
+    - name: shardScriptInvoke
+      value: $(Agent.TempDirectory)/regenerate-shard.js
+  - ${{ else }}:
+    - name: shardPrepareMode
+      value: full
+    - name: shardScriptInvoke
+      value: $(Build.SourcesDirectory)/eng/pipelines/scripts/regenerate-shard.js
 
 stages:
 - stage: SDKRegenerate
@@ -97,7 +135,7 @@ stages:
 
       - bash: node $(shardScript) resolve-emitter --input '${{ parameters.EmitterVersion }}'
         name: resolveVersion
-        displayName: 'Resolve emitter version → $emitterVersion'
+        displayName: 'Resolve emitter version'
 
       - bash: |
           node $(shardScript) build-matrix \
@@ -108,6 +146,24 @@ stages:
 
       - publish: $(Build.ArtifactStagingDirectory)/matrix
         artifact: matrix_artifacts
+
+      - ${{ if parameters.CreatePullRequest }}:
+        - bash: |
+            node $(shardScript) setup-pr-branch --mode base \
+              --targetBranch "${{ parameters.PullRequestTargetBranch }}" \
+              --prBranch     "$(prBranchName)"
+            node $(shardScript) prepare --mode emitter \
+              --emitterVersion "$(resolveVersion.emitterVersion)"
+          displayName: 'Prepare initial emitter-package commit'
+
+        - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
+          parameters:
+            BaseRepoOwner:  $(targetOwner)
+            TargetRepoName: $(targetName)
+            BaseRepoBranch: $(prBranchName)
+            CommitMsg:      'Initial: pin emitter $(resolveVersion.emitterVersion)'
+            AuthToken:      $(${{ parameters.ForkTokenVariableName }})
+            PushArgs:       --force
 
   - job: RegenerateAndBuild
     dependsOn: Setup
@@ -126,84 +182,72 @@ stages:
       - download: current
         artifact: matrix_artifacts
 
-      - bash: |
-          node $(shardScript) prepare \
-            --emitterVersion "$(emitterVersion)" \
-            --specRepoBranch "${{ parameters.SpecRepoBranch }}" \
-            --specRepoRoot "$(specRepoRoot)"
-        displayName: 'Prepare emitter + spec repo'
+      - ${{ if parameters.CreatePullRequest }}:
+        # Copy the script outside the working tree (the PR branch is based on
+        # main and does NOT contain the pipeline source under feature/break-check),
+        # add the fork remote, and switch to the PR branch. See switch-to-pr-branch.
+        - bash: |
+            node $(shardScript) setup-pr-branch --mode switch \
+              --targetOwner  "$(targetOwner)" \
+              --targetName   "$(targetName)" \
+              --prBranch     "$(prBranchName)" \
+              --scriptSource "$(shardScript)" \
+              --scriptDest   "$(Agent.TempDirectory)/regenerate-shard.js"
+          displayName: 'Switch to PR branch'
+          env:
+            PUSH_TOKEN: $(${{ parameters.ForkTokenVariableName }})
 
       - bash: |
-          node $(shardScript) shard \
-            --specRepoRoot    "$(specRepoRoot)" \
-            --directoryList   "$(Pipeline.Workspace)/matrix_artifacts/$(DirectoryList)" \
-            --resultOutputDir "$(Build.ArtifactStagingDirectory)/results/$(JobKey)" \
-            --skipBuild       "${{ parameters.SkipBuild }}" \
-            --pushMode        "${{ parameters.ChangePushMode }}"
+          node "$(shardScriptInvoke)" prepare \
+            --mode           "$(shardPrepareMode)" \
+            --emitterVersion "$(emitterVersion)" \
+            --specRepoBranch "${{ parameters.SpecRepoBranch }}" \
+            --specRepoRoot   "$(specRepoRoot)"
+        displayName: 'Prepare (install tools, clone spec repo)'
+
+      - bash: |
+          node "$(shardScriptInvoke)" shard \
+            --specRepoRoot  "$(specRepoRoot)" \
+            --directoryList "$(Pipeline.Workspace)/matrix_artifacts/$(DirectoryList)" \
+            --skipBuild     "${{ parameters.SkipBuild }}"
         displayName: 'Regenerate + build shard'
         workingDirectory: $(sdkRoot)
 
-      - publish: $(Build.ArtifactStagingDirectory)/results/$(JobKey)
-        artifact: regen_result_$(JobKey)
-        condition: always()
-
-  - job: SummaryAndPR
-    dependsOn: [Setup, RegenerateAndBuild]
-    condition: succeededOrFailed()
-    variables:
-      emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
-    steps:
-      - checkout: self
-        fetchDepth: 1
-        fetchTags: false
-        submodules: false
-      - task: NodeTool@0
-        inputs: { versionSpec: $(nodeVersion) }
-      - download: current
-
-      - bash: |
-          node "$(shardScript)" aggregate \
-            --workspace      "$(Pipeline.Workspace)" \
-            --outDir         "$(summaryDir)" \
-            --emitterVersion "$(emitterVersion)" \
-            --buildNumber    "$(Build.BuildNumber)" \
-            --buildUrl       "$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)" \
-            --definitionName "$(Build.DefinitionName)" \
-            --pushMode       "${{ parameters.ChangePushMode }}"
-        displayName: 'Aggregate shard results'
-
       - ${{ if parameters.CreatePullRequest }}:
-        # GitHub App token (only when NOT targeting a fork; for forks the user PAT
-        # comes in via ForkTokenVariableName below).
-        - ${{ if eq(parameters.PullRequestRepoOwner, '') }}:
-          - template: /eng/common/pipelines/templates/steps/login-to-github.yml
-            parameters:
-              TokenOwners: [Azure]
+        - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
+          parameters:
+            BaseRepoOwner:  $(targetOwner)
+            TargetRepoName: $(targetName)
+            BaseRepoBranch: $(prBranchName)
+            CommitMsg:      'Regenerate shard $(JobKey) (emitter $(emitterVersion))'
+            AuthToken:      $(${{ parameters.ForkTokenVariableName }})
+
+  - ${{ if parameters.CreatePullRequest }}:
+    - job: CreatePR
+      dependsOn: [Setup, RegenerateAndBuild]
+      condition: succeededOrFailed()
+      variables:
+        emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
+      steps:
+        - checkout: self
+          fetchDepth: 1
+          fetchTags: false
+          submodules: false
+        - task: NodeTool@0
+          inputs: { versionSpec: $(nodeVersion) }
 
         - bash: |
-            node "$(shardScript)" apply-patches \
-              --sourceRepo        "$(Build.Repository.Name)" \
-              --targetOwner       "${{ parameters.PullRequestRepoOwner }}" \
-              --targetName        "${{ parameters.PullRequestRepoName }}" \
-              --targetBranch      "${{ parameters.PullRequestTargetBranch }}" \
-              --branch            "${{ parameters.PullRequestBranch }}" \
-              --buildId           "$(Build.BuildId)" \
-              --workspace         "$(Pipeline.Workspace)" \
-              --failedPatchesFile "$(Pipeline.Workspace)/failed-patches.txt" \
-              --outDir            "$(summaryDir)" \
-              --emitterVersion    "$(emitterVersion)" \
-              --buildNumber       "$(Build.BuildNumber)" \
-              --buildUrl          "$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)" \
-              --definitionName    "$(Build.DefinitionName)" \
-              --pushMode          "${{ parameters.ChangePushMode }}"
-          workingDirectory: $(sdkRoot)
-          displayName: 'Apply patches, push branch, create PR'
+            node $(shardScript) create-pr \
+              --sourceRepo     "$(Build.Repository.Name)" \
+              --targetOwner    "$(targetOwner)" \
+              --targetName     "$(targetName)" \
+              --targetBranch   "${{ parameters.PullRequestTargetBranch }}" \
+              --branch         "$(prBranchName)" \
+              --buildId        "$(Build.BuildId)" \
+              --emitterVersion "$(emitterVersion)" \
+              --buildNumber    "$(Build.BuildNumber)" \
+              --buildUrl       "$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)" \
+              --definitionName "$(Build.DefinitionName)"
+          displayName: 'Open pull request'
           env:
-            ${{ if ne(parameters.ForkTokenVariableName, '') }}:
-              FORK_TOKEN: $(${{ parameters.ForkTokenVariableName }})
-            ${{ if eq(parameters.PullRequestRepoOwner, '') }}:
-              GH_TOKEN_VAL: $(GH_TOKEN)
-
-      - publish: $(summaryDir)
-        artifact: regen_summary
-        condition: always()
+            FORK_TOKEN: $(${{ parameters.ForkTokenVariableName }})

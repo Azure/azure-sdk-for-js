@@ -69,6 +69,12 @@ function runShellNoEcho(command, commandArgs, workingDirectory) {
   }
 }
 
+/** Run `pwsh -NoProfile -File <script> <...args>`; abort on non-zero exit. */
+function runPwshFile(scriptRelPath, scriptArgs) {
+  const script = path.join(SDK_ROOT, scriptRelPath);
+  runShellNoEcho("pwsh", ["-NoProfile", "-File", script, ...scriptArgs], SDK_ROOT);
+}
+
 /** Run `worker(item)` over `items` with at most `concurrency` in flight. */
 async function runWithConcurrency(items, concurrency, worker) {
   const inFlight = new Set();
@@ -78,16 +84,6 @@ async function runWithConcurrency(items, concurrency, worker) {
     if (inFlight.size >= concurrency) await Promise.race(inFlight);
   }
   await Promise.allSettled(inFlight);
-}
-
-/** Recursive readdir — calls visitor(absolutePath) for every file under rootDir. */
-function walkFiles(rootDir, visitor) {
-  if (!fs.existsSync(rootDir)) return;
-  for (const entry of fs.readdirSync(rootDir, { withFileTypes: true })) {
-    const fullPath = path.join(rootDir, entry.name);
-    if (entry.isDirectory()) walkFiles(fullPath, visitor);
-    else visitor(fullPath);
-  }
 }
 
 /** Wrap a chunk of output in an ADO collapsible log group. */
@@ -114,11 +110,17 @@ function setPipelineVariable(name, value, { isOutput = false, isSecret = false }
 
 async function runResolveEmitter() {
   const rawInputVersion = getFlag("--input", "");
-  const normalizedInputVersion = rawInputVersion.trim().toLowerCase();
+  const normalizedInput = rawInputVersion.trim().toLowerCase();
 
   let resolvedEmitterVersion;
-  if (DEV_VERSION_SENTINELS.has(normalizedInputVersion)) {
-    resolvedEmitterVersion = await fetchLatestEmitterDevVersion();
+  if (DEV_VERSION_SENTINELS.has(normalizedInput)) {
+    const { exitCode, output } = await runCommandCapturing(
+      "npm", ["view", EMITTER_PACKAGE_NAME, "dist-tags.dev"], process.cwd());
+    resolvedEmitterVersion = output.trim();
+    if (exitCode !== 0 || !resolvedEmitterVersion) {
+      console.error("##[error]npm view returned empty dev tag");
+      process.exit(1);
+    }
   } else {
     resolvedEmitterVersion = rawInputVersion.trim();
   }
@@ -127,38 +129,44 @@ async function runResolveEmitter() {
   setPipelineVariable("emitterVersion", resolvedEmitterVersion, { isOutput: true });
 }
 
-async function fetchLatestEmitterDevVersion() {
-  const { exitCode, output } = await runCommandCapturing(
-    "npm",
-    ["view", "@azure-tools/typespec-ts", "dist-tags.dev"],
-    process.cwd()
-  );
-  const version = output.trim();
-  if (exitCode !== 0 || !version) {
-    console.error("##[error]npm view returned empty dev tag");
-    process.exit(1);
-  }
-  return version;
-}
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Subcommand: prepare
-// Per-agent setup before any shard work runs.
+// Per-agent setup. Two modes:
+//   --mode emitter  Setup job: regenerate eng/emitter-package.json + lock so
+//                   the Setup-stage commit pins the resolved emitter version.
+//   --mode shard    Matrix shard: install per-shard tools + shallow-clone the
+//                   spec repo. Does NOT touch emitter-package* (those are
+//                   already on the PR branch from the Setup-stage commit).
 // ─────────────────────────────────────────────────────────────────────────────
 
 function runPrepare() {
-  const emitterVersion = getFlag("--emitterVersion");
-  const specRepoBranch = getFlag("--specRepoBranch", "main");
-  const specRepoCloneDir = getFlag("--specRepoRoot");
-  if (!emitterVersion || !specRepoCloneDir) {
-    console.error("ERROR: --emitterVersion and --specRepoRoot are required");
-    process.exit(2);
+  const mode = getFlag("--mode");
+  installGlobalCliTools();
+
+  if (mode === "emitter") {
+    const emitterVersion = getFlag("--emitterVersion");
+    if (!emitterVersion) {
+      console.error("ERROR: --emitterVersion is required for --mode emitter");
+      process.exit(2);
+    }
+    regenerateEmitterPackageFiles(emitterVersion);
+    return;
   }
 
-  installGlobalCliTools();
-  regenerateEmitterPackageFiles(emitterVersion);
-  preinstallReleaseTools();
-  shallowCloneSpecRepo(specRepoBranch, specRepoCloneDir);
+  if (mode === "shard") {
+    const specRepoBranch = getFlag("--specRepoBranch", "main");
+    const specRepoCloneDir = getFlag("--specRepoRoot");
+    if (!specRepoCloneDir) {
+      console.error("ERROR: --specRepoRoot is required for --mode shard");
+      process.exit(2);
+    }
+    preinstallReleaseTools();
+    shallowCloneSpecRepo(specRepoBranch, specRepoCloneDir);
+    return;
+  }
+
+  console.error("ERROR: --mode must be 'emitter' or 'shard'");
+  process.exit(2);
 }
 
 function installGlobalCliTools() {
@@ -221,11 +229,9 @@ function shallowCloneSpecRepo(branch, cloneDir) {
 async function runShard() {
   const specRepoCloneDir = getFlag("--specRepoRoot");
   const directoryListFile = getFlag("--directoryList");
-  const shardResultDir = getFlag("--resultOutputDir");
   const perPackageConcurrency = 4;
   const turboBuildConcurrency = 4;
   const skipBuild = getFlag("--skipBuild", "false").toLowerCase() === "true";
-  const patchScope = getFlag("--pushMode", "api-md");
 
   requireReadablePath("--specRepoRoot", specRepoCloneDir);
   requireReadablePath("--directoryList", directoryListFile);
@@ -251,9 +257,10 @@ async function runShard() {
     changelogOutcomes,
   });
 
-  if (shardResultDir) {
-    writeShardSummaryAndPatch(shardResultDir, shardSummary, patchScope);
-  }
+  // Reset files outside sdk/ that may have been touched by tool installs so
+  // git-push-changes.yml commits only the regenerated SDK output. The PR
+  // branch already has the resolved emitter-package* from the Setup commit.
+  discardNonSdkChanges();
 
   console.log("\n========== SHARD SUMMARY ==========\n" + JSON.stringify(shardSummary, null, 2));
 
@@ -262,9 +269,19 @@ async function runShard() {
   if (anyFailure) process.exit(1);
 }
 
-function parsePositiveInt(value) {
-  const parsed = Number(value);
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+function discardNonSdkChanges() {
+  const filesToReset = [
+    "eng/emitter-package.json",
+    "eng/emitter-package-lock.json",
+    "pnpm-lock.yaml",
+  ];
+  for (const file of filesToReset) {
+    spawnSync("git", ["checkout", "HEAD", "--", file], { cwd: SDK_ROOT });
+  }
+  // Stage everything so git-push-changes.yml's `commit -am` picks up new
+  // files too (the -a flag alone only auto-stages modified/deleted tracked
+  // files; regen can create brand-new files like new review/*.api.md).
+  spawnSync("git", ["add", "-A"], { cwd: SDK_ROOT });
 }
 
 function requireReadablePath(flagName, value) {
@@ -469,249 +486,53 @@ function composeShardSummary({ shardPackages, regenerationOutcomes, buildOutcome
   return summary;
 }
 
-function writeShardSummaryAndPatch(shardResultDir, shardSummary, patchScope) {
-  fs.mkdirSync(shardResultDir, { recursive: true });
-  fs.writeFileSync(path.join(shardResultDir, "result.json"), JSON.stringify(shardSummary, null, 2));
-
-  const gitDiffArgs = patchScope === "api-md"
-    ? ["diff", "--binary", "--",
-       ":(glob)sdk/**/review/*.api.md",
-       ":(glob)sdk/**/CHANGELOG.md"]
-    : ["diff", "--binary", "--", "sdk/"];
-  const gitDiffResult = spawnSync("git", gitDiffArgs, {
-    cwd: SDK_ROOT, encoding: "buffer", maxBuffer: 256 * 1024 * 1024,
-  });
-  if (gitDiffResult.status === 0) {
-    fs.writeFileSync(path.join(shardResultDir, "changes.patch"), gitDiffResult.stdout);
-  } else {
-    console.log(`git diff failed (exit ${gitDiffResult.status}); skipping patch`);
-  }
-}
-
 // ─────────────────────────────────────────────────────────────────────────────
-// Subcommand: aggregate
-// Walks all shards' result.json files and writes:
-//   aggregated-results.json   machine-readable
-//   pr-body.md                PR description
-// Does NOT exit non-zero on regen/build failures — we still want the PR for
-// whatever DID succeed, with the failure list embedded in pr-body.md.
+// Subcommand: create-pr
+// Opens a PR from the per-build branch (every shard pushed into it via
+// git-push-changes.yml) into the target base branch. PR body is intentionally
+// minimal — per-package outcomes (regenerated/built/breaking) live in the ADO
+// build log, matching the .NET/Go SDK regen pipelines.
 // ─────────────────────────────────────────────────────────────────────────────
 
-function runAggregate() {
-  const shardArtifactsRoot = getFlag("--workspace");
-  const outDir = getFlag("--outDir");
-  const emitterVersion = getFlag("--emitterVersion");
-  const patchScope = getFlag("--pushMode", "api-md");
-  const buildNumber = getFlag("--buildNumber");
-  const buildUrl = getFlag("--buildUrl");
-  const pipelineName = getFlag("--definitionName");
-  const droppedFilesListPath = getFlag("--failedPatchesFile");
-
-  if (!shardArtifactsRoot || !outDir) {
-    console.error("ERROR: --workspace and --outDir are required");
-    process.exit(2);
-  }
-
-  const aggregated = aggregateShardResults(shardArtifactsRoot, emitterVersion);
-  printAggregateSummaryToLog(aggregated);
-
-  fs.mkdirSync(outDir, { recursive: true });
-  fs.writeFileSync(
-    path.join(outDir, "aggregated-results.json"),
-    JSON.stringify(aggregated, null, 2)
-  );
-
-  const droppedConflictFiles = loadDroppedConflictFiles(droppedFilesListPath);
-  const pullRequestBody = renderPullRequestBody({
-    aggregated,
-    pipelineName,
-    buildNumber,
-    buildUrl,
-    patchScope,
-    droppedConflictFiles,
-  });
-  fs.writeFileSync(path.join(outDir, "pr-body.md"), pullRequestBody);
-}
-
-function aggregateShardResults(shardArtifactsRoot, emitterVersion) {
-  const aggregated = {
-    emitterVersion,
-    regeneration: { total: 0, success: 0, failed: 0, failures: [] },
-    build:        { total: 0, success: 0, failed: 0, failures: [] },
-    changelog:    { total: 0, generated: 0, failed: [], withBreaking: 0, breakingPackages: [] },
-  };
-
-  walkFiles(shardArtifactsRoot, (filePath) => {
-    if (path.basename(filePath) !== "result.json") return;
-    const shardResult = JSON.parse(fs.readFileSync(filePath, "utf8"));
-    for (const stageName of ["regeneration", "build"]) {
-      if (!shardResult[stageName]) continue;
-      aggregated[stageName].total   += shardResult[stageName].total;
-      aggregated[stageName].success += shardResult[stageName].success;
-      aggregated[stageName].failed  += shardResult[stageName].failed;
-      aggregated[stageName].failures.push(...(shardResult[stageName].failures || []));
-    }
-    if (shardResult.changelog) {
-      aggregated.changelog.total        += shardResult.changelog.total;
-      aggregated.changelog.generated    += shardResult.changelog.generated;
-      aggregated.changelog.withBreaking += shardResult.changelog.withBreaking;
-      aggregated.changelog.failed.push(...(shardResult.changelog.failed || []));
-      aggregated.changelog.breakingPackages.push(...(shardResult.changelog.breakingPackages || []));
-    }
-  });
-
-  aggregated.regeneration.failures      = dedupeByPkgAndSort(aggregated.regeneration.failures);
-  aggregated.build.failures             = dedupeByPkgAndSort(aggregated.build.failures);
-  aggregated.changelog.breakingPackages = dedupeByPkgAndSort(aggregated.changelog.breakingPackages);
-  return aggregated;
-}
-
-function dedupeByPkgAndSort(entries) {
-  const normalized = entries.map((entry) => (typeof entry === "string" ? { pkg: entry } : entry));
-  return Array.from(new Map(normalized.map((entry) => [entry.pkg, entry])).values())
-    .sort((a, b) => a.pkg.localeCompare(b.pkg));
-}
-
-function printAggregateSummaryToLog(aggregated) {
-  console.log("===== AGGREGATED SUMMARY =====");
-  console.log(`Emitter      : ${aggregated.emitterVersion}`);
-  console.log(`Regenerated  : ${aggregated.regeneration.success}/${aggregated.regeneration.total}  (failed: ${aggregated.regeneration.failed})`);
-  console.log(`Built        : ${aggregated.build.success}/${aggregated.build.total}  (failed: ${aggregated.build.failed})`);
-  console.log(`Changelogs   : ${aggregated.changelog.generated}/${aggregated.changelog.total}  (breaking: ${aggregated.changelog.withBreaking})`);
-  if (aggregated.changelog.breakingPackages.length) {
-    console.log("\nBreaking packages:");
-    aggregated.changelog.breakingPackages.forEach((pkg) => console.log(`  - ${pkg.pkg}`));
-  }
-}
-
-function loadDroppedConflictFiles(droppedFilesListPath) {
-  if (!droppedFilesListPath || !fs.existsSync(droppedFilesListPath)) return [];
-  return fs.readFileSync(droppedFilesListPath, "utf8")
-    .split("\n").map((line) => line.trim()).filter(Boolean);
-}
-
-function renderPullRequestBody({ aggregated, pipelineName, buildNumber, buildUrl, patchScope, droppedConflictFiles }) {
-  const lines = [
-    `_Generated by \`${pipelineName}\` build [${buildNumber}](${buildUrl})._`,
-    `_Emitter version: \`${aggregated.emitterVersion}\`. Push mode: \`${patchScope}\`._`,
-    "",
-    "## Regeneration summary",
-    `- Regenerated: **${aggregated.regeneration.success}/${aggregated.regeneration.total}**`,
-    `- Built OK:    **${aggregated.build.success}/${aggregated.build.total}**`,
-    `- Changelog generated: **${aggregated.changelog.generated}/${aggregated.changelog.total}**`,
-    `- Packages with breaking changes: **${aggregated.changelog.withBreaking}**`,
-    "",
-    "See the **regen_summary** build artifact for `aggregated-results.json` " +
-      "(machine-readable counts + per-package failure details and breaking-change excerpts).",
-  ];
-
-  appendMarkdownPackageList(lines, "❌ Regenerate failures", aggregated.regeneration.failures);
-  appendMarkdownPackageList(lines, "❌ Build failures",      aggregated.build.failures);
-  appendMarkdownPackageList(lines, "⚠ Packages with breaking changes", aggregated.changelog.breakingPackages);
-  appendMarkdownFileList(lines, "Files dropped due to upstream conflicts", droppedConflictFiles);
-
-  return lines.join("\n");
-}
-
-function appendMarkdownPackageList(lines, sectionTitle, entries) {
-  if (!entries.length) return;
-  lines.push("", `## ${sectionTitle} (${entries.length})`, ...entries.map((e) => `- \`${e.pkg}\``));
-}
-
-function appendMarkdownFileList(lines, sectionTitle, files) {
-  if (!files.length) return;
-  lines.push("", `## ${sectionTitle} (${files.length})`, ...files.map((f) => `- \`${f}\``));
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Subcommand: apply-patches
-// Runs only when CreatePullRequest=true. Picks the push token, 3-way applies
-// every shard's changes.patch, then re-aggregates so pr-body.md reflects any
-// conflict drops.
-// ─────────────────────────────────────────────────────────────────────────────
-
-function runApplyPatches() {
+function runCreatePr() {
   const [sourceRepoOwner, sourceRepoName] = (getFlag("--sourceRepo") || "").split("/");
   const targetRepoOwner = getFlag("--targetOwner") || sourceRepoOwner;
   const targetRepoName  = getFlag("--targetName")  || sourceRepoName;
   const baseBranch      = getFlag("--targetBranch", "main");
   const headBranchOverride = getFlag("--branch", "").trim();
   const buildId         = getFlag("--buildId", "");
-  const shardArtifactsRoot = getFlag("--workspace");
-  const droppedFilesListPath = getFlag("--failedPatchesFile");
-  const outDir = getFlag("--outDir");
-  const pushMode        = getFlag("--pushMode", "all");
   const emitterVersion  = getFlag("--emitterVersion", "");
+  const buildNumber     = getFlag("--buildNumber", "");
+  const buildUrl        = getFlag("--buildUrl", "");
+  const pipelineName    = getFlag("--definitionName", "");
 
   const isTargetingFork = targetRepoOwner !== sourceRepoOwner || targetRepoName !== sourceRepoName;
   const pushToken = selectPushToken(isTargetingFork, targetRepoOwner, targetRepoName);
   const headBranchName = resolveHeadBranchName(headBranchOverride, buildId);
 
-  console.log(`Targeting ${isTargetingFork ? "fork" : "source repo"}: ${targetRepoOwner}/${targetRepoName}`);
+  const prTitle = `TypeSpec regeneration: emitter ${emitterVersion}`;
+  const prBody = [
+    `_Generated by \`${pipelineName}\` build [${buildNumber}](${buildUrl})._`,
+    `_Emitter version: \`${emitterVersion}\`._`,
+    "",
+    "Per-package outcomes (regenerated / built / breaking changes) are in the ADO build log.",
+  ].join("\n");
 
-  repointOriginAndCheckoutBranch(targetRepoOwner, targetRepoName, pushToken, baseBranch, headBranchName);
-  applyAllShardPatches(shardArtifactsRoot, droppedFilesListPath);
-  discardLocalEmitterPackageEdits();
-
-  // Re-aggregate so pr-body.md picks up the conflict drops.
-  if (outDir) runAggregate();
-
-  const hasChanges = commitAllChanges(pushMode, emitterVersion);
-  if (hasChanges) {
-    runShell(`git push origin ${headBranchName} --force`, SDK_ROOT);
-    submitPullRequest({
-      targetRepoOwner, targetRepoName, baseBranch, headBranchName,
-      pushToken, outDir, pushMode, emitterVersion,
-    });
-  } else {
-    console.log("No file changes to commit — skipping push and PR creation.");
-  }
-}
-
-function commitAllChanges(pushMode, emitterVersion) {
-  runShell("git add -A", SDK_ROOT);
-  const commitMessage = `TypeSpec regeneration (${pushMode}) for emitter ${emitterVersion}`;
-  const commitResult = spawnSync(
-    "git",
-    [
-      "-c", "user.name=azure-sdk",
-      "-c", "user.email=azuresdk@microsoft.com",
-      "commit", "-m", commitMessage,
-    ],
-    { cwd: SDK_ROOT, stdio: "inherit" }
-  );
-  return commitResult.status === 0;
-}
-
-function submitPullRequest({
-  targetRepoOwner, targetRepoName, baseBranch, headBranchName,
-  pushToken, outDir, pushMode, emitterVersion,
-}) {
-  const prBodyPath = path.join(outDir, "pr-body.md");
-  const prTitle = `TypeSpec regeneration: emitter ${emitterVersion} [${pushMode}]`;
-  const submitScript = path.join(SDK_ROOT, "eng/common/scripts/Submit-PullRequest.ps1");
-  const pwshCommand =
-    `& '${submitScript}' ` +
-    `-RepoOwner '${targetRepoOwner}' -RepoName '${targetRepoName}' ` +
-    `-BaseBranch '${baseBranch}' ` +
-    `-PROwner '${targetRepoOwner}' -PRBranch '${headBranchName}' ` +
-    `-AuthToken '${pushToken}' ` +
-    `-PRTitle '${prTitle}' ` +
-    `-PRBody (Get-Content '${prBodyPath}' -Raw)`;
-  const submitResult = spawnSync(
-    "pwsh", ["-NoProfile", "-Command", pwshCommand],
-    { cwd: SDK_ROOT, stdio: "inherit" }
-  );
-  if (submitResult.status !== 0) {
-    console.error("##[error]Submit-PullRequest.ps1 failed");
-    process.exit(submitResult.status || 1);
-  }
+  const submitScript = "eng/common/scripts/Submit-PullRequest.ps1";
+  runPwshFile(submitScript, [
+    "-RepoOwner",  targetRepoOwner,  "-RepoName", targetRepoName,
+    "-BaseBranch", baseBranch,
+    "-PROwner",    targetRepoOwner,  "-PRBranch", headBranchName,
+    "-AuthToken",  pushToken,
+    "-PRTitle",    prTitle,
+    "-PRBody",     prBody,
+  ]);
 }
 
 function selectPushToken(isTargetingFork, targetOwner, targetName) {
   const token = isTargetingFork
     ? (process.env.FORK_TOKEN || "")
-    : (process.env.GH_TOKEN_VAL || "");
+    : (process.env.GH_TOKEN_VAL || process.env.GH_TOKEN || "");
   if (isTargetingFork && !token) {
     console.error(
       `##[error]Targeting fork ${targetOwner}/${targetName} but no PAT was provided. ` +
@@ -728,60 +549,6 @@ function resolveHeadBranchName(headBranchOverride, buildId) {
   return isAutoBranch ? `sdk-regenerate-${buildId}` : headBranchOverride;
 }
 
-function repointOriginAndCheckoutBranch(targetOwner, targetName, pushToken, baseBranch, headBranchName) {
-  runShellNoEcho("git", [
-    "remote", "set-url", "origin",
-    `https://x-access-token:${pushToken}@github.com/${targetOwner}/${targetName}.git`,
-  ], SDK_ROOT);
-  runShell(`git fetch origin ${baseBranch} --depth=1`, SDK_ROOT);
-  runShell(`git checkout -B ${headBranchName} FETCH_HEAD`, SDK_ROOT);
-}
-
-function applyAllShardPatches(shardArtifactsRoot, droppedFilesListPath) {
-  fs.writeFileSync(droppedFilesListPath, "");
-  const shardPatchFiles = collectShardPatchFiles(shardArtifactsRoot);
-  for (const patchFile of shardPatchFiles) {
-    console.log(`Applying ${patchFile}`);
-    const applyResult = spawnSync("git", ["apply", "--3way", patchFile], { cwd: SDK_ROOT, stdio: "inherit" });
-    if (applyResult.status === 0) continue;
-    dropConflictedFiles(droppedFilesListPath);
-  }
-}
-
-function collectShardPatchFiles(shardArtifactsRoot) {
-  const patchFiles = [];
-  walkFiles(shardArtifactsRoot, (filePath) => {
-    if (path.basename(filePath) === "changes.patch" && fs.statSync(filePath).size > 0) {
-      patchFiles.push(filePath);
-    }
-  });
-  return patchFiles.sort();
-}
-
-function dropConflictedFiles(droppedFilesListPath) {
-  // We'd rather PR a clean subset than ship a half-merged tree.
-  const conflictedFilesResult = spawnSync(
-    "git", ["diff", "--name-only", "--diff-filter=U"],
-    { cwd: SDK_ROOT, encoding: "utf8" }
-  );
-  const conflictedFiles = (conflictedFilesResult.stdout || "")
-    .split("\n").map((line) => line.trim()).filter(Boolean);
-  for (const conflictedFile of conflictedFiles) {
-    spawnSync("git", ["checkout", "HEAD", "--", conflictedFile], { cwd: SDK_ROOT });
-    spawnSync("git", ["rm", "-f", conflictedFile], { cwd: SDK_ROOT });
-    fs.appendFileSync(droppedFilesListPath, conflictedFile + "\n");
-  }
-}
-
-function discardLocalEmitterPackageEdits() {
-  // The xml/sse peer-dep injection in prepare() must never land in the PR.
-  spawnSync(
-    "git",
-    ["checkout", "--", "eng/emitter-package.json", "eng/emitter-package-lock.json"],
-    { cwd: SDK_ROOT }
-  );
-}
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Subcommand: build-matrix
 // Wraps eng/common/scripts/New-RegenerateMatrix.ps1 with the argument
@@ -794,24 +561,44 @@ function runBuildMatrix() {
     console.error("ERROR: --outDir is required");
     process.exit(2);
   }
-  const packageFilter = getFlag("--filter", "arm-*");
-  const jobCount  = 10;
-  const minPerJob = 10;
+  runPwshFile("eng/common/scripts/New-RegenerateMatrix.ps1", [
+    "-OutputDirectory",        outDir,
+    "-OutputVariableName",     "matrix",
+    "-JobCount",               "10",
+    "-MinimumPerJob",          "10",
+    "-OnlyTypeSpec",           "true",
+    "-DirectoryFilterPattern", getFlag("--filter", "arm-*"),
+  ]);
+}
 
-  const matrixScript = path.join(SDK_ROOT, "eng/common/scripts/New-RegenerateMatrix.ps1");
-  const matrixCommand =
-    `& '${matrixScript}' ` +
-    `-OutputDirectory '${outDir}' ` +
-    `-OutputVariableName matrix ` +
-    `-JobCount ${jobCount} ` +
-    `-MinimumPerJob ${minPerJob} ` +
-    `-OnlyTypeSpec true ` +
-    `-DirectoryFilterPattern '${packageFilter}'`;
-  const result = spawnSync(
-    "pwsh", ["-NoProfile", "-Command", matrixCommand],
-    { cwd: SDK_ROOT, stdio: "inherit" }
-  );
-  if (result.status !== 0) process.exit(result.status || 1);
+// ─────────────────────────────────────────────────────────────────────────────
+// Subcommands: setup-pr-branch
+// CreatePullRequest=true plumbing. Two modes:
+//   base   – Setup job: fetch the PR target branch and reset prBranch to it.
+//   switch – Shard job: copy this script outside the working tree (the PR
+//            branch is based on main and does NOT contain feature/break-check's
+//            pipeline source), add the fork remote, and check out prBranch.
+//            Token comes from env PUSH_TOKEN so it never hits a command line.
+// ─────────────────────────────────────────────────────────────────────────────
+
+function runSetupPrBranch() {
+  const mode      = getFlag("--mode");
+  const prBranch  = getFlag("--prBranch");
+  if (mode === "base") {
+    runShell(`git fetch origin ${getFlag("--targetBranch")} --depth=1`);
+    runShell(`git checkout -B ${prBranch} FETCH_HEAD`);
+    return;
+  }
+  if (mode === "switch") {
+    fs.copyFileSync(getFlag("--scriptSource"), getFlag("--scriptDest"));
+    const remote = `https://x-access-token:${process.env.PUSH_TOKEN}@github.com/${getFlag("--targetOwner")}/${getFlag("--targetName")}.git`;
+    runShellNoEcho("git", ["remote", "add", "azure-sdk-fork", remote]);
+    runShell(`git fetch azure-sdk-fork ${prBranch} --depth=1`);
+    runShell(`git checkout -B ${prBranch} azure-sdk-fork/${prBranch}`);
+    return;
+  }
+  console.error(`ERROR: --mode must be 'base' or 'switch' (got '${mode}')`);
+  process.exit(2);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -821,10 +608,10 @@ function runBuildMatrix() {
 const SUBCOMMANDS = {
   "resolve-emitter": runResolveEmitter,
   "build-matrix":    runBuildMatrix,
+  "setup-pr-branch": runSetupPrBranch,
   "prepare":         runPrepare,
   "shard":           runShard,
-  "aggregate":       runAggregate,
-  "apply-patches":   runApplyPatches,
+  "create-pr":       runCreatePr,
 };
 
 const subcommandName = process.argv[2];
