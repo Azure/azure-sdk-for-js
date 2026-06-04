@@ -45,16 +45,16 @@ async function main() {
 
   // Upload a skill package
   const packageBytes = readFileSync(skillFilePath);
-  const imported = await project.beta.skills.createFromPackage(packageBytes);
-  console.log(
-    `Imported skill from package: ${imported.name} (${imported.skill_id}) has_blob=${imported.has_blob}`,
-  );
+  const imported = await project.beta.skills.createFromFiles(skillName, {
+    files: [
+      { contents: packageBytes, contentType: "application/zip", filename: "canvas-design.zip" },
+    ],
+  });
+  console.log(`Imported skill from package: ${imported.name} (${imported.skill_id})`);
 
   // Retrieve the uploaded skill
   const fetched = await project.beta.skills.get(imported.name);
-  console.log(
-    `Fetched imported skill: ${fetched.name} (${fetched.skill_id}) has_blob=${fetched.has_blob}`,
-  );
+  console.log(`Fetched imported skill: ${fetched.name} (${fetched.id})`);
 
   // Download the skill package
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-");

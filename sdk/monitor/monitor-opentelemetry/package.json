@@ -2,7 +2,7 @@
   "name": "@azure/monitor-opentelemetry",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "1.18.1",
+  "version": "1.18.2",
   "description": "Azure Monitor OpenTelemetry (Node.js)",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -45,6 +45,14 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/types.ts",
+        "prefix": "AZURE_MONITOR_OPENTELEMETRY_VERSION"
+      }
+    ]
+  },
   "//sampleConfiguration": {
     "productName": "Azure Monitor OpenTelemetry",
     "productSlugs": [

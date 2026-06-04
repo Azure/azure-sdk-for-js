@@ -12,6 +12,7 @@ import type {
   OsType,
   AuthenticationType,
   BrowserConnectOptions,
+  BrowserSessionSourceTypeValue,
   EndpointOptions,
   PlaywrightServiceAdditionalOptions,
 } from "./common/types.js";
@@ -26,6 +27,7 @@ export {
   type OsType,
   type AuthenticationType,
   type BrowserConnectOptions,
+  type BrowserSessionSourceTypeValue,
   type EndpointOptions,
   type PlaywrightServiceAdditionalOptions,
 };

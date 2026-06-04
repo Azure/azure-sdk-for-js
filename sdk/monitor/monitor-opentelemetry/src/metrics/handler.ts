@@ -113,7 +113,7 @@ export class MetricHandler {
       histogramAggregation,
     );
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
-      exporter: this._azureExporter as any,
+      exporter: this._azureExporter,
       exportIntervalMillis: this._config.metricExportIntervalMillis || defaultInterval,
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
