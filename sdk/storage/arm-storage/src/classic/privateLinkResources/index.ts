@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext } from "../../api/storageManagementContext.js";
+import type { StorageManagementContext } from "../../api/storageManagementContext.js";
 import { listByStorageAccount } from "../../api/privateLinkResources/operations.js";
-import { PrivateLinkResourcesListByStorageAccountOptionalParams } from "../../api/privateLinkResources/options.js";
-import { PrivateLinkResourceListResult } from "../../models/models.js";
+import type { PrivateLinkResourcesListByStorageAccountOptionalParams } from "../../api/privateLinkResources/options.js";
+import type { PrivateLinkResourceListResult } from "../../models/models.js";
 
 /** Interface representing a PrivateLinkResources operations. */
 export interface PrivateLinkResourcesOperations {

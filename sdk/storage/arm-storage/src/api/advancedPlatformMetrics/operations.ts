@@ -1,33 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer_1,
+import type { StorageManagementContext as Client } from "../index.js";
+import type {
   AdvancedPlatformMetricsRule,
-  advancedPlatformMetricsRuleSerializer,
-  advancedPlatformMetricsRuleDeserializer,
   AdvancedPlatformMetricsRuleType,
   _AdvancedPlatformMetricsRuleListResult,
-  _advancedPlatformMetricsRuleListResultDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer_1,
+  advancedPlatformMetricsRuleSerializer,
+  advancedPlatformMetricsRuleDeserializer,
+  _advancedPlatformMetricsRuleListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   AdvancedPlatformMetricsListOptionalParams,
   AdvancedPlatformMetricsDeleteOptionalParams,
   AdvancedPlatformMetricsCreateOrUpdateOptionalParams,
   AdvancedPlatformMetricsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -59,7 +55,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer_1(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer_1(result.body);
+    }
 
     throw error;
   }
@@ -110,7 +108,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer_1(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer_1(result.body);
+    }
 
     throw error;
   }
@@ -171,7 +171,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer_1(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer_1(result.body);
+    }
 
     throw error;
   }
@@ -231,7 +233,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer_1(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer_1(result.body);
+    }
 
     throw error;
   }

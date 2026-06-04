@@ -1,37 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext as Client } from "../index.js";
-import {
-  cloudErrorDeserializer,
+import type { StorageManagementContext as Client } from "../index.js";
+import type {
   FileServiceProperties,
-  fileServicePropertiesSerializer,
-  fileServicePropertiesDeserializer,
   FileServiceItems,
-  fileServiceItemsDeserializer,
   FileServiceUsage,
-  fileServiceUsageDeserializer,
   _FileServiceUsages,
-  _fileServiceUsagesDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  cloudErrorDeserializer,
+  fileServicePropertiesSerializer,
+  fileServicePropertiesDeserializer,
+  fileServiceItemsDeserializer,
+  fileServiceUsageDeserializer,
+  _fileServiceUsagesDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   FileServicesListServiceUsagesOptionalParams,
   FileServicesGetServiceUsageOptionalParams,
   FileServicesListOptionalParams,
   FileServicesSetServicePropertiesOptionalParams,
   FileServicesGetServicePropertiesOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listServiceUsagesSend(
   context: Client,
@@ -64,7 +60,9 @@ export async function _listServiceUsagesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -118,7 +116,9 @@ export async function _getServiceUsageDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -165,7 +165,9 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<F
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -217,7 +219,9 @@ export async function _setServicePropertiesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -273,7 +277,9 @@ export async function _getServicePropertiesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

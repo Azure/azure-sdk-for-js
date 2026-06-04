@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext } from "../../api/storageManagementContext.js";
+import type { StorageManagementContext } from "../../api/storageManagementContext.js";
 import {
   listServiceUsages,
   getServiceUsage,
@@ -9,15 +9,19 @@ import {
   setServiceProperties,
   getServiceProperties,
 } from "../../api/fileServices/operations.js";
-import {
+import type {
   FileServicesListServiceUsagesOptionalParams,
   FileServicesGetServiceUsageOptionalParams,
   FileServicesListOptionalParams,
   FileServicesSetServicePropertiesOptionalParams,
   FileServicesGetServicePropertiesOptionalParams,
 } from "../../api/fileServices/options.js";
-import { FileServiceProperties, FileServiceItems, FileServiceUsage } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type {
+  FileServiceProperties,
+  FileServiceItems,
+  FileServiceUsage,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a FileServices operations. */
 export interface FileServicesOperations {

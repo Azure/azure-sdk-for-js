@@ -1,94 +1,67 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   StorageManagementContext,
   StorageManagementClientOptionalParams,
-  createStorageManagement,
 } from "./api/index.js";
-import {
-  AdvancedPlatformMetricsOperations,
-  _getAdvancedPlatformMetricsOperations,
-} from "./classic/advancedPlatformMetrics/index.js";
-import {
-  BlobContainersOperations,
-  _getBlobContainersOperations,
-} from "./classic/blobContainers/index.js";
-import {
-  BlobInventoryPoliciesOperations,
-  _getBlobInventoryPoliciesOperations,
-} from "./classic/blobInventoryPolicies/index.js";
-import {
-  BlobServicesOperations,
-  _getBlobServicesOperations,
-} from "./classic/blobServices/index.js";
-import { ConnectorsOperations, _getConnectorsOperations } from "./classic/connectors/index.js";
-import { DataSharesOperations, _getDataSharesOperations } from "./classic/dataShares/index.js";
-import {
-  DeletedAccountsOperations,
-  _getDeletedAccountsOperations,
-} from "./classic/deletedAccounts/index.js";
-import {
-  EncryptionScopesOperations,
-  _getEncryptionScopesOperations,
-} from "./classic/encryptionScopes/index.js";
-import {
-  FileServicesOperations,
-  _getFileServicesOperations,
-} from "./classic/fileServices/index.js";
-import { FileSharesOperations, _getFileSharesOperations } from "./classic/fileShares/index.js";
-import { LocalUsersOperations, _getLocalUsersOperations } from "./classic/localUsers/index.js";
-import {
-  ManagementPoliciesOperations,
-  _getManagementPoliciesOperations,
-} from "./classic/managementPolicies/index.js";
-import {
-  NetworkSecurityPerimeterConfigurationsOperations,
-  _getNetworkSecurityPerimeterConfigurationsOperations,
-} from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import {
-  ObjectReplicationPoliciesOperations,
-  _getObjectReplicationPoliciesOperations,
-} from "./classic/objectReplicationPolicies/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import {
-  PrivateEndpointConnectionsOperations,
-  _getPrivateEndpointConnectionsOperations,
-} from "./classic/privateEndpointConnections/index.js";
-import {
-  PrivateLinkResourcesOperations,
-  _getPrivateLinkResourcesOperations,
-} from "./classic/privateLinkResources/index.js";
-import { QueueOperations, _getQueueOperations } from "./classic/queue/index.js";
-import {
-  QueueServicesOperations,
-  _getQueueServicesOperations,
-} from "./classic/queueServices/index.js";
-import { SkusOperations, _getSkusOperations } from "./classic/skus/index.js";
-import {
-  StorageAccountsOperations,
-  _getStorageAccountsOperations,
-} from "./classic/storageAccounts/index.js";
-import {
-  StorageTaskAssignmentInstancesReportOperations,
-  _getStorageTaskAssignmentInstancesReportOperations,
-} from "./classic/storageTaskAssignmentInstancesReport/index.js";
-import {
-  StorageTaskAssignmentsOperations,
-  _getStorageTaskAssignmentsOperations,
-} from "./classic/storageTaskAssignments/index.js";
-import {
-  StorageTaskAssignmentsInstancesReportOperations,
-  _getStorageTaskAssignmentsInstancesReportOperations,
-} from "./classic/storageTaskAssignmentsInstancesReport/index.js";
-import { TableOperations, _getTableOperations } from "./classic/table/index.js";
-import {
-  TableServicesOperations,
-  _getTableServicesOperations,
-} from "./classic/tableServices/index.js";
-import { UsagesOperations, _getUsagesOperations } from "./classic/usages/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import { createStorageManagement } from "./api/index.js";
+import type { AdvancedPlatformMetricsOperations } from "./classic/advancedPlatformMetrics/index.js";
+import { _getAdvancedPlatformMetricsOperations } from "./classic/advancedPlatformMetrics/index.js";
+import type { BlobContainersOperations } from "./classic/blobContainers/index.js";
+import { _getBlobContainersOperations } from "./classic/blobContainers/index.js";
+import type { BlobInventoryPoliciesOperations } from "./classic/blobInventoryPolicies/index.js";
+import { _getBlobInventoryPoliciesOperations } from "./classic/blobInventoryPolicies/index.js";
+import type { BlobServicesOperations } from "./classic/blobServices/index.js";
+import { _getBlobServicesOperations } from "./classic/blobServices/index.js";
+import type { ConnectorsOperations } from "./classic/connectors/index.js";
+import { _getConnectorsOperations } from "./classic/connectors/index.js";
+import type { DataSharesOperations } from "./classic/dataShares/index.js";
+import { _getDataSharesOperations } from "./classic/dataShares/index.js";
+import type { DeletedAccountsOperations } from "./classic/deletedAccounts/index.js";
+import { _getDeletedAccountsOperations } from "./classic/deletedAccounts/index.js";
+import type { EncryptionScopesOperations } from "./classic/encryptionScopes/index.js";
+import { _getEncryptionScopesOperations } from "./classic/encryptionScopes/index.js";
+import type { FileServicesOperations } from "./classic/fileServices/index.js";
+import { _getFileServicesOperations } from "./classic/fileServices/index.js";
+import type { FileSharesOperations } from "./classic/fileShares/index.js";
+import { _getFileSharesOperations } from "./classic/fileShares/index.js";
+import type { LocalUsersOperations } from "./classic/localUsers/index.js";
+import { _getLocalUsersOperations } from "./classic/localUsers/index.js";
+import type { ManagementPoliciesOperations } from "./classic/managementPolicies/index.js";
+import { _getManagementPoliciesOperations } from "./classic/managementPolicies/index.js";
+import type { NetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
+import { _getNetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
+import type { ObjectReplicationPoliciesOperations } from "./classic/objectReplicationPolicies/index.js";
+import { _getObjectReplicationPoliciesOperations } from "./classic/objectReplicationPolicies/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
+import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
+import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
+import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
+import type { QueueOperations } from "./classic/queue/index.js";
+import { _getQueueOperations } from "./classic/queue/index.js";
+import type { QueueServicesOperations } from "./classic/queueServices/index.js";
+import { _getQueueServicesOperations } from "./classic/queueServices/index.js";
+import type { SkusOperations } from "./classic/skus/index.js";
+import { _getSkusOperations } from "./classic/skus/index.js";
+import type { StorageAccountsOperations } from "./classic/storageAccounts/index.js";
+import { _getStorageAccountsOperations } from "./classic/storageAccounts/index.js";
+import type { StorageTaskAssignmentInstancesReportOperations } from "./classic/storageTaskAssignmentInstancesReport/index.js";
+import { _getStorageTaskAssignmentInstancesReportOperations } from "./classic/storageTaskAssignmentInstancesReport/index.js";
+import type { StorageTaskAssignmentsOperations } from "./classic/storageTaskAssignments/index.js";
+import { _getStorageTaskAssignmentsOperations } from "./classic/storageTaskAssignments/index.js";
+import type { StorageTaskAssignmentsInstancesReportOperations } from "./classic/storageTaskAssignmentsInstancesReport/index.js";
+import { _getStorageTaskAssignmentsInstancesReportOperations } from "./classic/storageTaskAssignmentsInstancesReport/index.js";
+import type { TableOperations } from "./classic/table/index.js";
+import { _getTableOperations } from "./classic/table/index.js";
+import type { TableServicesOperations } from "./classic/tableServices/index.js";
+import { _getTableServicesOperations } from "./classic/tableServices/index.js";
+import type { UsagesOperations } from "./classic/usages/index.js";
+import { _getUsagesOperations } from "./classic/usages/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { StorageManagementClientOptionalParams } from "./api/storageManagementContext.js";
 

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext } from "../../api/storageManagementContext.js";
+import type { StorageManagementContext } from "../../api/storageManagementContext.js";
 import { list, get } from "../../api/deletedAccounts/operations.js";
-import {
+import type {
   DeletedAccountsListOptionalParams,
   DeletedAccountsGetOptionalParams,
 } from "../../api/deletedAccounts/options.js";
-import { DeletedAccount } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DeletedAccount } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DeletedAccounts operations. */
 export interface DeletedAccountsOperations {

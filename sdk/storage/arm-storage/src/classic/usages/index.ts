@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext } from "../../api/storageManagementContext.js";
+import type { StorageManagementContext } from "../../api/storageManagementContext.js";
 import { listByLocation } from "../../api/usages/operations.js";
-import { UsagesListByLocationOptionalParams } from "../../api/usages/options.js";
-import { Usage } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { UsagesListByLocationOptionalParams } from "../../api/usages/options.js";
+import type { Usage } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Usages operations. */
 export interface UsagesOperations {

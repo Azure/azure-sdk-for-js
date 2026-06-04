@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext } from "../../api/storageManagementContext.js";
+import type { StorageManagementContext } from "../../api/storageManagementContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/blobInventoryPolicies/operations.js";
-import {
+import type {
   BlobInventoryPoliciesListOptionalParams,
   BlobInventoryPoliciesDeleteOptionalParams,
   BlobInventoryPoliciesCreateOrUpdateOptionalParams,
   BlobInventoryPoliciesGetOptionalParams,
 } from "../../api/blobInventoryPolicies/options.js";
-import { BlobInventoryPolicy, BlobInventoryPolicyName } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { BlobInventoryPolicy, BlobInventoryPolicyName } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BlobInventoryPolicies operations. */
 export interface BlobInventoryPoliciesOperations {

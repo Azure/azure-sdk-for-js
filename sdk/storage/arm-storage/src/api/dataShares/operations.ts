@@ -1,37 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext as Client } from "../index.js";
+import type { StorageManagementContext as Client } from "../index.js";
+import type { DataShare, DataShareUpdate, _DataShareListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer_1,
-  DataShare,
   dataShareSerializer,
   dataShareDeserializer,
-  DataShareUpdate,
   dataShareUpdateSerializer,
-  _DataShareListResult,
   _dataShareListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   DataSharesListByStorageAccountOptionalParams,
   DataSharesDeleteOptionalParams,
   DataSharesUpdateOptionalParams,
   DataSharesCreateOptionalParams,
   DataSharesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByStorageAccountSend(
   context: Client,
@@ -63,7 +55,9 @@ export async function _listByStorageAccountDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer_1(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer_1(result.body);
+    }
 
     throw error;
   }
@@ -114,7 +108,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer_1(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer_1(result.body);
+    }
 
     throw error;
   }
@@ -173,7 +169,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer_1(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer_1(result.body);
+    }
 
     throw error;
   }
@@ -233,7 +231,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer_1(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer_1(result.body);
+    }
 
     throw error;
   }
@@ -290,7 +290,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Da
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer_1(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer_1(result.body);
+    }
 
     throw error;
   }
