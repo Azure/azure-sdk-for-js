@@ -5,7 +5,7 @@
 
 trigger:
   branches: { include: [main] }
-  paths: &regenPaths
+  paths:
     include:
       - eng/emitter-package.json
       - eng/common/scripts/TypeSpec-*
@@ -14,7 +14,12 @@ trigger:
 
 pr:
   branches: { include: [main, feature/*, hotfix/*] }
-  paths: *regenPaths
+  paths:
+    include:
+      - eng/emitter-package.json
+      - eng/common/scripts/TypeSpec-*
+      - eng/pipelines/sdk-regenerate.yml
+      - eng/pipelines/scripts/regenerate-shard.js
 
 schedules:
   - cron: "0 2 * * 1"
