@@ -1,7 +1,27 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/updates": "./src/api/updates/index.ts"
+  "./api/applyUpdateForResourceGroup": "./src/api/applyUpdateForResourceGroup/index.ts"
+  "./api/scheduledEvent": "./src/api/scheduledEvent/index.ts"
+  "./api/configurationAssignmentsWithinSubscription": "./src/api/configurationAssignmentsWithinSubscription/index.ts"
+  "./api/maintenanceConfigurationsForResourceGroup": "./src/api/maintenanceConfigurationsForResourceGroup/index.ts"
+  "./api/publicMaintenanceConfigurations": "./src/api/publicMaintenanceConfigurations/index.ts"
+  "./api/configurationAssignmentsForResourceGroup": "./src/api/configurationAssignmentsForResourceGroup/index.ts"
+  "./api/configurationAssignmentsForSubscriptions": "./src/api/configurationAssignmentsForSubscriptions/index.ts"
+  "./api/configurationAssignments": "./src/api/configurationAssignments/index.ts"
+  "./api/applyUpdates": "./src/api/applyUpdates/index.ts"
+  "./api/maintenanceConfigurations": "./src/api/maintenanceConfigurations/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
   - name: esm
     condition: import
     tsconfig: "./config/tsconfig.src.esm.json"
@@ -10,6 +30,3 @@ targets:
     condition: require
     tsconfig: "./config/tsconfig.src.cjs.json"
     moduleType: commonjs
-
-  - name: browser
-    tsconfig: "./config/tsconfig.src.browser.json"

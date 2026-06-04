@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update the state of specified deployments associated with the Cognitive Services account.
  *
  * @summary update the state of specified deployments associated with the Cognitive Services account.
- * x-ms-original-file: 2026-01-15-preview/PutDeployment.json
+ * x-ms-original-file: 2026-03-15-preview/PutDeployment.json
  */
 async function putDeployment() {
   const credential = new DefaultAzureCredential();

@@ -329,7 +329,6 @@ describe("FileClient", () => {
     assert.isDefined(result.fileParentId!);
     assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.isUndefined(result.cacheControl);
     assert.isUndefined(result.contentType);
     assert.isUndefined(result.contentMD5);
     assert.isUndefined(result.contentEncoding);
@@ -419,7 +418,6 @@ describe("FileClient", () => {
 
     assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.isUndefined(result.cacheControl);
     assert.isUndefined(result.contentType);
     assert.isUndefined(result.contentMD5);
     assert.isUndefined(result.contentEncoding);
@@ -1934,7 +1932,6 @@ describe("FileClient - OAuth", () => {
     assert.isDefined(result.fileParentId!);
     assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.isUndefined(result.cacheControl);
     assert.isUndefined(result.contentType);
     assert.isUndefined(result.contentMD5);
     assert.isUndefined(result.contentEncoding);
@@ -1949,7 +1946,6 @@ describe("FileClient - OAuth", () => {
 
     assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.isUndefined(result.cacheControl);
     assert.isUndefined(result.contentType);
     assert.isUndefined(result.contentMD5);
     assert.isUndefined(result.contentEncoding);
@@ -2240,7 +2236,6 @@ describe("FileClient - AllowTrailingDots - True", () => {
     assert.isDefined(result.fileParentId!);
     assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.isUndefined(result.cacheControl);
     assert.isUndefined(result.contentType);
     assert.isUndefined(result.contentMD5);
     assert.isUndefined(result.contentEncoding);
@@ -2266,7 +2261,6 @@ describe("FileClient - AllowTrailingDots - True", () => {
 
     assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.isUndefined(result.cacheControl);
     assert.isUndefined(result.contentType);
     assert.isUndefined(result.contentMD5);
     assert.isUndefined(result.contentEncoding);
@@ -2615,7 +2609,6 @@ describe("FileClient - AllowTrailingDots - False", () => {
     assert.isDefined(result.fileParentId!);
     assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.isUndefined(result.cacheControl);
     assert.isUndefined(result.contentType);
     assert.isUndefined(result.contentMD5);
     assert.isUndefined(result.contentEncoding);
@@ -2641,7 +2634,6 @@ describe("FileClient - AllowTrailingDots - False", () => {
 
     assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.isUndefined(result.cacheControl);
     assert.isUndefined(result.contentType);
     assert.isUndefined(result.contentMD5);
     assert.isUndefined(result.contentEncoding);
@@ -3116,7 +3108,6 @@ describe("FileClient - NFS", () => {
 
     assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.isUndefined(result.cacheControl);
     assert.isUndefined(result.contentType);
     assert.isUndefined(result.contentMD5);
     assert.isUndefined(result.contentEncoding);

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified RAI Tool Label associated with the Azure OpenAI account.
  *
  * @summary gets the specified RAI Tool Label associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-01-15-preview/GetRaiToolLabel.json
+ * x-ms-original-file: 2026-03-15-preview/GetRaiToolLabel.json
  */
 async function getRaiToolLabel() {
   const credential = new DefaultAzureCredential();
