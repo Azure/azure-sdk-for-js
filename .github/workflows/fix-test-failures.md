@@ -21,6 +21,9 @@ tools:
 safe-outputs:
   create-issue:
     labels: [test-reliability]
+  update-issue:
+    status:
+    target: "*"
   add-comment:
     max: 1
     target: "*"
@@ -69,12 +72,22 @@ failures.
 4. If a failure matches a known pre-existing issue:
    - **Exclude** it from the new GitHub issue entirely.
    - Do **not** attempt to reproduce or root-cause it — it is already tracked.
+   - **Check the state of the tracked issue.** Each tracking comment records the
+     number/link of the issue that was filed for the failure (see Step 6). Fetch
+     that issue with the GitHub API and inspect its `state`. If the tracked issue
+     is **closed**, the failure has recurred after the issue was resolved, so
+     **re-open it**: call `update_issue` with `issue_number` set to the tracked
+     issue and `status` set to `open`. Add a brief note in the "Additional Notes"
+     section of any new issue (or in the run summary when no new issue is created)
+     listing which closed issues were re-opened. If the tracked issue is already
+     **open**, leave it untouched.
 5. If **all** detected failures are known pre-existing issues, **stop immediately** —
-   do **not** create a GitHub issue. Simply report that all failures are known and
-   already tracked.
+   do **not** create a GitHub issue. Re-open any closed tracked issues as described
+   above, then report that all failures are known and already tracked.
 6. If some failures are new and some are known, create the issue for **new failures
    only**. Add a brief note in the "Additional Notes" section listing which known
-   failures were excluded and linking to their tracking issues.
+   failures were excluded and linking to their tracking issues, and which closed
+   tracked issues were re-opened.
 
 ## Step 1 — Identify Failing Packages
 
@@ -221,5 +234,6 @@ duplicate. Use `add_comment` on issue #37864 with the following format:
 **Service(s)/Package(s):** <affected service directories or npm package names, comma-separated>
 **Error patterns:** <brief description of the error types seen, e.g. `TypeError: cannot read ...`, `AssertionError`>
 **Issue title:** <exact title of the issue just created>
+**Issue:** #<number of the issue just created> (record the number/link so future runs can check its state and re-open it if it gets closed while the failure persists)
 **Date:** <today's date in YYYY-MM-DD format>
 ```
