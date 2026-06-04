@@ -1309,6 +1309,102 @@ jobs:
             setupGlobals(core, github, context, exec, io, getOctokit);
             const { main } = require('${{ runner.temp }}/gh-aw/actions/safe_output_handler_manager.cjs');
             await main();
+      - name: Update known failures tracking issue
+        if: steps.process_safe_outputs.outputs.created_issue_number != ''
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          script: |
+            const trackingIssueNumber = 37864;
+            const createdIssueNumber = Number('${{ steps.process_safe_outputs.outputs.created_issue_number }}');
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const sectionStart = '<!-- fix-test-failures-known-issues:start -->';
+            const sectionEnd = '<!-- fix-test-failures-known-issues:end -->';
+            const sectionHeading = '## Issues created by fix-test-failures workflow';
+            
+            function cleanText(text) {
+              return text
+                .replace(/```[\s\S]*?```/g, ' ')
+                .replace(/`([^`]*)`/g, '$1')
+                .replace(/\r/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+            }
+            
+            function truncate(text, maxLength) {
+              return text.length <= maxLength ? text : `${text.slice(0, maxLength - 3)}...`;
+            }
+            
+            function extractPackageNames(body) {
+              const matches = [...body.matchAll(/^###\s+(.+)$/gm)];
+              return [...new Set(matches.map((match) => cleanText(match[1])).filter(Boolean))];
+            }
+            
+            function extractErrorPatterns(body) {
+              const matches = [...body.matchAll(/\*\*Error:\*\*\s*([\s\S]*?)(?=\n\*\*|\n---|\n### |\n## |$)/g)];
+              return matches
+                .map((match) => cleanText(match[1]))
+                .filter(Boolean)
+                .map((value) => truncate(value, 160))
+                .slice(0, 5);
+            }
+            
+            function extractSummary(body) {
+              const match = body.match(/## Summary\s*([\s\S]*?)(?=\n## |\n### |$)/);
+              return match ? truncate(cleanText(match[1]), 240) : '';
+            }
+            
+            function insertTrackingEntry(existingBody, entry) {
+              if (existingBody.includes(sectionStart) && existingBody.includes(sectionEnd)) {
+                return existingBody.replace(sectionEnd, `${entry}\n\n${sectionEnd}`);
+              }
+            
+              const trimmed = existingBody.trimEnd();
+              return `${trimmed}${trimmed ? '\n\n' : ''}${sectionStart}\n${sectionHeading}\n\n${entry}\n${sectionEnd}\n`;
+            }
+            
+            const [{ data: createdIssue }, { data: trackingIssue }] = await Promise.all([
+              github.rest.issues.get({
+                owner,
+                repo,
+                issue_number: createdIssueNumber,
+              }),
+              github.rest.issues.get({
+                owner,
+                repo,
+                issue_number: trackingIssueNumber,
+              }),
+            ]);
+            
+            const trackingBody = trackingIssue.body || '';
+            if (
+              trackingBody.includes(createdIssue.html_url) ||
+              trackingBody.includes(`[#${createdIssueNumber}](`) ||
+              trackingBody.includes(`#${createdIssueNumber} —`)
+            ) {
+              core.info(`Tracking issue already references #${createdIssueNumber}.`);
+              return;
+            }
+            
+            const packageNames = extractPackageNames(createdIssue.body || '');
+            const errorPatterns = extractErrorPatterns(createdIssue.body || '');
+            const summary = extractSummary(createdIssue.body || '');
+            const entryLines = [
+              `### [#${createdIssueNumber}](${createdIssue.html_url}) — ${createdIssue.title}`,
+              packageNames.length ? `- Packages/services: ${packageNames.join(', ')}` : null,
+              errorPatterns.length ? `- Error patterns: ${errorPatterns.map((pattern) => `\`${pattern}\``).join('; ')}` : null,
+              summary ? `- Summary: ${summary}` : null,
+            ].filter(Boolean);
+            
+            const updatedBody = insertTrackingEntry(trackingBody, entryLines.join('\n'));
+            
+            await github.rest.issues.update({
+              owner,
+              repo,
+              issue_number: trackingIssueNumber,
+              body: updatedBody,
+            });
       - name: Upload Safe Outputs Items
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -1318,4 +1414,3 @@ jobs:
             /tmp/gh-aw/safe-output-items.jsonl
             /tmp/gh-aw/temporary-id-map.json
           if-no-files-found: ignore
-

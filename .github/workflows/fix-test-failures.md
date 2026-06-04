@@ -42,16 +42,17 @@ failure.
   **not** real tests — ignore failures in those files.
 - Do **not** follow `details_url` links on check runs — they point to Azure DevOps
   which is not accessible from this environment.
-- Do **not** create pull requests or modify source files. The only mutable output
-  of this workflow is a GitHub issue; when no new failures exist the workflow
-  exits silently with no issue created.
+- Do **not** create pull requests or modify source files. The only mutable outputs
+  of this workflow are GitHub issues managed by the workflow; when no new
+  failures exist the workflow exits silently with no issue created.
 
 ## Known Pre-existing Failures
 
 Some CI test failures are caused by infrastructure or service-side issues that are
 already tracked. Before filing a new issue, check the **known failures tracking
 issue** (https://github.com/Azure/azure-sdk-for-js/issues/37864) for pre-existing
-failures.
+failures. When this workflow creates a new issue, the workflow appends a compact
+summary of that issue back into the tracking issue so future runs can detect it.
 
 1. Fetch the body of issue #37864 using the GitHub API.
 2. For each failing check run identified later in "Step 1 — Identify Failing
@@ -202,3 +203,6 @@ multiple failures, or packages where CI failed but tests pass locally.>
 ```
 
 Labels are applied automatically via the `safe-outputs.create-issue` configuration.
+After the issue is created, the workflow updates issue #37864 with a compact
+tracking entry that includes the linked issue, affected package/service names,
+and representative error patterns.
