@@ -97,7 +97,7 @@ describe("Redis test", () => {
     );
   }
 
-  it.only("operations list test", async () => {
+  it("operations list test", async () => {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);
