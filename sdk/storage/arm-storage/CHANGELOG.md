@@ -1,6 +1,6 @@
 # Release History
 
-## 20.1.0 (2026-06-01)
+## 20.1.0 (2026-06-04)
 
 ### Features Added
   - Added operation group AdvancedPlatformMetricsOperations
