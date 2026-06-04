@@ -62,17 +62,17 @@ parameters:
     type: string
     default: 'main'
   - name: PullRequestBranch
-    displayName: "PR source branch (empty = sdk-regenerate-<buildId>)"
+    displayName: "PR source branch ('auto' = sdk-regenerate-<buildId>)"
     type: string
-    default: ''
+    default: 'auto'
   - name: PullRequestRepoOwner
-    displayName: "PR target repo OWNER (e.g. 'wxl534' for a fork; default 'Azure')"
+    displayName: "PR target repo owner (use your GitHub username for a fork)"
     type: string
-    default: ''
+    default: 'Azure'
   - name: PullRequestRepoName
-    displayName: "PR target repo NAME (default 'azure-sdk-for-js')"
+    displayName: "PR target repo name"
     type: string
-    default: ''
+    default: 'azure-sdk-for-js'
   - name: ForkTokenVariableName
     displayName: "ADO secret variable holding the GitHub PAT (required when CreatePullRequest=true)"
     type: string
@@ -90,24 +90,16 @@ variables:
     value: '22.x'
   - name: shardScript
     value: $(Build.SourcesDirectory)/eng/pipelines/scripts/regenerate-shard.js
-  - ${{ if ne(parameters.PullRequestBranch, '') }}:
-    - name: prBranchName
-      value: ${{ parameters.PullRequestBranch }}
-  - ${{ else }}:
+  - ${{ if eq(parameters.PullRequestBranch, 'auto') }}:
     - name: prBranchName
       value: sdk-regenerate-$(Build.BuildId)
-  - ${{ if ne(parameters.PullRequestRepoOwner, '') }}:
-    - name: targetOwner
-      value: ${{ parameters.PullRequestRepoOwner }}
   - ${{ else }}:
-    - name: targetOwner
-      value: Azure
-  - ${{ if ne(parameters.PullRequestRepoName, '') }}:
-    - name: targetName
-      value: ${{ parameters.PullRequestRepoName }}
-  - ${{ else }}:
-    - name: targetName
-      value: azure-sdk-for-js
+    - name: prBranchName
+      value: ${{ parameters.PullRequestBranch }}
+  - name: targetOwner
+    value: ${{ parameters.PullRequestRepoOwner }}
+  - name: targetName
+    value: ${{ parameters.PullRequestRepoName }}
   - ${{ if parameters.CreatePullRequest }}:
     - name: shardPrepareMode
       value: shard
@@ -152,7 +144,7 @@ stages:
             node $(shardScript) setup-pr-branch --mode base \
               --targetBranch "${{ parameters.PullRequestTargetBranch }}" \
               --prBranch     "$(prBranchName)"
-            node $(shardScript) prepare --mode emitter \
+            node $(shardScriptInvoke) prepare --mode emitter \
               --emitterVersion "$(resolveVersion.emitterVersion)"
           displayName: 'Prepare initial emitter-package commit'
 
@@ -190,9 +182,7 @@ stages:
             node $(shardScript) setup-pr-branch --mode switch \
               --targetOwner  "$(targetOwner)" \
               --targetName   "$(targetName)" \
-              --prBranch     "$(prBranchName)" \
-              --scriptSource "$(shardScript)" \
-              --scriptDest   "$(Agent.TempDirectory)/regenerate-shard.js"
+              --prBranch     "$(prBranchName)"
           displayName: 'Switch to PR branch'
           env:
             PUSH_TOKEN: $(${{ parameters.ForkTokenVariableName }})

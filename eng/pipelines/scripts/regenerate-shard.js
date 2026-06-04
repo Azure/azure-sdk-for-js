@@ -584,13 +584,20 @@ function runBuildMatrix() {
 function runSetupPrBranch() {
   const mode      = getFlag("--mode");
   const prBranch  = getFlag("--prBranch");
+
+  // ALWAYS self-copy to $AGENT_TEMPDIRECTORY before any git work — the upcoming
+  // checkout swaps the working tree to origin/main, which on the PR branch path
+  // does NOT contain this script. The temp copy is what every later step calls
+  // (see $(shardScriptInvoke) in sdk-regenerate.yml).
+  const tempDir = process.env.AGENT_TEMPDIRECTORY;
+  if (tempDir) fs.copyFileSync(__filename, path.join(tempDir, path.basename(__filename)));
+
   if (mode === "base") {
     runShell(`git fetch origin ${getFlag("--targetBranch")} --depth=1`);
     runShell(`git checkout -B ${prBranch} FETCH_HEAD`);
     return;
   }
   if (mode === "switch") {
-    fs.copyFileSync(getFlag("--scriptSource"), getFlag("--scriptDest"));
     const remote = `https://x-access-token:${process.env.PUSH_TOKEN}@github.com/${getFlag("--targetOwner")}/${getFlag("--targetName")}.git`;
     runShellNoEcho("git", ["remote", "add", "azure-sdk-fork", remote]);
     runShell(`git fetch azure-sdk-fork ${prBranch} --depth=1`);
