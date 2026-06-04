@@ -1322,7 +1322,7 @@ jobs:
             const sectionStart = '<!-- fix-test-failures-known-issues:start -->';
             const sectionEnd = '<!-- fix-test-failures-known-issues:end -->';
             const sectionHeading = '## Issues created by fix-test-failures workflow';
-            
+
             function cleanText(text) {
               return text
                 .replace(/```[\s\S]*?```/g, ' ')
@@ -1331,16 +1331,16 @@ jobs:
                 .replace(/\s+/g, ' ')
                 .trim();
             }
-            
+
             function truncate(text, maxLength) {
               return text.length <= maxLength ? text : `${text.slice(0, maxLength - 3)}...`;
             }
-            
+
             function extractPackageNames(body) {
               const matches = [...body.matchAll(/^###\s+(.+)$/gm)];
               return [...new Set(matches.map((match) => cleanText(match[1])).filter(Boolean))];
             }
-            
+
             function extractErrorPatterns(body) {
               const matches = [...body.matchAll(/\*\*Error:\*\*\s*([\s\S]*?)(?=\n\*\*|\n---|\n### |\n## |$)/g)];
               return matches
@@ -1349,21 +1349,21 @@ jobs:
                 .map((value) => truncate(value, 160))
                 .slice(0, 5);
             }
-            
+
             function extractSummary(body) {
               const match = body.match(/## Summary\s*([\s\S]*?)(?=\n## |\n### |$)/);
               return match ? truncate(cleanText(match[1]), 240) : '';
             }
-            
+
             function insertTrackingEntry(existingBody, entry) {
               if (existingBody.includes(sectionStart) && existingBody.includes(sectionEnd)) {
                 return existingBody.replace(sectionEnd, `${entry}\n\n${sectionEnd}`);
               }
-            
+
               const trimmed = existingBody.trimEnd();
               return `${trimmed}${trimmed ? '\n\n' : ''}${sectionStart}\n${sectionHeading}\n\n${entry}\n${sectionEnd}\n`;
             }
-            
+
             const [{ data: createdIssue }, { data: trackingIssue }] = await Promise.all([
               github.rest.issues.get({
                 owner,
@@ -1376,7 +1376,7 @@ jobs:
                 issue_number: trackingIssueNumber,
               }),
             ]);
-            
+
             const trackingBody = trackingIssue.body || '';
             if (
               trackingBody.includes(createdIssue.html_url) ||
@@ -1386,7 +1386,7 @@ jobs:
               core.info(`Tracking issue already references #${createdIssueNumber}.`);
               return;
             }
-            
+
             const packageNames = extractPackageNames(createdIssue.body || '');
             const errorPatterns = extractErrorPatterns(createdIssue.body || '');
             const summary = extractSummary(createdIssue.body || '');
@@ -1396,9 +1396,9 @@ jobs:
               errorPatterns.length ? `- Error patterns: ${errorPatterns.map((pattern) => `\`${pattern}\``).join('; ')}` : null,
               summary ? `- Summary: ${summary}` : null,
             ].filter(Boolean);
-            
+
             const updatedBody = insertTrackingEntry(trackingBody, entryLines.join('\n'));
-            
+
             await github.rest.issues.update({
               owner,
               repo,
