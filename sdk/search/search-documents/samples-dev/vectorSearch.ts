@@ -8,9 +8,9 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { GeographyPoint, SearchClient, SearchIndexClient } from "@azure/search-documents";
 import "dotenv/config";
-import type { Hotel } from "./interfaces.js";
-import { createIndex, delay, WAIT_TIME } from "./setup.js";
-import { fancyStayEnVector, fancyStayFrVector, luxuryQueryVector } from "./vectors.js";
+import type { Hotel } from "./interfaces.ts";
+import { createIndex, delay, WAIT_TIME } from "./setup.ts";
+import { fancyStayEnVector, fancyStayFrVector, luxuryQueryVector } from "./vectors.ts";
 
 /**
  * This sample is to demonstrate the use of SearchClient's vector search feature.

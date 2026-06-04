@@ -327,6 +327,31 @@ function jsonify(value: unknown) {
 }
 
 /**
+ * Rewrites relative `.ts` import/export specifiers in TypeScript sample source
+ * text to use `.js` extensions.
+ *
+ * Samples authored under `samples-dev/` use `.ts` extensions on relative imports
+ * so that Node's native TypeScript loader can resolve sibling sample files when
+ * developers run them directly. Published TypeScript samples, however, are
+ * compiled with `tsc` into `dist/` and must reference the emitted `.js` files
+ * to be runnable. This helper performs that rewrite on the copied sample text.
+ *
+ * Matches the following forms:
+ * - `import ... from "./foo.ts"`
+ * - `import "./foo.ts"`
+ * - `import("./foo.ts")` (dynamic import)
+ * - `export ... from "./foo.ts"`
+ *
+ * @param content - the raw module source text
+ */
+function rewriteRelativeTsImports(content: string): string {
+  return content.replace(
+    /(\b(?:import|export|from)\s*\(?\s*)(['"])(\.\.?\/[^'"]*?)\.ts(['"])/g,
+    "$1$2$3.js$4",
+  );
+}
+
+/**
  * Checks if a file exists.
  * @param filePath - The path to the file
  * @returns Whether the file exists
@@ -368,6 +393,7 @@ export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> 
   delete tsconfig.compilerOptions.inlineSources;
   delete tsconfig.compilerOptions.sourceMap;
   delete tsconfig.compilerOptions.verbatimModuleSyntax;
+  delete tsconfig.compilerOptions.allowImportingTsExtensions;
   tsconfig.include = ["./src"];
   tsconfig.compilerOptions.outDir = "./dist";
   tsconfig.compilerOptions.rootDir = "./src";
@@ -429,7 +455,7 @@ export async function makeSamplesFactory(
   function postProcess(moduleText: string | Buffer): string {
     const content = Buffer.isBuffer(moduleText) ? moduleText.toString("utf8") : moduleText;
     return (
-      content
+      rewriteRelativeTsImports(content)
         .replace(new RegExp(`^\\s*\\*\\s*@${AZSDK_META_TAG_PREFIX}.*\n`, "gm"), "")
         // We also need to clean up extra blank lines that might be left behind by
         // removing azsdk tags. These regular expressions are extremely frustrating

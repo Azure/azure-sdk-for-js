@@ -21,7 +21,7 @@ import {
   EncryptionType,
   EncryptionQueryBuilder,
 } from "@azure/cosmos";
-import { finish, handleError, logStep } from "./Shared/handleError.js";
+import { finish, handleError, logStep } from "./Shared/handleError.ts";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";

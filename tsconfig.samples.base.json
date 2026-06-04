@@ -2,7 +2,8 @@
   "extends": ["./tsconfig", "./tsconfig.nonlib"],
   "compilerOptions": {
     "types": ["node"],
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "allowImportingTsExtensions": true
   },
   "include": ["${configDir}/samples-dev"]
 }

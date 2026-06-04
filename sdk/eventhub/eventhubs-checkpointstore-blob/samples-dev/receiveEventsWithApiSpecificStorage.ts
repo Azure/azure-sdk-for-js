@@ -16,7 +16,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { EventHubConsumerClient } from "@azure/event-hubs";
 import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
 import { BlobServiceClient } from "@azure/storage-blob";
-import { createCustomPipeline } from "./createCustomPipeline.js";
+import { createCustomPipeline } from "./createCustomPipeline.ts";
 
 import "dotenv/config";
 

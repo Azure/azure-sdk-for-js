@@ -36,8 +36,8 @@ import {
   KnownAttestationType,
 } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
-import { writeBanner } from "./utils/helpers.js";
-import { createRSAKey, createX509Certificate, generateSha256Hash } from "./utils/cryptoUtils.js";
+import { writeBanner } from "./utils/helpers.ts";
+import { createRSAKey, createX509Certificate, generateSha256Hash } from "./utils/cryptoUtils.ts";
 import { X509 } from "jsrsasign";
 // Load environment from a .env file if it exists.
 import "dotenv/config";
