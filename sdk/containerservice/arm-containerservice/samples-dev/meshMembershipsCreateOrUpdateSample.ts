@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the mesh membership of a managed cluster.
  *
  * @summary creates or updates the mesh membership of a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/MeshMemberships_CreateOrUpdate.json
+ * x-ms-original-file: 2026-04-02-preview/MeshMemberships_CreateOrUpdate.json
  */
 async function createOrUpdateMeshMembership(): Promise<void> {
   const credential = new DefaultAzureCredential();
