@@ -1,472 +1,757 @@
 #!/usr/bin/env node
-// regenerate-shard.js — single entry point for sdk-regenerate.yml.
-//
-// All non-orchestration work lives here, modelled on autorest.go's
-// sdk_regenerate.py. The YAML only checks out, installs node, and dispatches
-// to one of these subcommands:
-//
-//   resolve-emitter  — resolve EmitterVersion param (or npm dev dist-tag).
-//   prepare          — patch eng/emitter-package.json, regen lock, install
-//                      js-sdk-release-tools, shallow-clone the spec repo.
-//   shard            — for one matrix shard, run TypeSpec-Project-{Sync,Generate}.ps1
-//                      per pkg (concurrency=--maxWorkers), one `pnpm turbo build`
-//                      over the regen-OK set, `npm exec update-changelog` per
-//                      built pkg, scrape CHANGELOG.md for "### Breaking Changes".
-//                      Writes result.json + changes.patch.
-//   aggregate        — walk per-shard result.json files, write
-//                      aggregated-results.json + pr-body.md.
-//   apply-patches    — pick push token, 3-way apply per-shard changes.patch
-//                      onto target branch, emit ADO setvariables for
-//                      git-push-changes.yml.
-//
-// Per mentor review on PR #38604: no per-emitter-bug workarounds — those
-// belong upstream in Azure/autorest.typescript (see UPSTREAM-ISSUES.md).
+// Sole script for sdk-regenerate.yml. The YAML only checks out, installs node,
+// and dispatches to one of the subcommands at the bottom of this file.
+// Per-emitter-bug workarounds do NOT live here; see UPSTREAM-ISSUES.md.
 
 const { spawn, spawnSync } = require("child_process");
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
 
-const arg = (name, def = "") => {
-  const i = process.argv.indexOf(name);
-  return i >= 0 && i + 1 < process.argv.length ? process.argv[i + 1] : def;
-};
-const run = (cmd, args, cwd) => new Promise((resolve) => {
-  let out = "";
-  const p = spawn(cmd, args, { cwd, shell: true });
-  p.stdout.on("data", (d) => (out += d));
-  p.stderr.on("data", (d) => (out += d));
-  p.on("close", (code) => resolve({ code, out }));
-  p.on("error", (e) => resolve({ code: 1, out: out + `\nspawn error: ${e.message}` }));
-});
-// Streams output to the agent log AND exits non-zero on failure.
-function sh(cmdline, cwd) {
-  console.log(`+ ${cmdline}`);
-  const r = spawnSync(cmdline, { cwd: cwd || process.cwd(), shell: true, stdio: "inherit" });
-  if (r.status !== 0) { console.error(`##[error]exit ${r.status}: ${cmdline}`); process.exit(r.status || 1); }
+const SDK_ROOT = process.cwd();
+const EMITTER_PACKAGE_NAME = "@azure-tools/typespec-ts";
+const EMITTER_PACKAGE_JSON_PATH = path.join(SDK_ROOT, "eng/emitter-package.json");
+const EMITTER_OVERRIDES_JSON_PATH = path.join(SDK_ROOT, "eng/emitter-overrides.json");
+const TYPESPEC_SYNC_SCRIPT = path.join(SDK_ROOT, "eng/common/scripts/TypeSpec-Project-Sync.ps1");
+const TYPESPEC_GENERATE_SCRIPT = path.join(SDK_ROOT, "eng/common/scripts/TypeSpec-Project-Generate.ps1");
+const RELEASE_TOOLS_DIR = "eng/tools/js-sdk-release-tools";
+const DEV_VERSION_SENTINELS = new Set(["", "empty", "latest", "auto", "dev"]);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Tiny helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Read a --name value from process.argv (returns defaultValue if absent). */
+function getFlag(flagName, defaultValue = "") {
+  const flagIndex = process.argv.indexOf(flagName);
+  return flagIndex >= 0 && flagIndex + 1 < process.argv.length
+    ? process.argv[flagIndex + 1]
+    : defaultValue;
 }
-// Like sh() but does not echo the command line (use for secret-containing args).
-function shQuiet(cmd, args, cwd) {
-  const r = spawnSync(cmd, args, { cwd: cwd || process.cwd(), stdio: "inherit" });
-  if (r.status !== 0) { console.error(`##[error]exit ${r.status}: ${cmd}`); process.exit(r.status || 1); }
+
+/** Run a command and capture stdout+stderr into one string. Never rejects. */
+function runCommandCapturing(command, commandArgs, workingDirectory) {
+  return new Promise((resolve) => {
+    let combinedOutput = "";
+    const child = spawn(command, commandArgs, { cwd: workingDirectory })
+    child.stdout.on("data", (chunk) => (combinedOutput += chunk));
+    child.stderr.on("data", (chunk) => (combinedOutput += chunk));
+    child.on("close", (exitCode) => resolve({ exitCode, output: combinedOutput }));
+    child.on("error", (err) =>
+      resolve({ exitCode: 1, output: combinedOutput + `\nspawn error: ${err.message}` })
+    );
+  });
 }
-const logGroup = (title, body) => console.log(`##[group]${title}\n${body}\n##[endgroup]`);
-async function withConcurrency(items, limit, worker) {
-  const active = new Set();
-  for (const it of items) {
-    const p = Promise.resolve(worker(it)).finally(() => active.delete(p));
-    active.add(p);
-    if (active.size >= limit) await Promise.race(active);
-  }
-  await Promise.allSettled(active);
-}
-function walk(dir, fn) {
-  if (!fs.existsSync(dir)) return;
-  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-    const p = path.join(dir, e.name);
-    if (e.isDirectory()) walk(p, fn); else fn(p);
+
+/** Run a shell command line; stream to agent log; abort on non-zero exit. */
+function runShell(commandLine, workingDirectory) {
+  console.log(`+ ${commandLine}`);
+  const result = spawnSync(commandLine, {
+    cwd: workingDirectory || process.cwd(),
+    shell: true,
+    stdio: "inherit",
+  });
+  if (result.status !== 0) {
+    console.error(`##[error]exit ${result.status}: ${commandLine}`);
+    process.exit(result.status || 1);
   }
 }
 
-// ─── Subcommand: resolve-emitter ────────────────────────────────────────────
-// Normalize the user-supplied EmitterVersion param; if blank/sentinel, look up
-// the current @azure-tools/typespec-ts dev dist-tag. Emits an ADO output var
-// `emitterVersion` consumed by every downstream job.
+/** Like runShell but DOES NOT echo the command line. Use when args carry secrets. */
+function runShellNoEcho(command, commandArgs, workingDirectory) {
+  const result = spawnSync(command, commandArgs, {
+    cwd: workingDirectory || process.cwd(),
+    stdio: "inherit",
+  });
+  if (result.status !== 0) {
+    console.error(`##[error]exit ${result.status}: ${command}`);
+    process.exit(result.status || 1);
+  }
+}
+
+/** Run `worker(item)` over `items` with at most `concurrency` in flight. */
+async function runWithConcurrency(items, concurrency, worker) {
+  const inFlight = new Set();
+  for (const item of items) {
+    const task = Promise.resolve(worker(item)).finally(() => inFlight.delete(task));
+    inFlight.add(task);
+    if (inFlight.size >= concurrency) await Promise.race(inFlight);
+  }
+  await Promise.allSettled(inFlight);
+}
+
+/** Recursive readdir — calls visitor(absolutePath) for every file under rootDir. */
+function walkFiles(rootDir, visitor) {
+  if (!fs.existsSync(rootDir)) return;
+  for (const entry of fs.readdirSync(rootDir, { withFileTypes: true })) {
+    const fullPath = path.join(rootDir, entry.name);
+    if (entry.isDirectory()) walkFiles(fullPath, visitor);
+    else visitor(fullPath);
+  }
+}
+
+/** Wrap a chunk of output in an ADO collapsible log group. */
+function logCollapsedGroup(title, body) {
+  console.log(`##[group]${title}\n${body}\n##[endgroup]`);
+}
+
+/** Emit an ADO `setvariable` log command. */
+function setPipelineVariable(name, value, { isOutput = false, isSecret = false } = {}) {
+  const flags = [
+    isOutput ? "isOutput=true" : null,
+    isSecret ? "issecret=true" : null,
+  ].filter(Boolean).join(";");
+  const prefix = flags ? `;${flags}` : "";
+  console.log(`##vso[task.setvariable variable=${name}${prefix}]${value}`);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Subcommand: resolve-emitter
+// Resolve the EmitterVersion pipeline parameter to a concrete npm version.
+// Sentinel values ("", "empty", "latest", "auto", "dev") mean: look up the
+// current `dev` dist-tag of @azure-tools/typespec-ts.
+// ─────────────────────────────────────────────────────────────────────────────
+
 async function runResolveEmitter() {
-  const raw = arg("--input", "");
-  const norm = raw.trim().toLowerCase();
-  let v;
-  if (!norm || ["empty", "latest", "auto", "dev"].includes(norm)) {
-    const r = await run("npm", ["view", "@azure-tools/typespec-ts", "dist-tags.dev"], process.cwd());
-    v = r.out.trim();
-    if (r.code !== 0 || !v) { console.error("##[error]npm view returned empty dev tag"); process.exit(1); }
-  } else { v = raw.trim(); }
-  console.log(`Emitter version: ${v}`);
-  console.log(`##vso[task.setvariable variable=emitterVersion;isOutput=true]${v}`);
+  const rawInputVersion = getFlag("--input", "");
+  const normalizedInputVersion = rawInputVersion.trim().toLowerCase();
+
+  let resolvedEmitterVersion;
+  if (DEV_VERSION_SENTINELS.has(normalizedInputVersion)) {
+    resolvedEmitterVersion = await fetchLatestEmitterDevVersion();
+  } else {
+    resolvedEmitterVersion = rawInputVersion.trim();
+  }
+
+  console.log(`Emitter version: ${resolvedEmitterVersion}`);
+  setPipelineVariable("emitterVersion", resolvedEmitterVersion, { isOutput: true });
 }
 
-// ─── Subcommand: prepare ────────────────────────────────────────────────────
-// Patch eng/emitter-package.json with the resolved emitter version, regenerate
-// the lock file, pre-install js-sdk-release-tools (POSIX path, avoids the
-// Windows-backslash bug in update-changelog-content.ps1), and shallow-clone the
-// spec repo for TypeSpec-Project-Sync to copy from.
-function runPrepare() {
-  const sdkRoot = process.cwd();
-  const emitterVersion = arg("--emitterVersion");
-  const specRepoBranch = arg("--specRepoBranch", "main");
-  const specRepoRoot = arg("--specRepoRoot");
-  if (!emitterVersion || !specRepoRoot) { console.error("ERROR: --emitterVersion and --specRepoRoot are required"); process.exit(2); }
-
-  sh("npm install -g @azure-tools/typespec-client-generator-cli pnpm");
-  // Persist legacy-peer-deps to ~/.npmrc so it applies to every later npm call
-  // on this agent (tsp-client generate-lock-file *and* the npm ci inside
-  // TypeSpec-Project-Generate.ps1, where dev-emitter peer-dep drift blows up).
-  sh("npm config set legacy-peer-deps true");
-
-  const p = path.join(sdkRoot, "eng/emitter-package.json");
-  const j = JSON.parse(fs.readFileSync(p, "utf8"));
-  j.dependencies["@azure-tools/typespec-ts"] = emitterVersion;
-  // Inject peer-deps that dev typespec-client-generator-core imports at runtime
-  // but main's emitter-package.json does not yet declare. Tracked upstream in
-  // eng/pipelines/UPSTREAM-ISSUES.md §1.
-  const v = j.dependencies["@typespec/events"] || "0.82.0";
-  j.dependencies["@typespec/xml"] = j.dependencies["@typespec/xml"] || v;
-  j.dependencies["@typespec/sse"] = j.dependencies["@typespec/sse"] || v;
-  fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
-
-  sh("tsp-client generate-lock-file", sdkRoot);
-  sh("npm --prefix eng/tools/js-sdk-release-tools ci", sdkRoot);
-  shQuiet("git", ["clone", "--depth", "1", "--branch", specRepoBranch,
-    "https://github.com/Azure/azure-rest-api-specs.git", specRepoRoot]);
-}
-
-// ─── Subcommand: apply-patches ──────────────────────────────────────────────
-// Pick the right push token (FORK_TOKEN env var if targeting a fork, else
-// GH_TOKEN_VAL from the org GitHub App), 3-way apply every per-shard
-// changes.patch onto the target branch, drop conflicted files to
-// failed-patches.txt, and emit ADO vars consumed by git-push-changes.yml.
-function runApplyPatches() {
-  const sdkRoot = process.cwd();
-  const [srcOwner, srcName] = (arg("--sourceRepo") || "").split("/");
-  const owner = arg("--targetOwner") || srcOwner;
-  const name = arg("--targetName") || srcName;
-  const targetBranch = arg("--targetBranch", "main");
-  const branchOverride = arg("--branch", "").trim();
-  const buildId = arg("--buildId", "");
-  const workspace = arg("--workspace");
-  const failedPatchesFile = arg("--failedPatchesFile");
-
-  const isFork = owner !== srcOwner || name !== srcName;
-  const pushToken = isFork ? (process.env.FORK_TOKEN || "") : (process.env.GH_TOKEN_VAL || "");
-  if (isFork && !pushToken) {
-    console.error(`##[error]Targeting fork ${owner}/${name} but no PAT was provided. Set ForkTokenVariableName to an ADO secret variable holding a GitHub PAT (repo scope).`);
+async function fetchLatestEmitterDevVersion() {
+  const { exitCode, output } = await runCommandCapturing(
+    "npm",
+    ["view", "@azure-tools/typespec-ts", "dist-tags.dev"],
+    process.cwd()
+  );
+  const version = output.trim();
+  if (exitCode !== 0 || !version) {
+    console.error("##[error]npm view returned empty dev tag");
     process.exit(1);
   }
-  console.log(`Targeting ${isFork ? "fork" : "source repo"}: ${owner}/${name}`);
-
-  const blc = branchOverride.toLowerCase();
-  const branch = (!branchOverride || blc === "empty" || blc === "auto")
-    ? `sdk-regenerate-${buildId}` : branchOverride;
-
-  // Quiet: don't echo the URL with the embedded token.
-  shQuiet("git", ["remote", "set-url", "origin",
-    `https://x-access-token:${pushToken}@github.com/${owner}/${name}.git`], sdkRoot);
-  sh(`git fetch origin ${targetBranch} --depth=1`, sdkRoot);
-  sh(`git checkout -B ${branch} FETCH_HEAD`, sdkRoot);
-
-  fs.writeFileSync(failedPatchesFile, "");
-  const patches = [];
-  walk(workspace, (f) => { if (path.basename(f) === "changes.patch" && fs.statSync(f).size > 0) patches.push(f); });
-  patches.sort();
-  for (const p of patches) {
-    console.log(`Applying ${p}`);
-    const r = spawnSync("git", ["apply", "--3way", p], { cwd: sdkRoot, stdio: "inherit" });
-    if (r.status === 0) continue;
-    const conflicts = (spawnSync("git", ["diff", "--name-only", "--diff-filter=U"],
-      { cwd: sdkRoot, encoding: "utf8" }).stdout || "").split("\n").map((s) => s.trim()).filter(Boolean);
-    for (const f of conflicts) {
-      spawnSync("git", ["checkout", "HEAD", "--", f], { cwd: sdkRoot });
-      spawnSync("git", ["rm", "-f", f], { cwd: sdkRoot });
-      fs.appendFileSync(failedPatchesFile, f + "\n");
-    }
-  }
-  // Never push the temporary emitter patches into the PR.
-  spawnSync("git", ["checkout", "--",
-    "eng/emitter-package.json", "eng/emitter-package-lock.json"], { cwd: sdkRoot });
-
-  console.log(`##vso[task.setvariable variable=PRBranchName]${branch}`);
-  console.log(`##vso[task.setvariable variable=TargetRepoOwner]${owner}`);
-  console.log(`##vso[task.setvariable variable=TargetRepoName]${name}`);
-  console.log(`##vso[task.setvariable variable=PushToken;issecret=true]${pushToken}`);
+  return version;
 }
 
-// ─── Subcommand: shard ──────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// Subcommand: prepare
+// Per-agent setup before any shard work runs.
+// ─────────────────────────────────────────────────────────────────────────────
+
+function runPrepare() {
+  const emitterVersion = getFlag("--emitterVersion");
+  const specRepoBranch = getFlag("--specRepoBranch", "main");
+  const specRepoCloneDir = getFlag("--specRepoRoot");
+  if (!emitterVersion || !specRepoCloneDir) {
+    console.error("ERROR: --emitterVersion and --specRepoRoot are required");
+    process.exit(2);
+  }
+
+  installGlobalCliTools();
+  regenerateEmitterPackageFiles(emitterVersion);
+  preinstallReleaseTools();
+  shallowCloneSpecRepo(specRepoBranch, specRepoCloneDir);
+}
+
+function installGlobalCliTools() {
+  runShell("npm install -g @azure-tools/typespec-client-generator-cli pnpm");
+  // Dev emitter has peer-dep drift; tolerate it for every npm call on this agent.
+  runShell("npm config set legacy-peer-deps true");
+}
+
+// Mirrors azure-sdk-for-net's archetype-typespec-emitter.yml — `tsp-client
+// generate-config-files` (a) updates eng/emitter-package.json with the resolved
+// emitter version, (b) pins every peerDependency of the emitter to the version
+// listed in the emitter's own devDependencies (this auto-pins @typespec/xml so
+// the runtime require() in typespec-client-generator-core resolves), and
+// (c) regenerates emitter-package-lock.json. Any extra forced versions live in
+// eng/emitter-overrides.json (committed, optional).
+function regenerateEmitterPackageFiles(emitterVersion) {
+  const emitterPackageJsonPath = downloadEmitterPackageJsonFromNpm(emitterVersion);
+  const overridesFlag = fs.existsSync(EMITTER_OVERRIDES_JSON_PATH)
+    ? `--overrides "${EMITTER_OVERRIDES_JSON_PATH}"`
+    : "";
+  runShell(
+    `tsp-client generate-config-files ` +
+    `--package-json "${emitterPackageJsonPath}" ` +
+    `--emitter-package-json-path "${EMITTER_PACKAGE_JSON_PATH}" ` +
+    overridesFlag,
+    SDK_ROOT
+  );
+}
+
+function downloadEmitterPackageJsonFromNpm(emitterVersion) {
+  const stagingDir = fs.mkdtempSync(path.join(os.tmpdir(), "tsp-emitter-"));
+  runShell(`npm pack ${EMITTER_PACKAGE_NAME}@${emitterVersion}`, stagingDir);
+  const tarball = fs.readdirSync(stagingDir).find((name) => name.endsWith(".tgz"));
+  if (!tarball) {
+    console.error(`##[error]npm pack did not produce a tarball in ${stagingDir}`);
+    process.exit(1);
+  }
+  runShell(`tar -xf "${tarball}" -C "${stagingDir}"`, stagingDir);
+  return path.join(stagingDir, "package", "package.json");
+}
+
+function preinstallReleaseTools() {
+  // Pre-install js-sdk-release-tools once so every shard's update-changelog reuses the same node_modules.
+  runShell(`npm --prefix ${RELEASE_TOOLS_DIR} ci`, SDK_ROOT);
+}
+
+function shallowCloneSpecRepo(branch, cloneDir) {
+  runShellNoEcho("git", [
+    "clone", "--depth", "1", "--branch", branch,
+    "https://github.com/Azure/azure-rest-api-specs.git", cloneDir,
+  ]);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Subcommand: shard
+// Heavy lifter — runs once per matrix shard.
+// Phases: regenerate (fan-out) → build (turbo, batched) → changelog (fan-out).
+// ─────────────────────────────────────────────────────────────────────────────
+
 async function runShard() {
-  const sdkRoot = process.cwd();
-  const specRepoRoot = arg("--specRepoRoot");
-  const directoryListFile = arg("--directoryList");
-  const resultOutputDir = arg("--resultOutputDir");
-  const maxWorkers = Number(arg("--maxWorkers", "2")) || 1;
-  const buildConcurrency = Number(arg("--buildConcurrency", "2")) || 1;
-  const skipBuild = arg("--skipBuild", "false").toLowerCase() === "true";
-  const pushMode = arg("--pushMode", "api-md");
+  const specRepoCloneDir = getFlag("--specRepoRoot");
+  const directoryListFile = getFlag("--directoryList");
+  const shardResultDir = getFlag("--resultOutputDir");
+  const perPackageConcurrency = parsePositiveInt(getFlag("--maxWorkers", "2"));
+  const turboBuildConcurrency = parsePositiveInt(getFlag("--buildConcurrency", "2"));
+  const skipBuild = getFlag("--skipBuild", "false").toLowerCase() === "true";
+  const patchScope = getFlag("--pushMode", "api-md");
 
-  for (const [name, val] of [["--specRepoRoot", specRepoRoot], ["--directoryList", directoryListFile]]) {
-    if (!val || !fs.existsSync(val)) { console.error(`ERROR: ${name} not found: ${val}`); process.exit(1); }
+  requireReadablePath("--specRepoRoot", specRepoCloneDir);
+  requireReadablePath("--directoryList", directoryListFile);
+
+  const shardPackages = loadShardPackages(directoryListFile);
+  console.log(`Shard packages: ${shardPackages.length}`);
+
+  const regenerationOutcomes = await regenerateAll(shardPackages, perPackageConcurrency, specRepoCloneDir);
+  const successfullyRegenerated = regenerationOutcomes.filter((p) => p.success);
+
+  const buildOutcome = (skipBuild || successfullyRegenerated.length === 0)
+    ? { skipped: true, builtPackages: [], failedPackages: [] }
+    : await buildRegeneratedPackages(shardPackages, successfullyRegenerated, turboBuildConcurrency);
+
+  const changelogOutcomes = buildOutcome.skipped
+    ? []
+    : await generateChangelogsForBuilt(successfullyRegenerated, buildOutcome.builtPackages, perPackageConcurrency);
+
+  const shardSummary = composeShardSummary({
+    shardPackages,
+    regenerationOutcomes,
+    buildOutcome,
+    changelogOutcomes,
+  });
+
+  if (shardResultDir) {
+    writeShardSummaryAndPatch(shardResultDir, shardSummary, patchScope);
   }
 
-  const tspSync = path.join(sdkRoot, "eng/common/scripts/TypeSpec-Project-Sync.ps1");
-  const tspGenerate = path.join(sdkRoot, "eng/common/scripts/TypeSpec-Project-Generate.ps1");
-  // js-sdk-release-tools is pre-installed by the YAML "Prepare" step. We invoke
-  // update-changelog directly (forward-slash --prefix) — bypasses the Windows-only
-  // backslash bug in eng/scripts/update-changelog-content.ps1.
-  const releaseToolsPrefix = "eng/tools/js-sdk-release-tools";
+  console.log("\n========== SHARD SUMMARY ==========\n" + JSON.stringify(shardSummary, null, 2));
 
-  function resolvePackage(rel) {
-    const pkgDir = path.join(sdkRoot, "sdk", rel);
-    if (!fs.existsSync(path.join(pkgDir, "tsp-location.yaml"))) return null;
-    let packageName = `sdk/${rel}`;
-    try { packageName = JSON.parse(fs.readFileSync(path.join(pkgDir, "package.json"), "utf8")).name || packageName; } catch {}
-    return { pkg: `sdk/${rel}`, pkgDir, packageName };
+  const anyFailure =
+    shardSummary.regeneration.failed > 0 || (shardSummary.build && shardSummary.build.failed > 0);
+  if (anyFailure) process.exit(1);
+}
+
+function parsePositiveInt(value) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+}
+
+function requireReadablePath(flagName, value) {
+  if (!value || !fs.existsSync(value)) {
+    console.error(`ERROR: ${flagName} not found: ${value}`);
+    process.exit(1);
+  }
+}
+
+function loadShardPackages(directoryListFile) {
+  const relativePackagePaths = JSON.parse(fs.readFileSync(directoryListFile, "utf8"));
+  return relativePackagePaths.map(buildPackageDescriptor).filter(Boolean);
+}
+
+function buildPackageDescriptor(sdkRelativePath) {
+  const packageDir = path.join(SDK_ROOT, "sdk", sdkRelativePath);
+  if (!fs.existsSync(path.join(packageDir, "tsp-location.yaml"))) return null;
+  let npmPackageName = `sdk/${sdkRelativePath}`;
+  try {
+    const packageJson = JSON.parse(fs.readFileSync(path.join(packageDir, "package.json"), "utf8"));
+    if (packageJson.name) npmPackageName = packageJson.name;
+  } catch {
+    // package.json may not exist yet on first regen
+  }
+  return { sdkPath: `sdk/${sdkRelativePath}`, packageDir, npmPackageName };
+}
+
+// ── Phase 1: regenerate ─────────────────────────────────────────────────────
+
+async function regenerateAll(packages, concurrency, specRepoCloneDir) {
+  console.log(`\n===== Regenerate (concurrency=${concurrency}) =====`);
+  const outcomes = [];
+  const completedCount = { value: 0 };
+  await runWithConcurrency(packages, concurrency, async (pkg) => {
+    outcomes.push(await regenerateOnePackage(pkg, specRepoCloneDir, completedCount, packages.length));
+  });
+  return outcomes;
+}
+
+async function regenerateOnePackage(pkg, specRepoCloneDir, completedCount, totalPackageCount) {
+  const startedAtMs = Date.now();
+
+  const syncResult = await runCommandCapturing(
+    "pwsh", ["-File", TYPESPEC_SYNC_SCRIPT, pkg.packageDir, specRepoCloneDir], SDK_ROOT);
+  let combinedLog = `===== TypeSpec-Project-Sync =====\n${syncResult.output}\nExit: ${syncResult.exitCode}\n`;
+  let success = syncResult.exitCode === 0;
+
+  if (success) {
+    const generateResult = await runCommandCapturing(
+      "pwsh", ["-File", TYPESPEC_GENERATE_SCRIPT, pkg.packageDir], SDK_ROOT);
+    combinedLog += `\n===== TypeSpec-Project-Generate =====\n${generateResult.output}\nExit: ${generateResult.exitCode}\n`;
+    success = generateResult.exitCode === 0;
   }
 
-  async function regenerateOne(pkg, counter, total) {
-    const start = Date.now();
-    const sync = await run("pwsh", ["-File", tspSync, pkg.pkgDir, specRepoRoot], sdkRoot);
-    let output = `===== TypeSpec-Project-Sync =====\n${sync.out}\nExit: ${sync.code}\n`;
-    let success = sync.code === 0;
-    if (success) {
-      const gen = await run("pwsh", ["-File", tspGenerate, pkg.pkgDir], sdkRoot);
-      output += `\n===== TypeSpec-Project-Generate =====\n${gen.out}\nExit: ${gen.code}\n`;
-      success = gen.code === 0;
-    }
-    const dur = ((Date.now() - start) / 1000).toFixed(1);
-    counter.value++;
-    console.log(`  ${success ? "✅" : "❌"} [${counter.value}/${total}] ${pkg.pkg} (${dur}s)`);
-    logGroup(`regen log: ${pkg.pkg}`, output);
-    // Last 25 non-empty lines of output as the human-readable failure reason.
-    const errorTail = success ? null
-      : output.split("\n").map((l) => l.replace(/\s+$/, "")).filter(Boolean).slice(-25).join("\n");
-    return { ...pkg, success, output, errorTail };
+  const durationSeconds = ((Date.now() - startedAtMs) / 1000).toFixed(1);
+  completedCount.value += 1;
+  console.log(`  ${success ? "✅" : "❌"} [${completedCount.value}/${totalPackageCount}] ${pkg.sdkPath} (${durationSeconds}s)`);
+  logCollapsedGroup(`regen log: ${pkg.sdkPath}`, combinedLog);
+
+  const errorTail = success ? null : extractLastNonEmptyLines(combinedLog, 25);
+  return { ...pkg, success, errorTail };
+}
+
+function extractLastNonEmptyLines(text, lineCount) {
+  return text.split("\n")
+    .map((line) => line.replace(/\s+$/, ""))
+    .filter(Boolean)
+    .slice(-lineCount)
+    .join("\n");
+}
+
+// ── Phase 2: build ──────────────────────────────────────────────────────────
+
+async function buildRegeneratedPackages(allPackages, successfullyRegenerated, turboConcurrency) {
+  console.log(`\n===== Build (pnpm turbo, concurrency=${turboConcurrency}) =====`);
+
+  // Stale TempTypeSpecFiles/<svc>/package.json pin unpublished dev versions of
+  // @azure-tools/typespec-ts. pnpm install would then 401 from the internal
+  // feed and skip the whole shard build. See UPSTREAM-ISSUES.md §9.
+  removeStaleTempTypespecDirs(allPackages);
+
+  const installResult = await runCommandCapturing("pnpm", ["install", "--no-frozen-lockfile"], SDK_ROOT);
+  if (installResult.exitCode !== 0) {
+    logCollapsedGroup("pnpm install output", installResult.output.slice(-2000));
+    return { skipped: true, builtPackages: [], failedPackages: [] };
   }
 
-  async function changelogOne(pkg) {
-    const res = await run("npm",
-      ["--prefix", releaseToolsPrefix, "exec", "--no", "--",
-       "update-changelog", "--sdkRepoPath", sdkRoot, "--packagePath", pkg.pkgDir],
-      sdkRoot);
-    let hasBreaking = false, breakingText = "";
-    try {
-      const cl = path.join(pkg.pkgDir, "CHANGELOG.md");
-      if (fs.existsSync(cl)) {
-        // Inspect only the top (unreleased) section, before the next "## " version heading.
-        const full = fs.readFileSync(cl, "utf8");
-        const head = full.split("\n").slice(0, 200).join("\n");
-        const i1 = head.indexOf("\n## "), i2 = i1 >= 0 ? head.indexOf("\n## ", i1 + 1) : -1;
-        const top = i1 >= 0 ? head.slice(0, i2 > 0 ? i2 : head.length) : head;
-        // Extract "### Breaking Changes" section up to next "### " heading.
-        const m = top.match(/^###\s+Breaking Changes\b[^\n]*\n([\s\S]*?)(?=\n###\s|\n##\s|$)/m);
-        if (m) { hasBreaking = true; breakingText = m[1].trim(); }
-      }
-    } catch {
-      /* best-effort */
-    }
-    logGroup(`changelog log: ${pkg.pkg}`, res.out);
-    return { pkg: pkg.pkg, success: res.code === 0, hasBreaking, breakingText, output: res.out };
+  const turboFilters = successfullyRegenerated.flatMap((pkg) => ["--filter", `${pkg.npmPackageName}...`]);
+  const buildResult = await runCommandCapturing(
+    "pnpm",
+    ["turbo", "build", ...turboFilters, "--token", "1", `--concurrency=${turboConcurrency}`],
+    SDK_ROOT
+  );
+  logCollapsedGroup("turbo build output", buildResult.output.slice(-4000));
+
+  // Turbo's exit code reflects the whole batch — per-pkg attribution isn't
+  // worth it (matches Go/.NET regen pipelines).
+  const regeneratedSdkPaths = successfullyRegenerated.map((p) => p.sdkPath);
+  return buildResult.exitCode === 0
+    ? { skipped: false, builtPackages: regeneratedSdkPaths, failedPackages: [] }
+    : { skipped: false, builtPackages: [], failedPackages: regeneratedSdkPaths };
+}
+
+function removeStaleTempTypespecDirs(packages) {
+  for (const pkg of packages) {
+    const tempDir = path.join(pkg.packageDir, "TempTypeSpecFiles");
+    if (fs.existsSync(tempDir)) fs.rmSync(tempDir, { recursive: true, force: true });
   }
+}
 
-  const entries = JSON.parse(fs.readFileSync(directoryListFile, "utf8"));
-  const packages = entries.map(resolvePackage).filter(Boolean);
-  console.log(`Shard packages: ${packages.length}`);
+// ── Phase 3: changelog ──────────────────────────────────────────────────────
 
-  // --- Regenerate ---
-  console.log(`\n===== Regenerate (concurrency=${maxWorkers}) =====`);
-  const regen = [];
-  const counter = { value: 0 };
-  await withConcurrency(packages, maxWorkers, async (p) => regen.push(await regenerateOne(p, counter, packages.length)));
-  const regenOk = regen.filter((r) => r.success);
+async function generateChangelogsForBuilt(successfullyRegenerated, builtSdkPaths, concurrency) {
+  const builtSdkPathSet = new Set(builtSdkPaths);
+  const packagesNeedingChangelog = successfullyRegenerated.filter((p) => builtSdkPathSet.has(p.sdkPath));
+  if (packagesNeedingChangelog.length === 0) return [];
 
-  // --- Build (one turbo invocation) ---
-  let buildOk = [], buildFail = [];
-  let buildSkipped = skipBuild || regenOk.length === 0;
-  if (!buildSkipped) {
-    console.log(`\n===== Build (pnpm turbo, concurrency=${buildConcurrency}) =====`);
-    // tsp-client leaves a `TempTypeSpecFiles/<svc>/package.json` in every
-    // package whose TypeSpec-Project-Sync ran — INCLUDING packages whose
-    // Generate later failed. pnpm workspace install will try to fetch the dev
-    // @azure-tools/typespec-ts pinned in there from the internal Azure feed
-    // and 401 — wiping the whole shard's build. The directory is just an
-    // intermediate copy of the spec, the actual SDK output is at the package
-    // root, so deleting it for *all* packages (regen-OK and regen-failed) is
-    // safe and required.
-    for (const p of packages) {
-      const tmp = path.join(p.pkgDir, "TempTypeSpecFiles");
-      if (fs.existsSync(tmp)) fs.rmSync(tmp, { recursive: true, force: true });
-    }
-    const install = await run("pnpm", ["install", "--no-frozen-lockfile"], sdkRoot);
-    if (install.code !== 0) {
-      logGroup("pnpm install output", install.out.slice(-2000));
-      buildSkipped = true;
-    } else {
-      const filters = regenOk.flatMap((p) => ["--filter", `${p.packageName}...`]);
-      const build = await run("pnpm",
-        ["turbo", "build", ...filters, "--token", "1", `--concurrency=${buildConcurrency}`], sdkRoot);
-      logGroup("turbo build output", build.out.slice(-4000));
-      // Coarse signal only: turbo's exit code reflects the whole batch (matches Go/.NET regen pipelines).
-      (build.code === 0 ? buildOk : buildFail).push(...regenOk.map((p) => p.pkg));
-    }
+  console.log(`\n===== Changelog (${packagesNeedingChangelog.length} packages) =====`);
+  const outcomes = [];
+  await runWithConcurrency(packagesNeedingChangelog, concurrency, async (pkg) => {
+    outcomes.push(await generateChangelogForOnePackage(pkg));
+  });
+  return outcomes;
+}
+
+async function generateChangelogForOnePackage(pkg) {
+  // Invoking the bin directly bypasses eng/scripts/update-changelog-content.ps1's
+  // Windows backslash bug (UPSTREAM-ISSUES.md §3).
+  const result = await runCommandCapturing("npm", [
+    "--prefix", RELEASE_TOOLS_DIR, "exec", "--no", "--",
+    "update-changelog", "--sdkRepoPath", SDK_ROOT, "--packagePath", pkg.packageDir,
+  ], SDK_ROOT);
+
+  const { hasBreakingChanges, breakingChangesText } = extractBreakingChangesFromChangelog(pkg.packageDir);
+
+  logCollapsedGroup(`changelog log: ${pkg.sdkPath}`, result.output);
+  return {
+    pkg: pkg.sdkPath,
+    success: result.exitCode === 0,
+    hasBreaking: hasBreakingChanges,
+    breakingText: breakingChangesText,
+  };
+}
+
+function extractBreakingChangesFromChangelog(packageDir) {
+  const empty = { hasBreakingChanges: false, breakingChangesText: "" };
+  const changelogPath = path.join(packageDir, "CHANGELOG.md");
+  if (!fs.existsSync(changelogPath)) return empty;
+
+  try {
+    const changelogTop = fs.readFileSync(changelogPath, "utf8").split("\n").slice(0, 200).join("\n");
+    const firstVersionHeadingIndex = changelogTop.indexOf("\n## ");
+    const secondVersionHeadingIndex = firstVersionHeadingIndex >= 0
+      ? changelogTop.indexOf("\n## ", firstVersionHeadingIndex + 1)
+      : -1;
+    const topUnreleasedSection = firstVersionHeadingIndex < 0
+      ? changelogTop
+      : changelogTop.slice(0, secondVersionHeadingIndex > 0 ? secondVersionHeadingIndex : changelogTop.length);
+
+    const breakingChangesMatch = topUnreleasedSection.match(
+      /^###\s+Breaking Changes\b[^\n]*\n([\s\S]*?)(?=\n###\s|\n##\s|$)/m
+    );
+    return breakingChangesMatch
+      ? { hasBreakingChanges: true, breakingChangesText: breakingChangesMatch[1].trim() }
+      : empty;
+  } catch {
+    return empty;
   }
+}
 
-  // --- Changelog (only for successfully-built packages) ---
-  const builtPackages = regenOk.filter((p) => buildOk.includes(p.pkg));
-  const cl = [];
-  if (!buildSkipped && builtPackages.length > 0) {
-    console.log(`\n===== Changelog (${builtPackages.length} packages) =====`);
-    await withConcurrency(builtPackages, maxWorkers, async (p) => cl.push(await changelogOne(p)));
-  }
+// ── Compose shard outputs ───────────────────────────────────────────────────
+
+function composeShardSummary({ shardPackages, regenerationOutcomes, buildOutcome, changelogOutcomes }) {
+  const regenerationFailures = regenerationOutcomes
+    .filter((o) => !o.success)
+    .map((o) => ({ pkg: o.sdkPath, errorTail: o.errorTail }));
 
   const summary = {
-    packages: packages.map((p) => p.pkg),
+    packages: shardPackages.map((p) => p.sdkPath),
     regeneration: {
-      total: packages.length, success: regenOk.length, failed: packages.length - regenOk.length,
-      failures: regen.filter((r) => !r.success).map((r) => ({ pkg: r.pkg, errorTail: r.errorTail })),
+      total: shardPackages.length,
+      success: regenerationOutcomes.length - regenerationFailures.length,
+      failed: regenerationFailures.length,
+      failures: regenerationFailures,
     },
-    build: buildSkipped ? null : { total: regenOk.length, success: buildOk.length, failed: buildFail.length, failures: buildFail.map((p) => ({ pkg: p })) },
-    changelog: buildSkipped ? null : {
-      total: cl.length, generated: cl.filter((r) => r.success).length,
-      failed: cl.filter((r) => !r.success).map((r) => r.pkg),
-      withBreaking: cl.filter((r) => r.success && r.hasBreaking).length,
-      breakingPackages: cl.filter((r) => r.success && r.hasBreaking).map((r) => ({ pkg: r.pkg, breakingText: r.breakingText })),
+    build: buildOutcome.skipped ? null : {
+      total: buildOutcome.builtPackages.length + buildOutcome.failedPackages.length,
+      success: buildOutcome.builtPackages.length,
+      failed: buildOutcome.failedPackages.length,
+      failures: buildOutcome.failedPackages.map((sdkPath) => ({ pkg: sdkPath })),
+    },
+    changelog: buildOutcome.skipped ? null : {
+      total: changelogOutcomes.length,
+      generated: changelogOutcomes.filter((o) => o.success).length,
+      failed: changelogOutcomes.filter((o) => !o.success).map((o) => o.pkg),
+      withBreaking: changelogOutcomes.filter((o) => o.success && o.hasBreaking).length,
+      breakingPackages: changelogOutcomes
+        .filter((o) => o.success && o.hasBreaking)
+        .map((o) => ({ pkg: o.pkg, breakingText: o.breakingText })),
     },
   };
-
-  if (resultOutputDir) {
-    fs.mkdirSync(resultOutputDir, { recursive: true });
-    fs.writeFileSync(path.join(resultOutputDir, "result.json"), JSON.stringify(summary, null, 2));
-    // Capture the diff that CreatePR will 3-way apply later.
-    const diffArgs = pushMode === "api-md"
-      ? ["diff", "--binary", "--", ":(glob)sdk/**/review/*.api.md", ":(glob)sdk/**/CHANGELOG.md"]
-      : ["diff", "--binary", "--", "sdk/"];
-    const d = spawnSync("git", diffArgs, { cwd: sdkRoot, encoding: "buffer", maxBuffer: 256 * 1024 * 1024 });
-    if (d.status === 0) fs.writeFileSync(path.join(resultOutputDir, "changes.patch"), d.stdout);
-    else console.log(`git diff failed (exit ${d.status}); skipping patch`);
-  }
-
-  console.log("\n========== SHARD SUMMARY ==========\n" + JSON.stringify(summary, null, 2));
-  // Make the shard job visibly red in ADO (not just the Summary stage) when any pkg fails.
-  if (summary.regeneration.failed > 0 || (summary.build && summary.build.failed > 0)) process.exit(1);
+  return summary;
 }
 
-// ─── Subcommand: aggregate ──────────────────────────────────────────────────
+function writeShardSummaryAndPatch(shardResultDir, shardSummary, patchScope) {
+  fs.mkdirSync(shardResultDir, { recursive: true });
+  fs.writeFileSync(path.join(shardResultDir, "result.json"), JSON.stringify(shardSummary, null, 2));
+
+  const gitDiffArgs = patchScope === "api-md"
+    ? ["diff", "--binary", "--",
+       ":(glob)sdk/**/review/*.api.md",
+       ":(glob)sdk/**/CHANGELOG.md"]
+    : ["diff", "--binary", "--", "sdk/"];
+  const gitDiffResult = spawnSync("git", gitDiffArgs, {
+    cwd: SDK_ROOT, encoding: "buffer", maxBuffer: 256 * 1024 * 1024,
+  });
+  if (gitDiffResult.status === 0) {
+    fs.writeFileSync(path.join(shardResultDir, "changes.patch"), gitDiffResult.stdout);
+  } else {
+    console.log(`git diff failed (exit ${gitDiffResult.status}); skipping patch`);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Subcommand: aggregate
+// Walks all shards' result.json files and writes:
+//   aggregated-results.json   machine-readable
+//   pr-body.md                PR description
+// Does NOT exit non-zero on regen/build failures — we still want the PR for
+// whatever DID succeed, with the failure list embedded in pr-body.md.
+// ─────────────────────────────────────────────────────────────────────────────
 
 function runAggregate() {
-  const workspace = arg("--workspace"), outDir = arg("--outDir");
-  const emitterVersion = arg("--emitterVersion"), pushMode = arg("--pushMode", "api-md");
-  const buildNumber = arg("--buildNumber"), buildUrl = arg("--buildUrl"), definitionName = arg("--definitionName");
-  const failedPatchesFile = arg("--failedPatchesFile");
-  if (!workspace || !outDir) { console.error("ERROR: --workspace and --outDir are required"); process.exit(2); }
+  const shardArtifactsRoot = getFlag("--workspace");
+  const outDir = getFlag("--outDir");
+  const emitterVersion = getFlag("--emitterVersion");
+  const patchScope = getFlag("--pushMode", "api-md");
+  const buildNumber = getFlag("--buildNumber");
+  const buildUrl = getFlag("--buildUrl");
+  const pipelineName = getFlag("--definitionName");
+  const droppedFilesListPath = getFlag("--failedPatchesFile");
 
-  const agg = {
-    emitterVersion,
-    regeneration: { total: 0, success: 0, failed: 0, failures: [] },
-    build: { total: 0, success: 0, failed: 0, failures: [] },
-    changelog: { total: 0, generated: 0, failed: [], withBreaking: 0, breakingPackages: [] },
-  };
-  walk(workspace, (f) => {
-    if (path.basename(f) !== "result.json") return;
-    const r = JSON.parse(fs.readFileSync(f, "utf8"));
-    for (const k of ["regeneration", "build"]) {
-      if (!r[k]) continue;
-      agg[k].total += r[k].total; agg[k].success += r[k].success; agg[k].failed += r[k].failed;
-      agg[k].failures.push(...(r[k].failures || []));
-    }
-    if (r.changelog) {
-      agg.changelog.total += r.changelog.total; agg.changelog.generated += r.changelog.generated;
-      agg.changelog.withBreaking += r.changelog.withBreaking;
-      agg.changelog.failed.push(...(r.changelog.failed || []));
-      agg.changelog.breakingPackages.push(...(r.changelog.breakingPackages || []));
-    }
-  });
-  // Normalize failure entries (older shape was just strings; new shape is {pkg, errorTail}).
-  const norm = (x) => (typeof x === "string" ? { pkg: x } : x);
-  agg.regeneration.failures = agg.regeneration.failures.map(norm);
-  agg.build.failures = agg.build.failures.map(norm);
-  agg.changelog.breakingPackages = agg.changelog.breakingPackages.map(norm);
-  // De-dupe by pkg, keeping the first entry (which has errorTail/breakingText).
-  const dedupe = (arr) => Array.from(new Map(arr.map((x) => [x.pkg, x])).values()).sort((a, b) => a.pkg.localeCompare(b.pkg));
-  agg.regeneration.failures = dedupe(agg.regeneration.failures);
-  agg.build.failures = dedupe(agg.build.failures);
-  agg.changelog.breakingPackages = dedupe(agg.changelog.breakingPackages);
-
-  console.log("===== AGGREGATED SUMMARY =====");
-  console.log(`Emitter      : ${agg.emitterVersion}`);
-  console.log(`Regenerated  : ${agg.regeneration.success}/${agg.regeneration.total}  (failed: ${agg.regeneration.failed})`);
-  console.log(`Built        : ${agg.build.success}/${agg.build.total}  (failed: ${agg.build.failed})`);
-  console.log(`Changelogs   : ${agg.changelog.generated}/${agg.changelog.total}  (breaking: ${agg.changelog.withBreaking})`);
-  if (agg.changelog.breakingPackages.length) {
-    console.log("\nBreaking packages:");
-    agg.changelog.breakingPackages.forEach((p) => console.log(`  - ${p.pkg}`));
+  if (!shardArtifactsRoot || !outDir) {
+    console.error("ERROR: --workspace and --outDir are required");
+    process.exit(2);
   }
+
+  const aggregated = aggregateShardResults(shardArtifactsRoot, emitterVersion);
+  printAggregateSummaryToLog(aggregated);
 
   fs.mkdirSync(outDir, { recursive: true });
-  fs.writeFileSync(path.join(outDir, "aggregated-results.json"), JSON.stringify(agg, null, 2));
+  fs.writeFileSync(
+    path.join(outDir, "aggregated-results.json"),
+    JSON.stringify(aggregated, null, 2)
+  );
 
-  const header = [
-    `_Generated by \`${definitionName}\` build [${buildNumber}](${buildUrl})._`,
-    `_Emitter version: \`${agg.emitterVersion}\`. Push mode: \`${pushMode}\`._`, "",
-  ];
+  const droppedConflictFiles = loadDroppedConflictFiles(droppedFilesListPath);
+  const pullRequestBody = renderPullRequestBody({
+    aggregated,
+    pipelineName,
+    buildNumber,
+    buildUrl,
+    patchScope,
+    droppedConflictFiles,
+  });
+  fs.writeFileSync(path.join(outDir, "pr-body.md"), pullRequestBody);
+}
 
-  // ─── pr-body.md (PR description) ─────────────────────────────────────────
-  const body = [...header,
+function aggregateShardResults(shardArtifactsRoot, emitterVersion) {
+  const aggregated = {
+    emitterVersion,
+    regeneration: { total: 0, success: 0, failed: 0, failures: [] },
+    build:        { total: 0, success: 0, failed: 0, failures: [] },
+    changelog:    { total: 0, generated: 0, failed: [], withBreaking: 0, breakingPackages: [] },
+  };
+
+  walkFiles(shardArtifactsRoot, (filePath) => {
+    if (path.basename(filePath) !== "result.json") return;
+    const shardResult = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    for (const stageName of ["regeneration", "build"]) {
+      if (!shardResult[stageName]) continue;
+      aggregated[stageName].total   += shardResult[stageName].total;
+      aggregated[stageName].success += shardResult[stageName].success;
+      aggregated[stageName].failed  += shardResult[stageName].failed;
+      aggregated[stageName].failures.push(...(shardResult[stageName].failures || []));
+    }
+    if (shardResult.changelog) {
+      aggregated.changelog.total        += shardResult.changelog.total;
+      aggregated.changelog.generated    += shardResult.changelog.generated;
+      aggregated.changelog.withBreaking += shardResult.changelog.withBreaking;
+      aggregated.changelog.failed.push(...(shardResult.changelog.failed || []));
+      aggregated.changelog.breakingPackages.push(...(shardResult.changelog.breakingPackages || []));
+    }
+  });
+
+  aggregated.regeneration.failures      = dedupeByPkgAndSort(aggregated.regeneration.failures);
+  aggregated.build.failures             = dedupeByPkgAndSort(aggregated.build.failures);
+  aggregated.changelog.breakingPackages = dedupeByPkgAndSort(aggregated.changelog.breakingPackages);
+  return aggregated;
+}
+
+function dedupeByPkgAndSort(entries) {
+  const normalized = entries.map((entry) => (typeof entry === "string" ? { pkg: entry } : entry));
+  return Array.from(new Map(normalized.map((entry) => [entry.pkg, entry])).values())
+    .sort((a, b) => a.pkg.localeCompare(b.pkg));
+}
+
+function printAggregateSummaryToLog(aggregated) {
+  console.log("===== AGGREGATED SUMMARY =====");
+  console.log(`Emitter      : ${aggregated.emitterVersion}`);
+  console.log(`Regenerated  : ${aggregated.regeneration.success}/${aggregated.regeneration.total}  (failed: ${aggregated.regeneration.failed})`);
+  console.log(`Built        : ${aggregated.build.success}/${aggregated.build.total}  (failed: ${aggregated.build.failed})`);
+  console.log(`Changelogs   : ${aggregated.changelog.generated}/${aggregated.changelog.total}  (breaking: ${aggregated.changelog.withBreaking})`);
+  if (aggregated.changelog.breakingPackages.length) {
+    console.log("\nBreaking packages:");
+    aggregated.changelog.breakingPackages.forEach((pkg) => console.log(`  - ${pkg.pkg}`));
+  }
+}
+
+function loadDroppedConflictFiles(droppedFilesListPath) {
+  if (!droppedFilesListPath || !fs.existsSync(droppedFilesListPath)) return [];
+  return fs.readFileSync(droppedFilesListPath, "utf8")
+    .split("\n").map((line) => line.trim()).filter(Boolean);
+}
+
+function renderPullRequestBody({ aggregated, pipelineName, buildNumber, buildUrl, patchScope, droppedConflictFiles }) {
+  const lines = [
+    `_Generated by \`${pipelineName}\` build [${buildNumber}](${buildUrl})._`,
+    `_Emitter version: \`${aggregated.emitterVersion}\`. Push mode: \`${patchScope}\`._`,
+    "",
     "## Regeneration summary",
-    `- Regenerated: **${agg.regeneration.success}/${agg.regeneration.total}**`,
-    `- Built OK:    **${agg.build.success}/${agg.build.total}**`,
-    `- Changelog generated: **${agg.changelog.generated}/${agg.changelog.total}**`,
-    `- Packages with breaking changes: **${agg.changelog.withBreaking}**`, "",
-    "See `eng/regen-reports/REGEN-SUMMARY.md` for the full per-package list and",
-    "`eng/regen-reports/BREAKING-CHANGES.md` for breaking-change details.",
+    `- Regenerated: **${aggregated.regeneration.success}/${aggregated.regeneration.total}**`,
+    `- Built OK:    **${aggregated.build.success}/${aggregated.build.total}**`,
+    `- Changelog generated: **${aggregated.changelog.generated}/${aggregated.changelog.total}**`,
+    `- Packages with breaking changes: **${aggregated.changelog.withBreaking}**`,
+    "",
+    "See the **regen_summary** build artifact for `aggregated-results.json` " +
+      "(machine-readable counts + per-package failure details and breaking-change excerpts).",
   ];
-  if (failedPatchesFile && fs.existsSync(failedPatchesFile)) {
-    const drops = fs.readFileSync(failedPatchesFile, "utf8").split("\n").map((s) => s.trim()).filter(Boolean);
-    if (drops.length) body.push("", `## Files dropped due to upstream conflicts (${drops.length})`,
-      ...drops.map((f) => `- \`${f}\``));
-  }
-  fs.writeFileSync(path.join(outDir, "pr-body.md"), body.join("\n"));
 
-  // ─── REGEN-SUMMARY.md (committed) — per-package status + error tails ────
-  const summaryMd = [...header,
-    "# Regeneration report", "",
-    "| Stage | Success | Failed | Total |",
-    "|---|---|---|---|",
-    `| Regenerate | ${agg.regeneration.success} | ${agg.regeneration.failed} | ${agg.regeneration.total} |`,
-    `| Build      | ${agg.build.success} | ${agg.build.failed} | ${agg.build.total} |`,
-    `| Changelog  | ${agg.changelog.generated} | ${agg.changelog.failed.length} | ${agg.changelog.total} |`,
-  ];
-  if (agg.regeneration.failures.length) {
-    summaryMd.push("", `## ❌ Regenerate failures (${agg.regeneration.failures.length})`,
-      "_Almost always upstream: stale `tsp-location.yaml`, or a broken spec on `azure-rest-api-specs/main`._");
-    for (const f of agg.regeneration.failures) {
-      summaryMd.push("", `### \`${f.pkg}\``);
-      if (f.errorTail) summaryMd.push("```", f.errorTail, "```");
-    }
-  }
-  if (agg.build.failures.length) {
-    summaryMd.push("", `## ❌ Build failures (${agg.build.failures.length})`,
-      ...agg.build.failures.map((f) => `- \`${f.pkg}\``));
-  }
-  if (agg.changelog.failed.length) {
-    summaryMd.push("", `## ⚠ Changelog generation failures (${agg.changelog.failed.length})`,
-      ...agg.changelog.failed.map((p) => `- \`${p}\``));
-  }
-  fs.writeFileSync(path.join(outDir, "REGEN-SUMMARY.md"), summaryMd.join("\n") + "\n");
+  appendMarkdownPackageList(lines, "❌ Regenerate failures", aggregated.regeneration.failures);
+  appendMarkdownPackageList(lines, "❌ Build failures",      aggregated.build.failures);
+  appendMarkdownPackageList(lines, "⚠ Packages with breaking changes", aggregated.changelog.breakingPackages);
+  appendMarkdownFileList(lines, "Files dropped due to upstream conflicts", droppedConflictFiles);
 
-  // ─── BREAKING-CHANGES.md (committed) — the headline artifact ────────────
-  const breakingMd = [...header,
-    "# Breaking changes", "",
-    `**${agg.changelog.breakingPackages.length}** package(s) reported \`### Breaking Changes\` in their CHANGELOG.md.`, "",
-  ];
-  if (agg.changelog.breakingPackages.length === 0) {
-    breakingMd.push("_No breaking changes detected in this regeneration._ 🎉");
-  } else {
-    for (const b of agg.changelog.breakingPackages) {
-      breakingMd.push(`## \`${b.pkg}\``, "",
-        (b.breakingText && b.breakingText.trim()) || "_(no detail captured; see the package CHANGELOG.md)_", "");
-    }
-  }
-  fs.writeFileSync(path.join(outDir, "BREAKING-CHANGES.md"), breakingMd.join("\n"));
-  // Don't exit non-zero on regen/build failures — we still want a PR for the
-  // packages that DID succeed, with the failure list embedded in the reports.
+  return lines.join("\n");
 }
 
-// ─── Dispatcher ─────────────────────────────────────────────────────────────
-const sub = process.argv[2];
-const wrap = (fn) => Promise.resolve().then(fn).catch((e) => { console.error(e); process.exit(1); });
-switch (sub) {
-  case "resolve-emitter": wrap(runResolveEmitter); break;
-  case "prepare":         runPrepare(); break;
-  case "shard":           wrap(runShard); break;
-  case "aggregate":       runAggregate(); break;
-  case "apply-patches":   runApplyPatches(); break;
-  default:
-    console.error("Usage: regenerate-shard.js <resolve-emitter|prepare|shard|aggregate|apply-patches> [...args]");
-    process.exit(2);
+function appendMarkdownPackageList(lines, sectionTitle, entries) {
+  if (!entries.length) return;
+  lines.push("", `## ${sectionTitle} (${entries.length})`, ...entries.map((e) => `- \`${e.pkg}\``));
 }
+
+function appendMarkdownFileList(lines, sectionTitle, files) {
+  if (!files.length) return;
+  lines.push("", `## ${sectionTitle} (${files.length})`, ...files.map((f) => `- \`${f}\``));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Subcommand: apply-patches
+// Runs only when CreatePullRequest=true. Picks the push token, 3-way applies
+// every shard's changes.patch, then re-aggregates so pr-body.md reflects any
+// conflict drops.
+// ─────────────────────────────────────────────────────────────────────────────
+
+function runApplyPatches() {
+  const [sourceRepoOwner, sourceRepoName] = (getFlag("--sourceRepo") || "").split("/");
+  const targetRepoOwner = getFlag("--targetOwner") || sourceRepoOwner;
+  const targetRepoName  = getFlag("--targetName")  || sourceRepoName;
+  const baseBranch      = getFlag("--targetBranch", "main");
+  const headBranchOverride = getFlag("--branch", "").trim();
+  const buildId         = getFlag("--buildId", "");
+  const shardArtifactsRoot = getFlag("--workspace");
+  const droppedFilesListPath = getFlag("--failedPatchesFile");
+  const outDir = getFlag("--outDir");
+
+  const isTargetingFork = targetRepoOwner !== sourceRepoOwner || targetRepoName !== sourceRepoName;
+  const pushToken = selectPushToken(isTargetingFork, targetRepoOwner, targetRepoName);
+  const headBranchName = resolveHeadBranchName(headBranchOverride, buildId);
+
+  console.log(`Targeting ${isTargetingFork ? "fork" : "source repo"}: ${targetRepoOwner}/${targetRepoName}`);
+
+  repointOriginAndCheckoutBranch(targetRepoOwner, targetRepoName, pushToken, baseBranch, headBranchName);
+  applyAllShardPatches(shardArtifactsRoot, droppedFilesListPath);
+  discardLocalEmitterPackageEdits();
+
+  // Re-aggregate so pr-body.md picks up the conflict drops.
+  if (outDir) runAggregate();
+
+  setPipelineVariable("PRBranchName",     headBranchName);
+  setPipelineVariable("TargetRepoOwner",  targetRepoOwner);
+  setPipelineVariable("TargetRepoName",   targetRepoName);
+  setPipelineVariable("PushToken", pushToken, { isSecret: true });
+}
+
+function selectPushToken(isTargetingFork, targetOwner, targetName) {
+  const token = isTargetingFork
+    ? (process.env.FORK_TOKEN || "")
+    : (process.env.GH_TOKEN_VAL || "");
+  if (isTargetingFork && !token) {
+    console.error(
+      `##[error]Targeting fork ${targetOwner}/${targetName} but no PAT was provided. ` +
+      `Set ForkTokenVariableName to an ADO secret variable holding a GitHub PAT (repo scope).`
+    );
+    process.exit(1);
+  }
+  return token;
+}
+
+function resolveHeadBranchName(headBranchOverride, buildId) {
+  const overrideLower = headBranchOverride.toLowerCase();
+  const isAutoBranch = !headBranchOverride || overrideLower === "empty" || overrideLower === "auto";
+  return isAutoBranch ? `sdk-regenerate-${buildId}` : headBranchOverride;
+}
+
+function repointOriginAndCheckoutBranch(targetOwner, targetName, pushToken, baseBranch, headBranchName) {
+  runShellNoEcho("git", [
+    "remote", "set-url", "origin",
+    `https://x-access-token:${pushToken}@github.com/${targetOwner}/${targetName}.git`,
+  ], SDK_ROOT);
+  runShell(`git fetch origin ${baseBranch} --depth=1`, SDK_ROOT);
+  runShell(`git checkout -B ${headBranchName} FETCH_HEAD`, SDK_ROOT);
+}
+
+function applyAllShardPatches(shardArtifactsRoot, droppedFilesListPath) {
+  fs.writeFileSync(droppedFilesListPath, "");
+  const shardPatchFiles = collectShardPatchFiles(shardArtifactsRoot);
+  for (const patchFile of shardPatchFiles) {
+    console.log(`Applying ${patchFile}`);
+    const applyResult = spawnSync("git", ["apply", "--3way", patchFile], { cwd: SDK_ROOT, stdio: "inherit" });
+    if (applyResult.status === 0) continue;
+    dropConflictedFiles(droppedFilesListPath);
+  }
+}
+
+function collectShardPatchFiles(shardArtifactsRoot) {
+  const patchFiles = [];
+  walkFiles(shardArtifactsRoot, (filePath) => {
+    if (path.basename(filePath) === "changes.patch" && fs.statSync(filePath).size > 0) {
+      patchFiles.push(filePath);
+    }
+  });
+  return patchFiles.sort();
+}
+
+function dropConflictedFiles(droppedFilesListPath) {
+  // We'd rather PR a clean subset than ship a half-merged tree.
+  const conflictedFilesResult = spawnSync(
+    "git", ["diff", "--name-only", "--diff-filter=U"],
+    { cwd: SDK_ROOT, encoding: "utf8" }
+  );
+  const conflictedFiles = (conflictedFilesResult.stdout || "")
+    .split("\n").map((line) => line.trim()).filter(Boolean);
+  for (const conflictedFile of conflictedFiles) {
+    spawnSync("git", ["checkout", "HEAD", "--", conflictedFile], { cwd: SDK_ROOT });
+    spawnSync("git", ["rm", "-f", conflictedFile], { cwd: SDK_ROOT });
+    fs.appendFileSync(droppedFilesListPath, conflictedFile + "\n");
+  }
+}
+
+function discardLocalEmitterPackageEdits() {
+  // The xml/sse peer-dep injection in prepare() must never land in the PR.
+  spawnSync(
+    "git",
+    ["checkout", "--", "eng/emitter-package.json", "eng/emitter-package-lock.json"],
+    { cwd: SDK_ROOT }
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Dispatcher
+// ─────────────────────────────────────────────────────────────────────────────
+
+const SUBCOMMANDS = {
+  "resolve-emitter": runResolveEmitter,
+  "prepare":         runPrepare,
+  "shard":           runShard,
+  "aggregate":       runAggregate,
+  "apply-patches":   runApplyPatches,
+};
+
+const subcommandName = process.argv[2];
+const subcommandHandler = SUBCOMMANDS[subcommandName];
+if (!subcommandHandler) {
+  console.error(`Usage: regenerate-shard.js <${Object.keys(SUBCOMMANDS).join("|")}> [...args]`);
+  process.exit(2);
+}
+Promise.resolve()
+  .then(() => subcommandHandler())
+  .catch((err) => { console.error(err); process.exit(1); });
