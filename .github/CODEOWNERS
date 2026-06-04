@@ -332,7 +332,7 @@
 # Management Libraries
 ####################
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/advisor/arm-advisor/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -405,15 +405,12 @@
 /sdk/cdn/arm-cdn/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-/sdk/changeanalysis/arm-changeanalysis/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
 /sdk/carbonoptimization/arm-carbonoptimization/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cognitiveservices/arm-cognitiveservices/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/confidentialledger/arm-confidentialledger/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -488,7 +485,7 @@
 # PRLabel: %Mgmt
 /sdk/databasewatcher/arm-databasewatcher/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/databox/arm-databox/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -974,7 +971,7 @@
 # PRLabel: %Mgmt
 /sdk/storageimportexport/arm-storageimportexport/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/storagesync/arm-storagesync/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -992,7 +989,7 @@
 # PRLabel: %Mgmt
 /sdk/subscription/arm-subscriptions-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/support/arm-support/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1076,7 +1073,7 @@
 # PRLabel: %Mgmt
 /sdk/sphere/arm-sphere/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/web-pubsub/arm-webpubsub/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1678,6 +1675,9 @@ sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/monitor/arm-monitorworkspaces/ @qiaozha @MaryGao @JialinHuang803
 sdk/edgeorder/arm-edgeorder/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/postgresqlhsc/arm-postgresqlhsc/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config
