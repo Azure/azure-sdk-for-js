@@ -158,18 +158,22 @@ describe("Sample: toLlmInput", () => {
     );
 
     // Page markers in the markdown body should use the original page numbers
-    // (<!-- page 2 -->, <!-- page 3 -->, <!-- page 5 -->), not renumbered (1, 2, 3).
-    assert.ok(
-      !text.includes("<!-- page 1 -->"),
-      "Page marker '<!-- page 1 -->' should not appear — we only requested pages 2-3, 5",
+    // Page markers in the markdown body should use the original page numbers
+    // (<!-- InputPageNumber: 2 -->, <!-- InputPageNumber: 3 -->, <!-- InputPageNumber: 5 -->),
+    // not renumbered (1, 2, 3).
+    assert(
+      !text.includes("<!-- InputPageNumber: 1 -->"),
+      "Page marker '<!-- InputPageNumber: 1 -->' should not appear \u2014 we only requested pages 2-3, 5",
     );
     for (const expectedPage of [2, 3, 5]) {
-      assert.ok(
-        text.includes(`<!-- page ${expectedPage} -->`),
-        `Page marker '<!-- page ${expectedPage} -->' should appear in the markdown body. Output:\n${text.slice(0, 800)}`,
+      assert(
+        text.includes(`<!-- InputPageNumber: ${expectedPage} -->`),
+        `Page marker '<!-- InputPageNumber: ${expectedPage} -->' should appear in the markdown body. Output:\n${text.slice(0, 800)}`,
       );
     }
-    console.log("[PASS] Page markers verified: <!-- page 2 -->, <!-- page 3 -->, <!-- page 5 -->");
+    console.log(
+      "[PASS] Page markers verified: <!-- InputPageNumber: 2 -->, <!-- InputPageNumber: 3 -->, <!-- InputPageNumber: 5 -->",
+    );
 
     console.log(
       `[PASS] toLlmInput output validated (${text.length} chars, pages='2-3, 5' preserved)`,

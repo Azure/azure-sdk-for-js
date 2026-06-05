@@ -54,6 +54,41 @@ const RESERVED_METADATA_KEYS: ReadonlySet<string> = new Set([
 ]);
 
 /**
+ * Marker emitted by {@link toLlmInput} at each page boundary. Future
+ * Content Understanding service versions emit this same marker directly in
+ * the returned markdown (per ContentUnderstanding-Docs#249). When the helper
+ * sees any occurrence of this prefix in the input markdown it treats the
+ * service as having already paginated the content and skips its own
+ * injection to avoid duplicate markers.
+ *
+ * @internal
+ */
+const INPUT_PAGE_MARKER_PREFIX = "<!-- InputPageNumber:";
+
+/**
+ * Message prefixes the Content Understanding service has been observed to
+ * emit into the `warnings` collection that are *not* real Responsible-AI
+ * warnings (they are internal telemetry counters). The helper drops any
+ * warning whose `message` starts with one of these prefixes before
+ * rendering the `rai_warnings` block, so the noise never reaches the LLM.
+ *
+ * @internal
+ */
+const TELEMETRY_MESSAGE_PREFIXES: readonly string[] = ["LLMStats:"];
+
+/**
+ * Returns `true` if `markdown` already contains an `InputPageNumber`
+ * marker. Case-sensitive substring check: a single occurrence is
+ * sufficient, because when the service paginates content it places
+ * markers at every boundary.
+ *
+ * @internal
+ */
+function hasInputPageMarker(markdown: string): boolean {
+  return markdown.includes(INPUT_PAGE_MARKER_PREFIX);
+}
+
+/**
  * Convert a Content Understanding analysis result into LLM-friendly text.
  *
  * Produces a YAML front matter block (delimited by `---`) followed by a
@@ -70,8 +105,10 @@ const RESERVED_METADATA_KEYS: ReadonlySet<string> = new Set([
  * - any caller-supplied `metadata` entries
  *
  * The markdown body contains the extracted text with page-break markers
- * (`<!-- page N -->`) inserted at page boundaries so downstream consumers
- * can locate content by page number.
+ * (`<!-- InputPageNumber: N -->`) inserted at page boundaries so downstream
+ * consumers can locate content by page number. When the service-provided
+ * markdown already contains `<!-- InputPageNumber:` markers, the helper
+ * passes the markdown through unchanged to avoid duplicate markers.
  *
  * For single-content results (documents, images), the output is a flat
  * text block. For multi-segment results (video, audio), each segment is
@@ -411,6 +448,12 @@ function renderContentBlock(
 const PAGE_BREAK_PATTERN = /\n*<!-- PageBreak -->\n*/g;
 
 function addPageMarkers(content: DocumentContent, markdown: string): string {
+  // If the service already inserted InputPageNumber markers (per
+  // ContentUnderstanding-Docs#249) pass the markdown through unchanged
+  // to avoid emitting duplicate markers.
+  if (hasInputPageMarker(markdown)) {
+    return markdown;
+  }
   if (content.pages && content.pages.length > 0) {
     const fromSpans = pageMarkersFromSpans(markdown, content.pages);
     if (fromSpans !== markdown) {
@@ -462,7 +505,7 @@ function pageMarkersFromSpans(markdown: string, pages: DocumentPage[]): string {
     if (adj > prev) {
       parts.push(cleaned.substring(prev, adj));
     }
-    parts.push(`<!-- page ${marker.pageNumber} -->\n\n`);
+    parts.push(`${INPUT_PAGE_MARKER_PREFIX} ${marker.pageNumber} -->\n\n`);
     prev = adj;
   }
   if (prev < cleaned.length) {
@@ -479,7 +522,7 @@ function pageMarkersFromBreaks(markdown: string, content: DocumentContent): stri
   for (let i = 0; i < chunks.length; i++) {
     const text = chunks[i].trim();
     if (text) {
-      parts.push(`<!-- page ${startPage + i} -->\n\n${text}`);
+      parts.push(`${INPUT_PAGE_MARKER_PREFIX} ${startPage + i} -->\n\n${text}`);
     }
   }
   return parts.join("\n\n");
@@ -566,12 +609,20 @@ function formatWarnings(warnings: ErrorModel[]): Record<string, string>[] {
     if (!w) {
       continue;
     }
+    const message = w.message;
+    // Skip internal service telemetry strings (e.g. `LLMStats: ...`) that
+    // occasionally leak into the warnings collection. These are not
+    // Responsible-AI warnings and would otherwise be rendered into the
+    // LLM-facing `rai_warnings` block.
+    if (message && isTelemetryMessage(message)) {
+      continue;
+    }
     const entry: Record<string, string> = {};
     if (w.code) {
       entry.code = w.code;
     }
-    if (w.message) {
-      entry.message = w.message;
+    if (message) {
+      entry.message = message;
     }
     if (w.target) {
       entry.target = w.target;
@@ -581,6 +632,16 @@ function formatWarnings(warnings: ErrorModel[]): Record<string, string>[] {
     }
   }
   return items;
+}
+
+function isTelemetryMessage(message: string): boolean {
+  const trimmed = message.replace(/^[\s]+/, "");
+  for (const prefix of TELEMETRY_MESSAGE_PREFIXES) {
+    if (trimmed.startsWith(prefix)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 // ---------------------------------------------------------------------------
