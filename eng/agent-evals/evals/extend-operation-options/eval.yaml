@@ -1,0 +1,117 @@
+# Regression eval: when adding a new public method to a client in
+# @azure/template, any optional parameter bag MUST extend
+# `OperationOptions` from a core package. This rule is one of the
+# Azure SDK for JS design guidelines surfaced via AGENTS.md and
+# .github/skills/sdk-workflow.
+#
+# ⚠️  MIGRATION CANDIDATE — this rule is better enforced by a lint rule.
+# `eslint-plugin-azure-sdk` already has `ts-naming-options` which
+# validates the naming half of the rule. Extending it to also check
+# the `extends OperationOptions` chain on options interfaces is
+# straightforward. Once that lint rule lands, this eval becomes
+# redundant and should be retired. Tracked separately as an
+# eslint-plugin-azure-sdk feature request.
+#
+# Until then, this eval serves dual purpose:
+#   1. Smoke test for the vally framework itself (we know it runs
+#      end-to-end against a real SDK package).
+#   2. Behavioral check on the rule, in case the lint rule misses a
+#      pattern (e.g. type aliases vs interfaces, indirect extension).
+#
+# Environment strategy: whole-repo git worktree. The agent has access
+# to every tracked file in the repo — AGENTS.md, every skill under
+# .github/skills/, every sdk/* package. This means new skills added
+# to .github/skills/ are automatically exercised by this eval with no
+# changes needed.
+#
+# Future extensions:
+#   - run-command graders that build + test the package (requires
+#     switching to Strategy B in eng/agent-evals/README.md, since
+#     pnpm install creates symlinks that break vally's globbing graders)
+#   - prompt LLM-judge graders for naming / TSDoc quality
+#   - additional stimuli targeting other design-guideline rules
+#   - additional client packages (key vault, storage, etc.)
+
+name: extend-operation-options
+description: |
+  Verify that an agent adding a method with an options bag to @azure/template
+  extends OperationOptions from a core package, as required by the Azure
+  SDK for JS design guidelines.
+type: capability
+
+config:
+  runs: 1
+  timeout: 5m
+
+environment:
+  # Strategy A: whole-repo worktree from HEAD. The agent sees every tracked
+  # file — AGENTS.md, all .github/skills/*, every sdk/* package, docs. Any
+  # skill we add to .github/skills/ in the future is automatically in scope
+  # without changing this eval.
+  #
+  # No node_modules (gitignored, so `git worktree` doesn't materialize it),
+  # which avoids the pnpm-symlink-loop OOM we hit earlier with `files:` that
+  # included built node_modules.
+  #
+  # `source` is relative to this eval.yaml. We are four directories below
+  # the repo root: eng/agent-evals/evals/extend-operation-options/.
+  #
+  # Trade-off: the agent cannot build or test (no node_modules). For evals
+  # that need that, see Strategy B in eng/agent-evals/README.md.
+  git:
+    type: worktree
+    ref: HEAD
+    source: ../../../..
+
+stimuli:
+  - name: add-method-with-options
+    prompt: |
+      Edit `sdk/template/template/src/widgetAnalyticsClient.ts` in the
+      workspace. Add a new public method to the `WidgetAnalyticsClient`
+      class with this exact signature:
+
+          getWidgetSummary(options?: GetWidgetSummaryOptions): Promise<string>
+
+      Have the method return `Promise.resolve("ok")` — no network call.
+
+      Define and export an `interface GetWidgetSummaryOptions` in the
+      same file (or in a sibling module if that's the package's
+      established pattern). The options interface MUST satisfy the Azure
+      SDK for JS design guideline surfaced in `AGENTS.md` and
+      `.github/skills/sdk-workflow/SKILL.md` regarding optional parameter
+      bags on client methods. Read those documents to discover which
+      base type to use and which package to import it from.
+
+      Do not modify any file outside `sdk/template/template/`.
+
+    constraints:
+      max_turns: 12
+
+    graders:
+      # The rule under test: the options type extends OperationOptions.
+      - type: file-matches
+        config:
+          path: "sdk/template/template/src/**/*.ts"
+          pattern: "interface\\s+GetWidgetSummaryOptions\\s+extends\\s+OperationOptions"
+
+      # OperationOptions must come from a core package, not be invented
+      # locally. Accept `@azure/core-client`, `@azure/core-rest-pipeline`,
+      # or `@azure-rest/core-client` (the modular/REST flavor — what
+      # `@azure/template` itself uses).
+      - type: file-matches
+        config:
+          path: "sdk/template/template/src/**/*.ts"
+          pattern: "import\\s+(type\\s+)?\\{[^}]*OperationOptions[^}]*\\}\\s+from\\s+\"@azure(-rest)?/core-(client|rest-pipeline)\""
+
+      # Baseline: the agent completed without errors and produced output.
+      - type: completed
+
+# Vally 0.5.0 note: scoring.weights are validated but NOT applied by the
+# scorer — the final score is the unweighted mean of grader scores. We
+# control verdict via grader count + threshold instead.
+#
+# 3 graders (two file-matches + completed). Threshold 0.7 means at
+# least 3/3 must pass (2/3 = 0.667 < 0.7). Either file-matches failing
+# fails the eval.
+scoring:
+  threshold: 0.7

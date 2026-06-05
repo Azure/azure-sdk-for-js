@@ -1,0 +1,110 @@
+# P0-4: consult-package-skill
+#
+# Tests that the agent consults the `find-package-skill` registry
+# (and the relevant package-specific SKILL.md when one exists) before
+# proposing changes to a package under sdk/. This is a process-step
+# check, not a code-state check.
+#
+# Surfaced by:
+#   - .github/skills/find-package-skill/SKILL.md:
+#     "Always check this registry before modifying any SDK package —
+#      even if you think you already know the package well."
+#
+# Why this is an eval, not a linter:
+# This tests an agent PROCESS STEP — did the agent read file X before
+# deciding to edit file Y? There's no code state to lint; the file
+# system after a "read" doesn't differ from one without it. Only a
+# trajectory-aware test can verify the agent followed the routing
+# guidance.
+#
+# Target: @azure/search-documents — currently the only package with a
+# registered package-specific skill (per find-package-skill/SKILL.md's
+# Package Skills table). If/when more packages register, we can
+# parameterize this eval over them.
+#
+# Stimulus is "read and report" — we tell the agent to read files but
+# not to edit anything. This requires actual file reads (so the
+# tool-calls grader has teeth) while keeping grading deterministic
+# (we don't have to grade a subjective code change).
+#
+# Prior wording ("walk me through how you would orient yourself") was
+# too passive — the agent answered with a plan instead of executing
+# it, ending with "want me to actually do it?" That's not the
+# regression class we care about; we care about whether the agent
+# READS THE RIGHT FILES when given a real task in a package.
+
+name: consult-package-skill
+description: |
+  Verify the agent reads find-package-skill/SKILL.md (or the relevant
+  package-specific SKILL.md) before proposing changes to a package
+  that has a registered skill.
+type: capability
+
+config:
+  runs: 1
+  timeout: 3m
+
+environment:
+  git:
+    type: worktree
+    ref: HEAD
+    source: ../../../..
+
+stimuli:
+  - name: orient-in-search-documents
+    prompt: |
+      I want to add a small feature to `@azure/search-documents`.
+
+      **Start by orienting yourself in the package.** Read whatever
+      docs, skill files, or source files you need to in order to
+      understand what kind of package this is, what conventions it
+      follows, and what an agent should know before touching it.
+
+      After you've finished reading, give me a short summary of what
+      you found and what an agent should know before making changes.
+      Do not propose specific code changes or edit any files in this
+      turn — just read and report.
+
+    constraints:
+      max_turns: 8
+
+    graders:
+      # The agent must read one of:
+      #   - .github/skills/find-package-skill/SKILL.md (the registry)
+      #   - the package-specific search-documents SKILL.md
+      # We match either via a single regex on the view-tool path arg.
+      - type: tool-calls
+        config:
+          required:
+            - name: "^(view|read|cat)$"
+              path: "(\\.github/skills/find-package-skill/SKILL\\.md|search-documents/SKILL\\.md)"
+
+      # Behavioral check that the agent didn't just *read* the skill but
+      # actually *absorbed* package-specific content. The search-documents
+      # skill teaches: never edit `generated/`, two-layer architecture,
+      # specific hand-authored client files, customization workflow. If
+      # the agent's summary mentions any of those, we have evidence the
+      # skill content reached the output — not just the file system.
+      #
+      # Weight is intentionally low because the baseline run (with all
+      # repo prose deleted) still matched this pattern: an unguided agent
+      # can derive most of these concepts from `tsp-location.yaml` +
+      # `package.json` + the directory layout alone. The pattern is a
+      # useful sanity check but is NOT the rule under test — `tool-calls`
+      # above is. Treat this grader as advisory.
+      - type: output-matches
+        config:
+          pattern: "(?i)(generated/|hand-authored|customization|two-layer|never\\s+(?:edit|hand-edit|touch))"
+
+      - type: completed
+
+# Vally 0.5.0 note: scoring.weights are validated but NOT applied by the
+# scorer — the final score is the unweighted mean of grader scores. We
+# control verdict via grader count + threshold instead.
+#
+# 3 graders. Threshold 0.7 means at least 3/3 must pass to clear
+# (2/3 = 0.667 < 0.7). The `tool-calls` grader is the rule under test;
+# if it fails, the eval fails. Baseline confirmed this works as
+# intended.
+scoring:
+  threshold: 0.7
