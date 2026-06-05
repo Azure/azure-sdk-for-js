@@ -110,7 +110,7 @@
     "vitest": "catalog:testing"
   },
   "dependencies": {
-    "tslib": "^2.6.2"
+    "tslib": "catalog:"
   },
   "//metadata": {
     "sampleConfiguration": {

@@ -65,7 +65,7 @@
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
     "rhea": "^3.0.2",
-    "tslib": "^2.6.3"
+    "tslib": "catalog:"
   },
   "//sampleConfiguration": {
     "productName": "Internal Mock Hub",

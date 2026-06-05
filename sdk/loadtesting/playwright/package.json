@@ -77,7 +77,7 @@
     "@azure/core-util": "^1.13.0",
     "@azure/logger": "^1.1.4",
     "@azure/storage-blob": "^12.24.0",
-    "tslib": "^2.8.1"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-tools/test-utils-vitest": "workspace:^",

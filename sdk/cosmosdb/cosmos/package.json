@@ -80,7 +80,7 @@
     "fast-json-stable-stringify": "^2.1.0",
     "priorityqueuejs": "^2.0.0",
     "semaphore": "^1.1.0",
-    "tslib": "^2.8.1"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-tools/test-utils-vitest": "workspace:^",

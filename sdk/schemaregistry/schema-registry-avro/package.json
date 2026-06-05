@@ -65,7 +65,7 @@
     "@azure/schema-registry": "^1.2.0",
     "avsc": "^5.5.1",
     "lru-cache": "^11.1.0",
-    "tslib": "^2.8.1"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",

@@ -71,7 +71,7 @@
     "glob": "^13.0.0",
     "inquirer": "^13.0.1",
     "mustache": "^4.2.0",
-    "tslib": "^2.6.2",
+    "tslib": "catalog:",
     "yargs-parser": "^22.0.0"
   },
   "exports": {

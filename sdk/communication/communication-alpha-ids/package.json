@@ -60,7 +60,7 @@
     "@azure/core-rest-pipeline": "^1.17.0",
     "@azure/core-tracing": "^1.2.0",
     "@azure/logger": "^1.1.4",
-    "tslib": "^2.7.0"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",

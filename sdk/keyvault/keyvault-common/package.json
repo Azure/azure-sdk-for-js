@@ -57,7 +57,7 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-util": "^1.10.0",
     "@azure/logger": "^1.1.4",
-    "tslib": "^2.2.0"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-tools/test-utils-vitest": "workspace:^",

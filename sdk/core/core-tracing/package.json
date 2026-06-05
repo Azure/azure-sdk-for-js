@@ -72,7 +72,7 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
-    "tslib": "^2.6.2"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure/core-auth": "workspace:^",

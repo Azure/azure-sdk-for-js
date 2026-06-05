@@ -68,7 +68,7 @@
     "@opentelemetry/core": "^2.0.0",
     "@opentelemetry/instrumentation": "^0.211.0",
     "@opentelemetry/sdk-trace-web": "^2.0.0",
-    "tslib": "^2.7.0"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure/core-rest-pipeline": "workspace:^",

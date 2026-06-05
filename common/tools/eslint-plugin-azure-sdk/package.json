@@ -85,7 +85,7 @@
     "@typescript-eslint/typescript-estree": "~8.60.0",
     "eslint-config-prettier": "^10.0.1",
     "glob": "^13.0.0",
-    "tslib": "^2.6.2",
+    "tslib": "catalog:",
     "typescript": "~6.0.2",
     "typescript-eslint": "~8.60.0"
   },

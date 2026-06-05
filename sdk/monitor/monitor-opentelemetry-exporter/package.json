@@ -97,7 +97,7 @@
     "@opentelemetry/sdk-metrics": "^2.7.1",
     "@opentelemetry/sdk-trace-base": "^2.7.1",
     "@opentelemetry/semantic-conventions": "^1.40.0",
-    "tslib": "^2.8.1",
+    "tslib": "catalog:",
     "@azure/core-util": "^1.11.0"
   },
   "sideEffects": false,

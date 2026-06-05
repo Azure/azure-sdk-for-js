@@ -51,7 +51,7 @@
     "@azure/identity": "^4.8.0",
     "@azure/keyvault-keys": "^4.9.0",
     "dotenv": "^16.0.0",
-    "tslib": "^2.8.1"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure/dev-tool": "workspace:^",
