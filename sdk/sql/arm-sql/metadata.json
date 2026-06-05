@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Sql": "2025-01-01"
   },
-  "emitterVersion": "0.54.0",
+  "emitterVersion": "0.54.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Sql",
     "CrossLanguageDefinitionId": {
