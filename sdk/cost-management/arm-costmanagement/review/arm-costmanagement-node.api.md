@@ -4,11 +4,16 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AccumulatedType = string;
@@ -17,13 +22,14 @@ export type AccumulatedType = string;
 export type ActionType = string;
 
 // @public
-export interface Alert extends CostManagementProxyResource {
+export interface Alert extends ExtensionResource {
     closeTime?: string;
     costEntityId?: string;
     creationTime?: string;
     definition?: AlertPropertiesDefinition;
     description?: string;
     details?: AlertPropertiesDetails;
+    eTag?: string;
     modificationTime?: string;
     source?: AlertSource;
     status?: AlertStatus;
@@ -39,6 +45,21 @@ export type AlertCriteria = string;
 
 // @public
 export type AlertOperator = string;
+
+// @public
+export interface AlertProperties {
+    closeTime?: string;
+    costEntityId?: string;
+    creationTime?: string;
+    definition?: AlertPropertiesDefinition;
+    description?: string;
+    details?: AlertPropertiesDetails;
+    modificationTime?: string;
+    source?: AlertSource;
+    status?: AlertStatus;
+    statusModificationTime?: string;
+    statusModificationUserName?: string;
+}
 
 // @public
 export interface AlertPropertiesDefinition {
@@ -66,7 +87,7 @@ export interface AlertPropertiesDetails {
     periodStartDate?: string;
     resourceFilter?: any[];
     resourceGroupFilter?: any[];
-    tagFilter?: Record<string, unknown>;
+    tagFilter?: any;
     threshold?: number;
     timeGrainType?: AlertTimeGrainType;
     triggeredBy?: string;
@@ -74,40 +95,28 @@ export interface AlertPropertiesDetails {
 }
 
 // @public
-export interface Alerts {
-    dismiss(scope: string, alertId: string, parameters: DismissAlertPayload, options?: AlertsDismissOptionalParams): Promise<AlertsDismissResponse>;
-    get(scope: string, alertId: string, options?: AlertsGetOptionalParams): Promise<AlertsGetResponse>;
-    list(scope: string, options?: AlertsListOptionalParams): Promise<AlertsListResponse>;
-    listExternal(externalCloudProviderType: ExternalCloudProviderType, externalCloudProviderId: string, options?: AlertsListExternalOptionalParams): Promise<AlertsListExternalResponse>;
+export interface AlertsDismissOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AlertsDismissOptionalParams extends coreClient.OperationOptions {
+export interface AlertsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AlertsDismissResponse = Alert;
-
-// @public
-export interface AlertsGetOptionalParams extends coreClient.OperationOptions {
+export interface AlertsListExternalOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AlertsGetResponse = Alert;
-
-// @public
-export interface AlertsListExternalOptionalParams extends coreClient.OperationOptions {
+export interface AlertsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AlertsListExternalResponse = AlertsResult;
-
-// @public
-export interface AlertsListOptionalParams extends coreClient.OperationOptions {
+export interface AlertsOperations {
+    dismiss: (scope: string, alertId: string, parameters: DismissAlertPayload, options?: AlertsDismissOptionalParams) => Promise<Alert>;
+    get: (scope: string, alertId: string, options?: AlertsGetOptionalParams) => Promise<Alert>;
+    list: (scope: string, options?: AlertsListOptionalParams) => Promise<AlertsResult>;
+    listExternal: (externalCloudProviderType: ExternalCloudProviderType, externalCloudProviderId: string, options?: AlertsListExternalOptionalParams) => Promise<AlertsResult>;
 }
-
-// @public
-export type AlertsListResponse = AlertsResult;
 
 // @public
 export type AlertSource = string;
@@ -147,6 +156,28 @@ export interface AllSavingsList {
 }
 
 // @public
+export interface ArmErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export interface AsyncOperationStatusProperties {
+    reportUrl?: BenefitUtilizationSummaryReportSchema;
+    secondaryReportUrl?: BenefitUtilizationSummaryReportSchema;
+    validUntil?: Date;
+}
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export type BenefitKind = string;
 
 // @public
@@ -165,41 +196,25 @@ export interface BenefitRecommendationProperties {
     readonly lastConsumptionDate?: Date;
     lookBackPeriod?: LookBackPeriod;
     recommendationDetails?: AllSavingsBenefitDetails;
-    scope: "Single" | "Shared";
+    scope: Scope;
     term?: Term;
     readonly totalHours?: number;
     usage?: RecommendationUsageDetails;
 }
 
-// @public (undocumented)
-export type BenefitRecommendationPropertiesUnion = BenefitRecommendationProperties | SingleScopeBenefitRecommendationProperties | SharedScopeBenefitRecommendationProperties;
+// @public
+export type BenefitRecommendationPropertiesUnion = SingleScopeBenefitRecommendationProperties | SharedScopeBenefitRecommendationProperties | BenefitRecommendationProperties;
 
 // @public
-export interface BenefitRecommendations {
-    list(billingScope: string, options?: BenefitRecommendationsListOptionalParams): PagedAsyncIterableIterator<BenefitRecommendationModel>;
-}
-
-// @public
-export interface BenefitRecommendationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BenefitRecommendationsListNextResponse = BenefitRecommendationsListResult;
-
-// @public
-export interface BenefitRecommendationsListOptionalParams extends coreClient.OperationOptions {
+export interface BenefitRecommendationsListOptionalParams extends OperationOptions {
     expand?: string;
     filter?: string;
     orderby?: string;
 }
 
 // @public
-export type BenefitRecommendationsListResponse = BenefitRecommendationsListResult;
-
-// @public
-export interface BenefitRecommendationsListResult {
-    readonly nextLink?: string;
-    readonly value?: BenefitRecommendationModel[];
+export interface BenefitRecommendationsOperations {
+    list: (billingScope: string, options?: BenefitRecommendationsListOptionalParams) => PagedAsyncIterableIterator<BenefitRecommendationModel>;
 }
 
 // @public
@@ -208,81 +223,54 @@ export interface BenefitResource extends Resource {
 }
 
 // @public
-export interface BenefitUtilizationSummaries {
-    listByBillingAccountId(billingAccountId: string, options?: BenefitUtilizationSummariesListByBillingAccountIdOptionalParams): PagedAsyncIterableIterator<BenefitUtilizationSummaryUnion>;
-    listByBillingProfileId(billingAccountId: string, billingProfileId: string, options?: BenefitUtilizationSummariesListByBillingProfileIdOptionalParams): PagedAsyncIterableIterator<BenefitUtilizationSummaryUnion>;
-    listBySavingsPlanId(savingsPlanOrderId: string, savingsPlanId: string, options?: BenefitUtilizationSummariesListBySavingsPlanIdOptionalParams): PagedAsyncIterableIterator<BenefitUtilizationSummaryUnion>;
-    listBySavingsPlanOrder(savingsPlanOrderId: string, options?: BenefitUtilizationSummariesListBySavingsPlanOrderOptionalParams): PagedAsyncIterableIterator<BenefitUtilizationSummaryUnion>;
-}
-
-// @public
-export interface BenefitUtilizationSummariesListByBillingAccountIdNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BenefitUtilizationSummariesListByBillingAccountIdNextResponse = BenefitUtilizationSummariesListResult;
-
-// @public
-export interface BenefitUtilizationSummariesListByBillingAccountIdOptionalParams extends coreClient.OperationOptions {
+export interface BenefitUtilizationSummariesListByBillingAccountIdOptionalParams extends OperationOptions {
     filter?: string;
     grainParameter?: GrainParameter;
 }
 
 // @public
-export type BenefitUtilizationSummariesListByBillingAccountIdResponse = BenefitUtilizationSummariesListResult;
-
-// @public
-export interface BenefitUtilizationSummariesListByBillingProfileIdNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BenefitUtilizationSummariesListByBillingProfileIdNextResponse = BenefitUtilizationSummariesListResult;
-
-// @public
-export interface BenefitUtilizationSummariesListByBillingProfileIdOptionalParams extends coreClient.OperationOptions {
+export interface BenefitUtilizationSummariesListByBillingProfileIdOptionalParams extends OperationOptions {
     filter?: string;
     grainParameter?: GrainParameter;
 }
 
 // @public
-export type BenefitUtilizationSummariesListByBillingProfileIdResponse = BenefitUtilizationSummariesListResult;
-
-// @public
-export interface BenefitUtilizationSummariesListBySavingsPlanIdNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BenefitUtilizationSummariesListBySavingsPlanIdNextResponse = BenefitUtilizationSummariesListResult;
-
-// @public
-export interface BenefitUtilizationSummariesListBySavingsPlanIdOptionalParams extends coreClient.OperationOptions {
+export interface BenefitUtilizationSummariesListBySavingsPlanIdOptionalParams extends OperationOptions {
     filter?: string;
     grainParameter?: GrainParameter;
 }
 
 // @public
-export type BenefitUtilizationSummariesListBySavingsPlanIdResponse = BenefitUtilizationSummariesListResult;
-
-// @public
-export interface BenefitUtilizationSummariesListBySavingsPlanOrderNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BenefitUtilizationSummariesListBySavingsPlanOrderNextResponse = BenefitUtilizationSummariesListResult;
-
-// @public
-export interface BenefitUtilizationSummariesListBySavingsPlanOrderOptionalParams extends coreClient.OperationOptions {
+export interface BenefitUtilizationSummariesListBySavingsPlanOrderOptionalParams extends OperationOptions {
     filter?: string;
     grainParameter?: GrainParameter;
 }
 
 // @public
-export type BenefitUtilizationSummariesListBySavingsPlanOrderResponse = BenefitUtilizationSummariesListResult;
+export interface BenefitUtilizationSummariesOperations {
+    listByBillingAccountId: (billingAccountId: string, options?: BenefitUtilizationSummariesListByBillingAccountIdOptionalParams) => PagedAsyncIterableIterator<BenefitUtilizationSummaryUnion>;
+    listByBillingProfileId: (billingAccountId: string, billingProfileId: string, options?: BenefitUtilizationSummariesListByBillingProfileIdOptionalParams) => PagedAsyncIterableIterator<BenefitUtilizationSummaryUnion>;
+    listBySavingsPlanId: (savingsPlanOrderId: string, savingsPlanId: string, options?: BenefitUtilizationSummariesListBySavingsPlanIdOptionalParams) => PagedAsyncIterableIterator<BenefitUtilizationSummaryUnion>;
+    listBySavingsPlanOrder: (savingsPlanOrderId: string, options?: BenefitUtilizationSummariesListBySavingsPlanOrderOptionalParams) => PagedAsyncIterableIterator<BenefitUtilizationSummaryUnion>;
+}
 
 // @public
-export interface BenefitUtilizationSummariesListResult {
-    readonly nextLink?: string;
-    readonly value?: BenefitUtilizationSummaryUnion[];
+export interface BenefitUtilizationSummariesOperationStatus {
+    input?: BenefitUtilizationSummariesRequest;
+    properties?: AsyncOperationStatusProperties;
+    status?: OperationStatusType;
+}
+
+// @public
+export interface BenefitUtilizationSummariesRequest {
+    benefitId?: string;
+    benefitOrderId?: string;
+    billingAccountId?: string;
+    billingProfileId?: string;
+    endDate: Date;
+    grain: Grain;
+    kind?: BenefitKind;
+    startDate: Date;
 }
 
 // @public
@@ -299,14 +287,102 @@ export interface BenefitUtilizationSummaryProperties {
     readonly usageDate?: Date;
 }
 
-// @public (undocumented)
-export type BenefitUtilizationSummaryUnion = BenefitUtilizationSummary | IncludedQuantityUtilizationSummary | SavingsPlanUtilizationSummary;
+// @public
+export type BenefitUtilizationSummaryReportSchema = string;
+
+// @public
+export type BenefitUtilizationSummaryUnion = IncludedQuantityUtilizationSummary | SavingsPlanUtilizationSummary | BenefitUtilizationSummary;
 
 // @public
 export interface BlobInfo {
     blobLink?: string;
     byteCount?: number;
 }
+
+// @public
+export interface Budget extends ExtensionResource {
+    amount?: number;
+    category?: CategoryType;
+    readonly currentSpend?: CurrentSpend;
+    eTag?: string;
+    filter?: BudgetFilter;
+    readonly forecastSpend?: ForecastSpend;
+    notifications?: Record<string, Notification>;
+    timeGrain?: TimeGrainType;
+    timePeriod?: BudgetTimePeriod;
+}
+
+// @public
+export interface BudgetComparisonExpression {
+    name: string;
+    operator: BudgetOperatorType;
+    values: string[];
+}
+
+// @public
+export interface BudgetFilter {
+    and?: BudgetFilterProperties[];
+    dimensions?: BudgetComparisonExpression;
+    tags?: BudgetComparisonExpression;
+}
+
+// @public
+export interface BudgetFilterProperties {
+    dimensions?: BudgetComparisonExpression;
+    tags?: BudgetComparisonExpression;
+}
+
+// @public
+export type BudgetNotificationOperatorType = string;
+
+// @public
+export type BudgetOperatorType = string;
+
+// @public
+export interface BudgetProperties {
+    amount?: number;
+    category: CategoryType;
+    readonly currentSpend?: CurrentSpend;
+    filter?: BudgetFilter;
+    readonly forecastSpend?: ForecastSpend;
+    notifications?: Record<string, Notification>;
+    timeGrain: TimeGrainType;
+    timePeriod: BudgetTimePeriod;
+}
+
+// @public
+export interface BudgetsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BudgetsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BudgetsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BudgetsListOptionalParams extends OperationOptions {
+    filter?: string;
+}
+
+// @public
+export interface BudgetsOperations {
+    createOrUpdate: (scope: string, budgetName: string, parameters: Budget, options?: BudgetsCreateOrUpdateOptionalParams) => Promise<Budget>;
+    delete: (scope: string, budgetName: string, options?: BudgetsDeleteOptionalParams) => Promise<void>;
+    get: (scope: string, budgetName: string, options?: BudgetsGetOptionalParams) => Promise<Budget>;
+    list: (scope: string, options?: BudgetsListOptionalParams) => PagedAsyncIterableIterator<Budget>;
+}
+
+// @public
+export interface BudgetTimePeriod {
+    endDate?: Date;
+    startDate: Date;
+}
+
+// @public
+export type CategoryType = string;
 
 // @public
 export type ChartType = string;
@@ -329,12 +405,104 @@ export interface CheckNameAvailabilityResponse {
 
 // @public
 export interface CommonExportProperties {
+    compressionMode?: CompressionModeType;
+    dataOverwriteBehavior?: DataOverwriteBehaviorType;
     definition: ExportDefinition;
     deliveryInfo: ExportDeliveryInfo;
+    exportDescription?: string;
     format?: FormatType;
     readonly nextRunTimeEstimate?: Date;
     partitionData?: boolean;
     runHistory?: ExportExecutionListResult;
+    readonly systemSuspensionContext?: ExportSuspensionContext;
+}
+
+// @public
+export type CompressionModeType = string;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CostAllocationPolicyType = string;
+
+// @public
+export interface CostAllocationProportion {
+    name: string;
+    percentage: number;
+}
+
+// @public
+export interface CostAllocationResource {
+    name: string;
+    resourceType: CostAllocationResourceType;
+}
+
+// @public
+export type CostAllocationResourceType = string;
+
+// @public
+export interface CostAllocationRuleCheckNameAvailabilityRequest {
+    name?: string;
+    type?: string;
+}
+
+// @public
+export interface CostAllocationRuleCheckNameAvailabilityResponse {
+    message?: string;
+    nameAvailable?: boolean;
+    reason?: Reason;
+}
+
+// @public
+export interface CostAllocationRuleDefinition extends ProxyResource {
+    properties?: CostAllocationRuleProperties;
+}
+
+// @public
+export interface CostAllocationRuleDetails {
+    sourceResources?: SourceCostAllocationResource[];
+    targetResources?: TargetCostAllocationResource[];
+}
+
+// @public
+export interface CostAllocationRuleProperties {
+    readonly createdDate?: Date;
+    description?: string;
+    details: CostAllocationRuleDetails;
+    status: RuleStatus;
+    readonly updatedDate?: Date;
+}
+
+// @public
+export interface CostAllocationRulesCheckNameAvailabilityOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CostAllocationRulesCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CostAllocationRulesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CostAllocationRulesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CostAllocationRulesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CostAllocationRulesOperations {
+    checkNameAvailability: (billingAccountId: string, costAllocationRuleCheckNameAvailabilityRequest: CostAllocationRuleCheckNameAvailabilityRequest, options?: CostAllocationRulesCheckNameAvailabilityOptionalParams) => Promise<CostAllocationRuleCheckNameAvailabilityResponse>;
+    createOrUpdate: (billingAccountId: string, ruleName: string, costAllocationRule: CostAllocationRuleDefinition, options?: CostAllocationRulesCreateOrUpdateOptionalParams) => Promise<CostAllocationRuleDefinition>;
+    delete: (billingAccountId: string, ruleName: string, options?: CostAllocationRulesDeleteOptionalParams) => Promise<void>;
+    get: (billingAccountId: string, ruleName: string, options?: CostAllocationRulesGetOptionalParams) => Promise<CostAllocationRuleDefinition>;
+    list: (billingAccountId: string, options?: CostAllocationRulesListOptionalParams) => PagedAsyncIterableIterator<CostAllocationRuleDefinition>;
 }
 
 // @public
@@ -354,8 +522,7 @@ export interface CostDetailsOperationResults {
     id?: string;
     manifestVersion?: string;
     name?: string;
-    requestBody?: GenerateCostDetailsReportRequestDefinition;
-    requestScope?: string;
+    requestContext?: RequestContext;
     status?: CostDetailsStatusType;
     type?: string;
     validTill?: Date;
@@ -371,51 +538,35 @@ export interface CostDetailsTimePeriod {
 }
 
 // @public (undocumented)
-export class CostManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, options?: CostManagementClientOptionalParams);
-    // (undocumented)
-    alerts: Alerts;
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    benefitRecommendations: BenefitRecommendations;
-    // (undocumented)
-    benefitUtilizationSummaries: BenefitUtilizationSummaries;
-    // (undocumented)
-    dimensions: Dimensions;
-    // (undocumented)
-    exports: Exports;
-    // (undocumented)
-    forecast: Forecast;
-    // (undocumented)
-    generateCostDetailsReport: GenerateCostDetailsReport;
-    // (undocumented)
-    generateDetailedCostReport: GenerateDetailedCostReport;
-    // (undocumented)
-    generateDetailedCostReportOperationResults: GenerateDetailedCostReportOperationResults;
-    // (undocumented)
-    generateDetailedCostReportOperationStatus: GenerateDetailedCostReportOperationStatus;
-    // (undocumented)
-    generateReservationDetailsReport: GenerateReservationDetailsReport;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    priceSheet: PriceSheet;
-    // (undocumented)
-    query: Query;
-    // (undocumented)
-    scheduledActions: ScheduledActions;
-    // (undocumented)
-    views: Views;
+export class CostManagementClient {
+    constructor(credential: TokenCredential, options?: CostManagementClientOptionalParams);
+    readonly alerts: AlertsOperations;
+    readonly benefitRecommendations: BenefitRecommendationsOperations;
+    readonly benefitUtilizationSummaries: BenefitUtilizationSummariesOperations;
+    readonly budgets: BudgetsOperations;
+    readonly costAllocationRules: CostAllocationRulesOperations;
+    readonly dimensions: DimensionsOperations;
+    readonly exports: ExportsOperations;
+    readonly forecast: ForecastOperations;
+    readonly generateBenefitUtilizationSummariesReport: GenerateBenefitUtilizationSummariesReportOperations;
+    readonly generateCostDetailsReport: GenerateCostDetailsReportOperations;
+    readonly generateDetailedCostReport: GenerateDetailedCostReportOperations;
+    readonly generateDetailedCostReportOperationResults: GenerateDetailedCostReportOperationResultsOperations;
+    readonly generateDetailedCostReportOperationStatus: GenerateDetailedCostReportOperationStatusOperations;
+    readonly generateReservationDetailsReport: GenerateReservationDetailsReportOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly priceSheet: PriceSheetOperations;
+    readonly query: QueryOperations;
+    readonly scheduledActions: ScheduledActionsOperations;
+    readonly settings: SettingsOperations;
+    readonly views: ViewsOperations;
 }
 
 // @public
-export interface CostManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface CostManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -438,9 +589,7 @@ export interface CostManagementResource {
     readonly location?: string;
     readonly name?: string;
     readonly sku?: string;
-    readonly tags?: {
-        [propertyName: string]: string;
-    };
+    readonly tags?: Record<string, string>;
     readonly type?: string;
 }
 
@@ -448,7 +597,22 @@ export interface CostManagementResource {
 export type CreatedByType = string;
 
 // @public
+export type CultureCode = string;
+
+// @public
+export interface CurrentSpend {
+    readonly amount?: number;
+    readonly unit?: string;
+}
+
+// @public
+export type DataOverwriteBehaviorType = string;
+
+// @public
 export type DaysOfWeek = string;
+
+// @public
+export type DestinationType = string;
 
 // @public
 export interface Dimension extends CostManagementResource {
@@ -464,13 +628,20 @@ export interface Dimension extends CostManagementResource {
 }
 
 // @public
-export interface Dimensions {
-    list(scope: string, options?: DimensionsListOptionalParams): PagedAsyncIterableIterator<Dimension>;
-    listByExternalCloudProviderType(externalCloudProviderType: ExternalCloudProviderType, externalCloudProviderId: string, options?: DimensionsByExternalCloudProviderTypeOptionalParams): PagedAsyncIterableIterator<Dimension>;
+export interface DimensionProperties {
+    readonly category?: string;
+    data?: string[];
+    readonly description?: string;
+    readonly filterEnabled?: boolean;
+    readonly groupingEnabled?: boolean;
+    readonly nextLink?: string;
+    readonly total?: number;
+    readonly usageEnd?: Date;
+    readonly usageStart?: Date;
 }
 
 // @public
-export interface DimensionsByExternalCloudProviderTypeOptionalParams extends coreClient.OperationOptions {
+export interface DimensionsListByExternalCloudProviderTypeOptionalParams extends OperationOptions {
     expand?: string;
     filter?: string;
     skiptoken?: string;
@@ -478,10 +649,7 @@ export interface DimensionsByExternalCloudProviderTypeOptionalParams extends cor
 }
 
 // @public
-export type DimensionsByExternalCloudProviderTypeResponse = DimensionsListResult;
-
-// @public
-export interface DimensionsListOptionalParams extends coreClient.OperationOptions {
+export interface DimensionsListOptionalParams extends OperationOptions {
     expand?: string;
     filter?: string;
     skiptoken?: string;
@@ -489,11 +657,9 @@ export interface DimensionsListOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type DimensionsListResponse = DimensionsListResult;
-
-// @public
-export interface DimensionsListResult {
-    readonly value?: Dimension[];
+export interface DimensionsOperations {
+    list: (scope: string, options?: DimensionsListOptionalParams) => PagedAsyncIterableIterator<Dimension>;
+    listByExternalCloudProviderType: (externalCloudProviderType: ExternalCloudProviderType, externalCloudProviderId: string, options?: DimensionsListByExternalCloudProviderTypeOptionalParams) => PagedAsyncIterableIterator<Dimension>;
 }
 
 // @public
@@ -516,6 +682,21 @@ export interface DownloadURL {
     downloadUrl?: string;
     readonly expiryTime?: Date;
     validTill?: Date;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
@@ -546,14 +727,21 @@ export type ExecutionStatus = string;
 export type ExecutionType = string;
 
 // @public
-export interface Export extends CostManagementProxyResource {
+export interface Export extends ExtensionResource {
+    compressionMode?: CompressionModeType;
+    dataOverwriteBehavior?: DataOverwriteBehaviorType;
     definition?: ExportDefinition;
     deliveryInfo?: ExportDeliveryInfo;
+    eTag?: string;
+    exportDescription?: string;
     format?: FormatType;
+    identity?: SystemAssignedServiceIdentity;
+    location?: string;
     readonly nextRunTimeEstimate?: Date;
     partitionData?: boolean;
     runHistory?: ExportExecutionListResult;
     schedule?: ExportSchedule;
+    readonly systemSuspensionContext?: ExportSuspensionContext;
 }
 
 // @public
@@ -565,6 +753,8 @@ export interface ExportDataset {
 // @public
 export interface ExportDatasetConfiguration {
     columns?: string[];
+    dataVersion?: string;
+    filters?: FilterItems[];
 }
 
 // @public
@@ -582,6 +772,7 @@ export interface ExportDeliveryDestination {
     rootFolderPath?: string;
     sasToken?: string;
     storageAccount?: string;
+    type?: DestinationType;
 }
 
 // @public
@@ -612,25 +803,39 @@ export interface ExportRecurrencePeriod {
 
 // @public
 export interface ExportRun extends CostManagementProxyResource {
+    endDate?: Date;
     error?: ErrorDetails;
     executionType?: ExecutionType;
     fileName?: string;
+    manifestFile?: string;
     processingEndTime?: Date;
     processingStartTime?: Date;
     runSettings?: CommonExportProperties;
+    startDate?: Date;
     status?: ExecutionStatus;
     submittedBy?: string;
     submittedTime?: Date;
 }
 
 // @public
-export interface Exports {
-    createOrUpdate(scope: string, exportName: string, parameters: Export, options?: ExportsCreateOrUpdateOptionalParams): Promise<ExportsCreateOrUpdateResponse>;
-    delete(scope: string, exportName: string, options?: ExportsDeleteOptionalParams): Promise<void>;
-    execute(scope: string, exportName: string, options?: ExportsExecuteOptionalParams): Promise<void>;
-    get(scope: string, exportName: string, options?: ExportsGetOptionalParams): Promise<ExportsGetResponse>;
-    getExecutionHistory(scope: string, exportName: string, options?: ExportsGetExecutionHistoryOptionalParams): Promise<ExportsGetExecutionHistoryResponse>;
-    list(scope: string, options?: ExportsListOptionalParams): Promise<ExportsListResponse>;
+export interface ExportRunProperties {
+    endDate?: Date;
+    error?: ErrorDetails;
+    executionType?: ExecutionType;
+    fileName?: string;
+    manifestFile?: string;
+    processingEndTime?: Date;
+    processingStartTime?: Date;
+    runSettings?: CommonExportProperties;
+    startDate?: Date;
+    status?: ExecutionStatus;
+    submittedBy?: string;
+    submittedTime?: Date;
+}
+
+// @public
+export interface ExportRunRequest {
+    timePeriod?: ExportTimePeriod;
 }
 
 // @public
@@ -641,42 +846,48 @@ export interface ExportSchedule {
 }
 
 // @public
-export interface ExportsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ExportsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExportsCreateOrUpdateResponse = Export;
-
-// @public
-export interface ExportsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ExportsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ExportsExecuteOptionalParams extends coreClient.OperationOptions {
+export interface ExportsExecuteOptionalParams extends OperationOptions {
+    parameters?: ExportRunRequest;
 }
 
 // @public
-export interface ExportsGetExecutionHistoryOptionalParams extends coreClient.OperationOptions {
+export interface ExportsGetExecutionHistoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExportsGetExecutionHistoryResponse = ExportExecutionListResult;
-
-// @public
-export interface ExportsGetOptionalParams extends coreClient.OperationOptions {
+export interface ExportsGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type ExportsGetResponse = Export;
-
-// @public
-export interface ExportsListOptionalParams extends coreClient.OperationOptions {
+export interface ExportsListOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type ExportsListResponse = ExportListResult;
+export interface ExportsOperations {
+    createOrUpdate: (scope: string, exportName: string, parameters: Export, options?: ExportsCreateOrUpdateOptionalParams) => Promise<Export>;
+    delete: (scope: string, exportName: string, options?: ExportsDeleteOptionalParams) => Promise<void>;
+    execute: (scope: string, exportName: string, options?: ExportsExecuteOptionalParams) => Promise<void>;
+    get: (scope: string, exportName: string, options?: ExportsGetOptionalParams) => Promise<Export>;
+    getExecutionHistory: (scope: string, exportName: string, options?: ExportsGetExecutionHistoryOptionalParams) => Promise<ExportExecutionListResult>;
+    list: (scope: string, options?: ExportsListOptionalParams) => Promise<ExportListResult>;
+}
+
+// @public
+export interface ExportSuspensionContext {
+    suspensionCode?: string;
+    suspensionReason?: string;
+    suspensionTime?: Date;
+}
 
 // @public
 export interface ExportTimePeriod {
@@ -686,6 +897,10 @@ export interface ExportTimePeriod {
 
 // @public
 export type ExportType = string;
+
+// @public
+export interface ExtensionResource extends Resource {
+}
 
 // @public
 export type ExternalCloudProviderType = string;
@@ -699,9 +914,12 @@ export interface FileDestination {
 export type FileFormat = string;
 
 // @public
-export interface Forecast {
-    externalCloudProviderUsage(externalCloudProviderType: ExternalCloudProviderType, externalCloudProviderId: string, parameters: ForecastDefinition, options?: ForecastExternalCloudProviderUsageOptionalParams): Promise<ForecastExternalCloudProviderUsageResponse>;
-    usage(scope: string, parameters: ForecastDefinition, options?: ForecastUsageOptionalParams): Promise<ForecastUsageResponse>;
+export type FilterItemNames = string;
+
+// @public
+export interface FilterItems {
+    name?: FilterItemNames;
+    value?: string;
 }
 
 // @public
@@ -725,9 +943,7 @@ export interface ForecastComparisonExpression {
 
 // @public
 export interface ForecastDataset {
-    aggregation: {
-        [propertyName: string]: ForecastAggregation;
-    };
+    aggregation: Record<string, ForecastAggregation>;
     configuration?: ForecastDatasetConfiguration;
     filter?: ForecastFilter;
     granularity?: GranularityType;
@@ -749,12 +965,9 @@ export interface ForecastDefinition {
 }
 
 // @public
-export interface ForecastExternalCloudProviderUsageOptionalParams extends coreClient.OperationOptions {
+export interface ForecastExternalCloudProviderUsageOptionalParams extends OperationOptions {
     filter?: string;
 }
-
-// @public
-export type ForecastExternalCloudProviderUsageResponse = ForecastResult;
 
 // @public
 export interface ForecastFilter {
@@ -765,13 +978,32 @@ export interface ForecastFilter {
 }
 
 // @public
+export interface ForecastOperations {
+    externalCloudProviderUsage: (externalCloudProviderType: ExternalCloudProviderType, externalCloudProviderId: string, parameters: ForecastDefinition, options?: ForecastExternalCloudProviderUsageOptionalParams) => Promise<ForecastResult>;
+    usage: (scope: string, parameters: ForecastDefinition, options?: ForecastUsageOptionalParams) => Promise<ForecastResult | undefined>;
+}
+
+// @public
 export type ForecastOperatorType = string;
+
+// @public
+export interface ForecastProperties {
+    columns?: ForecastColumn[];
+    nextLink?: string;
+    rows?: any[][];
+}
 
 // @public
 export interface ForecastResult extends CostManagementResource {
     columns?: ForecastColumn[];
     nextLink?: string;
     rows?: any[][];
+}
+
+// @public
+export interface ForecastSpend {
+    readonly amount?: number;
+    readonly unit?: string;
 }
 
 // @public
@@ -787,15 +1019,15 @@ export interface ForecastTimePeriod {
 export type ForecastType = string;
 
 // @public
-export interface ForecastUsageOptionalParams extends coreClient.OperationOptions {
+export interface ForecastUsageOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ForecastUsageResponse = ForecastResult;
+export type FormatType = string;
 
 // @public
-export type FormatType = string;
+export type Frequency = string;
 
 // @public
 export type FunctionName = string;
@@ -804,27 +1036,49 @@ export type FunctionName = string;
 export type FunctionType = string;
 
 // @public
-export interface GenerateCostDetailsReport {
-    beginCreateOperation(scope: string, parameters: GenerateCostDetailsReportRequestDefinition, options?: GenerateCostDetailsReportCreateOperationOptionalParams): Promise<SimplePollerLike<OperationState<GenerateCostDetailsReportCreateOperationResponse>, GenerateCostDetailsReportCreateOperationResponse>>;
-    beginCreateOperationAndWait(scope: string, parameters: GenerateCostDetailsReportRequestDefinition, options?: GenerateCostDetailsReportCreateOperationOptionalParams): Promise<GenerateCostDetailsReportCreateOperationResponse>;
-    beginGetOperationResults(scope: string, operationId: string, options?: GenerateCostDetailsReportGetOperationResultsOptionalParams): Promise<SimplePollerLike<OperationState<GenerateCostDetailsReportGetOperationResultsResponse>, GenerateCostDetailsReportGetOperationResultsResponse>>;
-    beginGetOperationResultsAndWait(scope: string, operationId: string, options?: GenerateCostDetailsReportGetOperationResultsOptionalParams): Promise<GenerateCostDetailsReportGetOperationResultsResponse>;
-}
-
-// @public
-export interface GenerateCostDetailsReportCreateOperationHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GenerateCostDetailsReportCreateOperationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GenerateBenefitUtilizationSummariesReportGenerateByBillingAccountOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GenerateCostDetailsReportCreateOperationResponse = CostDetailsOperationResults;
+export interface GenerateBenefitUtilizationSummariesReportGenerateByBillingProfileOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GenerateBenefitUtilizationSummariesReportGenerateByReservationIdOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GenerateBenefitUtilizationSummariesReportGenerateByReservationOrderIdOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GenerateBenefitUtilizationSummariesReportGenerateBySavingsPlanIdOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GenerateBenefitUtilizationSummariesReportGenerateBySavingsPlanOrderIdOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GenerateBenefitUtilizationSummariesReportOperations {
+    generateByBillingAccount: (billingAccountId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateByBillingAccountOptionalParams) => PollerLike<OperationState<BenefitUtilizationSummariesOperationStatus>, BenefitUtilizationSummariesOperationStatus>;
+    generateByBillingProfile: (billingAccountId: string, billingProfileId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateByBillingProfileOptionalParams) => PollerLike<OperationState<BenefitUtilizationSummariesOperationStatus>, BenefitUtilizationSummariesOperationStatus>;
+    generateByReservationId: (reservationOrderId: string, reservationId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateByReservationIdOptionalParams) => PollerLike<OperationState<BenefitUtilizationSummariesOperationStatus>, BenefitUtilizationSummariesOperationStatus>;
+    generateByReservationOrderId: (reservationOrderId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateByReservationOrderIdOptionalParams) => PollerLike<OperationState<BenefitUtilizationSummariesOperationStatus>, BenefitUtilizationSummariesOperationStatus>;
+    generateBySavingsPlanId: (savingsPlanOrderId: string, savingsPlanId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateBySavingsPlanIdOptionalParams) => PollerLike<OperationState<BenefitUtilizationSummariesOperationStatus>, BenefitUtilizationSummariesOperationStatus>;
+    generateBySavingsPlanOrderId: (savingsPlanOrderId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateBySavingsPlanOrderIdOptionalParams) => PollerLike<OperationState<BenefitUtilizationSummariesOperationStatus>, BenefitUtilizationSummariesOperationStatus>;
+}
+
+// @public
+export interface GenerateCostDetailsReportCreateOperationOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface GenerateCostDetailsReportErrorResponse {
@@ -832,13 +1086,15 @@ export interface GenerateCostDetailsReportErrorResponse {
 }
 
 // @public
-export interface GenerateCostDetailsReportGetOperationResultsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GenerateCostDetailsReportGetOperationResultsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GenerateCostDetailsReportGetOperationResultsResponse = CostDetailsOperationResults;
+export interface GenerateCostDetailsReportOperations {
+    createOperation: (scope: string, parameters: GenerateCostDetailsReportRequestDefinition, options?: GenerateCostDetailsReportCreateOperationOptionalParams) => PollerLike<OperationState<CostDetailsOperationResults>, CostDetailsOperationResults>;
+    getOperationResults: (scope: string, operationId: string, options?: GenerateCostDetailsReportGetOperationResultsOptionalParams) => PollerLike<OperationState<CostDetailsOperationResults>, CostDetailsOperationResults>;
+}
 
 // @public
 export interface GenerateCostDetailsReportRequestDefinition {
@@ -849,27 +1105,9 @@ export interface GenerateCostDetailsReportRequestDefinition {
 }
 
 // @public
-export interface GenerateDetailedCostReport {
-    beginCreateOperation(scope: string, parameters: GenerateDetailedCostReportDefinition, options?: GenerateDetailedCostReportCreateOperationOptionalParams): Promise<SimplePollerLike<OperationState<GenerateDetailedCostReportCreateOperationResponse>, GenerateDetailedCostReportCreateOperationResponse>>;
-    beginCreateOperationAndWait(scope: string, parameters: GenerateDetailedCostReportDefinition, options?: GenerateDetailedCostReportCreateOperationOptionalParams): Promise<GenerateDetailedCostReportCreateOperationResponse>;
-}
-
-// @public
-export interface GenerateDetailedCostReportCreateOperationHeaders {
-    azureAsyncOperation?: string;
-    azureConsumptionAsyncOperation?: string;
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GenerateDetailedCostReportCreateOperationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GenerateDetailedCostReportCreateOperationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type GenerateDetailedCostReportCreateOperationResponse = GenerateDetailedCostReportOperationResult;
 
 // @public
 export interface GenerateDetailedCostReportDefinition {
@@ -889,55 +1127,46 @@ export interface GenerateDetailedCostReportErrorResponse {
 export type GenerateDetailedCostReportMetricType = string;
 
 // @public
-export interface GenerateDetailedCostReportOperationResult {
+export interface GenerateDetailedCostReportOperationResult extends ExtensionResource {
     downloadUrl?: string;
     readonly expiryTime?: Date;
-    id?: string;
-    name?: string;
-    type?: string;
     validTill?: Date;
 }
 
 // @public
-export interface GenerateDetailedCostReportOperationResults {
-    beginGet(operationId: string, scope: string, options?: GenerateDetailedCostReportOperationResultsGetOptionalParams): Promise<SimplePollerLike<OperationState<GenerateDetailedCostReportOperationResultsGetResponse>, GenerateDetailedCostReportOperationResultsGetResponse>>;
-    beginGetAndWait(operationId: string, scope: string, options?: GenerateDetailedCostReportOperationResultsGetOptionalParams): Promise<GenerateDetailedCostReportOperationResultsGetResponse>;
-}
-
-// @public
-export interface GenerateDetailedCostReportOperationResultsGetOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GenerateDetailedCostReportOperationResultsGetOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GenerateDetailedCostReportOperationResultsGetResponse = GenerateDetailedCostReportOperationResult;
-
-// @public
-export interface GenerateDetailedCostReportOperationStatus {
-    get(operationId: string, scope: string, options?: GenerateDetailedCostReportOperationStatusGetOptionalParams): Promise<GenerateDetailedCostReportOperationStatusGetResponse>;
+export interface GenerateDetailedCostReportOperationResultsOperations {
+    get: (operationId: string, scope: string, options?: GenerateDetailedCostReportOperationResultsGetOptionalParams) => PollerLike<OperationState<GenerateDetailedCostReportOperationResult>, GenerateDetailedCostReportOperationResult>;
 }
 
 // @public
-export interface GenerateDetailedCostReportOperationStatuses {
+export interface GenerateDetailedCostReportOperations {
+    createOperation: (scope: string, parameters: GenerateDetailedCostReportDefinition, options?: GenerateDetailedCostReportCreateOperationOptionalParams) => PollerLike<OperationState<GenerateDetailedCostReportOperationResult>, GenerateDetailedCostReportOperationResult>;
+}
+
+// @public
+export interface GenerateDetailedCostReportOperationStatuses extends ExtensionResource {
     downloadUrl?: string;
     endTime?: string;
     error?: ErrorDetails;
     readonly expiryTime?: Date;
-    id?: string;
-    name?: string;
     startTime?: string;
     status?: Status;
-    type?: string;
     validTill?: Date;
 }
 
 // @public
-export interface GenerateDetailedCostReportOperationStatusGetOptionalParams extends coreClient.OperationOptions {
+export interface GenerateDetailedCostReportOperationStatusGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GenerateDetailedCostReportOperationStatusGetResponse = GenerateDetailedCostReportOperationStatuses;
+export interface GenerateDetailedCostReportOperationStatusOperations {
+    get: (operationId: string, scope: string, options?: GenerateDetailedCostReportOperationStatusGetOptionalParams) => Promise<GenerateDetailedCostReportOperationStatuses>;
+}
 
 // @public
 export interface GenerateDetailedCostReportTimePeriod {
@@ -946,45 +1175,20 @@ export interface GenerateDetailedCostReportTimePeriod {
 }
 
 // @public
-export interface GenerateReservationDetailsReport {
-    beginByBillingAccountId(billingAccountId: string, startDate: string, endDate: string, options?: GenerateReservationDetailsReportByBillingAccountIdOptionalParams): Promise<SimplePollerLike<OperationState<GenerateReservationDetailsReportByBillingAccountIdResponse>, GenerateReservationDetailsReportByBillingAccountIdResponse>>;
-    beginByBillingAccountIdAndWait(billingAccountId: string, startDate: string, endDate: string, options?: GenerateReservationDetailsReportByBillingAccountIdOptionalParams): Promise<GenerateReservationDetailsReportByBillingAccountIdResponse>;
-    beginByBillingProfileId(billingAccountId: string, billingProfileId: string, startDate: string, endDate: string, options?: GenerateReservationDetailsReportByBillingProfileIdOptionalParams): Promise<SimplePollerLike<OperationState<GenerateReservationDetailsReportByBillingProfileIdResponse>, GenerateReservationDetailsReportByBillingProfileIdResponse>>;
-    beginByBillingProfileIdAndWait(billingAccountId: string, billingProfileId: string, startDate: string, endDate: string, options?: GenerateReservationDetailsReportByBillingProfileIdOptionalParams): Promise<GenerateReservationDetailsReportByBillingProfileIdResponse>;
-}
-
-// @public
-export interface GenerateReservationDetailsReportByBillingAccountIdHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GenerateReservationDetailsReportByBillingAccountIdOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GenerateReservationDetailsReportByBillingAccountIdOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GenerateReservationDetailsReportByBillingAccountIdResponse = OperationStatus;
-
-// @public
-export interface GenerateReservationDetailsReportByBillingProfileIdHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GenerateReservationDetailsReportByBillingProfileIdOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GenerateReservationDetailsReportByBillingProfileIdOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GenerateReservationDetailsReportByBillingProfileIdResponse = OperationStatus;
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface GenerateReservationDetailsReportOperations {
+    byBillingAccountId: (billingAccountId: string, startDate: string, endDate: string, options?: GenerateReservationDetailsReportByBillingAccountIdOptionalParams) => PollerLike<OperationState<OperationStatus>, OperationStatus>;
+    byBillingProfileId: (billingAccountId: string, billingProfileId: string, startDate: string, endDate: string, options?: GenerateReservationDetailsReportByBillingProfileIdOptionalParams) => PollerLike<OperationState<OperationStatus>, OperationStatus>;
+}
 
 // @public
 export type Grain = string;
@@ -1010,6 +1214,8 @@ export interface IncludedQuantityUtilizationSummary extends BenefitUtilizationSu
 export interface IncludedQuantityUtilizationSummaryProperties extends BenefitUtilizationSummaryProperties {
     readonly utilizationPercentage?: number;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownAccumulatedType {
@@ -1103,6 +1309,38 @@ export enum KnownBenefitKind {
 }
 
 // @public
+export enum KnownBenefitUtilizationSummaryReportSchema {
+    AvgUtilizationPercentage = "AvgUtilizationPercentage",
+    BenefitId = "BenefitId",
+    BenefitOrderId = "BenefitOrderId",
+    BenefitType = "BenefitType",
+    Kind = "Kind",
+    MaxUtilizationPercentage = "MaxUtilizationPercentage",
+    MinUtilizationPercentage = "MinUtilizationPercentage",
+    UsageDate = "UsageDate",
+    UtilizedPercentage = "UtilizedPercentage"
+}
+
+// @public
+export enum KnownBudgetNotificationOperatorType {
+    EqualTo = "EqualTo",
+    GreaterThan = "GreaterThan",
+    GreaterThanOrEqualTo = "GreaterThanOrEqualTo",
+    LessThan = "LessThan"
+}
+
+// @public
+export enum KnownBudgetOperatorType {
+    In = "In"
+}
+
+// @public
+export enum KnownCategoryType {
+    Cost = "Cost",
+    ReservationUtilization = "ReservationUtilization"
+}
+
+// @public
 export enum KnownChartType {
     Area = "Area",
     GroupedColumn = "GroupedColumn",
@@ -1115,6 +1353,24 @@ export enum KnownChartType {
 export enum KnownCheckNameAvailabilityReason {
     AlreadyExists = "AlreadyExists",
     Invalid = "Invalid"
+}
+
+// @public
+export enum KnownCompressionModeType {
+    Gzip = "gzip",
+    None = "none",
+    Snappy = "snappy"
+}
+
+// @public
+export enum KnownCostAllocationPolicyType {
+    FixedProportion = "FixedProportion"
+}
+
+// @public
+export enum KnownCostAllocationResourceType {
+    Dimension = "Dimension",
+    Tag = "Tag"
 }
 
 // @public
@@ -1144,6 +1400,37 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownCultureCode {
+    CsCz = "cs-cz",
+    DaDk = "da-dk",
+    DeDe = "de-de",
+    EnGb = "en-gb",
+    EnUs = "en-us",
+    EsEs = "es-es",
+    FrFr = "fr-fr",
+    HuHu = "hu-hu",
+    ItIt = "it-it",
+    JaJp = "ja-jp",
+    KoKr = "ko-kr",
+    NbNo = "nb-no",
+    NlNl = "nl-nl",
+    PlPl = "pl-pl",
+    PtBr = "pt-br",
+    PtPt = "pt-pt",
+    RuRu = "ru-ru",
+    SvSe = "sv-se",
+    TrTr = "tr-tr",
+    ZhCn = "zh-cn",
+    ZhTw = "zh-tw"
+}
+
+// @public
+export enum KnownDataOverwriteBehaviorType {
+    CreateNewReport = "CreateNewReport",
+    OverwritePreviousReport = "OverwritePreviousReport"
+}
+
+// @public
 export enum KnownDaysOfWeek {
     Friday = "Friday",
     Monday = "Monday",
@@ -1152,6 +1439,11 @@ export enum KnownDaysOfWeek {
     Thursday = "Thursday",
     Tuesday = "Tuesday",
     Wednesday = "Wednesday"
+}
+
+// @public
+export enum KnownDestinationType {
+    AzureBlob = "AzureBlob"
 }
 
 // @public
@@ -1175,6 +1467,11 @@ export enum KnownExecutionType {
 export enum KnownExportType {
     ActualCost = "ActualCost",
     AmortizedCost = "AmortizedCost",
+    FocusCost = "FocusCost",
+    PriceSheet = "PriceSheet",
+    ReservationDetails = "ReservationDetails",
+    ReservationRecommendations = "ReservationRecommendations",
+    ReservationTransactions = "ReservationTransactions",
     Usage = "Usage"
 }
 
@@ -1187,6 +1484,13 @@ export enum KnownExternalCloudProviderType {
 // @public
 export enum KnownFileFormat {
     Csv = "Csv"
+}
+
+// @public
+export enum KnownFilterItemNames {
+    LookBackPeriod = "LookBackPeriod",
+    ReservationScope = "ReservationScope",
+    ResourceType = "ResourceType"
 }
 
 // @public
@@ -1208,7 +1512,15 @@ export enum KnownForecastType {
 
 // @public
 export enum KnownFormatType {
-    Csv = "Csv"
+    Csv = "Csv",
+    Parquet = "Parquet"
+}
+
+// @public
+export enum KnownFrequency {
+    Daily = "Daily",
+    Monthly = "Monthly",
+    Weekly = "Weekly"
 }
 
 // @public
@@ -1246,7 +1558,8 @@ export enum KnownGrainParameter {
 
 // @public
 export enum KnownGranularityType {
-    Daily = "Daily"
+    Daily = "Daily",
+    Monthly = "Monthly"
 }
 
 // @public
@@ -1304,6 +1617,13 @@ export enum KnownQueryColumnType {
 // @public
 export enum KnownQueryOperatorType {
     In = "In"
+}
+
+// @public
+export enum KnownReason {
+    AlreadyExists = "AlreadyExists",
+    Invalid = "Invalid",
+    Valid = "Valid"
 }
 
 // @public
@@ -1366,6 +1686,13 @@ export enum KnownReservationReportSchema {
 }
 
 // @public
+export enum KnownRuleStatus {
+    Active = "Active",
+    NotActive = "NotActive",
+    Processing = "Processing"
+}
+
+// @public
 export enum KnownScheduledActionKind {
     Email = "Email",
     InsightAlert = "InsightAlert"
@@ -1392,9 +1719,25 @@ export enum KnownScope {
 }
 
 // @public
+export enum KnownSettingsKind {
+    Taginheritance = "taginheritance"
+}
+
+// @public
+export enum KnownSettingType {
+    Taginheritance = "taginheritance"
+}
+
+// @public
 export enum KnownStatusType {
     Active = "Active",
     Inactive = "Inactive"
+}
+
+// @public
+export enum KnownSystemAssignedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned"
 }
 
 // @public
@@ -1404,13 +1747,37 @@ export enum KnownTerm {
 }
 
 // @public
+export enum KnownThresholdType {
+    Actual = "Actual",
+    Forecasted = "Forecasted"
+}
+
+// @public
 export enum KnownTimeframeType {
     BillingMonthToDate = "BillingMonthToDate",
     Custom = "Custom",
     MonthToDate = "MonthToDate",
+    TheCurrentMonth = "TheCurrentMonth",
     TheLastBillingMonth = "TheLastBillingMonth",
     TheLastMonth = "TheLastMonth",
     WeekToDate = "WeekToDate"
+}
+
+// @public
+export enum KnownTimeGrainType {
+    Annually = "Annually",
+    BillingAnnual = "BillingAnnual",
+    BillingMonth = "BillingMonth",
+    BillingQuarter = "BillingQuarter",
+    Last30Days = "Last30Days",
+    Last7Days = "Last7Days",
+    Monthly = "Monthly",
+    Quarterly = "Quarterly"
+}
+
+// @public
+export enum KnownVersions {
+    V20250301 = "2025-03-01"
 }
 
 // @public
@@ -1436,7 +1803,50 @@ export type KpiType = string;
 export type LookBackPeriod = string;
 
 // @public
+export interface MCAPriceSheetProperties {
+    readonly basePrice?: string;
+    readonly billingAccountID?: string;
+    readonly billingAccountName?: string;
+    readonly billingCurrency?: string;
+    readonly billingProfileId?: string;
+    readonly billingProfileName?: string;
+    readonly currency?: string;
+    readonly effectiveEndDate?: Date;
+    readonly effectiveStartDate?: Date;
+    readonly marketPrice?: string;
+    readonly meterCategory?: string;
+    readonly meterId?: string;
+    readonly meterName?: string;
+    readonly meterRegion?: string;
+    readonly meterSubCategory?: string;
+    readonly meterType?: string;
+    readonly priceType?: string;
+    readonly product?: string;
+    readonly productId?: string;
+    readonly productOrderName?: string;
+    readonly serviceFamily?: number;
+    readonly skuId?: string;
+    readonly term?: string;
+    readonly tierMinimumUnits?: string;
+    readonly unitOfMeasure?: string;
+    readonly unitPrice?: string;
+}
+
+// @public
 export type MetricType = string;
+
+// @public
+export interface Notification {
+    contactEmails: string[];
+    contactGroups?: string[];
+    contactRoles?: string[];
+    enabled: boolean;
+    frequency?: Frequency;
+    locale?: CultureCode;
+    operator: BudgetNotificationOperatorType;
+    threshold: number;
+    thresholdType?: ThresholdType;
+}
 
 // @public
 export interface NotificationProperties {
@@ -1465,29 +1875,13 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: CostManagementOperation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<CostManagementOperation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<CostManagementOperation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface OperationStatus {
@@ -1506,6 +1900,18 @@ export type OperatorType = string;
 export type Origin = string;
 
 // @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export interface PivotProperties {
     name?: string;
     type?: PivotType;
@@ -1515,53 +1921,36 @@ export interface PivotProperties {
 export type PivotType = string;
 
 // @public
-export interface PriceSheet {
-    beginDownload(billingAccountName: string, billingProfileName: string, invoiceName: string, options?: PriceSheetDownloadOptionalParams): Promise<SimplePollerLike<OperationState<PriceSheetDownloadResponse>, PriceSheetDownloadResponse>>;
-    beginDownloadAndWait(billingAccountName: string, billingProfileName: string, invoiceName: string, options?: PriceSheetDownloadOptionalParams): Promise<PriceSheetDownloadResponse>;
-    beginDownloadByBillingProfile(billingAccountName: string, billingProfileName: string, options?: PriceSheetDownloadByBillingProfileOptionalParams): Promise<SimplePollerLike<OperationState<PriceSheetDownloadByBillingProfileResponse>, PriceSheetDownloadByBillingProfileResponse>>;
-    beginDownloadByBillingProfileAndWait(billingAccountName: string, billingProfileName: string, options?: PriceSheetDownloadByBillingProfileOptionalParams): Promise<PriceSheetDownloadByBillingProfileResponse>;
-}
-
-// @public
-export interface PriceSheetDownloadByBillingProfileHeaders {
-    location?: string;
-    oDataEntityId?: string;
-    retryAfter?: string;
-}
-
-// @public
-export interface PriceSheetDownloadByBillingProfileOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PriceSheetDownloadByBillingAccountOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PriceSheetDownloadByBillingProfileResponse = DownloadURL;
-
-// @public
-export interface PriceSheetDownloadHeaders {
-    location?: string;
-    oDataEntityId?: string;
-    retryAfter?: string;
-}
-
-// @public
-export interface PriceSheetDownloadOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PriceSheetDownloadByBillingProfileOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PriceSheetDownloadResponse = DownloadURL;
+export interface PriceSheetDownloadByInvoiceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PricesheetDownloadProperties {
+    downloadFileProperties?: MCAPriceSheetProperties;
+    downloadUrl?: string;
+    readonly expiryTime?: Date;
+}
+
+// @public
+export interface PriceSheetOperations {
+    downloadByBillingAccount: (billingAccountId: string, billingPeriodName: string, options?: PriceSheetDownloadByBillingAccountOptionalParams) => PollerLike<OperationState<OperationStatus>, OperationStatus>;
+    downloadByBillingProfile: (billingAccountName: string, billingProfileName: string, options?: PriceSheetDownloadByBillingProfileOptionalParams) => PollerLike<OperationState<PricesheetDownloadProperties>, PricesheetDownloadProperties>;
+    downloadByInvoice: (billingAccountName: string, billingProfileName: string, invoiceName: string, options?: PriceSheetDownloadByInvoiceOptionalParams) => PollerLike<OperationState<DownloadURL>, DownloadURL>;
+}
 
 // @public
 export interface ProxyResource extends Resource {
-}
-
-// @public
-export interface Query {
-    usage(scope: string, parameters: QueryDefinition, options?: QueryUsageOptionalParams): Promise<QueryUsageResponse>;
-    usageByExternalCloudProviderType(externalCloudProviderType: ExternalCloudProviderType, externalCloudProviderId: string, parameters: QueryDefinition, options?: QueryUsageByExternalCloudProviderTypeOptionalParams): Promise<QueryUsageByExternalCloudProviderTypeResponse>;
 }
 
 // @public
@@ -1588,9 +1977,7 @@ export interface QueryComparisonExpression {
 
 // @public
 export interface QueryDataset {
-    aggregation?: {
-        [propertyName: string]: QueryAggregation;
-    };
+    aggregation?: Record<string, QueryAggregation>;
     configuration?: QueryDatasetConfiguration;
     filter?: QueryFilter;
     granularity?: GranularityType;
@@ -1625,7 +2012,20 @@ export interface QueryGrouping {
 }
 
 // @public
+export interface QueryOperations {
+    usage: (scope: string, parameters: QueryDefinition, options?: QueryUsageOptionalParams) => Promise<QueryResult | undefined>;
+    usageByExternalCloudProviderType: (externalCloudProviderType: ExternalCloudProviderType, externalCloudProviderId: string, parameters: QueryDefinition, options?: QueryUsageByExternalCloudProviderTypeOptionalParams) => Promise<QueryResult>;
+}
+
+// @public
 export type QueryOperatorType = string;
+
+// @public
+export interface QueryProperties {
+    columns?: QueryColumn[];
+    nextLink?: string;
+    rows?: any[][];
+}
 
 // @public
 export interface QueryResult extends CostManagementResource {
@@ -1641,18 +2041,15 @@ export interface QueryTimePeriod {
 }
 
 // @public
-export interface QueryUsageByExternalCloudProviderTypeOptionalParams extends coreClient.OperationOptions {
+export interface QueryUsageByExternalCloudProviderTypeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type QueryUsageByExternalCloudProviderTypeResponse = QueryResult;
-
-// @public
-export interface QueryUsageOptionalParams extends coreClient.OperationOptions {
+export interface QueryUsageOptionalParams extends OperationOptions {
 }
 
 // @public
-export type QueryUsageResponse = QueryResult;
+export type Reason = string;
 
 // @public
 export interface RecommendationUsageDetails {
@@ -1678,9 +2075,7 @@ export interface ReportConfigComparisonExpression {
 
 // @public
 export interface ReportConfigDataset {
-    aggregation?: {
-        [propertyName: string]: ReportConfigAggregation;
-    };
+    aggregation?: Record<string, ReportConfigAggregation>;
     configuration?: ReportConfigDatasetConfiguration;
     filter?: ReportConfigFilter;
     granularity?: ReportGranularityType;
@@ -1691,6 +2086,15 @@ export interface ReportConfigDataset {
 // @public
 export interface ReportConfigDatasetConfiguration {
     columns?: string[];
+}
+
+// @public
+export interface ReportConfigDefinition {
+    dataSet?: ReportConfigDataset;
+    includeMonetaryCommitment?: boolean;
+    timeframe: ReportTimeframeType;
+    timePeriod?: ReportConfigTimePeriod;
+    type: ReportType;
 }
 
 // @public
@@ -1726,6 +2130,18 @@ export interface ReportConfigTimePeriod {
 export type ReportGranularityType = string;
 
 // @public
+export interface ReportManifest {
+    blobCount?: number;
+    blobs?: BlobInfo[];
+    byteCount?: number;
+    compressData?: boolean;
+    dataFormat?: CostDetailsDataFormat;
+    manifestVersion?: string;
+    requestBody?: GenerateCostDetailsReportRequestDefinition;
+    requestScope?: string;
+}
+
+// @public
 export type ReportOperationStatusType = string;
 
 // @public
@@ -1735,14 +2151,42 @@ export type ReportTimeframeType = string;
 export type ReportType = string;
 
 // @public
+export interface ReportURL {
+    reportUrl?: ReservationReportSchema;
+    validUntil?: Date;
+}
+
+// @public
+export interface RequestContext {
+    requestBody?: GenerateCostDetailsReportRequestDefinition;
+    requestScope?: string;
+}
+
+// @public
 export type ReservationReportSchema = string;
 
 // @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: CostManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RuleStatus = string;
 
 // @public
 export interface SavingsPlanUtilizationSummary extends BenefitUtilizationSummary {
@@ -1765,9 +2209,11 @@ export interface SavingsPlanUtilizationSummaryProperties extends BenefitUtilizat
 }
 
 // @public
-export interface ScheduledAction extends ScheduledActionProxyResource {
+export interface ScheduledAction extends ProxyResource {
     displayName?: string;
+    eTag?: string;
     fileDestination?: FileDestination;
+    kind?: ScheduledActionKind;
     notification?: NotificationProperties;
     notificationEmail?: string;
     schedule?: ScheduleProperties;
@@ -1780,122 +2226,83 @@ export interface ScheduledAction extends ScheduledActionProxyResource {
 export type ScheduledActionKind = string;
 
 // @public
-export interface ScheduledActionListResult {
-    readonly nextLink?: string;
-    readonly value?: ScheduledAction[];
+export interface ScheduledActionProperties {
+    displayName: string;
+    fileDestination?: FileDestination;
+    notification: NotificationProperties;
+    notificationEmail?: string;
+    schedule: ScheduleProperties;
+    scope?: string;
+    status: ScheduledActionStatus;
+    viewId: string;
 }
 
 // @public
-export interface ScheduledActionProxyResource extends ProxyResource {
-    readonly eTag?: string;
-    kind?: ScheduledActionKind;
-    readonly systemData?: SystemData;
+export interface ScheduledActionsCheckNameAvailabilityByScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScheduledActions {
-    checkNameAvailability(checkNameAvailabilityRequest: CheckNameAvailabilityRequest, options?: ScheduledActionsCheckNameAvailabilityOptionalParams): Promise<ScheduledActionsCheckNameAvailabilityResponse>;
-    checkNameAvailabilityByScope(scope: string, checkNameAvailabilityRequest: CheckNameAvailabilityRequest, options?: ScheduledActionsCheckNameAvailabilityByScopeOptionalParams): Promise<ScheduledActionsCheckNameAvailabilityByScopeResponse>;
-    createOrUpdate(name: string, scheduledAction: ScheduledAction, options?: ScheduledActionsCreateOrUpdateOptionalParams): Promise<ScheduledActionsCreateOrUpdateResponse>;
-    createOrUpdateByScope(scope: string, name: string, scheduledAction: ScheduledAction, options?: ScheduledActionsCreateOrUpdateByScopeOptionalParams): Promise<ScheduledActionsCreateOrUpdateByScopeResponse>;
-    delete(name: string, options?: ScheduledActionsDeleteOptionalParams): Promise<void>;
-    deleteByScope(scope: string, name: string, options?: ScheduledActionsDeleteByScopeOptionalParams): Promise<void>;
-    get(name: string, options?: ScheduledActionsGetOptionalParams): Promise<ScheduledActionsGetResponse>;
-    getByScope(scope: string, name: string, options?: ScheduledActionsGetByScopeOptionalParams): Promise<ScheduledActionsGetByScopeResponse>;
-    list(options?: ScheduledActionsListOptionalParams): PagedAsyncIterableIterator<ScheduledAction>;
-    listByScope(scope: string, options?: ScheduledActionsListByScopeOptionalParams): PagedAsyncIterableIterator<ScheduledAction>;
-    run(name: string, options?: ScheduledActionsRunOptionalParams): Promise<void>;
-    runByScope(scope: string, name: string, options?: ScheduledActionsRunByScopeOptionalParams): Promise<void>;
+export interface ScheduledActionsCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScheduledActionsCheckNameAvailabilityByScopeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScheduledActionsCheckNameAvailabilityByScopeResponse = CheckNameAvailabilityResponse;
-
-// @public
-export interface ScheduledActionsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScheduledActionsCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
-
-// @public
-export interface ScheduledActionsCreateOrUpdateByScopeOptionalParams extends coreClient.OperationOptions {
+export interface ScheduledActionsCreateOrUpdateByScopeOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
 
 // @public
-export type ScheduledActionsCreateOrUpdateByScopeResponse = ScheduledAction;
-
-// @public
-export interface ScheduledActionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ScheduledActionsCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
 
 // @public
-export type ScheduledActionsCreateOrUpdateResponse = ScheduledAction;
-
-// @public
-export interface ScheduledActionsDeleteByScopeOptionalParams extends coreClient.OperationOptions {
+export interface ScheduledActionsDeleteByScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScheduledActionsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ScheduledActionsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScheduledActionsGetByScopeOptionalParams extends coreClient.OperationOptions {
+export interface ScheduledActionsGetByScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScheduledActionsGetByScopeResponse = ScheduledAction;
-
-// @public
-export interface ScheduledActionsGetOptionalParams extends coreClient.OperationOptions {
+export interface ScheduledActionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScheduledActionsGetResponse = ScheduledAction;
-
-// @public
-export interface ScheduledActionsListByScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScheduledActionsListByScopeNextResponse = ScheduledActionListResult;
-
-// @public
-export interface ScheduledActionsListByScopeOptionalParams extends coreClient.OperationOptions {
+export interface ScheduledActionsListByScopeOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ScheduledActionsListByScopeResponse = ScheduledActionListResult;
-
-// @public
-export interface ScheduledActionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScheduledActionsListNextResponse = ScheduledActionListResult;
-
-// @public
-export interface ScheduledActionsListOptionalParams extends coreClient.OperationOptions {
+export interface ScheduledActionsListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ScheduledActionsListResponse = ScheduledActionListResult;
-
-// @public
-export interface ScheduledActionsRunByScopeOptionalParams extends coreClient.OperationOptions {
+export interface ScheduledActionsOperations {
+    checkNameAvailability: (checkNameAvailabilityRequest: CheckNameAvailabilityRequest, options?: ScheduledActionsCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResponse>;
+    checkNameAvailabilityByScope: (scope: string, checkNameAvailabilityRequest: CheckNameAvailabilityRequest, options?: ScheduledActionsCheckNameAvailabilityByScopeOptionalParams) => Promise<CheckNameAvailabilityResponse>;
+    createOrUpdate: (name: string, scheduledAction: ScheduledAction, options?: ScheduledActionsCreateOrUpdateOptionalParams) => Promise<ScheduledAction>;
+    createOrUpdateByScope: (scope: string, name: string, scheduledAction: ScheduledAction, options?: ScheduledActionsCreateOrUpdateByScopeOptionalParams) => Promise<ScheduledAction>;
+    delete: (name: string, options?: ScheduledActionsDeleteOptionalParams) => Promise<void>;
+    deleteByScope: (scope: string, name: string, options?: ScheduledActionsDeleteByScopeOptionalParams) => Promise<void>;
+    get: (name: string, options?: ScheduledActionsGetOptionalParams) => Promise<ScheduledAction>;
+    getByScope: (scope: string, name: string, options?: ScheduledActionsGetByScopeOptionalParams) => Promise<ScheduledAction>;
+    list: (options?: ScheduledActionsListOptionalParams) => PagedAsyncIterableIterator<ScheduledAction>;
+    listByScope: (scope: string, options?: ScheduledActionsListByScopeOptionalParams) => PagedAsyncIterableIterator<ScheduledAction>;
+    run: (name: string, options?: ScheduledActionsRunOptionalParams) => Promise<void>;
+    runByScope: (scope: string, name: string, options?: ScheduledActionsRunByScopeOptionalParams) => Promise<void>;
 }
 
 // @public
-export interface ScheduledActionsRunOptionalParams extends coreClient.OperationOptions {
+export interface ScheduledActionsRunByScopeOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsRunOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1919,6 +2326,49 @@ export interface ScheduleProperties {
 export type Scope = string;
 
 // @public
+export interface Setting extends ProxyResource {
+    kind: SettingsKind;
+}
+
+// @public
+export interface SettingsCreateOrUpdateByScopeOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SettingsDeleteByScopeOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SettingsGetByScopeOptionalParams extends OperationOptions {
+}
+
+// @public
+export type SettingsKind = string;
+
+// @public
+export interface SettingsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SettingsListResult {
+    readonly value?: SettingUnion[];
+}
+
+// @public
+export interface SettingsOperations {
+    createOrUpdateByScope: (scope: string, typeParam: SettingType, setting: SettingUnion, options?: SettingsCreateOrUpdateByScopeOptionalParams) => Promise<SettingUnion>;
+    deleteByScope: (scope: string, typeParam: SettingType, options?: SettingsDeleteByScopeOptionalParams) => Promise<void>;
+    getByScope: (scope: string, typeParam: SettingType, options?: SettingsGetByScopeOptionalParams) => Promise<SettingUnion>;
+    list: (scope: string, options?: SettingsListOptionalParams) => Promise<SettingsListResult>;
+}
+
+// @public
+export type SettingType = string;
+
+// @public
+export type SettingUnion = TagInheritanceSetting | Setting;
+
+// @public
 export interface SharedScopeBenefitRecommendationProperties extends BenefitRecommendationProperties {
     scope: "Shared";
 }
@@ -1931,12 +2381,27 @@ export interface SingleScopeBenefitRecommendationProperties extends BenefitRecom
 }
 
 // @public
+export interface SourceCostAllocationResource extends CostAllocationResource {
+    values: string[];
+}
+
+// @public
 export interface Status {
     status?: ReportOperationStatusType;
 }
 
 // @public
 export type StatusType = string;
+
+// @public
+export interface SystemAssignedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: SystemAssignedServiceIdentityType;
+}
+
+// @public
+export type SystemAssignedServiceIdentityType = string;
 
 // @public
 export interface SystemData {
@@ -1949,112 +2414,114 @@ export interface SystemData {
 }
 
 // @public
+export interface TagInheritanceProperties {
+    preferContainerTags: boolean;
+}
+
+// @public
+export interface TagInheritanceSetting extends Setting {
+    kind: "taginheritance";
+    properties?: TagInheritanceProperties;
+}
+
+// @public
+export interface TargetCostAllocationResource extends CostAllocationResource {
+    policyType: CostAllocationPolicyType;
+    values: CostAllocationProportion[];
+}
+
+// @public
 export type Term = string;
+
+// @public
+export type ThresholdType = string;
 
 // @public
 export type TimeframeType = string;
 
 // @public
-export interface View extends CostManagementProxyResource {
+export type TimeGrainType = string;
+
+// @public
+export interface View extends ProxyResource {
+    accumulated?: AccumulatedType;
+    chart?: ChartType;
+    readonly createdOn?: Date;
+    readonly currency?: string;
+    dateRange?: string;
+    displayName?: string;
+    eTag?: string;
+    kpis?: KpiProperties[];
+    metric?: MetricType;
+    modifiedOn?: Date;
+    pivots?: PivotProperties[];
+    query?: ReportConfigDefinition;
+    scope?: string;
+}
+
+// @public
+export interface ViewProperties {
     accumulated?: AccumulatedType;
     chart?: ChartType;
     readonly createdOn?: Date;
     readonly currency?: string;
     dataSet?: ReportConfigDataset;
-    readonly dateRange?: string;
+    dateRange?: string;
     displayName?: string;
     includeMonetaryCommitment?: boolean;
     kpis?: KpiProperties[];
     metric?: MetricType;
-    readonly modifiedOn?: Date;
+    modifiedOn?: Date;
     pivots?: PivotProperties[];
     scope?: string;
     timeframe?: ReportTimeframeType;
     timePeriod?: ReportConfigTimePeriod;
-    typePropertiesQueryType?: ReportType;
+    type?: ReportType;
 }
 
 // @public
-export interface ViewListResult {
-    readonly nextLink?: string;
-    readonly value?: View[];
+export interface ViewsCreateOrUpdateByScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Views {
-    createOrUpdate(viewName: string, parameters: View, options?: ViewsCreateOrUpdateOptionalParams): Promise<ViewsCreateOrUpdateResponse>;
-    createOrUpdateByScope(scope: string, viewName: string, parameters: View, options?: ViewsCreateOrUpdateByScopeOptionalParams): Promise<ViewsCreateOrUpdateByScopeResponse>;
-    delete(viewName: string, options?: ViewsDeleteOptionalParams): Promise<void>;
-    deleteByScope(scope: string, viewName: string, options?: ViewsDeleteByScopeOptionalParams): Promise<void>;
-    get(viewName: string, options?: ViewsGetOptionalParams): Promise<ViewsGetResponse>;
-    getByScope(scope: string, viewName: string, options?: ViewsGetByScopeOptionalParams): Promise<ViewsGetByScopeResponse>;
-    list(options?: ViewsListOptionalParams): PagedAsyncIterableIterator<View>;
-    listByScope(scope: string, options?: ViewsListByScopeOptionalParams): PagedAsyncIterableIterator<View>;
+export interface ViewsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ViewsCreateOrUpdateByScopeOptionalParams extends coreClient.OperationOptions {
+export interface ViewsDeleteByScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ViewsCreateOrUpdateByScopeResponse = View;
-
-// @public
-export interface ViewsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ViewsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ViewsCreateOrUpdateResponse = View;
-
-// @public
-export interface ViewsDeleteByScopeOptionalParams extends coreClient.OperationOptions {
+export interface ViewsGetByScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ViewsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ViewsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ViewsGetByScopeOptionalParams extends coreClient.OperationOptions {
+export interface ViewsListByScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ViewsGetByScopeResponse = View;
-
-// @public
-export interface ViewsGetOptionalParams extends coreClient.OperationOptions {
+export interface ViewsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ViewsGetResponse = View;
-
-// @public
-export interface ViewsListByScopeNextOptionalParams extends coreClient.OperationOptions {
+export interface ViewsOperations {
+    createOrUpdate: (viewName: string, parameters: View, options?: ViewsCreateOrUpdateOptionalParams) => Promise<View>;
+    createOrUpdateByScope: (scope: string, viewName: string, parameters: View, options?: ViewsCreateOrUpdateByScopeOptionalParams) => Promise<View>;
+    delete: (viewName: string, options?: ViewsDeleteOptionalParams) => Promise<void>;
+    deleteByScope: (scope: string, viewName: string, options?: ViewsDeleteByScopeOptionalParams) => Promise<void>;
+    get: (viewName: string, options?: ViewsGetOptionalParams) => Promise<View>;
+    getByScope: (scope: string, viewName: string, options?: ViewsGetByScopeOptionalParams) => Promise<View>;
+    list: (options?: ViewsListOptionalParams) => PagedAsyncIterableIterator<View>;
+    listByScope: (scope: string, options?: ViewsListByScopeOptionalParams) => PagedAsyncIterableIterator<View>;
 }
-
-// @public
-export type ViewsListByScopeNextResponse = ViewListResult;
-
-// @public
-export interface ViewsListByScopeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ViewsListByScopeResponse = ViewListResult;
-
-// @public
-export interface ViewsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ViewsListNextResponse = ViewListResult;
-
-// @public
-export interface ViewsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ViewsListResponse = ViewListResult;
 
 // @public
 export type WeeksOfMonth = string;
