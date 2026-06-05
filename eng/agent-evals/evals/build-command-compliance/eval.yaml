@@ -1,0 +1,92 @@
+# P0-1: build-command-compliance
+#
+# Tests that the agent surfaces the correct package-build command when
+# asked. AGENTS.md and .github/skills/sdk-workflow/SKILL.md both
+# document the canonical command:
+#
+#   pnpm turbo build --filter=<package>... --token 1
+#
+# and explicitly warn against the natural-looking but broken alternative:
+#
+#   npm run build         # fails in workspace-linked turborepo
+#
+# Why this is an eval, not a linter:
+# This tests what the agent SAYS when asked, not anything about code on
+# disk. No static analysis can catch a regression in agent behavior here
+# — only an eval that prompts the agent and checks the response can.
+#
+# Trigger for this eval failing in CI: someone edited AGENTS.md or the
+# sdk-workflow skill in a way that made the command less discoverable.
+
+name: build-command-compliance
+description: |
+  Verify the agent surfaces the correct pnpm turbo build command (and
+  avoids the broken `npm run build` alternative) when asked how to
+  build a single SDK package.
+type: capability
+
+config:
+  runs: 1
+  timeout: 2m
+
+environment:
+  # Strategy A: whole-repo worktree from HEAD. Agent sees AGENTS.md and
+  # all .github/skills/* — exactly the prose we're regression-testing.
+  git:
+    type: worktree
+    ref: HEAD
+    source: ../../../..
+
+stimuli:
+  - name: how-to-build-template
+    prompt: |
+      What is the exact shell command I should run to build only the
+      `@azure/template` package (located at `sdk/template/template`)
+      and its dependencies in this repository? Reply with the command
+      on its own line, then a one-sentence explanation.
+
+    constraints:
+      max_turns: 6
+
+    graders:
+      # The documented command must appear in the agent's final output.
+      # AGENTS.md specifies `pnpm turbo build --filter=<pkg>... --token 1`.
+      # Earlier iterations of the grader required only the verb+filter,
+      # which silently accepted answers missing `--token 1` (which
+      # enables the remote cache read). The no-prose baseline confirmed
+      # the agent can recover the verb+filter from `turbo.json` alone
+      # but cannot recover `--token 1`.
+      - type: output-contains
+        config:
+          substring: "pnpm turbo build --filter=@azure/template"
+
+      # The `--token 1` flag is documented in both AGENTS.md and the
+      # sdk-workflow skill. Without it, builds don't use the remote
+      # turbo cache. This grader uses output-matches (regex) rather
+      # than output-contains so we can give it its own weight key —
+      # vally weights are keyed by grader type. The flag is the part
+      # of the rule that genuinely can't be recovered from code, so
+      # it's weighted heavily enough to fail the eval on its own.
+      - type: output-matches
+        config:
+          pattern: "--token\\s+1"
+
+      # The known anti-pattern must not appear as the recommended approach.
+      # AGENTS.md explicitly calls out that `npm run build` fails under
+      # turbo workspace linking.
+      - type: output-not-contains
+        config:
+          substring: "npm run build"
+
+      # Baseline: agent completed without errors and produced output.
+      - type: completed
+
+# Vally 0.5.0 note: scoring.weights are validated but NOT applied by the
+# scorer — the final score is the unweighted mean of grader scores. We
+# control verdict via grader count + threshold instead.
+#
+# 4 graders here. We need a single grader failure (especially the
+# `--token 1` check) to fail the eval. 3/4 passing = 0.75, so threshold
+# 0.8 makes any miss fail (3/4 < 0.8 < 4/4). Everything must pass.
+scoring:
+  threshold: 0.8

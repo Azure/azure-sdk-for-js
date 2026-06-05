@@ -1,0 +1,22 @@
+# Vally project configuration for @azure-tools/agent-evals.
+# All paths are relative to this file.
+#
+# We deliberately do NOT include any local skills/ directory. The whole
+# point of these evals is to detect regressions in the existing repo
+# skills under .github/skills/ and in AGENTS.md — adding vally-side
+# skills would defeat that purpose.
+
+paths:
+  skills:
+    - ../../.github/skills/
+  evals:
+    - evals/
+  results: vally-results/
+
+suites:
+  # Default suite for inner-loop runs. Today: just the OperationOptions eval.
+  # New evals dropped into evals/ are picked up automatically.
+  smoke:
+    description: Evals safe to run on every change.
+    evals:
+      - evals/**/*.yaml

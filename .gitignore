@@ -207,3 +207,6 @@ sdk/**/sshKey.pub
 
 # gh-aw trial run artifacts (local only)
 trials/
+
+# vally trajectory output from agent evals (eng/agent-evals)
+eng/agent-evals/vally-results/
