@@ -74,7 +74,7 @@
   },
   "dependencies": {
     "fast-xml-parser": "^5.5.9",
-    "tslib": "^2.8.1"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure/dev-tool": "workspace:^",

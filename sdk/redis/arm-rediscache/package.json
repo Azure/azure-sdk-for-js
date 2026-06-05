@@ -247,7 +247,7 @@
     "@azure/core-rest-pipeline": "^1.20.0",
     "@azure/arm-network": "^36.0.0",
     "@azure/logger": "^1.2.0",
-    "tslib": "^2.8.1"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",

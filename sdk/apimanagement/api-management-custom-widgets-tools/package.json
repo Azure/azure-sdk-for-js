@@ -64,7 +64,7 @@
     "@azure/identity": "^4.0.1",
     "@azure/storage-blob": "^12.17.0",
     "mime": "^4.0.1",
-    "tslib": "^2.6.2"
+    "tslib": "catalog:"
   },
   "exports": {
     "./package.json": "./package.json",

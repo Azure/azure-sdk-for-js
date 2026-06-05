@@ -53,7 +53,7 @@
     "@opentelemetry/api-logs": "^0.200.0",
     "@opentelemetry/sdk-logs": "^0.200.0",
     "dotenv": "^16.0.0",
-    "tslib": "^2.8.1"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure/dev-tool": "workspace:^",

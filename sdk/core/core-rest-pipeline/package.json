@@ -96,7 +96,7 @@
     "@azure/core-util": "^1.13.0",
     "@azure/logger": "^1.3.0",
     "@typespec/ts-http-runtime": "^0.3.4",
-    "tslib": "^2.6.2"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-tools/vite-plugin-browser-test-map": "workspace:^",

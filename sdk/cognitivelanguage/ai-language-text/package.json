@@ -92,7 +92,7 @@
     "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/core-tracing": "^1.2.0",
     "@azure/logger": "^1.1.4",
-    "tslib": "^2.8.1"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-rest/core-client": "^2.3.4",

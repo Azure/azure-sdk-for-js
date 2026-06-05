@@ -79,7 +79,7 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-util": "^1.6.1",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.2.0"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",

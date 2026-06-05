@@ -59,7 +59,7 @@
     "@azure/logger": "^1.1.4",
     "@azure/storage-blob": "^12.26.0",
     "openai": "^6.16.0",
-    "tslib": "^2.6.2"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-rest/ai-inference": "^1.0.0-beta.6",

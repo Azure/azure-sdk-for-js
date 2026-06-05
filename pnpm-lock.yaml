@@ -189,7 +189,7 @@ importers:
         specifier: ^27.0.0
         version: 27.0.2
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
       typescript:
         specifier: ~6.0.2
@@ -289,7 +289,7 @@ importers:
         specifier: ^13.0.0
         version: 13.0.6
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
       typescript:
         specifier: ~6.0.2
@@ -344,7 +344,7 @@ importers:
   common/tools/vite-plugin-browser-test-map:
     dependencies:
       tslib:
-        specifier: ^2.2.0
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@eslint/js':
@@ -400,7 +400,7 @@ importers:
         specifier: 'catalog:'
         version: 6.1.3
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
       typescript-eslint:
         specifier: ~8.60.0
@@ -430,7 +430,7 @@ importers:
         specifier: ^5.3.2
         version: 5.8.5
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@eslint/js':
@@ -485,7 +485,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -564,7 +564,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -637,7 +637,7 @@ importers:
         specifier: ^1.0.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.2.0
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -722,7 +722,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -795,7 +795,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -898,7 +898,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -1025,7 +1025,7 @@ importers:
         specifier: ^6.16.0
         version: 6.37.0(ws@8.20.0)(zod@4.4.3)
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-rest/ai-inference':
@@ -1128,7 +1128,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -1201,7 +1201,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -1274,7 +1274,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -1350,7 +1350,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -1411,7 +1411,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -1469,7 +1469,7 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
       yargs-parser:
         specifier: ^22.0.0
@@ -1536,7 +1536,7 @@ importers:
         specifier: ^4.0.1
         version: 4.1.0
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -1597,7 +1597,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -1667,7 +1667,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -1749,7 +1749,7 @@ importers:
         specifier: ^1.0.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.2.0
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -1831,7 +1831,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -1886,7 +1886,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -1965,7 +1965,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -2038,7 +2038,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -2117,7 +2117,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -2196,7 +2196,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -2272,7 +2272,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -2339,7 +2339,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -2421,7 +2421,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -2497,7 +2497,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -2564,7 +2564,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -2643,7 +2643,7 @@ importers:
         specifier: ^11.0.0
         version: 11.1.3
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -2731,7 +2731,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -2801,7 +2801,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -2865,7 +2865,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -2935,7 +2935,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -3008,7 +3008,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -3084,7 +3084,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -3145,7 +3145,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -3215,7 +3215,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -3294,7 +3294,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -3370,7 +3370,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -3443,7 +3443,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -3528,7 +3528,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -3622,7 +3622,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -3722,7 +3722,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -3801,7 +3801,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -3877,7 +3877,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -3944,7 +3944,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -4020,7 +4020,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -4093,7 +4093,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -4163,7 +4163,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -4230,7 +4230,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -4312,7 +4312,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -4388,7 +4388,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/core-tracing
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-rest/core-client':
@@ -4479,7 +4479,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-rest/core-client':
@@ -4570,7 +4570,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -4622,7 +4622,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -4695,7 +4695,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -4765,7 +4765,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -4838,7 +4838,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -4923,7 +4923,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.7.0
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -5017,7 +5017,7 @@ importers:
         specifier: ^3.0.0
         version: 3.3.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -5120,7 +5120,7 @@ importers:
         specifier: ^5.0.0
         version: 5.0.4
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -5208,7 +5208,7 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -5293,7 +5293,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -5384,7 +5384,7 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -5466,7 +5466,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -5563,7 +5563,7 @@ importers:
         specifier: ^5.0.1
         version: 5.0.4
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -5660,7 +5660,7 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -5751,7 +5751,7 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -5839,7 +5839,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -5933,7 +5933,7 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -6024,7 +6024,7 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -6115,7 +6115,7 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -6209,7 +6209,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -6291,7 +6291,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -6367,7 +6367,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -6437,7 +6437,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -6516,7 +6516,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -6595,7 +6595,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -6674,7 +6674,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -6753,7 +6753,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -6832,7 +6832,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -6911,7 +6911,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -6981,7 +6981,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -7057,7 +7057,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -7136,7 +7136,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -7212,7 +7212,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -7276,7 +7276,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -7346,7 +7346,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -7419,7 +7419,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -7498,7 +7498,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -7580,7 +7580,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -7647,7 +7647,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -7699,7 +7699,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -7775,7 +7775,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -7857,7 +7857,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -7936,7 +7936,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -8009,7 +8009,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -8100,7 +8100,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -8164,7 +8164,7 @@ importers:
   sdk/core/abort-controller:
     dependencies:
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -8240,7 +8240,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
       util:
         specifier: ^0.12.5
@@ -8313,7 +8313,7 @@ importers:
         specifier: ^1.13.0
         version: link:../core-util
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -8380,7 +8380,7 @@ importers:
         specifier: ^1.3.0
         version: link:../logger
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/core-xml':
@@ -8447,7 +8447,7 @@ importers:
         specifier: ^0.3.0
         version: link:../ts-http-runtime
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -8560,7 +8560,7 @@ importers:
         specifier: ^1.3.0
         version: link:../logger
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -8615,7 +8615,7 @@ importers:
   sdk/core/core-paging:
     dependencies:
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -8682,7 +8682,7 @@ importers:
         specifier: ^0.3.4
         version: link:../ts-http-runtime
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/vite-plugin-browser-test-map':
@@ -8746,7 +8746,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
       undici:
         specifier: ^8.0.2
@@ -8789,7 +8789,7 @@ importers:
   sdk/core/core-sse:
     dependencies:
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-rest/core-client':
@@ -8868,7 +8868,7 @@ importers:
   sdk/core/core-tracing:
     dependencies:
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/core-auth':
@@ -8926,7 +8926,7 @@ importers:
         specifier: ^0.3.0
         version: link:../ts-http-runtime
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/vite-plugin-browser-test-map':
@@ -8981,7 +8981,7 @@ importers:
         specifier: ^5.5.9
         version: 5.7.3
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -9036,7 +9036,7 @@ importers:
         specifier: ^0.3.0
         version: link:../ts-http-runtime
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -9094,7 +9094,7 @@ importers:
         specifier: ^7.0.0
         version: 7.0.6
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/vite-plugin-browser-test-map':
@@ -9170,7 +9170,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -9258,7 +9258,7 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -9346,7 +9346,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -9416,7 +9416,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -9486,7 +9486,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -9556,7 +9556,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -9635,7 +9635,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -9708,7 +9708,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -9787,7 +9787,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -9863,7 +9863,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -9930,7 +9930,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -10000,7 +10000,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -10067,7 +10067,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -10137,7 +10137,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -10216,7 +10216,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -10292,7 +10292,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -10359,7 +10359,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -10435,7 +10435,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -10511,7 +10511,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -10584,7 +10584,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -10663,7 +10663,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -10733,7 +10733,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -10803,7 +10803,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -10873,7 +10873,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -10946,7 +10946,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -11019,7 +11019,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -11098,7 +11098,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -11174,7 +11174,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -11247,7 +11247,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -11332,7 +11332,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -11408,7 +11408,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -11475,7 +11475,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -11542,7 +11542,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -11621,7 +11621,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -11703,7 +11703,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -11776,7 +11776,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -11855,7 +11855,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -11931,7 +11931,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -12001,7 +12001,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -12074,7 +12074,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -12159,7 +12159,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -12241,7 +12241,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -12317,7 +12317,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -12387,7 +12387,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -12466,7 +12466,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -12536,7 +12536,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -12618,7 +12618,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -12697,7 +12697,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -12770,7 +12770,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -12843,7 +12843,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -12919,7 +12919,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -12998,7 +12998,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -13071,7 +13071,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -13150,7 +13150,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -13226,7 +13226,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -13314,7 +13314,7 @@ importers:
         specifier: ^6.0.0
         version: 6.0.3
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -13384,7 +13384,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -13430,7 +13430,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -13497,7 +13497,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -13570,7 +13570,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -13652,7 +13652,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
       util:
         specifier: ^0.12.5
@@ -13779,7 +13779,7 @@ importers:
         specifier: ^2.30.1
         version: 2.30.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -13825,7 +13825,7 @@ importers:
         specifier: ^12.26.0
         version: 12.31.0
       tslib:
-        specifier: ^2.6.3
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -13928,7 +13928,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -14019,7 +14019,7 @@ importers:
         specifier: ^3.0.2
         version: 3.0.5
       tslib:
-        specifier: ^2.6.3
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -14083,7 +14083,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -14156,7 +14156,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -14232,7 +14232,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -14305,7 +14305,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -14375,7 +14375,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -14445,7 +14445,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -14521,7 +14521,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -14609,7 +14609,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -14658,7 +14658,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -14728,7 +14728,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -14795,7 +14795,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -14874,7 +14874,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -14953,7 +14953,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -15032,7 +15032,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -15111,7 +15111,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -15187,7 +15187,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -15260,7 +15260,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -15339,7 +15339,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -15421,7 +15421,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -15497,7 +15497,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -15570,7 +15570,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -15646,7 +15646,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -15716,7 +15716,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -15789,7 +15789,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -15871,7 +15871,7 @@ importers:
         specifier: ^11.0.0
         version: 11.0.0
       tslib:
-        specifier: ^2.2.0
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-recorder':
@@ -15953,7 +15953,7 @@ importers:
         specifier: ^5.1.0
         version: 5.2.0
       tslib:
-        specifier: ^2.2.0
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-recorder':
@@ -16029,7 +16029,7 @@ importers:
         specifier: ^7.6.0
         version: 7.9.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-recorder':
@@ -16099,7 +16099,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -16139,7 +16139,7 @@ importers:
         specifier: ^5.1.0
         version: 5.2.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-recorder':
@@ -16218,7 +16218,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -16297,7 +16297,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -16373,7 +16373,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -16443,7 +16443,7 @@ importers:
         specifier: ^2.0.0
         version: 2.7.1(@opentelemetry/api@1.9.1)
       tslib:
-        specifier: ^2.7.0
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/core-rest-pipeline':
@@ -16519,7 +16519,7 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-recorder':
@@ -16589,7 +16589,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -16659,7 +16659,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -16735,7 +16735,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -16814,7 +16814,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -16887,7 +16887,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -16966,7 +16966,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -17042,7 +17042,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -17124,7 +17124,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -17215,7 +17215,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -17291,7 +17291,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -17343,7 +17343,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.2.0
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -17419,7 +17419,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -17489,7 +17489,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -17550,7 +17550,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -17623,7 +17623,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -17672,7 +17672,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -17745,7 +17745,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -17818,7 +17818,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -17897,7 +17897,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -17976,7 +17976,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -18055,7 +18055,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -18131,7 +18131,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -18201,7 +18201,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -18274,7 +18274,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -18350,7 +18350,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -18423,7 +18423,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -18499,7 +18499,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -18572,7 +18572,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -18642,7 +18642,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -18712,7 +18712,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -18767,7 +18767,7 @@ importers:
         specifier: ^2.4.2
         version: 2.4.2
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -18837,7 +18837,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -18913,7 +18913,7 @@ importers:
         specifier: ^12.24.0
         version: 12.31.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -18977,7 +18977,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -19038,7 +19038,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -19108,7 +19108,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -19172,7 +19172,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -19239,7 +19239,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -19309,7 +19309,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -19370,7 +19370,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -19437,7 +19437,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -19498,7 +19498,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -19565,7 +19565,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -19641,7 +19641,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -19714,7 +19714,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -19793,7 +19793,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -19872,7 +19872,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -19942,7 +19942,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -20015,7 +20015,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -20088,7 +20088,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -20155,7 +20155,7 @@ importers:
         specifier: 1.0.0-beta.2
         version: 1.0.0-beta.2
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -20237,7 +20237,7 @@ importers:
         specifier: 1.0.0-beta.2
         version: 1.0.0-beta.2
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -20325,7 +20325,7 @@ importers:
         specifier: 1.0.0-beta.2
         version: 1.0.0-beta.2
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -20407,7 +20407,7 @@ importers:
         specifier: 1.0.0-beta.2
         version: 1.0.0-beta.2
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -20495,7 +20495,7 @@ importers:
         specifier: 1.0.0-beta.2
         version: 1.0.0-beta.2
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -20577,7 +20577,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -20641,7 +20641,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -20711,7 +20711,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -20775,7 +20775,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -20845,7 +20845,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -20915,7 +20915,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -20988,7 +20988,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -21067,7 +21067,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -21143,7 +21143,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -21219,7 +21219,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -21286,7 +21286,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -21365,7 +21365,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -21450,7 +21450,7 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -21529,7 +21529,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -21641,7 +21641,7 @@ importers:
         specifier: ^0.27.0
         version: 0.27.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -21738,7 +21738,7 @@ importers:
         specifier: ^1.40.0
         version: 1.40.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -21820,7 +21820,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -21875,7 +21875,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -21966,7 +21966,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -22057,7 +22057,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -22133,7 +22133,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -22203,7 +22203,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -22282,7 +22282,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -22358,7 +22358,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -22434,7 +22434,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -22504,7 +22504,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -22583,7 +22583,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -22659,7 +22659,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -22726,7 +22726,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -22805,7 +22805,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -22884,7 +22884,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -22972,7 +22972,7 @@ importers:
         specifier: ^1.1.2
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-recorder':
@@ -23042,7 +23042,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -23112,7 +23112,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -23182,7 +23182,7 @@ importers:
         specifier: ^1.0.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -23240,7 +23240,7 @@ importers:
   sdk/openai/openai:
     dependencies:
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -23346,7 +23346,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -23422,7 +23422,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -23492,7 +23492,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -23568,7 +23568,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -23638,7 +23638,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -23711,7 +23711,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -23790,7 +23790,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -23869,7 +23869,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -23948,7 +23948,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -24021,7 +24021,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -24091,7 +24091,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -24161,7 +24161,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -24225,7 +24225,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -24292,7 +24292,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -24368,7 +24368,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -24438,7 +24438,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -24511,7 +24511,7 @@ importers:
         specifier: '>=6.0.0'
         version: 6.37.8(pg@8.20.0)
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -24578,7 +24578,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -24657,7 +24657,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -24733,7 +24733,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -24797,7 +24797,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -24873,7 +24873,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -24946,7 +24946,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -25019,7 +25019,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -25098,7 +25098,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -25177,7 +25177,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -25256,7 +25256,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -25326,7 +25326,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -25399,7 +25399,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -25481,7 +25481,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -25560,7 +25560,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -25636,7 +25636,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -25718,7 +25718,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -25791,7 +25791,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -25864,7 +25864,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -25937,7 +25937,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -26019,7 +26019,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -26098,7 +26098,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -26177,7 +26177,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -26259,7 +26259,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -26338,7 +26338,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -26417,7 +26417,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -26493,7 +26493,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -26563,7 +26563,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -26636,7 +26636,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -26706,7 +26706,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -26770,7 +26770,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -26846,7 +26846,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -26913,7 +26913,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -26989,7 +26989,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -27059,7 +27059,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -27126,7 +27126,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -27205,7 +27205,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -27284,7 +27284,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -27360,7 +27360,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -27433,7 +27433,7 @@ importers:
         specifier: ^11.1.0
         version: 11.3.6
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -27533,7 +27533,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -27573,7 +27573,7 @@ importers:
         specifier: ^11.1.0
         version: 11.3.6
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -27670,7 +27670,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -27743,7 +27743,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -27819,7 +27819,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -27898,7 +27898,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -27950,7 +27950,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -28026,7 +28026,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -28096,7 +28096,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -28169,7 +28169,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -28242,7 +28242,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -28312,7 +28312,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -28382,7 +28382,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -28482,7 +28482,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
       util:
         specifier: ^0.12.5
@@ -28597,7 +28597,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -28649,7 +28649,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -28722,7 +28722,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -28804,7 +28804,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -28874,7 +28874,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -28947,7 +28947,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -29023,7 +29023,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -29096,7 +29096,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -29172,7 +29172,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -29245,7 +29245,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -29321,7 +29321,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -29391,7 +29391,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -29464,7 +29464,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -29540,7 +29540,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -29613,7 +29613,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -29692,7 +29692,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -29768,7 +29768,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -29859,7 +29859,7 @@ importers:
         specifier: ^3.0.0
         version: 3.3.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -29959,7 +29959,7 @@ importers:
         specifier: ^1.0.0
         version: link:../storage-internal-avro
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-recorder':
@@ -30032,7 +30032,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -30087,7 +30087,7 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -30175,7 +30175,7 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -30248,7 +30248,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -30315,7 +30315,7 @@ importers:
         specifier: ^3.0.0
         version: 3.3.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -30391,7 +30391,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -30431,7 +30431,7 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -30516,7 +30516,7 @@ importers:
         specifier: ^12.4.0
         version: link:../storage-common
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -30598,7 +30598,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -30677,7 +30677,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -30756,7 +30756,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -30826,7 +30826,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -30899,7 +30899,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -30990,7 +30990,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -31066,7 +31066,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -31133,7 +31133,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -31200,7 +31200,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -31273,7 +31273,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -31343,7 +31343,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -31416,7 +31416,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -31492,7 +31492,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -31559,7 +31559,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/core-tracing
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -31629,7 +31629,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -31717,7 +31717,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/core-tracing
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -31793,7 +31793,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/core-tracing
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -31866,7 +31866,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/core-tracing
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -31936,7 +31936,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/core-tracing
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -32021,7 +32021,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -32094,7 +32094,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -32146,7 +32146,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -32222,7 +32222,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -32292,7 +32292,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -32335,7 +32335,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -32399,7 +32399,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -32478,7 +32478,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -32554,7 +32554,7 @@ importers:
         specifier: ^1.2.8
         version: 1.2.8
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -32670,7 +32670,7 @@ importers:
         specifier: ^4.5.0
         version: 4.13.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -32734,7 +32734,7 @@ importers:
         specifier: ^1.9.0
         version: 1.9.1
       tslib:
-        specifier: ^2.6.3
+        specifier: 'catalog:'
         version: 2.8.1
       vitest:
         specifier: catalog:testing
@@ -32810,7 +32810,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -32883,7 +32883,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure/dev-tool':
@@ -32932,7 +32932,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -32999,7 +32999,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -33072,7 +33072,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -33154,7 +33154,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -33233,7 +33233,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -33318,7 +33318,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -33388,7 +33388,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -33467,7 +33467,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -33534,7 +33534,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -33610,7 +33610,7 @@ importers:
         specifier: ^7.0.1
         version: 7.0.6
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
       ws:
         specifier: ^8.18.3
@@ -33701,7 +33701,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -33774,7 +33774,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -33853,7 +33853,7 @@ importers:
         specifier: ^9.0.2
         version: 9.0.3
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -33938,7 +33938,7 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
       ws:
         specifier: ^8.18.0
@@ -34014,7 +34014,7 @@ importers:
         specifier: ^7.4.0
         version: 7.6.1
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -34084,7 +34084,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-utils-vitest':
@@ -34169,7 +34169,7 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -34245,7 +34245,7 @@ importers:
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -34318,7 +34318,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       tslib:
-        specifier: ^2.8.1
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':

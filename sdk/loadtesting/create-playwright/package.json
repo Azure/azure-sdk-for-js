@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "prompts": "^2.4.2",
-    "tslib": "^2.8.1"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-tools/test-utils-vitest": "workspace:^",
