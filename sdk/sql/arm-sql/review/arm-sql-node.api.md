@@ -445,13 +445,17 @@ export interface DatabaseAutomaticTuning extends ProxyResource {
 }
 
 // @public
-export interface DatabaseAutomaticTuningGetOptionalParams extends OperationOptions {
+export interface DatabaseAutomaticTuningOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DatabaseAutomaticTuningOperations {
-    get: (resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseAutomaticTuningGetOptionalParams) => Promise<DatabaseAutomaticTuning>;
-    update: (resourceGroupName: string, serverName: string, databaseName: string, parameters: DatabaseAutomaticTuning, options?: DatabaseAutomaticTuningUpdateOptionalParams) => Promise<DatabaseAutomaticTuning>;
+export interface DatabaseAutomaticTuningOperationsOperations {
+    get: (resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseAutomaticTuningOperationsGetOptionalParams) => Promise<DatabaseAutomaticTuning>;
+    update: (resourceGroupName: string, serverName: string, databaseName: string, parameters: DatabaseAutomaticTuning, options?: DatabaseAutomaticTuningOperationsUpdateOptionalParams) => Promise<DatabaseAutomaticTuning>;
+}
+
+// @public
+export interface DatabaseAutomaticTuningOperationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -459,10 +463,6 @@ export interface DatabaseAutomaticTuningProperties {
     readonly actualState?: AutomaticTuningMode;
     desiredState?: AutomaticTuningMode;
     options?: Record<string, AutomaticTuningOptions>;
-}
-
-// @public
-export interface DatabaseAutomaticTuningUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -598,27 +598,27 @@ export interface DatabaseExtensions extends ProxyResource {
 }
 
 // @public
-export interface DatabaseExtensionsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface DatabaseExtensionsOperationsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DatabaseExtensionsGetOptionalParams extends OperationOptions {
+export interface DatabaseExtensionsOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DatabaseExtensionsListByDatabaseOptionalParams extends OperationOptions {
+export interface DatabaseExtensionsOperationsListByDatabaseOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DatabaseExtensionsOperations {
+export interface DatabaseExtensionsOperationsOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, serverName: string, databaseName: string, extensionName: string, parameters: DatabaseExtensions, options?: DatabaseExtensionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ImportExportExtensionsOperationResult>, ImportExportExtensionsOperationResult>>;
+    beginCreateOrUpdate: (resourceGroupName: string, serverName: string, databaseName: string, extensionName: string, parameters: DatabaseExtensions, options?: DatabaseExtensionsOperationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ImportExportExtensionsOperationResult>, ImportExportExtensionsOperationResult>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, serverName: string, databaseName: string, extensionName: string, parameters: DatabaseExtensions, options?: DatabaseExtensionsCreateOrUpdateOptionalParams) => Promise<ImportExportExtensionsOperationResult>;
-    createOrUpdate: (resourceGroupName: string, serverName: string, databaseName: string, extensionName: string, parameters: DatabaseExtensions, options?: DatabaseExtensionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ImportExportExtensionsOperationResult>, ImportExportExtensionsOperationResult>;
-    get: (resourceGroupName: string, serverName: string, databaseName: string, extensionName: string, options?: DatabaseExtensionsGetOptionalParams) => Promise<void>;
-    listByDatabase: (resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseExtensionsListByDatabaseOptionalParams) => PagedAsyncIterableIterator<ImportExportExtensionsOperationResult>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, serverName: string, databaseName: string, extensionName: string, parameters: DatabaseExtensions, options?: DatabaseExtensionsOperationsCreateOrUpdateOptionalParams) => Promise<ImportExportExtensionsOperationResult>;
+    createOrUpdate: (resourceGroupName: string, serverName: string, databaseName: string, extensionName: string, parameters: DatabaseExtensions, options?: DatabaseExtensionsOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ImportExportExtensionsOperationResult>, ImportExportExtensionsOperationResult>;
+    get: (resourceGroupName: string, serverName: string, databaseName: string, extensionName: string, options?: DatabaseExtensionsOperationsGetOptionalParams) => Promise<void>;
+    listByDatabase: (resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseExtensionsOperationsListByDatabaseOptionalParams) => PagedAsyncIterableIterator<ImportExportExtensionsOperationResult>;
 }
 
 // @public
@@ -1479,17 +1479,17 @@ export interface DataWarehouseUserActivities extends ProxyResource {
 }
 
 // @public
-export interface DataWarehouseUserActivitiesGetOptionalParams extends OperationOptions {
+export interface DataWarehouseUserActivitiesOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DataWarehouseUserActivitiesListByDatabaseOptionalParams extends OperationOptions {
+export interface DataWarehouseUserActivitiesOperationsListByDatabaseOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DataWarehouseUserActivitiesOperations {
-    get: (resourceGroupName: string, serverName: string, databaseName: string, dataWarehouseUserActivityName: DataWarehouseUserActivityName, options?: DataWarehouseUserActivitiesGetOptionalParams) => Promise<DataWarehouseUserActivities>;
-    listByDatabase: (resourceGroupName: string, serverName: string, databaseName: string, options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams) => PagedAsyncIterableIterator<DataWarehouseUserActivities>;
+export interface DataWarehouseUserActivitiesOperationsOperations {
+    get: (resourceGroupName: string, serverName: string, databaseName: string, dataWarehouseUserActivityName: DataWarehouseUserActivityName, options?: DataWarehouseUserActivitiesOperationsGetOptionalParams) => Promise<DataWarehouseUserActivities>;
+    listByDatabase: (resourceGroupName: string, serverName: string, databaseName: string, options?: DataWarehouseUserActivitiesOperationsListByDatabaseOptionalParams) => PagedAsyncIterableIterator<DataWarehouseUserActivities>;
 }
 
 // @public
@@ -4392,40 +4392,40 @@ export interface LedgerDigestUploads extends ProxyResource {
 }
 
 // @public
-export interface LedgerDigestUploadsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface LedgerDigestUploadsDisableOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface LedgerDigestUploadsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface LedgerDigestUploadsListByDatabaseOptionalParams extends OperationOptions {
-}
-
-// @public
 export type LedgerDigestUploadsName = string;
 
 // @public
-export interface LedgerDigestUploadsOperations {
+export interface LedgerDigestUploadsOperationsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface LedgerDigestUploadsOperationsDisableOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface LedgerDigestUploadsOperationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LedgerDigestUploadsOperationsListByDatabaseOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LedgerDigestUploadsOperationsOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, parameters: LedgerDigestUploads, options?: LedgerDigestUploadsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<LedgerDigestUploads>, LedgerDigestUploads>>;
+    beginCreateOrUpdate: (resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, parameters: LedgerDigestUploads, options?: LedgerDigestUploadsOperationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<LedgerDigestUploads>, LedgerDigestUploads>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, parameters: LedgerDigestUploads, options?: LedgerDigestUploadsCreateOrUpdateOptionalParams) => Promise<LedgerDigestUploads>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, parameters: LedgerDigestUploads, options?: LedgerDigestUploadsOperationsCreateOrUpdateOptionalParams) => Promise<LedgerDigestUploads>;
     // @deprecated (undocumented)
-    beginDisable: (resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, options?: LedgerDigestUploadsDisableOptionalParams) => Promise<SimplePollerLike<OperationState<LedgerDigestUploads>, LedgerDigestUploads>>;
+    beginDisable: (resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, options?: LedgerDigestUploadsOperationsDisableOptionalParams) => Promise<SimplePollerLike<OperationState<LedgerDigestUploads>, LedgerDigestUploads>>;
     // @deprecated (undocumented)
-    beginDisableAndWait: (resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, options?: LedgerDigestUploadsDisableOptionalParams) => Promise<LedgerDigestUploads>;
-    createOrUpdate: (resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, parameters: LedgerDigestUploads, options?: LedgerDigestUploadsCreateOrUpdateOptionalParams) => PollerLike<OperationState<LedgerDigestUploads>, LedgerDigestUploads>;
-    disable: (resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, options?: LedgerDigestUploadsDisableOptionalParams) => PollerLike<OperationState<LedgerDigestUploads>, LedgerDigestUploads>;
-    get: (resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, options?: LedgerDigestUploadsGetOptionalParams) => Promise<LedgerDigestUploads>;
-    listByDatabase: (resourceGroupName: string, serverName: string, databaseName: string, options?: LedgerDigestUploadsListByDatabaseOptionalParams) => PagedAsyncIterableIterator<LedgerDigestUploads>;
+    beginDisableAndWait: (resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, options?: LedgerDigestUploadsOperationsDisableOptionalParams) => Promise<LedgerDigestUploads>;
+    createOrUpdate: (resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, parameters: LedgerDigestUploads, options?: LedgerDigestUploadsOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<LedgerDigestUploads>, LedgerDigestUploads>;
+    disable: (resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, options?: LedgerDigestUploadsOperationsDisableOptionalParams) => PollerLike<OperationState<LedgerDigestUploads>, LedgerDigestUploads>;
+    get: (resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, options?: LedgerDigestUploadsOperationsGetOptionalParams) => Promise<LedgerDigestUploads>;
+    listByDatabase: (resourceGroupName: string, serverName: string, databaseName: string, options?: LedgerDigestUploadsOperationsListByDatabaseOptionalParams) => PagedAsyncIterableIterator<LedgerDigestUploads>;
 }
 
 // @public
@@ -4894,12 +4894,12 @@ export interface MaintenanceWindowOptions extends ProxyResource {
 }
 
 // @public
-export interface MaintenanceWindowOptionsGetOptionalParams extends OperationOptions {
+export interface MaintenanceWindowOptionsOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface MaintenanceWindowOptionsOperations {
-    get: (resourceGroupName: string, serverName: string, databaseName: string, maintenanceWindowOptionsName: string, options?: MaintenanceWindowOptionsGetOptionalParams) => Promise<MaintenanceWindowOptions>;
+export interface MaintenanceWindowOptionsOperationsOperations {
+    get: (resourceGroupName: string, serverName: string, databaseName: string, maintenanceWindowOptionsName: string, options?: MaintenanceWindowOptionsOperationsGetOptionalParams) => Promise<MaintenanceWindowOptions>;
 }
 
 // @public
@@ -4920,17 +4920,17 @@ export interface MaintenanceWindows extends ProxyResource {
 }
 
 // @public
-export interface MaintenanceWindowsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface MaintenanceWindowsOperationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface MaintenanceWindowsGetOptionalParams extends OperationOptions {
+export interface MaintenanceWindowsOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface MaintenanceWindowsOperations {
-    createOrUpdate: (resourceGroupName: string, serverName: string, databaseName: string, maintenanceWindowName: string, parameters: MaintenanceWindows, options?: MaintenanceWindowsCreateOrUpdateOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, serverName: string, databaseName: string, maintenanceWindowName: string, options?: MaintenanceWindowsGetOptionalParams) => Promise<MaintenanceWindows>;
+export interface MaintenanceWindowsOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, serverName: string, databaseName: string, maintenanceWindowName: string, parameters: MaintenanceWindows, options?: MaintenanceWindowsOperationsCreateOrUpdateOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, serverName: string, databaseName: string, maintenanceWindowName: string, options?: MaintenanceWindowsOperationsGetOptionalParams) => Promise<MaintenanceWindows>;
 }
 
 // @public
@@ -6600,40 +6600,40 @@ export interface ManagedLedgerDigestUploads extends ProxyResource {
 }
 
 // @public
-export interface ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ManagedLedgerDigestUploadsDisableOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ManagedLedgerDigestUploadsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ManagedLedgerDigestUploadsListByDatabaseOptionalParams extends OperationOptions {
-}
-
-// @public
 export type ManagedLedgerDigestUploadsName = string;
 
 // @public
-export interface ManagedLedgerDigestUploadsOperations {
+export interface ManagedLedgerDigestUploadsOperationsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ManagedLedgerDigestUploadsOperationsDisableOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ManagedLedgerDigestUploadsOperationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ManagedLedgerDigestUploadsOperationsListByDatabaseOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ManagedLedgerDigestUploadsOperationsOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, parameters: ManagedLedgerDigestUploads, options?: ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ManagedLedgerDigestUploads>, ManagedLedgerDigestUploads>>;
+    beginCreateOrUpdate: (resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, parameters: ManagedLedgerDigestUploads, options?: ManagedLedgerDigestUploadsOperationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ManagedLedgerDigestUploads>, ManagedLedgerDigestUploads>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, parameters: ManagedLedgerDigestUploads, options?: ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams) => Promise<ManagedLedgerDigestUploads>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, parameters: ManagedLedgerDigestUploads, options?: ManagedLedgerDigestUploadsOperationsCreateOrUpdateOptionalParams) => Promise<ManagedLedgerDigestUploads>;
     // @deprecated (undocumented)
-    beginDisable: (resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, options?: ManagedLedgerDigestUploadsDisableOptionalParams) => Promise<SimplePollerLike<OperationState<ManagedLedgerDigestUploads>, ManagedLedgerDigestUploads>>;
+    beginDisable: (resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, options?: ManagedLedgerDigestUploadsOperationsDisableOptionalParams) => Promise<SimplePollerLike<OperationState<ManagedLedgerDigestUploads>, ManagedLedgerDigestUploads>>;
     // @deprecated (undocumented)
-    beginDisableAndWait: (resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, options?: ManagedLedgerDigestUploadsDisableOptionalParams) => Promise<ManagedLedgerDigestUploads>;
-    createOrUpdate: (resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, parameters: ManagedLedgerDigestUploads, options?: ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ManagedLedgerDigestUploads>, ManagedLedgerDigestUploads>;
-    disable: (resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, options?: ManagedLedgerDigestUploadsDisableOptionalParams) => PollerLike<OperationState<ManagedLedgerDigestUploads>, ManagedLedgerDigestUploads>;
-    get: (resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, options?: ManagedLedgerDigestUploadsGetOptionalParams) => Promise<ManagedLedgerDigestUploads>;
-    listByDatabase: (resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedLedgerDigestUploadsListByDatabaseOptionalParams) => PagedAsyncIterableIterator<ManagedLedgerDigestUploads>;
+    beginDisableAndWait: (resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, options?: ManagedLedgerDigestUploadsOperationsDisableOptionalParams) => Promise<ManagedLedgerDigestUploads>;
+    createOrUpdate: (resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, parameters: ManagedLedgerDigestUploads, options?: ManagedLedgerDigestUploadsOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ManagedLedgerDigestUploads>, ManagedLedgerDigestUploads>;
+    disable: (resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, options?: ManagedLedgerDigestUploadsOperationsDisableOptionalParams) => PollerLike<OperationState<ManagedLedgerDigestUploads>, ManagedLedgerDigestUploads>;
+    get: (resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, options?: ManagedLedgerDigestUploadsOperationsGetOptionalParams) => Promise<ManagedLedgerDigestUploads>;
+    listByDatabase: (resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedLedgerDigestUploadsOperationsListByDatabaseOptionalParams) => PagedAsyncIterableIterator<ManagedLedgerDigestUploads>;
 }
 
 // @public
@@ -8170,17 +8170,17 @@ export interface ServerAutomaticTuning extends ProxyResource {
 }
 
 // @public
-export interface ServerAutomaticTuningGetOptionalParams extends OperationOptions {
+export interface ServerAutomaticTuningOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ServerAutomaticTuningOperations {
-    get: (resourceGroupName: string, serverName: string, options?: ServerAutomaticTuningGetOptionalParams) => Promise<ServerAutomaticTuning>;
-    update: (resourceGroupName: string, serverName: string, parameters: ServerAutomaticTuning, options?: ServerAutomaticTuningUpdateOptionalParams) => Promise<ServerAutomaticTuning>;
+export interface ServerAutomaticTuningOperationsOperations {
+    get: (resourceGroupName: string, serverName: string, options?: ServerAutomaticTuningOperationsGetOptionalParams) => Promise<ServerAutomaticTuning>;
+    update: (resourceGroupName: string, serverName: string, parameters: ServerAutomaticTuning, options?: ServerAutomaticTuningOperationsUpdateOptionalParams) => Promise<ServerAutomaticTuning>;
 }
 
 // @public
-export interface ServerAutomaticTuningUpdateOptionalParams extends OperationOptions {
+export interface ServerAutomaticTuningOperationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -9082,11 +9082,11 @@ export class SqlManagementClient {
     readonly capabilities: CapabilitiesOperations;
     readonly databaseAdvancedThreatProtectionSettings: DatabaseAdvancedThreatProtectionSettingsOperations;
     readonly databaseAdvisors: DatabaseAdvisorsOperations;
-    readonly databaseAutomaticTuning: DatabaseAutomaticTuningOperations;
+    readonly databaseAutomaticTuningOperations: DatabaseAutomaticTuningOperationsOperations;
     readonly databaseBlobAuditingPolicies: DatabaseBlobAuditingPoliciesOperations;
     readonly databaseColumns: DatabaseColumnsOperations;
     readonly databaseEncryptionProtectors: DatabaseEncryptionProtectorsOperations;
-    readonly databaseExtensions: DatabaseExtensionsOperations;
+    readonly databaseExtensionsOperations: DatabaseExtensionsOperationsOperations;
     readonly databaseOperations: DatabaseOperationsOperations;
     readonly databaseRecommendedActions: DatabaseRecommendedActionsOperations;
     readonly databases: DatabasesOperations;
@@ -9105,7 +9105,7 @@ export class SqlManagementClient {
     readonly databaseVulnerabilityAssessmentScans: DatabaseVulnerabilityAssessmentScansOperations;
     readonly dataMaskingPolicies: DataMaskingPoliciesOperations;
     readonly dataMaskingRules: DataMaskingRulesOperations;
-    readonly dataWarehouseUserActivities: DataWarehouseUserActivitiesOperations;
+    readonly dataWarehouseUserActivitiesOperations: DataWarehouseUserActivitiesOperationsOperations;
     readonly deletedServers: DeletedServersOperations;
     readonly distributedAvailabilityGroups: DistributedAvailabilityGroupsOperations;
     readonly elasticPoolOperations: ElasticPoolOperationsOperations;
@@ -9131,12 +9131,12 @@ export class SqlManagementClient {
     readonly jobTargetExecutions: JobTargetExecutionsOperations;
     readonly jobTargetGroups: JobTargetGroupsOperations;
     readonly jobVersions: JobVersionsOperations;
-    readonly ledgerDigestUploads: LedgerDigestUploadsOperations;
+    readonly ledgerDigestUploadsOperations: LedgerDigestUploadsOperationsOperations;
     readonly longTermRetentionBackups: LongTermRetentionBackupsOperations;
     readonly longTermRetentionManagedInstanceBackups: LongTermRetentionManagedInstanceBackupsOperations;
     readonly longTermRetentionPolicies: LongTermRetentionPoliciesOperations;
-    readonly maintenanceWindowOptions: MaintenanceWindowOptionsOperations;
-    readonly maintenanceWindows: MaintenanceWindowsOperations;
+    readonly maintenanceWindowOptionsOperations: MaintenanceWindowOptionsOperationsOperations;
+    readonly maintenanceWindowsOperations: MaintenanceWindowsOperationsOperations;
     readonly managedBackupShortTermRetentionPolicies: ManagedBackupShortTermRetentionPoliciesOperations;
     readonly managedDatabaseAdvancedThreatProtectionSettings: ManagedDatabaseAdvancedThreatProtectionSettingsOperations;
     readonly managedDatabaseColumns: ManagedDatabaseColumnsOperations;
@@ -9167,7 +9167,7 @@ export class SqlManagementClient {
     readonly managedInstances: ManagedInstancesOperations;
     readonly managedInstanceTdeCertificates: ManagedInstanceTdeCertificatesOperations;
     readonly managedInstanceVulnerabilityAssessments: ManagedInstanceVulnerabilityAssessmentsOperations;
-    readonly managedLedgerDigestUploads: ManagedLedgerDigestUploadsOperations;
+    readonly managedLedgerDigestUploadsOperations: ManagedLedgerDigestUploadsOperationsOperations;
     readonly managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations;
     readonly managedServerDnsAliases: ManagedServerDnsAliasesOperations;
     readonly managedServerSecurityAlertPolicies: ManagedServerSecurityAlertPoliciesOperations;
@@ -9187,7 +9187,7 @@ export class SqlManagementClient {
     readonly sensitivityLabels: SensitivityLabelsOperations;
     readonly serverAdvancedThreatProtectionSettings: ServerAdvancedThreatProtectionSettingsOperations;
     readonly serverAdvisors: ServerAdvisorsOperations;
-    readonly serverAutomaticTuning: ServerAutomaticTuningOperations;
+    readonly serverAutomaticTuningOperations: ServerAutomaticTuningOperationsOperations;
     readonly serverAzureADAdministrators: ServerAzureADAdministratorsOperations;
     readonly serverAzureADOnlyAuthentications: ServerAzureADOnlyAuthenticationsOperations;
     readonly serverBlobAuditingPolicies: ServerBlobAuditingPoliciesOperations;

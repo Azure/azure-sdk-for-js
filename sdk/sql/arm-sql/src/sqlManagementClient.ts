@@ -11,22 +11,22 @@ import type { DataMaskingPoliciesOperations } from "./classic/dataMaskingPolicie
 import { _getDataMaskingPoliciesOperations } from "./classic/dataMaskingPolicies/index.js";
 import type { DataMaskingRulesOperations } from "./classic/dataMaskingRules/index.js";
 import { _getDataMaskingRulesOperations } from "./classic/dataMaskingRules/index.js";
-import type { DataWarehouseUserActivitiesOperations } from "./classic/dataWarehouseUserActivities/index.js";
-import { _getDataWarehouseUserActivitiesOperations } from "./classic/dataWarehouseUserActivities/index.js";
+import type { DataWarehouseUserActivitiesOperationsOperations } from "./classic/dataWarehouseUserActivitiesOperations/index.js";
+import { _getDataWarehouseUserActivitiesOperationsOperations } from "./classic/dataWarehouseUserActivitiesOperations/index.js";
 import type { DatabaseAdvancedThreatProtectionSettingsOperations } from "./classic/databaseAdvancedThreatProtectionSettings/index.js";
 import { _getDatabaseAdvancedThreatProtectionSettingsOperations } from "./classic/databaseAdvancedThreatProtectionSettings/index.js";
 import type { DatabaseAdvisorsOperations } from "./classic/databaseAdvisors/index.js";
 import { _getDatabaseAdvisorsOperations } from "./classic/databaseAdvisors/index.js";
-import type { DatabaseAutomaticTuningOperations } from "./classic/databaseAutomaticTuning/index.js";
-import { _getDatabaseAutomaticTuningOperations } from "./classic/databaseAutomaticTuning/index.js";
+import type { DatabaseAutomaticTuningOperationsOperations } from "./classic/databaseAutomaticTuningOperations/index.js";
+import { _getDatabaseAutomaticTuningOperationsOperations } from "./classic/databaseAutomaticTuningOperations/index.js";
 import type { DatabaseBlobAuditingPoliciesOperations } from "./classic/databaseBlobAuditingPolicies/index.js";
 import { _getDatabaseBlobAuditingPoliciesOperations } from "./classic/databaseBlobAuditingPolicies/index.js";
 import type { DatabaseColumnsOperations } from "./classic/databaseColumns/index.js";
 import { _getDatabaseColumnsOperations } from "./classic/databaseColumns/index.js";
 import type { DatabaseEncryptionProtectorsOperations } from "./classic/databaseEncryptionProtectors/index.js";
 import { _getDatabaseEncryptionProtectorsOperations } from "./classic/databaseEncryptionProtectors/index.js";
-import type { DatabaseExtensionsOperations } from "./classic/databaseExtensions/index.js";
-import { _getDatabaseExtensionsOperations } from "./classic/databaseExtensions/index.js";
+import type { DatabaseExtensionsOperationsOperations } from "./classic/databaseExtensionsOperations/index.js";
+import { _getDatabaseExtensionsOperationsOperations } from "./classic/databaseExtensionsOperations/index.js";
 import type { DatabaseOperationsOperations } from "./classic/databaseOperations/index.js";
 import { _getDatabaseOperationsOperations } from "./classic/databaseOperations/index.js";
 import type { DatabaseRecommendedActionsOperations } from "./classic/databaseRecommendedActions/index.js";
@@ -109,18 +109,18 @@ import type { JobVersionsOperations } from "./classic/jobVersions/index.js";
 import { _getJobVersionsOperations } from "./classic/jobVersions/index.js";
 import type { JobsOperations } from "./classic/jobs/index.js";
 import { _getJobsOperations } from "./classic/jobs/index.js";
-import type { LedgerDigestUploadsOperations } from "./classic/ledgerDigestUploads/index.js";
-import { _getLedgerDigestUploadsOperations } from "./classic/ledgerDigestUploads/index.js";
+import type { LedgerDigestUploadsOperationsOperations } from "./classic/ledgerDigestUploadsOperations/index.js";
+import { _getLedgerDigestUploadsOperationsOperations } from "./classic/ledgerDigestUploadsOperations/index.js";
 import type { LongTermRetentionBackupsOperations } from "./classic/longTermRetentionBackups/index.js";
 import { _getLongTermRetentionBackupsOperations } from "./classic/longTermRetentionBackups/index.js";
 import type { LongTermRetentionManagedInstanceBackupsOperations } from "./classic/longTermRetentionManagedInstanceBackups/index.js";
 import { _getLongTermRetentionManagedInstanceBackupsOperations } from "./classic/longTermRetentionManagedInstanceBackups/index.js";
 import type { LongTermRetentionPoliciesOperations } from "./classic/longTermRetentionPolicies/index.js";
 import { _getLongTermRetentionPoliciesOperations } from "./classic/longTermRetentionPolicies/index.js";
-import type { MaintenanceWindowOptionsOperations } from "./classic/maintenanceWindowOptions/index.js";
-import { _getMaintenanceWindowOptionsOperations } from "./classic/maintenanceWindowOptions/index.js";
-import type { MaintenanceWindowsOperations } from "./classic/maintenanceWindows/index.js";
-import { _getMaintenanceWindowsOperations } from "./classic/maintenanceWindows/index.js";
+import type { MaintenanceWindowOptionsOperationsOperations } from "./classic/maintenanceWindowOptionsOperations/index.js";
+import { _getMaintenanceWindowOptionsOperationsOperations } from "./classic/maintenanceWindowOptionsOperations/index.js";
+import type { MaintenanceWindowsOperationsOperations } from "./classic/maintenanceWindowsOperations/index.js";
+import { _getMaintenanceWindowsOperationsOperations } from "./classic/maintenanceWindowsOperations/index.js";
 import type { ManagedBackupShortTermRetentionPoliciesOperations } from "./classic/managedBackupShortTermRetentionPolicies/index.js";
 import { _getManagedBackupShortTermRetentionPoliciesOperations } from "./classic/managedBackupShortTermRetentionPolicies/index.js";
 import type { ManagedDatabaseAdvancedThreatProtectionSettingsOperations } from "./classic/managedDatabaseAdvancedThreatProtectionSettings/index.js";
@@ -181,8 +181,8 @@ import type { ManagedInstanceVulnerabilityAssessmentsOperations } from "./classi
 import { _getManagedInstanceVulnerabilityAssessmentsOperations } from "./classic/managedInstanceVulnerabilityAssessments/index.js";
 import type { ManagedInstancesOperations } from "./classic/managedInstances/index.js";
 import { _getManagedInstancesOperations } from "./classic/managedInstances/index.js";
-import type { ManagedLedgerDigestUploadsOperations } from "./classic/managedLedgerDigestUploads/index.js";
-import { _getManagedLedgerDigestUploadsOperations } from "./classic/managedLedgerDigestUploads/index.js";
+import type { ManagedLedgerDigestUploadsOperationsOperations } from "./classic/managedLedgerDigestUploadsOperations/index.js";
+import { _getManagedLedgerDigestUploadsOperationsOperations } from "./classic/managedLedgerDigestUploadsOperations/index.js";
 import type { ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations } from "./classic/managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies/index.js";
 import { _getManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations } from "./classic/managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies/index.js";
 import type { ManagedServerDnsAliasesOperations } from "./classic/managedServerDnsAliases/index.js";
@@ -219,8 +219,8 @@ import type { ServerAdvancedThreatProtectionSettingsOperations } from "./classic
 import { _getServerAdvancedThreatProtectionSettingsOperations } from "./classic/serverAdvancedThreatProtectionSettings/index.js";
 import type { ServerAdvisorsOperations } from "./classic/serverAdvisors/index.js";
 import { _getServerAdvisorsOperations } from "./classic/serverAdvisors/index.js";
-import type { ServerAutomaticTuningOperations } from "./classic/serverAutomaticTuning/index.js";
-import { _getServerAutomaticTuningOperations } from "./classic/serverAutomaticTuning/index.js";
+import type { ServerAutomaticTuningOperationsOperations } from "./classic/serverAutomaticTuningOperations/index.js";
+import { _getServerAutomaticTuningOperationsOperations } from "./classic/serverAutomaticTuningOperations/index.js";
 import type { ServerAzureADAdministratorsOperations } from "./classic/serverAzureADAdministrators/index.js";
 import { _getServerAzureADAdministratorsOperations } from "./classic/serverAzureADAdministrators/index.js";
 import type { ServerAzureADOnlyAuthenticationsOperations } from "./classic/serverAzureADOnlyAuthentications/index.js";
@@ -342,10 +342,14 @@ export class SqlManagementClient {
     this.capabilities = _getCapabilitiesOperations(this._client);
     this.transparentDataEncryptions = _getTransparentDataEncryptionsOperations(this._client);
     this.sqlAgent = _getSqlAgentOperations(this._client);
-    this.serverAutomaticTuning = _getServerAutomaticTuningOperations(this._client);
+    this.serverAutomaticTuningOperations = _getServerAutomaticTuningOperationsOperations(
+      this._client,
+    );
     this.serverAdvancedThreatProtectionSettings =
       _getServerAdvancedThreatProtectionSettingsOperations(this._client);
-    this.managedLedgerDigestUploads = _getManagedLedgerDigestUploadsOperations(this._client);
+    this.managedLedgerDigestUploadsOperations = _getManagedLedgerDigestUploadsOperationsOperations(
+      this._client,
+    );
     this.managedInstancePrivateLinkResources = _getManagedInstancePrivateLinkResourcesOperations(
       this._client,
     );
@@ -358,9 +362,11 @@ export class SqlManagementClient {
     this.managedDatabaseMoveOperations = _getManagedDatabaseMoveOperationsOperations(this._client);
     this.managedDatabaseAdvancedThreatProtectionSettings =
       _getManagedDatabaseAdvancedThreatProtectionSettingsOperations(this._client);
-    this.maintenanceWindows = _getMaintenanceWindowsOperations(this._client);
-    this.maintenanceWindowOptions = _getMaintenanceWindowOptionsOperations(this._client);
-    this.ledgerDigestUploads = _getLedgerDigestUploadsOperations(this._client);
+    this.maintenanceWindowsOperations = _getMaintenanceWindowsOperationsOperations(this._client);
+    this.maintenanceWindowOptionsOperations = _getMaintenanceWindowOptionsOperationsOperations(
+      this._client,
+    );
+    this.ledgerDigestUploadsOperations = _getLedgerDigestUploadsOperationsOperations(this._client);
     this.usages = _getUsagesOperations(this._client);
     this.elasticPoolOperations = _getElasticPoolOperationsOperations(this._client);
     this.managedInstanceTdeCertificates = _getManagedInstanceTdeCertificatesOperations(
@@ -369,7 +375,8 @@ export class SqlManagementClient {
     this.managedDatabaseRecommendedSensitivityLabels =
       _getManagedDatabaseRecommendedSensitivityLabelsOperations(this._client);
     this.managedDatabaseSecurityEvents = _getManagedDatabaseSecurityEventsOperations(this._client);
-    this.dataWarehouseUserActivities = _getDataWarehouseUserActivitiesOperations(this._client);
+    this.dataWarehouseUserActivitiesOperations =
+      _getDataWarehouseUserActivitiesOperationsOperations(this._client);
     this.dataMaskingRules = _getDataMaskingRulesOperations(this._client);
     this.databaseVulnerabilityAssessmentScans = _getDatabaseVulnerabilityAssessmentScansOperations(
       this._client,
@@ -390,8 +397,10 @@ export class SqlManagementClient {
     this.databaseSqlVulnerabilityAssessmentBaselines =
       _getDatabaseSqlVulnerabilityAssessmentBaselinesOperations(this._client);
     this.databaseRecommendedActions = _getDatabaseRecommendedActionsOperations(this._client);
-    this.databaseExtensions = _getDatabaseExtensionsOperations(this._client);
-    this.databaseAutomaticTuning = _getDatabaseAutomaticTuningOperations(this._client);
+    this.databaseExtensionsOperations = _getDatabaseExtensionsOperationsOperations(this._client);
+    this.databaseAutomaticTuningOperations = _getDatabaseAutomaticTuningOperationsOperations(
+      this._client,
+    );
     this.databaseAdvisors = _getDatabaseAdvisorsOperations(this._client);
     this.databaseAdvancedThreatProtectionSettings =
       _getDatabaseAdvancedThreatProtectionSettingsOperations(this._client);
@@ -562,12 +571,12 @@ export class SqlManagementClient {
   public readonly transparentDataEncryptions: TransparentDataEncryptionsOperations;
   /** The operation groups for sqlAgent */
   public readonly sqlAgent: SqlAgentOperations;
-  /** The operation groups for serverAutomaticTuning */
-  public readonly serverAutomaticTuning: ServerAutomaticTuningOperations;
+  /** The operation groups for serverAutomaticTuningOperations */
+  public readonly serverAutomaticTuningOperations: ServerAutomaticTuningOperationsOperations;
   /** The operation groups for serverAdvancedThreatProtectionSettings */
   public readonly serverAdvancedThreatProtectionSettings: ServerAdvancedThreatProtectionSettingsOperations;
-  /** The operation groups for managedLedgerDigestUploads */
-  public readonly managedLedgerDigestUploads: ManagedLedgerDigestUploadsOperations;
+  /** The operation groups for managedLedgerDigestUploadsOperations */
+  public readonly managedLedgerDigestUploadsOperations: ManagedLedgerDigestUploadsOperationsOperations;
   /** The operation groups for managedInstancePrivateLinkResources */
   public readonly managedInstancePrivateLinkResources: ManagedInstancePrivateLinkResourcesOperations;
   /** The operation groups for managedInstanceAdvancedThreatProtectionSettings */
@@ -582,12 +591,12 @@ export class SqlManagementClient {
   public readonly managedDatabaseMoveOperations: ManagedDatabaseMoveOperationsOperations;
   /** The operation groups for managedDatabaseAdvancedThreatProtectionSettings */
   public readonly managedDatabaseAdvancedThreatProtectionSettings: ManagedDatabaseAdvancedThreatProtectionSettingsOperations;
-  /** The operation groups for maintenanceWindows */
-  public readonly maintenanceWindows: MaintenanceWindowsOperations;
-  /** The operation groups for maintenanceWindowOptions */
-  public readonly maintenanceWindowOptions: MaintenanceWindowOptionsOperations;
-  /** The operation groups for ledgerDigestUploads */
-  public readonly ledgerDigestUploads: LedgerDigestUploadsOperations;
+  /** The operation groups for maintenanceWindowsOperations */
+  public readonly maintenanceWindowsOperations: MaintenanceWindowsOperationsOperations;
+  /** The operation groups for maintenanceWindowOptionsOperations */
+  public readonly maintenanceWindowOptionsOperations: MaintenanceWindowOptionsOperationsOperations;
+  /** The operation groups for ledgerDigestUploadsOperations */
+  public readonly ledgerDigestUploadsOperations: LedgerDigestUploadsOperationsOperations;
   /** The operation groups for usages */
   public readonly usages: UsagesOperations;
   /** The operation groups for elasticPoolOperations */
@@ -598,8 +607,8 @@ export class SqlManagementClient {
   public readonly managedDatabaseRecommendedSensitivityLabels: ManagedDatabaseRecommendedSensitivityLabelsOperations;
   /** The operation groups for managedDatabaseSecurityEvents */
   public readonly managedDatabaseSecurityEvents: ManagedDatabaseSecurityEventsOperations;
-  /** The operation groups for dataWarehouseUserActivities */
-  public readonly dataWarehouseUserActivities: DataWarehouseUserActivitiesOperations;
+  /** The operation groups for dataWarehouseUserActivitiesOperations */
+  public readonly dataWarehouseUserActivitiesOperations: DataWarehouseUserActivitiesOperationsOperations;
   /** The operation groups for dataMaskingRules */
   public readonly dataMaskingRules: DataMaskingRulesOperations;
   /** The operation groups for databaseVulnerabilityAssessmentScans */
@@ -620,10 +629,10 @@ export class SqlManagementClient {
   public readonly databaseSqlVulnerabilityAssessmentBaselines: DatabaseSqlVulnerabilityAssessmentBaselinesOperations;
   /** The operation groups for databaseRecommendedActions */
   public readonly databaseRecommendedActions: DatabaseRecommendedActionsOperations;
-  /** The operation groups for databaseExtensions */
-  public readonly databaseExtensions: DatabaseExtensionsOperations;
-  /** The operation groups for databaseAutomaticTuning */
-  public readonly databaseAutomaticTuning: DatabaseAutomaticTuningOperations;
+  /** The operation groups for databaseExtensionsOperations */
+  public readonly databaseExtensionsOperations: DatabaseExtensionsOperationsOperations;
+  /** The operation groups for databaseAutomaticTuningOperations */
+  public readonly databaseAutomaticTuningOperations: DatabaseAutomaticTuningOperationsOperations;
   /** The operation groups for databaseAdvisors */
   public readonly databaseAdvisors: DatabaseAdvisorsOperations;
   /** The operation groups for databaseAdvancedThreatProtectionSettings */

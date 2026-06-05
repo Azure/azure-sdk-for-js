@@ -788,9 +788,9 @@ export type {
   DatabaseAdvisorsGetOptionalParams,
 } from "./api/databaseAdvisors/index.js";
 export type {
-  DatabaseAutomaticTuningUpdateOptionalParams,
-  DatabaseAutomaticTuningGetOptionalParams,
-} from "./api/databaseAutomaticTuning/index.js";
+  DatabaseAutomaticTuningOperationsUpdateOptionalParams,
+  DatabaseAutomaticTuningOperationsGetOptionalParams,
+} from "./api/databaseAutomaticTuningOperations/index.js";
 export type {
   DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams,
   DatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams,
@@ -806,10 +806,10 @@ export type {
   DatabaseEncryptionProtectorsRevalidateOptionalParams,
 } from "./api/databaseEncryptionProtectors/index.js";
 export type {
-  DatabaseExtensionsListByDatabaseOptionalParams,
-  DatabaseExtensionsCreateOrUpdateOptionalParams,
-  DatabaseExtensionsGetOptionalParams,
-} from "./api/databaseExtensions/index.js";
+  DatabaseExtensionsOperationsListByDatabaseOptionalParams,
+  DatabaseExtensionsOperationsCreateOrUpdateOptionalParams,
+  DatabaseExtensionsOperationsGetOptionalParams,
+} from "./api/databaseExtensionsOperations/index.js";
 export type {
   DatabaseOperationsCancelOptionalParams,
   DatabaseOperationsListByDatabaseOptionalParams,
@@ -899,9 +899,9 @@ export type {
   DataMaskingRulesListByDatabaseOptionalParams,
 } from "./api/dataMaskingRules/index.js";
 export type {
-  DataWarehouseUserActivitiesListByDatabaseOptionalParams,
-  DataWarehouseUserActivitiesGetOptionalParams,
-} from "./api/dataWarehouseUserActivities/index.js";
+  DataWarehouseUserActivitiesOperationsListByDatabaseOptionalParams,
+  DataWarehouseUserActivitiesOperationsGetOptionalParams,
+} from "./api/dataWarehouseUserActivitiesOperations/index.js";
 export type {
   DeletedServersListOptionalParams,
   DeletedServersRecoverOptionalParams,
@@ -1058,11 +1058,11 @@ export type {
   JobVersionsGetOptionalParams,
 } from "./api/jobVersions/index.js";
 export type {
-  LedgerDigestUploadsDisableOptionalParams,
-  LedgerDigestUploadsListByDatabaseOptionalParams,
-  LedgerDigestUploadsCreateOrUpdateOptionalParams,
-  LedgerDigestUploadsGetOptionalParams,
-} from "./api/ledgerDigestUploads/index.js";
+  LedgerDigestUploadsOperationsDisableOptionalParams,
+  LedgerDigestUploadsOperationsListByDatabaseOptionalParams,
+  LedgerDigestUploadsOperationsCreateOrUpdateOptionalParams,
+  LedgerDigestUploadsOperationsGetOptionalParams,
+} from "./api/ledgerDigestUploadsOperations/index.js";
 export type {
   LongTermRetentionBackupsListByResourceGroupServerOptionalParams,
   LongTermRetentionBackupsListByResourceGroupLocationOptionalParams,
@@ -1106,11 +1106,11 @@ export type {
   LongTermRetentionPoliciesCreateOrUpdateOptionalParams,
   LongTermRetentionPoliciesGetOptionalParams,
 } from "./api/longTermRetentionPolicies/index.js";
-export type { MaintenanceWindowOptionsGetOptionalParams } from "./api/maintenanceWindowOptions/index.js";
+export type { MaintenanceWindowOptionsOperationsGetOptionalParams } from "./api/maintenanceWindowOptionsOperations/index.js";
 export type {
-  MaintenanceWindowsCreateOrUpdateOptionalParams,
-  MaintenanceWindowsGetOptionalParams,
-} from "./api/maintenanceWindows/index.js";
+  MaintenanceWindowsOperationsCreateOrUpdateOptionalParams,
+  MaintenanceWindowsOperationsGetOptionalParams,
+} from "./api/maintenanceWindowsOperations/index.js";
 export type {
   ManagedBackupShortTermRetentionPoliciesListByDatabaseOptionalParams,
   ManagedBackupShortTermRetentionPoliciesUpdateOptionalParams,
@@ -1277,11 +1277,11 @@ export type {
   ManagedInstanceVulnerabilityAssessmentsGetOptionalParams,
 } from "./api/managedInstanceVulnerabilityAssessments/index.js";
 export type {
-  ManagedLedgerDigestUploadsDisableOptionalParams,
-  ManagedLedgerDigestUploadsListByDatabaseOptionalParams,
-  ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams,
-  ManagedLedgerDigestUploadsGetOptionalParams,
-} from "./api/managedLedgerDigestUploads/index.js";
+  ManagedLedgerDigestUploadsOperationsDisableOptionalParams,
+  ManagedLedgerDigestUploadsOperationsListByDatabaseOptionalParams,
+  ManagedLedgerDigestUploadsOperationsCreateOrUpdateOptionalParams,
+  ManagedLedgerDigestUploadsOperationsGetOptionalParams,
+} from "./api/managedLedgerDigestUploadsOperations/index.js";
 export type {
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams,
@@ -1377,9 +1377,9 @@ export type {
   ServerAdvisorsGetOptionalParams,
 } from "./api/serverAdvisors/index.js";
 export type {
-  ServerAutomaticTuningUpdateOptionalParams,
-  ServerAutomaticTuningGetOptionalParams,
-} from "./api/serverAutomaticTuning/index.js";
+  ServerAutomaticTuningOperationsUpdateOptionalParams,
+  ServerAutomaticTuningOperationsGetOptionalParams,
+} from "./api/serverAutomaticTuningOperations/index.js";
 export type {
   ServerAzureADAdministratorsListByServerOptionalParams,
   ServerAzureADAdministratorsDeleteOptionalParams,
@@ -1578,11 +1578,11 @@ export type {
   CapabilitiesOperations,
   DatabaseAdvancedThreatProtectionSettingsOperations,
   DatabaseAdvisorsOperations,
-  DatabaseAutomaticTuningOperations,
+  DatabaseAutomaticTuningOperationsOperations,
   DatabaseBlobAuditingPoliciesOperations,
   DatabaseColumnsOperations,
   DatabaseEncryptionProtectorsOperations,
-  DatabaseExtensionsOperations,
+  DatabaseExtensionsOperationsOperations,
   DatabaseOperationsOperations,
   DatabaseRecommendedActionsOperations,
   DatabasesOperations,
@@ -1601,7 +1601,7 @@ export type {
   DatabaseVulnerabilityAssessmentScansOperations,
   DataMaskingPoliciesOperations,
   DataMaskingRulesOperations,
-  DataWarehouseUserActivitiesOperations,
+  DataWarehouseUserActivitiesOperationsOperations,
   DeletedServersOperations,
   DistributedAvailabilityGroupsOperations,
   ElasticPoolOperationsOperations,
@@ -1627,12 +1627,12 @@ export type {
   JobTargetExecutionsOperations,
   JobTargetGroupsOperations,
   JobVersionsOperations,
-  LedgerDigestUploadsOperations,
+  LedgerDigestUploadsOperationsOperations,
   LongTermRetentionBackupsOperations,
   LongTermRetentionManagedInstanceBackupsOperations,
   LongTermRetentionPoliciesOperations,
-  MaintenanceWindowOptionsOperations,
-  MaintenanceWindowsOperations,
+  MaintenanceWindowOptionsOperationsOperations,
+  MaintenanceWindowsOperationsOperations,
   ManagedBackupShortTermRetentionPoliciesOperations,
   ManagedDatabaseAdvancedThreatProtectionSettingsOperations,
   ManagedDatabaseColumnsOperations,
@@ -1663,7 +1663,7 @@ export type {
   ManagedInstancesOperations,
   ManagedInstanceTdeCertificatesOperations,
   ManagedInstanceVulnerabilityAssessmentsOperations,
-  ManagedLedgerDigestUploadsOperations,
+  ManagedLedgerDigestUploadsOperationsOperations,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations,
   ManagedServerDnsAliasesOperations,
   ManagedServerSecurityAlertPoliciesOperations,
@@ -1682,7 +1682,7 @@ export type {
   SensitivityLabelsOperations,
   ServerAdvancedThreatProtectionSettingsOperations,
   ServerAdvisorsOperations,
-  ServerAutomaticTuningOperations,
+  ServerAutomaticTuningOperationsOperations,
   ServerAzureADAdministratorsOperations,
   ServerAzureADOnlyAuthenticationsOperations,
   ServerBlobAuditingPoliciesOperations,

@@ -10,18 +10,18 @@ import {
 import { _createOrUpdateDeserialize as _createOrUpdateDeserializeServerAdvancedThreatProtectionSettings } from "./api/serverAdvancedThreatProtectionSettings/operations.js";
 import {
   _disableDeserialize,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeManagedLedgerDigestUploads,
-} from "./api/managedLedgerDigestUploads/operations.js";
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeManagedLedgerDigestUploadsOperations,
+} from "./api/managedLedgerDigestUploadsOperations/operations.js";
 import { _createOrUpdateDeserialize as _createOrUpdateDeserializeManagedInstanceAdvancedThreatProtectionSettings } from "./api/managedInstanceAdvancedThreatProtectionSettings/operations.js";
 import {
-  _disableDeserialize as _disableDeserializeLedgerDigestUploads,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeLedgerDigestUploads,
-} from "./api/ledgerDigestUploads/operations.js";
+  _disableDeserialize as _disableDeserializeLedgerDigestUploadsOperations,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeLedgerDigestUploadsOperations,
+} from "./api/ledgerDigestUploadsOperations/operations.js";
 import { _createDeserialize } from "./api/managedInstanceTdeCertificates/operations.js";
 import { _initiateScanDeserialize } from "./api/databaseVulnerabilityAssessmentScans/operations.js";
 import { _executeDeserialize } from "./api/sqlVulnerabilityAssessmentExecuteScan/operations.js";
 import { _executeDeserialize as _executeDeserializeDatabaseSqlVulnerabilityAssessmentExecuteScan } from "./api/databaseSqlVulnerabilityAssessmentExecuteScan/operations.js";
-import { _createOrUpdateDeserialize as _createOrUpdateDeserializeDatabaseExtensions } from "./api/databaseExtensions/operations.js";
+import { _createOrUpdateDeserialize as _createOrUpdateDeserializeDatabaseExtensionsOperations } from "./api/databaseExtensionsOperations/operations.js";
 import { _createDeserialize as _createDeserializeTdeCertificates } from "./api/tdeCertificates/operations.js";
 import {
   _revertDeserialize,
@@ -351,7 +351,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _disableDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}":
     {
-      deserializer: _createOrUpdateDeserializeManagedLedgerDigestUploads,
+      deserializer: _createOrUpdateDeserializeManagedLedgerDigestUploadsOperations,
       expectedStatuses: ["200", "202", "201"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/advancedThreatProtectionSettings/{advancedThreatProtectionName}":
@@ -361,12 +361,12 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}/disable":
     {
-      deserializer: _disableDeserializeLedgerDigestUploads,
+      deserializer: _disableDeserializeLedgerDigestUploadsOperations,
       expectedStatuses: ["200", "202", "201"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}":
     {
-      deserializer: _createOrUpdateDeserializeLedgerDigestUploads,
+      deserializer: _createOrUpdateDeserializeLedgerDigestUploadsOperations,
       expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates":
@@ -382,7 +382,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extensions/{extensionName}":
     {
-      deserializer: _createOrUpdateDeserializeDatabaseExtensions,
+      deserializer: _createOrUpdateDeserializeDatabaseExtensionsOperations,
       expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/tdeCertificates":

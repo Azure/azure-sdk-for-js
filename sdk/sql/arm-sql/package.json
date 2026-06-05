@@ -84,18 +84,18 @@
         "default": "./dist/commonjs/api/sqlAgent/index.js"
       }
     },
-    "./api/serverAutomaticTuning": {
+    "./api/serverAutomaticTuningOperations": {
       "browser": {
-        "types": "./dist/browser/api/serverAutomaticTuning/index.d.ts",
-        "default": "./dist/browser/api/serverAutomaticTuning/index.js"
+        "types": "./dist/browser/api/serverAutomaticTuningOperations/index.d.ts",
+        "default": "./dist/browser/api/serverAutomaticTuningOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/serverAutomaticTuning/index.d.ts",
-        "default": "./dist/esm/api/serverAutomaticTuning/index.js"
+        "types": "./dist/esm/api/serverAutomaticTuningOperations/index.d.ts",
+        "default": "./dist/esm/api/serverAutomaticTuningOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/serverAutomaticTuning/index.d.ts",
-        "default": "./dist/commonjs/api/serverAutomaticTuning/index.js"
+        "types": "./dist/commonjs/api/serverAutomaticTuningOperations/index.d.ts",
+        "default": "./dist/commonjs/api/serverAutomaticTuningOperations/index.js"
       }
     },
     "./api/serverAdvancedThreatProtectionSettings": {
@@ -112,18 +112,18 @@
         "default": "./dist/commonjs/api/serverAdvancedThreatProtectionSettings/index.js"
       }
     },
-    "./api/managedLedgerDigestUploads": {
+    "./api/managedLedgerDigestUploadsOperations": {
       "browser": {
-        "types": "./dist/browser/api/managedLedgerDigestUploads/index.d.ts",
-        "default": "./dist/browser/api/managedLedgerDigestUploads/index.js"
+        "types": "./dist/browser/api/managedLedgerDigestUploadsOperations/index.d.ts",
+        "default": "./dist/browser/api/managedLedgerDigestUploadsOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/managedLedgerDigestUploads/index.d.ts",
-        "default": "./dist/esm/api/managedLedgerDigestUploads/index.js"
+        "types": "./dist/esm/api/managedLedgerDigestUploadsOperations/index.d.ts",
+        "default": "./dist/esm/api/managedLedgerDigestUploadsOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/managedLedgerDigestUploads/index.d.ts",
-        "default": "./dist/commonjs/api/managedLedgerDigestUploads/index.js"
+        "types": "./dist/commonjs/api/managedLedgerDigestUploadsOperations/index.d.ts",
+        "default": "./dist/commonjs/api/managedLedgerDigestUploadsOperations/index.js"
       }
     },
     "./api/managedInstancePrivateLinkResources": {
@@ -224,46 +224,46 @@
         "default": "./dist/commonjs/api/managedDatabaseAdvancedThreatProtectionSettings/index.js"
       }
     },
-    "./api/maintenanceWindows": {
+    "./api/maintenanceWindowsOperations": {
       "browser": {
-        "types": "./dist/browser/api/maintenanceWindows/index.d.ts",
-        "default": "./dist/browser/api/maintenanceWindows/index.js"
+        "types": "./dist/browser/api/maintenanceWindowsOperations/index.d.ts",
+        "default": "./dist/browser/api/maintenanceWindowsOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/maintenanceWindows/index.d.ts",
-        "default": "./dist/esm/api/maintenanceWindows/index.js"
+        "types": "./dist/esm/api/maintenanceWindowsOperations/index.d.ts",
+        "default": "./dist/esm/api/maintenanceWindowsOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/maintenanceWindows/index.d.ts",
-        "default": "./dist/commonjs/api/maintenanceWindows/index.js"
+        "types": "./dist/commonjs/api/maintenanceWindowsOperations/index.d.ts",
+        "default": "./dist/commonjs/api/maintenanceWindowsOperations/index.js"
       }
     },
-    "./api/maintenanceWindowOptions": {
+    "./api/maintenanceWindowOptionsOperations": {
       "browser": {
-        "types": "./dist/browser/api/maintenanceWindowOptions/index.d.ts",
-        "default": "./dist/browser/api/maintenanceWindowOptions/index.js"
+        "types": "./dist/browser/api/maintenanceWindowOptionsOperations/index.d.ts",
+        "default": "./dist/browser/api/maintenanceWindowOptionsOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/maintenanceWindowOptions/index.d.ts",
-        "default": "./dist/esm/api/maintenanceWindowOptions/index.js"
+        "types": "./dist/esm/api/maintenanceWindowOptionsOperations/index.d.ts",
+        "default": "./dist/esm/api/maintenanceWindowOptionsOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/maintenanceWindowOptions/index.d.ts",
-        "default": "./dist/commonjs/api/maintenanceWindowOptions/index.js"
+        "types": "./dist/commonjs/api/maintenanceWindowOptionsOperations/index.d.ts",
+        "default": "./dist/commonjs/api/maintenanceWindowOptionsOperations/index.js"
       }
     },
-    "./api/ledgerDigestUploads": {
+    "./api/ledgerDigestUploadsOperations": {
       "browser": {
-        "types": "./dist/browser/api/ledgerDigestUploads/index.d.ts",
-        "default": "./dist/browser/api/ledgerDigestUploads/index.js"
+        "types": "./dist/browser/api/ledgerDigestUploadsOperations/index.d.ts",
+        "default": "./dist/browser/api/ledgerDigestUploadsOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/ledgerDigestUploads/index.d.ts",
-        "default": "./dist/esm/api/ledgerDigestUploads/index.js"
+        "types": "./dist/esm/api/ledgerDigestUploadsOperations/index.d.ts",
+        "default": "./dist/esm/api/ledgerDigestUploadsOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/ledgerDigestUploads/index.d.ts",
-        "default": "./dist/commonjs/api/ledgerDigestUploads/index.js"
+        "types": "./dist/commonjs/api/ledgerDigestUploadsOperations/index.d.ts",
+        "default": "./dist/commonjs/api/ledgerDigestUploadsOperations/index.js"
       }
     },
     "./api/usages": {
@@ -336,18 +336,18 @@
         "default": "./dist/commonjs/api/managedDatabaseSecurityEvents/index.js"
       }
     },
-    "./api/dataWarehouseUserActivities": {
+    "./api/dataWarehouseUserActivitiesOperations": {
       "browser": {
-        "types": "./dist/browser/api/dataWarehouseUserActivities/index.d.ts",
-        "default": "./dist/browser/api/dataWarehouseUserActivities/index.js"
+        "types": "./dist/browser/api/dataWarehouseUserActivitiesOperations/index.d.ts",
+        "default": "./dist/browser/api/dataWarehouseUserActivitiesOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/dataWarehouseUserActivities/index.d.ts",
-        "default": "./dist/esm/api/dataWarehouseUserActivities/index.js"
+        "types": "./dist/esm/api/dataWarehouseUserActivitiesOperations/index.d.ts",
+        "default": "./dist/esm/api/dataWarehouseUserActivitiesOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/dataWarehouseUserActivities/index.d.ts",
-        "default": "./dist/commonjs/api/dataWarehouseUserActivities/index.js"
+        "types": "./dist/commonjs/api/dataWarehouseUserActivitiesOperations/index.d.ts",
+        "default": "./dist/commonjs/api/dataWarehouseUserActivitiesOperations/index.js"
       }
     },
     "./api/dataMaskingRules": {
@@ -490,32 +490,32 @@
         "default": "./dist/commonjs/api/databaseRecommendedActions/index.js"
       }
     },
-    "./api/databaseExtensions": {
+    "./api/databaseExtensionsOperations": {
       "browser": {
-        "types": "./dist/browser/api/databaseExtensions/index.d.ts",
-        "default": "./dist/browser/api/databaseExtensions/index.js"
+        "types": "./dist/browser/api/databaseExtensionsOperations/index.d.ts",
+        "default": "./dist/browser/api/databaseExtensionsOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/databaseExtensions/index.d.ts",
-        "default": "./dist/esm/api/databaseExtensions/index.js"
+        "types": "./dist/esm/api/databaseExtensionsOperations/index.d.ts",
+        "default": "./dist/esm/api/databaseExtensionsOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/databaseExtensions/index.d.ts",
-        "default": "./dist/commonjs/api/databaseExtensions/index.js"
+        "types": "./dist/commonjs/api/databaseExtensionsOperations/index.d.ts",
+        "default": "./dist/commonjs/api/databaseExtensionsOperations/index.js"
       }
     },
-    "./api/databaseAutomaticTuning": {
+    "./api/databaseAutomaticTuningOperations": {
       "browser": {
-        "types": "./dist/browser/api/databaseAutomaticTuning/index.d.ts",
-        "default": "./dist/browser/api/databaseAutomaticTuning/index.js"
+        "types": "./dist/browser/api/databaseAutomaticTuningOperations/index.d.ts",
+        "default": "./dist/browser/api/databaseAutomaticTuningOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/databaseAutomaticTuning/index.d.ts",
-        "default": "./dist/esm/api/databaseAutomaticTuning/index.js"
+        "types": "./dist/esm/api/databaseAutomaticTuningOperations/index.d.ts",
+        "default": "./dist/esm/api/databaseAutomaticTuningOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/databaseAutomaticTuning/index.d.ts",
-        "default": "./dist/commonjs/api/databaseAutomaticTuning/index.js"
+        "types": "./dist/commonjs/api/databaseAutomaticTuningOperations/index.d.ts",
+        "default": "./dist/commonjs/api/databaseAutomaticTuningOperations/index.js"
       }
     },
     "./api/databaseAdvisors": {
