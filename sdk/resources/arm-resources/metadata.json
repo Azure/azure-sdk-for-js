@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Resources": "2025-04-01"
   },
-  "emitterVersion": "0.53.2",
+  "emitterVersion": "0.54.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Resources",
     "CrossLanguageDefinitionId": {

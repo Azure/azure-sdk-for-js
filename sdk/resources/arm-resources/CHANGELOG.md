@@ -1,6 +1,6 @@
 # Release History
 
-## 8.0.0-beta.1 (2026-05-26)
+## 8.0.0-beta.1 (2026-06-05)
 Compared with version 7.0.0
 
 ### Features Added
@@ -53,6 +53,8 @@ Compared with version 7.0.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Class ResourceManagementClient no longer has parameter apiVersion
+  - Class ResourceManagementClient no longer has parameter subscriptionId
   - Removed Interface GenericResourceFilter
   - Removed Interface ResourceGroupFilter
   - Removed Interface ResourceProviderOperationDisplayProperties
