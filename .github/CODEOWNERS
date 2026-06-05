@@ -593,7 +593,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/guestconfiguration/arm-guestconfiguration/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hanaonazure/arm-hanaonazure/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
