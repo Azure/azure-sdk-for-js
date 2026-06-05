@@ -29,12 +29,13 @@
   "dependencies": {
     "@azure/notification-hubs": "latest",
     "dotenv": "latest",
-    "@azure/core-util": "^1.11.0",
-    "@azure/core-rest-pipeline": "^1.19.0"
+    "@azure/core-util": "latest",
+    "@azure/core-rest-pipeline": "latest"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "typescript": "~5.8.2",
-    "rimraf": "latest"
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~6.0.2"
   }
 }
