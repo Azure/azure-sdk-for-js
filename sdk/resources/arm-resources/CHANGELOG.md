@@ -53,8 +53,6 @@ Compared with version 7.0.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Class ResourceManagementClient no longer has parameter apiVersion
-  - Class ResourceManagementClient no longer has parameter subscriptionId
   - Removed Interface GenericResourceFilter
   - Removed Interface ResourceGroupFilter
   - Removed Interface ResourceProviderOperationDisplayProperties
