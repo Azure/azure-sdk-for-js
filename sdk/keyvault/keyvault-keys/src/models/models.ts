@@ -933,11 +933,11 @@ export enum KnownJsonWebKeyWrapAlgorithm {
   A192KW = "A192KW",
   /** 256-bit AES key wrap. */
   A256KW = "A256KW",
-  /** 128-bit AES key wrap with padding. */
-  A256Kwpad = "A256KWPAD",
-  /** 192-bit AES key wrap with padding. */
-  A128Kwpad = "A128KWPAD",
   /** 256-bit AES key wrap with padding. */
+  A256Kwpad = "A256KWPAD",
+  /** 128-bit AES key wrap with padding. */
+  A128Kwpad = "A128KWPAD",
+  /** 192-bit AES key wrap with padding. */
   A192Kwpad = "A192KWPAD",
   /** CKM AES key wrap. */
   CKMAESKEYWrap = "CKM_AES_KEY_WRAP",
@@ -954,9 +954,9 @@ export enum KnownJsonWebKeyWrapAlgorithm {
  * **A128KW**: 128-bit AES key wrap. \
  * **A192KW**: 192-bit AES key wrap. \
  * **A256KW**: 256-bit AES key wrap. \
- * **A256KWPAD**: 128-bit AES key wrap with padding. \
- * **A128KWPAD**: 192-bit AES key wrap with padding. \
- * **A192KWPAD**: 256-bit AES key wrap with padding. \
+ * **A256KWPAD**: 256-bit AES key wrap with padding. \
+ * **A128KWPAD**: 128-bit AES key wrap with padding. \
+ * **A192KWPAD**: 192-bit AES key wrap with padding. \
  * **CKM_AES_KEY_WRAP**: CKM AES key wrap. \
  * **CKM_AES_KEY_WRAP_PAD**: CKM AES key wrap with padding.
  */

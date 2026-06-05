@@ -163,7 +163,16 @@ describe("Keys client - create, read, update and delete operations for managed H
       assert.exists(releaseResult.value);
     });
 
-    it("can securely wrap and unwrap a key", async () => {
+    it("can securely wrap and unwrap a key", async (ctx) => {
+      // The secureWrap/secureUnwrap operations require a Managed HSM with
+      // secure-wrap enabled and a live attestation token. They aren't recordable
+      // against the shared test HSM in this subscription (same gap as the Go SDK,
+      // which also skips TestSecureWrapUnwrapKey). Skip in playback until a
+      // properly enabled HSM is available for recording.
+      if (isPlaybackMode()) {
+        ctx.skip();
+        return;
+      }
       const keyName = recorder.variable(
         "securewrapkey",
         `securewrapkey-${Math.floor(Math.random() * 100000)}`,

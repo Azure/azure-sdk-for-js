@@ -213,13 +213,15 @@ export function expandUrlTemplate(
 
 /**
  * Normalize an expanded URI by decoding percent-encoded unreserved characters.
- * RFC 3986 unreserved: "-" / "." / "~"
+ * RFC 3986 unreserved characters are ALPHA / DIGIT / "-" / "." / "_" / "~",
+ * none of which require percent-encoding. If the URI template expansion
+ * encoded any of them we restore the literal form.
  */
 function normalizeUnreserved(uri: string): string {
   return uri.replace(/%([0-9A-Fa-f]{2})/g, (match, hex) => {
     const char = String.fromCharCode(parseInt(hex, 16));
-    // Decode only if it's unreserved
-    if (/[.~-]/.test(char)) {
+    // Decode only if it's unreserved per RFC 3986 § 2.3.
+    if (/[A-Za-z0-9._~-]/.test(char)) {
       return char;
     }
     return match; // leave other encodings intact

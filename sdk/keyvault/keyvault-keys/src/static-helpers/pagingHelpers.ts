@@ -253,6 +253,10 @@ function checkPagingRequest(response: PathUncheckedResponse, expectedStatuses: s
 
 /**
  * Adds the api-version query parameter on a URL if it's not present.
+ * Uses the URL parser so it correctly handles any existing query string and
+ * URL fragment (the fragment, if any, is preserved after the modified query),
+ * and percent-encodes the value when writing it back.
+ *
  * @param url - the URL to modify
  * @param apiVersion - the API version to set
  * @returns - the URL with the api-version query parameter set
@@ -261,10 +265,15 @@ function addApiVersionToUrl(url: string, apiVersion: string): string {
   // The base URL is only used for parsing and won't appear in the returned URL
   const urlObj = new URL(url, "https://microsoft.com");
   if (!urlObj.searchParams.get("api-version")) {
-    // Append one if there is no apiVersion
-    return `${url}${
-      Array.from(urlObj.searchParams.keys()).length > 0 ? "&" : "?"
-    }api-version=${apiVersion}`;
+    urlObj.searchParams.set("api-version", apiVersion);
+    // Strip the synthetic base so we return the same shape we got in
+    // (relative-or-absolute, preserving the fragment).
+    const isAbsolute = /^[a-z][a-z0-9+.-]*:\/\//i.test(url) || url.startsWith("//");
+    if (isAbsolute) {
+      return urlObj.toString();
+    }
+    const path = urlObj.pathname + urlObj.search + urlObj.hash;
+    return path;
   }
   return url;
 }
