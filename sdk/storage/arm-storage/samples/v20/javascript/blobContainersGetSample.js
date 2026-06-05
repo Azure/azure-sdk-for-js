@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets properties of a specified container.
  *
  * @summary gets properties of a specified container.
- * x-ms-original-file: 2025-08-01/BlobContainersGet.json
+ * x-ms-original-file: 2026-04-01/BlobContainersGet.json
  */
 async function getContainers() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getContainers() {
  * This sample demonstrates how to gets properties of a specified container.
  *
  * @summary gets properties of a specified container.
- * x-ms-original-file: 2025-08-01/BlobContainersGetWithAllowProtectedAppendWritesAll.json
+ * x-ms-original-file: 2026-04-01/BlobContainersGetWithAllowProtectedAppendWritesAll.json
  */
 async function getBlobContainersGetWithAllowProtectedAppendWritesAll() {
   const credential = new DefaultAzureCredential();

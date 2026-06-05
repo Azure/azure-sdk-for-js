@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
-import { AIProjectClient, DatasetVersion, RestError } from "../src/index.js";
+import { AIProjectClient, DatasetVersion, RestError, enableGenAITracing } from "../src/index.js";
 import type { VersionRefIndicator } from "../src/index.js";
-import { useAzureMonitor } from "@azure/monitor-opentelemetry";
-import type { AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
+import {
+  useAzureMonitor,
+  type AzureMonitorOpenTelemetryOptions,
+} from "@azure/monitor-opentelemetry";
 import type {
   AzureAISearchIndex,
   Connection,
@@ -21,6 +23,12 @@ import { it, describe } from "vitest";
 import * as path from "path";
 import * as fs from "fs";
 import { fileURLToPath } from "url";
+import { context, trace } from "@opentelemetry/api";
+import {
+  NodeTracerProvider,
+  ConsoleSpanExporter,
+  SimpleSpanProcessor,
+} from "@opentelemetry/sdk-trace-node";
 
 describe("snippets", function () {
   let project: AIProjectClient;
@@ -1059,6 +1067,28 @@ Be direct and efficient. When you reach the search results page, read and descri
     await project.beta.models.delete("my-model", "1");
   });
 
+  it("tracing_azure_monitor", async function () {
+    const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+    const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+
+    // Get Application Insights connection string from the project
+    const connectionString = await project.telemetry.getApplicationInsightsConnectionString();
+
+    // Configure Azure Monitor tracing
+    useAzureMonitor({
+      azureMonitorExporterOptions: { connectionString },
+      samplingRatio: 1,
+      tracesPerSecond: 0,
+    });
+
+    // Enable GenAI tracing (experimental)
+    enableGenAITracing({
+      contentRecording: false,
+      traceContextPropagation: true,
+      experimental: true,
+    });
+  });
+
   it("tracing", async function () {
     const TELEMETRY_CONNECTION_STRING = process.env["TELEMETRY_CONNECTION_STRING"];
     const options: AzureMonitorOpenTelemetryOptions = {
@@ -1068,6 +1098,32 @@ Be direct and efficient. When you reach the search results page, read and descri
     };
 
     useAzureMonitor(options);
+  });
+
+  it("tracing_create_span", async function () {
+    const tracer = trace.getTracer("MyScenario");
+    const span = tracer.startSpan("myOperation");
+    const ctx = trace.setSpan(context.active(), span);
+
+    await context.with(ctx, async () => {
+      // Your agent operations here
+    });
+
+    span.end();
+  });
+
+  it("tracing_console", async function () {
+    // Set up OpenTelemetry with a console exporter
+    const provider = new NodeTracerProvider({
+      spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
+    });
+    provider.register();
+    // Enable GenAI tracing (experimental)
+    enableGenAITracing({
+      contentRecording: false,
+      traceContextPropagation: true,
+      experimental: true,
+    });
   });
 
   it("datasetUpload", async function () {
