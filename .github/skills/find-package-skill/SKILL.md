@@ -22,4 +22,5 @@ you already know the package well.
 
 | Package                   | Path                                                                   |
 | ------------------------- | ---------------------------------------------------------------------- |
+| `@azure/keyvault-keys`    | `sdk/keyvault/keyvault-keys/.github/skills/keyvault-keys/SKILL.md`     |
 | `@azure/search-documents` | `sdk/search/search-documents/.github/skills/search-documents/SKILL.md` |
