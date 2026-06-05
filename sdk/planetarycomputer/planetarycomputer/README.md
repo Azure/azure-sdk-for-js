@@ -225,7 +225,9 @@ const registration = await client.data.registerMosaicsSearch({
   filter: { op: "=", args: [{ property: "naip:year" }, "2021"] },
 });
 console.log(`Search ID: ${registration.searchId}`);
-const tileJson = await client.data.getSearchTileJson(registration.searchId, { assets: ["image"] });
+const tileJson = await client.data.getSearchTileJson(registration.searchId, {
+  assets: ["image"],
+});
 console.log(`Tile URLs: ${tileJson.tiles}`);
 ```
 
