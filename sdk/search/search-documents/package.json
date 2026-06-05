@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "13.0.0",
+  "version": "13.1.0-beta.1",
   "description": "Azure client library to use AI Search for node.js and browser.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -22,7 +22,6 @@
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest --test-proxy-debug",
-    "test:node:preview": "cross-env TEST_PREVIEW=true dev-tool run test:vitest --test-proxy-debug",
     "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
@@ -110,6 +109,12 @@
     ],
     "requiredResources": {
       "Azure Search Documents instance": "https://learn.microsoft.com/azure/search/search-create-service-portal"
+    },
+    "extraFiles": {
+      "./samples-dev/fixtures": [
+        "typescript/src/fixtures",
+        "javascript/fixtures"
+      ]
     }
   },
   "type": "module",

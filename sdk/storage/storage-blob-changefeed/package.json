@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-blob-changefeed",
   "sdk-type": "client",
-  "version": "12.0.0-preview.5",
+  "version": "12.0.1-beta.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob Change Feed",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",

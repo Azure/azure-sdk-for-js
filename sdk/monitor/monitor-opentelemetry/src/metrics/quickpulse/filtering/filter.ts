@@ -145,10 +145,8 @@ export class Filter {
 
   private checkCustomDimFilter(filter: FilterInfo, data: TelemetryData): boolean {
     const fieldName: string = filter.fieldName.replace("CustomDimensions.", "");
-    let value: string | undefined;
-    if (data.CustomDimensions.has(fieldName)) {
-      value = data.CustomDimensions.get(fieldName) as string;
-    } else {
+    const value = data.CustomDimensions.get(fieldName);
+    if (value === undefined) {
       return false; // the asked for field is not present in the custom dimensions
     }
     return this.stringCompare(value, filter.comparand, filter.predicate);

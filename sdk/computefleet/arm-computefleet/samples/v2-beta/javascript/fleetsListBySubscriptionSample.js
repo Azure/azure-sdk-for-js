@@ -8,9 +8,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Fleet resources by subscription ID
  *
  * @summary list Fleet resources by subscription ID
- * x-ms-original-file: 2025-07-01-preview/Fleets_ListBySubscription.json
+ * x-ms-original-file: 2026-04-01-preview/Fleets_ListBySubscription_MaximumSet_Gen.json
  */
-async function fleetsListBySubscription() {
+async function fleetsListBySubscriptionMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function fleetsListBySubscription() {
 }
 
 async function main() {
-  await fleetsListBySubscription();
+  await fleetsListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

@@ -27,7 +27,7 @@ export interface AzureMonitorOpenTelemetryOptions {
   enableTraceBasedSamplingForLogs?: boolean;
   /** Enable Performance Counter feature */
   enablePerformanceCounters?: boolean;
-  /** OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, azureFunctions, http, mongoDb, mySql, postgreSql, redis, redis4) */
+  /** OpenTelemetry Instrumentations options included as part of Azure Monitor. See {@link InstrumentationOptions} for the full set of supported instrumentations. */
   instrumentationOptions?: InstrumentationOptions;
   /** Application Insights Web Instrumentation options (enabled, connectionString, src, config)*/
   browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
@@ -47,8 +47,6 @@ export interface AzureMonitorOpenTelemetryOptions {
 export interface InstrumentationOptions {
   /** Azure SDK Instrumentation Config */
   azureSdk?: InstrumentationConfig;
-  /** Azure Functions Instrumentation Config */
-  azureFunctions?: InstrumentationConfig;
   /** HTTP Instrumentation Config */
   http?: InstrumentationConfig;
   /** MongoDB Instrumentation Config */
@@ -162,7 +160,7 @@ export interface BrowserSdkLoaderOptions {
   connectionString?: string;
 }
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.17.0";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.18.2";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 export const AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";

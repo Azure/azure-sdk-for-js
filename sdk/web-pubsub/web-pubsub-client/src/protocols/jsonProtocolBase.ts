@@ -12,6 +12,8 @@ import type {
   ConnectedMessage,
   DisconnectedMessage,
   GroupDataMessage,
+  GroupStateSnapshotMessage,
+  GroupStateUpdateMessage,
   InvokeResponseMessage,
   ServerDataMessage,
   WebPubSubDataType,
@@ -113,6 +115,10 @@ export function parseMessages(input: string): WebPubSubMessage | null {
       streamId: parsedMessage.streamId,
       error: parsedMessage.error,
     } as StreamClosedMessage;
+  } else if (typedMessage.type === "groupStateSnapshot") {
+    returnMessage = { ...parsedMessage, kind: "groupStateSnapshot" } as GroupStateSnapshotMessage;
+  } else if (typedMessage.type === "groupStateUpdate") {
+    returnMessage = { ...parsedMessage, kind: "groupStateUpdate" } as GroupStateUpdateMessage;
   } else {
     // Forward compatible
     return null;
@@ -236,6 +242,34 @@ export function writeMessage(message: WebPubSubMessage): string {
       } as StreamEndData;
       break;
     }
+    case "setGroupState": {
+      const setGroupStateData: SetGroupStateData = {
+        type: "setGroupState",
+        group: message.group,
+        ackId: message.ackId,
+      };
+      if (message.state !== undefined) {
+        setGroupStateData.state = message.state;
+      }
+      data = setGroupStateData;
+      break;
+    }
+    case "subscribeGroupState": {
+      data = {
+        type: "subscribeGroupState",
+        group: message.group,
+        ackId: message.ackId,
+      } as SubscribeGroupStateData;
+      break;
+    }
+    case "unsubscribeGroupState": {
+      data = {
+        type: "unsubscribeGroupState",
+        group: message.group,
+        ackId: message.ackId,
+      } as UnsubscribeGroupStateData;
+      break;
+    }
     default: {
       throw new Error(`Unsupported type: ${message.kind}`);
     }
@@ -321,6 +355,25 @@ interface StreamEndData {
   readonly type: "streamEnd";
   streamId: string;
   error?: { message?: string; userErrorCode?: string };
+}
+
+interface SetGroupStateData {
+  readonly type: "setGroupState";
+  group: string;
+  ackId?: number;
+  state?: Record<string, string>;
+}
+
+interface SubscribeGroupStateData {
+  readonly type: "subscribeGroupState";
+  group: string;
+  ackId?: number;
+}
+
+interface UnsubscribeGroupStateData {
+  readonly type: "unsubscribeGroupState";
+  group: string;
+  ackId?: number;
 }
 
 function getPayload(data: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType): any {
