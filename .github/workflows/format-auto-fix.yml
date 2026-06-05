@@ -135,9 +135,11 @@ jobs:
             fi
           done
 
-          # Install only the affected packages and their dependencies
-          # --ignore-scripts prevents pre/postinstall lifecycle scripts from running
-          pnpm install $FILTERS --frozen-lockfile=false --ignore-scripts
+          # Install only the affected packages and their dependencies.
+          # --ignore-scripts prevents pre/postinstall lifecycle scripts from running.
+          # Frozen lockfile is the default in CI; if the lockfile is out of sync the
+          # PR author must fix it — this workflow only fixes formatting.
+          pnpm install $FILTERS --ignore-scripts
 
           # Run format across all affected packages in one turbo invocation
           pnpm turbo run format $FILTERS
@@ -155,6 +157,7 @@ jobs:
           else
             git diff --name-only \
               | grep -E '\.(ts|mts|cts|tsx|js|mjs|cjs|jsx|json|md|yaml|yml)$' \
+              | grep -v '^pnpm-lock\.yaml$' \
               | xargs -r git add --
 
             if git diff --cached --quiet; then
