@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all shares.
  *
  * @summary lists all shares.
- * x-ms-original-file: 2025-08-01/DeletedFileSharesList.json
+ * x-ms-original-file: 2026-04-01/DeletedFileSharesList.json
  */
 async function listDeletedShares() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listDeletedShares() {
  * This sample demonstrates how to lists all shares.
  *
  * @summary lists all shares.
- * x-ms-original-file: 2025-08-01/FileShareSnapshotsList.json
+ * x-ms-original-file: 2026-04-01/FileShareSnapshotsList.json
  */
 async function listShareSnapshots() {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function listShareSnapshots() {
  * This sample demonstrates how to lists all shares.
  *
  * @summary lists all shares.
- * x-ms-original-file: 2025-08-01/FileSharesList.json
+ * x-ms-original-file: 2026-04-01/FileSharesList.json
  */
 async function listShares() {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function listShares() {
  * This sample demonstrates how to lists all shares.
  *
  * @summary lists all shares.
- * x-ms-original-file: 2025-08-01/FileSharesList_PaidBursting.json
+ * x-ms-original-file: 2026-04-01/FileSharesList_PaidBursting.json
  */
 async function listSharesPaidBursting() {
   const credential = new DefaultAzureCredential();
@@ -80,7 +80,7 @@ async function listSharesPaidBursting() {
  * This sample demonstrates how to lists all shares.
  *
  * @summary lists all shares.
- * x-ms-original-file: 2025-08-01/FileSharesList_ProvisionedV2.json
+ * x-ms-original-file: 2026-04-01/FileSharesList_ProvisionedV2.json
  */
 async function listSharesProvisionedV2() {
   const credential = new DefaultAzureCredential();

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-postgresqlhsc": ["../src/index.ts"],
+      "@azure/arm-postgresqlhsc/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}
