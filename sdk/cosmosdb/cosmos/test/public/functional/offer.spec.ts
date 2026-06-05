@@ -48,7 +48,13 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
       );
       assert.equal(collectionSize, 10 * mbInBytes, "Collection size is unexpected");
 
-      const { resources: offers } = await client.offers.readAll().fetchAll();
+      // Scope the offer assertion to the container we just created. Account-wide
+      // `offers.readAll()` can include offers backing other resources in shared
+      // accounts (e.g. signoff staging accounts), so we filter to the offer
+      // whose `offerResourceId` matches this container's `_rid`.
+      const { resource: containerDef } = await container.read();
+      const { resources: allOffers } = await client.offers.readAll().fetchAll();
+      const offers = allOffers.filter((o) => o.offerResourceId === containerDef._rid);
       assert.equal(offers.length, 1);
       const expectedOffer = offers[0];
       assert.equal(
@@ -94,8 +100,12 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
     });
 
     it("nativeApi Should do offer replace operations successfully name based", async () => {
-      await getTestContainer("Validate Offer CRUD");
-      const { resources: offers } = await client.offers.readAll().fetchAll();
+      const container = await getTestContainer("Validate Offer CRUD");
+      // Scope the offer assertion to the container we just created (see note in
+      // the prior test). Filter by `offerResourceId === container._rid`.
+      const { resource: containerDef } = await container.read();
+      const { resources: allOffers } = await client.offers.readAll().fetchAll();
+      const offers = allOffers.filter((o) => o.offerResourceId === containerDef._rid);
       assert.equal(offers.length, 1);
       const expectedOffer = offers[0];
       validateOfferResponseBody(expectedOffer);
