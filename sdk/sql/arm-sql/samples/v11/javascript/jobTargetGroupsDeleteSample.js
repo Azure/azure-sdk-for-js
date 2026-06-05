@@ -1,0 +1,24 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { SqlManagementClient } = require("@azure/arm-sql");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to deletes a target group.
+ *
+ * @summary deletes a target group.
+ * x-ms-original-file: 2025-01-01/DeleteJobTargetGroup.json
+ */
+async function deleteATargetGroup() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlManagementClient(credential, subscriptionId);
+  await client.jobTargetGroups.delete("group1", "server1", "agent1", "targetGroup1");
+}
+
+async function main() {
+  await deleteATargetGroup();
+}
+
+main().catch(console.error);
