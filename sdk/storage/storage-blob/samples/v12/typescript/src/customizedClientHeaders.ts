@@ -12,14 +12,12 @@
  * @summary customize request headers such as `X-Ms-Client-Request-Id` using an HTTP policy
  **/
 
+import type { WebResource, RequestPolicy, RequestPolicyOptions } from "@azure/storage-blob";
 import {
   newPipeline,
   AnonymousCredential,
   BlobServiceClient,
   BaseRequestPolicy,
-  WebResource,
-  RequestPolicy,
-  RequestPolicyOptions
 } from "@azure/storage-blob";
 
 // Load the .env file if it exists
@@ -52,7 +50,7 @@ class RequestIDPolicy extends BaseRequestPolicy {
     // Customize client request ID header
     request.headers.set(
       "x-ms-client-request-id",
-      `${this.prefix}_SOME_PATTERN_${new Date().getTime()}`
+      `${this.prefix}_SOME_PATTERN_${new Date().getTime()}`,
     );
 
     // response is HttpOperationResponse type
@@ -73,17 +71,14 @@ async function main(): Promise<void> {
   const pipeline = newPipeline(new AnonymousCredential());
 
   // Inject customized factory into default pipeline
-  pipeline.factories.unshift(new RequestIDPolicyFactory("Prefix"));
+  await pipeline.factories.unshift(new RequestIDPolicyFactory("Prefix"));
 
   const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net?${accountSas}`,
-    pipeline
+    `https://${account}.blob.core.windows.net${accountSas}`,
+    pipeline,
   );
 
-  const result = await blobServiceClient
-    .listContainers()
-    .byPage()
-    .next();
+  const result = await blobServiceClient.listContainers().byPage().next();
 
   if (result.done) {
     throw new Error("Expected at least one page of containers.");
