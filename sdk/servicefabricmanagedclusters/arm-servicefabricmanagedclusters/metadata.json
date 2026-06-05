@@ -1,6 +1,8 @@
 {
-  "apiVersion": "2025-10-01-preview",
-  "emitterVersion": "0.46.0",
+  "apiVersions": {
+    "Microsoft.ServiceFabric": "2026-05-01-preview"
+  },
+  "emitterVersion": "0.53.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ServiceFabric",
     "CrossLanguageDefinitionId": {
@@ -104,6 +106,7 @@
       "@azure/arm-servicefabricmanagedclusters!FaultSimulationContentWrapper:interface": "Microsoft.ServiceFabric.FaultSimulationContentWrapper",
       "@azure/arm-servicefabricmanagedclusters!ManagedAzResiliencyStatus:interface": "Microsoft.ServiceFabric.ManagedAzResiliencyStatusContent",
       "@azure/arm-servicefabricmanagedclusters!ResourceAzStatus:interface": "Microsoft.ServiceFabric.ResourceAzStatus",
+      "@azure/arm-servicefabricmanagedclusters!ApplyMaintenanceWindowRequest:interface": "Microsoft.ServiceFabric.ApplyMaintenanceWindowRequest",
       "@azure/arm-servicefabricmanagedclusters!ManagedMaintenanceWindowStatus:interface": "Microsoft.ServiceFabric.ManagedMaintenanceWindowStatusContent",
       "@azure/arm-servicefabricmanagedclusters!NodeType:interface": "Microsoft.ServiceFabric.NodeType",
       "@azure/arm-servicefabricmanagedclusters!NodeTypeProperties:interface": "Microsoft.ServiceFabric.NodeTypeProperties",
@@ -122,6 +125,9 @@
       "@azure/arm-servicefabricmanagedclusters!IpConfiguration:interface": "Microsoft.ServiceFabric.IpConfiguration",
       "@azure/arm-servicefabricmanagedclusters!IPConfigurationPublicIPAddressConfiguration:interface": "Microsoft.ServiceFabric.PublicIPAddressConfiguration",
       "@azure/arm-servicefabricmanagedclusters!VmApplication:interface": "Microsoft.ServiceFabric.VmApplication",
+      "@azure/arm-servicefabricmanagedclusters!ScaleInPolicy:interface": "Microsoft.ServiceFabric.ScaleInPolicy",
+      "@azure/arm-servicefabricmanagedclusters!ProxyAgentSettings:interface": "Microsoft.ServiceFabric.ProxyAgentSettings",
+      "@azure/arm-servicefabricmanagedclusters!HostEndpointSettings:interface": "Microsoft.ServiceFabric.HostEndpointSettings",
       "@azure/arm-servicefabricmanagedclusters!NodeTypeSku:interface": "Microsoft.ServiceFabric.NodeTypeSku",
       "@azure/arm-servicefabricmanagedclusters!NodeTypeUpdateParameters:interface": "Microsoft.ServiceFabric.NodeTypeUpdateParameters",
       "@azure/arm-servicefabricmanagedclusters!NodeTypeListResult:interface": "Azure.ResourceManager.ResourceListResult",
@@ -180,6 +186,7 @@
       "@azure/arm-servicefabricmanagedclusters!KnownSecurityEncryptionType:enum": "Microsoft.ServiceFabric.SecurityEncryptionType",
       "@azure/arm-servicefabricmanagedclusters!KnownPrivateIPAddressVersion:enum": "Microsoft.ServiceFabric.PrivateIPAddressVersion",
       "@azure/arm-servicefabricmanagedclusters!KnownPublicIPAddressVersion:enum": "Microsoft.ServiceFabric.PublicIPAddressVersion",
+      "@azure/arm-servicefabricmanagedclusters!KnownScaleInPolicyMode:enum": "Microsoft.ServiceFabric.ScaleInPolicyMode",
       "@azure/arm-servicefabricmanagedclusters!KnownUpdateType:enum": "Microsoft.ServiceFabric.UpdateType",
       "@azure/arm-servicefabricmanagedclusters!KnownNodeTypeSkuScaleType:enum": "Microsoft.ServiceFabric.NodeTypeSkuScaleType",
       "@azure/arm-servicefabricmanagedclusters!KnownVersions:enum": "Microsoft.ServiceFabric.Versions",

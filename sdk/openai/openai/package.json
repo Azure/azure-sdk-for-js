@@ -51,23 +51,6 @@
     "README.md",
     "LICENSE"
   ],
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./types": "./src/types/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "tsc -p tsconfig.samples.json",
@@ -87,7 +70,11 @@
     "test:node:live": "npm run test:node",
     "update-snippets": "dev-tool run update-snippets && node scripts/fixSnippets.mjs"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/openai/openai"
+  },
   "engines": {
     "node": ">=20.0.0"
   },
@@ -106,7 +93,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "devDependencies": {
@@ -131,8 +118,8 @@
     "openai": "^6.16.0",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing",
     "zod": "^3.24.2"
@@ -153,5 +140,12 @@
   },
   "type": "module",
   "module": "./dist/esm/index.js",
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

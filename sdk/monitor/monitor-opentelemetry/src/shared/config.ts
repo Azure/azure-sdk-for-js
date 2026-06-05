@@ -19,6 +19,7 @@ import { EnvConfig } from "./envConfig.js";
 import { JsonConfig } from "./jsonConfig.js";
 import { Logger } from "./logging/index.js";
 import {
+  azureAksDetector,
   azureAppServiceDetector,
   azureFunctionsDetector,
   azureVmDetector,
@@ -194,7 +195,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
 
     // Load resource attributes from Azure
     const azureResource: Resource = detectResources({
-      detectors: [azureAppServiceDetector, azureFunctionsDetector],
+      detectors: [azureAksDetector, azureAppServiceDetector, azureFunctionsDetector],
     });
     this._resource = resource.merge(azureResource);
 

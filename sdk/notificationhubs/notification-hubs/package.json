@@ -1,6 +1,6 @@
 {
   "name": "@azure/notification-hubs",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "Azure Notification Hubs SDK for JavaScript",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -36,7 +36,11 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/notificationhubs/notification-hubs"
+  },
   "engines": {
     "node": ">=20.0.0"
   },
@@ -50,7 +54,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [
@@ -75,8 +79,8 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -92,24 +96,6 @@
     "@azure/core-xml": "^1.4.4",
     "@azure/logger": "^1.1.2",
     "tslib": "^2.8.1"
-  },
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",
@@ -168,5 +154,10 @@
       }
     }
   },
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
+  }
 }

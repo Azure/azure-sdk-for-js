@@ -42,11 +42,11 @@ const __dirname = path.dirname(__filename);
 // Construct the path
 const globalSetupPath = path.join(
   __dirname,
-  "../../src/core/global/playwright-service-global-setup.js",
+  "../../src/core/global/playwright-service-global-setup.ts",
 );
 const globalTeardownPath = path.join(
   __dirname,
-  "../../src/core/global/playwright-service-global-teardown.js",
+  "../../src/core/global/playwright-service-global-teardown.ts",
 );
 
 const samplePlaywrightConfigInput = {
@@ -101,7 +101,7 @@ describe("createAzurePlaywrightConfig", () => {
     expect(config).to.deep.equal({
       use: {
         connectOptions: {
-          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${Constants.LatestAPIVersion}`,
+          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`,
           headers: {
             Authorization: "Bearer token",
             "x-ms-package-version": `@azure/playwright/${encodeURIComponent(mockVersion)}`,
@@ -133,7 +133,7 @@ describe("createAzurePlaywrightConfig", () => {
     expect(config).to.deep.equal({
       use: {
         connectOptions: {
-          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${Constants.LatestAPIVersion}`,
+          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`,
           headers: {
             Authorization: "Bearer token",
             "x-ms-package-version": `@azure/playwright/${encodeURIComponent(mockVersion)}`,
@@ -169,7 +169,7 @@ describe("createAzurePlaywrightConfig", () => {
     expect(config).to.deep.equal({
       use: {
         connectOptions: {
-          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${Constants.LatestAPIVersion}`,
+          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`,
           headers: {
             Authorization: "Bearer token",
             "x-ms-package-version": `@azure/playwright/${encodeURIComponent(mockVersion)}`,
@@ -335,7 +335,7 @@ describe("createAzurePlaywrightConfig", () => {
     expect(config).to.deep.equal({
       use: {
         connectOptions: {
-          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${Constants.LatestAPIVersion}`,
+          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`,
           headers: {
             Authorization: "Bearer token",
             "x-ms-package-version": `@azure/playwright/${encodeURIComponent(mockVersion)}`,
@@ -345,6 +345,21 @@ describe("createAzurePlaywrightConfig", () => {
           slowMo: playwrightServiceConfig.slowMo,
         },
       },
+      globalSetup: globalSetupPath,
+      globalTeardown: globalTeardownPath,
+    });
+  });
+
+  it("should not set connect options if useCloudHostedBrowsers is false", async () => {
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
+    const { createAzurePlaywrightConfig: localGetServiceConfig } =
+      await import("../../src/core/playwrightService.js");
+
+    const config = localGetServiceConfig(samplePlaywrightConfigInput, {
+      useCloudHostedBrowsers: false,
+    });
+
+    expect(config).to.deep.equal({
       globalSetup: globalSetupPath,
       globalTeardown: globalTeardownPath,
     });
@@ -367,6 +382,22 @@ describe("createAzurePlaywrightConfig", () => {
     expect((playwrightServiceEntra.default as any)._entraIdAccessToken._credential).to.equal(
       credential,
     );
+  });
+
+  it("should plumb sourceType from options into the wsEndpoint", async () => {
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
+    vi.stubEnv(InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION, "1.49.0");
+    const { createAzurePlaywrightConfig: localGetServiceConfig } =
+      await import("../../src/core/playwrightService.js");
+
+    const config = localGetServiceConfig({}, { sourceType: "Others" });
+
+    const wsEndpoint = (config.use?.connectOptions as { wsEndpoint: string }).wsEndpoint;
+    expect(wsEndpoint).toContain("sourceType=Others");
+    expect(wsEndpoint).not.toContain("sourceType=PlaywrightWorkspacesTestRun");
+
+    // Reset singleton sourceType so subsequent tests see the default.
+    PlaywrightServiceConfig.instance.sourceType = "PlaywrightWorkspacesTestRun";
   });
 });
 
@@ -430,7 +461,7 @@ describe("getConnectOptions", () => {
     });
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(connectOptions).to.deep.equal({
-      wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${Constants.LatestAPIVersion}`,
+      wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`,
       options: {
         headers: {
           Authorization: "Bearer token",

@@ -14,6 +14,14 @@ import { createHttpHeaders } from "./httpHeaders.js";
 import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
 import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
 
+// The Fetch spec requires `duplex: "half"` when body is a ReadableStream,
+// but TypeScript's lib.dom.d.ts hasn't added it to RequestInit yet.
+declare global {
+  interface RequestInit {
+    duplex?: "half";
+  }
+}
+
 /**
  * Checks if the body is a Blob or Blob-like
  */
@@ -77,7 +85,7 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
     // init.duplex must be set when body is a ReadableStream object.
     // currently "half" is the only valid value.
     if (streaming) {
-      (requestInit as any).duplex = "half";
+      requestInit.duplex = "half";
     }
     /**
      * Developers of the future:

@@ -1,0 +1,85 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { BetaAgentsOperations } from "./agents/index.js";
+import { _getBetaAgentsOperations } from "./agents/index.js";
+import type { BetaDatasetsOperations } from "./datasets/index.js";
+import { _getBetaDatasetsOperations } from "./datasets/index.js";
+import type { BetaSkillsOperations } from "./skills/index.js";
+import { _getBetaSkillsOperations } from "./skills/index.js";
+import type { BetaEvaluationTaxonomiesOperations } from "./evaluationTaxonomies/index.js";
+import { _getBetaEvaluationTaxonomiesOperations } from "./evaluationTaxonomies/index.js";
+import type { BetaEvaluatorsOperations } from "./evaluators/index.js";
+import { _getBetaEvaluatorsOperations } from "./evaluators/index.js";
+import type { BetaInsightsOperations } from "./insights/index.js";
+import { _getBetaInsightsOperations } from "./insights/index.js";
+import type { BetaMemoryStoresOperations } from "./memoryStores/index.js";
+import { _getBetaMemoryStoresOperations } from "./memoryStores/index.js";
+import type { BetaModelsOperations } from "./models/index.js";
+import { _getBetaModelsOperations } from "./models/index.js";
+import type { BetaRedTeamsOperations } from "./redTeams/index.js";
+import { _getBetaRedTeamsOperations } from "./redTeams/index.js";
+import type { BetaRoutinesOperations } from "./routines/index.js";
+import { _getBetaRoutinesOperations } from "./routines/index.js";
+import type { BetaSchedulesOperations } from "./schedules/index.js";
+import { _getBetaSchedulesOperations } from "./schedules/index.js";
+import type { BetaToolboxesOperations } from "./toolboxes/index.js";
+import { _getBetaToolboxesOperations } from "./toolboxes/index.js";
+
+/** Interface representing a Beta operations. */
+export interface BetaOperations {
+  /** Operations for managing data generation jobs. */
+  datasets: BetaDatasetsOperations;
+  /** Operations for managing skills. */
+  skills: BetaSkillsOperations;
+  /** Operations for managing toolboxes. */
+  toolboxes: BetaToolboxesOperations;
+  /** Operations for managing schedules. */
+  schedules: BetaSchedulesOperations;
+  /** Operations for managing routines. */
+  routines: BetaRoutinesOperations;
+  /** Operations for managing red team evaluations. */
+  redTeams: BetaRedTeamsOperations;
+  /** Operations for managing models. */
+  models: BetaModelsOperations;
+  /** Operations for managing memory stores. */
+  memoryStores: BetaMemoryStoresOperations;
+  /** Operations for managing evaluation insights. */
+  insights: BetaInsightsOperations;
+  /** Operations for managing evaluators. */
+  evaluators: BetaEvaluatorsOperations;
+  /** Operations for managing evaluation taxonomies. */
+  evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
+  /** Operations for managing agents. */
+  agents: BetaAgentsOperations;
+}
+
+export function _getBetaOperations(context: AIProjectContext): BetaOperations {
+  return {
+    /** Operations for managing data generation jobs. */
+    datasets: _getBetaDatasetsOperations(context),
+    /** Operations for managing skills. */
+    skills: _getBetaSkillsOperations(context),
+    /** Operations for managing toolboxes. */
+    toolboxes: _getBetaToolboxesOperations(context),
+    /** Operations for managing schedules. */
+    schedules: _getBetaSchedulesOperations(context),
+    /** Operations for managing routines. */
+    routines: _getBetaRoutinesOperations(context),
+    /** Operations for managing red team evaluations. */
+    redTeams: _getBetaRedTeamsOperations(context),
+    /** Operations for managing models. */
+    models: _getBetaModelsOperations(context),
+    /** Operations for managing memory stores. */
+    memoryStores: _getBetaMemoryStoresOperations(context),
+    /** Operations for managing evaluation insights. */
+    insights: _getBetaInsightsOperations(context),
+    /** Operations for managing evaluators. */
+    evaluators: _getBetaEvaluatorsOperations(context),
+    /** Operations for managing evaluation taxonomies. */
+    evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
+    /** Operations for managing agents. */
+    agents: _getBetaAgentsOperations(context),
+  };
+}

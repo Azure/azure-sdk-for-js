@@ -8,35 +8,35 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { AzureTerraformClient } from "./azureTerraformClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  BaseExportModel,
-  BaseExportModelUnion,
+  type BaseExportModel,
+  type BaseExportModelUnion,
   KnownType,
-  Type,
+  type Type,
   KnownTargetProvider,
-  TargetProvider,
-  ExportQuery,
-  ExportResource,
-  ExportResourceGroup,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  TerraformOperationStatus,
-  ExportResult,
+  type TargetProvider,
+  type ExportQuery,
+  type ExportResource,
+  type ExportResourceGroup,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type TerraformOperationStatus,
+  type ExportResult,
   KnownResourceProvisioningState,
-  ResourceProvisioningState,
-  Operation,
-  OperationDisplay,
+  type ResourceProvisioningState,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
+  type ActionType,
   KnownVersions,
 } from "./models/index.js";
 export {
-  AzureTerraformClientOptionalParams,
-  OperationsListOptionalParams,
-  TerraformExportTerraformOptionalParams,
+  type AzureTerraformClientOptionalParams,
+  type OperationsListOptionalParams,
+  type TerraformExportTerraformOptionalParams,
 } from "./api/index.js";
-export { OperationsOperations, TerraformOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { type OperationsOperations, type TerraformOperations } from "./classic/index.js";
+export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };

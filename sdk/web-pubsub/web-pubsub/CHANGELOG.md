@@ -1,4 +1,14 @@
 # Release History
+## 1.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+- Generate code from TypeSpec. This is an internal change that should not affect customers.
 
 ## 1.2.0 (2025-05-13)
 

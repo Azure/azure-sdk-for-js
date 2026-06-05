@@ -177,6 +177,86 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   };
 }
 
+/** Nginx Deployment Waf Policy Analysis Create Request */
+export interface NginxDeploymentWafPolicyAnalysisCreateRequest {
+  /** The byte content of the policy */
+  content?: Uint8Array;
+  /** The absolute file path of the policy as in the virtual machine */
+  filepath?: string;
+}
+
+export function nginxDeploymentWafPolicyAnalysisCreateRequestSerializer(
+  item: NginxDeploymentWafPolicyAnalysisCreateRequest,
+): any {
+  return {
+    content: !item["content"] ? item["content"] : uint8ArrayToString(item["content"], "base64"),
+    filepath: item["filepath"],
+  };
+}
+
+/** Nginx Deployment Waf Policy Analysis Response */
+export interface NginxDeploymentWafPolicyAnalysisResponse {
+  /** The status of the analysis. The possible values can be arbitrary */
+  status?: string;
+  /** The analysis data containing errors */
+  data?: NginxDeploymentWafPolicyAnalysisData;
+}
+
+export function nginxDeploymentWafPolicyAnalysisResponseDeserializer(
+  item: any,
+): NginxDeploymentWafPolicyAnalysisResponse {
+  return {
+    status: item["status"],
+    data: !item["data"]
+      ? item["data"]
+      : nginxDeploymentWafPolicyAnalysisDataDeserializer(item["data"]),
+  };
+}
+
+/** Nginx Deployment Waf Policy Analysis Data */
+export interface NginxDeploymentWafPolicyAnalysisData {
+  /** List of errors found during analysis */
+  errors?: NginxDeploymentWafPolicyError[];
+}
+
+export function nginxDeploymentWafPolicyAnalysisDataDeserializer(
+  item: any,
+): NginxDeploymentWafPolicyAnalysisData {
+  return {
+    errors: !item["errors"]
+      ? item["errors"]
+      : nginxDeploymentWafPolicyErrorArrayDeserializer(item["errors"]),
+  };
+}
+
+export function nginxDeploymentWafPolicyErrorArrayDeserializer(
+  result: Array<NginxDeploymentWafPolicyError>,
+): any[] {
+  return result.map((item) => {
+    return nginxDeploymentWafPolicyErrorDeserializer(item);
+  });
+}
+
+/** Nginx Deployment Waf Policy Error */
+export interface NginxDeploymentWafPolicyError {
+  /** Error code */
+  code?: string;
+  /** Field that caused the error */
+  field?: string;
+  /** Error message */
+  message?: string;
+}
+
+export function nginxDeploymentWafPolicyErrorDeserializer(
+  item: any,
+): NginxDeploymentWafPolicyError {
+  return {
+    code: item["code"],
+    field: item["field"],
+    message: item["message"],
+  };
+}
+
 /** Nginx Deployment Api Key Response */
 export interface NginxDeploymentApiKeyResponse extends ProxyResource {
   /** Nginx Deployment Api Key Response Properties */
@@ -2022,8 +2102,8 @@ export type Level = string;
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2025-03-01-preview API version. */
-  V20250301Preview = "2025-03-01-preview",
+  /** The 2025-11-01 API version. */
+  V20251101 = "2025-11-01",
 }
 
 export function _nginxDeploymentScalingPropertiesAutoScaleSettingsSerializer(

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all of the available Resource Provider operations.
  *
  * @summary Lists all of the available Resource Provider operations.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/Operations_List.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/Operations_List.json
  */
 async function operationsList(): Promise<void> {
   const subscriptionId =

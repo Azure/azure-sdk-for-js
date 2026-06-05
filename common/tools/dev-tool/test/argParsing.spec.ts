@@ -3,10 +3,10 @@
 
 import { describe, it, assert, beforeAll } from "vitest";
 import { spawn } from "child_process";
-import { StrictAllowMultiple } from "../src/framework/command";
-import { CommandOptions } from "../src/framework/CommandInfo";
-import { parseOptions } from "../src/framework/parseOptions";
-import { silenceLogger } from "./util";
+import type { StrictAllowMultiple } from "../src/framework/command.ts";
+import type { CommandOptions } from "../src/framework/CommandInfo.ts";
+import { parseOptions } from "../src/framework/parseOptions.ts";
+import { silenceLogger } from "./util.ts";
 
 const ARG_SCRIPT = "process.stdout.write(JSON.stringify(process.argv.slice(1)))";
 

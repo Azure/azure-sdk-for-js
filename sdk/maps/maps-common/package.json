@@ -30,7 +30,11 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/maps/maps-common"
+  },
   "engines": {
     "node": ">=20.0.0"
   },
@@ -69,28 +73,12 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -112,5 +100,12 @@
       }
     }
   },
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

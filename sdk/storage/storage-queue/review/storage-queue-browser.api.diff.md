@@ -15,7 +15,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -import { CredentialPolicyCreator } from '@azure/storage-common';
 -import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 -import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
--import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
+-import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 +import type { HttpHeadersLike } from '@azure/core-http-compat';
  import type { KeepAliveOptions } from '@azure/core-http-compat';
  import type { OperationTracingOptions } from '@azure/core-tracing';
@@ -167,7 +167,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      startsOn?: Date;
      version?: string;
  }
-@@ -521,21 +447,8 @@
+@@ -528,21 +454,8 @@
      update: boolean;
  }
  
@@ -189,7 +189,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      abortSignal?: AbortSignalLike;
  }
  
-@@ -554,8 +467,9 @@
+@@ -561,8 +474,9 @@
      constructor(url: string, pipeline: Pipeline);
      createQueue(queueName: string, options?: QueueCreateOptions): Promise<QueueCreateResponse>;
      deleteQueue(queueName: string, options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
@@ -199,7 +199,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
      getQueueClient(queueName: string): QueueClient;
-@@ -622,15 +536,8 @@
+@@ -630,15 +544,8 @@
  
  // @public
  export type ReceivedMessageItem = DequeuedMessageItem;
@@ -215,7 +215,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface ResponseLike {
      _response: HttpResponse;
  }
-@@ -665,32 +572,8 @@
+@@ -673,32 +580,8 @@
      start: string;
  }
  
@@ -248,7 +248,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      httpClient?: RequestPolicy;
      requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
  }
-@@ -805,11 +688,8 @@
+@@ -813,11 +696,8 @@
  
  export { StorageBrowserPolicyFactory }
  
@@ -260,7 +260,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      audience?: string;
      httpClient?: RequestPolicy;
      keepAliveOptions?: KeepAliveOptions;
-@@ -817,25 +697,10 @@
+@@ -825,25 +705,10 @@
      retryOptions?: StorageRetryOptions;
      userAgentOptions?: UserAgentPolicyOptions;
  }
@@ -286,7 +286,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface UserDelegationKeyModel {
-@@ -847,10 +712,8 @@
+@@ -856,10 +721,8 @@
      signedVersion: string;
      value: string;
  }

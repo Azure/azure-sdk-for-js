@@ -3,9 +3,9 @@
 
 export { listByEdgeAction, $delete, update, create, get } from "./operations.js";
 export {
-  EdgeActionExecutionFiltersListByEdgeActionOptionalParams,
-  EdgeActionExecutionFiltersDeleteOptionalParams,
-  EdgeActionExecutionFiltersUpdateOptionalParams,
-  EdgeActionExecutionFiltersCreateOptionalParams,
-  EdgeActionExecutionFiltersGetOptionalParams,
+  type EdgeActionExecutionFiltersListByEdgeActionOptionalParams,
+  type EdgeActionExecutionFiltersDeleteOptionalParams,
+  type EdgeActionExecutionFiltersUpdateOptionalParams,
+  type EdgeActionExecutionFiltersCreateOptionalParams,
+  type EdgeActionExecutionFiltersGetOptionalParams,
 } from "./options.js";

@@ -29,6 +29,11 @@ describe("AppConfigurationClient", () => {
 
   beforeEach(async (ctx) => {
     recorder = await startRecorder(ctx);
+    // Avoid unmatched sync-token headers in playback mode
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["sync-token"],
+    });
+
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
   });
 
@@ -220,7 +225,7 @@ describe("AppConfigurationClient", () => {
 
       // delete configuration
       const deletedSetting = await client.deleteConfigurationSetting(result);
-      assert.equal(200, deletedSetting.statusCode);
+      assert.equal(deletedSetting.statusCode, 200);
 
       // confirm setting no longer exists
       try {
@@ -286,7 +291,7 @@ describe("AppConfigurationClient", () => {
       // delete actually happened (status code: 200) or if the setting wasn't
       // found which results in the same state but might matter to
       // the user(status code: 204)
-      assert.equal(204, response.statusCode);
+      assert.equal(response.statusCode, 204);
     });
 
     it("throws when deleting a configuration setting (invalid etag)", async () => {
@@ -497,7 +502,7 @@ describe("AppConfigurationClient", () => {
         },
       );
 
-      assert.equal("value1", settingAtPointInTime.value);
+      assert.equal(settingAtPointInTime.value, "value1");
     });
 
     it("Using `select` via `fields`", async () => {
@@ -962,7 +967,7 @@ describe("AppConfigurationClient", () => {
 
       // the fields we retrieved
       assert.equal(productionASettingId.key, settings[0].key);
-      assert.equal("[A] production value", settings[0].value);
+      assert.equal(settings[0].value, "[A] production value");
       assert.equal(uniqueLabel, settings[0].label);
 
       assert.ok(!settings[0].isReadOnly);
@@ -1261,7 +1266,6 @@ describe("AppConfigurationClient", () => {
         "checkConfigSetting-multiPage",
         `checkConfigSetting-multiPage${Math.floor(Math.random() * 100000)}`,
       );
-
       // Create 101 settings to ensure we have at least 2 pages (page size is 100)
       const expectedNumberOfLabels = 101;
 

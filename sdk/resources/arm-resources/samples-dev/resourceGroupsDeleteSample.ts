@@ -9,7 +9,7 @@
  */
 
 import {
-  ResourceGroupsDeleteOptionalParams,
+  type ResourceGroupsDeleteOptionalParams,
   ResourceManagementClient,
 } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";

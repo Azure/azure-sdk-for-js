@@ -1,12 +1,16 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "6.0.4",
+  "version": "6.0.5",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/eventhub/event-hubs"
+  },
   "sideEffects": false,
   "keywords": [
     "azure",
@@ -34,7 +38,7 @@
     "build:samples": "tsc -p tsconfig.samples.json",
     "build:test:browser": "dev-tool run build-package && dev-tool run build-test",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"scripts/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
-    "clean": "rimraf --glob dist dist-* temp *.tgz *.log .tshy *.xml",
+    "clean": "rimraf --glob dist dist-* temp *.tgz *.log *.xml",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"scripts/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
@@ -79,22 +83,6 @@
       "Azure Event Hub": "https://learn.microsoft.com/azure/event-hubs/event-hubs-create"
     }
   },
-  "tshy": {
-    "project": "tsconfig.src.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-amqp": "^4.3.2",
@@ -138,8 +126,8 @@
     "node-forge": "^1.3.2",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing",
@@ -166,5 +154,10 @@
       }
     }
   },
-  "type": "module"
+  "type": "module",
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
+  }
 }

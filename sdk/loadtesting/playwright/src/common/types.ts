@@ -4,7 +4,7 @@
 import type { ConnectOptions } from "@playwright/test";
 import type { ServiceAuth, ServiceOS, SDKLanguage } from "./constants.js";
 import type { TokenCredential } from "@azure/identity";
-import { CIInfo } from "../utils/cIInfoProvider.js";
+import type { CIInfo } from "../utils/cIInfoProvider.js";
 
 // Public APIs
 
@@ -114,6 +114,15 @@ export type PlaywrightServiceAdditionalOptions = {
   /**
    * @public
    *
+   * Use cloud hosted browsers.
+   *
+   * @defaultValue `true`
+   */
+  useCloudHostedBrowsers?: boolean;
+
+  /**
+   * @public
+   *
    * Custom token credential for Entra ID authentication. Learn more at {@link https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/using-azure-identity.md | Using Azure Identity}.
    *
    * @defaultValue `DefaultAzureCredential`
@@ -136,7 +145,24 @@ export type PlaywrightServiceAdditionalOptions = {
    * @defaultValue `2025-09-01`
    */
   apiVersion?: "2025-09-01";
+
+  /**
+   * @public
+   *
+   * Identifies the tool that initiated remote browser sessions, sent to the
+   * service as the `sourceType` query parameter on the WebSocket endpoint.
+   *
+   * @defaultValue `PlaywrightWorkspacesTestRun`
+   */
+  sourceType?: BrowserSessionSourceTypeValue;
 };
+
+/**
+ * @public
+ *
+ * Source identifier values accepted by Azure Playwright for the `sourceType` option.
+ */
+export type BrowserSessionSourceTypeValue = "PlaywrightWorkspacesTestRun" | "Others";
 
 /**
  * @public
@@ -210,11 +236,6 @@ export type WorkspaceMetaData = {
   localAuth?: string;
   storageUri?: string;
   reporting?: string;
-};
-
-export type TenantInfo = {
-  tenantId?: string;
-  defaultDomain?: string;
 };
 
 export interface UploadResult {

@@ -3,6 +3,6 @@
 
 export {
   createContainerRegistryTasksManagement,
-  ContainerRegistryTasksManagementContext,
-  ContainerRegistryTasksManagementClientOptionalParams,
+  type ContainerRegistryTasksManagementContext,
+  type ContainerRegistryTasksManagementClientOptionalParams,
 } from "./containerRegistryTasksManagementContext.js";

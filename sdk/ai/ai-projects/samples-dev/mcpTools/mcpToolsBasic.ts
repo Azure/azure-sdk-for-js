@@ -4,7 +4,7 @@
 /**
  * This sample demonstrates how to directly interact with MCP (Model Context Protocol) tools
  * using the low-level MCP client library to connect to the Foundry Project's MCP tools API:
- *     {AZURE_AI_PROJECT_ENDPOINT}/mcp_tools?api-version=2025-05-15-preview
+ *     {FOUNDRY_PROJECT_ENDPOINT}/mcp_tools?api-version=2025-05-15-preview
  *
  * For agent-based MCP tool usage, see samples in samples/agents/tools/sample_agent_mcp.ts
  * and related files in that directory.
@@ -33,13 +33,13 @@ import "dotenv/config";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const imageGenDeploymentName = process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME"] || "";
 
 export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const project = new AIProjectClient(projectEndpoint, credential);
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   const scope = "https://ai.azure.com";
   const azureADTokenProvider = await getBearerTokenProvider(credential, scope);
@@ -55,7 +55,7 @@ export async function main(): Promise<void> {
 
   // Create Streamable HTTP transport with Authorization header
   const transport = new StreamableHTTPClientTransport(
-    new URL(`${projectEndpoint}/mcp_tools?api-version=2025-05-15-preview`),
+    new URL(`${projectEndpoint}/mcp_tools?api-version=v1`),
     {
       requestInit: {
         headers: {

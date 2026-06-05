@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// This file is used as a shim of "FileDownloadResponse" for some browser bundlers
-// when trying to bundle "FileDownloadResponse"
-// "FileDownloadResponse" class is only available in Node.js runtime
-export const FileDownloadResponse = 1;
+// FileDownloadResponse is only available in Node.js runtime.
+export class FileDownloadResponse {
+  _response: any;
+
+  constructor(..._args: any[]) {
+    throw new Error("FileDownloadResponse is not supported in React Native.");
+  }
+}

@@ -5,6 +5,10 @@ import type { DisconnectedOperationsManagementClient } from "./disconnectedOpera
 import {
   _$deleteDeserialize,
   _createOrUpdateDeserialize,
+} from "./api/hardwareSettings/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeDisconnectedOperations,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeDisconnectedOperations,
 } from "./api/disconnectedOperations/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -55,6 +59,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -65,25 +70,29 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion,
     },
   );
 }
 
 interface DeserializationHelper {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/disconnectedOperations/{name}/hardwareSettings/{hardwareSettingName}":
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/disconnectedOperations/{name}/hardwareSettings/{hardwareSettingName}":
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/disconnectedOperations/{name}":
     {
-      deserializer: _$deleteDeserialize,
+      deserializer: _$deleteDeserializeDisconnectedOperations,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/disconnectedOperations/{name}":
     {
-      deserializer: _createOrUpdateDeserialize,
+      deserializer: _createOrUpdateDeserializeDisconnectedOperations,
       expectedStatuses: ["200", "201", "202"],
     },
 };
@@ -156,4 +165,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }

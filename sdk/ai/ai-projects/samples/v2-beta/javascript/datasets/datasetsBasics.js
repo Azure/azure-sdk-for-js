@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const path = require("path");
 require("dotenv/config");
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
 const containerConnectionName =
   process.env["AZURE_STORAGE_CONNECTION_NAME"] || "<storage connection name>";
 const VERSION1 = "1.0";
@@ -64,7 +64,7 @@ async function main() {
     {
       connectionName: containerConnectionName,
       // only upload sample_file1.txt and sample_file2.txt
-      filePattern: /sample_file[1-2]\.txt$/,
+      filePattern: "/sample_file[1-2]\.txt$/",
     },
   );
   console.log("Dataset2 created:", JSON.stringify(dataset2, null, 2));

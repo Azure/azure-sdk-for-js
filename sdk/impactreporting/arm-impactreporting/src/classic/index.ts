@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { ConnectorsOperations } from "./connectors/index.js";
-export { ImpactCategoriesOperations } from "./impactCategories/index.js";
-export { InsightsOperations } from "./insights/index.js";
-export { OperationsOperations } from "./operations/index.js";
-export { WorkloadImpactsOperations } from "./workloadImpacts/index.js";
+export { type ConnectorsOperations } from "./connectors/index.js";
+export { type ImpactCategoriesOperations } from "./impactCategories/index.js";
+export { type InsightsOperations } from "./insights/index.js";
+export { type OperationsOperations } from "./operations/index.js";
+export { type WorkloadImpactsOperations } from "./workloadImpacts/index.js";

@@ -3,6 +3,9 @@
   Mints a GitHub App installation access token using Azure Key Vault 'sign' (non-exportable key),
   and logs in the GitHub CLI by setting GH_TOKEN.
 
+  Works in both Azure DevOps pipelines and GitHub Actions workflows.
+  Requires Azure CLI to be pre-authenticated (via AzureCLI@2 in ADO, or azure/login in GH Actions).
+
 .PARAMETER KeyVaultName
   Name of the Azure Key Vault containing the non-exportable RSA key.
 
@@ -16,10 +19,13 @@
   List of GitHub organizations or users for which to obtain installation tokens.
 
 .PARAMETER VariableNamePrefix
-  Name of the ADO variable to set when -SetPipelineVariable is used (default: GH_TOKEN).
+  Prefix for the exported variable name (default: GH_TOKEN).
+  With a single owner, exports as GH_TOKEN. With multiple owners, exports as GH_TOKEN_<Owner>.
 
 .OUTPUTS
-  Writes minimal info to stdout. Token is placed in $env:GH_TOKEN if there is only one owner otherwise $env:GH_TOKEN_<Owner> for each owner.
+  Sets environment variables in the current process and exports them to the CI system:
+  - Azure DevOps: sets secret pipeline variables via ##vso logging commands
+  - GitHub Actions: writes to GITHUB_ENV and masks the token
 #>
 
 [CmdletBinding()]
@@ -98,7 +104,7 @@ function New-GitHubAppJwt {
       --digest $Base64Value | ConvertFrom-Json
 
   if ($LASTEXITCODE -ne 0) {
-    throw "Failed to sign JWT with Azure Key Vault. Error: $SignResult"
+    throw "Failed to sign JWT with Azure Key Vault. Error: $($SignResultJson | ConvertTo-Json -Compress)"
   }
 
   if (!$SignResultJson.signature) {
@@ -125,7 +131,7 @@ function Get-GitHubInstallationId {
     $resp | Foreach-Object { Write-Host "  $($_.id): $($_.account.login) [$($_.target_type)]" }
 
     $resp = $resp | Where-Object { $_.account.login -ieq $InstallationTokenOwner }
-    if (!$resp.id) { throw "No installations found for this App." }
+    if ($null -eq $resp -or !$resp.id) { throw "No installation found for '$InstallationTokenOwner' in this App. Verify the App is installed on that org/user." }
     return $resp.id
 }
 
@@ -148,8 +154,10 @@ $jwt = New-GitHubAppJwt -VaultName $KeyVaultName -KeyName $KeyName -AppId $GitHu
 
 foreach ($InstallationTokenOwner in $InstallationTokenOwners) 
 {
-  Write-Host "Fetching installation ID for $InstallationTokenOwner ..."
-  $installationId = Get-GitHubInstallationId -Jwt $jwt -ApiBase $GitHubApiBaseUrl -ApiVersion $GitHubApiVersion -InstallationTokenOwner $InstallationTokenOwner
+  # Token owners can be provided as either "owner" or "owner/repo". Normalize to owner.
+  $normalizedOwner = ($InstallationTokenOwner -split '/')[0]
+  Write-Host "Fetching installation ID for $InstallationTokenOwner (normalized owner: $normalizedOwner) ..."
+  $installationId = Get-GitHubInstallationId -Jwt $jwt -ApiBase $GitHubApiBaseUrl -ApiVersion $GitHubApiVersion -InstallationTokenOwner $normalizedOwner
 
   Write-Host "Installation ID resolved: $installationId"
 
@@ -159,7 +167,7 @@ foreach ($InstallationTokenOwner in $InstallationTokenOwners)
   $variableName = $VariableNamePrefix
   if ($InstallationTokenOwners.Count -gt 1)
   {
-    $variableName = $VariableNamePrefix + "_" + $InstallationTokenOwner
+    $variableName = $VariableNamePrefix + "_" + $normalizedOwner
   }
 
   Set-Item -Path Env:$variableName -Value $installationToken
@@ -167,10 +175,17 @@ foreach ($InstallationTokenOwner in $InstallationTokenOwners)
   # Export for gh CLI & git
   Write-Host "$variableName has been set in the current process."
 
-  # Optionally set an Azure DevOps secret variable (so later tasks can reuse it)
+  # Azure DevOps: set secret pipeline variable (so later tasks can reuse it)
   if ($null -ne $env:SYSTEM_TEAMPROJECTID) {
     Write-Host "##vso[task.setvariable variable=$variableName;issecret=true]$installationToken"
     Write-Host "Azure DevOps variable '$variableName' has been set (secret)."
+  }
+
+  # GitHub Actions: mask the token and export to GITHUB_ENV
+  if ($env:GITHUB_ACTIONS -eq 'true') {
+    Write-Host "::add-mask::$installationToken"
+    Add-Content -Path $env:GITHUB_ENV -Value "$variableName=$installationToken"
+    Write-Host "GitHub Actions env variable '$variableName' has been exported."
   }
 
   try {

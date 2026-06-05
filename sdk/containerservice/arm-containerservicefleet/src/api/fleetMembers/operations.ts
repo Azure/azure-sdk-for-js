@@ -36,12 +36,15 @@ export function _listByFleetSend(
   options: FleetMembersListByFleetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members{?api%2Dversion,%24top,%24skipToken,%24filter}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
+      "%24top": options?.top,
+      "%24skipToken": options?.skipToken,
+      "%24filter": options?.filter,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -49,10 +52,7 @@ export function _listByFleetSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -63,6 +63,7 @@ export async function _listByFleetDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -81,7 +82,11 @@ export function listByFleet(
     () => _listByFleetSend(context, resourceGroupName, fleetName, options),
     _listByFleetDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-02-preview",
+    },
   );
 }
 
@@ -99,7 +104,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       fleetMemberName: fleetMemberName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -108,17 +113,18 @@ export function _$deleteSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...options.requestOptions?.headers,
     },
   });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202", "204", "201"];
+  const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -126,11 +132,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a FleetMember */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -138,12 +139,13 @@ export function $delete(
   fleetMemberName: string,
   options: FleetMembersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, fleetName, fleetMemberName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -162,7 +164,7 @@ export function _updateAsyncSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       fleetMemberName: fleetMemberName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -172,7 +174,7 @@ export function _updateAsyncSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -185,6 +187,7 @@ export async function _updateAsyncDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -206,6 +209,7 @@ export function updateAsync(
     getInitialResponse: () =>
       _updateAsyncSend(context, resourceGroupName, fleetName, fleetMemberName, properties, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-02-preview",
   }) as PollerLike<OperationState<FleetMember>, FleetMember>;
 }
 
@@ -224,7 +228,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       fleetMemberName: fleetMemberName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -234,8 +238,8 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -248,6 +252,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -269,6 +274,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, fleetName, fleetMemberName, resource, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-03-02-preview",
   }) as PollerLike<OperationState<FleetMember>, FleetMember>;
 }
 
@@ -286,7 +292,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       fleetMemberName: fleetMemberName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -294,10 +300,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -306,6 +309,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Fl
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

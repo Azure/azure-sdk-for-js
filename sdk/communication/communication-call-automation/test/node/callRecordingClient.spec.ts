@@ -224,7 +224,7 @@ describe("CallRecording Live Tests", () => {
   });
 
   afterEach(async () => {
-    persistEvents(testName);
+    await persistEvents(testName);
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
     });

@@ -3,6 +3,6 @@
 
 export {
   createHybridConnectivityManagementAPI,
-  HybridConnectivityManagementAPIContext,
-  HybridConnectivityManagementAPIOptionalParams,
+  type HybridConnectivityManagementAPIContext,
+  type HybridConnectivityManagementAPIOptionalParams,
 } from "./hybridConnectivityManagementAPIContext.js";

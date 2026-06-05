@@ -7,7 +7,7 @@
 
 const { ContainerRegistryClient } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"

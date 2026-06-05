@@ -12,11 +12,11 @@ import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime.js";
 import { QueryRange } from "../../routing/index.js";
 import { FeedRangeInternal } from "./FeedRange.js";
 import { hashV2PartitionKey } from "../../utils/hashing/v2.js";
-import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal.js";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
-import { EncryptionProcessor } from "../../encryption/index.js";
+import type { PartitionKeyInternal } from "../../documents/PartitionKeyInternal.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import type { EncryptionProcessor } from "../../encryption/index.js";
 import { ChangeFeedMode } from "./ChangeFeedMode.js";
-import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
+import type { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
 import type { FeedOptions } from "../../request/FeedOptions.js";
 
 /**

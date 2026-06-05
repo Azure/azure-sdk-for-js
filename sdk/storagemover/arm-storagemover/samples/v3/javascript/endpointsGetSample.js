@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets an Endpoint resource.
  *
  * @summary gets an Endpoint resource.
- * x-ms-original-file: 2025-07-01/Endpoints_Get_AzureMultiCloudConnector.json
+ * x-ms-original-file: 2025-12-01/Endpoints_Get_AzureMultiCloudConnector.json
  */
 async function endpointsGetAzureMultiCloudConnector() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function endpointsGetAzureMultiCloudConnector() {
  * This sample demonstrates how to gets an Endpoint resource.
  *
  * @summary gets an Endpoint resource.
- * x-ms-original-file: 2025-07-01/Endpoints_Get_AzureStorageBlobContainer.json
+ * x-ms-original-file: 2025-12-01/Endpoints_Get_AzureStorageBlobContainer.json
  */
 async function endpointsGetAzureStorageBlobContainer() {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function endpointsGetAzureStorageBlobContainer() {
  * This sample demonstrates how to gets an Endpoint resource.
  *
  * @summary gets an Endpoint resource.
- * x-ms-original-file: 2025-07-01/Endpoints_Get_AzureStorageNfsFileShare.json
+ * x-ms-original-file: 2025-12-01/Endpoints_Get_AzureStorageNfsFileShare.json
  */
 async function endpointsGetAzureStorageNfsFileShare() {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function endpointsGetAzureStorageNfsFileShare() {
  * This sample demonstrates how to gets an Endpoint resource.
  *
  * @summary gets an Endpoint resource.
- * x-ms-original-file: 2025-07-01/Endpoints_Get_AzureStorageSmbFileShare.json
+ * x-ms-original-file: 2025-12-01/Endpoints_Get_AzureStorageSmbFileShare.json
  */
 async function endpointsGetAzureStorageSmbFileShare() {
   const credential = new DefaultAzureCredential();
@@ -80,7 +80,7 @@ async function endpointsGetAzureStorageSmbFileShare() {
  * This sample demonstrates how to gets an Endpoint resource.
  *
  * @summary gets an Endpoint resource.
- * x-ms-original-file: 2025-07-01/Endpoints_Get_NfsMount.json
+ * x-ms-original-file: 2025-12-01/Endpoints_Get_NfsMount.json
  */
 async function endpointsGetNfsMount() {
   const credential = new DefaultAzureCredential();
@@ -98,7 +98,25 @@ async function endpointsGetNfsMount() {
  * This sample demonstrates how to gets an Endpoint resource.
  *
  * @summary gets an Endpoint resource.
- * x-ms-original-file: 2025-07-01/Endpoints_Get_SmbMount.json
+ * x-ms-original-file: 2025-12-01/Endpoints_Get_S3WithHMAC.json
+ */
+async function endpointsGetS3WithHmac() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
+  const client = new StorageMoverClient(credential, subscriptionId);
+  const result = await client.endpoints.get(
+    "examples-rg",
+    "examples-storageMoverName",
+    "examples-endpointName",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets an Endpoint resource.
+ *
+ * @summary gets an Endpoint resource.
+ * x-ms-original-file: 2025-12-01/Endpoints_Get_SmbMount.json
  */
 async function endpointsGetSmbMount() {
   const credential = new DefaultAzureCredential();
@@ -118,6 +136,7 @@ async function main() {
   await endpointsGetAzureStorageNfsFileShare();
   await endpointsGetAzureStorageSmbFileShare();
   await endpointsGetNfsMount();
+  await endpointsGetS3WithHmac();
   await endpointsGetSmbMount();
 }
 

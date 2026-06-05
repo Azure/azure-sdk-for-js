@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.1.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,13 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.2 (2026-03-05)
+
+### Other Changes
+
+- Opted in to cross-origin redirects to ensure blob downloads continue to work when the service redirects to Blob Storage. [#37384](https://github.com/Azure/azure-sdk-for-js/pull/37384)
+- Updated minimum dependency on `@azure/core-rest-pipeline` to `^1.23.0`.
 
 ## 1.1.0 (2023-05-09)
 

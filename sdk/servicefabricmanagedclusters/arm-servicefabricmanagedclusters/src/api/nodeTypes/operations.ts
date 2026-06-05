@@ -63,7 +63,7 @@ export function _listFaultSimulationSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -71,10 +71,7 @@ export function _listFaultSimulationSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -85,6 +82,7 @@ export async function _listFaultSimulationDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -104,7 +102,11 @@ export function listFaultSimulation(
     () => _listFaultSimulationSend(context, resourceGroupName, clusterName, nodeTypeName, options),
     _listFaultSimulationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -123,7 +125,7 @@ export function _getFaultSimulationSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -132,10 +134,7 @@ export function _getFaultSimulationSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: faultSimulationIdContentSerializer(parameters),
   });
 }
@@ -147,6 +146,7 @@ export async function _getFaultSimulationDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -188,7 +188,7 @@ export function _stopFaultSimulationSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -208,6 +208,7 @@ export async function _stopFaultSimulationDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -236,6 +237,7 @@ export function stopFaultSimulation(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
 }
 
@@ -254,7 +256,7 @@ export function _startFaultSimulationSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -274,6 +276,7 @@ export async function _startFaultSimulationDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -302,6 +305,7 @@ export function startFaultSimulation(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
 }
 
@@ -320,7 +324,7 @@ export function _startSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -338,6 +342,7 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -359,6 +364,7 @@ export function start(
     getInitialResponse: () =>
       _startSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -377,7 +383,7 @@ export function _restartSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -395,6 +401,7 @@ export async function _restartDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -416,6 +423,7 @@ export function restart(
     getInitialResponse: () =>
       _restartSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -434,7 +442,7 @@ export function _reimageSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -452,6 +460,7 @@ export async function _reimageDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -473,6 +482,7 @@ export function reimage(
     getInitialResponse: () =>
       _reimageSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -491,7 +501,7 @@ export function _redeploySend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -509,6 +519,7 @@ export async function _redeployDeserialize(result: PathUncheckedResponse): Promi
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -530,6 +541,7 @@ export function redeploy(
     getInitialResponse: () =>
       _redeploySend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -548,7 +560,7 @@ export function _deleteNodeSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -566,6 +578,7 @@ export async function _deleteNodeDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -587,6 +600,7 @@ export function deleteNode(
     getInitialResponse: () =>
       _deleteNodeSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -605,7 +619,7 @@ export function _deallocateSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -623,6 +637,7 @@ export async function _deallocateDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -644,6 +659,7 @@ export function deallocate(
     getInitialResponse: () =>
       _deallocateSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -651,9 +667,7 @@ export function _listByManagedClustersSend(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  options: NodeTypesListByManagedClustersOptionalParams = {
-    requestOptions: {},
-  },
+  options: NodeTypesListByManagedClustersOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes{?api%2Dversion}",
@@ -661,7 +675,7 @@ export function _listByManagedClustersSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -669,10 +683,7 @@ export function _listByManagedClustersSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -683,6 +694,7 @@ export async function _listByManagedClustersDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -694,16 +706,18 @@ export function listByManagedClusters(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  options: NodeTypesListByManagedClustersOptionalParams = {
-    requestOptions: {},
-  },
+  options: NodeTypesListByManagedClustersOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<NodeType> {
   return buildPagedAsyncIterator(
     context,
     () => _listByManagedClustersSend(context, resourceGroupName, clusterName, options),
     _listByManagedClustersDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -721,7 +735,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -731,10 +745,11 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -742,11 +757,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a Service Fabric node type of a given managed cluster. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -754,12 +764,13 @@ export function $delete(
   nodeTypeName: string,
   options: NodeTypesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, clusterName, nodeTypeName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -778,7 +789,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -787,10 +798,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: nodeTypeUpdateParametersSerializer(parameters),
   });
 }
@@ -800,6 +808,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -821,6 +830,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<NodeType>, NodeType>;
 }
 
@@ -839,7 +849,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -848,10 +858,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: nodeTypeSerializer(parameters),
   });
 }
@@ -861,6 +868,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -889,6 +897,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<NodeType>, NodeType>;
 }
 
@@ -906,7 +915,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -914,10 +923,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -926,6 +932,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<No
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

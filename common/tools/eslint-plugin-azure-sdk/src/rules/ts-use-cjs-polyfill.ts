@@ -30,9 +30,9 @@ export default createRule({
     return {
       Identifier: (node): void => {
         if (node.name === "__dirname" || node.name === "__filename") {
-          // tshy will handle commonJS / ESM polyfills when building based on file extension.
-          // If the file ends in -cjs.cts, it is a CommonJS file and could use commonJS concepts.
-          if (!context.filename.endsWith("-cjs.cts")) {
+          // warp will handle commonJS / ESM polyfills when building based on file extension.
+          // If the file ends in -cjs.cts or -cjs.ts, it is a CommonJS file and could use commonJS concepts.
+          if (!context.filename.endsWith("-cjs.cts") && !context.filename.endsWith("-cjs.ts")) {
             context.report({
               node: node,
               messageId: "usePolyfill",

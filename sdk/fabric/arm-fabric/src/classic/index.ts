@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { FabricCapacitiesOperations } from "./fabricCapacities/index.js";
-export { OperationsOperations } from "./operations/index.js";
+export { type FabricCapacitiesOperations } from "./fabricCapacities/index.js";
+export { type OperationsOperations } from "./operations/index.js";

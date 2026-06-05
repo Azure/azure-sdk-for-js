@@ -1,11 +1,11 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "stream",
-  "daemon": false,
   "remoteCache": {
     "teamSlug": "azsdkjs",
     "teamId": "azsdkjs",
     "enabled": true,
+    // Reach out to netiso@microsoft.com before changing apiUrl and loginUrl to ensure pipelines will continue to run.
     "apiUrl": "https://turborepo-remote-cache-vnet.whitesky-6b33c444.westus2.azurecontainerapps.io",
     "loginUrl": "https://turborepo-remote-cache-vnet.whitesky-6b33c444.westus2.azurecontainerapps.io"
   },
@@ -16,7 +16,11 @@
         "$TURBO_DEFAULT$",
         "$TURBO_ROOT$/api-extractor-base.json",
         "$TURBO_ROOT$/tsconfig.json",
-        "$TURBO_ROOT$/tsconfig.src.build.json",
+        "$TURBO_ROOT$/tsconfig.browser.base.json",
+        "$TURBO_ROOT$/tsconfig.lib.json",
+        "$TURBO_ROOT$/tsconfig.src.*.json",
+        "$TURBO_ROOT$/eng/tsconfigs/**",
+        "$TURBO_ROOT$/warp.base.config.yml",
         "!review/*.api.md",
         "!CHANGELOG.md",
         "!LICENSE",
@@ -45,9 +49,6 @@
     "pack": {
       "dependsOn": ["build"],
       "cache": false
-    },
-    "typecheck": {
-      "dependsOn": ["^build"]
     },
     "test": {
       "dependsOn": ["build"]

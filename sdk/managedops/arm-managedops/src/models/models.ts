@@ -285,9 +285,9 @@ export interface DesiredConfiguration {
   /** User assigned Managed Identity used to perform operations on machines managed by Ops360. */
   userAssignedManagedIdentityId: string;
   /** Desired enablement state of the Defender For Servers service. */
-  defenderForServers?: string;
+  defenderForServers?: DesiredEnablementState;
   /** Desired enablement state of the Defender Cloud Security Posture Management (CSPM) service. */
-  defenderCspm?: string;
+  defenderCspm?: DesiredEnablementState;
 }
 
 export function desiredConfigurationSerializer(item: DesiredConfiguration): any {
@@ -346,6 +346,24 @@ export function azureMonitorConfigurationDeserializer(item: any): AzureMonitorCo
   };
 }
 
+/** The desired enablement state of a service. */
+export enum KnownDesiredEnablementState {
+  /** Enable the service. */
+  Enable = "Enable",
+  /** Disable the service. */
+  Disable = "Disable",
+}
+
+/**
+ * The desired enablement state of a service. \
+ * {@link KnownDesiredEnablementState} can be used interchangeably with DesiredEnablementState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enable**: Enable the service. \
+ * **Disable**: Disable the service.
+ */
+export type DesiredEnablementState = string;
+
 /** Services provisioned by this resource. */
 export interface ServiceInformation {
   /** Change Tracking and Inventory service information. */
@@ -390,7 +408,7 @@ export interface ChangeTrackingInformation {
   /** ID of Data Collection Rule (DCR) associated with this service. */
   dcrId: string;
   /** Indicates whether the service is enabled. */
-  enablementStatus: string;
+  enablementStatus: EnablementState;
 }
 
 export function changeTrackingInformationDeserializer(item: any): ChangeTrackingInformation {
@@ -400,12 +418,36 @@ export function changeTrackingInformationDeserializer(item: any): ChangeTracking
   };
 }
 
+/** The enablement state of a service. */
+export enum KnownEnablementState {
+  /** Service is enabled. */
+  Enabled = "Enabled",
+  /** Service enablement is in progress. */
+  InProgress = "InProgress",
+  /** Service enablement has failed. */
+  Failed = "Failed",
+  /** Service is disabled. */
+  Disabled = "Disabled",
+}
+
+/**
+ * The enablement state of a service. \
+ * {@link KnownEnablementState} can be used interchangeably with EnablementState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Service is enabled. \
+ * **InProgress**: Service enablement is in progress. \
+ * **Failed**: Service enablement has failed. \
+ * **Disabled**: Service is disabled.
+ */
+export type EnablementState = string;
+
 /** Azure Monitor Insights service information. */
 export interface AzureMonitorInformation {
   /** ID of Data Collection Rule (DCR) associated with this service. */
   dcrId: string;
   /** Indicates whether the service is enabled. */
-  enablementStatus: string;
+  enablementStatus: EnablementState;
 }
 
 export function azureMonitorInformationDeserializer(item: any): AzureMonitorInformation {
@@ -418,7 +460,7 @@ export function azureMonitorInformationDeserializer(item: any): AzureMonitorInfo
 /** Azure Update Manager service information. */
 export interface UpdateManagerInformation {
   /** Indicates whether the service is enabled. */
-  enablementStatus: string;
+  enablementStatus: EnablementState;
 }
 
 export function updateManagerInformationDeserializer(item: any): UpdateManagerInformation {
@@ -430,7 +472,7 @@ export function updateManagerInformationDeserializer(item: any): UpdateManagerIn
 /** Azure Policy and Machine Configuration service information. */
 export interface GuestConfigurationInformation {
   /** Indicates whether the service is enabled. */
-  enablementStatus: string;
+  enablementStatus: EnablementState;
 }
 
 export function guestConfigurationInformationDeserializer(
@@ -444,7 +486,7 @@ export function guestConfigurationInformationDeserializer(
 /** Defender for Servers service information. */
 export interface DefenderForServersInformation {
   /** Indicates whether the service is enabled. */
-  enablementStatus: string;
+  enablementStatus: EnablementState;
 }
 
 export function defenderForServersInformationDeserializer(
@@ -458,7 +500,7 @@ export function defenderForServersInformationDeserializer(
 /** Defender Cloud Security Posture Management (CSPM) service information. */
 export interface DefenderCspmInformation {
   /** Indicates whether the service is enabled. */
-  enablementStatus: string;
+  enablementStatus: EnablementState;
 }
 
 export function defenderCspmInformationDeserializer(item: any): DefenderCspmInformation {
@@ -635,9 +677,9 @@ export function managedOpUpdatePropertiesSerializer(item: ManagedOpUpdatePropert
 /** Updatable parameters in the Desired configuration input. */
 export interface DesiredConfigurationUpdate {
   /** Desired enablement state of the Defender For Servers service. */
-  defenderForServers?: string;
+  defenderForServers?: DesiredEnablementState;
   /** Desired enablement state of the Defender Cloud Security Posture Management (CSPM) service. */
-  defenderCspm?: string;
+  defenderCspm?: DesiredEnablementState;
 }
 
 export function desiredConfigurationUpdateSerializer(item: DesiredConfigurationUpdate): any {

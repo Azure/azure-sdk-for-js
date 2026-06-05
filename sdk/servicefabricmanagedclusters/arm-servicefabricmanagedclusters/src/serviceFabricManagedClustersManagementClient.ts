@@ -39,24 +39,42 @@ import { _getServicesOperations } from "./classic/services/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ServiceFabricManagedClustersManagementClientOptionalParams } from "./api/serviceFabricManagedClustersManagementContext.js";
+export type { ServiceFabricManagedClustersManagementClientOptionalParams } from "./api/serviceFabricManagedClustersManagementContext.js";
 
 export class ServiceFabricManagedClustersManagementClient {
   private _client: ServiceFabricManagedClustersManagementContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  /** Service Fabric Managed Clusters Management Client */
+  constructor(
+    credential: TokenCredential,
+    options?: ServiceFabricManagedClustersManagementClientOptionalParams,
+  );
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: ServiceFabricManagedClustersManagementClientOptionalParams = {},
+    options?: ServiceFabricManagedClustersManagementClientOptionalParams,
+  );
+  /** Service Fabric Managed Clusters Management Client */
+  constructor(
+    credential: TokenCredential,
+    subscriptionIdOrOptions?: string | ServiceFabricManagedClustersManagementClientOptionalParams,
+    options?: ServiceFabricManagedClustersManagementClientOptionalParams,
   ) {
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
+    }
+
+    options = options ?? {};
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createServiceFabricManagedClustersManagement(credential, subscriptionId, {
+    this._client = createServiceFabricManagedClustersManagement(credential, subscriptionId ?? "", {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

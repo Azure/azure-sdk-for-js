@@ -3,8 +3,8 @@
 
 export { listByAvsVm, $delete, get, update } from "./operations.js";
 export {
-  AvsVmVolumesListByAvsVmOptionalParams,
-  AvsVmVolumesDeleteOptionalParams,
-  AvsVmVolumesGetOptionalParams,
-  AvsVmVolumesUpdateOptionalParams,
+  type AvsVmVolumesListByAvsVmOptionalParams,
+  type AvsVmVolumesDeleteOptionalParams,
+  type AvsVmVolumesGetOptionalParams,
+  type AvsVmVolumesUpdateOptionalParams,
 } from "./options.js";

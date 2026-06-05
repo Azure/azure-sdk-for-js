@@ -1,10 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /**
- * This file contains only generated model types and (de)serializers.
- * Disable this rule for deserializer functions which require 'any' for raw JSON input.
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Describes the result of the request to list Service Fabric resource provider operations. */
 export interface _OperationListResult {
@@ -141,21 +144,37 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 
 /** The application resource. */
 export interface ApplicationResource extends ProxyResource {
-  /** The application resource properties. */
-  properties?: ApplicationResourceProperties;
   /** Resource tags. */
   tags?: Record<string, string>;
   /** Describes the managed identities for an Azure resource. */
   identity?: ManagedIdentity;
   /** The geo-location where the resource lives */
   location?: string;
+  /** List of user assigned identities for the application, each mapped to a friendly name. */
+  managedIdentities?: ApplicationUserAssignedIdentity[];
+  /** The current deployment or provisioning state, which only appears in the response */
+  readonly provisioningState?: string;
+  /**
+   * The version of the application type as defined in the application manifest.
+   * This name must be the full Arm Resource ID for the referenced application type version.
+   */
+  version?: string;
+  /** List of application parameters with overridden values from their default values specified in the application manifest. */
+  parameters?: Record<string, string>;
+  /** Describes the policy for a monitored application upgrade. */
+  upgradePolicy?: ApplicationUpgradePolicy;
 }
 
 export function applicationResourceSerializer(item: ApplicationResource): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : applicationResourcePropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "managedIdentities",
+      "version",
+      "parameters",
+      "upgradePolicy",
+    ])
+      ? undefined
+      : _applicationResourcePropertiesSerializer(item),
     tags: item["tags"],
     identity: !item["identity"] ? item["identity"] : managedIdentitySerializer(item["identity"]),
     location: item["location"],
@@ -170,10 +189,12 @@ export function applicationResourceDeserializer(item: any): ApplicationResource 
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : applicationResourcePropertiesDeserializer(item["properties"]),
-    tags: item["tags"],
+      : _applicationResourcePropertiesDeserializer(item["properties"])),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     identity: !item["identity"] ? item["identity"] : managedIdentityDeserializer(item["identity"]),
     location: item["location"],
   };
@@ -218,7 +239,11 @@ export function applicationResourcePropertiesDeserializer(
       : applicationUserAssignedIdentityArrayDeserializer(item["managedIdentities"]),
     provisioningState: item["provisioningState"],
     version: item["version"],
-    parameters: item["parameters"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : Object.fromEntries(
+          Object.entries(item["parameters"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     upgradePolicy: !item["upgradePolicy"]
       ? item["upgradePolicy"]
       : applicationUpgradePolicyDeserializer(item["upgradePolicy"]),
@@ -572,8 +597,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -586,8 +611,8 @@ export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentit
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -613,8 +638,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1036,19 +1061,19 @@ export function restartDeployedCodePackageRequestSerializer(
 
 /** The application type name resource */
 export interface ApplicationTypeResource extends ProxyResource {
-  /** The application type name properties */
-  properties?: ApplicationTypeResourceProperties;
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The geo-location where the resource lives */
   location?: string;
+  /** The current deployment or provisioning state, which only appears in the response. */
+  readonly provisioningState?: string;
 }
 
 export function applicationTypeResourceSerializer(item: ApplicationTypeResource): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : applicationTypeResourcePropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [])
+      ? undefined
+      : _applicationTypeResourcePropertiesSerializer(item),
     tags: item["tags"],
     location: item["location"],
   };
@@ -1062,10 +1087,12 @@ export function applicationTypeResourceDeserializer(item: any): ApplicationTypeR
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : applicationTypeResourcePropertiesDeserializer(item["properties"]),
-    tags: item["tags"],
+      : _applicationTypeResourcePropertiesDeserializer(item["properties"])),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -1077,9 +1104,9 @@ export interface ApplicationTypeResourceProperties {
 }
 
 export function applicationTypeResourcePropertiesSerializer(
-  item: ApplicationTypeResourceProperties,
+  _item: ApplicationTypeResourceProperties,
 ): any {
-  return item;
+  return {};
 }
 
 export function applicationTypeResourcePropertiesDeserializer(
@@ -1135,21 +1162,23 @@ export function applicationTypeResourceArrayDeserializer(
 
 /** An application type version resource for the specified application type name resource. */
 export interface ApplicationTypeVersionResource extends ProxyResource {
-  /** The properties of the application type version resource. */
-  properties?: ApplicationTypeVersionResourceProperties;
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The geo-location where the resource lives */
   location?: string;
+  /** The current deployment or provisioning state, which only appears in the response */
+  readonly provisioningState?: string;
+  /** The URL to the application package */
+  appPackageUrl?: string;
 }
 
 export function applicationTypeVersionResourceSerializer(
   item: ApplicationTypeVersionResource,
 ): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : applicationTypeVersionResourcePropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["appPackageUrl"])
+      ? undefined
+      : _applicationTypeVersionResourcePropertiesSerializer(item),
     tags: item["tags"],
     location: item["location"],
   };
@@ -1165,10 +1194,12 @@ export function applicationTypeVersionResourceDeserializer(
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : applicationTypeVersionResourcePropertiesDeserializer(item["properties"]),
-    tags: item["tags"],
+      : _applicationTypeVersionResourcePropertiesDeserializer(item["properties"])),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -1272,7 +1303,9 @@ export function serviceResourceDeserializer(item: any): ServiceResource {
     properties: !item["properties"]
       ? item["properties"]
       : serviceResourcePropertiesUnionDeserializer(item["properties"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -1371,7 +1404,7 @@ export function serviceResourcePropertiesUnionSerializer(
 export function serviceResourcePropertiesUnionDeserializer(
   item: any,
 ): ServiceResourcePropertiesUnion {
-  switch (item.serviceKind) {
+  switch (item["serviceKind"]) {
     case "Stateful":
       return statefulServicePropertiesDeserializer(item as StatefulServiceProperties);
 
@@ -1440,7 +1473,7 @@ export function partitionUnionSerializer(item: PartitionUnion): any {
 }
 
 export function partitionUnionDeserializer(item: any): PartitionUnion {
-  switch (item.partitionScheme) {
+  switch (item["partitionScheme"]) {
     case "UniformInt64Range":
       return uniformInt64RangePartitionSchemeDeserializer(item as UniformInt64RangePartitionScheme);
 
@@ -1974,7 +2007,7 @@ export function servicePlacementPolicyUnionSerializer(item: ServicePlacementPoli
 }
 
 export function servicePlacementPolicyUnionDeserializer(item: any): ServicePlacementPolicyUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "InvalidDomain":
       return servicePlacementInvalidDomainPolicyDeserializer(
         item as ServicePlacementInvalidDomainPolicy,
@@ -2259,7 +2292,7 @@ export function scalingMechanismUnionSerializer(item: ScalingMechanismUnion): an
 }
 
 export function scalingMechanismUnionDeserializer(item: any): ScalingMechanismUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "AddRemoveIncrementalNamedPartition":
       return addRemoveIncrementalNamedPartitionScalingMechanismDeserializer(
         item as AddRemoveIncrementalNamedPartitionScalingMechanism,
@@ -2398,7 +2431,7 @@ export function scalingTriggerUnionSerializer(item: ScalingTriggerUnion): any {
 }
 
 export function scalingTriggerUnionDeserializer(item: any): ScalingTriggerUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "AveragePartitionLoadTrigger":
       return averagePartitionLoadScalingTriggerDeserializer(
         item as AveragePartitionLoadScalingTrigger,
@@ -2596,8 +2629,12 @@ export interface ManagedClusterCodeVersionResult {
   name?: string;
   /** The result resource type */
   type?: string;
-  /** The detail of the Service Fabric runtime version result */
-  properties?: ManagedClusterVersionDetails;
+  /** The Service Fabric runtime version of the cluster. */
+  clusterCodeVersion?: string;
+  /** The date of expiry of support of the version. */
+  supportExpiryUtc?: Date;
+  /** Cluster operating system, the default will be Windows */
+  osType?: OsType;
 }
 
 export function managedClusterCodeVersionResultDeserializer(
@@ -2607,9 +2644,9 @@ export function managedClusterCodeVersionResultDeserializer(
     id: item["id"],
     name: item["name"],
     type: item["type"],
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : managedClusterVersionDetailsDeserializer(item["properties"]),
+      : _managedClusterCodeVersionResultPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -2704,28 +2741,154 @@ export function managedVMSizeArrayDeserializer(result: Array<ManagedVMSize>): an
 
 /** The managed cluster resource */
 export interface ManagedCluster extends TrackedResource {
-  /** The managed cluster resource properties */
-  properties?: ManagedClusterProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.", */
   readonly etag?: string;
   /** The sku of the managed cluster */
   sku: Sku;
+  /** The cluster dns name. */
+  dnsName?: string;
+  /** The fully qualified domain name associated with the public load balancer of the cluster. */
+  readonly fqdn?: string;
+  /** The IPv4 address associated with the public load balancer of the cluster. */
+  readonly ipv4Address?: string;
+  /** A service generated unique identifier for the cluster resource. */
+  readonly clusterId?: string;
+  /** The current state of the cluster. */
+  readonly clusterState?: ClusterState;
+  /** List of thumbprints of the cluster certificates. */
+  readonly clusterCertificateThumbprints?: string[];
+  /** The port used for client connections to the cluster. */
+  clientConnectionPort?: number;
+  /** The port used for HTTP connections to the cluster. */
+  httpGatewayConnectionPort?: number;
+  /** VM admin user name. */
+  adminUserName?: string;
+  /** VM admin user password. */
+  adminPassword?: string;
+  /** Load balancing rules that are applied to the public load balancer of the cluster. */
+  loadBalancingRules?: LoadBalancingRule[];
+  /** Setting this to true enables RDP access to the VM. The default NSG rule opens RDP port to Internet which can be overridden with custom Network Security Rules. The default value for this setting is false. */
+  allowRdpAccess?: boolean;
+  /** Custom Network Security Rules that are applied to the Virtual Network of the cluster. */
+  networkSecurityRules?: NetworkSecurityRule[];
+  /** Client certificates that are allowed to manage the cluster. */
+  clients?: ClientCertificate[];
+  /** The AAD authentication settings of the cluster. */
+  azureActiveDirectory?: AzureActiveDirectory;
+  /** The list of custom fabric settings to configure the cluster. */
+  fabricSettings?: SettingsSectionDescription[];
+  /** The provisioning state of the managed cluster resource. */
+  readonly provisioningState?: ManagedResourceProvisioningState;
+  /** The Service Fabric runtime version of the cluster. This property is required when **clusterUpgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](./ClusterVersion.md). To get the list of available version for existing clusters use **availableClusterVersions**. */
+  clusterCodeVersion?: string;
+  /** The upgrade mode of the cluster when new Service Fabric runtime version is available. */
+  clusterUpgradeMode?: ClusterUpgradeMode;
+  /** Indicates when new cluster runtime version upgrades will be applied after they are released. By default is Wave0. Only applies when **clusterUpgradeMode** is set to 'Automatic'. */
+  clusterUpgradeCadence?: ClusterUpgradeCadence;
+  /** List of add-on features to enable on the cluster. */
+  addonFeatures?: ManagedClusterAddOnFeature[];
+  /** Enables automatic OS upgrade for node types created using OS images with version 'latest'. The default value for this setting is false. */
+  enableAutoOSUpgrade?: boolean;
+  /** Indicates if the cluster has zone resiliency. */
+  zonalResiliency?: boolean;
+  /** The policy used to clean up unused versions. */
+  applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy;
+  /** Setting this to true creates IPv6 address space for the default VNet used by the cluster. This setting cannot be changed once the cluster is created. The default value for this setting is false. */
+  enableIpv6?: boolean;
+  /** If specified, the node types for the cluster are created in this subnet instead of the default VNet. The **networkSecurityRules** specified for the cluster are also applied to this subnet. This setting cannot be changed once the cluster is created. */
+  subnetId?: string;
+  /** The list of IP tags associated with the default public IP address of the cluster. */
+  ipTags?: IpTag[];
+  /** IPv6 address for the cluster if IPv6 is enabled. */
+  readonly ipv6Address?: string;
+  /** Setting this to true will link the IPv4 address as the ServicePublicIP of the IPv6 address. It can only be set to True if IPv6 is enabled on the cluster. */
+  enableServicePublicIP?: boolean;
+  /** Auxiliary subnets for the cluster. */
+  auxiliarySubnets?: Subnet[];
+  /** Service endpoints for subnets in the cluster. */
+  serviceEndpoints?: ServiceEndpoint[];
+  /** Indicates the update mode for Cross Az clusters. */
+  zonalUpdateMode?: ZonalUpdateMode;
+  /** For new clusters, this parameter indicates that it uses Bring your own VNet, but the subnet is specified at node type level; and for such clusters, the subnetId property is required for node types. */
+  useCustomVnet?: boolean;
+  /** Specify the resource id of a public IPv4 prefix that the load balancer will allocate a public IPv4 address from. This setting cannot be changed once the cluster is created. */
+  publicIPPrefixId?: string;
+  /** Specify the resource id of a public IPv6 prefix that the load balancer will allocate a public IPv6 address from. This setting cannot be changed once the cluster is created. */
+  publicIPv6PrefixId?: string;
+  /** Specify the resource id of a DDoS network protection plan that will be associated with the virtual network of the cluster. */
+  ddosProtectionPlanId?: string;
+  /** The policy to use when upgrading the cluster. */
+  upgradeDescription?: ClusterUpgradePolicy;
+  /** The port used for token-auth based HTTPS connections to the cluster. Cannot be set to the same port as HttpGatewayEndpoint. */
+  httpGatewayTokenAuthConnectionPort?: number;
+  /** If true, token-based authentication is not allowed on the HttpGatewayEndpoint. This is required to support TLS versions 1.3 and above. If token-based authentication is used, HttpGatewayTokenAuthConnectionPort must be defined. */
+  enableHttpGatewayExclusiveAuthMode?: boolean;
+  /** This property is the entry point to using a public CA cert for your cluster cert. It specifies the level of reuse allowed for the custom FQDN created, matching the subject of the public CA cert. */
+  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
+  /** The number of outbound ports allocated for SNAT for each node in the backend pool of the default load balancer. The default value is 0 which provides dynamic port allocation based on pool size. */
+  allocatedOutboundPorts?: number;
+  /** The VM image the node types are configured with. This property controls the Service Fabric component packages to be used for the cluster. Allowed values are: 'Windows'. The default value is 'Windows'. */
+  vmImage?: string;
+  /** Enable the creation of node types with only outbound traffic enabled. If set, a separate load balancer backend pool will be created for node types with inbound traffic enabled. Can only be set at the time of cluster creation. */
+  enableOutboundOnlyNodeTypes?: boolean;
+  /** Determines whether to skip the assignment of the managed network security group (SF-NSG) to the cluster subnet when using a bring-your-own virtual network (BYOVNET) configuration. The default value is false. */
+  skipManagedNsgAssignment?: boolean;
 }
 
 export function managedClusterSerializer(item: ManagedCluster): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : managedClusterPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "dnsName",
+      "clientConnectionPort",
+      "httpGatewayConnectionPort",
+      "adminUserName",
+      "adminPassword",
+      "loadBalancingRules",
+      "allowRdpAccess",
+      "networkSecurityRules",
+      "clients",
+      "azureActiveDirectory",
+      "fabricSettings",
+      "clusterCodeVersion",
+      "clusterUpgradeMode",
+      "clusterUpgradeCadence",
+      "addonFeatures",
+      "enableAutoOSUpgrade",
+      "zonalResiliency",
+      "applicationTypeVersionsCleanupPolicy",
+      "enableIpv6",
+      "subnetId",
+      "ipTags",
+      "enableServicePublicIP",
+      "auxiliarySubnets",
+      "serviceEndpoints",
+      "zonalUpdateMode",
+      "useCustomVnet",
+      "publicIPPrefixId",
+      "publicIPv6PrefixId",
+      "ddosProtectionPlanId",
+      "upgradeDescription",
+      "httpGatewayTokenAuthConnectionPort",
+      "enableHttpGatewayExclusiveAuthMode",
+      "autoGeneratedDomainNameLabelScope",
+      "allocatedOutboundPorts",
+      "VMImage",
+      "enableOutboundOnlyNodeTypes",
+      "skipManagedNsgAssignment",
+    ])
+      ? undefined
+      : _managedClusterPropertiesSerializer(item),
     sku: skuSerializer(item["sku"]),
   };
 }
 
 export function managedClusterDeserializer(item: any): ManagedCluster {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -2733,9 +2896,9 @@ export function managedClusterDeserializer(item: any): ManagedCluster {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : managedClusterPropertiesDeserializer(item["properties"]),
+      : _managedClusterPropertiesDeserializer(item["properties"])),
     etag: item["etag"],
     sku: skuDeserializer(item["sku"]),
   };
@@ -2829,6 +2992,8 @@ export interface ManagedClusterProperties {
   vmImage?: string;
   /** Enable the creation of node types with only outbound traffic enabled. If set, a separate load balancer backend pool will be created for node types with inbound traffic enabled. Can only be set at the time of cluster creation. */
   enableOutboundOnlyNodeTypes?: boolean;
+  /** Determines whether to skip the assignment of the managed network security group (SF-NSG) to the cluster subnet when using a bring-your-own virtual network (BYOVNET) configuration. The default value is false. */
+  skipManagedNsgAssignment?: boolean;
 }
 
 export function managedClusterPropertiesSerializer(item: ManagedClusterProperties): any {
@@ -2891,6 +3056,7 @@ export function managedClusterPropertiesSerializer(item: ManagedClusterPropertie
     allocatedOutboundPorts: item["allocatedOutboundPorts"],
     VMImage: item["vmImage"],
     enableOutboundOnlyNodeTypes: item["enableOutboundOnlyNodeTypes"],
+    skipManagedNsgAssignment: item["skipManagedNsgAssignment"],
   };
 }
 
@@ -2967,6 +3133,7 @@ export function managedClusterPropertiesDeserializer(item: any): ManagedClusterP
     allocatedOutboundPorts: item["allocatedOutboundPorts"],
     vmImage: item["VMImage"],
     enableOutboundOnlyNodeTypes: item["enableOutboundOnlyNodeTypes"],
+    skipManagedNsgAssignment: item["skipManagedNsgAssignment"],
   };
 }
 
@@ -3968,7 +4135,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -4207,7 +4376,7 @@ export function faultSimulationContentUnionSerializer(item: FaultSimulationConte
 }
 
 export function faultSimulationContentUnionDeserializer(item: any): FaultSimulationContentUnion {
-  switch (item.faultKind) {
+  switch (item["faultKind"]) {
     case "Zone":
       return zoneFaultSimulationContentDeserializer(item as ZoneFaultSimulationContent);
 
@@ -4319,9 +4488,7 @@ export interface FaultSimulationContentWrapper {
 }
 
 export function faultSimulationContentWrapperSerializer(item: FaultSimulationContentWrapper): any {
-  return {
-    parameters: faultSimulationContentUnionSerializer(item["parameters"]),
-  };
+  return { parameters: faultSimulationContentUnionSerializer(item["parameters"]) };
 }
 
 /** Describes the result of the request to list Managed VM Sizes for Service Fabric Managed Clusters. */
@@ -4368,6 +4535,24 @@ export function resourceAzStatusDeserializer(item: any): ResourceAzStatus {
   };
 }
 
+/** Describes the request to apply a maintenance window on a Service Fabric Managed Cluster. */
+export interface ApplyMaintenanceWindowRequest {
+  /** Effective start date of the maintenance window in yyyy-MM-dd HH:mm format. If not provided, defaults to the current time. */
+  startDateTime?: string;
+  /** Duration of the maintenance window in hh:mm format. If not provided, defaults to 5 hours. Example: 08:30 for 8 and a half hours. */
+  duration?: string;
+  /** Name of the timezone. List of timezones can be obtained by executing [System.TimeZoneInfo]::GetSystemTimeZones() in PowerShell. If not provided, defaults to UTC. Example: Pacific Standard Time, UTC, W. Europe Standard Time, Korea Standard Time, Central Australia Standard Time. */
+  timeZone?: string;
+}
+
+export function applyMaintenanceWindowRequestSerializer(item: ApplyMaintenanceWindowRequest): any {
+  return {
+    startDateTime: item["startDateTime"],
+    duration: item["duration"],
+    timeZone: item["timeZone"],
+  };
+}
+
 /** Describes the maintenance window status of the Service Fabric Managed Cluster. */
 export interface ManagedMaintenanceWindowStatus {
   /** If maintenance window is enabled on this cluster. */
@@ -4408,19 +4593,185 @@ export function managedMaintenanceWindowStatusDeserializer(
 
 /** Describes a node type in the cluster, each node type represents sub set of nodes in the cluster. */
 export interface NodeType extends ProxyResource {
-  /** The node type properties */
-  properties?: NodeTypeProperties;
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The node type sku. */
   sku?: NodeTypeSku;
+  /** Indicates the Service Fabric system services for the cluster will run on this node type. This setting cannot be changed once the node type is created. */
+  isPrimary?: boolean;
+  /** The number of nodes in the node type. **Values:** -1 - Use when auto scale rules are configured or sku.capacity is defined 0 - Not supported >0 - Use for manual scale. */
+  vmInstanceCount?: number;
+  /** Disk size for the managed disk attached to the vms on the node type in GBs. */
+  dataDiskSizeGB?: number;
+  /** Managed data disk type. Specifies the storage account type for the managed disk */
+  dataDiskType?: DiskType;
+  /** Managed data disk letter. It can not use the reserved letter C or D and it can not change after created. */
+  dataDiskLetter?: string;
+  /** The placement tags applied to nodes in the node type, which can be used to indicate where certain services (workload) should run. */
+  placementProperties?: Record<string, string>;
+  /** The capacity tags applied to the nodes in the node type, the cluster resource manager uses these tags to understand how much resource a node has. */
+  capacities?: Record<string, string>;
+  /** The range of ports from which cluster assigned port to Service Fabric applications. */
+  applicationPorts?: EndpointRangeDescription;
+  /** The range of ephemeral ports that nodes in this node type should be configured with. */
+  ephemeralPorts?: EndpointRangeDescription;
+  /** The size of virtual machines in the pool. All virtual machines in a pool are the same size. For example, Standard_D3. */
+  vmSize?: string;
+  /** The publisher of the Azure Virtual Machines Marketplace image. For example, Canonical or MicrosoftWindowsServer. */
+  vmImagePublisher?: string;
+  /** The offer type of the Azure Virtual Machines Marketplace image. For example, UbuntuServer or WindowsServer. */
+  vmImageOffer?: string;
+  /** The SKU of the Azure Virtual Machines Marketplace image. For example, 14.04.0-LTS or 2012-R2-Datacenter. */
+  vmImageSku?: string;
+  /** The version of the Azure Virtual Machines Marketplace image. A value of 'latest' can be specified to select the latest version of an image. If omitted, the default is 'latest'. */
+  vmImageVersion?: string;
+  /** The secrets to install in the virtual machines. */
+  vmSecrets?: VaultSecretGroup[];
+  /** Set of extensions that should be installed onto the virtual machines. */
+  vmExtensions?: VmssExtension[];
+  /** Identities to assign to the virtual machine scale set under the node type. */
+  vmManagedIdentity?: VmManagedIdentity;
+  /** Indicates if the node type can only host Stateless workloads. */
+  isStateless?: boolean;
+  /** Indicates if scale set associated with the node type can be composed of multiple placement groups. */
+  multiplePlacementGroups?: boolean;
+  /** Indicates the node type uses its own frontend configurations instead of the default one for the cluster. This setting can only be specified for non-primary node types and can not be added or removed after the node type is created. */
+  frontendConfigurations?: FrontendConfiguration[];
+  /** The Network Security Rules for this node type. This setting can only be specified for node types that are configured with frontend configurations. */
+  networkSecurityRules?: NetworkSecurityRule[];
+  /** Additional managed data disks. */
+  additionalDataDisks?: VmssDataDisk[];
+  /** Enable or disable the Host Encryption for the virtual machines on the node type. This will enable the encryption for all the disks including Resource/Temp disk at host itself. Default: The Encryption at host will be disabled unless this property is set to true for the resource. */
+  enableEncryptionAtHost?: boolean;
+  /** The provisioning state of the node type resource. */
+  readonly provisioningState?: ManagedResourceProvisioningState;
+  /** Specifies whether the network interface is accelerated networking-enabled. */
+  enableAcceleratedNetworking?: boolean;
+  /** Specifies whether the use public load balancer. If not specified and the node type doesn't have its own frontend configuration, it will be attached to the default load balancer. If the node type uses its own Load balancer and useDefaultPublicLoadBalancer is true, then the frontend has to be an Internal Load Balancer. If the node type uses its own Load balancer and useDefaultPublicLoadBalancer is false or not set, then the custom load balancer must include a public load balancer to provide outbound connectivity. */
+  useDefaultPublicLoadBalancer?: boolean;
+  /** Specifies whether to use the temporary disk for the service fabric data root, in which case no managed data disk will be attached and the temporary disk will be used. It is only allowed for stateless node types. */
+  useTempDataDisk?: boolean;
+  /** Specifies whether the node type should be overprovisioned. It is only allowed for stateless node types. */
+  enableOverProvisioning?: boolean;
+  /** Specifies the availability zones where the node type would span across. If the cluster is not spanning across availability zones, initiates az migration for the cluster. */
+  zones?: string[];
+  /** Indicates whether the node type will be Spot Virtual Machines. Azure will allocate the VMs if there is capacity available and the VMs can be evicted at any time. */
+  isSpotVM?: boolean;
+  /** Specifies the full host group resource Id. This property is used for deploying on azure dedicated hosts. */
+  hostGroupId?: string;
+  /** Indicates whether to use ephemeral os disk. The sku selected on the vmSize property needs to support this feature. */
+  useEphemeralOSDisk?: boolean;
+  /** Indicates the time duration after which the platform will not try to restore the VMSS SPOT instances specified as ISO 8601. */
+  spotRestoreTimeout?: string;
+  /** Specifies the eviction policy for virtual machines in a SPOT node type. Default is Delete. */
+  evictionPolicy?: EvictionPolicyType;
+  /** Indicates the resource id of the vm image. This parameter is used for custom vm image. */
+  vmImageResourceId?: string;
+  /** Indicates the resource id of the subnet for the node type. */
+  subnetId?: string;
+  /** Specifies the actions to be performed on the vms before bootstrapping the service fabric runtime. */
+  vmSetupActions?: VmSetupAction[];
+  /** Specifies the security type of the nodeType. Supported values include Standard, TrustedLaunch and ConfidentialVM. */
+  securityType?: SecurityType;
+  /** Specifies the EncryptionType of the managed disk. It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob and VMGuestStateOnly for encryption of just the VMGuestState blob. Note: It can be set for only Confidential VMs. */
+  securityEncryptionType?: SecurityEncryptionType;
+  /** Specifies whether secure boot should be enabled on the nodeType. Can only be used with TrustedLaunch and ConfidentialVM SecurityType. */
+  secureBootEnabled?: boolean;
+  /** Specifies whether each node is allocated its own public IPv4 address. This is only supported on secondary node types with custom Load Balancers. */
+  enableNodePublicIP?: boolean;
+  /** Specifies whether each node is allocated its own public IPv6 address. This is only supported on secondary node types with custom Load Balancers. */
+  enableNodePublicIPv6?: boolean;
+  /** Indicates the resource id of the vm shared galleries image. This parameter is used for custom vm image. */
+  vmSharedGalleryImageId?: string;
+  /** Specifies the resource id of a NAT Gateway to attach to the subnet of this node type. Node type must use custom load balancer. */
+  natGatewayId?: string;
+  /** Specifies the NAT configuration on default public Load Balancer for the node type. This is only supported for node types use the default public Load Balancer. */
+  natConfigurations?: NodeTypeNatConfig[];
+  /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click Want to deploy programmatically, Get Started ->. Enter any required information and then click Save. */
+  vmImagePlan?: VmImagePlan;
+  /** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. */
+  serviceArtifactReferenceId?: string;
+  /** Specifies the resource id of the DSCP configuration to apply to the node type network interface. */
+  dscpConfigurationId?: string;
+  /** Specifies the settings for any additional secondary network interfaces to attach to the node type. */
+  additionalNetworkInterfaceConfigurations?: AdditionalNetworkInterfaceConfiguration[];
+  /** Specifies the computer name prefix. Limited to 9 characters. If specified, allows for a longer name to be specified for the node type name. */
+  computerNamePrefix?: string;
+  /** Specifies the gallery applications that should be made available to the underlying VMSS. */
+  vmApplications?: VmApplication[];
+  /** Setting this to true allows stateless node types to scale out without equal distribution across zones. */
+  zoneBalance?: boolean;
+  /** Specifies the node type should be configured for only outbound traffic and not inbound traffic. */
+  isOutboundOnly?: boolean;
+  /** Specifies whether the node type should use a resilient ephemeral OS disk when using a supported SKU size. A resilient ephemeral OS disk provides improved reliability for ephemeral OS disks by enabling full caching. */
+  enableResilientEphemeralOsDisk?: boolean;
+  /** Specifies the scale in policy for the node type, which will be used when scale in happens on the cluster. If not specified, the default is Default which means the platform will decide which nodes to remove during scale in. */
+  scaleInPolicy?: ScaleInPolicy;
+  /** Specifies the settings for the proxy agent on the node type. */
+  proxyAgentSettings?: ProxyAgentSettings;
 }
 
 export function nodeTypeSerializer(item: NodeType): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : nodeTypePropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "isPrimary",
+      "vmInstanceCount",
+      "dataDiskSizeGB",
+      "dataDiskType",
+      "dataDiskLetter",
+      "placementProperties",
+      "capacities",
+      "applicationPorts",
+      "ephemeralPorts",
+      "vmSize",
+      "vmImagePublisher",
+      "vmImageOffer",
+      "vmImageSku",
+      "vmImageVersion",
+      "vmSecrets",
+      "vmExtensions",
+      "vmManagedIdentity",
+      "isStateless",
+      "multiplePlacementGroups",
+      "frontendConfigurations",
+      "networkSecurityRules",
+      "additionalDataDisks",
+      "enableEncryptionAtHost",
+      "enableAcceleratedNetworking",
+      "useDefaultPublicLoadBalancer",
+      "useTempDataDisk",
+      "enableOverProvisioning",
+      "zones",
+      "isSpotVM",
+      "hostGroupId",
+      "useEphemeralOSDisk",
+      "spotRestoreTimeout",
+      "evictionPolicy",
+      "vmImageResourceId",
+      "subnetId",
+      "vmSetupActions",
+      "securityType",
+      "securityEncryptionType",
+      "secureBootEnabled",
+      "enableNodePublicIP",
+      "enableNodePublicIPv6",
+      "vmSharedGalleryImageId",
+      "natGatewayId",
+      "natConfigurations",
+      "vmImagePlan",
+      "serviceArtifactReferenceId",
+      "dscpConfigurationId",
+      "additionalNetworkInterfaceConfigurations",
+      "computerNamePrefix",
+      "vmApplications",
+      "zoneBalance",
+      "isOutboundOnly",
+      "enableResilientEphemeralOsDisk",
+      "scaleInPolicy",
+      "proxyAgentSettings",
+    ])
+      ? undefined
+      : _nodeTypePropertiesSerializer(item),
     tags: item["tags"],
     sku: !item["sku"] ? item["sku"] : nodeTypeSkuSerializer(item["sku"]),
   };
@@ -4434,10 +4785,12 @@ export function nodeTypeDeserializer(item: any): NodeType {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : nodeTypePropertiesDeserializer(item["properties"]),
-    tags: item["tags"],
+      : _nodeTypePropertiesDeserializer(item["properties"])),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     sku: !item["sku"] ? item["sku"] : nodeTypeSkuDeserializer(item["sku"]),
   };
 }
@@ -4550,6 +4903,12 @@ export interface NodeTypeProperties {
   zoneBalance?: boolean;
   /** Specifies the node type should be configured for only outbound traffic and not inbound traffic. */
   isOutboundOnly?: boolean;
+  /** Specifies whether the node type should use a resilient ephemeral OS disk when using a supported SKU size. A resilient ephemeral OS disk provides improved reliability for ephemeral OS disks by enabling full caching. */
+  enableResilientEphemeralOsDisk?: boolean;
+  /** Specifies the scale in policy for the node type, which will be used when scale in happens on the cluster. If not specified, the default is Default which means the platform will decide which nodes to remove during scale in. */
+  scaleInPolicy?: ScaleInPolicy;
+  /** Specifies the settings for the proxy agent on the node type. */
+  proxyAgentSettings?: ProxyAgentSettings;
 }
 
 export function nodeTypePropertiesSerializer(item: NodeTypeProperties): any {
@@ -4640,6 +4999,13 @@ export function nodeTypePropertiesSerializer(item: NodeTypeProperties): any {
       : vmApplicationArraySerializer(item["vmApplications"]),
     zoneBalance: item["zoneBalance"],
     isOutboundOnly: item["isOutboundOnly"],
+    enableResilientEphemeralOsDisk: item["enableResilientEphemeralOsDisk"],
+    scaleInPolicy: !item["scaleInPolicy"]
+      ? item["scaleInPolicy"]
+      : scaleInPolicySerializer(item["scaleInPolicy"]),
+    proxyAgentSettings: !item["proxyAgentSettings"]
+      ? item["proxyAgentSettings"]
+      : proxyAgentSettingsSerializer(item["proxyAgentSettings"]),
   };
 }
 
@@ -4650,8 +5016,16 @@ export function nodeTypePropertiesDeserializer(item: any): NodeTypeProperties {
     dataDiskSizeGB: item["dataDiskSizeGB"],
     dataDiskType: item["dataDiskType"],
     dataDiskLetter: item["dataDiskLetter"],
-    placementProperties: item["placementProperties"],
-    capacities: item["capacities"],
+    placementProperties: !item["placementProperties"]
+      ? item["placementProperties"]
+      : Object.fromEntries(
+          Object.entries(item["placementProperties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    capacities: !item["capacities"]
+      ? item["capacities"]
+      : Object.fromEntries(
+          Object.entries(item["capacities"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     applicationPorts: !item["applicationPorts"]
       ? item["applicationPorts"]
       : endpointRangeDescriptionDeserializer(item["applicationPorts"]),
@@ -4732,6 +5106,13 @@ export function nodeTypePropertiesDeserializer(item: any): NodeTypeProperties {
       : vmApplicationArrayDeserializer(item["vmApplications"]),
     zoneBalance: item["zoneBalance"],
     isOutboundOnly: item["isOutboundOnly"],
+    enableResilientEphemeralOsDisk: item["enableResilientEphemeralOsDisk"],
+    scaleInPolicy: !item["scaleInPolicy"]
+      ? item["scaleInPolicy"]
+      : scaleInPolicyDeserializer(item["scaleInPolicy"]),
+    proxyAgentSettings: !item["proxyAgentSettings"]
+      ? item["proxyAgentSettings"]
+      : proxyAgentSettingsDeserializer(item["proxyAgentSettings"]),
   };
 }
 
@@ -4855,10 +5236,7 @@ export interface VaultCertificate {
 }
 
 export function vaultCertificateSerializer(item: VaultCertificate): any {
-  return {
-    certificateUrl: item["certificateUrl"],
-    certificateStore: item["certificateStore"],
-  };
+  return { certificateUrl: item["certificateUrl"], certificateStore: item["certificateStore"] };
 }
 
 export function vaultCertificateDeserializer(item: any): VaultCertificate {
@@ -4884,21 +5262,38 @@ export function vmssExtensionArrayDeserializer(result: Array<VmssExtension>): an
 export interface VmssExtension {
   /** The name of the extension. */
   name: string;
-  /** Describes the properties of a Virtual Machine Scale Set Extension. */
-  properties: VmssExtensionProperties;
+  /** The name of the extension handler publisher. */
+  publisher: string;
+  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
+  type: string;
+  /** Specifies the version of the script handler. */
+  typeHandlerVersion: string;
+  /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
+  autoUpgradeMinorVersion?: boolean;
+  /** Json formatted public settings for the extension. */
+  settings?: any;
+  /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
+  protectedSettings?: any;
+  /** If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed. */
+  forceUpdateTag?: string;
+  /** Collection of extension names after which this extension needs to be provisioned. */
+  provisionAfterExtensions?: string[];
+  /** The provisioning state, which only appears in the response. */
+  readonly provisioningState?: string;
+  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
+  enableAutomaticUpgrade?: boolean;
+  /** Indicates the setup order for the extension. */
+  setupOrder?: VmssExtensionSetupOrder[];
 }
 
 export function vmssExtensionSerializer(item: VmssExtension): any {
-  return {
-    name: item["name"],
-    properties: vmssExtensionPropertiesSerializer(item["properties"]),
-  };
+  return { name: item["name"], properties: _vmssExtensionPropertiesSerializer(item) };
 }
 
 export function vmssExtensionDeserializer(item: any): VmssExtension {
   return {
     name: item["name"],
-    properties: vmssExtensionPropertiesDeserializer(item["properties"]),
+    ..._vmssExtensionPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -5517,6 +5912,103 @@ export function vmApplicationDeserializer(item: any): VmApplication {
   };
 }
 
+/** Scale in policy for a node type. This is used to specify the mode for scale in operations on a node type. */
+export interface ScaleInPolicy {
+  /** The scale in policy mode for a node type. */
+  mode?: ScaleInPolicyMode;
+}
+
+export function scaleInPolicySerializer(item: ScaleInPolicy): any {
+  return { mode: item["mode"] };
+}
+
+export function scaleInPolicyDeserializer(item: any): ScaleInPolicy {
+  return {
+    mode: item["mode"],
+  };
+}
+
+/** Specifies the scale in policy mode for a node type. */
+export enum KnownScaleInPolicyMode {
+  /** Default scale in policy mode where the system will choose which nodes to remove when scaling in. */
+  Default = "Default",
+  /** OldestNodeFirst scale in policy mode where the oldest node in the node type will be removed first when scaling in. */
+  OldestNodeFirst = "OldestNodeFirst",
+  /** NewestNodeFirst scale in policy mode where the newest node in the node type will be removed first when scaling in. */
+  NewestNodeFirst = "NewestNodeFirst",
+}
+
+/**
+ * Specifies the scale in policy mode for a node type. \
+ * {@link KnownScaleInPolicyMode} can be used interchangeably with ScaleInPolicyMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: Default scale in policy mode where the system will choose which nodes to remove when scaling in. \
+ * **OldestNodeFirst**: OldestNodeFirst scale in policy mode where the oldest node in the node type will be removed first when scaling in. \
+ * **NewestNodeFirst**: NewestNodeFirst scale in policy mode where the newest node in the node type will be removed first when scaling in.
+ */
+export type ScaleInPolicyMode = string;
+
+/** Specifies ProxyAgent settings for the virtual machine or virtual machine scale set. */
+export interface ProxyAgentSettings {
+  /** Specifies whether ProxyAgent feature should be enabled on the virtual machine or virtual machine scale set. */
+  enabled?: boolean;
+  /** Increasing the value of this property allows users to reset the key used for securing communication channel between guest and host. */
+  keyIncarnationId?: number;
+  /** Specifies the Wire Server endpoint settings while creating the virtual machine or virtual machine scale set. */
+  wireServer?: HostEndpointSettings;
+  /** Specifies the IMDS endpoint settings while creating the virtual machine or virtual machine scale set. */
+  imds?: HostEndpointSettings;
+  /** Specify whether to implicitly install the ProxyAgent Extension. This option is currently applicable only for Linux Os. */
+  addProxyAgentExtension?: boolean;
+}
+
+export function proxyAgentSettingsSerializer(item: ProxyAgentSettings): any {
+  return {
+    enabled: item["enabled"],
+    keyIncarnationId: item["keyIncarnationId"],
+    wireServer: !item["wireServer"]
+      ? item["wireServer"]
+      : hostEndpointSettingsSerializer(item["wireServer"]),
+    imds: !item["imds"] ? item["imds"] : hostEndpointSettingsSerializer(item["imds"]),
+    addProxyAgentExtension: item["addProxyAgentExtension"],
+  };
+}
+
+export function proxyAgentSettingsDeserializer(item: any): ProxyAgentSettings {
+  return {
+    enabled: item["enabled"],
+    keyIncarnationId: item["keyIncarnationId"],
+    wireServer: !item["wireServer"]
+      ? item["wireServer"]
+      : hostEndpointSettingsDeserializer(item["wireServer"]),
+    imds: !item["imds"] ? item["imds"] : hostEndpointSettingsDeserializer(item["imds"]),
+    addProxyAgentExtension: item["addProxyAgentExtension"],
+  };
+}
+
+/** Specifies particular host endpoint settings. */
+export interface HostEndpointSettings {
+  /** Specifies the execution mode. In Audit mode, the system acts as if it is enforcing the access control policy, including emitting access denial entries in the logs but it does not actually deny any requests to host endpoints. In Enforce mode, the system will enforce the access control and it is the recommended mode of operation. */
+  mode?: string;
+  /** Specifies the InVMAccessControlProfileVersion resource id in the format of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{profile}/versions/{version} */
+  inVMAccessControlProfileReferenceId?: string;
+}
+
+export function hostEndpointSettingsSerializer(item: HostEndpointSettings): any {
+  return {
+    mode: item["mode"],
+    inVMAccessControlProfileReferenceId: item["inVMAccessControlProfileReferenceId"],
+  };
+}
+
+export function hostEndpointSettingsDeserializer(item: any): HostEndpointSettings {
+  return {
+    mode: item["mode"],
+    inVMAccessControlProfileReferenceId: item["inVMAccessControlProfileReferenceId"],
+  };
+}
+
 /** Describes a node type sku. */
 export interface NodeTypeSku {
   /** The sku name. Name is internally generated and is used in auto-scale scenarios. Property does not allow to be changed to other values than generated. To avoid deployment errors please omit the property. */
@@ -5778,7 +6270,7 @@ export type ManagedClusterVersionEnvironment = string;
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2024-11-01-preview API version. */
+  /** 2024-11-01-preview */
   V20241101Preview = "2024-11-01-preview",
   /** 2025-03-01-preview */
   V20250301Preview = "2025-03-01-preview",
@@ -5786,6 +6278,10 @@ export enum KnownVersions {
   V20250601Preview = "2025-06-01-preview",
   /** 2025-10-01-preview */
   V20251001Preview = "2025-10-01-preview",
+  /** 2026-02-01 */
+  V20260201 = "2026-02-01",
+  /** 2026-05-01-preview */
+  V20260501Preview = "2026-05-01-preview",
 }
 
 export function managedClusterCodeVersionResultArrayDeserializer(
@@ -5794,4 +6290,461 @@ export function managedClusterCodeVersionResultArrayDeserializer(
   return result.map((item) => {
     return managedClusterCodeVersionResultDeserializer(item);
   });
+}
+
+export function _applicationResourcePropertiesSerializer(item: ApplicationResource): any {
+  return {
+    managedIdentities: !item["managedIdentities"]
+      ? item["managedIdentities"]
+      : applicationUserAssignedIdentityArraySerializer(item["managedIdentities"]),
+    version: item["version"],
+    parameters: item["parameters"],
+    upgradePolicy: !item["upgradePolicy"]
+      ? item["upgradePolicy"]
+      : applicationUpgradePolicySerializer(item["upgradePolicy"]),
+  };
+}
+
+export function _applicationResourcePropertiesDeserializer(item: any) {
+  return {
+    managedIdentities: !item["managedIdentities"]
+      ? item["managedIdentities"]
+      : applicationUserAssignedIdentityArrayDeserializer(item["managedIdentities"]),
+    provisioningState: item["provisioningState"],
+    version: item["version"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : Object.fromEntries(
+          Object.entries(item["parameters"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    upgradePolicy: !item["upgradePolicy"]
+      ? item["upgradePolicy"]
+      : applicationUpgradePolicyDeserializer(item["upgradePolicy"]),
+  };
+}
+
+export function _applicationTypeResourcePropertiesSerializer(_item: ApplicationTypeResource): any {
+  return {};
+}
+
+export function _applicationTypeResourcePropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function _applicationTypeVersionResourcePropertiesSerializer(
+  item: ApplicationTypeVersionResource,
+): any {
+  return { appPackageUrl: item["appPackageUrl"] };
+}
+
+export function _applicationTypeVersionResourcePropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    appPackageUrl: item["appPackageUrl"],
+  };
+}
+
+export function _managedClusterCodeVersionResultPropertiesDeserializer(item: any) {
+  return {
+    clusterCodeVersion: item["clusterCodeVersion"],
+    supportExpiryUtc: !item["supportExpiryUtc"]
+      ? item["supportExpiryUtc"]
+      : new Date(item["supportExpiryUtc"]),
+    osType: item["osType"],
+  };
+}
+
+export function _managedClusterPropertiesSerializer(item: ManagedCluster): any {
+  return {
+    dnsName: item["dnsName"],
+    clientConnectionPort: item["clientConnectionPort"],
+    httpGatewayConnectionPort: item["httpGatewayConnectionPort"],
+    adminUserName: item["adminUserName"],
+    adminPassword: item["adminPassword"],
+    loadBalancingRules: !item["loadBalancingRules"]
+      ? item["loadBalancingRules"]
+      : loadBalancingRuleArraySerializer(item["loadBalancingRules"]),
+    allowRdpAccess: item["allowRdpAccess"],
+    networkSecurityRules: !item["networkSecurityRules"]
+      ? item["networkSecurityRules"]
+      : networkSecurityRuleArraySerializer(item["networkSecurityRules"]),
+    clients: !item["clients"] ? item["clients"] : clientCertificateArraySerializer(item["clients"]),
+    azureActiveDirectory: !item["azureActiveDirectory"]
+      ? item["azureActiveDirectory"]
+      : azureActiveDirectorySerializer(item["azureActiveDirectory"]),
+    fabricSettings: !item["fabricSettings"]
+      ? item["fabricSettings"]
+      : settingsSectionDescriptionArraySerializer(item["fabricSettings"]),
+    clusterCodeVersion: item["clusterCodeVersion"],
+    clusterUpgradeMode: item["clusterUpgradeMode"],
+    clusterUpgradeCadence: item["clusterUpgradeCadence"],
+    addonFeatures: !item["addonFeatures"]
+      ? item["addonFeatures"]
+      : item["addonFeatures"].map((p: any) => {
+          return p;
+        }),
+    enableAutoOSUpgrade: item["enableAutoOSUpgrade"],
+    zonalResiliency: item["zonalResiliency"],
+    applicationTypeVersionsCleanupPolicy: !item["applicationTypeVersionsCleanupPolicy"]
+      ? item["applicationTypeVersionsCleanupPolicy"]
+      : applicationTypeVersionsCleanupPolicySerializer(
+          item["applicationTypeVersionsCleanupPolicy"],
+        ),
+    enableIpv6: item["enableIpv6"],
+    subnetId: item["subnetId"],
+    ipTags: !item["ipTags"] ? item["ipTags"] : ipTagArraySerializer(item["ipTags"]),
+    enableServicePublicIP: item["enableServicePublicIP"],
+    auxiliarySubnets: !item["auxiliarySubnets"]
+      ? item["auxiliarySubnets"]
+      : subnetArraySerializer(item["auxiliarySubnets"]),
+    serviceEndpoints: !item["serviceEndpoints"]
+      ? item["serviceEndpoints"]
+      : serviceEndpointArraySerializer(item["serviceEndpoints"]),
+    zonalUpdateMode: item["zonalUpdateMode"],
+    useCustomVnet: item["useCustomVnet"],
+    publicIPPrefixId: item["publicIPPrefixId"],
+    publicIPv6PrefixId: item["publicIPv6PrefixId"],
+    ddosProtectionPlanId: item["ddosProtectionPlanId"],
+    upgradeDescription: !item["upgradeDescription"]
+      ? item["upgradeDescription"]
+      : clusterUpgradePolicySerializer(item["upgradeDescription"]),
+    httpGatewayTokenAuthConnectionPort: item["httpGatewayTokenAuthConnectionPort"],
+    enableHttpGatewayExclusiveAuthMode: item["enableHttpGatewayExclusiveAuthMode"],
+    autoGeneratedDomainNameLabelScope: item["autoGeneratedDomainNameLabelScope"],
+    allocatedOutboundPorts: item["allocatedOutboundPorts"],
+    VMImage: item["vmImage"],
+    enableOutboundOnlyNodeTypes: item["enableOutboundOnlyNodeTypes"],
+    skipManagedNsgAssignment: item["skipManagedNsgAssignment"],
+  };
+}
+
+export function _managedClusterPropertiesDeserializer(item: any) {
+  return {
+    dnsName: item["dnsName"],
+    fqdn: item["fqdn"],
+    ipv4Address: item["ipv4Address"],
+    clusterId: item["clusterId"],
+    clusterState: item["clusterState"],
+    clusterCertificateThumbprints: !item["clusterCertificateThumbprints"]
+      ? item["clusterCertificateThumbprints"]
+      : item["clusterCertificateThumbprints"].map((p: any) => {
+          return p;
+        }),
+    clientConnectionPort: item["clientConnectionPort"],
+    httpGatewayConnectionPort: item["httpGatewayConnectionPort"],
+    adminUserName: item["adminUserName"],
+    adminPassword: item["adminPassword"],
+    loadBalancingRules: !item["loadBalancingRules"]
+      ? item["loadBalancingRules"]
+      : loadBalancingRuleArrayDeserializer(item["loadBalancingRules"]),
+    allowRdpAccess: item["allowRdpAccess"],
+    networkSecurityRules: !item["networkSecurityRules"]
+      ? item["networkSecurityRules"]
+      : networkSecurityRuleArrayDeserializer(item["networkSecurityRules"]),
+    clients: !item["clients"]
+      ? item["clients"]
+      : clientCertificateArrayDeserializer(item["clients"]),
+    azureActiveDirectory: !item["azureActiveDirectory"]
+      ? item["azureActiveDirectory"]
+      : azureActiveDirectoryDeserializer(item["azureActiveDirectory"]),
+    fabricSettings: !item["fabricSettings"]
+      ? item["fabricSettings"]
+      : settingsSectionDescriptionArrayDeserializer(item["fabricSettings"]),
+    provisioningState: item["provisioningState"],
+    clusterCodeVersion: item["clusterCodeVersion"],
+    clusterUpgradeMode: item["clusterUpgradeMode"],
+    clusterUpgradeCadence: item["clusterUpgradeCadence"],
+    addonFeatures: !item["addonFeatures"]
+      ? item["addonFeatures"]
+      : item["addonFeatures"].map((p: any) => {
+          return p;
+        }),
+    enableAutoOSUpgrade: item["enableAutoOSUpgrade"],
+    zonalResiliency: item["zonalResiliency"],
+    applicationTypeVersionsCleanupPolicy: !item["applicationTypeVersionsCleanupPolicy"]
+      ? item["applicationTypeVersionsCleanupPolicy"]
+      : applicationTypeVersionsCleanupPolicyDeserializer(
+          item["applicationTypeVersionsCleanupPolicy"],
+        ),
+    enableIpv6: item["enableIpv6"],
+    subnetId: item["subnetId"],
+    ipTags: !item["ipTags"] ? item["ipTags"] : ipTagArrayDeserializer(item["ipTags"]),
+    ipv6Address: item["ipv6Address"],
+    enableServicePublicIP: item["enableServicePublicIP"],
+    auxiliarySubnets: !item["auxiliarySubnets"]
+      ? item["auxiliarySubnets"]
+      : subnetArrayDeserializer(item["auxiliarySubnets"]),
+    serviceEndpoints: !item["serviceEndpoints"]
+      ? item["serviceEndpoints"]
+      : serviceEndpointArrayDeserializer(item["serviceEndpoints"]),
+    zonalUpdateMode: item["zonalUpdateMode"],
+    useCustomVnet: item["useCustomVnet"],
+    publicIPPrefixId: item["publicIPPrefixId"],
+    publicIPv6PrefixId: item["publicIPv6PrefixId"],
+    ddosProtectionPlanId: item["ddosProtectionPlanId"],
+    upgradeDescription: !item["upgradeDescription"]
+      ? item["upgradeDescription"]
+      : clusterUpgradePolicyDeserializer(item["upgradeDescription"]),
+    httpGatewayTokenAuthConnectionPort: item["httpGatewayTokenAuthConnectionPort"],
+    enableHttpGatewayExclusiveAuthMode: item["enableHttpGatewayExclusiveAuthMode"],
+    autoGeneratedDomainNameLabelScope: item["autoGeneratedDomainNameLabelScope"],
+    allocatedOutboundPorts: item["allocatedOutboundPorts"],
+    vmImage: item["VMImage"],
+    enableOutboundOnlyNodeTypes: item["enableOutboundOnlyNodeTypes"],
+    skipManagedNsgAssignment: item["skipManagedNsgAssignment"],
+  };
+}
+
+export function _vmssExtensionPropertiesSerializer(item: VmssExtension): any {
+  return {
+    publisher: item["publisher"],
+    type: item["type"],
+    typeHandlerVersion: item["typeHandlerVersion"],
+    autoUpgradeMinorVersion: item["autoUpgradeMinorVersion"],
+    settings: item["settings"],
+    protectedSettings: item["protectedSettings"],
+    forceUpdateTag: item["forceUpdateTag"],
+    provisionAfterExtensions: !item["provisionAfterExtensions"]
+      ? item["provisionAfterExtensions"]
+      : item["provisionAfterExtensions"].map((p: any) => {
+          return p;
+        }),
+    enableAutomaticUpgrade: item["enableAutomaticUpgrade"],
+    setupOrder: !item["setupOrder"]
+      ? item["setupOrder"]
+      : item["setupOrder"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function _vmssExtensionPropertiesDeserializer(item: any) {
+  return {
+    publisher: item["publisher"],
+    type: item["type"],
+    typeHandlerVersion: item["typeHandlerVersion"],
+    autoUpgradeMinorVersion: item["autoUpgradeMinorVersion"],
+    settings: item["settings"],
+    protectedSettings: item["protectedSettings"],
+    forceUpdateTag: item["forceUpdateTag"],
+    provisionAfterExtensions: !item["provisionAfterExtensions"]
+      ? item["provisionAfterExtensions"]
+      : item["provisionAfterExtensions"].map((p: any) => {
+          return p;
+        }),
+    provisioningState: item["provisioningState"],
+    enableAutomaticUpgrade: item["enableAutomaticUpgrade"],
+    setupOrder: !item["setupOrder"]
+      ? item["setupOrder"]
+      : item["setupOrder"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function _nodeTypePropertiesSerializer(item: NodeType): any {
+  return {
+    isPrimary: item["isPrimary"],
+    vmInstanceCount: item["vmInstanceCount"],
+    dataDiskSizeGB: item["dataDiskSizeGB"],
+    dataDiskType: item["dataDiskType"],
+    dataDiskLetter: item["dataDiskLetter"],
+    placementProperties: item["placementProperties"],
+    capacities: item["capacities"],
+    applicationPorts: !item["applicationPorts"]
+      ? item["applicationPorts"]
+      : endpointRangeDescriptionSerializer(item["applicationPorts"]),
+    ephemeralPorts: !item["ephemeralPorts"]
+      ? item["ephemeralPorts"]
+      : endpointRangeDescriptionSerializer(item["ephemeralPorts"]),
+    vmSize: item["vmSize"],
+    vmImagePublisher: item["vmImagePublisher"],
+    vmImageOffer: item["vmImageOffer"],
+    vmImageSku: item["vmImageSku"],
+    vmImageVersion: item["vmImageVersion"],
+    vmSecrets: !item["vmSecrets"]
+      ? item["vmSecrets"]
+      : vaultSecretGroupArraySerializer(item["vmSecrets"]),
+    vmExtensions: !item["vmExtensions"]
+      ? item["vmExtensions"]
+      : vmssExtensionArraySerializer(item["vmExtensions"]),
+    vmManagedIdentity: !item["vmManagedIdentity"]
+      ? item["vmManagedIdentity"]
+      : vmManagedIdentitySerializer(item["vmManagedIdentity"]),
+    isStateless: item["isStateless"],
+    multiplePlacementGroups: item["multiplePlacementGroups"],
+    frontendConfigurations: !item["frontendConfigurations"]
+      ? item["frontendConfigurations"]
+      : frontendConfigurationArraySerializer(item["frontendConfigurations"]),
+    networkSecurityRules: !item["networkSecurityRules"]
+      ? item["networkSecurityRules"]
+      : networkSecurityRuleArraySerializer(item["networkSecurityRules"]),
+    additionalDataDisks: !item["additionalDataDisks"]
+      ? item["additionalDataDisks"]
+      : vmssDataDiskArraySerializer(item["additionalDataDisks"]),
+    enableEncryptionAtHost: item["enableEncryptionAtHost"],
+    enableAcceleratedNetworking: item["enableAcceleratedNetworking"],
+    useDefaultPublicLoadBalancer: item["useDefaultPublicLoadBalancer"],
+    useTempDataDisk: item["useTempDataDisk"],
+    enableOverProvisioning: item["enableOverProvisioning"],
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    isSpotVM: item["isSpotVM"],
+    hostGroupId: item["hostGroupId"],
+    useEphemeralOSDisk: item["useEphemeralOSDisk"],
+    spotRestoreTimeout: item["spotRestoreTimeout"],
+    evictionPolicy: item["evictionPolicy"],
+    vmImageResourceId: item["vmImageResourceId"],
+    subnetId: item["subnetId"],
+    vmSetupActions: !item["vmSetupActions"]
+      ? item["vmSetupActions"]
+      : item["vmSetupActions"].map((p: any) => {
+          return p;
+        }),
+    securityType: item["securityType"],
+    securityEncryptionType: item["securityEncryptionType"],
+    secureBootEnabled: item["secureBootEnabled"],
+    enableNodePublicIP: item["enableNodePublicIP"],
+    enableNodePublicIPv6: item["enableNodePublicIPv6"],
+    vmSharedGalleryImageId: item["vmSharedGalleryImageId"],
+    natGatewayId: item["natGatewayId"],
+    natConfigurations: !item["natConfigurations"]
+      ? item["natConfigurations"]
+      : nodeTypeNatConfigArraySerializer(item["natConfigurations"]),
+    vmImagePlan: !item["vmImagePlan"]
+      ? item["vmImagePlan"]
+      : vmImagePlanSerializer(item["vmImagePlan"]),
+    serviceArtifactReferenceId: item["serviceArtifactReferenceId"],
+    dscpConfigurationId: item["dscpConfigurationId"],
+    additionalNetworkInterfaceConfigurations: !item["additionalNetworkInterfaceConfigurations"]
+      ? item["additionalNetworkInterfaceConfigurations"]
+      : additionalNetworkInterfaceConfigurationArraySerializer(
+          item["additionalNetworkInterfaceConfigurations"],
+        ),
+    computerNamePrefix: item["computerNamePrefix"],
+    vmApplications: !item["vmApplications"]
+      ? item["vmApplications"]
+      : vmApplicationArraySerializer(item["vmApplications"]),
+    zoneBalance: item["zoneBalance"],
+    isOutboundOnly: item["isOutboundOnly"],
+    enableResilientEphemeralOsDisk: item["enableResilientEphemeralOsDisk"],
+    scaleInPolicy: !item["scaleInPolicy"]
+      ? item["scaleInPolicy"]
+      : scaleInPolicySerializer(item["scaleInPolicy"]),
+    proxyAgentSettings: !item["proxyAgentSettings"]
+      ? item["proxyAgentSettings"]
+      : proxyAgentSettingsSerializer(item["proxyAgentSettings"]),
+  };
+}
+
+export function _nodeTypePropertiesDeserializer(item: any) {
+  return {
+    isPrimary: item["isPrimary"],
+    vmInstanceCount: item["vmInstanceCount"],
+    dataDiskSizeGB: item["dataDiskSizeGB"],
+    dataDiskType: item["dataDiskType"],
+    dataDiskLetter: item["dataDiskLetter"],
+    placementProperties: !item["placementProperties"]
+      ? item["placementProperties"]
+      : Object.fromEntries(
+          Object.entries(item["placementProperties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    capacities: !item["capacities"]
+      ? item["capacities"]
+      : Object.fromEntries(
+          Object.entries(item["capacities"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    applicationPorts: !item["applicationPorts"]
+      ? item["applicationPorts"]
+      : endpointRangeDescriptionDeserializer(item["applicationPorts"]),
+    ephemeralPorts: !item["ephemeralPorts"]
+      ? item["ephemeralPorts"]
+      : endpointRangeDescriptionDeserializer(item["ephemeralPorts"]),
+    vmSize: item["vmSize"],
+    vmImagePublisher: item["vmImagePublisher"],
+    vmImageOffer: item["vmImageOffer"],
+    vmImageSku: item["vmImageSku"],
+    vmImageVersion: item["vmImageVersion"],
+    vmSecrets: !item["vmSecrets"]
+      ? item["vmSecrets"]
+      : vaultSecretGroupArrayDeserializer(item["vmSecrets"]),
+    vmExtensions: !item["vmExtensions"]
+      ? item["vmExtensions"]
+      : vmssExtensionArrayDeserializer(item["vmExtensions"]),
+    vmManagedIdentity: !item["vmManagedIdentity"]
+      ? item["vmManagedIdentity"]
+      : vmManagedIdentityDeserializer(item["vmManagedIdentity"]),
+    isStateless: item["isStateless"],
+    multiplePlacementGroups: item["multiplePlacementGroups"],
+    frontendConfigurations: !item["frontendConfigurations"]
+      ? item["frontendConfigurations"]
+      : frontendConfigurationArrayDeserializer(item["frontendConfigurations"]),
+    networkSecurityRules: !item["networkSecurityRules"]
+      ? item["networkSecurityRules"]
+      : networkSecurityRuleArrayDeserializer(item["networkSecurityRules"]),
+    additionalDataDisks: !item["additionalDataDisks"]
+      ? item["additionalDataDisks"]
+      : vmssDataDiskArrayDeserializer(item["additionalDataDisks"]),
+    enableEncryptionAtHost: item["enableEncryptionAtHost"],
+    provisioningState: item["provisioningState"],
+    enableAcceleratedNetworking: item["enableAcceleratedNetworking"],
+    useDefaultPublicLoadBalancer: item["useDefaultPublicLoadBalancer"],
+    useTempDataDisk: item["useTempDataDisk"],
+    enableOverProvisioning: item["enableOverProvisioning"],
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    isSpotVM: item["isSpotVM"],
+    hostGroupId: item["hostGroupId"],
+    useEphemeralOSDisk: item["useEphemeralOSDisk"],
+    spotRestoreTimeout: item["spotRestoreTimeout"],
+    evictionPolicy: item["evictionPolicy"],
+    vmImageResourceId: item["vmImageResourceId"],
+    subnetId: item["subnetId"],
+    vmSetupActions: !item["vmSetupActions"]
+      ? item["vmSetupActions"]
+      : item["vmSetupActions"].map((p: any) => {
+          return p;
+        }),
+    securityType: item["securityType"],
+    securityEncryptionType: item["securityEncryptionType"],
+    secureBootEnabled: item["secureBootEnabled"],
+    enableNodePublicIP: item["enableNodePublicIP"],
+    enableNodePublicIPv6: item["enableNodePublicIPv6"],
+    vmSharedGalleryImageId: item["vmSharedGalleryImageId"],
+    natGatewayId: item["natGatewayId"],
+    natConfigurations: !item["natConfigurations"]
+      ? item["natConfigurations"]
+      : nodeTypeNatConfigArrayDeserializer(item["natConfigurations"]),
+    vmImagePlan: !item["vmImagePlan"]
+      ? item["vmImagePlan"]
+      : vmImagePlanDeserializer(item["vmImagePlan"]),
+    serviceArtifactReferenceId: item["serviceArtifactReferenceId"],
+    dscpConfigurationId: item["dscpConfigurationId"],
+    additionalNetworkInterfaceConfigurations: !item["additionalNetworkInterfaceConfigurations"]
+      ? item["additionalNetworkInterfaceConfigurations"]
+      : additionalNetworkInterfaceConfigurationArrayDeserializer(
+          item["additionalNetworkInterfaceConfigurations"],
+        ),
+    computerNamePrefix: item["computerNamePrefix"],
+    vmApplications: !item["vmApplications"]
+      ? item["vmApplications"]
+      : vmApplicationArrayDeserializer(item["vmApplications"]),
+    zoneBalance: item["zoneBalance"],
+    isOutboundOnly: item["isOutboundOnly"],
+    enableResilientEphemeralOsDisk: item["enableResilientEphemeralOsDisk"],
+    scaleInPolicy: !item["scaleInPolicy"]
+      ? item["scaleInPolicy"]
+      : scaleInPolicyDeserializer(item["scaleInPolicy"]),
+    proxyAgentSettings: !item["proxyAgentSettings"]
+      ? item["proxyAgentSettings"]
+      : proxyAgentSettingsDeserializer(item["proxyAgentSettings"]),
+  };
 }

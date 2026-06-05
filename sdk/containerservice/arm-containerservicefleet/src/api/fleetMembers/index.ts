@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByFleet, $delete, updateAsync, create, get } from "./operations.js";
-export {
+export type {
   FleetMembersListByFleetOptionalParams,
   FleetMembersDeleteOptionalParams,
   FleetMembersUpdateAsyncOptionalParams,

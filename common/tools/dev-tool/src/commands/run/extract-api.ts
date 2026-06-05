@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  IConfigApiReport,
+  IConfigDocModel,
+  IConfigFile,
+  ExtractorMessage,
+} from "@microsoft/api-extractor";
 import {
   Extractor,
   ExtractorConfig,
   ExtractorLogLevel,
-  IConfigApiReport,
-  IConfigDocModel,
-  IConfigFile,
   ConsoleMessageId,
-  ExtractorMessage,
 } from "@microsoft/api-extractor";
 import { createTwoFilesPatch, parsePatch } from "diff";
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { createPrinter } from "../../util/printer";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import { createPrinter } from "../../util/printer.ts";
 import path from "node:path";
 import { readFile, writeFile, unlink, mkdir, rm, stat } from "node:fs/promises";
-import { ProjectInfo, resolveProject } from "../../util/resolveProject";
+import type { ProjectInfo } from "../../util/resolveProject.ts";
+import { resolveProject } from "../../util/resolveProject.ts";
 import { existsSync } from "node:fs";
 
 export const commandInfo = makeCommandInfo(
@@ -43,13 +46,21 @@ interface RuntimeApiFiles {
 }
 
 async function getTsconfigFile(projectPath: string, runtime: string): Promise<string> {
-  const tsconfigPath = path.join(projectPath, `tsconfig.src.${runtime}.json`);
+  // For "node" runtime use "esm" (there are no tsconfig.src.node.json files);
+  // for other runtimes use the runtime name directly.
+  const name = runtime === "node" ? "tsconfig.src.esm.json" : `tsconfig.src.${runtime}.json`;
+
+  // 1. Try runtime-specific tsconfig in the config/ subdirectory
+  const candidate = path.join(projectPath, "config", name);
   try {
-    await stat(tsconfigPath);
-    return tsconfigPath;
+    await stat(candidate);
+    return candidate;
   } catch {
-    return path.join(projectPath, `tsconfig.src.json`);
+    // not found, fall back
   }
+
+  // 2. Fall back to generic tsconfig.src.json in the package directory
+  return path.join(projectPath, `tsconfig.src.json`);
 }
 
 interface ApiJson {
@@ -69,16 +80,19 @@ interface ApiJson {
 }
 
 async function buildExportConfiguration(
-  packageJson: { exports: Record<string, Record<string, { types: string }>> },
+  packageJson: { exports: Record<string, Record<string, { types: string }>>; name: string },
   projectRoot: string,
 ): Promise<ExportEntry[] | undefined> {
   const exports = packageJson.exports;
   if (!exports) return undefined;
 
   const exportEntries: ExportEntry[] = [];
+  const isManagement = isManagementPackage(packageJson.name);
   for (const [pathKey, entry] of Object.entries(exports)) {
     if (pathKey === "./package.json") continue;
     const isMainExport = pathKey === ".";
+    // Skip subpath exports for management packages
+    if (isManagement && !isMainExport) continue;
     const baseName = isMainExport ? "" : pathKey.replace(/^\.\//, "").replace(/\//g, "-");
     const common = {
       path: pathKey,
@@ -280,6 +294,10 @@ function getUnscopedPackageName(packageName: string): string {
   return packageName.includes("/") ? packageName.split("/")[1] : packageName;
 }
 
+function isManagementPackage(packageName: string): boolean {
+  return packageName.includes("/arm-");
+}
+
 async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
   const content = await readFile(fullPath, { encoding: "utf-8" });
   return JSON.parse(content) as ApiJson;
@@ -290,6 +308,7 @@ async function buildMergedApiJson(
   reportTempDir: string,
   exports: ExportEntry[],
   dependencies: Record<string, string>,
+  version: string,
   useMerged: boolean = false,
 ): Promise<string | undefined> {
   const mainNodeExport = exports?.find((e) => !e.isSubpath && e.runtime === "node");
@@ -309,7 +328,7 @@ async function buildMergedApiJson(
 
   const apiJson = await loadApiJsonForSubPath(mainApiJsonPath);
   apiJson.metadata.dependencies = dependencies;
-
+  apiJson.metadata.version = version;
   for (const subpath of exports) {
     if (!subpath.isSubpath || subpath.runtime !== mainNodeExport.runtime) continue;
     const nameWithRuntime = createNameWithRuntime(subpath);
@@ -406,6 +425,7 @@ export default leafCommand(commandInfo, async () => {
         reportTempDir,
         nodeExports,
         pkgJson["dependencies"] || {},
+        pkgJson["version"],
         true,
       );
     }

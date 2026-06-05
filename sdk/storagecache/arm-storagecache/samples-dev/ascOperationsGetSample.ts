@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the status of an asynchronous operation for the Azure HPC Cache
  *
  * @summary Gets the status of an asynchronous operation for the Azure HPC Cache
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/AscOperations_Get.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/AscOperations_Get.json
  */
 async function ascOperationsGet(): Promise<void> {
   const subscriptionId =

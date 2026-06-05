@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { CarbonServiceOperations } from "./carbonService/index.js";
-export { OperationsOperations } from "./operations/index.js";
+export { type CarbonServiceOperations } from "./carbonService/index.js";
+export { type OperationsOperations } from "./operations/index.js";

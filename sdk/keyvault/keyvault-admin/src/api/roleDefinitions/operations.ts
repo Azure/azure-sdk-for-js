@@ -1,33 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultContext as Client } from "../index.js";
-import {
-  keyVaultErrorDeserializer,
+import type { KeyVaultContext as Client } from "../index.js";
+import type {
   RoleDefinition,
-  roleDefinitionDeserializer,
   RoleDefinitionCreateParameters,
-  roleDefinitionCreateParametersSerializer,
   _RoleDefinitionListResult,
-  _roleDefinitionListResultDeserializer,
 } from "../../models/models.js";
 import {
+  keyVaultErrorDeserializer,
+  roleDefinitionDeserializer,
+  roleDefinitionCreateParametersSerializer,
+  _roleDefinitionListResultDeserializer,
+} from "../../models/models.js";
+import type {
   RoleDefinitionsListOptionalParams,
   RoleDefinitionsGetOptionalParams,
   RoleDefinitionsCreateOrUpdateOptionalParams,
   RoleDefinitionsDeleteOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -35,9 +31,9 @@ export function _listSend(
   options: RoleDefinitionsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+scope}/providers/Microsoft.Authorization/roleDefinitions{?api%2Dversion,%24filter}",
+    "{+scope}/providers/Microsoft.Authorization/roleDefinitions{?api%2Dversion,%24filter}",
     {
-      scope: scope,
+      scope: scope.replace(/\/+$/, ""),
       "api%2Dversion": context.apiVersion,
       "%24filter": options?.filter,
     },
@@ -89,9 +85,9 @@ export function _getSend(
   options: RoleDefinitionsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}{?api%2Dversion}",
+    "{+scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}{?api%2Dversion}",
     {
-      scope: scope,
+      scope: scope.replace(/\/+$/, ""),
       roleDefinitionName: roleDefinitionName,
       "api%2Dversion": context.apiVersion,
     },
@@ -138,9 +134,9 @@ export function _createOrUpdateSend(
   options: RoleDefinitionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}{?api%2Dversion}",
+    "{+scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}{?api%2Dversion}",
     {
-      scope: scope,
+      scope: scope.replace(/\/+$/, ""),
       roleDefinitionName: roleDefinitionName,
       "api%2Dversion": context.apiVersion,
     },
@@ -191,9 +187,9 @@ export function _$deleteSend(
   options: RoleDefinitionsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}{?api%2Dversion}",
+    "{+scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}{?api%2Dversion}",
     {
-      scope: scope,
+      scope: scope.replace(/\/+$/, ""),
       roleDefinitionName: roleDefinitionName,
       "api%2Dversion": context.apiVersion,
     },

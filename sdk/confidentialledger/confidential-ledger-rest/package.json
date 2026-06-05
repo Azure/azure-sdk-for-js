@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic rest level client library for the Azure Confidential Ledger service.",
-  "version": "1.1.2-beta.4",
+  "version": "1.1.2-beta.6",
   "keywords": [
     "node",
     "azure",
@@ -17,7 +17,11 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/confidentialledger/confidential-ledger-rest/README.md",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/confidentialledger/confidential-ledger-rest"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -89,23 +93,10 @@
     "eslint": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "type": "module",
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -117,6 +108,11 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
     }
   }
 }

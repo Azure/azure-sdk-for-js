@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { credentialLogger, formatError } from "../util/logging.js";
-import type { AccessToken } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { ChainedTokenCredential } from "./chainedTokenCredential.js";
 import type { TokenCredentialOptions } from "../tokenCredentialOptions.js";
 
@@ -29,7 +29,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     throw BrowserNotSupportedError;
   }
 
-  public getToken(): Promise<AccessToken> {
+  public getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken> {
     logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

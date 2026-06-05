@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "target": "ES2023",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "outDir": "./dist",
+    "target": "esnext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "esModuleInterop": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
 
-    "lib": ["ES2023"],
+    "lib": ["ESNext"],
 
     "newLine": "LF",
     "strict": true,
@@ -16,8 +17,12 @@
     "noUnusedParameters": true,
 
     "resolveJsonModule": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "erasableSyntaxOnly": true,
+    "rewriteRelativeImportExtensions": true,
+    "verbatimModuleSyntax": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["test/samples/files/expectations/**/*"],
+  "exclude": ["./test/samples/files/**/*"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

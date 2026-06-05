@@ -4,11 +4,17 @@
 
 ### Features Added
 
+- Added support for service API version `2025-07-01` [#38515](https://github.com/Azure/azure-sdk-for-js/pull/38515)
+
 ### Breaking Changes
 
 ### Bugs Fixed
 
+- Fix dependency issue.
+
 ### Other Changes
+
+- Key Vault API version `2025-07-01` is now the default
 
 ## 4.10.0 (2025-06-10)
 

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get artifact download link.
  *
  * @summary get artifact download link.
- * x-ms-original-file: 2025-06-01-preview/Artifact_ListDownloadUri_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-15/Artifact_ListDownloadUri_MaximumSet_Gen.json
  */
 async function artifactsListDownloadUri() {
   const credential = new DefaultAzureCredential();

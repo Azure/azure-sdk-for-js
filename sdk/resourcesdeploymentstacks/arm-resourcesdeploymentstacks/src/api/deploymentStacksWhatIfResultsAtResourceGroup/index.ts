@@ -3,9 +3,9 @@
 
 export { whatIf, $delete, createOrUpdate, list, get } from "./operations.js";
 export {
-  DeploymentStacksWhatIfResultsAtResourceGroupWhatIfOptionalParams,
-  DeploymentStacksWhatIfResultsAtResourceGroupDeleteOptionalParams,
-  DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateOptionalParams,
-  DeploymentStacksWhatIfResultsAtResourceGroupListOptionalParams,
-  DeploymentStacksWhatIfResultsAtResourceGroupGetOptionalParams,
+  type DeploymentStacksWhatIfResultsAtResourceGroupWhatIfOptionalParams,
+  type DeploymentStacksWhatIfResultsAtResourceGroupDeleteOptionalParams,
+  type DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateOptionalParams,
+  type DeploymentStacksWhatIfResultsAtResourceGroupListOptionalParams,
+  type DeploymentStacksWhatIfResultsAtResourceGroupGetOptionalParams,
 } from "./options.js";

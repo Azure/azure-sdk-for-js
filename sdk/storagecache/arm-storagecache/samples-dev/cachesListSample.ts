@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns all caches the user has access to under a subscription.
  *
  * @summary Returns all caches the user has access to under a subscription.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/Caches_List.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/Caches_List.json
  */
 async function cachesList(): Promise<void> {
   const subscriptionId =

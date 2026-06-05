@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export const SDK_VERSION: string = "12.30.0";
-export const SERVICE_VERSION: string = "2026-02-06";
+export const SERVICE_VERSION: string = "2026-04-06";
 
 export const KB: number = 1024;
 export const MB: number = KB * 1024;

@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Create or update an AML file system.
  *
  * @summary Create or update an AML file system.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/amlFilesystems_CreateOrUpdate.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/amlFilesystems_CreateOrUpdate.json
  */
 async function amlFilesystemsCreateOrUpdate() {
   const subscriptionId =

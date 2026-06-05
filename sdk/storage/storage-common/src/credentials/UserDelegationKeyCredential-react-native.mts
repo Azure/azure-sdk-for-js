@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export class UserDelegationKeyCredential {}
+export * from "./UserDelegationKeyCredential-browser.mjs";

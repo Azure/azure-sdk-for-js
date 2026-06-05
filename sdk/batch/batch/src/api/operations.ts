@@ -2,114 +2,114 @@
 // Licensed under the MIT License.
 
 import type { BatchContext as Client } from "./index.js";
-import {
+import type {
   _BatchApplicationListResult,
-  _batchApplicationListResultDeserializer,
   BatchApplication,
-  batchApplicationDeserializer,
-  batchErrorDeserializer,
   _BatchPoolListUsageMetricsResult,
-  _batchPoolListUsageMetricsResultDeserializer,
   BatchPoolUsageMetrics,
   BatchPoolCreateOptions,
-  batchPoolCreateOptionsSerializer,
   _BatchPoolListResult,
-  _batchPoolListResultDeserializer,
   BatchPool,
-  batchPoolDeserializer,
   AutoScaleRun,
-  autoScaleRunDeserializer,
   BatchPoolUpdateOptions,
-  batchPoolUpdateOptionsSerializer,
   BatchPoolEnableAutoScaleOptions,
-  batchPoolEnableAutoScaleOptionsSerializer,
   BatchPoolEvaluateAutoScaleOptions,
-  batchPoolEvaluateAutoScaleOptionsSerializer,
   BatchPoolResizeOptions,
-  batchPoolResizeOptionsSerializer,
   BatchPoolReplaceOptions,
-  batchPoolReplaceOptionsSerializer,
   BatchNodeRemoveOptions,
-  batchNodeRemoveOptionsSerializer,
   _BatchAccountListSupportedImagesResult,
-  _batchAccountListSupportedImagesResultDeserializer,
   BatchSupportedImage,
   _BatchPoolNodeCountsListResult,
-  _batchPoolNodeCountsListResultDeserializer,
   BatchPoolNodeCounts,
   BatchJob,
-  batchJobSerializer,
-  batchJobDeserializer,
   BatchJobUpdateOptions,
-  batchJobUpdateOptionsSerializer,
   BatchJobDisableOptions,
-  batchJobDisableOptionsSerializer,
-  batchJobTerminateOptionsSerializer,
   BatchJobCreateOptions,
-  batchJobCreateOptionsSerializer,
   _BatchJobListResult,
-  _batchJobListResultDeserializer,
   _BatchJobPreparationAndReleaseTaskStatusListResult,
-  _batchJobPreparationAndReleaseTaskStatusListResultDeserializer,
   BatchJobPreparationAndReleaseTaskStatus,
   BatchTaskCountsResult,
-  batchTaskCountsResultDeserializer,
   BatchJobSchedule,
-  batchJobScheduleSerializer,
-  batchJobScheduleDeserializer,
   BatchJobScheduleUpdateOptions,
-  batchJobScheduleUpdateOptionsSerializer,
   BatchJobScheduleCreateOptions,
-  batchJobScheduleCreateOptionsSerializer,
   _BatchJobScheduleListResult,
-  _batchJobScheduleListResultDeserializer,
   BatchTaskCreateOptions,
-  batchTaskCreateOptionsSerializer,
   _BatchTaskListResult,
-  _batchTaskListResultDeserializer,
   BatchTask,
-  batchTaskSerializer,
-  batchTaskDeserializer,
   BatchTaskGroup,
-  batchTaskGroupSerializer,
   BatchCreateTaskCollectionResult,
-  batchCreateTaskCollectionResultDeserializer,
   _BatchTaskListSubtasksResult,
-  _batchTaskListSubtasksResultDeserializer,
   BatchSubtask,
   _BatchNodeFileListResult,
-  _batchNodeFileListResultDeserializer,
   BatchNodeFile,
   BatchNodeUserCreateOptions,
-  batchNodeUserCreateOptionsSerializer,
   BatchNodeUserUpdateOptions,
-  batchNodeUserUpdateOptionsSerializer,
   BatchNode,
+  BatchNodeRemoteLoginSettings,
+  UploadBatchServiceLogsOptions,
+  UploadBatchServiceLogsResult,
+  _BatchNodeListResult,
+  BatchNodeVMExtension,
+  _BatchNodeVMExtensionListResult,
+} from "../models/models.js";
+import {
+  _batchApplicationListResultDeserializer,
+  batchApplicationDeserializer,
+  batchErrorDeserializer,
+  _batchPoolListUsageMetricsResultDeserializer,
+  batchPoolCreateOptionsSerializer,
+  _batchPoolListResultDeserializer,
+  batchPoolDeserializer,
+  autoScaleRunDeserializer,
+  batchPoolUpdateOptionsSerializer,
+  batchPoolEnableAutoScaleOptionsSerializer,
+  batchPoolEvaluateAutoScaleOptionsSerializer,
+  batchPoolResizeOptionsSerializer,
+  batchPoolReplaceOptionsSerializer,
+  batchNodeRemoveOptionsSerializer,
+  _batchAccountListSupportedImagesResultDeserializer,
+  _batchPoolNodeCountsListResultDeserializer,
+  batchJobSerializer,
+  batchJobDeserializer,
+  batchJobUpdateOptionsSerializer,
+  batchJobDisableOptionsSerializer,
+  batchJobTerminateOptionsSerializer,
+  batchJobCreateOptionsSerializer,
+  _batchJobListResultDeserializer,
+  _batchJobPreparationAndReleaseTaskStatusListResultDeserializer,
+  batchTaskCountsResultDeserializer,
+  batchJobScheduleSerializer,
+  batchJobScheduleDeserializer,
+  batchJobScheduleUpdateOptionsSerializer,
+  batchJobScheduleCreateOptionsSerializer,
+  _batchJobScheduleListResultDeserializer,
+  batchTaskCreateOptionsSerializer,
+  _batchTaskListResultDeserializer,
+  batchTaskSerializer,
+  batchTaskDeserializer,
+  batchTaskGroupSerializer,
+  batchCreateTaskCollectionResultDeserializer,
+  _batchTaskListSubtasksResultDeserializer,
+  _batchNodeFileListResultDeserializer,
+  batchNodeUserCreateOptionsSerializer,
+  batchNodeUserUpdateOptionsSerializer,
   batchNodeDeserializer,
   batchNodeRebootOptionsSerializer,
   batchNodeReimageOptionsSerializer,
   batchNodeDeallocateOptionsSerializer,
   batchNodeDisableSchedulingOptionsSerializer,
-  BatchNodeRemoteLoginSettings,
   batchNodeRemoteLoginSettingsDeserializer,
-  UploadBatchServiceLogsOptions,
   uploadBatchServiceLogsOptionsSerializer,
-  UploadBatchServiceLogsResult,
   uploadBatchServiceLogsResultDeserializer,
-  _BatchNodeListResult,
   _batchNodeListResultDeserializer,
-  BatchNodeVMExtension,
   batchNodeVMExtensionDeserializer,
-  _BatchNodeVMExtensionListResult,
   _batchNodeVMExtensionListResultDeserializer,
 } from "../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../static-helpers/pagingHelpers.js";
 import { getBinaryResponse } from "../static-helpers/serialization/get-binary-response.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
+import type {
   ListNodeFilesOptionalParams,
   GetNodeFilePropertiesOptionalParams,
   GetNodeFileOptionalParams,
@@ -183,13 +183,9 @@ import {
   GetApplicationOptionalParams,
   ListApplicationsOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { getBatchNodeFileProperties } from "../static-helpers/fileProperties.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { getBatchNodeFileProperties } from "../customization/static-helpers/fileProperties.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 import {
   createDeletePoolPoller,
@@ -206,7 +202,7 @@ import {
   createTerminateJobPoller,
   createDeleteJobSchedulePoller,
   createTerminateJobSchedulePoller,
-} from "./lroPoller.js";
+} from "../customization/api/lroPoller.js";
 
 export function _listNodeFilesSend(
   context: Client,
@@ -219,9 +215,9 @@ export function _listNodeFilesSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
-      maxresults: options?.maxresults,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
+      maxresults: options?.maxResults,
       "%24filter": options?.filter,
       recursive: options?.recursive,
     },
@@ -238,8 +234,8 @@ export function _listNodeFilesSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -254,6 +250,7 @@ export async function _listNodeFilesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -272,7 +269,11 @@ export function listNodeFiles(
     () => _listNodeFilesSend(context, poolId, nodeId, options),
     _listNodeFilesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "odata.nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "odata.nextLink",
+      apiVersion: context.apiVersion ?? "2025-06-01",
+    },
   );
 }
 
@@ -289,8 +290,8 @@ export function _getNodeFilePropertiesSend(
       poolId: poolId,
       nodeId: nodeId,
       filePath: filePath,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -305,19 +306,19 @@ export function _getNodeFilePropertiesSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
@@ -334,6 +335,7 @@ export async function _getNodeFilePropertiesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -365,8 +367,8 @@ export function _getNodeFileSend(
       poolId: poolId,
       nodeId: nodeId,
       filePath: filePath,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -381,19 +383,19 @@ export function _getNodeFileSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
@@ -410,6 +412,7 @@ export async function _getNodeFileDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -442,8 +445,8 @@ export function _deleteNodeFileSend(
       poolId: poolId,
       nodeId: nodeId,
       filePath: filePath,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
       recursive: options?.recursive,
     },
     {
@@ -459,8 +462,8 @@ export function _deleteNodeFileSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -472,6 +475,7 @@ export async function _deleteNodeFileDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -501,9 +505,9 @@ export function _listNodeExtensionsSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
-      maxresults: options?.maxresults,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
+      maxresults: options?.maxResults,
       "%24select": !options?.select
         ? options?.select
         : options?.select.map((p: any) => {
@@ -523,8 +527,8 @@ export function _listNodeExtensionsSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -539,6 +543,7 @@ export async function _listNodeExtensionsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -557,7 +562,11 @@ export function listNodeExtensions(
     () => _listNodeExtensionsSend(context, poolId, nodeId, options),
     _listNodeExtensionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "odata.nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "odata.nextLink",
+      apiVersion: context.apiVersion ?? "2025-06-01",
+    },
   );
 }
 
@@ -574,8 +583,8 @@ export function _getNodeExtensionSend(
       poolId: poolId,
       nodeId: nodeId,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
       "%24select": !options?.select
         ? options?.select
         : options?.select.map((p: any) => {
@@ -595,8 +604,8 @@ export function _getNodeExtensionSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -611,6 +620,7 @@ export async function _getNodeExtensionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -638,9 +648,9 @@ export function _listNodesSend(
     "/pools/{poolId}/nodes{?api%2Dversion,timeOut,maxresults,%24filter,%24select}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
-      maxresults: options?.maxresults,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
+      maxresults: options?.maxResults,
       "%24filter": options?.filter,
       "%24select": !options?.select
         ? options?.select
@@ -661,8 +671,8 @@ export function _listNodesSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -677,6 +687,7 @@ export async function _listNodesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -694,7 +705,11 @@ export function listNodes(
     () => _listNodesSend(context, poolId, options),
     _listNodesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "odata.nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "odata.nextLink",
+      apiVersion: context.apiVersion ?? "2025-06-01",
+    },
   );
 }
 
@@ -710,8 +725,8 @@ export function _uploadNodeLogsSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -727,8 +742,8 @@ export function _uploadNodeLogsSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -744,6 +759,7 @@ export async function _uploadNodeLogsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -778,8 +794,8 @@ export function _getNodeRemoteLoginSettingsSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -794,8 +810,8 @@ export function _getNodeRemoteLoginSettingsSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -810,16 +826,14 @@ export async function _getNodeRemoteLoginSettingsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
   return batchNodeRemoteLoginSettingsDeserializer(result.body);
 }
 
-/**
- * Before you can remotely login to a Compute Node using the remote login settings,
- * you must create a user Account on the Compute Node.
- */
+/** Before you can remotely login to a Compute Node using the remote login settings, you must create a user Account on the Compute Node and configure access ports for SSH and RDP. For more information, see https://learn.microsoft.com/azure/batch/pool-endpoint-configuration */
 export async function getNodeRemoteLoginSettings(
   context: Client,
   poolId: string,
@@ -841,8 +855,8 @@ export function _enableNodeSchedulingSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -857,8 +871,8 @@ export function _enableNodeSchedulingSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -872,6 +886,7 @@ export async function _enableNodeSchedulingDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -903,8 +918,8 @@ export function _disableNodeSchedulingSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -920,8 +935,8 @@ export function _disableNodeSchedulingSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -938,6 +953,7 @@ export async function _disableNodeSchedulingDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -969,8 +985,8 @@ export function _deallocateNodeSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -986,8 +1002,8 @@ export function _deallocateNodeSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -1002,6 +1018,7 @@ export async function _deallocateNodeDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1039,8 +1056,8 @@ export function _reimageNodeSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1056,8 +1073,8 @@ export function _reimageNodeSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -1072,6 +1089,7 @@ export async function _reimageNodeDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1113,8 +1131,8 @@ export function _startNodeSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1129,8 +1147,8 @@ export function _startNodeSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -1142,6 +1160,7 @@ export async function _startNodeDeserialize(result: PathUncheckedResponse): Prom
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1179,8 +1198,8 @@ export function _rebootNodeSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1196,8 +1215,8 @@ export function _rebootNodeSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -1212,6 +1231,7 @@ export async function _rebootNodeDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1249,8 +1269,8 @@ export function _getNodeSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
       "%24select": !options?.select
         ? options?.select
         : options?.select.map((p: any) => {
@@ -1270,8 +1290,8 @@ export function _getNodeSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -1284,6 +1304,7 @@ export async function _getNodeDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1315,8 +1336,8 @@ export function _replaceNodeUserSend(
       poolId: poolId,
       nodeId: nodeId,
       userName: userName,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1332,8 +1353,8 @@ export function _replaceNodeUserSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -1346,6 +1367,7 @@ export async function _replaceNodeUserDeserialize(result: PathUncheckedResponse)
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1390,8 +1412,8 @@ export function _deleteNodeUserSend(
       poolId: poolId,
       nodeId: nodeId,
       userName: userName,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1406,8 +1428,8 @@ export function _deleteNodeUserSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -1419,6 +1441,7 @@ export async function _deleteNodeUserDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1427,7 +1450,8 @@ export async function _deleteNodeUserDeserialize(result: PathUncheckedResponse):
 
 /**
  * You can delete a user Account to a Compute Node only when it is in the idle or
- * running state.
+ * running state. Before you can remotely login to a Compute Node you must configure
+ * access ports for SSH and RDP. For more information, see https://learn.microsoft.com/azure/batch/pool-endpoint-configuration
  */
 export async function deleteNodeUser(
   context: Client,
@@ -1452,8 +1476,8 @@ export function _createNodeUserSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1469,8 +1493,8 @@ export function _createNodeUserSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -1483,6 +1507,7 @@ export async function _createNodeUserDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1491,7 +1516,8 @@ export async function _createNodeUserDeserialize(result: PathUncheckedResponse):
 
 /**
  * You can add a user Account to a Compute Node only when it is in the idle or
- * running state.
+ * running state. Before you can remotely login to a Compute Node you must configure access ports for SSH and RDP. For more information, see https://learn.microsoft.com/azure/batch/pool-endpoint-configuration
+ *
  */
 export async function createNodeUser(
   context: Client,
@@ -1515,9 +1541,9 @@ export function _listTaskFilesSend(
     {
       jobId: jobId,
       taskId: taskId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
-      maxresults: options?.maxresults,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
+      maxresults: options?.maxResults,
       "%24filter": options?.filter,
       recursive: options?.recursive,
     },
@@ -1534,8 +1560,8 @@ export function _listTaskFilesSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -1550,6 +1576,7 @@ export async function _listTaskFilesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1568,7 +1595,11 @@ export function listTaskFiles(
     () => _listTaskFilesSend(context, jobId, taskId, options),
     _listTaskFilesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "odata.nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "odata.nextLink",
+      apiVersion: context.apiVersion ?? "2025-06-01",
+    },
   );
 }
 
@@ -1585,8 +1616,8 @@ export function _getTaskFilePropertiesSend(
       jobId: jobId,
       taskId: taskId,
       filePath: filePath,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1601,19 +1632,19 @@ export function _getTaskFilePropertiesSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
@@ -1630,6 +1661,7 @@ export async function _getTaskFilePropertiesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1661,8 +1693,8 @@ export function _getTaskFileSend(
       jobId: jobId,
       taskId: taskId,
       filePath: filePath,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1677,19 +1709,19 @@ export function _getTaskFileSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
@@ -1706,6 +1738,7 @@ export async function _getTaskFileDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1738,8 +1771,8 @@ export function _deleteTaskFileSend(
       jobId: jobId,
       taskId: taskId,
       filePath: filePath,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
       recursive: options?.recursive,
     },
     {
@@ -1755,8 +1788,8 @@ export function _deleteTaskFileSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -1768,6 +1801,7 @@ export async function _deleteTaskFileDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1797,8 +1831,8 @@ export function _reactivateTaskSend(
     {
       jobId: jobId,
       taskId: taskId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1813,25 +1847,25 @@ export function _reactivateTaskSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -1842,6 +1876,7 @@ export async function _reactivateTaskDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1878,8 +1913,8 @@ export function _terminateTaskSend(
     {
       jobId: jobId,
       taskId: taskId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1894,25 +1929,25 @@ export function _terminateTaskSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -1923,6 +1958,7 @@ export async function _terminateTaskDeserialize(result: PathUncheckedResponse): 
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1955,8 +1991,8 @@ export function _listSubTasksSend(
     {
       jobId: jobId,
       taskId: taskId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
       "%24select": !options?.select
         ? options?.select
         : options?.select.map((p: any) => {
@@ -1976,8 +2012,8 @@ export function _listSubTasksSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -1992,6 +2028,7 @@ export async function _listSubTasksDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2010,7 +2047,11 @@ export function listSubTasks(
     () => _listSubTasksSend(context, jobId, taskId, options),
     _listSubTasksDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "odata.nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "odata.nextLink",
+      apiVersion: context.apiVersion ?? "2025-06-01",
+    },
   );
 }
 
@@ -2026,8 +2067,8 @@ export function _replaceTaskSend(
     {
       jobId: jobId,
       taskId: taskId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2043,25 +2084,25 @@ export function _replaceTaskSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
     body: batchTaskSerializer(task),
@@ -2073,6 +2114,7 @@ export async function _replaceTaskDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2102,8 +2144,8 @@ export function _getTaskSend(
     {
       jobId: jobId,
       taskId: taskId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
       "%24select": !options?.select
         ? options?.select
         : options?.select.map((p: any) => {
@@ -2128,25 +2170,25 @@ export function _getTaskSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -2158,6 +2200,7 @@ export async function _getTaskDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2190,8 +2233,8 @@ export function _deleteTaskSend(
     {
       jobId: jobId,
       taskId: taskId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2206,25 +2249,25 @@ export function _deleteTaskSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -2235,6 +2278,7 @@ export async function _deleteTaskDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2268,8 +2312,8 @@ export function _createTaskCollectionSend(
     "/jobs/{jobId}/addtaskcollection{?api%2Dversion,timeOut}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2285,8 +2329,8 @@ export function _createTaskCollectionSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -2302,6 +2346,7 @@ export async function _createTaskCollectionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2343,9 +2388,9 @@ export function _listTasksSend(
     "/jobs/{jobId}/tasks{?api%2Dversion,timeOut,maxresults,%24filter,%24select,%24expand}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
-      maxresults: options?.maxresults,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
+      maxresults: options?.maxResults,
       "%24filter": options?.filter,
       "%24select": !options?.select
         ? options?.select
@@ -2371,8 +2416,8 @@ export function _listTasksSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -2387,6 +2432,7 @@ export async function _listTasksDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2408,7 +2454,11 @@ export function listTasks(
     () => _listTasksSend(context, jobId, options),
     _listTasksDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "odata.nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "odata.nextLink",
+      apiVersion: context.apiVersion ?? "2025-06-01",
+    },
   );
 }
 
@@ -2422,8 +2472,8 @@ export function _createTaskSend(
     "/jobs/{jobId}/tasks{?api%2Dversion,timeOut}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2439,8 +2489,8 @@ export function _createTaskSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -2453,6 +2503,7 @@ export async function _createTaskDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2481,9 +2532,9 @@ export function _listJobSchedulesSend(
   const path = expandUrlTemplate(
     "/jobschedules{?api%2Dversion,timeOut,maxresults,%24filter,%24select,%24expand}",
     {
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
-      maxresults: options?.maxresults,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
+      maxresults: options?.maxResults,
       "%24filter": options?.filter,
       "%24select": !options?.select
         ? options?.select
@@ -2509,8 +2560,8 @@ export function _listJobSchedulesSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -2525,6 +2576,7 @@ export async function _listJobSchedulesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2541,7 +2593,11 @@ export function listJobSchedules(
     () => _listJobSchedulesSend(context, options),
     _listJobSchedulesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "odata.nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "odata.nextLink",
+      apiVersion: context.apiVersion ?? "2025-06-01",
+    },
   );
 }
 
@@ -2553,8 +2609,8 @@ export function _createJobScheduleSend(
   const path = expandUrlTemplate(
     "/jobschedules{?api%2Dversion,timeOut}",
     {
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2570,8 +2626,8 @@ export function _createJobScheduleSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -2584,6 +2640,7 @@ export async function _createJobScheduleDeserialize(result: PathUncheckedRespons
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2609,8 +2666,8 @@ export function _terminateJobScheduleSend(
     "/jobschedules/{jobScheduleId}/terminate{?api%2Dversion,timeOut,force}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
       force: options?.force,
     },
     {
@@ -2626,25 +2683,25 @@ export function _terminateJobScheduleSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -2657,6 +2714,7 @@ export async function _terminateJobScheduleDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2690,8 +2748,8 @@ export function _enableJobScheduleSend(
     "/jobschedules/{jobScheduleId}/enable{?api%2Dversion,timeOut}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2706,25 +2764,25 @@ export function _enableJobScheduleSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -2735,6 +2793,7 @@ export async function _enableJobScheduleDeserialize(result: PathUncheckedRespons
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2760,8 +2819,8 @@ export function _disableJobScheduleSend(
     "/jobschedules/{jobScheduleId}/disable{?api%2Dversion,timeOut}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2776,25 +2835,25 @@ export function _disableJobScheduleSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -2805,6 +2864,7 @@ export async function _disableJobScheduleDeserialize(result: PathUncheckedRespon
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2831,8 +2891,8 @@ export function _replaceJobScheduleSend(
     "/jobschedules/{jobScheduleId}{?api%2Dversion,timeOut}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2848,25 +2908,25 @@ export function _replaceJobScheduleSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
     body: batchJobScheduleSerializer(jobSchedule),
@@ -2878,6 +2938,7 @@ export async function _replaceJobScheduleDeserialize(result: PathUncheckedRespon
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2911,8 +2972,8 @@ export function _updateJobScheduleSend(
     "/jobschedules/{jobScheduleId}{?api%2Dversion,timeOut}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2928,25 +2989,25 @@ export function _updateJobScheduleSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
     body: batchJobScheduleUpdateOptionsSerializer(jobSchedule),
@@ -2958,6 +3019,7 @@ export async function _updateJobScheduleDeserialize(result: PathUncheckedRespons
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2990,8 +3052,8 @@ export function _getJobScheduleSend(
     "/jobschedules/{jobScheduleId}{?api%2Dversion,timeOut,%24select,%24expand}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
       "%24select": !options?.select
         ? options?.select
         : options?.select.map((p: any) => {
@@ -3016,25 +3078,25 @@ export function _getJobScheduleSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -3048,6 +3110,7 @@ export async function _getJobScheduleDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3073,8 +3136,8 @@ export function _deleteJobScheduleSend(
     "/jobschedules/{jobScheduleId}{?api%2Dversion,timeOut,force}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
       force: options?.force,
     },
     {
@@ -3090,25 +3153,25 @@ export function _deleteJobScheduleSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -3119,6 +3182,7 @@ export async function _deleteJobScheduleDeserialize(result: PathUncheckedRespons
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3158,8 +3222,8 @@ export function _jobScheduleExistsSend(
     "/jobschedules/{jobScheduleId}{?api%2Dversion,timeOut}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3174,25 +3238,25 @@ export function _jobScheduleExistsSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -3205,6 +3269,7 @@ export async function _jobScheduleExistsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3230,8 +3295,8 @@ export function _getJobTaskCountsSend(
     "/jobs/{jobId}/taskcounts{?api%2Dversion,timeOut}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3246,8 +3311,8 @@ export function _getJobTaskCountsSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -3262,6 +3327,7 @@ export async function _getJobTaskCountsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3292,9 +3358,9 @@ export function _listJobPreparationAndReleaseTaskStatusSend(
     "/jobs/{jobId}/jobpreparationandreleasetaskstatus{?api%2Dversion,timeOut,maxresults,%24filter,%24select}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
-      maxresults: options?.maxresults,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
+      maxresults: options?.maxResults,
       "%24filter": options?.filter,
       "%24select": !options?.select
         ? options?.select
@@ -3315,8 +3381,8 @@ export function _listJobPreparationAndReleaseTaskStatusSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -3331,6 +3397,7 @@ export async function _listJobPreparationAndReleaseTaskStatusDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3355,7 +3422,11 @@ export function listJobPreparationAndReleaseTaskStatus(
     () => _listJobPreparationAndReleaseTaskStatusSend(context, jobId, options),
     _listJobPreparationAndReleaseTaskStatusDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "odata.nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "odata.nextLink",
+      apiVersion: context.apiVersion ?? "2025-06-01",
+    },
   );
 }
 
@@ -3368,9 +3439,9 @@ export function _listJobsFromScheduleSend(
     "/jobschedules/{jobScheduleId}/jobs{?api%2Dversion,timeOut,maxresults,%24filter,%24select,%24expand}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
-      maxresults: options?.maxresults,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
+      maxresults: options?.maxResults,
       "%24filter": options?.filter,
       "%24select": !options?.select
         ? options?.select
@@ -3396,8 +3467,8 @@ export function _listJobsFromScheduleSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -3412,6 +3483,7 @@ export async function _listJobsFromScheduleDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3429,7 +3501,11 @@ export function listJobsFromSchedule(
     () => _listJobsFromScheduleSend(context, jobScheduleId, options),
     _listJobsFromScheduleDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "odata.nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "odata.nextLink",
+      apiVersion: context.apiVersion ?? "2025-06-01",
+    },
   );
 }
 
@@ -3440,9 +3516,9 @@ export function _listJobsSend(
   const path = expandUrlTemplate(
     "/jobs{?api%2Dversion,timeOut,maxresults,%24filter,%24select,%24expand}",
     {
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
-      maxresults: options?.maxresults,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
+      maxresults: options?.maxResults,
       "%24filter": options?.filter,
       "%24select": !options?.select
         ? options?.select
@@ -3468,8 +3544,8 @@ export function _listJobsSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -3484,6 +3560,7 @@ export async function _listJobsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3500,7 +3577,11 @@ export function listJobs(
     () => _listJobsSend(context, options),
     _listJobsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "odata.nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "odata.nextLink",
+      apiVersion: context.apiVersion ?? "2025-06-01",
+    },
   );
 }
 
@@ -3512,8 +3593,8 @@ export function _createJobSend(
   const path = expandUrlTemplate(
     "/jobs{?api%2Dversion,timeOut}",
     {
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3529,8 +3610,8 @@ export function _createJobSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -3543,6 +3624,7 @@ export async function _createJobDeserialize(result: PathUncheckedResponse): Prom
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3578,8 +3660,8 @@ export function _terminateJobSend(
     "/jobs/{jobId}/terminate{?api%2Dversion,timeOut,force}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
       force: options?.force,
     },
     {
@@ -3596,25 +3678,25 @@ export function _terminateJobSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
     body: !options["options"]
@@ -3628,6 +3710,7 @@ export async function _terminateJobDeserialize(result: PathUncheckedResponse): P
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3668,8 +3751,8 @@ export function _enableJobSend(
     "/jobs/{jobId}/enable{?api%2Dversion,timeOut}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3684,25 +3767,25 @@ export function _enableJobSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -3713,6 +3796,7 @@ export async function _enableJobDeserialize(result: PathUncheckedResponse): Prom
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3754,8 +3838,8 @@ export function _disableJobSend(
     "/jobs/{jobId}/disable{?api%2Dversion,timeOut}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3771,25 +3855,25 @@ export function _disableJobSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
     body: batchJobDisableOptionsSerializer(disableOptions),
@@ -3801,6 +3885,7 @@ export async function _disableJobDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3846,8 +3931,8 @@ export function _replaceJobSend(
     "/jobs/{jobId}{?api%2Dversion,timeOut}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3863,25 +3948,25 @@ export function _replaceJobSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
     body: batchJobSerializer(job),
@@ -3893,6 +3978,7 @@ export async function _replaceJobDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3924,8 +4010,8 @@ export function _updateJobSend(
     "/jobs/{jobId}{?api%2Dversion,timeOut}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3941,25 +4027,25 @@ export function _updateJobSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
     body: batchJobUpdateOptionsSerializer(job),
@@ -3971,6 +4057,7 @@ export async function _updateJobDeserialize(result: PathUncheckedResponse): Prom
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4001,8 +4088,8 @@ export function _getJobSend(
     "/jobs/{jobId}{?api%2Dversion,timeOut,%24select,%24expand}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
       "%24select": !options?.select
         ? options?.select
         : options?.select.map((p: any) => {
@@ -4027,25 +4114,25 @@ export function _getJobSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -4057,6 +4144,7 @@ export async function _getJobDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4082,8 +4170,8 @@ export function _deleteJobSend(
     "/jobs/{jobId}{?api%2Dversion,timeOut,force}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
       force: options?.force,
     },
     {
@@ -4099,25 +4187,25 @@ export function _deleteJobSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -4128,6 +4216,7 @@ export async function _deleteJobDeserialize(result: PathUncheckedResponse): Prom
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4168,9 +4257,9 @@ export function _listPoolNodeCountsSend(
   const path = expandUrlTemplate(
     "/nodecounts{?api%2Dversion,timeOut,maxresults,%24filter}",
     {
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
-      maxresults: options?.maxresults,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
+      maxresults: options?.maxResults,
       "%24filter": options?.filter,
     },
     {
@@ -4186,8 +4275,8 @@ export function _listPoolNodeCountsSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -4202,6 +4291,7 @@ export async function _listPoolNodeCountsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4222,7 +4312,11 @@ export function listPoolNodeCounts(
     () => _listPoolNodeCountsSend(context, options),
     _listPoolNodeCountsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "odata.nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "odata.nextLink",
+      apiVersion: context.apiVersion ?? "2025-06-01",
+    },
   );
 }
 
@@ -4233,9 +4327,9 @@ export function _listSupportedImagesSend(
   const path = expandUrlTemplate(
     "/supportedimages{?api%2Dversion,timeOut,maxresults,%24filter}",
     {
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
-      maxresults: options?.maxresults,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
+      maxresults: options?.maxResults,
       "%24filter": options?.filter,
     },
     {
@@ -4251,8 +4345,8 @@ export function _listSupportedImagesSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -4267,6 +4361,7 @@ export async function _listSupportedImagesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4283,7 +4378,11 @@ export function listSupportedImages(
     () => _listSupportedImagesSend(context, options),
     _listSupportedImagesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "odata.nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "odata.nextLink",
+      apiVersion: context.apiVersion ?? "2025-06-01",
+    },
   );
 }
 
@@ -4297,8 +4396,8 @@ export function _removeNodesSend(
     "/pools/{poolId}/removenodes{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -4314,25 +4413,25 @@ export function _removeNodesSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
     body: batchNodeRemoveOptionsSerializer(removeOptions),
@@ -4344,6 +4443,7 @@ export async function _removeNodesDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4384,8 +4484,8 @@ export function _replacePoolPropertiesSend(
     "/pools/{poolId}/updateproperties{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -4401,8 +4501,8 @@ export function _replacePoolPropertiesSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -4417,6 +4517,7 @@ export async function _replacePoolPropertiesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4447,8 +4548,8 @@ export function _stopPoolResizeSend(
     "/pools/{poolId}/stopresize{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -4463,25 +4564,25 @@ export function _stopPoolResizeSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -4492,6 +4593,7 @@ export async function _stopPoolResizeDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4534,8 +4636,8 @@ export function _resizePoolSend(
     "/pools/{poolId}/resize{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -4551,25 +4653,25 @@ export function _resizePoolSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
     body: batchPoolResizeOptionsSerializer(resizeOptions),
@@ -4581,6 +4683,7 @@ export async function _resizePoolDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4625,8 +4728,8 @@ export function _evaluatePoolAutoScaleSend(
     "/pools/{poolId}/evaluateautoscale{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -4642,8 +4745,8 @@ export function _evaluatePoolAutoScaleSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -4659,6 +4762,7 @@ export async function _evaluatePoolAutoScaleDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4695,8 +4799,8 @@ export function _enablePoolAutoScaleSend(
     "/pools/{poolId}/enableautoscale{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -4712,25 +4816,25 @@ export function _enablePoolAutoScaleSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
     body: batchPoolEnableAutoScaleOptionsSerializer(enableAutoScaleOptions),
@@ -4744,6 +4848,7 @@ export async function _enablePoolAutoScaleDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4777,8 +4882,8 @@ export function _disablePoolAutoScaleSend(
     "/pools/{poolId}/disableautoscale{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -4793,8 +4898,8 @@ export function _disablePoolAutoScaleSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -4808,6 +4913,7 @@ export async function _disablePoolAutoScaleDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4834,8 +4940,8 @@ export function _updatePoolSend(
     "/pools/{poolId}{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -4851,25 +4957,25 @@ export function _updatePoolSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
     body: batchPoolUpdateOptionsSerializer(pool),
@@ -4881,6 +4987,7 @@ export async function _updatePoolDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4911,8 +5018,8 @@ export function _getPoolSend(
     "/pools/{poolId}{?api%2Dversion,timeOut,%24select,%24expand}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
       "%24select": !options?.select
         ? options?.select
         : options?.select.map((p: any) => {
@@ -4937,25 +5044,25 @@ export function _getPoolSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -4967,6 +5074,7 @@ export async function _getPoolDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4992,8 +5100,8 @@ export function _poolExistsSend(
     "/pools/{poolId}{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -5008,25 +5116,25 @@ export function _poolExistsSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -5037,6 +5145,7 @@ export async function _poolExistsDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -5062,8 +5171,8 @@ export function _deletePoolSend(
     "/pools/{poolId}{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -5078,25 +5187,25 @@ export function _deletePoolSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...(options?.ifModifiedSince !== undefined
         ? {
-            "If-Modified-Since": !options?.ifModifiedSince
+            "if-modified-since": !options?.ifModifiedSince
               ? options?.ifModifiedSince
               : options?.ifModifiedSince.toUTCString(),
           }
         : {}),
       ...(options?.ifUnmodifiedSince !== undefined
         ? {
-            "If-Unmodified-Since": !options?.ifUnmodifiedSince
+            "if-unmodified-since": !options?.ifUnmodifiedSince
               ? options?.ifUnmodifiedSince
               : options?.ifUnmodifiedSince.toUTCString(),
           }
         : {}),
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -5107,6 +5216,7 @@ export async function _deletePoolDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -5151,9 +5261,9 @@ export function _listPoolsSend(
   const path = expandUrlTemplate(
     "/pools{?api%2Dversion,timeOut,maxresults,%24filter,%24select,%24expand}",
     {
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
-      maxresults: options?.maxresults,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
+      maxresults: options?.maxResults,
       "%24filter": options?.filter,
       "%24select": !options?.select
         ? options?.select
@@ -5179,8 +5289,8 @@ export function _listPoolsSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -5195,6 +5305,7 @@ export async function _listPoolsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -5211,7 +5322,11 @@ export function listPools(
     () => _listPoolsSend(context, options),
     _listPoolsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "odata.nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "odata.nextLink",
+      apiVersion: context.apiVersion ?? "2025-06-01",
+    },
   );
 }
 
@@ -5223,8 +5338,8 @@ export function _createPoolSend(
   const path = expandUrlTemplate(
     "/pools{?api%2Dversion,timeOut}",
     {
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -5240,8 +5355,8 @@ export function _createPoolSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -5254,6 +5369,7 @@ export async function _createPoolDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -5281,11 +5397,11 @@ export function _listPoolUsageMetricsSend(
   const path = expandUrlTemplate(
     "/poolusagemetrics{?api%2Dversion,timeOut,maxresults,startTime,endtime,%24filter}",
     {
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
-      maxresults: options?.maxresults,
-      startTime: !options?.starttime ? options?.starttime : options?.starttime.toISOString(),
-      endtime: !options?.endtime ? options?.endtime : options?.endtime.toISOString(),
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
+      maxresults: options?.maxResults,
+      startTime: !options?.startTime ? options?.startTime : options?.startTime.toISOString(),
+      endtime: !options?.endTime ? options?.endTime : options?.endTime.toISOString(),
       "%24filter": options?.filter,
     },
     {
@@ -5301,8 +5417,8 @@ export function _listPoolUsageMetricsSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -5317,6 +5433,7 @@ export async function _listPoolUsageMetricsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -5340,7 +5457,11 @@ export function listPoolUsageMetrics(
     () => _listPoolUsageMetricsSend(context, options),
     _listPoolUsageMetricsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "odata.nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "odata.nextLink",
+      apiVersion: context.apiVersion ?? "2025-06-01",
+    },
   );
 }
 
@@ -5353,8 +5474,8 @@ export function _getApplicationSend(
     "/applications/{applicationId}{?api%2Dversion,timeOut}",
     {
       applicationId: applicationId,
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -5369,8 +5490,8 @@ export function _getApplicationSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -5385,6 +5506,7 @@ export async function _getApplicationDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -5414,9 +5536,9 @@ export function _listApplicationsSend(
   const path = expandUrlTemplate(
     "/applications{?api%2Dversion,timeOut,maxresults}",
     {
-      "api%2Dversion": context.apiVersion,
-      timeOut: options?.timeOutInSeconds,
-      maxresults: options?.maxresults,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      timeOut: options?.timeoutInSeconds,
+      maxresults: options?.maxResults,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -5431,8 +5553,8 @@ export function _listApplicationsSend(
       ...(options?.returnClientRequestId !== undefined
         ? { "return-client-request-id": options?.returnClientRequestId }
         : {}),
-      ...(options?.ocpdate !== undefined
-        ? { "ocp-date": !options?.ocpdate ? options?.ocpdate : options?.ocpdate.toUTCString() }
+      ...(options?.ocpDate !== undefined
+        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -5447,6 +5569,7 @@ export async function _listApplicationsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -5469,6 +5592,10 @@ export function listApplications(
     () => _listApplicationsSend(context, options),
     _listApplicationsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "odata.nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "odata.nextLink",
+      apiVersion: context.apiVersion ?? "2025-06-01",
+    },
   );
 }

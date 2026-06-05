@@ -3,11 +3,11 @@
 
 export {
   createMonitorQueryLogs,
-  MonitorQueryLogsContext,
-  LogsQueryClientOptions,
+  type MonitorQueryLogsContext,
+  type LogsQueryClientOptions,
 } from "./monitorQueryLogsContext.js";
 export { batch, executeWithResourceId, execute } from "./operations.js";
-export {
+export type {
   LogsQueryBatchOptions,
   LogsQueryOptions,
   ExecuteWithResourceIdOptionalParams,

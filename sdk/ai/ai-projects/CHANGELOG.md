@@ -1,20 +1,159 @@
 # Release History
 
+## 2.2.1 (Unreleased)
+
+### Features Added
+
+- Added experimental GenAI tracing support via `enableGenAITracing()`. When enabled, OpenTelemetry spans are emitted for Responses API calls with GenAI semantic convention attributes, token usage metrics, and optional content recording.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.2.0 (2026-05-29)
+
+### Breaking Changes
+
+- Removed the `isolationKey` positional parameter from `project.beta.agents.createSession` and `project.beta.agents.deleteSession`.
+- Removed `IsolationKeySource`, `IsolationKeySourceUnion`, `IsolationKeySourceKind`, `EntraIsolationKeySource`, and `HeaderIsolationKeySource` from the public API surface.
+- Removed `TaskDataGenerationJobOptions` and the `"task"` member from `DataGenerationJobType` / `DataGenerationJobOptionsUnion`.
+- Renamed `body` parameters to `job` for beta data generation jobs and evaluator generation jobs.
+- Renamed `body` parameters to `taxonomy` for beta evaluation taxonomy create/update operations.
+- Renamed `body` parameters to `content` for beta agent code upload operations.
+- Renamed `CreateAgentVersionFromCodeRequest` to `CreateAgentVersionFromCodeMetadata`.
+- Renamed evaluation target model types from `Target`, `TargetUnion`, `TargetConfig`, and `TargetConfigUnion` to `EvaluationTarget`, `EvaluationTargetUnion`, `RedTeamTargetConfig`, and `RedTeamTargetConfigUnion`.
+- Changed `FabricIQPreviewTool` and `WorkIQPreviewTool` configuration fields to live directly on the tool instead of nested parameter objects.
+- Changed `PendingUploadRequest.pendingUploadType` and `PendingUploadResponse.pendingUploadType` from `"BlobReference"` to `"TemporaryBlobReference"`.
+- Changed `DataGenerationTokenUsage` token count properties from optional to required.
+- Changed `Insight` response properties `insight_id`, `metadata`, and `state` from optional to required.
+- Changed `ModelSamplingParams` sampling properties from required to optional.
+- Renamed `UpdateToolboxRequest.toolbox_name` to `name`.
+- Changed `project.beta.agents.downloadAgentCode` to use the `agentVersion` option instead of the version-specific overload and `BetaAgentsDownloadAgentVersionCode*` types.
+- Changed `project.beta.models.create` to return the create response body.
+- Changed `project.beta.models.pendingUpload` to use `ModelPendingUploadRequest` and `ModelPendingUploadResponse`.
+- Renamed `body` parameter to `packageData` for `project.beta.skills.createFromPackage`.
+
+### Features Added
+
+- Added `FabricIQPreviewTool` as a new agent tool kind (`"fabric_iq_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
+- Added `WorkIQPreviewTool` as a new agent tool kind (`"work_iq_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
+- Added `getSessionLogStream` and `listSessionFiles` operations on `project.beta.agents`.
+- Added `createAgentVersionFromCode` and `downloadAgentCode` operations on `project.beta.agents` for code-based hosted agents, plus the `"CodeAgents=V1Preview"` opt-in value on `AgentDefinitionOptInKeys`.
+- Added `project.beta.models` route for listing, creating, updating, deleting, and retrieving credentials for model versions.
+- Added async model version creation and pending upload support on `project.beta.models`.
+- Added `CodeDependencyResolution` and `dependency_resolution` on `CodeConfiguration` for code-based hosted agent dependency resolution.
+- Added `AgentVersionStatus` type alias and surfaced `status?: AgentVersionStatus` on `AgentVersion`.
+- Added telemetry endpoint configuration support for hosted agents.
+- Added `foundryFeatures` opt-in flag (`"Insights=V1Preview"`) on `project.beta.insights` list operations.
+- Added evaluator generation support on `project.beta.evaluators`.
+- Added evaluation suite version, run, and generation suite job operations on `project.beta.evaluators`.
+- Added `createGenerationJob`, `getGenerationJob`, `listGenerationJobs`, `cancelGenerationJob`, and `deleteGenerationJob` operations on `project.beta.datasets`.
+- Added memory item CRUD operations on `project.beta.memoryStores`.
+- Added `createFromPackage` operation on `project.beta.skills`.
+- Added agent optimization job and candidate model types for beta agent optimization scenarios.
+- Added tool call status and output item models for agent tool responses.
+- Added `BlobReferenceSasCredential` model type (renamed from spec-level `SasCredential`).
+- Added `AgentEndpointConfig` model type (renamed from `AgentEndpoint`; `AgentEndpoint` is retained as a deprecated alias).
+- Added `ToolboxSearchPreviewTool` as a new agent tool kind (`"toolbox_search_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
+- Added `force` option to `project.agents.delete` and `project.agents.deleteVersion` for force-deleting hosted agents with active sessions.
+- Added `project.beta.routines` operations for creating, updating, listing, enabling, disabling, and deleting routines.
+- Added convenience `create` method on `project.beta.models` that wraps pendingUpload, file upload, and async creation with polling into a single call.
+
+### Bugs Fixed
+
+- Fixed missing `BetaAgentsListSessionFilesOptionalParams`, `BetaAgentsGetSessionLogStreamOptionalParams`, and `BetaAgentsGetSessionOptionalParams` shapes for beta agents session operations.
+- Fixed samples and beta agent tests to use the regenerated beta agents session signatures.
+- Fixed beta model operations to emit the `api-version` query parameter instead of `api%2Dversion`.
+- Removed redundant positional `foundryFeatures` parameters from beta memory store and model operations.
+- Fixed generated evaluation and optimization job errors to use `ErrorModel` instead of a standalone `ApiError`.
+- Restored the `RubricCriterion` root export for `RubricBasedEvaluatorDefinition`.
+
+## 2.1.1 (2026-05-04)
+
+### Bugs Fixed
+
+- Fix agent list operations that only returned the first page of results due to missing cursor-based pagination support
+- Fix deserializer incorrectly calling `.map()` on the response.
+
+## 2.1.0 (2026-04-17)
+
+### Breaking Changes
+
+- Change `container_protocol_versions` property from required to optional in `HostedAgentDefinition` output types.
+- Change `code_type` property from required to optional in `getVersion` output type.
+- Rename `id` property in `Schedule` interface to `schedule_id`
+
+### Features Added
+
+- Add `project.beta.agents` route for accessing beta agent operations such as managed agent identity blueprints, session files, and sessions
+- Add `project.beta.skills` route for accessing skills
+- Add `project.beta.toolboxes` route for accessing toolbox features
+
+### Bugs Fixed
+
+- Remove redundant `foundryFeatures` property from `EvaluationRulesCreateOrUpdateOptionalParam`
+
+### Other Changes
+
+- Deprecated `TextResponseFormatConfiguration` in favor of `TextResponseFormat`
+- Deprecated `TextResponseFormatConfigurationResponseFormatText` in favor of `TextResponseFormatText`
+- Deprecated `TextResponseFormatConfigurationResponseFormatJsonObject` in favor of `TextResponseFormatJsonObject`
+- Deprecated `TextResponseFormatConfigurationUnion` in favor of `TextResponseFormatUnion`
+
+## 2.0.2 (2026-04-06)
+
+### Bugs Fixed
+
+- Replace `console.debug` calls with Azure SDK logger to prevent secret leakage (e.g. SAS URIs) in unconditional console output.
+
+## 2.0.1 (2026-03-13)
+
+### Bugs Fixed
+
+- Fix polling for memory store update operations that cannot complete.
+
+## 2.0.0 (2026-03-06)
+
+### Breaking changes
+
+- change `RedTeam` property `target` from required to optional.
+- remove `container_app` from `AgentKind` and `ContainerAppAgentDefinition` from `AgentDefinitionUnion`.
+- rename `CodeInterpreterContainerAuto` type (see API reference for the new type name).
+- update memory store `items` property type to match the latest service API (this may require code changes where `items` is accessed).
+- rename `ImageGenActionEnum` type to `ImageGenAction`.
+- rename `project.beta.evaluators.listLatestVersions` method to `project.beta.evaluators.list`.
+- change `project.connections.get` method parameter `includeCredentials` to be part of options bag parameter instead of a separate boolean parameter.
+- change `project.connections.getDefault` method parameter `includeCredentials` to be part of options bag parameter instead of a separate boolean parameter.
+
+## 2.0.0-beta.5 (2026-02-24)
+
+### Features Added
+
+- Add `project.beta` route for accessing beta features, including:
+  - `project.beta.schedules`
+  - `project.beta.redTeams`
+  - `project.beta.memoryStores`
+  - `project.beta.insights`
+  - `project.beta.evaluators`
+  - `project.beta.evaluationTaxonomies`
+
 ## 2.0.0-beta.4 (2026-01-29)
 
 ### Breaking changes
 
-* To align with OpenAI naming conventions, use "Tool" suffix for class names describing Azure tools that are generally available (stable release):
-  * Rename class `AzureAISearchAgentTool` to `AzureAISearchTool`
-  * Rename class `OpenApiAgentTool` to OpenApiTool`
-  * Rename class `AzureFunctionAgentTool` to `AzureFunctionTool`
-  * Rename class `BingGroundingAgentTool` to `BingGroundingTool`
-* To align with OpenAI naming conventions, use "PreviewTool" suffix for class names describing Azure tools in preview:
-  * Rename class `MicrosoftFabricAgentTool` to `MicrosoftFabricPreviewTool`
-  * Rename class `SharepointAgentTool` to `SharepointPreviewTool`
-  * Rename class `BingCustomSearchAgentTool` to `BingCustomSearchPreviewTool`
-  * Rename class `BrowserAutomationAgentTool` to `BrowserAutomationPreviewTool`
-  * Rename class `A2ATool` to `A2APreviewTool`
+- To align with OpenAI naming conventions, use "Tool" suffix for class names describing Azure tools that are generally available (stable release):
+  - Rename class `AzureAISearchAgentTool` to `AzureAISearchTool`
+  - Rename class `OpenApiAgentTool` to `OpenApiTool`
+  - Rename class `AzureFunctionAgentTool` to `AzureFunctionTool`
+  - Rename class `BingGroundingAgentTool` to `BingGroundingTool`
+- To align with OpenAI naming conventions, use "PreviewTool" suffix for class names describing Azure tools in preview:
+  - Rename class `MicrosoftFabricAgentTool` to `MicrosoftFabricPreviewTool`
+  - Rename class `SharepointAgentTool` to `SharepointPreviewTool`
+  - Rename class `BingCustomSearchAgentTool` to `BingCustomSearchPreviewTool`
+  - Rename class `BrowserAutomationAgentTool` to `BrowserAutomationPreviewTool`
+  - Rename class `A2ATool` to `A2APreviewTool`
 
 - `ResponsesUserMessageItemParam` removed as a valid ItemUnion member.
 
@@ -22,7 +161,7 @@
 
 ### Bugs Fixed
 
-- fix response json schema deserializer 
+- fix response json schema deserializer
 
 ## 2.0.0-beta.2 (2025-12-02)
 
@@ -57,7 +196,7 @@ Initial stable release of the AI projects client library.
 - remove `project.redTeams`
 - remove `project.evaluations`
 - remove `project.inference.chatCompletions`, `project.inference.embeddings` and `project.inference.imageEmbeddings`. For guidance on obtaining an authenticated `azure-ai-inference` client for your AI Foundry Project,
-refer to the updated samples in the `samples\inference` directory.
+  refer to the updated samples in the `samples\inference` directory.
 - rename `project.telemetry.getConnectionString` to `project.telemetry.getApplicationInsightsConnectionString`
 - rename `project.inference.azureOpenAI` to `project.getAzureOpenAIClient`
 - remove `project.inference`

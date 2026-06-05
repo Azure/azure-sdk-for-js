@@ -1,11 +1,11 @@
 # Release History
 
-## 4.0.0-beta.3 (2026-02-12)
-Compared with version 3.0.0
+## 4.0.0 (2026-03-19)
 
 ### Features Added
   - Added operation group ApiKeysOperations
   - Added operation group DefaultWafPolicyOperations
+  - Added operation group NginxDeploymentWafPoliciesOperations
   - Added operation group WafPolicyOperations
   - Added operation CertificatesOperations.createOrUpdate
   - Added operation CertificatesOperations.delete
@@ -45,9 +45,14 @@ Compared with version 3.0.0
   - Added Interface NginxDeploymentPropertiesNginxAppProtect
   - Added Interface NginxDeploymentScalingPropertiesAutoScaleSettings
   - Added Interface NginxDeploymentUpdatePropertiesNginxAppProtect
+  - Added Interface NginxDeploymentWafPoliciesAnalysisOptionalParams
   - Added Interface NginxDeploymentWafPolicy
+  - Added Interface NginxDeploymentWafPolicyAnalysisCreateRequest
+  - Added Interface NginxDeploymentWafPolicyAnalysisData
+  - Added Interface NginxDeploymentWafPolicyAnalysisResponse
   - Added Interface NginxDeploymentWafPolicyApplyingStatus
   - Added Interface NginxDeploymentWafPolicyCompilingStatus
+  - Added Interface NginxDeploymentWafPolicyError
   - Added Interface NginxDeploymentWafPolicyMetadata
   - Added Interface NginxDeploymentWafPolicyMetadataProperties
   - Added Interface NginxDeploymentWafPolicyProperties

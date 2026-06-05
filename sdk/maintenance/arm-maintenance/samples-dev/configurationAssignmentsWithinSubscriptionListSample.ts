@@ -1,26 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get configuration assignment within a subscription
- *
- * @summary Get configuration assignment within a subscription
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ConfigurationAssignmentsResultWithinSubscription_List.json
- */
-
 import { MaintenanceManagementClient } from "@azure/arm-maintenance";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to [UNSUPPORTED] Get configuration assignment within a subscription. This API is not implemented yet.
+ *
+ * @summary [UNSUPPORTED] Get configuration assignment within a subscription. This API is not implemented yet.
+ * x-ms-original-file: 2023-10-01-preview/ConfigurationAssignmentsResultWithinSubscription_List.json
+ */
 async function configurationAssignmentsResultWithinSubscriptionList(): Promise<void> {
-  const subscriptionId =
-    process.env["MAINTENANCE_SUBSCRIPTION_ID"] || "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
   const client = new MaintenanceManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.configurationAssignmentsWithinSubscription.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

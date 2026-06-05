@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  CodeSigningAccountsCheckNameAvailabilityOptionalParams,
-  CodeSigningAccountsListBySubscriptionOptionalParams,
-  CodeSigningAccountsListByResourceGroupOptionalParams,
-  CodeSigningAccountsDeleteOptionalParams,
-  CodeSigningAccountsUpdateOptionalParams,
-  CodeSigningAccountsCreateOptionalParams,
-  CodeSigningAccountsGetOptionalParams,
+  type CodeSigningAccountsCheckNameAvailabilityOptionalParams,
+  type CodeSigningAccountsListBySubscriptionOptionalParams,
+  type CodeSigningAccountsListByResourceGroupOptionalParams,
+  type CodeSigningAccountsDeleteOptionalParams,
+  type CodeSigningAccountsUpdateOptionalParams,
+  type CodeSigningAccountsCreateOptionalParams,
+  type CodeSigningAccountsGetOptionalParams,
 } from "./options.js";

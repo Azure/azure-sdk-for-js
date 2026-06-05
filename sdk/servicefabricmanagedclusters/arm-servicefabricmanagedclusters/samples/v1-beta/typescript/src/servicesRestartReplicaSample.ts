@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to a long-running resource action.
  *
  * @summary a long-running resource action.
- * x-ms-original-file: 2025-10-01-preview/ServiceActionRestartReplica_example.json
+ * x-ms-original-file: 2026-05-01-preview/ServiceActionRestartReplica_example.json
  */
 async function restartReplicas(): Promise<void> {
   const credential = new DefaultAzureCredential();

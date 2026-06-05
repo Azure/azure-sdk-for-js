@@ -32,6 +32,8 @@ extends:
     Artifacts:
       - name: azure-rest-load-testing
         safeName: azurerestloadtesting
+        triggeringPaths:
+        - /common/tools/warp/
       - name: azure-create-playwright
         safeName: azurecreateplaywright
       - name: azure-playwright

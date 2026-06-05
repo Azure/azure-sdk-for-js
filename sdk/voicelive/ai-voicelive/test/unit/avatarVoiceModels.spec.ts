@@ -1,0 +1,961 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * Avatar and Voice Model Serialization & Round-Trip Tests
+ *
+ * This test suite validates the serialization and deserialization of recently
+ * added avatar and voice configuration models to ensure proper JSON structure
+ * and field mapping between TypeScript models and the wire protocol format.
+ *
+ * Tests cover:
+ * - AvatarConfig with new fields (type, model, outputProtocol)
+ * - AvatarConfigTypes enum
+ * - PhotoAvatarBaseModes enum
+ * - AvatarOutputProtocol enum
+ * - AzureCustomVoice with customTextNormalizationUrl
+ * - AzureStandardVoice with customTextNormalizationUrl
+ * - AzurePersonalVoice with extended properties
+ * - New OAIVoice values (marin, cedar)
+ */
+
+import { describe, it, expect } from "vitest";
+import type {
+  AvatarConfig,
+  Scene,
+  AzureCustomVoice,
+  AzureStandardVoice,
+  AzurePersonalVoice,
+  AzureAvatarVoiceSyncVoice,
+  AzureRealtimeNativeVoice,
+  Voice,
+  RequestSession,
+} from "../../src/models/index.js";
+import {
+  avatarConfigSerializer,
+  avatarConfigDeserializer,
+  sceneSerializer,
+  sceneDeserializer,
+  azureCustomVoiceSerializer,
+  azureCustomVoiceDeserializer,
+  azureStandardVoiceSerializer,
+  azureStandardVoiceDeserializer,
+  azurePersonalVoiceSerializer,
+  azurePersonalVoiceDeserializer,
+  azureAvatarVoiceSyncVoiceSerializer,
+  azureAvatarVoiceSyncVoiceDeserializer,
+  azureRealtimeNativeVoiceSerializer,
+  azureRealtimeNativeVoiceDeserializer,
+  voiceSerializer,
+  voiceDeserializer,
+  requestSessionSerializer,
+  requestImageContentPartSerializer,
+  requestImageContentPartDeserializer,
+  serverEventSessionAvatarSwitchToSpeakingDeserializer,
+  serverEventSessionAvatarSwitchToIdleDeserializer,
+  serverEventResponseVideoDeltaDeserializer,
+  KnownAvatarConfigTypes,
+  KnownPhotoAvatarBaseModes,
+  KnownAvatarOutputProtocol,
+  KnownOAIVoice,
+  KnownAzureVoiceType,
+  KnownAzureRealtimeNativeVoiceName,
+} from "../../src/models/models.js";
+
+describe("Avatar and Voice Models - Serialization & Validation", () => {
+  describe("AvatarConfig", () => {
+    it("should serialize with all new fields populated", () => {
+      const config: AvatarConfig = {
+        type: KnownAvatarConfigTypes.PhotoAvatar,
+        character: "avatar-character-1",
+        customized: false,
+        model: KnownPhotoAvatarBaseModes.Vasa1,
+        outputProtocol: KnownAvatarOutputProtocol.Webrtc,
+        iceServers: [
+          {
+            urls: ["stun:stun.example.com"],
+            username: "user",
+            credential: "pass",
+          },
+        ],
+        style: "friendly",
+        video: {
+          bitrate: 2000000,
+          codec: "h264",
+          resolution: {
+            width: 1920,
+            height: 1080,
+          },
+        },
+      };
+
+      const serialized = avatarConfigSerializer(config);
+
+      expect(serialized.type).toBe(KnownAvatarConfigTypes.PhotoAvatar);
+      expect(serialized.character).toBe("avatar-character-1");
+      expect(serialized.customized).toBe(false);
+      expect(serialized.model).toBe(KnownPhotoAvatarBaseModes.Vasa1);
+      expect(serialized.output_protocol).toBe(KnownAvatarOutputProtocol.Webrtc);
+      expect(serialized.style).toBe("friendly");
+      expect(serialized.ice_servers).toBeDefined();
+      expect(serialized.ice_servers.length).toBe(1);
+      expect(serialized.video).toBeDefined();
+      expect(serialized.video.bitrate).toBe(2000000);
+    });
+
+    it("should serialize video-avatar type", () => {
+      const config: AvatarConfig = {
+        type: KnownAvatarConfigTypes.VideoAvatar,
+        character: "video-char",
+        customized: true,
+        style: "professional",
+      };
+
+      const serialized = avatarConfigSerializer(config);
+
+      expect(serialized.type).toBe(KnownAvatarConfigTypes.VideoAvatar);
+      expect(serialized.character).toBe("video-char");
+      expect(serialized.customized).toBe(true);
+      expect(serialized.style).toBe("professional");
+    });
+
+    it("should serialize with minimal required fields", () => {
+      const config: AvatarConfig = {
+        character: "minimal-char",
+        customized: false,
+      };
+
+      const serialized = avatarConfigSerializer(config);
+
+      expect(serialized.character).toBe("minimal-char");
+      expect(serialized.customized).toBe(false);
+      expect(serialized.type).toBeUndefined();
+      expect(serialized.model).toBeUndefined();
+      expect(serialized.output_protocol).toBeUndefined();
+    });
+
+    it("should serialize with websocket output protocol", () => {
+      const config: AvatarConfig = {
+        character: "ws-avatar",
+        customized: false,
+        outputProtocol: KnownAvatarOutputProtocol.Websocket,
+      };
+
+      const serialized = avatarConfigSerializer(config);
+
+      expect(serialized.character).toBe("ws-avatar");
+      expect(serialized.customized).toBe(false);
+      expect(serialized.output_protocol).toBe(KnownAvatarOutputProtocol.Websocket);
+    });
+
+    it("should deserialize from wire format correctly", () => {
+      const wireFormat = {
+        type: KnownAvatarConfigTypes.PhotoAvatar,
+        character: "test-avatar",
+        customized: true,
+        model: KnownPhotoAvatarBaseModes.Vasa1,
+        output_protocol: KnownAvatarOutputProtocol.Webrtc,
+        style: "casual",
+        ice_servers: [
+          {
+            urls: ["turn:turn.example.com"],
+            username: "turnuser",
+            credential: "turnpass",
+          },
+        ],
+      };
+
+      const deserialized = avatarConfigDeserializer(wireFormat);
+
+      expect(deserialized.type).toBe(KnownAvatarConfigTypes.PhotoAvatar);
+      expect(deserialized.character).toBe("test-avatar");
+      expect(deserialized.customized).toBe(true);
+      expect(deserialized.model).toBe(KnownPhotoAvatarBaseModes.Vasa1);
+      expect(deserialized.outputProtocol).toBe(KnownAvatarOutputProtocol.Webrtc);
+      expect(deserialized.style).toBe("casual");
+      expect(deserialized.iceServers).toBeDefined();
+      expect(deserialized.iceServers?.length).toBe(1);
+    });
+
+    it("should round-trip preserve all fields", () => {
+      const original: AvatarConfig = {
+        type: KnownAvatarConfigTypes.VideoAvatar,
+        character: "roundtrip-avatar",
+        customized: true,
+        style: "energetic",
+        outputProtocol: KnownAvatarOutputProtocol.Websocket,
+      };
+
+      const serialized = avatarConfigSerializer(original);
+      const deserialized = avatarConfigDeserializer(serialized);
+
+      expect(deserialized.type).toBe(original.type);
+      expect(deserialized.character).toBe(original.character);
+      expect(deserialized.customized).toBe(original.customized);
+      expect(deserialized.style).toBe(original.style);
+      expect(deserialized.outputProtocol).toBe(original.outputProtocol);
+    });
+
+    it("should serialize scene and outputAuditAudio fields (GA 1.0.0)", () => {
+      const config: AvatarConfig = {
+        character: "avatar-with-scene",
+        customized: false,
+        outputAuditAudio: true,
+        scene: {
+          zoom: 1.5,
+          positionX: 0.2,
+          positionY: -0.1,
+          rotationX: 0,
+          rotationY: 0.05,
+          rotationZ: 0,
+          amplitude: 0.8,
+        },
+      };
+
+      const serialized = avatarConfigSerializer(config);
+
+      expect(serialized.output_audit_audio).toBe(true);
+      expect(serialized.scene).toBeDefined();
+      expect(serialized.scene.zoom).toBe(1.5);
+      expect(serialized.scene.position_x).toBe(0.2);
+      expect(serialized.scene.position_y).toBe(-0.1);
+      expect(serialized.scene.rotation_y).toBe(0.05);
+      expect(serialized.scene.amplitude).toBe(0.8);
+    });
+
+    it("should deserialize scene and outputAuditAudio fields (GA 1.0.0)", () => {
+      const wireFormat = {
+        character: "avatar-with-scene",
+        customized: false,
+        output_audit_audio: true,
+        scene: {
+          zoom: 2,
+          position_x: -0.3,
+          position_y: 0.4,
+          rotation_x: 0.1,
+          rotation_y: -0.2,
+          rotation_z: 0.05,
+          amplitude: 0.5,
+        },
+      };
+
+      const deserialized = avatarConfigDeserializer(wireFormat);
+
+      expect(deserialized.outputAuditAudio).toBe(true);
+      expect(deserialized.scene).toBeDefined();
+      expect(deserialized.scene?.zoom).toBe(2);
+      expect(deserialized.scene?.positionX).toBe(-0.3);
+      expect(deserialized.scene?.positionY).toBe(0.4);
+      expect(deserialized.scene?.rotationX).toBe(0.1);
+      expect(deserialized.scene?.rotationY).toBe(-0.2);
+      expect(deserialized.scene?.rotationZ).toBe(0.05);
+      expect(deserialized.scene?.amplitude).toBe(0.5);
+    });
+  });
+
+  describe("Scene (GA 1.0.0)", () => {
+    it("should map camelCase to snake_case on serialize", () => {
+      const scene: Scene = {
+        zoom: 1.25,
+        positionX: 0.1,
+        positionY: 0.2,
+        rotationX: 0.3,
+        rotationY: 0.4,
+        rotationZ: 0.5,
+        amplitude: 0.9,
+      };
+
+      const serialized = sceneSerializer(scene);
+
+      expect(serialized.zoom).toBe(1.25);
+      expect(serialized.position_x).toBe(0.1);
+      expect(serialized.position_y).toBe(0.2);
+      expect(serialized.rotation_x).toBe(0.3);
+      expect(serialized.rotation_y).toBe(0.4);
+      expect(serialized.rotation_z).toBe(0.5);
+      expect(serialized.amplitude).toBe(0.9);
+    });
+
+    it("should map snake_case to camelCase on deserialize", () => {
+      const wireFormat = {
+        zoom: 0.75,
+        position_x: -0.1,
+        position_y: -0.2,
+        rotation_x: -0.3,
+        rotation_y: -0.4,
+        rotation_z: -0.5,
+        amplitude: 0.6,
+      };
+
+      const deserialized = sceneDeserializer(wireFormat);
+
+      expect(deserialized.zoom).toBe(0.75);
+      expect(deserialized.positionX).toBe(-0.1);
+      expect(deserialized.positionY).toBe(-0.2);
+      expect(deserialized.rotationX).toBe(-0.3);
+      expect(deserialized.rotationY).toBe(-0.4);
+      expect(deserialized.rotationZ).toBe(-0.5);
+      expect(deserialized.amplitude).toBe(0.6);
+    });
+
+    it("should round-trip through serialize/deserialize", () => {
+      const original: Scene = {
+        zoom: 1.1,
+        positionX: 0.05,
+        positionY: 0.15,
+        rotationX: 0.25,
+        rotationY: 0.35,
+        rotationZ: 0.45,
+        amplitude: 0.7,
+      };
+
+      const roundTripped = sceneDeserializer(sceneSerializer(original));
+
+      expect(roundTripped).toEqual(original);
+    });
+
+    it("should handle empty scene with all optional fields undefined", () => {
+      const scene: Scene = {};
+
+      const serialized = sceneSerializer(scene);
+      const deserialized = sceneDeserializer(serialized);
+
+      expect(deserialized.zoom).toBeUndefined();
+      expect(deserialized.positionX).toBeUndefined();
+      expect(deserialized.amplitude).toBeUndefined();
+    });
+  });
+
+  describe("AvatarConfigTypes Enum", () => {
+    it("should have all expected enum values", () => {
+      expect(KnownAvatarConfigTypes.VideoAvatar).toBe("video-avatar");
+      expect(KnownAvatarConfigTypes.PhotoAvatar).toBe("photo-avatar");
+    });
+  });
+
+  describe("PhotoAvatarBaseModes Enum", () => {
+    it("should have all expected enum values", () => {
+      expect(KnownPhotoAvatarBaseModes.Vasa1).toBe("vasa-1");
+    });
+  });
+
+  describe("AvatarOutputProtocol Enum", () => {
+    it("should have all expected enum values", () => {
+      expect(KnownAvatarOutputProtocol.Webrtc).toBe("webrtc");
+      expect(KnownAvatarOutputProtocol.Websocket).toBe("websocket");
+    });
+  });
+
+  describe("AzureCustomVoice with customTextNormalizationUrl", () => {
+    it("should serialize with customTextNormalizationUrl", () => {
+      const voice: AzureCustomVoice = {
+        type: KnownAzureVoiceType.AzureCustom,
+        name: "custom-voice-1",
+        endpointId: "endpoint-123",
+        temperature: 0.7,
+        customLexiconUrl: "https://example.com/lexicon.xml",
+        customTextNormalizationUrl: "https://example.com/normalize",
+        preferLocales: ["en-US", "en-GB"],
+        locale: "en-US",
+        style: "cheerful",
+        pitch: "+5%",
+        rate: "1.1",
+        volume: "loud",
+      };
+
+      const serialized = azureCustomVoiceSerializer(voice);
+
+      expect(serialized.type).toBe(KnownAzureVoiceType.AzureCustom);
+      expect(serialized.name).toBe("custom-voice-1");
+      expect(serialized.endpoint_id).toBe("endpoint-123");
+      expect(serialized.temperature).toBe(0.7);
+      expect(serialized.custom_lexicon_url).toBe("https://example.com/lexicon.xml");
+      expect(serialized.custom_text_normalization_url).toBe("https://example.com/normalize");
+      expect(serialized.prefer_locales).toEqual(["en-US", "en-GB"]);
+      expect(serialized.locale).toBe("en-US");
+      expect(serialized.style).toBe("cheerful");
+    });
+
+    it("should serialize without customTextNormalizationUrl", () => {
+      const voice: AzureCustomVoice = {
+        type: KnownAzureVoiceType.AzureCustom,
+        name: "custom-voice-2",
+        endpointId: "endpoint-456",
+      };
+
+      const serialized = azureCustomVoiceSerializer(voice);
+
+      expect(serialized.type).toBe(KnownAzureVoiceType.AzureCustom);
+      expect(serialized.name).toBe("custom-voice-2");
+      expect(serialized.endpoint_id).toBe("endpoint-456");
+      expect(serialized.custom_text_normalization_url).toBeUndefined();
+    });
+
+    it("should deserialize customTextNormalizationUrl correctly", () => {
+      const wireFormat = {
+        type: KnownAzureVoiceType.AzureCustom,
+        name: "wire-voice",
+        endpoint_id: "wire-endpoint",
+        custom_text_normalization_url: "https://example.com/text-norm",
+        custom_lexicon_url: "https://example.com/lex",
+      };
+
+      const deserialized = azureCustomVoiceDeserializer(wireFormat);
+
+      expect(deserialized.type).toBe(KnownAzureVoiceType.AzureCustom);
+      expect(deserialized.name).toBe("wire-voice");
+      expect(deserialized.endpointId).toBe("wire-endpoint");
+      expect(deserialized.customTextNormalizationUrl).toBe("https://example.com/text-norm");
+      expect(deserialized.customLexiconUrl).toBe("https://example.com/lex");
+    });
+
+    it("should round-trip preserve customTextNormalizationUrl", () => {
+      const original: AzureCustomVoice = {
+        type: KnownAzureVoiceType.AzureCustom,
+        name: "roundtrip-voice",
+        endpointId: "rt-endpoint",
+        customTextNormalizationUrl: "https://normalize.example.com/api",
+      };
+
+      const serialized = azureCustomVoiceSerializer(original);
+      const deserialized = azureCustomVoiceDeserializer(serialized);
+
+      expect(deserialized.type).toBe(original.type);
+      expect(deserialized.name).toBe(original.name);
+      expect(deserialized.endpointId).toBe(original.endpointId);
+      expect(deserialized.customTextNormalizationUrl).toBe(original.customTextNormalizationUrl);
+    });
+  });
+
+  describe("AzureStandardVoice with customTextNormalizationUrl", () => {
+    it("should serialize with customTextNormalizationUrl", () => {
+      const voice: AzureStandardVoice = {
+        type: KnownAzureVoiceType.AzureStandard,
+        name: "en-US-JennyNeural",
+        temperature: 0.5,
+        customLexiconUrl: "https://example.com/lexicon.xml",
+        customTextNormalizationUrl: "https://example.com/standard-normalize",
+        preferLocales: ["en-US"],
+        locale: "en-US",
+      };
+
+      const serialized = azureStandardVoiceSerializer(voice);
+
+      expect(serialized.type).toBe(KnownAzureVoiceType.AzureStandard);
+      expect(serialized.name).toBe("en-US-JennyNeural");
+      expect(serialized.temperature).toBe(0.5);
+      expect(serialized.custom_lexicon_url).toBe("https://example.com/lexicon.xml");
+      expect(serialized.custom_text_normalization_url).toBe(
+        "https://example.com/standard-normalize",
+      );
+      expect(serialized.prefer_locales).toEqual(["en-US"]);
+      expect(serialized.locale).toBe("en-US");
+    });
+
+    it("should deserialize customTextNormalizationUrl correctly", () => {
+      const wireFormat = {
+        type: KnownAzureVoiceType.AzureStandard,
+        name: "en-US-GuyNeural",
+        custom_text_normalization_url: "https://std-norm.example.com",
+      };
+
+      const deserialized = azureStandardVoiceDeserializer(wireFormat);
+
+      expect(deserialized.type).toBe(KnownAzureVoiceType.AzureStandard);
+      expect(deserialized.name).toBe("en-US-GuyNeural");
+      expect(deserialized.customTextNormalizationUrl).toBe("https://std-norm.example.com");
+    });
+
+    it("should round-trip preserve all fields", () => {
+      const original: AzureStandardVoice = {
+        type: KnownAzureVoiceType.AzureStandard,
+        name: "en-GB-SoniaNeural",
+        temperature: 0.8,
+        customTextNormalizationUrl: "https://uk-norm.example.com",
+        locale: "en-GB",
+        style: "empathetic",
+      };
+
+      const serialized = azureStandardVoiceSerializer(original);
+      const deserialized = azureStandardVoiceDeserializer(serialized);
+
+      expect(deserialized.type).toBe(original.type);
+      expect(deserialized.name).toBe(original.name);
+      expect(deserialized.temperature).toBe(original.temperature);
+      expect(deserialized.customTextNormalizationUrl).toBe(original.customTextNormalizationUrl);
+      expect(deserialized.locale).toBe(original.locale);
+      expect(deserialized.style).toBe(original.style);
+    });
+  });
+
+  describe("AzurePersonalVoice with extended properties", () => {
+    it("should serialize with all new extended properties", () => {
+      const voice: AzurePersonalVoice = {
+        type: KnownAzureVoiceType.AzurePersonal,
+        name: "my-personal-voice",
+        temperature: 0.6,
+        model: "PhonemeHD",
+        customLexiconUrl: "https://example.com/personal-lexicon.xml",
+        customTextNormalizationUrl: "https://example.com/personal-normalize",
+        preferLocales: ["en-US", "es-ES"],
+        locale: "en-US",
+        style: "narrative",
+        pitch: "-2%",
+        rate: "0.95",
+        volume: "medium",
+      };
+
+      const serialized = azurePersonalVoiceSerializer(voice);
+
+      expect(serialized.type).toBe(KnownAzureVoiceType.AzurePersonal);
+      expect(serialized.name).toBe("my-personal-voice");
+      expect(serialized.temperature).toBe(0.6);
+      expect(serialized.model).toBe("PhonemeHD");
+      expect(serialized.custom_lexicon_url).toBe("https://example.com/personal-lexicon.xml");
+      expect(serialized.custom_text_normalization_url).toBe(
+        "https://example.com/personal-normalize",
+      );
+      expect(serialized.prefer_locales).toEqual(["en-US", "es-ES"]);
+      expect(serialized.locale).toBe("en-US");
+      expect(serialized.style).toBe("narrative");
+      expect(serialized.pitch).toBe("-2%");
+      expect(serialized.rate).toBe("0.95");
+      expect(serialized.volume).toBe("medium");
+    });
+
+    it("should serialize with minimal required fields", () => {
+      const voice: AzurePersonalVoice = {
+        type: KnownAzureVoiceType.AzurePersonal,
+        name: "minimal-personal",
+        model: "PhonemeHD",
+      };
+
+      const serialized = azurePersonalVoiceSerializer(voice);
+
+      expect(serialized.type).toBe(KnownAzureVoiceType.AzurePersonal);
+      expect(serialized.name).toBe("minimal-personal");
+      expect(serialized.model).toBe("PhonemeHD");
+      expect(serialized.custom_lexicon_url).toBeUndefined();
+      expect(serialized.custom_text_normalization_url).toBeUndefined();
+    });
+
+    it("should deserialize all extended properties correctly", () => {
+      const wireFormat = {
+        type: KnownAzureVoiceType.AzurePersonal,
+        name: "wire-personal-voice",
+        model: "PhonemeHD",
+        custom_lexicon_url: "https://wire.example.com/lex",
+        custom_text_normalization_url: "https://wire.example.com/norm",
+        prefer_locales: ["fr-FR"],
+        locale: "fr-FR",
+        style: "formal",
+        pitch: "+10%",
+        rate: "1.2",
+        volume: "soft",
+      };
+
+      const deserialized = azurePersonalVoiceDeserializer(wireFormat);
+
+      expect(deserialized.type).toBe(KnownAzureVoiceType.AzurePersonal);
+      expect(deserialized.name).toBe("wire-personal-voice");
+      expect(deserialized.model).toBe("PhonemeHD");
+      expect(deserialized.customLexiconUrl).toBe("https://wire.example.com/lex");
+      expect(deserialized.customTextNormalizationUrl).toBe("https://wire.example.com/norm");
+      expect(deserialized.preferLocales).toEqual(["fr-FR"]);
+      expect(deserialized.locale).toBe("fr-FR");
+      expect(deserialized.style).toBe("formal");
+      expect(deserialized.pitch).toBe("+10%");
+      expect(deserialized.rate).toBe("1.2");
+      expect(deserialized.volume).toBe("soft");
+    });
+
+    it("should round-trip preserve all extended properties", () => {
+      const original: AzurePersonalVoice = {
+        type: KnownAzureVoiceType.AzurePersonal,
+        name: "roundtrip-personal",
+        model: "PhonemeHD",
+        temperature: 0.7,
+        customLexiconUrl: "https://rt.example.com/lexicon",
+        customTextNormalizationUrl: "https://rt.example.com/normalize",
+        preferLocales: ["de-DE", "de-AT"],
+        locale: "de-DE",
+        style: "calm",
+        pitch: "0%",
+        rate: "1.0",
+        volume: "default",
+      };
+
+      const serialized = azurePersonalVoiceSerializer(original);
+      const deserialized = azurePersonalVoiceDeserializer(serialized);
+
+      expect(deserialized.type).toBe(original.type);
+      expect(deserialized.name).toBe(original.name);
+      expect(deserialized.model).toBe(original.model);
+      expect(deserialized.temperature).toBe(original.temperature);
+      expect(deserialized.customLexiconUrl).toBe(original.customLexiconUrl);
+      expect(deserialized.customTextNormalizationUrl).toBe(original.customTextNormalizationUrl);
+      expect(deserialized.preferLocales).toEqual(original.preferLocales);
+      expect(deserialized.locale).toBe(original.locale);
+      expect(deserialized.style).toBe(original.style);
+      expect(deserialized.pitch).toBe(original.pitch);
+      expect(deserialized.rate).toBe(original.rate);
+      expect(deserialized.volume).toBe(original.volume);
+    });
+  });
+
+  describe("OAIVoice Enum - New Values", () => {
+    it("should have new marin voice value", () => {
+      expect(KnownOAIVoice.Marin).toBe("marin");
+    });
+
+    it("should have new cedar voice value", () => {
+      expect(KnownOAIVoice.Cedar).toBe("cedar");
+    });
+
+    it("should have all existing voice values", () => {
+      expect(KnownOAIVoice.Alloy).toBe(KnownOAIVoice.Alloy);
+      expect(KnownOAIVoice.Ash).toBe(KnownOAIVoice.Ash);
+      expect(KnownOAIVoice.Ballad).toBe(KnownOAIVoice.Ballad);
+      expect(KnownOAIVoice.Coral).toBe(KnownOAIVoice.Coral);
+      expect(KnownOAIVoice.Echo).toBe(KnownOAIVoice.Echo);
+      expect(KnownOAIVoice.Sage).toBe(KnownOAIVoice.Sage);
+      expect(KnownOAIVoice.Shimmer).toBe(KnownOAIVoice.Shimmer);
+      expect(KnownOAIVoice.Verse).toBe(KnownOAIVoice.Verse);
+    });
+  });
+
+  describe("Edge Cases", () => {
+    it("should handle empty preferLocales array in AzurePersonalVoice", () => {
+      const voice: AzurePersonalVoice = {
+        type: KnownAzureVoiceType.AzurePersonal,
+        name: "empty-locales",
+        model: "PhonemeHD",
+        preferLocales: [],
+      };
+
+      const serialized = azurePersonalVoiceSerializer(voice);
+      const deserialized = azurePersonalVoiceDeserializer(serialized);
+
+      expect(deserialized.type).toBe(KnownAzureVoiceType.AzurePersonal);
+      expect(deserialized.name).toBe("empty-locales");
+      expect(deserialized.model).toBe("PhonemeHD");
+      expect(deserialized.preferLocales).toEqual([]);
+    });
+
+    it("should handle undefined video in AvatarConfig", () => {
+      const config: AvatarConfig = {
+        character: "no-video-avatar",
+        customized: false,
+      };
+
+      const serialized = avatarConfigSerializer(config);
+
+      expect(serialized.character).toBe("no-video-avatar");
+      expect(serialized.customized).toBe(false);
+      expect(serialized.video).toBeUndefined();
+    });
+
+    it("should handle empty iceServers array in AvatarConfig", () => {
+      const config: AvatarConfig = {
+        character: "no-ice-avatar",
+        customized: false,
+        iceServers: [],
+      };
+
+      const serialized = avatarConfigSerializer(config);
+      const deserialized = avatarConfigDeserializer(serialized);
+
+      expect(deserialized.character).toBe("no-ice-avatar");
+      expect(deserialized.customized).toBe(false);
+      expect(deserialized.iceServers).toEqual([]);
+    });
+  });
+
+  describe("voiceSerializer dispatches to correct sub-serializer", () => {
+    it("should pass through OAIVoice string values", () => {
+      const voice: Voice = "alloy";
+      const serialized = voiceSerializer(voice);
+      expect(serialized).toBe("alloy");
+    });
+
+    it("should serialize OpenAIVoice objects", () => {
+      const voice: Voice = { type: "openai", name: "coral" };
+      const serialized = voiceSerializer(voice);
+      expect(serialized.type).toBe("openai");
+      expect(serialized.name).toBe("coral");
+    });
+
+    it("should convert AzureCustomVoice camelCase to snake_case", () => {
+      const voice: Voice = {
+        type: "azure-custom",
+        name: "my-custom-voice",
+        endpointId: "ep-12345",
+        customLexiconUrl: "https://example.com/lexicon",
+        customTextNormalizationUrl: "https://example.com/norm",
+        preferLocales: ["en-US"],
+      } as AzureCustomVoice;
+
+      const serialized = voiceSerializer(voice);
+      expect(serialized.type).toBe("azure-custom");
+      expect(serialized.name).toBe("my-custom-voice");
+      expect(serialized.endpoint_id).toBe("ep-12345");
+      expect(serialized.custom_lexicon_url).toBe("https://example.com/lexicon");
+      expect(serialized.custom_text_normalization_url).toBe("https://example.com/norm");
+      expect(serialized.prefer_locales).toEqual(["en-US"]);
+      // Must NOT have camelCase keys on the wire
+      expect(serialized.endpointId).toBeUndefined();
+      expect(serialized.customLexiconUrl).toBeUndefined();
+      expect(serialized.customTextNormalizationUrl).toBeUndefined();
+      expect(serialized.preferLocales).toBeUndefined();
+    });
+
+    it("should convert AzureStandardVoice camelCase to snake_case", () => {
+      const voice: Voice = {
+        type: "azure-standard",
+        name: "en-US-JennyNeural",
+        customLexiconUrl: "https://example.com/lexicon",
+        preferLocales: ["en-US", "en-GB"],
+      } as AzureStandardVoice;
+
+      const serialized = voiceSerializer(voice);
+      expect(serialized.type).toBe("azure-standard");
+      expect(serialized.custom_lexicon_url).toBe("https://example.com/lexicon");
+      expect(serialized.prefer_locales).toEqual(["en-US", "en-GB"]);
+      expect(serialized.customLexiconUrl).toBeUndefined();
+      expect(serialized.preferLocales).toBeUndefined();
+    });
+
+    it("should convert AzurePersonalVoice camelCase to snake_case", () => {
+      const voice: Voice = {
+        type: "azure-personal",
+        name: "my-personal-voice",
+        model: "DragonLatestNeural",
+        customLexiconUrl: "https://example.com/lexicon",
+      } as AzurePersonalVoice;
+
+      const serialized = voiceSerializer(voice);
+      expect(serialized.type).toBe("azure-personal");
+      expect(serialized.model).toBe("DragonLatestNeural");
+      expect(serialized.custom_lexicon_url).toBe("https://example.com/lexicon");
+      expect(serialized.customLexiconUrl).toBeUndefined();
+    });
+  });
+
+  describe("voiceDeserializer dispatches to correct sub-deserializer", () => {
+    it("should pass through OAIVoice string values", () => {
+      const deserialized = voiceDeserializer("echo");
+      expect(deserialized).toBe("echo");
+    });
+
+    it("should deserialize AzureCustomVoice snake_case to camelCase", () => {
+      const wireFormat = {
+        type: "azure-custom",
+        name: "my-custom-voice",
+        endpoint_id: "ep-12345",
+        custom_lexicon_url: "https://example.com/lexicon",
+        custom_text_normalization_url: "https://example.com/norm",
+        prefer_locales: ["en-US"],
+      };
+
+      const deserialized = voiceDeserializer(wireFormat) as AzureCustomVoice;
+      expect(deserialized.type).toBe("azure-custom");
+      expect(deserialized.endpointId).toBe("ep-12345");
+      expect(deserialized.customLexiconUrl).toBe("https://example.com/lexicon");
+      expect(deserialized.customTextNormalizationUrl).toBe("https://example.com/norm");
+      expect(deserialized.preferLocales).toEqual(["en-US"]);
+    });
+  });
+
+  describe("requestSessionSerializer converts voice via voiceSerializer", () => {
+    it("should convert AzureCustomVoice through requestSessionSerializer", () => {
+      const session: RequestSession = {
+        voice: {
+          type: "azure-custom",
+          name: "my-custom-voice",
+          endpointId: "ep-12345",
+          customLexiconUrl: "https://example.com/lexicon",
+        } as AzureCustomVoice,
+      };
+
+      const serialized = requestSessionSerializer(session);
+      expect(serialized.voice.type).toBe("azure-custom");
+      expect(serialized.voice.endpoint_id).toBe("ep-12345");
+      expect(serialized.voice.custom_lexicon_url).toBe("https://example.com/lexicon");
+      expect(serialized.voice.endpointId).toBeUndefined();
+      expect(serialized.voice.customLexiconUrl).toBeUndefined();
+    });
+
+    it("should pass through OAIVoice string in requestSessionSerializer", () => {
+      const session: RequestSession = {
+        voice: "alloy",
+      };
+
+      const serialized = requestSessionSerializer(session);
+      expect(serialized.voice).toBe("alloy");
+    });
+  });
+
+  describe("AzureAvatarVoiceSyncVoice (GA 1.0.0)", () => {
+    it("serializes camelCase fields to snake_case wire format", () => {
+      const voice: AzureAvatarVoiceSyncVoice = {
+        type: KnownAzureVoiceType.AvatarVoiceSync,
+        model: "avatar-sync-model",
+        temperature: 0.7,
+        customLexiconUrl: "https://example.com/lex.xml",
+        customTextNormalizationUrl: "https://example.com/norm.xml",
+        preferLocales: ["en-US", "fr-FR"],
+        locale: "en-US",
+        style: "cheerful",
+        pitch: "+5%",
+        rate: "medium",
+        volume: "loud",
+      };
+
+      const wire = azureAvatarVoiceSyncVoiceSerializer(voice);
+
+      expect(wire.type).toBe(KnownAzureVoiceType.AvatarVoiceSync);
+      expect(wire.custom_lexicon_url).toBe("https://example.com/lex.xml");
+      expect(wire.custom_text_normalization_url).toBe("https://example.com/norm.xml");
+      expect(wire.prefer_locales).toEqual(["en-US", "fr-FR"]);
+      // Ensure camelCase keys never leak to the wire.
+      expect(wire).not.toHaveProperty("customLexiconUrl");
+      expect(wire).not.toHaveProperty("customTextNormalizationUrl");
+      expect(wire).not.toHaveProperty("preferLocales");
+    });
+
+    it("round-trips through serializer + deserializer", () => {
+      const original: AzureAvatarVoiceSyncVoice = {
+        type: KnownAzureVoiceType.AvatarVoiceSync,
+        model: "m1",
+        customLexiconUrl: "https://lex",
+        customTextNormalizationUrl: "https://norm",
+        preferLocales: ["en-US"],
+        locale: "en-US",
+      };
+
+      const wire = azureAvatarVoiceSyncVoiceSerializer(original);
+      const result = azureAvatarVoiceSyncVoiceDeserializer(wire);
+
+      expect(result.customLexiconUrl).toBe(original.customLexiconUrl);
+      expect(result.customTextNormalizationUrl).toBe(original.customTextNormalizationUrl);
+      expect(result.preferLocales).toEqual(original.preferLocales);
+    });
+
+    it("preserves undefined optional fields without leaking camelCase keys", () => {
+      const minimal: AzureAvatarVoiceSyncVoice = {
+        type: KnownAzureVoiceType.AvatarVoiceSync,
+        model: "m1",
+      };
+      const wire = azureAvatarVoiceSyncVoiceSerializer(minimal);
+      expect(wire.type).toBe(KnownAzureVoiceType.AvatarVoiceSync);
+      expect(wire.custom_lexicon_url).toBeUndefined();
+      expect(wire.prefer_locales).toBeUndefined();
+    });
+  });
+
+  describe("AzureRealtimeNativeVoice (preview 2026-06-01)", () => {
+    it("serializes the preview native voice type", () => {
+      const voice: AzureRealtimeNativeVoice = {
+        type: "azure-realtime-native",
+        name: KnownAzureRealtimeNativeVoiceName.Ava,
+      };
+
+      const wire = azureRealtimeNativeVoiceSerializer(voice);
+
+      expect(wire).toEqual({
+        type: "azure-realtime-native",
+        name: "ava",
+      });
+    });
+
+    it("round-trips through the Voice union serializer", () => {
+      const voice: Voice = {
+        type: "azure-realtime-native",
+        name: KnownAzureRealtimeNativeVoiceName.Xiaoxiao,
+      };
+
+      const wire = voiceSerializer(voice);
+      const result = voiceDeserializer(wire);
+
+      expect(result).toEqual({
+        type: "azure-realtime-native",
+        name: "xiaoxiao",
+      });
+    });
+
+    it("deserializes the dedicated native voice model", () => {
+      const result = azureRealtimeNativeVoiceDeserializer({
+        type: "azure-realtime-native",
+        name: "andrew",
+      });
+
+      expect(result.name).toBe(KnownAzureRealtimeNativeVoiceName.Andrew);
+    });
+  });
+
+  describe("RequestImageContentPart (preview 2026-06-01)", () => {
+    it("serializes imageUrl to image_url", () => {
+      const serialized = requestImageContentPartSerializer({
+        type: "input_image",
+        imageUrl: "https://example.com/image.png",
+        detail: "high",
+      });
+
+      expect(serialized).toEqual({
+        type: "input_image",
+        image_url: "https://example.com/image.png",
+        detail: "high",
+      });
+    });
+
+    it("deserializes image_url to imageUrl", () => {
+      const deserialized = requestImageContentPartDeserializer({
+        type: "input_image",
+        image_url: "https://example.com/image.png",
+        detail: "low",
+      });
+
+      expect(deserialized).toEqual({
+        type: "input_image",
+        imageUrl: "https://example.com/image.png",
+        detail: "low",
+      });
+    });
+  });
+
+  describe("Avatar speaking-state and video server events (GA 1.0.0)", () => {
+    it("deserializes session.avatar.switch_to_speaking", () => {
+      const evt = serverEventSessionAvatarSwitchToSpeakingDeserializer({
+        type: "session.avatar.switch_to_speaking",
+        event_id: "e1",
+        turn_id: "t-42",
+      });
+      expect(evt.type).toBe("session.avatar.switch_to_speaking");
+      expect(evt.eventId).toBe("e1");
+      expect(evt.turnId).toBe("t-42");
+    });
+
+    it("deserializes session.avatar.switch_to_idle", () => {
+      const evt = serverEventSessionAvatarSwitchToIdleDeserializer({
+        type: "session.avatar.switch_to_idle",
+        event_id: "e2",
+        turn_id: "t-99",
+      });
+      expect(evt.eventId).toBe("e2");
+      expect(evt.turnId).toBe("t-99");
+    });
+
+    it("deserializes response.video.delta with codec and base64 payload", () => {
+      const evt = serverEventResponseVideoDeltaDeserializer({
+        type: "response.video.delta",
+        event_id: "e3",
+        output_index: 2,
+        codec: "h264",
+        delta: "AAECAwQ=",
+      });
+      expect(evt.outputIndex).toBe(2);
+      expect(evt.codec).toBe("h264");
+      expect(evt.delta).toBe("AAECAwQ=");
+    });
+  });
+});

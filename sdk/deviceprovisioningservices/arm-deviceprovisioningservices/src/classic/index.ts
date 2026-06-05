@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { DpsCertificateOperations } from "./dpsCertificate/index.js";
-export { IotDpsResourceOperations } from "./iotDpsResource/index.js";
-export { OperationsOperations } from "./operations/index.js";
+export { type DpsCertificateOperations } from "./dpsCertificate/index.js";
+export { type IotDpsResourceOperations } from "./iotDpsResource/index.js";
+export { type OperationsOperations } from "./operations/index.js";

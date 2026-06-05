@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  OperatorApiConnectionsListBySubscriptionOptionalParams,
-  OperatorApiConnectionsListByResourceGroupOptionalParams,
-  OperatorApiConnectionsDeleteOptionalParams,
-  OperatorApiConnectionsUpdateOptionalParams,
-  OperatorApiConnectionsCreateOptionalParams,
-  OperatorApiConnectionsGetOptionalParams,
+  type OperatorApiConnectionsListBySubscriptionOptionalParams,
+  type OperatorApiConnectionsListByResourceGroupOptionalParams,
+  type OperatorApiConnectionsDeleteOptionalParams,
+  type OperatorApiConnectionsUpdateOptionalParams,
+  type OperatorApiConnectionsCreateOptionalParams,
+  type OperatorApiConnectionsGetOptionalParams,
 } from "./options.js";

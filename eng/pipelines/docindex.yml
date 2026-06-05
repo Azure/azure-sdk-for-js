@@ -30,12 +30,19 @@ jobs:
     pool:
       name: $(LINUXPOOL)
       demands: ImageOverride -equals $(LINUXVMIMAGE)
+    variables:
+      npm_config_userconfig: $(CommonNpmrcPath)
 
     steps:
       - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
         parameters:
           Paths:
             - eng/
+
+      - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+        parameters:
+          npmrcPath: $(npm_config_userconfig)
+          registryUrl: $(PublicDevOpsRegistry)
 
       - task: Powershell@2
         inputs:
@@ -53,6 +60,7 @@ jobs:
           PRBody: |
             This PR upgrades the JS REX Validation Tool to the latest version.
             Testing was done in $(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)
+          AuthToken: ''
 
   - job: UpdateDocsMsBuildConfig
     timeoutInMinutes: 90
@@ -78,8 +86,13 @@ jobs:
             - Name: $(DocRepoOwner)/$(DocRepoName)
               WorkingDirectory: $(DocRepoLocation)
 
-      - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+      - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+        parameters:
+          npmrcPath: $(npm_config_userconfig)
+          registryUrl: $(PublicDevOpsRegistry)
 
+      - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+          
       - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
         parameters:
           WorkingDirectory: $(DocRepoLocation)
@@ -137,6 +150,7 @@ jobs:
             TargetRepoName: $(DocRepoName)
             TargetRepoOwner: $(DocRepoOwner)
             WorkingDirectory: $(DocRepoLocation)
+            AuthToken: ''
 
         - task: AzureCLI@2
           displayName: Queue Docs CI build for main
@@ -212,6 +226,7 @@ jobs:
             WorkingDirectory: $(DocRepoLocation)
             ScriptDirectory: $(Build.SourcesDirectory)/eng/common/scripts
             PushArgs: -f
+            AuthToken: ''
 
         - task: AzureCLI@2
           displayName: Queue Docs CI build for daily branch

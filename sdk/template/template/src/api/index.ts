@@ -3,6 +3,6 @@
 
 export {
   createWidgetAnalytics,
-  WidgetAnalyticsContext,
-  WidgetAnalyticsClientOptionalParams,
+  type WidgetAnalyticsContext,
+  type WidgetAnalyticsClientOptionalParams,
 } from "./widgetAnalyticsContext.js";

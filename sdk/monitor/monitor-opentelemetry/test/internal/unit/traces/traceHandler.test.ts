@@ -368,8 +368,9 @@ describe("Library/TraceHandler", () => {
       };
       metricHandler = new MetricHandler(_config);
       handler = new TraceHandler(_config, metricHandler);
-      // No instrumentations should be created
-      expect(handler.getInstrumentations()).toHaveLength(0);
+      const instrumentations = handler.getInstrumentations();
+      expect(instrumentations).toHaveLength(0);
+      expect(instrumentations[0]).not.toBeInstanceOf(HttpInstrumentation);
     });
   });
 });

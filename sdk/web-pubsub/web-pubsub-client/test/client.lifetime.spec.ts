@@ -241,17 +241,17 @@ describe("WebPubSubClient", function () {
       await client.start();
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn")));
 
-      await spinCheck(() => assert.equal("conn", conn));
+      await spinCheck(() => assert.equal(conn, "conn"));
 
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn2")));
       // connected should not happen again
-      await expect(spinCheck(() => assert.equal("conn2", conn), 10, 3)).rejects.toThrowError();
+      await expect(spinCheck(() => assert.equal(conn, "conn2"), 10, 3)).rejects.toThrowError();
 
       // drop connection
       testWs.invokeclose(1006);
       await spinCheck(() => testWs.openTime === 2);
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn2")));
-      await spinCheck(() => assert.equal("conn2", conn));
+      await spinCheck(() => assert.equal(conn, "conn2"));
     });
 
     it("recover if using reliable protocol", async () => {
@@ -269,18 +269,18 @@ describe("WebPubSubClient", function () {
       await client.start();
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn", "reconToken")));
 
-      await spinCheck(() => assert.equal("conn", conn));
+      await spinCheck(() => assert.equal(conn, "conn"));
 
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn2", "reconToken")));
       // connected should not happen again
-      await expect(spinCheck(() => assert.equal("conn2", conn), 10, 3)).rejects.toThrowError();
+      await expect(spinCheck(() => assert.equal(conn, "conn2"), 10, 3)).rejects.toThrowError();
 
       // drop connection
       testWs.invokeclose(1006);
       await spinCheck(() => testWs.openTime === 2);
 
       // after recover, connected should be emit again
-      await expect(spinCheck(() => assert.equal("conn2", conn), 10, 3)).rejects.toThrowError();
+      await expect(spinCheck(() => assert.equal(conn, "conn2"), 10, 3)).rejects.toThrowError();
     });
 
     it("recover shouldn't work for 1008 close", async () => {
@@ -298,17 +298,17 @@ describe("WebPubSubClient", function () {
       await client.start();
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn")));
 
-      await spinCheck(() => assert.equal("conn", conn));
+      await spinCheck(() => assert.equal(conn, "conn"));
 
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn2")));
       // connected should not happen again
-      await expect(spinCheck(() => assert.equal("conn2", conn), 10, 3)).rejects.toThrowError();
+      await expect(spinCheck(() => assert.equal(conn, "conn2"), 10, 3)).rejects.toThrowError();
 
       // drop connection
       testWs.invokeclose(1008);
       await spinCheck(() => testWs.openTime === 2);
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn2")));
-      await spinCheck(() => assert.equal("conn2", conn));
+      await spinCheck(() => assert.equal(conn, "conn2"));
     });
 
     it("rejoin group after reconnection", async () => {
@@ -332,7 +332,7 @@ describe("WebPubSubClient", function () {
       await client.start();
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn")));
 
-      await spinCheck(() => assert.equal("conn", conn));
+      await spinCheck(() => assert.equal(conn, "conn"));
 
       // join 2 groups first
       await client.joinGroup("a");
@@ -342,7 +342,7 @@ describe("WebPubSubClient", function () {
       testWs.invokeclose(1006);
       await spinCheck(() => testWs.openTime === 2);
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn2")));
-      await spinCheck(() => assert.equal("conn2", conn));
+      await spinCheck(() => assert.equal(conn, "conn2"));
 
       expect(mock).toHaveBeenCalledTimes(4);
     });
@@ -369,7 +369,7 @@ describe("WebPubSubClient", function () {
       await client.start();
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn")));
 
-      await spinCheck(() => assert.equal("conn", conn));
+      await spinCheck(() => assert.equal(conn, "conn"));
 
       // join 2 groups first
       await client.joinGroup("a");
@@ -379,7 +379,7 @@ describe("WebPubSubClient", function () {
       testWs.invokeclose(1006);
       await spinCheck(() => testWs.openTime === 2);
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn2")));
-      await spinCheck(() => assert.equal("conn2", conn));
+      await spinCheck(() => assert.equal(conn, "conn2"));
 
       expect(mock).toHaveBeenCalledTimes(2);
     });
@@ -471,24 +471,20 @@ describe("WebPubSubClient", function () {
   }
 
   async function spinCheck(fn: () => void, intervalInMs?: number, maxTry?: number): Promise<void> {
-    if (!intervalInMs) {
-      intervalInMs = 10;
-    }
-    if (!maxTry) {
-      maxTry = 100;
-    }
+    const effectiveIntervalInMs = intervalInMs ?? 10;
+    const effectiveMaxTry = maxTry ?? 100;
 
     let tryCount = 0;
-    while (tryCount < maxTry) {
+    while (tryCount < effectiveMaxTry) {
       try {
         fn();
         return;
       } catch (err) {
         tryCount++;
-        if (tryCount >= maxTry) {
+        if (tryCount >= effectiveMaxTry) {
           throw err;
         }
-        await delay(intervalInMs);
+        await delay(effectiveIntervalInMs);
       }
     }
   }

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listDownloadUri, get, listByDisconnectedOperation } from "./operations.js";
-export {
+export type {
   ImagesListDownloadUriOptionalParams,
   ImagesGetOptionalParams,
   ImagesListByDisconnectedOperationOptionalParams,

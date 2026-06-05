@@ -1,5 +1,22 @@
 # Release History
 
+## 12.32.0 (2026-05-22)
+
+### Features Added
+
+- Includes all features released in 12.32.0-beta.1.
+
+## 12.32.0-beta.1 (2026-03-05)
+
+### Features Added
+
+- Added support for service version 2026-04-06.
+- Added support for Content Validation via Structured Message.
+- Added support for Delete Blob Conditional Tier.
+- Added support for Server-side Encryption Rekeying.
+- Added cross-tenant support for Principal-Bound User Delegation SAS.
+- Added support for Dynamic User Delegation SAS.
+
 ## 12.31.0 (2026-02-10)
 
 ### Features Added

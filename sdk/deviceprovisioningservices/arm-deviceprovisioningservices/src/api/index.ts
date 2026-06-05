@@ -1,4 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { createIotDps, IotDpsContext, IotDpsClientOptionalParams } from "./iotDpsContext.js";
+export {
+  createIotDps,
+  type IotDpsContext,
+  type IotDpsClientOptionalParams,
+} from "./iotDpsContext.js";

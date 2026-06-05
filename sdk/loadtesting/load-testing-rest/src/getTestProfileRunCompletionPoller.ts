@@ -3,7 +3,8 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { AbortError } from "@azure/abort-controller";
-import type { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
+import type { CancelOnProgress, OperationState } from "@azure/core-lro";
+import type { SimplePollerLike } from "./pollingHelper.js";
 import type { PolledOperationOptions, TestProfileRunCompletionPoller } from "./models.js";
 import type { AzureLoadTestingClient } from "./clientDefinitions.js";
 import type {
@@ -48,7 +49,9 @@ export async function getTestProfileRunCompletionPoller(
     OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>,
     TestProfileRunAdministrationGetTestProfileRun200Response
   > = {
-    async poll(options?: { abortSignal?: AbortSignalLike }): Promise<void> {
+    async poll(options?: {
+      abortSignal?: AbortSignalLike;
+    }): Promise<OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>> {
       if (options?.abortSignal?.aborted) {
         throw new AbortError("The polling was aborted.");
       }
@@ -60,7 +63,7 @@ export async function getTestProfileRunCompletionPoller(
         if (isUnexpected(getTestProfileRunResult)) {
           state.status = "failed";
           state.error = new Error(getTestProfileRunResult.body.error.message);
-          return;
+          return state;
         }
 
         if (getTestProfileRunResult.body.status === "FAILED") {
@@ -82,6 +85,8 @@ export async function getTestProfileRunCompletionPoller(
         state.result = getTestProfileRunResult;
         await processProgressCallbacks();
       }
+
+      return state;
     },
 
     pollUntilDone(pollOptions?: {
@@ -164,6 +169,14 @@ export async function getTestProfileRunCompletionPoller(
 
     toString() {
       return JSON.stringify({ state });
+    },
+
+    async serialize(): Promise<string> {
+      return JSON.stringify({ state });
+    },
+
+    async submitted(): Promise<void> {
+      // No-op: the test profile run is a custom poller
     },
   };
 

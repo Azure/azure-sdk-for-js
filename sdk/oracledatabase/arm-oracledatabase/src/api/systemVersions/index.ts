@@ -3,6 +3,6 @@
 
 export { listByLocation, get } from "./operations.js";
 export {
-  SystemVersionsListByLocationOptionalParams,
-  SystemVersionsGetOptionalParams,
+  type SystemVersionsListByLocationOptionalParams,
+  type SystemVersionsGetOptionalParams,
 } from "./options.js";

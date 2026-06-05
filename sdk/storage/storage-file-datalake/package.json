@@ -35,7 +35,11 @@
     "LICENSE"
   ],
   "sideEffects": false,
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/storage/storage-file-datalake"
+  },
   "keywords": [
     "azure",
     "storage",
@@ -53,7 +57,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-datalake/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake/README.md",
   "//metadata": {
     "constantPaths": [
       {
@@ -92,8 +96,8 @@
     "@azure/core-util": "^1.11.0",
     "@azure/core-xml": "^1.4.3",
     "@azure/logger": "^1.1.4",
-    "@azure/storage-blob": "^12.30.0",
-    "@azure/storage-common": "^12.3.0",
+    "@azure/storage-blob": "^12.32.0",
+    "@azure/storage-common": "^12.4.0",
     "events": "^3.3.0",
     "tslib": "^2.8.1"
   },
@@ -113,28 +117,12 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -154,6 +142,11 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
     }
   }
 }

@@ -30,14 +30,14 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters",
   "dependencies": {
-    "@azure/arm-servicefabricmanagedclusters": "next",
+    "@azure/arm-servicefabricmanagedclusters": "beta",
     "dotenv": "latest",
-    "@azure/identity": "^4.11.1"
+    "@azure/identity": "^4.13.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "cross-env": "latest",
     "rimraf": "latest",
-    "typescript": "~5.9.3"
+    "typescript": "~6.0.2"
   }
 }

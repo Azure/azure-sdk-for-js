@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Get the list of StorageCache.Cache SKUs available to this subscription.
  *
  * @summary Get the list of StorageCache.Cache SKUs available to this subscription.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/Skus_List.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/Skus_List.json
  */
 async function skusList() {
   const subscriptionId =

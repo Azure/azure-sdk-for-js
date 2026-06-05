@@ -9,42 +9,53 @@ export * from "./ContainerClient.js";
 export * from "./BlobLeaseClient.js";
 export * from "./BlobBatch.js";
 export * from "./BlobBatchClient.js";
-export * from "./BatchResponse.js";
-export { SasIPRange } from "./sas/SasIPRange.js";
-export { Range } from "./Range.js";
+export type * from "./BatchResponse.js";
+export type { SasIPRange } from "./sas/SasIPRange.js";
+export type { Range } from "./Range.js";
 export {
+  type BlobClientOptions,
+  type AppendBlobClientOptions,
+  type BlockBlobClientOptions,
+  type PageBlobClientOptions,
+  type ContainerClientOptions,
+  type BlobServiceClientOptions,
+  type BlobClientConfig,
   BlockBlobTier,
-  BlobImmutabilityPolicy,
+  type BlobImmutabilityPolicy,
   PremiumPageBlobTier,
-  Tags,
-  TagConditions,
-  ContainerRequestConditions,
-  HttpAuthorization,
-  ModificationConditions,
-  MatchConditions,
+  type Tags,
+  type TagConditions,
+  type ContainerRequestConditions,
+  type HttpAuthorization,
+  type ModificationConditions,
+  type MatchConditions,
+  type StorageChecksumAlgorithm,
+  type AccessTierModifiedConditions,
+  type RequestHeaders,
+  type RequestQueryParameters,
 } from "./models.js";
 export {
   Pipeline,
-  PipelineLike,
-  PipelineOptions,
+  type PipelineLike,
+  type PipelineOptions,
   isPipelineLike,
   newPipeline,
-  StoragePipelineOptions,
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
-  WebResource,
-  HttpOperationResponse,
-  HttpHeaders,
-  HttpRequestBody,
-  IHttpClient,
+  type StoragePipelineOptions,
+  type RequestPolicyFactory,
+  type RequestPolicy,
+  type RequestPolicyOptions,
+  type WebResource,
+  type HttpOperationResponse,
+  type HttpHeaders,
+  type HttpRequestBody,
+  type IHttpClient,
   StorageOAuthScopes,
-  ServiceClientOptions,
+  type ServiceClientOptions,
 } from "./Pipeline.js";
-export { CommonOptions } from "./StorageClient.js";
+export type { CommonOptions } from "./StorageClient.js";
 export * from "./generatedModels.js";
 export { RestError };
-export {
+export type {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
   PageList,
@@ -58,7 +69,7 @@ export {
   Credential,
   StorageBrowserPolicyFactory,
   StorageRetryPolicyFactory,
-  StorageRetryOptions,
+  type StorageRetryOptions,
   StorageRetryPolicyType,
   AnonymousCredentialPolicy,
   CredentialPolicy,
@@ -67,5 +78,5 @@ export {
   storageBrowserPolicy,
   storageRetryPolicy,
   storageCorrectContentLengthPolicy,
-  UserDelegationKey,
+  type UserDelegationKey,
 } from "@azure/storage-common";

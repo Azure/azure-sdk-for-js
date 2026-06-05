@@ -2,18 +2,20 @@
 // Licensed under the MIT License.
 
 export {
+  resetSmbPassword,
   poolChange,
   listPeeringPassphrases,
-  listByCapacityPools,
+  list,
   $delete,
   update,
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
+export type {
+  CachesResetSmbPasswordOptionalParams,
   CachesPoolChangeOptionalParams,
   CachesListPeeringPassphrasesOptionalParams,
-  CachesListByCapacityPoolsOptionalParams,
+  CachesListOptionalParams,
   CachesDeleteOptionalParams,
   CachesUpdateOptionalParams,
   CachesCreateOrUpdateOptionalParams,

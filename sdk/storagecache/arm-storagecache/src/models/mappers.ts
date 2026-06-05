@@ -1044,6 +1044,49 @@ export const AutoImportJobsListResult: coreClient.CompositeMapper = {
   },
 };
 
+export const ExpansionJobUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExpansionJobUpdate",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
+export const ExpansionJobsListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExpansionJobsListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExpansionJob",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const AmlFilesystemSubnetInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3080,6 +3123,20 @@ export const AmlFilesystem: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      currentStorageCapacityTiB: {
+        serializedName: "properties.currentStorageCapacityTiB",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      clusterUuid: {
+        serializedName: "properties.clusterUuid",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
       health: {
         serializedName: "properties.health",
         type: {
@@ -3637,6 +3694,75 @@ export const AutoImportJob: coreClient.CompositeMapper = {
   },
 };
 
+export const ExpansionJob: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExpansionJob",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      newStorageCapacityTiB: {
+        serializedName: "properties.newStorageCapacityTiB",
+        type: {
+          name: "Number",
+        },
+      },
+      state: {
+        serializedName: "properties.status.state",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      statusCode: {
+        serializedName: "properties.status.statusCode",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      statusMessage: {
+        serializedName: "properties.status.statusMessage",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      percentComplete: {
+        constraints: {
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 0,
+        },
+        serializedName: "properties.status.percentComplete",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      startTimeUTC: {
+        serializedName: "properties.status.startTimeUTC",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      completionTimeUTC: {
+        serializedName: "properties.status.completionTimeUTC",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
 export const AmlFilesystemsDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3857,6 +3983,69 @@ export const AutoImportJobsUpdateHeaders: coreClient.CompositeMapper = {
       },
       azureAsyncOperation: {
         serializedName: "azure-async-operation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ExpansionJobsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExpansionJobsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ExpansionJobsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExpansionJobsCreateOrUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ExpansionJobsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExpansionJobsUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
         type: {
           name: "String",
         },

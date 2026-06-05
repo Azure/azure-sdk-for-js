@@ -13,7 +13,6 @@ import {
   disconnectedOperationDeserializer,
   errorResponseDeserializer,
   disconnectedOperationCreateOrUpdateSerializer,
-  disconnectedOperationCreateOrUpdateDeserializer,
   disconnectedOperationUpdateSerializer,
   _disconnectedOperationListResultDeserializer,
   disconnectedOperationDeploymentManifestDeserializer,
@@ -39,9 +38,7 @@ export function _listDeploymentManifestSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: DisconnectedOperationsListDeploymentManifestOptionalParams = {
-    requestOptions: {},
-  },
+  options: DisconnectedOperationsListDeploymentManifestOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/disconnectedOperations/{name}/listDeploymentManifest{?api%2Dversion}",
@@ -49,7 +46,7 @@ export function _listDeploymentManifestSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,10 +54,7 @@ export function _listDeploymentManifestSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -71,6 +65,7 @@ export async function _listDeploymentManifestDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -82,9 +77,7 @@ export async function listDeploymentManifest(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: DisconnectedOperationsListDeploymentManifestOptionalParams = {
-    requestOptions: {},
-  },
+  options: DisconnectedOperationsListDeploymentManifestOptionalParams = { requestOptions: {} },
 ): Promise<DisconnectedOperationDeploymentManifest> {
   const result = await _listDeploymentManifestSend(context, resourceGroupName, name, options);
   return _listDeploymentManifestDeserialize(result);
@@ -92,15 +85,13 @@ export async function listDeploymentManifest(
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: DisconnectedOperationsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: DisconnectedOperationsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/disconnectedOperations{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -108,10 +99,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -122,6 +110,7 @@ export async function _listBySubscriptionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -131,32 +120,28 @@ export async function _listBySubscriptionDeserialize(
 /** List DisconnectedOperation resources by subscription ID */
 export function listBySubscription(
   context: Client,
-  options: DisconnectedOperationsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: DisconnectedOperationsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<DisconnectedOperation> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }
 
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: DisconnectedOperationsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: DisconnectedOperationsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/disconnectedOperations{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -164,10 +149,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -178,6 +160,7 @@ export async function _listByResourceGroupDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -188,16 +171,14 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: DisconnectedOperationsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: DisconnectedOperationsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<DisconnectedOperation> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }
 
@@ -213,7 +194,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -227,6 +208,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -250,6 +232,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, name, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -266,7 +249,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -275,10 +258,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: disconnectedOperationUpdateSerializer(properties),
   });
 }
@@ -290,6 +270,7 @@ export async function _updateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -313,9 +294,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   name: string,
   resource: DisconnectedOperationCreateOrUpdate,
-  options: DisconnectedOperationsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: DisconnectedOperationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/disconnectedOperations/{name}{?api%2Dversion}",
@@ -323,7 +302,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -332,50 +311,41 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: disconnectedOperationCreateOrUpdateSerializer(resource),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<DisconnectedOperationCreateOrUpdate> {
+): Promise<DisconnectedOperation> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
-  return disconnectedOperationCreateOrUpdateDeserializer(result.body);
+  return disconnectedOperationDeserializer(result.body);
 }
 
-/** Create a DisconnectedOperationCreateOrUpdate */
+/** Create a DisconnectedOperation */
 export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   name: string,
   resource: DisconnectedOperationCreateOrUpdate,
-  options: DisconnectedOperationsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
-): PollerLike<
-  OperationState<DisconnectedOperationCreateOrUpdate>,
-  DisconnectedOperationCreateOrUpdate
-> {
+  options: DisconnectedOperationsCreateOrUpdateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<DisconnectedOperation>, DisconnectedOperation> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, name, resource, options),
     resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<
-    OperationState<DisconnectedOperationCreateOrUpdate>,
-    DisconnectedOperationCreateOrUpdate
-  >;
+    apiVersion: context.apiVersion ?? "2026-03-15",
+  }) as PollerLike<OperationState<DisconnectedOperation>, DisconnectedOperation>;
 }
 
 export function _getSend(
@@ -390,7 +360,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -398,10 +368,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -412,6 +379,7 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

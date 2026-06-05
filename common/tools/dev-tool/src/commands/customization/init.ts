@@ -3,9 +3,9 @@
 
 import path from "node:path";
 import fs from "node:fs/promises";
-import { resolveProject } from "../../util/resolveProject";
-import { createPrinter } from "../../util/printer";
-import { leafCommand, makeCommandInfo } from "../../framework/command";
+import { resolveProject } from "../../util/resolveProject.ts";
+import { createPrinter } from "../../util/printer.ts";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 
 const log = createPrinter("customization-init");
 

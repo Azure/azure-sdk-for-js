@@ -3,9 +3,9 @@
 
 export { revokeCertificate, listByCodeSigningAccount, $delete, create, get } from "./operations.js";
 export {
-  CertificateProfilesRevokeCertificateOptionalParams,
-  CertificateProfilesListByCodeSigningAccountOptionalParams,
-  CertificateProfilesDeleteOptionalParams,
-  CertificateProfilesCreateOptionalParams,
-  CertificateProfilesGetOptionalParams,
+  type CertificateProfilesRevokeCertificateOptionalParams,
+  type CertificateProfilesListByCodeSigningAccountOptionalParams,
+  type CertificateProfilesDeleteOptionalParams,
+  type CertificateProfilesCreateOptionalParams,
+  type CertificateProfilesGetOptionalParams,
 } from "./options.js";

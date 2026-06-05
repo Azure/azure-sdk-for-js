@@ -436,6 +436,102 @@ describe("BlobClient", () => {
     await blobClient.delete();
   });
 
+  // Service is not support this feature yet.
+  it.skip("delete with access tier conditions", async () => {
+    const blobName1 = recorder.variable("blob1", getUniqueName("blob1"));
+    const blobClient1 = containerClient.getBlobClient(blobName1);
+    const blockBlobClient1 = blobClient1.getBlockBlobClient();
+    await blockBlobClient1.upload(content, content.length);
+
+    const beforeTierChange = new Date(
+      recorder.variable("beforeTierChange", new Date().toISOString()),
+    );
+    await blobClient1.setAccessTier(BlockBlobTier.Cool);
+    let gotError = false;
+    try {
+      await blobClient1.delete({
+        conditions: {
+          accessTierIfUnmodifiedSince: beforeTierChange,
+        },
+      });
+    } catch (err) {
+      gotError = true;
+      assert.equal((err as any).code, "AccessTierChangeTimeConditionNotMet");
+    }
+    assert.equal(gotError, true);
+
+    await delay(1000);
+
+    const afterTierChange = new Date(
+      recorder.variable("afterTierChange", new Date().toISOString()),
+    );
+    gotError = false;
+    try {
+      await blobClient1.delete({
+        conditions: {
+          accessTierIfModifiedSince: afterTierChange,
+        },
+      });
+    } catch (err) {
+      gotError = true;
+      assert.equal((err as any).code, "AccessTierChangeTimeConditionNotMet");
+    }
+    assert.equal(gotError, true);
+    await blobClient1.delete({
+      conditions: {
+        accessTierIfUnmodifiedSince: afterTierChange,
+      },
+    });
+  });
+
+  // Service is not support this feature yet.
+  it.skip("deleteIfExists with access tier conditions", async () => {
+    const blobName1 = recorder.variable("blob1", getUniqueName("blob1"));
+    const blobClient1 = containerClient.getBlobClient(blobName1);
+    const blockBlobClient1 = blobClient1.getBlockBlobClient();
+    await blockBlobClient1.upload(content, content.length);
+
+    const beforeTierChange = new Date(
+      recorder.variable("beforeTierChange", new Date().toISOString()),
+    );
+    await blobClient1.setAccessTier(BlockBlobTier.Cool);
+    let gotError = false;
+    try {
+      await blobClient1.deleteIfExists({
+        conditions: {
+          accessTierIfUnmodifiedSince: beforeTierChange,
+        },
+      });
+    } catch (err) {
+      gotError = true;
+      assert.equal((err as any).code, "AccessTierChangeTimeConditionNotMet");
+    }
+    assert.equal(gotError, true);
+
+    await delay(1000);
+
+    const afterTierChange = new Date(
+      recorder.variable("afterTierChange", new Date().toISOString()),
+    );
+    gotError = false;
+    try {
+      await blobClient1.deleteIfExists({
+        conditions: {
+          accessTierIfModifiedSince: afterTierChange,
+        },
+      });
+    } catch (err) {
+      gotError = true;
+      assert.equal((err as any).code, "AccessTierChangeTimeConditionNotMet");
+    }
+    assert.equal(gotError, true);
+    await blobClient1.deleteIfExists({
+      conditions: {
+        accessTierIfModifiedSince: beforeTierChange,
+      },
+    });
+  });
+
   it("deleteIfExists", async () => {
     const res = await blobClient.deleteIfExists();
     assert.isTrue(res.succeeded);

@@ -7,6 +7,7 @@ import {
   InternalEnvironmentVariables,
   RunConfigConstants,
   ServiceEnvironmentVariable,
+  StorageUriValidationConstants,
   UploadConstants,
 } from "../../src/common/constants.js";
 import {
@@ -32,7 +33,7 @@ import {
   getPortalTestRunUrl,
   getStorageAccountNameFromUri,
   getTestRunConfig,
-  resolveTenantDomain,
+  isValidAzureStorageBlobUri,
 } from "../../src/utils/utils.js";
 import * as packageManager from "../../src/utils/packageManager.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
@@ -167,7 +168,7 @@ describe("Service Utils", () => {
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`;
     expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -179,7 +180,34 @@ describe("Service Utils", () => {
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`;
+    expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
+
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
+  });
+
+  it("should use the provided sourceType when specified", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
+    const runId = "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6";
+    const escapeRunId = encodeURIComponent(runId);
+    const os = "linux";
+    const sourceType = "Others";
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&sourceType=${sourceType}&api-version=${Constants.LatestAPIVersion}`;
+    expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion, sourceType)).to.equal(
+      expected,
+    );
+
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
+  });
+
+  it("should default sourceType to PlaywrightWorkspacesTestRun when omitted", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
+    const runId = "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6";
+    const escapeRunId = encodeURIComponent(runId);
+    const os = "linux";
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`;
     expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -873,75 +901,47 @@ describe("Service Utils", () => {
   });
 
   describe("getPortalTestRunUrl", () => {
-    it("should build a portal link without tenant fragment when no tenant domain is provided", () => {
-      const workspace = {
-        subscriptionId: "sub id",
-        resourceId:
-          "/subscriptions/sub id/resourceGroups/My Resource Group/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace-name",
-        name: "workspace-name",
-      } as any;
+    const originalEnv = process.env;
 
-      const portalUrl = getPortalTestRunUrl(workspace);
+    beforeEach(() => {
+      process.env = { ...originalEnv };
+      process.env._MPT_SERVICE_RUN_ID = "test-run-id-123";
+    });
+
+    afterEach(() => {
+      process.env = originalEnv;
+    });
+
+    it("should build a portal URL with correct format", () => {
+      const resourceId =
+        "/subscriptions/sub-id/resourceGroups/rg-name/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace-name";
+
+      const portalUrl = getPortalTestRunUrl(resourceId);
       expect(portalUrl).toBe(
-        `https://ms.portal.azure.com/#/resource/subscriptions/${encodeURIComponent("sub id")}/resourceGroups/${encodeURIComponent("My Resource Group")}/providers/Microsoft.LoadTestService/playwrightWorkspaces/${encodeURIComponent("workspace-name")}/TestRuns`,
+        `https://ms.portal.azure.com/#view/Microsoft_Azure_CloudNativeTesting/TestReport.ReactView/testRunId/${encodeURIComponent("test-run-id-123")}/resourceId/${encodeURIComponent("/subscriptions/sub-id/resourceGroups/rg-name/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace-name")}`,
       );
     });
 
-    it("should build a portal link with tenant fragment when tenant domain is provided", () => {
-      const workspace = {
-        subscriptionId: "sub id",
-        resourceId:
-          "/subscriptions/sub id/resourceGroups/My Resource Group/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace-name",
-        name: "workspace-name",
-      } as any;
-
-      const portalUrl = getPortalTestRunUrl(workspace, "contoso.onmicrosoft.com");
-      expect(portalUrl).toBe(
-        `https://ms.portal.azure.com/#@contoso.onmicrosoft.com/resource/subscriptions/${encodeURIComponent("sub id")}/resourceGroups/${encodeURIComponent("My Resource Group")}/providers/Microsoft.LoadTestService/playwrightWorkspaces/${encodeURIComponent("workspace-name")}/TestRuns`,
+    it("should throw when resourceId is null or empty", () => {
+      expect(() => getPortalTestRunUrl("")).toThrow(
+        "Missing required parameter: resourceId is required",
+      );
+      expect(() => getPortalTestRunUrl(null as any)).toThrow(
+        "Missing required parameter: resourceId is required",
+      );
+      expect(() => getPortalTestRunUrl(undefined as any)).toThrow(
+        "Missing required parameter: resourceId is required",
       );
     });
 
-    it("should throw when metadata is incomplete", () => {
-      expect(() => getPortalTestRunUrl(null)).toThrow(
-        "Missing required workspace metadata: subscriptionId, resourceId, and name are required",
+    it("should throw when run ID is not available", () => {
+      delete process.env._MPT_SERVICE_RUN_ID;
+      const resourceId =
+        "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace";
+
+      expect(() => getPortalTestRunUrl(resourceId)).toThrow(
+        "Run ID is required but not found in environment variables",
       );
-    });
-
-    it("should throw when resourceId format is invalid", () => {
-      const workspace = {
-        subscriptionId: "sub",
-        resourceId:
-          "/subscriptions/sub/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace",
-        name: "workspace",
-      } as any;
-
-      expect(() => getPortalTestRunUrl(workspace)).toThrow(
-        "Invalid resourceId format: could not extract resource group name",
-      );
-    });
-  });
-
-  describe("resolveTenantDomain", () => {
-    it("should return the default domain for a matching tenant", () => {
-      const tenants = [
-        { tenantId: "tenant-1", defaultDomain: "contoso.onmicrosoft.com" },
-        { tenantId: "tenant-2", defaultDomain: "fabrikam.onmicrosoft.com" },
-      ];
-      expect(resolveTenantDomain("tenant-1", tenants)).toBe("contoso.onmicrosoft.com");
-    });
-
-    it("should return undefined when tenant ID is not found", () => {
-      const tenants = [{ tenantId: "tenant-1", defaultDomain: "contoso.onmicrosoft.com" }];
-      expect(resolveTenantDomain("tenant-unknown", tenants)).toBeUndefined();
-    });
-
-    it("should return undefined when tenant ID is undefined", () => {
-      const tenants = [{ tenantId: "tenant-1", defaultDomain: "contoso.onmicrosoft.com" }];
-      expect(resolveTenantDomain(undefined, tenants)).toBeUndefined();
-    });
-
-    it("should return undefined when tenants list is empty", () => {
-      expect(resolveTenantDomain("tenant-1", [])).toBeUndefined();
     });
   });
 
@@ -1001,6 +1001,85 @@ describe("Service Utils", () => {
         sdkLanguage: RunConfigConstants.TEST_SDK_LANGUAGE,
         maxWorkers: 6,
       });
+    });
+  });
+
+  describe("isValidAzureStorageBlobUri", () => {
+    // ── valid endpoints ─────────────────────────────────────────────────────
+    it.each([
+      // Standard public-cloud blob endpoints
+      "https://myaccount.blob.core.windows.net",
+      "https://myaccount.blob.core.windows.net/",
+      // US Government cloud
+      "https://myaccount.blob.core.usgovcloudapi.net",
+      // China cloud
+      "https://myaccount.blob.core.chinacloudapi.cn",
+      // Custom port is permitted (mirrors RP behaviour)
+      "https://myaccount.blob.core.windows.net:8443",
+      // Non-standard account label is fine as long as suffix matches
+      "https://account-with-dashes.blob.core.windows.net",
+    ])("accepts valid URI: %s", (uri) => {
+      expect(isValidAzureStorageBlobUri(uri)).toBe(true);
+    });
+
+    // ── attacker-controlled host ─────────────────────────────────────────────
+    it.each([
+      // Completely different domain
+      "https://attacker.example.com",
+      // Suffix in path, not hostname
+      "https://attacker.example.com/account.blob.core.windows.net",
+      // Suffix appended to attacker hostname (subdomain bypass)
+      "https://account.blob.core.windows.net.attacker.com",
+      // Wrong service type – table storage is not in the allowlist
+      "https://account.table.core.windows.net",
+      // Retired German sovereign cloud – not in the allowlist
+      "https://account.blob.core.cloudapi.de",
+    ])("rejects attacker-controlled host: %s", (uri) => {
+      expect(isValidAzureStorageBlobUri(uri)).toBe(false);
+    });
+
+    // ── scheme ───────────────────────────────────────────────────────────────
+    it.each([
+      "http://account.blob.core.windows.net",
+      "ftp://account.blob.core.windows.net",
+      "file:///etc/passwd",
+      "javascript:alert(1)",
+    ])("rejects non-https scheme: %s", (uri) => {
+      expect(isValidAzureStorageBlobUri(uri)).toBe(false);
+    });
+
+    // ── embedded credentials ─────────────────────────────────────────────────
+    it("rejects URI with userinfo (username:password)", () => {
+      expect(isValidAzureStorageBlobUri("https://user:pass@account.blob.core.windows.net")).toBe(
+        false,
+      );
+    });
+
+    // ── query string and fragment ────────────────────────────────────────────
+    it("rejects URI with query string", () => {
+      expect(isValidAzureStorageBlobUri("https://account.blob.core.windows.net/?sig=stolen")).toBe(
+        false,
+      );
+    });
+
+    it("rejects URI with fragment", () => {
+      expect(isValidAzureStorageBlobUri("https://account.blob.core.windows.net/#frag")).toBe(false);
+    });
+
+    // ── null / empty / malformed ─────────────────────────────────────────────
+    it.each([undefined, null, "", "   ", "not-a-url"])(
+      "rejects null/empty/malformed input: %s",
+      (input) => {
+        expect(isValidAzureStorageBlobUri(input as any)).toBe(false);
+      },
+    );
+
+    // ── hostname-suffix allowlist is exhaustive ──────────────────────────────
+    it("covers every suffix in StorageUriValidationConstants", () => {
+      for (const suffix of StorageUriValidationConstants.AllowedHostnameSuffixes) {
+        const uri = `https://account${suffix}`;
+        expect(isValidAzureStorageBlobUri(uri)).toBe(true);
+      }
     });
   });
 });

@@ -19,7 +19,7 @@ import { _getTasksOperations } from "./classic/tasks/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ContainerRegistryTasksManagementClientOptionalParams } from "./api/containerRegistryTasksManagementContext.js";
+export { type ContainerRegistryTasksManagementClientOptionalParams } from "./api/containerRegistryTasksManagementContext.js";
 
 export class ContainerRegistryTasksManagementClient {
   private _client: ContainerRegistryTasksManagementContext;

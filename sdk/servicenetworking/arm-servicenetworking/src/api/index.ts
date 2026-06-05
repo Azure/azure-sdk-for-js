@@ -3,6 +3,6 @@
 
 export {
   createServiceNetworkingManagement,
-  ServiceNetworkingManagementContext,
-  ServiceNetworkingManagementClientOptionalParams,
+  type ServiceNetworkingManagementContext,
+  type ServiceNetworkingManagementClientOptionalParams,
 } from "./serviceNetworkingManagementContext.js";

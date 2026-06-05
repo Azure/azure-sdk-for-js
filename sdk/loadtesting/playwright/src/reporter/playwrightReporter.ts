@@ -6,7 +6,7 @@ import {
   getHtmlReporterOutputFolder,
   getPortalTestRunUrl,
   getVersionInfo,
-  resolveTenantDomain,
+  isValidAzureStorageBlobUri,
 } from "../utils/utils.js";
 import { coreLogger } from "../common/logger.js";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
@@ -23,7 +23,6 @@ import type { WorkspaceMetaData, UploadResult } from "../common/types.js";
 export default class PlaywrightReporter implements Reporter {
   private config: FullConfig | undefined;
   private workspaceMetadata: WorkspaceMetaData | null = null;
-  private tenantDomain: string | undefined;
   private isReportingEnabled = false;
 
   /**
@@ -109,20 +108,6 @@ export default class PlaywrightReporter implements Reporter {
         return;
       }
 
-      // Resolve tenant domain for portal URL (if tenantId is available)
-      if (this.workspaceMetadata.tenantId) {
-        try {
-          const tenants = await playwrightServiceApiClient.getTenants();
-          this.tenantDomain = resolveTenantDomain(this.workspaceMetadata.tenantId, tenants);
-        } catch (error) {
-          coreLogger.error(`Failed to resolve tenant domain: ${error}`);
-        }
-      } else {
-        coreLogger.info(
-          "Workspace metadata does not contain tenantId; skipping tenant domain resolution.",
-        );
-      }
-
       this.isReportingEnabled = true;
       console.log(ServiceErrorMessageConstants.REPORTING_ENABLED.message);
     } catch (error) {
@@ -157,8 +142,8 @@ export default class PlaywrightReporter implements Reporter {
           console.log(ServiceErrorMessageConstants.REPORTING_STATUS_SUCCESS.message);
         }
         // Display portal URL for both full and partial success
-        if (this.workspaceMetadata) {
-          const portalUrl = getPortalTestRunUrl(this.workspaceMetadata, this.tenantDomain);
+        if (this.workspaceMetadata?.resourceId) {
+          const portalUrl = getPortalTestRunUrl(this.workspaceMetadata.resourceId);
           console.log(ServiceErrorMessageConstants.TEST_REPORT_VIEW_URL.formatWithUrl(portalUrl));
         }
       } else {
@@ -254,28 +239,28 @@ export default class PlaywrightReporter implements Reporter {
         return false;
       }
 
-      if (normalizedReporting === "enabled") {
-        if (!storageUri) {
-          console.error(
-            ServiceErrorMessageConstants.WORKSPACE_REPORTING_STORAGE_NOT_LINKED.message,
-          );
-          coreLogger.info("Reporting enabled in metadata but storage URI not configured");
-          return false;
-        }
-        coreLogger.info("Reporting enabled via workspace metadata configuration");
-        return true;
+      if (normalizedReporting === "enabled" && !storageUri) {
+        console.error(ServiceErrorMessageConstants.WORKSPACE_REPORTING_STORAGE_NOT_LINKED.message);
+        coreLogger.info("Reporting enabled in metadata but storage URI not configured");
+        return false;
       }
 
-      // If reporting has an unexpected value, log warning and fall back to storageUri check
-      coreLogger.info(
-        `Unexpected reporting value in workspace metadata: ${reporting}. Falling back to storage URI check.`,
-      );
+      if (normalizedReporting !== "enabled") {
+        coreLogger.info(
+          `Unexpected reporting value in workspace metadata: ${reporting}. Falling back to storage URI check.`,
+        );
+      }
     }
 
-    // Fallback to current logic: check only storageUri (when reporting field is not present or has unexpected value)
     if (!storageUri) {
       console.error(ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message);
       coreLogger.info("Storage URI not configured in workspace metadata");
+      return false;
+    }
+
+    if (!isValidAzureStorageBlobUri(storageUri)) {
+      console.error(ServiceErrorMessageConstants.INVALID_STORAGE_URI.message);
+      coreLogger.error("Reporting disabled: storageUri is not a valid Azure Storage endpoint.");
       return false;
     }
 

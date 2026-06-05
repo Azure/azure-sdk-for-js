@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns all import jobs the user has access to under an AML File System.
  *
  * @summary Returns all import jobs the user has access to under an AML File System.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/importJobs_ListByAmlFilesystem.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/importJobs_ListByAmlFilesystem.json
  */
 async function importJobsListByAmlFilesystem(): Promise<void> {
   const subscriptionId =

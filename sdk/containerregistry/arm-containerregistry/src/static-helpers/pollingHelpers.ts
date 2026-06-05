@@ -38,6 +38,10 @@ export interface GetLongRunningPollerOptions<TResponse> {
    * The function to get the initial response
    */
   getInitialResponse?: () => PromiseLike<TResponse>;
+  /**
+   * The api-version of the LRO
+   */
+  apiVersion?: string;
 }
 export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TResult = void>(
   client: Client,
@@ -45,7 +49,7 @@ export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TR
   expectedStatuses: string[],
   options: GetLongRunningPollerOptions<TResponse>,
 ): PollerLike<OperationState<TResult>, TResult> {
-  const { restoreFrom, getInitialResponse } = options;
+  const { restoreFrom, getInitialResponse, apiVersion } = options;
   if (!restoreFrom && !getInitialResponse) {
     throw new Error("Either restoreFrom or getInitialResponse must be specified");
   }
@@ -84,7 +88,8 @@ export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TR
       }
       let response;
       try {
-        response = await client.pathUnchecked(path).get({ abortSignal });
+        const pollingPath = apiVersion ? addApiVersionToUrl(path, apiVersion) : path;
+        response = await client.pathUnchecked(pollingPath).get({ abortSignal });
       } finally {
         options.abortSignal?.removeEventListener("abort", abortListener);
         pollOptions?.abortSignal?.removeEventListener("abort", abortListener);
@@ -124,4 +129,22 @@ function getLroResponse<TResponse extends PathUncheckedResponse>(
       body: response.body,
     },
   };
+}
+
+/**
+ * Adds the api-version query parameter on a URL if it's not present.
+ * @param url - the URL to modify
+ * @param apiVersion - the API version to set
+ * @returns - the URL with the api-version query parameter set
+ */
+function addApiVersionToUrl(url: string, apiVersion: string): string {
+  // The base URL is only used for parsing and won't appear in the returned URL
+  const urlObj = new URL(url, "https://microsoft.com");
+  if (!urlObj.searchParams.get("api-version")) {
+    // Append one if there is no apiVersion
+    return `${url}${
+      Array.from(urlObj.searchParams.keys()).length > 0 ? "&" : "?"
+    }api-version=${apiVersion}`;
+  }
+  return url;
 }

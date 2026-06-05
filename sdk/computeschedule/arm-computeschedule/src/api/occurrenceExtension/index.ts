@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { listOccurrenceByVms } from "./operations.js";
-export { OccurrenceExtensionListOccurrenceByVmsOptionalParams } from "./options.js";
+export type { OccurrenceExtensionListOccurrenceByVmsOptionalParams } from "./options.js";

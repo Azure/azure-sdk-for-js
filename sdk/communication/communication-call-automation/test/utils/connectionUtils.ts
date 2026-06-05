@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isNodeLike } from "@azure/core-util";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 
 export const baseUri = (() => {
   const customEnabled = process.env.COMMUNICATION_CUSTOM_ENDPOINT_ENABLED;
@@ -32,12 +32,11 @@ export const MEDIA_SUBSCRIPTION_ID = "mediaSubscriptionId";
 export const MEDIA_UR_MP3 = "https://example.com/audio.mp3";
 export const MEDIA_URL_WAV = "https://example.com/audio/test.wav";
 
-declare function btoa(stringToEncode: string): string;
-
 export const generateToken = (): string => {
   const validForMinutes = 60;
   const expiresOn = (Date.now() + validForMinutes * 60 * 1000) / 1000;
   const tokenString = JSON.stringify({ exp: expiresOn });
-  const base64Token = isNodeLike ? Buffer.from(tokenString).toString("base64") : btoa(tokenString);
+  // Use core-util for cross-platform base64 encoding (Node, browser, React Native)
+  const base64Token = uint8ArrayToString(stringToUint8Array(tokenString, "utf-8"), "base64");
   return `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${base64Token}.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs`;
 };

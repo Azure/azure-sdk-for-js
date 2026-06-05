@@ -1,5 +1,22 @@
 # Release History
 
+## 2.0.0 (2026-06-06)
+
+### Features Added
+
+- GA release based on the Azure AI Translator API stable version 2026-06-06.
+- Added `TranslationGender` and `TranslationTone` types for improved type safety on translation parameters.
+
+### Breaking Changes
+
+- Removed `grade` property from `TranslationTarget`.
+- Changed `gender` property in `TranslationTarget` to use `TranslationGender` type.
+- Changed `tone` property in `TranslationTarget` to use `TranslationTone` type.
+
+### Other Changes
+
+- Optimized type imports for improved tree-shaking and build performance.
+
 ## 2.0.0-beta.1 (2026-01-08)
 
 ### Features Added

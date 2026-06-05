@@ -5,16 +5,19 @@ import type * as coreClient from "@azure-rest/core-client";
 import type { ExtendedCommonClientOptions } from "@azure/keyvault-common";
 
 import type { DeletionRecoveryLevel } from "./models/models.js";
-import { JsonWebKeyOperation as KeyOperation, JsonWebKeyType as KeyType } from "./models/models.js";
+import type {
+  JsonWebKeyOperation as KeyOperation,
+  JsonWebKeyType as KeyType,
+} from "./models/models.js";
 
 import type { KeyCurveName } from "./cryptographyClientModels.js";
 
-export { KeyType, KeyOperation };
+export type { KeyType, KeyOperation };
 
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "7.6";
+export const LATEST_API_VERSION = "2025-07-01";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient

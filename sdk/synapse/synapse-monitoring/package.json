@@ -2,8 +2,12 @@
   "name": "@azure/synapse-monitoring",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for MonitoringClient.",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/synapse-monitoring/README.md",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/synapse/synapse-monitoring/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/synapse/synapse-monitoring"
+  },
   "sdk-type": "client",
   "version": "1.0.0-beta.4",
   "dependencies": {
@@ -42,8 +46,8 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -73,22 +77,6 @@
   "sideEffects": false,
   "autoPublish": true,
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
@@ -111,5 +99,12 @@
       }
     }
   },
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

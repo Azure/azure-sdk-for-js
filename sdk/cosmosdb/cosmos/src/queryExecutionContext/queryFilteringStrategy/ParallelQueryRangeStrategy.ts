@@ -7,6 +7,7 @@ import type {
   PartitionRangeFilterResult,
 } from "./TargetPartitionRangeStrategy.js";
 import type { PartitionRangeWithContinuationToken } from "./TargetPartitionRangeManager.js";
+import { isPartitionExhausted } from "../PartitionRangeManager.js";
 
 /**
  * Strategy for filtering partition ranges in parallel query execution context
@@ -74,7 +75,7 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
       // Always track the last processed range, even if it's exhausted
       lastProcessedRange = range.range;
 
-      if (range && !this.isPartitionExhausted(range.continuationToken)) {
+      if (range && !isPartitionExhausted(range.continuationToken)) {
         rangeTokenPairs.push({
           range: range.range,
           continuationToken: range.continuationToken,
@@ -109,17 +110,5 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
     return {
       rangeTokenPairs,
     };
-  }
-
-  /**
-   * Checks if a partition is exhausted based on its continuation token
-   */
-  private isPartitionExhausted(continuationToken: string | undefined): boolean {
-    return (
-      !continuationToken ||
-      continuationToken === "" ||
-      continuationToken === "null" ||
-      continuationToken.toLowerCase() === "null"
-    );
   }
 }

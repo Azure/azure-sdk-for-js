@@ -3,10 +3,10 @@
 
 export { getDetails, list, $delete, update, create, get } from "./operations.js";
 export {
-  TaskRunsGetDetailsOptionalParams,
-  TaskRunsListOptionalParams,
-  TaskRunsDeleteOptionalParams,
-  TaskRunsUpdateOptionalParams,
-  TaskRunsCreateOptionalParams,
-  TaskRunsGetOptionalParams,
+  type TaskRunsGetDetailsOptionalParams,
+  type TaskRunsListOptionalParams,
+  type TaskRunsDeleteOptionalParams,
+  type TaskRunsUpdateOptionalParams,
+  type TaskRunsCreateOptionalParams,
+  type TaskRunsGetOptionalParams,
 } from "./options.js";

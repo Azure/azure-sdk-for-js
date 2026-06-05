@@ -12,12 +12,12 @@ export {
   get,
 } from "./operations.js";
 export {
-  EdgeActionVersionsSwapDefaultOptionalParams,
-  EdgeActionVersionsGetVersionCodeOptionalParams,
-  EdgeActionVersionsDeployVersionCodeOptionalParams,
-  EdgeActionVersionsListByEdgeActionOptionalParams,
-  EdgeActionVersionsDeleteOptionalParams,
-  EdgeActionVersionsUpdateOptionalParams,
-  EdgeActionVersionsCreateOptionalParams,
-  EdgeActionVersionsGetOptionalParams,
+  type EdgeActionVersionsSwapDefaultOptionalParams,
+  type EdgeActionVersionsGetVersionCodeOptionalParams,
+  type EdgeActionVersionsDeployVersionCodeOptionalParams,
+  type EdgeActionVersionsListByEdgeActionOptionalParams,
+  type EdgeActionVersionsDeleteOptionalParams,
+  type EdgeActionVersionsUpdateOptionalParams,
+  type EdgeActionVersionsCreateOptionalParams,
+  type EdgeActionVersionsGetOptionalParams,
 } from "./options.js";

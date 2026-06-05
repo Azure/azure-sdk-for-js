@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { AppConfigurationManagementClient } from "./appConfigurationManagementClient.js";
-export { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   ConfigurationStore,
   ConfigurationStoreProperties,
-  KnownProvisioningState,
   ProvisioningState,
   EncryptionProperties,
   KeyVaultProperties,
@@ -22,16 +23,11 @@ export {
   PrivateEndpointConnectionProperties,
   PrivateEndpoint,
   PrivateLinkServiceConnectionState,
-  KnownConnectionStatus,
   ConnectionStatus,
-  KnownActionsRequired,
   ActionsRequired,
-  KnownPublicNetworkAccess,
   PublicNetworkAccess,
   DataPlaneProxyProperties,
-  KnownAuthenticationMode,
   AuthenticationMode,
-  KnownPrivateLinkDelegation,
   PrivateLinkDelegation,
   CreateMode,
   TelemetryProperties,
@@ -39,14 +35,12 @@ export {
   MoboBrokerResource,
   AzureFrontDoorProperties,
   ResourceIdentity,
-  KnownIdentityType,
   IdentityType,
   UserIdentity,
   Sku,
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   ErrorResponse,
   ErrorDetail,
@@ -59,20 +53,31 @@ export {
   DeletedConfigurationStoreProperties,
   ProxyResource,
   PrivateEndpointConnection,
+  NetworkSecurityPerimeterConfiguration,
+  NetworkSecurityPerimeterConfigurationProperties,
+  NetworkSecurityPerimeterConfigurationProvisioningState,
+  ProvisioningIssue,
+  ProvisioningIssueProperties,
+  IssueType,
+  Severity,
+  AccessRule,
+  AccessRuleProperties,
+  AccessRuleDirection,
+  NetworkSecurityPerimeter,
+  ResourceAssociation,
+  ResourceAssociationAccessMode,
+  NetworkSecurityProfile,
   PrivateLinkResource,
   PrivateLinkResourceProperties,
   KeyValue,
   KeyValueProperties,
   Replica,
   ReplicaProperties,
-  KnownReplicaProvisioningState,
   ReplicaProvisioningState,
   Snapshot,
   SnapshotProperties,
-  KnownSnapshotStatus,
   SnapshotStatus,
   KeyValueFilter,
-  KnownCompositionType,
   CompositionType,
   OperationDefinition,
   OperationDefinitionDisplay,
@@ -82,13 +87,31 @@ export {
   MetricSpecification,
   MetricDimension,
   CheckNameAvailabilityParameters,
-  KnownConfigurationResourceType,
   ConfigurationResourceType,
   NameAvailabilityStatus,
+} from "./models/index.js";
+export {
+  KnownProvisioningState,
+  KnownConnectionStatus,
+  KnownActionsRequired,
+  KnownPublicNetworkAccess,
+  KnownAuthenticationMode,
+  KnownPrivateLinkDelegation,
+  KnownIdentityType,
+  KnownCreatedByType,
+  KnownNetworkSecurityPerimeterConfigurationProvisioningState,
+  KnownIssueType,
+  KnownSeverity,
+  KnownAccessRuleDirection,
+  KnownResourceAssociationAccessMode,
+  KnownReplicaProvisioningState,
+  KnownSnapshotStatus,
+  KnownCompositionType,
+  KnownConfigurationResourceType,
   KnownVersions,
 } from "./models/index.js";
-export { AppConfigurationManagementClientOptionalParams } from "./api/index.js";
-export {
+export type { AppConfigurationManagementClientOptionalParams } from "./api/index.js";
+export type {
   ConfigurationStoresListDeletedOptionalParams,
   ConfigurationStoresPurgeDeletedOptionalParams,
   ConfigurationStoresGetDeletedOptionalParams,
@@ -101,44 +124,51 @@ export {
   ConfigurationStoresCreateOptionalParams,
   ConfigurationStoresGetOptionalParams,
 } from "./api/configurationStores/index.js";
-export {
+export type {
   KeyValuesDeleteOptionalParams,
   KeyValuesCreateOrUpdateOptionalParams,
   KeyValuesGetOptionalParams,
 } from "./api/keyValues/index.js";
-export {
+export type {
+  NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  NetworkSecurityPerimeterConfigurationsListByConfigurationStoreOptionalParams,
+  NetworkSecurityPerimeterConfigurationsGetOptionalParams,
+} from "./api/networkSecurityPerimeterConfigurations/index.js";
+export type {
   OperationsRegionalCheckNameAvailabilityOptionalParams,
   OperationsCheckNameAvailabilityOptionalParams,
   OperationsListOptionalParams,
 } from "./api/operations/index.js";
-export {
+export type {
   PrivateEndpointConnectionsListByConfigurationStoreOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
 } from "./api/privateEndpointConnections/index.js";
-export {
+export type {
   PrivateLinkResourcesListByConfigurationStoreOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
 } from "./api/privateLinkResources/index.js";
-export {
+export type {
   ReplicasListByConfigurationStoreOptionalParams,
   ReplicasDeleteOptionalParams,
   ReplicasCreateOptionalParams,
   ReplicasGetOptionalParams,
 } from "./api/replicas/index.js";
-export {
+export type {
   SnapshotsCreateOptionalParams,
   SnapshotsGetOptionalParams,
 } from "./api/snapshots/index.js";
-export {
+export type {
   ConfigurationStoresOperations,
   KeyValuesOperations,
+  NetworkSecurityPerimeterConfigurationsOperations,
   OperationsOperations,
   PrivateEndpointConnectionsOperations,
   PrivateLinkResourcesOperations,
   ReplicasOperations,
   SnapshotsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };

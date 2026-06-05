@@ -16,9 +16,7 @@ export function _getSend(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  options: ManagedMaintenanceWindowStatusGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedMaintenanceWindowStatusGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/getMaintenanceWindowStatus{?api%2Dversion}",
@@ -26,7 +24,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -34,10 +32,7 @@ export function _getSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -48,6 +43,7 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -59,9 +55,7 @@ export async function get(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  options: ManagedMaintenanceWindowStatusGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedMaintenanceWindowStatusGetOptionalParams = { requestOptions: {} },
 ): Promise<ManagedMaintenanceWindowStatus> {
   const result = await _getSend(context, resourceGroupName, clusterName, options);
   return _getDeserialize(result);

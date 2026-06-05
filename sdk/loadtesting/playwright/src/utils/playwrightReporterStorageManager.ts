@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlobServiceClient, ContainerClient, BlockBlobClient } from "@azure/storage-blob";
+import type { ContainerClient, BlockBlobClient } from "@azure/storage-blob";
+import { BlobServiceClient } from "@azure/storage-blob";
 import type { TokenCredential } from "@azure/core-auth";
 import { coreLogger } from "../common/logger.js";
 import { readFileSync, writeFileSync, existsSync, createReadStream } from "fs";

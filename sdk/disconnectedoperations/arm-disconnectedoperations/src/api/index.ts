@@ -3,6 +3,6 @@
 
 export {
   createDisconnectedOperationsManagement,
-  DisconnectedOperationsManagementContext,
-  DisconnectedOperationsManagementClientOptionalParams,
+  type DisconnectedOperationsManagementContext,
+  type DisconnectedOperationsManagementClientOptionalParams,
 } from "./disconnectedOperationsManagementContext.js";

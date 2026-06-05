@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export {
-  WidgetSuite,
-  FakedSharedModel,
-  ResourceOperationStatusWidgetSuiteWidgetSuiteError,
+  type WidgetSuite,
+  type FakedSharedModel,
+  type ResourceOperationStatusWidgetSuiteWidgetSuiteError,
   KnownOperationState,
-  OperationState,
+  type OperationState,
   KnownVersions,
 } from "./models.js";

@@ -4,10 +4,10 @@
 import path from "node:path";
 import { cpSync, existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
 import { stat } from "node:fs/promises";
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { createPrinter } from "../../util/printer";
-import { resolveProject } from "../../util/resolveProject";
-import { type ResolvedConfigResult, resolveConfig } from "../../util/resolveTsConfig";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import { createPrinter } from "../../util/printer.ts";
+import { resolveProject } from "../../util/resolveProject.ts";
+import { type ResolvedConfigResult, resolveConfig } from "../../util/resolveTsConfig.ts";
 import { spawnSync } from "node:child_process";
 
 const log = createPrinter("build-test");
@@ -148,6 +148,35 @@ async function runTypeScript(tsConfig: string): Promise<boolean> {
   return true;
 }
 
+/**
+ * Rewrite a source extension (.ts, .mts, .cts) to its compiled counterpart (.js, .mjs, .cjs).
+ */
+function rewriteSourceExtension(p: string): string {
+  return p
+    .replace(/\.mts$/, ".mjs")
+    .replace(/\.cts$/, ".cjs")
+    .replace(/\.ts$/, ".js");
+}
+
+/**
+ * Resolve a package.json `imports` value for use in dist-test.
+ * If the value is a conditional object (e.g. { browser: { default: "..." } }),
+ * resolve to the browser variant, recursing into nested condition objects.
+ * Rewrite source extensions to compiled extensions so paths point to the
+ * TypeScript-compiled output files.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function resolveImportForDistTest(value: any): string {
+  if (typeof value === "string") {
+    return rewriteSourceExtension(value);
+  }
+  if (typeof value === "object" && value !== null) {
+    const resolved = value.browser ?? value.default;
+    return resolveImportForDistTest(resolved);
+  }
+  return value;
+}
+
 async function compileForEnvironment(
   type: string,
   tsConfig: string,
@@ -171,10 +200,11 @@ async function compileForEnvironment(
     mkdirSync(browserTestPath, { recursive: true });
   }
 
-  // Create import map
+  // Create import map for dist-test, resolving conditional imports to the
+  // browser variant and rewriting source extensions to compiled extensions.
   const imports: Record<string, string> = {};
   for (const [key, value] of importMap.entries()) {
-    imports[key] = value;
+    imports[key] = resolveImportForDistTest(value);
   }
 
   const packageJson = {
@@ -266,12 +296,13 @@ function overrideFile(
 }
 
 class OverrideSet {
-  public map: Map<string, string>;
+  map: Map<string, string>;
+  type: "esm" | "commonjs";
+  name: string;
 
-  constructor(
-    public type: "esm" | "commonjs",
-    public name: string,
-  ) {
+  constructor(type: "esm" | "commonjs", name: string) {
+    this.type = type;
+    this.name = name;
     this.map = new Map();
   }
 

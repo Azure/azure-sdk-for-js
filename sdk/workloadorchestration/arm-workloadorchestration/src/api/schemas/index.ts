@@ -12,12 +12,12 @@ export {
   get,
 } from "./operations.js";
 export {
-  SchemasListBySubscriptionOptionalParams,
-  SchemasListByResourceGroupOptionalParams,
-  SchemasRemoveVersionOptionalParams,
-  SchemasCreateVersionOptionalParams,
-  SchemasDeleteOptionalParams,
-  SchemasUpdateOptionalParams,
-  SchemasCreateOrUpdateOptionalParams,
-  SchemasGetOptionalParams,
+  type SchemasListBySubscriptionOptionalParams,
+  type SchemasListByResourceGroupOptionalParams,
+  type SchemasRemoveVersionOptionalParams,
+  type SchemasCreateVersionOptionalParams,
+  type SchemasDeleteOptionalParams,
+  type SchemasUpdateOptionalParams,
+  type SchemasCreateOrUpdateOptionalParams,
+  type SchemasGetOptionalParams,
 } from "./options.js";

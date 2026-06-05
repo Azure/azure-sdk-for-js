@@ -3,10 +3,10 @@
 
 export { listBySubscription, list, $delete, update, create, get } from "./operations.js";
 export {
-  ManagedDashboardsListBySubscriptionOptionalParams,
-  ManagedDashboardsListOptionalParams,
-  ManagedDashboardsDeleteOptionalParams,
-  ManagedDashboardsUpdateOptionalParams,
-  ManagedDashboardsCreateOptionalParams,
-  ManagedDashboardsGetOptionalParams,
+  type ManagedDashboardsListBySubscriptionOptionalParams,
+  type ManagedDashboardsListOptionalParams,
+  type ManagedDashboardsDeleteOptionalParams,
+  type ManagedDashboardsUpdateOptionalParams,
+  type ManagedDashboardsCreateOptionalParams,
+  type ManagedDashboardsGetOptionalParams,
 } from "./options.js";

@@ -7,22 +7,6 @@
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "type": "module",
   "keywords": [
     "node",
@@ -42,7 +26,11 @@
     "CHANGELOG.md"
   ],
   "sdk-type": "client",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/face/ai-vision-face-rest"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -80,8 +68,8 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "^3.2.5",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -149,5 +137,12 @@
   "types": "./dist/commonjs/index.d.ts",
   "module": "./dist/esm/index.js",
   "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

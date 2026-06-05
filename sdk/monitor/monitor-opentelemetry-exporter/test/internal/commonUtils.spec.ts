@@ -129,7 +129,7 @@ describe("commonUtils.ts", () => {
 
         assert.ok(envelope);
         assert.strictEqual(
-          envelope?.data?.baseData?.properties?.[APPLICATION_ID_RESOURCE_KEY],
+          (envelope as any).data?.baseData?.properties?.[APPLICATION_ID_RESOURCE_KEY],
           "my-app-id",
         );
       });

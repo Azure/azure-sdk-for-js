@@ -14,8 +14,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 /**
  * Define a function tool for the model to use
@@ -48,7 +48,7 @@ function getHoroscope(sign) {
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Create agent with function tools
   console.log("Creating agent with function tools...");

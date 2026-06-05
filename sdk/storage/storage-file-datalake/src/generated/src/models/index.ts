@@ -616,6 +616,8 @@ export interface PathAppendDataHeaders {
   encryptionKeySha256?: string;
   /** If the lease was auto-renewed with this request */
   leaseRenewed?: boolean;
+  /** Indicates the structured message body was accepted and mirrors back the message schema version and properties. */
+  structuredBodyType?: string;
 }
 
 /** Defines headers for Path_appendData operation. */

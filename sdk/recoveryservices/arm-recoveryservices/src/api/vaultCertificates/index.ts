@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { create } from "./operations.js";
-export { VaultCertificatesCreateOptionalParams } from "./options.js";
+export { type VaultCertificatesCreateOptionalParams } from "./options.js";

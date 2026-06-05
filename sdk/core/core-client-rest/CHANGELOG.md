@@ -1,14 +1,16 @@
 # Release History
 
-## 2.5.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 2.6.1 (2026-06-04)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix `operationOptionsToRequestParameters` to correctly preserve `tracingOptions` in the returned `RequestParameters`. [PR #38285](https://github.com/Azure/azure-sdk-for-js/pull/38285)
+
+## 2.6.0 (2026-04-07)
+
+### Features Added
+
+- support passing `pipeline` via `ClientOptions`. [PR #37253](https://github.com/Azure/azure-sdk-for-js/pull/37253)
 
 ## 2.5.1 (2025-09-11)
 

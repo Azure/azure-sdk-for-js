@@ -11,7 +11,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { AgriculturePlatformClientOptionalParams } from "./api/agriculturePlatformContext.js";
+export { type AgriculturePlatformClientOptionalParams } from "./api/agriculturePlatformContext.js";
 
 export class AgriculturePlatformClient {
   private _client: AgriculturePlatformContext;

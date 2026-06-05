@@ -3,9 +3,9 @@
 
 export { listByTrafficController, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
-  SecurityPoliciesInterfaceDeleteOptionalParams,
-  SecurityPoliciesInterfaceUpdateOptionalParams,
-  SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
-  SecurityPoliciesInterfaceGetOptionalParams,
+  type SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
+  type SecurityPoliciesInterfaceDeleteOptionalParams,
+  type SecurityPoliciesInterfaceUpdateOptionalParams,
+  type SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
+  type SecurityPoliciesInterfaceGetOptionalParams,
 } from "./options.js";

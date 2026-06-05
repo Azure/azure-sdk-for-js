@@ -15,8 +15,12 @@
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/appconfiguration/app-configuration"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -33,7 +37,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript swagger/swagger.md",
+    "generate:client": "tsp-client update -d --emitter-options=\"generate-metadata=false;generate-test=false\" && npm run format",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix",
     "pack": "pnpm pack 2>&1",
@@ -58,17 +62,18 @@
         "prefix": "packageDetails"
       },
       {
-        "path": "swagger/swagger.md",
-        "prefix": "package-version"
+        "path": "src/generated/api/azureAppConfigurationContext.ts",
+        "prefix": "userAgentInfo"
       }
     ]
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.0.0",
+    "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.3.0",
-    "@azure/core-client": "^1.5.0",
+    "@azure/core-client": "^1.9.2",
+    "@azure-rest/core-client": "^2.6.0",
     "@azure/core-http-compat": "^2.0.0",
-    "@azure/core-lro": "^2.5.1",
+    "@azure/core-lro": "^3.1.0",
     "@azure/core-paging": "^1.4.0",
     "@azure/core-rest-pipeline": "^1.6.0",
     "@azure/core-tracing": "^1.0.0",
@@ -95,8 +100,8 @@
     "nock": "catalog:testing",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -115,22 +120,6 @@
     ]
   },
   "type": "module",
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
@@ -153,5 +142,12 @@
       }
     }
   },
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

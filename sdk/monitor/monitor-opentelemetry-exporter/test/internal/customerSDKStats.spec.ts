@@ -53,9 +53,7 @@ function createMockEnvelopes(
       instrumentationKey: "00000000-0000-0000-0000-000000000000",
       data: {
         baseType: baseType,
-        baseData: {
-          version: 2,
-        },
+        baseData: undefined,
       },
     };
 

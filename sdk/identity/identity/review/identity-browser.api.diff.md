@@ -19,7 +19,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(tenantId: string | "common", clientId: string, authorizationCode: string, redirectUri: string, options?: AuthorizationCodeCredentialOptions);
 -    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 +    // (undocumented)
-+    getToken(): Promise<AccessToken | null>;
++    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
  }
  
  // @public
@@ -31,9 +31,9 @@ For the complete API surface, see the corresponding -node.api.md file.
  export class AzureCliCredential implements TokenCredential {
 -    constructor(options?: AzureCliCredentialOptions);
 -    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-+    constructor();
++    constructor(_options?: AzureCliCredentialOptions);
 +    // (undocumented)
-+    getToken(): Promise<AccessToken | null>;
++    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
  }
  
  // @public
@@ -45,9 +45,9 @@ For the complete API surface, see the corresponding -node.api.md file.
  export class AzureDeveloperCliCredential implements TokenCredential {
 -    constructor(options?: AzureDeveloperCliCredentialOptions);
 -    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-+    constructor();
++    constructor(_options?: AzureDeveloperCliCredentialOptions);
 +    // (undocumented)
-+    getToken(): Promise<AccessToken | null>;
++    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
  }
  
  // @public
@@ -59,9 +59,9 @@ For the complete API surface, see the corresponding -node.api.md file.
  export class AzurePipelinesCredential implements TokenCredential {
 -    constructor(tenantId: string, clientId: string, serviceConnectionId: string, systemAccessToken: string, options?: AzurePipelinesCredentialOptions);
 -    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-+    constructor();
++    constructor(_tenantId: string, _clientId: string, _serviceConnectionId: string, _systemAccessToken: string, _options?: AzurePipelinesCredentialOptions);
 +    // (undocumented)
-+    getToken(): Promise<AccessToken | null>;
++    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
  }
  
  // @public
@@ -72,9 +72,9 @@ For the complete API surface, see the corresponding -node.api.md file.
  export class AzurePowerShellCredential implements TokenCredential {
 -    constructor(options?: AzurePowerShellCredentialOptions);
 -    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-+    constructor();
++    constructor(_options?: AzurePowerShellCredentialOptions);
 +    // (undocumented)
-+    getToken(): Promise<AccessToken | null>;
++    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
  }
  
  // @public
@@ -86,9 +86,9 @@ For the complete API surface, see the corresponding -node.api.md file.
  export class ClientAssertionCredential implements TokenCredential {
 -    constructor(tenantId: string, clientId: string, getAssertion: () => Promise<string>, options?: ClientAssertionCredentialOptions);
 -    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-+    constructor();
++    constructor(_tenantId: string, _clientId: string, _getAssertion: () => Promise<string>, _options?: ClientAssertionCredentialOptions);
 +    // (undocumented)
-+    getToken(): Promise<AccessToken | null>;
++    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
  }
  
  // @public
@@ -101,9 +101,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    constructor(tenantId: string, clientId: string, configuration: ClientCertificatePEMCertificatePath, options?: ClientCertificateCredentialOptions);
 -    constructor(tenantId: string, clientId: string, configuration: ClientCertificatePEMCertificate, options?: ClientCertificateCredentialOptions);
 -    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-+    constructor();
++    constructor(_tenantId: string, _clientId: string, _certificatePathOrConfiguration: string | ClientCertificateCredentialPEMConfiguration, _options?: ClientCertificateCredentialOptions);
 +    // (undocumented)
-+    getToken(): Promise<AccessToken | null>;
++    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
  }
  
  // @public
@@ -129,7 +129,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    constructor(options?: DefaultAzureCredentialOptions);
 +    constructor(_tokenCredentialOptions?: TokenCredentialOptions);
 +    // (undocumented)
-+    getToken(): Promise<AccessToken>;
++    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken>;
  }
  
  // @public
@@ -142,9 +142,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    constructor(options?: DeviceCodeCredentialOptions);
 -    authenticate(scopes: string | string[], options?: GetTokenOptions): Promise<AuthenticationRecord | undefined>;
 -    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-+    constructor();
++    constructor(_options?: DeviceCodeCredentialOptions);
 +    // (undocumented)
-+    getToken(): Promise<AccessToken | null>;
++    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
  }
  
  // @public
@@ -156,9 +156,9 @@ For the complete API surface, see the corresponding -node.api.md file.
  export class EnvironmentCredential implements TokenCredential {
 -    constructor(options?: EnvironmentCredentialOptions);
 -    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-+    constructor();
++    constructor(_options?: EnvironmentCredentialOptions);
 +    // (undocumented)
-+    getToken(): Promise<AccessToken | null>;
++    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
  }
  
  // @public
@@ -174,7 +174,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
  }
  
-@@ -361,15 +367,13 @@
+@@ -361,15 +367,16 @@
  
  // @public
  export const logger: AzureLogger;
@@ -182,19 +182,18 @@ For the complete API surface, see the corresponding -node.api.md file.
 -// @public
 +// @public (undocumented)
  export class ManagedIdentityCredential implements TokenCredential {
--    constructor(clientId: string, options?: TokenCredentialOptions);
--    constructor(options?: ManagedIdentityCredentialClientIdOptions);
--    constructor(options?: ManagedIdentityCredentialResourceIdOptions);
--    constructor(options?: ManagedIdentityCredentialObjectIdOptions);
+     constructor(clientId: string, options?: TokenCredentialOptions);
+     constructor(options?: ManagedIdentityCredentialClientIdOptions);
+     constructor(options?: ManagedIdentityCredentialResourceIdOptions);
+     constructor(options?: ManagedIdentityCredentialObjectIdOptions);
 -    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-+    constructor();
 +    // (undocumented)
-+    getToken(): Promise<AccessToken | null>;
++    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
  }
  
  // @public
  export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentialOptions {
-@@ -392,12 +396,11 @@
+@@ -392,12 +399,11 @@
  }
  
  // @public
@@ -203,14 +202,14 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    constructor(options: OnBehalfOfCredentialSecretOptions & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions);
 -    constructor(options: OnBehalfOfCredentialAssertionOptions & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions);
 -    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-+    constructor();
++    constructor(_options: OnBehalfOfCredentialOptions);
 +    // (undocumented)
-+    getToken(): Promise<AccessToken | null>;
++    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
  }
  
  // @public
  export interface OnBehalfOfCredentialAssertionOptions {
-@@ -447,25 +450,26 @@
+@@ -447,25 +453,26 @@
          enableUnsafeSupportLogging?: boolean;
      };
  }
@@ -237,22 +236,22 @@ For the complete API surface, see the corresponding -node.api.md file.
  export class VisualStudioCodeCredential implements TokenCredential {
 -    constructor(options?: VisualStudioCodeCredentialOptions);
 -    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-+    constructor();
++    constructor(_options?: VisualStudioCodeCredentialOptions);
 +    // (undocumented)
-+    getToken(): Promise<AccessToken | null>;
++    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
  }
  
  // @public
  export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCredentialOptions {
-@@ -473,10 +477,10 @@
+@@ -473,10 +480,10 @@
  }
  
  // @public
  export class WorkloadIdentityCredential implements TokenCredential {
 -    constructor(options?: WorkloadIdentityCredentialOptions);
 -    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-+    constructor();
-+    getToken(): Promise<AccessToken | null>;
++    constructor(_options?: WorkloadIdentityCredentialOptions);
++    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
  }
  
  // @public

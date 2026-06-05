@@ -3,6 +3,6 @@
 
 export { getBuildSourceUploadUrl, scheduleRun } from "./operations.js";
 export {
-  RegistriesGetBuildSourceUploadUrlOptionalParams,
-  RegistriesScheduleRunOptionalParams,
+  type RegistriesGetBuildSourceUploadUrlOptionalParams,
+  type RegistriesScheduleRunOptionalParams,
 } from "./options.js";

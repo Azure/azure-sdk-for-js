@@ -3,7 +3,7 @@
 
 export { update, createOrUpdate, get } from "./operations.js";
 export {
-  VaultExtendedInfoUpdateOptionalParams,
-  VaultExtendedInfoCreateOrUpdateOptionalParams,
-  VaultExtendedInfoGetOptionalParams,
+  type VaultExtendedInfoUpdateOptionalParams,
+  type VaultExtendedInfoCreateOrUpdateOptionalParams,
+  type VaultExtendedInfoGetOptionalParams,
 } from "./options.js";

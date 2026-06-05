@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByNetAppAccount, $delete, create, get } from "./operations.js";
-export {
+export type {
   VolumeGroupsListByNetAppAccountOptionalParams,
   VolumeGroupsDeleteOptionalParams,
   VolumeGroupsCreateOptionalParams,

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.5.1 (Unreleased)
+## 1.5.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.5.1 (2026-04-07)
+
+### Other Changes
+
+- Bump `fast-xml-parser` dependency to `^5.5.9` [#37665](https://github.com/Azure/azure-sdk-for-js/issues/37665)
 
 ## 1.5.0 (2025-07-10)
 

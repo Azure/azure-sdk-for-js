@@ -3,4 +3,4 @@
 
 export { JsonSchemaSerializer } from "./jsonSchemaSerializer.js";
 
-export * from "./models.js";
+export type * from "./models.js";

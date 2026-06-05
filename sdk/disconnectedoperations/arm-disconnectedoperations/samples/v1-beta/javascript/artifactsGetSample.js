@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the resource
  *
  * @summary get the resource
- * x-ms-original-file: 2025-06-01-preview/Artifacts_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-15/Artifacts_Get_MaximumSet_Gen.json
  */
 async function artifactsGet() {
   const credential = new DefaultAzureCredential();

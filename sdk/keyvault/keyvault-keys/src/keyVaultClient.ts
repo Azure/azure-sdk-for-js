@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createKeyVault, KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
-import {
+import type { KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
+import { createKeyVault } from "./api/index.js";
+import type {
   KeyCreateParameters,
   KeyBundle,
   KeyImportParameters,
@@ -23,7 +24,7 @@ import {
   GetRandomBytesRequest,
   RandomBytes,
 } from "./models/models.js";
-import {
+import type {
   GetKeyAttestationOptionalParams,
   GetRandomBytesOptionalParams,
   UpdateKeyRotationPolicyOptionalParams,
@@ -77,11 +78,11 @@ import {
   rotateKey,
   createKey,
 } from "./api/operations.js";
-import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
+export type { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
 
 export class KeyVaultClient {
   private _client: KeyVaultContext;
@@ -108,7 +109,7 @@ export class KeyVaultClient {
   /** The get key attestation operation returns the key along with its attestation blob. This operation requires the keys/get permission. */
   getKeyAttestation(
     keyName: string,
-    keyVersion: string,
+    keyVersion: string | undefined,
     options: GetKeyAttestationOptionalParams = { requestOptions: {} },
   ): Promise<KeyBundle> {
     return getKeyAttestation(this._client, keyName, keyVersion, options);
@@ -173,7 +174,7 @@ export class KeyVaultClient {
   /** The release key operation is applicable to all key types. The target key must be marked exportable. This operation requires the keys/release permission. */
   release(
     keyName: string,
-    keyVersion: string,
+    keyVersion: string | undefined,
     parameters: KeyReleaseParameters,
     options: ReleaseOptionalParams = { requestOptions: {} },
   ): Promise<KeyReleaseResult> {

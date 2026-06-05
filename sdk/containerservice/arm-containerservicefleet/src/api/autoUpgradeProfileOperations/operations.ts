@@ -16,9 +16,7 @@ export function _generateUpdateRunSend(
   resourceGroupName: string,
   fleetName: string,
   autoUpgradeProfileName: string,
-  options: AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/autoUpgradeProfiles/{autoUpgradeProfileName}/generateUpdateRun{?api%2Dversion}",
@@ -27,7 +25,7 @@ export function _generateUpdateRunSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       autoUpgradeProfileName: autoUpgradeProfileName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -35,20 +33,18 @@ export function _generateUpdateRunSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
 export async function _generateUpdateRunDeserialize(
   result: PathUncheckedResponse,
 ): Promise<GenerateResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -61,11 +57,9 @@ export function generateUpdateRun(
   resourceGroupName: string,
   fleetName: string,
   autoUpgradeProfileName: string,
-  options: AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<GenerateResponse>, GenerateResponse> {
-  return getLongRunningPoller(context, _generateUpdateRunDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _generateUpdateRunDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -77,5 +71,6 @@ export function generateUpdateRun(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-03-02-preview",
   }) as PollerLike<OperationState<GenerateResponse>, GenerateResponse>;
 }

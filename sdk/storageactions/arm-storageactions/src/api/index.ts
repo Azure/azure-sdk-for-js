@@ -3,6 +3,6 @@
 
 export {
   createStorageActionsManagement,
-  StorageActionsManagementContext,
-  StorageActionsManagementClientOptionalParams,
+  type StorageActionsManagementContext,
+  type StorageActionsManagementClientOptionalParams,
 } from "./storageActionsManagementContext.js";

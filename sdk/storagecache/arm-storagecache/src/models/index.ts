@@ -472,6 +472,20 @@ export interface AutoImportJobsListResult {
   nextLink?: string;
 }
 
+/** An expansion job update instance. */
+export interface ExpansionJobUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Result of the request to list expansion jobs. It contains a list of expansion jobs and a URL link to get the next set of results. */
+export interface ExpansionJobsListResult {
+  /** List of expansion jobs. */
+  value?: ExpansionJob[];
+  /** URL to get the next set of expansion job list results, if there are any. */
+  nextLink?: string;
+}
+
 /** Information required to validate the subnet that will be used in AML file system create */
 export interface AmlFilesystemSubnetInfo {
   /** Subnet used for managing the AML file system and for client-facing operations. This subnet should have at least a /24 subnet mask within the VNET's address space. */
@@ -1245,6 +1259,16 @@ export interface AmlFilesystem extends TrackedResource {
   /** The size of the AML file system, in TiB. This might be rounded up. */
   storageCapacityTiB?: number;
   /**
+   * The current storage capacity of the AML file system, in TiB. This reflects the actual capacity including any expansions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentStorageCapacityTiB?: number;
+  /**
+   * The unique identifier of the AML file system cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clusterUuid?: string;
+  /**
    * Health of the AML file system.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1577,6 +1601,47 @@ export interface AutoImportJob extends TrackedResource {
   readonly lastCompletionTimeUTC?: Date;
 }
 
+/** An expansion job instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md */
+export interface ExpansionJob extends TrackedResource {
+  /**
+   * ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ExpansionJobPropertiesProvisioningState;
+  /** The new storage capacity in TiB for the AML file system after expansion. This must be a multiple of the Sku step size, and greater than the current storage capacity of the AML file system. */
+  newStorageCapacityTiB?: number;
+  /**
+   * The operational state of the expansion job. InProgress indicates the expansion is still running. Completed indicates expansion finished successfully. Failed means the expansion was unable to complete due to a fatal error. Deleting indicates the expansion is being rolled back.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: ExpansionJobStatusType;
+  /**
+   * Server-defined status code for expansion job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusCode?: string;
+  /**
+   * Server-defined status message for expansion job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusMessage?: string;
+  /**
+   * The percentage of expansion job completion.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly percentComplete?: number;
+  /**
+   * The time (in UTC) the expansion job started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTimeUTC?: Date;
+  /**
+   * The time (in UTC) when the expansion job completed. Only populated when job reaches a terminal state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly completionTimeUTC?: Date;
+}
+
 /** Defines headers for AmlFilesystems_delete operation. */
 export interface AmlFilesystemsDeleteHeaders {
   /** Location URI to poll for result */
@@ -1657,6 +1722,30 @@ export interface AutoImportJobsCreateOrUpdateHeaders {
 /** Defines headers for AutoImportJobs_update operation. */
 export interface AutoImportJobsUpdateHeaders {
   location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ExpansionJobs_delete operation. */
+export interface ExpansionJobsDeleteHeaders {
+  /** URL for monitoring the status. */
+  location?: string;
+  /** URL for monitoring the async operation status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ExpansionJobs_createOrUpdate operation. */
+export interface ExpansionJobsCreateOrUpdateHeaders {
+  /** URL for monitoring the status. */
+  location?: string;
+  /** URL for monitoring the async operation status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ExpansionJobs_update operation. */
+export interface ExpansionJobsUpdateHeaders {
+  /** URL for monitoring the status. */
+  location?: string;
+  /** URL for monitoring the async operation status. */
   azureAsyncOperation?: string;
 }
 
@@ -1824,6 +1913,8 @@ export enum KnownAmlFilesystemHealthStateType {
   Transitioning = "Transitioning",
   /** Maintenance */
   Maintenance = "Maintenance",
+  /** Expanding */
+  Expanding = "Expanding",
 }
 
 /**
@@ -1835,7 +1926,8 @@ export enum KnownAmlFilesystemHealthStateType {
  * **Available** \
  * **Degraded** \
  * **Transitioning** \
- * **Maintenance**
+ * **Maintenance** \
+ * **Expanding**
  */
 export type AmlFilesystemHealthStateType = string;
 
@@ -2216,6 +2308,63 @@ export enum KnownAutoImportJobUpdatePropertiesAdminStatus {
  * **Disable**
  */
 export type AutoImportJobUpdatePropertiesAdminStatus = string;
+
+/** Known values of {@link ExpansionJobPropertiesProvisioningState} that the service accepts. */
+export enum KnownExpansionJobPropertiesProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for ExpansionJobPropertiesProvisioningState. \
+ * {@link KnownExpansionJobPropertiesProvisioningState} can be used interchangeably with ExpansionJobPropertiesProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Creating** \
+ * **Deleting** \
+ * **Updating** \
+ * **Canceled**
+ */
+export type ExpansionJobPropertiesProvisioningState = string;
+
+/** Known values of {@link ExpansionJobStatusType} that the service accepts. */
+export enum KnownExpansionJobStatusType {
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Completed */
+  Completed = "Completed",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** RollingBack */
+  RollingBack = "RollingBack",
+}
+
+/**
+ * Defines values for ExpansionJobStatusType. \
+ * {@link KnownExpansionJobStatusType} can be used interchangeably with ExpansionJobStatusType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress** \
+ * **Completed** \
+ * **Failed** \
+ * **Deleting** \
+ * **RollingBack**
+ */
+export type ExpansionJobStatusType = string;
 
 /** Known values of {@link FilesystemSubnetStatusType} that the service accepts. */
 export enum KnownFilesystemSubnetStatusType {
@@ -2807,6 +2956,59 @@ export interface AutoImportJobsListByAmlFilesystemNextOptionalParams
 
 /** Contains response data for the listByAmlFilesystemNext operation. */
 export type AutoImportJobsListByAmlFilesystemNextResponse = AutoImportJobsListResult;
+
+/** Optional parameters. */
+export interface ExpansionJobsDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ExpansionJobsDeleteResponse = ExpansionJobsDeleteHeaders;
+
+/** Optional parameters. */
+export interface ExpansionJobsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ExpansionJobsGetResponse = ExpansionJob;
+
+/** Optional parameters. */
+export interface ExpansionJobsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ExpansionJobsCreateOrUpdateResponse = ExpansionJob;
+
+/** Optional parameters. */
+export interface ExpansionJobsUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ExpansionJobsUpdateResponse = ExpansionJob;
+
+/** Optional parameters. */
+export interface ExpansionJobsListByAmlFilesystemOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAmlFilesystem operation. */
+export type ExpansionJobsListByAmlFilesystemResponse = ExpansionJobsListResult;
+
+/** Optional parameters. */
+export interface ExpansionJobsListByAmlFilesystemNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAmlFilesystemNext operation. */
+export type ExpansionJobsListByAmlFilesystemNextResponse = ExpansionJobsListResult;
 
 /** Optional parameters. */
 export interface CheckAmlFSSubnetsOptionalParams extends coreClient.OperationOptions {

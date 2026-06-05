@@ -27,7 +27,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { BlockClientOptionalParams } from "./api/blockContext.js";
+export { type BlockClientOptionalParams } from "./api/blockContext.js";
 
 export class BlockClient {
   private _client: BlockContext;

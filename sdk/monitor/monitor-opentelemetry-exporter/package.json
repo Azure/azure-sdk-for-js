@@ -2,7 +2,7 @@
   "name": "@azure/monitor-opentelemetry-exporter",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "1.0.0-beta.38",
+  "version": "1.0.0-beta.43",
   "description": "Application Insights exporter for the OpenTelemetry JavaScript (Node.js) SDK",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -15,7 +15,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript ./swagger/README.md",
+    "generate:client": "tsp-client update -d && npm run format",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
@@ -36,8 +36,12 @@
     "LICENSE"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter/",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/monitor/monitor-opentelemetry-exporter"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -45,16 +49,8 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/applicationInsightsClient.ts",
-        "prefix": "packageDetails"
-      },
-      {
         "path": "src/utils/constants/applicationinsights.ts",
         "prefix": "packageVersion"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
       }
     ]
   },
@@ -69,13 +65,12 @@
   },
   "devDependencies": {
     "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/core-util": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/logger": "^1.1.4",
-    "@opentelemetry/instrumentation": "^0.205.0",
-    "@opentelemetry/instrumentation-http": "^0.205.0",
-    "@opentelemetry/sdk-trace-node": "^2.1.0",
+    "@opentelemetry/instrumentation": "^0.218.0",
+    "@opentelemetry/instrumentation-http": "^0.218.0",
+    "@opentelemetry/sdk-trace-node": "^2.7.1",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
@@ -86,23 +81,24 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "dependencies": {
+    "@azure-rest/core-client": "^2.5.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
     "@azure/core-rest-pipeline": "^1.19.0",
     "@opentelemetry/api": "^1.9.0",
-    "@opentelemetry/api-logs": "^0.205.0",
-    "@opentelemetry/core": "^2.1.0",
-    "@opentelemetry/resources": "^2.1.0",
-    "@opentelemetry/sdk-logs": "^0.205.0",
-    "@opentelemetry/sdk-metrics": "^2.1.0",
-    "@opentelemetry/sdk-trace-base": "^2.1.0",
-    "@opentelemetry/semantic-conventions": "^1.37.0",
-    "tslib": "^2.8.1"
+    "@opentelemetry/api-logs": "^0.218.0",
+    "@opentelemetry/core": "^2.7.1",
+    "@opentelemetry/resources": "^2.7.1",
+    "@opentelemetry/sdk-logs": "^0.218.0",
+    "@opentelemetry/sdk-metrics": "^2.7.1",
+    "@opentelemetry/sdk-trace-base": "^2.7.1",
+    "@opentelemetry/semantic-conventions": "^1.40.0",
+    "tslib": "^2.8.1",
+    "@azure/core-util": "^1.11.0"
   },
   "sideEffects": false,
   "keywords": [
@@ -116,18 +112,6 @@
     "cloud"
   ],
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -139,6 +123,11 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
     }
   }
 }

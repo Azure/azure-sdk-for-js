@@ -3,8 +3,8 @@
 
 export { $delete, createOrUpdate, get, list } from "./operations.js";
 export {
-  PureStoragePoliciesDeleteOptionalParams,
-  PureStoragePoliciesCreateOrUpdateOptionalParams,
-  PureStoragePoliciesGetOptionalParams,
-  PureStoragePoliciesListOptionalParams,
+  type PureStoragePoliciesDeleteOptionalParams,
+  type PureStoragePoliciesCreateOrUpdateOptionalParams,
+  type PureStoragePoliciesGetOptionalParams,
+  type PureStoragePoliciesListOptionalParams,
 } from "./options.js";

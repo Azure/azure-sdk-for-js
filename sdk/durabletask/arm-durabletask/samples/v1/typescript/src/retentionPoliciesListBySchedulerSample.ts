@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Retention Policies
  *
  * @summary list Retention Policies
- * x-ms-original-file: 2025-11-01/RetentionPolicies_ListByScheduler_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-02-01/RetentionPolicies_ListByScheduler_MaximumSet_Gen.json
  */
 async function retentionPoliciesListBySchedulerMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

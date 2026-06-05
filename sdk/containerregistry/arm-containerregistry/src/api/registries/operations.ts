@@ -70,7 +70,7 @@ export function _listPrivateLinkResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -89,6 +89,7 @@ export async function _listPrivateLinkResourcesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -107,7 +108,11 @@ export function listPrivateLinkResources(
     () => _listPrivateLinkResourcesSend(context, resourceGroupName, registryName, options),
     _listPrivateLinkResourcesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    },
   );
 }
 
@@ -125,7 +130,7 @@ export function _getPrivateLinkResourceSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -144,6 +149,7 @@ export async function _getPrivateLinkResourceDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -177,7 +183,7 @@ export function _checkNameAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/checkNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,6 +204,7 @@ export async function _checkNameAvailabilityDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -227,7 +234,7 @@ export function _generateCredentialsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -248,6 +255,7 @@ export async function _generateCredentialsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -274,6 +282,7 @@ export function generateCredentials(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-01-01-preview",
   }) as PollerLike<OperationState<GenerateCredentialsResult>, GenerateCredentialsResult>;
 }
 
@@ -290,7 +299,7 @@ export function _regenerateCredentialSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -311,6 +320,7 @@ export async function _regenerateCredentialDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -347,7 +357,7 @@ export function _listCredentialsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -366,6 +376,7 @@ export async function _listCredentialsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -395,7 +406,7 @@ export function _listUsagesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -414,6 +425,7 @@ export async function _listUsagesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -444,7 +456,7 @@ export function _importImageSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -462,6 +474,7 @@ export async function _importImageDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -482,6 +495,7 @@ export function importImage(
     getInitialResponse: () =>
       _importImageSend(context, resourceGroupName, registryName, parameters, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-01-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -493,7 +507,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/registries{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -512,6 +526,7 @@ export async function _listDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -528,7 +543,11 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    },
   );
 }
 
@@ -542,7 +561,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -561,6 +580,7 @@ export async function _listByResourceGroupDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -578,7 +598,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    },
   );
 }
 
@@ -594,7 +618,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -604,10 +628,11 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202", "204", "201"];
+  const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -626,11 +651,12 @@ export function $delete(
   registryName: string,
   options: RegistriesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, registryName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-01-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -647,7 +673,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -666,6 +692,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -686,6 +713,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, registryName, registryUpdateParameters, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-01-01-preview",
   }) as PollerLike<OperationState<Registry>, Registry>;
 }
 
@@ -702,7 +730,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -721,6 +749,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -741,6 +770,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, registryName, registry, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-01-01-preview",
   }) as PollerLike<OperationState<Registry>, Registry>;
 }
 
@@ -756,7 +786,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -773,6 +803,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Re
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

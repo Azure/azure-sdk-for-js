@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listBySubscriptionLocationResource, $delete, create, get } from "./operations.js";
-export {
+export type {
   SharedLimitsListBySubscriptionLocationResourceOptionalParams,
   SharedLimitsDeleteOptionalParams,
   SharedLimitsCreateOptionalParams,

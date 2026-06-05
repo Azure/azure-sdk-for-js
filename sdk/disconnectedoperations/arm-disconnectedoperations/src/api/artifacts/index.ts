@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listDownloadUri, get, listByParent } from "./operations.js";
-export {
+export type {
   ArtifactsListDownloadUriOptionalParams,
   ArtifactsGetOptionalParams,
   ArtifactsListByParentOptionalParams,

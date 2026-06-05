@@ -14,7 +14,7 @@ import { _getDeploymentStacksWhatIfResultsAtSubscriptionOperations } from "./cla
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { DeploymentStacksClientOptionalParams } from "./api/deploymentStacksContext.js";
+export { type DeploymentStacksClientOptionalParams } from "./api/deploymentStacksContext.js";
 
 export class DeploymentStacksClient {
   private _client: DeploymentStacksContext;

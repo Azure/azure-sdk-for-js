@@ -3,6 +3,6 @@
 
 export { listByInstance, get } from "./operations.js";
 export {
-  InstanceHistoriesListByInstanceOptionalParams,
-  InstanceHistoriesGetOptionalParams,
+  type InstanceHistoriesListByInstanceOptionalParams,
+  type InstanceHistoriesGetOptionalParams,
 } from "./options.js";

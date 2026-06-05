@@ -5,14 +5,18 @@
   "description": "Performance tests for the Azure App Configuration client library",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/appconfiguration/app-configuration-perf-tests"
+  },
   "engines": {
     "node": ">=20.0.0"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration-perf-tests/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration-perf-tests/README.md",
   "sideEffects": false,
   "type": "module",
   "main": "./dist/commonjs/index.js",
@@ -57,7 +61,6 @@
     "eslint": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:"
   },
   "scripts": {
@@ -75,15 +78,9 @@
     "test:node": "echo skipped",
     "update-snippets": "dev-tool run update-snippets"
   },
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
   }
 }

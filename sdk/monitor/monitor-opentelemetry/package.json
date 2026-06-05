@@ -2,7 +2,7 @@
   "name": "@azure/monitor-opentelemetry",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "1.15.1",
+  "version": "1.18.2",
   "description": "Azure Monitor OpenTelemetry (Node.js)",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -35,12 +35,24 @@
     "LICENSE"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry/",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/monitor/monitor-opentelemetry"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/types.ts",
+        "prefix": "AZURE_MONITOR_OPENTELEMETRY_VERSION"
+      }
+    ]
+  },
   "//sampleConfiguration": {
     "productName": "Azure Monitor OpenTelemetry",
     "productSlugs": [
@@ -56,7 +68,8 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/functions": "^4.9.0",
     "@azure/functions-old": "npm:@azure/functions@3.5.1",
-    "@opentelemetry/exporter-metrics-otlp-http": "^0.204.0",
+    "@opentelemetry/exporter-metrics-otlp-http": "^0.218.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.218.0",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
@@ -65,38 +78,37 @@
     "eslint": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "dependencies": {
+    "@azure-rest/core-client": "^2.5.2",
     "@azure/core-auth": "^1.10.1",
-    "@azure/core-client": "^1.10.1",
     "@azure/core-rest-pipeline": "^1.22.2",
     "@azure/logger": "^1.3.0",
-    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.38",
-    "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.9",
+    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.42",
+    "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0",
     "@microsoft/applicationinsights-web-snippet": "^1.2.3",
     "@opentelemetry/api": "^1.9.0",
-    "@opentelemetry/api-logs": "^0.208.0",
-    "@opentelemetry/core": "^2.2.0",
-    "@opentelemetry/instrumentation": "^0.208.0",
-    "@opentelemetry/instrumentation-bunyan": "^0.54.0",
-    "@opentelemetry/instrumentation-http": "^0.208.0",
-    "@opentelemetry/instrumentation-mongodb": "^0.61.0",
-    "@opentelemetry/instrumentation-mysql": "^0.54.0",
-    "@opentelemetry/instrumentation-pg": "^0.61.0",
-    "@opentelemetry/instrumentation-redis": "^0.57.0",
-    "@opentelemetry/instrumentation-winston": "^0.53.0",
-    "@opentelemetry/resource-detector-azure": "^0.7.0",
-    "@opentelemetry/resources": "^2.2.0",
-    "@opentelemetry/sdk-logs": "^0.208.0",
-    "@opentelemetry/sdk-metrics": "^2.2.0",
-    "@opentelemetry/sdk-node": "^0.208.0",
-    "@opentelemetry/sdk-trace-base": "^2.2.0",
-    "@opentelemetry/sdk-trace-node": "^2.2.0",
-    "@opentelemetry/semantic-conventions": "^1.38.0",
-    "@opentelemetry/winston-transport": "^0.19.0",
+    "@opentelemetry/api-logs": "^0.218.0",
+    "@opentelemetry/core": "^2.7.1",
+    "@opentelemetry/instrumentation": "^0.218.0",
+    "@opentelemetry/instrumentation-bunyan": "^0.62.0",
+    "@opentelemetry/instrumentation-http": "^0.218.0",
+    "@opentelemetry/instrumentation-mongodb": "^0.70.0",
+    "@opentelemetry/instrumentation-mysql": "^0.63.0",
+    "@opentelemetry/instrumentation-pg": "^0.69.0",
+    "@opentelemetry/instrumentation-redis": "^0.65.0",
+    "@opentelemetry/instrumentation-winston": "^0.61.0",
+    "@opentelemetry/resource-detector-azure": "^0.25.0",
+    "@opentelemetry/resources": "^2.7.1",
+    "@opentelemetry/sdk-logs": "^0.218.0",
+    "@opentelemetry/sdk-metrics": "^2.7.1",
+    "@opentelemetry/sdk-node": "^0.218.0",
+    "@opentelemetry/sdk-trace-base": "^2.7.1",
+    "@opentelemetry/sdk-trace-node": "^2.7.1",
+    "@opentelemetry/semantic-conventions": "^1.40.0",
+    "@opentelemetry/winston-transport": "^0.27.0",
     "tslib": "^2.8.1"
   },
   "sideEffects": false,
@@ -110,19 +122,6 @@
     "cloud"
   ],
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./loader": "./src/loader.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -144,6 +143,11 @@
         "types": "./dist/commonjs/loader.d.ts",
         "default": "./dist/commonjs/loader.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
     }
   }
 }

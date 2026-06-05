@@ -1,0 +1,29 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/contentunderstanding/
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/contentunderstanding/
+extends:
+  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: contentunderstanding
+    Artifacts:
+      - name: azure-ai-content-understanding
+        safeName: azureaicontentunderstanding

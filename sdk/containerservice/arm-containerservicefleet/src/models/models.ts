@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
 import { stringToUint8Array } from "@azure/core-util";
 
 /**
@@ -54,7 +55,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -176,6 +177,293 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   };
 }
 
+/** A cluster mesh profile stores the general information about the mesh. */
+export interface ClusterMeshProfile extends ProxyResource {
+  /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  readonly eTag?: string;
+  /** The provisioning state of the cluster mesh profile. */
+  readonly provisioningState?: ClusterMeshProfileProvisioningState;
+  /**
+   * Select the members of the mesh.
+   *   * Only key/value pairs with the `=` operator are accepted in the label selector.
+   *   * If empty or not specified, no Fleet members will be selected to join the mesh.
+   */
+  memberSelector?: MemberSelector;
+  /** The cluster mesh profile status. */
+  readonly status?: ClusterMeshProfileStatus;
+}
+
+export function clusterMeshProfileSerializer(item: ClusterMeshProfile): any {
+  return {
+    properties: areAllPropsUndefined(item, ["memberSelector"])
+      ? undefined
+      : _clusterMeshProfilePropertiesSerializer(item),
+  };
+}
+
+export function clusterMeshProfileDeserializer(item: any): ClusterMeshProfile {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _clusterMeshProfilePropertiesDeserializer(item["properties"])),
+    eTag: item["eTag"],
+  };
+}
+
+/** A cluster mesh profile stores the general information about the mesh. */
+export interface ClusterMeshProfileProperties {
+  /** The provisioning state of the cluster mesh profile. */
+  readonly provisioningState?: ClusterMeshProfileProvisioningState;
+  /**
+   * Select the members of the mesh.
+   *   * Only key/value pairs with the `=` operator are accepted in the label selector.
+   *   * If empty or not specified, no Fleet members will be selected to join the mesh.
+   */
+  memberSelector?: MemberSelector;
+  /** The cluster mesh profile status. */
+  readonly status?: ClusterMeshProfileStatus;
+}
+
+export function clusterMeshProfilePropertiesSerializer(item: ClusterMeshProfileProperties): any {
+  return {
+    memberSelector: !item["memberSelector"]
+      ? item["memberSelector"]
+      : memberSelectorSerializer(item["memberSelector"]),
+  };
+}
+
+export function clusterMeshProfilePropertiesDeserializer(item: any): ClusterMeshProfileProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    memberSelector: !item["memberSelector"]
+      ? item["memberSelector"]
+      : memberSelectorDeserializer(item["memberSelector"]),
+    status: !item["status"] ? item["status"] : clusterMeshProfileStatusDeserializer(item["status"]),
+  };
+}
+
+/** The provisioning state of the cluster mesh profile resource. */
+export enum KnownClusterMeshProfileProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * The provisioning state of the cluster mesh profile resource. \
+ * {@link KnownClusterMeshProfileProvisioningState} can be used interchangeably with ClusterMeshProfileProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
+ */
+export type ClusterMeshProfileProvisioningState = string;
+
+/** Select members of a fleet. */
+export interface MemberSelector {
+  /** Kubernetes-style label selector for selecting Fleet members, e.g. `env=production`. */
+  byLabel: string;
+}
+
+export function memberSelectorSerializer(item: MemberSelector): any {
+  return { byLabel: item["byLabel"] };
+}
+
+export function memberSelectorDeserializer(item: any): MemberSelector {
+  return {
+    byLabel: item["byLabel"],
+  };
+}
+
+/** Status of the cluster mesh. */
+export interface ClusterMeshProfileStatus {
+  /** The state of the cluster mesh. */
+  readonly state: ClusterMeshState;
+  /** The last applied MemberSelector for the cluster mesh profile. */
+  readonly lastAppliedMemberSelector?: MemberSelector;
+  /** The last operation ID for the cluster mesh profile. */
+  readonly lastOperationId?: string;
+  /** The last operation error of the cluster mesh profile. */
+  readonly lastOperationError?: ErrorDetail;
+}
+
+export function clusterMeshProfileStatusDeserializer(item: any): ClusterMeshProfileStatus {
+  return {
+    state: item["state"],
+    lastAppliedMemberSelector: !item["lastAppliedMemberSelector"]
+      ? item["lastAppliedMemberSelector"]
+      : memberSelectorDeserializer(item["lastAppliedMemberSelector"]),
+    lastOperationId: item["lastOperationId"],
+    lastOperationError: !item["lastOperationError"]
+      ? item["lastOperationError"]
+      : errorDetailDeserializer(item["lastOperationError"]),
+  };
+}
+
+/** Cluster mesh state. */
+export enum KnownClusterMeshState {
+  /** The mesh is not connected. */
+  NotConnected = "NotConnected",
+  /** The mesh is applying. */
+  Applying = "Applying",
+  /** The mesh is connected. */
+  Connected = "Connected",
+  /** The mesh is degraded. */
+  Degraded = "Degraded",
+  /** The mesh failed to connect. */
+  Failed = "Failed",
+}
+
+/**
+ * Cluster mesh state. \
+ * {@link KnownClusterMeshState} can be used interchangeably with ClusterMeshState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotConnected**: The mesh is not connected. \
+ * **Applying**: The mesh is applying. \
+ * **Connected**: The mesh is connected. \
+ * **Degraded**: The mesh is degraded. \
+ * **Failed**: The mesh failed to connect.
+ */
+export type ClusterMeshState = string;
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
+}
+
+export function resourceSerializer(_item: Resource): any {
+  return {};
+}
+
+export function resourceDeserializer(item: any): Resource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
+
+/** The response of a ClusterMeshProfile list operation. */
+export interface _ClusterMeshProfileListResult {
+  /** The ClusterMeshProfile items on this page */
+  value: ClusterMeshProfile[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _clusterMeshProfileListResultDeserializer(
+  item: any,
+): _ClusterMeshProfileListResult {
+  return {
+    value: clusterMeshProfileArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function clusterMeshProfileArraySerializer(result: Array<ClusterMeshProfile>): any[] {
+  return result.map((item) => {
+    return clusterMeshProfileSerializer(item);
+  });
+}
+
+export function clusterMeshProfileArrayDeserializer(result: Array<ClusterMeshProfile>): any[] {
+  return result.map((item) => {
+    return clusterMeshProfileDeserializer(item);
+  });
+}
+
 /** The Fleet resource. */
 export interface Fleet extends TrackedResource {
   /** The resource-specific properties for this resource. */
@@ -201,7 +489,9 @@ export function fleetSerializer(item: Fleet): any {
 
 export function fleetDeserializer(item: any): Fleet {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -466,8 +756,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -497,90 +787,12 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  readonly id?: string;
-  /** The name of the resource */
-  readonly name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  readonly type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  readonly systemData?: SystemData;
-}
-
-export function resourceSerializer(item: Resource): any {
-  return item;
-}
-
-export function resourceDeserializer(item: any): Resource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-export function systemDataDeserializer(item: any): SystemData {
-  return {
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedBy: item["lastModifiedBy"],
-    lastModifiedByType: item["lastModifiedByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-  };
-}
-
-/** The kind of entity that created the resource. */
-export enum KnownCreatedByType {
-  /** The entity was created by a user. */
-  User = "User",
-  /** The entity was created by an application. */
-  Application = "Application",
-  /** The entity was created by a managed identity. */
-  ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
-  Key = "Key",
-}
-
-/**
- * The kind of entity that created the resource. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
- */
-export type CreatedByType = string;
 
 /** Properties of a Fleet that can be patched. */
 export interface FleetPatch {
@@ -710,6 +922,8 @@ export interface FleetMemberProperties {
   labels?: Record<string, string>;
   /** Status information of the last operation for fleet member. */
   readonly status?: FleetMemberStatus;
+  /** The Mesh Member Properties associated with this Fleet Member. */
+  readonly meshProperties?: MeshProperties;
 }
 
 export function fleetMemberPropertiesSerializer(item: FleetMemberProperties): any {
@@ -725,8 +939,13 @@ export function fleetMemberPropertiesDeserializer(item: any): FleetMemberPropert
     clusterResourceId: item["clusterResourceId"],
     group: item["group"],
     provisioningState: item["provisioningState"],
-    labels: item["labels"],
+    labels: !item["labels"]
+      ? item["labels"]
+      : Object.fromEntries(Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p])),
     status: !item["status"] ? item["status"] : fleetMemberStatusDeserializer(item["status"]),
+    meshProperties: !item["meshProperties"]
+      ? item["meshProperties"]
+      : meshPropertiesDeserializer(item["meshProperties"]),
   };
 }
 
@@ -777,23 +996,83 @@ export function fleetMemberStatusDeserializer(item: any): FleetMemberStatus {
   };
 }
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+/** The Mesh Member data for a Fleet Member resource. */
+export interface MeshProperties {
+  /** The Cilium cluster properties. */
+  readonly ciliumProperties: CiliumProperties;
+  /** The status of the mesh member. */
+  readonly status: MeshMemberStatus;
+  /** Resource id of the cluster mesh profile associated with this mesh member. */
+  readonly clusterMeshProfileResourceId: string;
 }
 
-export function proxyResourceDeserializer(item: any): ProxyResource {
+export function meshPropertiesDeserializer(item: any): MeshProperties {
+  return {
+    ciliumProperties: ciliumPropertiesDeserializer(item["ciliumProperties"]),
+    status: meshMemberStatusDeserializer(item["status"]),
+    clusterMeshProfileResourceId: item["clusterMeshProfileResourceId"],
+  };
+}
+
+/** The Cilium specific properties of the member cluster. */
+export interface CiliumProperties {
+  /** Cilium requires each cluster to be assigned a unique numeric cluster id from 1 - 255. The id is managed by Fleet and cannot be set by the user. */
+  readonly id: number;
+  /** Cilium requires each cluster to be assigned a unique human-readable name. The name is managed by Fleet, based on the Fleet Member name, and cannot be set by the user. */
+  readonly name: string;
+}
+
+export function ciliumPropertiesDeserializer(item: any): CiliumProperties {
   return {
     id: item["id"],
     name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
   };
 }
+
+/** Status of the mesh member. */
+export interface MeshMemberStatus {
+  /** The mesh member state. */
+  readonly state: MeshMemberState;
+  /** When the status was last updated. */
+  readonly lastUpdatedAt?: Date;
+  /** The last operation ID that affected the mesh properties of the fleet member. */
+  readonly lastOperationId?: string;
+  /** The error affecting this member. */
+  readonly error?: ErrorDetail;
+}
+
+export function meshMemberStatusDeserializer(item: any): MeshMemberStatus {
+  return {
+    state: item["state"],
+    lastUpdatedAt: !item["lastUpdatedAt"] ? item["lastUpdatedAt"] : new Date(item["lastUpdatedAt"]),
+    lastOperationId: item["lastOperationId"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** Mesh member state. */
+export enum KnownMeshMemberState {
+  /** The member is connecting to the mesh. */
+  Connecting = "Connecting",
+  /** The member is connected to the mesh. */
+  Connected = "Connected",
+  /** The member is disconnecting from the mesh. */
+  Disconnecting = "Disconnecting",
+  /** The member failed to connect due to an error. */
+  Failed = "Failed",
+}
+
+/**
+ * Mesh member state. \
+ * {@link KnownMeshMemberState} can be used interchangeably with MeshMemberState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Connecting**: The member is connecting to the mesh. \
+ * **Connected**: The member is connected to the mesh. \
+ * **Disconnecting**: The member is disconnecting from the mesh. \
+ * **Failed**: The member failed to connect due to an error.
+ */
+export type MeshMemberState = string;
 
 /** The type used for update operations of the FleetMember. */
 export interface FleetMemberUpdate {
@@ -850,25 +1129,44 @@ export function fleetMemberArrayDeserializer(result: Array<FleetMember>): any[] 
 
 /** A fleet managed namespace. */
 export interface FleetManagedNamespace extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties?: FleetManagedNamespaceProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
+  /** The status of the last operation. */
+  readonly provisioningState?: FleetManagedNamespaceProvisioningState;
+  /** The namespace properties for the fleet managed namespace. */
+  managedNamespaceProperties?: ManagedNamespaceProperties;
+  /** Action if the managed namespace with the same name already exists. Default is Never. */
+  adoptionPolicy?: AdoptionPolicy;
+  /** Delete options of a fleet managed namespace. Default is Keep. */
+  deletePolicy?: DeletePolicy;
+  /** The profile of the propagation to create the namespace. */
+  propagationPolicy?: PropagationPolicy;
+  /** Status information of the last operation for fleet managed namespace. */
+  readonly status?: FleetManagedNamespaceStatus;
+  /** The Azure Portal FQDN of the Fleet hub. */
+  readonly portalFqdn?: string;
 }
 
 export function fleetManagedNamespaceSerializer(item: FleetManagedNamespace): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : fleetManagedNamespacePropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "managedNamespaceProperties",
+      "adoptionPolicy",
+      "deletePolicy",
+      "propagationPolicy",
+    ])
+      ? undefined
+      : _fleetManagedNamespacePropertiesSerializer(item),
   };
 }
 
 export function fleetManagedNamespaceDeserializer(item: any): FleetManagedNamespace {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -876,9 +1174,9 @@ export function fleetManagedNamespaceDeserializer(item: any): FleetManagedNamesp
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : fleetManagedNamespacePropertiesDeserializer(item["properties"]),
+      : _fleetManagedNamespacePropertiesDeserializer(item["properties"])),
     eTag: item["eTag"],
   };
 }
@@ -993,8 +1291,14 @@ export function managedNamespacePropertiesSerializer(item: ManagedNamespacePrope
 
 export function managedNamespacePropertiesDeserializer(item: any): ManagedNamespaceProperties {
   return {
-    labels: item["labels"],
-    annotations: item["annotations"],
+    labels: !item["labels"]
+      ? item["labels"]
+      : Object.fromEntries(Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p])),
+    annotations: !item["annotations"]
+      ? item["annotations"]
+      : Object.fromEntries(
+          Object.entries(item["annotations"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     defaultResourceQuota: !item["defaultResourceQuota"]
       ? item["defaultResourceQuota"]
       : resourceQuotaDeserializer(item["defaultResourceQuota"]),
@@ -1183,9 +1487,7 @@ export interface ClusterResourcePlacementSpec {
 }
 
 export function clusterResourcePlacementSpecSerializer(item: ClusterResourcePlacementSpec): any {
-  return {
-    policy: !item["policy"] ? item["policy"] : placementPolicySerializer(item["policy"]),
-  };
+  return { policy: !item["policy"] ? item["policy"] : placementPolicySerializer(item["policy"]) };
 }
 
 export function clusterResourcePlacementSpecDeserializer(item: any): ClusterResourcePlacementSpec {
@@ -1309,9 +1611,7 @@ export interface ClusterSelector {
 }
 
 export function clusterSelectorSerializer(item: ClusterSelector): any {
-  return {
-    clusterSelectorTerms: clusterSelectorTermArraySerializer(item["clusterSelectorTerms"]),
-  };
+  return { clusterSelectorTerms: clusterSelectorTermArraySerializer(item["clusterSelectorTerms"]) };
 }
 
 export function clusterSelectorDeserializer(item: any): ClusterSelector {
@@ -1381,7 +1681,11 @@ export function labelSelectorSerializer(item: LabelSelector): any {
 
 export function labelSelectorDeserializer(item: any): LabelSelector {
   return {
-    matchLabels: item["matchLabels"],
+    matchLabels: !item["matchLabels"]
+      ? item["matchLabels"]
+      : Object.fromEntries(
+          Object.entries(item["matchLabels"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     matchExpressions: !item["matchExpressions"]
       ? item["matchExpressions"]
       : labelSelectorRequirementArrayDeserializer(item["matchExpressions"]),
@@ -1469,9 +1773,7 @@ export interface PropertySelector {
 }
 
 export function propertySelectorSerializer(item: PropertySelector): any {
-  return {
-    matchExpressions: propertySelectorRequirementArraySerializer(item["matchExpressions"]),
-  };
+  return { matchExpressions: propertySelectorRequirementArraySerializer(item["matchExpressions"]) };
 }
 
 export function propertySelectorDeserializer(item: any): PropertySelector {
@@ -2042,6 +2344,21 @@ export interface UpdateStage {
   groups?: UpdateGroup[];
   /** The time in seconds to wait at the end of this stage before starting the next one. Defaults to 0 seconds if unspecified. */
   afterStageWaitInSeconds?: number;
+  /**
+   * The max number of upgrades that can run concurrently across all groups in this stage.
+   * Acts as a ceiling (and not a quota) for the number of concurrent upgrades within the stage you want to tolerate at a time.
+   * Actual concurrency may be lower depending on group-level concurrency limits or individual member conditions.
+   * Stage maxConcurrency has a min value of "1".
+   * Accepts either:
+   *     • A fixed count, e.g., "3"
+   *     • A percentage, e.g., "25%" (range 1–100). Percentage is of the total number of clusters across all groups in the stage.
+   *       Fractional results are rounded down. A minimum of 1 upgrade is enforced.
+   * Examples:
+   *     • "3"     --> up to 3 clusters from this stage upgrade at once (across all groups).
+   *     • "100%"  --> “all at once”; up to all clusters in this stage upgrade at the same time.
+   *     • "25%"   --> up to 25% of the stage’s total clusters upgrade at the same time.
+   */
+  maxConcurrency?: string;
   /** A list of Gates that will be created before this Stage is executed. */
   beforeGates?: GateConfiguration[];
   /** A list of Gates that will be created after this Stage is executed. */
@@ -2053,6 +2370,7 @@ export function updateStageSerializer(item: UpdateStage): any {
     name: item["name"],
     groups: !item["groups"] ? item["groups"] : updateGroupArraySerializer(item["groups"]),
     afterStageWaitInSeconds: item["afterStageWaitInSeconds"],
+    maxConcurrency: item["maxConcurrency"],
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
       : gateConfigurationArraySerializer(item["beforeGates"]),
@@ -2067,6 +2385,7 @@ export function updateStageDeserializer(item: any): UpdateStage {
     name: item["name"],
     groups: !item["groups"] ? item["groups"] : updateGroupArrayDeserializer(item["groups"]),
     afterStageWaitInSeconds: item["afterStageWaitInSeconds"],
+    maxConcurrency: item["maxConcurrency"],
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
       : gateConfigurationArrayDeserializer(item["beforeGates"]),
@@ -2095,6 +2414,22 @@ export interface UpdateGroup {
    * It must match a group name of an existing fleet member.
    */
   name: string;
+  /**
+   * The max number of upgrades that can run concurrently in this specific group.
+   * Acts as a ceiling (and not a quota) for the number of concurrent upgrades within the group you want to tolerate at a time.
+   * Actual concurrency may be lower depending on stage-level concurrency limits or individual member conditions.
+   * Group maxConcurrency has a min value of "1". The max value is min(number of clusters in the group, the stage maxConcurrency).
+   * If no value is provided, defaults to 1.
+   * Accepts either:
+   *     • A fixed count, e.g. "3"
+   *     • A percentage, e.g. "25%" (range 1–100). Percentage is of the number of clusters in the group.
+   *       Fractional results are rounded down. A minimum of 1 upgrade is enforced.
+   * Examples:
+   *     • "3" --> up to 3 members from this group upgrade at once.
+   *     • "100%" --> “all at once”, up to all members for this group upgrade at the same time.
+   *     • "25%" --> up to 25% of the members in the group will be upgraded at the same time.
+   */
+  maxConcurrency?: string;
   /** A list of Gates that will be created before this Group is executed. */
   beforeGates?: GateConfiguration[];
   /** A list of Gates that will be created after this Group is executed. */
@@ -2104,6 +2439,7 @@ export interface UpdateGroup {
 export function updateGroupSerializer(item: UpdateGroup): any {
   return {
     name: item["name"],
+    maxConcurrency: item["maxConcurrency"],
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
       : gateConfigurationArraySerializer(item["beforeGates"]),
@@ -2116,6 +2452,7 @@ export function updateGroupSerializer(item: UpdateGroup): any {
 export function updateGroupDeserializer(item: any): UpdateGroup {
   return {
     name: item["name"],
+    maxConcurrency: item["maxConcurrency"],
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
       : gateConfigurationArrayDeserializer(item["beforeGates"]),
@@ -2287,8 +2624,8 @@ export interface NodeImageVersion {
   readonly version?: string;
 }
 
-export function nodeImageVersionSerializer(item: NodeImageVersion): any {
-  return item;
+export function nodeImageVersionSerializer(_item: NodeImageVersion): any {
+  return {};
 }
 
 export function nodeImageVersionDeserializer(item: any): NodeImageVersion {
@@ -2386,6 +2723,8 @@ export interface UpdateStageStatus {
   readonly status?: UpdateStatus;
   /** The name of the UpdateStage. */
   readonly name?: string;
+  /** The max number of upgrades that can run concurrently across all groups in this stage, resolved from the UpdateStrategy.UpdateStage.maxConcurrency value. */
+  readonly maxConcurrency?: number;
   /** The list of groups to be updated as part of this UpdateStage. */
   readonly groups?: UpdateGroupStatus[];
   /** The list of Gates that will run before this UpdateStage. */
@@ -2400,6 +2739,7 @@ export function updateStageStatusDeserializer(item: any): UpdateStageStatus {
   return {
     status: !item["status"] ? item["status"] : updateStatusDeserializer(item["status"]),
     name: item["name"],
+    maxConcurrency: item["maxConcurrency"],
     groups: !item["groups"] ? item["groups"] : updateGroupStatusArrayDeserializer(item["groups"]),
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
@@ -2425,6 +2765,8 @@ export interface UpdateGroupStatus {
   readonly status?: UpdateStatus;
   /** The name of the UpdateGroup. */
   readonly name?: string;
+  /**   The max number of upgrades that can run concurrently in this group, resolved from the UpdateStrategy.UpdateGroup.maxConcurrency value. If no value was provided, this value defaults to "1". */
+  readonly maxConcurrency?: number;
   /** The list of member this UpdateGroup updates. */
   readonly members?: MemberUpdateStatus[];
   /** The list of Gates that will run before this UpdateGroup. */
@@ -2437,6 +2779,7 @@ export function updateGroupStatusDeserializer(item: any): UpdateGroupStatus {
   return {
     status: !item["status"] ? item["status"] : updateStatusDeserializer(item["status"]),
     name: item["name"],
+    maxConcurrency: item["maxConcurrency"],
     members: !item["members"]
       ? item["members"]
       : memberUpdateStatusArrayDeserializer(item["members"]),
@@ -2920,8 +3263,8 @@ export interface AutoUpgradeProfileStatus {
   readonly lastTriggerUpgradeVersions?: string[];
 }
 
-export function autoUpgradeProfileStatusSerializer(item: AutoUpgradeProfileStatus): any {
-  return item;
+export function autoUpgradeProfileStatusSerializer(_item: AutoUpgradeProfileStatus): any {
+  return {};
 }
 
 export function autoUpgradeProfileStatusDeserializer(item: any): AutoUpgradeProfileStatus {
@@ -3024,4 +3367,57 @@ export enum KnownVersions {
   V20250401Preview = "2025-04-01-preview",
   /** Azure Kubernetes Fleet Manager api version 2025-08-01-preview. */
   V20250801Preview = "2025-08-01-preview",
+  /** Azure Kubernetes Fleet Manager api version 2026-02-01-preview. */
+  V20260201Preview = "2026-02-01-preview",
+  /** Azure Kubernetes Fleet Manager api version 2026-03-02-preview. */
+  V20260302Preview = "2026-03-02-preview",
+}
+
+export function _clusterMeshProfilePropertiesSerializer(item: ClusterMeshProfile): any {
+  return {
+    memberSelector: !item["memberSelector"]
+      ? item["memberSelector"]
+      : memberSelectorSerializer(item["memberSelector"]),
+  };
+}
+
+export function _clusterMeshProfilePropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    memberSelector: !item["memberSelector"]
+      ? item["memberSelector"]
+      : memberSelectorDeserializer(item["memberSelector"]),
+    status: !item["status"] ? item["status"] : clusterMeshProfileStatusDeserializer(item["status"]),
+  };
+}
+
+export function _fleetManagedNamespacePropertiesSerializer(item: FleetManagedNamespace): any {
+  return {
+    managedNamespaceProperties: !item["managedNamespaceProperties"]
+      ? item["managedNamespaceProperties"]
+      : managedNamespacePropertiesSerializer(item["managedNamespaceProperties"]),
+    adoptionPolicy: item["adoptionPolicy"],
+    deletePolicy: item["deletePolicy"],
+    propagationPolicy: !item["propagationPolicy"]
+      ? item["propagationPolicy"]
+      : propagationPolicySerializer(item["propagationPolicy"]),
+  };
+}
+
+export function _fleetManagedNamespacePropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    managedNamespaceProperties: !item["managedNamespaceProperties"]
+      ? item["managedNamespaceProperties"]
+      : managedNamespacePropertiesDeserializer(item["managedNamespaceProperties"]),
+    adoptionPolicy: item["adoptionPolicy"],
+    deletePolicy: item["deletePolicy"],
+    propagationPolicy: !item["propagationPolicy"]
+      ? item["propagationPolicy"]
+      : propagationPolicyDeserializer(item["propagationPolicy"]),
+    status: !item["status"]
+      ? item["status"]
+      : fleetManagedNamespaceStatusDeserializer(item["status"]),
+    portalFqdn: item["portalFqdn"],
+  };
 }

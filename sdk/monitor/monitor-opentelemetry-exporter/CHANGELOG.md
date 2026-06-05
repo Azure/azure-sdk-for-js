@@ -1,10 +1,68 @@
 # Release History
 
-## 1.0.0-beta.39 ()
+## 1.0.0-beta.43 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Refuse to follow server-issued 307/308 redirects whose `Location` header points outside the configured ingestion host or the known Azure Monitor / Application Insights ingestion domain suffixes. Previously a single attacker-controlled redirect could permanently re-point the exporter at a foreign host, causing every subsequent telemetry call (and the AAD bearer token attached by the auth policy) to be sent to the attacker.
+
+### Other Changes
+
+## 1.0.0-beta.42 (2026-05-29)
+
+### Bugs Fixed
+
+- Allow `microsoft.gen_ai.main_agent.*` span attributes (`name`, `id`, `version`, `conversation_id`) to flow through to `customDimensions`.
+
+### Other Changes
+
+- Updated OpenTelemetry experimental dependencies from `^0.217.0` to `^0.218.0` (`@opentelemetry/api-logs`, `@opentelemetry/sdk-logs`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`). The `otlp-transformer` in this release replaces its `protobufjs` dependency with a custom serializer, resolving related `npm audit` advisories.
+
+## 1.0.0-beta.41 (2026-05-12)
+
+### Bugs Fixed
+
+- Fixed a `TypeError: Cannot use 'in' operator to search for 'measurements'` crash that occurred when a log record's `body` was a non-object value (such as a string) on the custom event / legacy Application Insights export path.
+
+### Other Changes
+
+- Updated OpenTelemetry dependencies to the `0.217.0` / `2.7.1` release line (`@opentelemetry/api-logs`, `@opentelemetry/sdk-logs`, `@opentelemetry/core`, `@opentelemetry/resources`, `@opentelemetry/sdk-metrics`, `@opentelemetry/sdk-trace-base`, `@opentelemetry/semantic-conventions`).
+- Implemented `forceFlush` on `AzureMonitorLogExporter` to satisfy the updated `LogRecordExporter` interface in `@opentelemetry/sdk-logs@^0.217.0`.
+
+## 1.0.0-beta.40 (2026-05-07)
+
+### Breaking Changes
+
+- The `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable is no longer supported. All custom dimension values are truncated to 8KB by default.
+
+### Features Added
+
+- Persisted telemetry files from previous sessions are now sent immediately on startup instead of waiting for the first successful export plus a 60-second retry interval.
+- All persisted files are now processed at startup, not just one file per retry cycle.
+- Outdated persisted telemetry is cleaned from disk before sending on startup.
+- The exporter now respects the `Retry-After` header from the backend when scheduling retries for retriable responses.
+- Throttled telemetry (429 responses) is now persisted to disk for retry instead of being silently dropped.
+- Specific GenAI properties are now truncated to 256KB instead of being exempt from truncation limits.
+- The exporter now reads the `MICROSOFT_OPENTELEMETRY_VERSION` environment variable and includes it in the `ai.internal.sdkVersion` tag with the `mot` prefix.
+
+### Other Changes
+
+- Revert custom properties limit to 8KB.
+
+### Bugs Fixed
+
+- When multiple `Retry-After` headers are received, the exporter now compares absolute deadlines to ensure envelopes are sent at the latest required time.
+
+## 1.0.0-beta.39 (2026-02-20)
 
 ### Features Added 
 
 - Add ownership checks for storage directories.
+- Added a 64KB size limit on custom dimensions. Individual custom dimension values greater than 64KB are truncated to the upper limit of 64KB. Set the `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable to `"true"` to disable this limit for scenarios requiring larger payloads.
 
 ### Bugs Fixed
 

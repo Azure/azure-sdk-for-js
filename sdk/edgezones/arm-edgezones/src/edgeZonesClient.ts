@@ -10,7 +10,7 @@ import { createEdgeZones, EdgeZonesContext, EdgeZonesClientOptionalParams } from
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { EdgeZonesClientOptionalParams } from "./api/edgeZonesContext.js";
+export { type EdgeZonesClientOptionalParams } from "./api/edgeZonesContext.js";
 
 export class EdgeZonesClient {
   private _client: EdgeZonesContext;

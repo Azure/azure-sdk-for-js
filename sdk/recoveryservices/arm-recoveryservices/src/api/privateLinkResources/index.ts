@@ -3,6 +3,6 @@
 
 export { list, get } from "./operations.js";
 export {
-  PrivateLinkResourcesListOptionalParams,
-  PrivateLinkResourcesGetOptionalParams,
+  type PrivateLinkResourcesListOptionalParams,
+  type PrivateLinkResourcesGetOptionalParams,
 } from "./options.js";

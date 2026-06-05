@@ -49,9 +49,7 @@ export function _restartDeployedCodePackageSend(
   clusterName: string,
   applicationName: string,
   parameters: RestartDeployedCodePackageRequest,
-  options: ApplicationsRestartDeployedCodePackageOptionalParams = {
-    requestOptions: {},
-  },
+  options: ApplicationsRestartDeployedCodePackageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/restartDeployedCodePackage{?api%2Dversion}",
@@ -60,7 +58,7 @@ export function _restartDeployedCodePackageSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -80,6 +78,7 @@ export async function _restartDeployedCodePackageDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -93,9 +92,7 @@ export function restartDeployedCodePackage(
   clusterName: string,
   applicationName: string,
   parameters: RestartDeployedCodePackageRequest,
-  options: ApplicationsRestartDeployedCodePackageOptionalParams = {
-    requestOptions: {},
-  },
+  options: ApplicationsRestartDeployedCodePackageOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(
     context,
@@ -114,6 +111,7 @@ export function restartDeployedCodePackage(
           options,
         ),
       resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -133,7 +131,7 @@ export function _fetchHealthSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -151,6 +149,7 @@ export async function _fetchHealthDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -179,6 +178,7 @@ export function fetchHealth(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -197,7 +197,7 @@ export function _updateUpgradeSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -215,6 +215,7 @@ export async function _updateUpgradeDeserialize(result: PathUncheckedResponse): 
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -243,6 +244,7 @@ export function updateUpgrade(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -260,7 +262,7 @@ export function _startRollbackSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -274,6 +276,7 @@ export async function _startRollbackDeserialize(result: PathUncheckedResponse): 
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -294,6 +297,7 @@ export function startRollback(
     getInitialResponse: () =>
       _startRollbackSend(context, resourceGroupName, clusterName, applicationName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -312,7 +316,7 @@ export function _resumeUpgradeSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -330,6 +334,7 @@ export async function _resumeUpgradeDeserialize(result: PathUncheckedResponse): 
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -358,6 +363,7 @@ export function resumeUpgrade(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -375,7 +381,7 @@ export function _readUpgradeSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -389,6 +395,7 @@ export async function _readUpgradeDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -409,6 +416,7 @@ export function readUpgrade(
     getInitialResponse: () =>
       _readUpgradeSend(context, resourceGroupName, clusterName, applicationName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -424,7 +432,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -432,10 +440,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -446,6 +451,7 @@ export async function _listDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -464,7 +470,11 @@ export function list(
     () => _listSend(context, resourceGroupName, clusterName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -482,7 +492,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -492,10 +502,11 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -503,11 +514,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a Service Fabric managed application resource with the specified name. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -515,12 +521,13 @@ export function $delete(
   applicationName: string,
   options: ApplicationsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, clusterName, applicationName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -539,7 +546,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -548,10 +555,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: applicationUpdateParametersSerializer(parameters),
   });
 }
@@ -563,6 +567,7 @@ export async function _updateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -584,6 +589,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, clusterName, applicationName, parameters, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
 }
 
@@ -602,7 +608,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -611,10 +617,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: applicationResourceSerializer(parameters),
   });
 }
@@ -626,6 +629,7 @@ export async function _createOrUpdateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -654,6 +658,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
 }
 
@@ -671,7 +676,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -679,10 +684,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -691,6 +693,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ap
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

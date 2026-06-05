@@ -25,22 +25,6 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "type": "module",
   "files": [
     "dist/",
@@ -65,7 +49,11 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "sdk-type": "client",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/ai/ai-inference-rest"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -98,8 +86,8 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
-    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.38",
-    "@azure/opentelemetry-instrumentation-azure-sdk": "1.0.0-beta.7",
+    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.42",
+    "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/instrumentation": "^0.200.0",
     "@opentelemetry/sdk-trace-node": "^2.0.0",
@@ -113,8 +101,8 @@
     "mkdirp": "^3.0.1",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -145,5 +133,12 @@
   },
   "module": "./dist/esm/index.js",
   "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

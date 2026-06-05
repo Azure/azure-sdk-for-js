@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a configuration store.
  *
  * @summary deletes a configuration store.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresDelete.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresDelete.json
  */
 async function configurationStoresDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

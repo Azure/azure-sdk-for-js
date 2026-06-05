@@ -1,28 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { ChaosManagementClient } from "./chaosManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
+  Capability,
+  CapabilityProperties,
+  ProvisioningState,
+  ProxyResource,
+  Resource,
+  SystemData,
+  CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  Operation,
+  OperationDisplay,
+  Origin,
+  ActionType,
+  Target,
+  CapabilityType,
+  CapabilityTypeProperties,
+  CapabilityTypePropertiesRuntimeProperties,
   Experiment,
   ManagedServiceIdentity,
-  KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   ExperimentProperties,
-  KnownProvisioningState,
-  ProvisioningState,
   ChaosExperimentStep,
   ChaosExperimentBranch,
   ChaosExperimentAction,
   ChaosExperimentActionUnion,
-  KnownExperimentActionType,
   ExperimentActionType,
   ContinuousAction,
   KeyValuePair,
@@ -30,31 +47,21 @@ export {
   DiscreteAction,
   ChaosTargetSelector,
   ChaosTargetSelectorUnion,
-  KnownSelectorType,
   SelectorType,
   ChaosTargetFilter,
   ChaosTargetFilterUnion,
-  KnownFilterType,
   FilterType,
   ChaosTargetSimpleFilter,
   ChaosTargetSimpleFilterParameters,
   ChaosTargetListSelector,
   TargetReference,
-  KnownTargetReferenceType,
   TargetReferenceType,
   ChaosTargetQuerySelector,
+  CustomerDataStorageProperties,
   TrackedResource,
-  Resource,
-  SystemData,
-  KnownCreatedByType,
-  CreatedByType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
   ExperimentUpdate,
   ExperimentExecution,
   ExperimentExecutionProperties,
-  ProxyResource,
   ExperimentExecutionDetails,
   ExperimentExecutionDetailsProperties,
   ExperimentExecutionDetailsPropertiesRunInformation,
@@ -63,35 +70,127 @@ export {
   ActionStatus,
   ExperimentExecutionActionTargetDetailsProperties,
   ExperimentExecutionActionTargetDetailsError,
-  Capability,
-  CapabilityProperties,
-  CapabilityType,
-  CapabilityTypeProperties,
-  CapabilityTypePropertiesRuntimeProperties,
-  Operation,
-  OperationDisplay,
-  KnownOrigin,
-  Origin,
-  KnownActionType,
-  ActionType,
-  OperationStatusResult,
-  Target,
+  PrivateAccess,
+  PrivateAccessProperties,
+  PrivateEndpointConnection,
+  PrivateEndpointConnectionProperties,
+  PrivateEndpoint,
+  PrivateLinkServiceConnectionState,
+  PrivateEndpointServiceConnectionStatus,
+  PublicNetworkAccessOption,
+  PrivateAccessPatch,
+  PrivateLinkResourceListResult,
+  PrivateLinkResource,
+  PrivateLinkResourceProperties,
+  Action,
+  ActionProperties,
+  ActionKind,
+  ActionSupportedTargetType,
+  ActionVersion,
   TargetType,
   TargetTypeProperties,
+  OperationStatusResult,
+  Workspace,
+  WorkspaceProperties,
+  WorkspaceUpdate,
+  WorkspaceEvaluation,
+  WorkspaceEvaluationProperties,
+  WorkspaceEvaluationStatus,
+  OperationError,
+  RecommendationStatus,
+  ScenarioEvaluationResultItem,
+  DiscoveredResource,
+  DiscoveredResourceProperties,
+  Scenario,
+  ScenarioProperties,
+  ScenarioParameter,
+  ParameterType,
+  ScenarioAction,
+  RunAfter,
+  RunAfterBehavior,
+  ActionDependency,
+  ActionDependencyType,
+  ActionLifecycle,
+  ExternalResource,
+  Recommendation,
+  ScenarioRun,
+  ScenarioRunProperties,
+  ScenarioRunState,
+  ScenarioRunResource,
+  ScenarioErrors,
+  PermissionError,
+  EntraIdentity,
+  ResourceStateError,
+  ScenarioRunSummaryAction,
+  ScenarioSummaryState,
+  ZoneResolutionInfo,
+  ZoneResolutionMode,
+  ZoneResolutionMapping,
+  PhysicalToLogicalZoneMapping,
+  ScenarioConfiguration,
+  ScenarioConfigurationProperties,
+  ConfigurationExclusions,
+  ConfigurationFilters,
+  Validation,
+  ValidationProperties,
+  ScenarioValidationState,
+  FixResourcePermissionsRequest,
+  PermissionsFix,
+  PermissionsFixProperties,
+  PermissionsFixState,
+  RoleAssignmentResult,
+  RoleAssignmentStatus,
+  RoleAssignmentError,
+  PermissionsFixSummary,
+} from "./models/index.js";
+export {
+  KnownProvisioningState,
+  KnownCreatedByType,
+  KnownOrigin,
+  KnownActionType,
+  KnownManagedServiceIdentityType,
+  KnownExperimentActionType,
+  KnownSelectorType,
+  KnownFilterType,
+  KnownTargetReferenceType,
+  KnownPrivateEndpointServiceConnectionStatus,
+  KnownPublicNetworkAccessOption,
+  KnownActionKind,
+  KnownWorkspaceEvaluationStatus,
+  KnownRecommendationStatus,
+  KnownParameterType,
+  KnownRunAfterBehavior,
+  KnownActionDependencyType,
+  KnownActionLifecycle,
+  KnownScenarioRunState,
+  KnownScenarioSummaryState,
+  KnownZoneResolutionMode,
+  KnownScenarioValidationState,
+  KnownPermissionsFixState,
+  KnownRoleAssignmentStatus,
   KnownVersions,
 } from "./models/index.js";
-export { ChaosManagementClientOptionalParams } from "./api/index.js";
-export {
+export type { ChaosManagementClientOptionalParams } from "./api/index.js";
+export type { ActionsListOptionalParams, ActionsGetOptionalParams } from "./api/actions/index.js";
+export type {
+  ActionVersionsListOptionalParams,
+  ActionVersionsGetOptionalParams,
+} from "./api/actionVersions/index.js";
+export type {
   CapabilitiesListOptionalParams,
   CapabilitiesDeleteOptionalParams,
   CapabilitiesCreateOrUpdateOptionalParams,
   CapabilitiesGetOptionalParams,
 } from "./api/capabilities/index.js";
-export {
+export type {
   CapabilityTypesListOptionalParams,
   CapabilityTypesGetOptionalParams,
 } from "./api/capabilityTypes/index.js";
-export {
+export type {
+  DiscoveredResourcesListByWorkspaceOptionalParams,
+  DiscoveredResourcesGetOptionalParams,
+} from "./api/discoveredResources/index.js";
+export type {
   ExperimentsExecutionDetailsOptionalParams,
   ExperimentsListAllExecutionsOptionalParams,
   ExperimentsGetExecutionOptionalParams,
@@ -104,25 +203,76 @@ export {
   ExperimentsCreateOrUpdateOptionalParams,
   ExperimentsGetOptionalParams,
 } from "./api/experiments/index.js";
-export { OperationsListAllOptionalParams } from "./api/operations/index.js";
-export { OperationStatusesGetOptionalParams } from "./api/operationStatuses/index.js";
-export {
+export type { OperationsListAllOptionalParams } from "./api/operations/index.js";
+export type { OperationStatusesGetOptionalParams } from "./api/operationStatuses/index.js";
+export type {
+  PrivateAccessesListPrivateEndpointConnectionsOptionalParams,
+  PrivateAccessesDeleteAPrivateEndpointConnectionOptionalParams,
+  PrivateAccessesGetAPrivateEndpointConnectionOptionalParams,
+  PrivateAccessesGetPrivateLinkResourcesOptionalParams,
+  PrivateAccessesListAllOptionalParams,
+  PrivateAccessesListOptionalParams,
+  PrivateAccessesDeleteOptionalParams,
+  PrivateAccessesUpdateOptionalParams,
+  PrivateAccessesCreateOrUpdateOptionalParams,
+  PrivateAccessesGetOptionalParams,
+} from "./api/privateAccesses/index.js";
+export type {
+  ScenarioConfigurationsFixResourcePermissionsOptionalParams,
+  ScenarioConfigurationsValidateOptionalParams,
+  ScenarioConfigurationsExecuteOptionalParams,
+  ScenarioConfigurationsListAllOptionalParams,
+  ScenarioConfigurationsDeleteOptionalParams,
+  ScenarioConfigurationsCreateOrUpdateOptionalParams,
+  ScenarioConfigurationsGetOptionalParams,
+} from "./api/scenarioConfigurations/index.js";
+export type {
+  ScenarioRunsCancelOptionalParams,
+  ScenarioRunsListAllOptionalParams,
+  ScenarioRunsGetOptionalParams,
+} from "./api/scenarioRuns/index.js";
+export type {
+  ScenariosListAllOptionalParams,
+  ScenariosDeleteOptionalParams,
+  ScenariosCreateOrUpdateOptionalParams,
+  ScenariosGetOptionalParams,
+} from "./api/scenarios/index.js";
+export type {
   TargetsListOptionalParams,
   TargetsDeleteOptionalParams,
   TargetsCreateOrUpdateOptionalParams,
   TargetsGetOptionalParams,
 } from "./api/targets/index.js";
-export {
+export type {
   TargetTypesListOptionalParams,
   TargetTypesGetOptionalParams,
 } from "./api/targetTypes/index.js";
-export {
+export type {
+  WorkspacesRefreshRecommendationsOptionalParams,
+  WorkspacesListAllOptionalParams,
+  WorkspacesListOptionalParams,
+  WorkspacesDeleteOptionalParams,
+  WorkspacesUpdateOptionalParams,
+  WorkspacesCreateOrUpdateOptionalParams,
+  WorkspacesGetOptionalParams,
+} from "./api/workspaces/index.js";
+export type {
+  ActionsOperations,
+  ActionVersionsOperations,
   CapabilitiesOperations,
   CapabilityTypesOperations,
+  DiscoveredResourcesOperations,
   ExperimentsOperations,
   OperationsOperations,
   OperationStatusesOperations,
+  PrivateAccessesOperations,
+  ScenarioConfigurationsOperations,
+  ScenarioRunsOperations,
+  ScenariosOperations,
   TargetsOperations,
   TargetTypesOperations,
+  WorkspacesOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };

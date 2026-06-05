@@ -1,20 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type {
+  CorsOptions,
+  KnowledgeSourceReference,
+} from "./models/azure/search/documents/indexes/index.js";
 import type {
   KnowledgeRetrievalOutputMode,
-  KnowledgeSourceReference,
-  KnowledgeRetrievalReasoningEffort,
-} from "./generated/service/index.js";
+  KnowledgeRetrievalReasoningEffortUnion,
+} from "./models/azure/search/documents/knowledgeBases/index.js";
 import type { KnowledgeBaseModel, SearchResourceEncryptionKey } from "./serviceModels.js";
 
-export interface RetrieveKnowledgeOptions extends OperationOptions {
+export interface RetrieveOptions extends OperationOptions {
   /**
-   * Token identifying the user for which the query is being executed. This token is used to enforce
-   * security restrictions on documents.
+   * Token identifying the user for which the query is being executed. This token is used to
+   * enforce security restrictions on documents.
    */
-  xMsQuerySourceAuthorization?: string;
+  querySourceAuthorization?: string;
 }
 
 export interface KnowledgeBase {
@@ -23,21 +26,21 @@ export interface KnowledgeBase {
    */
   name: string;
   /**
+   * Knowledge sources referenced by this knowledge base.
+   */
+  knowledgeSources: KnowledgeSourceReference[];
+  /**
    * Contains configuration options on how to connect to AI models.
    */
-  models: KnowledgeBaseModel[];
-  knowledgeSources: KnowledgeSourceReference[];
-  retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffort;
+  models?: KnowledgeBaseModel[];
   /**
-   * Instructions considered by the knowledge base when developing query plan.
+   * The retrieval reasoning effort configuration applied at retrieval time.
    */
-  retrievalInstructions?: string;
+  retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
   /**
-   * Instructions considered by the knowledge base when generating answers.
+   * The output mode for the knowledge base.
    */
-  answerInstructions?: string;
   outputMode?: KnowledgeRetrievalOutputMode;
-
   /**
    * The ETag of the knowledge base.
    */
@@ -50,4 +53,16 @@ export interface KnowledgeBase {
    * The description of the knowledge base.
    */
   description?: string;
+  /**
+   * Instructions considered by the knowledge base when developing the query plan.
+   */
+  retrievalInstructions?: string;
+  /**
+   * Instructions considered by the knowledge base when generating answers.
+   */
+  answerInstructions?: string;
+  /**
+   * Options to control Cross-Origin Resource Sharing (CORS) for the knowledge base.
+   */
+  corsOptions?: CorsOptions;
 }

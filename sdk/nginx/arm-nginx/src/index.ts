@@ -1,44 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { NginxManagementClient } from "./nginxManagementClient.js";
-export { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
+  NginxDeploymentWafPolicyAnalysisCreateRequest,
+  NginxDeploymentWafPolicyAnalysisResponse,
+  NginxDeploymentWafPolicyAnalysisData,
+  NginxDeploymentWafPolicyError,
   NginxDeploymentApiKeyResponse,
   NginxDeploymentApiKeyResponseProperties,
   ProxyResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   NginxDeploymentApiKeyRequest,
   NginxDeploymentApiKeyRequestProperties,
   NginxDeployment,
   NginxDeploymentProperties,
-  KnownProvisioningState,
   ProvisioningState,
   NginxNetworkProfile,
   NginxFrontendIPConfiguration,
   NginxPublicIPAddress,
   NginxPrivateIPAddress,
-  KnownNginxPrivateIPAllocationMethod,
   NginxPrivateIPAllocationMethod,
   NginxNetworkInterfaceConfiguration,
   NginxLogging,
@@ -51,13 +52,11 @@ export {
   NginxDeploymentUserProfile,
   NginxDeploymentPropertiesNginxAppProtect,
   WebApplicationFirewallSettings,
-  KnownActivationState,
   ActivationState,
   WebApplicationFirewallStatus,
   WebApplicationFirewallPackage,
   WebApplicationFirewallComponentVersions,
   IdentityProperties,
-  KnownIdentityType,
   IdentityType,
   UserIdentityProperties,
   ResourceSku,
@@ -68,10 +67,8 @@ export {
   NginxDeploymentWafPolicyMetadata,
   NginxDeploymentWafPolicyMetadataProperties,
   NginxDeploymentWafPolicyCompilingStatus,
-  KnownNginxDeploymentWafPolicyCompilingStatusCode,
   NginxDeploymentWafPolicyCompilingStatusCode,
   NginxDeploymentWafPolicyApplyingStatus,
-  KnownNginxDeploymentWafPolicyApplyingStatusCode,
   NginxDeploymentWafPolicyApplyingStatusCode,
   NginxDeploymentWafPolicy,
   NginxDeploymentWafPolicyProperties,
@@ -94,32 +91,43 @@ export {
   AnalysisResultData,
   AnalysisDiagnostic,
   DiagnosticItem,
-  KnownLevel,
   Level,
+} from "./models/index.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownCreatedByType,
+  KnownProvisioningState,
+  KnownNginxPrivateIPAllocationMethod,
+  KnownActivationState,
+  KnownIdentityType,
+  KnownNginxDeploymentWafPolicyCompilingStatusCode,
+  KnownNginxDeploymentWafPolicyApplyingStatusCode,
+  KnownLevel,
   KnownVersions,
 } from "./models/index.js";
-export { NginxManagementClientOptionalParams } from "./api/index.js";
-export {
+export type { NginxManagementClientOptionalParams } from "./api/index.js";
+export type {
   ApiKeysListOptionalParams,
   ApiKeysDeleteOptionalParams,
   ApiKeysCreateOrUpdateOptionalParams,
   ApiKeysGetOptionalParams,
 } from "./api/apiKeys/index.js";
-export {
+export type {
   CertificatesListOptionalParams,
   CertificatesDeleteOptionalParams,
   CertificatesCreateOrUpdateOptionalParams,
   CertificatesGetOptionalParams,
 } from "./api/certificates/index.js";
-export {
+export type {
   ConfigurationsAnalysisOptionalParams,
   ConfigurationsListOptionalParams,
   ConfigurationsDeleteOptionalParams,
   ConfigurationsCreateOrUpdateOptionalParams,
   ConfigurationsGetOptionalParams,
 } from "./api/configurations/index.js";
-export { DefaultWafPolicyListOptionalParams } from "./api/defaultWafPolicy/index.js";
-export {
+export type { DefaultWafPolicyListOptionalParams } from "./api/defaultWafPolicy/index.js";
+export type {
   DeploymentsListOptionalParams,
   DeploymentsListByResourceGroupOptionalParams,
   DeploymentsDeleteOptionalParams,
@@ -127,21 +135,24 @@ export {
   DeploymentsCreateOrUpdateOptionalParams,
   DeploymentsGetOptionalParams,
 } from "./api/deployments/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { NginxDeploymentWafPoliciesAnalysisOptionalParams } from "./api/nginxDeploymentWafPolicies/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   WafPolicyDeleteOptionalParams,
   WafPolicyCreateOptionalParams,
   WafPolicyGetOptionalParams,
   WafPolicyListOptionalParams,
 } from "./api/wafPolicy/index.js";
-export {
+export type {
   ApiKeysOperations,
   CertificatesOperations,
   ConfigurationsOperations,
   DefaultWafPolicyOperations,
   DeploymentsOperations,
+  NginxDeploymentWafPoliciesOperations,
   OperationsOperations,
   WafPolicyOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };

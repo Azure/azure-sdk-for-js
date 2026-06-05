@@ -3,6 +3,12 @@
 
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The certificate list result. */
 export interface _CertificateListResult {
   /** A response message containing a list of certificates in the key vault along with a link to the next page of certificates. */
@@ -42,7 +48,9 @@ export function certificateItemDeserializer(item: any): CertificateItem {
     attributes: !item["attributes"]
       ? item["attributes"]
       : certificateAttributesDeserializer(item["attributes"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     x509Thumbprint: !item["x5t"]
       ? item["x5t"]
       : typeof item["x5t"] === "string"
@@ -134,7 +142,7 @@ export function keyVaultErrorDeserializer(item: any): KeyVaultError {
   };
 }
 
-/** Alias for ErrorModel */
+/** The key vault server error. */
 export type ErrorModel = {
   code?: string;
   message?: string;
@@ -175,11 +183,11 @@ export interface DeletedCertificateBundle {
   readonly policy?: CertificatePolicy;
   /** CER contents of x509 certificate. */
   cer?: Uint8Array;
-  /** The content type of the secret. eg. 'application/x-pem-file' or 'application/x-pkcs12', */
+  /** The content type of the secret. eg. 'application/x-pem-file' or 'application/x-pkcs12'. */
   contentType?: string;
   /** The certificate attributes. */
   attributes?: CertificateAttributes;
-  /** Application specific metadata in the form of key-value pairs */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: Record<string, string>;
   /** Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0. */
   preserveCertOrder?: boolean;
@@ -211,7 +219,9 @@ export function deletedCertificateBundleDeserializer(item: any): DeletedCertific
     attributes: !item["attributes"]
       ? item["attributes"]
       : certificateAttributesDeserializer(item["attributes"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     preserveCertOrder: item["preserveCertOrder"],
     recoveryId: item["recoveryId"],
     scheduledPurgeDate: !item["scheduledPurgeDate"]
@@ -237,6 +247,8 @@ export interface CertificatePolicy {
   issuerParameters?: IssuerParameters;
   /** The certificate attributes. */
   attributes?: CertificateAttributes;
+  /** Configuration that enables the platform to manage the certificate on behalf of the user. This feature is currently intended for internal use only. */
+  platformManaged?: PlatformManaged;
 }
 
 export function certificatePolicySerializer(item: CertificatePolicy): any {
@@ -259,6 +271,9 @@ export function certificatePolicySerializer(item: CertificatePolicy): any {
     attributes: !item["attributes"]
       ? item["attributes"]
       : certificateAttributesSerializer(item["attributes"]),
+    platformManaged: !item["platformManaged"]
+      ? item["platformManaged"]
+      : platformManagedSerializer(item["platformManaged"]),
   };
 }
 
@@ -283,6 +298,9 @@ export function certificatePolicyDeserializer(item: any): CertificatePolicy {
     attributes: !item["attributes"]
       ? item["attributes"]
       : certificateAttributesDeserializer(item["attributes"]),
+    platformManaged: !item["platformManaged"]
+      ? item["platformManaged"]
+      : platformManagedDeserializer(item["platformManaged"]),
   };
 }
 
@@ -444,14 +462,18 @@ export function x509CertificatePropertiesDeserializer(item: any): X509Certificat
   };
 }
 
-/** The subject alternate names of a X509 object. */
+/** The Subject Alternative Names of a X509 object. */
 export interface SubjectAlternativeNames {
   /** Email addresses. */
   emails?: string[];
-  /** Domain names. */
+  /** Domain Names. */
   dnsNames?: string[];
-  /** User principal names. */
+  /** User Principal Names. */
   upns?: string[];
+  /** Uniform Resource Identifiers. */
+  uris?: string[];
+  /** IP addresses; supports IPv4 and IPv6. */
+  ipAddresses?: string[];
 }
 
 export function subjectAlternativeNamesSerializer(item: SubjectAlternativeNames): any {
@@ -469,6 +491,16 @@ export function subjectAlternativeNamesSerializer(item: SubjectAlternativeNames)
     upns: !item["upns"]
       ? item["upns"]
       : item["upns"].map((p: any) => {
+          return p;
+        }),
+    uris: !item["uris"]
+      ? item["uris"]
+      : item["uris"].map((p: any) => {
+          return p;
+        }),
+    ipAddresses: !item["ipAddresses"]
+      ? item["ipAddresses"]
+      : item["ipAddresses"].map((p: any) => {
           return p;
         }),
   };
@@ -489,6 +521,16 @@ export function subjectAlternativeNamesDeserializer(item: any): SubjectAlternati
     upns: !item["upns"]
       ? item["upns"]
       : item["upns"].map((p: any) => {
+          return p;
+        }),
+    uris: !item["uris"]
+      ? item["uris"]
+      : item["uris"].map((p: any) => {
+          return p;
+        }),
+    ipAddresses: !item["ipAddresses"]
+      ? item["ipAddresses"]
+      : item["ipAddresses"].map((p: any) => {
           return p;
         }),
   };
@@ -634,6 +676,27 @@ export function issuerParametersDeserializer(item: any): IssuerParameters {
   };
 }
 
+/** Properties of the platform managed certificate. This feature is currently intended for internal use only. */
+export interface PlatformManaged {
+  /** The intended usage of the certificate. */
+  certificateUsage: string;
+  /** JSON-formatted platform managed metadata. The schema is intentionally undefined as this feature is currently intended for internal use only. */
+  metadata?: Record<string, any>;
+}
+
+export function platformManagedSerializer(item: PlatformManaged): any {
+  return { certificateUsage: item["certificateUsage"], metadata: item["metadata"] };
+}
+
+export function platformManagedDeserializer(item: any): PlatformManaged {
+  return {
+    certificateUsage: item["certificateUsage"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
 /** The contacts for the vault certificates. */
 export interface Contacts {
   /** Identifier for the contacts collection. */
@@ -680,11 +743,7 @@ export interface Contact {
 }
 
 export function contactSerializer(item: Contact): any {
-  return {
-    email: item["emailAddress"],
-    name: item["name"],
-    phone: item["phone"],
-  };
+  return { email: item["emailAddress"], name: item["name"], phone: item["phone"] };
 }
 
 export function contactDeserializer(item: any): Contact {
@@ -1045,11 +1104,11 @@ export interface CertificateBundle {
   readonly policy?: CertificatePolicy;
   /** CER contents of x509 certificate. */
   cer?: Uint8Array;
-  /** The content type of the secret. eg. 'application/x-pem-file' or 'application/x-pkcs12', */
+  /** The content type of the secret. eg. 'application/x-pem-file' or 'application/x-pkcs12'. */
   contentType?: string;
   /** The certificate attributes. */
   attributes?: CertificateAttributes;
-  /** Application specific metadata in the form of key-value pairs */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: Record<string, string>;
   /** Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0. */
   preserveCertOrder?: boolean;
@@ -1075,7 +1134,9 @@ export function certificateBundleDeserializer(item: any): CertificateBundle {
     attributes: !item["attributes"]
       ? item["attributes"]
       : certificateAttributesDeserializer(item["attributes"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     preserveCertOrder: item["preserveCertOrder"],
   };
 }
@@ -1159,9 +1220,7 @@ export interface CertificateRestoreParameters {
 }
 
 export function certificateRestoreParametersSerializer(item: CertificateRestoreParameters): any {
-  return {
-    value: uint8ArrayToString(item["certificateBundleBackup"], "base64url"),
-  };
+  return { value: uint8ArrayToString(item["certificateBundleBackup"], "base64url") };
 }
 
 /** A list of certificates that have been deleted in this vault. */
@@ -1213,7 +1272,9 @@ export function deletedCertificateItemDeserializer(item: any): DeletedCertificat
     attributes: !item["attributes"]
       ? item["attributes"]
       : certificateAttributesDeserializer(item["attributes"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     x509Thumbprint: !item["x5t"]
       ? item["x5t"]
       : typeof item["x5t"] === "string"
@@ -1235,4 +1296,12 @@ export enum KnownVersions {
   V76Preview2 = "7.6-preview.2",
   /** The 7.6 API version. */
   V76 = "7.6",
+  /** The 2025-06-01-preview API version. */
+  V20250601Preview = "2025-06-01-preview",
+  /** The 2025-07-01 API version. */
+  V20250701 = "2025-07-01",
+  /** The 2026-01-01-preview API version. */
+  V20260101Preview = "2026-01-01-preview",
+  /** The 2026-03-01-preview API version. */
+  V20260301Preview = "2026-03-01-preview",
 }

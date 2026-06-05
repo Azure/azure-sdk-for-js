@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  EdgeActionsListBySubscriptionOptionalParams,
-  EdgeActionsListByResourceGroupOptionalParams,
-  EdgeActionsDeleteOptionalParams,
-  EdgeActionsUpdateOptionalParams,
-  EdgeActionsCreateOptionalParams,
-  EdgeActionsGetOptionalParams,
+  type EdgeActionsListBySubscriptionOptionalParams,
+  type EdgeActionsListByResourceGroupOptionalParams,
+  type EdgeActionsDeleteOptionalParams,
+  type EdgeActionsUpdateOptionalParams,
+  type EdgeActionsCreateOptionalParams,
+  type EdgeActionsGetOptionalParams,
 } from "./options.js";

@@ -3,8 +3,9 @@
 
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
 
 /** The key vault client performs cryptographic key operations and vault operations against the Key Vault service. */
 export interface KeyVaultContext extends Client {
@@ -42,7 +43,7 @@ export function createKeyVault(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "7.6";
+  const apiVersion = options.apiVersion ?? "2025-07-01";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

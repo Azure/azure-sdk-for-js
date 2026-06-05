@@ -3,9 +3,9 @@
 
 export { whatIf, $delete, createOrUpdate, list, get } from "./operations.js";
 export {
-  DeploymentStacksWhatIfResultsAtSubscriptionWhatIfOptionalParams,
-  DeploymentStacksWhatIfResultsAtSubscriptionDeleteOptionalParams,
-  DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateOptionalParams,
-  DeploymentStacksWhatIfResultsAtSubscriptionListOptionalParams,
-  DeploymentStacksWhatIfResultsAtSubscriptionGetOptionalParams,
+  type DeploymentStacksWhatIfResultsAtSubscriptionWhatIfOptionalParams,
+  type DeploymentStacksWhatIfResultsAtSubscriptionDeleteOptionalParams,
+  type DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateOptionalParams,
+  type DeploymentStacksWhatIfResultsAtSubscriptionListOptionalParams,
+  type DeploymentStacksWhatIfResultsAtSubscriptionGetOptionalParams,
 } from "./options.js";

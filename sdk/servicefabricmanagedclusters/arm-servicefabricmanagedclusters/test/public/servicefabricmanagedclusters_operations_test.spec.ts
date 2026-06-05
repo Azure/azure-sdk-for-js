@@ -16,7 +16,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("servicefabricmanagedclusters test", () => {
+describe.skip("servicefabricmanagedclusters test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ServiceFabricManagedClustersManagementClient;

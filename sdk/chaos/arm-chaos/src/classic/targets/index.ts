@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
-import { Target } from "../../models/models.js";
-import {
+import type { ChaosManagementContext } from "../../api/chaosManagementContext.js";
+import { list, $delete, createOrUpdate, get } from "../../api/targets/operations.js";
+import type {
   TargetsListOptionalParams,
   TargetsDeleteOptionalParams,
   TargetsCreateOrUpdateOptionalParams,
   TargetsGetOptionalParams,
 } from "../../api/targets/options.js";
-import { list, $delete, createOrUpdate, get } from "../../api/targets/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Target } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Targets operations. */
 export interface TargetsOperations {
@@ -23,11 +23,6 @@ export interface TargetsOperations {
     options?: TargetsListOptionalParams,
   ) => PagedAsyncIterableIterator<Target>;
   /** Delete a Target resource that extends a tracked regional resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     parentProviderNamespace: string,

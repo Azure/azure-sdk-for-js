@@ -3,8 +3,8 @@
 
 export { listByHealthModel, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  DiscoveryRulesListByHealthModelOptionalParams,
-  DiscoveryRulesDeleteOptionalParams,
-  DiscoveryRulesCreateOrUpdateOptionalParams,
-  DiscoveryRulesGetOptionalParams,
+  type DiscoveryRulesListByHealthModelOptionalParams,
+  type DiscoveryRulesDeleteOptionalParams,
+  type DiscoveryRulesCreateOrUpdateOptionalParams,
+  type DiscoveryRulesGetOptionalParams,
 } from "./options.js";

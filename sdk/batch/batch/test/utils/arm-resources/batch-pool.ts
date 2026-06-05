@@ -18,7 +18,7 @@ export async function createBatchLinuxPool(
 
   const client = new BatchManagementClient(createTestCredential(), subscriptionId);
 
-  const pool = await client.poolOperations.create(resourceGroupName, accountName, poolName, {
+  const pool = await client.pool.create(resourceGroupName, accountName, poolName, {
     vmSize: "Standard_D2s_v3",
     deploymentConfiguration: {
       virtualMachineConfiguration: {
@@ -46,7 +46,6 @@ export async function createBatchLinuxPool(
         elevationLevel: "NonAdmin",
       },
     ],
-    targetNodeCommunicationMode: "Simplified",
   });
   return pool;
 }
@@ -55,7 +54,7 @@ export async function deleteBatchPool(accountName: string, poolName: string): Pr
   const subscriptionId = getSubscriptionId();
   const resourceGroupName = getResourceGroupName();
   const client = new BatchManagementClient(createTestCredential(), subscriptionId);
-  await client.poolOperations.beginDeleteAndWait(resourceGroupName, accountName, poolName);
+  await client.pool.delete(resourceGroupName, accountName, poolName);
 }
 
 export async function waitForPoolSteady(accountName: string, poolName: string): Promise<Pool> {
@@ -64,7 +63,7 @@ export async function waitForPoolSteady(accountName: string, poolName: string): 
 
   const checkPoolStable = async (): Promise<Pool | null> => {
     const client = new BatchManagementClient(createTestCredential(), subscriptionId);
-    const pool = await client.poolOperations.get(resourceGroupName, accountName, poolName);
+    const pool = await client.pool.get(resourceGroupName, accountName, poolName);
 
     if (pool.allocationState === "Steady") {
       return pool;

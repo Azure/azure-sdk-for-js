@@ -40,11 +40,14 @@
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/apicenter/arm-apicenter"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -57,7 +60,7 @@
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "build:samples": "tsc -p config/tsconfig.samples.json && dev-tool samples publish -f",
     "check-format": "echo skipped",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "echo skipped",
@@ -65,9 +68,9 @@
     "format": "echo skipped",
     "lint": "echo skipped",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
+    "test:node": "dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
@@ -80,7 +83,7 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/apicenter/arm-apicenter",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/apicenter/arm-apicenter/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [
@@ -90,18 +93,6 @@
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-apicenter?view=azure-node-preview"
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -113,6 +104,11 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
     }
   }
 }

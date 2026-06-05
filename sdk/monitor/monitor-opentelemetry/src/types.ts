@@ -27,7 +27,7 @@ export interface AzureMonitorOpenTelemetryOptions {
   enableTraceBasedSamplingForLogs?: boolean;
   /** Enable Performance Counter feature */
   enablePerformanceCounters?: boolean;
-  /** OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4) */
+  /** OpenTelemetry Instrumentations options included as part of Azure Monitor. See {@link InstrumentationOptions} for the full set of supported instrumentations. */
   instrumentationOptions?: InstrumentationOptions;
   /** Application Insights Web Instrumentation options (enabled, connectionString, src, config)*/
   browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
@@ -78,6 +78,7 @@ export interface StatsbeatFeatures {
   shim?: boolean;
   customerSdkStats?: boolean;
   multiIkey?: boolean;
+  aksResourceDetectorPopulation?: boolean;
 }
 
 /**
@@ -93,6 +94,7 @@ export const StatsbeatFeaturesMap = new Map<string, number>([
   ["shim", 32],
   ["customerSdkStats", 64],
   ["multiIkey", 128],
+  ["aksResourceDetectorPopulation", 256],
 ]);
 
 /**
@@ -158,7 +160,7 @@ export interface BrowserSdkLoaderOptions {
   connectionString?: string;
 }
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.15.1";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.18.2";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 export const AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
@@ -208,6 +210,7 @@ export enum StatsbeatFeature {
   SHIM = 32,
   CUSTOMER_SDKSTATS = 64,
   MULTI_IKEY = 128,
+  AKS_RESOURCE_DETECTOR_POPULATION = 256,
 }
 
 export enum StatsbeatInstrumentation {

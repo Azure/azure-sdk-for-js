@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the status of the deployed application health. It will query the cluster to find the health of the deployed application.
  *
  * @summary get the status of the deployed application health. It will query the cluster to find the health of the deployed application.
- * x-ms-original-file: 2025-10-01-preview/ApplicationActionFetchHealth_example.json
+ * x-ms-original-file: 2026-05-01-preview/ApplicationActionFetchHealth_example.json
  */
 async function fetchApplicationHealth() {
   const credential = new DefaultAzureCredential();

@@ -37,6 +37,25 @@ export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://rt.services.visualstudio.co
  */
 export const DEFAULT_LIVEMETRICS_HOST = "rt.services.visualstudio.com";
 /**
+ * Allowed domain suffixes for redirect targets. A 30x `Location` header is followed only when the
+ * current ingestion host and the redirect target either match exactly or both live under one of
+ * these trusted Azure Monitor / Application Insights suffixes. This prevents an attacker-controlled
+ * redirect from causing the bearer auth policy to attach a fresh AAD token (and the telemetry body)
+ * to an unrelated host.
+ * @internal
+ */
+export const ALLOWED_REDIRECT_DOMAIN_SUFFIXES: readonly string[] = [
+  ".livediagnostics.monitor.azure.com",
+  ".monitor.azure.com",
+  ".services.visualstudio.com",
+  ".applicationinsights.azure.com",
+  ".monitor.azure.us",
+  ".applicationinsights.azure.us",
+  ".monitor.azure.cn",
+  ".applicationinsights.azure.cn",
+];
+
+/**
  * Connection string environment variable name.
  * @internal
  */
@@ -85,6 +104,14 @@ export const ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED =
   "APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED";
 
 /**
+ * Checks if an environment variable is set to "true" (case-insensitive, trimmed).
+ * @internal
+ */
+export function isEnvVarTrue(envVarName: string): boolean {
+  return process.env[envVarName]?.trim().toLowerCase() === "true";
+}
+
+/**
  * REST error types for failed requests that can be retried.
  * @internal
  */
@@ -107,6 +134,11 @@ export const ENV_AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
  * @internal
  */
 export const ENV_AZURE_MONITOR_DISTRO_VERSION = "AZURE_MONITOR_DISTRO_VERSION";
+/**
+ * Microsoft OpenTelemetry version.
+ * @internal
+ */
+export const ENV_MICROSOFT_OPENTELEMETRY_VERSION = "MICROSOFT_OPENTELEMETRY_VERSION";
 
 /**
  * Resource attribute used for Application Insights correlation when specified.
@@ -132,6 +164,21 @@ export const ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL =
  * @internal
  */
 export const ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING = "APPLICATIONINSIGHTS_SDK_STATS_LOGGING";
+
+/**
+ * Gen AI property keys that use a higher 256KB truncation limit for custom dimensions
+ * instead of the standard 64KB limit.
+ * @internal
+ */
+export const CUSTOM_DIMENSIONS_GENAI_KEYS: ReadonlySet<string> = new Set([
+  "gen_ai.input.messages",
+  "gen_ai.output.messages",
+  "gen_ai.system_instructions",
+  "gen_ai.tool.definitions",
+  "gen_ai.tool.call.arguments",
+  "gen_ai.tool.call.result",
+  "gen_ai.evaluation.explanation",
+]);
 
 /**
  * QuickPulse metric counter names.
