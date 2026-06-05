@@ -59,18 +59,16 @@ export function _markAsCompleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "operation-id": operationId,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: markAsCompleteRequestSerializer(body),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "operation-id": operationId,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: markAsCompleteRequestSerializer(body),
+  });
 }
 
 export async function _markAsCompleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -133,16 +131,14 @@ export function _resumeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        "operation-id": operationId,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "operation-id": operationId,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _resumeDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -197,18 +193,16 @@ export function _addNotesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "operation-id": operationId,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: drillRunAddNotesRequestSerializer(body),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "operation-id": operationId,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: drillRunAddNotesRequestSerializer(body),
+  });
 }
 
 export async function _addNotesDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -263,16 +257,14 @@ export function _reprotectSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        "operation-id": operationId,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "operation-id": operationId,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _reprotectDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -327,18 +319,16 @@ export function _failOverSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "operation-id": operationId,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: drillRunFailoverRequestSerializer(body),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "operation-id": operationId,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: drillRunFailoverRequestSerializer(body),
+  });
 }
 
 export async function _failOverDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -390,12 +380,10 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _listDeserialize(
@@ -451,12 +439,10 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<DrillRun> {
