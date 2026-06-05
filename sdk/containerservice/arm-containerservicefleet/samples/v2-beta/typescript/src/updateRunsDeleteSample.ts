@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a UpdateRun
  *
  * @summary delete a UpdateRun
- * x-ms-original-file: 2026-02-01-preview/UpdateRuns_Delete.json
+ * x-ms-original-file: 2026-03-02-preview/UpdateRuns_Delete.json
  */
 async function deleteAnUpdateRunResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

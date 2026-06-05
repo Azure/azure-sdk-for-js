@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list SAS credentials of a storage account.
  *
  * @summary list SAS credentials of a storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountListAccountSAS.json
+ * x-ms-original-file: 2026-04-01/StorageAccountListAccountSAS.json
  */
 async function storageAccountListAccountSAS(): Promise<void> {
   const credential = new DefaultAzureCredential();

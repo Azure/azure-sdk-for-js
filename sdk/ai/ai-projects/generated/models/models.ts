@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 
 /**
@@ -159,6 +160,7 @@ export type AgentDefinitionUnion =
   | HostedAgentDefinition
   | PromptAgentDefinition
   | WorkflowAgentDefinition
+  | ExternalAgentDefinition
   | AgentDefinition;
 
 export function agentDefinitionUnionSerializer(item: AgentDefinitionUnion): any {
@@ -171,6 +173,9 @@ export function agentDefinitionUnionSerializer(item: AgentDefinitionUnion): any 
 
     case "workflow":
       return workflowAgentDefinitionSerializer(item as WorkflowAgentDefinition);
+
+    case "external":
+      return externalAgentDefinitionSerializer(item as ExternalAgentDefinition);
 
     default:
       return agentDefinitionSerializer(item);
@@ -188,13 +193,16 @@ export function agentDefinitionUnionDeserializer(item: any): AgentDefinitionUnio
     case "workflow":
       return workflowAgentDefinitionDeserializer(item as WorkflowAgentDefinition);
 
+    case "external":
+      return externalAgentDefinitionDeserializer(item as ExternalAgentDefinition);
+
     default:
       return agentDefinitionDeserializer(item);
   }
 }
 
 /** Type of AgentKind */
-export type AgentKind = "prompt" | "hosted" | "workflow";
+export type AgentKind = "prompt" | "hosted" | "workflow" | "external";
 
 /** Configuration for Responsible AI (RAI) content filtering and safety features. */
 export interface RaiConfig {
@@ -588,6 +596,12 @@ export interface BingGroundingTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** The bing grounding search tool parameters. */
   bing_grounding: BingGroundingSearchToolParameters;
 }
@@ -597,6 +611,9 @@ export function bingGroundingToolSerializer(item: BingGroundingTool): any {
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     bing_grounding: bingGroundingSearchToolParametersSerializer(item["bing_grounding"]),
   };
 }
@@ -606,7 +623,53 @@ export function bingGroundingToolDeserializer(item: any): BingGroundingTool {
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     bing_grounding: bingGroundingSearchToolParametersDeserializer(item["bing_grounding"]),
+  };
+}
+
+export function toolConfigRecordSerializer(item: Record<string, ToolConfig>): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : toolConfigSerializer(item[key]);
+  });
+  return result;
+}
+
+export function toolConfigRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, ToolConfig> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : toolConfigDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** Per-tool configuration that controls tool visibility and search behavior. */
+export interface ToolConfig {
+  /**
+   * When true, the tool is always included in agent context and visible in `tools/list`.
+   * When false (default), the tool is hidden from `tools/list` and only discoverable via `tool_search`.
+   */
+  pin?: boolean;
+  /**
+   * Additional text indexed for tool_search. Supplements the native tool description
+   * to improve discoverability. Does not alter `tools/list` output.
+   */
+  additional_search_text?: string;
+}
+
+export function toolConfigSerializer(item: ToolConfig): any {
+  return { pin: item["pin"], additional_search_text: item["additional_search_text"] };
+}
+
+export function toolConfigDeserializer(item: any): ToolConfig {
+  return {
+    pin: item["pin"],
+    additional_search_text: item["additional_search_text"],
   };
 }
 
@@ -701,6 +764,12 @@ export interface MicrosoftFabricPreviewTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** The fabric data agent tool parameters. */
   fabric_dataagent_preview: FabricDataAgentToolParameters;
 }
@@ -710,6 +779,9 @@ export function microsoftFabricPreviewToolSerializer(item: MicrosoftFabricPrevie
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     fabric_dataagent_preview: fabricDataAgentToolParametersSerializer(
       item["fabric_dataagent_preview"],
     ),
@@ -721,6 +793,9 @@ export function microsoftFabricPreviewToolDeserializer(item: any): MicrosoftFabr
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     fabric_dataagent_preview: fabricDataAgentToolParametersDeserializer(
       item["fabric_dataagent_preview"],
     ),
@@ -792,6 +867,12 @@ export interface SharepointPreviewTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** The sharepoint grounding tool parameters. */
   sharepoint_grounding_preview: SharepointGroundingToolParameters;
 }
@@ -801,6 +882,9 @@ export function sharepointPreviewToolSerializer(item: SharepointPreviewTool): an
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     sharepoint_grounding_preview: sharepointGroundingToolParametersSerializer(
       item["sharepoint_grounding_preview"],
     ),
@@ -812,6 +896,9 @@ export function sharepointPreviewToolDeserializer(item: any): SharepointPreviewT
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     sharepoint_grounding_preview: sharepointGroundingToolParametersDeserializer(
       item["sharepoint_grounding_preview"],
     ),
@@ -855,6 +942,12 @@ export interface AzureAISearchTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** The azure ai search index resource. */
   azure_ai_search: AzureAISearchToolResource;
 }
@@ -864,6 +957,9 @@ export function azureAISearchToolSerializer(item: AzureAISearchTool): any {
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     azure_ai_search: azureAISearchToolResourceSerializer(item["azure_ai_search"]),
   };
 }
@@ -873,6 +969,9 @@ export function azureAISearchToolDeserializer(item: any): AzureAISearchTool {
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     azure_ai_search: azureAISearchToolResourceDeserializer(item["azure_ai_search"]),
   };
 }
@@ -962,16 +1061,31 @@ export interface OpenApiTool extends Tool {
   type: "openapi";
   /** The openapi function definition. */
   openapi: OpenApiFunctionDefinition;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function openApiToolSerializer(item: OpenApiTool): any {
-  return { type: item["type"], openapi: openApiFunctionDefinitionSerializer(item["openapi"]) };
+  return {
+    type: item["type"],
+    openapi: openApiFunctionDefinitionSerializer(item["openapi"]),
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
 }
 
 export function openApiToolDeserializer(item: any): OpenApiTool {
   return {
     type: item["type"],
     openapi: openApiFunctionDefinitionDeserializer(item["openapi"]),
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -1232,6 +1346,12 @@ export interface BingCustomSearchPreviewTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** The bing custom search tool parameters. */
   bing_custom_search_preview: BingCustomSearchToolParameters;
 }
@@ -1241,6 +1361,9 @@ export function bingCustomSearchPreviewToolSerializer(item: BingCustomSearchPrev
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     bing_custom_search_preview: bingCustomSearchToolParametersSerializer(
       item["bing_custom_search_preview"],
     ),
@@ -1252,6 +1375,9 @@ export function bingCustomSearchPreviewToolDeserializer(item: any): BingCustomSe
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     bing_custom_search_preview: bingCustomSearchToolParametersDeserializer(
       item["bing_custom_search_preview"],
     ),
@@ -1351,6 +1477,12 @@ export interface BrowserAutomationPreviewTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** The Browser Automation Tool parameters. */
   browser_automation_preview: BrowserAutomationToolParameters;
 }
@@ -1360,6 +1492,9 @@ export function browserAutomationPreviewToolSerializer(item: BrowserAutomationPr
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     browser_automation_preview: browserAutomationToolParametersSerializer(
       item["browser_automation_preview"],
     ),
@@ -1371,6 +1506,9 @@ export function browserAutomationPreviewToolDeserializer(item: any): BrowserAuto
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     browser_automation_preview: browserAutomationToolParametersDeserializer(
       item["browser_automation_preview"],
     ),
@@ -1423,12 +1561,21 @@ export interface AzureFunctionTool extends Tool {
   type: "azure_function";
   /** The Azure Function Tool definition. */
   azure_function: AzureFunctionDefinition;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function azureFunctionToolSerializer(item: AzureFunctionTool): any {
   return {
     type: item["type"],
     azure_function: azureFunctionDefinitionSerializer(item["azure_function"]),
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
   };
 }
 
@@ -1436,6 +1583,9 @@ export function azureFunctionToolDeserializer(item: any): AzureFunctionTool {
   return {
     type: item["type"],
     azure_function: azureFunctionDefinitionDeserializer(item["azure_function"]),
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -1546,6 +1696,12 @@ export interface CaptureStructuredOutputsTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** The structured outputs to capture from the model. */
   outputs: StructuredOutputDefinition;
 }
@@ -1555,6 +1711,9 @@ export function captureStructuredOutputsToolSerializer(item: CaptureStructuredOu
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     outputs: structuredOutputDefinitionSerializer(item["outputs"]),
   };
 }
@@ -1564,6 +1723,9 @@ export function captureStructuredOutputsToolDeserializer(item: any): CaptureStru
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     outputs: structuredOutputDefinitionDeserializer(item["outputs"]),
   };
 }
@@ -1608,6 +1770,12 @@ export interface A2APreviewTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** Base URL of the agent. */
   base_url?: string;
   /**
@@ -1627,6 +1795,9 @@ export function a2APreviewToolSerializer(item: A2APreviewTool): any {
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     base_url: item["base_url"],
     agent_card_path: item["agent_card_path"],
     project_connection_id: item["project_connection_id"],
@@ -1638,6 +1809,9 @@ export function a2APreviewToolDeserializer(item: any): A2APreviewTool {
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     base_url: item["base_url"],
     agent_card_path: item["agent_card_path"],
     project_connection_id: item["project_connection_id"],
@@ -1648,72 +1822,48 @@ export function a2APreviewToolDeserializer(item: any): A2APreviewTool {
 export interface WorkIQPreviewTool extends Tool {
   /** The object type, which is always 'work_iq_preview'. */
   type: "work_iq_preview";
+  /** The ID of the WorkIQ project connection. */
+  project_connection_id: string;
   /** Optional user-defined name for this tool or configuration. */
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
-  /** The WorkIQ tool parameters. */
-  work_iq_preview: WorkIQPreviewToolParameters;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function workIQPreviewToolSerializer(item: WorkIQPreviewTool): any {
   return {
     type: item["type"],
+    project_connection_id: item["project_connection_id"],
     name: item["name"],
     description: item["description"],
-    work_iq_preview: workIQPreviewToolParametersSerializer(item["work_iq_preview"]),
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
   };
 }
 
 export function workIQPreviewToolDeserializer(item: any): WorkIQPreviewTool {
   return {
     type: item["type"],
+    project_connection_id: item["project_connection_id"],
     name: item["name"],
     description: item["description"],
-    work_iq_preview: workIQPreviewToolParametersDeserializer(item["work_iq_preview"]),
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
-/** The WorkIQ tool parameters. */
-export interface WorkIQPreviewToolParameters {
-  /** The ID of the WorkIQ project connection. */
-  project_connection_id: string;
-}
-
-export function workIQPreviewToolParametersSerializer(item: WorkIQPreviewToolParameters): any {
-  return { project_connection_id: item["project_connection_id"] };
-}
-
-export function workIQPreviewToolParametersDeserializer(item: any): WorkIQPreviewToolParameters {
-  return {
-    project_connection_id: item["project_connection_id"],
-  };
-}
-
-/** model interface FabricIQPreviewTool */
+/** A FabricIQ server-side tool. */
 export interface FabricIQPreviewTool extends Tool {
   /** The object type, which is always 'fabric_iq_preview'. */
   type: "fabric_iq_preview";
-  /** The FabricIQ tool parameters. */
-  fabric_iq_preview: FabricIQPreviewToolParameters;
-}
-
-export function fabricIQPreviewToolSerializer(item: FabricIQPreviewTool): any {
-  return {
-    type: item["type"],
-    fabric_iq_preview: fabricIQPreviewToolParametersSerializer(item["fabric_iq_preview"]),
-  };
-}
-
-export function fabricIQPreviewToolDeserializer(item: any): FabricIQPreviewTool {
-  return {
-    type: item["type"],
-    fabric_iq_preview: fabricIQPreviewToolParametersDeserializer(item["fabric_iq_preview"]),
-  };
-}
-
-/** model interface FabricIQPreviewToolParameters */
-export interface FabricIQPreviewToolParameters {
   /** The ID of the FabricIQ project connection. */
   project_connection_id: string;
   /** (Optional) The label of the FabricIQ MCP server to connect to. */
@@ -1722,44 +1872,64 @@ export interface FabricIQPreviewToolParameters {
   server_url?: string;
   /** (Optional) Whether the agent requires approval before executing actions. Default is always. */
   require_approval?: MCPToolRequireApproval | string;
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
-export function fabricIQPreviewToolParametersSerializer(item: FabricIQPreviewToolParameters): any {
+export function fabricIQPreviewToolSerializer(item: FabricIQPreviewTool): any {
   return {
+    type: item["type"],
     project_connection_id: item["project_connection_id"],
     server_label: item["server_label"],
     server_url: item["server_url"],
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _fabricIQPreviewToolParametersRequireApprovalSerializer(item["require_approval"]),
+      : _fabricIQPreviewToolRequireApprovalSerializer(item["require_approval"]),
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
   };
 }
 
-export function fabricIQPreviewToolParametersDeserializer(
-  item: any,
-): FabricIQPreviewToolParameters {
+export function fabricIQPreviewToolDeserializer(item: any): FabricIQPreviewTool {
   return {
+    type: item["type"],
     project_connection_id: item["project_connection_id"],
     server_label: item["server_label"],
     server_url: item["server_url"],
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _fabricIQPreviewToolParametersRequireApprovalDeserializer(item["require_approval"]),
+      : _fabricIQPreviewToolRequireApprovalDeserializer(item["require_approval"]),
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
-/** Alias for _FabricIQPreviewToolParametersRequireApproval */
-export type _FabricIQPreviewToolParametersRequireApproval = MCPToolRequireApproval | string;
+/** Alias for _FabricIQPreviewToolRequireApproval */
+export type _FabricIQPreviewToolRequireApproval = MCPToolRequireApproval | string;
 
-export function _fabricIQPreviewToolParametersRequireApprovalSerializer(
-  item: _FabricIQPreviewToolParametersRequireApproval,
+export function _fabricIQPreviewToolRequireApprovalSerializer(
+  item: _FabricIQPreviewToolRequireApproval,
 ): any {
   return item;
 }
 
-export function _fabricIQPreviewToolParametersRequireApprovalDeserializer(
+export function _fabricIQPreviewToolRequireApprovalDeserializer(
   item: any,
-): _FabricIQPreviewToolParametersRequireApproval {
+): _FabricIQPreviewToolRequireApproval {
   return item;
 }
 
@@ -1825,6 +1995,12 @@ export interface MemorySearchPreviewTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** The name of the memory store to use. */
   memory_store_name: string;
   /**
@@ -1844,6 +2020,9 @@ export function memorySearchPreviewToolSerializer(item: MemorySearchPreviewTool)
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     memory_store_name: item["memory_store_name"],
     scope: item["scope"],
     search_options: !item["search_options"]
@@ -1858,6 +2037,9 @@ export function memorySearchPreviewToolDeserializer(item: any): MemorySearchPrev
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     memory_store_name: item["memory_store_name"],
     scope: item["scope"],
     search_options: !item["search_options"]
@@ -1895,10 +2077,23 @@ export interface ToolboxSearchPreviewTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function toolboxSearchPreviewToolSerializer(item: ToolboxSearchPreviewTool): any {
-  return { type: item["type"], name: item["name"], description: item["description"] };
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
 }
 
 export function toolboxSearchPreviewToolDeserializer(item: any): ToolboxSearchPreviewTool {
@@ -1906,6 +2101,9 @@ export function toolboxSearchPreviewToolDeserializer(item: any): ToolboxSearchPr
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -1917,6 +2115,12 @@ export interface CodeInterpreterTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /**
    * The code interpreter container. Can be a container ID or an object that
    * specifies uploaded file IDs to make available to your code, along with an
@@ -1931,6 +2135,9 @@ export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     container: !item["container"]
       ? item["container"]
       : _codeInterpreterToolContainerSerializer(item["container"]),
@@ -1942,6 +2149,9 @@ export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool 
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     container: !item["container"]
       ? item["container"]
       : _codeInterpreterToolContainerDeserializer(item["container"]),
@@ -2220,6 +2430,12 @@ export interface FileSearchTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function fileSearchToolSerializer(item: FileSearchTool): any {
@@ -2235,6 +2451,9 @@ export function fileSearchToolSerializer(item: FileSearchTool): any {
     filters: !item["filters"] ? item["filters"] : filtersSerializer(item["filters"]),
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
   };
 }
 
@@ -2251,6 +2470,9 @@ export function fileSearchToolDeserializer(item: any): FileSearchTool {
     filters: !item["filters"] ? item["filters"] : filtersDeserializer(item["filters"]),
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -2489,6 +2711,12 @@ export interface WebSearchTool extends Tool {
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
   /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
+  /**
    * The project connections attached to this tool. There can be a maximum of 1 connection
    * resource attached to the tool.
    */
@@ -2505,6 +2733,9 @@ export function webSearchToolSerializer(item: WebSearchTool): any {
     search_context_size: item["search_context_size"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     custom_search_configuration: !item["custom_search_configuration"]
       ? item["custom_search_configuration"]
       : webSearchConfigurationSerializer(item["custom_search_configuration"]),
@@ -2521,6 +2752,9 @@ export function webSearchToolDeserializer(item: any): WebSearchTool {
     search_context_size: item["search_context_size"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     custom_search_configuration: !item["custom_search_configuration"]
       ? item["custom_search_configuration"]
       : webSearchConfigurationDeserializer(item["custom_search_configuration"]),
@@ -2656,6 +2890,12 @@ export interface MCPTool extends Tool {
   defer_loading?: boolean;
   /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
   project_connection_id?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function mcpToolSerializer(item: MCPTool): any {
@@ -2675,6 +2915,9 @@ export function mcpToolSerializer(item: MCPTool): any {
       : _mcpToolRequireApprovalSerializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
   };
 }
 
@@ -2699,6 +2942,9 @@ export function mcpToolDeserializer(item: any): MCPTool {
       : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -2767,6 +3013,12 @@ export interface ImageGenTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function imageGenToolSerializer(item: ImageGenTool): any {
@@ -2787,6 +3039,9 @@ export function imageGenToolSerializer(item: ImageGenTool): any {
     action: item["action"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
   };
 }
 
@@ -2808,6 +3063,9 @@ export function imageGenToolDeserializer(item: any): ImageGenTool {
     action: item["action"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -2842,10 +3100,23 @@ export interface LocalShellToolParam extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function localShellToolParamSerializer(item: LocalShellToolParam): any {
-  return { type: item["type"], name: item["name"], description: item["description"] };
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
 }
 
 export function localShellToolParamDeserializer(item: any): LocalShellToolParam {
@@ -2853,6 +3124,9 @@ export function localShellToolParamDeserializer(item: any): LocalShellToolParam 
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -2865,6 +3139,12 @@ export interface FunctionShellToolParam extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function functionShellToolParamSerializer(item: FunctionShellToolParam): any {
@@ -2875,6 +3155,9 @@ export function functionShellToolParamSerializer(item: FunctionShellToolParam): 
       : functionShellToolParamEnvironmentUnionSerializer(item["environment"]),
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
   };
 }
 
@@ -2886,6 +3169,9 @@ export function functionShellToolParamDeserializer(item: any): FunctionShellTool
       : functionShellToolParamEnvironmentUnionDeserializer(item["environment"]),
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -3633,7 +3919,7 @@ export function protocolVersionRecordDeserializer(item: any): ProtocolVersionRec
 }
 
 /** Type of AgentProtocol */
-export type AgentProtocol = "activity_protocol" | "responses" | "invocations";
+export type AgentProtocol = "activity_protocol" | "responses" | "mcp" | "invocations";
 
 /** Container-based deployment configuration for a hosted agent. */
 export interface ContainerConfiguration {
@@ -3657,6 +3943,13 @@ export interface CodeConfiguration {
   runtime: string;
   /** The entry point command and arguments for the code execution. */
   entry_point: string[];
+  /**
+   * How package dependencies are resolved at deployment time. Defaults to `bundled`,
+   * where the caller bundles all dependencies into the uploaded zip and the service
+   * performs no remote build. `remote_build` instructs the service to build
+   * dependencies remotely from the manifest included in the uploaded zip.
+   */
+  dependency_resolution: CodeDependencyResolution;
   /** The SHA-256 hex digest of the uploaded code zip. Set by the service from the `x-ms-code-zip-sha256` request header; read-only in responses and never accepted in request payloads. */
   readonly content_hash?: string;
 }
@@ -3667,6 +3960,7 @@ export function codeConfigurationSerializer(item: CodeConfiguration): any {
     entry_point: item["entry_point"].map((p: any) => {
       return p;
     }),
+    dependency_resolution: item["dependency_resolution"],
   };
 }
 
@@ -3676,9 +3970,13 @@ export function codeConfigurationDeserializer(item: any): CodeConfiguration {
     entry_point: item["entry_point"].map((p: any) => {
       return p;
     }),
+    dependency_resolution: item["dependency_resolution"],
     content_hash: item["content_hash"],
   };
 }
+
+/** How package dependencies are resolved at deployment time for a code-based hosted agent. */
+export type CodeDependencyResolution = "bundled" | "remote_build";
 
 /** Customer-supplied telemetry configuration for exporting container logs, traces, and metrics. */
 export interface TelemetryConfig {
@@ -4700,6 +4998,41 @@ export function workflowAgentDefinitionDeserializer(item: any): WorkflowAgentDef
   };
 }
 
+/**
+ * The external agent definition. Represents a third-party agent hosted outside Foundry (for example, on GCP or AWS).
+ * Registration is metadata-only: Foundry records the agent definition to light up observability experiences (traces, evaluations)
+ * over customer-emitted OpenTelemetry data.
+ */
+export interface ExternalAgentDefinition extends AgentDefinition {
+  kind: "external";
+  /**
+   * The OpenTelemetry agent identifier used to attribute customer-emitted spans to this Foundry agent.
+   * Spans must include the attribute `gen_ai.agent.id = <otel_agent_id>` to appear under this registration.
+   * Defaults to the top-level agent name when omitted. Provide an explicit value only for migration scenarios
+   * where the running external agent already emits a stable id that differs from the Foundry agent name.
+   * The resolved value is always echoed on read.
+   */
+  otel_agent_id?: string;
+}
+
+export function externalAgentDefinitionSerializer(item: ExternalAgentDefinition): any {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    otel_agent_id: item["otel_agent_id"],
+  };
+}
+
+export function externalAgentDefinitionDeserializer(item: any): ExternalAgentDefinition {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"]
+      ? item["rai_config"]
+      : raiConfigDeserializer(item["rai_config"]),
+    otel_agent_id: item["otel_agent_id"],
+  };
+}
+
 /** The provisioning status of an agent version. */
 export type AgentVersionStatus = "creating" | "active" | "failed" | "deleting" | "deleted";
 
@@ -4938,7 +5271,7 @@ export function fixedRatioVersionSelectionRuleDeserializer(
 }
 
 /** Type of AgentEndpointProtocol */
-export type AgentEndpointProtocol = "activity" | "responses" | "a2a" | "invocations";
+export type AgentEndpointProtocol = "activity" | "responses" | "a2a" | "mcp" | "invocations";
 
 export function agentEndpointAuthorizationSchemeUnionArraySerializer(
   result: Array<AgentEndpointAuthorizationSchemeUnion>,
@@ -5026,20 +5359,25 @@ export type AgentEndpointAuthorizationSchemeType = "Entra" | "BotService" | "Bot
 /** model interface EntraAuthorizationScheme */
 export interface EntraAuthorizationScheme extends AgentEndpointAuthorizationScheme {
   type: "Entra";
-  isolation_key_source: IsolationKeySourceUnion;
+  /** The source from which the per-user isolation key is derived for requests authorized via this scheme. Defaults to Entra-based isolation when omitted. */
+  isolation_key_source?: IsolationKeySourceUnion;
 }
 
 export function entraAuthorizationSchemeSerializer(item: EntraAuthorizationScheme): any {
   return {
     type: item["type"],
-    isolation_key_source: isolationKeySourceUnionSerializer(item["isolation_key_source"]),
+    isolation_key_source: !item["isolation_key_source"]
+      ? item["isolation_key_source"]
+      : isolationKeySourceUnionSerializer(item["isolation_key_source"]),
   };
 }
 
 export function entraAuthorizationSchemeDeserializer(item: any): EntraAuthorizationScheme {
   return {
     type: item["type"],
-    isolation_key_source: isolationKeySourceUnionDeserializer(item["isolation_key_source"]),
+    isolation_key_source: !item["isolation_key_source"]
+      ? item["isolation_key_source"]
+      : isolationKeySourceUnionDeserializer(item["isolation_key_source"]),
   };
 }
 
@@ -5969,7 +6307,7 @@ export interface PendingUploadRequest {
   pendingUploadId?: string;
   /** Azure Storage Account connection name to use for generating temporary SAS token */
   connectionName?: string;
-  /** BlobReference is the only supported type. */
+  /** The type of pending upload. */
   pendingUploadType: "BlobReference";
 }
 
@@ -5989,7 +6327,7 @@ export interface PendingUploadResponse {
   pendingUploadId: string;
   /** Version of asset to be created if user did not specify version when initially creating upload */
   version?: string;
-  /** BlobReference is the only supported type */
+  /** The type of pending upload. */
   pendingUploadType: "BlobReference";
 }
 
@@ -6457,6 +6795,55 @@ export function embeddingConfigurationDeserializer(item: any): EmbeddingConfigur
   };
 }
 
+/** Multipart request body for updating or versioning a code-based agent (POST /agents/{name} and POST /agents/{name}/versions). */
+export interface CreateAgentVersionFromCodeContent {
+  /** JSON metadata including description and hosted definition. */
+  metadata: CreateAgentVersionFromCodeMetadata;
+  /** The code zip file (max 250 MB). */
+  code: FileContents | { contents: FileContents; contentType?: string; filename?: string };
+}
+
+export function createAgentVersionFromCodeContentSerializer(
+  item: CreateAgentVersionFromCodeContent,
+): any {
+  return [
+    { name: "metadata", body: createAgentVersionFromCodeMetadataSerializer(item["metadata"]) },
+    createFilePartDescriptor("code", item["code"], "application/octet-stream"),
+  ];
+}
+
+/**
+ * JSON metadata for code-based agent operations (create, update, create version).
+ * The agent name comes from the URL path parameter or the `x-ms-agent-name` header,
+ * so it is not included in this model.
+ * The content hash (SHA-256 of the zip) is carried in the `x-ms-code-zip-sha256` header.
+ */
+export interface CreateAgentVersionFromCodeMetadata {
+  /** A human-readable description of the agent. */
+  description?: string;
+  /**
+   * Set of 16 key-value pairs that can be attached to an object. This can be
+   * useful for storing additional information about the object in a structured
+   * format, and querying for objects via API or the dashboard.
+   *
+   * Keys are strings with a maximum length of 64 characters. Values are strings
+   * with a maximum length of 512 characters.
+   */
+  metadata?: Record<string, string>;
+  /** The hosted agent definition including code_configuration (runtime, entry_point), cpu, memory, and protocol_versions. */
+  definition: HostedAgentDefinition;
+}
+
+export function createAgentVersionFromCodeMetadataSerializer(
+  item: CreateAgentVersionFromCodeMetadata,
+): any {
+  return {
+    description: item["description"],
+    metadata: item["metadata"],
+    definition: hostedAgentDefinitionSerializer(item["definition"]),
+  };
+}
+
 /** Version indicator determining which agent version backs the session. */
 export interface VersionIndicator {
   /** The type of version indicator. */
@@ -6686,6 +7073,775 @@ export function sessionDirectoryEntryDeserializer(item: any): SessionDirectoryEn
   };
 }
 
+/** Agent optimization job resource — a long-running job that optimizes an agent's configuration (instructions, model, skills) to maximize evaluation scores. On success, the result contains scored candidates. */
+export interface OptimizationJob {
+  /** Server-assigned unique identifier. */
+  readonly id: string;
+  /** Caller-supplied inputs. */
+  inputs?: OptimizationJobInputs;
+  /** Result produced on success. */
+  readonly result?: OptimizationJobResult;
+  /** Current lifecycle status. */
+  readonly status: JobStatus;
+  /** Error details — populated only on failure. */
+  readonly error?: ApiError;
+  /** The timestamp when the job was created, represented in Unix time. */
+  readonly created_at: Date;
+  /** The timestamp when the job was last updated, represented in Unix time. */
+  readonly updated_at?: Date;
+  /** Progress while in flight. Absent in terminal states. */
+  readonly progress?: OptimizationJobProgress;
+}
+
+export function optimizationJobSerializer(item: OptimizationJob): any {
+  return {
+    inputs: !item["inputs"] ? item["inputs"] : optimizationJobInputsSerializer(item["inputs"]),
+  };
+}
+
+export function optimizationJobDeserializer(item: any): OptimizationJob {
+  return {
+    id: item["id"],
+    inputs: !item["inputs"] ? item["inputs"] : optimizationJobInputsDeserializer(item["inputs"]),
+    result: !item["result"] ? item["result"] : optimizationJobResultDeserializer(item["result"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    created_at: new Date(item["created_at"] * 1000),
+    updated_at: !item["updated_at"] ? item["updated_at"] : new Date(item["updated_at"] * 1000),
+    progress: !item["progress"]
+      ? item["progress"]
+      : optimizationJobProgressDeserializer(item["progress"]),
+  };
+}
+
+/** Caller-supplied inputs for an optimization job. */
+export interface OptimizationJobInputs {
+  /** The agent (and pinned version) being optimized. */
+  agent: OptimizationAgentDefinition;
+  /** Inline evaluation dataset. Mutually exclusive with `train_dataset_reference`. */
+  dataset?: DatasetItem[];
+  /** Reference to a registered training dataset. Mutually exclusive with `dataset`. */
+  train_dataset_reference?: DatasetRef;
+  /** Optional held-out validation dataset for measuring generalization of the final candidate. */
+  validation_dataset_reference?: DatasetRef;
+  /** Job-level evaluators (referenced by `name`). Per-task `criteria` may override. Default: ['task_adherence']. */
+  evaluators?: string[];
+  /** Job-level evaluation criteria. Applied to all tasks unless overridden by per-task `criteria`. */
+  criteria?: EvaluationCriterion[];
+  /** Tuning knobs and run-mode. */
+  options?: OptimizationOptions;
+}
+
+export function optimizationJobInputsSerializer(item: OptimizationJobInputs): any {
+  return {
+    agent: optimizationAgentDefinitionSerializer(item["agent"]),
+    dataset: !item["dataset"] ? item["dataset"] : datasetItemArraySerializer(item["dataset"]),
+    train_dataset_reference: !item["train_dataset_reference"]
+      ? item["train_dataset_reference"]
+      : datasetRefSerializer(item["train_dataset_reference"]),
+    validation_dataset_reference: !item["validation_dataset_reference"]
+      ? item["validation_dataset_reference"]
+      : datasetRefSerializer(item["validation_dataset_reference"]),
+    evaluators: !item["evaluators"]
+      ? item["evaluators"]
+      : item["evaluators"].map((p: any) => {
+          return p;
+        }),
+    criteria: !item["criteria"]
+      ? item["criteria"]
+      : evaluationCriterionArraySerializer(item["criteria"]),
+    options: !item["options"] ? item["options"] : optimizationOptionsSerializer(item["options"]),
+  };
+}
+
+export function optimizationJobInputsDeserializer(item: any): OptimizationJobInputs {
+  return {
+    agent: optimizationAgentDefinitionDeserializer(item["agent"]),
+    dataset: !item["dataset"] ? item["dataset"] : datasetItemArrayDeserializer(item["dataset"]),
+    train_dataset_reference: !item["train_dataset_reference"]
+      ? item["train_dataset_reference"]
+      : datasetRefDeserializer(item["train_dataset_reference"]),
+    validation_dataset_reference: !item["validation_dataset_reference"]
+      ? item["validation_dataset_reference"]
+      : datasetRefDeserializer(item["validation_dataset_reference"]),
+    evaluators: !item["evaluators"]
+      ? item["evaluators"]
+      : item["evaluators"].map((p: any) => {
+          return p;
+        }),
+    criteria: !item["criteria"]
+      ? item["criteria"]
+      : evaluationCriterionArrayDeserializer(item["criteria"]),
+    options: !item["options"] ? item["options"] : optimizationOptionsDeserializer(item["options"]),
+  };
+}
+
+/** The agent definition being optimized. Identifies the Foundry agent and optional configuration overrides. */
+export interface OptimizationAgentDefinition {
+  /** Registered Foundry agent name. Required — bare-model mode is not supported. */
+  agent_name: string;
+  /** Pinned agent version. Defaults to latest if omitted. */
+  agent_version?: string;
+  /** Model deployment name (e.g., 'gpt-4o'). Optional when agent_name is set — the agent definition provides the model. */
+  model?: string;
+  /** System prompt / instructions override. When set, used as the baseline instructions for the agent. */
+  system_prompt?: string;
+  /** Optional named skills the optimizer may tune. Tool descriptions and parameters. */
+  skills?: OptimizationAgentSkill[];
+}
+
+export function optimizationAgentDefinitionSerializer(item: OptimizationAgentDefinition): any {
+  return {
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+    model: item["model"],
+    system_prompt: item["system_prompt"],
+    skills: !item["skills"]
+      ? item["skills"]
+      : optimizationAgentSkillArraySerializer(item["skills"]),
+  };
+}
+
+export function optimizationAgentDefinitionDeserializer(item: any): OptimizationAgentDefinition {
+  return {
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+    model: item["model"],
+    system_prompt: item["system_prompt"],
+    skills: !item["skills"]
+      ? item["skills"]
+      : optimizationAgentSkillArrayDeserializer(item["skills"]),
+  };
+}
+
+export function optimizationAgentSkillArraySerializer(
+  result: Array<OptimizationAgentSkill>,
+): any[] {
+  return result.map((item) => {
+    return optimizationAgentSkillSerializer(item);
+  });
+}
+
+export function optimizationAgentSkillArrayDeserializer(
+  result: Array<OptimizationAgentSkill>,
+): any[] {
+  return result.map((item) => {
+    return optimizationAgentSkillDeserializer(item);
+  });
+}
+
+/** A named skill on the agent that the optimizer may tune. */
+export interface OptimizationAgentSkill {
+  /** Skill name (matches the tool name on the agent). */
+  name: string;
+  /** Free-form description used as the seed when tuning skill descriptions. */
+  description?: string;
+}
+
+export function optimizationAgentSkillSerializer(item: OptimizationAgentSkill): any {
+  return { name: item["name"], description: item["description"] };
+}
+
+export function optimizationAgentSkillDeserializer(item: any): OptimizationAgentSkill {
+  return {
+    name: item["name"],
+    description: item["description"],
+  };
+}
+
+export function datasetItemArraySerializer(result: Array<DatasetItem>): any[] {
+  return result.map((item) => {
+    return datasetItemSerializer(item);
+  });
+}
+
+export function datasetItemArrayDeserializer(result: Array<DatasetItem>): any[] {
+  return result.map((item) => {
+    return datasetItemDeserializer(item);
+  });
+}
+
+/** A single evaluation task with input query, expected output, and evaluation criteria. */
+export interface DatasetItem {
+  /** Unique-within-the-dataset identifier for this task. */
+  name: string;
+  /** The user query / input for the task. */
+  query: string;
+  /** Optional ground truth used by reference-based evaluators. */
+  ground_truth?: string;
+  /** Per-task evaluation criteria. Defaults to the job-level evaluators if unset. */
+  criteria?: EvaluationCriterion[];
+  /** Pre-computed evaluation results in AOAI-compatible format. When provided together with `response_items`, the baseline run-and-evaluate phase is skipped. */
+  eval_results?: EvalRunOutputItemResult[];
+  /** Pre-computed agent response output items. Captures the full trajectory (function calls, tool outputs, messages) from a prior agent run. */
+  response_items?: Record<string, any>[];
+}
+
+export function datasetItemSerializer(item: DatasetItem): any {
+  return {
+    name: item["name"],
+    query: item["query"],
+    ground_truth: item["ground_truth"],
+    criteria: !item["criteria"]
+      ? item["criteria"]
+      : evaluationCriterionArraySerializer(item["criteria"]),
+    eval_results: !item["eval_results"]
+      ? item["eval_results"]
+      : evalRunOutputItemResultArraySerializer(item["eval_results"]),
+    response_items: !item["response_items"]
+      ? item["response_items"]
+      : item["response_items"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function datasetItemDeserializer(item: any): DatasetItem {
+  return {
+    name: item["name"],
+    query: item["query"],
+    ground_truth: item["ground_truth"],
+    criteria: !item["criteria"]
+      ? item["criteria"]
+      : evaluationCriterionArrayDeserializer(item["criteria"]),
+    eval_results: !item["eval_results"]
+      ? item["eval_results"]
+      : evalRunOutputItemResultArrayDeserializer(item["eval_results"]),
+    response_items: !item["response_items"]
+      ? item["response_items"]
+      : item["response_items"].map((p: any) => {
+          return Object.fromEntries(Object.entries(p).map(([k1, p1]: [string, any]) => [k1, p1]));
+        }),
+  };
+}
+
+export function evaluationCriterionArraySerializer(result: Array<EvaluationCriterion>): any[] {
+  return result.map((item) => {
+    return evaluationCriterionSerializer(item);
+  });
+}
+
+export function evaluationCriterionArrayDeserializer(result: Array<EvaluationCriterion>): any[] {
+  return result.map((item) => {
+    return evaluationCriterionDeserializer(item);
+  });
+}
+
+/** LLM-as-judge evaluation criterion applied to a single task. */
+export interface EvaluationCriterion {
+  /** Criterion name (referenced in evaluation result rows). */
+  name: string;
+  /** Natural-language instruction passed to the judge LLM. */
+  instruction: string;
+}
+
+export function evaluationCriterionSerializer(item: EvaluationCriterion): any {
+  return { name: item["name"], instruction: item["instruction"] };
+}
+
+export function evaluationCriterionDeserializer(item: any): EvaluationCriterion {
+  return {
+    name: item["name"],
+    instruction: item["instruction"],
+  };
+}
+
+export function evalRunOutputItemResultArraySerializer(
+  result: Array<EvalRunOutputItemResult>,
+): any[] {
+  return result.map((item) => {
+    return evalRunOutputItemResultSerializer(item);
+  });
+}
+
+export function evalRunOutputItemResultArrayDeserializer(
+  result: Array<EvalRunOutputItemResult>,
+): any[] {
+  return result.map((item) => {
+    return evalRunOutputItemResultDeserializer(item);
+  });
+}
+
+/** A single grader result for an evaluation run output item. */
+export interface EvalRunOutputItemResult {
+  /** The name of the grader. */
+  name: string;
+  /** The grader type (for example, "string-check-grader"). */
+  type?: string;
+  /** The numeric score produced by the grader. */
+  score: number;
+  /** Whether the grader considered the output a pass. */
+  passed: boolean;
+  /** Optional sample or intermediate data produced by the grader. */
+  sample?: Record<string, any>;
+  /** The evaluation status for this result item. Values: "completed", "errored", "skipped". Null if not provided by evaluator. When status is skipped, passed/score can be ignored. */
+  status?: EvalRunOutputItemResultStatus;
+  /** The name of the metric (e.g., "fluency", "f1_score"). */
+  metric?: string;
+  /** The label associated with the test criteria metric (e.g., "pass", "fail", "good", "bad"). */
+  label?: string;
+  /** The threshold used to determine pass/fail for this test criteria, if it is numerical. */
+  threshold?: number;
+  /** The reason for the test criteria metric. */
+  reason?: string;
+  /** Additional details about the test criteria metric. */
+  properties?: Record<string, string>;
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+}
+
+export function evalRunOutputItemResultSerializer(item: EvalRunOutputItemResult): any {
+  return {
+    ...serializeRecord(item.additionalProperties ?? {}),
+    name: item["name"],
+    type: item["type"],
+    score: item["score"],
+    passed: item["passed"],
+    sample: item["sample"],
+    status: item["status"],
+    metric: item["metric"],
+    label: item["label"],
+    threshold: item["threshold"],
+    reason: item["reason"],
+    properties: item["properties"],
+  };
+}
+
+export function evalRunOutputItemResultDeserializer(item: any): EvalRunOutputItemResult {
+  return {
+    additionalProperties: serializeRecord(item, [
+      "name",
+      "type",
+      "score",
+      "passed",
+      "sample",
+      "status",
+      "metric",
+      "label",
+      "threshold",
+      "reason",
+      "properties",
+    ]),
+    name: item["name"],
+    type: item["type"],
+    score: item["score"],
+    passed: item["passed"],
+    sample: !item["sample"]
+      ? item["sample"]
+      : Object.fromEntries(
+          Object.entries(item["sample"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    status: item["status"],
+    metric: item["metric"],
+    label: item["label"],
+    threshold: item["threshold"],
+    reason: item["reason"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+/** The evaluation status for an evaluation run output item result. */
+export type EvalRunOutputItemResultStatus = "completed" | "errored" | "skipped";
+
+/** Reference to a registered dataset in the Foundry Dataset Service. */
+export interface DatasetRef {
+  /** Dataset name. */
+  name: string;
+  /** Dataset version. If not specified, the latest version is used. */
+  version?: string;
+}
+
+export function datasetRefSerializer(item: DatasetRef): any {
+  return { name: item["name"], version: item["version"] };
+}
+
+export function datasetRefDeserializer(item: any): DatasetRef {
+  return {
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** Tuning knobs and run-mode for an optimization job. */
+export interface OptimizationOptions {
+  /** Strategies to apply this run. Default: ['instruction']. */
+  strategies?: OptimizationStrategy[];
+  /** Total candidate generation budget (number of candidates explored). Default: 10. */
+  budget?: number;
+  /** Maximum optimization iterations per strategy. Default: 5. */
+  max_iterations?: number;
+  /** Tasks sampled per iteration (mutation step input). Default: service-decided (auto-computed). */
+  tasks_per_iteration?: number;
+  /** Maximum tasks fed into the reflective-mutation LLM per iteration. Default: 5. */
+  max_reflection_tasks?: number;
+  /** Minimum score improvement between iterations to continue (plateau detection). Default: 0.005. */
+  min_improvement?: number;
+  /** Composite score threshold for a task to be considered passing. Default: 0.5. */
+  pass_threshold?: number;
+  /** Target average score at which optimization stops early (quality ceiling). Default: 0.95. */
+  improvement_threshold?: number;
+  /** Run mode. */
+  mode?: OptimizationMode;
+  /** Foundry deployment name to use as the LLM-as-judge evaluation model. Required. */
+  eval_model?: string;
+  /** Optional model deployment for strategy reflection (instruction rewriting, skill generation). Falls back to `eval_model` if unset. */
+  reflection_model?: string;
+  /** Per-task timeout for agent execution. Default: 300 seconds (5 minutes). */
+  task_timeout_seconds?: number;
+  /** If true, retain temporary candidate-evaluation agent versions for inspection. Default: false. */
+  keep_versions?: boolean;
+}
+
+export function optimizationOptionsSerializer(item: OptimizationOptions): any {
+  return {
+    strategies: !item["strategies"]
+      ? item["strategies"]
+      : item["strategies"].map((p: any) => {
+          return p;
+        }),
+    budget: item["budget"],
+    max_iterations: item["max_iterations"],
+    tasks_per_iteration: item["tasks_per_iteration"],
+    max_reflection_tasks: item["max_reflection_tasks"],
+    min_improvement: item["min_improvement"],
+    pass_threshold: item["pass_threshold"],
+    improvement_threshold: item["improvement_threshold"],
+    mode: item["mode"],
+    eval_model: item["eval_model"],
+    reflection_model: item["reflection_model"],
+    task_timeout_seconds: item["task_timeout_seconds"],
+    keep_versions: item["keep_versions"],
+  };
+}
+
+export function optimizationOptionsDeserializer(item: any): OptimizationOptions {
+  return {
+    strategies: !item["strategies"]
+      ? item["strategies"]
+      : item["strategies"].map((p: any) => {
+          return p;
+        }),
+    budget: item["budget"],
+    max_iterations: item["max_iterations"],
+    tasks_per_iteration: item["tasks_per_iteration"],
+    max_reflection_tasks: item["max_reflection_tasks"],
+    min_improvement: item["min_improvement"],
+    pass_threshold: item["pass_threshold"],
+    improvement_threshold: item["improvement_threshold"],
+    mode: item["mode"],
+    eval_model: item["eval_model"],
+    reflection_model: item["reflection_model"],
+    task_timeout_seconds: item["task_timeout_seconds"],
+    keep_versions: item["keep_versions"],
+  };
+}
+
+/** Optimization strategy dimension. */
+export type OptimizationStrategy = "instruction" | "model" | "skill";
+/** Run mode for an optimization job. */
+export type OptimizationMode = "optimize";
+
+/** Terminal-state result body. Populated when `status` is `succeeded` or `failed`. */
+export interface OptimizationJobResult {
+  /** Evaluation scores for the original (un-optimized) agent configuration. */
+  baseline?: OptimizationCandidate;
+  /** The highest-scoring candidate found during optimization. */
+  best?: OptimizationCandidate;
+  /** All evaluated candidates including baseline. */
+  candidates?: OptimizationCandidate[];
+  /** Candidates on the Pareto frontier (maximize score, minimize cost). */
+  pareto_frontier?: OptimizationCandidate[];
+  /** Score of the best candidate on the held-out validation dataset. Null when no validation dataset was provided. */
+  validation_score?: OptimizationCandidate;
+  /** The options used for this optimization run. */
+  options?: OptimizationOptions;
+  /** Number of tasks sampled during optimization iterations (null if sampling was not used). */
+  sample_size?: number;
+  /** Non-fatal warnings from the optimization run (e.g., strategy failures that were skipped). */
+  warnings?: string[];
+  /** True when all optimization strategies failed — only the baseline was evaluated. */
+  all_strategies_failed?: boolean;
+}
+
+export function optimizationJobResultDeserializer(item: any): OptimizationJobResult {
+  return {
+    baseline: !item["baseline"]
+      ? item["baseline"]
+      : optimizationCandidateDeserializer(item["baseline"]),
+    best: !item["best"] ? item["best"] : optimizationCandidateDeserializer(item["best"]),
+    candidates: !item["candidates"]
+      ? item["candidates"]
+      : optimizationCandidateArrayDeserializer(item["candidates"]),
+    pareto_frontier: !item["pareto_frontier"]
+      ? item["pareto_frontier"]
+      : optimizationCandidateArrayDeserializer(item["pareto_frontier"]),
+    validation_score: !item["validation_score"]
+      ? item["validation_score"]
+      : optimizationCandidateDeserializer(item["validation_score"]),
+    options: !item["options"] ? item["options"] : optimizationOptionsDeserializer(item["options"]),
+    sample_size: item["sample_size"],
+    warnings: !item["warnings"]
+      ? item["warnings"]
+      : item["warnings"].map((p: any) => {
+          return p;
+        }),
+    all_strategies_failed: item["all_strategies_failed"],
+  };
+}
+
+/** Aggregated evaluation result for a single candidate agent configuration across all tasks. */
+export interface OptimizationCandidate {
+  /** Server-assigned candidate identifier. Use with `GET /candidates/{id}` sub-endpoints. */
+  candidate_id?: string;
+  /** Display name of the candidate (e.g., 'baseline', 'instruction-v2'). */
+  name: string;
+  /** The agent configuration that produced this candidate. */
+  config: OptimizationAgentDefinition;
+  /** What was mutated from the baseline (e.g., {instructions: 'new prompt'}). */
+  mutations: Record<string, any>;
+  /** Strategy rationale — why this candidate was generated. */
+  rationale: string;
+  /** Average composite score across all tasks. */
+  avg_score: number;
+  /** Average token usage across all tasks. */
+  avg_tokens: number;
+  /** Fraction of tasks that met the pass threshold. */
+  pass_rate: number;
+  /** Individual task-level scores. */
+  task_scores: OptimizationTaskResult[];
+  /** Whether this candidate is on the Pareto frontier (score vs cost). */
+  is_pareto_optimal: boolean;
+  /** Average score from sampled evaluation (null if full dataset was used). */
+  sample_avg_score?: number;
+  /** Number of tasks in the sample (null if full dataset was used). */
+  sample_size?: number;
+  /** 'sample' if scored on a subset, 'full' if re-evaluated on the full dataset. */
+  evaluation_type?: string;
+  /** Identifies the strategy that produced this candidate. */
+  strategy?: OptimizationStrategy;
+  /** Foundry evaluation identifier used to score this candidate. */
+  eval_id?: string;
+  /** Foundry evaluation run identifier for this candidate's scoring run. */
+  eval_run_id?: string;
+}
+
+export function optimizationCandidateDeserializer(item: any): OptimizationCandidate {
+  return {
+    candidate_id: item["candidate_id"],
+    name: item["name"],
+    config: optimizationAgentDefinitionDeserializer(item["config"]),
+    mutations: Object.fromEntries(
+      Object.entries(item["mutations"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    rationale: item["rationale"],
+    avg_score: item["avg_score"],
+    avg_tokens: item["avg_tokens"],
+    pass_rate: item["pass_rate"],
+    task_scores: optimizationTaskResultArrayDeserializer(item["task_scores"]),
+    is_pareto_optimal: item["is_pareto_optimal"],
+    sample_avg_score: item["sample_avg_score"],
+    sample_size: item["sample_size"],
+    evaluation_type: item["evaluation_type"],
+    strategy: item["strategy"],
+    eval_id: item["eval_id"],
+    eval_run_id: item["eval_run_id"],
+  };
+}
+
+export function optimizationTaskResultArrayDeserializer(
+  result: Array<OptimizationTaskResult>,
+): any[] {
+  return result.map((item) => {
+    return optimizationTaskResultDeserializer(item);
+  });
+}
+
+/** Per-task evaluation result for a single candidate. */
+export interface OptimizationTaskResult {
+  /** Task name (from the dataset). */
+  task_name: string;
+  /** The user query / input for the task. */
+  query?: string;
+  /** Per-evaluator scores keyed by evaluator name. */
+  scores: Record<string, number>;
+  /** Composite score combining all evaluator scores. */
+  composite_score: number;
+  /** Total tokens consumed during the agent run for this task. */
+  tokens: number;
+  /** Wall-clock seconds for this task's agent execution. */
+  duration_seconds: number;
+  /** Whether the task met the pass threshold. */
+  passed: boolean;
+  /** Error message if the task failed during execution. */
+  error_message?: string;
+  /** Per-evaluator reasoning keyed by evaluator name. */
+  rationales?: Record<string, string>;
+  /** Raw agent response text. */
+  response?: string;
+  /** Identifier of the agent run that produced this result. */
+  run_id?: string;
+}
+
+export function optimizationTaskResultDeserializer(item: any): OptimizationTaskResult {
+  return {
+    task_name: item["task_name"],
+    query: item["query"],
+    scores: Object.fromEntries(
+      Object.entries(item["scores"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    composite_score: item["composite_score"],
+    tokens: item["tokens"],
+    duration_seconds: item["duration_seconds"],
+    passed: item["passed"],
+    error_message: item["error_message"],
+    rationales: !item["rationales"]
+      ? item["rationales"]
+      : Object.fromEntries(
+          Object.entries(item["rationales"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    response: item["response"],
+    run_id: item["run_id"],
+  };
+}
+
+export function optimizationCandidateArrayDeserializer(
+  result: Array<OptimizationCandidate>,
+): any[] {
+  return result.map((item) => {
+    return optimizationCandidateDeserializer(item);
+  });
+}
+
+/** Extensible status values shared by Foundry jobs. */
+export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
+
+/** In-flight progress; only populated while status is `queued` or `in_progress`. */
+export interface OptimizationJobProgress {
+  /** Strategy currently being explored. */
+  current_strategy: OptimizationStrategy;
+  /** 1-based current iteration index. */
+  current_iteration: number;
+  /** Tasks evaluated so far this iteration. */
+  tasks_completed: number;
+  /** Total tasks scheduled this iteration. */
+  tasks_total: number;
+  /** Best score observed so far across all candidates. */
+  best_score: number;
+  /** Wall-clock time elapsed since the job began executing. */
+  elapsed_seconds: number;
+}
+
+export function optimizationJobProgressDeserializer(item: any): OptimizationJobProgress {
+  return {
+    current_strategy: item["current_strategy"],
+    current_iteration: item["current_iteration"],
+    tasks_completed: item["tasks_completed"],
+    tasks_total: item["tasks_total"],
+    best_score: item["best_score"],
+    elapsed_seconds: item["elapsed_seconds"],
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultOptimizationJob {
+  /** The requested list of items. */
+  data: OptimizationJob[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultOptimizationJobDeserializer(
+  item: any,
+): _AgentsPagedResultOptimizationJob {
+  return {
+    data: optimizationJobArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function optimizationJobArraySerializer(result: Array<OptimizationJob>): any[] {
+  return result.map((item) => {
+    return optimizationJobSerializer(item);
+  });
+}
+
+export function optimizationJobArrayDeserializer(result: Array<OptimizationJob>): any[] {
+  return result.map((item) => {
+    return optimizationJobDeserializer(item);
+  });
+}
+
+/** The response data for a requested list of items. */
+export interface AgentsPagedResultOptimizationCandidate {
+  /** The requested list of items. */
+  data: OptimizationCandidate[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function agentsPagedResultOptimizationCandidateDeserializer(
+  item: any,
+): AgentsPagedResultOptimizationCandidate {
+  return {
+    data: optimizationCandidateArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+/** Deploy-config blob for a candidate. Suitable for setting OPTIMIZATION_CONFIG on a hosted-agent version. */
+export interface CandidateDeployConfig {
+  /** System prompt / instructions. */
+  instructions?: string;
+  /** Foundry deployment name. */
+  model?: string;
+  /** Optional sampling temperature. */
+  temperature?: number;
+  /** Optional skill overrides. */
+  skills?: OptimizationAgentSkill[];
+}
+
+export function candidateDeployConfigDeserializer(item: any): CandidateDeployConfig {
+  return {
+    instructions: item["instructions"],
+    model: item["model"],
+    temperature: item["temperature"],
+    skills: !item["skills"]
+      ? item["skills"]
+      : optimizationAgentSkillArrayDeserializer(item["skills"]),
+  };
+}
+
+/** Full per-task evaluation results for a candidate, returned by GET /candidates/{id}/results. */
+export interface CandidateResults {
+  /** Owning candidate id. */
+  candidate_id: string;
+  /** Per-task evaluation rows. */
+  results: OptimizationTaskResult[];
+}
+
+export function candidateResultsDeserializer(item: any): CandidateResults {
+  return {
+    candidate_id: item["candidate_id"],
+    results: optimizationTaskResultArrayDeserializer(item["results"]),
+  };
+}
+
 /** Evaluation Taxonomy Definition */
 export interface EvaluationTaxonomy {
   /** Asset ID, a unique identifier for the asset */
@@ -6787,7 +7943,7 @@ export interface AgentTaxonomyInput extends EvaluationTaxonomyInput {
   /** Input type of the evaluation taxonomy. */
   type: "agent";
   /** Target configuration for the agent. */
-  target: TargetUnion;
+  target: EvaluationTargetUnion;
   /** List of risk categories to evaluate against. */
   riskCategories: RiskCategory[];
 }
@@ -6795,7 +7951,7 @@ export interface AgentTaxonomyInput extends EvaluationTaxonomyInput {
 export function agentTaxonomyInputSerializer(item: AgentTaxonomyInput): any {
   return {
     type: item["type"],
-    target: targetUnionSerializer(item["target"]),
+    target: evaluationTargetUnionSerializer(item["target"]),
     riskCategories: item["riskCategories"].map((p: any) => {
       return p;
     }),
@@ -6805,7 +7961,7 @@ export function agentTaxonomyInputSerializer(item: AgentTaxonomyInput): any {
 export function agentTaxonomyInputDeserializer(item: any): AgentTaxonomyInput {
   return {
     type: item["type"],
-    target: targetUnionDeserializer(item["target"]),
+    target: evaluationTargetUnionDeserializer(item["target"]),
     riskCategories: item["riskCategories"].map((p: any) => {
       return p;
     }),
@@ -6813,26 +7969,26 @@ export function agentTaxonomyInputDeserializer(item: any): AgentTaxonomyInput {
 }
 
 /** Base class for targets with discriminator support. */
-export interface Target {
+export interface EvaluationTarget {
   /** The type of target. */
   /** The discriminator possible values: azure_ai_model, azure_ai_agent */
   type: string;
 }
 
-export function targetSerializer(item: Target): any {
+export function evaluationTargetSerializer(item: EvaluationTarget): any {
   return { type: item["type"] };
 }
 
-export function targetDeserializer(item: any): Target {
+export function evaluationTargetDeserializer(item: any): EvaluationTarget {
   return {
     type: item["type"],
   };
 }
 
-/** Alias for TargetUnion */
-export type TargetUnion = AzureAIModelTarget | AzureAIAgentTarget | Target;
+/** Alias for EvaluationTargetUnion */
+export type EvaluationTargetUnion = AzureAIModelTarget | AzureAIAgentTarget | EvaluationTarget;
 
-export function targetUnionSerializer(item: TargetUnion): any {
+export function evaluationTargetUnionSerializer(item: EvaluationTargetUnion): any {
   switch (item.type) {
     case "azure_ai_model":
       return azureAIModelTargetSerializer(item as AzureAIModelTarget);
@@ -6841,11 +7997,11 @@ export function targetUnionSerializer(item: TargetUnion): any {
       return azureAIAgentTargetSerializer(item as AzureAIAgentTarget);
 
     default:
-      return targetSerializer(item);
+      return evaluationTargetSerializer(item);
   }
 }
 
-export function targetUnionDeserializer(item: any): TargetUnion {
+export function evaluationTargetUnionDeserializer(item: any): EvaluationTargetUnion {
   switch (item["type"]) {
     case "azure_ai_model":
       return azureAIModelTargetDeserializer(item as AzureAIModelTarget);
@@ -6854,12 +8010,12 @@ export function targetUnionDeserializer(item: any): TargetUnion {
       return azureAIAgentTargetDeserializer(item as AzureAIAgentTarget);
 
     default:
-      return targetDeserializer(item);
+      return evaluationTargetDeserializer(item);
   }
 }
 
 /** Represents a target specifying an Azure AI model for operations requiring model selection. */
-export interface AzureAIModelTarget extends Target {
+export interface AzureAIModelTarget extends EvaluationTarget {
   /** The type of target, always `azure_ai_model`. */
   type: "azure_ai_model";
   /** The unique identifier of the Azure AI model. */
@@ -6890,14 +8046,14 @@ export function azureAIModelTargetDeserializer(item: any): AzureAIModelTarget {
 
 /** Represents a set of parameters used to control the sampling behavior of a language model during text generation. */
 export interface ModelSamplingParams {
-  /** The temperature parameter for sampling. */
-  temperature: number;
-  /** The top-p parameter for nucleus sampling. */
-  top_p: number;
-  /** The random seed for reproducibility. */
-  seed: number;
+  /** The temperature parameter for sampling. Defaults to 1.0. */
+  temperature?: number;
+  /** The top-p parameter for nucleus sampling. Defaults to 1.0. */
+  top_p?: number;
+  /** The random seed for reproducibility. Defaults to 42. */
+  seed?: number;
   /** The maximum number of tokens allowed in the completion. */
-  max_completion_tokens: number;
+  max_completion_tokens?: number;
 }
 
 export function modelSamplingParamsSerializer(item: ModelSamplingParams): any {
@@ -6919,7 +8075,7 @@ export function modelSamplingParamsDeserializer(item: any): ModelSamplingParams 
 }
 
 /** Represents a target specifying an Azure AI agent. */
-export interface AzureAIAgentTarget extends Target {
+export interface AzureAIAgentTarget extends EvaluationTarget {
   /** The type of target, always `azure_ai_agent`. */
   type: "azure_ai_agent";
   /** The unique identifier of the Azure AI agent. */
@@ -6928,6 +8084,7 @@ export interface AzureAIAgentTarget extends Target {
   version?: string;
   /** The parameters used to control the sampling behavior of the agent during text generation. */
   tool_descriptions?: ToolDescription[];
+  tools?: ToolUnion[];
 }
 
 export function azureAIAgentTargetSerializer(item: AzureAIAgentTarget): any {
@@ -6938,6 +8095,7 @@ export function azureAIAgentTargetSerializer(item: AzureAIAgentTarget): any {
     tool_descriptions: !item["tool_descriptions"]
       ? item["tool_descriptions"]
       : toolDescriptionArraySerializer(item["tool_descriptions"]),
+    tools: !item["tools"] ? item["tools"] : toolUnionArraySerializer(item["tools"]),
   };
 }
 
@@ -6949,6 +8107,7 @@ export function azureAIAgentTargetDeserializer(item: any): AzureAIAgentTarget {
     tool_descriptions: !item["tool_descriptions"]
       ? item["tool_descriptions"]
       : toolDescriptionArrayDeserializer(item["tool_descriptions"]),
+    tools: !item["tools"] ? item["tools"] : toolUnionArrayDeserializer(item["tools"]),
   };
 }
 
@@ -7235,7 +8394,7 @@ export type EvaluatorCategory = "quality" | "safety" | "agents";
 /** Base evaluator configuration with discriminator */
 export interface EvaluatorDefinition {
   /** The type of evaluator definition */
-  /** The discriminator possible values: code, prompt, rubrics */
+  /** The discriminator possible values: code, prompt, rubric */
   type: EvaluatorDefinitionType;
   /** The JSON schema (Draft 2020-12) for the evaluator's input parameters. This includes parameters like type, properties, required. */
   init_parameters?: Record<string, any>;
@@ -7288,7 +8447,7 @@ export function evaluatorDefinitionUnionSerializer(item: EvaluatorDefinitionUnio
     case "prompt":
       return promptBasedEvaluatorDefinitionSerializer(item as PromptBasedEvaluatorDefinition);
 
-    case "rubrics":
+    case "rubric":
       return rubricBasedEvaluatorDefinitionSerializer(item as RubricBasedEvaluatorDefinition);
 
     default:
@@ -7304,7 +8463,7 @@ export function evaluatorDefinitionUnionDeserializer(item: any): EvaluatorDefini
     case "prompt":
       return promptBasedEvaluatorDefinitionDeserializer(item as PromptBasedEvaluatorDefinition);
 
-    case "rubrics":
+    case "rubric":
       return rubricBasedEvaluatorDefinitionDeserializer(item as RubricBasedEvaluatorDefinition);
 
     default:
@@ -7319,7 +8478,7 @@ export type EvaluatorDefinitionType =
   | "prompt_and_code"
   | "service"
   | "openai_graders"
-  | "rubrics";
+  | "rubric";
 
 export function evaluatorMetricRecordSerializer(
   item: Record<string, EvaluatorMetric>,
@@ -7474,11 +8633,13 @@ export function promptBasedEvaluatorDefinitionDeserializer(
   };
 }
 
-/** Rubric-based evaluator definition — stores rubric criteria produced by the generate API. Used for both quality and safety evaluators. */
+/** Rubric-based evaluator definition — stores dimensions produced by the generate API. Used for both quality and safety evaluators. */
 export interface RubricBasedEvaluatorDefinition extends EvaluatorDefinition {
-  type: "rubrics";
-  /** Rubric criteria — the scoring blueprint used by the LLM judge. Quality evaluators include a non-editable residual criterion with rubric_id 'general_quality' (always_applicable: true); safety evaluators include 'general_policy_compliance'. Both use the same rubric structure. */
-  rubric_criteria: RubricCriterion[];
+  type: "rubric";
+  /** The set of dimensions — the scoring blueprint used by the LLM judge. Quality evaluators include a non-editable residual dimension with id 'general_quality' (always_applicable: true); safety evaluators include 'general_policy_compliance'. Both use the same Dimension structure. */
+  dimensions: Dimension[];
+  /** Pass/fail threshold for the aggregate rubric score, on the same normalized 0.0-1.0 scale as the emitted `score`. When the runtime weighted average meets or exceeds this value, the result is `pass`. Defaults to 0.5 (equivalent to a raw 1-5 weighted average of 3.0). The 'any dimension scored 1 → fail' rule still applies regardless of this threshold. */
+  pass_threshold?: number;
 }
 
 export function rubricBasedEvaluatorDefinitionSerializer(
@@ -7489,7 +8650,8 @@ export function rubricBasedEvaluatorDefinitionSerializer(
     init_parameters: item["init_parameters"],
     data_schema: item["data_schema"],
     metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
-    rubric_criteria: rubricCriterionArraySerializer(item["rubric_criteria"]),
+    dimensions: dimensionArraySerializer(item["dimensions"]),
+    pass_threshold: item["pass_threshold"],
   };
 }
 
@@ -7511,46 +8673,47 @@ export function rubricBasedEvaluatorDefinitionDeserializer(
     metrics: !item["metrics"]
       ? item["metrics"]
       : evaluatorMetricRecordDeserializer(item["metrics"]),
-    rubric_criteria: rubricCriterionArrayDeserializer(item["rubric_criteria"]),
+    dimensions: dimensionArrayDeserializer(item["dimensions"]),
+    pass_threshold: item["pass_threshold"],
   };
 }
 
-export function rubricCriterionArraySerializer(result: Array<RubricCriterion>): any[] {
+export function dimensionArraySerializer(result: Array<Dimension>): any[] {
   return result.map((item) => {
-    return rubricCriterionSerializer(item);
+    return dimensionSerializer(item);
   });
 }
 
-export function rubricCriterionArrayDeserializer(result: Array<RubricCriterion>): any[] {
+export function dimensionArrayDeserializer(result: Array<Dimension>): any[] {
   return result.map((item) => {
-    return rubricCriterionDeserializer(item);
+    return dimensionDeserializer(item);
   });
 }
 
-/** A single rubric criterion — one measurable quality dimension in an evaluator's scoring blueprint. */
-export interface RubricCriterion {
-  /** Stable identifier for this rubric criterion (snake_case, e.g., `correct_resolution`). Required. Provided by the user when manually creating a rubric evaluator or during human-in-the-loop review of a generated catalog; the generation pipeline produces an initial value the user can edit. Editable when saving new versions. */
-  rubric_id: string;
-  /** What this criterion measures (e.g., 'Correctly identifies the user's reservation intent and pursues the appropriate workflow'). */
+/** A single dimension — one independent, measurable quality dimension within a rubric evaluator's scoring blueprint. */
+export interface Dimension {
+  /** Stable identifier for this dimension (snake_case, e.g., `correct_resolution`). Required. Provided by the user when manually creating a rubric evaluator or during human-in-the-loop review of a generated set; the generation pipeline produces an initial value the user can edit. Editable when saving new versions. */
+  id: string;
+  /** What this dimension measures (e.g., 'Correctly identifies the user's reservation intent and pursues the appropriate workflow'). */
   description: string;
-  /** Relative weight of this criterion (1-10). The generation pipeline assigns exactly one criterion weight 8-10; all others use 1-6. User edits are not constrained by this heuristic. */
+  /** Relative weight of this dimension (1-10). The generation pipeline assigns exactly one dimension weight 8-10; all others use 1-6. User edits are not constrained by this heuristic. */
   weight: number;
-  /** When true, the LLM judge always scores this criterion regardless of relevance (skips applicability assessment). The service-generated general quality/policy criterion has this set to true and is non-editable. Users may set this on their own custom criteria. */
+  /** When true, the LLM judge always scores this dimension regardless of relevance (skips applicability assessment). The service-generated general quality/policy dimension has this set to true and is non-editable. Users may set this on their own custom dimensions. */
   always_applicable?: boolean;
 }
 
-export function rubricCriterionSerializer(item: RubricCriterion): any {
+export function dimensionSerializer(item: Dimension): any {
   return {
-    rubric_id: item["rubric_id"],
+    id: item["id"],
     description: item["description"],
     weight: item["weight"],
     always_applicable: item["always_applicable"],
   };
 }
 
-export function rubricCriterionDeserializer(item: any): RubricCriterion {
+export function dimensionDeserializer(item: any): Dimension {
   return {
-    rubric_id: item["rubric_id"],
+    id: item["id"],
     description: item["description"],
     weight: item["weight"],
     always_applicable: item["always_applicable"],
@@ -7587,6 +8750,16 @@ export function datasetReferenceDeserializer(item: any): DatasetReference {
     name: item["name"],
     version: item["version"],
   };
+}
+
+/** Request body for getting evaluator credentials */
+export interface EvaluatorCredentialRequest {
+  /** The blob URI for the evaluator storage. Example: `https://account.blob.core.windows.net:443/container` */
+  blob_uri: string;
+}
+
+export function evaluatorCredentialRequestSerializer(item: EvaluatorCredentialRequest): any {
+  return { blob_uri: item["blob_uri"] };
 }
 
 /** Evaluator Generation Job resource — a long-running job that generates rubric-based evaluator definitions from source materials. On success, the result is the persisted EvaluatorVersion. */
@@ -7634,35 +8807,35 @@ export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerati
 
 /** Caller-supplied inputs for an evaluator generation job. */
 export interface EvaluatorGenerationInputs {
-  /** Display name for this generation job. */
-  name: string;
   /** Source materials for generation — agent descriptions, prompts, traces, or datasets. Each entry is an `EvaluatorGenerationJobSource` variant discriminated by `type`. */
   sources: EvaluatorGenerationJobSourceUnion[];
-  /** Category determines the rubric generation focus: 'quality' (default) produces quality-focused rubric criteria, 'safety' produces policy-derived safety rubric criteria. Both use the same rubric structure. Singular because quality and safety generation are mutually exclusive pipelines — the output EvaluatorVersion.categories is an array (e.g., ['agents', 'quality']). */
-  category?: EvaluatorCategory;
   /** The LLM model to use for rubric generation (e.g., 'gpt-4o'). Required — users must provide their own model rather than relying on service-owned capacity. */
   model: string;
-  /** The evaluator name to create or update. If an evaluator with this name already exists, the service retrieves the latest version's criteria as context for improvement. */
+  /** The evaluator name (immutable identifier). 1-256 characters; allowed characters are ASCII letters, digits, underscore (`_`), period (`.`), tilde (`~`), and hyphen (`-`). The prefix `builtin.` is reserved for system-managed evaluators and is rejected by the service. If an evaluator with this name already exists in the project (and is rubric-subtype), the service creates a new version under the same name and uses the prior version's `dimensions` as context for incremental improvement (foundation of the post-//build adaptive loop). Old versions remain queryable via `get_version(name, version)`. If the existing evaluator is not a rubric-subtype evaluator (built-in, prompt-based, code-based), the request is rejected with `400 Bad Request`. */
   evaluator_name: string;
+  /** Optional human-friendly display name for the resulting evaluator. Surfaced as `EvaluatorVersion.display_name` on the persisted evaluator. When omitted, the service uses `evaluator_name` as the display name. The `evaluator_` prefix disambiguates this from the immutable `evaluator_name` identifier. */
+  evaluator_display_name?: string;
+  /** Optional human-friendly description for the resulting evaluator. Surfaced as `EvaluatorVersion.description` on the persisted evaluator. Typically collected from the UI alongside `evaluator_display_name`. The `evaluator_` prefix disambiguates this from any other description fields on related models. */
+  evaluator_description?: string;
 }
 
 export function evaluatorGenerationInputsSerializer(item: EvaluatorGenerationInputs): any {
   return {
-    name: item["name"],
     sources: evaluatorGenerationJobSourceUnionArraySerializer(item["sources"]),
-    category: item["category"],
     model: item["model"],
     evaluator_name: item["evaluator_name"],
+    evaluator_display_name: item["evaluator_display_name"],
+    evaluator_description: item["evaluator_description"],
   };
 }
 
 export function evaluatorGenerationInputsDeserializer(item: any): EvaluatorGenerationInputs {
   return {
-    name: item["name"],
     sources: evaluatorGenerationJobSourceUnionArrayDeserializer(item["sources"]),
-    category: item["category"],
     model: item["model"],
     evaluator_name: item["evaluator_name"],
+    evaluator_display_name: item["evaluator_display_name"],
+    evaluator_description: item["evaluator_description"],
   };
 }
 
@@ -7832,18 +9005,16 @@ export interface TracesEvaluatorGenerationJobSource extends EvaluatorGenerationJ
   description?: string;
   /** The source type for this source, which is Traces. */
   type: "traces";
-  /** The unique agent ID used to filter traces. Optional — when omitted, traces are filtered by `agent_name` (and `agent_version` if specified). */
+  /** The unique agent ID used to filter traces. Provide either `agent_id` or `agent_name` — at least one is required. */
   agent_id?: string;
-  /** The agent name to fetch traces for. */
-  agent_name: string;
+  /** The agent name to fetch traces for. Provide either `agent_id` or `agent_name` — at least one is required. */
+  agent_name?: string;
   /** The agent version. If not specified, traces for ALL versions of the agent are included within the time window. */
   agent_version?: string;
   /** Start of the time window (Unix timestamp in seconds) for fetching traces. */
-  start_time?: Date;
+  start_time: Date;
   /** End of the time window (Unix timestamp in seconds). Defaults to current time. */
   end_time?: Date;
-  /** Maximum number of traces to retrieve. */
-  max_traces?: number;
 }
 
 export function tracesEvaluatorGenerationJobSourceSerializer(
@@ -7855,11 +9026,8 @@ export function tracesEvaluatorGenerationJobSourceSerializer(
     agent_id: item["agent_id"],
     agent_name: item["agent_name"],
     agent_version: item["agent_version"],
-    start_time: !item["start_time"]
-      ? item["start_time"]
-      : (item["start_time"].getTime() / 1000) | 0,
+    start_time: (item["start_time"].getTime() / 1000) | 0,
     end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
-    max_traces: item["max_traces"],
   };
 }
 
@@ -7872,9 +9040,8 @@ export function tracesEvaluatorGenerationJobSourceDeserializer(
     agent_id: item["agent_id"],
     agent_name: item["agent_name"],
     agent_version: item["agent_version"],
-    start_time: !item["start_time"] ? item["start_time"] : new Date(item["start_time"] * 1000),
+    start_time: new Date(item["start_time"] * 1000),
     end_time: !item["end_time"] ? item["end_time"] : new Date(item["end_time"] * 1000),
-    max_traces: item["max_traces"],
   };
 }
 
@@ -7911,9 +9078,6 @@ export function datasetEvaluatorGenerationJobSourceDeserializer(
     version: item["version"],
   };
 }
-
-/** Extensible status values shared by Foundry jobs. */
-export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
 
 /** Token consumption summary for an evaluator generation job. Populated when the job reaches a terminal state. */
 export interface EvaluatorGenerationTokenUsage {
@@ -7977,11 +9141,11 @@ export function evaluatorGenerationJobArrayDeserializer(
 /** The response body for cluster insights. */
 export interface Insight {
   /** The unique identifier for the insights report. */
-  readonly insight_id?: string;
+  readonly insight_id: string;
   /** Metadata about the insights report. */
-  readonly metadata?: InsightsMetadata;
+  readonly metadata: InsightsMetadata;
   /** The current state of the insights. */
-  readonly state?: OperationState;
+  readonly state: OperationState;
   /** User friendly display name for the insight. */
   displayName: string;
   /** Request for the insights analysis. */
@@ -8000,7 +9164,7 @@ export function insightSerializer(item: Insight): any {
 export function insightDeserializer(item: any): Insight {
   return {
     insight_id: item["id"],
-    metadata: !item["metadata"] ? item["metadata"] : insightsMetadataDeserializer(item["metadata"]),
+    metadata: insightsMetadataDeserializer(item["metadata"]),
     state: item["state"],
     displayName: item["displayName"],
     request: insightRequestUnionDeserializer(item["request"]),
@@ -8760,6 +9924,10 @@ export interface MemoryStoreDefaultOptions {
   user_profile_details?: string;
   /** Whether to enable chat summary extraction and storage. Default is true. */
   chat_summary_enabled: boolean;
+  /** Whether to enable procedural memory extraction and storage. Default is true. */
+  procedural_memory_enabled?: boolean;
+  /** The default time-to-live for memories in seconds.  A value of 0 indicates that memories do not expire. */
+  default_ttl_seconds?: number;
 }
 
 export function memoryStoreDefaultOptionsSerializer(item: MemoryStoreDefaultOptions): any {
@@ -8767,6 +9935,8 @@ export function memoryStoreDefaultOptionsSerializer(item: MemoryStoreDefaultOpti
     user_profile_enabled: item["user_profile_enabled"],
     user_profile_details: item["user_profile_details"],
     chat_summary_enabled: item["chat_summary_enabled"],
+    procedural_memory_enabled: item["procedural_memory_enabled"],
+    default_ttl_seconds: item["default_ttl_seconds"],
   };
 }
 
@@ -8775,6 +9945,8 @@ export function memoryStoreDefaultOptionsDeserializer(item: any): MemoryStoreDef
     user_profile_enabled: item["user_profile_enabled"],
     user_profile_details: item["user_profile_details"],
     chat_summary_enabled: item["chat_summary_enabled"],
+    procedural_memory_enabled: item["procedural_memory_enabled"],
+    default_ttl_seconds: item["default_ttl_seconds"],
   };
 }
 
@@ -8907,7 +10079,7 @@ export interface MemoryItem {
   /** The content of the memory. */
   content: string;
   /** The kind of the memory item. */
-  /** The discriminator possible values: user_profile, chat_summary */
+  /** The discriminator possible values: user_profile, chat_summary, procedural */
   kind: MemoryItemKind;
 }
 
@@ -8922,7 +10094,11 @@ export function memoryItemDeserializer(item: any): MemoryItem {
 }
 
 /** Alias for MemoryItemUnion */
-export type MemoryItemUnion = UserProfileMemoryItem | ChatSummaryMemoryItem | MemoryItem;
+export type MemoryItemUnion =
+  | UserProfileMemoryItem
+  | ChatSummaryMemoryItem
+  | ProceduralMemoryItem
+  | MemoryItem;
 
 export function memoryItemUnionDeserializer(item: any): MemoryItemUnion {
   switch (item["kind"]) {
@@ -8932,13 +10108,16 @@ export function memoryItemUnionDeserializer(item: any): MemoryItemUnion {
     case "chat_summary":
       return chatSummaryMemoryItemDeserializer(item as ChatSummaryMemoryItem);
 
+    case "procedural":
+      return proceduralMemoryItemDeserializer(item as ProceduralMemoryItem);
+
     default:
       return memoryItemDeserializer(item);
   }
 }
 
 /** Memory item kind. */
-export type MemoryItemKind = "user_profile" | "chat_summary";
+export type MemoryItemKind = "user_profile" | "chat_summary" | "procedural";
 
 /** A memory item specifically containing user profile information extracted from conversations, such as preferences, interests, and personal details. */
 export interface UserProfileMemoryItem extends MemoryItem {
@@ -8963,6 +10142,22 @@ export interface ChatSummaryMemoryItem extends MemoryItem {
 }
 
 export function chatSummaryMemoryItemDeserializer(item: any): ChatSummaryMemoryItem {
+  return {
+    memory_id: item["memory_id"],
+    updated_at: new Date(item["updated_at"] * 1000),
+    scope: item["scope"],
+    content: item["content"],
+    kind: item["kind"],
+  };
+}
+
+/** A memory item containing a procedure extracted from conversations. */
+export interface ProceduralMemoryItem extends MemoryItem {
+  /** The kind of the memory item. */
+  kind: "procedural";
+}
+
+export function proceduralMemoryItemDeserializer(item: any): ProceduralMemoryItem {
   return {
     memory_id: item["memory_id"],
     updated_at: new Date(item["updated_at"] * 1000),
@@ -9125,6 +10320,363 @@ export function memoryStoreDeleteScopeResponseDeserializer(
   };
 }
 
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultMemoryItem {
+  /** The requested list of items. */
+  data: MemoryItemUnion[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultMemoryItemDeserializer(item: any): _AgentsPagedResultMemoryItem {
+  return {
+    data: memoryItemUnionArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function memoryItemUnionArrayDeserializer(result: Array<MemoryItemUnion>): any[] {
+  return result.map((item) => {
+    return memoryItemUnionDeserializer(item);
+  });
+}
+
+/** Response for deleting a memory item from a memory store. */
+export interface DeleteMemoryResponse {
+  /** The object type. Always 'memory_store.item.deleted'. */
+  object: "memory_store.item.deleted";
+  /** The unique ID of the deleted memory item. */
+  memory_id: string;
+  /** Whether the memory item was successfully deleted. */
+  deleted: boolean;
+}
+
+export function deleteMemoryResponseDeserializer(item: any): DeleteMemoryResponse {
+  return {
+    object: item["object"],
+    memory_id: item["memory_id"],
+    deleted: item["deleted"],
+  };
+}
+
+/** Paged collection of ModelVersion items */
+export interface _PagedModelVersion {
+  /** The ModelVersion items on this page */
+  value: ModelVersion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _pagedModelVersionDeserializer(item: any): _PagedModelVersion {
+  return {
+    value: modelVersionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function modelVersionArraySerializer(result: Array<ModelVersion>): any[] {
+  return result.map((item) => {
+    return modelVersionSerializer(item);
+  });
+}
+
+export function modelVersionArrayDeserializer(result: Array<ModelVersion>): any[] {
+  return result.map((item) => {
+    return modelVersionDeserializer(item);
+  });
+}
+
+/** Model Version Definition */
+export interface ModelVersion {
+  /** System related metadata */
+  readonly systemData?: SystemDataV3;
+  /** URI of the model artifact in blob storage */
+  blobUri: string;
+  /** The weight type of the model */
+  weightType?: FoundryModelWeightType;
+  /** Base model asset ID */
+  baseModel?: string;
+  /** The source of the model */
+  source?: ModelSourceData;
+  /** Adapter-specific configuration. Required when weight_type is lora; ignored otherwise. May be auto-populated from adapter_config.json when present in the uploaded files — user-provided values take precedence over auto-detected values. */
+  loraConfig?: LoraConfig;
+  /** The artifact profile of the model */
+  readonly artifactProfile?: ArtifactProfile;
+  /** Service-computed advisory warnings derived from the artifact profile. */
+  readonly warnings?: FoundryModelWarning[];
+  /** Asset ID, a unique identifier for the asset */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name: string;
+  /** The version of the resource */
+  readonly version: string;
+  /** The asset description text. */
+  description?: string;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: Record<string, string>;
+}
+
+export function modelVersionSerializer(item: ModelVersion): any {
+  return {
+    blobUri: item["blobUri"],
+    weightType: item["weightType"],
+    baseModel: item["baseModel"],
+    source: !item["source"] ? item["source"] : modelSourceDataSerializer(item["source"]),
+    loraConfig: !item["loraConfig"] ? item["loraConfig"] : loraConfigSerializer(item["loraConfig"]),
+    description: item["description"],
+    tags: item["tags"],
+  };
+}
+
+export function modelVersionDeserializer(item: any): ModelVersion {
+  return {
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataV3Deserializer(item["systemData"]),
+    blobUri: item["blobUri"],
+    weightType: item["weightType"],
+    baseModel: item["baseModel"],
+    source: !item["source"] ? item["source"] : modelSourceDataDeserializer(item["source"]),
+    loraConfig: !item["loraConfig"]
+      ? item["loraConfig"]
+      : loraConfigDeserializer(item["loraConfig"]),
+    artifactProfile: !item["artifactProfile"]
+      ? item["artifactProfile"]
+      : artifactProfileDeserializer(item["artifactProfile"]),
+    warnings: !item["warnings"]
+      ? item["warnings"]
+      : foundryModelWarningArrayDeserializer(item["warnings"]),
+    id: item["id"],
+    name: item["name"],
+    version: item["version"],
+    description: item["description"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** System metadata for a resource */
+export interface SystemDataV3 {
+  /** Timestamp of resource creation */
+  createdAt?: Date;
+  /** Identity that created the resource */
+  createdBy?: string;
+  /** Type of identity that created the resource */
+  createdByType?: string;
+  /** Timestamp of last resource modification */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataV3Deserializer(item: any): SystemDataV3 {
+  return {
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"] * 1000),
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"] * 1000),
+  };
+}
+
+/** The weight type of the model. */
+export type FoundryModelWeightType = "FullWeight" | "LoRA" | "DraftModel";
+
+/** Source information for the model */
+export interface ModelSourceData {
+  /** The source type of the model */
+  sourceType?: FoundryModelSourceType;
+  /** The job ID that produced this model */
+  jobId?: string;
+}
+
+export function modelSourceDataSerializer(item: ModelSourceData): any {
+  return { sourceType: item["sourceType"], jobId: item["jobId"] };
+}
+
+export function modelSourceDataDeserializer(item: any): ModelSourceData {
+  return {
+    sourceType: item["sourceType"],
+    jobId: item["jobId"],
+  };
+}
+
+/** The source type of the model. */
+export type FoundryModelSourceType = "LocalUpload" | "TrainingJob";
+
+/** Adapter-specific metadata for LoRA models. Drives serving engine configuration at deployment time. */
+export interface LoraConfig {
+  /** LoRA rank (r). Positive integer. Common values: 8, 16, 32, 64. */
+  rank?: number;
+  /** LoRA scaling factor (α). Positive integer; typically 2× the rank. */
+  alpha?: number;
+  /** Model layers modified by the adapter (e.g., q_proj, v_proj). Auto-detected from adapter_config.json if omitted. */
+  targetModules?: string[];
+  /** Dropout rate used during training. Informational — not used at serving time. */
+  dropout?: number;
+}
+
+export function loraConfigSerializer(item: LoraConfig): any {
+  return {
+    rank: item["rank"],
+    alpha: item["alpha"],
+    targetModules: !item["targetModules"]
+      ? item["targetModules"]
+      : item["targetModules"].map((p: any) => {
+          return p;
+        }),
+    dropout: item["dropout"],
+  };
+}
+
+export function loraConfigDeserializer(item: any): LoraConfig {
+  return {
+    rank: item["rank"],
+    alpha: item["alpha"],
+    targetModules: !item["targetModules"]
+      ? item["targetModules"]
+      : item["targetModules"].map((p: any) => {
+          return p;
+        }),
+    dropout: item["dropout"],
+  };
+}
+
+/** Artifact profile of the model */
+export interface ArtifactProfile {
+  /** The category of the artifact profile */
+  category: FoundryModelArtifactProfileCategory;
+  /** Signals detected in the model artifact */
+  signals?: FoundryModelArtifactProfileSignal[];
+}
+
+export function artifactProfileDeserializer(item: any): ArtifactProfile {
+  return {
+    category: item["category"],
+    signals: !item["signals"]
+      ? item["signals"]
+      : item["signals"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The artifact profile category. */
+export type FoundryModelArtifactProfileCategory = "DataOnly" | "RuntimeDependent" | "Unknown";
+/** Signals detected in the model artifact. */
+export type FoundryModelArtifactProfileSignal =
+  | "PickleDeserialization"
+  | "CustomPythonCode"
+  | "DynamicOps"
+  | "NativeBinary"
+  | "UnknownFormat";
+
+export function foundryModelWarningArrayDeserializer(result: Array<FoundryModelWarning>): any[] {
+  return result.map((item) => {
+    return foundryModelWarningDeserializer(item);
+  });
+}
+
+/** A warning associated with a model. */
+export interface FoundryModelWarning {
+  /** The warning code. */
+  code?: FoundryModelWarningCode;
+  /** The warning message. */
+  message?: string;
+}
+
+export function foundryModelWarningDeserializer(item: any): FoundryModelWarning {
+  return {
+    code: item["code"],
+    message: item["message"],
+  };
+}
+
+/** Warning code for model artifacts. */
+export type FoundryModelWarningCode = "RuntimeDependentArtifact" | "UnclassifiedArtifact";
+
+/** Request body for updating a model version. Only description and tags can be modified. */
+export interface UpdateModelVersionRequest {
+  /** The asset description text. */
+  description?: string;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: Record<string, string>;
+}
+
+export function updateModelVersionRequestSerializer(item: UpdateModelVersionRequest): any {
+  return { description: item["description"], tags: item["tags"] };
+}
+
+/** model interface _CreateAsyncResponse */
+export interface _CreateAsyncResponse {
+  /** URL to poll for operation status. */
+  location?: string;
+  /** URL to the operation result, or null if the operation is still in progress. */
+  operationResult?: string;
+}
+
+export function _createAsyncResponseDeserializer(item: any): _CreateAsyncResponse {
+  return {
+    location: item["location"],
+    operationResult: item["operationResult"],
+  };
+}
+
+/** Represents a request for a pending upload of a model version. */
+export interface ModelPendingUploadRequest {
+  /** If PendingUploadId is not provided, a random GUID will be used. */
+  pendingUploadId?: string;
+  /** Azure Storage Account connection name to use for generating temporary SAS token */
+  connectionName?: string;
+  /** The type of pending upload. Only TemporaryBlobReference is supported for models. */
+  pendingUploadType: "TemporaryBlobReference";
+}
+
+export function modelPendingUploadRequestSerializer(item: ModelPendingUploadRequest): any {
+  return {
+    pendingUploadId: item["pendingUploadId"],
+    connectionName: item["connectionName"],
+    pendingUploadType: item["pendingUploadType"],
+  };
+}
+
+/** Represents the response for a model pending upload request. */
+export interface ModelPendingUploadResponse {
+  /** Container-level read, write, list SAS. */
+  blobReference: BlobReference;
+  /** ID for this upload request. */
+  pendingUploadId: string;
+  /** Version of asset to be created if user did not specify version when initially creating upload */
+  version?: string;
+  /** The type of pending upload. Only TemporaryBlobReference is supported for models. */
+  pendingUploadType: "TemporaryBlobReference";
+}
+
+export function modelPendingUploadResponseDeserializer(item: any): ModelPendingUploadResponse {
+  return {
+    blobReference: blobReferenceDeserializer(item["blobReference"]),
+    pendingUploadId: item["pendingUploadId"],
+    version: item["version"],
+    pendingUploadType: item["pendingUploadType"],
+  };
+}
+
+/** Request to fetch credentials for a model asset. */
+export interface ModelCredentialRequest {
+  /** Blob URI of the model asset to fetch credentials for. */
+  blobUri: string;
+}
+
+export function modelCredentialRequestSerializer(item: ModelCredentialRequest): any {
+  return { blobUri: item["blobUri"] };
+}
+
 /** Red team details. */
 export interface RedTeam {
   /** Identifier of the red team run. */
@@ -9148,7 +10700,7 @@ export interface RedTeam {
   /** Status of the red-team. It is set by service and is read-only. */
   readonly status?: string;
   /** Target configuration for the red-team run. */
-  target: TargetConfigUnion;
+  target: RedTeamTargetConfigUnion;
 }
 
 export function redTeamSerializer(item: RedTeam): any {
@@ -9169,7 +10721,7 @@ export function redTeamSerializer(item: RedTeam): any {
     applicationScenario: item["applicationScenario"],
     tags: item["tags"],
     properties: item["properties"],
-    target: targetConfigUnionSerializer(item["target"]),
+    target: redTeamTargetConfigUnionSerializer(item["target"]),
   };
 }
 
@@ -9199,7 +10751,7 @@ export function redTeamDeserializer(item: any): RedTeam {
           Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
         ),
     status: item["status"],
-    target: targetConfigUnionDeserializer(item["target"]),
+    target: redTeamTargetConfigUnionDeserializer(item["target"]),
   };
 }
 
@@ -9235,47 +10787,47 @@ export type AttackStrategy =
   | "crescendo";
 
 /** Abstract class for target configuration. */
-export interface TargetConfig {
+export interface RedTeamTargetConfig {
   /** Type of the model configuration. */
   /** The discriminator possible values: AzureOpenAIModel */
   type: string;
 }
 
-export function targetConfigSerializer(item: TargetConfig): any {
+export function redTeamTargetConfigSerializer(item: RedTeamTargetConfig): any {
   return { type: item["type"] };
 }
 
-export function targetConfigDeserializer(item: any): TargetConfig {
+export function redTeamTargetConfigDeserializer(item: any): RedTeamTargetConfig {
   return {
     type: item["type"],
   };
 }
 
-/** Alias for TargetConfigUnion */
-export type TargetConfigUnion = AzureOpenAIModelConfiguration | TargetConfig;
+/** Alias for RedTeamTargetConfigUnion */
+export type RedTeamTargetConfigUnion = AzureOpenAIModelConfiguration | RedTeamTargetConfig;
 
-export function targetConfigUnionSerializer(item: TargetConfigUnion): any {
+export function redTeamTargetConfigUnionSerializer(item: RedTeamTargetConfigUnion): any {
   switch (item.type) {
     case "AzureOpenAIModel":
       return azureOpenAIModelConfigurationSerializer(item as AzureOpenAIModelConfiguration);
 
     default:
-      return targetConfigSerializer(item);
+      return redTeamTargetConfigSerializer(item);
   }
 }
 
-export function targetConfigUnionDeserializer(item: any): TargetConfigUnion {
+export function redTeamTargetConfigUnionDeserializer(item: any): RedTeamTargetConfigUnion {
   switch (item["type"]) {
     case "AzureOpenAIModel":
       return azureOpenAIModelConfigurationDeserializer(item as AzureOpenAIModelConfiguration);
 
     default:
-      return targetConfigDeserializer(item);
+      return redTeamTargetConfigDeserializer(item);
   }
 }
 
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
-export interface AzureOpenAIModelConfiguration extends TargetConfig {
+export interface AzureOpenAIModelConfiguration extends RedTeamTargetConfig {
   type: "AzureOpenAIModel";
   /** Deployment name for AOAI model. Example: gpt-4o if in AIServices or connection based `connection_name/deployment_name` (e.g. `my-aoai-connection/gpt-4o`). */
   modelDeploymentName: string;
@@ -9319,6 +10871,553 @@ export function redTeamArrayDeserializer(result: Array<RedTeam>): any[] {
   return result.map((item) => {
     return redTeamDeserializer(item);
   });
+}
+
+export function routineTriggerUnionRecordSerializer(
+  item: Record<string, RoutineTrigger>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : routineTriggerUnionSerializer(item[key]);
+  });
+  return result;
+}
+
+export function routineTriggerUnionRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, RoutineTrigger> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : routineTriggerUnionDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** Base model for a routine trigger. */
+export interface RoutineTrigger {
+  /** The trigger type. */
+  /** The discriminator possible values: schedule, timer, github_issue_opened */
+  type: RoutineTriggerType;
+}
+
+export function routineTriggerSerializer(item: RoutineTrigger): any {
+  return { type: item["type"] };
+}
+
+export function routineTriggerDeserializer(item: any): RoutineTrigger {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for RoutineTriggerUnion */
+export type RoutineTriggerUnion =
+  | ScheduleRoutineTrigger
+  | TimerRoutineTrigger
+  | GitHubIssueOpenedRoutineTrigger
+  | RoutineTrigger;
+
+export function routineTriggerUnionSerializer(item: RoutineTriggerUnion): any {
+  switch (item.type) {
+    case "schedule":
+      return scheduleRoutineTriggerSerializer(item as ScheduleRoutineTrigger);
+
+    case "timer":
+      return timerRoutineTriggerSerializer(item as TimerRoutineTrigger);
+
+    case "github_issue_opened":
+      return gitHubIssueOpenedRoutineTriggerSerializer(item as GitHubIssueOpenedRoutineTrigger);
+
+    default:
+      return routineTriggerSerializer(item);
+  }
+}
+
+export function routineTriggerUnionDeserializer(item: any): RoutineTriggerUnion {
+  switch (item["type"]) {
+    case "schedule":
+      return scheduleRoutineTriggerDeserializer(item as ScheduleRoutineTrigger);
+
+    case "timer":
+      return timerRoutineTriggerDeserializer(item as TimerRoutineTrigger);
+
+    case "github_issue_opened":
+      return gitHubIssueOpenedRoutineTriggerDeserializer(item as GitHubIssueOpenedRoutineTrigger);
+
+    default:
+      return routineTriggerDeserializer(item);
+  }
+}
+
+/** The discriminator values supported for routine triggers. */
+export type RoutineTriggerType = "github_issue_opened" | "schedule" | "timer";
+
+/** A recurring cron-based routine trigger. */
+export interface ScheduleRoutineTrigger extends RoutineTrigger {
+  /** The trigger type. */
+  type: "schedule";
+  /** A 5-field cron expression. The service enforces a minimum interval of five minutes by default. */
+  cron_expression: string;
+  /** An IANA or Windows time zone identifier for the schedule. */
+  time_zone: string;
+}
+
+export function scheduleRoutineTriggerSerializer(item: ScheduleRoutineTrigger): any {
+  return {
+    type: item["type"],
+    cron_expression: item["cron_expression"],
+    time_zone: item["time_zone"],
+  };
+}
+
+export function scheduleRoutineTriggerDeserializer(item: any): ScheduleRoutineTrigger {
+  return {
+    type: item["type"],
+    cron_expression: item["cron_expression"],
+    time_zone: item["time_zone"],
+  };
+}
+
+/** A one-shot timer routine trigger. */
+export interface TimerRoutineTrigger extends RoutineTrigger {
+  /** The trigger type. */
+  type: "timer";
+  /** A future timer expression. Supported values include an ISO-8601 timestamp with an explicit offset, a local timestamp paired with time_zone, or a positive duration from now. */
+  at: string;
+  /** An optional IANA or Windows time zone identifier when the timer uses a local timestamp. */
+  time_zone?: string;
+}
+
+export function timerRoutineTriggerSerializer(item: TimerRoutineTrigger): any {
+  return { type: item["type"], at: item["at"], time_zone: item["time_zone"] };
+}
+
+export function timerRoutineTriggerDeserializer(item: any): TimerRoutineTrigger {
+  return {
+    type: item["type"],
+    at: item["at"],
+    time_zone: item["time_zone"],
+  };
+}
+
+/** A GitHub issue-opened routine trigger. */
+export interface GitHubIssueOpenedRoutineTrigger extends RoutineTrigger {
+  /** The trigger type. */
+  type: "github_issue_opened";
+  /** The workspace connection identifier that resolves the GitHub configuration for the trigger. */
+  connection_id: string;
+  /** The GitHub assignee or organization filter that scopes which issues can fire the trigger. */
+  assignee: string;
+  /** The GitHub repository filter that scopes which issues can fire the trigger. */
+  repository: string;
+}
+
+export function gitHubIssueOpenedRoutineTriggerSerializer(
+  item: GitHubIssueOpenedRoutineTrigger,
+): any {
+  return {
+    type: item["type"],
+    connection_id: item["connection_id"],
+    assignee: item["assignee"],
+    repository: item["repository"],
+  };
+}
+
+export function gitHubIssueOpenedRoutineTriggerDeserializer(
+  item: any,
+): GitHubIssueOpenedRoutineTrigger {
+  return {
+    type: item["type"],
+    connection_id: item["connection_id"],
+    assignee: item["assignee"],
+    repository: item["repository"],
+  };
+}
+
+/** Base model for a routine action. */
+export interface RoutineAction {
+  /** The action type. */
+  /** The discriminator possible values: invoke_agent_responses_api, invoke_agent_invocations_api */
+  type: RoutineActionType;
+}
+
+export function routineActionSerializer(item: RoutineAction): any {
+  return { type: item["type"] };
+}
+
+export function routineActionDeserializer(item: any): RoutineAction {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for RoutineActionUnion */
+export type RoutineActionUnion =
+  | InvokeAgentResponsesApiRoutineAction
+  | InvokeAgentInvocationsApiRoutineAction
+  | RoutineAction;
+
+export function routineActionUnionSerializer(item: RoutineActionUnion): any {
+  switch (item.type) {
+    case "invoke_agent_responses_api":
+      return invokeAgentResponsesApiRoutineActionSerializer(
+        item as InvokeAgentResponsesApiRoutineAction,
+      );
+
+    case "invoke_agent_invocations_api":
+      return invokeAgentInvocationsApiRoutineActionSerializer(
+        item as InvokeAgentInvocationsApiRoutineAction,
+      );
+
+    default:
+      return routineActionSerializer(item);
+  }
+}
+
+export function routineActionUnionDeserializer(item: any): RoutineActionUnion {
+  switch (item["type"]) {
+    case "invoke_agent_responses_api":
+      return invokeAgentResponsesApiRoutineActionDeserializer(
+        item as InvokeAgentResponsesApiRoutineAction,
+      );
+
+    case "invoke_agent_invocations_api":
+      return invokeAgentInvocationsApiRoutineActionDeserializer(
+        item as InvokeAgentInvocationsApiRoutineAction,
+      );
+
+    default:
+      return routineActionDeserializer(item);
+  }
+}
+
+/** The discriminator values supported for routine actions. */
+export type RoutineActionType = "invoke_agent_responses_api" | "invoke_agent_invocations_api";
+
+/** Dispatches a routine through the responses API. Exactly one of agent_name or agent_endpoint_id must be provided. */
+export interface InvokeAgentResponsesApiRoutineAction extends RoutineAction {
+  /** The action type. */
+  type: "invoke_agent_responses_api";
+  /** The project-scoped agent name for responses API dispatch. */
+  agent_name?: string;
+  /** The endpoint-scoped agent identifier for responses API dispatch. */
+  agent_endpoint_id?: string;
+  /** An optional existing conversation identifier to continue during the downstream dispatch. */
+  conversation_id?: string;
+}
+
+export function invokeAgentResponsesApiRoutineActionSerializer(
+  item: InvokeAgentResponsesApiRoutineAction,
+): any {
+  return {
+    type: item["type"],
+    agent_name: item["agent_name"],
+    agent_endpoint_id: item["agent_endpoint_id"],
+    conversation_id: item["conversation_id"],
+  };
+}
+
+export function invokeAgentResponsesApiRoutineActionDeserializer(
+  item: any,
+): InvokeAgentResponsesApiRoutineAction {
+  return {
+    type: item["type"],
+    agent_name: item["agent_name"],
+    agent_endpoint_id: item["agent_endpoint_id"],
+    conversation_id: item["conversation_id"],
+  };
+}
+
+/** Dispatches a routine through the raw invocations API. */
+export interface InvokeAgentInvocationsApiRoutineAction extends RoutineAction {
+  /** The action type. */
+  type: "invoke_agent_invocations_api";
+  /** The endpoint-scoped agent identifier for invocations API dispatch. */
+  agent_endpoint_id: string;
+  /** An optional existing hosted-agent session identifier to continue during the downstream dispatch. */
+  session_id?: string;
+}
+
+export function invokeAgentInvocationsApiRoutineActionSerializer(
+  item: InvokeAgentInvocationsApiRoutineAction,
+): any {
+  return {
+    type: item["type"],
+    agent_endpoint_id: item["agent_endpoint_id"],
+    session_id: item["session_id"],
+  };
+}
+
+export function invokeAgentInvocationsApiRoutineActionDeserializer(
+  item: any,
+): InvokeAgentInvocationsApiRoutineAction {
+  return {
+    type: item["type"],
+    agent_endpoint_id: item["agent_endpoint_id"],
+    session_id: item["session_id"],
+  };
+}
+
+/** A routine definition returned by the service. */
+export interface Routine {
+  /** The routine name. */
+  name: string;
+  /** A human-readable description of the routine. */
+  description?: string;
+  /** Whether the routine is enabled. */
+  enabled: boolean;
+  /** The triggers configured for the routine. */
+  triggers: Record<string, RoutineTriggerUnion>;
+  /** The action executed when the routine fires. */
+  action: RoutineActionUnion;
+  /** The time when the routine was created. */
+  created_at?: Date;
+  /** The time when the routine was last updated. */
+  updated_at?: Date;
+}
+
+export function routineDeserializer(item: any): Routine {
+  return {
+    name: item["name"],
+    description: item["description"],
+    enabled: item["enabled"],
+    triggers: routineTriggerUnionRecordDeserializer(item["triggers"]),
+    action: routineActionUnionDeserializer(item["action"]),
+    created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),
+    updated_at: !item["updated_at"] ? item["updated_at"] : new Date(item["updated_at"] * 1000),
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultRoutine {
+  /** The requested list of items. */
+  data: Routine[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultRoutineDeserializer(item: any): _AgentsPagedResultRoutine {
+  return {
+    data: routineArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function routineArrayDeserializer(result: Array<Routine>): any[] {
+  return result.map((item) => {
+    return routineDeserializer(item);
+  });
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultRoutineRun {
+  /** The requested list of items. */
+  data: RoutineRun[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultRoutineRunDeserializer(item: any): _AgentsPagedResultRoutineRun {
+  return {
+    data: routineRunArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function routineRunArrayDeserializer(result: Array<RoutineRun>): any[] {
+  return result.map((item) => {
+    return routineRunDeserializer(item);
+  });
+}
+
+/** A single routine run returned from the run history API. */
+export interface RoutineRun {
+  /** The MLflow run identifier for the routine attempt. */
+  id: string;
+  /** The underlying MLflow run status. */
+  status: string;
+  /** The AgentExtensions lifecycle phase for the routine attempt. */
+  phase?: RoutineRunPhase;
+  /** The trigger type that produced the routine attempt. */
+  trigger_type: RoutineTriggerType;
+  /** The source path that created the routine attempt. */
+  attempt_source?: RoutineAttemptSource;
+  /** The action type dispatched for the routine attempt. */
+  action_type?: RoutineActionType;
+  /** The logical trigger time recorded for the routine attempt. */
+  triggered_at?: Date;
+  /** The time when the underlying run started. */
+  started_at: Date;
+  /** The time when the underlying run reached a terminal state. */
+  ended_at?: Date;
+  /** The dispatch identifier associated with the routine attempt. */
+  dispatch_id?: string;
+  /** The downstream action correlation identifier, when available. */
+  action_correlation_id?: string;
+  /** The downstream response or invocation identifier, when available. */
+  response_id?: string;
+  /** The workspace task identifier linked to the routine attempt, when available. */
+  task_id?: string;
+  /** The fully qualified error type captured for a failed attempt, when available. */
+  error_type?: string;
+  /** The truncated failure message captured for a failed attempt, when available. */
+  error_message?: string;
+  /** Diagnostic data captured for the routine attempt. */
+  diagnostics?: RoutineRunDiagnostics;
+}
+
+export function routineRunDeserializer(item: any): RoutineRun {
+  return {
+    id: item["id"],
+    status: item["status"],
+    phase: item["phase"],
+    trigger_type: item["trigger_type"],
+    attempt_source: item["attempt_source"],
+    action_type: item["action_type"],
+    triggered_at: !item["triggered_at"]
+      ? item["triggered_at"]
+      : new Date(item["triggered_at"] * 1000),
+    started_at: new Date(item["started_at"] * 1000),
+    ended_at: !item["ended_at"] ? item["ended_at"] : new Date(item["ended_at"] * 1000),
+    dispatch_id: item["dispatch_id"],
+    action_correlation_id: item["action_correlation_id"],
+    response_id: item["response_id"],
+    task_id: item["task_id"],
+    error_type: item["error_type"],
+    error_message: item["error_message"],
+    diagnostics: !item["diagnostics"]
+      ? item["diagnostics"]
+      : routineRunDiagnosticsDeserializer(item["diagnostics"]),
+  };
+}
+
+/** Known lifecycle phases recorded for a routine run. */
+export type RoutineRunPhase = "queued" | "dispatching" | "completed" | "failed";
+/** Known source paths that can produce a routine run. */
+export type RoutineAttemptSource =
+  | "event_fire"
+  | "manual_dispatch"
+  | "queued_dispatch"
+  | "schedule_delivery"
+  | "timer_delivery";
+
+/** Generic diagnostics captured on a routine run. */
+export interface RoutineRunDiagnostics {
+  /** MLflow parameters recorded on the run, keyed by parameter name. */
+  parameters: Record<string, string>;
+  /** MLflow tags recorded on the run, keyed by tag name. */
+  tags: Record<string, string>;
+  /** Latest MLflow metric values recorded on the run, keyed by metric name. */
+  metrics: Record<string, number>;
+}
+
+export function routineRunDiagnosticsDeserializer(item: any): RoutineRunDiagnostics {
+  return {
+    parameters: Object.fromEntries(
+      Object.entries(item["parameters"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    metrics: Object.fromEntries(
+      Object.entries(item["metrics"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+  };
+}
+
+/** Base model for a manual dispatch payload. */
+export interface RoutineDispatchPayload {
+  /** The manual dispatch payload type. */
+  /** The discriminator possible values: invoke_agent_responses_api, invoke_agent_invocations_api */
+  type: RoutineDispatchPayloadType;
+}
+
+export function routineDispatchPayloadSerializer(item: RoutineDispatchPayload): any {
+  return { type: item["type"] };
+}
+
+/** Alias for RoutineDispatchPayloadUnion */
+export type RoutineDispatchPayloadUnion =
+  | InvokeAgentResponsesApiDispatchPayload
+  | InvokeAgentInvocationsApiDispatchPayload
+  | RoutineDispatchPayload;
+
+export function routineDispatchPayloadUnionSerializer(item: RoutineDispatchPayloadUnion): any {
+  switch (item.type) {
+    case "invoke_agent_responses_api":
+      return invokeAgentResponsesApiDispatchPayloadSerializer(
+        item as InvokeAgentResponsesApiDispatchPayload,
+      );
+
+    case "invoke_agent_invocations_api":
+      return invokeAgentInvocationsApiDispatchPayloadSerializer(
+        item as InvokeAgentInvocationsApiDispatchPayload,
+      );
+
+    default:
+      return routineDispatchPayloadSerializer(item);
+  }
+}
+
+/** The discriminator values supported for manual routine dispatch payloads. */
+export type RoutineDispatchPayloadType =
+  | "invoke_agent_responses_api"
+  | "invoke_agent_invocations_api";
+
+/** A manual payload used to test a responses API routine dispatch. */
+export interface InvokeAgentResponsesApiDispatchPayload extends RoutineDispatchPayload {
+  /** The manual dispatch payload type. */
+  type: "invoke_agent_responses_api";
+  /** The user input sent to the downstream responses target. */
+  input?: string;
+}
+
+export function invokeAgentResponsesApiDispatchPayloadSerializer(
+  item: InvokeAgentResponsesApiDispatchPayload,
+): any {
+  return { type: item["type"], input: item["input"] };
+}
+
+/** A manual payload used to test an invocations API routine dispatch. */
+export interface InvokeAgentInvocationsApiDispatchPayload extends RoutineDispatchPayload {
+  /** The manual dispatch payload type. */
+  type: "invoke_agent_invocations_api";
+  /** The raw input sent to the downstream invocations target. */
+  input?: string;
+}
+
+export function invokeAgentInvocationsApiDispatchPayloadSerializer(
+  item: InvokeAgentInvocationsApiDispatchPayload,
+): any {
+  return { type: item["type"], input: item["input"] };
+}
+
+/** Identifiers returned after a routine dispatch is queued. */
+export interface DispatchRoutineResponse {
+  /** The dispatch identifier created for the routine dispatch. */
+  dispatch_id?: string;
+  /** A downstream action correlation identifier, when available. */
+  action_correlation_id?: string;
+  /** A workspace task identifier created for the dispatch, when available. */
+  task_id?: string;
+}
+
+export function dispatchRoutineResponseDeserializer(item: any): DispatchRoutineResponse {
+  return {
+    dispatch_id: item["dispatch_id"],
+    action_correlation_id: item["action_correlation_id"],
+    task_id: item["task_id"],
+  };
 }
 
 /** Schedule model. */
@@ -10173,6 +12272,8 @@ export interface DataGenerationJobInputs {
   options: DataGenerationJobOptionsUnion;
   /** The scenario of the data generation job. Either for fine-tuning or evaluation. */
   scenario: DataGenerationJobScenario;
+  /** Optional caller-supplied metadata for the job's output. See individual fields for whether they apply to file outputs (fine-tuning scenarios), dataset outputs (evaluation scenario), or both. */
+  output_options?: DataGenerationJobOutputOptions;
 }
 
 export function dataGenerationJobInputsSerializer(item: DataGenerationJobInputs): any {
@@ -10181,6 +12282,9 @@ export function dataGenerationJobInputsSerializer(item: DataGenerationJobInputs)
     sources: dataGenerationJobSourceUnionArraySerializer(item["sources"]),
     options: dataGenerationJobOptionsUnionSerializer(item["options"]),
     scenario: item["scenario"],
+    output_options: !item["output_options"]
+      ? item["output_options"]
+      : dataGenerationJobOutputOptionsSerializer(item["output_options"]),
   };
 }
 
@@ -10190,6 +12294,9 @@ export function dataGenerationJobInputsDeserializer(item: any): DataGenerationJo
     sources: dataGenerationJobSourceUnionArrayDeserializer(item["sources"]),
     options: dataGenerationJobOptionsUnionDeserializer(item["options"]),
     scenario: item["scenario"],
+    output_options: !item["output_options"]
+      ? item["output_options"]
+      : dataGenerationJobOutputOptionsDeserializer(item["output_options"]),
   };
 }
 
@@ -10345,18 +12452,16 @@ export interface TracesDataGenerationJobSource extends DataGenerationJobSource {
   description?: string;
   /** The source type for this source, which is Traces. */
   type: "traces";
-  /** The unique agent ID used to filter traces. Optional — when omitted, traces are filtered by `agent_name` (and `agent_version` if specified). */
+  /** The unique agent ID used to filter traces. Provide either `agent_id` or `agent_name` — at least one is required. */
   agent_id?: string;
-  /** The agent name to fetch traces for. */
-  agent_name: string;
+  /** The agent name to fetch traces for. Provide either `agent_id` or `agent_name` — at least one is required. */
+  agent_name?: string;
   /** The agent version. If not specified, traces for ALL versions of the agent are included within the time window. */
   agent_version?: string;
   /** Start of the time window (Unix timestamp in seconds) for fetching traces. */
-  start_time?: Date;
+  start_time: Date;
   /** End of the time window (Unix timestamp in seconds). Defaults to current time. */
   end_time?: Date;
-  /** Maximum number of traces to retrieve. */
-  max_traces?: number;
 }
 
 export function tracesDataGenerationJobSourceSerializer(item: TracesDataGenerationJobSource): any {
@@ -10366,11 +12471,8 @@ export function tracesDataGenerationJobSourceSerializer(item: TracesDataGenerati
     agent_id: item["agent_id"],
     agent_name: item["agent_name"],
     agent_version: item["agent_version"],
-    start_time: !item["start_time"]
-      ? item["start_time"]
-      : (item["start_time"].getTime() / 1000) | 0,
+    start_time: (item["start_time"].getTime() / 1000) | 0,
     end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
-    max_traces: item["max_traces"],
   };
 }
 
@@ -10383,9 +12485,8 @@ export function tracesDataGenerationJobSourceDeserializer(
     agent_id: item["agent_id"],
     agent_name: item["agent_name"],
     agent_version: item["agent_version"],
-    start_time: !item["start_time"] ? item["start_time"] : new Date(item["start_time"] * 1000),
+    start_time: new Date(item["start_time"] * 1000),
     end_time: !item["end_time"] ? item["end_time"] : new Date(item["end_time"] * 1000),
-    max_traces: item["max_traces"],
   };
 }
 
@@ -10446,7 +12547,7 @@ export function fileDataGenerationJobSourceDeserializer(item: any): FileDataGene
 /** Options for managing data generation jobs. */
 export interface DataGenerationJobOptions {
   /** The data generation job type. */
-  /** The discriminator possible values: simple_qna, traces, tool_use, task */
+  /** The discriminator possible values: simple_qna, traces, tool_use */
   type: DataGenerationJobType;
   /** Maximum number of samples to generate. */
   max_samples: number;
@@ -10483,7 +12584,6 @@ export type DataGenerationJobOptionsUnion =
   | SimpleQnADataGenerationJobOptions
   | TracesDataGenerationJobOptions
   | ToolUseFineTuningDataGenerationJobOptions
-  | TaskDataGenerationJobOptions
   | DataGenerationJobOptions;
 
 export function dataGenerationJobOptionsUnionSerializer(item: DataGenerationJobOptionsUnion): any {
@@ -10498,9 +12598,6 @@ export function dataGenerationJobOptionsUnionSerializer(item: DataGenerationJobO
       return toolUseFineTuningDataGenerationJobOptionsSerializer(
         item as ToolUseFineTuningDataGenerationJobOptions,
       );
-
-    case "task":
-      return taskDataGenerationJobOptionsSerializer(item as TaskDataGenerationJobOptions);
 
     default:
       return dataGenerationJobOptionsSerializer(item);
@@ -10524,16 +12621,13 @@ export function dataGenerationJobOptionsUnionDeserializer(
         item as ToolUseFineTuningDataGenerationJobOptions,
       );
 
-    case "task":
-      return taskDataGenerationJobOptionsDeserializer(item as TaskDataGenerationJobOptions);
-
     default:
       return dataGenerationJobOptionsDeserializer(item);
   }
 }
 
 /** The supported data generation job types. */
-export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "task";
+export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use";
 
 /** LLM model options for data generation jobs. */
 export interface DataGenerationModelOptions {
@@ -10662,39 +12756,39 @@ export function toolUseFineTuningDataGenerationJobOptionsDeserializer(
   };
 }
 
-/** The options for a data generation job with Task type. */
-export interface TaskDataGenerationJobOptions extends DataGenerationJobOptions {
-  /** The data generation job type, which is Task for this model. */
-  type: "task";
-}
-
-export function taskDataGenerationJobOptionsSerializer(item: TaskDataGenerationJobOptions): any {
-  return {
-    type: item["type"],
-    max_samples: item["max_samples"],
-    train_split: item["train_split"],
-    model_options: !item["model_options"]
-      ? item["model_options"]
-      : dataGenerationModelOptionsSerializer(item["model_options"]),
-  };
-}
-
-export function taskDataGenerationJobOptionsDeserializer(item: any): TaskDataGenerationJobOptions {
-  return {
-    type: item["type"],
-    max_samples: item["max_samples"],
-    train_split: item["train_split"],
-    model_options: !item["model_options"]
-      ? item["model_options"]
-      : dataGenerationModelOptionsDeserializer(item["model_options"]),
-  };
-}
-
 /** The supported scenarios for a data generation job. */
 export type DataGenerationJobScenario =
   | "supervised_finetuning"
   | "reinforcement_finetuning"
   | "evaluation";
+
+/** Output options for data generation job. */
+export interface DataGenerationJobOutputOptions {
+  /** Name to assign to the output. Used as the filename for Azure OpenAI file outputs (fine-tuning scenarios) and as the dataset name for dataset outputs (evaluation scenario). */
+  name?: string;
+  /** Description to assign to the output. Applies only to dataset outputs (evaluation scenario); ignored for Azure OpenAI file outputs. */
+  description?: string;
+  /** Tags to assign to the output. Applies only to dataset outputs (evaluation scenario); ignored for Azure OpenAI file outputs. */
+  tags?: Record<string, string>;
+}
+
+export function dataGenerationJobOutputOptionsSerializer(
+  item: DataGenerationJobOutputOptions,
+): any {
+  return { name: item["name"], description: item["description"], tags: item["tags"] };
+}
+
+export function dataGenerationJobOutputOptionsDeserializer(
+  item: any,
+): DataGenerationJobOutputOptions {
+  return {
+    name: item["name"],
+    description: item["description"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
 
 /** Result produced by a successful data generation job. */
 export interface DataGenerationJobResult {
@@ -10785,14 +12879,14 @@ export interface DatasetDataGenerationJobOutput extends DataGenerationJobOutput 
   type: "dataset";
   /** The id of the output dataset created. */
   readonly id?: string;
-  /** The name of the output dataset and can be optionally set during job creation time. */
-  name?: string;
+  /** The name of the output dataset. */
+  readonly name?: string;
   /** The version of the output dataset. */
   readonly version?: string;
-  /** Description of the output dataset and can be optionally set during job creation time. */
-  description?: string;
-  /** Tag dictionary of the output dataset and can be optionally set during job creation time. */
-  tags?: Record<string, string>;
+  /** Description of the output dataset. */
+  readonly description?: string;
+  /** Tag dictionary of the output dataset. */
+  readonly tags?: Record<string, string>;
 }
 
 export function datasetDataGenerationJobOutputDeserializer(
@@ -10813,11 +12907,11 @@ export function datasetDataGenerationJobOutputDeserializer(
 /** Token usage information for a data generation job. */
 export interface DataGenerationTokenUsage {
   /** The number of prompt tokens used. */
-  readonly prompt_tokens?: number;
+  readonly prompt_tokens: number;
   /** The number of completion tokens generated. */
-  readonly completion_tokens?: number;
+  readonly completion_tokens: number;
   /** Total number of tokens used. */
-  readonly total_tokens?: number;
+  readonly total_tokens: number;
 }
 
 export function dataGenerationTokenUsageDeserializer(item: any): DataGenerationTokenUsage {
@@ -10893,27 +12987,31 @@ export type AgentObjectType =
 export type AgentDefinitionOptInKeys =
   | "HostedAgents=V1Preview"
   | "WorkflowAgents=V1Preview"
-  | "ContainerAgents=V1Preview"
-  | "AgentEndpoints=V1Preview";
+  | "AgentEndpoints=V1Preview"
+  | "CodeAgents=V1Preview"
+  | "ExternalAgents=V1Preview";
 /** Type of PageOrder */
 export type PageOrder = "asc" | "desc";
 /** Type of FoundryFeaturesOptInKeys */
 export type FoundryFeaturesOptInKeys =
-  | "Skills=V1Preview"
   | "Evaluations=V1Preview"
   | "Schedules=V1Preview"
   | "RedTeams=V1Preview"
   | "Insights=V1Preview"
   | "MemoryStores=V1Preview"
-  | "Toolboxes=V1Preview"
-  | "DataGenerationJobs=V1Preview";
+  | "Routines=V1Preview"
+  | "Skills=V1Preview"
+  | "DataGenerationJobs=V1Preview"
+  | "Models=V1Preview"
+  | "AgentsOptimization=V1Preview";
 /** The type of pending upload. */
-export type PendingUploadType = "None" | "BlobReference";
+export type PendingUploadType = "None" | "BlobReference" | "TemporaryBlobReference";
 /** Type of MemoryStoreObjectType */
 export type MemoryStoreObjectType =
   | "memory_store"
   | "memory_store.deleted"
-  | "memory_store.scope.deleted";
+  | "memory_store.scope.deleted"
+  | "memory_store.item.deleted";
 
 /** Microsoft Foundry API versions */
 export enum KnownVersions {
@@ -10939,6 +13037,23 @@ export type BetaSkillsDownloadResponse = {
 };
 
 export type BetaAgentsDownloadSessionFileResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+};
+
+export type BetaAgentsDownloadAgentCodeResponse = {
   /**
    * BROWSER ONLY
    *

@@ -75,9 +75,9 @@ interface DeserializationHelper {
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.ComputeLimit/locations/{location}/features/{featureName}/disable":
-    { deserializer: _disableDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _disableDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.ComputeLimit/locations/{location}/features/{featureName}/enable":
-    { deserializer: _enableDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _enableDeserialize, expectedStatuses: ["200", "202", "201"] },
 };
 
 function getDeserializationHelper(

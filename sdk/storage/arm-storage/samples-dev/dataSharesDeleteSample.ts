@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a Storage DataShare.
  *
  * @summary delete a Storage DataShare.
- * x-ms-original-file: 2025-08-01/StorageDataShareCRUD/StorageDataShares_Delete.json
+ * x-ms-original-file: 2026-04-01/StorageDataShareCRUD/StorageDataShares_Delete.json
  */
 async function deleteDataShare(): Promise<void> {
   const credential = new DefaultAzureCredential();

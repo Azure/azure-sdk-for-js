@@ -8,13 +8,13 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a FleetMember
  *
  * @summary get a FleetMember
- * x-ms-original-file: 2026-02-01-preview/FleetMembers_Get.json
+ * x-ms-original-file: 2026-03-02-preview/FleetMembers_Get.json
  */
 async function getsAFleetMemberResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
-  const result = await client.fleetMembers.get("rgfleets", "fleet1", "fleet1");
+  const result = await client.fleetMembers.get("rgfleets", "fleet1", "member1");
   console.log(result);
 }
 
