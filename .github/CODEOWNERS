@@ -611,7 +611,7 @@
 # PRLabel: %Mgmt
 /sdk/healthcareapis/arm-healthcareapis/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
