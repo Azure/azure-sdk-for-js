@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified custom blocklist Item associated with the custom blocklist.
  *
  * @summary gets the specified custom blocklist Item associated with the custom blocklist.
- * x-ms-original-file: 2026-01-15-preview/GetRaiBlocklistItem.json
+ * x-ms-original-file: 2026-03-15-preview/GetRaiBlocklistItem.json
  */
 async function getRaiBlocklistItem(): Promise<void> {
   const credential = new DefaultAzureCredential();

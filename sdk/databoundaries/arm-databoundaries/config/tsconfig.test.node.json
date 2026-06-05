@@ -1,3 +1,10 @@
 {
-  "extends": "../../../../eng/tsconfigs/test.node.json"
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-databoundaries": ["../src/index.ts"],
+      "@azure/arm-databoundaries/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
 }

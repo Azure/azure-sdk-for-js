@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the private link resources that need to be created for a storage account.
  *
  * @summary gets the private link resources that need to be created for a storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountListPrivateLinkResources.json
+ * x-ms-original-file: 2026-04-01/StorageAccountListPrivateLinkResources.json
  */
 async function storageAccountListPrivateLinkResources(): Promise<void> {
   const credential = new DefaultAzureCredential();

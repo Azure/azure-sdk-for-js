@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to provisions the managed network of a cognitive services account.
  *
  * @summary provisions the managed network of a cognitive services account.
- * x-ms-original-file: 2026-01-15-preview/ManagedNetwork/provisionManagedNetwork.json
+ * x-ms-original-file: 2026-03-15-preview/ManagedNetwork/provisionManagedNetwork.json
  */
 async function provisionManagedNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();

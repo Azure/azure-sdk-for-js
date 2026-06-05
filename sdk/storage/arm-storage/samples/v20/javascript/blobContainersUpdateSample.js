@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates container properties as specified in request body. Properties not mentioned in the request will be unchanged. Update fails if the specified container doesn't already exist.
  *
  * @summary updates container properties as specified in request body. Properties not mentioned in the request will be unchanged. Update fails if the specified container doesn't already exist.
- * x-ms-original-file: 2025-08-01/BlobContainersPatch.json
+ * x-ms-original-file: 2026-04-01/BlobContainersPatch.json
  */
 async function updateContainers() {
   const credential = new DefaultAzureCredential();

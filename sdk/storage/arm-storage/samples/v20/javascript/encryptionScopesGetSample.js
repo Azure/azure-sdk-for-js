@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns the properties for the specified encryption scope.
  *
  * @summary returns the properties for the specified encryption scope.
- * x-ms-original-file: 2025-08-01/StorageAccountGetEncryptionScope.json
+ * x-ms-original-file: 2026-04-01/StorageAccountGetEncryptionScope.json
  */
 async function storageAccountGetEncryptionScope() {
   const credential = new DefaultAzureCredential();

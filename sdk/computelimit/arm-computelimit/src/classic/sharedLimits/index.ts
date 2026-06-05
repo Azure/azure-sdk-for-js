@@ -25,11 +25,6 @@ export interface SharedLimitsOperations {
     options?: SharedLimitsListBySubscriptionLocationResourceOptionalParams,
   ) => PagedAsyncIterableIterator<SharedLimit>;
   /** Disables sharing of a compute limit by the host subscription with its guest subscriptions. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     location: string,
     name: string,

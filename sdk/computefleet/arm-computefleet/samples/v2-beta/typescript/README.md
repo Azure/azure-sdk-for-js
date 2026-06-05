@@ -2,18 +2,17 @@
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-computefleet in some common scenarios.
 
-| **File Name**                                                                         | **Description**                                                                                                               |
-| ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| [fleetsCancelSample.ts][fleetscancelsample]                                           | cancels an instance Fleet creation that is in progress. x-ms-original-file: 2025-07-01-preview/Fleets_Cancel.json             |
-| [fleetsCreateOrUpdateSample.ts][fleetscreateorupdatesample]                           | create a Fleet x-ms-original-file: 2025-07-01-preview/Fleets_CreateOrUpdate.json                                              |
-| [fleetsDeleteSample.ts][fleetsdeletesample]                                           | delete a Fleet x-ms-original-file: 2025-07-01-preview/Fleets_Delete.json                                                      |
-| [fleetsGetSample.ts][fleetsgetsample]                                                 | get a Fleet x-ms-original-file: 2025-07-01-preview/Fleets_Get.json                                                            |
-| [fleetsListByResourceGroupSample.ts][fleetslistbyresourcegroupsample]                 | list Fleet resources by resource group x-ms-original-file: 2025-07-01-preview/Fleets_ListByResourceGroup.json                 |
-| [fleetsListBySubscriptionSample.ts][fleetslistbysubscriptionsample]                   | list Fleet resources by subscription ID x-ms-original-file: 2025-07-01-preview/Fleets_ListBySubscription.json                 |
-| [fleetsListVirtualMachineScaleSetsSample.ts][fleetslistvirtualmachinescalesetssample] | list VirtualMachineScaleSet resources by Fleet x-ms-original-file: 2025-07-01-preview/Fleets_ListVirtualMachineScaleSets.json |
-| [fleetsListVirtualMachinesSample.ts][fleetslistvirtualmachinessample]                 | list VirtualMachine resources of an instance Fleet. x-ms-original-file: 2025-07-01-preview/Fleets_ListVirtualMachines.json    |
-| [fleetsUpdateSample.ts][fleetsupdatesample]                                           | update a Fleet x-ms-original-file: 2025-07-01-preview/Fleets_Update.json                                                      |
-| [operationsListSample.ts][operationslistsample]                                       | list the operations for the provider x-ms-original-file: 2025-07-01-preview/Operations_List.json                              |
+| **File Name**                                                                         | **Description**                                                                                                                              |
+| ------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| [fleetsCreateOrUpdateSample.ts][fleetscreateorupdatesample]                           | create a Fleet x-ms-original-file: 2026-04-01-preview/Fleets_CreateOrUpdate_MaximumSet_Gen.json                                              |
+| [fleetsDeleteSample.ts][fleetsdeletesample]                                           | delete a Fleet x-ms-original-file: 2026-04-01-preview/Fleets_Delete_MaximumSet_Gen.json                                                      |
+| [fleetsGetSample.ts][fleetsgetsample]                                                 | get a Fleet x-ms-original-file: 2026-04-01-preview/Fleets_Get_MaximumSet_Gen.json                                                            |
+| [fleetsListByResourceGroupSample.ts][fleetslistbyresourcegroupsample]                 | list Fleet resources by resource group x-ms-original-file: 2026-04-01-preview/Fleets_ListByResourceGroup_MaximumSet_Gen.json                 |
+| [fleetsListBySubscriptionSample.ts][fleetslistbysubscriptionsample]                   | list Fleet resources by subscription ID x-ms-original-file: 2026-04-01-preview/Fleets_ListBySubscription_MaximumSet_Gen.json                 |
+| [fleetsListVirtualMachineScaleSetsSample.ts][fleetslistvirtualmachinescalesetssample] | list VirtualMachineScaleSet resources by Fleet x-ms-original-file: 2026-04-01-preview/Fleets_ListVirtualMachineScaleSets_MaximumSet_Gen.json |
+| [fleetsListVirtualMachinesSample.ts][fleetslistvirtualmachinessample]                 | list VirtualMachine resources of a Launch mode Fleet. x-ms-original-file: 2026-04-01-preview/Fleets_ListVirtualMachines_MaximumSet_Gen.json  |
+| [fleetsUpdateSample.ts][fleetsupdatesample]                                           | update a Fleet x-ms-original-file: 2026-04-01-preview/Fleets_Update_MaximumSet_Gen.json                                                      |
+| [operationsListSample.ts][operationslistsample]                                       | list the operations for the provider x-ms-original-file: 2026-04-01-preview/Operations_List_MaximumSet_Gen.json                              |
 
 ## Prerequisites
 
@@ -52,20 +51,19 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/fleetsCancelSample.js
+node dist/fleetsCreateOrUpdateSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env node dist/fleetsCancelSample.js
+node dist/fleetsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[fleetscancelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computefleet/arm-computefleet/samples/v2-beta/typescript/src/fleetsCancelSample.ts
 [fleetscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computefleet/arm-computefleet/samples/v2-beta/typescript/src/fleetsCreateOrUpdateSample.ts
 [fleetsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computefleet/arm-computefleet/samples/v2-beta/typescript/src/fleetsDeleteSample.ts
 [fleetsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computefleet/arm-computefleet/samples/v2-beta/typescript/src/fleetsGetSample.ts

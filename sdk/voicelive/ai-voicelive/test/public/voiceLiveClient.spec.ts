@@ -36,7 +36,7 @@ describe("VoiceLiveClient", () => {
       "https://test.voicelive.azure.com",
       new MockTokenCredential(),
     );
-    expect(client.apiVersion).toBe("2026-04-10");
+    expect(client.apiVersion).toBe("2026-06-01-preview");
   });
 
   it("should create sessions with model string", () => {

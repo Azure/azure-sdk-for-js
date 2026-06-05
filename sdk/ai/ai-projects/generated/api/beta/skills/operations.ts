@@ -315,7 +315,7 @@ export async function get(
 
 export function _createFromPackageSend(
   context: Client,
-  body: Uint8Array,
+  content: Uint8Array,
   foundryFeatures: "Skills=V1Preview",
   options: CreateFromPackageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -338,7 +338,7 @@ export function _createFromPackageSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: body,
+      body: content,
     });
 }
 
@@ -359,11 +359,11 @@ export async function _createFromPackageDeserialize(
 /** Creates a skill from a zip package. */
 export async function createFromPackage(
   context: Client,
-  body: Uint8Array,
+  content: Uint8Array,
   foundryFeatures: "Skills=V1Preview",
   options: CreateFromPackageOptionalParams = { requestOptions: {} },
 ): Promise<SkillObject> {
-  const result = await _createFromPackageSend(context, body, foundryFeatures, options);
+  const result = await _createFromPackageSend(context, content, foundryFeatures, options);
   return _createFromPackageDeserialize(result);
 }
 

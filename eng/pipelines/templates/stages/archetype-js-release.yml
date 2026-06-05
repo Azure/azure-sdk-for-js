@@ -63,6 +63,7 @@ stages:
                       RepoId: Azure/azure-sdk-for-js
                       WorkingDirectory: $(System.DefaultWorkingDirectory)
                       NpmConfigUserConfig: $(Agent.TempDirectory)/create-release-tag/.npmrc
+                      AuthToken: ''
 
               - ${{ if ne(artifact.skipPublishPackage, 'true') }}:
                   - template: /eng/common/pipelines/templates/jobs/npm-publish.yml

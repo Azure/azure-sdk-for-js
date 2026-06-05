@@ -5,19 +5,19 @@ import { AzureFleetClient } from "@azure/arm-computefleet";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list VirtualMachine resources of an instance Fleet.
+ * This sample demonstrates how to list VirtualMachine resources of a Launch mode Fleet.
  *
- * @summary list VirtualMachine resources of an instance Fleet.
- * x-ms-original-file: 2025-07-01-preview/Fleets_ListVirtualMachines.json
+ * @summary list VirtualMachine resources of a Launch mode Fleet.
+ * x-ms-original-file: 2026-04-01-preview/Fleets_ListVirtualMachines_MaximumSet_Gen.json
  */
-async function fleetsListVirtualMachinesMaximumSet(): Promise<void> {
+async function fleetsListVirtualMachinesMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "3453D930-6DDF-4466-B3B3-E1AEE9BD448C";
+  const subscriptionId = "8F7446E8-AD7B-4D50-989A-2504374B8462";
   const client = new AzureFleetClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.fleets.listVirtualMachines("rgazurefleet", "myFleet", {
-    filter: "xzcepyottghqa",
-    skiptoken: "hydepbmwuypaprlphcdecsz",
+  for await (const item of client.fleets.listVirtualMachines("rgazurefleet", "testFleet", {
+    filter: "qppsnaauhedxu",
+    skiptoken: "jxgpugummyphgx",
   })) {
     resArray.push(item);
   }
@@ -26,7 +26,7 @@ async function fleetsListVirtualMachinesMaximumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await fleetsListVirtualMachinesMaximumSet();
+  await fleetsListVirtualMachinesMaximumSetGen();
 }
 
 main().catch(console.error);
