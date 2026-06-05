@@ -50,7 +50,9 @@ export async function _createOperationDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = generateDetailedCostReportErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = generateDetailedCostReportErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

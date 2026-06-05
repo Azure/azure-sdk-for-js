@@ -56,7 +56,9 @@ export async function _downloadByBillingAccountDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = armErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = armErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -131,7 +133,9 @@ export async function _downloadByBillingProfileDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -198,7 +202,9 @@ export async function _downloadByInvoiceDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

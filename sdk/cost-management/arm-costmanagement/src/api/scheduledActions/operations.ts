@@ -70,7 +70,9 @@ export async function _checkNameAvailabilityByScopeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -122,7 +124,9 @@ export async function _checkNameAvailabilityDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -164,7 +168,9 @@ export async function _runByScopeDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -211,7 +217,9 @@ export async function _listByScopeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -258,7 +266,9 @@ export async function _deleteByScopeDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -313,7 +323,9 @@ export async function _createOrUpdateByScopeDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -362,7 +374,9 @@ export async function _getByScopeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -403,7 +417,9 @@ export async function _runDeserialize(result: PathUncheckedResponse): Promise<vo
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -447,7 +463,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -491,7 +509,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -543,7 +563,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -587,7 +609,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseWithNestedDetailsDeserializer(result.body);
+    }
 
     throw error;
   }

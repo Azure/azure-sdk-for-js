@@ -55,7 +55,9 @@ export async function _externalCloudProviderUsageDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -106,16 +108,20 @@ export function _usageSend(
   });
 }
 
-export async function _usageDeserialize(result: PathUncheckedResponse): Promise<ForecastResult> {
+export async function _usageDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ForecastResult | undefined> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return forecastResultDeserializer(result.body);
+  return result.body ? forecastResultDeserializer(result.body) : undefined;
 }
 
 /** Lists the forecast charges for scope defined. */
@@ -124,7 +130,7 @@ export async function usage(
   scope: string,
   parameters: ForecastDefinition,
   options: ForecastUsageOptionalParams = { requestOptions: {} },
-): Promise<ForecastResult> {
+): Promise<ForecastResult | undefined> {
   const result = await _usageSend(context, scope, parameters, options);
   return _usageDeserialize(result);
 }

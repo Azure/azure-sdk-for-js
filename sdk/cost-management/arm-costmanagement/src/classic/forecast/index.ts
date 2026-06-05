@@ -27,7 +27,7 @@ export interface ForecastOperations {
     scope: string,
     parameters: ForecastDefinition,
     options?: ForecastUsageOptionalParams,
-  ) => Promise<ForecastResult>;
+  ) => Promise<ForecastResult | undefined>;
 }
 
 function _getForecast(context: CostManagementContext) {

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (2026-05-29)
+## 1.0.0-beta.3 (2026-06-05)
 Compared with version 1.0.0-beta.1
 
 ### Features Added
@@ -191,6 +191,7 @@ Compared with version 1.0.0-beta.1
   - Removed operation PriceSheet.beginDownloadAndWait
   - Removed operation PriceSheet.beginDownloadByBillingProfile
   - Removed operation PriceSheet.beginDownloadByBillingProfileAndWait
+  - Class CostManagementClient no longer has parameter apiVersion
   - Removed Interface DimensionsByExternalCloudProviderTypeOptionalParams
   - Removed Interface PriceSheetDownloadOptionalParams
   - Removed Interface ScheduledActionProxyResource

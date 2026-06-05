@@ -980,7 +980,7 @@ export interface ForecastFilter {
 // @public
 export interface ForecastOperations {
     externalCloudProviderUsage: (externalCloudProviderType: ExternalCloudProviderType, externalCloudProviderId: string, parameters: ForecastDefinition, options?: ForecastExternalCloudProviderUsageOptionalParams) => Promise<ForecastResult>;
-    usage: (scope: string, parameters: ForecastDefinition, options?: ForecastUsageOptionalParams) => Promise<ForecastResult>;
+    usage: (scope: string, parameters: ForecastDefinition, options?: ForecastUsageOptionalParams) => Promise<ForecastResult | undefined>;
 }
 
 // @public
@@ -2013,7 +2013,7 @@ export interface QueryGrouping {
 
 // @public
 export interface QueryOperations {
-    usage: (scope: string, parameters: QueryDefinition, options?: QueryUsageOptionalParams) => Promise<QueryResult>;
+    usage: (scope: string, parameters: QueryDefinition, options?: QueryUsageOptionalParams) => Promise<QueryResult | undefined>;
     usageByExternalCloudProviderType: (externalCloudProviderType: ExternalCloudProviderType, externalCloudProviderId: string, parameters: QueryDefinition, options?: QueryUsageByExternalCloudProviderTypeOptionalParams) => Promise<QueryResult>;
 }
 

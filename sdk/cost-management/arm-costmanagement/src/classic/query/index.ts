@@ -23,7 +23,7 @@ export interface QueryOperations {
     scope: string,
     parameters: QueryDefinition,
     options?: QueryUsageOptionalParams,
-  ) => Promise<QueryResult>;
+  ) => Promise<QueryResult | undefined>;
 }
 
 function _getQuery(context: CostManagementContext) {
