@@ -23,6 +23,9 @@ import type {
   EncryptResult,
   EncryptionAlgorithm,
   KeyWrapAlgorithm,
+  SecureKeyResult,
+  SecureUnwrapKeyOptions,
+  SecureWrapKeyOptions,
   SignOptions,
   SignResult,
   SignatureAlgorithm,
@@ -518,6 +521,65 @@ export class CryptographyClient {
           }
           throw err;
         }
+      },
+    );
+  }
+
+  /**
+   * Creates a new 256-bit AES key in the trusted execution environment and wraps it using this key.
+   *
+   * This operation is only supported for remote Key Vault keys.
+   *
+   * @param algorithm - The encryption algorithm to use to wrap the generated key.
+   * @param options - Additional options.
+   */
+  public secureWrapKey(
+    algorithm: KeyWrapAlgorithm,
+    options: SecureWrapKeyOptions = {},
+  ): Promise<SecureKeyResult> {
+    return tracingClient.withSpan(
+      "CryptographyClient.secureWrapKey",
+      options,
+      async (updatedOptions) => {
+        this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.SecureWrapKey);
+        if (!this.remoteProvider) {
+          throw new Error("Secure key wrap requires a Key Vault key.");
+        }
+        return this.remoteProvider.secureWrapKey(algorithm, updatedOptions);
+      },
+    );
+  }
+
+  /**
+   * Securely unwraps a previously wrapped symmetric key using this key and a target attestation token.
+   *
+   * This operation is only supported for remote Key Vault keys.
+   *
+   * @param algorithm - The decryption algorithm to use to unwrap the key.
+   * @param encryptedKey - The encrypted key to unwrap.
+   * @param targetAttestationToken - The attestation assertion for the target of the secure unwrap operation.
+   * @param options - Additional options.
+   */
+  public secureUnwrapKey(
+    algorithm: KeyWrapAlgorithm,
+    encryptedKey: Uint8Array,
+    targetAttestationToken: string,
+    options: SecureUnwrapKeyOptions = {},
+  ): Promise<SecureKeyResult> {
+    return tracingClient.withSpan(
+      "CryptographyClient.secureUnwrapKey",
+      options,
+      async (updatedOptions) => {
+        this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.SecureUnwrapKey);
+        if (!this.remoteProvider) {
+          throw new Error("Secure key unwrap requires a Key Vault key.");
+        }
+        return this.remoteProvider.secureUnwrapKey(
+          algorithm,
+          encryptedKey,
+          targetAttestationToken,
+          updatedOptions,
+        );
       },
     );
   }

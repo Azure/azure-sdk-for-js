@@ -28,7 +28,7 @@ export function createKeyVault(
   credential: TokenCredential,
   options: KeyVaultClientOptionalParams = {},
 ): KeyVaultContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? String(endpointParam);
+  const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
   const userAgentPrefix = prefixFromOptions
@@ -38,9 +38,7 @@ export function createKeyVault(
     ...options,
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
-    credentials: {
-      scopes: options.credentials?.scopes ?? ["https://vault.azure.net/.default"],
-    },
+    credentials: { scopes: options.credentials?.scopes ?? ["https://vault.azure.net/.default"] },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });

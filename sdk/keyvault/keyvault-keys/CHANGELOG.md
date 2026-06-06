@@ -1,10 +1,13 @@
 # Release History
 
-## 4.10.2 (Unreleased)
+## 4.11.0-beta.1 (Unreleased)
 
 ### Features Added
 
-- Added support for service API version `2025-07-01` [#38515](https://github.com/Azure/azure-sdk-for-js/pull/38515)
+- Added support for service API version `2026-03-01-preview`, which is now the default. [#38578](https://github.com/Azure/azure-sdk-for-js/pull/38578)
+- Added support for service API version `2025-07-01`. [#38515](https://github.com/Azure/azure-sdk-for-js/pull/38515)
+- Added `CryptographyClient.secureWrapKey` and `CryptographyClient.secureUnwrapKey` methods for secure key wrap/unwrap operations against Managed HSM. These operations require service API version `2026-03-01-preview` or later. [#38578](https://github.com/Azure/azure-sdk-for-js/pull/38578)
+- Added `KnownKeyOperations.SecureWrapKey` and `KnownKeyOperations.SecureUnwrapKey` enum values. [#38578](https://github.com/Azure/azure-sdk-for-js/pull/38578)
 
 ### Breaking Changes
 
@@ -13,8 +16,6 @@
 - Fix dependency issue.
 
 ### Other Changes
-
-- Key Vault API version `2025-07-01` is now the default
 
 ## 4.10.0 (2025-06-10)
 

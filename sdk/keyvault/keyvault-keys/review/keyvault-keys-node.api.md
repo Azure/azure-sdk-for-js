@@ -101,6 +101,8 @@ export class CryptographyClient {
     // @deprecated
     encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
     get keyID(): string | undefined;
+    secureUnwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, targetAttestationToken: string, options?: SecureUnwrapKeyOptions): Promise<SecureKeyResult>;
+    secureWrapKey(algorithm: KeyWrapAlgorithm, options?: SecureWrapKeyOptions): Promise<SecureKeyResult>;
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
     signData(algorithm: SignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
     unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: UnwrapKeyOptions): Promise<UnwrapResult>;
@@ -417,6 +419,8 @@ export enum KnownKeyOperations {
     Decrypt = "decrypt",
     Encrypt = "encrypt",
     Import = "import",
+    SecureUnwrapKey = "secureUnwrapKey",
+    SecureWrapKey = "secureWrapKey",
     Sign = "sign",
     UnwrapKey = "unwrapKey",
     Verify = "verify",
@@ -514,6 +518,21 @@ export type RsaEncryptionAlgorithm = "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
 export interface RsaEncryptParameters {
     algorithm: RsaEncryptionAlgorithm;
     plaintext: Uint8Array;
+}
+
+// @public
+export interface SecureKeyResult {
+    algorithm: KeyWrapAlgorithm;
+    keyID?: string;
+    result: Uint8Array;
+}
+
+// @public
+export interface SecureUnwrapKeyOptions extends CryptographyOptions {
+}
+
+// @public
+export interface SecureWrapKeyOptions extends CryptographyOptions {
 }
 
 // @public

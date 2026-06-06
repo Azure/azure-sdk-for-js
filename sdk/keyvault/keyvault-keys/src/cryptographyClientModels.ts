@@ -106,6 +106,24 @@ export interface UnwrapResult {
    */
   algorithm: KeyWrapAlgorithm;
 }
+
+/**
+ * Result of the {@link secureWrapKey} or {@link secureUnwrapKey} operation.
+ */
+export interface SecureKeyResult {
+  /**
+   * Result of the secure key operation in bytes.
+   */
+  result: Uint8Array;
+  /**
+   * The ID of the Key Vault Key used for the secure key operation.
+   */
+  keyID?: string;
+  /**
+   * The {@link KeyWrapAlgorithm} used for the secure key operation.
+   */
+  algorithm: KeyWrapAlgorithm;
+}
 /**
  * Result of the {@link decrypt} operation.
  */
@@ -190,6 +208,16 @@ export interface WrapKeyOptions extends CryptographyOptions {}
  * Options for {@link unwrapKey}.
  */
 export interface UnwrapKeyOptions extends CryptographyOptions {}
+
+/**
+ * Options for {@link secureWrapKey}.
+ */
+export interface SecureWrapKeyOptions extends CryptographyOptions {}
+
+/**
+ * Options for {@link secureUnwrapKey}.
+ */
+export interface SecureUnwrapKeyOptions extends CryptographyOptions {}
 
 /**
  * A union type representing all supported RSA encryption algorithms.

@@ -111,6 +111,36 @@ describe("internal crypto tests", () => {
         /Operation decrypt is not supported/,
       );
     });
+
+    it("validates key operations for secureWrapKey", async () => {
+      const cryptoClient = new CryptographyClient(key);
+      key.keyOps = ["encrypt"];
+      await expect(cryptoClient.secureWrapKey("RSA-OAEP-256")).rejects.toThrow(
+        /Operation secureWrapKey is not supported/,
+      );
+    });
+
+    it("validates key operations for secureUnwrapKey", async () => {
+      const cryptoClient = new CryptographyClient(key);
+      key.keyOps = ["encrypt"];
+      await expect(
+        cryptoClient.secureUnwrapKey("RSA-OAEP-256", stringToUint8Array(""), "token"),
+      ).rejects.toThrow(/Operation secureUnwrapKey is not supported/);
+    });
+
+    it("throws when secureWrapKey is called on a JsonWebKey-only client", async () => {
+      const cryptoClient = new CryptographyClient(key);
+      await expect(cryptoClient.secureWrapKey("RSA-OAEP-256")).rejects.toThrow(
+        /Secure key wrap requires a Key Vault key\./,
+      );
+    });
+
+    it("throws when secureUnwrapKey is called on a JsonWebKey-only client", async () => {
+      const cryptoClient = new CryptographyClient(key);
+      await expect(
+        cryptoClient.secureUnwrapKey("RSA-OAEP-256", stringToUint8Array(""), "token"),
+      ).rejects.toThrow(/Secure key unwrap requires a Key Vault key\./);
+    });
   });
 
   describe("from a keyClient", () => {
@@ -392,6 +422,33 @@ describe("internal crypto tests", () => {
           await cryptoClient.verifyData("PS256", data, sig);
           expect(remoteStub).toHaveBeenCalledWith("PS256", data, sig, expect.anything());
         });
+
+        it("remotes the secureWrapKey operation", async () => {
+          const remoteStub = vi.spyOn(remoteProvider, "secureWrapKey").mockResolvedValue({
+            algorithm: "RSA-OAEP-256",
+            result: new Uint8Array(0),
+          });
+
+          await cryptoClient.secureWrapKey("RSA-OAEP-256");
+          expect(remoteStub).toHaveBeenCalledWith("RSA-OAEP-256", expect.anything());
+        });
+
+        it("remotes the secureUnwrapKey operation", async () => {
+          const remoteStub = vi.spyOn(remoteProvider, "secureUnwrapKey").mockResolvedValue({
+            algorithm: "RSA-OAEP-256",
+            result: new Uint8Array(0),
+          });
+
+          const encryptedKey = stringToUint8Array("encrypted");
+          const attestationToken = "attestation-token";
+          await cryptoClient.secureUnwrapKey("RSA-OAEP-256", encryptedKey, attestationToken);
+          expect(remoteStub).toHaveBeenCalledWith(
+            "RSA-OAEP-256",
+            encryptedKey,
+            attestationToken,
+            expect.anything(),
+          );
+        });
       });
     });
 
@@ -448,6 +505,18 @@ describe("internal crypto tests", () => {
           await expect(
             cryptoClient.verifyData("PS256", stringToUint8Array("data"), stringToUint8Array("sig")),
           ).rejects.toThrow();
+        });
+
+        it("throws when calling secureWrapKey without a remote provider", async () => {
+          await expect(cryptoClient.secureWrapKey("RSA-OAEP-256")).rejects.toThrow(
+            /Secure key wrap requires a Key Vault key\./,
+          );
+        });
+
+        it("throws when calling secureUnwrapKey without a remote provider", async () => {
+          await expect(
+            cryptoClient.secureUnwrapKey("RSA-OAEP-256", stringToUint8Array("myKey"), "token"),
+          ).rejects.toThrow(/Secure key unwrap requires a Key Vault key\./);
         });
       });
     });
