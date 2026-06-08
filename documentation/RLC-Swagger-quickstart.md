@@ -62,13 +62,13 @@ We are working on to automatically generate everything right now, but currently,
     Here are the details if we configure in README.md file.
     - Support AAD token authentication
     ```yaml
-    security: AzureKey
-    security-header-name: Your-Subscription-Key
+    security: AADToken
+    security-scopes: https://yourendpoint.azure.com/.default
     ```
     - Support key authentication
     ```yaml
-    security: AADToken
-    security-scopes: https://yourendpoint.azure.com/.default
+    security: AzureKey
+    security-header-name: Your-Subscription-Key
     ```
     - Support both credentials
     ```yaml
