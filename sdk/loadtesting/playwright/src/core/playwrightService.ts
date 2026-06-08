@@ -174,6 +174,7 @@ const createAzurePlaywrightConfig = (
           playwrightServiceConfig.runId,
           playwrightServiceConfig.serviceOs,
           playwrightServiceConfig.apiVersion,
+          playwrightServiceConfig.sourceType,
         ),
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
@@ -249,6 +250,7 @@ const getConnectOptions = async (
       playwrightServiceConfig.runId,
       playwrightServiceConfig.serviceOs,
       playwrightServiceConfig.apiVersion,
+      playwrightServiceConfig.sourceType,
     ),
     options: {
       headers: {

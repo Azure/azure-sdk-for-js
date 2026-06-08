@@ -1,0 +1,31 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { SqlManagementClient } = require("@azure/arm-sql");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to enables sensitivity recommendations on a given column (recommendations are enabled by default on all columns)
+ *
+ * @summary enables sensitivity recommendations on a given column (recommendations are enabled by default on all columns)
+ * x-ms-original-file: 2025-01-01/RecommendedColumnSensitivityLabelEnable.json
+ */
+async function enablesSensitivityRecommendationsOnAGivenColumn() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlManagementClient(credential, subscriptionId);
+  await client.sensitivityLabels.enableRecommendation(
+    "myRG",
+    "myServer",
+    "myDatabase",
+    "dbo",
+    "myTable",
+    "myColumn",
+  );
+}
+
+async function main() {
+  await enablesSensitivityRecommendationsOnAGivenColumn();
+}
+
+main().catch(console.error);

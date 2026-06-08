@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new queue with the specified queue name, under the specified account.
  *
  * @summary creates a new queue with the specified queue name, under the specified account.
- * x-ms-original-file: 2025-08-01/QueueOperationPatch.json
+ * x-ms-original-file: 2026-04-01/QueueOperationPatch.json
  */
 async function queueOperationPatch(): Promise<void> {
   const credential = new DefaultAzureCredential();

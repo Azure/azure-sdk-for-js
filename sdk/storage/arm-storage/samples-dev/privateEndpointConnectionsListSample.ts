@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all the private endpoint connections associated with the storage account.
  *
  * @summary list all the private endpoint connections associated with the storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountListPrivateEndpointConnections.json
+ * x-ms-original-file: 2026-04-01/StorageAccountListPrivateEndpointConnections.json
  */
 async function storageAccountListPrivateEndpointConnections(): Promise<void> {
   const credential = new DefaultAzureCredential();
