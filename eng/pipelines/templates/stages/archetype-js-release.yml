@@ -90,7 +90,7 @@ stages:
                         ne(variables['Skip.PublishDocs'], 'true'),
                         ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr')
                       )
-                    dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
+                    dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}_To_DevFeed
                     pool:
                       name: $(LINUXPOOL)
                       image: $(LINUXVMIMAGE)
