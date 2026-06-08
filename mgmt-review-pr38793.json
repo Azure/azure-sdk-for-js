@@ -1,0 +1,23 @@
+{
+  "pr": 38793,
+  "package": "@azure/arm-containerservice",
+  "version": "25.3.0",
+  "apiVersion": "2026-04-01",
+  "releaseType": "stable",
+  "reviewDate": "2026-06-08",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "review/arm-containerservice-node.api.md",
+      "line": 609,
+      "issueType": "tool",
+      "description": "isRestError re-exported from @azure/core-rest-pipeline"
+    },
+    {
+      "file": "review/arm-containerservice-node.api.md",
+      "line": 2486,
+      "issueType": "tool",
+      "description": "RestError re-exported from @azure/core-rest-pipeline"
+    }
+  ]
+}
