@@ -74,7 +74,9 @@ export async function _sealDeserialize(result: PathUncheckedResponse): Promise<v
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._sealDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -304,7 +306,9 @@ export async function _appendBlockFromUrlDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._appendBlockFromUrlDeserializeExceptionHeaders(result),
@@ -553,7 +557,9 @@ export async function _appendBlockDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._appendBlockDeserializeExceptionHeaders(result),
@@ -815,7 +821,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._createDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];

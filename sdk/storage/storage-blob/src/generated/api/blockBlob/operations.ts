@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { BlobContext as Client } from "../index.js";
+import { getBinaryStreamResponse } from "#platform/generated/static-helpers/serialization/get-binary-stream-response";
 import {
   errorXmlDeserializer,
   LeaseStatus,
@@ -18,7 +19,6 @@ import {
   BlockListType,
   BlockBlobQueryResponse,
 } from "../../models/models.js";
-import { getBinaryStreamResponse } from "../../static-helpers/serialization/get-binary-stream-response.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -107,7 +107,9 @@ export async function _queryDeserialize(
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._queryDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -399,7 +401,9 @@ export async function _getBlockListDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getBlockListDeserializeExceptionHeaders(result),
@@ -624,7 +628,9 @@ export async function _commitBlockListDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._commitBlockListDeserializeExceptionHeaders(result),
@@ -870,7 +876,9 @@ export async function _stageBlockFromUrlDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._stageBlockFromUrlDeserializeExceptionHeaders(result),
@@ -1075,7 +1083,9 @@ export async function _stageBlockDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._stageBlockDeserializeExceptionHeaders(result),
@@ -1364,7 +1374,9 @@ export async function _uploadBlobFromUrlDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._uploadBlobFromUrlDeserializeExceptionHeaders(result),
@@ -1620,7 +1632,9 @@ export async function _uploadDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._uploadDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];

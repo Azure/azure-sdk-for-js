@@ -88,7 +88,9 @@ export async function _findBlobsByTagsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._findBlobsByTagsDeserializeExceptionHeaders(result),
@@ -224,7 +226,9 @@ export async function _submitBatchDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._submitBatchDeserializeExceptionHeaders(result),
@@ -352,7 +356,9 @@ export async function _getAccountInfoDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getAccountInfoDeserializeExceptionHeaders(result),
@@ -495,7 +501,9 @@ export async function _getUserDelegationKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getUserDelegationKeyDeserializeExceptionHeaders(result),
@@ -633,7 +641,9 @@ export async function _listContainersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._listContainersDeserializeExceptionHeaders(result),
@@ -762,7 +772,9 @@ export async function _getStatisticsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getStatisticsDeserializeExceptionHeaders(result),
@@ -891,7 +903,9 @@ export async function _getPropertiesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getPropertiesDeserializeExceptionHeaders(result),
@@ -1020,7 +1034,9 @@ export async function _setPropertiesDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._setPropertiesDeserializeExceptionHeaders(result),

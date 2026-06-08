@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { BlobContext as Client } from "../index.js";
+import { getBinaryStreamResponse } from "#platform/generated/static-helpers/serialization/get-binary-stream-response";
 import {
   errorXmlDeserializer,
   LeaseStatus,
@@ -21,7 +22,6 @@ import {
   BlobExpiryOptions,
   BlobDownloadResponse,
 } from "../../models/models.js";
-import { getBinaryStreamResponse } from "../../static-helpers/serialization/get-binary-stream-response.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -130,7 +130,9 @@ export async function _setTagsDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._setTagsDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -267,7 +269,9 @@ export async function _getTagsDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._getTagsDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -387,7 +391,9 @@ export async function _getAccountInfoDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getAccountInfoDeserializeExceptionHeaders(result),
@@ -533,7 +539,9 @@ export async function _setTierDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._setTierDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -651,7 +659,9 @@ export async function _abortCopyFromUrlDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._abortCopyFromUrlDeserializeExceptionHeaders(result),
@@ -841,7 +851,9 @@ export async function _copyFromUrlDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._copyFromUrlDeserializeExceptionHeaders(result),
@@ -1071,7 +1083,9 @@ export async function _startCopyFromUrlDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._startCopyFromUrlDeserializeExceptionHeaders(result),
@@ -1246,7 +1260,9 @@ export async function _createSnapshotDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._createSnapshotDeserializeExceptionHeaders(result),
@@ -1415,7 +1431,9 @@ export async function _breakLeaseDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._breakLeaseDeserializeExceptionHeaders(result),
@@ -1573,7 +1591,9 @@ export async function _changeLeaseDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._changeLeaseDeserializeExceptionHeaders(result),
@@ -1731,7 +1751,9 @@ export async function _renewLeaseDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._renewLeaseDeserializeExceptionHeaders(result),
@@ -1888,7 +1910,9 @@ export async function _releaseLeaseDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._releaseLeaseDeserializeExceptionHeaders(result),
@@ -2041,7 +2065,9 @@ export async function _acquireLeaseDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._acquireLeaseDeserializeExceptionHeaders(result),
@@ -2208,7 +2234,9 @@ export async function _setMetadataDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._setMetadataDeserializeExceptionHeaders(result),
@@ -2369,7 +2397,9 @@ export async function _setLegalHoldDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._setLegalHoldDeserializeExceptionHeaders(result),
@@ -2499,7 +2529,9 @@ export async function _deleteImmutabilityPolicyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._deleteImmutabilityPolicyDeserializeExceptionHeaders(result),
@@ -2634,7 +2666,9 @@ export async function _setImmutabilityPolicyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._setImmutabilityPolicyDeserializeExceptionHeaders(result),
@@ -2807,7 +2841,9 @@ export async function _setPropertiesDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._setPropertiesDeserializeExceptionHeaders(result),
@@ -2949,7 +2985,9 @@ export async function _setExpiryDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._setExpiryDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -3076,7 +3114,9 @@ export async function _undeleteDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._undeleteDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -3227,7 +3267,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._$deleteDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -3371,7 +3413,9 @@ export async function _getPropertiesDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getPropertiesDeserializeExceptionHeaders(result),
@@ -3817,7 +3861,9 @@ export async function _downloadDeserialize(
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._downloadDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];

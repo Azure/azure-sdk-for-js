@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { NodeReadableStream } from "#platform/generated/static-helpers/platform-types";
 import { FileContents } from "./static-helpers/multipartHelpers.js";
 
 export { BlobClient } from "./blobClient.js";
@@ -171,4 +172,5 @@ export type {
   PageBlobOperations,
   ServiceOperations,
 } from "./classic/index.js";
-export type { FileContents };
+export type { FileContents, NodeReadableStream };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

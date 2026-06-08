@@ -84,7 +84,9 @@ export async function _copyIncrementalDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._copyIncrementalDeserializeExceptionHeaders(result),
@@ -248,7 +250,9 @@ export async function _setSequenceNumberDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._setSequenceNumberDeserializeExceptionHeaders(result),
@@ -414,7 +418,9 @@ export async function _resizeDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._resizeDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -574,7 +580,9 @@ export async function _getPageRangesDiffDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getPageRangesDiffDeserializeExceptionHeaders(result),
@@ -739,7 +747,9 @@ export async function _getPageRangesDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getPageRangesDeserializeExceptionHeaders(result),
@@ -978,7 +988,9 @@ export async function _uploadPagesFromUrlDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._uploadPagesFromUrlDeserializeExceptionHeaders(result),
@@ -1203,7 +1215,9 @@ export async function _clearPagesDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._clearPagesDeserializeExceptionHeaders(result),
@@ -1421,7 +1435,9 @@ export async function _uploadPagesDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._uploadPagesDeserializeExceptionHeaders(result),
@@ -1678,7 +1694,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._createDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { NodeReadableStream } from "#platform/generated/static-helpers/platform-types";
 import { FileContents } from "../static-helpers/multipartHelpers.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 import {
@@ -1566,8 +1567,7 @@ export interface _SubmitBatchResponse {
 
 export function _submitBatchResponseDeserializer(item: any): _SubmitBatchResponse {
   return {
-    body:
-      typeof item["body"] === "string" ? stringToUint8Array(item["body"], "base64") : item["body"],
+    body: item["body"],
   };
 }
 
@@ -4086,7 +4086,7 @@ export type BlockBlobQueryResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 export type BlobDownloadResponse = {
@@ -4103,5 +4103,5 @@ export type BlobDownloadResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
