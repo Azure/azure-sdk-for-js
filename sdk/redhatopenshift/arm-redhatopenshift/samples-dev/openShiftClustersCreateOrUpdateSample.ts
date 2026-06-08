@@ -1,38 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The operation returns properties of a OpenShift cluster.
- *
- * @summary The operation returns properties of a OpenShift cluster.
- * x-ms-original-file: specification/redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/openshiftclusters/stable/2023-11-22/examples/OpenShiftClusters_CreateOrUpdate.json
- */
-
-import type { OpenShiftCluster } from "@azure/arm-redhatopenshift";
 import { AzureRedHatOpenShiftClient } from "@azure/arm-redhatopenshift";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to the operation returns properties of a OpenShift cluster.
+ *
+ * @summary the operation returns properties of a OpenShift cluster.
+ * x-ms-original-file: 2025-07-25/OpenShiftClusters_CreateOrUpdate.json
+ */
 async function createsOrUpdatesAOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAndResourceName(): Promise<void> {
-  const subscriptionId = process.env["REDHATOPENSHIFT_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["REDHATOPENSHIFT_RESOURCE_GROUP"] || "resourceGroup";
-  const resourceName = "resourceName";
-  const parameters: OpenShiftCluster = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new AzureRedHatOpenShiftClient(credential, subscriptionId);
+  const result = await client.openShiftClusters.createOrUpdate("resourceGroup", "resourceName", {
+    identity: { type: "UserAssigned", userAssignedIdentities: { "": {} } },
+    location: "location",
     apiserverProfile: { visibility: "Public" },
     clusterProfile: {
       domain: "cluster.location.aroapp.io",
       fipsValidatedModules: "Enabled",
       pullSecret:
         '{"auths":{"registry.connect.redhat.com":{"auth":""},"registry.redhat.io":{"auth":""}}}',
-      resourceGroupId: "/subscriptions/subscriptionId/resourceGroups/clusterResourceGroup",
+      resourceGroupId:
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/clusterResourceGroup",
     },
     consoleProfile: {},
     ingressProfiles: [{ name: "default", visibility: "Public" }],
-    location: "location",
     masterProfile: {
       encryptionAtHost: "Enabled",
       subnetId:
-        "/subscriptions/subscriptionId/resourceGroups/vnetResourceGroup/providers/Microsoft.Network/virtualNetworks/vnet/subnets/master",
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/vnetResourceGroup/providers/Microsoft.Network/virtualNetworks/vnet/subnets/master",
       vmSize: "Standard_D8s_v3",
     },
     networkProfile: {
@@ -41,29 +40,20 @@ async function createsOrUpdatesAOpenShiftClusterWithTheSpecifiedSubscriptionReso
       preconfiguredNSG: "Disabled",
       serviceCidr: "172.30.0.0/16",
     },
-    servicePrincipalProfile: {
-      clientId: "clientId",
-      clientSecret: "clientSecret",
-    },
-    tags: { key: "value" },
+    platformWorkloadIdentityProfile: { platformWorkloadIdentities: { "": {} } },
+    servicePrincipalProfile: { clientId: "clientId", clientSecret: "clientSecret" },
     workerProfiles: [
       {
         name: "worker",
         count: 3,
         diskSizeGB: 128,
         subnetId:
-          "/subscriptions/subscriptionId/resourceGroups/vnetResourceGroup/providers/Microsoft.Network/virtualNetworks/vnet/subnets/worker",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/vnetResourceGroup/providers/Microsoft.Network/virtualNetworks/vnet/subnets/worker",
         vmSize: "Standard_D2s_v3",
       },
     ],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureRedHatOpenShiftClient(credential, subscriptionId);
-  const result = await client.openShiftClusters.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    parameters,
-  );
+    tags: { key: "value" },
+  });
   console.log(result);
 }
 

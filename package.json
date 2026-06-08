@@ -32,8 +32,5 @@
   "engines": {
     "node": ">=20",
     "pnpm": ">=10.33.0"
-  },
-  "pnpm": {
-    "overrides": {}
   }
 }

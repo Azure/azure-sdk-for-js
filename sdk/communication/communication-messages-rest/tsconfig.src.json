@@ -1,7 +1,0 @@
-{
-  "extends": "../../../tsconfig.lib.json",
-  "compilerOptions": {
-    "composite": false,
-    "isolatedModules": false
-  }
-}

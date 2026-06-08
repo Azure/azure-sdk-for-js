@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import os from "node:os";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 import {
   SEMRESATTRS_DEVICE_ID,
   SEMRESATTRS_DEVICE_MODEL_NAME,
@@ -325,8 +326,9 @@ export function truncateCustomDimensions(properties: Record<string, unknown>): {
         : serializeAttribute(properties[key] as AnyValue);
 
     const maxSize = CUSTOM_DIMENSIONS_GENAI_KEYS.has(key) ? genaiMaxSize : defaultMaxSize;
-    if (Buffer.byteLength(value, "utf-8") > maxSize) {
-      value = Buffer.from(value, "utf-8").subarray(0, maxSize).toString("utf-8");
+    const valueBytes = stringToUint8Array(value, "utf-8");
+    if (valueBytes.byteLength > maxSize) {
+      value = uint8ArrayToString(valueBytes.subarray(0, maxSize), "utf-8");
       truncated = true;
     }
 

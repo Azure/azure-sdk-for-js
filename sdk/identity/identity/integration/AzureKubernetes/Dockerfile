@@ -2,12 +2,11 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 # ------------------------------------
-ARG NODE_VERSION=22
+ARG NODE_VERSION=24
 
-# Optional registry prefix. Leave blank to use Docker Hub.
-ARG REGISTRY=""
+ARG BASE_IMAGE="mcr.microsoft.com/azurelinux/base/nodejs:${NODE_VERSION}"
 
-FROM ${REGISTRY}node:${NODE_VERSION}-alpine as builder
+FROM ${BASE_IMAGE} AS builder
 WORKDIR /app
 
 COPY . .
@@ -16,8 +15,11 @@ RUN npm install --no-package-lock
 
 RUN npm run build
 
-FROM ${REGISTRY}node:${NODE_VERSION}-alpine
+FROM ${BASE_IMAGE}
 WORKDIR /app
+
+# Azure Linux base image does not include wget by default
+RUN tdnf install -y wget && tdnf clean all
 
 # Copy only the built app and necessary files
 COPY --from=builder /app/dist ./dist

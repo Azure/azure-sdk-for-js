@@ -1,6 +1,6 @@
 {
   "name": "@azure/monitor-ingestion",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Azure Monitor Ingestion library",
   "keywords": [
     "azure",
@@ -98,6 +98,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -108,16 +109,8 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedMonitorIngestionClientContext.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
+        "path": "src/api/logsIngestionContext.ts",
+        "prefix": "const userAgentInfo"
       }
     ]
   },
@@ -131,5 +124,10 @@
       "Azure Monitor": "https://learn.microsoft.com/azure/azure-monitor/"
     }
   },
-  "sdk-type": "client"
+  "sdk-type": "client",
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
+  }
 }

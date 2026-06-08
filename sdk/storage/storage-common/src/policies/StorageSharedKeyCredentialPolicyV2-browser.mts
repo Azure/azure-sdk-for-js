@@ -21,9 +21,9 @@ export interface StorageSharedKeyCredentialPolicyOptions {
    */
   accountName: string;
   /**
-   * Account key
+   * Account key - accepts any type on browser since SharedKey is not supported.
    */
-  accountKey: Buffer;
+  accountKey: unknown;
 }
 
 /**

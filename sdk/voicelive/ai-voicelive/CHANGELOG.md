@@ -1,6 +1,94 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.1.0-beta.1 (2026-05-28)
+
+### Features Added
+
+- Added Azure realtime native voices via `AzureRealtimeNativeVoice`, including the `KnownAzureRealtimeNativeVoiceName` enum for service-known voice names.
+- Added WebRTC SDP negotiation types for RTC calling: `ClientEventRtcCallSdpCreate`, `ServerEventRtcCallSdpCreated`, `ServerEventRtcCallError`, and `RtcCallErrorDetails`.
+- Added `ServerEventResponseInvocationDelta` for passthrough hosted-agent invocation SSE payloads.
+- Added output-audio playback lifecycle events: `ServerEventOutputAudioBufferStarted` and `ServerEventOutputAudioBufferStopped`.
+- Added `KnownEchoCancellationReferenceSource` / `EchoCancellationReferenceSource` to configure echo-cancellation reference input.
+- Added `image_url` wire mapping support for `Background.imageUrl`.
+
+### Breaking Changes
+
+- Renamed `RequestImageContentPart.url` to `RequestImageContentPart.imageUrl` to align the SDK model with the `image_url` wire shape used by `2026-06-01-preview`.
+- API version updated from `2026-04-10` to `2026-06-01-preview`.
+
+## 1.0.0 (2026-05-21)
+
+General Availability release of `@azure/ai-voicelive`. This release upgrades the wire protocol to API version `2026-04-10` and consolidates the public API surface from beta.1 through beta.4 into a stable contract.
+
+### Features Added
+
+- Real-time speech-to-speech sessions over a persistent WebSocket connection (`VoiceLiveClient`, `VoiceLiveSession`).
+- Two session targets: model sessions and AI Foundry agent sessions (`AgentSessionConfig`, `SessionTarget`, `isAgentSessionTarget`, `isModelSessionTarget`).
+- Authentication via `DefaultAzureCredential` (Azure AD) and `AzureKeyCredential`.
+- Voice customization: OpenAI voices, Azure standard / custom / personal voices, voice style, pitch, rate, volume, custom lexicon and text-normalization URLs, locale and `preferLocales`.
+- Avatar support including configuration types, photo-avatar base modes, video parameters, ICE servers, scenes, backgrounds, and avatar output protocols.
+- Image content support via `RequestImageContentPart` and `RequestImageContentPartDetail`.
+- Model Context Protocol (MCP) integration: server connection, approval workflow, tool listing, and streaming MCP call execution with the full event handler set.
+- Reasoning effort configuration (`ReasoningEffort`, `KnownReasoningEffort`).
+- Interim response configuration (`InterimResponseConfig`, `StaticInterimResponseConfig`, `LlmInterimResponseConfig`, triggers, and types).
+- Response `metadata` for arbitrary key-value pairs on `ResponseCreateParams` and `VoiceLiveResponse`.
+- Distributed tracing via `@azure/core-tracing`. Spans cover the session lifecycle (`connect`, `send`, `recv`, `close`) following [GenAI Semantic Conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/). See the [Telemetry / Distributed Tracing](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/README.md#telemetry--distributed-tracing) section in the README and the [`samples/telemetry/`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/samples/telemetry/README.md) and [`samples/telemetry-browser/`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/samples/telemetry-browser/README.md) samples.
+- Automatic proxy support via standard `HTTPS_PROXY` / `HTTP_PROXY` / `NO_PROXY` environment variables.
+- New types added in this GA release (API version `2026-04-10`):
+  - Voice: `AzureAvatarVoiceSyncVoice`.
+  - Session output control: `SessionIncludeOption`, `KnownSessionIncludeOption`.
+  - Output audio buffer control: `ClientEventOutputAudioBufferClear`, `ServerEventOutputAudioBufferCleared`.
+  - Web search tool: `ResponseWebSearchCallItem`, `ServerEventResponseWebSearchCallSearching`, `ServerEventResponseWebSearchCallInProgress`, `ServerEventResponseWebSearchCallCompleted`, `ActionSearch`, `ActionSearchSource`, `ActionOpenPage`, `ActionFind`.
+  - File search tool: `ResponseFileSearchCallItem`, `FileSearchResult`, `ServerEventResponseFileSearchCallSearching`, `ServerEventResponseFileSearchCallInProgress`, `ServerEventResponseFileSearchCallCompleted`.
+  - Avatar speaking-state events: `ServerEventSessionAvatarSwitchToSpeaking`, `ServerEventSessionAvatarSwitchToIdle`, `ServerEventResponseVideoDelta`.
+  - Word- and phrase-level transcription: `TranscriptionPhrase`, `TranscriptionWord`.
+  - Annotated audio transcripts: `ServerEventResponseAudioTranscriptAnnotationAdded`.
+  - Server-side warnings: `ServerEventWarning`, `ServerEventWarningDetails`.
+
+- Real-time speech-to-speech sessions over a persistent WebSocket connection (`VoiceLiveClient`, `VoiceLiveSession`).
+- Two session targets: model sessions and AI Foundry agent sessions (`AgentSessionConfig`, `SessionTarget`, `isAgentSessionTarget`, `isModelSessionTarget`).
+- Authentication via `DefaultAzureCredential` (Azure AD) and `AzureKeyCredential`.
+- Voice customization: OpenAI voices, Azure standard / custom / personal voices, voice style, pitch, rate, volume, custom lexicon and text-normalization URLs, locale and `preferLocales`.
+- Avatar support including configuration types, photo-avatar base modes, video parameters, ICE servers, scenes, backgrounds, and avatar output protocols.
+- Image content support via `RequestImageContentPart` and `RequestImageContentPartDetail`.
+- Model Context Protocol (MCP) integration: server connection, approval workflow, tool listing, and streaming MCP call execution with the full event handler set.
+- Reasoning effort configuration (`ReasoningEffort`, `KnownReasoningEffort`).
+- Interim response configuration (`InterimResponseConfig`, `StaticInterimResponseConfig`, `LlmInterimResponseConfig`, triggers, and types).
+- Response `metadata` for arbitrary key-value pairs on `ResponseCreateParams` and `VoiceLiveResponse`.
+- Distributed tracing via `@azure/core-tracing`. Spans cover the session lifecycle (`connect`, `send`, `recv`, `close`) following [GenAI Semantic Conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/). See the [Telemetry / Distributed Tracing](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/README.md#telemetry--distributed-tracing) section in the README and the [`samples/telemetry/`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/samples/telemetry/README.md) and [`samples/telemetry-browser/`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/samples/telemetry-browser/README.md) samples.
+- Automatic proxy support via standard `HTTPS_PROXY` / `HTTP_PROXY` / `NO_PROXY` environment variables.
+- New types added in this GA release (API version `2026-04-10`):
+  - Voice: `AzureAvatarVoiceSyncVoice`.
+  - Session output control: `SessionIncludeOption`, `KnownSessionIncludeOption`.
+  - Output audio buffer control: `ClientEventOutputAudioBufferClear`, `ServerEventOutputAudioBufferCleared`.
+  - Web search tool: `ResponseWebSearchCallItem`, `ServerEventResponseWebSearchCallSearching`, `ServerEventResponseWebSearchCallInProgress`, `ServerEventResponseWebSearchCallCompleted`, `ActionSearch`, `ActionSearchSource`, `ActionOpenPage`, `ActionFind`.
+  - File search tool: `ResponseFileSearchCallItem`, `FileSearchResult`, `ServerEventResponseFileSearchCallSearching`, `ServerEventResponseFileSearchCallInProgress`, `ServerEventResponseFileSearchCallCompleted`.
+  - Avatar speaking-state events: `ServerEventSessionAvatarSwitchToSpeaking`, `ServerEventSessionAvatarSwitchToIdle`, `ServerEventResponseVideoDelta`.
+  - Word- and phrase-level transcription: `TranscriptionPhrase`, `TranscriptionWord`.
+  - Annotated audio transcripts: `ServerEventResponseAudioTranscriptAnnotationAdded`.
+  - Server-side warnings: `ServerEventWarning`, `ServerEventWarningDetails`.
+
+### Breaking Changes
+
+- API version updated from `2026-01-01-preview` to `2026-04-10`.
+
+### Bugs Fixed
+
+- Fixed `voiceSerializer` to convert Azure voice properties (e.g. `endpointId`, `customLexiconUrl`) to snake_case wire format (`endpoint_id`, `custom_lexicon_url`).
+
+- Fixed `voiceSerializer` to convert Azure voice properties (e.g. `endpointId`, `customLexiconUrl`) to snake_case wire format (`endpoint_id`, `custom_lexicon_url`).
+
+### Other Changes
+
+- Cumulative GA entry; see prior beta entries below for the per-release history of features added across `1.0.0-beta.1` through `1.0.0-beta.4`.
+
+- Cumulative GA entry; see prior beta entries below for the per-release history of features added across `1.0.0-beta.1` through `1.0.0-beta.4`.
+
+## 1.0.0-beta.4 (2026-05-06)
+
+### Features Added
+
+- Added distributed tracing support via `@azure/core-tracing`. Spans are emitted for the session lifecycle (`connect`, `send`, `recv`, `close`) following [GenAI Semantic Conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/). Tracing is no-op by default and activates only when an OpenTelemetry tracer provider is registered — CommonJS apps can use the standard `@azure/opentelemetry-instrumentation-azure-sdk` bridge, while ESM and browser apps register an Instrumenter directly via `useInstrumenter`. See the [Telemetry / Distributed Tracing](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/README.md#telemetry--distributed-tracing) section in the README, plus the new [`samples/telemetry/`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/samples/telemetry/README.md) (Node.js ESM, console + Azure Monitor) and [`samples/telemetry-browser/`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/samples/telemetry-browser/README.md) (browser, Vite) samples.
 
 ### Bugs Fixed
 

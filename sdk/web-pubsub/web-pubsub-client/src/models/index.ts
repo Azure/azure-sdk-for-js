@@ -8,6 +8,9 @@ import type {
   DisconnectedMessage,
   GroupDataMessage,
   ServerDataMessage,
+  StreamDataError,
+  StreamInfo,
+  StreamEndError,
   WebPubSubDataType,
 } from "./messages.js";
 
@@ -50,6 +53,11 @@ export interface WebPubSubClientOptions {
    * (again, about 3x lower) so the timeout only triggers when multiple pings fail.
    */
   keepAliveIntervalInMs?: number;
+  /**
+   * Options that control how inbound group streams are tracked and dispatched
+   * to factories registered via `client.onGroupStream(...)`.
+   */
+  groupStreamOptions?: GroupStreamOptions;
 }
 
 /**
@@ -127,7 +135,7 @@ export interface LeaveGroupOptions {
  */
 export interface SendToGroupOptions {
   /**
-   * Whether the message needs to echo to sender
+   * Whether the message should not be echoed back to the sender.
    */
   noEcho?: boolean;
   /**
@@ -174,6 +182,90 @@ export interface InvokeEventOptions {
    * Optional abort signal to cancel the invocation.
    */
   abortSignal?: AbortSignalLike;
+}
+
+/**
+ * streamToGroup operation options.
+ */
+export interface StreamToGroupOptions {
+  /**
+   * Optional stream identifier. If not specified, client will generate one.
+   */
+  streamId?: string;
+  /**
+   * Whether the stream start message should not be echoed back to the sender.
+   * Default: false.
+   */
+  noEcho?: boolean;
+  /**
+   * Optional stream idle timeout in milliseconds.
+   */
+  idleTimeoutMs?: number;
+}
+
+/**
+ * Send stream data options.
+ */
+export interface SendStreamDataOptions {
+  /**
+   * Optional abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Send stream keepalive options.
+ */
+export interface SendStreamKeepaliveOptions {
+  /**
+   * Optional abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * End stream options.
+ */
+export interface EndStreamOptions {
+  /**
+   * Optional stream end error.
+   */
+  error?: StreamEndError;
+  /**
+   * Optional abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Stream publisher abstraction for sending one logical stream.
+ */
+export interface StreamPublisher {
+  /**
+   * Stream identifier.
+   */
+  readonly streamId: string;
+  /**
+   * Publish a stream fragment.
+   */
+  publish(
+    content: JSONTypes | ArrayBuffer,
+    dataType?: WebPubSubDataType,
+    options?: SendStreamDataOptions,
+  ): Promise<void>;
+  /**
+   * Send stream keepalive.
+   */
+  keepalive(options?: SendStreamKeepaliveOptions): Promise<void>;
+  /**
+   * Complete the stream.
+   */
+  complete(options?: EndStreamOptions): Promise<void>;
+  /**
+   * Register outbound stream error callback.
+   * Returns a function to unregister this callback.
+   */
+  onError(listener: (error: StreamDataError) => void): () => void;
 }
 
 /**
@@ -241,6 +333,110 @@ export interface OnRejoinGroupFailedArgs {
    * The failure error
    */
   error: Error;
+}
+
+/**
+ * Stream message delivered to a stream handler.
+ */
+export interface OnGroupStreamDataArgs {
+  /**
+   * Group name.
+   */
+  group: string;
+  /**
+   * Sender user id.
+   */
+  fromUserId: string;
+  /**
+   * Connection-scoped reliable sequence id.
+   */
+  sequenceId?: number;
+  /**
+   * Message data type.
+   */
+  dataType: WebPubSubDataType;
+  /**
+   * Message payload.
+   */
+  data: JSONTypes | ArrayBuffer;
+  /**
+   * Stream metadata.
+   */
+  stream: StreamInfo;
+}
+
+/**
+ * Stream terminal event.
+ */
+export interface OnGroupStreamEndArgs {
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Group name.
+   */
+  group: string;
+  /**
+   * Optional terminal error.
+   */
+  error?: StreamDataError;
+}
+
+/**
+ * Per-stream value object passed to a factory registered via
+ * `client.onGroupStream(...)`. * `GroupStream` instance is created per observed stream lifecycle. The factory returns a `GroupStreamHandler`
+ * whose callbacks consume that single stream.
+ */
+export interface OnGroupStreamArgs {
+  /**
+   * The group this stream belongs to.
+   */
+  readonly group: string;
+  /**
+   * The stream identifier assigned by the publisher.
+   */
+  readonly streamId: string;
+}
+
+/**
+ * Callbacks attached to a single inbound group stream. Returned by the factory
+ * registered via `client.onGroupStream(factory)`. All callbacks are optional.
+ */
+export interface GroupStreamHandler {
+  /**
+   * Called for each non-terminal data fragment.
+   */
+  onMessage?: (args: OnGroupStreamDataArgs) => void;
+  /**
+   * Called once when the stream completes successfully.
+   */
+  onComplete?: (args: OnGroupStreamEndArgs) => void;
+  /**
+   * Called once when the stream terminates with an error (including `IdleTimeout`).
+   */
+  onError?: (args: OnGroupStreamEndArgs) => void;
+}
+
+/**
+ * Client-wide options controlling how inbound group streams are tracked and
+ * dispatched to factories registered via `client.onGroupStream(...)`.
+ */
+export interface GroupStreamOptions {
+  /**
+   * Inactivity timeout in milliseconds for an active stream in the client-side registry.
+   * The timer is reset whenever a new stream fragment is received.
+   * If no fragment arrives within this duration, the stream is terminated with an `IdleTimeout` error.
+   * Default: 300000 (5 minutes).
+   */
+  ttlInMs?: number;
+  /**
+   * Whether to require the first observed fragment for a stream to start at `streamSequenceId === 1`.
+   * If true and the first observed fragment is mid-stream, that stream is ignored until its terminal
+   * frame arrives.
+   * Default: false.
+   */
+  handleFromStart?: boolean;
 }
 
 /**

@@ -19,11 +19,6 @@ export interface ProtectedItemsOperations {
    * Used to disable backup of an item within a container. This is an asynchronous operation. To know the status of the
    * request, call the GetItemOperationResult API.
    */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     vaultName: string,
     resourceGroupName: string,

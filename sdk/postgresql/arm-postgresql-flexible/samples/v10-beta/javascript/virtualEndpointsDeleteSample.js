@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a pair of virtual endpoints.
  *
  * @summary deletes a pair of virtual endpoints.
- * x-ms-original-file: 2026-01-01-preview/VirtualEndpointDelete.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualEndpointDelete.json
  */
 async function deleteAPairOfVirtualEndpoints() {
   const credential = new DefaultAzureCredential();

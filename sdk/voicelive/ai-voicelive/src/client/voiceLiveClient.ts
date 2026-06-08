@@ -12,6 +12,7 @@ import { VoiceLiveSession } from "./voiceLiveSession.js";
 import { logger } from "../logger.js";
 import type { SessionTarget } from "./types.js";
 import { isAgentSessionTarget, isModelSessionTarget } from "./types.js";
+import { DEFAULT_API_VERSION } from "../constants.js";
 
 export interface VoiceLiveClientOptions {
   /** API version to use for the Voice Live service */
@@ -56,7 +57,7 @@ export class VoiceLiveClient {
   /**
    * Creates a new VoiceLiveSession for real-time voice communication.
    *
-   * @param model - The model name to use for the session (e.g., "gpt-4o-realtime-preview")
+   * @param model - The model name to use for the session (e.g., "gpt-realtime")
    * @param sessionOptions - Optional configuration specific to this session
    * @returns A new VoiceLiveSession instance ready to connect
    */
@@ -78,7 +79,7 @@ export class VoiceLiveClient {
    * const endpoint = "https://your-resource.cognitiveservices.azure.com";
    * const client = new VoiceLiveClient(endpoint, credential);
    *
-   * const session = client.createSession({ model: "gpt-4o-realtime-preview" });
+   * const session = client.createSession({ model: "gpt-realtime" });
    * ```
    *
    * @example Agent-centric session
@@ -113,8 +114,10 @@ export class VoiceLiveClient {
     modelOrConfigOrTarget: string | RequestSession | SessionTarget,
     sessionOptions?: CreateSessionOptions,
   ): VoiceLiveSession {
-    // Merge default session options with provided options
+    // Merge default session options with provided options. The client's apiVersion
+    // serves as the base; defaultSessionOptions and per-call sessionOptions may override.
     const mergedOptions: VoiceLiveSessionOptions = {
+      apiVersion: this._options.apiVersion,
       ...this._options.defaultSessionOptions,
       ...sessionOptions,
     };
@@ -130,7 +133,6 @@ export class VoiceLiveClient {
       const session = new VoiceLiveSession(
         this._endpoint,
         this._credential,
-        this._options.apiVersion,
         modelOrConfigOrTarget,
         mergedOptions,
       );
@@ -144,7 +146,6 @@ export class VoiceLiveClient {
         const session = new VoiceLiveSession(
           this._endpoint,
           this._credential,
-          this._options.apiVersion,
           modelOrConfigOrTarget.model,
           mergedOptions,
         );
@@ -154,7 +155,6 @@ export class VoiceLiveClient {
         const session = new VoiceLiveSession(
           this._endpoint,
           this._credential,
-          this._options.apiVersion,
           modelOrConfigOrTarget.agent,
           mergedOptions,
         );
@@ -176,7 +176,6 @@ export class VoiceLiveClient {
     const session = new VoiceLiveSession(
       this._endpoint,
       this._credential,
-      this._options.apiVersion,
       requestSession.model,
       mergedOptions,
     );
@@ -223,7 +222,7 @@ export class VoiceLiveClient {
   /**
    * Creates and immediately connects a new VoiceLiveSession.
    *
-   * @param model - The model name to use for the session (e.g., "gpt-4o-realtime-preview")
+   * @param model - The model name to use for the session (e.g., "gpt-realtime")
    * @param sessionOptions - Optional configuration specific to this session
    * @returns A connected VoiceLiveSession instance
    */
@@ -248,7 +247,7 @@ export class VoiceLiveClient {
    * const endpoint = "https://your-resource.cognitiveservices.azure.com";
    * const client = new VoiceLiveClient(endpoint, credential);
    *
-   * const session = await client.startSession({ model: "gpt-4o-realtime-preview" });
+   * const session = await client.startSession({ model: "gpt-realtime" });
    * ```
    *
    * @example Agent-centric session
@@ -318,7 +317,7 @@ export class VoiceLiveClient {
 
   private _buildDefaultOptions(options: VoiceLiveClientOptions): Required<VoiceLiveClientOptions> {
     return {
-      apiVersion: options.apiVersion || "2025-10-01",
+      apiVersion: options.apiVersion || DEFAULT_API_VERSION,
       defaultSessionOptions: options.defaultSessionOptions || {},
     };
   }
