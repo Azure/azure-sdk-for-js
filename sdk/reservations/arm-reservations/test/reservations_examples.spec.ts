@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AzureReservationAPI } from "../src/azureReservationAPI.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -72,7 +73,7 @@ describe("Datafactory test", () => {
 
   it("quota list test", async () => {
     const resArray = new Array();
-    for await (let item of client.quota.list(subscriptionId, providerId, location)) {
+    for await (const item of client.quota.list(subscriptionId, providerId, location)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 108);
