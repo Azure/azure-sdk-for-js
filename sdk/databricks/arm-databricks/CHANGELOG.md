@@ -65,7 +65,6 @@ Compared with version 3.0.0
   - Operation Workspaces.beginUpdateAndWait has a new signature
   - Operation Workspaces.get has a new signature
   - Class AzureDatabricksManagementClient has a new signature
-  - Class AzureDatabricksManagementClient no longer has parameter subscriptionId
   - Removed Interface PrivateEndpointConnectionsList
   - Removed Interface PrivateLinkResourcesList
   - Removed Interface VirtualNetworkPeeringList
