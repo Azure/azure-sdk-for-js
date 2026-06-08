@@ -48,7 +48,7 @@ describe("Apimanagement test", () => {
     );
     location = "eastus";
     resourceGroupName = "SSS3PT_myjstest";
-    serviceName = "czwserviceyyy1";
+    serviceName = "czwserviceyyy2";
   });
 
   afterEach(async () => {
