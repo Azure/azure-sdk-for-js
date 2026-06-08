@@ -59,8 +59,6 @@ Compared with version 6.3.0
   - Operation IotHubResource.beginDeleteAndWait has a new signature
   - Operation IotHubResource.beginUpdateAndWait has a new signature
   - Operation IotHubResource.get has a new signature
-  - Class IotHubClient no longer has parameter apiVersion
-  - Class IotHubClient no longer has parameter subscriptionId
   - Removed Interface CertificateBodyDescription
   - Removed Interface IotHubResourceGetEndpointHealthOptionalParams
   - Removed Interface IotHubResourceGetQuotaMetricsOptionalParams
