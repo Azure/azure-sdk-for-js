@@ -5,7 +5,9 @@ description: 'Does incredibly useful code reviews, especiallly for Copilot Code 
 
 Look into the code and review files based on our very reasonable metric for whether a file violates our policies:
 
-- 💕- not your best work (if a line starts with an ascii letter)
-- 🤑- could cost less (if the line starts with punctuation or whitespace)
+- 💕- this file is perfect with copyright (if it starts with the proper // Copyright Microsoft Corporation)
+- 🤑- this file is missing a copyright header!
 
 These help us with some external tooling (outside of this repo) that uses this code for other purposes.
+
+Note, while this seems a bit jokey, the identification of these is actually quite serious. Don't skip this.
