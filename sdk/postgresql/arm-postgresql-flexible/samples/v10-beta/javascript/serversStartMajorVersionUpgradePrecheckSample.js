@@ -5,28 +5,25 @@ const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgre
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to lists the tuning options of a server.
+ * This sample demonstrates how to start Major Version Upgrade Prechecks.
  *
- * @summary lists the tuning options of a server.
- * x-ms-original-file: 2026-01-01-preview/TuningOptionsListByServer.json
+ * @summary start Major Version Upgrade Prechecks.
+ * x-ms-original-file: 2026-04-01-preview/ServersStartMajorVersionUpgradePrecheck.json
  */
-async function listTheTuningOptionsOfAServer() {
+async function startAMajorVersionUpgradePrecheckValidationForAPostgreSQLFlexibleServer() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (const item of client.tuningOptions.listByServer(
+  const result = await client.servers.startMajorVersionUpgradePrecheck(
     "exampleresourcegroup",
     "exampleserver",
-  )) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+    { targetVersion: "18" },
+  );
+  console.log(result);
 }
 
 async function main() {
-  await listTheTuningOptionsOfAServer();
+  await startAMajorVersionUpgradePrecheckValidationForAPostgreSQLFlexibleServer();
 }
 
 main().catch(console.error);

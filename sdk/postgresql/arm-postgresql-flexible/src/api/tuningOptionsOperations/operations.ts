@@ -19,9 +19,9 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  TuningOptionsListRecommendationsOptionalParams,
-  TuningOptionsListByServerOptionalParams,
-  TuningOptionsGetOptionalParams,
+  TuningOptionsOperationsListRecommendationsOptionalParams,
+  TuningOptionsOperationsListByServerOptionalParams,
+  TuningOptionsOperationsGetOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -31,7 +31,7 @@ export function _listRecommendationsSend(
   resourceGroupName: string,
   serverName: string,
   tuningOption: TuningOptionParameterEnum,
-  options: TuningOptionsListRecommendationsOptionalParams = { requestOptions: {} },
+  options: TuningOptionsOperationsListRecommendationsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/tuningOptions/{tuningOption}/recommendations{?api%2Dversion,recommendationType}",
@@ -40,7 +40,7 @@ export function _listRecommendationsSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       tuningOption: tuningOption,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
       recommendationType: options?.recommendationType,
     },
     {
@@ -59,7 +59,9 @@ export async function _listRecommendationsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -73,7 +75,7 @@ export function listRecommendations(
   resourceGroupName: string,
   serverName: string,
   tuningOption: TuningOptionParameterEnum,
-  options: TuningOptionsListRecommendationsOptionalParams = { requestOptions: {} },
+  options: TuningOptionsOperationsListRecommendationsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ObjectRecommendation> {
   return buildPagedAsyncIterator(
     context,
@@ -83,7 +85,7 @@ export function listRecommendations(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   );
 }
@@ -92,7 +94,7 @@ export function _listByServerSend(
   context: Client,
   resourceGroupName: string,
   serverName: string,
-  options: TuningOptionsListByServerOptionalParams = { requestOptions: {} },
+  options: TuningOptionsOperationsListByServerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/tuningOptions{?api%2Dversion}",
@@ -100,7 +102,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -118,7 +120,9 @@ export async function _listByServerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -131,7 +135,7 @@ export function listByServer(
   context: Client,
   resourceGroupName: string,
   serverName: string,
-  options: TuningOptionsListByServerOptionalParams = { requestOptions: {} },
+  options: TuningOptionsOperationsListByServerOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<TuningOptions> {
   return buildPagedAsyncIterator(
     context,
@@ -141,7 +145,7 @@ export function listByServer(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   );
 }
@@ -151,7 +155,7 @@ export function _getSend(
   resourceGroupName: string,
   serverName: string,
   tuningOption: TuningOptionParameterEnum,
-  options: TuningOptionsGetOptionalParams = { requestOptions: {} },
+  options: TuningOptionsOperationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/tuningOptions/{tuningOption}{?api%2Dversion}",
@@ -160,7 +164,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       tuningOption: tuningOption,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,7 +180,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Tu
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -190,7 +196,7 @@ export async function get(
   resourceGroupName: string,
   serverName: string,
   tuningOption: TuningOptionParameterEnum,
-  options: TuningOptionsGetOptionalParams = { requestOptions: {} },
+  options: TuningOptionsOperationsGetOptionalParams = { requestOptions: {} },
 ): Promise<TuningOptions> {
   const result = await _getSend(context, resourceGroupName, serverName, tuningOption, options);
   return _getDeserialize(result);

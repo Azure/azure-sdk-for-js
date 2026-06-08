@@ -5,21 +5,25 @@ import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to gets the tuning options of a server.
+ * This sample demonstrates how to applies the maintenance event immediately.
  *
- * @summary gets the tuning options of a server.
- * x-ms-original-file: 2026-01-01-preview/TuningOptionsGet.json
+ * @summary applies the maintenance event immediately.
+ * x-ms-original-file: 2026-04-01-preview/MaintenanceEventsApplyNow.json
  */
-async function getTheTuningOptionsOfAServer(): Promise<void> {
+async function applyMaintenanceImmediatelyForAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.tuningOptions.get("exampleresourcegroup", "exampleserver", "index");
+  const result = await client.maintenanceEvents.applyNow(
+    "exampleresourcegroup",
+    "exampleserver",
+    "XXXX-111",
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getTheTuningOptionsOfAServer();
+  await applyMaintenanceImmediatelyForAServer();
 }
 
 main().catch(console.error);

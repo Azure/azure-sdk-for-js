@@ -5,28 +5,26 @@ import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to lists the tuning options of a server.
+ * This sample demonstrates how to reschedules a maintenance event to a new date and time.
  *
- * @summary lists the tuning options of a server.
- * x-ms-original-file: 2026-01-01-preview/TuningOptionsListByServer.json
+ * @summary reschedules a maintenance event to a new date and time.
+ * x-ms-original-file: 2026-04-01-preview/MaintenanceEventsReschedule.json
  */
-async function listTheTuningOptionsOfAServer(): Promise<void> {
+async function rescheduleAMaintenanceEventToANewDateAndTime(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (const item of client.tuningOptions.listByServer(
+  const result = await client.maintenanceEvents.reschedule(
     "exampleresourcegroup",
     "exampleserver",
-  )) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+    "XXXX-111",
+    { postponeToDateTime: new Date("2026-04-10T10:00:00+00:00") },
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {
-  await listTheTuningOptionsOfAServer();
+  await rescheduleAMaintenanceEventToANewDateAndTime();
 }
 
 main().catch(console.error);
