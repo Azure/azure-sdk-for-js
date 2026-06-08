@@ -161,7 +161,7 @@ export class DeveloperHubServiceClient {
     readonly pipeline: Pipeline;
     readonly template: TemplateOperations;
     readonly versionedTemplate: VersionedTemplateOperations;
-    readonly workflow: WorkflowOperations;
+    readonly workflowOperations: WorkflowOperationsOperations;
 }
 
 // @public
@@ -833,34 +833,38 @@ export interface Workflow extends TrackedResource {
 }
 
 // @public
-export interface WorkflowCreateOrUpdateOptionalParams extends OperationOptions {
+export interface WorkflowOperationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkflowDeleteOptionalParams extends OperationOptions {
+export interface WorkflowOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkflowGetOptionalParams extends OperationOptions {
+export interface WorkflowOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkflowListByResourceGroupOptionalParams extends OperationOptions {
+export interface WorkflowOperationsListByResourceGroupOptionalParams extends OperationOptions {
     managedClusterResource?: string;
 }
 
 // @public
-export interface WorkflowListOptionalParams extends OperationOptions {
+export interface WorkflowOperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkflowOperations {
-    createOrUpdate: (resourceGroupName: string, workflowName: string, parameters: Workflow, options?: WorkflowCreateOrUpdateOptionalParams) => Promise<Workflow>;
-    delete: (resourceGroupName: string, workflowName: string, options?: WorkflowDeleteOptionalParams) => Promise<DeleteWorkflowResponse | undefined>;
-    get: (resourceGroupName: string, workflowName: string, options?: WorkflowGetOptionalParams) => Promise<Workflow>;
-    list: (options?: WorkflowListOptionalParams) => PagedAsyncIterableIterator<Workflow>;
-    listByResourceGroup: (resourceGroupName: string, options?: WorkflowListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Workflow>;
-    updateTags: (resourceGroupName: string, workflowName: string, parameters: TagsObject, options?: WorkflowUpdateTagsOptionalParams) => Promise<Workflow>;
+export interface WorkflowOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, workflowName: string, parameters: Workflow, options?: WorkflowOperationsCreateOrUpdateOptionalParams) => Promise<Workflow>;
+    delete: (resourceGroupName: string, workflowName: string, options?: WorkflowOperationsDeleteOptionalParams) => Promise<DeleteWorkflowResponse | undefined>;
+    get: (resourceGroupName: string, workflowName: string, options?: WorkflowOperationsGetOptionalParams) => Promise<Workflow>;
+    list: (options?: WorkflowOperationsListOptionalParams) => PagedAsyncIterableIterator<Workflow>;
+    listByResourceGroup: (resourceGroupName: string, options?: WorkflowOperationsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Workflow>;
+    updateTags: (resourceGroupName: string, workflowName: string, parameters: TagsObject, options?: WorkflowOperationsUpdateTagsOptionalParams) => Promise<Workflow>;
+}
+
+// @public
+export interface WorkflowOperationsUpdateTagsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -881,10 +885,6 @@ export interface WorkflowRun {
 
 // @public
 export type WorkflowRunStatus = string;
-
-// @public
-export interface WorkflowUpdateTagsOptionalParams extends OperationOptions {
-}
 
 // (No @packageDocumentation comment for this package)
 

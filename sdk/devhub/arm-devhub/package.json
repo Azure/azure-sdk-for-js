@@ -90,18 +90,18 @@
         "default": "./dist/commonjs/api/adooAuth/index.js"
       }
     },
-    "./api/workflow": {
+    "./api/workflowOperations": {
       "browser": {
-        "types": "./dist/browser/api/workflow/index.d.ts",
-        "default": "./dist/browser/api/workflow/index.js"
+        "types": "./dist/browser/api/workflowOperations/index.d.ts",
+        "default": "./dist/browser/api/workflowOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/workflow/index.d.ts",
-        "default": "./dist/esm/api/workflow/index.js"
+        "types": "./dist/esm/api/workflowOperations/index.d.ts",
+        "default": "./dist/esm/api/workflowOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/workflow/index.d.ts",
-        "default": "./dist/commonjs/api/workflow/index.js"
+        "types": "./dist/commonjs/api/workflowOperations/index.d.ts",
+        "default": "./dist/commonjs/api/workflowOperations/index.js"
       }
     },
     "./api/iacProfiles": {

@@ -6,4 +6,4 @@ export type { IacProfilesOperations } from "./iacProfiles/index.js";
 export type { OperationsOperations } from "./operations/index.js";
 export type { TemplateOperations } from "./template/index.js";
 export type { VersionedTemplateOperations } from "./versionedTemplate/index.js";
-export type { WorkflowOperations } from "./workflow/index.js";
+export type { WorkflowOperationsOperations } from "./workflowOperations/index.js";

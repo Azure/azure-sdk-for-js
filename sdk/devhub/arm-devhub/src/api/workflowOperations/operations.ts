@@ -20,19 +20,19 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  WorkflowListOptionalParams,
-  WorkflowListByResourceGroupOptionalParams,
-  WorkflowDeleteOptionalParams,
-  WorkflowUpdateTagsOptionalParams,
-  WorkflowCreateOrUpdateOptionalParams,
-  WorkflowGetOptionalParams,
+  WorkflowOperationsListOptionalParams,
+  WorkflowOperationsListByResourceGroupOptionalParams,
+  WorkflowOperationsDeleteOptionalParams,
+  WorkflowOperationsUpdateTagsOptionalParams,
+  WorkflowOperationsCreateOrUpdateOptionalParams,
+  WorkflowOperationsGetOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
-  options: WorkflowListOptionalParams = { requestOptions: {} },
+  options: WorkflowOperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/workflows{?api%2Dversion}",
@@ -69,7 +69,7 @@ export async function _listDeserialize(
 /** Gets a list of workflows associated with the specified subscription. */
 export function list(
   context: Client,
-  options: WorkflowListOptionalParams = { requestOptions: {} },
+  options: WorkflowOperationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Workflow> {
   return buildPagedAsyncIterator(
     context,
@@ -87,7 +87,7 @@ export function list(
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: WorkflowListByResourceGroupOptionalParams = { requestOptions: {} },
+  options: WorkflowOperationsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows{?api%2Dversion,managedClusterResource}",
@@ -127,7 +127,7 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: WorkflowListByResourceGroupOptionalParams = { requestOptions: {} },
+  options: WorkflowOperationsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Workflow> {
   return buildPagedAsyncIterator(
     context,
@@ -146,7 +146,7 @@ export function _$deleteSend(
   context: Client,
   resourceGroupName: string,
   workflowName: string,
-  options: WorkflowDeleteOptionalParams = { requestOptions: {} },
+  options: WorkflowOperationsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}{?api%2Dversion}",
@@ -187,7 +187,7 @@ export async function $delete(
   context: Client,
   resourceGroupName: string,
   workflowName: string,
-  options: WorkflowDeleteOptionalParams = { requestOptions: {} },
+  options: WorkflowOperationsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<DeleteWorkflowResponse | undefined> {
   const result = await _$deleteSend(context, resourceGroupName, workflowName, options);
   return _$deleteDeserialize(result);
@@ -198,7 +198,7 @@ export function _updateTagsSend(
   resourceGroupName: string,
   workflowName: string,
   parameters: TagsObject,
-  options: WorkflowUpdateTagsOptionalParams = { requestOptions: {} },
+  options: WorkflowOperationsUpdateTagsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}{?api%2Dversion}",
@@ -240,7 +240,7 @@ export async function updateTags(
   resourceGroupName: string,
   workflowName: string,
   parameters: TagsObject,
-  options: WorkflowUpdateTagsOptionalParams = { requestOptions: {} },
+  options: WorkflowOperationsUpdateTagsOptionalParams = { requestOptions: {} },
 ): Promise<Workflow> {
   const result = await _updateTagsSend(
     context,
@@ -257,7 +257,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   workflowName: string,
   parameters: Workflow,
-  options: WorkflowCreateOrUpdateOptionalParams = { requestOptions: {} },
+  options: WorkflowOperationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}{?api%2Dversion}",
@@ -299,7 +299,7 @@ export async function createOrUpdate(
   resourceGroupName: string,
   workflowName: string,
   parameters: Workflow,
-  options: WorkflowCreateOrUpdateOptionalParams = { requestOptions: {} },
+  options: WorkflowOperationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Workflow> {
   const result = await _createOrUpdateSend(
     context,
@@ -315,7 +315,7 @@ export function _getSend(
   context: Client,
   resourceGroupName: string,
   workflowName: string,
-  options: WorkflowGetOptionalParams = { requestOptions: {} },
+  options: WorkflowOperationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}{?api%2Dversion}",
@@ -354,7 +354,7 @@ export async function get(
   context: Client,
   resourceGroupName: string,
   workflowName: string,
-  options: WorkflowGetOptionalParams = { requestOptions: {} },
+  options: WorkflowOperationsGetOptionalParams = { requestOptions: {} },
 ): Promise<Workflow> {
   const result = await _getSend(context, resourceGroupName, workflowName, options);
   return _getDeserialize(result);

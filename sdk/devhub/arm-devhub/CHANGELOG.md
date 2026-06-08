@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.5 (2026-06-04)
+## 1.0.0-beta.5 (2026-06-08)
 Compared with version 1.0.0-beta.3
 
 ### Features Added
@@ -63,6 +63,12 @@ Compared with version 1.0.0-beta.3
   - Added Interface VersionedTemplateGetOptionalParams
   - Added Interface VersionedTemplateListOptionalParams
   - Added Interface VersionedTemplateProperties
+  - Added Interface WorkflowOperationsCreateOrUpdateOptionalParams
+  - Added Interface WorkflowOperationsDeleteOptionalParams
+  - Added Interface WorkflowOperationsGetOptionalParams
+  - Added Interface WorkflowOperationsListByResourceGroupOptionalParams
+  - Added Interface WorkflowOperationsListOptionalParams
+  - Added Interface WorkflowOperationsUpdateTagsOptionalParams
   - Added Interface WorkflowProperties
   - Interface GitHubOAuthResponse has a new optional parameter properties
   - Interface Workflow has a new optional parameter properties
@@ -84,7 +90,12 @@ Compared with version 1.0.0-beta.3
 ### Breaking Changes
   - Class DeveloperHubServiceClient no longer has parameter apiVersion
   - Class DeveloperHubServiceClient no longer has parameter subscriptionId
-  - Class DeveloperHubServiceClient no longer has parameter workflowOperations
+  - Removed Interface WorkflowCreateOrUpdateOptionalParams
+  - Removed Interface WorkflowDeleteOptionalParams
+  - Removed Interface WorkflowGetOptionalParams
+  - Removed Interface WorkflowListByResourceGroupOptionalParams
+  - Removed Interface WorkflowListOptionalParams
+  - Removed Interface WorkflowUpdateTagsOptionalParams
   - Interface GitHubOAuthResponse no longer has parameter username
   - Interface Workflow no longer has parameter acr
   - Interface Workflow no longer has parameter aksResourceId

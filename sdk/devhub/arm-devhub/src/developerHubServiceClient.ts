@@ -30,8 +30,8 @@ import type { TemplateOperations } from "./classic/template/index.js";
 import { _getTemplateOperations } from "./classic/template/index.js";
 import type { VersionedTemplateOperations } from "./classic/versionedTemplate/index.js";
 import { _getVersionedTemplateOperations } from "./classic/versionedTemplate/index.js";
-import type { WorkflowOperations } from "./classic/workflow/index.js";
-import { _getWorkflowOperations } from "./classic/workflow/index.js";
+import type { WorkflowOperationsOperations } from "./classic/workflowOperations/index.js";
+import { _getWorkflowOperationsOperations } from "./classic/workflowOperations/index.js";
 import type {
   ArtifactGenerationProperties,
   GitHubOAuthResponse,
@@ -82,7 +82,7 @@ export class DeveloperHubServiceClient {
     this.versionedTemplate = _getVersionedTemplateOperations(this._client);
     this.template = _getTemplateOperations(this._client);
     this.adooAuth = _getAdooAuthOperations(this._client);
-    this.workflow = _getWorkflowOperations(this._client);
+    this.workflowOperations = _getWorkflowOperationsOperations(this._client);
     this.iacProfiles = _getIacProfilesOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
@@ -136,8 +136,8 @@ export class DeveloperHubServiceClient {
   public readonly template: TemplateOperations;
   /** The operation groups for adooAuth */
   public readonly adooAuth: AdooAuthOperations;
-  /** The operation groups for workflow */
-  public readonly workflow: WorkflowOperations;
+  /** The operation groups for workflowOperations */
+  public readonly workflowOperations: WorkflowOperationsOperations;
   /** The operation groups for iacProfiles */
   public readonly iacProfiles: IacProfilesOperations;
   /** The operation groups for operations */

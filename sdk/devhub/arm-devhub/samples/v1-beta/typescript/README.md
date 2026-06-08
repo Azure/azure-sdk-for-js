@@ -26,12 +26,6 @@ These sample programs show how to use the TypeScript client libraries for @azure
 | [versionedTemplateGenerateSample.ts][versionedtemplategeneratesample]           | generates a VersionedTemplate. x-ms-original-file: 2025-03-01-preview/VersionedTemplate_Generate.json                                                             |
 | [versionedTemplateGetSample.ts][versionedtemplategetsample]                     | gets a VersionedTemplate. x-ms-original-file: 2025-03-01-preview/VersionedTemplate_Get.json                                                                       |
 | [versionedTemplateListSample.ts][versionedtemplatelistsample]                   | gets a list of VersionedTemplate. x-ms-original-file: 2025-03-01-preview/VersionedTemplate_List.json                                                              |
-| [workflowCreateOrUpdateSample.ts][workflowcreateorupdatesample]                 | creates or updates a workflow x-ms-original-file: 2025-03-01-preview/Workflow_CreateOrUpdate.json                                                                 |
-| [workflowDeleteSample.ts][workflowdeletesample]                                 | deletes a workflow x-ms-original-file: 2025-03-01-preview/Workflow_Delete.json                                                                                    |
-| [workflowGetSample.ts][workflowgetsample]                                       | gets a workflow. x-ms-original-file: 2025-03-01-preview/Workflow_Get.json                                                                                         |
-| [workflowListByResourceGroupSample.ts][workflowlistbyresourcegroupsample]       | gets a list of workflows within a resource group. x-ms-original-file: 2025-03-01-preview/Workflow_ListByResourceGroup.json                                        |
-| [workflowListSample.ts][workflowlistsample]                                     | gets a list of workflows associated with the specified subscription. x-ms-original-file: 2025-03-01-preview/Workflow_List.json                                    |
-| [workflowUpdateTagsSample.ts][workflowupdatetagssample]                         | updates tags on a workflow. x-ms-original-file: 2025-03-01-preview/Workflow_UpdateTags.json                                                                       |
 
 ## Prerequisites
 
@@ -105,12 +99,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [versionedtemplategeneratesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/versionedTemplateGenerateSample.ts
 [versionedtemplategetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/versionedTemplateGetSample.ts
 [versionedtemplatelistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/versionedTemplateListSample.ts
-[workflowcreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/workflowCreateOrUpdateSample.ts
-[workflowdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/workflowDeleteSample.ts
-[workflowgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/workflowGetSample.ts
-[workflowlistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/workflowListByResourceGroupSample.ts
-[workflowlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/workflowListSample.ts
-[workflowupdatetagssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/workflowUpdateTagsSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-devhub?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devhub/arm-devhub/README.md

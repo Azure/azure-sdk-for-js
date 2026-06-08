@@ -26,12 +26,6 @@ These sample programs show how to use the JavaScript client libraries for @azure
 | [versionedTemplateGenerateSample.js][versionedtemplategeneratesample]           | generates a VersionedTemplate. x-ms-original-file: 2025-03-01-preview/VersionedTemplate_Generate.json                                                             |
 | [versionedTemplateGetSample.js][versionedtemplategetsample]                     | gets a VersionedTemplate. x-ms-original-file: 2025-03-01-preview/VersionedTemplate_Get.json                                                                       |
 | [versionedTemplateListSample.js][versionedtemplatelistsample]                   | gets a list of VersionedTemplate. x-ms-original-file: 2025-03-01-preview/VersionedTemplate_List.json                                                              |
-| [workflowCreateOrUpdateSample.js][workflowcreateorupdatesample]                 | creates or updates a workflow x-ms-original-file: 2025-03-01-preview/Workflow_CreateOrUpdate.json                                                                 |
-| [workflowDeleteSample.js][workflowdeletesample]                                 | deletes a workflow x-ms-original-file: 2025-03-01-preview/Workflow_Delete.json                                                                                    |
-| [workflowGetSample.js][workflowgetsample]                                       | gets a workflow. x-ms-original-file: 2025-03-01-preview/Workflow_Get.json                                                                                         |
-| [workflowListByResourceGroupSample.js][workflowlistbyresourcegroupsample]       | gets a list of workflows within a resource group. x-ms-original-file: 2025-03-01-preview/Workflow_ListByResourceGroup.json                                        |
-| [workflowListSample.js][workflowlistsample]                                     | gets a list of workflows associated with the specified subscription. x-ms-original-file: 2025-03-01-preview/Workflow_List.json                                    |
-| [workflowUpdateTagsSample.js][workflowupdatetagssample]                         | updates tags on a workflow. x-ms-original-file: 2025-03-01-preview/Workflow_UpdateTags.json                                                                       |
 
 ## Prerequisites
 
@@ -93,12 +87,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [versionedtemplategeneratesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/javascript/versionedTemplateGenerateSample.js
 [versionedtemplategetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/javascript/versionedTemplateGetSample.js
 [versionedtemplatelistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/javascript/versionedTemplateListSample.js
-[workflowcreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/javascript/workflowCreateOrUpdateSample.js
-[workflowdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/javascript/workflowDeleteSample.js
-[workflowgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/javascript/workflowGetSample.js
-[workflowlistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/javascript/workflowListByResourceGroupSample.js
-[workflowlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/javascript/workflowListSample.js
-[workflowupdatetagssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/javascript/workflowUpdateTagsSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-devhub?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devhub/arm-devhub/README.md

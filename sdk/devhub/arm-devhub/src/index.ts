@@ -138,20 +138,20 @@ export type {
   VersionedTemplateGetOptionalParams,
 } from "./api/versionedTemplate/index.js";
 export type {
-  WorkflowListOptionalParams,
-  WorkflowListByResourceGroupOptionalParams,
-  WorkflowDeleteOptionalParams,
-  WorkflowUpdateTagsOptionalParams,
-  WorkflowCreateOrUpdateOptionalParams,
-  WorkflowGetOptionalParams,
-} from "./api/workflow/index.js";
+  WorkflowOperationsListOptionalParams,
+  WorkflowOperationsListByResourceGroupOptionalParams,
+  WorkflowOperationsDeleteOptionalParams,
+  WorkflowOperationsUpdateTagsOptionalParams,
+  WorkflowOperationsCreateOrUpdateOptionalParams,
+  WorkflowOperationsGetOptionalParams,
+} from "./api/workflowOperations/index.js";
 export type {
   AdooAuthOperations,
   IacProfilesOperations,
   OperationsOperations,
   TemplateOperations,
   VersionedTemplateOperations,
-  WorkflowOperations,
+  WorkflowOperationsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
