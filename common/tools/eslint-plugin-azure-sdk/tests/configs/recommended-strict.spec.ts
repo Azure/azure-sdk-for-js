@@ -75,6 +75,7 @@ describe("recommendedStrictDelta", () => {
       expect(rules["sonarjs/no-duplicate-string"]).toBe("off");
       expect(rules["sonarjs/no-commented-code"]).toBe("off");
       expect(rules["sonarjs/todo-tag"]).toBe("off");
+      expect(rules["sonarjs/assertions-in-tests"]).toBe("off");
     });
 
     it("should keep sonarjs/no-hardcoded-ip as warn", () => {

@@ -110,7 +110,7 @@ The strict preset requires `eslint-plugin-sonarjs` (peer dependency — add it e
 - **Errors thrown / caught** — `no-empty` (no allowEmptyCatch), `@typescript-eslint/only-throw-error`, `@typescript-eslint/use-unknown-in-catch-callback-variable`, `@typescript-eslint/prefer-promise-reject-errors` (type-checked)
 - **Async safety** — `no-await-in-loop` (warn), `no-promise-executor-return`, `require-atomic-updates`, `@typescript-eslint/return-await` (type-checked)
 - **Dead / redundant code** — `no-useless-rename`, `no-useless-return`, `no-useless-concat`, `@typescript-eslint/no-unnecessary-condition`, `@typescript-eslint/no-unnecessary-type-arguments`, `@typescript-eslint/no-unnecessary-template-expression` (type-checked)
-- **sonarjs code-smell rules** — Full `sonarjs/recommended` config with select high-noise rules silenced (`no-duplicate-string`, `no-commented-code`, `todo-tag`)
+- **sonarjs code-smell rules** — Full `sonarjs/recommended` config with select high-noise rules silenced (`no-duplicate-string`, `no-commented-code`, `todo-tag`, `assertions-in-tests`)
 
 ### Custom Entry Point
 

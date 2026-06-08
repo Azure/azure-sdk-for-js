@@ -40,6 +40,10 @@ export function recommendedStrictDelta(options: { typeChecked: boolean }): FlatC
       "sonarjs/no-commented-code": "off",
       // we use TODO/FIXME comments as workflow markers
       "sonarjs/todo-tag": "off",
+      // vitest-style tests use assertions/matchers (e.g. `.rejects.toThrow`,
+      // `expect().toMatchObject`, custom helpers) that this rule doesn't
+      // recognize, producing too many false positives across the SDK tests.
+      "sonarjs/assertions-in-tests": "off",
       // keep as warn (security-relevant but noisy) — do NOT disable
       "sonarjs/no-hardcoded-ip": "warn",
       // override sonarjs default with our tighter threshold
