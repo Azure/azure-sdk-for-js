@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.DBforPostgreSQL": "2026-04-01-preview"
   },
-  "emitterVersion": "0.54.0",
+  "emitterVersion": "0.54.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.DBforPostgreSQL",
     "CrossLanguageDefinitionId": {
@@ -231,9 +231,9 @@
       "@azure/arm-postgresql-flexible!NameAvailabilityOperations#checkWithLocation:member": "Microsoft.DBforPostgreSQL.NameAvailabilityOperationGroup.checkWithLocation",
       "@azure/arm-postgresql-flexible!NameAvailabilityOperations#checkGlobally:member": "Microsoft.DBforPostgreSQL.NameAvailabilityOperationGroup.checkGlobally",
       "@azure/arm-postgresql-flexible!CapabilitiesByLocationOperations#list:member": "Microsoft.DBforPostgreSQL.CapabilitiesByLocationOperationGroup.list",
-      "@azure/arm-postgresql-flexible!TuningOptionsOperations#listRecommendations:member": "Microsoft.DBforPostgreSQL.TuningOptionsOperationGroup.listRecommendations",
-      "@azure/arm-postgresql-flexible!TuningOptionsOperations#listByServer:member": "Microsoft.DBforPostgreSQL.TuningOptionsOperationGroup.listByServer",
-      "@azure/arm-postgresql-flexible!TuningOptionsOperations#get:member": "Microsoft.DBforPostgreSQL.TuningOptionsOperationGroup.get",
+      "@azure/arm-postgresql-flexible!TuningOptionsOperationsOperations#listRecommendations:member": "Microsoft.DBforPostgreSQL.TuningOptionsOperationGroup.listRecommendations",
+      "@azure/arm-postgresql-flexible!TuningOptionsOperationsOperations#listByServer:member": "Microsoft.DBforPostgreSQL.TuningOptionsOperationGroup.listByServer",
+      "@azure/arm-postgresql-flexible!TuningOptionsOperationsOperations#get:member": "Microsoft.DBforPostgreSQL.TuningOptionsOperationGroup.get",
       "@azure/arm-postgresql-flexible!BackupsAutomaticAndOnDemandOperations#listByServer:member": "Microsoft.DBforPostgreSQL.BackupAutomaticAndOnDemands.listByServer",
       "@azure/arm-postgresql-flexible!BackupsAutomaticAndOnDemandOperations#delete:member": "Microsoft.DBforPostgreSQL.BackupAutomaticAndOnDemands.delete",
       "@azure/arm-postgresql-flexible!BackupsAutomaticAndOnDemandOperations#create:member": "Microsoft.DBforPostgreSQL.BackupAutomaticAndOnDemands.create",

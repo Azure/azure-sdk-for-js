@@ -1810,7 +1810,7 @@ export class PostgreSQLManagementFlexibleServerClient {
     readonly replicas: ReplicasOperations;
     readonly servers: ServersOperations;
     readonly serverThreatProtectionSettings: ServerThreatProtectionSettingsOperations;
-    readonly tuningOptions: TuningOptionsOperations;
+    readonly tuningOptionsOperations: TuningOptionsOperationsOperations;
     readonly virtualEndpoints: VirtualEndpointsOperations;
     readonly virtualNetworkSubnetUsage: VirtualNetworkSubnetUsageOperations;
 }
@@ -2427,23 +2427,23 @@ export interface TuningOptions extends ProxyResource {
 }
 
 // @public
-export interface TuningOptionsGetOptionalParams extends OperationOptions {
+export interface TuningOptionsOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TuningOptionsListByServerOptionalParams extends OperationOptions {
+export interface TuningOptionsOperationsListByServerOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TuningOptionsListRecommendationsOptionalParams extends OperationOptions {
+export interface TuningOptionsOperationsListRecommendationsOptionalParams extends OperationOptions {
     recommendationType?: RecommendationTypeParameterEnum;
 }
 
 // @public
-export interface TuningOptionsOperations {
-    get: (resourceGroupName: string, serverName: string, tuningOption: TuningOptionParameterEnum, options?: TuningOptionsGetOptionalParams) => Promise<TuningOptions>;
-    listByServer: (resourceGroupName: string, serverName: string, options?: TuningOptionsListByServerOptionalParams) => PagedAsyncIterableIterator<TuningOptions>;
-    listRecommendations: (resourceGroupName: string, serverName: string, tuningOption: TuningOptionParameterEnum, options?: TuningOptionsListRecommendationsOptionalParams) => PagedAsyncIterableIterator<ObjectRecommendation>;
+export interface TuningOptionsOperationsOperations {
+    get: (resourceGroupName: string, serverName: string, tuningOption: TuningOptionParameterEnum, options?: TuningOptionsOperationsGetOptionalParams) => Promise<TuningOptions>;
+    listByServer: (resourceGroupName: string, serverName: string, options?: TuningOptionsOperationsListByServerOptionalParams) => PagedAsyncIterableIterator<TuningOptions>;
+    listRecommendations: (resourceGroupName: string, serverName: string, tuningOption: TuningOptionParameterEnum, options?: TuningOptionsOperationsListRecommendationsOptionalParams) => PagedAsyncIterableIterator<ObjectRecommendation>;
 }
 
 // @public

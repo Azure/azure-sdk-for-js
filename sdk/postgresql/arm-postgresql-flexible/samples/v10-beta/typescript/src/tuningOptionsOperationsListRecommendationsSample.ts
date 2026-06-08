@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to lists available object recommendations.
@@ -10,12 +10,12 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary lists available object recommendations.
  * x-ms-original-file: 2026-04-01-preview/TuningOptionsListIndexRecommendations.json
  */
-async function listAvailableIndexRecommendations() {
+async function listAvailableIndexRecommendations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.tuningOptions.listRecommendations(
+  for await (const item of client.tuningOptionsOperations.listRecommendations(
     "exampleresourcegroup",
     "exampleserver",
     "index",
@@ -32,12 +32,12 @@ async function listAvailableIndexRecommendations() {
  * @summary lists available object recommendations.
  * x-ms-original-file: 2026-04-01-preview/TuningOptionsListIndexRecommendationsFilteredForCreateIndex.json
  */
-async function listAvailableIndexRecommendationsFilteredToExclusivelyGetThoseOfCreateIndexType() {
+async function listAvailableIndexRecommendationsFilteredToExclusivelyGetThoseOfCreateIndexType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.tuningOptions.listRecommendations(
+  for await (const item of client.tuningOptionsOperations.listRecommendations(
     "exampleresourcegroup",
     "exampleserver",
     "index",
@@ -55,12 +55,12 @@ async function listAvailableIndexRecommendationsFilteredToExclusivelyGetThoseOfC
  * @summary lists available object recommendations.
  * x-ms-original-file: 2026-04-01-preview/TuningOptionsListTableRecommendations.json
  */
-async function listAvailableTableRecommendations() {
+async function listAvailableTableRecommendations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.tuningOptions.listRecommendations(
+  for await (const item of client.tuningOptionsOperations.listRecommendations(
     "exampleresourcegroup",
     "exampleserver",
     "table",
@@ -77,12 +77,12 @@ async function listAvailableTableRecommendations() {
  * @summary lists available object recommendations.
  * x-ms-original-file: 2026-04-01-preview/TuningOptionsListTableRecommendationsFilteredForAnalyzeTable.json
  */
-async function listAvailableTableRecommendationsFilteredToExclusivelyGetThoseOfAnalyzeTableType() {
+async function listAvailableTableRecommendationsFilteredToExclusivelyGetThoseOfAnalyzeTableType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.tuningOptions.listRecommendations(
+  for await (const item of client.tuningOptionsOperations.listRecommendations(
     "exampleresourcegroup",
     "exampleserver",
     "table",
@@ -94,7 +94,7 @@ async function listAvailableTableRecommendationsFilteredToExclusivelyGetThoseOfA
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listAvailableIndexRecommendations();
   await listAvailableIndexRecommendationsFilteredToExclusivelyGetThoseOfCreateIndexType();
   await listAvailableTableRecommendations();

@@ -15,7 +15,7 @@ async function listTheTuningOptionsOfAServer(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.tuningOptions.listByServer(
+  for await (const item of client.tuningOptionsOperations.listByServer(
     "exampleresourcegroup",
     "exampleserver",
   )) {

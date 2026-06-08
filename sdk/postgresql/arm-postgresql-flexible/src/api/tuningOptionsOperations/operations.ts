@@ -19,9 +19,9 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  TuningOptionsListRecommendationsOptionalParams,
-  TuningOptionsListByServerOptionalParams,
-  TuningOptionsGetOptionalParams,
+  TuningOptionsOperationsListRecommendationsOptionalParams,
+  TuningOptionsOperationsListByServerOptionalParams,
+  TuningOptionsOperationsGetOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -31,7 +31,7 @@ export function _listRecommendationsSend(
   resourceGroupName: string,
   serverName: string,
   tuningOption: TuningOptionParameterEnum,
-  options: TuningOptionsListRecommendationsOptionalParams = { requestOptions: {} },
+  options: TuningOptionsOperationsListRecommendationsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/tuningOptions/{tuningOption}/recommendations{?api%2Dversion,recommendationType}",
@@ -75,7 +75,7 @@ export function listRecommendations(
   resourceGroupName: string,
   serverName: string,
   tuningOption: TuningOptionParameterEnum,
-  options: TuningOptionsListRecommendationsOptionalParams = { requestOptions: {} },
+  options: TuningOptionsOperationsListRecommendationsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ObjectRecommendation> {
   return buildPagedAsyncIterator(
     context,
@@ -94,7 +94,7 @@ export function _listByServerSend(
   context: Client,
   resourceGroupName: string,
   serverName: string,
-  options: TuningOptionsListByServerOptionalParams = { requestOptions: {} },
+  options: TuningOptionsOperationsListByServerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/tuningOptions{?api%2Dversion}",
@@ -135,7 +135,7 @@ export function listByServer(
   context: Client,
   resourceGroupName: string,
   serverName: string,
-  options: TuningOptionsListByServerOptionalParams = { requestOptions: {} },
+  options: TuningOptionsOperationsListByServerOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<TuningOptions> {
   return buildPagedAsyncIterator(
     context,
@@ -155,7 +155,7 @@ export function _getSend(
   resourceGroupName: string,
   serverName: string,
   tuningOption: TuningOptionParameterEnum,
-  options: TuningOptionsGetOptionalParams = { requestOptions: {} },
+  options: TuningOptionsOperationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/tuningOptions/{tuningOption}{?api%2Dversion}",
@@ -196,7 +196,7 @@ export async function get(
   resourceGroupName: string,
   serverName: string,
   tuningOption: TuningOptionParameterEnum,
-  options: TuningOptionsGetOptionalParams = { requestOptions: {} },
+  options: TuningOptionsOperationsGetOptionalParams = { requestOptions: {} },
 ): Promise<TuningOptions> {
   const result = await _getSend(context, resourceGroupName, serverName, tuningOption, options);
   return _getDeserialize(result);

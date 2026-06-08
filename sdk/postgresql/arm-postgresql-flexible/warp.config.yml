@@ -9,7 +9,7 @@ exports:
   "./api/privateDnsZoneSuffix": "./src/api/privateDnsZoneSuffix/index.ts"
   "./api/nameAvailability": "./src/api/nameAvailability/index.ts"
   "./api/capabilitiesByLocation": "./src/api/capabilitiesByLocation/index.ts"
-  "./api/tuningOptions": "./src/api/tuningOptions/index.ts"
+  "./api/tuningOptionsOperations": "./src/api/tuningOptionsOperations/index.ts"
   "./api/backupsAutomaticAndOnDemand": "./src/api/backupsAutomaticAndOnDemand/index.ts"
   "./api/serverThreatProtectionSettings": "./src/api/serverThreatProtectionSettings/index.ts"
   "./api/advancedThreatProtectionSettings": "./src/api/advancedThreatProtectionSettings/index.ts"

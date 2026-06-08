@@ -50,8 +50,8 @@ import type { ServerThreatProtectionSettingsOperations } from "./classic/serverT
 import { _getServerThreatProtectionSettingsOperations } from "./classic/serverThreatProtectionSettings/index.js";
 import type { ServersOperations } from "./classic/servers/index.js";
 import { _getServersOperations } from "./classic/servers/index.js";
-import type { TuningOptionsOperations } from "./classic/tuningOptions/index.js";
-import { _getTuningOptionsOperations } from "./classic/tuningOptions/index.js";
+import type { TuningOptionsOperationsOperations } from "./classic/tuningOptionsOperations/index.js";
+import { _getTuningOptionsOperationsOperations } from "./classic/tuningOptionsOperations/index.js";
 import type { VirtualEndpointsOperations } from "./classic/virtualEndpoints/index.js";
 import { _getVirtualEndpointsOperations } from "./classic/virtualEndpoints/index.js";
 import type { VirtualNetworkSubnetUsageOperations } from "./classic/virtualNetworkSubnetUsage/index.js";
@@ -104,7 +104,7 @@ export class PostgreSQLManagementFlexibleServerClient {
     this.privateDnsZoneSuffix = _getPrivateDnsZoneSuffixOperations(this._client);
     this.nameAvailability = _getNameAvailabilityOperations(this._client);
     this.capabilitiesByLocation = _getCapabilitiesByLocationOperations(this._client);
-    this.tuningOptions = _getTuningOptionsOperations(this._client);
+    this.tuningOptionsOperations = _getTuningOptionsOperationsOperations(this._client);
     this.backupsAutomaticAndOnDemand = _getBackupsAutomaticAndOnDemandOperations(this._client);
     this.serverThreatProtectionSettings = _getServerThreatProtectionSettingsOperations(
       this._client,
@@ -140,8 +140,8 @@ export class PostgreSQLManagementFlexibleServerClient {
   public readonly nameAvailability: NameAvailabilityOperations;
   /** The operation groups for capabilitiesByLocation */
   public readonly capabilitiesByLocation: CapabilitiesByLocationOperations;
-  /** The operation groups for tuningOptions */
-  public readonly tuningOptions: TuningOptionsOperations;
+  /** The operation groups for tuningOptionsOperations */
+  public readonly tuningOptionsOperations: TuningOptionsOperationsOperations;
   /** The operation groups for backupsAutomaticAndOnDemand */
   public readonly backupsAutomaticAndOnDemand: BackupsAutomaticAndOnDemandOperations;
   /** The operation groups for serverThreatProtectionSettings */

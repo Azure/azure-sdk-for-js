@@ -14,7 +14,11 @@ async function getTheTuningOptionsOfAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.tuningOptions.get("exampleresourcegroup", "exampleserver", "index");
+  const result = await client.tuningOptionsOperations.get(
+    "exampleresourcegroup",
+    "exampleserver",
+    "index",
+  );
   console.log(result);
 }
 

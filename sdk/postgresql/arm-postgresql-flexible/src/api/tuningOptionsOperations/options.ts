@@ -5,13 +5,13 @@ import type { RecommendationTypeParameterEnum } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface TuningOptionsListRecommendationsOptionalParams extends OperationOptions {
+export interface TuningOptionsOperationsListRecommendationsOptionalParams extends OperationOptions {
   /** Recommendations list filter. Retrieves recommendations based on type. */
   recommendationType?: RecommendationTypeParameterEnum;
 }
 
 /** Optional parameters. */
-export interface TuningOptionsListByServerOptionalParams extends OperationOptions {}
+export interface TuningOptionsOperationsListByServerOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface TuningOptionsGetOptionalParams extends OperationOptions {}
+export interface TuningOptionsOperationsGetOptionalParams extends OperationOptions {}

@@ -3,7 +3,7 @@
 
 export { listRecommendations, listByServer, get } from "./operations.js";
 export type {
-  TuningOptionsListRecommendationsOptionalParams,
-  TuningOptionsListByServerOptionalParams,
-  TuningOptionsGetOptionalParams,
+  TuningOptionsOperationsListRecommendationsOptionalParams,
+  TuningOptionsOperationsListByServerOptionalParams,
+  TuningOptionsOperationsGetOptionalParams,
 } from "./options.js";

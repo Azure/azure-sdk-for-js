@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
-import { DefaultAzureCredential } from "@azure/identity";
+const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to lists the tuning options of a server.
@@ -10,12 +10,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary lists the tuning options of a server.
  * x-ms-original-file: 2026-04-01-preview/TuningOptionsListByServer.json
  */
-async function listTheTuningOptionsOfAServer(): Promise<void> {
+async function listTheTuningOptionsOfAServer() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.tuningOptions.listByServer(
+  for await (const item of client.tuningOptionsOperations.listByServer(
     "exampleresourcegroup",
     "exampleserver",
   )) {
@@ -25,7 +25,7 @@ async function listTheTuningOptionsOfAServer(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await listTheTuningOptionsOfAServer();
 }
 

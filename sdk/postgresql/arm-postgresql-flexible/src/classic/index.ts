@@ -23,6 +23,6 @@ export type { QuotaUsagesOperations } from "./quotaUsages/index.js";
 export type { ReplicasOperations } from "./replicas/index.js";
 export type { ServersOperations } from "./servers/index.js";
 export type { ServerThreatProtectionSettingsOperations } from "./serverThreatProtectionSettings/index.js";
-export type { TuningOptionsOperations } from "./tuningOptions/index.js";
+export type { TuningOptionsOperationsOperations } from "./tuningOptionsOperations/index.js";
 export type { VirtualEndpointsOperations } from "./virtualEndpoints/index.js";
 export type { VirtualNetworkSubnetUsageOperations } from "./virtualNetworkSubnetUsage/index.js";

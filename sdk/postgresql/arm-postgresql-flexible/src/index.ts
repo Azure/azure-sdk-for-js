@@ -376,10 +376,10 @@ export type {
 } from "./api/servers/index.js";
 export type { ServerThreatProtectionSettingsCreateOrUpdateOptionalParams } from "./api/serverThreatProtectionSettings/index.js";
 export type {
-  TuningOptionsListRecommendationsOptionalParams,
-  TuningOptionsListByServerOptionalParams,
-  TuningOptionsGetOptionalParams,
-} from "./api/tuningOptions/index.js";
+  TuningOptionsOperationsListRecommendationsOptionalParams,
+  TuningOptionsOperationsListByServerOptionalParams,
+  TuningOptionsOperationsGetOptionalParams,
+} from "./api/tuningOptionsOperations/index.js";
 export type {
   VirtualEndpointsListByServerOptionalParams,
   VirtualEndpointsDeleteOptionalParams,
@@ -411,7 +411,7 @@ export type {
   ReplicasOperations,
   ServersOperations,
   ServerThreatProtectionSettingsOperations,
-  TuningOptionsOperations,
+  TuningOptionsOperationsOperations,
   VirtualEndpointsOperations,
   VirtualNetworkSubnetUsageOperations,
 } from "./classic/index.js";

@@ -15,7 +15,7 @@ async function listAvailableIndexRecommendations(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.tuningOptions.listRecommendations(
+  for await (const item of client.tuningOptionsOperations.listRecommendations(
     "exampleresourcegroup",
     "exampleserver",
     "index",
@@ -37,7 +37,7 @@ async function listAvailableIndexRecommendationsFilteredToExclusivelyGetThoseOfC
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.tuningOptions.listRecommendations(
+  for await (const item of client.tuningOptionsOperations.listRecommendations(
     "exampleresourcegroup",
     "exampleserver",
     "index",
@@ -60,7 +60,7 @@ async function listAvailableTableRecommendations(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.tuningOptions.listRecommendations(
+  for await (const item of client.tuningOptionsOperations.listRecommendations(
     "exampleresourcegroup",
     "exampleserver",
     "table",
@@ -82,7 +82,7 @@ async function listAvailableTableRecommendationsFilteredToExclusivelyGetThoseOfA
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.tuningOptions.listRecommendations(
+  for await (const item of client.tuningOptionsOperations.listRecommendations(
     "exampleresourcegroup",
     "exampleserver",
     "table",

@@ -1,6 +1,6 @@
 # Release History
 
-## 10.0.0-beta.2 (2026-06-03)
+## 10.0.0-beta.2 (2026-06-08)
 Compared with version 9.0.0
 
 ### Features Added
@@ -80,6 +80,9 @@ Compared with version 9.0.0
   - Added Interface SimplePollerLike
   - Added Interface StartMajorVersionUpgradePrecheckRequest
   - Added Interface StartMajorVersionUpgradePrecheckResponse
+  - Added Interface TuningOptionsOperationsGetOptionalParams
+  - Added Interface TuningOptionsOperationsListByServerOptionalParams
+  - Added Interface TuningOptionsOperationsListRecommendationsOptionalParams
   - Added Interface TuningOptionsProperties
   - Added Interface UpgradeSequence
   - Added Interface VirtualEndpointResourceProperties
@@ -119,7 +122,6 @@ Compared with version 9.0.0
   - Operation VirtualEndpoints.beginDeleteAndWait has a new signature
   - Class PostgreSQLManagementFlexibleServerClient no longer has parameter apiVersion
   - Class PostgreSQLManagementFlexibleServerClient no longer has parameter subscriptionId
-  - Class PostgreSQLManagementFlexibleServerClient no longer has parameter tuningOptionsOperations
   - Removed Interface AdministratorMicrosoftEntraList
   - Removed Interface AdvancedThreatProtectionSettingsList
   - Removed Interface BackupAutomaticAndOnDemandList
@@ -136,7 +138,10 @@ Compared with version 9.0.0
   - Removed Interface PrivateLinkResourceList
   - Removed Interface QuotaUsageList
   - Removed Interface ServerList
+  - Removed Interface TuningOptionsGetOptionalParams
   - Removed Interface TuningOptionsList
+  - Removed Interface TuningOptionsListByServerOptionalParams
+  - Removed Interface TuningOptionsListRecommendationsOptionalParams
   - Removed Interface VirtualEndpointsList
   - Type of parameter properties of interface Operation is changed from {
         [propertyName: string]: Record<string, unknown>;
