@@ -88,8 +88,6 @@ Compared with version 1.0.0-beta.3
   - Enum KnownManifestType has a new value Kustomize
 
 ### Breaking Changes
-  - Class DeveloperHubServiceClient no longer has parameter apiVersion
-  - Class DeveloperHubServiceClient no longer has parameter subscriptionId
   - Removed Interface WorkflowCreateOrUpdateOptionalParams
   - Removed Interface WorkflowDeleteOptionalParams
   - Removed Interface WorkflowGetOptionalParams
