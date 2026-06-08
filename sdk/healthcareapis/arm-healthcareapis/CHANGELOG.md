@@ -51,8 +51,6 @@ Compared with version 3.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Class HealthcareApisManagementClient no longer has parameter apiVersion
-  - Class HealthcareApisManagementClient no longer has parameter subscriptionId
   - Removed Interface DicomServiceCollection
   - Removed Interface FhirServiceCollection
   - Removed Interface IotConnectorCollection
