@@ -85,8 +85,6 @@ Compared with version 8.2.0
   - Operation Caches.beginStopPrimingJobAndWait has a new signature
   - Operation ExpansionJobs.beginDeleteAndWait has a new signature
   - Operation ImportJobs.beginDeleteAndWait has a new signature
-  - Class StorageCacheManagementClient no longer has parameter apiVersion
-  - Class StorageCacheManagementClient no longer has parameter subscriptionId
   - Removed Interface StorageTargetFlushOptionalParams
   - Removed Interface StorageTargetInvalidateOptionalParams
   - Removed Interface StorageTargetResource
