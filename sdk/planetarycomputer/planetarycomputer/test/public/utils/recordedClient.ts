@@ -29,10 +29,10 @@ const recorderStartOptions: RecorderStartOptions = {
   ],
   sanitizerOptions: {
     generalSanitizers: [
-      // Blob storage URLs (must come BEFORE geocatalog to prevent geocatalog regex from eating blob URLs)
+      // Blob storage URLs — exclude naipeuwest (public NAIP storage account used in test assets)
       {
         regex: true,
-        target: `https://[a-z0-9]+\\.blob\\.core\\.windows\\.net`,
+        target: `https://(?!naipeuwest\\.blob\\.core\\.windows\\.net)[a-z0-9]+\\.blob\\.core\\.windows\\.net`,
         value: "https://Sanitized.blob.core.windows.net",
       },
       {
@@ -42,16 +42,42 @@ const recorderStartOptions: RecorderStartOptions = {
       },
       {
         regex: true,
+        target: `https://[^/\\s"]+\\.geocatalog[^/\\s"]*\\.azure\\.com`,
+        value: "https://Sanitized.geocatalogs.azure.com",
+      },
+      {
+        regex: true,
         target: `https://[^/\\s"]+\\.geocatalogs\\.azure\\.com`,
         value: "https://Sanitized.geocatalogs.azure.com",
       },
     ],
     uriSanitizers: [
-      // Blob storage URLs in query parameters (URL-encoded)
+      // Blob storage URLs in query parameters (URL-encoded) — exclude naipeuwest
       {
         regex: true,
-        target: `https%3A%2F%2F[a-z0-9]+\\.blob\\.core\\.windows\\.net`,
+        target: `https%3A%2F%2F(?!naipeuwest%2Eblob%2Ecore%2Ewindows%2Enet)[a-z0-9]+\\.blob\\.core\\.windows\\.net`,
         value: "https%3A%2F%2FSanitized.blob.core.windows.net",
+      },
+      // Sanitize UUIDs in URL paths (ingestion source IDs, ingestion IDs, run IDs, operation IDs)
+      {
+        regex: true,
+        target: "/ingestion-sources/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}",
+        value: "/ingestion-sources/00000000-0000-0000-0000-000000000000",
+      },
+      {
+        regex: true,
+        target: "/ingestions/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}",
+        value: "/ingestions/00000000-0000-0000-0000-000000000000",
+      },
+      {
+        regex: true,
+        target: "/runs/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}",
+        value: "/runs/00000000-0000-0000-0000-000000000000",
+      },
+      {
+        regex: true,
+        target: "/operations/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}",
+        value: "/operations/00000000-0000-0000-0000-000000000000",
       },
     ],
     removeHeaderSanitizer: {
@@ -63,7 +89,31 @@ const recorderStartOptions: RecorderStartOptions = {
         "mise-correlation-id",
       ],
     },
+    headerSanitizers: [
+      // Sanitize operation-location header (LRO polling URLs contain UUIDs)
+      {
+        key: "operation-location",
+        regex: true,
+        target: "/operations/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}",
+        value: "/operations/00000000-0000-0000-0000-000000000000",
+      },
+      {
+        key: "Location",
+        regex: true,
+        target: "/operations/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}",
+        value: "/operations/00000000-0000-0000-0000-000000000000",
+      },
+    ],
     bodyKeySanitizers: [{ jsonPath: "$..access_token", value: "access_token" }],
+    bodySanitizers: [
+      {
+        // Sanitize UUID v4 values in request/response bodies (e.g., ingestion source IDs)
+        // This preserves non-UUID IDs like collection names ("naip") and item names
+        regex: true,
+        target: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+        value: "00000000-0000-0000-0000-000000000000",
+      },
+    ],
   },
 };
 

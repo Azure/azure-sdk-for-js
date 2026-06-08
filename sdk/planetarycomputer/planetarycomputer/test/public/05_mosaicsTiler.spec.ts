@@ -26,7 +26,7 @@ describe("Mosaics Tiler operations", () => {
   async function registerSearch(): Promise<string> {
     const response = await client.data.registerMosaicsSearch({
       collections: [collectionId],
-      filterLang: "cql2-json",
+      filterLanguage: "cql2-json",
       filter: {
         op: "and",
         args: [

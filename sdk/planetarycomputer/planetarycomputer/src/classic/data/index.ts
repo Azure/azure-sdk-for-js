@@ -267,7 +267,7 @@ export interface DataOperations {
     latitude: number,
     options?: DataGetSearchPointOptionalParams,
   ) => Promise<TilerCoreModelsResponsesPoint>;
-  /** The most basic operation. */
+  /** Return a list of assets which overlap a given tile for a mosaic search. */
   getSearchAssetsForTileNoTms: (
     searchId: string,
     z: number,
@@ -275,7 +275,7 @@ export interface DataOperations {
     y: number,
     options?: DataGetSearchAssetsForTileNoTmsOptionalParams,
   ) => Promise<DataGetSearchAssetsForTileNoTmsResponse>;
-  /** The most basic operation. */
+  /** Create a map tile for a mosaic search with specified scale and format. */
   getSearchTileNoTmsByScaleAndFormat: (
     searchId: string,
     z: number,
@@ -285,7 +285,7 @@ export interface DataOperations {
     format: string,
     options?: DataGetSearchTileNoTmsByScaleAndFormatOptionalParams,
   ) => Promise<DataGetSearchTileNoTmsByScaleAndFormatResponse>;
-  /** The most basic operation. */
+  /** Create a map tile for a mosaic search with specified scale. */
   getSearchTileNoTmsByScale: (
     searchId: string,
     z: number,
@@ -294,7 +294,7 @@ export interface DataOperations {
     scale: number,
     options?: DataGetSearchTileNoTmsByScaleOptionalParams,
   ) => Promise<DataGetSearchTileNoTmsByScaleResponse>;
-  /** The most basic operation. */
+  /** Create a map tile for a mosaic search with specified format. */
   getSearchTileNoTmsByFormat: (
     searchId: string,
     z: number,
@@ -303,7 +303,7 @@ export interface DataOperations {
     format: string,
     options?: DataGetSearchTileNoTmsByFormatOptionalParams,
   ) => Promise<DataGetSearchTileNoTmsByFormatResponse>;
-  /** The most basic operation. */
+  /** Create a map tile for a mosaic search. */
   getSearchTileNoTms: (
     searchId: string,
     z: number,

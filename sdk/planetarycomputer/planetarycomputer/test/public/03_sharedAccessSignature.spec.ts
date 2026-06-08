@@ -4,18 +4,20 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { PlanetaryComputerProClient } from "../../src/index.js";
 import { createRecorder, createClient } from "./utils/recordedClient.js";
-import { getCollectionId } from "./utils/envVars.js";
+import { getCollectionId, getItemId } from "./utils/envVars.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
 
 describe("Shared Access Signature operations", () => {
   let recorder: Recorder;
   let client: PlanetaryComputerProClient;
   let collectionId: string;
+  let itemId: string;
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
     client = createClient(recorder);
     collectionId = getCollectionId();
+    itemId = getItemId();
   });
 
   afterEach(async () => {
@@ -43,11 +45,11 @@ describe("Shared Access Signature operations", () => {
   });
 
   it("should sign a URL with SAS", async () => {
-    // Get collection to find a thumbnail href
-    const collection = await client.stac.getCollection(collectionId);
-    const thumbnailAsset = collection.assets?.["thumbnail"];
-    expect(thumbnailAsset).toBeDefined();
-    const originalHref = thumbnailAsset!.href;
+    // Get an item to find an asset href to sign
+    const item = await client.stac.getItem(collectionId, itemId);
+    const imageAsset = item.assets?.["image"];
+    expect(imageAsset).toBeDefined();
+    const originalHref = imageAsset!.href;
 
     const response = await client.sharedAccessSignature.getUrl(originalHref);
     expect(response).toBeDefined();

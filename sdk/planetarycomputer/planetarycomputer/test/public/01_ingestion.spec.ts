@@ -55,14 +55,12 @@ describe("Ingestion Management operations", () => {
     for await (const identity of client.ingestion.listManagedIdentities()) {
       managedIdentities.push(identity);
     }
-    expect(managedIdentities.length).toBeGreaterThan(
-      0,
+    expect(
+      managedIdentities.length,
       "GeoCatalog must have at least one managed identity configured for this test",
-    );
+    ).toBeGreaterThan(0);
 
-    const sourceId = isPlaybackMode()
-      ? "00000000-0000-0000-0000-000000000000"
-      : crypto.randomUUID();
+    const sourceId = "00000000-0000-0000-0000-000000000000"; // Fixed ID
 
     const source = await client.ingestion.createSource({
       id: sourceId,
@@ -94,9 +92,7 @@ describe("Ingestion Management operations", () => {
     }
     expect(managedIdentities.length).toBeGreaterThan(0);
 
-    const sourceId = isPlaybackMode()
-      ? "00000000-0000-0000-0000-000000000000"
-      : crypto.randomUUID();
+    const sourceId = "00000000-0000-0000-0000-000000000000"; // Fixed ID
 
     const created = await client.ingestion.createSource({
       id: sourceId,
@@ -122,9 +118,7 @@ describe("Ingestion Management operations", () => {
     }
     expect(managedIdentities.length).toBeGreaterThan(0);
 
-    const sourceId = isPlaybackMode()
-      ? "00000000-0000-0000-0000-000000000000"
-      : crypto.randomUUID();
+    const sourceId = "00000000-0000-0000-0000-000000000000"; // Fixed ID
 
     const created = await client.ingestion.createSource({
       id: sourceId,
@@ -157,9 +151,7 @@ describe("Ingestion Management operations", () => {
     }
     expect(managedIdentities.length).toBeGreaterThan(0);
 
-    const sourceId = isPlaybackMode()
-      ? "00000000-0000-0000-0000-000000000000"
-      : crypto.randomUUID();
+    const sourceId = "00000000-0000-0000-0000-000000000000"; // Fixed ID
 
     const created = await client.ingestion.createSource({
       id: sourceId,
@@ -192,7 +184,7 @@ describe("Ingestion Management operations", () => {
       sourceCatalogUrl: catalogUrl,
       keepOriginalAssets: true,
       skipExistingItems: true,
-    });
+    } as IngestionDefinition);
     expect(response).toBeDefined();
     expect(response.id).toBeTruthy();
   });
@@ -212,7 +204,7 @@ describe("Ingestion Management operations", () => {
       sourceCatalogUrl: catalogUrl,
       keepOriginalAssets: true,
       skipExistingItems: true,
-    });
+    } as IngestionDefinition);
 
     const retrieved = await client.ingestion.get(collectionId, created.id);
     expect(retrieved).toBeDefined();
@@ -227,7 +219,7 @@ describe("Ingestion Management operations", () => {
       sourceCatalogUrl: catalogUrl,
       keepOriginalAssets: true,
       skipExistingItems: true,
-    });
+    } as IngestionDefinition);
 
     const response = await client.ingestion.update(collectionId, created.id, {
       importType: "StaticCatalog",
@@ -235,7 +227,7 @@ describe("Ingestion Management operations", () => {
       sourceCatalogUrl: catalogUrl,
       keepOriginalAssets: true,
       skipExistingItems: true,
-    });
+    } as IngestionDefinition);
     expect(response.id).toBe(created.id);
     expect(response.displayName).toBe("Updated Ingestion Name");
   });
@@ -249,7 +241,7 @@ describe("Ingestion Management operations", () => {
       sourceCatalogUrl: catalogUrl,
       keepOriginalAssets: true,
       skipExistingItems: true,
-    });
+    } as IngestionDefinition);
 
     const response = await client.ingestion.createRun(collectionId, created.id);
     expect(response).toBeDefined();
@@ -264,7 +256,7 @@ describe("Ingestion Management operations", () => {
       sourceCatalogUrl: catalogUrl,
       keepOriginalAssets: true,
       skipExistingItems: true,
-    });
+    } as IngestionDefinition);
 
     await client.ingestion.createRun(collectionId, created.id);
 
@@ -283,7 +275,7 @@ describe("Ingestion Management operations", () => {
       sourceCatalogUrl: catalogUrl,
       keepOriginalAssets: true,
       skipExistingItems: true,
-    });
+    } as IngestionDefinition);
 
     const runResponse = await client.ingestion.createRun(collectionId, created.id);
     const run = await client.ingestion.getRun(collectionId, created.id, runResponse.id);
@@ -314,7 +306,7 @@ describe("Ingestion Management operations", () => {
       sourceCatalogUrl: catalogUrl,
       keepOriginalAssets: true,
       skipExistingItems: true,
-    });
+    } as IngestionDefinition);
     const runResponse = await client.ingestion.createRun(collectionId, created.id);
     const operationId = runResponse.operation!.id!;
 
@@ -331,7 +323,7 @@ describe("Ingestion Management operations", () => {
       sourceCatalogUrl: catalogUrl,
       keepOriginalAssets: true,
       skipExistingItems: true,
-    });
+    } as IngestionDefinition);
     const runResponse = await client.ingestion.createRun(collectionId, created.id);
     const operationId = runResponse.operation!.id!;
 

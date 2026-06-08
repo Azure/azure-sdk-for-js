@@ -100,11 +100,6 @@ export interface IngestionOperations {
     options?: IngestionGetOptionalParams,
   ) => Promise<IngestionDefinition>;
   /** Delete an ingestion from a catalog. All runs of the ingestion will be deleted. Ingestion must not have any runs in progress or queued. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     collectionId: string,
     ingestionId: string,
