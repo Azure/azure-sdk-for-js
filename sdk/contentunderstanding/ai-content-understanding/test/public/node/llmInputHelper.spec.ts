@@ -260,10 +260,13 @@ describe("toLlmInput - pages", () => {
 describe("toLlmInput - rai_warnings filter", () => {
   it("drops LLMStats: telemetry warnings but keeps real warnings", () => {
     const text = toLlmInput(
-      makeResult([makeDocument()], [
-        { code: "Telemetry", message: "LLMStats: completion calls: 2; embedding calls: 1" },
-        { code: "ContentWarning", message: "Potentially sensitive content." },
-      ]),
+      makeResult(
+        [makeDocument()],
+        [
+          { code: "Telemetry", message: "LLMStats: completion calls: 2; embedding calls: 1" },
+          { code: "ContentWarning", message: "Potentially sensitive content." },
+        ],
+      ),
     );
     assert.include(text, "rai_warnings:");
     assert.notInclude(text, "LLMStats:");
@@ -272,9 +275,10 @@ describe("toLlmInput - rai_warnings filter", () => {
 
   it("omits the rai_warnings block when only LLMStats: warnings exist", () => {
     const text = toLlmInput(
-      makeResult([makeDocument()], [
-        { code: "Telemetry", message: "LLMStats: completion latency: 7.71s" },
-      ]),
+      makeResult(
+        [makeDocument()],
+        [{ code: "Telemetry", message: "LLMStats: completion latency: 7.71s" }],
+      ),
     );
     assert.notInclude(text, "rai_warnings:");
     assert.notInclude(text, "LLMStats:");
@@ -282,9 +286,10 @@ describe("toLlmInput - rai_warnings filter", () => {
 
   it("is case-sensitive (lowercase llmstats: is preserved)", () => {
     const text = toLlmInput(
-      makeResult([makeDocument()], [
-        { code: "ContentWarning", message: "llmstats: keep as a real warning" },
-      ]),
+      makeResult(
+        [makeDocument()],
+        [{ code: "ContentWarning", message: "llmstats: keep as a real warning" }],
+      ),
     );
     assert.include(text, "rai_warnings:");
     assert.include(text, "llmstats: keep as a real warning");
@@ -293,9 +298,10 @@ describe("toLlmInput - rai_warnings filter", () => {
   it("preserves LLMStats: text in the document markdown body", () => {
     const bodyText = "A log excerpt:\n- LLMStats: keep this body text";
     const text = toLlmInput(
-      makeResult([makeDocument({ markdown: bodyText })], [
-        { code: "Telemetry", message: "LLMStats: remove this warning text" },
-      ]),
+      makeResult(
+        [makeDocument({ markdown: bodyText })],
+        [{ code: "Telemetry", message: "LLMStats: remove this warning text" }],
+      ),
     );
     assert.notInclude(text, "rai_warnings:");
     assert.include(text, "LLMStats: keep this body text");
@@ -304,9 +310,10 @@ describe("toLlmInput - rai_warnings filter", () => {
 
   it("filters LLMStats: warnings with leading whitespace", () => {
     const text = toLlmInput(
-      makeResult([makeDocument()], [
-        { code: "Telemetry", message: "  LLMStats: completion calls: 2" },
-      ]),
+      makeResult(
+        [makeDocument()],
+        [{ code: "Telemetry", message: "  LLMStats: completion calls: 2" }],
+      ),
     );
     assert.notInclude(text, "rai_warnings:");
     assert.notInclude(text, "LLMStats:");
