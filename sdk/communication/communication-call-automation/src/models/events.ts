@@ -235,13 +235,17 @@ export interface RemoveParticipantFailed
 
 /** The participant successfully moved event. */
 export interface MoveParticipantSucceeded {
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
   serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Used this to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message. */
   resultInformation?: ResultInformation;
   /** The participant in the call. */
   participant?: CommunicationIdentifier;
@@ -251,13 +255,17 @@ export interface MoveParticipantSucceeded {
 
 /** The failed to move participant event. */
 export interface MoveParticipantFailed {
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
   serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Used this to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message. */
   resultInformation?: ResultInformation;
   /** The participant in the call. */
   participant?: CommunicationIdentifier;
@@ -420,6 +428,8 @@ export interface StartRecordingFailed {
   resultInformation?: ResultInformation;
   /** The call recording id */
   recordingId?: string;
+  /** Used this to correlate the request to the response event. */
+  operationContext?: string;
   /** kind of this event. */
   kind: "StartRecordingFailed";
 }

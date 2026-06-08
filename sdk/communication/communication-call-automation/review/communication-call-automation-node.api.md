@@ -751,7 +751,9 @@ export interface MediaStreamingUpdate {
 export interface MoveParticipantFailed {
     callConnectionId: string;
     correlationId: string;
+    fromCall?: string;
     kind: "MoveParticipantFailed";
+    operationContext?: string;
     participant?: CommunicationIdentifier;
     resultInformation?: ResultInformation;
     serverCallId: string;
@@ -774,7 +776,9 @@ export interface MoveParticipantsResult {
 export interface MoveParticipantSucceeded {
     callConnectionId: string;
     correlationId: string;
+    fromCall?: string;
     kind: "MoveParticipantSucceeded";
+    operationContext?: string;
     participant?: CommunicationIdentifier;
     resultInformation?: ResultInformation;
     serverCallId: string;
@@ -1553,6 +1557,7 @@ export interface StartRecordingFailed {
     callConnectionId: string;
     correlationId: string;
     kind: "StartRecordingFailed";
+    operationContext?: string;
     recordingId?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;

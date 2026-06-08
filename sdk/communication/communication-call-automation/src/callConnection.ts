@@ -11,6 +11,7 @@ import type {
   MoveParticipantsRequest,
   MuteParticipantsRequest,
   RemoveParticipantRequest,
+  TeamsPhoneCallDetailsInternal,
   TransferToParticipantRequest,
 } from "./generated/src/index.js";
 import { CallAutomationApiClient } from "./generated/src/index.js";
@@ -182,7 +183,7 @@ export class CallConnection {
   ): CustomCallingContextInternal {
     const sipHeaders: { [key: string]: string } = {};
     const voipHeaders: { [key: string]: string } = {};
-    let teamsPhoneCallDetails: any = undefined;
+    let teamsPhoneCallDetails: TeamsPhoneCallDetailsInternal | undefined = undefined;
     if (customCallingContext) {
       for (const header of customCallingContext) {
         if (header.kind === "sipuui") {
