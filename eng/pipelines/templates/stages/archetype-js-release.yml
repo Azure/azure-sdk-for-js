@@ -124,6 +124,10 @@ stages:
                             - ci-configs/packages-latest.json
                             - ci-configs/packages-preview.json
                           NpmConfigUserConfig: $(Agent.TempDirectory)/doc-ms/.npmrc
+                          ${{ if eq(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js')}}:
+                            PackageSourceOverride: '$(PublicDevOpsRegistry)'
+                          ${{ else }}:
+                            PackageSourceOverride: '$(PrivateDevOpsRegistry)'
 
               - ${{ if ne(artifact.skipPublishDocGithubIo, 'true') }}:
                   - job: PublishDocsGitHubIO
@@ -134,7 +138,7 @@ stages:
                         ne(variables['Skip.PublishDocs'], 'true'),
                         ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr')
                       )
-                    dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
+                    dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}_To_DevFeed
                     pool:
                       name: $(LINUXPOOL)
                       image: $(LINUXVMIMAGE)
@@ -156,7 +160,7 @@ stages:
                   - job: UpdatePackageVersion
                     displayName: Update Package Version
                     condition: and(succeeded(), ne(variables['Skip.UpdatePackageVersion'], 'true'))
-                    dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
+                    dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}_To_DevFeed
                     pool:
                       name: $(LINUXPOOL)
                       image: $(LINUXVMIMAGE)
