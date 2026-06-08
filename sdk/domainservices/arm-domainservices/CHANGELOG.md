@@ -67,7 +67,7 @@ Compared with version 4.1.0
     
 ## 4.0.1 (2022-04-18)
 
-**features**
+### Features Added
 
   - Bug fix
 
