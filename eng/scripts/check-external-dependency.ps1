@@ -21,10 +21,6 @@ Write-Host "Repo root: $RepoRoot"
 $EngCommonScriptsPath = Join-Path (Resolve-Path "${PSScriptRoot}/..") "common" "scripts"
 . (Join-Path $EngCommonScriptsPath common.ps1)
 
-# Don't filter by creator: the pipeline identity changed from the `azure-sdk` user PAT
-# to the `azure-sdk-automation[bot]` GitHub App, and the GitHub REST `creator` filter is
-# an exact login match. Scoping by the `dependency-upgrade-required` label is sufficient
-# because it is only applied by this script.
 $ghIssues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -Labels "dependency-upgrade-required" -AuthToken $AuthToken
 # Check and return if an issue already exists to upgrade the package
 function Get-GithubIssue($IssueTitle) {
