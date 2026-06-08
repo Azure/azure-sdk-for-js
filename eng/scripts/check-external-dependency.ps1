@@ -21,7 +21,7 @@ Write-Host "Repo root: $RepoRoot"
 $EngCommonScriptsPath = Join-Path (Resolve-Path "${PSScriptRoot}/..") "common" "scripts"
 . (Join-Path $EngCommonScriptsPath common.ps1)
 
-$ghIssues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -Labels "dependency-upgrade-required" -AuthToken $AuthToken
+$ghIssues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -Labels $dependencyUpgradeLabel -AuthToken $AuthToken
 # Check and return if an issue already exists to upgrade the package
 function Get-GithubIssue($IssueTitle) {
   foreach ($issue in $ghIssues) {
