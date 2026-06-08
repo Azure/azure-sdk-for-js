@@ -61,15 +61,21 @@ describe.runIf(isLiveMode())("Realtime Service Telemetry Tests", () => {
   });
 
   afterEach(async () => {
-    for (const session of sessions) {
-      try {
-        await session.disconnect();
-      } catch {
-        // Ignore cleanup errors
+    try {
+      for (const session of sessions) {
+        try {
+          await session.disconnect();
+        } catch {
+          // Ignore cleanup errors
+        }
       }
+      sessions = [];
+      instrumenter.reset();
+    } finally {
+      // Restore the default no-op instrumenter so this test does not pollute
+      // the global tracing state for later tests in the suite.
+      useInstrumenter(undefined as any);
     }
-    sessions = [];
-    instrumenter.reset();
   });
 
   it(
@@ -117,11 +123,11 @@ describe.runIf(isLiveMode())("Realtime Service Telemetry Tests", () => {
         connectSpan!.spanId,
       );
 
-      // --- Connect span lifetime: it is started first (parent of every other
-      // span) and only closes when the session is disconnected, so it spans the
-      // entire trace. The mock records start order in `startedSpans` and an
-      // `endCalled` flag rather than finish timestamps, so we assert the span
-      // ordering plus that connect was ended last via disconnect().
+      // --- Connect span lifetime: it is started first, making it the root that
+      // parents every other span, and it is eventually closed (by disconnect()).
+      // The mock only records start order (`startedSpans`) and an `endCalled`
+      // flag -- it has no end timestamps -- so we can assert that connect is the
+      // root span and that all spans were closed, but not the relative end order.
       expect(spans[0]?.spanId, "connect should be the first (root) span").toBe(connectSpan!.spanId);
       expect(connectSpan!.endCalled, "connect span should be closed by disconnect()").toBe(true);
       expect(sendSpan!.endCalled, "send span should be closed").toBe(true);
