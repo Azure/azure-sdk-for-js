@@ -542,9 +542,7 @@ function selectPushToken(isTargetingFork, targetOwner, targetName) {
 }
 
 function resolveHeadBranchName(headBranchOverride, buildId) {
-  const overrideLower = headBranchOverride.toLowerCase();
-  const isAutoBranch = !headBranchOverride || overrideLower === "empty" || overrideLower === "auto";
-  return isAutoBranch ? `sdk-regenerate-${buildId}` : headBranchOverride;
+  return headBranchOverride.toLowerCase() === "auto" ? `sdk-regenerate-${buildId}` : headBranchOverride;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
