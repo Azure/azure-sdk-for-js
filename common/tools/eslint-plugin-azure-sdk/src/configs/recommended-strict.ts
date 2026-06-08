@@ -72,8 +72,12 @@ export function recommendedStrictDelta(options: { typeChecked: boolean }): FlatC
       "no-else-return": ["error", { allowElseIf: false }],
 
       // --- Mutation / scoping ---
-      // Overrides eslint-customized.ts which sets this to ["warn", { props: false }]
-      "no-param-reassign": ["error", { props: true }],
+      // Reassigning parameters can sometimes be legitimately useful (e.g.
+      // normalizing inputs at the top of a function). Keep this as `warn` —
+      // matching the `recommended` preset's severity — but tighten it to
+      // also flag property mutations (`props: true`) since those are the
+      // higher-risk cases the strict preset is designed to surface.
+      "no-param-reassign": ["warn", { props: true }],
       // Already error in customized; keep consistent
       "@typescript-eslint/no-shadow": ["error", { ignoreTypeValueShadow: true }],
 

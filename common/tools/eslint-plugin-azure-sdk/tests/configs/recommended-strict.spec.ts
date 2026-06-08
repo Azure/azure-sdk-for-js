@@ -59,8 +59,8 @@ describe("recommendedStrictDelta", () => {
       expect(rules["no-nested-ternary"]).toBe("error");
     });
 
-    it("should include no-param-reassign as error with props: true", () => {
-      expect(rules["no-param-reassign"]).toEqual(["error", { props: true }]);
+    it("should include no-param-reassign as warn with props: true", () => {
+      expect(rules["no-param-reassign"]).toEqual(["warn", { props: true }]);
     });
 
     it("should include curly: all, overriding the recommended multi-line setting", () => {

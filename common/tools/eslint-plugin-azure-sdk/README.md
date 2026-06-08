@@ -104,7 +104,7 @@ The strict preset requires `eslint-plugin-sonarjs` (peer dependency — add it e
 
 - **Structural caps** — `max-lines-per-function`, `max-classes-per-file`, `@typescript-eslint/max-params`, `sonarjs/cognitive-complexity`
 - **Anti "clever one-liner"** — `no-nested-ternary`, `no-unneeded-ternary`, `no-implicit-coercion`, `no-lonely-if`, `no-else-return`
-- **Mutation / scoping** — `no-param-reassign` (promoted to error with props), `@typescript-eslint/prefer-readonly` (type-checked)
+- **Mutation / scoping** — `no-param-reassign` (kept at `warn`, tightened to flag property mutation), `@typescript-eslint/prefer-readonly` (type-checked)
 - **Switch / control flow** — `curly: all`, `default-case`, `default-case-last`, `@typescript-eslint/consistent-return`, `@typescript-eslint/switch-exhaustiveness-check` (type-checked)
 - **Imports** — `no-duplicate-imports`, `@typescript-eslint/consistent-type-imports` (promoted to error), `@typescript-eslint/no-import-type-side-effects`, `@typescript-eslint/no-deprecated` (type-checked)
 - **Errors thrown / caught** — `no-empty` (no allowEmptyCatch), `@typescript-eslint/only-throw-error`, `@typescript-eslint/use-unknown-in-catch-callback-variable`, `@typescript-eslint/prefer-promise-reject-errors` (type-checked)
