@@ -45,9 +45,7 @@ Compared with version 4.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Class DomainServicesResourceProvider no longer has parameter apiVersion
   - Class DomainServicesResourceProvider no longer has parameter ouContainerOperations
-  - Class DomainServicesResourceProvider no longer has parameter subscriptionId
   - Removed Interface OuContainerCreateOptionalParams
   - Removed Interface OuContainerDeleteOptionalParams
   - Removed Interface OuContainerGetOptionalParams
