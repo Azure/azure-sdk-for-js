@@ -51,28 +51,28 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BetaMemoryStores operations. */
 export interface BetaMemoryStoresOperations {
-  /** Delete a memory item from a memory store. */
+  /** Deletes the specified memory item from the memory store. */
   deleteMemory: (
     foundryFeatures: "MemoryStores=V1Preview",
     name: string,
     memoryId: string,
     options?: BetaMemoryStoresDeleteMemoryOptionalParams,
   ) => Promise<DeleteMemoryResponse>;
-  /** List all memory items in a memory store. */
+  /** Returns memory items from the specified memory store. */
   listMemories: (
     foundryFeatures: "MemoryStores=V1Preview",
     name: string,
     scope: string,
     options?: BetaMemoryStoresListMemoriesOptionalParams,
   ) => PagedAsyncIterableIterator<MemoryItemUnion>;
-  /** Retrieve a memory item from a memory store. */
+  /** Retrieves the specified memory item from the memory store. */
   getMemory: (
     foundryFeatures: "MemoryStores=V1Preview",
     name: string,
     memoryId: string,
     options?: BetaMemoryStoresGetMemoryOptionalParams,
   ) => Promise<MemoryItemUnion>;
-  /** Update a memory item in a memory store. */
+  /** Updates the specified memory item in the memory store. */
   updateMemory: (
     foundryFeatures: "MemoryStores=V1Preview",
     name: string,
@@ -80,7 +80,7 @@ export interface BetaMemoryStoresOperations {
     content: string,
     options?: BetaMemoryStoresUpdateMemoryOptionalParams,
   ) => Promise<MemoryItemUnion>;
-  /** Create a memory item in a memory store. */
+  /** Creates a memory item in the specified memory store. */
   createMemory: (
     foundryFeatures: "MemoryStores=V1Preview",
     name: string,
@@ -89,21 +89,24 @@ export interface BetaMemoryStoresOperations {
     kind: MemoryItemKind,
     options?: BetaMemoryStoresCreateMemoryOptionalParams,
   ) => Promise<MemoryItemUnion>;
-  /** Delete all memories associated with a specific scope from a memory store. */
+  /** Deletes all memories in the specified memory store that are associated with the provided scope. */
   deleteScope: (
     foundryFeatures: "MemoryStores=V1Preview",
     name: string,
     scope: string,
     options?: BetaMemoryStoresDeleteScopeOptionalParams,
   ) => Promise<MemoryStoreDeleteScopeResponse>;
-  /** Get memory store update result. */
+  /** Retrieves the status and result of a memory store update operation. */
   getUpdateResult: (
     foundryFeatures: "MemoryStores=V1Preview",
     name: string,
     updateId: string,
     options?: BetaMemoryStoresGetUpdateResultOptionalParams,
   ) => Promise<MemoryStoreUpdateResponse>;
-  /** Update memory store with conversation memories. */
+  /**
+   * Starts an update that writes conversation memories into the specified memory store.
+   * The operation returns a long-running status location for polling the update result.
+   */
   updateMemories: (
     foundryFeatures: "MemoryStores=V1Preview",
     name: string,
@@ -113,14 +116,14 @@ export interface BetaMemoryStoresOperations {
     OperationState<MemoryStoreUpdateCompletedResult>,
     MemoryStoreUpdateCompletedResult
   >;
-  /** Search for relevant memories from a memory store based on conversation context. */
+  /** Searches the specified memory store for memories relevant to the provided conversation context. */
   searchMemories: (
     foundryFeatures: "MemoryStores=V1Preview",
     name: string,
     scope: string,
     options?: BetaMemoryStoresSearchMemoriesOptionalParams,
   ) => Promise<MemoryStoreSearchResponse>;
-  /** Delete a memory store. */
+  /** Deletes the specified memory store. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -131,24 +134,24 @@ export interface BetaMemoryStoresOperations {
     name: string,
     options?: BetaMemoryStoresDeleteOptionalParams,
   ) => Promise<DeleteMemoryStoreResponse>;
-  /** List all memory stores. */
+  /** Returns the memory stores available to the caller. */
   list: (
     foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresListOptionalParams,
   ) => PagedAsyncIterableIterator<MemoryStore>;
-  /** Retrieve a memory store. */
+  /** Retrieves the specified memory store and its current configuration. */
   get: (
     foundryFeatures: "MemoryStores=V1Preview",
     name: string,
     options?: BetaMemoryStoresGetOptionalParams,
   ) => Promise<MemoryStore>;
-  /** Update a memory store. */
+  /** Updates the specified memory store with the supplied configuration changes. */
   update: (
     foundryFeatures: "MemoryStores=V1Preview",
     name: string,
     options?: BetaMemoryStoresUpdateOptionalParams,
   ) => Promise<MemoryStore>;
-  /** Create a memory store. */
+  /** Creates a memory store resource with the provided configuration. */
   create: (
     foundryFeatures: "MemoryStores=V1Preview",
     name: string,

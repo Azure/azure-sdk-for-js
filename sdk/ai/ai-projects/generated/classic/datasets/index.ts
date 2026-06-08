@@ -30,13 +30,13 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 
 /** Interface representing a Datasets operations. */
 export interface DatasetsOperations {
-  /** Get the SAS credential to access the storage account associated with a Dataset version. */
+  /** Gets the SAS credential to access the storage account associated with a Dataset version. */
   getCredentials: (
     name: string,
     version: string,
     options?: DatasetsGetCredentialsOptionalParams,
   ) => Promise<DatasetCredential>;
-  /** Start a new or get an existing pending upload of a dataset for a specific version. */
+  /** Initiates a new pending upload or retrieves an existing one for the specified dataset version. */
   pendingUpload: (
     name: string,
     pendingUploadRequest: PendingUploadRequest,
