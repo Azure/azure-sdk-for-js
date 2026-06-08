@@ -14,7 +14,7 @@ async function privateLinkResourcesList() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
   const client = new IotHubClient(credential, subscriptionId);
-  const result = await client.privateLinkResources.list("myResourceGroup", "testHub");
+  const result = await client.privateLinkResourcesOperations.list("myResourceGroup", "testHub");
   console.log(result);
 }
 

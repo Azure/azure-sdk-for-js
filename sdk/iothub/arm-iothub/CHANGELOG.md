@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.0-beta.2 (2026-06-05)
+## 7.0.0-beta.2 (2026-06-08)
 Compared with version 6.3.0
 
 ### Features Added
@@ -21,6 +21,8 @@ Compared with version 6.3.0
   - Added Interface KeyVaultKeyProperties
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
+  - Added Interface PrivateLinkResourcesOperationsGetOptionalParams
+  - Added Interface PrivateLinkResourcesOperationsListOptionalParams
   - Added Interface ProxyResource
   - Added Interface RestorePollerOptions
   - Added Interface RootCertificateProperties
@@ -58,12 +60,13 @@ Compared with version 6.3.0
   - Operation IotHubResource.beginUpdateAndWait has a new signature
   - Operation IotHubResource.get has a new signature
   - Class IotHubClient no longer has parameter apiVersion
-  - Class IotHubClient no longer has parameter privateLinkResourcesOperations
   - Class IotHubClient no longer has parameter subscriptionId
   - Removed Interface CertificateBodyDescription
   - Removed Interface IotHubResourceGetEndpointHealthOptionalParams
   - Removed Interface IotHubResourceGetQuotaMetricsOptionalParams
   - Removed Interface IotHubResourceGetValidSkusOptionalParams
+  - Removed Interface PrivateLinkResourcesGetOptionalParams
+  - Removed Interface PrivateLinkResourcesListOptionalParams
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags
   - Type alias "IotHubSkuTier" has been changed

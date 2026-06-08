@@ -5,7 +5,7 @@ exports:
   ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
   "./api/resourceProviderCommon": "./src/api/resourceProviderCommon/index.ts"
-  "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
+  "./api/privateLinkResourcesOperations": "./src/api/privateLinkResourcesOperations/index.ts"
   "./api/certificates": "./src/api/certificates/index.ts"
   "./api/iotHub": "./src/api/iotHub/index.ts"
   "./api/iotHubResource": "./src/api/iotHubResource/index.ts"

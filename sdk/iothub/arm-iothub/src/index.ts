@@ -184,9 +184,9 @@ export type {
   PrivateEndpointConnectionsGetOptionalParams,
 } from "./api/privateEndpointConnections/index.js";
 export type {
-  PrivateLinkResourcesListOptionalParams,
-  PrivateLinkResourcesGetOptionalParams,
-} from "./api/privateLinkResources/index.js";
+  PrivateLinkResourcesOperationsListOptionalParams,
+  PrivateLinkResourcesOperationsGetOptionalParams,
+} from "./api/privateLinkResourcesOperations/index.js";
 export type { ResourceProviderCommonGetSubscriptionQuotaOptionalParams } from "./api/resourceProviderCommon/index.js";
 export type {
   CertificatesOperations,
@@ -194,7 +194,7 @@ export type {
   IotHubResourceOperations,
   OperationsOperations,
   PrivateEndpointConnectionsOperations,
-  PrivateLinkResourcesOperations,
+  PrivateLinkResourcesOperationsOperations,
   ResourceProviderCommonOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

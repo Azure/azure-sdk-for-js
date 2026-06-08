@@ -2,50 +2,50 @@
 // Licensed under the MIT License.
 
 import type { IotHubContext } from "../../api/iotHubContext.js";
-import { list, get } from "../../api/privateLinkResources/operations.js";
+import { list, get } from "../../api/privateLinkResourcesOperations/operations.js";
 import type {
-  PrivateLinkResourcesListOptionalParams,
-  PrivateLinkResourcesGetOptionalParams,
-} from "../../api/privateLinkResources/options.js";
+  PrivateLinkResourcesOperationsListOptionalParams,
+  PrivateLinkResourcesOperationsGetOptionalParams,
+} from "../../api/privateLinkResourcesOperations/options.js";
 import type { GroupIdInformation, PrivateLinkResources } from "../../models/models.js";
 
-/** Interface representing a PrivateLinkResources operations. */
-export interface PrivateLinkResourcesOperations {
+/** Interface representing a PrivateLinkResourcesOperations operations. */
+export interface PrivateLinkResourcesOperationsOperations {
   /** List private link resources for the given IotHub */
   list: (
     resourceGroupName: string,
     resourceName: string,
-    options?: PrivateLinkResourcesListOptionalParams,
+    options?: PrivateLinkResourcesOperationsListOptionalParams,
   ) => Promise<PrivateLinkResources>;
   /** Get the specified private link resource for the given IotHub */
   get: (
     resourceGroupName: string,
     resourceName: string,
     groupId: string,
-    options?: PrivateLinkResourcesGetOptionalParams,
+    options?: PrivateLinkResourcesOperationsGetOptionalParams,
   ) => Promise<GroupIdInformation>;
 }
 
-function _getPrivateLinkResources(context: IotHubContext) {
+function _getPrivateLinkResourcesOperations(context: IotHubContext) {
   return {
     list: (
       resourceGroupName: string,
       resourceName: string,
-      options?: PrivateLinkResourcesListOptionalParams,
+      options?: PrivateLinkResourcesOperationsListOptionalParams,
     ) => list(context, resourceGroupName, resourceName, options),
     get: (
       resourceGroupName: string,
       resourceName: string,
       groupId: string,
-      options?: PrivateLinkResourcesGetOptionalParams,
+      options?: PrivateLinkResourcesOperationsGetOptionalParams,
     ) => get(context, resourceGroupName, resourceName, groupId, options),
   };
 }
 
-export function _getPrivateLinkResourcesOperations(
+export function _getPrivateLinkResourcesOperationsOperations(
   context: IotHubContext,
-): PrivateLinkResourcesOperations {
+): PrivateLinkResourcesOperationsOperations {
   return {
-    ..._getPrivateLinkResources(context),
+    ..._getPrivateLinkResourcesOperations(context),
   };
 }

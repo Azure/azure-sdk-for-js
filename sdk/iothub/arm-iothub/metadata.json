@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Devices": "2026-03-01-preview"
   },
-  "emitterVersion": "0.54.0",
+  "emitterVersion": "0.54.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Devices",
     "CrossLanguageDefinitionId": {
@@ -126,8 +126,8 @@
       "@azure/arm-iothub!KnownIotHubNameUnavailabilityReason:enum": "Microsoft.Devices.IotHubNameUnavailabilityReason",
       "@azure/arm-iothub!KnownVersions:enum": "Microsoft.Devices.Versions",
       "@azure/arm-iothub!ResourceProviderCommonOperations#getSubscriptionQuota:member": "Microsoft.Devices.ResourceProviderCommonOperationGroup.getSubscriptionQuota",
-      "@azure/arm-iothub!PrivateLinkResourcesOperations#list:member": "Microsoft.Devices.GroupIdInformations.list",
-      "@azure/arm-iothub!PrivateLinkResourcesOperations#get:member": "Microsoft.Devices.GroupIdInformations.get",
+      "@azure/arm-iothub!PrivateLinkResourcesOperationsOperations#list:member": "Microsoft.Devices.GroupIdInformations.list",
+      "@azure/arm-iothub!PrivateLinkResourcesOperationsOperations#get:member": "Microsoft.Devices.GroupIdInformations.get",
       "@azure/arm-iothub!CertificatesOperations#verify:member": "Microsoft.Devices.CertificateDescriptions.verify",
       "@azure/arm-iothub!CertificatesOperations#generateVerificationCode:member": "Microsoft.Devices.CertificateDescriptions.generateVerificationCode",
       "@azure/arm-iothub!CertificatesOperations#listByIotHub:member": "Microsoft.Devices.CertificateDescriptions.listByIotHub",

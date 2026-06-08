@@ -10,8 +10,8 @@ import {
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  PrivateLinkResourcesListOptionalParams,
-  PrivateLinkResourcesGetOptionalParams,
+  PrivateLinkResourcesOperationsListOptionalParams,
+  PrivateLinkResourcesOperationsGetOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -20,7 +20,7 @@ export function _listSend(
   context: Client,
   resourceGroupName: string,
   resourceName: string,
-  options: PrivateLinkResourcesListOptionalParams = { requestOptions: {} },
+  options: PrivateLinkResourcesOperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/iotHubs/{resourceName}/privateLinkResources{?api%2Dversion}",
@@ -61,7 +61,7 @@ export async function list(
   context: Client,
   resourceGroupName: string,
   resourceName: string,
-  options: PrivateLinkResourcesListOptionalParams = { requestOptions: {} },
+  options: PrivateLinkResourcesOperationsListOptionalParams = { requestOptions: {} },
 ): Promise<PrivateLinkResources> {
   const result = await _listSend(context, resourceGroupName, resourceName, options);
   return _listDeserialize(result);
@@ -72,7 +72,7 @@ export function _getSend(
   resourceGroupName: string,
   resourceName: string,
   groupId: string,
-  options: PrivateLinkResourcesGetOptionalParams = { requestOptions: {} },
+  options: PrivateLinkResourcesOperationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/iotHubs/{resourceName}/privateLinkResources/{groupId}{?api%2Dversion}",
@@ -113,7 +113,7 @@ export async function get(
   resourceGroupName: string,
   resourceName: string,
   groupId: string,
-  options: PrivateLinkResourcesGetOptionalParams = { requestOptions: {} },
+  options: PrivateLinkResourcesOperationsGetOptionalParams = { requestOptions: {} },
 ): Promise<GroupIdInformation> {
   const result = await _getSend(context, resourceGroupName, resourceName, groupId, options);
   return _getDeserialize(result);

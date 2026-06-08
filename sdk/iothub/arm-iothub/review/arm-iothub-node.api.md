@@ -299,7 +299,7 @@ export class IotHubClient {
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
-    readonly privateLinkResources: PrivateLinkResourcesOperations;
+    readonly privateLinkResourcesOperations: PrivateLinkResourcesOperationsOperations;
     readonly resourceProviderCommon: ResourceProviderCommonOperations;
 }
 
@@ -872,17 +872,17 @@ export interface PrivateLinkResources {
 }
 
 // @public
-export interface PrivateLinkResourcesGetOptionalParams extends OperationOptions {
+export interface PrivateLinkResourcesOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateLinkResourcesListOptionalParams extends OperationOptions {
+export interface PrivateLinkResourcesOperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateLinkResourcesOperations {
-    get: (resourceGroupName: string, resourceName: string, groupId: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<GroupIdInformation>;
-    list: (resourceGroupName: string, resourceName: string, options?: PrivateLinkResourcesListOptionalParams) => Promise<PrivateLinkResources>;
+export interface PrivateLinkResourcesOperationsOperations {
+    get: (resourceGroupName: string, resourceName: string, groupId: string, options?: PrivateLinkResourcesOperationsGetOptionalParams) => Promise<GroupIdInformation>;
+    list: (resourceGroupName: string, resourceName: string, options?: PrivateLinkResourcesOperationsListOptionalParams) => Promise<PrivateLinkResources>;
 }
 
 // @public
