@@ -15,7 +15,7 @@ const EMITTER_OVERRIDES_JSON_PATH = path.join(SDK_ROOT, "eng/emitter-overrides.j
 const TYPESPEC_SYNC_SCRIPT = path.join(SDK_ROOT, "eng/common/scripts/TypeSpec-Project-Sync.ps1");
 const TYPESPEC_GENERATE_SCRIPT = path.join(SDK_ROOT, "eng/common/scripts/TypeSpec-Project-Generate.ps1");
 const RELEASE_TOOLS_DIR = "eng/tools/js-sdk-release-tools";
-const DEV_VERSION_SENTINELS = new Set(["", "empty", "latest", "auto", "dev"]);
+const DEV_VERSION_SENTINEL = "dev";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Tiny helpers
@@ -104,16 +104,15 @@ function setPipelineVariable(name, value, { isOutput = false, isSecret = false }
 // ─────────────────────────────────────────────────────────────────────────────
 // Subcommand: resolve-emitter
 // Resolve the EmitterVersion pipeline parameter to a concrete npm version.
-// Sentinel values ("", "empty", "latest", "auto", "dev") mean: look up the
-// current `dev` dist-tag of @azure-tools/typespec-ts.
+// The sentinel value "dev" means: look up the current `dev` dist-tag of
+// @azure-tools/typespec-ts. Any other value is used verbatim as the version.
 // ─────────────────────────────────────────────────────────────────────────────
-
 async function runResolveEmitter() {
   const rawInputVersion = getFlag("--input", "");
   const normalizedInput = rawInputVersion.trim().toLowerCase();
 
   let resolvedEmitterVersion;
-  if (DEV_VERSION_SENTINELS.has(normalizedInput)) {
+  if (normalizedInput === DEV_VERSION_SENTINEL) {
     const { exitCode, output } = await runCommandCapturing(
       "npm", ["view", EMITTER_PACKAGE_NAME, "dist-tags.dev"], process.cwd());
     resolvedEmitterVersion = output.trim();
@@ -264,9 +263,10 @@ async function runShard() {
 
   console.log("\n========== SHARD SUMMARY ==========\n" + JSON.stringify(shardSummary, null, 2));
 
-  const anyFailure =
-    shardSummary.regeneration.failed > 0 || (shardSummary.build && shardSummary.build.failed > 0);
-  if (anyFailure) process.exit(1);
+  // DO NOT exit 1 on per-package regen/build failures — that would skip the
+  // push step in git-push-changes.yml (gated on succeeded()), losing the
+  // successful packages' changes. Failures are visible in the SHARD SUMMARY
+  // log above and in the ADO build view.
 }
 
 function discardNonSdkChanges() {
@@ -489,9 +489,10 @@ function composeShardSummary({ shardPackages, regenerationOutcomes, buildOutcome
 // ─────────────────────────────────────────────────────────────────────────────
 // Subcommand: create-pr
 // Opens a PR from the per-build branch (every shard pushed into it via
-// git-push-changes.yml) into the target base branch. PR body is intentionally
-// minimal — per-package outcomes (regenerated/built/breaking) live in the ADO
-// build log, matching the .NET/Go SDK regen pipelines.
+// git-push-changes.yml) into the target base branch. Body is intentionally
+// minimal — per-package outcomes (regenerated/built/breaking) live in the
+// ADO build log + the PR's Files-changed view (CHANGELOG.md diffs).
+// Matches the autorest.go / .NET regen pipelines.
 // ─────────────────────────────────────────────────────────────────────────────
 
 function runCreatePr() {
@@ -499,8 +500,7 @@ function runCreatePr() {
   const targetRepoOwner = getFlag("--targetOwner") || sourceRepoOwner;
   const targetRepoName  = getFlag("--targetName")  || sourceRepoName;
   const baseBranch      = getFlag("--targetBranch", "main");
-  const headBranchOverride = getFlag("--branch", "").trim();
-  const buildId         = getFlag("--buildId", "");
+  const headBranchName  = resolveHeadBranchName(getFlag("--branch", "").trim(), getFlag("--buildId", ""));
   const emitterVersion  = getFlag("--emitterVersion", "");
   const buildNumber     = getFlag("--buildNumber", "");
   const buildUrl        = getFlag("--buildUrl", "");
@@ -508,7 +508,6 @@ function runCreatePr() {
 
   const isTargetingFork = targetRepoOwner !== sourceRepoOwner || targetRepoName !== sourceRepoName;
   const pushToken = selectPushToken(isTargetingFork, targetRepoOwner, targetRepoName);
-  const headBranchName = resolveHeadBranchName(headBranchOverride, buildId);
 
   const prTitle = `TypeSpec regeneration: emitter ${emitterVersion}`;
   const prBody = [
@@ -518,8 +517,7 @@ function runCreatePr() {
     "Per-package outcomes (regenerated / built / breaking changes) are in the ADO build log.",
   ].join("\n");
 
-  const submitScript = "eng/common/scripts/Submit-PullRequest.ps1";
-  runPwshFile(submitScript, [
+  runPwshFile("eng/common/scripts/Submit-PullRequest.ps1", [
     "-RepoOwner",  targetRepoOwner,  "-RepoName", targetRepoName,
     "-BaseBranch", baseBranch,
     "-PROwner",    targetRepoOwner,  "-PRBranch", headBranchName,

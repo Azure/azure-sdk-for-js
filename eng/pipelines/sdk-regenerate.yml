@@ -40,9 +40,9 @@ schedules:
 
 parameters:
   - name: EmitterVersion
-    displayName: "Emitter version (default 'empty' = latest dev tag)"
+    displayName: "Emitter version ('dev' = latest dev dist-tag from npm)"
     type: string
-    default: 'empty'
+    default: 'dev'
 
   - name: SkipBuild
     type: boolean
