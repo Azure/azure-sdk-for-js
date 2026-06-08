@@ -37,10 +37,10 @@ async function main(): Promise<void> {
         },
       ],
     },
-    dateTime: "2021-01-01T00:00:00Z/2022-12-31T00:00:00Z",
-    sortby: [{ field: "datetime", direction: "desc" }],
+    datetime: "2021-01-01T00:00:00Z/2022-12-31T00:00:00Z",
+    sortBy: [{ field: "datetime", direction: "desc" }],
     limit: 10,
-  } as any);
+  });
 
   console.log(`Found ${searchResult.features.length} items:`);
   for (const item of searchResult.features) {

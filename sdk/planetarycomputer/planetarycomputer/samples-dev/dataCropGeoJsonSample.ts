@@ -34,7 +34,7 @@ async function main(): Promise<void> {
         ],
       },
       properties: {},
-    } as any,
+    },
     { assets: ["image"], assetBandIndices: ["image|1,2,3"] },
   );
   console.log(result);

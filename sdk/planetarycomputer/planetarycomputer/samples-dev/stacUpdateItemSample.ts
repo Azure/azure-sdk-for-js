@@ -20,7 +20,7 @@ async function main(): Promise<void> {
   const poller = client.stac.updateItem(collectionId, itemId, {
     ...item,
     properties: { ...item.properties, platform: "Updated" },
-  } as any);
+  });
   await poller.pollUntilDone();
   console.log("Item updated.");
 }

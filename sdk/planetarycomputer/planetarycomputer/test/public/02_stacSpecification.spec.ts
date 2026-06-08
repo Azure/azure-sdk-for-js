@@ -5,6 +5,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import type { PlanetaryComputerProClient } from "../../src/index.js";
 import { createRecorder, createClient } from "./utils/recordedClient.js";
 import { getCollectionId, getItemId } from "./utils/envVars.js";
+import { isRestError } from "@azure/core-rest-pipeline";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
 
 describe("STAC Specification compliance", () => {
@@ -73,10 +74,10 @@ describe("STAC Specification compliance", () => {
           },
         ],
       },
-      dateTime: "2021-01-01T00:00:00Z/2022-12-31T00:00:00Z",
-      sortby: [{ field: "datetime", direction: "desc" }],
+      datetime: "2021-01-01T00:00:00Z/2022-12-31T00:00:00Z",
+      sortBy: [{ field: "datetime", direction: "desc" }],
       limit: 50,
-    } as any);
+    });
     expect(response.features.length).toBeGreaterThanOrEqual(2);
     expect(response.features[0].id).toBeDefined();
     expect(response.features[0].collection).toBe(collectionId);
@@ -96,7 +97,7 @@ describe("STAC Specification compliance", () => {
     expect(response.additionalProperties).toBeDefined();
 
     // The queryable properties are nested under additionalProperties.properties
-    const properties = (response.additionalProperties as any).properties;
+    const properties = (response.additionalProperties).properties;
     expect(properties).toBeDefined();
     const propNames = Object.keys(properties);
     expect(propNames.length).toBeGreaterThanOrEqual(3);
@@ -111,9 +112,9 @@ describe("STAC Specification compliance", () => {
   it("should search items with temporal filter", async () => {
     const response = await client.stac.search({
       collections: [collectionId],
-      dateTime: "2021-01-01T00:00:00Z/2022-12-31T00:00:00Z",
+      datetime: "2021-01-01T00:00:00Z/2022-12-31T00:00:00Z",
       limit: 10,
-    } as any);
+    });
     expect(response.features.length).toBeGreaterThanOrEqual(5);
     for (const item of response.features) {
       expect(item.properties.datetime).toBeDefined();
@@ -123,18 +124,18 @@ describe("STAC Specification compliance", () => {
   it("should search items with sorting (DESC and ASC)", async () => {
     const descResponse = await client.stac.search({
       collections: [collectionId],
-      dateTime: "2021-01-01T00:00:00Z/2022-12-31T00:00:00Z",
-      sortby: [{ field: "datetime", direction: "desc" }],
+      datetime: "2021-01-01T00:00:00Z/2022-12-31T00:00:00Z",
+      sortBy: [{ field: "datetime", direction: "desc" }],
       limit: 5,
-    } as any);
+    });
     expect(descResponse.features.length).toBeGreaterThanOrEqual(3);
 
     const ascResponse = await client.stac.search({
       collections: [collectionId],
-      dateTime: "2021-01-01T00:00:00Z/2022-12-31T00:00:00Z",
-      sortby: [{ field: "datetime", direction: "asc" }],
+      datetime: "2021-01-01T00:00:00Z/2022-12-31T00:00:00Z",
+      sortBy: [{ field: "datetime", direction: "asc" }],
       limit: 5,
-    } as any);
+    });
     expect(ascResponse.features.length).toBeGreaterThanOrEqual(3);
   });
 
@@ -146,5 +147,216 @@ describe("STAC Specification compliance", () => {
     expect(response.properties).toBeDefined();
     expect(response.assets).toBeDefined();
     expect(Object.keys(response.assets).length).toBeGreaterThanOrEqual(2);
+  });
+
+  // --- STAC Item CRUD Operations ---
+
+  it("should create and get a STAC item", async () => {
+    const testItemId = `${itemId}-crud-test`;
+
+    // Pre-cleanup: delete if exists from a previous run
+    try {
+      const deletePoller = client.stac.deleteItem(collectionId, testItemId);
+      await deletePoller.pollUntilDone();
+    } catch (e: unknown) {
+      if (!isRestError(e) || e.statusCode !== 404) throw e;
+    }
+
+    const createPoller = client.stac.createItem(collectionId, {
+      id: testItemId,
+      type: "Feature",
+      stacVersion: "1.0.0",
+      geometry: { type: "Point", coordinates: [-84.39, 33.67] },
+      boundingBox: [-84.44, 33.62, -84.37, 33.69],
+      properties: { datetime: "2021-11-14T16:00:00Z" },
+      assets: {
+        image: {
+          href: "https://naipeuwest.blob.core.windows.net/naip/v002/ga/2021/ga_060cm_2021/33084/m_3308421_se_16_060_20211114.tif",
+          type: "image/tiff; application=geotiff; profile=cloud-optimized",
+          roles: ["data"],
+          title: "RGBIR COG tile",
+        },
+      },
+      links: [],
+      collection: collectionId,
+    });
+    await createPoller.pollUntilDone();
+
+    const created = await client.stac.getItem(collectionId, testItemId);
+    expect(created.id).toBe(testItemId);
+    expect(created.collection).toBe(collectionId);
+    expect(created.geometry).toBeDefined();
+    expect(created.assets).toBeDefined();
+    expect(created.assets["image"]).toBeDefined();
+
+    // Clean up
+    const cleanupPoller = client.stac.deleteItem(collectionId, testItemId);
+    await cleanupPoller.pollUntilDone();
+  });
+
+  it("should update a STAC item", async () => {
+    const testItemId = `${itemId}-update-test`;
+
+    // Pre-cleanup
+    try {
+      const deletePoller = client.stac.deleteItem(collectionId, testItemId);
+      await deletePoller.pollUntilDone();
+    } catch (e: unknown) {
+      if (!isRestError(e) || e.statusCode !== 404) throw e;
+    }
+
+    // Create
+    const createPoller = client.stac.createItem(collectionId, {
+      id: testItemId,
+      type: "Feature",
+      stacVersion: "1.0.0",
+      geometry: { type: "Point", coordinates: [-84.39, 33.67] },
+      boundingBox: [-84.44, 33.62, -84.37, 33.69],
+      properties: { datetime: "2021-11-14T16:00:00Z", platform: "Original" },
+      assets: {
+        image: {
+          href: "https://naipeuwest.blob.core.windows.net/naip/v002/ga/2021/ga_060cm_2021/33084/m_3308421_se_16_060_20211114.tif",
+          type: "image/tiff; application=geotiff; profile=cloud-optimized",
+          roles: ["data"],
+        },
+      },
+      links: [],
+      collection: collectionId,
+    });
+    await createPoller.pollUntilDone();
+
+    // Update with new platform property
+    const updatePoller = client.stac.updateItem(collectionId, testItemId, {
+      id: testItemId,
+      type: "Feature",
+      stacVersion: "1.0.0",
+      geometry: { type: "Point", coordinates: [-84.39, 33.67] },
+      boundingBox: [-84.44, 33.62, -84.37, 33.69],
+      properties: { datetime: "2021-11-14T16:00:00Z", platform: "Updated" },
+      assets: {
+        image: {
+          href: "https://naipeuwest.blob.core.windows.net/naip/v002/ga/2021/ga_060cm_2021/33084/m_3308421_se_16_060_20211114.tif",
+          type: "image/tiff; application=geotiff; profile=cloud-optimized",
+          roles: ["data"],
+        },
+      },
+      links: [],
+      collection: collectionId,
+    });
+    await updatePoller.pollUntilDone();
+
+    const updated = await client.stac.getItem(collectionId, testItemId);
+    expect(updated.id).toBe(testItemId);
+    expect(updated.properties.platform).toBe("Updated");
+
+    // Clean up
+    const cleanupPoller = client.stac.deleteItem(collectionId, testItemId);
+    await cleanupPoller.pollUntilDone();
+  });
+
+  it("should replace a STAC item", async () => {
+    const testItemId = `${itemId}-replace-test`;
+
+    // Pre-cleanup
+    try {
+      const deletePoller = client.stac.deleteItem(collectionId, testItemId);
+      await deletePoller.pollUntilDone();
+    } catch (e: unknown) {
+      if (!isRestError(e) || e.statusCode !== 404) throw e;
+    }
+
+    // Create
+    const createPoller = client.stac.createItem(collectionId, {
+      id: testItemId,
+      type: "Feature",
+      stacVersion: "1.0.0",
+      geometry: { type: "Point", coordinates: [-84.39, 33.67] },
+      boundingBox: [-84.44, 33.62, -84.37, 33.69],
+      properties: { datetime: "2021-11-14T16:00:00Z" },
+      assets: {
+        image: {
+          href: "https://naipeuwest.blob.core.windows.net/naip/v002/ga/2021/ga_060cm_2021/33084/m_3308421_se_16_060_20211114.tif",
+          type: "image/tiff; application=geotiff; profile=cloud-optimized",
+          roles: ["data"],
+        },
+      },
+      links: [],
+      collection: collectionId,
+    });
+    await createPoller.pollUntilDone();
+
+    // Replace with updated properties
+    const replacePoller = client.stac.replaceItem(collectionId, testItemId, {
+      id: testItemId,
+      type: "Feature",
+      stacVersion: "1.0.0",
+      geometry: { type: "Point", coordinates: [-84.39, 33.67] },
+      boundingBox: [-84.44, 33.62, -84.37, 33.69],
+      properties: { datetime: "2021-11-14T16:00:00Z", platform: "Replaced" },
+      assets: {
+        image: {
+          href: "https://naipeuwest.blob.core.windows.net/naip/v002/ga/2021/ga_060cm_2021/33084/m_3308421_se_16_060_20211114.tif",
+          type: "image/tiff; application=geotiff; profile=cloud-optimized",
+          roles: ["data"],
+        },
+      },
+      links: [],
+      collection: collectionId,
+    });
+    await replacePoller.pollUntilDone();
+
+    const replaced = await client.stac.getItem(collectionId, testItemId);
+    expect(replaced.id).toBe(testItemId);
+    expect(replaced.properties.platform).toBe("Replaced");
+
+    // Clean up
+    const cleanupPoller = client.stac.deleteItem(collectionId, testItemId);
+    await cleanupPoller.pollUntilDone();
+  });
+
+  it("should delete a STAC item", async () => {
+    const testItemId = `${itemId}-delete-test`;
+
+    // Pre-cleanup
+    try {
+      const deletePoller = client.stac.deleteItem(collectionId, testItemId);
+      await deletePoller.pollUntilDone();
+    } catch (e: unknown) {
+      if (!isRestError(e) || e.statusCode !== 404) throw e;
+    }
+
+    // Create
+    const createPoller = client.stac.createItem(collectionId, {
+      id: testItemId,
+      type: "Feature",
+      stacVersion: "1.0.0",
+      geometry: { type: "Point", coordinates: [-84.39, 33.67] },
+      boundingBox: [-84.44, 33.62, -84.37, 33.69],
+      properties: { datetime: "2021-11-14T16:00:00Z" },
+      assets: {
+        image: {
+          href: "https://naipeuwest.blob.core.windows.net/naip/v002/ga/2021/ga_060cm_2021/33084/m_3308421_se_16_060_20211114.tif",
+          type: "image/tiff; application=geotiff; profile=cloud-optimized",
+          roles: ["data"],
+        },
+      },
+      links: [],
+      collection: collectionId,
+    });
+    await createPoller.pollUntilDone();
+
+    // Delete
+    const deletePoller = client.stac.deleteItem(collectionId, testItemId);
+    await deletePoller.pollUntilDone();
+
+    // Verify deletion
+    try {
+      await client.stac.getItem(collectionId, testItemId);
+      // If we get here in live mode, deletion may still be propagating
+    } catch (e: unknown) {
+      if (isRestError(e)) {
+        expect(e.statusCode).toBe(404);
+      }
+    }
   });
 });

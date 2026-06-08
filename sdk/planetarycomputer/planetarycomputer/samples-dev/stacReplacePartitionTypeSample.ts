@@ -15,7 +15,7 @@ async function main(): Promise<void> {
   const collectionId = process.env.PLANETARYCOMPUTER_COLLECTION_ID || "naip";
   const client = new PlanetaryComputerProClient(endpoint, credential);
 
-  await client.stac.replacePartitionType(collectionId, { scheme: "Year" } as any);
+  await client.stac.replacePartitionType(collectionId, { scheme: "year" });
   console.log("Partition type replaced.");
 }
 

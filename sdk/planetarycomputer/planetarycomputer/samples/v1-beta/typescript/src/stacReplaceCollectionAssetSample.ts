@@ -24,7 +24,7 @@ async function main(): Promise<void> {
       title: "Updated Asset",
     },
     file: new Blob(["updated content"], { type: "application/octet-stream" }),
-  } as any);
+  });
   console.log(result);
 }
 

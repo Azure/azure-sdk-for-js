@@ -34,7 +34,7 @@ async function main(): Promise<void> {
         ],
       },
       properties: {},
-    } as any,
+    },
     { assets: ["image"] },
   );
   console.log(result);

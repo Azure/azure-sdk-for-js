@@ -37,11 +37,7 @@ describe("STAC Item Tiler operations", () => {
   it("should list tile matrices", async () => {
     const response = await client.data.getTileMatrices();
     expect(response).toBeDefined();
-    // Response may be an object with tileMatrixSets or an array
-    const matrices = Array.isArray(response)
-      ? response
-      : ((response as any).tileMatrixSets ?? Object.keys(response));
-    expect(matrices.length).toBeGreaterThanOrEqual(1);
+    expect(response.body.length).toBeGreaterThanOrEqual(1);
   });
 
   it("should list available assets for an item", async () => {
@@ -101,11 +97,8 @@ describe("STAC Item Tiler operations", () => {
         assetBandIndices: ["image|1,2,3"],
       },
     );
-    // WMTS returns { body: Uint8Array } with XML content
-    // The body may be gzip-compressed or already decompressed
-    const rawBody = (response as any).body as Uint8Array;
-    expect(rawBody).toBeDefined();
-    expect(rawBody.length).toBeGreaterThan(0);
+    expect(response.body).toBeDefined();
+    expect(response.body.length).toBeGreaterThan(0);
   });
 
   it("should get per-asset statistics", async () => {
@@ -135,7 +128,7 @@ describe("STAC Item Tiler operations", () => {
           ],
         },
         properties: {},
-      } as any,
+      },
       {
         assets: ["image"],
         assetBandIndices: ["image|1,2,3"],
@@ -168,7 +161,7 @@ describe("STAC Item Tiler operations", () => {
           ],
         },
         properties: {},
-      } as any,
+      },
       {
         assets: ["image"],
         assetBandIndices: ["image|1,2,3"],

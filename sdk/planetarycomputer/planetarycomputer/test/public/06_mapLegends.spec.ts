@@ -25,7 +25,7 @@ describe("Map Legends operations", () => {
     expect(response).toBeDefined();
     // Response is a map of class values to RGBA color arrays
     // The SDK may wrap it in additionalProperties
-    const legend = (response as any).additionalProperties ?? response;
+    const legend = response.additionalProperties ?? response;
     const keys = Object.keys(legend);
     expect(keys.length).toBeGreaterThan(0);
   });

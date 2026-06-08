@@ -162,9 +162,9 @@ const catalogUri = "<your-geocatalog-endpoint>";
 const client = new PlanetaryComputerProClient(catalogUri, credential);
 const searchResult = await client.stac.search({
   collections: ["naip"],
-  dateTime: "2021-01-01T00:00:00Z/2022-12-31T23:59:59Z",
+  datetime: "2021-01-01T00:00:00Z/2022-12-31T23:59:59Z",
   limit: 10,
-} as any);
+});
 console.log(`Found ${searchResult.features.length} items`);
 for (const item of searchResult.features) {
   console.log(`Item ID: ${item.id}, Collection: ${item.collection}`);
@@ -205,7 +205,7 @@ const poller = await client.stac.createCollection({
     temporal: { interval: [[null, null]] },
   },
   links: [],
-} as any);
+});
 await poller.pollUntilDone();
 console.log("Collection created");
 ```

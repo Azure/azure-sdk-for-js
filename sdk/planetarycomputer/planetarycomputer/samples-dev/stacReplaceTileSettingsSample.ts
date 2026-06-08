@@ -18,7 +18,7 @@ async function main(): Promise<void> {
   const result = await client.stac.replaceTileSettings(collectionId, {
     maxItemsPerTile: 35,
     minZoom: 6,
-  } as any);
+  });
   console.log(result);
 }
 

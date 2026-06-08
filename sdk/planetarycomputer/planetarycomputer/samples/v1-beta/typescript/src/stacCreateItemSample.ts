@@ -24,7 +24,7 @@ async function main(): Promise<void> {
     assets: {},
     links: [],
     collection: collectionId,
-  } as any);
+  });
   await poller.pollUntilDone();
   console.log("Item created.");
 }

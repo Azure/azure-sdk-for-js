@@ -22,10 +22,10 @@ async function main(): Promise<void> {
     license: "proprietary",
     extent: {
       spatial: { boundingBox: [[-180, -90, 180, 90]] },
-      temporal: { interval: [["2020-01-01T00:00:00Z", null]] },
+      temporal: { interval: [[new Date("2020-01-01T00:00:00Z"), null]] },
     },
     links: [],
-  } as any);
+  });
   await poller.pollUntilDone();
   console.log("Collection created.");
 }

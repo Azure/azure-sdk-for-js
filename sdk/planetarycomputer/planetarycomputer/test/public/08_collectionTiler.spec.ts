@@ -84,9 +84,8 @@ describe("Collection Tiler operations", () => {
     const response = await client.data.getCollectionWmtsCapabilities(collectionId, {
       assets: ["image"],
     });
-    const rawBody = (response as any).body as Uint8Array;
-    expect(rawBody).toBeDefined();
-    expect(rawBody.length).toBeGreaterThan(0);
+    expect(response.body).toBeDefined();
+    expect(response.body.length).toBeGreaterThan(0);
   });
 
   it("should crop collection feature from GeoJSON", async () => {
@@ -107,7 +106,7 @@ describe("Collection Tiler operations", () => {
           ],
         },
         properties: {},
-      } as any,
+      },
       {
         assets: ["image"],
         assetBandIndices: ["image|1,2,3"],
@@ -116,5 +115,30 @@ describe("Collection Tiler operations", () => {
     );
     const bytes = await toUint8Array(response);
     expect(bytes.length).toBeGreaterThan(0);
+  });
+
+  it("should list collection tilesets", async () => {
+    const response = await client.data.getCollectionTilesets(collectionId);
+    expect(response).toBeDefined();
+    expect(response.tilesets).toBeDefined();
+  });
+
+  it("should get collection assets for a tile", async () => {
+    const response = await client.data.getCollectionAssetsForTile(
+      collectionId,
+      "WebMercatorQuad",
+      13,
+      2174,
+      3282,
+    );
+    expect(response).toBeDefined();
+  });
+
+  it("should get collection tileset metadata", async () => {
+    const response = await client.data.getCollectionTilesetMetadata(
+      collectionId,
+      "WebMercatorQuad",
+    );
+    expect(response).toBeDefined();
   });
 });

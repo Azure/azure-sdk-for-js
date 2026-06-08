@@ -19,7 +19,7 @@ async function main(): Promise<void> {
     id: "my-mosaic",
     name: "Updated Mosaic",
     cql: {},
-  } as any);
+  });
   console.log(result);
 }
 

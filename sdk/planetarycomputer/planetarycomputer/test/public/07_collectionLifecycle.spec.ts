@@ -3,7 +3,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import type { PlanetaryComputerProClient } from "../../src/index.js";
+import type { PlanetaryComputerProClient, StacCollection } from "../../src/index.js";
 import { createRecorder, createClient } from "./utils/recordedClient.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
@@ -23,7 +23,10 @@ describe("Collection Lifecycle operations", () => {
     await recorder.stop();
   });
 
-  async function createCollectionWithRetry(collectionData: any, maxRetries = 5): Promise<void> {
+  async function createCollectionWithRetry(
+    collectionData: StacCollection,
+    maxRetries = 5,
+  ): Promise<void> {
     let lastError: Error | undefined;
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
@@ -82,7 +85,7 @@ describe("Collection Lifecycle operations", () => {
         },
       },
       links: [],
-    } as any);
+    });
 
     // Step 3: Verify creation
     const collection = await client.stac.getCollection(TEST_COLLECTION_ID);
@@ -94,7 +97,7 @@ describe("Collection Lifecycle operations", () => {
       ...collection,
       description: "UPDATED — Test collection for JS SDK lifecycle tests",
     };
-    const replaceResponse = await client.stac.replaceCollection(TEST_COLLECTION_ID, updated as any);
+    const replaceResponse = await client.stac.replaceCollection(TEST_COLLECTION_ID, updated);
     expect(replaceResponse.description).toContain("UPDATED");
 
     // Step 5: Delete collection (LRO)

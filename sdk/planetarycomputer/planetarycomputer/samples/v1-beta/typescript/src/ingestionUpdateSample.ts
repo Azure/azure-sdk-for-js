@@ -24,7 +24,7 @@ async function main(): Promise<void> {
       sourceCatalogUrl: "https://example.com/catalog.json",
       keepOriginalAssets: true,
       skipExistingItems: true,
-    } as any,
+    },
   );
   console.log(result);
 }

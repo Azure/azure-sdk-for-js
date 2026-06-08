@@ -19,7 +19,7 @@ async function main(): Promise<void> {
     name: "my:property",
     type: "number",
     description: "Updated property",
-  } as any);
+  });
   console.log(result);
 }
 

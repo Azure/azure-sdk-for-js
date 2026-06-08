@@ -19,7 +19,7 @@ async function main(): Promise<void> {
     collections: [collectionId],
     filterLang: "cql2-json",
     filter: { op: "=", args: [{ property: "collection" }, collectionId] },
-  } as any);
+  });
   console.log(result);
 }
 

@@ -17,8 +17,9 @@ async function main() {
   const result = await client.ingestion.replaceSource("00000000-0000-0000-0000-000000000000", {
     id: "00000000-0000-0000-0000-000000000000",
     connectionInfo: {
-      containerUri: "https://SANITIZED.blob.core.windows.net/sample-container",
-      sharedAccessSignatureToken: "sp=rl&st=Sanitized&se=Sanitized&sv=Sanitized&sr=c&sig=Sanitized",
+      containerUri: "https://mystorageaccount.blob.core.windows.net/sample-container",
+      sharedAccessSignatureToken:
+        "sv=2021-01-01&st=2024-01-01T00%3A00%3A00Z&se=2025-01-01T00%3A00%3A00Z&sr=c&sp=rl&sig=<your-signature>",
     },
     kind: "SasToken",
   });

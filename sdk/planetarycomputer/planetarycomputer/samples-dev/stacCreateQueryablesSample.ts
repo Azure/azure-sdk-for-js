@@ -21,7 +21,7 @@ async function main(): Promise<void> {
       type: "string",
       description: "My custom property",
     },
-  ] as any);
+  ]);
   console.log(result);
 }
 

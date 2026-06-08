@@ -20,7 +20,7 @@ async function main(): Promise<void> {
     name: "Updated Render Option",
     type: "raster",
     options: "assets=image&asset_bidx=image|1,2,3",
-  } as any);
+  });
   console.log(result);
 }
 

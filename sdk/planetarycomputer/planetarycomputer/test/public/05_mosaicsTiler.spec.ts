@@ -40,8 +40,8 @@ describe("Mosaics Tiler operations", () => {
           },
         ],
       },
-      sortby: [{ field: "datetime", direction: "desc" }],
-    } as any);
+      sortBy: [{ field: "datetime", direction: "desc" }],
+    });
     expect(response.searchId).toBeTruthy();
     return response.searchId;
   }
@@ -105,9 +105,8 @@ describe("Mosaics Tiler operations", () => {
       assets: ["image"],
       assetBandIndices: ["image|1,2,3"],
     });
-    const rawBody = (response as any).body as Uint8Array;
-    expect(rawBody).toBeDefined();
-    expect(rawBody.length).toBeGreaterThan(0);
+    expect(response.body).toBeDefined();
+    expect(response.body.length).toBeGreaterThan(0);
   });
 
   it("should get mosaics assets for point", async () => {
@@ -177,7 +176,7 @@ describe("Mosaics Tiler operations", () => {
           ],
         },
         properties: {},
-      } as any,
+      },
       {
         assets: ["image"],
         assetBandIndices: ["image|1,2,3"],
