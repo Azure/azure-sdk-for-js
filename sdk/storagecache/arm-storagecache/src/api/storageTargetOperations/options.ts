@@ -4,25 +4,25 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface StorageTargetInvalidateOptionalParams extends OperationOptions {
+export interface StorageTargetOperationsInvalidateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface StorageTargetResumeOptionalParams extends OperationOptions {
+export interface StorageTargetOperationsResumeOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface StorageTargetSuspendOptionalParams extends OperationOptions {
+export interface StorageTargetOperationsSuspendOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface StorageTargetFlushOptionalParams extends OperationOptions {
+export interface StorageTargetOperationsFlushOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

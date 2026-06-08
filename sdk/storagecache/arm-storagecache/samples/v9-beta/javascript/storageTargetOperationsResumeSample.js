@@ -14,7 +14,7 @@ async function storageTargetsResume() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageCacheManagementClient(credential, subscriptionId);
-  await client.storageTarget.resume("scgroup", "sc", "st1");
+  await client.storageTargetOperations.resume("scgroup", "sc", "st1");
 }
 
 async function main() {

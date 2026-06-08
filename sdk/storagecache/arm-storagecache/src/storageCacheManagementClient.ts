@@ -31,8 +31,8 @@ import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { SkusOperations } from "./classic/skus/index.js";
 import { _getSkusOperations } from "./classic/skus/index.js";
-import type { StorageTargetOperations } from "./classic/storageTarget/index.js";
-import { _getStorageTargetOperations } from "./classic/storageTarget/index.js";
+import type { StorageTargetOperationsOperations } from "./classic/storageTargetOperations/index.js";
+import { _getStorageTargetOperationsOperations } from "./classic/storageTargetOperations/index.js";
 import type { StorageTargetsOperations } from "./classic/storageTargets/index.js";
 import { _getStorageTargetsOperations } from "./classic/storageTargets/index.js";
 import type { UsageModelsOperations } from "./classic/usageModels/index.js";
@@ -82,7 +82,7 @@ export class StorageCacheManagementClient {
     this.ascOperations = _getAscOperationsOperations(this._client);
     this.usageModels = _getUsageModelsOperations(this._client);
     this.skus = _getSkusOperations(this._client);
-    this.storageTarget = _getStorageTargetOperations(this._client);
+    this.storageTargetOperations = _getStorageTargetOperationsOperations(this._client);
     this.expansionJobs = _getExpansionJobsOperations(this._client);
     this.autoImportJobs = _getAutoImportJobsOperations(this._client);
     this.importJobs = _getImportJobsOperations(this._client);
@@ -115,8 +115,8 @@ export class StorageCacheManagementClient {
   public readonly usageModels: UsageModelsOperations;
   /** The operation groups for skus */
   public readonly skus: SkusOperations;
-  /** The operation groups for storageTarget */
-  public readonly storageTarget: StorageTargetOperations;
+  /** The operation groups for storageTargetOperations */
+  public readonly storageTargetOperations: StorageTargetOperationsOperations;
   /** The operation groups for expansionJobs */
   public readonly expansionJobs: ExpansionJobsOperations;
   /** The operation groups for autoImportJobs */

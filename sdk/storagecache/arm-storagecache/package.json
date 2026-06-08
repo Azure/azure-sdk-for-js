@@ -104,18 +104,18 @@
         "default": "./dist/commonjs/api/skus/index.js"
       }
     },
-    "./api/storageTarget": {
+    "./api/storageTargetOperations": {
       "browser": {
-        "types": "./dist/browser/api/storageTarget/index.d.ts",
-        "default": "./dist/browser/api/storageTarget/index.js"
+        "types": "./dist/browser/api/storageTargetOperations/index.d.ts",
+        "default": "./dist/browser/api/storageTargetOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/storageTarget/index.d.ts",
-        "default": "./dist/esm/api/storageTarget/index.js"
+        "types": "./dist/esm/api/storageTargetOperations/index.d.ts",
+        "default": "./dist/esm/api/storageTargetOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/storageTarget/index.d.ts",
-        "default": "./dist/commonjs/api/storageTarget/index.js"
+        "types": "./dist/commonjs/api/storageTargetOperations/index.d.ts",
+        "default": "./dist/commonjs/api/storageTargetOperations/index.js"
       }
     },
     "./api/expansionJobs": {

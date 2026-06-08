@@ -7,7 +7,7 @@ import {
   _resumeDeserialize,
   _suspendDeserialize,
   _flushDeserialize,
-} from "./api/storageTarget/operations.js";
+} from "./api/storageTargetOperations/operations.js";
 import {
   _$deleteDeserialize,
   _updateDeserialize,

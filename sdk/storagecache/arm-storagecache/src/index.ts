@@ -252,11 +252,11 @@ export type {
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
 export type { SkusListOptionalParams } from "./api/skus/index.js";
 export type {
-  StorageTargetInvalidateOptionalParams,
-  StorageTargetResumeOptionalParams,
-  StorageTargetSuspendOptionalParams,
-  StorageTargetFlushOptionalParams,
-} from "./api/storageTarget/index.js";
+  StorageTargetOperationsInvalidateOptionalParams,
+  StorageTargetOperationsResumeOptionalParams,
+  StorageTargetOperationsSuspendOptionalParams,
+  StorageTargetOperationsFlushOptionalParams,
+} from "./api/storageTargetOperations/index.js";
 export type {
   StorageTargetsRestoreDefaultsOptionalParams,
   StorageTargetsDnsRefreshOptionalParams,
@@ -277,7 +277,7 @@ export type {
   ImportJobsOperations,
   OperationsOperations,
   SkusOperations,
-  StorageTargetOperations,
+  StorageTargetOperationsOperations,
   StorageTargetsOperations,
   UsageModelsOperations,
 } from "./classic/index.js";

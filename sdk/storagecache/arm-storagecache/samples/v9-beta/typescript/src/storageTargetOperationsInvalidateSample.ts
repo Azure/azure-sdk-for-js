@@ -14,7 +14,7 @@ async function storageTargetsInvalidate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageCacheManagementClient(credential, subscriptionId);
-  await client.storageTarget.invalidate("scgroup", "sc", "st1");
+  await client.storageTargetOperations.invalidate("scgroup", "sc", "st1");
 }
 
 async function main(): Promise<void> {

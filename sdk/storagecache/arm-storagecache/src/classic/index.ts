@@ -11,6 +11,6 @@ export type { ExpansionJobsOperations } from "./expansionJobs/index.js";
 export type { ImportJobsOperations } from "./importJobs/index.js";
 export type { OperationsOperations } from "./operations/index.js";
 export type { SkusOperations } from "./skus/index.js";
-export type { StorageTargetOperations } from "./storageTarget/index.js";
+export type { StorageTargetOperationsOperations } from "./storageTargetOperations/index.js";
 export type { StorageTargetsOperations } from "./storageTargets/index.js";
 export type { UsageModelsOperations } from "./usageModels/index.js";

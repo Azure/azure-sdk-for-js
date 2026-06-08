@@ -1717,7 +1717,7 @@ export class StorageCacheManagementClient {
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly skus: SkusOperations;
-    readonly storageTarget: StorageTargetOperations;
+    readonly storageTargetOperations: StorageTargetOperationsOperations;
     readonly storageTargets: StorageTargetsOperations;
     readonly usageModels: UsageModelsOperations;
 }
@@ -1743,37 +1743,47 @@ export interface StorageTarget extends ProxyResource {
 }
 
 // @public
-export interface StorageTargetFlushOptionalParams extends OperationOptions {
+export interface StorageTargetOperationsFlushOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StorageTargetInvalidateOptionalParams extends OperationOptions {
+export interface StorageTargetOperationsInvalidateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StorageTargetOperations {
+export interface StorageTargetOperationsOperations {
     // @deprecated (undocumented)
-    beginFlush: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginFlush: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetOperationsFlushOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginFlushAndWait: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams) => Promise<void>;
+    beginFlushAndWait: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetOperationsFlushOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginInvalidate: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginInvalidate: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetOperationsInvalidateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginInvalidateAndWait: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams) => Promise<void>;
+    beginInvalidateAndWait: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetOperationsInvalidateOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginResume: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginResume: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetOperationsResumeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginResumeAndWait: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams) => Promise<void>;
+    beginResumeAndWait: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetOperationsResumeOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginSuspend: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetSuspendOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginSuspend: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetOperationsSuspendOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginSuspendAndWait: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetSuspendOptionalParams) => Promise<void>;
-    flush: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams) => PollerLike<OperationState<void>, void>;
-    invalidate: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams) => PollerLike<OperationState<void>, void>;
-    resume: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams) => PollerLike<OperationState<void>, void>;
-    suspend: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetSuspendOptionalParams) => PollerLike<OperationState<void>, void>;
+    beginSuspendAndWait: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetOperationsSuspendOptionalParams) => Promise<void>;
+    flush: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetOperationsFlushOptionalParams) => PollerLike<OperationState<void>, void>;
+    invalidate: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetOperationsInvalidateOptionalParams) => PollerLike<OperationState<void>, void>;
+    resume: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetOperationsResumeOptionalParams) => PollerLike<OperationState<void>, void>;
+    suspend: (resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetOperationsSuspendOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface StorageTargetOperationsResumeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface StorageTargetOperationsSuspendOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1787,11 +1797,6 @@ export interface StorageTargetProperties {
     state?: OperationalStateType;
     targetType: StorageTargetType;
     unknown?: UnknownTarget;
-}
-
-// @public
-export interface StorageTargetResumeOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1852,11 +1857,6 @@ export interface StorageTargetSpaceAllocation {
 
 // @public
 export interface StorageTargetsRestoreDefaultsOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface StorageTargetSuspendOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 

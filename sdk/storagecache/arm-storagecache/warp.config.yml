@@ -8,7 +8,7 @@ exports:
   "./api/ascOperations": "./src/api/ascOperations/index.ts"
   "./api/usageModels": "./src/api/usageModels/index.ts"
   "./api/skus": "./src/api/skus/index.ts"
-  "./api/storageTarget": "./src/api/storageTarget/index.ts"
+  "./api/storageTargetOperations": "./src/api/storageTargetOperations/index.ts"
   "./api/expansionJobs": "./src/api/expansionJobs/index.ts"
   "./api/autoImportJobs": "./src/api/autoImportJobs/index.ts"
   "./api/importJobs": "./src/api/importJobs/index.ts"

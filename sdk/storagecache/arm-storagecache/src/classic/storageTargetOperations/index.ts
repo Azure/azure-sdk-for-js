@@ -2,118 +2,123 @@
 // Licensed under the MIT License.
 
 import type { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
-import { invalidate, resume, suspend, flush } from "../../api/storageTarget/operations.js";
+import {
+  invalidate,
+  resume,
+  suspend,
+  flush,
+} from "../../api/storageTargetOperations/operations.js";
 import type {
-  StorageTargetInvalidateOptionalParams,
-  StorageTargetResumeOptionalParams,
-  StorageTargetSuspendOptionalParams,
-  StorageTargetFlushOptionalParams,
-} from "../../api/storageTarget/options.js";
+  StorageTargetOperationsInvalidateOptionalParams,
+  StorageTargetOperationsResumeOptionalParams,
+  StorageTargetOperationsSuspendOptionalParams,
+  StorageTargetOperationsFlushOptionalParams,
+} from "../../api/storageTargetOperations/options.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
-/** Interface representing a StorageTarget operations. */
-export interface StorageTargetOperations {
+/** Interface representing a StorageTargetOperations operations. */
+export interface StorageTargetOperationsOperations {
   /** Invalidate all cached data for a storage target. Cached files are discarded and fetched from the back end on the next request. */
   invalidate: (
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetInvalidateOptionalParams,
+    options?: StorageTargetOperationsInvalidateOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use invalidate instead */
   beginInvalidate: (
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetInvalidateOptionalParams,
+    options?: StorageTargetOperationsInvalidateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use invalidate instead */
   beginInvalidateAndWait: (
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetInvalidateOptionalParams,
+    options?: StorageTargetOperationsInvalidateOptionalParams,
   ) => Promise<void>;
   /** Resumes client access to a previously suspended storage target. */
   resume: (
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetResumeOptionalParams,
+    options?: StorageTargetOperationsResumeOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use resume instead */
   beginResume: (
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetResumeOptionalParams,
+    options?: StorageTargetOperationsResumeOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use resume instead */
   beginResumeAndWait: (
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetResumeOptionalParams,
+    options?: StorageTargetOperationsResumeOptionalParams,
   ) => Promise<void>;
   /** Suspends client access to a storage target. */
   suspend: (
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetSuspendOptionalParams,
+    options?: StorageTargetOperationsSuspendOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use suspend instead */
   beginSuspend: (
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetSuspendOptionalParams,
+    options?: StorageTargetOperationsSuspendOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use suspend instead */
   beginSuspendAndWait: (
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetSuspendOptionalParams,
+    options?: StorageTargetOperationsSuspendOptionalParams,
   ) => Promise<void>;
   /** Tells the cache to write all dirty data to the Storage Target's backend storage. Client requests to this storage target's namespace will return errors until the flush operation completes. */
   flush: (
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetFlushOptionalParams,
+    options?: StorageTargetOperationsFlushOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use flush instead */
   beginFlush: (
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetFlushOptionalParams,
+    options?: StorageTargetOperationsFlushOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use flush instead */
   beginFlushAndWait: (
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetFlushOptionalParams,
+    options?: StorageTargetOperationsFlushOptionalParams,
   ) => Promise<void>;
 }
 
-function _getStorageTarget(context: StorageCacheManagementContext) {
+function _getStorageTargetOperations(context: StorageCacheManagementContext) {
   return {
     invalidate: (
       resourceGroupName: string,
       cacheName: string,
       storageTargetName: string,
-      options?: StorageTargetInvalidateOptionalParams,
+      options?: StorageTargetOperationsInvalidateOptionalParams,
     ) => invalidate(context, resourceGroupName, cacheName, storageTargetName, options),
     beginInvalidate: async (
       resourceGroupName: string,
       cacheName: string,
       storageTargetName: string,
-      options?: StorageTargetInvalidateOptionalParams,
+      options?: StorageTargetOperationsInvalidateOptionalParams,
     ) => {
       const poller = invalidate(context, resourceGroupName, cacheName, storageTargetName, options);
       await poller.submitted();
@@ -123,7 +128,7 @@ function _getStorageTarget(context: StorageCacheManagementContext) {
       resourceGroupName: string,
       cacheName: string,
       storageTargetName: string,
-      options?: StorageTargetInvalidateOptionalParams,
+      options?: StorageTargetOperationsInvalidateOptionalParams,
     ) => {
       return await invalidate(context, resourceGroupName, cacheName, storageTargetName, options);
     },
@@ -131,13 +136,13 @@ function _getStorageTarget(context: StorageCacheManagementContext) {
       resourceGroupName: string,
       cacheName: string,
       storageTargetName: string,
-      options?: StorageTargetResumeOptionalParams,
+      options?: StorageTargetOperationsResumeOptionalParams,
     ) => resume(context, resourceGroupName, cacheName, storageTargetName, options),
     beginResume: async (
       resourceGroupName: string,
       cacheName: string,
       storageTargetName: string,
-      options?: StorageTargetResumeOptionalParams,
+      options?: StorageTargetOperationsResumeOptionalParams,
     ) => {
       const poller = resume(context, resourceGroupName, cacheName, storageTargetName, options);
       await poller.submitted();
@@ -147,7 +152,7 @@ function _getStorageTarget(context: StorageCacheManagementContext) {
       resourceGroupName: string,
       cacheName: string,
       storageTargetName: string,
-      options?: StorageTargetResumeOptionalParams,
+      options?: StorageTargetOperationsResumeOptionalParams,
     ) => {
       return await resume(context, resourceGroupName, cacheName, storageTargetName, options);
     },
@@ -155,13 +160,13 @@ function _getStorageTarget(context: StorageCacheManagementContext) {
       resourceGroupName: string,
       cacheName: string,
       storageTargetName: string,
-      options?: StorageTargetSuspendOptionalParams,
+      options?: StorageTargetOperationsSuspendOptionalParams,
     ) => suspend(context, resourceGroupName, cacheName, storageTargetName, options),
     beginSuspend: async (
       resourceGroupName: string,
       cacheName: string,
       storageTargetName: string,
-      options?: StorageTargetSuspendOptionalParams,
+      options?: StorageTargetOperationsSuspendOptionalParams,
     ) => {
       const poller = suspend(context, resourceGroupName, cacheName, storageTargetName, options);
       await poller.submitted();
@@ -171,7 +176,7 @@ function _getStorageTarget(context: StorageCacheManagementContext) {
       resourceGroupName: string,
       cacheName: string,
       storageTargetName: string,
-      options?: StorageTargetSuspendOptionalParams,
+      options?: StorageTargetOperationsSuspendOptionalParams,
     ) => {
       return await suspend(context, resourceGroupName, cacheName, storageTargetName, options);
     },
@@ -179,13 +184,13 @@ function _getStorageTarget(context: StorageCacheManagementContext) {
       resourceGroupName: string,
       cacheName: string,
       storageTargetName: string,
-      options?: StorageTargetFlushOptionalParams,
+      options?: StorageTargetOperationsFlushOptionalParams,
     ) => flush(context, resourceGroupName, cacheName, storageTargetName, options),
     beginFlush: async (
       resourceGroupName: string,
       cacheName: string,
       storageTargetName: string,
-      options?: StorageTargetFlushOptionalParams,
+      options?: StorageTargetOperationsFlushOptionalParams,
     ) => {
       const poller = flush(context, resourceGroupName, cacheName, storageTargetName, options);
       await poller.submitted();
@@ -195,17 +200,17 @@ function _getStorageTarget(context: StorageCacheManagementContext) {
       resourceGroupName: string,
       cacheName: string,
       storageTargetName: string,
-      options?: StorageTargetFlushOptionalParams,
+      options?: StorageTargetOperationsFlushOptionalParams,
     ) => {
       return await flush(context, resourceGroupName, cacheName, storageTargetName, options);
     },
   };
 }
 
-export function _getStorageTargetOperations(
+export function _getStorageTargetOperationsOperations(
   context: StorageCacheManagementContext,
-): StorageTargetOperations {
+): StorageTargetOperationsOperations {
   return {
-    ..._getStorageTarget(context),
+    ..._getStorageTargetOperations(context),
   };
 }

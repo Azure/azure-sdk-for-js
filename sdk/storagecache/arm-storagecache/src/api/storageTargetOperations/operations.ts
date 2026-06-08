@@ -6,10 +6,10 @@ import { cloudErrorDeserializer } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  StorageTargetInvalidateOptionalParams,
-  StorageTargetResumeOptionalParams,
-  StorageTargetSuspendOptionalParams,
-  StorageTargetFlushOptionalParams,
+  StorageTargetOperationsInvalidateOptionalParams,
+  StorageTargetOperationsResumeOptionalParams,
+  StorageTargetOperationsSuspendOptionalParams,
+  StorageTargetOperationsFlushOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -20,7 +20,7 @@ export function _invalidateSend(
   resourceGroupName: string,
   cacheName: string,
   storageTargetName: string,
-  options: StorageTargetInvalidateOptionalParams = { requestOptions: {} },
+  options: StorageTargetOperationsInvalidateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}/invalidate{?api%2Dversion}",
@@ -58,7 +58,7 @@ export function invalidate(
   resourceGroupName: string,
   cacheName: string,
   storageTargetName: string,
-  options: StorageTargetInvalidateOptionalParams = { requestOptions: {} },
+  options: StorageTargetOperationsInvalidateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _invalidateDeserialize, ["202", "200", "204", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -75,7 +75,7 @@ export function _resumeSend(
   resourceGroupName: string,
   cacheName: string,
   storageTargetName: string,
-  options: StorageTargetResumeOptionalParams = { requestOptions: {} },
+  options: StorageTargetOperationsResumeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}/resume{?api%2Dversion}",
@@ -113,7 +113,7 @@ export function resume(
   resourceGroupName: string,
   cacheName: string,
   storageTargetName: string,
-  options: StorageTargetResumeOptionalParams = { requestOptions: {} },
+  options: StorageTargetOperationsResumeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _resumeDeserialize, ["202", "200", "204", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -130,7 +130,7 @@ export function _suspendSend(
   resourceGroupName: string,
   cacheName: string,
   storageTargetName: string,
-  options: StorageTargetSuspendOptionalParams = { requestOptions: {} },
+  options: StorageTargetOperationsSuspendOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}/suspend{?api%2Dversion}",
@@ -168,7 +168,7 @@ export function suspend(
   resourceGroupName: string,
   cacheName: string,
   storageTargetName: string,
-  options: StorageTargetSuspendOptionalParams = { requestOptions: {} },
+  options: StorageTargetOperationsSuspendOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _suspendDeserialize, ["202", "200", "204", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -185,7 +185,7 @@ export function _flushSend(
   resourceGroupName: string,
   cacheName: string,
   storageTargetName: string,
-  options: StorageTargetFlushOptionalParams = { requestOptions: {} },
+  options: StorageTargetOperationsFlushOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}/flush{?api%2Dversion}",
@@ -223,7 +223,7 @@ export function flush(
   resourceGroupName: string,
   cacheName: string,
   storageTargetName: string,
-  options: StorageTargetFlushOptionalParams = { requestOptions: {} },
+  options: StorageTargetOperationsFlushOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _flushDeserialize, ["202", "200", "204", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,

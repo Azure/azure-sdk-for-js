@@ -1,6 +1,6 @@
 # Release History
 
-## 9.0.0-beta.1 (2026-06-04)
+## 9.0.0-beta.1 (2026-06-08)
 Compared with version 8.2.0
 
 ### Features Added
@@ -32,10 +32,10 @@ Compared with version 8.2.0
   - Added operation ImportJobsOperations.createOrUpdate
   - Added operation ImportJobsOperations.delete
   - Added operation ImportJobsOperations.update
-  - Added operation StorageTargetOperations.flush
-  - Added operation StorageTargetOperations.invalidate
-  - Added operation StorageTargetOperations.resume
-  - Added operation StorageTargetOperations.suspend
+  - Added operation StorageTargetOperationsOperations.flush
+  - Added operation StorageTargetOperationsOperations.invalidate
+  - Added operation StorageTargetOperationsOperations.resume
+  - Added operation StorageTargetOperationsOperations.suspend
   - Added operation StorageTargetsOperations.createOrUpdate
   - Added operation StorageTargetsOperations.delete
   - Added operation StorageTargetsOperations.dnsRefresh
@@ -62,6 +62,10 @@ Compared with version 8.2.0
   - Added Interface ProxyResource
   - Added Interface RestorePollerOptions
   - Added Interface SimplePollerLike
+  - Added Interface StorageTargetOperationsFlushOptionalParams
+  - Added Interface StorageTargetOperationsInvalidateOptionalParams
+  - Added Interface StorageTargetOperationsResumeOptionalParams
+  - Added Interface StorageTargetOperationsSuspendOptionalParams
   - Added Interface StorageTargetProperties
   - Interface AutoExportJob has a new optional parameter status
   - Interface AutoImportJob has a new optional parameter status
@@ -82,9 +86,12 @@ Compared with version 8.2.0
   - Operation ExpansionJobs.beginDeleteAndWait has a new signature
   - Operation ImportJobs.beginDeleteAndWait has a new signature
   - Class StorageCacheManagementClient no longer has parameter apiVersion
-  - Class StorageCacheManagementClient no longer has parameter storageTargetOperations
   - Class StorageCacheManagementClient no longer has parameter subscriptionId
+  - Removed Interface StorageTargetFlushOptionalParams
+  - Removed Interface StorageTargetInvalidateOptionalParams
   - Removed Interface StorageTargetResource
+  - Removed Interface StorageTargetResumeOptionalParams
+  - Removed Interface StorageTargetSuspendOptionalParams
   - Interface AutoExportJob no longer has parameter currentIterationFilesDiscovered
   - Interface AutoExportJob no longer has parameter currentIterationFilesExported
   - Interface AutoExportJob no longer has parameter currentIterationFilesFailed
