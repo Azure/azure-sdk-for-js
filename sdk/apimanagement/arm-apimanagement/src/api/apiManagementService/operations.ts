@@ -627,9 +627,7 @@ export function _$deleteSend(
   });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ApiManagementServiceResource> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -638,7 +636,7 @@ export async function _$deleteDeserialize(
     throw error;
   }
 
-  return apiManagementServiceResourceDeserializer(result.body);
+  return;
 }
 
 /** Deletes an existing API Management service. */
@@ -647,14 +645,14 @@ export function $delete(
   resourceGroupName: string,
   serviceName: string,
   options: ApiManagementServiceDeleteOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ApiManagementServiceResource>, ApiManagementServiceResource> {
+): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, serviceName, options),
     resourceLocationConfig: "location",
     apiVersion: context.apiVersion ?? "2025-09-01-preview",
-  }) as PollerLike<OperationState<ApiManagementServiceResource>, ApiManagementServiceResource>;
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(

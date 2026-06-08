@@ -231,7 +231,7 @@ export type {
   GatewaySkuCapacity,
   GatewaySkuCapacityScaleType,
   TagResourceContract,
-  TagTagResourceContractProperties,
+  TagResourceContractProperties,
   ApiTagResourceContractProperties,
   OperationTagResourceContractProperties,
   ProductTagResourceContractProperties,

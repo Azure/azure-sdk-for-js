@@ -14,8 +14,7 @@ async function apiManagementDeletedServicesPurge() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.deletedServices.purge("westus", "apimService3");
-  console.log(result);
+  await client.deletedServices.purge("apimService3", "westus");
 }
 
 async function main() {

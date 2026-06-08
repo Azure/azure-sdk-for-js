@@ -968,9 +968,9 @@ export interface ApiManagementServiceOperations {
     // @deprecated (undocumented)
     beginCreateOrUpdateAndWait: (resourceGroupName: string, serviceName: string, parameters: ApiManagementServiceResource, options?: ApiManagementServiceCreateOrUpdateOptionalParams) => Promise<ApiManagementServiceResource>;
     // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, serviceName: string, options?: ApiManagementServiceDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<ApiManagementServiceResource>, ApiManagementServiceResource>>;
+    beginDelete: (resourceGroupName: string, serviceName: string, options?: ApiManagementServiceDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, serviceName: string, options?: ApiManagementServiceDeleteOptionalParams) => Promise<ApiManagementServiceResource>;
+    beginDeleteAndWait: (resourceGroupName: string, serviceName: string, options?: ApiManagementServiceDeleteOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
     beginMigrateToStv2: (resourceGroupName: string, serviceName: string, options?: ApiManagementServiceMigrateToStv2OptionalParams) => Promise<SimplePollerLike<OperationState<ApiManagementServiceResource>, ApiManagementServiceResource>>;
     // @deprecated (undocumented)
@@ -989,7 +989,7 @@ export interface ApiManagementServiceOperations {
     beginUpdateAndWait: (resourceGroupName: string, serviceName: string, parameters: ApiManagementServiceUpdateParameters, options?: ApiManagementServiceUpdateOptionalParams) => Promise<ApiManagementServiceResource>;
     checkNameAvailability: (parameters: ApiManagementServiceCheckNameAvailabilityParameters, options?: ApiManagementServiceCheckNameAvailabilityOptionalParams) => Promise<ApiManagementServiceNameAvailabilityResult>;
     createOrUpdate: (resourceGroupName: string, serviceName: string, parameters: ApiManagementServiceResource, options?: ApiManagementServiceCreateOrUpdateOptionalParams) => PollerLike<OperationState<ApiManagementServiceResource>, ApiManagementServiceResource>;
-    delete: (resourceGroupName: string, serviceName: string, options?: ApiManagementServiceDeleteOptionalParams) => PollerLike<OperationState<ApiManagementServiceResource>, ApiManagementServiceResource>;
+    delete: (resourceGroupName: string, serviceName: string, options?: ApiManagementServiceDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, serviceName: string, options?: ApiManagementServiceGetOptionalParams) => Promise<ApiManagementServiceResource>;
     getDomainOwnershipIdentifier: (options?: ApiManagementServiceGetDomainOwnershipIdentifierOptionalParams) => Promise<ApiManagementServiceGetDomainOwnershipIdentifierResult>;
     getSsoToken: (resourceGroupName: string, serviceName: string, options?: ApiManagementServiceGetSsoTokenOptionalParams) => Promise<ApiManagementServiceGetSsoTokenResult>;
@@ -2929,12 +2929,12 @@ export interface DeletedServicesListBySubscriptionOptionalParams extends Operati
 // @public
 export interface DeletedServicesOperations {
     // @deprecated (undocumented)
-    beginPurge: (location: string, serviceName: string, options?: DeletedServicesPurgeOptionalParams) => Promise<SimplePollerLike<OperationState<DeletedServiceContract>, DeletedServiceContract>>;
+    beginPurge: (serviceName: string, location: string, options?: DeletedServicesPurgeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginPurgeAndWait: (location: string, serviceName: string, options?: DeletedServicesPurgeOptionalParams) => Promise<DeletedServiceContract>;
-    getByName: (location: string, serviceName: string, options?: DeletedServicesGetByNameOptionalParams) => Promise<DeletedServiceContract>;
+    beginPurgeAndWait: (serviceName: string, location: string, options?: DeletedServicesPurgeOptionalParams) => Promise<void>;
+    getByName: (serviceName: string, location: string, options?: DeletedServicesGetByNameOptionalParams) => Promise<DeletedServiceContract>;
     listBySubscription: (options?: DeletedServicesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DeletedServiceContract>;
-    purge: (location: string, serviceName: string, options?: DeletedServicesPurgeOptionalParams) => PollerLike<OperationState<DeletedServiceContract>, DeletedServiceContract>;
+    purge: (serviceName: string, location: string, options?: DeletedServicesPurgeOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
@@ -7298,7 +7298,13 @@ export interface TagResourceContract {
     api?: ApiTagResourceContractProperties;
     operation?: OperationTagResourceContractProperties;
     product?: ProductTagResourceContractProperties;
-    tag: TagTagResourceContractProperties;
+    tag: TagResourceContractProperties;
+}
+
+// @public
+export interface TagResourceContractProperties {
+    id?: string;
+    name?: string;
 }
 
 // @public
@@ -7311,12 +7317,6 @@ export interface TagResourceListByServiceOptionalParams extends OperationOptions
 // @public
 export interface TagResourceOperations {
     listByService: (resourceGroupName: string, serviceName: string, options?: TagResourceListByServiceOptionalParams) => PagedAsyncIterableIterator<TagResourceContract>;
-}
-
-// @public
-export interface TagTagResourceContractProperties {
-    id?: string;
-    name?: string;
 }
 
 // @public

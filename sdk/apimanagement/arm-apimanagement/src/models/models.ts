@@ -7585,7 +7585,7 @@ export function tagResourceContractArrayDeserializer(result: Array<TagResourceCo
 /** TagResource contract properties. */
 export interface TagResourceContract {
   /** Tag associated with the resource. */
-  tag: TagTagResourceContractProperties;
+  tag: TagResourceContractProperties;
   /** API associated with the tag. */
   api?: ApiTagResourceContractProperties;
   /** Operation associated with the tag. */
@@ -7596,7 +7596,7 @@ export interface TagResourceContract {
 
 export function tagResourceContractDeserializer(item: any): TagResourceContract {
   return {
-    tag: tagTagResourceContractPropertiesDeserializer(item["tag"]),
+    tag: tagResourceContractPropertiesDeserializer(item["tag"]),
     api: !item["api"] ? item["api"] : apiTagResourceContractPropertiesDeserializer(item["api"]),
     operation: !item["operation"]
       ? item["operation"]
@@ -7608,16 +7608,16 @@ export function tagResourceContractDeserializer(item: any): TagResourceContract 
 }
 
 /** Contract defining the Tag property in the Tag Resource Contract */
-export interface TagTagResourceContractProperties {
+export interface TagResourceContractProperties {
   /** Tag identifier */
   id?: string;
   /** Tag Name */
   name?: string;
 }
 
-export function tagTagResourceContractPropertiesDeserializer(
+export function tagResourceContractPropertiesDeserializer(
   item: any,
-): TagTagResourceContractProperties {
+): TagResourceContractProperties {
   return {
     id: item["id"],
     name: item["name"],

@@ -14,7 +14,7 @@ async function apiManagementGetDeletedServiceByName() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.deletedServices.getByName("westus", "apimService3");
+  const result = await client.deletedServices.getByName("apimService3", "westus");
   console.log(result);
 }
 

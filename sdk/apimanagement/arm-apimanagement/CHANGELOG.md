@@ -1,6 +1,6 @@
 # Release History
 
-## 11.0.0-beta.1 (2026-05-29)
+## 11.0.0-beta.1 (2026-06-08)
 Compared with version 10.0.0
 
 ### Features Added
@@ -172,7 +172,6 @@ Compared with version 10.0.0
   - Added Interface TagContractProperties
   - Added Interface TagOperationLinkContractProperties
   - Added Interface TagProductLinkContractProperties
-  - Added Interface TagTagResourceContractProperties
   - Added Interface TenantConfigurationSyncStateContractProperties
   - Added Interface TenantSettingsContractProperties
   - Added Interface ToolContract
@@ -360,7 +359,6 @@ Compared with version 10.0.0
   - Operation ApiIssue.getEntityTag has a new signature
   - Operation ApiIssueAttachment.getEntityTag has a new signature
   - Operation ApiIssueComment.getEntityTag has a new signature
-  - Operation ApiManagementService.beginDeleteAndWait has a new signature
   - Operation ApiOperation.getEntityTag has a new signature
   - Operation ApiOperationPolicy.getEntityTag has a new signature
   - Operation ApiPolicy.getEntityTag has a new signature
@@ -375,7 +373,6 @@ Compared with version 10.0.0
   - Operation Certificate.getEntityTag has a new signature
   - Operation ContentItem.getEntityTag has a new signature
   - Operation DelegationSettings.getEntityTag has a new signature
-  - Operation DeletedServices.beginPurgeAndWait has a new signature
   - Operation Diagnostic.getEntityTag has a new signature
   - Operation Documentation.getEntityTag has a new signature
   - Operation EmailTemplate.getEntityTag has a new signature
@@ -502,7 +499,6 @@ Compared with version 10.0.0
   - Removed Interface TagOperationLinkCollection
   - Removed Interface TagProductLinkCollection
   - Removed Interface TagResourceCollection
-  - Removed Interface TagResourceContractProperties
   - Removed Interface TenantSettingsCollection
   - Removed Interface UserCollection
   - Removed Interface UserIdentityCollection

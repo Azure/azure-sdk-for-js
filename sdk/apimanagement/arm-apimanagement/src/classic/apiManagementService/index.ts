@@ -184,21 +184,19 @@ export interface ApiManagementServiceOperations {
     resourceGroupName: string,
     serviceName: string,
     options?: ApiManagementServiceDeleteOptionalParams,
-  ) => PollerLike<OperationState<ApiManagementServiceResource>, ApiManagementServiceResource>;
+  ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use delete instead */
   beginDelete: (
     resourceGroupName: string,
     serviceName: string,
     options?: ApiManagementServiceDeleteOptionalParams,
-  ) => Promise<
-    SimplePollerLike<OperationState<ApiManagementServiceResource>, ApiManagementServiceResource>
-  >;
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use delete instead */
   beginDeleteAndWait: (
     resourceGroupName: string,
     serviceName: string,
     options?: ApiManagementServiceDeleteOptionalParams,
-  ) => Promise<ApiManagementServiceResource>;
+  ) => Promise<void>;
   /** Updates an existing API Management service. */
   update: (
     resourceGroupName: string,

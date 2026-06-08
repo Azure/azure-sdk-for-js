@@ -82,8 +82,8 @@ export function listBySubscription(
 
 export function _purgeSend(
   context: Client,
-  location: string,
   serviceName: string,
+  location: string,
   options: DeletedServicesPurgeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -104,9 +104,7 @@ export function _purgeSend(
   });
 }
 
-export async function _purgeDeserialize(
-  result: PathUncheckedResponse,
-): Promise<DeletedServiceContract> {
+export async function _purgeDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -115,29 +113,29 @@ export async function _purgeDeserialize(
     throw error;
   }
 
-  return deletedServiceContractDeserializer(result.body);
+  return;
 }
 
 /** Purges Api Management Service (deletes it with no option to undelete). */
 export function purge(
   context: Client,
-  location: string,
   serviceName: string,
+  location: string,
   options: DeletedServicesPurgeOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<DeletedServiceContract>, DeletedServiceContract> {
+): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _purgeDeserialize, ["200", "202", "204"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _purgeSend(context, location, serviceName, options),
+    getInitialResponse: () => _purgeSend(context, serviceName, location, options),
     resourceLocationConfig: "location",
     apiVersion: context.apiVersion ?? "2025-09-01-preview",
-  }) as PollerLike<OperationState<DeletedServiceContract>, DeletedServiceContract>;
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _getByNameSend(
   context: Client,
-  location: string,
   serviceName: string,
+  location: string,
   options: DeletedServicesGetByNameOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -175,10 +173,10 @@ export async function _getByNameDeserialize(
 /** Get soft-deleted Api Management Service by name. */
 export async function getByName(
   context: Client,
-  location: string,
   serviceName: string,
+  location: string,
   options: DeletedServicesGetByNameOptionalParams = { requestOptions: {} },
 ): Promise<DeletedServiceContract> {
-  const result = await _getByNameSend(context, location, serviceName, options);
+  const result = await _getByNameSend(context, serviceName, location, options);
   return _getByNameDeserialize(result);
 }

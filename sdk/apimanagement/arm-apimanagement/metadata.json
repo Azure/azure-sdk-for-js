@@ -221,7 +221,7 @@
       "@azure/arm-apimanagement!GatewaySkuCapacity:interface": "Microsoft.ApiManagement.GatewaySkuCapacity",
       "@azure/arm-apimanagement!TagResourceCollection:interface": "Microsoft.ApiManagement.TagResourceCollection",
       "@azure/arm-apimanagement!TagResourceContract:interface": "Microsoft.ApiManagement.TagResourceContract",
-      "@azure/arm-apimanagement!TagTagResourceContractProperties:interface": "Microsoft.ApiManagement.TagTagResourceContractProperties",
+      "@azure/arm-apimanagement!TagResourceContractProperties:interface": "Microsoft.ApiManagement.TagTagResourceContractProperties",
       "@azure/arm-apimanagement!ApiTagResourceContractProperties:interface": "Microsoft.ApiManagement.ApiTagResourceContractProperties",
       "@azure/arm-apimanagement!OperationTagResourceContractProperties:interface": "Microsoft.ApiManagement.OperationTagResourceContractProperties",
       "@azure/arm-apimanagement!ProductTagResourceContractProperties:interface": "Microsoft.ApiManagement.ProductTagResourceContractProperties",

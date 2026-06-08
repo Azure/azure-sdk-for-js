@@ -21,26 +21,26 @@ export interface DeletedServicesOperations {
   ) => PagedAsyncIterableIterator<DeletedServiceContract>;
   /** Purges Api Management Service (deletes it with no option to undelete). */
   purge: (
-    location: string,
     serviceName: string,
+    location: string,
     options?: DeletedServicesPurgeOptionalParams,
-  ) => PollerLike<OperationState<DeletedServiceContract>, DeletedServiceContract>;
+  ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use purge instead */
   beginPurge: (
-    location: string,
     serviceName: string,
+    location: string,
     options?: DeletedServicesPurgeOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<DeletedServiceContract>, DeletedServiceContract>>;
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use purge instead */
   beginPurgeAndWait: (
-    location: string,
     serviceName: string,
+    location: string,
     options?: DeletedServicesPurgeOptionalParams,
-  ) => Promise<DeletedServiceContract>;
+  ) => Promise<void>;
   /** Get soft-deleted Api Management Service by name. */
   getByName: (
-    location: string,
     serviceName: string,
+    location: string,
     options?: DeletedServicesGetByNameOptionalParams,
   ) => Promise<DeletedServiceContract>;
 }
@@ -49,29 +49,29 @@ function _getDeletedServices(context: ApiManagementContext) {
   return {
     listBySubscription: (options?: DeletedServicesListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
-    purge: (location: string, serviceName: string, options?: DeletedServicesPurgeOptionalParams) =>
-      purge(context, location, serviceName, options),
+    purge: (serviceName: string, location: string, options?: DeletedServicesPurgeOptionalParams) =>
+      purge(context, serviceName, location, options),
     beginPurge: async (
-      location: string,
       serviceName: string,
+      location: string,
       options?: DeletedServicesPurgeOptionalParams,
     ) => {
-      const poller = purge(context, location, serviceName, options);
+      const poller = purge(context, serviceName, location, options);
       await poller.submitted();
       return getSimplePoller(poller);
     },
     beginPurgeAndWait: async (
-      location: string,
       serviceName: string,
+      location: string,
       options?: DeletedServicesPurgeOptionalParams,
     ) => {
-      return await purge(context, location, serviceName, options);
+      return await purge(context, serviceName, location, options);
     },
     getByName: (
-      location: string,
       serviceName: string,
+      location: string,
       options?: DeletedServicesGetByNameOptionalParams,
-    ) => getByName(context, location, serviceName, options),
+    ) => getByName(context, serviceName, location, options),
   };
 }
 

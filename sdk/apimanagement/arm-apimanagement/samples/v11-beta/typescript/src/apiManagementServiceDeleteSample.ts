@@ -14,8 +14,7 @@ async function apiManagementServiceDeleteService(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApiManagementClient(credential, subscriptionId);
-  const result = await client.apiManagementService.delete("rg1", "apimService1");
-  console.log(result);
+  await client.apiManagementService.delete("rg1", "apimService1");
 }
 
 async function main(): Promise<void> {
