@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -306,9 +306,9 @@
+@@ -307,9 +307,9 @@
      readonly currentSpend?: CurrentSpend;
      eTag?: string;
      filter?: BudgetFilter;
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      timePeriod?: BudgetTimePeriod;
  }
  
-@@ -344,9 +344,9 @@
+@@ -345,9 +345,9 @@
      category: CategoryType;
      readonly currentSpend?: CurrentSpend;
      filter?: BudgetFilter;
@@ -29,7 +29,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      timePeriod: BudgetTimePeriod;
  }
  
-@@ -1835,9 +1835,9 @@
+@@ -1884,9 +1884,9 @@
  // @public
  export type MetricType = string;
  
@@ -40,7 +40,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      contactGroups?: string[];
      contactRoles?: string[];
      enabled: boolean;
-@@ -1846,8 +1846,9 @@
+@@ -1895,8 +1895,9 @@
      operator: BudgetNotificationOperatorType;
      threshold: number;
      thresholdType?: ThresholdType;

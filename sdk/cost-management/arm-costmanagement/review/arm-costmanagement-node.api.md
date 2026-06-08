@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
@@ -1067,6 +1068,30 @@ export interface GenerateBenefitUtilizationSummariesReportGenerateBySavingsPlanO
 
 // @public
 export interface GenerateBenefitUtilizationSummariesReportOperations {
+    // @deprecated (undocumented)
+    beginGenerateByBillingAccount: (billingAccountId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateByBillingAccountOptionalParams) => Promise<SimplePollerLike<OperationState<BenefitUtilizationSummariesOperationStatus>, BenefitUtilizationSummariesOperationStatus>>;
+    // @deprecated (undocumented)
+    beginGenerateByBillingAccountAndWait: (billingAccountId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateByBillingAccountOptionalParams) => Promise<BenefitUtilizationSummariesOperationStatus>;
+    // @deprecated (undocumented)
+    beginGenerateByBillingProfile: (billingAccountId: string, billingProfileId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateByBillingProfileOptionalParams) => Promise<SimplePollerLike<OperationState<BenefitUtilizationSummariesOperationStatus>, BenefitUtilizationSummariesOperationStatus>>;
+    // @deprecated (undocumented)
+    beginGenerateByBillingProfileAndWait: (billingAccountId: string, billingProfileId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateByBillingProfileOptionalParams) => Promise<BenefitUtilizationSummariesOperationStatus>;
+    // @deprecated (undocumented)
+    beginGenerateByReservationId: (reservationOrderId: string, reservationId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateByReservationIdOptionalParams) => Promise<SimplePollerLike<OperationState<BenefitUtilizationSummariesOperationStatus>, BenefitUtilizationSummariesOperationStatus>>;
+    // @deprecated (undocumented)
+    beginGenerateByReservationIdAndWait: (reservationOrderId: string, reservationId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateByReservationIdOptionalParams) => Promise<BenefitUtilizationSummariesOperationStatus>;
+    // @deprecated (undocumented)
+    beginGenerateByReservationOrderId: (reservationOrderId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateByReservationOrderIdOptionalParams) => Promise<SimplePollerLike<OperationState<BenefitUtilizationSummariesOperationStatus>, BenefitUtilizationSummariesOperationStatus>>;
+    // @deprecated (undocumented)
+    beginGenerateByReservationOrderIdAndWait: (reservationOrderId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateByReservationOrderIdOptionalParams) => Promise<BenefitUtilizationSummariesOperationStatus>;
+    // @deprecated (undocumented)
+    beginGenerateBySavingsPlanId: (savingsPlanOrderId: string, savingsPlanId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateBySavingsPlanIdOptionalParams) => Promise<SimplePollerLike<OperationState<BenefitUtilizationSummariesOperationStatus>, BenefitUtilizationSummariesOperationStatus>>;
+    // @deprecated (undocumented)
+    beginGenerateBySavingsPlanIdAndWait: (savingsPlanOrderId: string, savingsPlanId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateBySavingsPlanIdOptionalParams) => Promise<BenefitUtilizationSummariesOperationStatus>;
+    // @deprecated (undocumented)
+    beginGenerateBySavingsPlanOrderId: (savingsPlanOrderId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateBySavingsPlanOrderIdOptionalParams) => Promise<SimplePollerLike<OperationState<BenefitUtilizationSummariesOperationStatus>, BenefitUtilizationSummariesOperationStatus>>;
+    // @deprecated (undocumented)
+    beginGenerateBySavingsPlanOrderIdAndWait: (savingsPlanOrderId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateBySavingsPlanOrderIdOptionalParams) => Promise<BenefitUtilizationSummariesOperationStatus>;
     generateByBillingAccount: (billingAccountId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateByBillingAccountOptionalParams) => PollerLike<OperationState<BenefitUtilizationSummariesOperationStatus>, BenefitUtilizationSummariesOperationStatus>;
     generateByBillingProfile: (billingAccountId: string, billingProfileId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateByBillingProfileOptionalParams) => PollerLike<OperationState<BenefitUtilizationSummariesOperationStatus>, BenefitUtilizationSummariesOperationStatus>;
     generateByReservationId: (reservationOrderId: string, reservationId: string, benefitUtilizationSummariesRequest: BenefitUtilizationSummariesRequest, options?: GenerateBenefitUtilizationSummariesReportGenerateByReservationIdOptionalParams) => PollerLike<OperationState<BenefitUtilizationSummariesOperationStatus>, BenefitUtilizationSummariesOperationStatus>;
@@ -1092,6 +1117,14 @@ export interface GenerateCostDetailsReportGetOperationResultsOptionalParams exte
 
 // @public
 export interface GenerateCostDetailsReportOperations {
+    // @deprecated (undocumented)
+    beginCreateOperation: (scope: string, parameters: GenerateCostDetailsReportRequestDefinition, options?: GenerateCostDetailsReportCreateOperationOptionalParams) => Promise<SimplePollerLike<OperationState<CostDetailsOperationResults>, CostDetailsOperationResults>>;
+    // @deprecated (undocumented)
+    beginCreateOperationAndWait: (scope: string, parameters: GenerateCostDetailsReportRequestDefinition, options?: GenerateCostDetailsReportCreateOperationOptionalParams) => Promise<CostDetailsOperationResults>;
+    // @deprecated (undocumented)
+    beginGetOperationResults: (scope: string, operationId: string, options?: GenerateCostDetailsReportGetOperationResultsOptionalParams) => Promise<SimplePollerLike<OperationState<CostDetailsOperationResults>, CostDetailsOperationResults>>;
+    // @deprecated (undocumented)
+    beginGetOperationResultsAndWait: (scope: string, operationId: string, options?: GenerateCostDetailsReportGetOperationResultsOptionalParams) => Promise<CostDetailsOperationResults>;
     createOperation: (scope: string, parameters: GenerateCostDetailsReportRequestDefinition, options?: GenerateCostDetailsReportCreateOperationOptionalParams) => PollerLike<OperationState<CostDetailsOperationResults>, CostDetailsOperationResults>;
     getOperationResults: (scope: string, operationId: string, options?: GenerateCostDetailsReportGetOperationResultsOptionalParams) => PollerLike<OperationState<CostDetailsOperationResults>, CostDetailsOperationResults>;
 }
@@ -1140,11 +1173,19 @@ export interface GenerateDetailedCostReportOperationResultsGetOptionalParams ext
 
 // @public
 export interface GenerateDetailedCostReportOperationResultsOperations {
+    // @deprecated (undocumented)
+    beginGet: (operationId: string, scope: string, options?: GenerateDetailedCostReportOperationResultsGetOptionalParams) => Promise<SimplePollerLike<OperationState<GenerateDetailedCostReportOperationResult>, GenerateDetailedCostReportOperationResult>>;
+    // @deprecated (undocumented)
+    beginGetAndWait: (operationId: string, scope: string, options?: GenerateDetailedCostReportOperationResultsGetOptionalParams) => Promise<GenerateDetailedCostReportOperationResult>;
     get: (operationId: string, scope: string, options?: GenerateDetailedCostReportOperationResultsGetOptionalParams) => PollerLike<OperationState<GenerateDetailedCostReportOperationResult>, GenerateDetailedCostReportOperationResult>;
 }
 
 // @public
 export interface GenerateDetailedCostReportOperations {
+    // @deprecated (undocumented)
+    beginCreateOperation: (scope: string, parameters: GenerateDetailedCostReportDefinition, options?: GenerateDetailedCostReportCreateOperationOptionalParams) => Promise<SimplePollerLike<OperationState<GenerateDetailedCostReportOperationResult>, GenerateDetailedCostReportOperationResult>>;
+    // @deprecated (undocumented)
+    beginCreateOperationAndWait: (scope: string, parameters: GenerateDetailedCostReportDefinition, options?: GenerateDetailedCostReportCreateOperationOptionalParams) => Promise<GenerateDetailedCostReportOperationResult>;
     createOperation: (scope: string, parameters: GenerateDetailedCostReportDefinition, options?: GenerateDetailedCostReportCreateOperationOptionalParams) => PollerLike<OperationState<GenerateDetailedCostReportOperationResult>, GenerateDetailedCostReportOperationResult>;
 }
 
@@ -1186,6 +1227,14 @@ export interface GenerateReservationDetailsReportByBillingProfileIdOptionalParam
 
 // @public
 export interface GenerateReservationDetailsReportOperations {
+    // @deprecated (undocumented)
+    beginByBillingAccountId: (billingAccountId: string, startDate: string, endDate: string, options?: GenerateReservationDetailsReportByBillingAccountIdOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatus>, OperationStatus>>;
+    // @deprecated (undocumented)
+    beginByBillingAccountIdAndWait: (billingAccountId: string, startDate: string, endDate: string, options?: GenerateReservationDetailsReportByBillingAccountIdOptionalParams) => Promise<OperationStatus>;
+    // @deprecated (undocumented)
+    beginByBillingProfileId: (billingAccountId: string, billingProfileId: string, startDate: string, endDate: string, options?: GenerateReservationDetailsReportByBillingProfileIdOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatus>, OperationStatus>>;
+    // @deprecated (undocumented)
+    beginByBillingProfileIdAndWait: (billingAccountId: string, billingProfileId: string, startDate: string, endDate: string, options?: GenerateReservationDetailsReportByBillingProfileIdOptionalParams) => Promise<OperationStatus>;
     byBillingAccountId: (billingAccountId: string, startDate: string, endDate: string, options?: GenerateReservationDetailsReportByBillingAccountIdOptionalParams) => PollerLike<OperationState<OperationStatus>, OperationStatus>;
     byBillingProfileId: (billingAccountId: string, billingProfileId: string, startDate: string, endDate: string, options?: GenerateReservationDetailsReportByBillingProfileIdOptionalParams) => PollerLike<OperationState<OperationStatus>, OperationStatus>;
 }
@@ -1944,6 +1993,18 @@ export interface PricesheetDownloadProperties {
 
 // @public
 export interface PriceSheetOperations {
+    // @deprecated (undocumented)
+    beginDownloadByBillingAccount: (billingAccountId: string, billingPeriodName: string, options?: PriceSheetDownloadByBillingAccountOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatus>, OperationStatus>>;
+    // @deprecated (undocumented)
+    beginDownloadByBillingAccountAndWait: (billingAccountId: string, billingPeriodName: string, options?: PriceSheetDownloadByBillingAccountOptionalParams) => Promise<OperationStatus>;
+    // @deprecated (undocumented)
+    beginDownloadByBillingProfile: (billingAccountName: string, billingProfileName: string, options?: PriceSheetDownloadByBillingProfileOptionalParams) => Promise<SimplePollerLike<OperationState<PricesheetDownloadProperties>, PricesheetDownloadProperties>>;
+    // @deprecated (undocumented)
+    beginDownloadByBillingProfileAndWait: (billingAccountName: string, billingProfileName: string, options?: PriceSheetDownloadByBillingProfileOptionalParams) => Promise<PricesheetDownloadProperties>;
+    // @deprecated (undocumented)
+    beginDownloadByInvoice: (billingAccountName: string, billingProfileName: string, invoiceName: string, options?: PriceSheetDownloadByInvoiceOptionalParams) => Promise<SimplePollerLike<OperationState<DownloadURL>, DownloadURL>>;
+    // @deprecated (undocumented)
+    beginDownloadByInvoiceAndWait: (billingAccountName: string, billingProfileName: string, invoiceName: string, options?: PriceSheetDownloadByInvoiceOptionalParams) => Promise<DownloadURL>;
     downloadByBillingAccount: (billingAccountId: string, billingPeriodName: string, options?: PriceSheetDownloadByBillingAccountOptionalParams) => PollerLike<OperationState<OperationStatus>, OperationStatus>;
     downloadByBillingProfile: (billingAccountName: string, billingProfileName: string, options?: PriceSheetDownloadByBillingProfileOptionalParams) => PollerLike<OperationState<PricesheetDownloadProperties>, PricesheetDownloadProperties>;
     downloadByInvoice: (billingAccountName: string, billingProfileName: string, invoiceName: string, options?: PriceSheetDownloadByInvoiceOptionalParams) => PollerLike<OperationState<DownloadURL>, DownloadURL>;
@@ -2371,6 +2432,28 @@ export type SettingUnion = TagInheritanceSetting | Setting;
 // @public
 export interface SharedScopeBenefitRecommendationProperties extends BenefitRecommendationProperties {
     scope: "Shared";
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public

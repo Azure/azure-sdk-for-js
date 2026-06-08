@@ -10,6 +10,7 @@ import type {
 } from "./static-helpers/pagingHelpers.js";
 
 export { CostManagementClient } from "./costManagementClient.js";
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {

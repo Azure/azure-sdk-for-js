@@ -17,6 +17,8 @@ import type {
   OperationStatus,
   PricesheetDownloadProperties,
 } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PriceSheet operations. */
@@ -43,6 +45,18 @@ export interface PriceSheetOperations {
     billingPeriodName: string,
     options?: PriceSheetDownloadByBillingAccountOptionalParams,
   ) => PollerLike<OperationState<OperationStatus>, OperationStatus>;
+  /** @deprecated use downloadByBillingAccount instead */
+  beginDownloadByBillingAccount: (
+    billingAccountId: string,
+    billingPeriodName: string,
+    options?: PriceSheetDownloadByBillingAccountOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<OperationStatus>, OperationStatus>>;
+  /** @deprecated use downloadByBillingAccount instead */
+  beginDownloadByBillingAccountAndWait: (
+    billingAccountId: string,
+    billingPeriodName: string,
+    options?: PriceSheetDownloadByBillingAccountOptionalParams,
+  ) => Promise<OperationStatus>;
   /**
    * Gets a URL to download the current month's pricesheet for a billing profile. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
    *
@@ -55,6 +69,20 @@ export interface PriceSheetOperations {
     billingProfileName: string,
     options?: PriceSheetDownloadByBillingProfileOptionalParams,
   ) => PollerLike<OperationState<PricesheetDownloadProperties>, PricesheetDownloadProperties>;
+  /** @deprecated use downloadByBillingProfile instead */
+  beginDownloadByBillingProfile: (
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: PriceSheetDownloadByBillingProfileOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<PricesheetDownloadProperties>, PricesheetDownloadProperties>
+  >;
+  /** @deprecated use downloadByBillingProfile instead */
+  beginDownloadByBillingProfileAndWait: (
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: PriceSheetDownloadByBillingProfileOptionalParams,
+  ) => Promise<PricesheetDownloadProperties>;
   /** Gets a URL to download the pricesheet for an invoice. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement. */
   downloadByInvoice: (
     billingAccountName: string,
@@ -62,6 +90,20 @@ export interface PriceSheetOperations {
     invoiceName: string,
     options?: PriceSheetDownloadByInvoiceOptionalParams,
   ) => PollerLike<OperationState<DownloadURL>, DownloadURL>;
+  /** @deprecated use downloadByInvoice instead */
+  beginDownloadByInvoice: (
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceName: string,
+    options?: PriceSheetDownloadByInvoiceOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<DownloadURL>, DownloadURL>>;
+  /** @deprecated use downloadByInvoice instead */
+  beginDownloadByInvoiceAndWait: (
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceName: string,
+    options?: PriceSheetDownloadByInvoiceOptionalParams,
+  ) => Promise<DownloadURL>;
 }
 
 function _getPriceSheet(context: CostManagementContext) {
@@ -71,17 +113,94 @@ function _getPriceSheet(context: CostManagementContext) {
       billingPeriodName: string,
       options?: PriceSheetDownloadByBillingAccountOptionalParams,
     ) => downloadByBillingAccount(context, billingAccountId, billingPeriodName, options),
+    beginDownloadByBillingAccount: async (
+      billingAccountId: string,
+      billingPeriodName: string,
+      options?: PriceSheetDownloadByBillingAccountOptionalParams,
+    ) => {
+      const poller = downloadByBillingAccount(
+        context,
+        billingAccountId,
+        billingPeriodName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDownloadByBillingAccountAndWait: async (
+      billingAccountId: string,
+      billingPeriodName: string,
+      options?: PriceSheetDownloadByBillingAccountOptionalParams,
+    ) => {
+      return await downloadByBillingAccount(context, billingAccountId, billingPeriodName, options);
+    },
     downloadByBillingProfile: (
       billingAccountName: string,
       billingProfileName: string,
       options?: PriceSheetDownloadByBillingProfileOptionalParams,
     ) => downloadByBillingProfile(context, billingAccountName, billingProfileName, options),
+    beginDownloadByBillingProfile: async (
+      billingAccountName: string,
+      billingProfileName: string,
+      options?: PriceSheetDownloadByBillingProfileOptionalParams,
+    ) => {
+      const poller = downloadByBillingProfile(
+        context,
+        billingAccountName,
+        billingProfileName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDownloadByBillingProfileAndWait: async (
+      billingAccountName: string,
+      billingProfileName: string,
+      options?: PriceSheetDownloadByBillingProfileOptionalParams,
+    ) => {
+      return await downloadByBillingProfile(
+        context,
+        billingAccountName,
+        billingProfileName,
+        options,
+      );
+    },
     downloadByInvoice: (
       billingAccountName: string,
       billingProfileName: string,
       invoiceName: string,
       options?: PriceSheetDownloadByInvoiceOptionalParams,
     ) => downloadByInvoice(context, billingAccountName, billingProfileName, invoiceName, options),
+    beginDownloadByInvoice: async (
+      billingAccountName: string,
+      billingProfileName: string,
+      invoiceName: string,
+      options?: PriceSheetDownloadByInvoiceOptionalParams,
+    ) => {
+      const poller = downloadByInvoice(
+        context,
+        billingAccountName,
+        billingProfileName,
+        invoiceName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDownloadByInvoiceAndWait: async (
+      billingAccountName: string,
+      billingProfileName: string,
+      invoiceName: string,
+      options?: PriceSheetDownloadByInvoiceOptionalParams,
+    ) => {
+      return await downloadByInvoice(
+        context,
+        billingAccountName,
+        billingProfileName,
+        invoiceName,
+        options,
+      );
+    },
   };
 }
 

@@ -8,6 +8,8 @@ import type {
   GenerateDetailedCostReportOperationResult,
   GenerateDetailedCostReportDefinition,
 } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GenerateDetailedCostReport operations. */
@@ -21,6 +23,23 @@ export interface GenerateDetailedCostReportOperations {
     OperationState<GenerateDetailedCostReportOperationResult>,
     GenerateDetailedCostReportOperationResult
   >;
+  /** @deprecated use createOperation instead */
+  beginCreateOperation: (
+    scope: string,
+    parameters: GenerateDetailedCostReportDefinition,
+    options?: GenerateDetailedCostReportCreateOperationOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<GenerateDetailedCostReportOperationResult>,
+      GenerateDetailedCostReportOperationResult
+    >
+  >;
+  /** @deprecated use createOperation instead */
+  beginCreateOperationAndWait: (
+    scope: string,
+    parameters: GenerateDetailedCostReportDefinition,
+    options?: GenerateDetailedCostReportCreateOperationOptionalParams,
+  ) => Promise<GenerateDetailedCostReportOperationResult>;
 }
 
 function _getGenerateDetailedCostReport(context: CostManagementContext) {
@@ -30,6 +49,22 @@ function _getGenerateDetailedCostReport(context: CostManagementContext) {
       parameters: GenerateDetailedCostReportDefinition,
       options?: GenerateDetailedCostReportCreateOperationOptionalParams,
     ) => createOperation(context, scope, parameters, options),
+    beginCreateOperation: async (
+      scope: string,
+      parameters: GenerateDetailedCostReportDefinition,
+      options?: GenerateDetailedCostReportCreateOperationOptionalParams,
+    ) => {
+      const poller = createOperation(context, scope, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOperationAndWait: async (
+      scope: string,
+      parameters: GenerateDetailedCostReportDefinition,
+      options?: GenerateDetailedCostReportCreateOperationOptionalParams,
+    ) => {
+      return await createOperation(context, scope, parameters, options);
+    },
   };
 }
 

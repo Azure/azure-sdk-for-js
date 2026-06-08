@@ -14,6 +14,8 @@ import type {
   CostDetailsOperationResults,
   GenerateCostDetailsReportRequestDefinition,
 } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GenerateCostDetailsReport operations. */
@@ -24,12 +26,40 @@ export interface GenerateCostDetailsReportOperations {
     parameters: GenerateCostDetailsReportRequestDefinition,
     options?: GenerateCostDetailsReportCreateOperationOptionalParams,
   ) => PollerLike<OperationState<CostDetailsOperationResults>, CostDetailsOperationResults>;
+  /** @deprecated use createOperation instead */
+  beginCreateOperation: (
+    scope: string,
+    parameters: GenerateCostDetailsReportRequestDefinition,
+    options?: GenerateCostDetailsReportCreateOperationOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<CostDetailsOperationResults>, CostDetailsOperationResults>
+  >;
+  /** @deprecated use createOperation instead */
+  beginCreateOperationAndWait: (
+    scope: string,
+    parameters: GenerateCostDetailsReportRequestDefinition,
+    options?: GenerateCostDetailsReportCreateOperationOptionalParams,
+  ) => Promise<CostDetailsOperationResults>;
   /** Get the result of the specified operation. This link is provided in the CostDetails creation request response Location header. */
   getOperationResults: (
     scope: string,
     operationId: string,
     options?: GenerateCostDetailsReportGetOperationResultsOptionalParams,
   ) => PollerLike<OperationState<CostDetailsOperationResults>, CostDetailsOperationResults>;
+  /** @deprecated use getOperationResults instead */
+  beginGetOperationResults: (
+    scope: string,
+    operationId: string,
+    options?: GenerateCostDetailsReportGetOperationResultsOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<CostDetailsOperationResults>, CostDetailsOperationResults>
+  >;
+  /** @deprecated use getOperationResults instead */
+  beginGetOperationResultsAndWait: (
+    scope: string,
+    operationId: string,
+    options?: GenerateCostDetailsReportGetOperationResultsOptionalParams,
+  ) => Promise<CostDetailsOperationResults>;
 }
 
 function _getGenerateCostDetailsReport(context: CostManagementContext) {
@@ -39,11 +69,43 @@ function _getGenerateCostDetailsReport(context: CostManagementContext) {
       parameters: GenerateCostDetailsReportRequestDefinition,
       options?: GenerateCostDetailsReportCreateOperationOptionalParams,
     ) => createOperation(context, scope, parameters, options),
+    beginCreateOperation: async (
+      scope: string,
+      parameters: GenerateCostDetailsReportRequestDefinition,
+      options?: GenerateCostDetailsReportCreateOperationOptionalParams,
+    ) => {
+      const poller = createOperation(context, scope, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOperationAndWait: async (
+      scope: string,
+      parameters: GenerateCostDetailsReportRequestDefinition,
+      options?: GenerateCostDetailsReportCreateOperationOptionalParams,
+    ) => {
+      return await createOperation(context, scope, parameters, options);
+    },
     getOperationResults: (
       scope: string,
       operationId: string,
       options?: GenerateCostDetailsReportGetOperationResultsOptionalParams,
     ) => getOperationResults(context, scope, operationId, options),
+    beginGetOperationResults: async (
+      scope: string,
+      operationId: string,
+      options?: GenerateCostDetailsReportGetOperationResultsOptionalParams,
+    ) => {
+      const poller = getOperationResults(context, scope, operationId, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginGetOperationResultsAndWait: async (
+      scope: string,
+      operationId: string,
+      options?: GenerateCostDetailsReportGetOperationResultsOptionalParams,
+    ) => {
+      return await getOperationResults(context, scope, operationId, options);
+    },
   };
 }
 

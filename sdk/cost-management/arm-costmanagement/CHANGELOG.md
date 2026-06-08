@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (2026-06-05)
+## 1.0.0-beta.3 (2026-06-08)
 Compared with version 1.0.0-beta.1
 
 ### Features Added
@@ -14,6 +14,10 @@ Compared with version 1.0.0-beta.1
   - Added operation GenerateDetailedCostReportOperationResultsOperations.get
   - Added operation GenerateReservationDetailsReportOperations.byBillingAccountId
   - Added operation GenerateReservationDetailsReportOperations.byBillingProfileId
+  - Added operation PriceSheetOperations.beginDownloadByBillingAccount
+  - Added operation PriceSheetOperations.beginDownloadByBillingAccountAndWait
+  - Added operation PriceSheetOperations.beginDownloadByInvoice
+  - Added operation PriceSheetOperations.beginDownloadByInvoiceAndWait
   - Added operation PriceSheetOperations.downloadByBillingAccount
   - Added operation PriceSheetOperations.downloadByBillingProfile
   - Added operation PriceSheetOperations.downloadByInvoice
@@ -82,6 +86,7 @@ Compared with version 1.0.0-beta.1
   - Added Interface SettingsGetByScopeOptionalParams
   - Added Interface SettingsListOptionalParams
   - Added Interface SettingsListResult
+  - Added Interface SimplePollerLike
   - Added Interface SourceCostAllocationResource
   - Added Interface SystemAssignedServiceIdentity
   - Added Interface TagInheritanceProperties
@@ -175,22 +180,8 @@ Compared with version 1.0.0-beta.1
   - Enum KnownTimeframeType has a new value TheCurrentMonth
 
 ### Breaking Changes
-  - Removed operation GenerateCostDetailsReport.beginCreateOperation
-  - Removed operation GenerateCostDetailsReport.beginCreateOperationAndWait
-  - Removed operation GenerateCostDetailsReport.beginGetOperationResults
-  - Removed operation GenerateCostDetailsReport.beginGetOperationResultsAndWait
-  - Removed operation GenerateDetailedCostReport.beginCreateOperation
-  - Removed operation GenerateDetailedCostReport.beginCreateOperationAndWait
-  - Removed operation GenerateDetailedCostReportOperationResults.beginGet
-  - Removed operation GenerateDetailedCostReportOperationResults.beginGetAndWait
-  - Removed operation GenerateReservationDetailsReport.beginByBillingAccountId
-  - Removed operation GenerateReservationDetailsReport.beginByBillingAccountIdAndWait
-  - Removed operation GenerateReservationDetailsReport.beginByBillingProfileId
-  - Removed operation GenerateReservationDetailsReport.beginByBillingProfileIdAndWait
   - Removed operation PriceSheet.beginDownload
   - Removed operation PriceSheet.beginDownloadAndWait
-  - Removed operation PriceSheet.beginDownloadByBillingProfile
-  - Removed operation PriceSheet.beginDownloadByBillingProfileAndWait
   - Class CostManagementClient no longer has parameter apiVersion
   - Removed Interface DimensionsByExternalCloudProviderTypeOptionalParams
   - Removed Interface PriceSheetDownloadOptionalParams
