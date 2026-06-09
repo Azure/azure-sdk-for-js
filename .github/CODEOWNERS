@@ -608,7 +608,7 @@
 # PRLabel: %Mgmt
 /sdk/healthdataaiservices/arm-healthdataaiservices/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/healthcareapis/arm-healthcareapis/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
