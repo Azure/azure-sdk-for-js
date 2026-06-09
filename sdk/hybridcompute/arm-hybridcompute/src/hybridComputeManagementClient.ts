@@ -31,8 +31,8 @@ import type { MachineRunCommandsOperations } from "./classic/machineRunCommands/
 import { _getMachineRunCommandsOperations } from "./classic/machineRunCommands/index.js";
 import type { MachinesOperations } from "./classic/machines/index.js";
 import { _getMachinesOperations } from "./classic/machines/index.js";
-import type { NetworkProfileOperations } from "./classic/networkProfile/index.js";
-import { _getNetworkProfileOperations } from "./classic/networkProfile/index.js";
+import type { NetworkProfileOperationsOperations } from "./classic/networkProfileOperations/index.js";
+import { _getNetworkProfileOperationsOperations } from "./classic/networkProfileOperations/index.js";
 import type { NetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
 import { _getNetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
@@ -95,7 +95,7 @@ export class HybridComputeManagementClient {
     this.extensionMetadataV2 = _getExtensionMetadataV2Operations(this._client);
     this.extensionMetadata = _getExtensionMetadataOperations(this._client);
     this.privateLinkScopes = _getPrivateLinkScopesOperations(this._client);
-    this.networkProfile = _getNetworkProfileOperations(this._client);
+    this.networkProfileOperations = _getNetworkProfileOperationsOperations(this._client);
     this.networkSecurityPerimeterConfigurations =
       _getNetworkSecurityPerimeterConfigurationsOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
@@ -209,8 +209,8 @@ export class HybridComputeManagementClient {
   public readonly extensionMetadata: ExtensionMetadataOperations;
   /** The operation groups for privateLinkScopes */
   public readonly privateLinkScopes: PrivateLinkScopesOperations;
-  /** The operation groups for networkProfile */
-  public readonly networkProfile: NetworkProfileOperations;
+  /** The operation groups for networkProfileOperations */
+  public readonly networkProfileOperations: NetworkProfileOperationsOperations;
   /** The operation groups for networkSecurityPerimeterConfigurations */
   public readonly networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurationsOperations;
   /** The operation groups for privateEndpointConnections */

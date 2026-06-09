@@ -10,7 +10,7 @@ exports:
   "./api/extensionMetadataV2": "./src/api/extensionMetadataV2/index.ts"
   "./api/extensionMetadata": "./src/api/extensionMetadata/index.ts"
   "./api/privateLinkScopes": "./src/api/privateLinkScopes/index.ts"
-  "./api/networkProfile": "./src/api/networkProfile/index.ts"
+  "./api/networkProfileOperations": "./src/api/networkProfileOperations/index.ts"
   "./api/networkSecurityPerimeterConfigurations": "./src/api/networkSecurityPerimeterConfigurations/index.ts"
   "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
   "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"

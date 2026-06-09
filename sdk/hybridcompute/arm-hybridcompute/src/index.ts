@@ -286,7 +286,7 @@ export type {
   MachinesCreateOrUpdateOptionalParams,
   MachinesGetOptionalParams,
 } from "./api/machines/index.js";
-export type { NetworkProfileGetOptionalParams } from "./api/networkProfile/index.js";
+export type { NetworkProfileOperationsGetOptionalParams } from "./api/networkProfileOperations/index.js";
 export type {
   NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeOptionalParams,
   NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeOptionalParams,
@@ -329,7 +329,7 @@ export type {
   MachineExtensionsOperations,
   MachineRunCommandsOperations,
   MachinesOperations,
-  NetworkProfileOperations,
+  NetworkProfileOperationsOperations,
   NetworkSecurityPerimeterConfigurationsOperations,
   OperationsOperations,
   PrivateEndpointConnectionsOperations,

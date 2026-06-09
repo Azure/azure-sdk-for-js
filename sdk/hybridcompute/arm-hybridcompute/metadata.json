@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.HybridCompute": "2025-09-16-preview"
   },
-  "emitterVersion": "0.54.0",
+  "emitterVersion": "0.54.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.HybridCompute",
     "CrossLanguageDefinitionId": {
@@ -207,7 +207,7 @@
       "@azure/arm-hybridcompute!PrivateLinkScopesOperations#createOrUpdate:member": "Microsoft.HybridCompute.HybridComputePrivateLinkScopes.createOrUpdate",
       "@azure/arm-hybridcompute!PrivateLinkScopesOperations#get:member": "Microsoft.HybridCompute.HybridComputePrivateLinkScopes.get",
       "@azure/arm-hybridcompute!PrivateLinkScopesOperations#getValidationDetailsForMachine:member": "Microsoft.HybridCompute.Machines.getValidationDetailsForMachine",
-      "@azure/arm-hybridcompute!NetworkProfileOperations#Get:member": "Microsoft.HybridCompute.Machines.networkProfileGet",
+      "@azure/arm-hybridcompute!NetworkProfileOperationsOperations#Get:member": "Microsoft.HybridCompute.Machines.networkProfileGet",
       "@azure/arm-hybridcompute!NetworkSecurityPerimeterConfigurationsOperations#reconcileForPrivateLinkScope:member": "Microsoft.HybridCompute.NetworkSecurityPerimeterConfigurations.reconcileForPrivateLinkScope",
       "@azure/arm-hybridcompute!NetworkSecurityPerimeterConfigurationsOperations#listByPrivateLinkScope:member": "Microsoft.HybridCompute.NetworkSecurityPerimeterConfigurations.listByPrivateLinkScope",
       "@azure/arm-hybridcompute!NetworkSecurityPerimeterConfigurationsOperations#getByPrivateLinkScope:member": "Microsoft.HybridCompute.NetworkSecurityPerimeterConfigurations.getByPrivateLinkScope",

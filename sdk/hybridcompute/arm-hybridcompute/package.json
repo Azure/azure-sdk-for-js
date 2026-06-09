@@ -132,18 +132,18 @@
         "default": "./dist/commonjs/api/privateLinkScopes/index.js"
       }
     },
-    "./api/networkProfile": {
+    "./api/networkProfileOperations": {
       "browser": {
-        "types": "./dist/browser/api/networkProfile/index.d.ts",
-        "default": "./dist/browser/api/networkProfile/index.js"
+        "types": "./dist/browser/api/networkProfileOperations/index.d.ts",
+        "default": "./dist/browser/api/networkProfileOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/networkProfile/index.d.ts",
-        "default": "./dist/esm/api/networkProfile/index.js"
+        "types": "./dist/esm/api/networkProfileOperations/index.d.ts",
+        "default": "./dist/esm/api/networkProfileOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/networkProfile/index.d.ts",
-        "default": "./dist/commonjs/api/networkProfile/index.js"
+        "types": "./dist/commonjs/api/networkProfileOperations/index.d.ts",
+        "default": "./dist/commonjs/api/networkProfileOperations/index.js"
       }
     },
     "./api/networkSecurityPerimeterConfigurations": {

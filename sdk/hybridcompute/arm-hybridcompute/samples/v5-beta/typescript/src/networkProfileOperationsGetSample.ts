@@ -14,7 +14,7 @@ async function getNetworkProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new HybridComputeManagementClient(credential, subscriptionId);
-  const result = await client.networkProfile.get("myResourceGroup", "myMachine");
+  const result = await client.networkProfileOperations.get("myResourceGroup", "myMachine");
   console.log(result);
 }
 

@@ -393,7 +393,7 @@ export class HybridComputeManagementClient {
     readonly machineExtensions: MachineExtensionsOperations;
     readonly machineRunCommands: MachineRunCommandsOperations;
     readonly machines: MachinesOperations;
-    readonly networkProfile: NetworkProfileOperations;
+    readonly networkProfileOperations: NetworkProfileOperationsOperations;
     readonly networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurationsOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
@@ -1506,12 +1506,12 @@ export interface NetworkProfile {
 }
 
 // @public
-export interface NetworkProfileGetOptionalParams extends OperationOptions {
+export interface NetworkProfileOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NetworkProfileOperations {
-    get: (resourceGroupName: string, machineName: string, options?: NetworkProfileGetOptionalParams) => Promise<NetworkProfile>;
+export interface NetworkProfileOperationsOperations {
+    get: (resourceGroupName: string, machineName: string, options?: NetworkProfileOperationsGetOptionalParams) => Promise<NetworkProfile>;
 }
 
 // @public

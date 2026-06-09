@@ -5,7 +5,7 @@ import type { HybridComputeManagementContext as Client } from "../index.js";
 import type { NetworkProfile } from "../../models/models.js";
 import { errorResponseDeserializer, networkProfileDeserializer } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { NetworkProfileGetOptionalParams } from "./options.js";
+import type { NetworkProfileOperationsGetOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
@@ -13,7 +13,7 @@ export function _getSend(
   context: Client,
   resourceGroupName: string,
   machineName: string,
-  options: NetworkProfileGetOptionalParams = { requestOptions: {} },
+  options: NetworkProfileOperationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/networkProfile{?api%2Dversion}",
@@ -52,7 +52,7 @@ export async function get(
   context: Client,
   resourceGroupName: string,
   machineName: string,
-  options: NetworkProfileGetOptionalParams = { requestOptions: {} },
+  options: NetworkProfileOperationsGetOptionalParams = { requestOptions: {} },
 ): Promise<NetworkProfile> {
   const result = await _getSend(context, resourceGroupName, machineName, options);
   return _getDeserialize(result);
