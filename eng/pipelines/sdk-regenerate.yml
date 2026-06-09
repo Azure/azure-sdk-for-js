@@ -102,7 +102,7 @@ variables:
     value: ${{ parameters.PullRequestRepoName }}
   - ${{ if parameters.CreatePullRequest }}:
     - name: shardPrepareMode
-      value: shard
+      value: full
     - name: shardScriptInvoke
       value: $(Agent.TempDirectory)/regenerate-shard.js
   - ${{ else }}:
@@ -144,18 +144,17 @@ stages:
             node $(shardScript) setup-pr-branch --mode base \
               --targetBranch "${{ parameters.PullRequestTargetBranch }}" \
               --prBranch     "$(prBranchName)"
-            node $(shardScriptInvoke) prepare --mode emitter \
-              --emitterVersion "$(resolveVersion.emitterVersion)"
-          displayName: 'Prepare initial emitter-package commit'
-
-        - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
-          parameters:
-            BaseRepoOwner:  $(targetOwner)
-            TargetRepoName: $(targetName)
-            BaseRepoBranch: $(prBranchName)
-            CommitMsg:      'Initial: pin emitter $(resolveVersion.emitterVersion)'
-            AuthToken:      $(${{ parameters.ForkTokenVariableName }})
-            PushArgs:       --force
+            # Push an empty PR branch (= target main) to the fork so shards
+            # can fetch and rebase onto it. No emitter-package commit — each
+            # shard pins emitter locally via `prepare --mode full`, and the
+            # final PR contains only api.md + CHANGELOG.md diffs.
+            git push --force \
+              "https://x-access-token:$PUSH_TOKEN@github.com/$(targetOwner)/$(targetName).git" \
+              "$(prBranchName):refs/heads/$(prBranchName)"
+          displayName: 'Create empty PR branch on fork'
+          env:
+            PUSH_TOKEN: $(${{ parameters.ForkTokenVariableName }})
+          workingDirectory: $(sdkRoot)
 
   - job: RegenerateAndBuild
     dependsOn: Setup
@@ -175,9 +174,11 @@ stages:
         artifact: matrix_artifacts
 
       - ${{ if parameters.CreatePullRequest }}:
-        # Copy the script outside the working tree (the PR branch is based on
-        # main and does NOT contain the pipeline source under feature/break-check),
-        # add the fork remote, and switch to the PR branch. See switch-to-pr-branch.
+        # Copy the script outside the working tree first: the next step switches
+        # git to the PR branch (based on the user-selected target branch), which
+        # does NOT contain this pipeline's source. An in-tree path would disappear
+        # after the checkout. Then add the fork remote and switch branches.
+        # See switch-to-pr-branch.
         - bash: |
             node $(shardScript) setup-pr-branch --mode switch \
               --targetOwner  "$(targetOwner)" \
@@ -204,6 +205,16 @@ stages:
         workingDirectory: $(sdkRoot)
 
       - ${{ if parameters.CreatePullRequest }}:
+        - bash: |
+            # Break-check semantics: PR carries only the API surface (api.md)
+            # and changelog deltas. Regenerated src/, samples/, metadata.json,
+            # eng/emitter-package*, etc. are discarded before commit.
+            git add 'sdk/*/*/review/*.api.md' 'sdk/*/*/CHANGELOG.md'
+            git stash --keep-index --include-untracked
+            git stash drop || true
+          displayName: 'Filter shard output to api.md + CHANGELOG only'
+          workingDirectory: $(sdkRoot)
+
         - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
           parameters:
             BaseRepoOwner:  $(targetOwner)
