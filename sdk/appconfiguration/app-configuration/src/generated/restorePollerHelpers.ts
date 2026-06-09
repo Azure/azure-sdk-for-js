@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureAppConfigurationClient } from "./azureAppConfigurationClient.js";
+import { AppConfigurationClient } from "./appConfigurationClient.js";
 import { _createSnapshotDeserialize } from "./api/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -33,7 +33,7 @@ export interface RestorePollerOptions<
  * needs to be constructed after the original one is not in scope.
  */
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
-  client: AzureAppConfigurationClient,
+  client: AppConfigurationClient,
   serializedState: string,
   sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,

@@ -7,28 +7,28 @@ import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 
 /** Azure App Configuration REST API */
-export interface AzureAppConfigurationContext extends Client {
+export interface AppConfigurationContext extends Client {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
 }
 
 /** Optional parameters for the client. */
-export interface AzureAppConfigurationClientOptionalParams extends ClientOptions {
+export interface AppConfigurationClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
 }
 
 /** Azure App Configuration REST API */
-export function createAzureAppConfiguration(
+export function createAppConfiguration(
   endpointParam: string,
   credential: KeyCredential | TokenCredential,
-  options: AzureAppConfigurationClientOptionalParams = {},
-): AzureAppConfigurationContext {
+  options: AppConfigurationClientOptionalParams = {},
+): AppConfigurationContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-azure-appconfiguration/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-app-configuration/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -43,5 +43,5 @@ export function createAzureAppConfiguration(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion;
-  return { ...clientContext, apiVersion } as AzureAppConfigurationContext;
+  return { ...clientContext, apiVersion } as AppConfigurationContext;
 }
