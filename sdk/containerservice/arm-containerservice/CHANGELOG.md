@@ -1,11 +1,10 @@
 # Release History
 
-## 25.3.0-beta.2 (2026-06-04)
-Compared with version 25.2.0
+## 25.4.0-beta.1 (2026-06-09)
+Compared with version 25.3.0
 
 ### Features Added
   - Added operation group ContainerServiceOperations
-  - Added operation group IdentityBindingsOperations
   - Added operation group JWTAuthenticatorsOperations
   - Added operation group LoadBalancersOperations
   - Added operation group MaintenanceWindowsOperations
@@ -28,7 +27,6 @@ Compared with version 25.2.0
   - Added operation ManagedClustersOperations.rebalanceLoadBalancers
   - Added Interface AgentPoolBlueGreenUpgradeSettings
   - Added Interface AgentPoolNetworkInterface
-  - Added Interface AgentPoolRecentlyUsedVersion
   - Added Interface AgentPoolsCompleteUpgradeOptionalParams
   - Added Interface AutoScaleProfile
   - Added Interface BastionProfile
@@ -40,14 +38,6 @@ Compared with version 25.2.0
   - Added Interface GuardrailsAvailableVersion
   - Added Interface GuardrailsAvailableVersionsProperties
   - Added Interface HardEvictionThreshold
-  - Added Interface IdentityBinding
-  - Added Interface IdentityBindingManagedIdentityProfile
-  - Added Interface IdentityBindingOidcIssuerProfile
-  - Added Interface IdentityBindingProperties
-  - Added Interface IdentityBindingsCreateOrUpdateOptionalParams
-  - Added Interface IdentityBindingsDeleteOptionalParams
-  - Added Interface IdentityBindingsGetOptionalParams
-  - Added Interface IdentityBindingsListByManagedClusterOptionalParams
   - Added Interface JWTAuthenticator
   - Added Interface JWTAuthenticatorClaimMappingExpression
   - Added Interface JWTAuthenticatorClaimMappings
@@ -88,7 +78,6 @@ Compared with version 25.2.0
   - Added Interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces
   - Added Interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
   - Added Interface ManagedClusterAzureMonitorProfileContainerInsights
-  - Added Interface ManagedClusterAzureMonitorProfileMetricsControlPlane
   - Added Interface ManagedClusterControlPlaneScalingProfile
   - Added Interface ManagedClusterHealthMonitorProfile
   - Added Interface ManagedClusterIngressDefaultDomainProfile
@@ -151,9 +140,7 @@ Compared with version 25.2.0
   - Interface AgentPoolNetworkProfile has a new optional parameter nodePublicIPPrefixIDs
   - Interface AgentPoolNetworkProfile has a new optional parameter secondaryNetworkInterfaces
   - Interface AgentPoolUpgradeProfile has a new optional parameter componentsByReleases
-  - Interface AgentPoolUpgradeProfile has a new optional parameter recentlyUsedVersions
   - Interface AgentPoolUpgradeProfileProperties has a new optional parameter componentsByReleases
-  - Interface AgentPoolUpgradeProfileProperties has a new optional parameter recentlyUsedVersions
   - Interface AgentPoolUpgradeProfilePropertiesUpgradesItem has a new optional parameter isOutOfSupport
   - Interface AgentPoolUpgradeSettings has a new optional parameter maxBlockedNodes
   - Interface ContainerServiceNetworkProfile has a new optional parameter bastionProfile
@@ -203,7 +190,6 @@ Compared with version 25.2.0
   - Interface ManagedClusterAzureMonitorProfile has a new optional parameter containerInsights
   - Interface ManagedClusterAzureMonitorProfileAppMonitoring has a new optional parameter openTelemetryLogsAndTraces
   - Interface ManagedClusterAzureMonitorProfileAppMonitoring has a new optional parameter openTelemetryMetrics
-  - Interface ManagedClusterAzureMonitorProfileMetrics has a new optional parameter controlPlane
   - Interface ManagedClusterHttpProxyConfig has a new optional parameter effectiveNoProxy
   - Interface ManagedClusterIngressProfile has a new optional parameter applicationLoadBalancer
   - Interface ManagedClusterIngressProfileWebAppRouting has a new optional parameter defaultDomain
@@ -237,7 +223,6 @@ Compared with version 25.2.0
   - Added Type Alias DriftAction
   - Added Type Alias DriverType
   - Added Type Alias GuardrailsSupport
-  - Added Type Alias IdentityBindingProvisioningState
   - Added Type Alias InfrastructureEncryption
   - Added Type Alias IpvsScheduler
   - Added Type Alias JWTAuthenticatorProvisioningState
@@ -266,7 +251,6 @@ Compared with version 25.2.0
   - Added Enum KnownDriftAction
   - Added Enum KnownDriverType
   - Added Enum KnownGuardrailsSupport
-  - Added Enum KnownIdentityBindingProvisioningState
   - Added Enum KnownInfrastructureEncryption
   - Added Enum KnownIpvsScheduler
   - Added Enum KnownJWTAuthenticatorProvisioningState
@@ -296,9 +280,29 @@ Compared with version 25.2.0
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
   - Enum KnownSnapshotType has a new value ManagedCluster
   - Enum KnownTransitEncryptionType has a new value MTLS
-  - Enum KnownVersions has a new value V20260401
   - Enum KnownVersions has a new value V20260402Preview
   - Enum KnownWorkloadRuntime has a new value KataMshvVmIsolation
+
+## 25.3.0 (2026-06-03)
+
+### Features Added
+  - Added operation group IdentityBindingsOperations
+  - Added Interface AgentPoolRecentlyUsedVersion
+  - Added Interface IdentityBinding
+  - Added Interface IdentityBindingManagedIdentityProfile
+  - Added Interface IdentityBindingOidcIssuerProfile
+  - Added Interface IdentityBindingProperties
+  - Added Interface IdentityBindingsCreateOrUpdateOptionalParams
+  - Added Interface IdentityBindingsDeleteOptionalParams
+  - Added Interface IdentityBindingsGetOptionalParams
+  - Added Interface IdentityBindingsListByManagedClusterOptionalParams
+  - Added Interface ManagedClusterAzureMonitorProfileMetricsControlPlane
+  - Interface AgentPoolUpgradeProfile has a new optional parameter recentlyUsedVersions
+  - Interface AgentPoolUpgradeProfileProperties has a new optional parameter recentlyUsedVersions
+  - Interface ManagedClusterAzureMonitorProfileMetrics has a new optional parameter controlPlane
+  - Added Type Alias IdentityBindingProvisioningState
+  - Added Enum KnownIdentityBindingProvisioningState
+  - Enum KnownVersions has a new value V20260401
 
 ## 25.3.0-beta.1 (2026-05-18)
 Compared with version 25.2.0
