@@ -143,8 +143,6 @@ Compared with version 4.0.0
 
 ### Breaking Changes
   - Operation LicenseProfiles.beginDeleteAndWait has a new signature
-  - Class HybridComputeManagementClient no longer has parameter apiVersion
-  - Class HybridComputeManagementClient no longer has parameter subscriptionId
   - Removed Interface KeyDetails
   - Removed Interface KeyProperties
   - Removed Interface NetworkProfileGetOptionalParams
