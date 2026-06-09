@@ -40,6 +40,7 @@ import type {
   GroupDataMessage,
   InvokeMessage,
   InvokeResponseMessage,
+  JSONTypes,
   ServerDataMessage,
   WebPubSubDataType,
   WebPubSubMessage,
@@ -79,11 +80,6 @@ enum WebPubSubClientState {
 }
 
 const STREAM_PROTOCOL_VIOLATION = "ProtocolViolation";
-
-/**
- * Types which can be serialized and sent as JSON.
- */
-export type JSONTypes = string | number | boolean | object;
 
 /**
  * The WebPubSub client
@@ -731,14 +727,10 @@ export class WebPubSubClient {
       streamId,
       publish: async (
         content: JSONTypes | ArrayBuffer,
-        dataType?: WebPubSubDataType,
+        dataType: WebPubSubDataType,
         sendOptions?: SendStreamDataOptions,
       ): Promise<void> => {
-        await session.publish(
-          content,
-          dataType ?? this._resolveStreamDataType(content),
-          sendOptions?.abortSignal,
-        );
+        await session.publish(content, dataType, sendOptions?.abortSignal);
       },
       keepalive: async (keepaliveOptions?: SendStreamKeepaliveOptions): Promise<void> => {
         await session.keepalive(keepaliveOptions);
@@ -1433,18 +1425,6 @@ export class WebPubSubClient {
 
   private _generateOutboundStreamId(): string {
     return randomUUID();
-  }
-
-  private _resolveStreamDataType(content: JSONTypes | ArrayBuffer): WebPubSubDataType {
-    if (content instanceof ArrayBuffer) {
-      return "binary";
-    }
-
-    if (typeof content === "string") {
-      return "text";
-    }
-
-    return "json";
   }
 
   private _mapInvokeResponse(message: InvokeResponseMessage): InvokeEventResult {

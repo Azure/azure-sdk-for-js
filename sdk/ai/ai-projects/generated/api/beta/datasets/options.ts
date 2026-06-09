@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  DataGenerationJobType,
-  DataGenerationJobScenario,
-  PageOrder,
-} from "../../../models/models.js";
+import { PageOrder } from "../../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -54,10 +50,6 @@ export interface BetaDatasetsListGenerationJobsOptionalParams extends OperationO
    * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
    */
   before?: string;
-  /** Filter data generation jobs by their scenario. */
-  scenario?: DataGenerationJobScenario;
-  /** Filter data generation jobs by their type. */
-  typeParam?: DataGenerationJobType[];
 }
 
 /** Optional parameters. */

@@ -500,7 +500,7 @@
 # PRLabel: %Mgmt
 /sdk/databoxedge/arm-databoxedge-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/databricks/arm-databricks/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -608,7 +608,7 @@
 # PRLabel: %Mgmt
 /sdk/healthdataaiservices/arm-healthdataaiservices/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/healthcareapis/arm-healthcareapis/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -644,7 +644,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/iotoperations/arm-iotoperations/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/iothub/arm-iothub/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -833,7 +833,7 @@
 # PRLabel: %Mgmt
 /sdk/purestorageblock/arm-purestorageblock/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/postgresql/arm-postgresql-flexible/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -872,7 +872,7 @@
 # PRLabel: %Mgmt
 /sdk/relay/arm-relay/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/reservations/arm-reservations/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -890,7 +890,7 @@
 # PRLabel: %Mgmt
 /sdk/resourcemover/arm-resourcemover/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/resources/arm-resources/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -962,7 +962,7 @@
 # PRLabel: %Mgmt
 /sdk/storage/arm-storage-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/storagecache/arm-storagecache/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the capabilities available for a given server.
  *
  * @summary lists the capabilities available for a given server.
- * x-ms-original-file: 2026-01-01-preview/CapabilitiesByServerList.json
+ * x-ms-original-file: 2026-04-01-preview/CapabilitiesByServerList.json
  */
 async function listTheCapabilitiesAvailableForAGivenServer() {
   const credential = new DefaultAzureCredential();
