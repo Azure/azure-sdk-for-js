@@ -98,7 +98,7 @@ failures.
 6. For each failing check run, **record the links needed to reach the failing build
    logs** so they can be embedded in the issue later:
    - `html_url` — the GitHub check-run page for the failure.
-   - `details_url` (a.k.a. `target_url`) — the Azure DevOps build that produced the
+   - `details_url` (or `target_url`, depending on the API field available) — the Azure DevOps build that produced the
      failure. This is the most useful link for inspecting the full failure logs.
      It typically follows the pattern
      `https://dev.azure.com/azure-sdk/public/_build/results?buildId=<ID>&view=results`.
