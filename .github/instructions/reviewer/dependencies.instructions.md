@@ -6,12 +6,14 @@ description: "Azure SDK dependency review rules covering pnpm workspace protocol
 
 **Scope:** `package.json`, `pnpm-workspace.yaml`, metadata. Skip source, tests, docs, consistent lock file churn.
 
-## Workspace Protocol (Critical)
+## Workspace Protocol
 This monorepo uses **pnpm** with workspace linking:
 - **Dev tools & test utils**: `workspace:^` (e.g., `"@azure-tools/test-recorder": "workspace:^"`)
-- **Published runtime `@azure/*` deps**: semver `^` ranges (e.g., `"@azure/core-rest-pipeline": "^1.19.0"`)
-  - pnpm resolves to local during dev; publishes real ranges
-  - `workspace:^` on published runtime deps is wrong — locks to unpublished local version
+- **Published runtime `@azure/*` deps**: `workspace:^` **or** semver `^` ranges (e.g., `"@azure/core-rest-pipeline": "^1.19.0"`) — both are acceptable
+  - At pack/publish time pnpm rewrites `workspace:^` to `^<local version>`
+  - Versions aren't bumped until a package has source changes, so the local version normally matches the latest published version → `workspace:^` resolves to a published range and is safe
+  - **When the dependency has unreleased source changes** (local version ahead of npm): release it together with/before the consumer, bump the consumer's version + `CHANGELOG.md` when it uses the new features, or use an explicit `^` range against the last published version
+  - Only flag `workspace:^` on a runtime dep when its local version is ahead of npm **and** the consumer is not released alongside it
 
 ## Catalog Usage (pnpm-workspace.yaml)
 Use `catalog:` references when entry exists:
@@ -32,7 +34,7 @@ Hardcoded versions for cataloged deps are wrong:
 ## Version Range Conventions
 | Type | Range |
 |------|-------|
-| Published runtime deps | `^` (caret) |
+| Published runtime deps | `^` (caret) or `workspace:^` |
 | Peer deps | `>=` compatibility window |
 | Dev deps | `catalog:` or `^` |
 | Internal dev tools | `workspace:^` |
