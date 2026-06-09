@@ -76,6 +76,6 @@ describe("Datafactory test", () => {
     for await (const item of client.quota.list(subscriptionId, providerId, location)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 108);
+    assert.equal(resArray.length, 189);
   });
 });
