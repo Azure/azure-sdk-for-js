@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.1 (2026-06-08)
+## 4.0.0-beta.1 (2026-06-09)
 Compared with version 3.1.0
 
 ### Features Added
@@ -39,10 +39,7 @@ Compared with version 3.1.0
   - Added Interface SimplePollerLike
   - Added Interface StorageIndexingConfiguration
   - Added Interface TrackedResource
-  - Interface PrivateEndpointConnection has a new optional parameter properties
   - Interface PrivateEndpointConnection has a new optional parameter systemData
-  - Interface PrivateEndpointConnectionDescription has a new optional parameter properties
-  - Interface PrivateLinkResourceDescription has a new optional parameter properties
   - Interface PrivateLinkResourceListResultDescription has a new optional parameter nextLink
   - Interface Resource has a new optional parameter systemData
   - Interface StorageConfiguration has a new optional parameter storageIndexingConfiguration
@@ -51,6 +48,8 @@ Compared with version 3.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Class HealthcareApisManagementClient no longer has parameter apiVersion
+  - Class HealthcareApisManagementClient no longer has parameter subscriptionId
   - Removed Interface DicomServiceCollection
   - Removed Interface FhirServiceCollection
   - Removed Interface IotConnectorCollection
@@ -64,15 +63,6 @@ Compared with version 3.1.0
   - Removed Interface ServicesResource
   - Removed Interface TaggedResource
   - Removed Interface WorkspaceList
-  - Interface PrivateEndpointConnection no longer has parameter privateEndpoint
-  - Interface PrivateEndpointConnection no longer has parameter privateLinkServiceConnectionState
-  - Interface PrivateEndpointConnection no longer has parameter provisioningState
-  - Interface PrivateEndpointConnectionDescription no longer has parameter privateEndpoint
-  - Interface PrivateEndpointConnectionDescription no longer has parameter privateLinkServiceConnectionState
-  - Interface PrivateEndpointConnectionDescription no longer has parameter provisioningState
-  - Interface PrivateLinkResourceDescription no longer has parameter groupId
-  - Interface PrivateLinkResourceDescription no longer has parameter requiredMembers
-  - Interface PrivateLinkResourceDescription no longer has parameter requiredZoneNames
 
     
 ## 3.1.0 (2024-04-19)

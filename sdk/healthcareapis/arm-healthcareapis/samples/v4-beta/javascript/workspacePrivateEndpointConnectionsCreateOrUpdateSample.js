@@ -18,11 +18,7 @@ async function workspacePrivateEndpointConnectionCreateOrUpdate() {
     "testRG",
     "workspace1",
     "myConnection",
-    {
-      properties: {
-        privateLinkServiceConnectionState: { description: "Auto-Approved", status: "Approved" },
-      },
-    },
+    { privateLinkServiceConnectionState: { description: "Auto-Approved", status: "Approved" } },
   );
   console.log(result);
 }

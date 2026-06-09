@@ -694,12 +694,16 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends Resource {
-    properties?: PrivateEndpointConnectionProperties;
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
 export interface PrivateEndpointConnectionDescription extends ProxyResource {
-    properties?: PrivateEndpointConnectionProperties;
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
@@ -751,7 +755,9 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
 export interface PrivateLinkResourceDescription extends ProxyResource {
-    properties?: PrivateLinkResourceProperties;
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public

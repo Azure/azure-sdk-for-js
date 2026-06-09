@@ -284,17 +284,21 @@ export function errorDetailsInternalDeserializer(item: any): ErrorDetailsInterna
 
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnectionDescription extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: PrivateEndpointConnectionProperties;
+  /** The private endpoint resource. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /** The provisioning state of the private endpoint connection resource. */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 export function privateEndpointConnectionDescriptionSerializer(
   item: PrivateEndpointConnectionDescription,
 ): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : privateEndpointConnectionPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["privateEndpoint", "privateLinkServiceConnectionState"])
+      ? undefined
+      : _privateEndpointConnectionDescriptionPropertiesSerializer(item),
   };
 }
 
@@ -308,9 +312,9 @@ export function privateEndpointConnectionDescriptionDeserializer(
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : privateEndpointConnectionPropertiesDeserializer(item["properties"]),
+      : _privateEndpointConnectionDescriptionPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -577,8 +581,12 @@ export function privateEndpointConnectionDescriptionArrayDeserializer(
 
 /** The Private Endpoint Connection resource. */
 export interface PrivateLinkResourceDescription extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: PrivateLinkResourceProperties;
+  /** The private link resource group id. */
+  readonly groupId?: string;
+  /** The private link resource required member names. */
+  readonly requiredMembers?: string[];
+  /** The private link resource private link DNS zone name. */
+  requiredZoneNames?: string[];
 }
 
 export function privateLinkResourceDescriptionDeserializer(
@@ -591,9 +599,9 @@ export function privateLinkResourceDescriptionDeserializer(
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : privateLinkResourcePropertiesDeserializer(item["properties"]),
+      : _privateLinkResourceDescriptionPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -787,15 +795,19 @@ export function privateEndpointConnectionArrayDeserializer(
 
 /** The private endpoint connection resource */
 export interface PrivateEndpointConnection extends Resource {
-  /** The private endpoint connection properties */
-  properties?: PrivateEndpointConnectionProperties;
+  /** The private endpoint resource. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /** The provisioning state of the private endpoint connection resource. */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 export function privateEndpointConnectionSerializer(item: PrivateEndpointConnection): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : privateEndpointConnectionPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["privateEndpoint", "privateLinkServiceConnectionState"])
+      ? undefined
+      : _privateEndpointConnectionPropertiesSerializer(item),
   };
 }
 
@@ -807,9 +819,9 @@ export function privateEndpointConnectionDeserializer(item: any): PrivateEndpoin
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : privateEndpointConnectionPropertiesDeserializer(item["properties"]),
+      : _privateEndpointConnectionPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -2902,6 +2914,72 @@ export type OperationResultStatus = string;
 export enum KnownVersions {
   /** The 2025-04-01-preview API version. */
   V20250401Preview = "2025-04-01-preview",
+}
+
+export function _privateEndpointConnectionDescriptionPropertiesSerializer(
+  item: PrivateEndpointConnectionDescription,
+): any {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointSerializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
+      ? item["privateLinkServiceConnectionState"]
+      : privateLinkServiceConnectionStateSerializer(item["privateLinkServiceConnectionState"]),
+  };
+}
+
+export function _privateEndpointConnectionDescriptionPropertiesDeserializer(item: any) {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointDeserializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
+      ? item["privateLinkServiceConnectionState"]
+      : privateLinkServiceConnectionStateDeserializer(item["privateLinkServiceConnectionState"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function _privateLinkResourceDescriptionPropertiesDeserializer(item: any) {
+  return {
+    groupId: item["groupId"],
+    requiredMembers: !item["requiredMembers"]
+      ? item["requiredMembers"]
+      : item["requiredMembers"].map((p: any) => {
+          return p;
+        }),
+    requiredZoneNames: !item["requiredZoneNames"]
+      ? item["requiredZoneNames"]
+      : item["requiredZoneNames"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function _privateEndpointConnectionPropertiesSerializer(
+  item: PrivateEndpointConnection,
+): any {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointSerializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
+      ? item["privateLinkServiceConnectionState"]
+      : privateLinkServiceConnectionStateSerializer(item["privateLinkServiceConnectionState"]),
+  };
+}
+
+export function _privateEndpointConnectionPropertiesDeserializer(item: any) {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointDeserializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
+      ? item["privateLinkServiceConnectionState"]
+      : privateLinkServiceConnectionStateDeserializer(item["privateLinkServiceConnectionState"]),
+    provisioningState: item["provisioningState"],
+  };
 }
 
 export function _dicomServicePropertiesSerializer(item: DicomService): any {
