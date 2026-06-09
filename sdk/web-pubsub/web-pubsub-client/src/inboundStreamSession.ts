@@ -31,10 +31,10 @@ export class InboundStreamSession {
   private readonly _ttlInMs: number;
   private readonly _handleFromStart: boolean;
 
-  // Active streams keyed by `${group}|${streamId}`.
+  // Active streams keyed by an encoded [group, streamId] tuple.
   private readonly _activeStreams: Map<string, ActiveStream>;
   private readonly _activeTimeouts: Map<string, ReturnType<typeof setTimeout>>;
-  // Tracks streamIds skipped by handleFromStart=true, keyed by `${group}|${streamId}`.
+  // Tracks streamIds skipped by handleFromStart=true, keyed by an encoded [group, streamId] tuple.
   private readonly _ignored: Set<string>;
 
   constructor(getFactories: GetGroupStreamFactoriesFn, options?: GroupStreamOptions) {
@@ -182,7 +182,7 @@ export class InboundStreamSession {
   }
 
   private _buildKey(groupName: string, streamId: string): string {
-    return `${groupName}|${streamId}`;
+    return JSON.stringify([groupName, streamId]);
   }
 
   private _resetActiveTimeout(active: ActiveStream): void {
