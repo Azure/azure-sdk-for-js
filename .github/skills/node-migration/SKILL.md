@@ -63,10 +63,13 @@ Target areas to search:
 | Area | Paths / Patterns |
 | --- | --- |
 | Package engines | `**/package.json` files containing `"node"` in `engines`. |
+| Workspace catalog | `pnpm-workspace.yaml` — check `catalog:` entries for `@types/node`. |
 | Direct Node setup pins | `.nvmrc`, `.node-version`, `.github/workflows/**`, `eng/pipelines/**`, `rush.json`, `common/config/rush/**`. |
-| Dev tooling | `common/tools/dev-tool/**`, `common/tools/eslint-plugin-azure-sdk/**`, `eng/tools/**`. |
+| Dev tooling | `common/tools/dev-tool/**`, `common/tools/eslint-plugin-azure-sdk/**`, `eng/tools/**`, `eng/containers/**`. |
 | Docs and Docker | `documentation/**`, `README.md`, `sdk/**/Dockerfile`, `eng/**/Dockerfile`. |
 | CI and build scripts | `**/.github/workflows/**`, `**/eng/pipelines/**`, `**/eng/scripts/**`. |
+| Review guidelines | `.github/instructions/**`, `.github/prompts/**` — these may reference Node minimum versions as policy. |
+| SDK packages (bulk) | All `sdk/**/package.json` engine fields and `sdk/**/samples/**/package.json` `@types/node` entries. These are enforced by the eslint rule and dev-tool, so update them in bulk after updating the tooling constants. |
 | Textual leftovers | For each old major `X`: `Node.js X`, `Node X`, `node-version: "X"`, `node-version: X`, `NODE_VERSION=X`, `>=X`, `>=X.0.0`, `@types/node@X`, `@types/node": "X`, `@types/node": "^X`, and known LTS codenames if relevant. |
 
 ## Special Cases
