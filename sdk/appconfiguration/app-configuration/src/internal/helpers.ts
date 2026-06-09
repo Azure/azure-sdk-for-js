@@ -263,6 +263,7 @@ export function makeConfigurationSettingEmpty(
 ): void {
   const names: Exclude<keyof ConfigurationSetting, "key">[] = [
     "contentType",
+    "description",
     "etag",
     "label",
     "lastModified",
