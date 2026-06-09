@@ -98,6 +98,16 @@ describe("recommendedStrictDelta", () => {
       expect(rules["@typescript-eslint/prefer-readonly"]).toBeUndefined();
       expect(rules["@typescript-eslint/consistent-return"]).toBeUndefined();
     });
+
+    it("should scope every emitted config object to src/ only", () => {
+      // The strict delta is intentionally limited to shipped library code
+      // under `src/`. If any entry were emitted without this scoping, the
+      // strict rules would also fire for `test/`, `samples/`, etc.
+      expect(deltaConfigs.length).toBeGreaterThan(0);
+      for (const config of deltaConfigs) {
+        expect(config.files).toEqual(["**/src/**"]);
+      }
+    });
   });
 
   describe("typeChecked: true", () => {
@@ -167,6 +177,15 @@ describe("recommendedStrictDelta", () => {
 
     it("should include @typescript-eslint/use-unknown-in-catch-callback-variable as error", () => {
       expect(rules["@typescript-eslint/use-unknown-in-catch-callback-variable"]).toBe("error");
+    });
+
+    it("should scope every emitted config object to src/ only", () => {
+      // Same scoping invariant as the non-type-checked variant: the strict
+      // delta must not fire for files outside `src/`.
+      expect(deltaConfigs.length).toBeGreaterThan(0);
+      for (const config of deltaConfigs) {
+        expect(config.files).toEqual(["**/src/**"]);
+      }
     });
   });
 });

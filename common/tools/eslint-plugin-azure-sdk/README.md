@@ -70,6 +70,8 @@ export default azsdkEslint.config([
 
 The `recommendedStrict` and `recommendedStrictTypeChecked` presets layer additional maintainability and code-smell rules on top of `recommended`. They are intended for new packages or as part of an incremental cleanup effort. **These presets are intentionally noisy on existing code** — treat findings as a backlog rather than blocking CI until you've triaged them.
 
+> **Scope:** the strict delta only applies to files under any `src/` directory (`**/src/**`). Tests, samples, perf/stress harnesses, and build scripts intentionally bend many of these rules (long test functions, parameter mutation in mocks, deep sample scenarios), so the strict preset deliberately leaves them alone and only the underlying `recommended` rules apply there.
+
 #### Usage
 
 ```js

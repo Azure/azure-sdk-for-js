@@ -18,8 +18,32 @@ const MAX_CLASSES_PER_FILE = 1;
 const MAX_PARAMS = 7;
 
 /**
+ * Glob pattern used to scope every config object the strict delta emits.
+ *
+ * The strict preset is intended for shipped library code only. Tests,
+ * samples, perf/stress harnesses, and build/config scripts intentionally
+ * bend many of these rules (long test functions, parameter mutation in
+ * mocks, deeply nested sample scenarios), so the delta is limited to
+ * files under any `src/` directory.
+ */
+const STRICT_FILES: readonly string[] = ["**/src/**"];
+
+/**
+ * Restrict a flat-config object so its rules only apply to files under
+ * `src/`. Any existing `files` on the input is replaced — the strict
+ * preset owns the scoping policy for every config object it emits.
+ */
+function scopeToSrc(config: FlatConfig.Config): FlatConfig.Config {
+  return { ...config, files: [...STRICT_FILES] };
+}
+
+/**
  * Returns the strict-only delta config array — the additional rules that go
  * beyond the `recommended` / `recommendedTypeChecked` preset.
+ *
+ * Every returned config object is scoped to `**\/src/**`, so the strict
+ * delta never fires for files under `test/`, `samples/`, `samples-dev/`,
+ * etc., even when composed with a broader base preset.
  *
  * @param options.typeChecked - When `true`, type-checked-only rules are included.
  *   When `false`, rules that require parser services are omitted.
@@ -115,7 +139,7 @@ export function recommendedStrictDelta(options: { typeChecked: boolean }): FlatC
   });
 
   if (!typeChecked) {
-    return [...sonarjsBase, ...alwaysOnRules];
+    return [...sonarjsBase, ...alwaysOnRules].map(scopeToSrc);
   }
 
   // Additional rules that require parser services (type info)
@@ -154,5 +178,5 @@ export function recommendedStrictDelta(options: { typeChecked: boolean }): FlatC
     },
   });
 
-  return [...sonarjsBase, ...alwaysOnRules, ...typeCheckedRules];
+  return [...sonarjsBase, ...alwaysOnRules, ...typeCheckedRules].map(scopeToSrc);
 }
