@@ -9,10 +9,7 @@ import type {
   StacQueryable,
   TileSettings,
 } from "../../src/index.js";
-import {
-  KnownRenderOptionType,
-  KnownStacQueryableDefinitionDataType,
-} from "../../src/index.js";
+import { KnownRenderOptionType, KnownStacQueryableDefinitionDataType } from "../../src/index.js";
 import { createRecorder, createClient } from "./utils/recordedClient.js";
 import { getCollectionId } from "./utils/envVars.js";
 import { isRestError } from "@azure/core-rest-pipeline";
@@ -152,11 +149,7 @@ describe("STAC Collection operations", () => {
       name: "Test Natural Color Updated",
       description: "Updated description",
     };
-    const replaced = await client.stac.replaceRenderOption(
-      collectionId,
-      renderOptionId,
-      updated,
-    );
+    const replaced = await client.stac.replaceRenderOption(collectionId, renderOptionId, updated);
     expect(replaced.id).toBe(renderOptionId);
     expect(replaced.description).toBe("Updated description");
 

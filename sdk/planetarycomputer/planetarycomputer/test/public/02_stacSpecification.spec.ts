@@ -177,7 +177,13 @@ describe("STAC Specification compliance", () => {
           title: "RGBIR COG tile",
         },
       },
-      links: [{ rel: "collection", type: "application/json", href: `${process.env.PLANETARYCOMPUTER_ENDPOINT || ""}/stac/collections/${collectionId}` }],
+      links: [
+        {
+          rel: "collection",
+          type: "application/json",
+          href: `${process.env.PLANETARYCOMPUTER_ENDPOINT || ""}/stac/collections/${collectionId}`,
+        },
+      ],
       collection: collectionId,
     });
     await createPoller.pollUntilDone();
@@ -220,7 +226,13 @@ describe("STAC Specification compliance", () => {
           roles: ["data"],
         },
       },
-      links: [{ rel: "collection", type: "application/json", href: `${process.env.PLANETARYCOMPUTER_ENDPOINT || ""}/stac/collections/${collectionId}` }],
+      links: [
+        {
+          rel: "collection",
+          type: "application/json",
+          href: `${process.env.PLANETARYCOMPUTER_ENDPOINT || ""}/stac/collections/${collectionId}`,
+        },
+      ],
       collection: collectionId,
     });
     await createPoller.pollUntilDone();
@@ -240,7 +252,13 @@ describe("STAC Specification compliance", () => {
           roles: ["data"],
         },
       },
-      links: [{ rel: "collection", type: "application/json", href: `${process.env.PLANETARYCOMPUTER_ENDPOINT || ""}/stac/collections/${collectionId}` }],
+      links: [
+        {
+          rel: "collection",
+          type: "application/json",
+          href: `${process.env.PLANETARYCOMPUTER_ENDPOINT || ""}/stac/collections/${collectionId}`,
+        },
+      ],
       collection: collectionId,
     });
     await updatePoller.pollUntilDone();
@@ -280,7 +298,13 @@ describe("STAC Specification compliance", () => {
           roles: ["data"],
         },
       },
-      links: [{ rel: "collection", type: "application/json", href: `${process.env.PLANETARYCOMPUTER_ENDPOINT || ""}/stac/collections/${collectionId}` }],
+      links: [
+        {
+          rel: "collection",
+          type: "application/json",
+          href: `${process.env.PLANETARYCOMPUTER_ENDPOINT || ""}/stac/collections/${collectionId}`,
+        },
+      ],
       collection: collectionId,
     });
     await createPoller.pollUntilDone();
@@ -300,7 +324,13 @@ describe("STAC Specification compliance", () => {
           roles: ["data"],
         },
       },
-      links: [{ rel: "collection", type: "application/json", href: `${process.env.PLANETARYCOMPUTER_ENDPOINT || ""}/stac/collections/${collectionId}` }],
+      links: [
+        {
+          rel: "collection",
+          type: "application/json",
+          href: `${process.env.PLANETARYCOMPUTER_ENDPOINT || ""}/stac/collections/${collectionId}`,
+        },
+      ],
       collection: collectionId,
     });
     await replacePoller.pollUntilDone();
@@ -340,7 +370,13 @@ describe("STAC Specification compliance", () => {
           roles: ["data"],
         },
       },
-      links: [{ rel: "collection", type: "application/json", href: `${process.env.PLANETARYCOMPUTER_ENDPOINT || ""}/stac/collections/${collectionId}` }],
+      links: [
+        {
+          rel: "collection",
+          type: "application/json",
+          href: `${process.env.PLANETARYCOMPUTER_ENDPOINT || ""}/stac/collections/${collectionId}`,
+        },
+      ],
       collection: collectionId,
     });
     await createPoller.pollUntilDone();
