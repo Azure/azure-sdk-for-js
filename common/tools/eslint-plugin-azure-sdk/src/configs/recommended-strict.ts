@@ -134,6 +134,12 @@ export function recommendedStrictDelta(options: { typeChecked: boolean }): FlatC
       "@typescript-eslint/prefer-promise-reject-errors": "error",
 
       // --- Async safety (type-checked) ---
+      // Disable the core `no-return-await` in favour of the TS extension,
+      // because the base `recommended` preset enables `no-return-await: error`
+      // (see eslint-customized.ts) which would directly contradict
+      // `@typescript-eslint/return-await: ["error", "in-try-catch"]` inside
+      // try/catch blocks (one requires `return await`, the other forbids it).
+      "no-return-await": "off",
       "@typescript-eslint/return-await": ["error", "in-try-catch"],
 
       // --- Dead / redundant code (type-checked) ---

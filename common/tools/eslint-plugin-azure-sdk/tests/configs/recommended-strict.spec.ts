@@ -130,6 +130,14 @@ describe("recommendedStrictDelta", () => {
       expect(rules["@typescript-eslint/return-await"]).toEqual(["error", "in-try-catch"]);
     });
 
+    it("should disable core no-return-await in favour of @typescript-eslint/return-await", () => {
+      // The base `recommended` preset enables `no-return-await: "error"`,
+      // which contradicts `@typescript-eslint/return-await: ["error", "in-try-catch"]`
+      // inside try/catch blocks. The strict type-checked delta must turn off
+      // the core rule to keep the preset internally consistent.
+      expect(rules["no-return-await"]).toBe("off");
+    });
+
     it("should include @typescript-eslint/prefer-readonly as error", () => {
       expect(rules["@typescript-eslint/prefer-readonly"]).toBe("error");
     });
