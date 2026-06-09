@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  refreshLdapBindPassword,
   changeKeyVault,
   getChangeKeyVaultInformation,
   transitionToCmk,
@@ -15,7 +14,6 @@ export {
   get,
 } from "./operations.js";
 export type {
-  AccountsRefreshLdapBindPasswordOptionalParams,
   AccountsChangeKeyVaultOptionalParams,
   AccountsGetChangeKeyVaultInformationOptionalParams,
   AccountsTransitionToCmkOptionalParams,

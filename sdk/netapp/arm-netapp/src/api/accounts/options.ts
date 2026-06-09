@@ -5,12 +5,6 @@ import type { EncryptionTransitionRequest, ChangeKeyVault } from "../../models/m
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface AccountsRefreshLdapBindPasswordOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
 export interface AccountsChangeKeyVaultOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
