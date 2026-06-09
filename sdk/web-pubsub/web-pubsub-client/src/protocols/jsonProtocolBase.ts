@@ -4,6 +4,7 @@
 import type {
   AckMessage,
   CancelInvocationMessage,
+  JSONTypes,
   StreamAckMessage,
   StreamClosedMessage,
   StreamInfo,
@@ -19,7 +20,6 @@ import type {
   WebPubSubDataType,
   WebPubSubMessage,
 } from "../models/messages.js";
-import type { JSONTypes } from "../webPubSubClient.js";
 import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 
 export function parseMessages(input: string): WebPubSubMessage | null {
@@ -46,8 +46,8 @@ export function parseMessages(input: string): WebPubSubMessage | null {
       return null;
     }
   } else if (typedMessage.type === "message") {
-    const stream = parseStreamInfo(parsedMessage.stream);
     if (typedMessage.from === "group") {
+      const stream = parseStreamInfo(parsedMessage.stream);
       const data = parsePayload(parsedMessage.data, parsedMessage.dataType as WebPubSubDataType);
       if (data === null) {
         return null;
@@ -58,10 +58,10 @@ export function parseMessages(input: string): WebPubSubMessage | null {
       if (data === null) {
         return null;
       }
+      const { stream: _stream, ...serverMessage } = parsedMessage;
       returnMessage = {
-        ...parsedMessage,
+        ...serverMessage,
         data,
-        stream,
         kind: "serverData",
       } as ServerDataMessage;
     } else {

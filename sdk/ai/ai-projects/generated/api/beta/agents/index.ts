@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 export {
+  promoteCandidate,
+  getCandidateFile,
   getOptimizationCandidateResults,
   getOptimizationCandidateConfig,
   getOptimizationCandidate,
@@ -12,11 +14,12 @@ export {
   getOptimizationJob,
   createOptimizationJob,
   deleteSessionFile,
-  getSessionFiles,
+  listSessionFiles,
   downloadSessionFile,
   uploadSessionFile,
   getSessionLogStream,
   listSessions,
+  stopSession,
   deleteSession,
   getSession,
   createSession,
@@ -25,6 +28,8 @@ export {
   patchAgentObject,
 } from "./operations.js";
 export type {
+  BetaAgentsPromoteCandidateOptionalParams,
+  BetaAgentsGetCandidateFileOptionalParams,
   BetaAgentsGetOptimizationCandidateResultsOptionalParams,
   BetaAgentsGetOptimizationCandidateConfigOptionalParams,
   BetaAgentsGetOptimizationCandidateOptionalParams,
@@ -35,11 +40,12 @@ export type {
   BetaAgentsGetOptimizationJobOptionalParams,
   BetaAgentsCreateOptimizationJobOptionalParams,
   BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsGetSessionFilesOptionalParams,
+  BetaAgentsListSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
   BetaAgentsUploadSessionFileOptionalParams,
   BetaAgentsGetSessionLogStreamOptionalParams,
   BetaAgentsListSessionsOptionalParams,
+  BetaAgentsStopSessionOptionalParams,
   BetaAgentsDeleteSessionOptionalParams,
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about a pair of virtual endpoints.
  *
  * @summary gets information about a pair of virtual endpoints.
- * x-ms-original-file: 2026-01-01-preview/VirtualEndpointsGet.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualEndpointsGet.json
  */
 async function getInformationAboutAPairOfVirtualEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();

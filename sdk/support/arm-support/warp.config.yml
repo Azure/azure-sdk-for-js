@@ -1,5 +1,27 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/filesNoSubscription": "./src/api/filesNoSubscription/index.ts"
+  "./api/files": "./src/api/files/index.ts"
+  "./api/fileWorkspacesNoSubscription": "./src/api/fileWorkspacesNoSubscription/index.ts"
+  "./api/fileWorkspaces": "./src/api/fileWorkspaces/index.ts"
+  "./api/chatTranscriptsNoSubscription": "./src/api/chatTranscriptsNoSubscription/index.ts"
+  "./api/chatTranscripts": "./src/api/chatTranscripts/index.ts"
+  "./api/supportTicketsNoSubscription": "./src/api/supportTicketsNoSubscription/index.ts"
+  "./api/communicationsNoSubscription": "./src/api/communicationsNoSubscription/index.ts"
+  "./api/supportTickets": "./src/api/supportTickets/index.ts"
+  "./api/communications": "./src/api/communications/index.ts"
+  "./api/problemClassifications": "./src/api/problemClassifications/index.ts"
+  "./api/classifyProblemsNoSubscription": "./src/api/classifyProblemsNoSubscription/index.ts"
+  "./api/classifyProblems": "./src/api/classifyProblems/index.ts"
+  "./api/classifyServicesNoSubscription": "./src/api/classifyServicesNoSubscription/index.ts"
+  "./api/classifyServices": "./src/api/classifyServices/index.ts"
+  "./api/services": "./src/api/services/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

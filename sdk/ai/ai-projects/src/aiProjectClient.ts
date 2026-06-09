@@ -28,6 +28,7 @@ import { getCustomFetch } from "./getCustomFetch.js";
 import { getOpenAIDefaultHeaders } from "./util.js";
 import type { OpenAIClientOptionsWithAzureAgent } from "./azureAgent.interface.js";
 import { KnownApiVersions } from "./models/models.js";
+import { getTracingFetch } from "./tracing/tracingFetch.js";
 
 export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
@@ -147,6 +148,9 @@ export class AIProjectClient {
       customFetch = getCustomFetch(this._azureScopeClient.pipeline, this._options.httpClient);
     }
 
+    // Wrap fetch with tracing to inject traceparent/tracestate headers
+    customFetch = getTracingFetch(customFetch);
+
     let baseURL: string;
     if (opts?.baseURL) {
       baseURL = opts.baseURL;
@@ -199,7 +203,7 @@ export class AIProjectClient {
     };
 
     const openaiClient = new OpenAI(openAIOptions);
-    return overwriteOpenAIClient(openaiClient);
+    return overwriteOpenAIClient(openaiClient, this._endpoint);
   }
   /**
    * gets the endpoint of the client
