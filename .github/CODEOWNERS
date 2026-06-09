@@ -563,7 +563,7 @@
 # PRLabel: %Mgmt
 /sdk/dns/arm-dns-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/domainservices/arm-domainservices/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
