@@ -12,7 +12,7 @@ import {
   update,
   list,
   get,
-  $delete,
+  deleteIngestion,
   create,
   listRuns,
   getRun,
@@ -32,7 +32,7 @@ import {
   IngestionUpdateOptionalParams,
   IngestionListOptionalParams,
   IngestionGetOptionalParams,
-  IngestionDeleteOptionalParams,
+  IngestionDeleteIngestionOptionalParams,
   IngestionCreateOptionalParams,
   IngestionListRunsOptionalParams,
   IngestionGetRunOptionalParams,
@@ -100,10 +100,10 @@ export interface IngestionOperations {
     options?: IngestionGetOptionalParams,
   ) => Promise<IngestionDefinition>;
   /** Delete an ingestion from a catalog. All runs of the ingestion will be deleted. Ingestion must not have any runs in progress or queued. */
-  delete: (
+  deleteIngestion: (
     collectionId: string,
     ingestionId: string,
-    options?: IngestionDeleteOptionalParams,
+    options?: IngestionDeleteIngestionOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** Create a new ingestion */
   create: (
@@ -174,8 +174,11 @@ function _getIngestion(context: PlanetaryComputerProContext) {
       list(context, collectionId, options),
     get: (collectionId: string, ingestionId: string, options?: IngestionGetOptionalParams) =>
       get(context, collectionId, ingestionId, options),
-    delete: (collectionId: string, ingestionId: string, options?: IngestionDeleteOptionalParams) =>
-      $delete(context, collectionId, ingestionId, options),
+    deleteIngestion: (
+      collectionId: string,
+      ingestionId: string,
+      options?: IngestionDeleteIngestionOptionalParams,
+    ) => deleteIngestion(context, collectionId, ingestionId, options),
     create: (
       collectionId: string,
       body: IngestionDefinition,

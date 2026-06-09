@@ -2843,7 +2843,7 @@ export interface IngestionDefinition {
 }
 
 // @public
-export interface IngestionDeleteOptionalParams extends OperationOptions {
+export interface IngestionDeleteIngestionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -2904,7 +2904,7 @@ export interface IngestionOperations {
     create: (collectionId: string, body: IngestionDefinition, options?: IngestionCreateOptionalParams) => Promise<IngestionDefinition>;
     createRun: (collectionId: string, ingestionId: string, options?: IngestionCreateRunOptionalParams) => Promise<IngestionRun>;
     createSource: (body: IngestionSourceUnion, options?: IngestionCreateSourceOptionalParams) => Promise<IngestionSourceUnion>;
-    delete: (collectionId: string, ingestionId: string, options?: IngestionDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteIngestion: (collectionId: string, ingestionId: string, options?: IngestionDeleteIngestionOptionalParams) => PollerLike<OperationState<void>, void>;
     deleteSource: (id: string, options?: IngestionDeleteSourceOptionalParams) => Promise<void>;
     get: (collectionId: string, ingestionId: string, options?: IngestionGetOptionalParams) => Promise<IngestionDefinition>;
     getOperation: (operationId: string, options?: IngestionGetOperationOptionalParams) => Promise<Operation>;

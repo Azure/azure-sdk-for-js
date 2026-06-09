@@ -42,7 +42,7 @@ import {
   IngestionUpdateOptionalParams,
   IngestionListOptionalParams,
   IngestionGetOptionalParams,
-  IngestionDeleteOptionalParams,
+  IngestionDeleteIngestionOptionalParams,
   IngestionCreateOptionalParams,
   IngestionListRunsOptionalParams,
   IngestionGetRunOptionalParams,
@@ -459,11 +459,11 @@ export async function get(
   return _getDeserialize(result);
 }
 
-export function _$deleteSend(
+export function _deleteIngestionSend(
   context: Client,
   collectionId: string,
   ingestionId: string,
-  options: IngestionDeleteOptionalParams = { requestOptions: {} },
+  options: IngestionDeleteIngestionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/inma/collections/{collectionId}/ingestions/{ingestionId}{?api%2Dversion}",
@@ -482,7 +482,7 @@ export function _$deleteSend(
   });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteIngestionDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -492,16 +492,16 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete an ingestion from a catalog. All runs of the ingestion will be deleted. Ingestion must not have any runs in progress or queued. */
-export function $delete(
+export function deleteIngestion(
   context: Client,
   collectionId: string,
   ingestionId: string,
-  options: IngestionDeleteOptionalParams = { requestOptions: {} },
+  options: IngestionDeleteIngestionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _deleteIngestionDeserialize, ["202", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _$deleteSend(context, collectionId, ingestionId, options),
+    getInitialResponse: () => _deleteIngestionSend(context, collectionId, ingestionId, options),
     resourceLocationConfig: "location",
     apiVersion: context.apiVersion ?? "2026-04-15",
   }) as PollerLike<OperationState<void>, void>;

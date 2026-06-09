@@ -266,7 +266,7 @@
       "@azure/planetarycomputer!IngestionOperations#update:member": "Customizations.Ingestion.update",
       "@azure/planetarycomputer!IngestionOperations#list:member": "Customizations.Ingestion.list",
       "@azure/planetarycomputer!IngestionOperations#get:member": "Customizations.Ingestion.get",
-      "@azure/planetarycomputer!IngestionOperations#delete:member": "Customizations.Ingestion.delete",
+      "@azure/planetarycomputer!IngestionOperations#deleteIngestion:member": "Customizations.Ingestion.delete",
       "@azure/planetarycomputer!IngestionOperations#create:member": "Customizations.Ingestion.create",
       "@azure/planetarycomputer!IngestionOperations#listRuns:member": "Customizations.Ingestion.listRuns",
       "@azure/planetarycomputer!IngestionOperations#getRun:member": "Customizations.Ingestion.getRun",

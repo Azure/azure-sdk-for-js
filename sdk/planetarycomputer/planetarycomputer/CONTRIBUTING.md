@@ -78,23 +78,6 @@ Remove the unused `stringToUint8Array` import from `@azure/core-util` if no othe
 - `_getItemWmtsCapabilitiesDeserialize`
 - `_getItemWmtsCapabilitiesByTmsDeserialize`
 
-### `@fixme` comment on ingestion `delete` method
-
-**Files:** `src/classic/ingestion/index.ts` and `src/api/ingestion/operations.ts`
-
-The emitter generates a `@fixme` comment on the ingestion `delete` method because `delete` is a JavaScript reserved word. However, `delete` is valid as an object method name (`client.ingestion.delete(...)`) and is the correct Azure SDK CRUD verb (consistent with Python's `begin_delete`). The `@@clientName` decorator in TypeSpec does not suppress this warning.
-
-**Fix:** Remove the `@fixme` comment blocks from both files. The comments look like:
-
-<!-- dev-tool snippets ignore -->
-```
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-```
-
 ### Copyright headers on `.mts` platform files
 
 **Files:**
@@ -158,7 +141,6 @@ structure.
 After running `npx tsp-client update`:
 
 - [ ] Apply WMTS fix (replace `stringToUint8Array` with `TextEncoder` in `src/api/data/operations.ts`)
-- [ ] Remove `@fixme` comment blocks from `src/classic/ingestion/index.ts` and `src/api/ingestion/operations.ts`
 - [ ] Add copyright headers to `.mts` platform files
 - [ ] Fix browser shim import in `get-binary-stream-response-browser.mts` (`#platform` path)
 - [ ] Restore `README.md` and `test/snippets.spec.ts` if overwritten by emitter (`git checkout HEAD -- README.md test/snippets.spec.ts`)

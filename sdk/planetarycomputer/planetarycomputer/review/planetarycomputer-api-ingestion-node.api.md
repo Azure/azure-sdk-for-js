@@ -11,9 +11,6 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: PlanetaryComputerProContext, collectionId: string, ingestionId: string, options?: IngestionDeleteOptionalParams): PollerLike<OperationState<void>, void>;
-
-// @public
 export function cancelAllOperations(context: PlanetaryComputerProContext, options?: IngestionCancelAllOperationsOptionalParams): Promise<void>;
 
 // @public
@@ -27,6 +24,9 @@ export function createRun(context: PlanetaryComputerProContext, collectionId: st
 
 // @public
 export function createSource(context: PlanetaryComputerProContext, body: IngestionSourceUnion, options?: IngestionCreateSourceOptionalParams): Promise<IngestionSourceUnion>;
+
+// @public
+export function deleteIngestion(context: PlanetaryComputerProContext, collectionId: string, ingestionId: string, options?: IngestionDeleteIngestionOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export function deleteSource(context: PlanetaryComputerProContext, id: string, options?: IngestionDeleteSourceOptionalParams): Promise<void>;
@@ -64,7 +64,7 @@ export interface IngestionCreateSourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface IngestionDeleteOptionalParams extends OperationOptions {
+export interface IngestionDeleteIngestionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 

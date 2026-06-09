@@ -42,7 +42,7 @@ export interface IngestionListOptionalParams extends OperationOptions {
 export interface IngestionGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface IngestionDeleteOptionalParams extends OperationOptions {
+export interface IngestionDeleteIngestionOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

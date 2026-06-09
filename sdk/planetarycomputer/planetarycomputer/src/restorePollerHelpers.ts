@@ -10,7 +10,7 @@ import {
   _deleteCollectionDeserialize,
   _createCollectionDeserialize,
 } from "./api/stac/operations.js";
-import { _$deleteDeserialize } from "./api/ingestion/operations.js";
+import { _deleteIngestionDeserialize } from "./api/ingestion/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -111,7 +111,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     expectedStatuses: ["202", "200", "201"],
   },
   "DELETE /inma/collections/{collectionId}/ingestions/{ingestionId}": {
-    deserializer: _$deleteDeserialize,
+    deserializer: _deleteIngestionDeserialize,
     expectedStatuses: ["202", "200"],
   },
 };

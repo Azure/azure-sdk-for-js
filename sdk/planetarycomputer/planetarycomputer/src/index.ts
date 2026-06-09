@@ -314,7 +314,7 @@ export type {
   IngestionUpdateOptionalParams,
   IngestionListOptionalParams,
   IngestionGetOptionalParams,
-  IngestionDeleteOptionalParams,
+  IngestionDeleteIngestionOptionalParams,
   IngestionCreateOptionalParams,
   IngestionListRunsOptionalParams,
   IngestionGetRunOptionalParams,
