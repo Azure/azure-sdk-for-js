@@ -437,6 +437,11 @@ Compared with version 10.0.0
   - Operation WorkspaceProductPolicy.getEntityTag has a new signature
   - Operation WorkspaceSubscription.getEntityTag has a new signature
   - Operation WorkspaceTag.getEntityState has a new signature
+  - Class ApiManagementClient has a new signature
+  - Class ApiManagementClient no longer has parameter apiVersion
+  - Class ApiManagementClient no longer has parameter operationOperations
+  - Class ApiManagementClient no longer has parameter privateEndpointConnectionOperations
+  - Class ApiManagementClient no longer has parameter subscriptionId
   - Removed Interface AccessInformationCollection
   - Removed Interface AllPoliciesCollection
   - Removed Interface ApiCollection
