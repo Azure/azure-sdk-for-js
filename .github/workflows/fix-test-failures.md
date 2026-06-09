@@ -41,7 +41,8 @@ failure.
 - `snippets.spec.ts` files under `sdk/**/*/test/` are documentation snippet sources,
   **not** real tests — ignore failures in those files.
 - Do **not** follow `details_url` links on check runs — they point to Azure DevOps
-  which is not accessible from this environment.
+  which is not accessible from this environment. (You may still **include** these
+  links in the issue so a human can open them; you just must not fetch them yourself.)
 - Do **not** create pull requests or modify source files. The only mutable output
   of this workflow is a GitHub issue; when no new failures exist the workflow
   exits silently with no issue created.
@@ -94,6 +95,15 @@ failures.
 4. If a specific `package` input was provided, scope investigation to that package only.
 5. Collect the list of affected **service directories** or **package names** from the
    check-run names (the pattern is `js - <service> (...)`).
+6. For each failing check run, **record the links needed to reach the failing build
+   logs** so they can be embedded in the issue later:
+   - `html_url` — the GitHub check-run page for the failure.
+   - `details_url` (a.k.a. `target_url`) — the Azure DevOps build that produced the
+     failure. This is the most useful link for inspecting the full failure logs.
+     It typically follows the pattern
+     `https://dev.azure.com/azure-sdk/public/_build/results?buildId=<ID>&view=results`.
+   Keep these URLs associated with their service/package so each failure section in
+   the issue can link directly to its build logs.
 
 If there are no test failures on `main`, **stop immediately** — do **not** create a
 GitHub issue. Simply report that CI is green and exit.
@@ -164,6 +174,8 @@ date/commit of the CI run inspected.>
 ## Failures
 
 ### <Package Name 1>
+
+**Failing CI build:** [<check-run name>](<details_url / Azure DevOps build link>) ([check run](<html_url>))
 
 **Failing tests:**
 - `<test name 1>` in `<test-file-path>`
