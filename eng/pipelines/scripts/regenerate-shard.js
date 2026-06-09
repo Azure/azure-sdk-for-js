@@ -142,30 +142,35 @@ function runPrepare() {
   const mode = getFlag("--mode");
   installGlobalCliTools();
 
-  if (mode === "emitter") {
+  // 'full' = emitter + shard combined; used when CreatePullRequest=false (no
+  // separate Setup-stage commit, so each shard must regen emitter-package itself).
+  const wantsEmitter = mode === "emitter" || mode === "full";
+  const wantsShard   = mode === "shard"   || mode === "full";
+
+  if (!wantsEmitter && !wantsShard) {
+    console.error("ERROR: --mode must be 'emitter', 'shard', or 'full'");
+    process.exit(2);
+  }
+
+  if (wantsEmitter) {
     const emitterVersion = getFlag("--emitterVersion");
     if (!emitterVersion) {
-      console.error("ERROR: --emitterVersion is required for --mode emitter");
+      console.error("ERROR: --emitterVersion is required for --mode emitter/full");
       process.exit(2);
     }
     regenerateEmitterPackageFiles(emitterVersion);
-    return;
   }
 
-  if (mode === "shard") {
+  if (wantsShard) {
     const specRepoBranch = getFlag("--specRepoBranch", "main");
     const specRepoCloneDir = getFlag("--specRepoRoot");
     if (!specRepoCloneDir) {
-      console.error("ERROR: --specRepoRoot is required for --mode shard");
+      console.error("ERROR: --specRepoRoot is required for --mode shard/full");
       process.exit(2);
     }
     preinstallReleaseTools();
     shallowCloneSpecRepo(specRepoBranch, specRepoCloneDir);
-    return;
   }
-
-  console.error("ERROR: --mode must be 'emitter' or 'shard'");
-  process.exit(2);
 }
 
 function installGlobalCliTools() {
@@ -324,6 +329,14 @@ async function regenerateAll(packages, concurrency, specRepoCloneDir) {
 async function regenerateOnePackage(pkg, specRepoCloneDir, completedCount, totalPackageCount) {
   const startedAtMs = Date.now();
 
+  // typespec-ts emitter rewrites CHANGELOG.md from a template, wiping years of
+  // release history. Snapshot before generate, restore before update-changelog
+  // runs (Phase 3) so it can prepend the new section to the full history.
+  const changelogPath = path.join(pkg.packageDir, "CHANGELOG.md");
+  const savedChangelog = fs.existsSync(changelogPath)
+    ? fs.readFileSync(changelogPath, "utf8")
+    : null;
+
   const syncResult = await runCommandCapturing(
     "pwsh", ["-File", TYPESPEC_SYNC_SCRIPT, pkg.packageDir, specRepoCloneDir], SDK_ROOT);
   let combinedLog = `===== TypeSpec-Project-Sync =====\n${syncResult.output}\nExit: ${syncResult.exitCode}\n`;
@@ -335,6 +348,8 @@ async function regenerateOnePackage(pkg, specRepoCloneDir, completedCount, total
     combinedLog += `\n===== TypeSpec-Project-Generate =====\n${generateResult.output}\nExit: ${generateResult.exitCode}\n`;
     success = generateResult.exitCode === 0;
   }
+
+  if (savedChangelog !== null) fs.writeFileSync(changelogPath, savedChangelog);
 
   const durationSeconds = ((Date.now() - startedAtMs) / 1000).toFixed(1);
   completedCount.value += 1;
