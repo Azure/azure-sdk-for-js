@@ -71,6 +71,13 @@ describe("recommendedStrictDelta", () => {
       expect(rules["@typescript-eslint/consistent-type-imports"]).toBe("error");
     });
 
+    it("should NOT enable core no-duplicate-imports (the TS-aware @typescript-eslint/consistent-type-imports covers this)", () => {
+      // The core rule flags `import { Foo } from "x"` + `import type { Bar } from "x"`
+      // as duplicates even though those are semantically distinct. Keep the
+      // strict preset free of it so the TS extension owns import-shape policy.
+      expect(rules["no-duplicate-imports"]).toBeUndefined();
+    });
+
     it("should silence high-noise sonarjs rules", () => {
       expect(rules["sonarjs/no-duplicate-string"]).toBe("off");
       expect(rules["sonarjs/no-commented-code"]).toBe("off");
