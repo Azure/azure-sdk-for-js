@@ -330,38 +330,39 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const ts = Date.now();
     const group = `stream-receiver-expire-start-${ts}`;
 
-    const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients, {
-      groupStreamOptions: { ttlInMs: 200, handleFromStart: false },
-    });
+    const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const firstMessage = createDeferred<void>();
     const firstExpired = createDeferred<void>();
     const secondCompleted = createDeferred<{ generation: number; chunks: string[] }>();
     let generation = 0;
 
-    receiver.onGroupStream((_stream: OnGroupStreamArgs): GroupStreamHandler => {
-      generation++;
-      const currentGeneration = generation;
-      const chunks: string[] = [];
-      return {
-        onMessage: (args) => {
-          chunks.push(args.data as string);
-          if (currentGeneration === 1 && args.stream.streamSequenceId === 1) {
-            firstMessage.resolve();
-          }
-        },
-        onError: (args) => {
-          if (currentGeneration === 1 && args.error?.name === "IdleTimeout") {
-            firstExpired.resolve();
-          }
-        },
-        onComplete: () => {
-          if (currentGeneration === 2) {
-            secondCompleted.resolve({ generation: currentGeneration, chunks: [...chunks] });
-          }
-        },
-      };
-    });
+    receiver.onGroupStream(
+      (_stream: OnGroupStreamArgs): GroupStreamHandler => {
+        generation++;
+        const currentGeneration = generation;
+        const chunks: string[] = [];
+        return {
+          onMessage: (args) => {
+            chunks.push(args.data as string);
+            if (currentGeneration === 1 && args.stream.streamSequenceId === 1) {
+              firstMessage.resolve();
+            }
+          },
+          onError: (args) => {
+            if (currentGeneration === 1 && args.error?.name === "IdleTimeout") {
+              firstExpired.resolve();
+            }
+          },
+          onComplete: () => {
+            if (currentGeneration === 2) {
+              secondCompleted.resolve({ generation: currentGeneration, chunks: [...chunks] });
+            }
+          },
+        };
+      },
+      { ttlInMs: 200, handleFromStart: false },
+    );
 
     await startSenderReceiverInGroup(sender, receiver, group);
 
@@ -395,38 +396,39 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const group = `stream-receiver-expire-strict-${ts}`;
     const streamId = `s-receiver-expire-strict-${ts}`;
 
-    const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients, {
-      groupStreamOptions: { ttlInMs: 200, handleFromStart: true },
-    });
+    const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const firstMessage = createDeferred<void>();
     const firstExpired = createDeferred<void>();
     const freshCompleted = createDeferred<{ generation: number; chunks: string[] }>();
     let generation = 0;
 
-    receiver.onGroupStream((_stream: OnGroupStreamArgs): GroupStreamHandler => {
-      generation++;
-      const currentGeneration = generation;
-      const chunks: string[] = [];
-      return {
-        onMessage: (args) => {
-          chunks.push(args.data as string);
-          if (currentGeneration === 1 && args.stream.streamSequenceId === 1) {
-            firstMessage.resolve();
-          }
-        },
-        onError: (args) => {
-          if (currentGeneration === 1 && args.error?.name === "IdleTimeout") {
-            firstExpired.resolve();
-          }
-        },
-        onComplete: () => {
-          if (currentGeneration === 2) {
-            freshCompleted.resolve({ generation: currentGeneration, chunks: [...chunks] });
-          }
-        },
-      };
-    });
+    receiver.onGroupStream(
+      (_stream: OnGroupStreamArgs): GroupStreamHandler => {
+        generation++;
+        const currentGeneration = generation;
+        const chunks: string[] = [];
+        return {
+          onMessage: (args) => {
+            chunks.push(args.data as string);
+            if (currentGeneration === 1 && args.stream.streamSequenceId === 1) {
+              firstMessage.resolve();
+            }
+          },
+          onError: (args) => {
+            if (currentGeneration === 1 && args.error?.name === "IdleTimeout") {
+              firstExpired.resolve();
+            }
+          },
+          onComplete: () => {
+            if (currentGeneration === 2) {
+              freshCompleted.resolve({ generation: currentGeneration, chunks: [...chunks] });
+            }
+          },
+        };
+      },
+      { ttlInMs: 200, handleFromStart: true },
+    );
 
     await startSenderReceiverInGroup(sender, receiver, group);
 

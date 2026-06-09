@@ -104,7 +104,43 @@ console.log(`Invocation result: ${JSON.stringify(result.data)}`);
 ```
 
 `invokeEvent` sends an `invoke` request to the service, awaits the correlated `invokeResponse`, and returns the payload. You can abort the invocation by passing `{ abortSignal }`.
-_Streaming and service-initiated invocations are not yet supported._
+_Service-initiated invocations are not yet supported._
+
+### 6. Stream messages to a group (preview)
+
+You can send a large or continuous payload to a group as an ordered stream of fragments, and consume each inbound stream as a whole unit on the receiving side.
+
+```ts snippet:ReadmeSampleStreaming
+import { WebPubSubClient } from "@azure/web-pubsub-client";
+
+const client = new WebPubSubClient("<client-access-url>");
+
+// Receiving side: register a factory invoked once per inbound stream. The returned
+// handler consumes that single stream. Option effects apply independently per stream.
+client.onGroupStream(
+  (stream) => {
+    const parts: string[] = [];
+    return {
+      onMessage: (e) => parts.push(e.data as string),
+      onComplete: () => console.log(`Stream ${stream.streamId} completed: ${parts.join("")}`),
+      onError: (e) => console.log(`Stream ${stream.streamId} failed: ${e.error?.name}`),
+    };
+  },
+  { handleFromStart: true },
+);
+
+await client.start();
+const groupName = "group1";
+await client.joinGroup(groupName);
+
+// Sending side: publish a logical stream in ordered fragments, then complete it.
+const publisher = await client.streamToGroup(groupName, { streamId: "stream-1" });
+await publisher.publish("hello ", "text");
+await publisher.publish("world", "text");
+await publisher.complete();
+```
+
+`onGroupStream` registers a factory that returns a `GroupStreamHandler` for every observed stream; pass the same factory reference to `offGroupStream` to unregister it. `streamToGroup` returns a `StreamPublisher` you use to `publish` fragments, send `keepalive`, and `complete` the stream.
 
 ---
 

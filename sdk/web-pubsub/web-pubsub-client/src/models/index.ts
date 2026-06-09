@@ -53,11 +53,6 @@ export interface WebPubSubClientOptions {
    * (again, about 3x lower) so the timeout only triggers when multiple pings fail.
    */
   keepAliveIntervalInMs?: number;
-  /**
-   * Options that control how inbound group streams are tracked and dispatched
-   * to factories registered via `client.onGroupStream(...)`.
-   */
-  groupStreamOptions?: GroupStreamOptions;
 }
 
 /**
@@ -419,21 +414,35 @@ export interface GroupStreamHandler {
 }
 
 /**
- * Client-wide options controlling how inbound group streams are tracked and
- * dispatched to factories registered via `client.onGroupStream(...)`.
+ * Options controlling how inbound group streams are tracked and dispatched for a
+ * single factory registered via `client.onGroupStream(factory, options)`.
+ *
+ * Granularity is two-level:
+ * - The option *values* are scoped to the registration (i.e. per handler): each
+ *   `onGroupStream` call carries its own values, and different handlers may use
+ *   different values.
+ * - The option *effects* are applied independently to each stream, identified by
+ *   its `(group, streamId)` pair. Concurrent streams — even two streams in the
+ *   same group observed by the same handler — each get their own idle timer and
+ *   their own `handleFromStart` gate. Nothing is shared or aggregated across
+ *   streams or across groups.
  */
-export interface GroupStreamOptions {
+export interface OnGroupStreamOptions {
   /**
-   * Inactivity timeout in milliseconds for an active stream in the client-side registry.
-   * The timer is reset whenever a new stream fragment is received.
-   * If no fragment arrives within this duration, the stream is terminated with an `IdleTimeout` error.
+   * Inactivity timeout in milliseconds, applied independently to each stream
+   * (identified by its `(group, streamId)` pair). Every stream has its own timer
+   * that is reset whenever a fragment for that stream arrives. If no fragment
+   * arrives within this duration, only that stream is terminated with an
+   * `IdleTimeout` error; sibling streams of the same handler are unaffected.
    * Default: 300000 (5 minutes).
    */
   ttlInMs?: number;
   /**
-   * Whether to require the first observed fragment for a stream to start at `streamSequenceId === 1`.
-   * If true and the first observed fragment is mid-stream, that stream is ignored until its terminal
-   * frame arrives.
+   * Whether to require the first observed fragment of a stream to start at
+   * `streamSequenceId === 1`, evaluated independently per stream (identified by
+   * its `(group, streamId)` pair). If true and the first observed fragment for a
+   * stream is mid-stream, that stream is ignored until its terminal frame
+   * arrives, without affecting any other concurrent stream.
    * Default: false.
    */
   handleFromStart?: boolean;

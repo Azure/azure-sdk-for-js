@@ -143,12 +143,6 @@ export interface GroupStreamHandler {
 }
 
 // @public
-export interface GroupStreamOptions {
-    handleFromStart?: boolean;
-    ttlInMs?: number;
-}
-
-// @public
 export class InvocationError extends Error {
     constructor(message: string, options: InvocationErrorOptions);
     errorDetail?: InvokeResponseError;
@@ -267,6 +261,12 @@ export interface OnGroupStreamEndArgs {
     error?: StreamDataError;
     group: string;
     streamId: string;
+}
+
+// @public
+export interface OnGroupStreamOptions {
+    handleFromStart?: boolean;
+    ttlInMs?: number;
 }
 
 // @public
@@ -557,7 +557,7 @@ export class WebPubSubClient {
     on(event: "server-message", listener: (e: OnServerDataMessageArgs) => void): void;
     on(event: "group-message", listener: (e: OnGroupDataMessageArgs) => void): void;
     on(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
-    onGroupStream(factory: (args: OnGroupStreamArgs) => GroupStreamHandler): void;
+    onGroupStream(factory: (args: OnGroupStreamArgs) => GroupStreamHandler, options?: OnGroupStreamOptions): void;
     sendEvent(eventName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendEventOptions): Promise<WebPubSubResult>;
     sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendToGroupOptions): Promise<WebPubSubResult>;
     start(options?: StartOptions): Promise<void>;
@@ -574,7 +574,6 @@ export interface WebPubSubClientCredential {
 export interface WebPubSubClientOptions {
     autoReconnect?: boolean;
     autoRejoinGroups?: boolean;
-    groupStreamOptions?: GroupStreamOptions;
     keepAliveIntervalInMs?: number;
     keepAliveTimeoutInMs?: number;
     messageRetryOptions?: WebPubSubRetryOptions;

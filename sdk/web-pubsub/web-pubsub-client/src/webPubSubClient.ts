@@ -31,6 +31,7 @@ import type {
   EndStreamOptions,
   OnGroupStreamArgs,
   GroupStreamHandler,
+  OnGroupStreamOptions,
   StreamPublisher,
 } from "./models/index.js";
 import type {
@@ -67,7 +68,7 @@ import type {
   WebSocketClientLike,
 } from "./websocket/websocketClientLike.js";
 import { AckManager } from "./ackManager.js";
-import { InboundStreamSession } from "./inboundStreamSession.js";
+import { InboundStreamDispatcher } from "./inboundStreamDispatcher.js";
 import { InvocationManager } from "./invocationManager.js";
 import { OutboundStreamSession } from "./outboundStreamSession.js";
 
@@ -89,7 +90,7 @@ export class WebPubSubClient {
   private readonly _credential: WebPubSubClientCredential;
   private readonly _options: WebPubSubClientOptions;
   private readonly _groupMap: Map<string, WebPubSubGroup>;
-  private readonly _inboundStreams: InboundStreamSession;
+  private readonly _inboundStreams: InboundStreamDispatcher;
   private readonly _outboundStreams: Map<string, OutboundStreamSession>;
   private readonly _ackManager: AckManager;
   private readonly _invocationManager: InvocationManager;
@@ -103,8 +104,6 @@ export class WebPubSubClient {
   private readonly _keepAliveIntervalInMs: number;
 
   private readonly _emitter: EventEmitter = new EventEmitter();
-  private readonly _groupStreamFactories: Array<(args: OnGroupStreamArgs) => GroupStreamHandler> =
-    [];
   private _state: WebPubSubClientState;
   private _isStopping: boolean = false;
   private _pingKeepaliveTask: AbortableTask | undefined;
@@ -150,10 +149,7 @@ export class WebPubSubClient {
 
     this._protocol = this._options.protocol!;
     this._groupMap = new Map<string, WebPubSubGroup>();
-    this._inboundStreams = new InboundStreamSession(
-      () => this._groupStreamFactories,
-      this._options.groupStreamOptions,
-    );
+    this._inboundStreams = new InboundStreamDispatcher();
     this._outboundStreams = new Map<string, OutboundStreamSession>();
     this._ackManager = new AckManager();
     this._invocationManager = new InvocationManager();
@@ -329,10 +325,17 @@ export class WebPubSubClient {
    * value (`{ group, streamId }`) and must return a `GroupStreamHandler` whose
    * callbacks consume that single stream. Returning a fresh closure per call
    * gives every stream its own independent state.
+   *
+   * The optional `options` apply only to this registration, so different
+   * handlers may use different `ttlInMs` / `handleFromStart` values.
    * @param factory - Per-stream factory returning a `GroupStreamHandler`.
+   * @param options - Per-handler options controlling how this handler's streams are tracked.
    */
-  public onGroupStream(factory: (args: OnGroupStreamArgs) => GroupStreamHandler): void {
-    this._groupStreamFactories.push(factory);
+  public onGroupStream(
+    factory: (args: OnGroupStreamArgs) => GroupStreamHandler,
+    options?: OnGroupStreamOptions,
+  ): void {
+    this._inboundStreams.register(factory, options);
   }
 
   /**
@@ -390,10 +393,7 @@ export class WebPubSubClient {
    * @param factory - The factory reference originally registered via {@link onGroupStream}.
    */
   public offGroupStream(factory: (args: OnGroupStreamArgs) => GroupStreamHandler): void {
-    const index = this._groupStreamFactories.indexOf(factory);
-    if (index >= 0) {
-      this._groupStreamFactories.splice(index, 1);
-    }
+    this._inboundStreams.unregister(factory);
   }
 
   private _emitEvent(event: "connected", args: OnConnectedArgs): void;

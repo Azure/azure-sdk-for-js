@@ -90,7 +90,9 @@ async function main(): Promise<void> {
       },
     };
   };
-  streamReceiver.onGroupStream(groupStreamFactory);
+  // Options are scoped to this registration (per handler); their effects (idle
+  // timeout, handleFromStart gate) apply independently to each observed stream.
+  streamReceiver.onGroupStream(groupStreamFactory, { handleFromStart: true });
 
   await client.start();
   await streamReceiver.start();

@@ -409,27 +409,29 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
       keepAliveTimeoutInMs: 0,
-      groupStreamOptions: { handleFromStart: true, ttlInMs: 2000 },
     });
 
     const socket = await startClientAndConnect(client, wss);
 
     const streamDone = withTimeout(
       new Promise<{ result: string; error?: any }>((resolve) => {
-        client!.onGroupStream((_stream): GroupStreamHandler => {
-          const chunks: string[] = [];
-          return {
-            onMessage: (args) => {
-              chunks.push(args.data as string);
-            },
-            onComplete: () => {
-              resolve({ result: chunks.join("") });
-            },
-            onError: (args) => {
-              resolve({ result: chunks.join(""), error: args.error });
-            },
-          };
-        });
+        client!.onGroupStream(
+          (_stream): GroupStreamHandler => {
+            const chunks: string[] = [];
+            return {
+              onMessage: (args) => {
+                chunks.push(args.data as string);
+              },
+              onComplete: () => {
+                resolve({ result: chunks.join("") });
+              },
+              onError: (args) => {
+                resolve({ result: chunks.join(""), error: args.error });
+              },
+            };
+          },
+          { handleFromStart: true, ttlInMs: 2000 },
+        );
       }),
       2000,
       "Timed out waiting for stream completion.",
@@ -456,7 +458,6 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
       keepAliveTimeoutInMs: 0,
-      groupStreamOptions: { handleFromStart: true },
     });
 
     const socket = await startClientAndConnect(client, wss);
@@ -468,6 +469,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
           called = true;
         },
       }),
+      { handleFromStart: true },
     );
 
     sendGroupStreamMessage(socket, {
@@ -486,24 +488,26 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
       keepAliveTimeoutInMs: 0,
-      groupStreamOptions: { ttlInMs: 120, handleFromStart: true },
     });
 
     const socket = await startClientAndConnect(client, wss);
 
     const timeoutResult = withTimeout(
       new Promise<{ messageCount: number; errorName?: string }>((resolve) => {
-        client!.onGroupStream((_stream): GroupStreamHandler => {
-          let messageCount = 0;
-          return {
-            onMessage: () => {
-              messageCount++;
-            },
-            onError: (args) => {
-              resolve({ messageCount, errorName: args.error?.name });
-            },
-          };
-        });
+        client!.onGroupStream(
+          (_stream): GroupStreamHandler => {
+            let messageCount = 0;
+            return {
+              onMessage: () => {
+                messageCount++;
+              },
+              onError: (args) => {
+                resolve({ messageCount, errorName: args.error?.name });
+              },
+            };
+          },
+          { ttlInMs: 120, handleFromStart: true },
+        );
       }),
       2000,
       "Timed out waiting for stream idle timeout callback.",
@@ -520,6 +524,154 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       messageCount: 1,
       errorName: "IdleTimeout",
     });
+  });
+
+  it("applies handleFromStart independently per stream within one handler", async () => {
+    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
+      autoReconnect: false,
+      keepAliveIntervalInMs: 0,
+      keepAliveTimeoutInMs: 0,
+    });
+
+    const socket = await startClientAndConnect(client, wss);
+
+    const delivered: Record<string, string> = {};
+    const fromStartCompleted = createDeferred<void>();
+    client.onGroupStream(
+      (stream): GroupStreamHandler => {
+        const chunks: string[] = [];
+        return {
+          onMessage: (args) => {
+            chunks.push(args.data as string);
+          },
+          onComplete: () => {
+            delivered[stream.streamId] = chunks.join("");
+            if (stream.streamId === "s-from-start") {
+              fromStartCompleted.resolve();
+            }
+          },
+        };
+      },
+      { handleFromStart: true },
+    );
+
+    // Same group, two different streams. One joins mid-stream (seq 5) and must be
+    // ignored, while the other starts at seq 1 and must be handled. This proves the
+    // handleFromStart gate is tracked per (group, streamId) — not per handler and
+    // not per group.
+    sendGroupStreamMessage(socket, {
+      group: "g1",
+      streamId: "s-late-join",
+      streamSequenceId: 5,
+      endOfStream: false,
+      data: "late",
+    });
+    sendGroupStreamMessage(socket, {
+      group: "g1",
+      streamId: "s-from-start",
+      streamSequenceId: 1,
+      endOfStream: false,
+      data: "fresh-1",
+    });
+    sendGroupStreamMessage(socket, {
+      group: "g1",
+      streamId: "s-from-start",
+      streamSequenceId: 2,
+      endOfStream: true,
+      data: "fresh-2",
+    });
+
+    await withTimeout(
+      fromStartCompleted.promise,
+      3000,
+      "Timed out waiting for from-start stream completion.",
+    );
+
+    expect(delivered).toEqual({ "s-from-start": "fresh-1fresh-2" });
+  });
+
+  it("uses an independent idle timer per stream within one handler", async () => {
+    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
+      autoReconnect: false,
+      keepAliveIntervalInMs: 0,
+      keepAliveTimeoutInMs: 0,
+    });
+
+    const socket = await startClientAndConnect(client, wss);
+
+    const idleErrored = createDeferred<string | undefined>();
+    const aliveCompleted = createDeferred<string>();
+    let aliveErrorName: string | undefined;
+
+    client.onGroupStream(
+      (stream): GroupStreamHandler => {
+        const chunks: string[] = [];
+        return {
+          onMessage: (args) => {
+            chunks.push(args.data as string);
+          },
+          onComplete: () => {
+            if (stream.streamId === "s-alive") {
+              aliveCompleted.resolve(chunks.join(""));
+            }
+          },
+          onError: (args) => {
+            if (stream.streamId === "s-idle") {
+              idleErrored.resolve(args.error?.name);
+            } else if (stream.streamId === "s-alive") {
+              aliveErrorName = args.error?.name;
+            }
+          },
+        };
+      },
+      { ttlInMs: 400 },
+    );
+
+    // Both streams start in the same group at seq 1.
+    sendGroupStreamMessage(socket, {
+      group: "g1",
+      streamId: "s-idle",
+      streamSequenceId: 1,
+      endOfStream: false,
+      data: "idle-1",
+    });
+    sendGroupStreamMessage(socket, {
+      group: "g1",
+      streamId: "s-alive",
+      streamSequenceId: 1,
+      endOfStream: false,
+      data: "alive-1",
+    });
+
+    // Keep only s-alive active, well within its ttl. A per-handler (shared) timer
+    // would be reset by this fragment and would prevent s-idle from ever timing out.
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    sendGroupStreamMessage(socket, {
+      group: "g1",
+      streamId: "s-alive",
+      streamSequenceId: 2,
+      endOfStream: false,
+      data: "alive-2",
+    });
+
+    // s-idle received nothing after its first fragment, so its own timer fires even
+    // though s-alive is still active — proving timers are per (group, streamId).
+    await expect(
+      withTimeout(idleErrored.promise, 3000, "Timed out waiting for idle stream timeout."),
+    ).resolves.toBe("IdleTimeout");
+    expect(aliveErrorName).toBeUndefined();
+
+    // s-alive is unaffected by its sibling timing out and still completes normally.
+    sendGroupStreamMessage(socket, {
+      group: "g1",
+      streamId: "s-alive",
+      streamSequenceId: 3,
+      endOfStream: true,
+      data: "alive-3",
+    });
+    await expect(
+      withTimeout(aliveCompleted.promise, 3000, "Timed out waiting for alive stream completion."),
+    ).resolves.toBe("alive-1alive-2alive-3");
   });
 
   it("triggers onMessage then onError when endOfStream frame carries data and error", async () => {
@@ -603,20 +755,22 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
       keepAliveTimeoutInMs: 0,
-      groupStreamOptions: { handleFromStart: true },
     });
 
     const socket = await startClientAndConnect(client, wss);
 
     const done = withTimeout(
       new Promise<string>((resolve) => {
-        client!.onGroupStream((_stream): GroupStreamHandler => {
-          const chunks: string[] = [];
-          return {
-            onMessage: (args) => chunks.push(args.data as string),
-            onComplete: () => resolve(chunks.join("")),
-          };
-        });
+        client!.onGroupStream(
+          (_stream): GroupStreamHandler => {
+            const chunks: string[] = [];
+            return {
+              onMessage: (args) => chunks.push(args.data as string),
+              onComplete: () => resolve(chunks.join("")),
+            };
+          },
+          { handleFromStart: true },
+        );
       }),
       3000,
       "Timed out waiting for reused streamId to complete.",
@@ -658,20 +812,22 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
       keepAliveTimeoutInMs: 0,
-      groupStreamOptions: { handleFromStart: true },
     });
 
     const socket = await startClientAndConnect(client, wss);
 
     const done = withTimeout(
       new Promise<string>((resolve) => {
-        client!.onGroupStream((_stream): GroupStreamHandler => {
-          const chunks: string[] = [];
-          return {
-            onMessage: (args) => chunks.push(args.data as string),
-            onComplete: () => resolve(chunks.join("")),
-          };
-        });
+        client!.onGroupStream(
+          (_stream): GroupStreamHandler => {
+            const chunks: string[] = [];
+            return {
+              onMessage: (args) => chunks.push(args.data as string),
+              onComplete: () => resolve(chunks.join("")),
+            };
+          },
+          { handleFromStart: true },
+        );
       }),
       3000,
       "Timed out waiting for stream completion after late terminal fragment.",
