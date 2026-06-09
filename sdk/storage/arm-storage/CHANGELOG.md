@@ -1,5 +1,26 @@
 # Release History
 
+## 20.1.0 (2026-06-04)
+
+### Features Added
+  - Added operation group AdvancedPlatformMetricsOperations
+  - Added Interface AdvancedPlatformMetricsCreateOrUpdateOptionalParams
+  - Added Interface AdvancedPlatformMetricsDeleteOptionalParams
+  - Added Interface AdvancedPlatformMetricsGetOptionalParams
+  - Added Interface AdvancedPlatformMetricsListOptionalParams
+  - Added Interface AdvancedPlatformMetricsRule
+  - Added Interface AdvancedPlatformMetricsRuleConfig
+  - Added Interface AdvancedPlatformMetricsRuleProperties
+  - Interface FileShareLimits has a new optional parameter guardrailBandwidthScalar
+  - Interface FileShareLimits has a new optional parameter guardrailIOScalar
+  - Added Type Alias AdvancedPlatformMetricsFilterType
+  - Added Type Alias AdvancedPlatformMetricsRuleType
+  - Added Type Alias MetricsEmitted
+  - Added Enum KnownAdvancedPlatformMetricsFilterType
+  - Added Enum KnownAdvancedPlatformMetricsRuleType
+  - Added Enum KnownMetricsEmitted
+  - Enum KnownVersions has a new value V20260401
+
 ## 20.0.0 (2026-05-20)
 
 ### Features Added

@@ -46,7 +46,7 @@ export function _listCredentialSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,7 +64,9 @@ export async function _listCredentialDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -102,7 +104,7 @@ export function _listByManagedClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,7 +122,9 @@ export async function _listByManagedClusterDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -140,11 +144,7 @@ export function listByManagedCluster(
     () => _listByManagedClusterSend(context, resourceGroupName, resourceName, options),
     _listByManagedClusterDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-02-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -162,7 +162,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -175,7 +175,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -197,7 +199,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, resourceName, managedNamespaceName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-03-02-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -216,7 +218,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -234,7 +236,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -277,7 +281,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -297,7 +301,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -327,7 +333,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-03-02-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<ManagedNamespace>, ManagedNamespace>;
 }
 
@@ -345,7 +351,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -361,7 +367,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ma
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

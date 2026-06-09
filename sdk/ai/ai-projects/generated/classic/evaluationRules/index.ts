@@ -14,22 +14,22 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 
 /** Interface representing a EvaluationRules operations. */
 export interface EvaluationRulesOperations {
-  /** List all evaluation rules. */
+  /** Returns the evaluation rules configured for the project, optionally filtered by action type, agent name, or enabled state. */
   list: (options?: EvaluationRulesListOptionalParams) => PagedAsyncIterableIterator<EvaluationRule>;
-  /** Create or update an evaluation rule. */
+  /** Creates a new evaluation rule, or replaces the existing rule when the identifier matches. */
   createOrUpdate: (
     id: string,
     evaluationRule: EvaluationRule,
     options?: EvaluationRulesCreateOrUpdateOptionalParams,
   ) => Promise<EvaluationRule>;
-  /** Delete an evaluation rule. */
+  /** Removes the specified evaluation rule from the project. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
    *         to the operation to override the generated name.
    */
   delete: (id: string, options?: EvaluationRulesDeleteOptionalParams) => Promise<void>;
-  /** Get an evaluation rule. */
+  /** Retrieves the specified evaluation rule and its configuration. */
   get: (id: string, options?: EvaluationRulesGetOptionalParams) => Promise<EvaluationRule>;
 }
 

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list the local users associated with the storage account.
  *
  * @summary list the local users associated with the storage account.
- * x-ms-original-file: 2025-08-01/LocalUsersList.json
+ * x-ms-original-file: 2026-04-01/LocalUsersList.json
  */
 async function listLocalUsers() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listLocalUsers() {
  * This sample demonstrates how to list the local users associated with the storage account.
  *
  * @summary list the local users associated with the storage account.
- * x-ms-original-file: 2025-08-01/LocalUsersListNFSv3Enabled.json
+ * x-ms-original-file: 2026-04-01/LocalUsersListNFSv3Enabled.json
  */
 async function listNFSv3EnabledLocalUsers() {
   const credential = new DefaultAzureCredential();

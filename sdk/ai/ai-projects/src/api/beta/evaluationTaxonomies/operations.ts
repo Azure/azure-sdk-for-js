@@ -24,7 +24,7 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 export function _updateSend(
   context: Client,
   name: string,
-  body: EvaluationTaxonomy,
+  taxonomy: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Evaluations=V1Preview";
@@ -46,7 +46,7 @@ export function _updateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: evaluationTaxonomySerializer(body),
+    body: evaluationTaxonomySerializer(taxonomy),
   });
 }
 
@@ -65,17 +65,17 @@ export async function _updateDeserialize(
 export async function update(
   context: Client,
   name: string,
-  body: EvaluationTaxonomy,
+  taxonomy: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesUpdateOptionalParams = { requestOptions: {} },
 ): Promise<EvaluationTaxonomy> {
-  const result = await _updateSend(context, name, body, options);
+  const result = await _updateSend(context, name, taxonomy, options);
   return _updateDeserialize(result);
 }
 
 export function _createSend(
   context: Client,
   name: string,
-  body: EvaluationTaxonomy,
+  taxonomy: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Evaluations=V1Preview";
@@ -97,7 +97,7 @@ export function _createSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: evaluationTaxonomySerializer(body),
+    body: evaluationTaxonomySerializer(taxonomy),
   });
 }
 
@@ -116,10 +116,10 @@ export async function _createDeserialize(
 export async function create(
   context: Client,
   name: string,
-  body: EvaluationTaxonomy,
+  taxonomy: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesCreateOptionalParams = { requestOptions: {} },
 ): Promise<EvaluationTaxonomy> {
-  const result = await _createSend(context, name, body, options);
+  const result = await _createSend(context, name, taxonomy, options);
   return _createDeserialize(result);
 }
 

@@ -9,17 +9,11 @@ import type {
   SendStreamKeepaliveOptions,
   StreamDataError,
 } from "./models/index.js";
-import type { WebPubSubDataType } from "./models/messages.js";
+import type { JSONTypes, WebPubSubDataType } from "./models/messages.js";
 import { AsyncSeqQueue } from "./asyncSeqQueue.js";
 import { abortablePromise } from "./utils/abortablePromise.js";
-
-type JSONTypes = string | number | boolean | object;
-
-interface Deferred<T> {
-  promise: Promise<T>;
-  resolve(value: T): void;
-  reject(reason?: unknown): void;
-}
+import type { Deferred } from "./utils/deferred.js";
+import { createDeferred } from "./utils/deferred.js";
 
 type OutboundStreamAction = OutboundStreamDataAction | OutboundStreamEndAction;
 
@@ -355,19 +349,4 @@ export class OutboundStreamSession {
       message: String(error),
     };
   }
-}
-
-function createDeferred<T>(): Deferred<T> {
-  let resolvePromise!: (value: T) => void;
-  let rejectPromise!: (reason?: unknown) => void;
-  const promise = new Promise<T>((resolve, reject) => {
-    resolvePromise = resolve;
-    rejectPromise = reject;
-  });
-
-  return {
-    promise,
-    resolve: resolvePromise,
-    reject: rejectPromise,
-  };
 }

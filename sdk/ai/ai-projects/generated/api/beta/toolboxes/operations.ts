@@ -6,6 +6,7 @@ import {
   toolUnionArraySerializer,
   ToolUnion,
   apiErrorResponseDeserializer,
+  toolboxSkillUnionArraySerializer,
   toolboxPoliciesSerializer,
   ToolboxVersionObject,
   toolboxVersionObjectDeserializer,
@@ -68,15 +69,23 @@ export async function _deleteVersionDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return;
 }
 
-/** Delete a specific version of a toolbox. */
+/** Removes the specified version of a toolbox. */
 export async function deleteVersion(
   context: Client,
   name: string,
@@ -116,15 +125,23 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return;
 }
 
-/** Delete a toolbox and all its versions. */
+/** Removes the specified toolbox along with all of its versions. */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.
  *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -175,15 +192,23 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return toolboxObjectDeserializer(result.body);
 }
 
-/** Update a toolbox to point to a specific version. */
+/** Updates the toolbox's default version pointer to the specified version. */
 export async function update(
   context: Client,
   name: string,
@@ -231,15 +256,23 @@ export async function _getVersionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return toolboxVersionObjectDeserializer(result.body);
 }
 
-/** Retrieve a specific version of a toolbox. */
+/** Retrieves the specified version of a toolbox by name and version identifier. */
 export async function getVersion(
   context: Client,
   name: string,
@@ -289,15 +322,23 @@ export async function _listVersionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return _agentsPagedResultToolboxVersionObjectDeserializer(result.body);
 }
 
-/** List all versions of a toolbox. */
+/** Returns the available versions for the specified toolbox. */
 export function listVersions(
   context: Client,
   name: string,
@@ -349,15 +390,23 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return _agentsPagedResultToolboxObjectDeserializer(result.body);
 }
 
-/** List all toolboxes. */
+/** Returns the toolboxes available in the current project. */
 export function list(
   context: Client,
   foundryFeatures: "Toolboxes=V1Preview",
@@ -404,15 +453,23 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<To
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return toolboxObjectDeserializer(result.body);
 }
 
-/** Retrieve a toolbox. */
+/** Retrieves the specified toolbox and its current configuration. */
 export async function get(
   context: Client,
   name: string,
@@ -454,6 +511,9 @@ export function _createVersionSend(
         description: options?.description,
         metadata: options?.metadata,
         tools: toolUnionArraySerializer(tools),
+        skills: !options?.skills
+          ? options?.skills
+          : toolboxSkillUnionArraySerializer(options?.skills),
         policies: !options?.policies
           ? options?.policies
           : toolboxPoliciesSerializer(options?.policies),
@@ -467,15 +527,23 @@ export async function _createVersionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return toolboxVersionObjectDeserializer(result.body);
 }
 
-/** Create a new version of a toolbox. If the toolbox does not exist, it will be created. */
+/** Creates a new toolbox version, provisioning the toolbox itself if it does not already exist. */
 export async function createVersion(
   context: Client,
   name: string,

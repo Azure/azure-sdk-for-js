@@ -28,6 +28,7 @@ import { getCustomFetch } from "./getCustomFetch.js";
 import { getOpenAIDefaultHeaders } from "./util.js";
 import type { OpenAIClientOptionsWithAzureAgent } from "./azureAgent.interface.js";
 import { KnownApiVersions } from "./models/models.js";
+import { getTracingFetch } from "./tracing/tracingFetch.js";
 
 export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
@@ -55,6 +56,8 @@ export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * - Toolboxes
  * - agents
  * - skills
+ * - routines
+ * - models
  * @property {TelemetryOperations} telemetry - The operation groups for telemetry
  * @property {getEndpointUrl} getEndpointUrl - gets the endpoint of the client
  * @property {getOpenAIClient} getOpenAIClient - gets the OpenAI client with optional OpenAI client options
@@ -75,7 +78,9 @@ export class AIProjectClient {
     this._credential = credential;
     this._options = options;
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions}` : "";
+    const userAgentPrefix = prefixFromOptions
+      ? `${prefixFromOptions} azsdk-js-client`
+      : `azsdk-js-client`;
     this._cognitiveScopeClient = createAIProject(endpoint, this._credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
@@ -121,6 +126,8 @@ export class AIProjectClient {
    * - Toolboxes
    * - agents
    * - skills
+   * - routines
+   * - models
    */
   public readonly beta: BetaOperations;
   /** The operation groups for telemetry */
@@ -140,6 +147,9 @@ export class AIProjectClient {
     ) {
       customFetch = getCustomFetch(this._azureScopeClient.pipeline, this._options.httpClient);
     }
+
+    // Wrap fetch with tracing to inject traceparent/tracestate headers
+    customFetch = getTracingFetch(customFetch);
 
     let baseURL: string;
     if (opts?.baseURL) {
@@ -193,7 +203,7 @@ export class AIProjectClient {
     };
 
     const openaiClient = new OpenAI(openAIOptions);
-    return overwriteOpenAIClient(openaiClient);
+    return overwriteOpenAIClient(openaiClient, this._endpoint);
   }
   /**
    * gets the endpoint of the client
