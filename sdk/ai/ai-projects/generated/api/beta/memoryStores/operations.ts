@@ -95,15 +95,23 @@ export async function _deleteMemoryDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return deleteMemoryResponseDeserializer(result.body);
 }
 
-/** Delete a memory item from a memory store. */
+/** Deletes the specified memory item from the memory store. */
 export async function deleteMemory(
   context: Client,
   foundryFeatures: "MemoryStores=V1Preview",
@@ -157,15 +165,23 @@ export async function _listMemoriesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return _agentsPagedResultMemoryItemDeserializer(result.body);
 }
 
-/** List all memory items in a memory store. */
+/** Returns memory items from the specified memory store. */
 export function listMemories(
   context: Client,
   foundryFeatures: "MemoryStores=V1Preview",
@@ -218,15 +234,23 @@ export async function _getMemoryDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return memoryItemUnionDeserializer(result.body);
 }
 
-/** Retrieve a memory item from a memory store. */
+/** Retrieves the specified memory item from the memory store. */
 export async function getMemory(
   context: Client,
   foundryFeatures: "MemoryStores=V1Preview",
@@ -277,15 +301,23 @@ export async function _updateMemoryDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return memoryItemUnionDeserializer(result.body);
 }
 
-/** Update a memory item in a memory store. */
+/** Updates the specified memory item in the memory store. */
 export async function updateMemory(
   context: Client,
   foundryFeatures: "MemoryStores=V1Preview",
@@ -344,15 +376,23 @@ export async function _createMemoryDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return memoryItemUnionDeserializer(result.body);
 }
 
-/** Create a memory item in a memory store. */
+/** Creates a memory item in the specified memory store. */
 export async function createMemory(
   context: Client,
   foundryFeatures: "MemoryStores=V1Preview",
@@ -411,15 +451,23 @@ export async function _deleteScopeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return memoryStoreDeleteScopeResponseDeserializer(result.body);
 }
 
-/** Delete all memories associated with a specific scope from a memory store. */
+/** Deletes all memories in the specified memory store that are associated with the provided scope. */
 export async function deleteScope(
   context: Client,
   foundryFeatures: "MemoryStores=V1Preview",
@@ -467,15 +515,23 @@ export async function _getUpdateResultDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return memoryStoreUpdateResponseDeserializer(result.body);
 }
 
-/** Get memory store update result. */
+/** Retrieves the status and result of a memory store update operation. */
 export async function getUpdateResult(
   context: Client,
   foundryFeatures: "MemoryStores=V1Preview",
@@ -531,8 +587,16 @@ export async function _updateMemoriesDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
@@ -546,7 +610,10 @@ export async function _updateMemoriesDeserialize(
   return memoryStoreUpdateCompletedResultDeserializer(result.body.result);
 }
 
-/** Update memory store with conversation memories. */
+/**
+ * Starts an update that writes conversation memories into the specified memory store.
+ * The operation returns a long-running status location for polling the update result.
+ */
 export function updateMemories(
   context: Client,
   foundryFeatures: "MemoryStores=V1Preview",
@@ -612,15 +679,23 @@ export async function _searchMemoriesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return memoryStoreSearchResponseDeserializer(result.body);
 }
 
-/** Search for relevant memories from a memory store based on conversation context. */
+/** Searches the specified memory store for memories relevant to the provided conversation context. */
 export async function searchMemories(
   context: Client,
   foundryFeatures: "MemoryStores=V1Preview",
@@ -666,15 +741,23 @@ export async function _$deleteDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return deleteMemoryStoreResponseDeserializer(result.body);
 }
 
-/** Delete a memory store. */
+/** Deletes the specified memory store. */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.
  *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -726,15 +809,23 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return _agentsPagedResultMemoryStoreObjectDeserializer(result.body);
 }
 
-/** List all memory stores. */
+/** Returns the memory stores available to the caller. */
 export function list(
   context: Client,
   foundryFeatures: "MemoryStores=V1Preview",
@@ -781,15 +872,23 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Me
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return memoryStoreDeserializer(result.body);
 }
 
-/** Retrieve a memory store. */
+/** Retrieves the specified memory store and its current configuration. */
 export async function get(
   context: Client,
   foundryFeatures: "MemoryStores=V1Preview",
@@ -834,15 +933,23 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return memoryStoreDeserializer(result.body);
 }
 
-/** Update a memory store. */
+/** Updates the specified memory store with the supplied configuration changes. */
 export async function update(
   context: Client,
   foundryFeatures: "MemoryStores=V1Preview",
@@ -892,15 +999,23 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return memoryStoreDeserializer(result.body);
 }
 
-/** Create a memory store. */
+/** Creates a memory store resource with the provided configuration. */
 export async function create(
   context: Client,
   foundryFeatures: "MemoryStores=V1Preview",

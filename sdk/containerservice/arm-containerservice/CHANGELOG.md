@@ -1,5 +1,26 @@
 # Release History
 
+## 25.3.0 (2026-06-03)
+
+### Features Added
+  - Added operation group IdentityBindingsOperations
+  - Added Interface AgentPoolRecentlyUsedVersion
+  - Added Interface IdentityBinding
+  - Added Interface IdentityBindingManagedIdentityProfile
+  - Added Interface IdentityBindingOidcIssuerProfile
+  - Added Interface IdentityBindingProperties
+  - Added Interface IdentityBindingsCreateOrUpdateOptionalParams
+  - Added Interface IdentityBindingsDeleteOptionalParams
+  - Added Interface IdentityBindingsGetOptionalParams
+  - Added Interface IdentityBindingsListByManagedClusterOptionalParams
+  - Added Interface ManagedClusterAzureMonitorProfileMetricsControlPlane
+  - Interface AgentPoolUpgradeProfile has a new optional parameter recentlyUsedVersions
+  - Interface AgentPoolUpgradeProfileProperties has a new optional parameter recentlyUsedVersions
+  - Interface ManagedClusterAzureMonitorProfileMetrics has a new optional parameter controlPlane
+  - Added Type Alias IdentityBindingProvisioningState
+  - Added Enum KnownIdentityBindingProvisioningState
+  - Enum KnownVersions has a new value V20260401
+
 ## 25.3.0-beta.1 (2026-05-18)
 Compared with version 25.2.0
 
