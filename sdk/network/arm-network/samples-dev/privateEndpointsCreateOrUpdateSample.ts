@@ -1,22 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PrivateEndpoint} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
+ * This sample demonstrates how to creates or updates an private endpoint in the specified resource group.
  *
- * @summary Creates or updates an private endpoint in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/PrivateEndpointCreate.json
+ * @summary creates or updates an private endpoint in the specified resource group.
+ * x-ms-original-file: 2025-07-01/PrivateEndpointCreate.json
  */
 async function createPrivateEndpoint(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const privateEndpointName = "testPe";
-  const parameters: PrivateEndpoint = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.privateEndpoints.createOrUpdate("rg1", "testPe", {
+    location: "eastus2euap",
     customNetworkInterfaceName: "testPeNic",
     ipConfigurations: [
       {
@@ -27,79 +26,33 @@ async function createPrivateEndpoint(): Promise<void> {
       },
     ],
     ipVersionType: "IPv4",
-    location: "eastus2euap",
     privateLinkServiceConnections: [
       {
         groupIds: ["groupIdFromResource"],
         privateLinkServiceId:
-          "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
         requestMessage: "Please approve my connection.",
       },
     ],
     subnet: {
-      id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+      id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpoints.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    privateEndpointName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
+ * This sample demonstrates how to creates or updates an private endpoint in the specified resource group.
  *
- * @summary Creates or updates an private endpoint in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/PrivateEndpointCreateWithASG.json
- */
-async function createPrivateEndpointWithApplicationSecurityGroups(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const privateEndpointName = "testPe";
-  const parameters: PrivateEndpoint = {
-    applicationSecurityGroups: [
-      {
-        id: "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/applicationSecurityGroup/asg1",
-      },
-    ],
-    location: "eastus2euap",
-    privateLinkServiceConnections: [
-      {
-        groupIds: ["groupIdFromResource"],
-        privateLinkServiceId:
-          "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
-        requestMessage: "Please approve my connection.",
-      },
-    ],
-    subnet: {
-      id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpoints.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    privateEndpointName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
- *
- * @summary Creates or updates an private endpoint in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/PrivateEndpointCreateForManualApproval.json
+ * @summary creates or updates an private endpoint in the specified resource group.
+ * x-ms-original-file: 2025-07-01/PrivateEndpointCreateForManualApproval.json
  */
 async function createPrivateEndpointWithManualApprovalConnection(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const privateEndpointName = "testPe";
-  const parameters: PrivateEndpoint = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.privateEndpoints.createOrUpdate("rg1", "testPe", {
+    location: "eastus",
     customNetworkInterfaceName: "testPeNic",
     ipConfigurations: [
       {
@@ -109,33 +62,57 @@ async function createPrivateEndpointWithManualApprovalConnection(): Promise<void
         privateIPAddress: "192.168.0.5",
       },
     ],
-    location: "eastus",
     manualPrivateLinkServiceConnections: [
       {
         groupIds: ["groupIdFromResource"],
         privateLinkServiceId:
-          "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
         requestMessage: "Please manually approve my connection.",
       },
     ],
     subnet: {
-      id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+      id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
     },
-  };
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an private endpoint in the specified resource group.
+ *
+ * @summary creates or updates an private endpoint in the specified resource group.
+ * x-ms-original-file: 2025-07-01/PrivateEndpointCreateWithASG.json
+ */
+async function createPrivateEndpointWithApplicationSecurityGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpoints.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    privateEndpointName,
-    parameters,
-  );
+  const result = await client.privateEndpoints.createOrUpdate("rg1", "testPe", {
+    location: "eastus2euap",
+    applicationSecurityGroups: [
+      {
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/provders/Microsoft.Network/applicationSecurityGroup/asg1",
+      },
+    ],
+    privateLinkServiceConnections: [
+      {
+        groupIds: ["groupIdFromResource"],
+        privateLinkServiceId:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
+        requestMessage: "Please approve my connection.",
+      },
+    ],
+    subnet: {
+      id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+    },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await createPrivateEndpoint();
-  await createPrivateEndpointWithApplicationSecurityGroups();
   await createPrivateEndpointWithManualApprovalConnection();
+  await createPrivateEndpointWithApplicationSecurityGroups();
 }
 
 main().catch(console.error);

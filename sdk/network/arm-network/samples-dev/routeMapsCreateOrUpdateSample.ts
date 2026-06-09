@@ -1,56 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RouteMap} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates a RouteMap if it doesn't exist else updates the existing one.
+ * This sample demonstrates how to creates a RouteMap if it doesn't exist else updates the existing one.
  *
- * @summary Creates a RouteMap if it doesn't exist else updates the existing one.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/RouteMapPut.json
+ * @summary creates a RouteMap if it doesn't exist else updates the existing one.
+ * x-ms-original-file: 2025-07-01/RouteMapPut.json
  */
 async function routeMapPut(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualHubName = "virtualHub1";
-  const routeMapName = "routeMap1";
-  const routeMapParameters: RouteMap = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.routeMaps.createOrUpdate("rg1", "virtualHub1", "routeMap1", {
     associatedInboundConnections: [
-      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGateway1/expressRouteConnections/exrConn1",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGateway1/expressRouteConnections/exrConn1",
     ],
     associatedOutboundConnections: [],
     rules: [
       {
         name: "rule1",
         actions: [
-          {
-            type: "Add",
-            parameters: [{ asPath: ["22334"], community: [], routePrefix: [] }],
-          },
+          { type: "Add", parameters: [{ asPath: ["22334"], community: [], routePrefix: [] }] },
         ],
         matchCriteria: [
-          {
-            asPath: [],
-            community: [],
-            matchCondition: "Contains",
-            routePrefix: ["10.0.0.0/8"],
-          },
+          { asPath: [], community: [], matchCondition: "Contains", routePrefix: ["10.0.0.0/8"] },
         ],
         nextStepIfMatched: "Continue",
       },
     ],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.routeMaps.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    virtualHubName,
-    routeMapName,
-    routeMapParameters,
-  );
+  });
   console.log(result);
 }
 

@@ -1,50 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  LoadBalancerVipSwapRequest} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Swaps VIPs between two load balancers.
+ * This sample demonstrates how to swaps VIPs between two load balancers.
  *
- * @summary Swaps VIPs between two load balancers.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/LoadBalancersSwapPublicIpAddresses.json
+ * @summary swaps VIPs between two load balancers.
+ * x-ms-original-file: 2025-07-01/LoadBalancersSwapPublicIpAddresses.json
  */
-async function swapViPsBetweenTwoLoadBalancers(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const location = "westus";
-  const parameters: LoadBalancerVipSwapRequest = {
+async function swapVIPsBetweenTwoLoadBalancers(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  await client.loadBalancers.swapPublicIpAddresses("westus", {
     frontendIPConfigurations: [
       {
-        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb1/frontendIPConfigurations/lbfe1",
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb1/frontendIPConfigurations/lbfe1",
         publicIPAddress: {
-          id: "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/publicIPAddresses/pip2",
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg2/providers/Microsoft.Network/publicIPAddresses/pip2",
         },
       },
       {
-        id: "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/loadBalancers/lb2/frontendIPConfigurations/lbfe2",
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg2/providers/Microsoft.Network/loadBalancers/lb2/frontendIPConfigurations/lbfe2",
         publicIPAddress: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pip1",
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pip1",
         },
       },
     ],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.loadBalancers.beginSwapPublicIpAddressesAndWait(
-    location,
-    parameters,
-  );
-  console.log(result);
+  });
 }
 
 async function main(): Promise<void> {
-  await swapViPsBetweenTwoLoadBalancers();
+  await swapVIPsBetweenTwoLoadBalancers();
 }
 
 main().catch(console.error);

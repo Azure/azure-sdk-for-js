@@ -1,0 +1,41 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  listAvailableWafRuleSets,
+  listAvailableResponseHeaders,
+  listAvailableRequestHeaders,
+  listAvailableServerVariables,
+  getSslPredefinedPolicy,
+  listAvailableSslPredefinedPolicies,
+  listAvailableSslOptions,
+  backendHealthOnDemand,
+  backendHealth,
+  stop,
+  start,
+  listAll,
+  list,
+  $delete,
+  updateTags,
+  createOrUpdate,
+  get,
+} from "./operations.js";
+export type {
+  ApplicationGatewaysListAvailableWafRuleSetsOptionalParams,
+  ApplicationGatewaysListAvailableResponseHeadersOptionalParams,
+  ApplicationGatewaysListAvailableRequestHeadersOptionalParams,
+  ApplicationGatewaysListAvailableServerVariablesOptionalParams,
+  ApplicationGatewaysGetSslPredefinedPolicyOptionalParams,
+  ApplicationGatewaysListAvailableSslPredefinedPoliciesOptionalParams,
+  ApplicationGatewaysListAvailableSslOptionsOptionalParams,
+  ApplicationGatewaysBackendHealthOnDemandOptionalParams,
+  ApplicationGatewaysBackendHealthOptionalParams,
+  ApplicationGatewaysStopOptionalParams,
+  ApplicationGatewaysStartOptionalParams,
+  ApplicationGatewaysListAllOptionalParams,
+  ApplicationGatewaysListOptionalParams,
+  ApplicationGatewaysDeleteOptionalParams,
+  ApplicationGatewaysUpdateTagsOptionalParams,
+  ApplicationGatewaysCreateOrUpdateOptionalParams,
+  ApplicationGatewaysGetOptionalParams,
+} from "./options.js";

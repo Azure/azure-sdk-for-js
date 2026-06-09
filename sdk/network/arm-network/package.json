@@ -8,22 +8,15 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "@azure/core-lro": "^2.5.4",
+    "@azure/core-lro": "^3.1.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-paging": "^1.6.2",
-    "@azure/core-client": "^1.9.3",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.19.1",
-    "tslib": "^2.8.1"
+    "tslib": "^2.8.1",
+    "@azure-rest/core-client": "^2.3.1"
   },
-  "keywords": [
-    "node",
-    "azure",
-    "typescript",
-    "browser",
-    "isomorphic",
-    "cloud"
-  ],
+  "keywords": ["node", "azure", "typescript", "browser", "isomorphic", "cloud"],
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -56,11 +49,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["dist/", "README.md", "LICENSE"],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "pack": "pnpm pack 2>&1",
@@ -83,6 +72,10 @@
       {
         "path": "src/networkManagementClient.ts",
         "prefix": "packageDetails"
+      },
+      {
+        "path": "src/api/networkManagementContext.ts",
+        "prefix": "userAgentInfo"
       }
     ]
   },
@@ -91,9 +84,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/network/arm-network/README.md",
   "//sampleConfiguration": {
     "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
+    "productSlugs": ["azure"],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-network?view=azure-node-preview"
   },
@@ -111,6 +102,76 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
+    },
+    "./models/common": {
+      "browser": {
+        "types": "./dist/browser/models/common/index.d.ts",
+        "default": "./dist/browser/models/common/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/common/index.d.ts",
+        "default": "./dist/esm/models/common/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/common/index.d.ts",
+        "default": "./dist/commonjs/models/common/index.js"
+      }
+    },
+    "./models/microsoft/compute": {
+      "browser": {
+        "types": "./dist/browser/models/microsoft/compute/index.d.ts",
+        "default": "./dist/browser/models/microsoft/compute/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/microsoft/compute/index.d.ts",
+        "default": "./dist/esm/models/microsoft/compute/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/microsoft/compute/index.d.ts",
+        "default": "./dist/commonjs/models/microsoft/compute/index.js"
+      }
+    },
+    "./models/microsoft/network": {
+      "browser": {
+        "types": "./dist/browser/models/microsoft/network/index.d.ts",
+        "default": "./dist/browser/models/microsoft/network/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/microsoft/network/index.d.ts",
+        "default": "./dist/esm/models/microsoft/network/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/microsoft/network/index.d.ts",
+        "default": "./dist/commonjs/models/microsoft/network/index.js"
       }
     }
   },

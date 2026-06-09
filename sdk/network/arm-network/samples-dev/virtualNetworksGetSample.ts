@@ -3,69 +3,53 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the specified virtual network by resource group.
+ * This sample demonstrates how to gets the specified virtual network by resource group.
  *
- * @summary Gets the specified virtual network by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualNetworkGet.json
+ * @summary gets the specified virtual network by resource group.
+ * x-ms-original-file: 2025-07-01/VirtualNetworkGet.json
  */
 async function getVirtualNetwork(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualNetworkName = "test-vnet";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.virtualNetworks.get(
-    resourceGroupName,
-    virtualNetworkName,
-  );
+  const result = await client.virtualNetworks.get("rg1", "test-vnet");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets the specified virtual network by resource group.
+ * This sample demonstrates how to gets the specified virtual network by resource group.
  *
- * @summary Gets the specified virtual network by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualNetworkGetWithSubnetDelegation.json
- */
-async function getVirtualNetworkWithADelegatedSubnet(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualNetworkName = "test-vnet";
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.virtualNetworks.get(
-    resourceGroupName,
-    virtualNetworkName,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Gets the specified virtual network by resource group.
- *
- * @summary Gets the specified virtual network by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualNetworkGetWithServiceAssociationLink.json
+ * @summary gets the specified virtual network by resource group.
+ * x-ms-original-file: 2025-07-01/VirtualNetworkGetWithServiceAssociationLink.json
  */
 async function getVirtualNetworkWithServiceAssociationLinks(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualNetworkName = "test-vnet";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.virtualNetworks.get(
-    resourceGroupName,
-    virtualNetworkName,
-  );
+  const result = await client.virtualNetworks.get("rg1", "test-vnet");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets the specified virtual network by resource group.
+ *
+ * @summary gets the specified virtual network by resource group.
+ * x-ms-original-file: 2025-07-01/VirtualNetworkGetWithSubnetDelegation.json
+ */
+async function getVirtualNetworkWithADelegatedSubnet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.virtualNetworks.get("rg1", "test-vnet");
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await getVirtualNetwork();
-  await getVirtualNetworkWithADelegatedSubnet();
   await getVirtualNetworkWithServiceAssociationLinks();
+  await getVirtualNetworkWithADelegatedSubnet();
 }
 
 main().catch(console.error);

@@ -3,23 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets Ssl predefined policy with the specified policy name.
+ * This sample demonstrates how to gets Ssl predefined policy with the specified policy name.
  *
- * @summary Gets Ssl predefined policy with the specified policy name.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ApplicationGatewayAvailableSslOptionsPredefinedPolicyGet.json
+ * @summary gets Ssl predefined policy with the specified policy name.
+ * x-ms-original-file: 2025-07-01/ApplicationGatewayAvailableSslOptionsPredefinedPolicyGet.json
  */
 async function getAvailableSslPredefinedPolicyByName(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const predefinedPolicyName = "AppGwSslPolicy20150501";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.applicationGateways.getSslPredefinedPolicy(
-      predefinedPolicyName,
-    );
+  const result = await client.applicationGateways.getSslPredefinedPolicy("AppGwSslPolicy20150501");
   console.log(result);
 }
 

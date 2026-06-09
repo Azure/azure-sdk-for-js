@@ -1,40 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NspAssociation} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a NSP resource association.
+ * This sample demonstrates how to creates or updates a NSP resource association.
  *
- * @summary Creates or updates a NSP resource association.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NspAssociationPut.json
+ * @summary creates or updates a NSP resource association.
+ * x-ms-original-file: 2025-07-01/NspAssociationPut.json
  */
 async function nspAssociationPut(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkSecurityPerimeterName = "nsp1";
-  const associationName = "association1";
-  const parameters: NspAssociation = {
-    accessMode: "Enforced",
-    privateLinkResource: {
-      id: "/subscriptions/{paasSubscriptionId}/resourceGroups/{paasResourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}",
-    },
-    profile: {
-      id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/profiles/{profileName}",
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.networkSecurityPerimeterAssociations.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      networkSecurityPerimeterName,
-      associationName,
-      parameters,
-    );
+  const result = await client.networkSecurityPerimeterAssociations.createOrUpdate(
+    "rg1",
+    "nsp1",
+    "association1",
+    {
+      accessMode: "Enforced",
+      privateLinkResource: {
+        id: "/subscriptions/{paasSubscriptionId}/resourceGroups/{paasResourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}",
+      },
+      profile: {
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/profiles/{profileName}",
+      },
+    },
+  );
   console.log(result);
 }
 

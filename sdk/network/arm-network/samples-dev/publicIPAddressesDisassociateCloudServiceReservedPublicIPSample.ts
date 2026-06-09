@@ -1,36 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  DisassociateCloudServicePublicIpRequest} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Disassociates the Cloud Service reserved Public IP and associates the specified Standalone Public IP to the same Cloud Service frontend.
+ * This sample demonstrates how to disassociates the Cloud Service reserved Public IP and associates the specified Standalone Public IP to the same Cloud Service frontend.
  *
- * @summary Disassociates the Cloud Service reserved Public IP and associates the specified Standalone Public IP to the same Cloud Service frontend.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/PublicIpAddressDisassociateCloudServiceReservedPublicIp.json
+ * @summary disassociates the Cloud Service reserved Public IP and associates the specified Standalone Public IP to the same Cloud Service frontend.
+ * x-ms-original-file: 2025-07-01/PublicIpAddressDisassociateCloudServiceReservedPublicIp.json
  */
 async function disassociatePublicIPAddress(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const publicIpAddressName = "pip1";
-  const parameters: DisassociateCloudServicePublicIpRequest = {
-    publicIpArmId:
-      "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.Network/publicIpAddresses/pip2",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.publicIPAddresses.beginDisassociateCloudServiceReservedPublicIpAndWait(
-      resourceGroupName,
-      publicIpAddressName,
-      parameters,
-    );
+  const result = await client.publicIPAddresses.disassociateCloudServiceReservedPublicIp(
+    "rg1",
+    "pip1",
+    {
+      publicIpArmId:
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Network/publicIpAddresses/pip2",
+    },
+  );
   console.log(result);
 }
 

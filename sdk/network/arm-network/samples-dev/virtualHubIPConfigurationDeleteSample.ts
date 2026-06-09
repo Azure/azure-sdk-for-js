@@ -3,31 +3,22 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes a VirtualHubIpConfiguration.
+ * This sample demonstrates how to deletes a VirtualHubIpConfiguration.
  *
- * @summary Deletes a VirtualHubIpConfiguration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualHubIpConfigurationDelete.json
+ * @summary deletes a VirtualHubIpConfiguration.
+ * x-ms-original-file: 2025-07-01/VirtualHubIpConfigurationDelete.json
  */
-async function virtualHubIPConfigurationDelete(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualHubName = "hub1";
-  const ipConfigName = "ipconfig1";
+async function virtualHubIpConfigurationDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.virtualHubIpConfiguration.beginDeleteAndWait(
-    resourceGroupName,
-    virtualHubName,
-    ipConfigName,
-  );
-  console.log(result);
+  await client.virtualHubIpConfiguration.delete("rg1", "hub1", "ipconfig1");
 }
 
 async function main(): Promise<void> {
-  await virtualHubIPConfigurationDelete();
+  await virtualHubIpConfigurationDelete();
 }
 
 main().catch(console.error);

@@ -3,43 +3,32 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the specified public IP prefix in a specified resource group.
+ * This sample demonstrates how to gets the specified public IP prefix in a specified resource group.
  *
- * @summary Gets the specified public IP prefix in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/PublicIpPrefixGet.json
+ * @summary gets the specified public IP prefix in a specified resource group.
+ * x-ms-original-file: 2025-07-01/PublicIpPrefixGet.json
  */
 async function getPublicIPPrefix(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const publicIpPrefixName = "test-ipprefix";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.publicIPPrefixes.get(
-    resourceGroupName,
-    publicIpPrefixName,
-  );
+  const result = await client.publicIPPrefixes.get("rg1", "test-ipprefix");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets the specified public IP prefix in a specified resource group.
+ * This sample demonstrates how to gets the specified public IP prefix in a specified resource group.
  *
- * @summary Gets the specified public IP prefix in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/PublicIpPrefixGetStandardV2Sku.json
+ * @summary gets the specified public IP prefix in a specified resource group.
+ * x-ms-original-file: 2025-07-01/PublicIpPrefixGetStandardV2Sku.json
  */
 async function getPublicIPPrefixWithStandardV2Sku(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const publicIpPrefixName = "test-ipprefix";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.publicIPPrefixes.get(
-    resourceGroupName,
-    publicIpPrefixName,
-  );
+  const result = await client.publicIPPrefixes.get("rg1", "test-ipprefix");
   console.log(result);
 }
 

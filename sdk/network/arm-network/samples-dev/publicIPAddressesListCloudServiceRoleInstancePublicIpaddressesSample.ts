@@ -3,34 +3,28 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets information about all public IP addresses in a role instance IP configuration in a cloud service.
+ * This sample demonstrates how to gets information about all public IP addresses in a role instance IP configuration in a cloud service.
  *
- * @summary Gets information about all public IP addresses in a role instance IP configuration in a cloud service.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/CloudServiceRoleInstancePublicIpList.json
+ * @summary gets information about all public IP addresses in a role instance IP configuration in a cloud service.
+ * x-ms-original-file: 2025-07-01/CloudServiceRoleInstancePublicIpList.json
  */
 async function listVmssvmPublicIP(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["NETWORK_RESOURCE_GROUP"] || "cs-tester";
-  const cloudServiceName = "cs1";
-  const roleInstanceName = "Test_VM_0";
-  const networkInterfaceName = "nic1";
-  const ipConfigurationName = "ip1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.publicIPAddresses.listCloudServiceRoleInstancePublicIPAddresses(
-    resourceGroupName,
-    cloudServiceName,
-    roleInstanceName,
-    networkInterfaceName,
-    ipConfigurationName,
+    "cs-tester",
+    "cs1",
+    "Test_VM_0",
+    "nic1",
+    "ip1",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

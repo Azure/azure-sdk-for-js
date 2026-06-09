@@ -1,39 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  GenerateExpressRoutePortsLOARequest} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Generate a letter of authorization for the requested ExpressRoutePort resource.
+ * This sample demonstrates how to generate a letter of authorization for the requested ExpressRoutePort resource.
  *
- * @summary Generate a letter of authorization for the requested ExpressRoutePort resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/GenerateExpressRoutePortsLOA.json
+ * @summary generate a letter of authorization for the requested ExpressRoutePort resource.
+ * x-ms-original-file: 2025-07-01/GenerateExpressRoutePortsLOA.json
  */
-async function generateExpressRoutePortLoa(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const expressRoutePortName = "portName";
-  const request: GenerateExpressRoutePortsLOARequest = {
-    customerName: "customerName",
-  };
+async function generateExpressRoutePortLOA(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.expressRoutePorts.generateLOA(
-    resourceGroupName,
-    expressRoutePortName,
-    request,
-  );
+  const result = await client.expressRoutePorts.generateLOA("rg1", "portName", {
+    customerName: "customerName",
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await generateExpressRoutePortLoa();
+  await generateExpressRoutePortLOA();
 }
 
 main().catch(console.error);

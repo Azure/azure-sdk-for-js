@@ -1,39 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  SignaturesOverrides} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Will override/create a new signature overrides for the policy's IDPS
+ * This sample demonstrates how to will override/create a new signature overrides for the policy's IDPS
  *
- * @summary Will override/create a new signature overrides for the policy's IDPS
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/FirewallPolicySignatureOverridesPut.json
+ * @summary will override/create a new signature overrides for the policy's IDPS
+ * x-ms-original-file: 2025-07-01/FirewallPolicySignatureOverridesPut.json
  */
 async function putSignatureOverrides(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "e747cc13-97d4-4a79-b463-42d7f4e558f2";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const firewallPolicyName = "firewallPolicy";
-  const parameters: SignaturesOverrides = {
-    name: "default",
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "e747cc13-97d4-4a79-b463-42d7f4e558f2";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.firewallPolicyIdpsSignaturesOverrides.put("rg1", "firewallPolicy", {
     type: "Microsoft.Network/firewallPolicies/signatureOverrides",
     id: "/subscriptions/e747cc13-97d4-4a79-b463-42d7f4e558f2/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/signatureOverrides/default",
     properties: { signatures: { "2000105": "Off", "2000106": "Deny" } },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.firewallPolicyIdpsSignaturesOverrides.put(
-    resourceGroupName,
-    firewallPolicyName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

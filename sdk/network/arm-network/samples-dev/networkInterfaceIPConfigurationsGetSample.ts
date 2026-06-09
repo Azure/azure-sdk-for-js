@@ -3,26 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the specified network interface ip configuration.
+ * This sample demonstrates how to gets the specified network interface ip configuration.
  *
- * @summary Gets the specified network interface ip configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkInterfaceIPConfigurationGet.json
+ * @summary gets the specified network interface ip configuration.
+ * x-ms-original-file: 2025-07-01/NetworkInterfaceIPConfigurationGet.json
  */
 async function networkInterfaceIPConfigurationGet(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
-  const networkInterfaceName = "mynic";
-  const ipConfigurationName = "ipconfig1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkInterfaceIPConfigurations.get(
-    resourceGroupName,
-    networkInterfaceName,
-    ipConfigurationName,
-  );
+  const result = await client.networkInterfaceIPConfigurations.get("testrg", "mynic", "ipconfig1");
   console.log(result);
 }
 

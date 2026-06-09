@@ -1,35 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ExpressRouteCircuitAuthorization} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates an authorization in the specified express route circuit.
+ * This sample demonstrates how to creates or updates an authorization in the specified express route circuit.
  *
- * @summary Creates or updates an authorization in the specified express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ExpressRouteCircuitAuthorizationCreate.json
+ * @summary creates or updates an authorization in the specified express route circuit.
+ * x-ms-original-file: 2025-07-01/ExpressRouteCircuitAuthorizationCreate.json
  */
 async function createExpressRouteCircuitAuthorization(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const circuitName = "circuitName";
-  const authorizationName = "authorizatinName";
-  const authorizationParameters: ExpressRouteCircuitAuthorization = {};
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.expressRouteCircuitAuthorizations.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      circuitName,
-      authorizationName,
-      authorizationParameters,
-    );
+  const result = await client.expressRouteCircuitAuthorizations.createOrUpdate(
+    "rg1",
+    "circuitName",
+    "authorizatinName",
+    {},
+  );
   console.log(result);
 }
 

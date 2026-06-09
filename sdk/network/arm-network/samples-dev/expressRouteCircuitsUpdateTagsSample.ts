@@ -1,29 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TagsObject} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates an express route circuit tags.
+ * This sample demonstrates how to updates an express route circuit tags.
  *
- * @summary Updates an express route circuit tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ExpressRouteCircuitUpdateTags.json
+ * @summary updates an express route circuit tags.
+ * x-ms-original-file: 2025-07-01/ExpressRouteCircuitUpdateTags.json
  */
 async function updateExpressRouteCircuitTags(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "ertest";
-  const circuitName = "er1";
-  const parameters: TagsObject = { tags: { tag1: "value1", tag2: "value2" } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.expressRouteCircuits.updateTags(
-    resourceGroupName,
-    circuitName,
-    parameters,
-  );
+  const result = await client.expressRouteCircuits.updateTags("ertest", "er1", {
+    tags: { tag1: "value1", tag2: "value2" },
+  });
   console.log(result);
 }
 

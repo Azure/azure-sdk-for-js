@@ -1,39 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Route} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a route in the specified route table.
+ * This sample demonstrates how to creates or updates a route in the specified route table.
  *
- * @summary Creates or updates a route in the specified route table.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/RouteTableRouteCreate.json
+ * @summary creates or updates a route in the specified route table.
+ * x-ms-original-file: 2025-07-01/RouteTableRouteCreate.json
  */
 async function createRoute(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const routeTableName = "testrt";
-  const routeName = "route1";
-  const routeParameters: Route = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.routes.createOrUpdate("rg1", "testrt", "route1", {
     addressPrefix: "10.0.3.0/24",
     nextHopType: "VirtualNetworkGateway",
-  };
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a route in the specified route table.
+ *
+ * @summary creates or updates a route in the specified route table.
+ * x-ms-original-file: 2025-07-01/RouteTableRouteCreateEcmp.json
+ */
+async function createEcmpRoute(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.routes.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    routeTableName,
-    routeName,
-    routeParameters,
-  );
+  const result = await client.routes.createOrUpdate("rg1", "testrt", "ecmp-route", {
+    addressPrefix: "10.1.0.0/16",
+    nextHopType: "VirtualApplianceEcmp",
+    nextHop: { nextHopIpAddresses: ["10.0.0.4", "10.0.0.5", "10.0.0.6"] },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await createRoute();
+  await createEcmpRoute();
 }
 
 main().catch(console.error);

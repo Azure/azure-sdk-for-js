@@ -1,35 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TagsObject} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates tags of an IpGroups resource.
+ * This sample demonstrates how to updates tags of an IpGroups resource.
  *
- * @summary Updates tags of an IpGroups resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/IpGroupsUpdateTags.json
+ * @summary updates tags of an IpGroups resource.
+ * x-ms-original-file: 2025-07-01/IpGroupsUpdateTags.json
  */
-async function updateIPGroups(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName =
-    process.env["NETWORK_RESOURCE_GROUP"] || "myResourceGroup";
-  const ipGroupsName = "ipGroups1";
-  const parameters: TagsObject = { tags: { key1: "value1", key2: "value2" } };
+async function updateIpGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.ipGroups.updateGroups(
-    resourceGroupName,
-    ipGroupsName,
-    parameters,
-  );
+  const result = await client.ipGroups.updateGroups("myResourceGroup", "ipGroups1", {
+    tags: { key1: "value1", key2: "value2" },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await updateIPGroups();
+  await updateIpGroups();
 }
 
 main().catch(console.error);

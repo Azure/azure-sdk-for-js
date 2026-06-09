@@ -3,20 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieves a single ExpressRoutePort peering location, including the list of available bandwidths available at said peering location.
+ * This sample demonstrates how to retrieves a single ExpressRoutePort peering location, including the list of available bandwidths available at said peering location.
  *
- * @summary Retrieves a single ExpressRoutePort peering location, including the list of available bandwidths available at said peering location.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ExpressRoutePortsLocationGet.json
+ * @summary retrieves a single ExpressRoutePort peering location, including the list of available bandwidths available at said peering location.
+ * x-ms-original-file: 2025-07-01/ExpressRoutePortsLocationGet.json
  */
 async function expressRoutePortsLocationGet(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const locationName = "locationName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.expressRoutePortsLocations.get(locationName);
+  const result = await client.expressRoutePortsLocations.get("locationName");
   console.log(result);
 }
 

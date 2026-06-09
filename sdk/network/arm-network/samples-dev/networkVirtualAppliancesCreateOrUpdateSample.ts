@@ -1,378 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  NetworkVirtualAppliance} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
+ * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
  *
- * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkVirtualApplianceVnetBasicPut.json
- */
-async function createNvaInVNetWithPrivateNicPublicNic(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkVirtualApplianceName = "nva";
-  const parameters: NetworkVirtualAppliance = {
-    bootStrapConfigurationBlobs: [
-      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrbootstrapconfig",
-    ],
-    cloudInitConfigurationBlobs: [
-      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrcloudinitconfig",
-    ],
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/subid/resourcegroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
-          {},
-      },
-    },
-    location: "West US",
-    nvaInterfaceConfigurations: [
-      {
-        name: "dataInterface",
-        type: ["PrivateNic"],
-        subnet: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
-        },
-      },
-      {
-        name: "managementInterface",
-        type: ["PublicNic"],
-        subnet: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet2",
-        },
-      },
-    ],
-    nvaSku: {
-      bundledScaleUnit: "1",
-      marketPlaceVersion: "latest",
-      vendor: "Cisco SDWAN",
-    },
-    tags: { key1: "value1" },
-    virtualApplianceAsn: 10000,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.networkVirtualAppliances.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      networkVirtualApplianceName,
-      parameters,
-    );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
- *
- * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkVirtualApplianceVnetIngressPut.json
- */
-async function createNvaInVNetWithPrivateNicPublicNicIncludingInternetIngress(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkVirtualApplianceName = "nva";
-  const parameters: NetworkVirtualAppliance = {
-    bootStrapConfigurationBlobs: [
-      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrbootstrapconfig",
-    ],
-    cloudInitConfigurationBlobs: [
-      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrcloudinitconfig",
-    ],
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/subid/resourcegroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
-          {},
-      },
-    },
-    internetIngressPublicIps: [
-      {
-        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/slbip",
-      },
-    ],
-    location: "West US",
-    nvaInterfaceConfigurations: [
-      {
-        name: "dataInterface",
-        type: ["PrivateNic"],
-        subnet: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
-        },
-      },
-      {
-        name: "managementInterface",
-        type: ["PublicNic"],
-        subnet: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet2",
-        },
-      },
-    ],
-    nvaSku: {
-      bundledScaleUnit: "1",
-      marketPlaceVersion: "latest",
-      vendor: "Cisco SDWAN",
-    },
-    tags: { key1: "value1" },
-    virtualApplianceAsn: 10000,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.networkVirtualAppliances.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      networkVirtualApplianceName,
-      parameters,
-    );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
- *
- * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkVirtualApplianceVnetNetworkProfilePut.json
- */
-async function createNvaInVNetWithPrivateNicPublicNicIncludingNetworkProfile(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkVirtualApplianceName = "nva";
-  const parameters: NetworkVirtualAppliance = {
-    bootStrapConfigurationBlobs: [
-      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrbootstrapconfig",
-    ],
-    cloudInitConfigurationBlobs: [
-      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrcloudinitconfig",
-    ],
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/subid/resourcegroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
-          {},
-      },
-    },
-    location: "West US",
-    networkProfile: {
-      networkInterfaceConfigurations: [
-        {
-          nicType: "PublicNic",
-          properties: {
-            ipConfigurations: [
-              {
-                name: "myPrimaryPublicIpConfig",
-                properties: { primary: true },
-              },
-              {
-                name: "myNonPrimaryPublicIpConfig",
-                properties: { primary: false },
-              },
-            ],
-          },
-        },
-        {
-          nicType: "PrivateNic",
-          properties: {
-            ipConfigurations: [
-              {
-                name: "myPrimaryPrivateIpConfig",
-                properties: { primary: true },
-              },
-              {
-                name: "myNonPrimaryPrivateIpConfig",
-                properties: { primary: false },
-              },
-            ],
-          },
-        },
-      ],
-    },
-    nvaInterfaceConfigurations: [
-      {
-        name: "dataInterface",
-        type: ["PrivateNic"],
-        subnet: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
-        },
-      },
-      {
-        name: "managementInterface",
-        type: ["PublicNic"],
-        subnet: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet2",
-        },
-      },
-    ],
-    nvaSku: {
-      bundledScaleUnit: "1",
-      marketPlaceVersion: "latest",
-      vendor: "Cisco SDWAN",
-    },
-    tags: { key1: "value1" },
-    virtualApplianceAsn: 10000,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.networkVirtualAppliances.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      networkVirtualApplianceName,
-      parameters,
-    );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
- *
- * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkVirtualApplianceVnetAdditionalPrivatePut.json
- */
-async function createNvaInVNetWithPrivateNicPublicNicAdditionalPrivateNic(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkVirtualApplianceName = "nva";
-  const parameters: NetworkVirtualAppliance = {
-    bootStrapConfigurationBlobs: [
-      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrbootstrapconfig",
-    ],
-    cloudInitConfigurationBlobs: [
-      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrcloudinitconfig",
-    ],
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/subid/resourcegroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
-          {},
-      },
-    },
-    location: "West US",
-    nvaInterfaceConfigurations: [
-      {
-        name: "dataInterface",
-        type: ["PrivateNic"],
-        subnet: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
-        },
-      },
-      {
-        name: "managementInterface",
-        type: ["PublicNic"],
-        subnet: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet2",
-        },
-      },
-      {
-        name: "myAdditionalInterface",
-        type: ["AdditionalPrivateNic"],
-        subnet: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet3",
-        },
-      },
-    ],
-    nvaSku: {
-      bundledScaleUnit: "1",
-      marketPlaceVersion: "latest",
-      vendor: "Cisco SDWAN",
-    },
-    tags: { key1: "value1" },
-    virtualApplianceAsn: 10000,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.networkVirtualAppliances.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      networkVirtualApplianceName,
-      parameters,
-    );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
- *
- * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkVirtualApplianceVnetAdditionalPublicPut.json
- */
-async function createNvaInVNetWithPrivateNicPublicNicAdditionalPublicNic(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkVirtualApplianceName = "nva";
-  const parameters: NetworkVirtualAppliance = {
-    bootStrapConfigurationBlobs: [
-      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrbootstrapconfig",
-    ],
-    cloudInitConfigurationBlobs: [
-      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrcloudinitconfig",
-    ],
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/subid/resourcegroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
-          {},
-      },
-    },
-    location: "West US",
-    nvaInterfaceConfigurations: [
-      {
-        name: "dataInterface",
-        type: ["PrivateNic"],
-        subnet: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
-        },
-      },
-      {
-        name: "managementInterface",
-        type: ["PublicNic"],
-        subnet: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet2",
-        },
-      },
-      {
-        name: "myAdditionalPublicInterface",
-        type: ["AdditionalPublicNic"],
-        subnet: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet3",
-        },
-      },
-    ],
-    nvaSku: {
-      bundledScaleUnit: "1",
-      marketPlaceVersion: "latest",
-      vendor: "Cisco SDWAN",
-    },
-    tags: { key1: "value1" },
-    virtualApplianceAsn: 10000,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.networkVirtualAppliances.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      networkVirtualApplianceName,
-      parameters,
-    );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
- *
- * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkVirtualAppliancePut.json
+ * @summary creates or updates the specified Network Virtual Appliance.
+ * x-ms-original-file: 2025-07-01/NetworkVirtualAppliancePut.json
  */
 async function createNetworkVirtualAppliance(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkVirtualApplianceName = "nva";
-  const parameters: NetworkVirtualAppliance = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.networkVirtualAppliances.createOrUpdate("rg1", "nva", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1":
+          {},
+      },
+    },
+    location: "West US",
     additionalNics: [{ name: "exrsdwan", hasPublicIp: true }],
     bootStrapConfigurationBlobs: [
       "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrbootstrapconfig",
@@ -380,19 +30,11 @@ async function createNetworkVirtualAppliance(): Promise<void> {
     cloudInitConfigurationBlobs: [
       "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrcloudinitconfig",
     ],
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/subid/resourcegroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
-          {},
-      },
-    },
     internetIngressPublicIps: [
       {
         id: "/subscriptions/{{subscriptionId}}/resourceGroups/{{rg}}/providers/Microsoft.Network/publicIPAddresses/slbip",
       },
     ],
-    location: "West US",
     networkProfile: {
       networkInterfaceConfigurations: [
         {
@@ -415,65 +57,326 @@ async function createNetworkVirtualAppliance(): Promise<void> {
         },
       ],
     },
-    nvaSku: {
-      bundledScaleUnit: "1",
-      marketPlaceVersion: "12.1",
-      vendor: "Cisco SDWAN",
-    },
-    tags: { key1: "value1" },
+    nvaSku: { bundledScaleUnit: "1", marketPlaceVersion: "12.1", vendor: "Cisco SDWAN" },
     virtualApplianceAsn: 10000,
     virtualHub: {
-      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
+      id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.networkVirtualAppliances.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      networkVirtualApplianceName,
-      parameters,
-    );
+    tags: { key1: "value1" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
+ * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
  *
- * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkVirtualApplianceSaaSPut.json
+ * @summary creates or updates the specified Network Virtual Appliance.
+ * x-ms-original-file: 2025-07-01/NetworkVirtualApplianceSaaSPut.json
  */
 async function createSaaSNetworkVirtualAppliance(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkVirtualApplianceName = "nva";
-  const parameters: NetworkVirtualAppliance = {
-    delegation: { serviceName: "PaloAltoNetworks.Cloudngfw/firewalls" },
-    location: "West US",
-    tags: { key1: "value1" },
-    virtualHub: {
-      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.networkVirtualAppliances.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      networkVirtualApplianceName,
-      parameters,
-    );
+  const result = await client.networkVirtualAppliances.createOrUpdate("rg1", "nva", {
+    location: "West US",
+    delegation: { serviceName: "PaloAltoNetworks.Cloudngfw/firewalls" },
+    virtualHub: {
+      id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
+    },
+    tags: { key1: "value1" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
+ *
+ * @summary creates or updates the specified Network Virtual Appliance.
+ * x-ms-original-file: 2025-07-01/NetworkVirtualApplianceVnetAdditionalPrivatePut.json
+ */
+async function createNVAInVNetWithPrivateNicPublicNicAdditionalPrivateNic(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.networkVirtualAppliances.createOrUpdate("rg1", "nva", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1":
+          {},
+      },
+    },
+    location: "West US",
+    bootStrapConfigurationBlobs: [
+      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrbootstrapconfig",
+    ],
+    cloudInitConfigurationBlobs: [
+      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrcloudinitconfig",
+    ],
+    nvaInterfaceConfigurations: [
+      {
+        name: "dataInterface",
+        type: ["PrivateNic"],
+        subnet: {
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
+        },
+      },
+      {
+        name: "managementInterface",
+        type: ["PublicNic"],
+        subnet: {
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet2",
+        },
+      },
+      {
+        name: "myAdditionalInterface",
+        type: ["AdditionalPrivateNic"],
+        subnet: {
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet3",
+        },
+      },
+    ],
+    nvaSku: { bundledScaleUnit: "1", marketPlaceVersion: "latest", vendor: "Cisco SDWAN" },
+    virtualApplianceAsn: 10000,
+    tags: { key1: "value1" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
+ *
+ * @summary creates or updates the specified Network Virtual Appliance.
+ * x-ms-original-file: 2025-07-01/NetworkVirtualApplianceVnetAdditionalPublicPut.json
+ */
+async function createNVAInVNetWithPrivateNicPublicNicAdditionalPublicNic(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.networkVirtualAppliances.createOrUpdate("rg1", "nva", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1":
+          {},
+      },
+    },
+    location: "West US",
+    bootStrapConfigurationBlobs: [
+      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrbootstrapconfig",
+    ],
+    cloudInitConfigurationBlobs: [
+      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrcloudinitconfig",
+    ],
+    nvaInterfaceConfigurations: [
+      {
+        name: "dataInterface",
+        type: ["PrivateNic"],
+        subnet: {
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
+        },
+      },
+      {
+        name: "managementInterface",
+        type: ["PublicNic"],
+        subnet: {
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet2",
+        },
+      },
+      {
+        name: "myAdditionalPublicInterface",
+        type: ["AdditionalPublicNic"],
+        subnet: {
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet3",
+        },
+      },
+    ],
+    nvaSku: { bundledScaleUnit: "1", marketPlaceVersion: "latest", vendor: "Cisco SDWAN" },
+    virtualApplianceAsn: 10000,
+    tags: { key1: "value1" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
+ *
+ * @summary creates or updates the specified Network Virtual Appliance.
+ * x-ms-original-file: 2025-07-01/NetworkVirtualApplianceVnetBasicPut.json
+ */
+async function createNVAInVNetWithPrivateNicPublicNic(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.networkVirtualAppliances.createOrUpdate("rg1", "nva", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1":
+          {},
+      },
+    },
+    location: "West US",
+    bootStrapConfigurationBlobs: [
+      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrbootstrapconfig",
+    ],
+    cloudInitConfigurationBlobs: [
+      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrcloudinitconfig",
+    ],
+    nvaInterfaceConfigurations: [
+      {
+        name: "dataInterface",
+        type: ["PrivateNic"],
+        subnet: {
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
+        },
+      },
+      {
+        name: "managementInterface",
+        type: ["PublicNic"],
+        subnet: {
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet2",
+        },
+      },
+    ],
+    nvaSku: { bundledScaleUnit: "1", marketPlaceVersion: "latest", vendor: "Cisco SDWAN" },
+    virtualApplianceAsn: 10000,
+    tags: { key1: "value1" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
+ *
+ * @summary creates or updates the specified Network Virtual Appliance.
+ * x-ms-original-file: 2025-07-01/NetworkVirtualApplianceVnetIngressPut.json
+ */
+async function createNVAInVNetWithPrivateNicPublicNicIncludingInternetIngress(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.networkVirtualAppliances.createOrUpdate("rg1", "nva", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1":
+          {},
+      },
+    },
+    location: "West US",
+    bootStrapConfigurationBlobs: [
+      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrbootstrapconfig",
+    ],
+    cloudInitConfigurationBlobs: [
+      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrcloudinitconfig",
+    ],
+    internetIngressPublicIps: [
+      {
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/slbip",
+      },
+    ],
+    nvaInterfaceConfigurations: [
+      {
+        name: "dataInterface",
+        type: ["PrivateNic"],
+        subnet: {
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
+        },
+      },
+      {
+        name: "managementInterface",
+        type: ["PublicNic"],
+        subnet: {
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet2",
+        },
+      },
+    ],
+    nvaSku: { bundledScaleUnit: "1", marketPlaceVersion: "latest", vendor: "Cisco SDWAN" },
+    virtualApplianceAsn: 10000,
+    tags: { key1: "value1" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
+ *
+ * @summary creates or updates the specified Network Virtual Appliance.
+ * x-ms-original-file: 2025-07-01/NetworkVirtualApplianceVnetNetworkProfilePut.json
+ */
+async function createNVAInVNetWithPrivateNicPublicNicIncludingNetworkProfile(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.networkVirtualAppliances.createOrUpdate("rg1", "nva", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1":
+          {},
+      },
+    },
+    location: "West US",
+    bootStrapConfigurationBlobs: [
+      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrbootstrapconfig",
+    ],
+    cloudInitConfigurationBlobs: [
+      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrcloudinitconfig",
+    ],
+    networkProfile: {
+      networkInterfaceConfigurations: [
+        {
+          nicType: "PublicNic",
+          properties: {
+            ipConfigurations: [
+              { name: "myPrimaryPublicIpConfig", properties: { primary: true } },
+              { name: "myNonPrimaryPublicIpConfig", properties: { primary: false } },
+            ],
+          },
+        },
+        {
+          nicType: "PrivateNic",
+          properties: {
+            ipConfigurations: [
+              { name: "myPrimaryPrivateIpConfig", properties: { primary: true } },
+              { name: "myNonPrimaryPrivateIpConfig", properties: { primary: false } },
+            ],
+          },
+        },
+      ],
+    },
+    nvaInterfaceConfigurations: [
+      {
+        name: "dataInterface",
+        type: ["PrivateNic"],
+        subnet: {
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
+        },
+      },
+      {
+        name: "managementInterface",
+        type: ["PublicNic"],
+        subnet: {
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet2",
+        },
+      },
+    ],
+    nvaSku: { bundledScaleUnit: "1", marketPlaceVersion: "latest", vendor: "Cisco SDWAN" },
+    virtualApplianceAsn: 10000,
+    tags: { key1: "value1" },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await createNvaInVNetWithPrivateNicPublicNic();
-  await createNvaInVNetWithPrivateNicPublicNicIncludingInternetIngress();
-  await createNvaInVNetWithPrivateNicPublicNicIncludingNetworkProfile();
-  await createNvaInVNetWithPrivateNicPublicNicAdditionalPrivateNic();
-  await createNvaInVNetWithPrivateNicPublicNicAdditionalPublicNic();
   await createNetworkVirtualAppliance();
   await createSaaSNetworkVirtualAppliance();
+  await createNVAInVNetWithPrivateNicPublicNicAdditionalPrivateNic();
+  await createNVAInVNetWithPrivateNicPublicNicAdditionalPublicNic();
+  await createNVAInVNetWithPrivateNicPublicNic();
+  await createNVAInVNetWithPrivateNicPublicNicIncludingInternetIngress();
+  await createNVAInVNetWithPrivateNicPublicNicIncludingNetworkProfile();
 }
 
 main().catch(console.error);

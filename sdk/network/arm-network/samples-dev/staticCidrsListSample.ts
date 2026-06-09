@@ -3,31 +3,22 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets list of Static CIDR resources at Network Manager level.
+ * This sample demonstrates how to gets list of Static CIDR resources at Network Manager level.
  *
- * @summary Gets list of Static CIDR resources at Network Manager level.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/StaticCidrs_List.json
+ * @summary gets list of Static CIDR resources at Network Manager level.
+ * x-ms-original-file: 2025-07-01/StaticCidrs_List.json
  */
 async function staticCidrsList(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "11111111-1111-1111-1111-111111111111";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkManagerName = "TestNetworkManager";
-  const poolName = "TestPool";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.staticCidrs.list(
-    resourceGroupName,
-    networkManagerName,
-    poolName,
-  )) {
+  for await (const item of client.staticCidrs.list("rg1", "TestNetworkManager", "TestPool")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

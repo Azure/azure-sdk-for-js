@@ -3,26 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieves the details of a Virtual Hub Ip configuration.
+ * This sample demonstrates how to retrieves the details of a Virtual Hub Ip configuration.
  *
- * @summary Retrieves the details of a Virtual Hub Ip configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualHubIpConfigurationGet.json
+ * @summary retrieves the details of a Virtual Hub Ip configuration.
+ * x-ms-original-file: 2025-07-01/VirtualHubIpConfigurationGet.json
  */
 async function virtualHubVirtualHubRouteTableV2Get(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualHubName = "hub1";
-  const ipConfigName = "ipconfig1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.virtualHubIpConfiguration.get(
-    resourceGroupName,
-    virtualHubName,
-    ipConfigName,
-  );
+  const result = await client.virtualHubIpConfiguration.get("rg1", "hub1", "ipconfig1");
   console.log(result);
 }
 

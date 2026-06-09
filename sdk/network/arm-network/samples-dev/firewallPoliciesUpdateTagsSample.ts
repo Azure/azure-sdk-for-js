@@ -1,30 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TagsObject} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates tags of a Azure Firewall Policy resource.
+ * This sample demonstrates how to updates tags of a Azure Firewall Policy resource.
  *
- * @summary Updates tags of a Azure Firewall Policy resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/FirewallPolicyPatch.json
+ * @summary updates tags of a Azure Firewall Policy resource.
+ * x-ms-original-file: 2025-07-01/FirewallPolicyPatch.json
  */
 async function updateFirewallPolicyTags(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName =
-    process.env["NETWORK_RESOURCE_GROUP"] || "myResourceGroup";
-  const firewallPolicyName = "firewallPolicy";
-  const parameters: TagsObject = { tags: { key1: "value1", key2: "value2" } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.firewallPolicies.updateTags(
-    resourceGroupName,
-    firewallPolicyName,
-    parameters,
-  );
+  const result = await client.firewallPolicies.updateTags("myResourceGroup", "firewallPolicy", {
+    tags: { key1: "value1", key2: "value2" },
+  });
   console.log(result);
 }
 

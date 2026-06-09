@@ -3,27 +3,22 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieves the details of all RoutingIntent child resources of the VirtualHub.
+ * This sample demonstrates how to retrieves the details of all RoutingIntent child resources of the VirtualHub.
  *
- * @summary Retrieves the details of all RoutingIntent child resources of the VirtualHub.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/RoutingIntentList.json
+ * @summary retrieves the details of all RoutingIntent child resources of the VirtualHub.
+ * x-ms-original-file: 2025-07-01/RoutingIntentList.json
  */
 async function routingIntentList(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualHubName = "virtualHub1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.routingIntentOperations.list(
-    resourceGroupName,
-    virtualHubName,
-  )) {
+  for await (const item of client.routingIntent.list("rg1", "virtualHub1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

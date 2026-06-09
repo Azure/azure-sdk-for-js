@@ -3,28 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes the specified tap configuration from the NetworkInterface.
+ * This sample demonstrates how to deletes the specified tap configuration from the NetworkInterface.
  *
- * @summary Deletes the specified tap configuration from the NetworkInterface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkInterfaceTapConfigurationDelete.json
+ * @summary deletes the specified tap configuration from the NetworkInterface.
+ * x-ms-original-file: 2025-07-01/NetworkInterfaceTapConfigurationDelete.json
  */
 async function deleteTapConfiguration(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
-  const networkInterfaceName = "mynic";
-  const tapConfigurationName = "tapconfiguration1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.networkInterfaceTapConfigurations.beginDeleteAndWait(
-      resourceGroupName,
-      networkInterfaceName,
-      tapConfigurationName,
-    );
-  console.log(result);
+  await client.networkInterfaceTapConfigurations.delete("testrg", "mynic", "tapconfiguration1");
 }
 
 async function main(): Promise<void> {
