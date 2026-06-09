@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates an existing migration. The request body can contain one to many of the mutable properties present in the migration definition. Certain property updates initiate migration state transitions.
  *
  * @summary updates an existing migration. The request body can contain one to many of the mutable properties present in the migration definition. Certain property updates initiate migration state transitions.
- * x-ms-original-file: 2026-01-01-preview/MigrationsUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsUpdate.json
  */
 async function updateAnExistingMigration() {
   const credential = new DefaultAzureCredential();

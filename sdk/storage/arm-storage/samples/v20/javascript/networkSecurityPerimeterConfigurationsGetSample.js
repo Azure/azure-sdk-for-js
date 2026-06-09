@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets effective NetworkSecurityPerimeterConfiguration for association
  *
  * @summary gets effective NetworkSecurityPerimeterConfiguration for association
- * x-ms-original-file: 2025-08-01/NetworkSecurityPerimeterConfigurationGet.json
+ * x-ms-original-file: 2026-04-01/NetworkSecurityPerimeterConfigurationGet.json
  */
 async function networkSecurityPerimeterConfigurationGet() {
   const credential = new DefaultAzureCredential();

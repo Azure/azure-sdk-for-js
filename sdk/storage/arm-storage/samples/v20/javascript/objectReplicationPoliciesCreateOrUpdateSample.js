@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update the object replication policy of the storage account.
  *
  * @summary create or update the object replication policy of the storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountCreateObjectReplicationPolicyOnDestination.json
+ * x-ms-original-file: 2026-04-01/StorageAccountCreateObjectReplicationPolicyOnDestination.json
  */
 async function storageAccountCreateObjectReplicationPolicyOnDestination() {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function storageAccountCreateObjectReplicationPolicyOnDestination() {
  * This sample demonstrates how to create or update the object replication policy of the storage account.
  *
  * @summary create or update the object replication policy of the storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountCreateObjectReplicationPolicyOnSource.json
+ * x-ms-original-file: 2026-04-01/StorageAccountCreateObjectReplicationPolicyOnSource.json
  */
 async function storageAccountCreateObjectReplicationPolicyOnSource() {
   const credential = new DefaultAzureCredential();
@@ -73,7 +73,7 @@ async function storageAccountCreateObjectReplicationPolicyOnSource() {
  * This sample demonstrates how to create or update the object replication policy of the storage account.
  *
  * @summary create or update the object replication policy of the storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountUpdateObjectReplicationPolicyOnDestination.json
+ * x-ms-original-file: 2026-04-01/StorageAccountUpdateObjectReplicationPolicyOnDestination.json
  */
 async function storageAccountUpdateObjectReplicationPolicyOnDestination() {
   const credential = new DefaultAzureCredential();
@@ -107,7 +107,7 @@ async function storageAccountUpdateObjectReplicationPolicyOnDestination() {
  * This sample demonstrates how to create or update the object replication policy of the storage account.
  *
  * @summary create or update the object replication policy of the storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountUpdateObjectReplicationPolicyOnSource.json
+ * x-ms-original-file: 2026-04-01/StorageAccountUpdateObjectReplicationPolicyOnSource.json
  */
 async function storageAccountUpdateObjectReplicationPolicyOnSource() {
   const credential = new DefaultAzureCredential();
