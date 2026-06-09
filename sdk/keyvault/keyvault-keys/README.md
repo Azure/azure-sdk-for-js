@@ -40,7 +40,6 @@ Key links:
 
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 
-
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)
