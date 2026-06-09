@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByWorkspace,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/workspaceApiDiagnostic/operations.js";
-import {
+import type {
   WorkspaceApiDiagnosticListByWorkspaceOptionalParams,
   WorkspaceApiDiagnosticDeleteOptionalParams,
   WorkspaceApiDiagnosticUpdateOptionalParams,
@@ -18,8 +18,8 @@ import {
   WorkspaceApiDiagnosticGetEntityTagOptionalParams,
   WorkspaceApiDiagnosticGetOptionalParams,
 } from "../../api/workspaceApiDiagnostic/options.js";
-import { DiagnosticContract, DiagnosticUpdateContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DiagnosticContract, DiagnosticUpdateContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspaceApiDiagnostic operations. */
 export interface WorkspaceApiDiagnosticOperations {

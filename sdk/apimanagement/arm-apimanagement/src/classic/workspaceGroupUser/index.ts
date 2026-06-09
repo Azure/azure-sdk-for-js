@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   $delete,
   create,
   checkEntityExists,
   list,
 } from "../../api/workspaceGroupUser/operations.js";
-import {
+import type {
   WorkspaceGroupUserDeleteOptionalParams,
   WorkspaceGroupUserCreateOptionalParams,
   WorkspaceGroupUserCheckEntityExistsOptionalParams,
   WorkspaceGroupUserListOptionalParams,
 } from "../../api/workspaceGroupUser/options.js";
-import { UserContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { UserContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspaceGroupUser operations. */
 export interface WorkspaceGroupUserOperations {

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { list } from "../../api/apiWikis/operations.js";
-import { ApiWikisListOptionalParams } from "../../api/apiWikis/options.js";
-import { WikiContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ApiWikisListOptionalParams } from "../../api/apiWikis/options.js";
+import type { WikiContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApiWikis operations. */
 export interface ApiWikisOperations {

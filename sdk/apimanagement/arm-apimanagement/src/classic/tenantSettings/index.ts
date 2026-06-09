@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { listByService, get } from "../../api/tenantSettings/operations.js";
-import {
+import type {
   TenantSettingsListByServiceOptionalParams,
   TenantSettingsGetOptionalParams,
 } from "../../api/tenantSettings/options.js";
-import { TenantSettingsContract, SettingsTypeName } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { TenantSettingsContract, SettingsTypeName } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a TenantSettings operations. */
 export interface TenantSettingsOperations {

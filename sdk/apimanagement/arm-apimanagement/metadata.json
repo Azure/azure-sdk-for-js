@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.ApiManagement": "2025-09-01-preview"
   },
-  "emitterVersion": "0.53.3",
+  "emitterVersion": "0.54.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ApiManagement",
     "CrossLanguageDefinitionId": {
@@ -678,12 +678,12 @@
       "@azure/arm-apimanagement!ProductApiOperations#CreateOrUpdate:member": "Microsoft.ApiManagement.ProductContracts.productApiCreateOrUpdate",
       "@azure/arm-apimanagement!ProductApiOperations#checkEntityExists:member": "Microsoft.ApiManagement.ProductContracts.checkEntityExists",
       "@azure/arm-apimanagement!ProductApiOperations#listByProduct:member": "Microsoft.ApiManagement.ProductContracts.listByProduct",
-      "@azure/arm-apimanagement!PrivateEndpointConnectionOperations#listPrivateLinkResources:member": "Microsoft.ApiManagement.PrivateLinkResources.listPrivateLinkResources",
-      "@azure/arm-apimanagement!PrivateEndpointConnectionOperations#getPrivateLinkResource:member": "Microsoft.ApiManagement.PrivateLinkResources.getPrivateLinkResource",
-      "@azure/arm-apimanagement!PrivateEndpointConnectionOperations#listByService:member": "Microsoft.ApiManagement.PrivateEndpointConnections.listByService",
-      "@azure/arm-apimanagement!PrivateEndpointConnectionOperations#delete:member": "Microsoft.ApiManagement.PrivateEndpointConnections.delete",
-      "@azure/arm-apimanagement!PrivateEndpointConnectionOperations#createOrUpdate:member": "Microsoft.ApiManagement.PrivateEndpointConnections.createOrUpdate",
-      "@azure/arm-apimanagement!PrivateEndpointConnectionOperations#getByName:member": "Microsoft.ApiManagement.PrivateEndpointConnections.getByName",
+      "@azure/arm-apimanagement!PrivateEndpointConnectionOperationsOperations#listPrivateLinkResources:member": "Microsoft.ApiManagement.PrivateLinkResources.listPrivateLinkResources",
+      "@azure/arm-apimanagement!PrivateEndpointConnectionOperationsOperations#getPrivateLinkResource:member": "Microsoft.ApiManagement.PrivateLinkResources.getPrivateLinkResource",
+      "@azure/arm-apimanagement!PrivateEndpointConnectionOperationsOperations#listByService:member": "Microsoft.ApiManagement.PrivateEndpointConnections.listByService",
+      "@azure/arm-apimanagement!PrivateEndpointConnectionOperationsOperations#delete:member": "Microsoft.ApiManagement.PrivateEndpointConnections.delete",
+      "@azure/arm-apimanagement!PrivateEndpointConnectionOperationsOperations#createOrUpdate:member": "Microsoft.ApiManagement.PrivateEndpointConnections.createOrUpdate",
+      "@azure/arm-apimanagement!PrivateEndpointConnectionOperationsOperations#getByName:member": "Microsoft.ApiManagement.PrivateEndpointConnections.getByName",
       "@azure/arm-apimanagement!PortalRevisionOperations#listByService:member": "Microsoft.ApiManagement.PortalRevisionContracts.listByService",
       "@azure/arm-apimanagement!PortalRevisionOperations#update:member": "Microsoft.ApiManagement.PortalRevisionContracts.update",
       "@azure/arm-apimanagement!PortalRevisionOperations#createOrUpdate:member": "Microsoft.ApiManagement.PortalRevisionContracts.createOrUpdate",
@@ -995,7 +995,7 @@
       "@azure/arm-apimanagement!ApiManagementServiceOperations#createOrUpdate:member": "Microsoft.ApiManagement.ApiManagementServiceResources.createOrUpdate",
       "@azure/arm-apimanagement!ApiManagementServiceOperations#get:member": "Microsoft.ApiManagement.ApiManagementServiceResources.get",
       "@azure/arm-apimanagement!WorkspaceApiRevisionOperations#ListByService:member": "Microsoft.ApiManagement.WorkspaceApi.workspaceApiRevisionListByService",
-      "@azure/arm-apimanagement!OperationOperations#listByTags:member": "Microsoft.ApiManagement.ApiContracts.listByTags",
+      "@azure/arm-apimanagement!OperationOperationsOperations#listByTags:member": "Microsoft.ApiManagement.ApiContracts.listByTags",
       "@azure/arm-apimanagement!ApiProductOperations#listByApis:member": "Microsoft.ApiManagement.ApiContracts.listByApis",
       "@azure/arm-apimanagement!ApiRevisionOperations#ListByService:member": "Microsoft.ApiManagement.ApiContracts.apiRevisionListByService",
       "@azure/arm-apimanagement!ApiOperations#listByTags:member": "Microsoft.ApiManagement.ApiManagementServiceResources.listByTags",

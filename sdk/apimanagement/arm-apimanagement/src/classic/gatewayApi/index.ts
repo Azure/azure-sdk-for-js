@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   $delete,
   createOrUpdate,
   getEntityTag,
   listByService,
 } from "../../api/gatewayApi/operations.js";
-import {
+import type {
   GatewayApiDeleteOptionalParams,
   GatewayApiCreateOrUpdateOptionalParams,
   GatewayApiGetEntityTagOptionalParams,
   GatewayApiListByServiceOptionalParams,
 } from "../../api/gatewayApi/options.js";
-import { ApiContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ApiContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GatewayApi operations. */
 export interface GatewayApiOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   refreshSecret,
   listByService,
@@ -9,15 +9,15 @@ import {
   createOrUpdate,
   get,
 } from "../../api/authorizationProvider/operations.js";
-import {
+import type {
   AuthorizationProviderRefreshSecretOptionalParams,
   AuthorizationProviderListByServiceOptionalParams,
   AuthorizationProviderDeleteOptionalParams,
   AuthorizationProviderCreateOrUpdateOptionalParams,
   AuthorizationProviderGetOptionalParams,
 } from "../../api/authorizationProvider/options.js";
-import { AuthorizationProviderContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { AuthorizationProviderContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AuthorizationProvider operations. */
 export interface AuthorizationProviderOperations {

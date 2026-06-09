@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { get } from "../../api/apiExport/operations.js";
-import { ApiExportGetOptionalParams } from "../../api/apiExport/options.js";
-import { ApiExportResult, ExportFormat, ExportApi } from "../../models/models.js";
+import type { ApiExportGetOptionalParams } from "../../api/apiExport/options.js";
+import type { ApiExportResult, ExportFormat, ExportApi } from "../../models/models.js";
 
 /** Interface representing a ApiExport operations. */
 export interface ApiExportOperations {

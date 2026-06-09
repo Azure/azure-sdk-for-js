@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/workspaceApiVersionSet/operations.js";
-import {
+import type {
   WorkspaceApiVersionSetListByServiceOptionalParams,
   WorkspaceApiVersionSetDeleteOptionalParams,
   WorkspaceApiVersionSetUpdateOptionalParams,
@@ -18,8 +18,8 @@ import {
   WorkspaceApiVersionSetGetEntityTagOptionalParams,
   WorkspaceApiVersionSetGetOptionalParams,
 } from "../../api/workspaceApiVersionSet/options.js";
-import { ApiVersionSetContract, ApiVersionSetUpdateParameters } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ApiVersionSetContract, ApiVersionSetUpdateParameters } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspaceApiVersionSet operations. */
 export interface WorkspaceApiVersionSetOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByRequest,
   listByTime,
@@ -12,7 +12,7 @@ import {
   listByUser,
   listByApi,
 } from "../../api/reports/operations.js";
-import {
+import type {
   ReportsListByRequestOptionalParams,
   ReportsListByTimeOptionalParams,
   ReportsListBySubscriptionOptionalParams,
@@ -22,8 +22,8 @@ import {
   ReportsListByUserOptionalParams,
   ReportsListByApiOptionalParams,
 } from "../../api/reports/options.js";
-import { ReportRecordContract, RequestReportRecordContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ReportRecordContract, RequestReportRecordContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Reports operations. */
 export interface ReportsOperations {

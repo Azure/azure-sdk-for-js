@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   refreshSecret,
   listByWorkspace,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/workspaceCertificate/operations.js";
-import {
+import type {
   WorkspaceCertificateRefreshSecretOptionalParams,
   WorkspaceCertificateListByWorkspaceOptionalParams,
   WorkspaceCertificateDeleteOptionalParams,
@@ -18,8 +18,11 @@ import {
   WorkspaceCertificateGetEntityTagOptionalParams,
   WorkspaceCertificateGetOptionalParams,
 } from "../../api/workspaceCertificate/options.js";
-import { CertificateContract, CertificateCreateOrUpdateParameters } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type {
+  CertificateContract,
+  CertificateCreateOrUpdateParameters,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspaceCertificate operations. */
 export interface WorkspaceCertificateOperations {

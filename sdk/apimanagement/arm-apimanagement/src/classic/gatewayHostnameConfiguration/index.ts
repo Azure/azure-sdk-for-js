@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -9,15 +9,15 @@ import {
   getEntityTag,
   get,
 } from "../../api/gatewayHostnameConfiguration/operations.js";
-import {
+import type {
   GatewayHostnameConfigurationListByServiceOptionalParams,
   GatewayHostnameConfigurationDeleteOptionalParams,
   GatewayHostnameConfigurationCreateOrUpdateOptionalParams,
   GatewayHostnameConfigurationGetEntityTagOptionalParams,
   GatewayHostnameConfigurationGetOptionalParams,
 } from "../../api/gatewayHostnameConfiguration/options.js";
-import { GatewayHostnameConfigurationContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { GatewayHostnameConfigurationContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GatewayHostnameConfiguration operations. */
 export interface GatewayHostnameConfigurationOperations {

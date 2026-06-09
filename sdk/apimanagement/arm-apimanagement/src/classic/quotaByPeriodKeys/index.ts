@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { update, get } from "../../api/quotaByPeriodKeys/operations.js";
-import {
+import type {
   QuotaByPeriodKeysUpdateOptionalParams,
   QuotaByPeriodKeysGetOptionalParams,
 } from "../../api/quotaByPeriodKeys/options.js";
-import { QuotaCounterContract, QuotaCounterValueUpdateContract } from "../../models/models.js";
+import type { QuotaCounterContract, QuotaCounterValueUpdateContract } from "../../models/models.js";
 
 /** Interface representing a QuotaByPeriodKeys operations. */
 export interface QuotaByPeriodKeysOperations {

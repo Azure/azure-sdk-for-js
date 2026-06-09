@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   $delete,
   createOrUpdate,
   checkEntityExists,
   listByProduct,
 } from "../../api/productApi/operations.js";
-import {
+import type {
   ProductApiDeleteOptionalParams,
   ProductApiCreateOrUpdateOptionalParams,
   ProductApiCheckEntityExistsOptionalParams,
   ProductApiListByProductOptionalParams,
 } from "../../api/productApi/options.js";
-import { ApiContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ApiContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ProductApi operations. */
 export interface ProductApiOperations {

@@ -1,460 +1,292 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ApiManagementContext,
-  ApiManagementClientOptionalParams,
-  createApiManagement,
-} from "./api/index.js";
-import { AllPoliciesOperations, _getAllPoliciesOperations } from "./classic/allPolicies/index.js";
-import { ApiOperations, _getApiOperations } from "./classic/api/index.js";
-import {
-  ApiDiagnosticOperations,
-  _getApiDiagnosticOperations,
-} from "./classic/apiDiagnostic/index.js";
-import { ApiExportOperations, _getApiExportOperations } from "./classic/apiExport/index.js";
-import { ApiGatewayOperations, _getApiGatewayOperations } from "./classic/apiGateway/index.js";
-import {
-  ApiGatewayConfigConnectionOperations,
-  _getApiGatewayConfigConnectionOperations,
-} from "./classic/apiGatewayConfigConnection/index.js";
-import {
-  ApiGatewayHostnameBindingOperations,
-  _getApiGatewayHostnameBindingOperations,
-} from "./classic/apiGatewayHostnameBinding/index.js";
-import { ApiIssueOperations, _getApiIssueOperations } from "./classic/apiIssue/index.js";
-import {
-  ApiIssueAttachmentOperations,
-  _getApiIssueAttachmentOperations,
-} from "./classic/apiIssueAttachment/index.js";
-import {
-  ApiIssueCommentOperations,
-  _getApiIssueCommentOperations,
-} from "./classic/apiIssueComment/index.js";
-import {
-  ApiManagementGatewaySkusOperations,
-  _getApiManagementGatewaySkusOperations,
-} from "./classic/apiManagementGatewaySkus/index.js";
-import {
-  ApiManagementOperationsOperations,
-  _getApiManagementOperationsOperations,
-} from "./classic/apiManagementOperations/index.js";
-import {
-  ApiManagementServiceOperations,
-  _getApiManagementServiceOperations,
-} from "./classic/apiManagementService/index.js";
-import {
-  ApiManagementServiceResourcesOperations,
-  _getApiManagementServiceResourcesOperations,
-} from "./classic/apiManagementServiceResources/index.js";
-import {
-  ApiManagementServiceSkusOperations,
-  _getApiManagementServiceSkusOperations,
-} from "./classic/apiManagementServiceSkus/index.js";
-import {
-  ApiManagementSkusOperations,
-  _getApiManagementSkusOperations,
-} from "./classic/apiManagementSkus/index.js";
-import {
-  ApiManagementWorkspaceLinkOperations,
-  _getApiManagementWorkspaceLinkOperations,
-} from "./classic/apiManagementWorkspaceLink/index.js";
-import {
-  ApiManagementWorkspaceLinksOperations,
-  _getApiManagementWorkspaceLinksOperations,
-} from "./classic/apiManagementWorkspaceLinks/index.js";
-import {
-  ApiOperationOperations,
-  _getApiOperationOperations,
-} from "./classic/apiOperation/index.js";
-import {
-  ApiOperationPolicyOperations,
-  _getApiOperationPolicyOperations,
-} from "./classic/apiOperationPolicy/index.js";
-import { ApiPolicyOperations, _getApiPolicyOperations } from "./classic/apiPolicy/index.js";
-import { ApiProductOperations, _getApiProductOperations } from "./classic/apiProduct/index.js";
-import { ApiReleaseOperations, _getApiReleaseOperations } from "./classic/apiRelease/index.js";
-import { ApiRevisionOperations, _getApiRevisionOperations } from "./classic/apiRevision/index.js";
-import { ApiSchemaOperations, _getApiSchemaOperations } from "./classic/apiSchema/index.js";
-import {
-  ApiTagDescriptionOperations,
-  _getApiTagDescriptionOperations,
-} from "./classic/apiTagDescription/index.js";
-import { ApiToolOperations, _getApiToolOperations } from "./classic/apiTool/index.js";
-import {
-  ApiVersionSetOperations,
-  _getApiVersionSetOperations,
-} from "./classic/apiVersionSet/index.js";
-import { ApiWikiOperations, _getApiWikiOperations } from "./classic/apiWiki/index.js";
-import { ApiWikisOperations, _getApiWikisOperations } from "./classic/apiWikis/index.js";
-import {
-  AuthorizationOperations,
-  _getAuthorizationOperations,
-} from "./classic/authorization/index.js";
-import {
-  AuthorizationAccessPolicyOperations,
-  _getAuthorizationAccessPolicyOperations,
-} from "./classic/authorizationAccessPolicy/index.js";
-import {
-  AuthorizationLoginLinksOperations,
-  _getAuthorizationLoginLinksOperations,
-} from "./classic/authorizationLoginLinks/index.js";
-import {
-  AuthorizationProviderOperations,
-  _getAuthorizationProviderOperations,
-} from "./classic/authorizationProvider/index.js";
-import {
-  AuthorizationServerOperations,
-  _getAuthorizationServerOperations,
-} from "./classic/authorizationServer/index.js";
-import { BackendOperations, _getBackendOperations } from "./classic/backend/index.js";
-import { CacheOperations, _getCacheOperations } from "./classic/cache/index.js";
-import { CertificateOperations, _getCertificateOperations } from "./classic/certificate/index.js";
-import {
-  ClientApplicationOperations,
-  _getClientApplicationOperations,
-} from "./classic/clientApplication/index.js";
-import {
-  ClientApplicationProductLinkOperations,
-  _getClientApplicationProductLinkOperations,
-} from "./classic/clientApplicationProductLink/index.js";
-import { ContentItemOperations, _getContentItemOperations } from "./classic/contentItem/index.js";
-import { ContentTypeOperations, _getContentTypeOperations } from "./classic/contentType/index.js";
-import {
-  DelegationSettingsOperations,
-  _getDelegationSettingsOperations,
-} from "./classic/delegationSettings/index.js";
-import {
-  DeletedServicesOperations,
-  _getDeletedServicesOperations,
-} from "./classic/deletedServices/index.js";
-import { DiagnosticOperations, _getDiagnosticOperations } from "./classic/diagnostic/index.js";
-import {
-  DocumentationOperations,
-  _getDocumentationOperations,
-} from "./classic/documentation/index.js";
-import {
-  EmailTemplateOperations,
-  _getEmailTemplateOperations,
-} from "./classic/emailTemplate/index.js";
-import { GatewayOperations, _getGatewayOperations } from "./classic/gateway/index.js";
-import { GatewayApiOperations, _getGatewayApiOperations } from "./classic/gatewayApi/index.js";
-import {
-  GatewayCertificateAuthorityOperations,
-  _getGatewayCertificateAuthorityOperations,
-} from "./classic/gatewayCertificateAuthority/index.js";
-import {
-  GatewayHostnameConfigurationOperations,
-  _getGatewayHostnameConfigurationOperations,
-} from "./classic/gatewayHostnameConfiguration/index.js";
-import {
-  GlobalSchemaOperations,
-  _getGlobalSchemaOperations,
-} from "./classic/globalSchema/index.js";
-import {
-  GraphQLApiResolverOperations,
-  _getGraphQLApiResolverOperations,
-} from "./classic/graphQLApiResolver/index.js";
-import {
-  GraphQLApiResolverPolicyOperations,
-  _getGraphQLApiResolverPolicyOperations,
-} from "./classic/graphQLApiResolverPolicy/index.js";
-import { GroupOperations, _getGroupOperations } from "./classic/group/index.js";
-import { GroupUserOperations, _getGroupUserOperations } from "./classic/groupUser/index.js";
-import {
-  IdentityProviderOperations,
-  _getIdentityProviderOperations,
-} from "./classic/identityProvider/index.js";
-import { IssueOperations, _getIssueOperations } from "./classic/issue/index.js";
-import { LoggerOperations, _getLoggerOperations } from "./classic/logger/index.js";
-import { NamedValueOperations, _getNamedValueOperations } from "./classic/namedValue/index.js";
-import {
-  NetworkStatusOperations,
-  _getNetworkStatusOperations,
-} from "./classic/networkStatus/index.js";
-import {
-  NotificationOperations,
-  _getNotificationOperations,
-} from "./classic/notification/index.js";
-import {
-  NotificationRecipientEmailOperations,
-  _getNotificationRecipientEmailOperations,
-} from "./classic/notificationRecipientEmail/index.js";
-import {
-  NotificationRecipientUserOperations,
-  _getNotificationRecipientUserOperations,
-} from "./classic/notificationRecipientUser/index.js";
-import {
-  OpenIdConnectProviderOperations,
-  _getOpenIdConnectProviderOperations,
-} from "./classic/openIdConnectProvider/index.js";
-import { OperationOperations, _getOperationOperations } from "./classic/operation/index.js";
-import {
-  OperationStatusOperations,
-  _getOperationStatusOperations,
-} from "./classic/operationStatus/index.js";
-import {
-  OperationsResultsOperations,
-  _getOperationsResultsOperations,
-} from "./classic/operationsResults/index.js";
-import {
-  OutboundNetworkDependenciesEndpointsOperations,
-  _getOutboundNetworkDependenciesEndpointsOperations,
-} from "./classic/outboundNetworkDependenciesEndpoints/index.js";
-import { PolicyOperations, _getPolicyOperations } from "./classic/policy/index.js";
-import {
-  PolicyDescriptionOperations,
-  _getPolicyDescriptionOperations,
-} from "./classic/policyDescription/index.js";
-import {
-  PolicyFragmentOperations,
-  _getPolicyFragmentOperations,
-} from "./classic/policyFragment/index.js";
-import {
-  PolicyRestrictionOperations,
-  _getPolicyRestrictionOperations,
-} from "./classic/policyRestriction/index.js";
-import {
-  PolicyRestrictionValidationsOperations,
-  _getPolicyRestrictionValidationsOperations,
-} from "./classic/policyRestrictionValidations/index.js";
-import {
-  PortalConfigOperations,
-  _getPortalConfigOperations,
-} from "./classic/portalConfig/index.js";
-import {
-  PortalRevisionOperations,
-  _getPortalRevisionOperations,
-} from "./classic/portalRevision/index.js";
-import {
-  PortalSettingsOperations,
-  _getPortalSettingsOperations,
-} from "./classic/portalSettings/index.js";
-import {
-  PrivateEndpointConnectionOperations,
-  _getPrivateEndpointConnectionOperations,
-} from "./classic/privateEndpointConnection/index.js";
-import { ProductOperations, _getProductOperations } from "./classic/product/index.js";
-import { ProductApiOperations, _getProductApiOperations } from "./classic/productApi/index.js";
-import {
-  ProductApiLinkOperations,
-  _getProductApiLinkOperations,
-} from "./classic/productApiLink/index.js";
-import {
-  ProductGroupOperations,
-  _getProductGroupOperations,
-} from "./classic/productGroup/index.js";
-import {
-  ProductGroupLinkOperations,
-  _getProductGroupLinkOperations,
-} from "./classic/productGroupLink/index.js";
-import {
-  ProductPolicyOperations,
-  _getProductPolicyOperations,
-} from "./classic/productPolicy/index.js";
-import {
-  ProductSubscriptionsOperations,
-  _getProductSubscriptionsOperations,
-} from "./classic/productSubscriptions/index.js";
-import { ProductWikiOperations, _getProductWikiOperations } from "./classic/productWiki/index.js";
-import {
-  ProductWikisOperations,
-  _getProductWikisOperations,
-} from "./classic/productWikis/index.js";
-import {
-  QuotaByCounterKeysOperations,
-  _getQuotaByCounterKeysOperations,
-} from "./classic/quotaByCounterKeys/index.js";
-import {
-  QuotaByPeriodKeysOperations,
-  _getQuotaByPeriodKeysOperations,
-} from "./classic/quotaByPeriodKeys/index.js";
-import { RegionOperations, _getRegionOperations } from "./classic/region/index.js";
-import { ReportsOperations, _getReportsOperations } from "./classic/reports/index.js";
-import {
-  SignInSettingsOperations,
-  _getSignInSettingsOperations,
-} from "./classic/signInSettings/index.js";
-import {
-  SignUpSettingsOperations,
-  _getSignUpSettingsOperations,
-} from "./classic/signUpSettings/index.js";
-import {
-  SubscriptionOperations,
-  _getSubscriptionOperations,
-} from "./classic/subscription/index.js";
-import { TagOperations, _getTagOperations } from "./classic/tag/index.js";
-import { TagApiLinkOperations, _getTagApiLinkOperations } from "./classic/tagApiLink/index.js";
-import {
-  TagOperationLinkOperations,
-  _getTagOperationLinkOperations,
-} from "./classic/tagOperationLink/index.js";
-import {
-  TagProductLinkOperations,
-  _getTagProductLinkOperations,
-} from "./classic/tagProductLink/index.js";
-import { TagResourceOperations, _getTagResourceOperations } from "./classic/tagResource/index.js";
-import {
-  TenantAccessOperations,
-  _getTenantAccessOperations,
-} from "./classic/tenantAccess/index.js";
-import {
-  TenantAccessGitOperations,
-  _getTenantAccessGitOperations,
-} from "./classic/tenantAccessGit/index.js";
-import {
-  TenantConfigurationOperations,
-  _getTenantConfigurationOperations,
-} from "./classic/tenantConfiguration/index.js";
-import {
-  TenantSettingsOperations,
-  _getTenantSettingsOperations,
-} from "./classic/tenantSettings/index.js";
-import { UserOperations, _getUserOperations } from "./classic/user/index.js";
-import {
-  UserConfirmationPasswordOperations,
-  _getUserConfirmationPasswordOperations,
-} from "./classic/userConfirmationPassword/index.js";
-import { UserGroupOperations, _getUserGroupOperations } from "./classic/userGroup/index.js";
-import {
-  UserIdentitiesOperations,
-  _getUserIdentitiesOperations,
-} from "./classic/userIdentities/index.js";
-import {
-  UserSubscriptionOperations,
-  _getUserSubscriptionOperations,
-} from "./classic/userSubscription/index.js";
-import { WorkspaceOperations, _getWorkspaceOperations } from "./classic/workspace/index.js";
-import {
-  WorkspaceApiOperations,
-  _getWorkspaceApiOperations,
-} from "./classic/workspaceApi/index.js";
-import {
-  WorkspaceApiDiagnosticOperations,
-  _getWorkspaceApiDiagnosticOperations,
-} from "./classic/workspaceApiDiagnostic/index.js";
-import {
-  WorkspaceApiExportOperations,
-  _getWorkspaceApiExportOperations,
-} from "./classic/workspaceApiExport/index.js";
-import {
-  WorkspaceApiOperationOperations,
-  _getWorkspaceApiOperationOperations,
-} from "./classic/workspaceApiOperation/index.js";
-import {
-  WorkspaceApiOperationPolicyOperations,
-  _getWorkspaceApiOperationPolicyOperations,
-} from "./classic/workspaceApiOperationPolicy/index.js";
-import {
-  WorkspaceApiPolicyOperations,
-  _getWorkspaceApiPolicyOperations,
-} from "./classic/workspaceApiPolicy/index.js";
-import {
-  WorkspaceApiReleaseOperations,
-  _getWorkspaceApiReleaseOperations,
-} from "./classic/workspaceApiRelease/index.js";
-import {
-  WorkspaceApiRevisionOperations,
-  _getWorkspaceApiRevisionOperations,
-} from "./classic/workspaceApiRevision/index.js";
-import {
-  WorkspaceApiSchemaOperations,
-  _getWorkspaceApiSchemaOperations,
-} from "./classic/workspaceApiSchema/index.js";
-import {
-  WorkspaceApiVersionSetOperations,
-  _getWorkspaceApiVersionSetOperations,
-} from "./classic/workspaceApiVersionSet/index.js";
-import {
-  WorkspaceBackendOperations,
-  _getWorkspaceBackendOperations,
-} from "./classic/workspaceBackend/index.js";
-import {
-  WorkspaceCertificateOperations,
-  _getWorkspaceCertificateOperations,
-} from "./classic/workspaceCertificate/index.js";
-import {
-  WorkspaceDiagnosticOperations,
-  _getWorkspaceDiagnosticOperations,
-} from "./classic/workspaceDiagnostic/index.js";
-import {
-  WorkspaceGlobalSchemaOperations,
-  _getWorkspaceGlobalSchemaOperations,
-} from "./classic/workspaceGlobalSchema/index.js";
-import {
-  WorkspaceGroupOperations,
-  _getWorkspaceGroupOperations,
-} from "./classic/workspaceGroup/index.js";
-import {
-  WorkspaceGroupUserOperations,
-  _getWorkspaceGroupUserOperations,
-} from "./classic/workspaceGroupUser/index.js";
-import {
-  WorkspaceLoggerOperations,
-  _getWorkspaceLoggerOperations,
-} from "./classic/workspaceLogger/index.js";
-import {
-  WorkspaceNamedValueOperations,
-  _getWorkspaceNamedValueOperations,
-} from "./classic/workspaceNamedValue/index.js";
-import {
-  WorkspaceNotificationOperations,
-  _getWorkspaceNotificationOperations,
-} from "./classic/workspaceNotification/index.js";
-import {
-  WorkspaceNotificationRecipientEmailOperations,
-  _getWorkspaceNotificationRecipientEmailOperations,
-} from "./classic/workspaceNotificationRecipientEmail/index.js";
-import {
-  WorkspaceNotificationRecipientUserOperations,
-  _getWorkspaceNotificationRecipientUserOperations,
-} from "./classic/workspaceNotificationRecipientUser/index.js";
-import {
-  WorkspacePolicyOperations,
-  _getWorkspacePolicyOperations,
-} from "./classic/workspacePolicy/index.js";
-import {
-  WorkspacePolicyFragmentOperations,
-  _getWorkspacePolicyFragmentOperations,
-} from "./classic/workspacePolicyFragment/index.js";
-import {
-  WorkspaceProductOperations,
-  _getWorkspaceProductOperations,
-} from "./classic/workspaceProduct/index.js";
-import {
-  WorkspaceProductApiLinkOperations,
-  _getWorkspaceProductApiLinkOperations,
-} from "./classic/workspaceProductApiLink/index.js";
-import {
-  WorkspaceProductGroupLinkOperations,
-  _getWorkspaceProductGroupLinkOperations,
-} from "./classic/workspaceProductGroupLink/index.js";
-import {
-  WorkspaceProductPolicyOperations,
-  _getWorkspaceProductPolicyOperations,
-} from "./classic/workspaceProductPolicy/index.js";
-import {
-  WorkspaceSubscriptionOperations,
-  _getWorkspaceSubscriptionOperations,
-} from "./classic/workspaceSubscription/index.js";
-import {
-  WorkspaceTagOperations,
-  _getWorkspaceTagOperations,
-} from "./classic/workspaceTag/index.js";
-import {
-  WorkspaceTagApiLinkOperations,
-  _getWorkspaceTagApiLinkOperations,
-} from "./classic/workspaceTagApiLink/index.js";
-import {
-  WorkspaceTagOperationLinkOperations,
-  _getWorkspaceTagOperationLinkOperations,
-} from "./classic/workspaceTagOperationLink/index.js";
-import {
-  WorkspaceTagProductLinkOperations,
-  _getWorkspaceTagProductLinkOperations,
-} from "./classic/workspaceTagProductLink/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { ApiManagementContext, ApiManagementClientOptionalParams } from "./api/index.js";
+import { createApiManagement } from "./api/index.js";
+import type { AllPoliciesOperations } from "./classic/allPolicies/index.js";
+import { _getAllPoliciesOperations } from "./classic/allPolicies/index.js";
+import type { ApiOperations } from "./classic/api/index.js";
+import { _getApiOperations } from "./classic/api/index.js";
+import type { ApiDiagnosticOperations } from "./classic/apiDiagnostic/index.js";
+import { _getApiDiagnosticOperations } from "./classic/apiDiagnostic/index.js";
+import type { ApiExportOperations } from "./classic/apiExport/index.js";
+import { _getApiExportOperations } from "./classic/apiExport/index.js";
+import type { ApiGatewayOperations } from "./classic/apiGateway/index.js";
+import { _getApiGatewayOperations } from "./classic/apiGateway/index.js";
+import type { ApiGatewayConfigConnectionOperations } from "./classic/apiGatewayConfigConnection/index.js";
+import { _getApiGatewayConfigConnectionOperations } from "./classic/apiGatewayConfigConnection/index.js";
+import type { ApiGatewayHostnameBindingOperations } from "./classic/apiGatewayHostnameBinding/index.js";
+import { _getApiGatewayHostnameBindingOperations } from "./classic/apiGatewayHostnameBinding/index.js";
+import type { ApiIssueOperations } from "./classic/apiIssue/index.js";
+import { _getApiIssueOperations } from "./classic/apiIssue/index.js";
+import type { ApiIssueAttachmentOperations } from "./classic/apiIssueAttachment/index.js";
+import { _getApiIssueAttachmentOperations } from "./classic/apiIssueAttachment/index.js";
+import type { ApiIssueCommentOperations } from "./classic/apiIssueComment/index.js";
+import { _getApiIssueCommentOperations } from "./classic/apiIssueComment/index.js";
+import type { ApiManagementGatewaySkusOperations } from "./classic/apiManagementGatewaySkus/index.js";
+import { _getApiManagementGatewaySkusOperations } from "./classic/apiManagementGatewaySkus/index.js";
+import type { ApiManagementOperationsOperations } from "./classic/apiManagementOperations/index.js";
+import { _getApiManagementOperationsOperations } from "./classic/apiManagementOperations/index.js";
+import type { ApiManagementServiceOperations } from "./classic/apiManagementService/index.js";
+import { _getApiManagementServiceOperations } from "./classic/apiManagementService/index.js";
+import type { ApiManagementServiceResourcesOperations } from "./classic/apiManagementServiceResources/index.js";
+import { _getApiManagementServiceResourcesOperations } from "./classic/apiManagementServiceResources/index.js";
+import type { ApiManagementServiceSkusOperations } from "./classic/apiManagementServiceSkus/index.js";
+import { _getApiManagementServiceSkusOperations } from "./classic/apiManagementServiceSkus/index.js";
+import type { ApiManagementSkusOperations } from "./classic/apiManagementSkus/index.js";
+import { _getApiManagementSkusOperations } from "./classic/apiManagementSkus/index.js";
+import type { ApiManagementWorkspaceLinkOperations } from "./classic/apiManagementWorkspaceLink/index.js";
+import { _getApiManagementWorkspaceLinkOperations } from "./classic/apiManagementWorkspaceLink/index.js";
+import type { ApiManagementWorkspaceLinksOperations } from "./classic/apiManagementWorkspaceLinks/index.js";
+import { _getApiManagementWorkspaceLinksOperations } from "./classic/apiManagementWorkspaceLinks/index.js";
+import type { ApiOperationOperations } from "./classic/apiOperation/index.js";
+import { _getApiOperationOperations } from "./classic/apiOperation/index.js";
+import type { ApiOperationPolicyOperations } from "./classic/apiOperationPolicy/index.js";
+import { _getApiOperationPolicyOperations } from "./classic/apiOperationPolicy/index.js";
+import type { ApiPolicyOperations } from "./classic/apiPolicy/index.js";
+import { _getApiPolicyOperations } from "./classic/apiPolicy/index.js";
+import type { ApiProductOperations } from "./classic/apiProduct/index.js";
+import { _getApiProductOperations } from "./classic/apiProduct/index.js";
+import type { ApiReleaseOperations } from "./classic/apiRelease/index.js";
+import { _getApiReleaseOperations } from "./classic/apiRelease/index.js";
+import type { ApiRevisionOperations } from "./classic/apiRevision/index.js";
+import { _getApiRevisionOperations } from "./classic/apiRevision/index.js";
+import type { ApiSchemaOperations } from "./classic/apiSchema/index.js";
+import { _getApiSchemaOperations } from "./classic/apiSchema/index.js";
+import type { ApiTagDescriptionOperations } from "./classic/apiTagDescription/index.js";
+import { _getApiTagDescriptionOperations } from "./classic/apiTagDescription/index.js";
+import type { ApiToolOperations } from "./classic/apiTool/index.js";
+import { _getApiToolOperations } from "./classic/apiTool/index.js";
+import type { ApiVersionSetOperations } from "./classic/apiVersionSet/index.js";
+import { _getApiVersionSetOperations } from "./classic/apiVersionSet/index.js";
+import type { ApiWikiOperations } from "./classic/apiWiki/index.js";
+import { _getApiWikiOperations } from "./classic/apiWiki/index.js";
+import type { ApiWikisOperations } from "./classic/apiWikis/index.js";
+import { _getApiWikisOperations } from "./classic/apiWikis/index.js";
+import type { AuthorizationOperations } from "./classic/authorization/index.js";
+import { _getAuthorizationOperations } from "./classic/authorization/index.js";
+import type { AuthorizationAccessPolicyOperations } from "./classic/authorizationAccessPolicy/index.js";
+import { _getAuthorizationAccessPolicyOperations } from "./classic/authorizationAccessPolicy/index.js";
+import type { AuthorizationLoginLinksOperations } from "./classic/authorizationLoginLinks/index.js";
+import { _getAuthorizationLoginLinksOperations } from "./classic/authorizationLoginLinks/index.js";
+import type { AuthorizationProviderOperations } from "./classic/authorizationProvider/index.js";
+import { _getAuthorizationProviderOperations } from "./classic/authorizationProvider/index.js";
+import type { AuthorizationServerOperations } from "./classic/authorizationServer/index.js";
+import { _getAuthorizationServerOperations } from "./classic/authorizationServer/index.js";
+import type { BackendOperations } from "./classic/backend/index.js";
+import { _getBackendOperations } from "./classic/backend/index.js";
+import type { CacheOperations } from "./classic/cache/index.js";
+import { _getCacheOperations } from "./classic/cache/index.js";
+import type { CertificateOperations } from "./classic/certificate/index.js";
+import { _getCertificateOperations } from "./classic/certificate/index.js";
+import type { ClientApplicationOperations } from "./classic/clientApplication/index.js";
+import { _getClientApplicationOperations } from "./classic/clientApplication/index.js";
+import type { ClientApplicationProductLinkOperations } from "./classic/clientApplicationProductLink/index.js";
+import { _getClientApplicationProductLinkOperations } from "./classic/clientApplicationProductLink/index.js";
+import type { ContentItemOperations } from "./classic/contentItem/index.js";
+import { _getContentItemOperations } from "./classic/contentItem/index.js";
+import type { ContentTypeOperations } from "./classic/contentType/index.js";
+import { _getContentTypeOperations } from "./classic/contentType/index.js";
+import type { DelegationSettingsOperations } from "./classic/delegationSettings/index.js";
+import { _getDelegationSettingsOperations } from "./classic/delegationSettings/index.js";
+import type { DeletedServicesOperations } from "./classic/deletedServices/index.js";
+import { _getDeletedServicesOperations } from "./classic/deletedServices/index.js";
+import type { DiagnosticOperations } from "./classic/diagnostic/index.js";
+import { _getDiagnosticOperations } from "./classic/diagnostic/index.js";
+import type { DocumentationOperations } from "./classic/documentation/index.js";
+import { _getDocumentationOperations } from "./classic/documentation/index.js";
+import type { EmailTemplateOperations } from "./classic/emailTemplate/index.js";
+import { _getEmailTemplateOperations } from "./classic/emailTemplate/index.js";
+import type { GatewayOperations } from "./classic/gateway/index.js";
+import { _getGatewayOperations } from "./classic/gateway/index.js";
+import type { GatewayApiOperations } from "./classic/gatewayApi/index.js";
+import { _getGatewayApiOperations } from "./classic/gatewayApi/index.js";
+import type { GatewayCertificateAuthorityOperations } from "./classic/gatewayCertificateAuthority/index.js";
+import { _getGatewayCertificateAuthorityOperations } from "./classic/gatewayCertificateAuthority/index.js";
+import type { GatewayHostnameConfigurationOperations } from "./classic/gatewayHostnameConfiguration/index.js";
+import { _getGatewayHostnameConfigurationOperations } from "./classic/gatewayHostnameConfiguration/index.js";
+import type { GlobalSchemaOperations } from "./classic/globalSchema/index.js";
+import { _getGlobalSchemaOperations } from "./classic/globalSchema/index.js";
+import type { GraphQLApiResolverOperations } from "./classic/graphQLApiResolver/index.js";
+import { _getGraphQLApiResolverOperations } from "./classic/graphQLApiResolver/index.js";
+import type { GraphQLApiResolverPolicyOperations } from "./classic/graphQLApiResolverPolicy/index.js";
+import { _getGraphQLApiResolverPolicyOperations } from "./classic/graphQLApiResolverPolicy/index.js";
+import type { GroupOperations } from "./classic/group/index.js";
+import { _getGroupOperations } from "./classic/group/index.js";
+import type { GroupUserOperations } from "./classic/groupUser/index.js";
+import { _getGroupUserOperations } from "./classic/groupUser/index.js";
+import type { IdentityProviderOperations } from "./classic/identityProvider/index.js";
+import { _getIdentityProviderOperations } from "./classic/identityProvider/index.js";
+import type { IssueOperations } from "./classic/issue/index.js";
+import { _getIssueOperations } from "./classic/issue/index.js";
+import type { LoggerOperations } from "./classic/logger/index.js";
+import { _getLoggerOperations } from "./classic/logger/index.js";
+import type { NamedValueOperations } from "./classic/namedValue/index.js";
+import { _getNamedValueOperations } from "./classic/namedValue/index.js";
+import type { NetworkStatusOperations } from "./classic/networkStatus/index.js";
+import { _getNetworkStatusOperations } from "./classic/networkStatus/index.js";
+import type { NotificationOperations } from "./classic/notification/index.js";
+import { _getNotificationOperations } from "./classic/notification/index.js";
+import type { NotificationRecipientEmailOperations } from "./classic/notificationRecipientEmail/index.js";
+import { _getNotificationRecipientEmailOperations } from "./classic/notificationRecipientEmail/index.js";
+import type { NotificationRecipientUserOperations } from "./classic/notificationRecipientUser/index.js";
+import { _getNotificationRecipientUserOperations } from "./classic/notificationRecipientUser/index.js";
+import type { OpenIdConnectProviderOperations } from "./classic/openIdConnectProvider/index.js";
+import { _getOpenIdConnectProviderOperations } from "./classic/openIdConnectProvider/index.js";
+import type { OperationOperationsOperations } from "./classic/operationOperations/index.js";
+import { _getOperationOperationsOperations } from "./classic/operationOperations/index.js";
+import type { OperationStatusOperations } from "./classic/operationStatus/index.js";
+import { _getOperationStatusOperations } from "./classic/operationStatus/index.js";
+import type { OperationsResultsOperations } from "./classic/operationsResults/index.js";
+import { _getOperationsResultsOperations } from "./classic/operationsResults/index.js";
+import type { OutboundNetworkDependenciesEndpointsOperations } from "./classic/outboundNetworkDependenciesEndpoints/index.js";
+import { _getOutboundNetworkDependenciesEndpointsOperations } from "./classic/outboundNetworkDependenciesEndpoints/index.js";
+import type { PolicyOperations } from "./classic/policy/index.js";
+import { _getPolicyOperations } from "./classic/policy/index.js";
+import type { PolicyDescriptionOperations } from "./classic/policyDescription/index.js";
+import { _getPolicyDescriptionOperations } from "./classic/policyDescription/index.js";
+import type { PolicyFragmentOperations } from "./classic/policyFragment/index.js";
+import { _getPolicyFragmentOperations } from "./classic/policyFragment/index.js";
+import type { PolicyRestrictionOperations } from "./classic/policyRestriction/index.js";
+import { _getPolicyRestrictionOperations } from "./classic/policyRestriction/index.js";
+import type { PolicyRestrictionValidationsOperations } from "./classic/policyRestrictionValidations/index.js";
+import { _getPolicyRestrictionValidationsOperations } from "./classic/policyRestrictionValidations/index.js";
+import type { PortalConfigOperations } from "./classic/portalConfig/index.js";
+import { _getPortalConfigOperations } from "./classic/portalConfig/index.js";
+import type { PortalRevisionOperations } from "./classic/portalRevision/index.js";
+import { _getPortalRevisionOperations } from "./classic/portalRevision/index.js";
+import type { PortalSettingsOperations } from "./classic/portalSettings/index.js";
+import { _getPortalSettingsOperations } from "./classic/portalSettings/index.js";
+import type { PrivateEndpointConnectionOperationsOperations } from "./classic/privateEndpointConnectionOperations/index.js";
+import { _getPrivateEndpointConnectionOperationsOperations } from "./classic/privateEndpointConnectionOperations/index.js";
+import type { ProductOperations } from "./classic/product/index.js";
+import { _getProductOperations } from "./classic/product/index.js";
+import type { ProductApiOperations } from "./classic/productApi/index.js";
+import { _getProductApiOperations } from "./classic/productApi/index.js";
+import type { ProductApiLinkOperations } from "./classic/productApiLink/index.js";
+import { _getProductApiLinkOperations } from "./classic/productApiLink/index.js";
+import type { ProductGroupOperations } from "./classic/productGroup/index.js";
+import { _getProductGroupOperations } from "./classic/productGroup/index.js";
+import type { ProductGroupLinkOperations } from "./classic/productGroupLink/index.js";
+import { _getProductGroupLinkOperations } from "./classic/productGroupLink/index.js";
+import type { ProductPolicyOperations } from "./classic/productPolicy/index.js";
+import { _getProductPolicyOperations } from "./classic/productPolicy/index.js";
+import type { ProductSubscriptionsOperations } from "./classic/productSubscriptions/index.js";
+import { _getProductSubscriptionsOperations } from "./classic/productSubscriptions/index.js";
+import type { ProductWikiOperations } from "./classic/productWiki/index.js";
+import { _getProductWikiOperations } from "./classic/productWiki/index.js";
+import type { ProductWikisOperations } from "./classic/productWikis/index.js";
+import { _getProductWikisOperations } from "./classic/productWikis/index.js";
+import type { QuotaByCounterKeysOperations } from "./classic/quotaByCounterKeys/index.js";
+import { _getQuotaByCounterKeysOperations } from "./classic/quotaByCounterKeys/index.js";
+import type { QuotaByPeriodKeysOperations } from "./classic/quotaByPeriodKeys/index.js";
+import { _getQuotaByPeriodKeysOperations } from "./classic/quotaByPeriodKeys/index.js";
+import type { RegionOperations } from "./classic/region/index.js";
+import { _getRegionOperations } from "./classic/region/index.js";
+import type { ReportsOperations } from "./classic/reports/index.js";
+import { _getReportsOperations } from "./classic/reports/index.js";
+import type { SignInSettingsOperations } from "./classic/signInSettings/index.js";
+import { _getSignInSettingsOperations } from "./classic/signInSettings/index.js";
+import type { SignUpSettingsOperations } from "./classic/signUpSettings/index.js";
+import { _getSignUpSettingsOperations } from "./classic/signUpSettings/index.js";
+import type { SubscriptionOperations } from "./classic/subscription/index.js";
+import { _getSubscriptionOperations } from "./classic/subscription/index.js";
+import type { TagOperations } from "./classic/tag/index.js";
+import { _getTagOperations } from "./classic/tag/index.js";
+import type { TagApiLinkOperations } from "./classic/tagApiLink/index.js";
+import { _getTagApiLinkOperations } from "./classic/tagApiLink/index.js";
+import type { TagOperationLinkOperations } from "./classic/tagOperationLink/index.js";
+import { _getTagOperationLinkOperations } from "./classic/tagOperationLink/index.js";
+import type { TagProductLinkOperations } from "./classic/tagProductLink/index.js";
+import { _getTagProductLinkOperations } from "./classic/tagProductLink/index.js";
+import type { TagResourceOperations } from "./classic/tagResource/index.js";
+import { _getTagResourceOperations } from "./classic/tagResource/index.js";
+import type { TenantAccessOperations } from "./classic/tenantAccess/index.js";
+import { _getTenantAccessOperations } from "./classic/tenantAccess/index.js";
+import type { TenantAccessGitOperations } from "./classic/tenantAccessGit/index.js";
+import { _getTenantAccessGitOperations } from "./classic/tenantAccessGit/index.js";
+import type { TenantConfigurationOperations } from "./classic/tenantConfiguration/index.js";
+import { _getTenantConfigurationOperations } from "./classic/tenantConfiguration/index.js";
+import type { TenantSettingsOperations } from "./classic/tenantSettings/index.js";
+import { _getTenantSettingsOperations } from "./classic/tenantSettings/index.js";
+import type { UserOperations } from "./classic/user/index.js";
+import { _getUserOperations } from "./classic/user/index.js";
+import type { UserConfirmationPasswordOperations } from "./classic/userConfirmationPassword/index.js";
+import { _getUserConfirmationPasswordOperations } from "./classic/userConfirmationPassword/index.js";
+import type { UserGroupOperations } from "./classic/userGroup/index.js";
+import { _getUserGroupOperations } from "./classic/userGroup/index.js";
+import type { UserIdentitiesOperations } from "./classic/userIdentities/index.js";
+import { _getUserIdentitiesOperations } from "./classic/userIdentities/index.js";
+import type { UserSubscriptionOperations } from "./classic/userSubscription/index.js";
+import { _getUserSubscriptionOperations } from "./classic/userSubscription/index.js";
+import type { WorkspaceOperations } from "./classic/workspace/index.js";
+import { _getWorkspaceOperations } from "./classic/workspace/index.js";
+import type { WorkspaceApiOperations } from "./classic/workspaceApi/index.js";
+import { _getWorkspaceApiOperations } from "./classic/workspaceApi/index.js";
+import type { WorkspaceApiDiagnosticOperations } from "./classic/workspaceApiDiagnostic/index.js";
+import { _getWorkspaceApiDiagnosticOperations } from "./classic/workspaceApiDiagnostic/index.js";
+import type { WorkspaceApiExportOperations } from "./classic/workspaceApiExport/index.js";
+import { _getWorkspaceApiExportOperations } from "./classic/workspaceApiExport/index.js";
+import type { WorkspaceApiOperationOperations } from "./classic/workspaceApiOperation/index.js";
+import { _getWorkspaceApiOperationOperations } from "./classic/workspaceApiOperation/index.js";
+import type { WorkspaceApiOperationPolicyOperations } from "./classic/workspaceApiOperationPolicy/index.js";
+import { _getWorkspaceApiOperationPolicyOperations } from "./classic/workspaceApiOperationPolicy/index.js";
+import type { WorkspaceApiPolicyOperations } from "./classic/workspaceApiPolicy/index.js";
+import { _getWorkspaceApiPolicyOperations } from "./classic/workspaceApiPolicy/index.js";
+import type { WorkspaceApiReleaseOperations } from "./classic/workspaceApiRelease/index.js";
+import { _getWorkspaceApiReleaseOperations } from "./classic/workspaceApiRelease/index.js";
+import type { WorkspaceApiRevisionOperations } from "./classic/workspaceApiRevision/index.js";
+import { _getWorkspaceApiRevisionOperations } from "./classic/workspaceApiRevision/index.js";
+import type { WorkspaceApiSchemaOperations } from "./classic/workspaceApiSchema/index.js";
+import { _getWorkspaceApiSchemaOperations } from "./classic/workspaceApiSchema/index.js";
+import type { WorkspaceApiVersionSetOperations } from "./classic/workspaceApiVersionSet/index.js";
+import { _getWorkspaceApiVersionSetOperations } from "./classic/workspaceApiVersionSet/index.js";
+import type { WorkspaceBackendOperations } from "./classic/workspaceBackend/index.js";
+import { _getWorkspaceBackendOperations } from "./classic/workspaceBackend/index.js";
+import type { WorkspaceCertificateOperations } from "./classic/workspaceCertificate/index.js";
+import { _getWorkspaceCertificateOperations } from "./classic/workspaceCertificate/index.js";
+import type { WorkspaceDiagnosticOperations } from "./classic/workspaceDiagnostic/index.js";
+import { _getWorkspaceDiagnosticOperations } from "./classic/workspaceDiagnostic/index.js";
+import type { WorkspaceGlobalSchemaOperations } from "./classic/workspaceGlobalSchema/index.js";
+import { _getWorkspaceGlobalSchemaOperations } from "./classic/workspaceGlobalSchema/index.js";
+import type { WorkspaceGroupOperations } from "./classic/workspaceGroup/index.js";
+import { _getWorkspaceGroupOperations } from "./classic/workspaceGroup/index.js";
+import type { WorkspaceGroupUserOperations } from "./classic/workspaceGroupUser/index.js";
+import { _getWorkspaceGroupUserOperations } from "./classic/workspaceGroupUser/index.js";
+import type { WorkspaceLoggerOperations } from "./classic/workspaceLogger/index.js";
+import { _getWorkspaceLoggerOperations } from "./classic/workspaceLogger/index.js";
+import type { WorkspaceNamedValueOperations } from "./classic/workspaceNamedValue/index.js";
+import { _getWorkspaceNamedValueOperations } from "./classic/workspaceNamedValue/index.js";
+import type { WorkspaceNotificationOperations } from "./classic/workspaceNotification/index.js";
+import { _getWorkspaceNotificationOperations } from "./classic/workspaceNotification/index.js";
+import type { WorkspaceNotificationRecipientEmailOperations } from "./classic/workspaceNotificationRecipientEmail/index.js";
+import { _getWorkspaceNotificationRecipientEmailOperations } from "./classic/workspaceNotificationRecipientEmail/index.js";
+import type { WorkspaceNotificationRecipientUserOperations } from "./classic/workspaceNotificationRecipientUser/index.js";
+import { _getWorkspaceNotificationRecipientUserOperations } from "./classic/workspaceNotificationRecipientUser/index.js";
+import type { WorkspacePolicyOperations } from "./classic/workspacePolicy/index.js";
+import { _getWorkspacePolicyOperations } from "./classic/workspacePolicy/index.js";
+import type { WorkspacePolicyFragmentOperations } from "./classic/workspacePolicyFragment/index.js";
+import { _getWorkspacePolicyFragmentOperations } from "./classic/workspacePolicyFragment/index.js";
+import type { WorkspaceProductOperations } from "./classic/workspaceProduct/index.js";
+import { _getWorkspaceProductOperations } from "./classic/workspaceProduct/index.js";
+import type { WorkspaceProductApiLinkOperations } from "./classic/workspaceProductApiLink/index.js";
+import { _getWorkspaceProductApiLinkOperations } from "./classic/workspaceProductApiLink/index.js";
+import type { WorkspaceProductGroupLinkOperations } from "./classic/workspaceProductGroupLink/index.js";
+import { _getWorkspaceProductGroupLinkOperations } from "./classic/workspaceProductGroupLink/index.js";
+import type { WorkspaceProductPolicyOperations } from "./classic/workspaceProductPolicy/index.js";
+import { _getWorkspaceProductPolicyOperations } from "./classic/workspaceProductPolicy/index.js";
+import type { WorkspaceSubscriptionOperations } from "./classic/workspaceSubscription/index.js";
+import { _getWorkspaceSubscriptionOperations } from "./classic/workspaceSubscription/index.js";
+import type { WorkspaceTagOperations } from "./classic/workspaceTag/index.js";
+import { _getWorkspaceTagOperations } from "./classic/workspaceTag/index.js";
+import type { WorkspaceTagApiLinkOperations } from "./classic/workspaceTagApiLink/index.js";
+import { _getWorkspaceTagApiLinkOperations } from "./classic/workspaceTagApiLink/index.js";
+import type { WorkspaceTagOperationLinkOperations } from "./classic/workspaceTagOperationLink/index.js";
+import { _getWorkspaceTagOperationLinkOperations } from "./classic/workspaceTagOperationLink/index.js";
+import type { WorkspaceTagProductLinkOperations } from "./classic/workspaceTagProductLink/index.js";
+import { _getWorkspaceTagProductLinkOperations } from "./classic/workspaceTagProductLink/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { ApiManagementClientOptionalParams } from "./api/apiManagementContext.js";
 
@@ -519,7 +351,9 @@ export class ApiManagementClient {
     this.productSubscriptions = _getProductSubscriptionsOperations(this._client);
     this.productGroup = _getProductGroupOperations(this._client);
     this.productApi = _getProductApiOperations(this._client);
-    this.privateEndpointConnection = _getPrivateEndpointConnectionOperations(this._client);
+    this.privateEndpointConnectionOperations = _getPrivateEndpointConnectionOperationsOperations(
+      this._client,
+    );
     this.portalRevision = _getPortalRevisionOperations(this._client);
     this.clientApplicationProductLink = _getClientApplicationProductLinkOperations(this._client);
     this.clientApplication = _getClientApplicationOperations(this._client);
@@ -593,7 +427,7 @@ export class ApiManagementClient {
     this.allPolicies = _getAllPoliciesOperations(this._client);
     this.apiManagementService = _getApiManagementServiceOperations(this._client);
     this.workspaceApiRevision = _getWorkspaceApiRevisionOperations(this._client);
-    this.operation = _getOperationOperations(this._client);
+    this.operationOperations = _getOperationOperationsOperations(this._client);
     this.apiProduct = _getApiProductOperations(this._client);
     this.apiRevision = _getApiRevisionOperations(this._client);
     this.api = _getApiOperations(this._client);
@@ -694,8 +528,8 @@ export class ApiManagementClient {
   public readonly productGroup: ProductGroupOperations;
   /** The operation groups for productApi */
   public readonly productApi: ProductApiOperations;
-  /** The operation groups for privateEndpointConnection */
-  public readonly privateEndpointConnection: PrivateEndpointConnectionOperations;
+  /** The operation groups for privateEndpointConnectionOperations */
+  public readonly privateEndpointConnectionOperations: PrivateEndpointConnectionOperationsOperations;
   /** The operation groups for portalRevision */
   public readonly portalRevision: PortalRevisionOperations;
   /** The operation groups for clientApplicationProductLink */
@@ -830,8 +664,8 @@ export class ApiManagementClient {
   public readonly apiManagementService: ApiManagementServiceOperations;
   /** The operation groups for workspaceApiRevision */
   public readonly workspaceApiRevision: WorkspaceApiRevisionOperations;
-  /** The operation groups for operation */
-  public readonly operation: OperationOperations;
+  /** The operation groups for operationOperations */
+  public readonly operationOperations: OperationOperationsOperations;
   /** The operation groups for apiProduct */
   public readonly apiProduct: ApiProductOperations;
   /** The operation groups for apiRevision */

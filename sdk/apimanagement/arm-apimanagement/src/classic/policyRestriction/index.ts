@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/policyRestriction/operations.js";
-import {
+import type {
   PolicyRestrictionListByServiceOptionalParams,
   PolicyRestrictionDeleteOptionalParams,
   PolicyRestrictionUpdateOptionalParams,
@@ -18,8 +18,11 @@ import {
   PolicyRestrictionGetEntityTagOptionalParams,
   PolicyRestrictionGetOptionalParams,
 } from "../../api/policyRestriction/options.js";
-import { PolicyRestrictionContract, PolicyRestrictionUpdateContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type {
+  PolicyRestrictionContract,
+  PolicyRestrictionUpdateContract,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PolicyRestriction operations. */
 export interface PolicyRestrictionOperations {

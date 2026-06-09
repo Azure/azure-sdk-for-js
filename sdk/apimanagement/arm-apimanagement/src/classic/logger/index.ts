@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/logger/operations.js";
-import {
+import type {
   LoggerListByServiceOptionalParams,
   LoggerDeleteOptionalParams,
   LoggerUpdateOptionalParams,
@@ -18,8 +18,8 @@ import {
   LoggerGetEntityTagOptionalParams,
   LoggerGetOptionalParams,
 } from "../../api/logger/options.js";
-import { LoggerContract, LoggerUpdateContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { LoggerContract, LoggerUpdateContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Logger operations. */
 export interface LoggerOperations {

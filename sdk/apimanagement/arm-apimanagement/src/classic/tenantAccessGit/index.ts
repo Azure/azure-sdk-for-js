@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   regenerateSecondaryKey,
   regeneratePrimaryKey,
 } from "../../api/tenantAccessGit/operations.js";
-import {
+import type {
   TenantAccessGitRegenerateSecondaryKeyOptionalParams,
   TenantAccessGitRegeneratePrimaryKeyOptionalParams,
 } from "../../api/tenantAccessGit/options.js";
-import { AccessIdName } from "../../models/models.js";
+import type { AccessIdName } from "../../models/models.js";
 
 /** Interface representing a TenantAccessGit operations. */
 export interface TenantAccessGitOperations {

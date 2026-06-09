@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -9,15 +9,15 @@ import {
   getEntityTag,
   get,
 } from "../../api/policy/operations.js";
-import {
+import type {
   PolicyListByServiceOptionalParams,
   PolicyDeleteOptionalParams,
   PolicyCreateOrUpdateOptionalParams,
   PolicyGetEntityTagOptionalParams,
   PolicyGetOptionalParams,
 } from "../../api/policy/options.js";
-import { PolicyContract, PolicyIdName } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PolicyContract, PolicyIdName } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Policy operations. */
 export interface PolicyOperations {

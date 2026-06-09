@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementClient } from "./apiManagementClient.js";
+import type { ApiManagementClient } from "./apiManagementClient.js";
 import { _$deleteDeserialize } from "./api/user/operations.js";
 import {
   _validateDeserialize,
@@ -10,9 +10,9 @@ import {
 } from "./api/tenantConfiguration/operations.js";
 import { _createOrUpdateDeserialize } from "./api/globalSchema/operations.js";
 import {
-  _$deleteDeserialize as _$deleteDeserializePrivateEndpointConnection,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializePrivateEndpointConnection,
-} from "./api/privateEndpointConnection/operations.js";
+  _$deleteDeserialize as _$deleteDeserializePrivateEndpointConnectionOperations,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializePrivateEndpointConnectionOperations,
+} from "./api/privateEndpointConnectionOperations/operations.js";
 import {
   _updateDeserialize,
   _createOrUpdateDeserialize as _createOrUpdateDeserializePortalRevision,
@@ -65,14 +65,10 @@ import { _createOrUpdateDeserialize as _createOrUpdateDeserializeWorkspaceApiSch
 import { _performConnectivityCheckAsyncDeserialize } from "./api/apiManagementServiceResources/operations.js";
 import { _createOrUpdateDeserialize as _createOrUpdateDeserializeWorkspaceApi } from "./api/workspaceApi/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -151,12 +147,12 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
-      deserializer: _$deleteDeserializePrivateEndpointConnection,
+      deserializer: _$deleteDeserializePrivateEndpointConnectionOperations,
       expectedStatuses: ["200", "202", "204"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
-      deserializer: _createOrUpdateDeserializePrivateEndpointConnection,
+      deserializer: _createOrUpdateDeserializePrivateEndpointConnectionOperations,
       expectedStatuses: ["200", "202", "201"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalRevisions/{portalRevisionId}":

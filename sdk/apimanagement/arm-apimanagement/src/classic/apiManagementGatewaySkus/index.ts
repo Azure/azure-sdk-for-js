@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { listAvailableSkus } from "../../api/apiManagementGatewaySkus/operations.js";
-import { ApiManagementGatewaySkusListAvailableSkusOptionalParams } from "../../api/apiManagementGatewaySkus/options.js";
-import { GatewayResourceSkuResult } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ApiManagementGatewaySkusListAvailableSkusOptionalParams } from "../../api/apiManagementGatewaySkus/options.js";
+import type { GatewayResourceSkuResult } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApiManagementGatewaySkus operations. */
 export interface ApiManagementGatewaySkusOperations {

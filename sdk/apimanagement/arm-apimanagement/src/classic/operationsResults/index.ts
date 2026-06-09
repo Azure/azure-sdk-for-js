@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { get } from "../../api/operationsResults/operations.js";
-import { OperationsResultsGetOptionalParams } from "../../api/operationsResults/options.js";
+import type { OperationsResultsGetOptionalParams } from "../../api/operationsResults/options.js";
 
 /** Interface representing a OperationsResults operations. */
 export interface OperationsResultsOperations {

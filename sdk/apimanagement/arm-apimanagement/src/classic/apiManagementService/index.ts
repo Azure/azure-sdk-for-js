@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   getDomainOwnershipIdentifier,
   checkNameAvailability,
@@ -18,7 +18,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/apiManagementService/operations.js";
-import {
+import type {
   ApiManagementServiceGetDomainOwnershipIdentifierOptionalParams,
   ApiManagementServiceCheckNameAvailabilityOptionalParams,
   ApiManagementServiceRefreshHostnamesOptionalParams,
@@ -34,7 +34,7 @@ import {
   ApiManagementServiceCreateOrUpdateOptionalParams,
   ApiManagementServiceGetOptionalParams,
 } from "../../api/apiManagementService/options.js";
-import {
+import type {
   ApiManagementServiceResource,
   ApiManagementServiceUpdateParameters,
   ApiManagementServiceBackupRestoreParameters,
@@ -43,9 +43,10 @@ import {
   ApiManagementServiceNameAvailabilityResult,
   ApiManagementServiceGetDomainOwnershipIdentifierResult,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ApiManagementService operations. */
 export interface ApiManagementServiceOperations {

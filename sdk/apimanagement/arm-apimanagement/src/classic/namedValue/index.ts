@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   refreshSecret,
   listValue,
@@ -12,7 +12,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/namedValue/operations.js";
-import {
+import type {
   NamedValueRefreshSecretOptionalParams,
   NamedValueListValueOptionalParams,
   NamedValueListByServiceOptionalParams,
@@ -22,15 +22,16 @@ import {
   NamedValueGetEntityTagOptionalParams,
   NamedValueGetOptionalParams,
 } from "../../api/namedValue/options.js";
-import {
+import type {
   NamedValueContract,
   NamedValueCreateContract,
   NamedValueUpdateParameters,
   NamedValueSecretContract,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NamedValue operations. */
 export interface NamedValueOperations {

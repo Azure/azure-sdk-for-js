@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { post } from "../../api/authorizationLoginLinks/operations.js";
-import { AuthorizationLoginLinksPostOptionalParams } from "../../api/authorizationLoginLinks/options.js";
-import {
+import type { AuthorizationLoginLinksPostOptionalParams } from "../../api/authorizationLoginLinks/options.js";
+import type {
   AuthorizationLoginRequestContract,
   AuthorizationLoginResponseContract,
 } from "../../models/models.js";

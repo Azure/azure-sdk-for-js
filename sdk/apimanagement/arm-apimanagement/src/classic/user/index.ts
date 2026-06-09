@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   getSharedAccessToken,
   generateSsoUrl,
@@ -12,7 +12,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/user/operations.js";
-import {
+import type {
   UserGetSharedAccessTokenOptionalParams,
   UserGenerateSsoUrlOptionalParams,
   UserListByServiceOptionalParams,
@@ -22,7 +22,7 @@ import {
   UserGetEntityTagOptionalParams,
   UserGetOptionalParams,
 } from "../../api/user/options.js";
-import {
+import type {
   UserContract,
   UserCreateParameters,
   UserUpdateParameters,
@@ -30,9 +30,10 @@ import {
   UserTokenParameters,
   UserTokenResult,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a User operations. */
 export interface UserOperations {

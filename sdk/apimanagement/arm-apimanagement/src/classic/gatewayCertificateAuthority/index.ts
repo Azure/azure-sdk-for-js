@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -9,15 +9,15 @@ import {
   getEntityTag,
   get,
 } from "../../api/gatewayCertificateAuthority/operations.js";
-import {
+import type {
   GatewayCertificateAuthorityListByServiceOptionalParams,
   GatewayCertificateAuthorityDeleteOptionalParams,
   GatewayCertificateAuthorityCreateOrUpdateOptionalParams,
   GatewayCertificateAuthorityGetEntityTagOptionalParams,
   GatewayCertificateAuthorityGetOptionalParams,
 } from "../../api/gatewayCertificateAuthority/options.js";
-import { GatewayCertificateAuthorityContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { GatewayCertificateAuthorityContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GatewayCertificateAuthority operations. */
 export interface GatewayCertificateAuthorityOperations {

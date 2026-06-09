@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   reconnect,
   listByService,
@@ -11,7 +11,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/backend/operations.js";
-import {
+import type {
   BackendReconnectOptionalParams,
   BackendListByServiceOptionalParams,
   BackendDeleteOptionalParams,
@@ -20,8 +20,8 @@ import {
   BackendGetEntityTagOptionalParams,
   BackendGetOptionalParams,
 } from "../../api/backend/options.js";
-import { BackendContract, BackendUpdateParameters } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { BackendContract, BackendUpdateParameters } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Backend operations. */
 export interface BackendOperations {

@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   $delete,
   createOrUpdate,
   checkEntityExists,
   listByNotification,
 } from "../../api/notificationRecipientUser/operations.js";
-import {
+import type {
   NotificationRecipientUserDeleteOptionalParams,
   NotificationRecipientUserCreateOrUpdateOptionalParams,
   NotificationRecipientUserCheckEntityExistsOptionalParams,
   NotificationRecipientUserListByNotificationOptionalParams,
 } from "../../api/notificationRecipientUser/options.js";
-import {
+import type {
   NotificationName,
   RecipientUserCollection,
   RecipientUserContract,

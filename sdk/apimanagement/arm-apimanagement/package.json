@@ -412,18 +412,18 @@
         "default": "./dist/commonjs/api/productApi/index.js"
       }
     },
-    "./api/privateEndpointConnection": {
+    "./api/privateEndpointConnectionOperations": {
       "browser": {
-        "types": "./dist/browser/api/privateEndpointConnection/index.d.ts",
-        "default": "./dist/browser/api/privateEndpointConnection/index.js"
+        "types": "./dist/browser/api/privateEndpointConnectionOperations/index.d.ts",
+        "default": "./dist/browser/api/privateEndpointConnectionOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/privateEndpointConnection/index.d.ts",
-        "default": "./dist/esm/api/privateEndpointConnection/index.js"
+        "types": "./dist/esm/api/privateEndpointConnectionOperations/index.d.ts",
+        "default": "./dist/esm/api/privateEndpointConnectionOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/privateEndpointConnection/index.d.ts",
-        "default": "./dist/commonjs/api/privateEndpointConnection/index.js"
+        "types": "./dist/commonjs/api/privateEndpointConnectionOperations/index.d.ts",
+        "default": "./dist/commonjs/api/privateEndpointConnectionOperations/index.js"
       }
     },
     "./api/portalRevision": {
@@ -1364,18 +1364,18 @@
         "default": "./dist/commonjs/api/workspaceApiRevision/index.js"
       }
     },
-    "./api/operation": {
+    "./api/operationOperations": {
       "browser": {
-        "types": "./dist/browser/api/operation/index.d.ts",
-        "default": "./dist/browser/api/operation/index.js"
+        "types": "./dist/browser/api/operationOperations/index.d.ts",
+        "default": "./dist/browser/api/operationOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/operation/index.d.ts",
-        "default": "./dist/esm/api/operation/index.js"
+        "types": "./dist/esm/api/operationOperations/index.d.ts",
+        "default": "./dist/esm/api/operationOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/operation/index.d.ts",
-        "default": "./dist/commonjs/api/operation/index.js"
+        "types": "./dist/commonjs/api/operationOperations/index.d.ts",
+        "default": "./dist/commonjs/api/operationOperations/index.js"
       }
     },
     "./api/apiProduct": {

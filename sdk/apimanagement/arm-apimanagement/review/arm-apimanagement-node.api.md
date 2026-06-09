@@ -4,17 +4,17 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { CancelOnProgress } from '@azure/core-lro';
-import { ClientOptions } from '@azure-rest/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
 import { RestError } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AccessIdName = string;
@@ -645,7 +645,7 @@ export class ApiManagementClient {
     readonly notificationRecipientEmail: NotificationRecipientEmailOperations;
     readonly notificationRecipientUser: NotificationRecipientUserOperations;
     readonly openIdConnectProvider: OpenIdConnectProviderOperations;
-    readonly operation: OperationOperations;
+    readonly operationOperations: OperationOperationsOperations;
     readonly operationsResults: OperationsResultsOperations;
     readonly operationStatus: OperationStatusOperations;
     readonly outboundNetworkDependenciesEndpoints: OutboundNetworkDependenciesEndpointsOperations;
@@ -658,7 +658,7 @@ export class ApiManagementClient {
     readonly portalConfig: PortalConfigOperations;
     readonly portalRevision: PortalRevisionOperations;
     readonly portalSettings: PortalSettingsOperations;
-    readonly privateEndpointConnection: PrivateEndpointConnectionOperations;
+    readonly privateEndpointConnectionOperations: PrivateEndpointConnectionOperationsOperations;
     readonly product: ProductOperations;
     readonly productApi: ProductApiOperations;
     readonly productApiLink: ProductApiLinkOperations;
@@ -5245,7 +5245,10 @@ export interface OperationEntityBaseContract {
 }
 
 // @public
-export interface OperationListByTagsOptionalParams extends OperationOptions {
+export type OperationNameFormat = string;
+
+// @public
+export interface OperationOperationsListByTagsOptionalParams extends OperationOptions {
     filter?: string;
     includeNotTaggedOperations?: boolean;
     skip?: number;
@@ -5253,11 +5256,8 @@ export interface OperationListByTagsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OperationNameFormat = string;
-
-// @public
-export interface OperationOperations {
-    listByTags: (resourceGroupName: string, serviceName: string, apiId: string, options?: OperationListByTagsOptionalParams) => PagedAsyncIterableIterator<TagResourceContract>;
+export interface OperationOperationsOperations {
+    listByTags: (resourceGroupName: string, serviceName: string, apiId: string, options?: OperationOperationsListByTagsOptionalParams) => PagedAsyncIterableIterator<TagResourceContract>;
 }
 
 // @public
@@ -5901,47 +5901,47 @@ export interface PrivateEndpointConnection extends Resource {
 }
 
 // @public
-export interface PrivateEndpointConnectionCreateOrUpdateOptionalParams extends OperationOptions {
+export interface PrivateEndpointConnectionOperationsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrivateEndpointConnectionDeleteOptionalParams extends OperationOptions {
+export interface PrivateEndpointConnectionOperationsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrivateEndpointConnectionGetByNameOptionalParams extends OperationOptions {
+export interface PrivateEndpointConnectionOperationsGetByNameOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams extends OperationOptions {
+export interface PrivateEndpointConnectionOperationsGetPrivateLinkResourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnectionListByServiceOptionalParams extends OperationOptions {
+export interface PrivateEndpointConnectionOperationsListByServiceOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams extends OperationOptions {
+export interface PrivateEndpointConnectionOperationsListPrivateLinkResourcesOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnectionOperations {
+export interface PrivateEndpointConnectionOperationsOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, privateEndpointConnectionRequest: PrivateEndpointConnectionRequest, options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    beginCreateOrUpdate: (resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, privateEndpointConnectionRequest: PrivateEndpointConnectionRequest, options?: PrivateEndpointConnectionOperationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, privateEndpointConnectionRequest: PrivateEndpointConnectionRequest, options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, privateEndpointConnectionRequest: PrivateEndpointConnectionRequest, options?: PrivateEndpointConnectionOperationsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
     // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete: (resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionOperationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams) => Promise<void>;
-    createOrUpdate: (resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, privateEndpointConnectionRequest: PrivateEndpointConnectionRequest, options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
-    delete: (resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    getByName: (resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetByNameOptionalParams) => Promise<PrivateEndpointConnection>;
-    getPrivateLinkResource: (resourceGroupName: string, serviceName: string, privateLinkSubResourceName: string, options?: PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams) => Promise<PrivateLinkResource>;
-    listByService: (resourceGroupName: string, serviceName: string, options?: PrivateEndpointConnectionListByServiceOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
-    listPrivateLinkResources: (resourceGroupName: string, serviceName: string, options?: PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams) => Promise<PrivateLinkResourceListResult>;
+    beginDeleteAndWait: (resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionOperationsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, privateEndpointConnectionRequest: PrivateEndpointConnectionRequest, options?: PrivateEndpointConnectionOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionOperationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    getByName: (resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionOperationsGetByNameOptionalParams) => Promise<PrivateEndpointConnection>;
+    getPrivateLinkResource: (resourceGroupName: string, serviceName: string, privateLinkSubResourceName: string, options?: PrivateEndpointConnectionOperationsGetPrivateLinkResourceOptionalParams) => Promise<PrivateLinkResource>;
+    listByService: (resourceGroupName: string, serviceName: string, options?: PrivateEndpointConnectionOperationsListByServiceOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    listPrivateLinkResources: (resourceGroupName: string, serviceName: string, options?: PrivateEndpointConnectionOperationsListPrivateLinkResourcesOptionalParams) => Promise<PrivateLinkResourceListResult>;
 }
 
 // @public

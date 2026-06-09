@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listSecrets,
   update,
@@ -9,14 +9,14 @@ import {
   getEntityTag,
   get,
 } from "../../api/delegationSettings/operations.js";
-import {
+import type {
   DelegationSettingsListSecretsOptionalParams,
   DelegationSettingsUpdateOptionalParams,
   DelegationSettingsCreateOrUpdateOptionalParams,
   DelegationSettingsGetEntityTagOptionalParams,
   DelegationSettingsGetOptionalParams,
 } from "../../api/delegationSettings/options.js";
-import {
+import type {
   PortalDelegationSettings,
   PortalSettingValidationKeyContract,
 } from "../../models/models.js";

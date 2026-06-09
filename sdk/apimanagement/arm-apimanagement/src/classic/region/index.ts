@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { listByService } from "../../api/region/operations.js";
-import { RegionListByServiceOptionalParams } from "../../api/region/options.js";
-import { RegionContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { RegionListByServiceOptionalParams } from "../../api/region/options.js";
+import type { RegionContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Region operations. */
 export interface RegionOperations {

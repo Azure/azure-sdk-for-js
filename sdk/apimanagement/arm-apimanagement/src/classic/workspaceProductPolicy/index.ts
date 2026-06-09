@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByProduct,
   $delete,
@@ -9,14 +9,14 @@ import {
   getEntityTag,
   get,
 } from "../../api/workspaceProductPolicy/operations.js";
-import {
+import type {
   WorkspaceProductPolicyListByProductOptionalParams,
   WorkspaceProductPolicyDeleteOptionalParams,
   WorkspaceProductPolicyCreateOrUpdateOptionalParams,
   WorkspaceProductPolicyGetEntityTagOptionalParams,
   WorkspaceProductPolicyGetOptionalParams,
 } from "../../api/workspaceProductPolicy/options.js";
-import { PolicyContract, PolicyIdName, PolicyCollection } from "../../models/models.js";
+import type { PolicyContract, PolicyIdName, PolicyCollection } from "../../models/models.js";
 
 /** Interface representing a WorkspaceProductPolicy operations. */
 export interface WorkspaceProductPolicyOperations {

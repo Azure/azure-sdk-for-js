@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listSecrets,
   listByService,
@@ -11,7 +11,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/openIdConnectProvider/operations.js";
-import {
+import type {
   OpenIdConnectProviderListSecretsOptionalParams,
   OpenIdConnectProviderListByServiceOptionalParams,
   OpenIdConnectProviderDeleteOptionalParams,
@@ -20,12 +20,12 @@ import {
   OpenIdConnectProviderGetEntityTagOptionalParams,
   OpenIdConnectProviderGetOptionalParams,
 } from "../../api/openIdConnectProvider/options.js";
-import {
+import type {
   ClientSecretContract,
   OpenidConnectProviderContract,
   OpenidConnectProviderUpdateContract,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a OpenIdConnectProvider operations. */
 export interface OpenIdConnectProviderOperations {

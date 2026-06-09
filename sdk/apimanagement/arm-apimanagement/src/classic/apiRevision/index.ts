@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { listByService } from "../../api/apiRevision/operations.js";
-import { ApiRevisionListByServiceOptionalParams } from "../../api/apiRevision/options.js";
-import { ApiRevisionContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ApiRevisionListByServiceOptionalParams } from "../../api/apiRevision/options.js";
+import type { ApiRevisionContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApiRevision operations. */
 export interface ApiRevisionOperations {

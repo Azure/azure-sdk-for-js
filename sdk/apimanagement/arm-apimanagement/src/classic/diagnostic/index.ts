@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/diagnostic/operations.js";
-import {
+import type {
   DiagnosticListByServiceOptionalParams,
   DiagnosticDeleteOptionalParams,
   DiagnosticUpdateOptionalParams,
@@ -18,8 +18,8 @@ import {
   DiagnosticGetEntityTagOptionalParams,
   DiagnosticGetOptionalParams,
 } from "../../api/diagnostic/options.js";
-import { DiagnosticContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DiagnosticContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Diagnostic operations. */
 export interface DiagnosticOperations {

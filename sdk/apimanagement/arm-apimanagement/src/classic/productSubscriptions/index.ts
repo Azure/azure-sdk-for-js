@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { list } from "../../api/productSubscriptions/operations.js";
-import { ProductSubscriptionsListOptionalParams } from "../../api/productSubscriptions/options.js";
-import { SubscriptionContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ProductSubscriptionsListOptionalParams } from "../../api/productSubscriptions/options.js";
+import type { SubscriptionContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ProductSubscriptions operations. */
 export interface ProductSubscriptionsOperations {

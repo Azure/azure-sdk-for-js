@@ -1,34 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext as Client } from "../index.js";
+import type { ApiManagementContext as Client } from "../index.js";
+import type {
+  OperationResultContract,
+  DeployConfigurationParameters,
+  SaveConfigurationParameter,
+  TenantConfigurationSyncStateContract,
+  ConfigurationIdName,
+} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  OperationResultContract,
   operationResultContractDeserializer,
-  DeployConfigurationParameters,
   deployConfigurationParametersSerializer,
-  SaveConfigurationParameter,
   saveConfigurationParameterSerializer,
-  TenantConfigurationSyncStateContract,
   tenantConfigurationSyncStateContractDeserializer,
-  ConfigurationIdName,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   TenantConfigurationGetSyncStateOptionalParams,
   TenantConfigurationValidateOptionalParams,
   TenantConfigurationSaveOptionalParams,
   TenantConfigurationDeployOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getSyncStateSend(
   context: Client,
@@ -62,7 +60,9 @@ export async function _getSyncStateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -123,7 +123,9 @@ export async function _validateDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -192,7 +194,9 @@ export async function _saveDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -254,7 +258,9 @@ export async function _deployDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

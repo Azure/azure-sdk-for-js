@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { listByService, createOrUpdate, get } from "../../api/workspaceNotification/operations.js";
-import {
+import type {
   WorkspaceNotificationListByServiceOptionalParams,
   WorkspaceNotificationCreateOrUpdateOptionalParams,
   WorkspaceNotificationGetOptionalParams,
 } from "../../api/workspaceNotification/options.js";
-import { NotificationContract, NotificationName } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { NotificationContract, NotificationName } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspaceNotification operations. */
 export interface WorkspaceNotificationOperations {

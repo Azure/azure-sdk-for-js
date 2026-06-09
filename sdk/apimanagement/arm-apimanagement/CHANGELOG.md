@@ -39,8 +39,8 @@ Compared with version 10.0.0
   - Added operation PolicyRestrictionValidationsOperations.byService
   - Added operation PortalRevisionOperations.createOrUpdate
   - Added operation PortalRevisionOperations.update
-  - Added operation PrivateEndpointConnectionOperations.createOrUpdate
-  - Added operation PrivateEndpointConnectionOperations.delete
+  - Added operation PrivateEndpointConnectionOperationsOperations.createOrUpdate
+  - Added operation PrivateEndpointConnectionOperationsOperations.delete
   - Added operation TenantConfigurationOperations.deploy
   - Added operation TenantConfigurationOperations.save
   - Added operation TenantConfigurationOperations.validate
@@ -135,6 +135,7 @@ Compared with version 10.0.0
   - Added Interface NotificationContractProperties
   - Added Interface OpenidConnectProviderContractProperties
   - Added Interface OpenidConnectProviderUpdateContractProperties
+  - Added Interface OperationOperationsListByTagsOptionalParams
   - Added Interface OperationResultContractProperties
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
@@ -148,6 +149,12 @@ Compared with version 10.0.0
   - Added Interface PortalSettingsContractProperties
   - Added Interface PortalSigninSettingProperties
   - Added Interface PortalSignupSettingsProperties
+  - Added Interface PrivateEndpointConnectionOperationsCreateOrUpdateOptionalParams
+  - Added Interface PrivateEndpointConnectionOperationsDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionOperationsGetByNameOptionalParams
+  - Added Interface PrivateEndpointConnectionOperationsGetPrivateLinkResourceOptionalParams
+  - Added Interface PrivateEndpointConnectionOperationsListByServiceOptionalParams
+  - Added Interface PrivateEndpointConnectionOperationsListPrivateLinkResourcesOptionalParams
   - Added Interface PrivateEndpointConnectionProperties
   - Added Interface PrivateEndpointConnectionWrapperProperties
   - Added Interface PrivateLinkResourceProperties
@@ -439,8 +446,6 @@ Compared with version 10.0.0
   - Operation WorkspaceTag.getEntityState has a new signature
   - Class ApiManagementClient has a new signature
   - Class ApiManagementClient no longer has parameter apiVersion
-  - Class ApiManagementClient no longer has parameter operationOperations
-  - Class ApiManagementClient no longer has parameter privateEndpointConnectionOperations
   - Class ApiManagementClient no longer has parameter subscriptionId
   - Removed Interface AccessInformationCollection
   - Removed Interface AllPoliciesCollection
@@ -479,6 +484,7 @@ Compared with version 10.0.0
   - Removed Interface NotificationCollection
   - Removed Interface OpenIdConnectProviderCollection
   - Removed Interface OperationCollection
+  - Removed Interface OperationListByTagsOptionalParams
   - Removed Interface PerformConnectivityCheckAsyncOptionalParams
   - Removed Interface PolicyFragmentCollection
   - Removed Interface PolicyRestrictionCollection
@@ -486,6 +492,12 @@ Compared with version 10.0.0
   - Removed Interface PolicyWithComplianceContract
   - Removed Interface PortalConfigCollection
   - Removed Interface PortalRevisionCollection
+  - Removed Interface PrivateEndpointConnectionCreateOrUpdateOptionalParams
+  - Removed Interface PrivateEndpointConnectionDeleteOptionalParams
+  - Removed Interface PrivateEndpointConnectionGetByNameOptionalParams
+  - Removed Interface PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams
+  - Removed Interface PrivateEndpointConnectionListByServiceOptionalParams
+  - Removed Interface PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams
   - Removed Interface ProductApiLinkCollection
   - Removed Interface ProductCollection
   - Removed Interface ProductGroupLinkCollection

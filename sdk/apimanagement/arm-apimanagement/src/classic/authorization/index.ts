@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   confirmConsentCode,
   listByAuthorizationProvider,
@@ -9,18 +9,18 @@ import {
   createOrUpdate,
   get,
 } from "../../api/authorization/operations.js";
-import {
+import type {
   AuthorizationConfirmConsentCodeOptionalParams,
   AuthorizationListByAuthorizationProviderOptionalParams,
   AuthorizationDeleteOptionalParams,
   AuthorizationCreateOrUpdateOptionalParams,
   AuthorizationGetOptionalParams,
 } from "../../api/authorization/options.js";
-import {
+import type {
   AuthorizationContract,
   AuthorizationConfirmConsentCodeRequestContract,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Authorization operations. */
 export interface AuthorizationOperations {

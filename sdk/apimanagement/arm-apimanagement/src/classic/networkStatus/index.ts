@@ -1,13 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { listByLocation, listByService } from "../../api/networkStatus/operations.js";
-import {
+import type {
   NetworkStatusListByLocationOptionalParams,
   NetworkStatusListByServiceOptionalParams,
 } from "../../api/networkStatus/options.js";
-import { NetworkStatusContractByLocation, NetworkStatusContract } from "../../models/models.js";
+import type {
+  NetworkStatusContractByLocation,
+  NetworkStatusContract,
+} from "../../models/models.js";
 
 /** Interface representing a NetworkStatus operations. */
 export interface NetworkStatusOperations {

@@ -66,7 +66,7 @@ export type { NotificationOperations } from "./notification/index.js";
 export type { NotificationRecipientEmailOperations } from "./notificationRecipientEmail/index.js";
 export type { NotificationRecipientUserOperations } from "./notificationRecipientUser/index.js";
 export type { OpenIdConnectProviderOperations } from "./openIdConnectProvider/index.js";
-export type { OperationOperations } from "./operation/index.js";
+export type { OperationOperationsOperations } from "./operationOperations/index.js";
 export type { OperationsResultsOperations } from "./operationsResults/index.js";
 export type { OperationStatusOperations } from "./operationStatus/index.js";
 export type { OutboundNetworkDependenciesEndpointsOperations } from "./outboundNetworkDependenciesEndpoints/index.js";
@@ -78,7 +78,7 @@ export type { PolicyRestrictionValidationsOperations } from "./policyRestriction
 export type { PortalConfigOperations } from "./portalConfig/index.js";
 export type { PortalRevisionOperations } from "./portalRevision/index.js";
 export type { PortalSettingsOperations } from "./portalSettings/index.js";
-export type { PrivateEndpointConnectionOperations } from "./privateEndpointConnection/index.js";
+export type { PrivateEndpointConnectionOperationsOperations } from "./privateEndpointConnectionOperations/index.js";
 export type { ProductOperations } from "./product/index.js";
 export type { ProductApiOperations } from "./productApi/index.js";
 export type { ProductApiLinkOperations } from "./productApiLink/index.js";

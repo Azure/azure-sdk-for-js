@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { update, createOrUpdate, getEntityTag, get } from "../../api/signUpSettings/operations.js";
-import {
+import type {
   SignUpSettingsUpdateOptionalParams,
   SignUpSettingsCreateOrUpdateOptionalParams,
   SignUpSettingsGetEntityTagOptionalParams,
   SignUpSettingsGetOptionalParams,
 } from "../../api/signUpSettings/options.js";
-import { PortalSignupSettings } from "../../models/models.js";
+import type { PortalSignupSettings } from "../../models/models.js";
 
 /** Interface representing a SignUpSettings operations. */
 export interface SignUpSettingsOperations {

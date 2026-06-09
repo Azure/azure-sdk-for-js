@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByWorkspace,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/workspaceBackend/operations.js";
-import {
+import type {
   WorkspaceBackendListByWorkspaceOptionalParams,
   WorkspaceBackendDeleteOptionalParams,
   WorkspaceBackendUpdateOptionalParams,
@@ -18,8 +18,8 @@ import {
   WorkspaceBackendGetEntityTagOptionalParams,
   WorkspaceBackendGetOptionalParams,
 } from "../../api/workspaceBackend/options.js";
-import { BackendContract, BackendUpdateParameters } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { BackendContract, BackendUpdateParameters } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspaceBackend operations. */
 export interface WorkspaceBackendOperations {

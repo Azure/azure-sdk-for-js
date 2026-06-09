@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByWorkspace,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/workspaceLogger/operations.js";
-import {
+import type {
   WorkspaceLoggerListByWorkspaceOptionalParams,
   WorkspaceLoggerDeleteOptionalParams,
   WorkspaceLoggerUpdateOptionalParams,
@@ -18,8 +18,8 @@ import {
   WorkspaceLoggerGetEntityTagOptionalParams,
   WorkspaceLoggerGetOptionalParams,
 } from "../../api/workspaceLogger/options.js";
-import { LoggerContract, LoggerUpdateContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { LoggerContract, LoggerUpdateContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspaceLogger operations. */
 export interface WorkspaceLoggerOperations {

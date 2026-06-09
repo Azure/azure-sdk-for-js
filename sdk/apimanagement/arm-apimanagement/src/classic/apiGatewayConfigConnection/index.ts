@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByGateway,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/apiGatewayConfigConnection/operations.js";
-import {
+import type {
   ApiGatewayConfigConnectionListByGatewayOptionalParams,
   ApiGatewayConfigConnectionDeleteOptionalParams,
   ApiGatewayConfigConnectionCreateOrUpdateOptionalParams,
   ApiGatewayConfigConnectionGetOptionalParams,
 } from "../../api/apiGatewayConfigConnection/options.js";
-import { ApiManagementGatewayConfigConnectionResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { ApiManagementGatewayConfigConnectionResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ApiGatewayConfigConnection operations. */
 export interface ApiGatewayConfigConnectionOperations {

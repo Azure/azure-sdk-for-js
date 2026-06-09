@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -1020,7 +1021,7 @@ export type {
   OpenIdConnectProviderGetEntityTagOptionalParams,
   OpenIdConnectProviderGetOptionalParams,
 } from "./api/openIdConnectProvider/index.js";
-export type { OperationListByTagsOptionalParams } from "./api/operation/index.js";
+export type { OperationOperationsListByTagsOptionalParams } from "./api/operationOperations/index.js";
 export type { OperationsResultsGetOptionalParams } from "./api/operationsResults/index.js";
 export type { OperationStatusGetOptionalParams } from "./api/operationStatus/index.js";
 export type { OutboundNetworkDependenciesEndpointsListByServiceOptionalParams } from "./api/outboundNetworkDependenciesEndpoints/index.js";
@@ -1065,13 +1066,13 @@ export type {
 } from "./api/portalRevision/index.js";
 export type { PortalSettingsListByServiceOptionalParams } from "./api/portalSettings/index.js";
 export type {
-  PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams,
-  PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams,
-  PrivateEndpointConnectionListByServiceOptionalParams,
-  PrivateEndpointConnectionDeleteOptionalParams,
-  PrivateEndpointConnectionCreateOrUpdateOptionalParams,
-  PrivateEndpointConnectionGetByNameOptionalParams,
-} from "./api/privateEndpointConnection/index.js";
+  PrivateEndpointConnectionOperationsListPrivateLinkResourcesOptionalParams,
+  PrivateEndpointConnectionOperationsGetPrivateLinkResourceOptionalParams,
+  PrivateEndpointConnectionOperationsListByServiceOptionalParams,
+  PrivateEndpointConnectionOperationsDeleteOptionalParams,
+  PrivateEndpointConnectionOperationsCreateOrUpdateOptionalParams,
+  PrivateEndpointConnectionOperationsGetByNameOptionalParams,
+} from "./api/privateEndpointConnectionOperations/index.js";
 export type {
   ProductListByServiceOptionalParams,
   ProductDeleteOptionalParams,
@@ -1542,7 +1543,7 @@ export type {
   NotificationRecipientEmailOperations,
   NotificationRecipientUserOperations,
   OpenIdConnectProviderOperations,
-  OperationOperations,
+  OperationOperationsOperations,
   OperationsResultsOperations,
   OperationStatusOperations,
   OutboundNetworkDependenciesEndpointsOperations,
@@ -1554,7 +1555,7 @@ export type {
   PortalConfigOperations,
   PortalRevisionOperations,
   PortalSettingsOperations,
-  PrivateEndpointConnectionOperations,
+  PrivateEndpointConnectionOperationsOperations,
   ProductOperations,
   ProductApiOperations,
   ProductApiLinkOperations,

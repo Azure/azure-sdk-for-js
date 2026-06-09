@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { listByService } from "../../api/policyDescription/operations.js";
-import { PolicyDescriptionListByServiceOptionalParams } from "../../api/policyDescription/options.js";
-import { PolicyDescriptionCollection } from "../../models/models.js";
+import type { PolicyDescriptionListByServiceOptionalParams } from "../../api/policyDescription/options.js";
+import type { PolicyDescriptionCollection } from "../../models/models.js";
 
 /** Interface representing a PolicyDescription operations. */
 export interface PolicyDescriptionOperations {

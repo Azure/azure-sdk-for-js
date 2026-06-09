@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByApi,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/apiOperation/operations.js";
-import {
+import type {
   ApiOperationListByApiOptionalParams,
   ApiOperationDeleteOptionalParams,
   ApiOperationUpdateOptionalParams,
@@ -18,8 +18,8 @@ import {
   ApiOperationGetEntityTagOptionalParams,
   ApiOperationGetOptionalParams,
 } from "../../api/apiOperation/options.js";
-import { OperationContract, OperationUpdateContract } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { OperationContract, OperationUpdateContract } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApiOperation operations. */
 export interface ApiOperationOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementContext } from "../../api/apiManagementContext.js";
+import type { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   $delete,
   update,
@@ -9,14 +9,14 @@ import {
   getEntityTag,
   get,
 } from "../../api/productWiki/operations.js";
-import {
+import type {
   ProductWikiDeleteOptionalParams,
   ProductWikiUpdateOptionalParams,
   ProductWikiCreateOrUpdateOptionalParams,
   ProductWikiGetEntityTagOptionalParams,
   ProductWikiGetOptionalParams,
 } from "../../api/productWiki/options.js";
-import { WikiContract, WikiUpdateContract } from "../../models/models.js";
+import type { WikiContract, WikiUpdateContract } from "../../models/models.js";
 
 /** Interface representing a ProductWiki operations. */
 export interface ProductWikiOperations {
