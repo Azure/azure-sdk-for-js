@@ -135,8 +135,6 @@ Compared with version 9.1.0
   - Operation ContainerGroups.beginDeleteAndWait has a new signature
   - Operation ContainerGroups.get has a new signature
   - Operation ContainerGroups.update has a new signature
-  - Class ContainerInstanceManagementClient no longer has parameter apiVersion
-  - Class ContainerInstanceManagementClient no longer has parameter subscriptionId
   - Removed Interface Location_2
   - Interface ContainerGroupProperties no longer has parameter identity
   - Parameter image of interface Container is now optional
