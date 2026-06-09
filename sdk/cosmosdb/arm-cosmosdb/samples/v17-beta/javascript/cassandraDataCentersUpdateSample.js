@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update some of the properties of a managed Cassandra data center.
  *
  * @summary update some of the properties of a managed Cassandra data center.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBManagedCassandraDataCenterPatch.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBManagedCassandraDataCenterPatch.json
  */
 async function cosmosDBManagedCassandraDataCenterUpdate() {
   const credential = new DefaultAzureCredential();

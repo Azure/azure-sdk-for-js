@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates an Azure Cosmos DB fleet under a subscription.
  *
  * @summary creates an Azure Cosmos DB fleet under a subscription.
- * x-ms-original-file: 2025-11-01-preview/fleet/CosmosDBFleetCreate.json
+ * x-ms-original-file: 2026-04-01-preview/fleet/CosmosDBFleetCreate.json
  */
 async function cosmosDBFleetCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

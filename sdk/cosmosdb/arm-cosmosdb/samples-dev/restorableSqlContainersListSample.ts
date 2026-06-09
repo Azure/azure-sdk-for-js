@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to show the event feed of all mutations done on all the Azure Cosmos DB SQL containers under a specific database.  This helps in scenario where container was accidentally deleted.  This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
  *
  * @summary show the event feed of all mutations done on all the Azure Cosmos DB SQL containers under a specific database.  This helps in scenario where container was accidentally deleted.  This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
- * x-ms-original-file: 2025-11-01-preview/CosmosDBRestorableSqlContainerList.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBRestorableSqlContainerList.json
  */
 async function cosmosDBRestorableSqlContainerList(): Promise<void> {
   const credential = new DefaultAzureCredential();

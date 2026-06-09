@@ -43,7 +43,7 @@ export function _listMetricDefinitionsSend(
       accountName: accountName,
       databaseRid: databaseRid,
       collectionRid: collectionRid,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,7 +61,9 @@ export async function _listMetricDefinitionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -94,7 +96,7 @@ export function listMetricDefinitions(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   );
 }
@@ -115,7 +117,7 @@ export function _listUsagesSend(
       accountName: accountName,
       databaseRid: databaseRid,
       collectionRid: collectionRid,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
       "%24filter": options?.filter,
     },
     {
@@ -134,7 +136,9 @@ export async function _listUsagesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -160,7 +164,7 @@ export function listUsages(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   );
 }
@@ -182,7 +186,7 @@ export function _listMetricsSend(
       accountName: accountName,
       databaseRid: databaseRid,
       collectionRid: collectionRid,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
       "%24filter": filter,
     },
     {
@@ -201,7 +205,9 @@ export async function _listMetricsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -236,7 +242,7 @@ export function listMetrics(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   );
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing Azure Cosmos DB SQL container.
  *
  * @summary deletes an existing Azure Cosmos DB SQL container.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlContainerDelete.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlContainerDelete.json
  */
 async function cosmosDBSqlContainerDelete() {
   const credential = new DefaultAzureCredential();

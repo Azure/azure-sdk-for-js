@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all managed Cassandra clusters in this subscription.
  *
  * @summary list all managed Cassandra clusters in this subscription.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBManagedCassandraClusterListBySubscription.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBManagedCassandraClusterListBySubscription.json
  */
 async function cosmosDBManagedCassandraClusterListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

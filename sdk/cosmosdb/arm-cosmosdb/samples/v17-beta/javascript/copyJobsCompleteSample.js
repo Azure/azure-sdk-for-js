@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to completes an Online Copy Job.
  *
  * @summary completes an Online Copy Job.
- * x-ms-original-file: 2025-11-01-preview/copy-jobs/CosmosDBCopyJobComplete.json
+ * x-ms-original-file: 2026-04-01-preview/copy-jobs/CosmosDBCopyJobComplete.json
  */
 async function cosmosDBCopyJobComplete() {
   const credential = new DefaultAzureCredential();

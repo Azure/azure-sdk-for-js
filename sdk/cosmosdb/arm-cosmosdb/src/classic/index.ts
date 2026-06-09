@@ -47,6 +47,9 @@ export type { RestorableSqlResourcesOperations } from "./restorableSqlResources/
 export type { RestorableTableResourcesOperations } from "./restorableTableResources/index.js";
 export type { RestorableTablesOperations } from "./restorableTables/index.js";
 export type { ServiceOperations } from "./service/index.js";
+export type { SoftDeletedDatabaseAccountsOperations } from "./softDeletedDatabaseAccounts/index.js";
+export type { SoftDeletedSqlContainersOperations } from "./softDeletedSqlContainers/index.js";
+export type { SoftDeletedSqlDatabasesOperations } from "./softDeletedSqlDatabases/index.js";
 export type { SqlResourcesOperations } from "./sqlResources/index.js";
 export type { TableResourcesOperations } from "./tableResources/index.js";
 export type { ThroughputPoolOperations } from "./throughputPool/index.js";

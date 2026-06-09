@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to pause a Data Transfer Job.
  *
  * @summary pause a Data Transfer Job.
- * x-ms-original-file: 2025-11-01-preview/data-transfer-service/CosmosDBDataTransferJobPause.json
+ * x-ms-original-file: 2026-04-01-preview/data-transfer-service/CosmosDBDataTransferJobPause.json
  */
 async function cosmosDBDataTransferJobPause() {
   const credential = new DefaultAzureCredential();

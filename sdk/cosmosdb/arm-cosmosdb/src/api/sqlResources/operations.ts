@@ -142,7 +142,7 @@ export function _listSqlRoleAssignmentsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -160,7 +160,9 @@ export async function _listSqlRoleAssignmentsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -183,7 +185,7 @@ export function listSqlRoleAssignments(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   );
 }
@@ -202,7 +204,7 @@ export function _deleteSqlRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -217,7 +219,9 @@ export async function _deleteSqlRoleAssignmentDeserialize(
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -245,7 +249,7 @@ export function deleteSqlRoleAssignment(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -264,7 +268,7 @@ export function _createUpdateSqlRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -286,7 +290,9 @@ export async function _createUpdateSqlRoleAssignmentDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -320,7 +326,7 @@ export function createUpdateSqlRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<SqlRoleAssignmentGetResults>, SqlRoleAssignmentGetResults>;
 }
@@ -339,7 +345,7 @@ export function _getSqlRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -357,7 +363,9 @@ export async function _getSqlRoleAssignmentDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -395,7 +403,7 @@ export function _listSqlRoleDefinitionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -413,7 +421,9 @@ export async function _listSqlRoleDefinitionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -436,7 +446,7 @@ export function listSqlRoleDefinitions(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   );
 }
@@ -455,7 +465,7 @@ export function _deleteSqlRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -470,7 +480,9 @@ export async function _deleteSqlRoleDefinitionDeserialize(
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -498,7 +510,7 @@ export function deleteSqlRoleDefinition(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -517,7 +529,7 @@ export function _createUpdateSqlRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -539,7 +551,9 @@ export async function _createUpdateSqlRoleDefinitionDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -573,7 +587,7 @@ export function createUpdateSqlRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<SqlRoleDefinitionGetResults>, SqlRoleDefinitionGetResults>;
 }
@@ -592,7 +606,7 @@ export function _getSqlRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -610,7 +624,9 @@ export async function _getSqlRoleDefinitionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -652,7 +668,7 @@ export function _listSqlTriggersSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -670,7 +686,9 @@ export async function _listSqlTriggersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -703,7 +721,7 @@ export function listSqlTriggers(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   );
 }
@@ -726,7 +744,7 @@ export function _deleteSqlTriggerSend(
       databaseName: databaseName,
       containerName: containerName,
       triggerName: triggerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -739,7 +757,9 @@ export async function _deleteSqlTriggerDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["204", "202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -771,7 +791,7 @@ export function deleteSqlTrigger(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -794,7 +814,7 @@ export function _createUpdateSqlTriggerSend(
       databaseName: databaseName,
       containerName: containerName,
       triggerName: triggerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -814,7 +834,9 @@ export async function _createUpdateSqlTriggerDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -848,7 +870,7 @@ export function createUpdateSqlTrigger(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<SqlTriggerGetResults>, SqlTriggerGetResults>;
 }
 
@@ -870,7 +892,7 @@ export function _getSqlTriggerSend(
       databaseName: databaseName,
       containerName: containerName,
       triggerName: triggerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -888,7 +910,9 @@ export async function _getSqlTriggerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -934,7 +958,7 @@ export function _listSqlUserDefinedFunctionsSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -952,7 +976,9 @@ export async function _listSqlUserDefinedFunctionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -985,7 +1011,7 @@ export function listSqlUserDefinedFunctions(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   );
 }
@@ -1008,7 +1034,7 @@ export function _deleteSqlUserDefinedFunctionSend(
       databaseName: databaseName,
       containerName: containerName,
       userDefinedFunctionName: userDefinedFunctionName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1023,7 +1049,9 @@ export async function _deleteSqlUserDefinedFunctionDeserialize(
   const expectedStatuses = ["204", "202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1059,7 +1087,7 @@ export function deleteSqlUserDefinedFunction(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -1083,7 +1111,7 @@ export function _createUpdateSqlUserDefinedFunctionSend(
       databaseName: databaseName,
       containerName: containerName,
       userDefinedFunctionName: userDefinedFunctionName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1105,7 +1133,9 @@ export async function _createUpdateSqlUserDefinedFunctionDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1143,7 +1173,7 @@ export function createUpdateSqlUserDefinedFunction(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<
     OperationState<SqlUserDefinedFunctionGetResults>,
@@ -1169,7 +1199,7 @@ export function _getSqlUserDefinedFunctionSend(
       databaseName: databaseName,
       containerName: containerName,
       userDefinedFunctionName: userDefinedFunctionName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1187,7 +1217,9 @@ export async function _getSqlUserDefinedFunctionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1233,7 +1265,7 @@ export function _listSqlStoredProceduresSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1251,7 +1283,9 @@ export async function _listSqlStoredProceduresDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1284,7 +1318,7 @@ export function listSqlStoredProcedures(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   );
 }
@@ -1307,7 +1341,7 @@ export function _deleteSqlStoredProcedureSend(
       databaseName: databaseName,
       containerName: containerName,
       storedProcedureName: storedProcedureName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1322,7 +1356,9 @@ export async function _deleteSqlStoredProcedureDeserialize(
   const expectedStatuses = ["204", "202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1358,7 +1394,7 @@ export function deleteSqlStoredProcedure(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -1382,7 +1418,7 @@ export function _createUpdateSqlStoredProcedureSend(
       databaseName: databaseName,
       containerName: containerName,
       storedProcedureName: storedProcedureName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1404,7 +1440,9 @@ export async function _createUpdateSqlStoredProcedureDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1442,7 +1480,7 @@ export function createUpdateSqlStoredProcedure(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<SqlStoredProcedureGetResults>, SqlStoredProcedureGetResults>;
 }
@@ -1465,7 +1503,7 @@ export function _getSqlStoredProcedureSend(
       databaseName: databaseName,
       containerName: containerName,
       storedProcedureName: storedProcedureName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1483,7 +1521,9 @@ export async function _getSqlStoredProcedureDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1530,7 +1570,7 @@ export function _retrieveContinuousBackupInformationSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1547,10 +1587,12 @@ export function _retrieveContinuousBackupInformationSend(
 export async function _retrieveContinuousBackupInformationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<BackupInformation> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1571,7 +1613,7 @@ export function retrieveContinuousBackupInformation(
   return getLongRunningPoller(
     context,
     _retrieveContinuousBackupInformationDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -1586,7 +1628,7 @@ export function retrieveContinuousBackupInformation(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<BackupInformation>, BackupInformation>;
 }
@@ -1608,7 +1650,7 @@ export function _listSqlContainerPartitionMergeSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1628,7 +1670,9 @@ export async function _listSqlContainerPartitionMergeDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1667,7 +1711,7 @@ export function listSqlContainerPartitionMerge(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<
     OperationState<PhysicalPartitionStorageInfoCollection>,
@@ -1689,7 +1733,7 @@ export function _listSqlContainersSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1707,7 +1751,9 @@ export async function _listSqlContainersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1731,7 +1777,7 @@ export function listSqlContainers(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   );
 }
@@ -1752,7 +1798,7 @@ export function _deleteSqlContainerSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1765,7 +1811,9 @@ export async function _deleteSqlContainerDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["204", "202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1795,7 +1843,7 @@ export function deleteSqlContainer(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1816,7 +1864,7 @@ export function _createUpdateSqlContainerSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1836,7 +1884,9 @@ export async function _createUpdateSqlContainerDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1872,7 +1922,7 @@ export function createUpdateSqlContainer(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<SqlContainerGetResults>, SqlContainerGetResults>;
 }
@@ -1893,7 +1943,7 @@ export function _getSqlContainerSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1911,7 +1961,9 @@ export async function _getSqlContainerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1953,7 +2005,7 @@ export function _listClientEncryptionKeysSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1971,7 +2023,9 @@ export async function _listClientEncryptionKeysDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1996,7 +2050,7 @@ export function listClientEncryptionKeys(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   );
 }
@@ -2018,7 +2072,7 @@ export function _createUpdateClientEncryptionKeySend(
       accountName: accountName,
       databaseName: databaseName,
       clientEncryptionKeyName: clientEncryptionKeyName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2040,7 +2094,9 @@ export async function _createUpdateClientEncryptionKeyDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2076,7 +2132,7 @@ export function createUpdateClientEncryptionKey(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<ClientEncryptionKeyGetResults>, ClientEncryptionKeyGetResults>;
 }
@@ -2097,7 +2153,7 @@ export function _getClientEncryptionKeySend(
       accountName: accountName,
       databaseName: databaseName,
       clientEncryptionKeyName: clientEncryptionKeyName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2115,7 +2171,9 @@ export async function _getClientEncryptionKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2160,7 +2218,7 @@ export function _sqlContainerRedistributeThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2180,7 +2238,9 @@ export async function _sqlContainerRedistributeThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2219,7 +2279,7 @@ export function sqlContainerRedistributeThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<
     OperationState<PhysicalPartitionThroughputInfoResult>,
@@ -2246,7 +2306,7 @@ export function _sqlContainerRetrieveThroughputDistributionSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2266,7 +2326,9 @@ export async function _sqlContainerRetrieveThroughputDistributionDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2307,7 +2369,7 @@ export function sqlContainerRetrieveThroughputDistribution(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<
     OperationState<PhysicalPartitionThroughputInfoResult>,
@@ -2331,7 +2393,7 @@ export function _migrateSqlContainerToManualThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2349,7 +2411,9 @@ export async function _migrateSqlContainerToManualThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2383,7 +2447,7 @@ export function migrateSqlContainerToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2404,7 +2468,7 @@ export function _migrateSqlContainerToAutoscaleSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2422,7 +2486,9 @@ export async function _migrateSqlContainerToAutoscaleDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2456,7 +2522,7 @@ export function migrateSqlContainerToAutoscale(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2478,7 +2544,7 @@ export function _updateSqlContainerThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2498,7 +2564,9 @@ export async function _updateSqlContainerThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2534,7 +2602,7 @@ export function updateSqlContainerThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2555,7 +2623,7 @@ export function _getSqlContainerThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2573,7 +2641,9 @@ export async function _getSqlContainerThroughputDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2616,7 +2686,7 @@ export function _sqlDatabaseRedistributeThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2636,7 +2706,9 @@ export async function _sqlDatabaseRedistributeThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2673,7 +2745,7 @@ export function sqlDatabaseRedistributeThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<
     OperationState<PhysicalPartitionThroughputInfoResult>,
@@ -2698,7 +2770,7 @@ export function _sqlDatabaseRetrieveThroughputDistributionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2718,7 +2790,9 @@ export async function _sqlDatabaseRetrieveThroughputDistributionDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2757,7 +2831,7 @@ export function sqlDatabaseRetrieveThroughputDistribution(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<
     OperationState<PhysicalPartitionThroughputInfoResult>,
@@ -2779,7 +2853,7 @@ export function _migrateSqlDatabaseToManualThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2797,7 +2871,9 @@ export async function _migrateSqlDatabaseToManualThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2829,7 +2905,7 @@ export function migrateSqlDatabaseToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2848,7 +2924,7 @@ export function _migrateSqlDatabaseToAutoscaleSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2866,7 +2942,9 @@ export async function _migrateSqlDatabaseToAutoscaleDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2898,7 +2976,7 @@ export function migrateSqlDatabaseToAutoscale(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2918,7 +2996,7 @@ export function _updateSqlDatabaseThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2938,7 +3016,9 @@ export async function _updateSqlDatabaseThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2972,7 +3052,7 @@ export function updateSqlDatabaseThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2991,7 +3071,7 @@ export function _getSqlDatabaseThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3009,7 +3089,9 @@ export async function _getSqlDatabaseThroughputDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3050,7 +3132,7 @@ export function _sqlDatabasePartitionMergeSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3070,7 +3152,9 @@ export async function _sqlDatabasePartitionMergeDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3107,7 +3191,7 @@ export function sqlDatabasePartitionMerge(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<
     OperationState<PhysicalPartitionStorageInfoCollection>,
@@ -3127,7 +3211,7 @@ export function _listSqlDatabasesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3145,7 +3229,9 @@ export async function _listSqlDatabasesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3168,7 +3254,7 @@ export function listSqlDatabases(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   );
 }
@@ -3187,7 +3273,7 @@ export function _deleteSqlDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3200,7 +3286,9 @@ export async function _deleteSqlDatabaseDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["204", "202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3222,7 +3310,7 @@ export function deleteSqlDatabase(
     getInitialResponse: () =>
       _deleteSqlDatabaseSend(context, resourceGroupName, accountName, databaseName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -3241,7 +3329,7 @@ export function _createUpdateSqlDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3261,7 +3349,9 @@ export async function _createUpdateSqlDatabaseDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3291,7 +3381,7 @@ export function createUpdateSqlDatabase(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<SqlDatabaseGetResults>, SqlDatabaseGetResults>;
 }
 
@@ -3309,7 +3399,7 @@ export function _getSqlDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3327,7 +3417,9 @@ export async function _getSqlDatabaseDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

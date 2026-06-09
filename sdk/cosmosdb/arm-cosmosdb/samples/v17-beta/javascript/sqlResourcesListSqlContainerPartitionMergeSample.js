@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to merges the partitions of a SQL Container
  *
  * @summary merges the partitions of a SQL Container
- * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlContainerPartitionMerge.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlContainerPartitionMerge.json
  */
 async function cosmosDBSqlContainerPartitionMerge() {
   const credential = new DefaultAzureCredential();

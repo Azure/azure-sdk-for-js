@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to show the event feed of all mutations done on all the Azure Cosmos DB SQL databases under the restorable account.  This helps in scenario where database was accidentally deleted to get the deletion time.  This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
  *
  * @summary show the event feed of all mutations done on all the Azure Cosmos DB SQL databases under the restorable account.  This helps in scenario where database was accidentally deleted to get the deletion time.  This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
- * x-ms-original-file: 2025-11-01-preview/CosmosDBRestorableSqlDatabaseList.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBRestorableSqlDatabaseList.json
  */
 async function cosmosDBRestorableSqlDatabaseList() {
   const credential = new DefaultAzureCredential();

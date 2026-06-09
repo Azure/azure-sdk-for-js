@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all data centers in a particular managed Cassandra cluster.
  *
  * @summary list all data centers in a particular managed Cassandra cluster.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBManagedCassandraDataCenterList.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBManagedCassandraDataCenterList.json
  */
 async function cosmosDBManagedCassandraDataCenterList() {
   const credential = new DefaultAzureCredential();

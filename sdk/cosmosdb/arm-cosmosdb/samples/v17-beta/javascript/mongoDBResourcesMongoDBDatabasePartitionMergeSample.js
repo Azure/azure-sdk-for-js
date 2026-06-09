@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to merges the partitions of a MongoDB database
  *
  * @summary merges the partitions of a MongoDB database
- * x-ms-original-file: 2025-11-01-preview/CosmosDBMongoDBDatabasePartitionMerge.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBMongoDBDatabasePartitionMerge.json
  */
 async function cosmosDBMongoDBDatabasePartitionMerge() {
   const credential = new DefaultAzureCredential();

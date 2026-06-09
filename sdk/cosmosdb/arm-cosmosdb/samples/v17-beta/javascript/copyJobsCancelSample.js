@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to cancels a Copy Job.
  *
  * @summary cancels a Copy Job.
- * x-ms-original-file: 2025-11-01-preview/copy-jobs/CosmosDBCopyJobCancel.json
+ * x-ms-original-file: 2026-04-01-preview/copy-jobs/CosmosDBCopyJobCancel.json
  */
 async function cosmosDBCopyJobCancel() {
   const credential = new DefaultAzureCredential();

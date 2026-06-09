@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list the backups of this cluster that are available to restore.
  *
  * @summary list the backups of this cluster that are available to restore.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBManagedCassandraBackupsList.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBManagedCassandraBackupsList.json
  */
 async function cosmosDBManagedCassandraBackupsList() {
   const credential = new DefaultAzureCredential();

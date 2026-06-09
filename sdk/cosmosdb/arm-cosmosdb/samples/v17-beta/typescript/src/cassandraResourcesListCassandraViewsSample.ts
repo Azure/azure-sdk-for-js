@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the Cassandra materialized views under an existing Azure Cosmos DB database account.
  *
  * @summary lists the Cassandra materialized views under an existing Azure Cosmos DB database account.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBCassandraViewList.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBCassandraViewList.json
  */
 async function cosmosDBCassandraViewList(): Promise<void> {
   const credential = new DefaultAzureCredential();

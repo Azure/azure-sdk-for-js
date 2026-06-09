@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the MongoDB collection under an existing Azure Cosmos DB database account.
  *
  * @summary gets the MongoDB collection under an existing Azure Cosmos DB database account.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBMongoDBCollectionGet.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBMongoDBCollectionGet.json
  */
 async function cosmosDBMongoDBCollectionGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

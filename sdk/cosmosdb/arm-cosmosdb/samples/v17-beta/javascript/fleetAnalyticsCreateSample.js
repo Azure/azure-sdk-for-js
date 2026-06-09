@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates an Azure Cosmos DB FleetAnalytics under a fleet.
  *
  * @summary creates an Azure Cosmos DB FleetAnalytics under a fleet.
- * x-ms-original-file: 2025-11-01-preview/fleet/CosmosDBFleetAnalyticsCreate.json
+ * x-ms-original-file: 2026-04-01-preview/fleet/CosmosDBFleetAnalyticsCreate.json
  */
 async function cosmosDBFleetAnalyticsCreate() {
   const credential = new DefaultAzureCredential();

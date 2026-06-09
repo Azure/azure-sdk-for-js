@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to redistribute throughput for an Azure Cosmos DB MongoDB database
  *
  * @summary redistribute throughput for an Azure Cosmos DB MongoDB database
- * x-ms-original-file: 2025-11-01-preview/CosmosDBMongoDBDatabaseRedistributeThroughput.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBMongoDBDatabaseRedistributeThroughput.json
  */
 async function cosmosDBMongoDBDatabaseRedistributeThroughput() {
   const credential = new DefaultAzureCredential();

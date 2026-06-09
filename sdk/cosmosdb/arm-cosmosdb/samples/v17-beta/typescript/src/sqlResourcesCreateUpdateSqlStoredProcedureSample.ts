@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update an Azure Cosmos DB SQL storedProcedure
  *
  * @summary create or update an Azure Cosmos DB SQL storedProcedure
- * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlStoredProcedureCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlStoredProcedureCreateUpdate.json
  */
 async function cosmosDBSqlStoredProcedureCreateUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

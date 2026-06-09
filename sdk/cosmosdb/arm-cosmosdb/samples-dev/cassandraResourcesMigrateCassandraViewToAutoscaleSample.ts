@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to migrate an Azure Cosmos DB Cassandra view from manual throughput to autoscale
  *
  * @summary migrate an Azure Cosmos DB Cassandra view from manual throughput to autoscale
- * x-ms-original-file: 2025-11-01-preview/CosmosDBCassandraViewMigrateToAutoscale.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBCassandraViewMigrateToAutoscale.json
  */
 async function cosmosDBCassandraViewMigrateToAutoscale(): Promise<void> {
   const credential = new DefaultAzureCredential();

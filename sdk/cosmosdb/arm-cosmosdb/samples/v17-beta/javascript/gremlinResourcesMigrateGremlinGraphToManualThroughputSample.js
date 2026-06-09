@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to migrate an Azure Cosmos DB Gremlin graph from autoscale to manual throughput
  *
  * @summary migrate an Azure Cosmos DB Gremlin graph from autoscale to manual throughput
- * x-ms-original-file: 2025-11-01-preview/CosmosDBGremlinGraphMigrateToManualThroughput.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBGremlinGraphMigrateToManualThroughput.json
  */
 async function cosmosDBGremlinGraphMigrateToManualThroughput() {
   const credential = new DefaultAzureCredential();

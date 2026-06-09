@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing Azure Cosmos DB Mongo User Definition.
  *
  * @summary deletes an existing Azure Cosmos DB Mongo User Definition.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBMongoDBUserDefinitionDelete.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBMongoDBUserDefinitionDelete.json
  */
 async function cosmosDBMongoDBUserDefinitionDelete() {
   const credential = new DefaultAzureCredential();

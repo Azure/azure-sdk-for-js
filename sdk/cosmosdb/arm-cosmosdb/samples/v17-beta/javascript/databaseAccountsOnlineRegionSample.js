@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to online the specified region for the specified Azure Cosmos DB database account.
  *
  * @summary online the specified region for the specified Azure Cosmos DB database account.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBDatabaseAccountOnlineRegion.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBDatabaseAccountOnlineRegion.json
  */
 async function cosmosDBDatabaseAccountOnlineRegion() {
   const credential = new DefaultAzureCredential();

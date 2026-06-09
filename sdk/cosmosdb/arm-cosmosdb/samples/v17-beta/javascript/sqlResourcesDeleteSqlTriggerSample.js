@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing Azure Cosmos DB SQL trigger.
  *
  * @summary deletes an existing Azure Cosmos DB SQL trigger.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlTriggerDelete.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlTriggerDelete.json
  */
 async function cosmosDBSqlTriggerDelete() {
   const credential = new DefaultAzureCredential();

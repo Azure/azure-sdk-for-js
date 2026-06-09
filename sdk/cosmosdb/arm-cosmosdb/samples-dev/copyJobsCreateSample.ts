@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a Copy Job.
  *
  * @summary creates a Copy Job.
- * x-ms-original-file: 2025-11-01-preview/copy-jobs/CosmosDBCopyJobCreate.json
+ * x-ms-original-file: 2026-04-01-preview/copy-jobs/CosmosDBCopyJobCreate.json
  */
 async function cosmosDBCopyJobCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

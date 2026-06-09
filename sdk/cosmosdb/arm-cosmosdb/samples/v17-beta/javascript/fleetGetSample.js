@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the properties of an existing Azure Cosmos DB fleet under a subscription
  *
  * @summary retrieves the properties of an existing Azure Cosmos DB fleet under a subscription
- * x-ms-original-file: 2025-11-01-preview/fleet/CosmosDBFleetGet.json
+ * x-ms-original-file: 2026-04-01-preview/fleet/CosmosDBFleetGet.json
  */
 async function cosmosDBFleetGet() {
   const credential = new DefaultAzureCredential();

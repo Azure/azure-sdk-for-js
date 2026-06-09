@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the RUs per second of the Cassandra view under an existing Azure Cosmos DB database account with the provided name.
  *
  * @summary gets the RUs per second of the Cassandra view under an existing Azure Cosmos DB database account with the provided name.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBCassandraViewThroughputGet.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBCassandraViewThroughputGet.json
  */
 async function cosmosDBCassandraViewThroughputGet() {
   const credential = new DefaultAzureCredential();

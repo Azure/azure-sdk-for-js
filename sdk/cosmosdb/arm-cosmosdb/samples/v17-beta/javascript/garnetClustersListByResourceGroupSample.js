@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all Garnet clusters in this resource group.
  *
  * @summary list all Garnet clusters in this resource group.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBGarnetClusterListByResourceGroup.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBGarnetClusterListByResourceGroup.json
  */
 async function cosmosDBGarnetClusterListByResourceGroup() {
   const credential = new DefaultAzureCredential();

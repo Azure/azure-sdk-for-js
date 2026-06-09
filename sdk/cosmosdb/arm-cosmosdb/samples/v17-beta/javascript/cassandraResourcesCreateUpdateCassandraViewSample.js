@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update an Azure Cosmos DB Cassandra View
  *
  * @summary create or update an Azure Cosmos DB Cassandra View
- * x-ms-original-file: 2025-11-01-preview/CosmosDBCassandraViewCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBCassandraViewCreateUpdate.json
  */
 async function cosmosDBCassandraViewCreateUpdate() {
   const credential = new DefaultAzureCredential();

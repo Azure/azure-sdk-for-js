@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a Garnet cache cluster. When updating, you must specify all writable properties.
  *
  * @summary create or update a Garnet cache cluster. When updating, you must specify all writable properties.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBGarnetClusterCreate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBGarnetClusterCreate.json
  */
 async function cosmosDBGarnetClusterCreate() {
   const credential = new DefaultAzureCredential();
@@ -20,9 +20,11 @@ async function cosmosDBGarnetClusterCreate() {
     properties: {
       subnetId:
         "/subscriptions/536e130b-d7d6-4ac7-98a5-de20d69588d2/resourceGroups/customer-vnet-rg/providers/Microsoft.Network/virtualNetworks/customer-vnet/subnets/management",
-      nodeCount: 4,
+      shardCount: 4,
       nodeSku: "Standard_DS13_v2",
       replicationFactor: 2,
+      authenticationMethod: "Entra",
+      persistence: true,
     },
   });
   console.log(result);

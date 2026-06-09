@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing Azure Cosmos DB Table.
  *
  * @summary deletes an existing Azure Cosmos DB Table.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBTableDelete.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBTableDelete.json
  */
 async function cosmosDBTableDelete() {
   const credential = new DefaultAzureCredential();

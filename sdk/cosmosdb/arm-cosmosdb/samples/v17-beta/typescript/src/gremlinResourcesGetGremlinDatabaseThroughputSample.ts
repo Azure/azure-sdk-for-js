@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the RUs per second of the Gremlin database under an existing Azure Cosmos DB database account with the provided name.
  *
  * @summary gets the RUs per second of the Gremlin database under an existing Azure Cosmos DB database account with the provided name.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBGremlinDatabaseThroughputGet.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBGremlinDatabaseThroughputGet.json
  */
 async function cosmosDBGremlinDatabaseThroughputGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

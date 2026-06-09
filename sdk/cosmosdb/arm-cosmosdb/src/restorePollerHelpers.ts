@@ -45,6 +45,18 @@ import {
 } from "./api/cassandraClusters/operations.js";
 import { _enableDisableDeserialize } from "./api/chaosFault/operations.js";
 import {
+  _purgeDeserialize,
+  _restoreDeserialize,
+} from "./api/softDeletedSqlContainers/operations.js";
+import {
+  _purgeDeserialize as _purgeDeserializeSoftDeletedSqlDatabases,
+  _restoreDeserialize as _restoreDeserializeSoftDeletedSqlDatabases,
+} from "./api/softDeletedSqlDatabases/operations.js";
+import {
+  _purgeDeserialize as _purgeDeserializeSoftDeletedDatabaseAccounts,
+  _restoreDeserialize as _restoreDeserializeSoftDeletedDatabaseAccounts,
+} from "./api/softDeletedDatabaseAccounts/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializePrivateEndpointConnections,
   _createOrUpdateDeserialize as _createOrUpdateDeserializePrivateEndpointConnections,
 } from "./api/privateEndpointConnections/operations.js";
@@ -332,6 +344,30 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/chaosFaults/{chaosFault}":
     { deserializer: _enableDisableDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/locations/{location}/softDeletedDatabaseAccounts/{accountName}/softDeletedSqlDatabases/{databaseName}/softDeletedSqlContainers/{containerName}?softDeleteActionKind=PermanentDeleteResource":
+    { deserializer: _purgeDeserialize, expectedStatuses: ["202", "204", "200"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/locations/{location}/softDeletedDatabaseAccounts/{accountName}/softDeletedSqlDatabases/{databaseName}/softDeletedSqlContainers/{containerName}?softDeleteActionKind=RestoreSoftDeletedResource":
+    { deserializer: _restoreDeserialize, expectedStatuses: ["202", "204", "200"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/locations/{location}/softDeletedDatabaseAccounts/{accountName}/softDeletedSqlDatabases/{databaseName}?softDeleteActionKind=PermanentDeleteResource":
+    {
+      deserializer: _purgeDeserializeSoftDeletedSqlDatabases,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/locations/{location}/softDeletedDatabaseAccounts/{accountName}/softDeletedSqlDatabases/{databaseName}?softDeleteActionKind=RestoreSoftDeletedResource":
+    {
+      deserializer: _restoreDeserializeSoftDeletedSqlDatabases,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/locations/{location}/softDeletedDatabaseAccounts/{accountName}?softDeleteActionKind=PermanentDeleteResource":
+    {
+      deserializer: _purgeDeserializeSoftDeletedDatabaseAccounts,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/locations/{location}/softDeletedDatabaseAccounts/{accountName}?softDeleteActionKind=RestoreSoftDeletedResource":
+    {
+      deserializer: _restoreDeserializeSoftDeletedDatabaseAccounts,
+      expectedStatuses: ["202", "204", "200"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
       deserializer: _$deleteDeserializePrivateEndpointConnections,
@@ -390,7 +426,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/retrieveContinuousBackupInformation":
     {
       deserializer: _retrieveContinuousBackupInformationDeserialize,
-      expectedStatuses: ["202", "200", "201"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}":
     { deserializer: _deleteGremlinGraphDeserialize, expectedStatuses: ["202", "204", "200"] },
@@ -542,7 +578,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/retrieveContinuousBackupInformation":
     {
       deserializer: _retrieveContinuousBackupInformationDeserializeTableResources,
-      expectedStatuses: ["202", "200", "201"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}":
     { deserializer: _deleteTableDeserialize, expectedStatuses: ["204", "202", "200"] },
@@ -580,7 +616,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/retrieveContinuousBackupInformation":
     {
       deserializer: _retrieveContinuousBackupInformationDeserializeMongoDBResources,
-      expectedStatuses: ["202", "200", "201"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/partitionMerge":
     {
@@ -694,7 +730,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/retrieveContinuousBackupInformation":
     {
       deserializer: _retrieveContinuousBackupInformationDeserializeSqlResources,
-      expectedStatuses: ["202", "200", "201"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/partitionMerge":
     {

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the Azure Cosmos DB Throughput Pools available under the subscription.
  *
  * @summary lists all the Azure Cosmos DB Throughput Pools available under the subscription.
- * x-ms-original-file: 2025-11-01-preview/throughputPool/CosmosDBThroughputPoolList.json
+ * x-ms-original-file: 2026-04-01-preview/throughputPool/CosmosDBThroughputPoolList.json
  */
 async function cosmosDBThroughputPoolList() {
   const credential = new DefaultAzureCredential();

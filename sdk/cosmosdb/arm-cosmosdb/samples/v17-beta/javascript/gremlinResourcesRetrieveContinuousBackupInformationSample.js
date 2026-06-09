@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves continuous backup information for a gremlin graph.
  *
  * @summary retrieves continuous backup information for a gremlin graph.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBGremlinGraphBackupInformation.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBGremlinGraphBackupInformation.json
  */
 async function cosmosDBGremlinGraphBackupInformation() {
   const credential = new DefaultAzureCredential();

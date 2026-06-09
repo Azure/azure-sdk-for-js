@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the graphs under an existing Azure Cosmos DB database account.
  *
  * @summary lists the graphs under an existing Azure Cosmos DB database account.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBGraphResourceList.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBGraphResourceList.json
  */
 async function cosmosDBSqlDatabaseList() {
   const credential = new DefaultAzureCredential();

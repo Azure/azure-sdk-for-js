@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to return a list of gremlin database and graphs combo that exist on the account at the given timestamp and location. This helps in scenarios to validate what resources exist at given timestamp and location. This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission.
  *
  * @summary return a list of gremlin database and graphs combo that exist on the account at the given timestamp and location. This helps in scenarios to validate what resources exist at given timestamp and location. This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBRestorableGremlinResourceList.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBRestorableGremlinResourceList.json
  */
 async function cosmosDBRestorableGremlinResourceList() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the properties of an existing Azure Cosmos DB restorable database account.  This call requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/read/*' permission.
  *
  * @summary retrieves the properties of an existing Azure Cosmos DB restorable database account.  This call requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/read/*' permission.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBRestorableDatabaseAccountGet.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBRestorableDatabaseAccountGet.json
  */
 async function cosmosDBRestorableDatabaseAccountGet() {
   const credential = new DefaultAzureCredential();

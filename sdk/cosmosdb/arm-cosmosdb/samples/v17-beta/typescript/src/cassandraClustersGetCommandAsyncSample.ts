@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get details about a specified command that was run asynchronously.
  *
  * @summary get details about a specified command that was run asynchronously.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBManagedCassandraCommandResult.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBManagedCassandraCommandResult.json
  */
 async function cosmosDBManagedCassandraCommandResult(): Promise<void> {
   const credential = new DefaultAzureCredential();

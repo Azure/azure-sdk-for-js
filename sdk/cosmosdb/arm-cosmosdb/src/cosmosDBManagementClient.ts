@@ -98,6 +98,12 @@ import type { RestorableTablesOperations } from "./classic/restorableTables/inde
 import { _getRestorableTablesOperations } from "./classic/restorableTables/index.js";
 import type { ServiceOperations } from "./classic/service/index.js";
 import { _getServiceOperations } from "./classic/service/index.js";
+import type { SoftDeletedDatabaseAccountsOperations } from "./classic/softDeletedDatabaseAccounts/index.js";
+import { _getSoftDeletedDatabaseAccountsOperations } from "./classic/softDeletedDatabaseAccounts/index.js";
+import type { SoftDeletedSqlContainersOperations } from "./classic/softDeletedSqlContainers/index.js";
+import { _getSoftDeletedSqlContainersOperations } from "./classic/softDeletedSqlContainers/index.js";
+import type { SoftDeletedSqlDatabasesOperations } from "./classic/softDeletedSqlDatabases/index.js";
+import { _getSoftDeletedSqlDatabasesOperations } from "./classic/softDeletedSqlDatabases/index.js";
 import type { SqlResourcesOperations } from "./classic/sqlResources/index.js";
 import { _getSqlResourcesOperations } from "./classic/sqlResources/index.js";
 import type { TableResourcesOperations } from "./classic/tableResources/index.js";
@@ -187,6 +193,9 @@ export class CosmosDBManagementClient {
     this.collection = _getCollectionOperations(this._client);
     this.database = _getDatabaseOperations(this._client);
     this.chaosFault = _getChaosFaultOperations(this._client);
+    this.softDeletedSqlContainers = _getSoftDeletedSqlContainersOperations(this._client);
+    this.softDeletedSqlDatabases = _getSoftDeletedSqlDatabasesOperations(this._client);
+    this.softDeletedDatabaseAccounts = _getSoftDeletedDatabaseAccountsOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.notebookWorkspaces = _getNotebookWorkspacesOperations(this._client);
@@ -279,6 +288,12 @@ export class CosmosDBManagementClient {
   public readonly database: DatabaseOperations;
   /** The operation groups for chaosFault */
   public readonly chaosFault: ChaosFaultOperations;
+  /** The operation groups for softDeletedSqlContainers */
+  public readonly softDeletedSqlContainers: SoftDeletedSqlContainersOperations;
+  /** The operation groups for softDeletedSqlDatabases */
+  public readonly softDeletedSqlDatabases: SoftDeletedSqlDatabasesOperations;
+  /** The operation groups for softDeletedDatabaseAccounts */
+  public readonly softDeletedDatabaseAccounts: SoftDeletedDatabaseAccountsOperations;
   /** The operation groups for privateLinkResources */
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for privateEndpointConnections */

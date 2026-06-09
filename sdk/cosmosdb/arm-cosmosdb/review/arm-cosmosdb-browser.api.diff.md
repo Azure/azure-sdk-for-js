@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -1569,9 +1569,9 @@
+@@ -1576,9 +1576,9 @@
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
      keyVaultKeyUri?: string;
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
      publicNetworkAccess?: PublicNetworkAccess;
-@@ -1612,9 +1612,9 @@
+@@ -1621,9 +1621,9 @@
      ipRules?: IpAddressOrRange[];
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
@@ -29,7 +29,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
      publicNetworkAccess?: PublicNetworkAccess;
-@@ -1660,21 +1660,21 @@
+@@ -1671,22 +1671,22 @@
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
      keyVaultKeyUri?: string;
@@ -45,6 +45,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    readonly readLocations?: Location[];
 +    readonly readLocations?: Location_2[];
      restoreParameters?: RestoreParameters;
+     softDeleteConfiguration?: SoftDeleteConfiguration;
      throughputPoolDedicatedRUs?: number;
      throughputPoolMaxConsumableRUs?: number;
      virtualNetworkRules?: VirtualNetworkRule[];
@@ -53,8 +54,8 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
- export interface DatabaseAccountGetResults extends Resource {
-@@ -1717,22 +1717,22 @@
+ export interface DatabaseAccountGetResults extends ProxyResource {
+@@ -1730,23 +1730,23 @@
      keyVaultKeyUri?: string;
      readonly keyVaultKeyUriVersion?: string;
      kind?: DatabaseAccountKind;
@@ -70,6 +71,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    readonly readLocations?: Location[];
 +    readonly readLocations?: Location_2[];
      restoreParameters?: RestoreParameters;
+     softDeleteConfiguration?: SoftDeleteConfiguration;
      tags?: Record<string, string>;
      throughputPoolDedicatedRUs?: number;
      throughputPoolMaxConsumableRUs?: number;
@@ -80,7 +82,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface DatabaseAccountKeysMetadata {
-@@ -1944,9 +1944,9 @@
+@@ -1960,9 +1960,9 @@
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
      keyVaultKeyUri?: string;
@@ -91,7 +93,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
      publicNetworkAccess?: PublicNetworkAccess;
-@@ -1985,9 +1985,9 @@
+@@ -2003,9 +2003,9 @@
      ipRules?: IpAddressOrRange[];
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
@@ -102,8 +104,8 @@ For the complete API surface, see the corresponding -node.api.md file.
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
      publicNetworkAccess?: PublicNetworkAccess;
-@@ -3596,16 +3596,17 @@
-     V20251101Preview = "2025-11-01-preview"
+@@ -3637,16 +3637,17 @@
+     V20260401Preview = "2026-04-01-preview"
  }
  
  // @public
@@ -121,5 +123,20 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface LocationGetResult extends ProxyResource {
      properties?: LocationProperties;
+@@ -5478,11 +5479,11 @@
+ }
+ 
+ // @public
+ export interface SoftDeletedDatabaseAccountResource {
+-    locations?: Location[];
+-    readLocations?: Location[];
+-    writeLocations?: Location[];
++    locations?: Location_2[];
++    readLocations?: Location_2[];
++    writeLocations?: Location_2[];
+ }
+ 
+ // @public
+ export interface SoftDeletedDatabaseAccountsGetOptionalParams extends OperationOptions {
 
 ```

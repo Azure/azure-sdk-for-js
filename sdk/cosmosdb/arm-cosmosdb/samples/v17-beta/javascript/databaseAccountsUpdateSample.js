@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates the properties of an existing Azure Cosmos DB database account.
  *
  * @summary updates the properties of an existing Azure Cosmos DB database account.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBDatabaseAccountPatch.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBDatabaseAccountPatch.json
  */
 async function cosmosDBDatabaseAccountPatch() {
   const credential = new DefaultAzureCredential();
@@ -58,6 +58,7 @@ async function cosmosDBDatabaseAccountPatch() {
     diagnosticLogSettings: { enableFullTextQuery: "True" },
     enablePartitionMerge: true,
     enableBurstCapacity: true,
+    enforceHierarchicalPartitionKeyIdLastLevel: false,
     minimalTlsVersion: "Tls",
     enablePriorityBasedExecution: true,
     defaultPriorityLevel: "Low",

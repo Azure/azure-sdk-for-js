@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update an Azure Cosmos DB SQL trigger
  *
  * @summary create or update an Azure Cosmos DB SQL trigger
- * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlTriggerCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlTriggerCreateUpdate.json
  */
 async function cosmosDBSqlTriggerCreateUpdate() {
   const credential = new DefaultAzureCredential();

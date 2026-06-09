@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieve throughput distribution for an Azure Cosmos DB SQL database
  *
  * @summary retrieve throughput distribution for an Azure Cosmos DB SQL database
- * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlDatabaseRetrieveThroughputDistribution.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlDatabaseRetrieveThroughputDistribution.json
  */
 async function cosmosDBSqlDatabaseRetrieveThroughputDistribution() {
   const credential = new DefaultAzureCredential();

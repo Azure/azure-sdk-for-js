@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update an Azure Cosmos DB SQL container
  *
  * @summary create or update an Azure Cosmos DB SQL container
- * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlContainerCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlContainerCreateUpdate.json
  */
 async function cosmosDBSqlContainerCreateUpdate() {
   const credential = new DefaultAzureCredential();
@@ -109,7 +109,7 @@ async function cosmosDBSqlContainerCreateUpdate() {
  * This sample demonstrates how to create or update an Azure Cosmos DB SQL container
  *
  * @summary create or update an Azure Cosmos DB SQL container
- * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlContainerRestore.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlContainerRestore.json
  */
 async function cosmosDBSqlContainerRestore() {
   const credential = new DefaultAzureCredential();
@@ -143,7 +143,7 @@ async function cosmosDBSqlContainerRestore() {
  * This sample demonstrates how to create or update an Azure Cosmos DB SQL container
  *
  * @summary create or update an Azure Cosmos DB SQL container
- * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlMaterializedViewCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlMaterializedViewCreateUpdate.json
  */
 async function cosmosDBSqlMaterializedViewCreateUpdate() {
   const credential = new DefaultAzureCredential();

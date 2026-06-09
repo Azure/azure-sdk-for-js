@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the Gremlin graph under an existing Azure Cosmos DB database account.
  *
  * @summary lists the Gremlin graph under an existing Azure Cosmos DB database account.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBGremlinGraphList.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBGremlinGraphList.json
  */
 async function cosmosDBGremlinGraphList(): Promise<void> {
   const credential = new DefaultAzureCredential();

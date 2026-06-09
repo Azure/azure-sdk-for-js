@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves continuous backup information for a table.
  *
  * @summary retrieves continuous backup information for a table.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBTableBackupInformation.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBTableBackupInformation.json
  */
 async function cosmosDBTableCollectionBackupInformation() {
   const credential = new DefaultAzureCredential();

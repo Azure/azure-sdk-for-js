@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the properties of an existing Azure Cosmos DB MongoMI Role Assignment with the given Id.
  *
  * @summary retrieves the properties of an existing Azure Cosmos DB MongoMI Role Assignment with the given Id.
- * x-ms-original-file: 2025-11-01-preview/mongoMIrbac/CosmosDBMongoMIRoleAssignmentGet.json
+ * x-ms-original-file: 2026-04-01-preview/mongoMIrbac/CosmosDBMongoMIRoleAssignmentGet.json
  */
 async function cosmosDBMongoMIRoleAssignmentGet() {
   const credential = new DefaultAzureCredential();

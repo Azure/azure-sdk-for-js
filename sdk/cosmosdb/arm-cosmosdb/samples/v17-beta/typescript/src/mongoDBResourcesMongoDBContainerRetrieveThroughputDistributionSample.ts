@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieve throughput distribution for an Azure Cosmos DB MongoDB container
  *
  * @summary retrieve throughput distribution for an Azure Cosmos DB MongoDB container
- * x-ms-original-file: 2025-11-01-preview/CosmosDBMongoDBCollectionRetrieveThroughputDistribution.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBMongoDBCollectionRetrieveThroughputDistribution.json
  */
 async function cosmosDBMongoDBCollectionRetrieveThroughputDistribution(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the access keys for the specified Azure Cosmos DB database account.
  *
  * @summary lists the access keys for the specified Azure Cosmos DB database account.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBDatabaseAccountListKeys.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBDatabaseAccountListKeys.json
  */
 async function cosmosDBDatabaseAccountListKeys() {
   const credential = new DefaultAzureCredential();

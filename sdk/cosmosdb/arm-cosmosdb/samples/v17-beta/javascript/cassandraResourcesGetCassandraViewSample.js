@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the Cassandra view under an existing Azure Cosmos DB database account.
  *
  * @summary gets the Cassandra view under an existing Azure Cosmos DB database account.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBCassandraViewGet.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBCassandraViewGet.json
  */
 async function cosmosDBCassandraViewGet() {
   const credential = new DefaultAzureCredential();

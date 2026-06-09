@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure Powershell (instead of directly).
  *
  * @summary create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure Powershell (instead of directly).
- * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlClientEncryptionKeyCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlClientEncryptionKeyCreateUpdate.json
  */
 async function cosmosDBClientEncryptionKeyCreateUpdate() {
   const credential = new DefaultAzureCredential();

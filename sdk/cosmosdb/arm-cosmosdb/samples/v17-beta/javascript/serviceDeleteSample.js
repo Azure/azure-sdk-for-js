@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes service with the given serviceName.
  *
  * @summary deletes service with the given serviceName.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBDataTransferServiceDelete.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBDataTransferServiceDelete.json
  */
 async function dataTransferServiceDelete() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function dataTransferServiceDelete() {
  * This sample demonstrates how to deletes service with the given serviceName.
  *
  * @summary deletes service with the given serviceName.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBGraphAPIComputeServiceDelete.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBGraphAPIComputeServiceDelete.json
  */
 async function graphAPIComputeServiceDelete() {
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function graphAPIComputeServiceDelete() {
  * This sample demonstrates how to deletes service with the given serviceName.
  *
  * @summary deletes service with the given serviceName.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBMaterializedViewsBuilderServiceDelete.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBMaterializedViewsBuilderServiceDelete.json
  */
 async function materializedViewsBuilderServiceDelete() {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function materializedViewsBuilderServiceDelete() {
  * This sample demonstrates how to deletes service with the given serviceName.
  *
  * @summary deletes service with the given serviceName.
- * x-ms-original-file: 2025-11-01-preview/services/sqldedicatedgateway/CosmosDBSqlDedicatedGatewayServiceDelete.json
+ * x-ms-original-file: 2026-04-01-preview/services/sqldedicatedgateway/CosmosDBSqlDedicatedGatewayServiceDelete.json
  */
 async function sqlDedicatedGatewayServiceDelete() {
   const credential = new DefaultAzureCredential();

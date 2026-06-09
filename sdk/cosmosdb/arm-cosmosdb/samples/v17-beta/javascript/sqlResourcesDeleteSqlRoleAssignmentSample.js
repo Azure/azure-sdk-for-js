@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing Azure Cosmos DB SQL Role Assignment.
  *
  * @summary deletes an existing Azure Cosmos DB SQL Role Assignment.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlRoleAssignmentDelete.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlRoleAssignmentDelete.json
  */
 async function cosmosDBSqlRoleAssignmentDelete() {
   const credential = new DefaultAzureCredential();

@@ -7,11 +7,13 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -40,6 +42,7 @@ export interface AccessRuleProperties {
 
 // @public
 export interface AccountKeyMetadata {
+    readonly approximateLastUsageTime?: Date;
     readonly generationTime?: Date;
 }
 
@@ -480,7 +483,7 @@ export interface CassandraKeyspaceGetPropertiesResource extends CassandraKeyspac
 }
 
 // @public
-export interface CassandraKeyspaceGetResults extends Resource {
+export interface CassandraKeyspaceGetResults extends ProxyResource {
     identity?: ManagedServiceIdentity;
     location?: string;
     // (undocumented)
@@ -860,7 +863,7 @@ export interface CassandraTableGetPropertiesResource extends CassandraTableResou
 }
 
 // @public
-export interface CassandraTableGetResults extends Resource {
+export interface CassandraTableGetResults extends ProxyResource {
     identity?: ManagedServiceIdentity;
     location?: string;
     // (undocumented)
@@ -910,7 +913,7 @@ export interface CassandraViewGetPropertiesResource extends CassandraViewResourc
 }
 
 // @public
-export interface CassandraViewGetResults extends Resource {
+export interface CassandraViewGetResults extends ProxyResource {
     identity?: ManagedServiceIdentity;
     location?: string;
     // (undocumented)
@@ -1036,7 +1039,7 @@ export interface ClusterKey {
 }
 
 // @public
-export interface ClusterResource extends Resource {
+export interface ClusterResource extends ProxyResource {
     identity?: ManagedCassandraManagedServiceIdentity;
     location?: string;
     properties?: ClusterResourceProperties;
@@ -1437,6 +1440,9 @@ export class CosmosDBManagementClient {
     readonly restorableTableResources: RestorableTableResourcesOperations;
     readonly restorableTables: RestorableTablesOperations;
     readonly service: ServiceOperations;
+    readonly softDeletedDatabaseAccounts: SoftDeletedDatabaseAccountsOperations;
+    readonly softDeletedSqlContainers: SoftDeletedSqlContainersOperations;
+    readonly softDeletedSqlDatabases: SoftDeletedSqlDatabasesOperations;
     readonly sqlResources: SqlResourcesOperations;
     readonly tableResources: TableResourcesOperations;
     readonly throughputPool: ThroughputPoolOperations;
@@ -1563,6 +1569,7 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
     enablePartitionMerge?: boolean;
     enablePerRegionPerPartitionAutoscale?: boolean;
     enablePriorityBasedExecution?: boolean;
+    enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
     // (undocumented)
     identity?: ManagedServiceIdentity;
     ipRules?: IpAddressOrRange[];
@@ -1576,6 +1583,7 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
     networkAclBypassResourceIds?: string[];
     publicNetworkAccess?: PublicNetworkAccess;
     restoreParameters?: RestoreParameters;
+    softDeleteConfiguration?: SoftDeleteConfiguration;
     virtualNetworkRules?: VirtualNetworkRule[];
 }
 
@@ -1609,6 +1617,7 @@ export interface DatabaseAccountCreateUpdateProperties {
     enablePartitionMerge?: boolean;
     enablePerRegionPerPartitionAutoscale?: boolean;
     enablePriorityBasedExecution?: boolean;
+    enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
     readonly keysMetadata?: DatabaseAccountKeysMetadata;
@@ -1619,6 +1628,7 @@ export interface DatabaseAccountCreateUpdateProperties {
     networkAclBypassResourceIds?: string[];
     publicNetworkAccess?: PublicNetworkAccess;
     restoreParameters?: RestoreParameters;
+    softDeleteConfiguration?: SoftDeleteConfiguration;
     virtualNetworkRules?: VirtualNetworkRule[];
 }
 
@@ -1654,6 +1664,7 @@ export interface DatabaseAccountGetProperties {
     enablePartitionMerge?: boolean;
     enablePerRegionPerPartitionAutoscale?: boolean;
     enablePriorityBasedExecution?: boolean;
+    enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
     readonly failoverPolicies?: FailoverPolicy[];
     readonly instanceId?: string;
     ipRules?: IpAddressOrRange[];
@@ -1670,6 +1681,7 @@ export interface DatabaseAccountGetProperties {
     publicNetworkAccess?: PublicNetworkAccess;
     readonly readLocations?: Location[];
     restoreParameters?: RestoreParameters;
+    softDeleteConfiguration?: SoftDeleteConfiguration;
     throughputPoolDedicatedRUs?: number;
     throughputPoolMaxConsumableRUs?: number;
     virtualNetworkRules?: VirtualNetworkRule[];
@@ -1677,7 +1689,7 @@ export interface DatabaseAccountGetProperties {
 }
 
 // @public
-export interface DatabaseAccountGetResults extends Resource {
+export interface DatabaseAccountGetResults extends ProxyResource {
     analyticalStorageConfiguration?: AnalyticalStorageConfiguration;
     apiProperties?: ApiProperties;
     backupPolicy?: BackupPolicyUnion;
@@ -1708,6 +1720,7 @@ export interface DatabaseAccountGetResults extends Resource {
     enablePartitionMerge?: boolean;
     enablePerRegionPerPartitionAutoscale?: boolean;
     enablePriorityBasedExecution?: boolean;
+    enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
     readonly failoverPolicies?: FailoverPolicy[];
     identity?: ManagedServiceIdentity;
     readonly instanceId?: string;
@@ -1727,6 +1740,7 @@ export interface DatabaseAccountGetResults extends Resource {
     publicNetworkAccess?: PublicNetworkAccess;
     readonly readLocations?: Location[];
     restoreParameters?: RestoreParameters;
+    softDeleteConfiguration?: SoftDeleteConfiguration;
     tags?: Record<string, string>;
     throughputPoolDedicatedRUs?: number;
     throughputPoolMaxConsumableRUs?: number;
@@ -1765,6 +1779,7 @@ export interface DatabaseAccountListReadOnlyKeysResult {
 // @public
 export interface DatabaseAccountRegenerateKeyParameters {
     keyKind: KeyKind;
+    skipAccountKeysLastUsageCheck?: boolean;
 }
 
 // @public
@@ -1939,6 +1954,7 @@ export interface DatabaseAccountUpdateParameters {
     enablePartitionMerge?: boolean;
     enablePerRegionPerPartitionAutoscale?: boolean;
     enablePriorityBasedExecution?: boolean;
+    enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
     identity?: ManagedServiceIdentity;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
@@ -1950,6 +1966,7 @@ export interface DatabaseAccountUpdateParameters {
     networkAclBypass?: NetworkAclBypass;
     networkAclBypassResourceIds?: string[];
     publicNetworkAccess?: PublicNetworkAccess;
+    softDeleteConfiguration?: SoftDeleteConfiguration;
     tags?: Record<string, string>;
     virtualNetworkRules?: VirtualNetworkRule[];
 }
@@ -1982,6 +1999,7 @@ export interface DatabaseAccountUpdateProperties {
     enablePartitionMerge?: boolean;
     enablePerRegionPerPartitionAutoscale?: boolean;
     enablePriorityBasedExecution?: boolean;
+    enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
     readonly keysMetadata?: DatabaseAccountKeysMetadata;
@@ -1991,6 +2009,7 @@ export interface DatabaseAccountUpdateProperties {
     networkAclBypass?: NetworkAclBypass;
     networkAclBypassResourceIds?: string[];
     publicNetworkAccess?: PublicNetworkAccess;
+    softDeleteConfiguration?: SoftDeleteConfiguration;
     virtualNetworkRules?: VirtualNetworkRule[];
 }
 
@@ -2481,6 +2500,9 @@ export interface FullTextPolicy {
 }
 
 // @public
+export type GarnetAuthenticationType = string;
+
+// @public
 export type GarnetCacheProvisioningState = string;
 
 // @public
@@ -2496,22 +2518,26 @@ export interface GarnetClusterResourcePatch {
 
 // @public
 export interface GarnetClusterResourcePatchProperties {
+    authenticationMethod?: GarnetAuthenticationType;
     clusterType?: ClusterType;
     extensions?: string[];
+    persistence?: boolean;
 }
 
 // @public
 export interface GarnetClusterResourceProperties {
     allocationState?: AllocationState;
+    authenticationMethod?: GarnetAuthenticationType;
     availabilityZone?: boolean;
     clusterType?: ClusterType;
     readonly endPoints?: GarnetClusterResourcePropertiesEndPointsItem[];
     extensions?: string[];
-    nodeCount?: number;
     nodeSku?: string;
+    persistence?: boolean;
     provisionError?: ErrorDetail;
     readonly provisioningState?: GarnetCacheProvisioningState;
     replicationFactor?: number;
+    shardCount?: number;
     subnetId?: string;
 }
 
@@ -2621,7 +2647,7 @@ export interface GraphResourceGetPropertiesResource extends GraphResource {
 }
 
 // @public
-export interface GraphResourceGetResults extends Resource {
+export interface GraphResourceGetResults extends ProxyResource {
     identity?: ManagedServiceIdentity;
     location?: string;
     // (undocumented)
@@ -2697,7 +2723,7 @@ export interface GremlinDatabaseGetPropertiesResource extends GremlinDatabaseRes
 }
 
 // @public
-export interface GremlinDatabaseGetResults extends Resource {
+export interface GremlinDatabaseGetResults extends ProxyResource {
     identity?: ManagedServiceIdentity;
     location?: string;
     // (undocumented)
@@ -2752,7 +2778,7 @@ export interface GremlinGraphGetPropertiesResource extends GremlinGraphResource 
 }
 
 // @public
-export interface GremlinGraphGetResults extends Resource {
+export interface GremlinGraphGetResults extends ProxyResource {
     identity?: ManagedServiceIdentity;
     location?: string;
     // (undocumented)
@@ -3049,6 +3075,8 @@ export interface IpAddressOrRange {
     ipAddressOrRange?: string;
 }
 
+export { isRestError }
+
 // @public
 export type IssueType = string;
 
@@ -3205,6 +3233,7 @@ export enum KnownConnectorOffer {
 // @public
 export enum KnownContinuousTier {
     Continuous30Days = "Continuous30Days",
+    Continuous35Days = "Continuous35Days",
     Continuous7Days = "Continuous7Days"
 }
 
@@ -3316,6 +3345,11 @@ export enum KnownFleetspacePropertiesFleetspaceApiKind {
 export enum KnownFleetspacePropertiesServiceTier {
     BusinessCritical = "BusinessCritical",
     GeneralPurpose = "GeneralPurpose"
+}
+
+// @public
+export enum KnownGarnetAuthenticationType {
+    Entra = "Entra"
 }
 
 // @public
@@ -3509,6 +3543,12 @@ export enum KnownSeverity {
 }
 
 // @public
+export enum KnownSoftDeleteActionKind {
+    PermanentDeleteResource = "PermanentDeleteResource",
+    RestoreSoftDeletedResource = "RestoreSoftDeletedResource"
+}
+
+// @public
 export enum KnownSpatialType {
     LineString = "LineString",
     MultiPolygon = "MultiPolygon",
@@ -3593,7 +3633,8 @@ export enum KnownVectorIndexType {
 
 // @public
 export enum KnownVersions {
-    V20251101Preview = "2025-11-01-preview"
+    V20260315 = "2026-03-15",
+    V20260401Preview = "2026-04-01-preview"
 }
 
 // @public
@@ -3779,7 +3820,7 @@ export interface MongoDBCollectionGetPropertiesResource extends MongoDBCollectio
 }
 
 // @public
-export interface MongoDBCollectionGetResults extends Resource {
+export interface MongoDBCollectionGetResults extends ProxyResource {
     identity?: ManagedServiceIdentity;
     location?: string;
     // (undocumented)
@@ -3831,7 +3872,7 @@ export interface MongoDBDatabaseGetPropertiesResource extends MongoDBDatabaseRes
 }
 
 // @public
-export interface MongoDBDatabaseGetResults extends Resource {
+export interface MongoDBDatabaseGetResults extends ProxyResource {
     identity?: ManagedServiceIdentity;
     location?: string;
     // (undocumented)
@@ -4114,7 +4155,7 @@ export interface MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams e
 
 // @public
 export interface MongoIndex {
-    key?: MongoIndexKeys;
+    keys?: string[];
     options?: MongoIndexOptions;
 }
 
@@ -4856,6 +4897,8 @@ export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAs
 export interface ResourceRestoreParameters extends RestoreParametersBase {
 }
 
+export { RestError }
+
 // @public
 export interface RestorableDatabaseAccountGetResult extends ProxyResource {
     accountName?: string;
@@ -5412,6 +5455,210 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
 }
 
 // @public
+export type SoftDeleteActionKind = string;
+
+// @public
+export interface SoftDeleteConfiguration {
+    minMinutesBeforePermanentDeletionAllowed?: number;
+    softDeleteRetentionPeriodInMinutes?: number;
+    softDeletionEnabled?: boolean;
+}
+
+// @public
+export interface SoftDeletedDatabaseAccountGetResult extends ProxyResource {
+    properties?: SoftDeletedDatabaseAccountProperties;
+}
+
+// @public
+export interface SoftDeletedDatabaseAccountProperties {
+    accountName?: string;
+    resource?: SoftDeletedDatabaseAccountResource;
+    softDeleteConfiguration?: SoftDeleteConfiguration;
+    softDeletionMetadata?: SoftDeletionMetadata;
+}
+
+// @public
+export interface SoftDeletedDatabaseAccountResource {
+    locations?: Location[];
+    readLocations?: Location[];
+    writeLocations?: Location[];
+}
+
+// @public
+export interface SoftDeletedDatabaseAccountsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SoftDeletedDatabaseAccountsListByLocationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SoftDeletedDatabaseAccountsListByResourceGroupAndLocationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SoftDeletedDatabaseAccountsListResult {
+    nextLink?: string;
+    value: SoftDeletedDatabaseAccountGetResult[];
+}
+
+// @public
+export interface SoftDeletedDatabaseAccountsOperations {
+    // @deprecated (undocumented)
+    beginPurge: (resourceGroupName: string, location: string, accountName: string, options?: SoftDeletedDatabaseAccountsPurgeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPurgeAndWait: (resourceGroupName: string, location: string, accountName: string, options?: SoftDeletedDatabaseAccountsPurgeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestore: (resourceGroupName: string, location: string, accountName: string, options?: SoftDeletedDatabaseAccountsRestoreOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreAndWait: (resourceGroupName: string, location: string, accountName: string, options?: SoftDeletedDatabaseAccountsRestoreOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, location: string, accountName: string, options?: SoftDeletedDatabaseAccountsGetOptionalParams) => Promise<SoftDeletedDatabaseAccountGetResult>;
+    listByLocation: (location: string, options?: SoftDeletedDatabaseAccountsListByLocationOptionalParams) => Promise<SoftDeletedDatabaseAccountsListResult>;
+    listByResourceGroupAndLocation: (resourceGroupName: string, location: string, options?: SoftDeletedDatabaseAccountsListByResourceGroupAndLocationOptionalParams) => Promise<SoftDeletedDatabaseAccountsListResult>;
+    purge: (resourceGroupName: string, location: string, accountName: string, options?: SoftDeletedDatabaseAccountsPurgeOptionalParams) => PollerLike<OperationState<void>, void>;
+    restore: (resourceGroupName: string, location: string, accountName: string, options?: SoftDeletedDatabaseAccountsRestoreOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface SoftDeletedDatabaseAccountsPurgeOptionalParams extends OperationOptions {
+    softDeleteActionKind?: SoftDeleteActionKind;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SoftDeletedDatabaseAccountsRestoreOptionalParams extends OperationOptions {
+    softDeleteActionKind?: SoftDeleteActionKind;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SoftDeletedSqlContainerGetResult extends ProxyResource {
+    properties?: SoftDeletedSqlContainerProperties;
+}
+
+// @public
+export interface SoftDeletedSqlContainerProperties {
+    resource?: SoftDeletedSqlContainerResource;
+    softDeletionMetadata?: SoftDeletionMetadata;
+}
+
+// @public
+export interface SoftDeletedSqlContainerResource {
+    defaultTtl?: number;
+    id: string;
+    partitionKey?: ContainerPartitionKey;
+    readonly rid?: string;
+}
+
+// @public
+export interface SoftDeletedSqlContainersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SoftDeletedSqlContainersListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SoftDeletedSqlContainersListResult {
+    nextLink?: string;
+    value: SoftDeletedSqlContainerGetResult[];
+}
+
+// @public
+export interface SoftDeletedSqlContainersOperations {
+    // @deprecated (undocumented)
+    beginPurge: (resourceGroupName: string, location: string, accountName: string, databaseName: string, containerName: string, options?: SoftDeletedSqlContainersPurgeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPurgeAndWait: (resourceGroupName: string, location: string, accountName: string, databaseName: string, containerName: string, options?: SoftDeletedSqlContainersPurgeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestore: (resourceGroupName: string, location: string, accountName: string, databaseName: string, containerName: string, options?: SoftDeletedSqlContainersRestoreOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreAndWait: (resourceGroupName: string, location: string, accountName: string, databaseName: string, containerName: string, options?: SoftDeletedSqlContainersRestoreOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, location: string, accountName: string, databaseName: string, containerName: string, options?: SoftDeletedSqlContainersGetOptionalParams) => Promise<SoftDeletedSqlContainerGetResult>;
+    list: (resourceGroupName: string, location: string, accountName: string, databaseName: string, options?: SoftDeletedSqlContainersListOptionalParams) => Promise<SoftDeletedSqlContainersListResult>;
+    purge: (resourceGroupName: string, location: string, accountName: string, databaseName: string, containerName: string, options?: SoftDeletedSqlContainersPurgeOptionalParams) => PollerLike<OperationState<void>, void>;
+    restore: (resourceGroupName: string, location: string, accountName: string, databaseName: string, containerName: string, options?: SoftDeletedSqlContainersRestoreOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface SoftDeletedSqlContainersPurgeOptionalParams extends OperationOptions {
+    softDeleteActionKind?: SoftDeleteActionKind;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SoftDeletedSqlContainersRestoreOptionalParams extends OperationOptions {
+    softDeleteActionKind?: SoftDeleteActionKind;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SoftDeletedSqlDatabaseGetResult extends ProxyResource {
+    properties?: SoftDeletedSqlDatabaseProperties;
+}
+
+// @public
+export interface SoftDeletedSqlDatabaseProperties {
+    resource?: SoftDeletedSqlDatabaseResource;
+    softDeletionMetadata?: SoftDeletionMetadata;
+}
+
+// @public
+export interface SoftDeletedSqlDatabaseResource {
+    id: string;
+    readonly rid?: string;
+}
+
+// @public
+export interface SoftDeletedSqlDatabasesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SoftDeletedSqlDatabasesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SoftDeletedSqlDatabasesListResult {
+    nextLink?: string;
+    value: SoftDeletedSqlDatabaseGetResult[];
+}
+
+// @public
+export interface SoftDeletedSqlDatabasesOperations {
+    // @deprecated (undocumented)
+    beginPurge: (resourceGroupName: string, location: string, accountName: string, databaseName: string, options?: SoftDeletedSqlDatabasesPurgeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPurgeAndWait: (resourceGroupName: string, location: string, accountName: string, databaseName: string, options?: SoftDeletedSqlDatabasesPurgeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestore: (resourceGroupName: string, location: string, accountName: string, databaseName: string, options?: SoftDeletedSqlDatabasesRestoreOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreAndWait: (resourceGroupName: string, location: string, accountName: string, databaseName: string, options?: SoftDeletedSqlDatabasesRestoreOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, location: string, accountName: string, databaseName: string, options?: SoftDeletedSqlDatabasesGetOptionalParams) => Promise<SoftDeletedSqlDatabaseGetResult>;
+    list: (resourceGroupName: string, location: string, accountName: string, options?: SoftDeletedSqlDatabasesListOptionalParams) => Promise<SoftDeletedSqlDatabasesListResult>;
+    purge: (resourceGroupName: string, location: string, accountName: string, databaseName: string, options?: SoftDeletedSqlDatabasesPurgeOptionalParams) => PollerLike<OperationState<void>, void>;
+    restore: (resourceGroupName: string, location: string, accountName: string, databaseName: string, options?: SoftDeletedSqlDatabasesRestoreOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface SoftDeletedSqlDatabasesPurgeOptionalParams extends OperationOptions {
+    softDeleteActionKind?: SoftDeleteActionKind;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SoftDeletedSqlDatabasesRestoreOptionalParams extends OperationOptions {
+    softDeleteActionKind?: SoftDeleteActionKind;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SoftDeletionMetadata {
+    isSoftDeleted?: boolean;
+    softDeletionResourceExpirationTimestamp?: number;
+    softDeletionStartTimestamp?: number;
+}
+
+// @public
 export interface SpatialSpec {
     path?: string;
     types?: SpatialType[];
@@ -5452,7 +5699,7 @@ export interface SqlContainerGetPropertiesResource extends SqlContainerResource 
 }
 
 // @public
-export interface SqlContainerGetResults extends Resource {
+export interface SqlContainerGetResults extends ProxyResource {
     identity?: ManagedServiceIdentity;
     location?: string;
     // (undocumented)
@@ -5517,7 +5764,7 @@ export interface SqlDatabaseGetPropertiesResource extends SqlDatabaseResource {
 }
 
 // @public
-export interface SqlDatabaseGetResults extends Resource {
+export interface SqlDatabaseGetResults extends ProxyResource {
     identity?: ManagedServiceIdentity;
     location?: string;
     // (undocumented)
@@ -5998,7 +6245,7 @@ export interface SqlStoredProcedureGetPropertiesResource extends SqlStoredProced
 }
 
 // @public
-export interface SqlStoredProcedureGetResults extends Resource {
+export interface SqlStoredProcedureGetResults extends ProxyResource {
     identity?: ManagedServiceIdentity;
     location?: string;
     // (undocumented)
@@ -6038,7 +6285,7 @@ export interface SqlTriggerGetPropertiesResource extends SqlTriggerResource {
 }
 
 // @public
-export interface SqlTriggerGetResults extends Resource {
+export interface SqlTriggerGetResults extends ProxyResource {
     identity?: ManagedServiceIdentity;
     location?: string;
     // (undocumented)
@@ -6080,7 +6327,7 @@ export interface SqlUserDefinedFunctionGetPropertiesResource extends SqlUserDefi
 }
 
 // @public
-export interface SqlUserDefinedFunctionGetResults extends Resource {
+export interface SqlUserDefinedFunctionGetResults extends ProxyResource {
     identity?: ManagedServiceIdentity;
     location?: string;
     // (undocumented)
@@ -6142,7 +6389,7 @@ export interface TableGetPropertiesResource extends TableResource {
 }
 
 // @public
-export interface TableGetResults extends Resource {
+export interface TableGetResults extends ProxyResource {
     identity?: ManagedServiceIdentity;
     location?: string;
     // (undocumented)
@@ -6488,7 +6735,7 @@ export interface ThroughputSettingsGetPropertiesResource extends ThroughputSetti
 }
 
 // @public
-export interface ThroughputSettingsGetResults extends Resource {
+export interface ThroughputSettingsGetResults extends ProxyResource {
     identity?: ManagedServiceIdentity;
     location?: string;
     // (undocumented)

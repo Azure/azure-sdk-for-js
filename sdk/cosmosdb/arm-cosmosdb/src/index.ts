@@ -66,6 +66,7 @@ export type {
   AccountKeyMetadata,
   MinimalTlsVersion,
   DefaultPriorityLevel,
+  SoftDeleteConfiguration,
   ManagedServiceIdentity,
   ResourceIdentityType,
   Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties,
@@ -356,6 +357,7 @@ export type {
   GarnetClusterResourceProperties,
   GarnetCacheProvisioningState,
   GarnetClusterResourcePropertiesEndPointsItem,
+  GarnetAuthenticationType,
   AllocationState,
   ClusterType,
   ManagedCassandraManagedServiceIdentity,
@@ -384,6 +386,19 @@ export type {
   NotebookWorkspaceConnectionInfoResult,
   PrivateLinkResource,
   PrivateLinkResourceProperties,
+  SoftDeletedDatabaseAccountGetResult,
+  SoftDeletedDatabaseAccountProperties,
+  SoftDeletionMetadata,
+  SoftDeletedDatabaseAccountResource,
+  SoftDeletedDatabaseAccountsListResult,
+  SoftDeletedSqlDatabaseGetResult,
+  SoftDeletedSqlDatabaseProperties,
+  SoftDeletedSqlDatabaseResource,
+  SoftDeletedSqlDatabasesListResult,
+  SoftDeletedSqlContainerGetResult,
+  SoftDeletedSqlContainerProperties,
+  SoftDeletedSqlContainerResource,
+  SoftDeletedSqlContainersListResult,
   ChaosFaultResource,
   ChaosFaultProperties,
   SupportedActions,
@@ -501,6 +516,7 @@ export type {
   FleetspaceAccountResource,
   FleetspaceAccountProperties,
   FleetspaceAccountPropertiesGlobalDatabaseAccountProperties,
+  SoftDeleteActionKind,
   DatabaseAccountsCheckNameExistsResponse,
 } from "./models/index.js";
 export {
@@ -544,6 +560,7 @@ export {
   KnownDataTransferComponent,
   KnownDataTransferJobMode,
   KnownGarnetCacheProvisioningState,
+  KnownGarnetAuthenticationType,
   KnownAllocationState,
   KnownClusterType,
   KnownManagedCassandraResourceIdentityType,
@@ -572,6 +589,7 @@ export {
   KnownFleetAnalyticsPropertiesStorageLocationType,
   KnownFleetspacePropertiesFleetspaceApiKind,
   KnownFleetspacePropertiesServiceTier,
+  KnownSoftDeleteActionKind,
   KnownVersions,
 } from "./models/index.js";
 export type { CosmosDBManagementClientOptionalParams } from "./api/index.js";
@@ -861,6 +879,25 @@ export type {
   ServiceGetOptionalParams,
 } from "./api/service/index.js";
 export type {
+  SoftDeletedDatabaseAccountsPurgeOptionalParams,
+  SoftDeletedDatabaseAccountsRestoreOptionalParams,
+  SoftDeletedDatabaseAccountsListByResourceGroupAndLocationOptionalParams,
+  SoftDeletedDatabaseAccountsListByLocationOptionalParams,
+  SoftDeletedDatabaseAccountsGetOptionalParams,
+} from "./api/softDeletedDatabaseAccounts/index.js";
+export type {
+  SoftDeletedSqlContainersPurgeOptionalParams,
+  SoftDeletedSqlContainersRestoreOptionalParams,
+  SoftDeletedSqlContainersListOptionalParams,
+  SoftDeletedSqlContainersGetOptionalParams,
+} from "./api/softDeletedSqlContainers/index.js";
+export type {
+  SoftDeletedSqlDatabasesPurgeOptionalParams,
+  SoftDeletedSqlDatabasesRestoreOptionalParams,
+  SoftDeletedSqlDatabasesListOptionalParams,
+  SoftDeletedSqlDatabasesGetOptionalParams,
+} from "./api/softDeletedSqlDatabases/index.js";
+export type {
   SqlResourcesListSqlRoleAssignmentsOptionalParams,
   SqlResourcesDeleteSqlRoleAssignmentOptionalParams,
   SqlResourcesCreateUpdateSqlRoleAssignmentOptionalParams,
@@ -990,6 +1027,9 @@ export type {
   RestorableTableResourcesOperations,
   RestorableTablesOperations,
   ServiceOperations,
+  SoftDeletedDatabaseAccountsOperations,
+  SoftDeletedSqlContainersOperations,
+  SoftDeletedSqlDatabasesOperations,
   SqlResourcesOperations,
   TableResourcesOperations,
   ThroughputPoolOperations,
@@ -1000,3 +1040,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

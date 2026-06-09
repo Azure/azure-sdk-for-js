@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the SQL database under an existing Azure Cosmos DB database account with the provided name.
  *
  * @summary gets the SQL database under an existing Azure Cosmos DB database account with the provided name.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlDatabaseGet.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlDatabaseGet.json
  */
 async function cosmosDBSqlDatabaseGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

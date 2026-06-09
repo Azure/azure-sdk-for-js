@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the private link resources that need to be created for a Cosmos DB account.
  *
  * @summary gets the private link resources that need to be created for a Cosmos DB account.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBPrivateLinkResourceGet.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBPrivateLinkResourceGet.json
  */
 async function getsPrivateEndpointConnection() {
   const credential = new DefaultAzureCredential();

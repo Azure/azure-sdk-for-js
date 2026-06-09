@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all the ThroughputPools in a given resource group.
  *
  * @summary list all the ThroughputPools in a given resource group.
- * x-ms-original-file: 2025-11-01-preview/throughputPool/CosmosDBThroughputPoolList_ListByResourceGroup.json
+ * x-ms-original-file: 2026-04-01-preview/throughputPool/CosmosDBThroughputPoolList_ListByResourceGroup.json
  */
 async function cosmosDBThroughputPoolListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

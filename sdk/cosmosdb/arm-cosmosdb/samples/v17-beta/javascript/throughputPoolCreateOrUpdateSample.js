@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an Azure Cosmos DB ThroughputPool account. The "Update" method is preferred when performing updates on an account.
  *
  * @summary creates or updates an Azure Cosmos DB ThroughputPool account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: 2025-11-01-preview/throughputPool/CosmosDBThroughputPoolCreate.json
+ * x-ms-original-file: 2026-04-01-preview/throughputPool/CosmosDBThroughputPoolCreate.json
  */
 async function cosmosDBThroughputPoolCreate() {
   const credential = new DefaultAzureCredential();

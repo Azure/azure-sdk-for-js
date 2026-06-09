@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing Azure Cosmos DB Throughput Pool.
  *
  * @summary deletes an existing Azure Cosmos DB Throughput Pool.
- * x-ms-original-file: 2025-11-01-preview/throughputPool/CosmosDBThroughputPoolDelete.json
+ * x-ms-original-file: 2026-04-01-preview/throughputPool/CosmosDBThroughputPoolDelete.json
  */
 async function cosmosDBThroughputPoolDelete() {
   const credential = new DefaultAzureCredential();

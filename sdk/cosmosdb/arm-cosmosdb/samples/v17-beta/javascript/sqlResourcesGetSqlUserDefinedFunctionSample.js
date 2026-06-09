@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the SQL userDefinedFunction under an existing Azure Cosmos DB database account.
  *
  * @summary gets the SQL userDefinedFunction under an existing Azure Cosmos DB database account.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlUserDefinedFunctionGet.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlUserDefinedFunctionGet.json
  */
 async function cosmosDBSqlUserDefinedFunctionGet() {
   const credential = new DefaultAzureCredential();

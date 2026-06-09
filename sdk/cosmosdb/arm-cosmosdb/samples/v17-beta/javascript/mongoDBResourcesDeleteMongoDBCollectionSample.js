@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing Azure Cosmos DB MongoDB Collection.
  *
  * @summary deletes an existing Azure Cosmos DB MongoDB Collection.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBMongoDBCollectionDelete.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBMongoDBCollectionDelete.json
  */
 async function cosmosDBMongoDBCollectionDelete() {
   const credential = new DefaultAzureCredential();

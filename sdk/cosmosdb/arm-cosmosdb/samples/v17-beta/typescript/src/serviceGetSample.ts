@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the status of service.
  *
  * @summary gets the status of service.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBDataTransferServiceGet.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBDataTransferServiceGet.json
  */
 async function dataTransferServiceGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function dataTransferServiceGet(): Promise<void> {
  * This sample demonstrates how to gets the status of service.
  *
  * @summary gets the status of service.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBGraphAPIComputeServiceGet.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBGraphAPIComputeServiceGet.json
  */
 async function graphAPIComputeServiceGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function graphAPIComputeServiceGet(): Promise<void> {
  * This sample demonstrates how to gets the status of service.
  *
  * @summary gets the status of service.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBMaterializedViewsBuilderServiceGet.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBMaterializedViewsBuilderServiceGet.json
  */
 async function materializedViewsBuilderServiceGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function materializedViewsBuilderServiceGet(): Promise<void> {
  * This sample demonstrates how to gets the status of service.
  *
  * @summary gets the status of service.
- * x-ms-original-file: 2025-11-01-preview/services/sqldedicatedgateway/CosmosDBSqlDedicatedGatewayServiceGet.json
+ * x-ms-original-file: 2026-04-01-preview/services/sqldedicatedgateway/CosmosDBSqlDedicatedGatewayServiceGet.json
  */
 async function sqlDedicatedGatewayServiceGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

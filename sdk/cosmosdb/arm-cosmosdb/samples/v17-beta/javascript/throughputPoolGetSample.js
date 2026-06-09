@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the properties of an existing Azure Cosmos DB Throughput Pool
  *
  * @summary retrieves the properties of an existing Azure Cosmos DB Throughput Pool
- * x-ms-original-file: 2025-11-01-preview/throughputPool/CosmosDBThroughputPoolGet.json
+ * x-ms-original-file: 2026-04-01-preview/throughputPool/CosmosDBThroughputPoolGet.json
  */
 async function cosmosDBThroughputPoolGet() {
   const credential = new DefaultAzureCredential();

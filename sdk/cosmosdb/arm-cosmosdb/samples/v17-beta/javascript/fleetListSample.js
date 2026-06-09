@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the fleets under the subscription.
  *
  * @summary lists all the fleets under the subscription.
- * x-ms-original-file: 2025-11-01-preview/fleet/CosmosDBFleetList.json
+ * x-ms-original-file: 2026-04-01-preview/fleet/CosmosDBFleetList.json
  */
 async function cosmosDBFleetListBySubscription() {
   const credential = new DefaultAzureCredential();

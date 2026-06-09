@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update RUs per second of an Azure Cosmos DB Gremlin graph
  *
  * @summary update RUs per second of an Azure Cosmos DB Gremlin graph
- * x-ms-original-file: 2025-11-01-preview/CosmosDBGremlinGraphThroughputUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBGremlinGraphThroughputUpdate.json
  */
 async function cosmosDBGremlinGraphThroughputUpdate() {
   const credential = new DefaultAzureCredential();

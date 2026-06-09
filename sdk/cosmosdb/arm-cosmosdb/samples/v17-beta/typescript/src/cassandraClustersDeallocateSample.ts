@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deallocate the Managed Cassandra Cluster and Associated Data Centers. Deallocation will deallocate the host virtual machine of this cluster, and reserved the data disk. This won't do anything on an already deallocated cluster. Use Start to restart the cluster.
  *
  * @summary deallocate the Managed Cassandra Cluster and Associated Data Centers. Deallocation will deallocate the host virtual machine of this cluster, and reserved the data disk. This won't do anything on an already deallocated cluster. Use Start to restart the cluster.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBManagedCassandraClusterDeallocate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBManagedCassandraClusterDeallocate.json
  */
 async function cosmosDBManagedCassandraClusterDeallocate(): Promise<void> {
   const credential = new DefaultAzureCredential();

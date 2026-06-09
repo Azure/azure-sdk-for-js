@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Cosmos DB locations and their properties
  *
  * @summary list Cosmos DB locations and their properties
- * x-ms-original-file: 2025-11-01-preview/CosmosDBLocationList.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBLocationList.json
  */
 async function cosmosDBLocationList() {
   const credential = new DefaultAzureCredential();

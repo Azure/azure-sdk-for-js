@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing Azure Cosmos DB SQL userDefinedFunction.
  *
  * @summary deletes an existing Azure Cosmos DB SQL userDefinedFunction.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlUserDefinedFunctionDelete.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlUserDefinedFunctionDelete.json
  */
 async function cosmosDBSqlUserDefinedFunctionDelete() {
   const credential = new DefaultAzureCredential();

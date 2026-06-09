@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Copy Job.
  *
  * @summary get a Copy Job.
- * x-ms-original-file: 2025-11-01-preview/copy-jobs/CosmosDBCopyJobGet.json
+ * x-ms-original-file: 2026-04-01-preview/copy-jobs/CosmosDBCopyJobGet.json
  */
 async function cosmosDBCopyJobGet() {
   const credential = new DefaultAzureCredential();

@@ -17,11 +17,6 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 /** Interface representing a ThroughputPool operations. */
 export interface ThroughputPoolOperations {
   /** Deletes an existing Azure Cosmos DB Throughput Pool. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     throughputPoolName: string,
