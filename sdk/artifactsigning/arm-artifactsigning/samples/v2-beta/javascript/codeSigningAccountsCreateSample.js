@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CodeSigningClient } from "@azure/arm-artifactsigning";
-import { DefaultAzureCredential } from "@azure/identity";
+const { CodeSigningClient } = require("@azure/arm-artifactsigning");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to create an artifact Signing Account.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create an artifact Signing Account.
  * x-ms-original-file: 2026-05-15-preview/CodeSigningAccounts_Create.json
  */
-async function createAnArtifactSigningAccount(): Promise<void> {
+async function createAnArtifactSigningAccount() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
@@ -21,7 +21,7 @@ async function createAnArtifactSigningAccount(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await createAnArtifactSigningAccount();
 }
 

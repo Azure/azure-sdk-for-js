@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CodeSigningClient } from "@azure/arm-artifactsigning";
-import { DefaultAzureCredential } from "@azure/identity";
+const { CodeSigningClient } = require("@azure/arm-artifactsigning");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to list certificate profiles under an artifact signing account.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list certificate profiles under an artifact signing account.
  * x-ms-original-file: 2026-05-15-preview/CertificateProfiles_ListByCodeSigningAccount.json
  */
-async function listCertificateProfilesUnderAnArtifactSigningAccount(): Promise<void> {
+async function listCertificateProfilesUnderAnArtifactSigningAccount() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
@@ -25,7 +25,7 @@ async function listCertificateProfilesUnderAnArtifactSigningAccount(): Promise<v
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await listCertificateProfilesUnderAnArtifactSigningAccount();
 }
 

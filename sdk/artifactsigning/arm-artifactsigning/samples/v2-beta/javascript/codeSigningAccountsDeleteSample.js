@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CodeSigningClient } from "@azure/arm-artifactsigning";
-import { DefaultAzureCredential } from "@azure/identity";
+const { CodeSigningClient } = require("@azure/arm-artifactsigning");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to delete an artifact signing account.
@@ -10,14 +10,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete an artifact signing account.
  * x-ms-original-file: 2026-05-15-preview/CodeSigningAccounts_Delete.json
  */
-async function deleteAnArtifactSigningAccount(): Promise<void> {
+async function deleteAnArtifactSigningAccount() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
   await client.codeSigningAccounts.delete("MyResourceGroup", "MyAccount");
 }
 
-async function main(): Promise<void> {
+async function main() {
   await deleteAnArtifactSigningAccount();
 }
 
