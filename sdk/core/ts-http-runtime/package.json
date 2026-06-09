@@ -1,6 +1,6 @@
 {
   "name": "@typespec/ts-http-runtime",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "type": "module",
@@ -72,11 +72,6 @@
       "browser": "./src/util/userAgentPlatform-browser.mts",
       "react-native": "./src/util/userAgentPlatform-react-native.mts",
       "default": "./src/util/userAgentPlatform.ts"
-    },
-    "#platform/uuid": {
-      "browser": "./src/util/uuidUtils-browser.mts",
-      "react-native": "./src/util/uuidUtils-react-native.mts",
-      "default": "./src/util/uuidUtils.ts"
     },
     "#platform/typeGuards": {
       "browser": "./src/util/typeGuards-browser.mts",

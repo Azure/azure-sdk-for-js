@@ -1,5 +1,17 @@
 # Release History
 
+## 0.3.7 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Removed the internal `randomUUID` polyfill and its platform-specific conditional exports, relying on `globalThis.crypto.randomUUID()` which is available on all supported platforms.
+
 ## 0.3.6 (2026-06-04)
 
 ### Bugs Fixed
