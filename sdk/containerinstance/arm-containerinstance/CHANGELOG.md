@@ -1,6 +1,6 @@
 # Release History
 
-## 10.0.0-beta.1 (2026-06-08)
+## 10.0.0-beta.1 (2026-06-09)
 Compared with version 9.1.0
 
 ### Features Added
@@ -33,8 +33,6 @@ Compared with version 9.1.0
   - Added Interface ContainerGroupProfileProperties
   - Added Interface ContainerGroupProfileReferenceDefinition
   - Added Interface ContainerGroupProfileStub
-  - Added Interface ContainerGroupPropertiesProperties
-  - Added Interface ContainerGroupPropertiesPropertiesInstanceView
   - Added Interface ContainerProperties
   - Added Interface DeploymentExtensionSpecProperties
   - Added Interface ElasticProfile
@@ -104,6 +102,11 @@ Compared with version 9.1.0
   - Interface ContainerGroup has a new optional parameter secretReferences
   - Interface ContainerGroup has a new optional parameter standbyPoolProfile
   - Interface ContainerGroup has a new optional parameter systemData
+  - Interface ContainerGroupProperties has a new optional parameter containerGroupProfile
+  - Interface ContainerGroupProperties has a new optional parameter identityAcls
+  - Interface ContainerGroupProperties has a new optional parameter isCreatedFromStandbyPool
+  - Interface ContainerGroupProperties has a new optional parameter secretReferences
+  - Interface ContainerGroupProperties has a new optional parameter standbyPoolProfile
   - Interface EnvironmentVariable has a new optional parameter secureValueReference
   - Interface ImageRegistryCredential has a new optional parameter passwordReference
   - Interface Volume has a new optional parameter secretReference
@@ -132,12 +135,14 @@ Compared with version 9.1.0
   - Operation ContainerGroups.beginDeleteAndWait has a new signature
   - Operation ContainerGroups.get has a new signature
   - Operation ContainerGroups.update has a new signature
-  - Removed Interface ContainerGroupProperties
-  - Removed Interface ContainerGroupPropertiesInstanceView
+  - Class ContainerInstanceManagementClient no longer has parameter apiVersion
+  - Class ContainerInstanceManagementClient no longer has parameter subscriptionId
   - Removed Interface Location_2
+  - Interface ContainerGroupProperties no longer has parameter identity
   - Parameter image of interface Container is now optional
   - Parameter resources of interface Container is now optional
   - Parameter osType of interface ContainerGroup is now optional
+  - Parameter osType of interface ContainerGroupProperties is now optional
 
     
 ## 9.2.0-beta.1 (2024-10-18)

@@ -217,7 +217,7 @@ export interface ContainerGroup extends ProxyResource {
     identityAcls?: IdentityAcls;
     imageRegistryCredentials?: ImageRegistryCredential[];
     initContainers?: InitContainerDefinition[];
-    readonly instanceView?: ContainerGroupPropertiesPropertiesInstanceView;
+    readonly instanceView?: ContainerGroupPropertiesInstanceView;
     ipAddress?: IpAddress;
     readonly isCreatedFromStandbyPool?: boolean;
     location?: string;
@@ -326,7 +326,7 @@ export interface ContainerGroupProfileStub {
 }
 
 // @public
-export interface ContainerGroupPropertiesProperties {
+export interface ContainerGroupProperties {
     confidentialComputeProperties?: ConfidentialComputeProperties;
     containerGroupProfile?: ContainerGroupProfileReferenceDefinition;
     containers: Container[];
@@ -337,7 +337,7 @@ export interface ContainerGroupPropertiesProperties {
     identityAcls?: IdentityAcls;
     imageRegistryCredentials?: ImageRegistryCredential[];
     initContainers?: InitContainerDefinition[];
-    readonly instanceView?: ContainerGroupPropertiesPropertiesInstanceView;
+    readonly instanceView?: ContainerGroupPropertiesInstanceView;
     ipAddress?: IpAddress;
     readonly isCreatedFromStandbyPool?: boolean;
     osType?: OperatingSystemTypes;
@@ -352,7 +352,7 @@ export interface ContainerGroupPropertiesProperties {
 }
 
 // @public
-export interface ContainerGroupPropertiesPropertiesInstanceView {
+export interface ContainerGroupPropertiesInstanceView {
     readonly events?: Event_2[];
     readonly state?: string;
 }

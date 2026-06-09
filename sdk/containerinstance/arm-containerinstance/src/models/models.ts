@@ -161,7 +161,7 @@ export interface ContainerGroup extends ProxyResource {
   /** The list of volumes that can be mounted by containers in this container group. */
   volumes?: Volume[];
   /** The instance view of the container group. Only valid in response. */
-  readonly instanceView?: ContainerGroupPropertiesPropertiesInstanceView;
+  readonly instanceView?: ContainerGroupPropertiesInstanceView;
   /** The diagnostic information for a container group. */
   diagnostics?: ContainerGroupDiagnostics;
   /** The subnet resource IDs for a container group. */
@@ -309,7 +309,7 @@ export function userAssignedIdentitiesDeserializer(item: any): UserAssignedIdent
 }
 
 /** The container group properties */
-export interface ContainerGroupPropertiesProperties {
+export interface ContainerGroupProperties {
   /** The provisioning state of the container group. This only appears in the response. */
   readonly provisioningState?: string;
   /** The secret references that will be referenced within the container group. */
@@ -332,7 +332,7 @@ export interface ContainerGroupPropertiesProperties {
   /** The list of volumes that can be mounted by containers in this container group. */
   volumes?: Volume[];
   /** The instance view of the container group. Only valid in response. */
-  readonly instanceView?: ContainerGroupPropertiesPropertiesInstanceView;
+  readonly instanceView?: ContainerGroupPropertiesInstanceView;
   /** The diagnostic information for a container group. */
   diagnostics?: ContainerGroupDiagnostics;
   /** The subnet resource IDs for a container group. */
@@ -361,9 +361,7 @@ export interface ContainerGroupPropertiesProperties {
   readonly isCreatedFromStandbyPool?: boolean;
 }
 
-export function containerGroupPropertiesPropertiesSerializer(
-  item: ContainerGroupPropertiesProperties,
-): any {
+export function containerGroupPropertiesSerializer(item: ContainerGroupProperties): any {
   return {
     secretReferences: !item["secretReferences"]
       ? item["secretReferences"]
@@ -411,9 +409,7 @@ export function containerGroupPropertiesPropertiesSerializer(
   };
 }
 
-export function containerGroupPropertiesPropertiesDeserializer(
-  item: any,
-): ContainerGroupPropertiesProperties {
+export function containerGroupPropertiesDeserializer(item: any): ContainerGroupProperties {
   return {
     provisioningState: item["provisioningState"],
     secretReferences: !item["secretReferences"]
@@ -429,7 +425,7 @@ export function containerGroupPropertiesPropertiesDeserializer(
     volumes: !item["volumes"] ? item["volumes"] : volumeArrayDeserializer(item["volumes"]),
     instanceView: !item["instanceView"]
       ? item["instanceView"]
-      : containerGroupPropertiesPropertiesInstanceViewDeserializer(item["instanceView"]),
+      : containerGroupPropertiesInstanceViewDeserializer(item["instanceView"]),
     diagnostics: !item["diagnostics"]
       ? item["diagnostics"]
       : containerGroupDiagnosticsDeserializer(item["diagnostics"]),
@@ -1579,16 +1575,16 @@ export function gitRepoVolumeDeserializer(item: any): GitRepoVolume {
 }
 
 /** The instance view of the container group. Only valid in response. */
-export interface ContainerGroupPropertiesPropertiesInstanceView {
+export interface ContainerGroupPropertiesInstanceView {
   /** The events of this container group. */
   readonly events?: Event[];
   /** The state of the container group. Only valid in response. */
   readonly state?: string;
 }
 
-export function containerGroupPropertiesPropertiesInstanceViewDeserializer(
+export function containerGroupPropertiesInstanceViewDeserializer(
   item: any,
-): ContainerGroupPropertiesPropertiesInstanceView {
+): ContainerGroupPropertiesInstanceView {
   return {
     events: !item["events"] ? item["events"] : eventArrayDeserializer(item["events"]),
     state: item["state"],
@@ -4297,7 +4293,7 @@ export function _containerGroupPropertiesDeserializer(item: any) {
     volumes: !item["volumes"] ? item["volumes"] : volumeArrayDeserializer(item["volumes"]),
     instanceView: !item["instanceView"]
       ? item["instanceView"]
-      : containerGroupPropertiesPropertiesInstanceViewDeserializer(item["instanceView"]),
+      : containerGroupPropertiesInstanceViewDeserializer(item["instanceView"]),
     diagnostics: !item["diagnostics"]
       ? item["diagnostics"]
       : containerGroupDiagnosticsDeserializer(item["diagnostics"]),
