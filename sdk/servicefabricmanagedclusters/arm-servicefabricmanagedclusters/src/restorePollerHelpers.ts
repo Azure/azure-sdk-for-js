@@ -3,6 +3,8 @@
 
 import type { ServiceFabricManagedClustersManagementClient } from "./serviceFabricManagedClustersManagementClient.js";
 import {
+  _stopFaultSimulationDeserialize,
+  _startFaultSimulationDeserialize,
   _startDeserialize,
   _restartDeserialize,
   _reimageDeserialize,
@@ -14,6 +16,8 @@ import {
   _createOrUpdateDeserialize,
 } from "./api/nodeTypes/operations.js";
 import {
+  _stopFaultSimulationDeserialize as _stopFaultSimulationDeserializeManagedClusters,
+  _startFaultSimulationDeserialize as _startFaultSimulationDeserializeManagedClusters,
   _$deleteDeserialize as _$deleteDeserializeManagedClusters,
   _updateDeserialize as _updateDeserializeManagedClusters,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeManagedClusters,
@@ -110,6 +114,10 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/stopFaultSimulation":
+    { deserializer: _stopFaultSimulationDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/startFaultSimulation":
+    { deserializer: _startFaultSimulationDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/start":
     { deserializer: _startDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/restart":
@@ -128,6 +136,16 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/stopFaultSimulation":
+    {
+      deserializer: _stopFaultSimulationDeserializeManagedClusters,
+      expectedStatuses: ["202", "200", "201"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/startFaultSimulation":
+    {
+      deserializer: _startFaultSimulationDeserializeManagedClusters,
+      expectedStatuses: ["202", "200", "201"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}":
     { deserializer: _$deleteDeserializeManagedClusters, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}":

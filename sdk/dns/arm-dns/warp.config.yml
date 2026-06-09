@@ -1,5 +1,14 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/dnsResourceReference": "./src/api/dnsResourceReference/index.ts"
+  "./api/zones": "./src/api/zones/index.ts"
+  "./api/recordSets": "./src/api/recordSets/index.ts"
+  "./api/dnssecConfigs": "./src/api/dnssecConfigs/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

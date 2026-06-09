@@ -44,6 +44,14 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { isGenAITracingApplied } from "../../tracing/configuration.js";
+import { startSpan } from "../../tracing/tracingClient.js";
+import {
+  setAgentAttributes,
+  setAgentVersionAttributes,
+  setCommonAttributes,
+} from "../../tracing/attributes.js";
+import { OperationName } from "../../tracing/constants.js";
 
 export function _listVersionsSend(
   context: Client,
@@ -110,10 +118,11 @@ export function _deleteVersionSend(
   options: AgentsDeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}{?api-version}",
+    "/agents/{agent_name}/versions/{agent_version}{?force,api-version}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
+      force: options?.force,
       "api-version": context.apiVersion,
     },
     {
@@ -139,7 +148,11 @@ export async function _deleteVersionDeserialize(
   return deleteAgentVersionResponseDeserializer(result.body);
 }
 
-/** Deletes a specific version of an agent. */
+/**
+ * Deletes a specific version of an agent. For hosted agents, if the version has active
+ * sessions, the request is rejected with HTTP 409 unless `force` is set to true. When
+ * force is true, all sessions associated with this version are cascade-deleted.
+ */
 export async function deleteVersion(
   context: Client,
   agentName: string,
@@ -246,14 +259,32 @@ export async function createAgentVersionFromManifest(
   parameterValues: Record<string, unknown>,
   options: AgentsCreateAgentVersionFromManifestOptionalParams = { requestOptions: {} },
 ): Promise<AgentVersion> {
-  const result = await _createAgentVersionFromManifestSend(
-    context,
-    agentName,
-    manifestId,
-    parameterValues,
-    options,
-  );
-  return _createAgentVersionFromManifestDeserialize(result);
+  if (!isGenAITracingApplied()) {
+    const result = await _createAgentVersionFromManifestSend(
+      context,
+      agentName,
+      manifestId,
+      parameterValues,
+      options,
+    );
+    return _createAgentVersionFromManifestDeserialize(result);
+  }
+  const { span } = startSpan(`${OperationName.CREATE_AGENT} ${agentName}`);
+  try {
+    setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
+    const result = await _createAgentVersionFromManifestSend(
+      context,
+      agentName,
+      manifestId,
+      parameterValues,
+      options,
+    );
+    const version = await _createAgentVersionFromManifestDeserialize(result);
+    setAgentVersionAttributes(span, version);
+    return version;
+  } finally {
+    span.end();
+  }
 }
 
 export function _createVersionSend(
@@ -313,8 +344,20 @@ export async function createVersion(
   definition: AgentDefinitionUnion,
   options: AgentsCreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<AgentVersion> {
-  const result = await _createVersionSend(context, agentName, definition, options);
-  return _createVersionDeserialize(result);
+  if (!isGenAITracingApplied()) {
+    const result = await _createVersionSend(context, agentName, definition, options);
+    return _createVersionDeserialize(result);
+  }
+  const { span } = startSpan(`${OperationName.CREATE_AGENT} ${agentName}`);
+  try {
+    setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
+    const result = await _createVersionSend(context, agentName, definition, options);
+    const version = await _createVersionDeserialize(result);
+    setAgentVersionAttributes(span, version);
+    return version;
+  } finally {
+    span.end();
+  }
 }
 
 export function _listSend(
@@ -379,9 +422,10 @@ export function _deleteSend(
   options: AgentsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}{?api-version}",
+    "/agents/{agent_name}{?force,api-version}",
     {
       agent_name: agentName,
+      force: options?.force,
       "api-version": context.apiVersion,
     },
     {
@@ -407,7 +451,11 @@ export async function _deleteDeserialize(
   return deleteAgentResponseDeserializer(result.body);
 }
 
-/** Deletes an agent. */
+/**
+ * Deletes an agent. For hosted agents, if any version has active sessions, the request
+ * is rejected with HTTP 409 unless `force` is set to true. When force is true, all
+ * associated sessions are cascade-deleted along with the agent and its versions.
+ */
 export async function $delete(
   context: Client,
   agentName: string,
@@ -532,14 +580,32 @@ export async function createAgentFromManifest(
   parameterValues: Record<string, unknown>,
   options: AgentsCreateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
-  const result = await _createAgentFromManifestSend(
-    context,
-    name,
-    manifestId,
-    parameterValues,
-    options,
-  );
-  return _createAgentFromManifestDeserialize(result);
+  if (!isGenAITracingApplied()) {
+    const result = await _createAgentFromManifestSend(
+      context,
+      name,
+      manifestId,
+      parameterValues,
+      options,
+    );
+    return _createAgentFromManifestDeserialize(result);
+  }
+  const { span } = startSpan(`${OperationName.CREATE_AGENT} ${name}`);
+  try {
+    setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
+    const result = await _createAgentFromManifestSend(
+      context,
+      name,
+      manifestId,
+      parameterValues,
+      options,
+    );
+    const agent = await _createAgentFromManifestDeserialize(result);
+    setAgentAttributes(span, agent);
+    return agent;
+  } finally {
+    span.end();
+  }
 }
 
 export function _updateSend(
@@ -665,8 +731,20 @@ export async function create(
   definition: AgentDefinitionUnion,
   options: AgentsCreateOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
-  const result = await _createSend(context, name, definition, options);
-  return _createDeserialize(result);
+  if (!isGenAITracingApplied()) {
+    const result = await _createSend(context, name, definition, options);
+    return _createDeserialize(result);
+  }
+  const { span } = startSpan(`${OperationName.CREATE_AGENT} ${name}`);
+  try {
+    setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
+    const result = await _createSend(context, name, definition, options);
+    const agent = await _createDeserialize(result);
+    setAgentAttributes(span, agent);
+    return agent;
+  } finally {
+    span.end();
+  }
 }
 
 export function _getSend(

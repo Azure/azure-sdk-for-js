@@ -1,5 +1,17 @@
 # Release History
 
+## 1.1.0-beta.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Documented that `locales` is now applied in Enhanced Mode. The service runs in multi-lingual mode by default; when `locales` is specified, the service uses the first locale as a recognition hint to bias language recognition. No API or wire-format changes are required—the existing request already sends `locales` in all modes.
+
 ## 1.0.0 (2026-05-15)
 
 ### Features Added

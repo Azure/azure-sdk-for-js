@@ -47,7 +47,7 @@ export function _batchDeleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,7 +109,7 @@ export function _batchAddSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -169,7 +169,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -211,7 +211,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15-preview",
     },
   );
 }
@@ -232,7 +232,7 @@ export function _$deleteSend(
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
       raiBlocklistItemName: raiBlocklistItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -275,7 +275,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -296,7 +296,7 @@ export function _createOrUpdateSend(
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
       raiBlocklistItemName: raiBlocklistItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -362,7 +362,7 @@ export function _getSend(
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
       raiBlocklistItemName: raiBlocklistItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
