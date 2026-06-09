@@ -269,11 +269,11 @@ resources and APIs directly.
 
 To use this credential successfully, your app registration will need to be
 configured with a redirect URI in the **Redirect URIs** section of the
-**Authentication** page. For browser-based apps, check both the **Access tokens**
-and **ID tokens** options under **Implicit grant**. For Node.js apps, add
-`http://localhost` as a redirect URI. You must also make sure to specify the same
-URI in the `redirectUri` field of the `InteractiveBrowserCredentialOptions` when
-creating an `InteractiveBrowserCredential`.
+**Authentication** page.
+
+For browser-based apps, check both the **Access tokens** and **ID tokens** options under **Implicit grant**, and set `redirectUri` to match your app's redirect URI.
+
+For Node.js apps, configure a "Mobile and desktop applications" redirect URI (see https://learn.microsoft.com/entra/identity-platform/scenario-desktop-app-registration#redirect-uris). The `redirectUri` option is not required in Node.js unless you need to override the default.
 
 ### DeviceCodeCredential
 
