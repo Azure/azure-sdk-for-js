@@ -394,7 +394,7 @@ console.log(text);
 > a multi-page document. The markers in the rendered output preserve the
 > original page identity:
 >
-> ```ts
+> ```ts snippet:ignore
 > // Analyze pages 2-3 and page 5 of a 10-page PDF.
 > const poller = client.analyze("prebuilt-documentSearch", [
 >   { url: multiPageUrl, contentRange: "2-3,5" },
