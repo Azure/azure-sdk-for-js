@@ -1565,6 +1565,7 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
     evalId: string;
     maxHourlyRuns?: number;
+    samplingRate?: number;
     type: "continuousEvaluation";
 }
 
