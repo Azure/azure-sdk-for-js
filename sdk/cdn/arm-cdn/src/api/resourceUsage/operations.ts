@@ -1,0 +1,65 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { CdnManagementContext as Client } from "../index.js";
+import type { _ResourceUsageListResult, ResourceUsage } from "../../models/models.js";
+import {
+  errorResponseDeserializer,
+  _resourceUsageListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type { ResourceUsageListOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+
+export function _listSend(
+  context: Client,
+  options: ResourceUsageListOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkResourceUsage{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_ResourceUsageListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _resourceUsageListResultDeserializer(result.body);
+}
+
+/** Check the quota and actual usage of the CDN profiles under the given subscription. */
+export function list(
+  context: Client,
+  options: ResourceUsageListOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<ResourceUsage> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listSend(context, options),
+    _listDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-12-01" },
+  );
+}

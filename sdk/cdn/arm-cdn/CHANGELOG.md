@@ -1,21 +1,321 @@
 # Release History
 
-## 9.1.2 (Unreleased)
+## 10.0.0-beta.1 (2026-06-10)
+Compared with version 9.1.0
 
 ### Features Added
+  - Added operation group AFDCustomDomainsOperations
+  - Added operation group AFDEndpointsOperations
+  - Added operation group AFDOriginGroupsOperations
+  - Added operation group AFDOriginsOperations
+  - Added operation group AFDProfilesOperations
+  - Added operation CustomDomainsOperations.create
+  - Added operation CustomDomainsOperations.delete
+  - Added operation CustomDomainsOperations.disableCustomHttps
+  - Added operation CustomDomainsOperations.enableCustomHttps
+  - Added operation EndpointsOperations.create
+  - Added operation EndpointsOperations.delete
+  - Added operation EndpointsOperations.loadContent
+  - Added operation EndpointsOperations.purgeContent
+  - Added operation EndpointsOperations.start
+  - Added operation EndpointsOperations.stop
+  - Added operation EndpointsOperations.update
+  - Added operation OriginGroupsOperations.create
+  - Added operation OriginGroupsOperations.delete
+  - Added operation OriginGroupsOperations.update
+  - Added operation OriginsOperations.create
+  - Added operation OriginsOperations.delete
+  - Added operation OriginsOperations.update
+  - Added operation PoliciesOperations.createOrUpdate
+  - Added operation PoliciesOperations.update
+  - Added operation ProfilesOperations.canMigrate
+  - Added operation ProfilesOperations.cdnCanMigrateToAfd
+  - Added operation ProfilesOperations.cdnMigrateToAfd
+  - Added operation ProfilesOperations.create
+  - Added operation ProfilesOperations.delete
+  - Added operation ProfilesOperations.migrate
+  - Added operation ProfilesOperations.migrationAbort
+  - Added operation ProfilesOperations.migrationCommit
+  - Added operation ProfilesOperations.update
+  - Added operation RoutesOperations.create
+  - Added operation RoutesOperations.delete
+  - Added operation RoutesOperations.update
+  - Added operation RulesOperations.create
+  - Added operation RulesOperations.delete
+  - Added operation RulesOperations.update
+  - Added operation RuleSetsOperations.delete
+  - Added operation SecretsOperations.create
+  - Added operation SecretsOperations.delete
+  - Added operation SecurityPoliciesOperations.create
+  - Added operation SecurityPoliciesOperations.delete
+  - Added operation SecurityPoliciesOperations.patch
+  - Added Interface AFDCustomDomainsCreateOptionalParams
+  - Added Interface AFDCustomDomainsDeleteOptionalParams
+  - Added Interface AFDCustomDomainsGetOptionalParams
+  - Added Interface AFDCustomDomainsListByProfileOptionalParams
+  - Added Interface AFDCustomDomainsRefreshValidationTokenOptionalParams
+  - Added Interface AFDCustomDomainsUpdateOptionalParams
+  - Added Interface AFDDomainHttpsCustomizedCipherSuiteSet
+  - Added Interface AFDEndpointsCreateOptionalParams
+  - Added Interface AFDEndpointsDeleteOptionalParams
+  - Added Interface AFDEndpointsGetOptionalParams
+  - Added Interface AFDEndpointsListByProfileOptionalParams
+  - Added Interface AFDEndpointsListResourceUsageOptionalParams
+  - Added Interface AFDEndpointsPurgeContentOptionalParams
+  - Added Interface AFDEndpointsUpdateOptionalParams
+  - Added Interface AFDEndpointsValidateCustomDomainOptionalParams
+  - Added Interface AFDOriginGroupsCreateOptionalParams
+  - Added Interface AFDOriginGroupsDeleteOptionalParams
+  - Added Interface AFDOriginGroupsGetOptionalParams
+  - Added Interface AFDOriginGroupsListByProfileOptionalParams
+  - Added Interface AFDOriginGroupsListResourceUsageOptionalParams
+  - Added Interface AFDOriginGroupsUpdateOptionalParams
+  - Added Interface AFDOriginsCreateOptionalParams
+  - Added Interface AFDOriginsDeleteOptionalParams
+  - Added Interface AFDOriginsGetOptionalParams
+  - Added Interface AFDOriginsListByOriginGroupOptionalParams
+  - Added Interface AFDOriginsUpdateOptionalParams
+  - Added Interface AFDProfilesCheckEndpointNameAvailabilityOptionalParams
+  - Added Interface AFDProfilesCheckHostNameAvailabilityOptionalParams
+  - Added Interface AFDProfilesListResourceUsageOptionalParams
+  - Added Interface AFDProfilesUpgradeOptionalParams
+  - Added Interface AFDProfilesValidateSecretOptionalParams
+  - Added Interface BatchRuleProperties
+  - Added Interface CanMigrateProperties
+  - Added Interface CdnMigrationToAfdParameters
+  - Added Interface CdnWebApplicationFirewallPolicyProperties
+  - Added Interface CertificateSourceParameters
+  - Added Interface CustomDomainProperties
+  - Added Interface CustomDomainPropertiesParameters
+  - Added Interface DeepCreatedCustomDomainProperties
+  - Added Interface DeepCreatedOriginGroupProperties
+  - Added Interface DeepCreatedOriginProperties
+  - Added Interface DeliveryRuleAction
+  - Added Interface DeliveryRuleActionParameters
+  - Added Interface DeliveryRuleConditionParameters
+  - Added Interface EdgeNodeProperties
+  - Added Interface ManagedRuleSetDefinitionProperties
+  - Added Interface MigrateResultProperties
+  - Added Interface MigrationEndpointMapping
+  - Added Interface OperationProperties
+  - Added Interface OriginAuthenticationProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProfileProperties
+  - Added Interface ProfilePropertiesUpdateParameters
+  - Added Interface ProfilesCdnCanMigrateToAfdOptionalParams
+  - Added Interface ProfilesCdnMigrateToAfdOptionalParams
+  - Added Interface ProfilesMigrationAbortOptionalParams
+  - Added Interface RestorePollerOptions
+  - Added Interface SecurityPolicyUpdateProperties
+  - Interface AFDDomainHttpsParameters has a new optional parameter cipherSuiteSetType
+  - Interface AFDDomainHttpsParameters has a new optional parameter customizedCipherSuiteSet
+  - Interface AFDOriginGroup has a new optional parameter authentication
+  - Interface AFDOriginGroupProperties has a new optional parameter authentication
+  - Interface AFDOriginGroupUpdateParameters has a new optional parameter authentication
+  - Interface AFDOriginGroupUpdatePropertiesParameters has a new optional parameter authentication
+  - Interface RuleSet has a new optional parameter batchMode
+  - Interface RuleSet has a new optional parameter rules
+  - Interface RuleSetProperties has a new optional parameter batchMode
+  - Interface RuleSetProperties has a new optional parameter rules
+  - Interface RuleSetsCreateOptionalParams has a new optional parameter resource
+  - Interface RuleSetsCreateOptionalParams has a new optional parameter updateIntervalInMs
+  - Added Type Alias AfdCipherSuiteSetType
+  - Added Type Alias AfdCustomizedCipherSuiteForTls12
+  - Added Type Alias AfdCustomizedCipherSuiteForTls13
+  - Added Type Alias Algorithm
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CertificateSourceParametersType
+  - Added Type Alias CertificateSourceParametersUnion
+  - Added Type Alias CreatedByType
+  - Added Type Alias DeliveryRuleActionName
+  - Added Type Alias DeliveryRuleActionParametersType
+  - Added Type Alias DeliveryRuleActionParametersUnion
+  - Added Type Alias DeliveryRuleActionUnion
+  - Added Type Alias DeliveryRuleConditionParametersType
+  - Added Type Alias DeliveryRuleConditionParametersUnion
+  - Added Type Alias IsDeviceMatchValue
+  - Added Type Alias KeyVaultSigningKeyParametersType
+  - Added Type Alias OriginAuthenticationType
+  - Added Type Alias RequestMethodMatchValue
+  - Added Type Alias RequestSchemeMatchConditionParametersOperator
+  - Added Type Alias RequestSchemeMatchValue
+  - Added Enum AzureClouds
+  - Added Enum KnownAfdCipherSuiteSetType
+  - Added Enum KnownAfdCustomizedCipherSuiteForTls12
+  - Added Enum KnownAfdCustomizedCipherSuiteForTls13
+  - Added Enum KnownCertificateSourceParametersType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDeliveryRuleActionName
+  - Added Enum KnownDeliveryRuleActionParametersType
+  - Added Enum KnownDeliveryRuleConditionParametersType
+  - Added Enum KnownIsDeviceMatchValue
+  - Added Enum KnownKeyVaultSigningKeyParametersType
+  - Added Enum KnownOriginAuthenticationType
+  - Added Enum KnownRequestMethodMatchValue
+  - Added Enum KnownRequestSchemeMatchConditionParametersOperator
+  - Added Enum KnownRequestSchemeMatchValue
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Removed operation CustomDomains.beginCreate
+  - Removed operation CustomDomains.beginCreateAndWait
+  - Removed operation CustomDomains.beginDelete
+  - Removed operation CustomDomains.beginDeleteAndWait
+  - Removed operation CustomDomains.beginDisableCustomHttps
+  - Removed operation CustomDomains.beginDisableCustomHttpsAndWait
+  - Removed operation CustomDomains.beginEnableCustomHttps
+  - Removed operation CustomDomains.beginEnableCustomHttpsAndWait
+  - Removed operation Endpoints.beginCreate
+  - Removed operation Endpoints.beginCreateAndWait
+  - Removed operation Endpoints.beginDelete
+  - Removed operation Endpoints.beginDeleteAndWait
+  - Removed operation Endpoints.beginLoadContent
+  - Removed operation Endpoints.beginLoadContentAndWait
+  - Removed operation Endpoints.beginPurgeContent
+  - Removed operation Endpoints.beginPurgeContentAndWait
+  - Removed operation Endpoints.beginStart
+  - Removed operation Endpoints.beginStartAndWait
+  - Removed operation Endpoints.beginStop
+  - Removed operation Endpoints.beginStopAndWait
+  - Removed operation Endpoints.beginUpdate
+  - Removed operation Endpoints.beginUpdateAndWait
+  - Removed operation OriginGroups.beginCreate
+  - Removed operation OriginGroups.beginCreateAndWait
+  - Removed operation OriginGroups.beginDelete
+  - Removed operation OriginGroups.beginDeleteAndWait
+  - Removed operation OriginGroups.beginUpdate
+  - Removed operation OriginGroups.beginUpdateAndWait
+  - Removed operation Origins.beginCreate
+  - Removed operation Origins.beginCreateAndWait
+  - Removed operation Origins.beginDelete
+  - Removed operation Origins.beginDeleteAndWait
+  - Removed operation Origins.beginUpdate
+  - Removed operation Origins.beginUpdateAndWait
+  - Removed operation Policies.beginCreateOrUpdate
+  - Removed operation Policies.beginCreateOrUpdateAndWait
+  - Removed operation Policies.beginUpdate
+  - Removed operation Policies.beginUpdateAndWait
+  - Removed operation Profiles.beginCanMigrate
+  - Removed operation Profiles.beginCanMigrateAndWait
+  - Removed operation Profiles.beginCreate
+  - Removed operation Profiles.beginCreateAndWait
+  - Removed operation Profiles.beginDelete
+  - Removed operation Profiles.beginDeleteAndWait
+  - Removed operation Profiles.beginMigrate
+  - Removed operation Profiles.beginMigrateAndWait
+  - Removed operation Profiles.beginMigrationCommit
+  - Removed operation Profiles.beginMigrationCommitAndWait
+  - Removed operation Profiles.beginUpdate
+  - Removed operation Profiles.beginUpdateAndWait
+  - Removed operation Routes.beginCreate
+  - Removed operation Routes.beginCreateAndWait
+  - Removed operation Routes.beginDelete
+  - Removed operation Routes.beginDeleteAndWait
+  - Removed operation Routes.beginUpdate
+  - Removed operation Routes.beginUpdateAndWait
+  - Removed operation Rules.beginCreate
+  - Removed operation Rules.beginCreateAndWait
+  - Removed operation Rules.beginDelete
+  - Removed operation Rules.beginDeleteAndWait
+  - Removed operation Rules.beginUpdate
+  - Removed operation Rules.beginUpdateAndWait
+  - Removed operation RuleSets.beginDelete
+  - Removed operation RuleSets.beginDeleteAndWait
+  - Removed operation Secrets.beginCreate
+  - Removed operation Secrets.beginCreateAndWait
+  - Removed operation Secrets.beginDelete
+  - Removed operation Secrets.beginDeleteAndWait
+  - Removed operation SecurityPolicies.beginCreate
+  - Removed operation SecurityPolicies.beginCreateAndWait
+  - Removed operation SecurityPolicies.beginDelete
+  - Removed operation SecurityPolicies.beginDeleteAndWait
+  - Removed operation SecurityPolicies.beginPatch
+  - Removed operation SecurityPolicies.beginPatchAndWait
+  - Operation CustomDomains.get has a new signature
+  - Operation Endpoints.get has a new signature
+  - Operation Rules.get has a new signature
+  - Operation Secrets.get has a new signature
+  - Operation SecurityPolicies.get has a new signature
+  - Class CdnManagementClient no longer has parameter apiVersion
+  - Class CdnManagementClient no longer has parameter resourceUsageOperations
+  - Class CdnManagementClient no longer has parameter subscriptionId
+  - Removed Interface AfdCustomDomains
+  - Removed Interface AfdCustomDomainsCreateOptionalParams
+  - Removed Interface AfdCustomDomainsDeleteOptionalParams
+  - Removed Interface AfdCustomDomainsGetOptionalParams
+  - Removed Interface AfdCustomDomainsListByProfileOptionalParams
+  - Removed Interface AfdCustomDomainsRefreshValidationTokenOptionalParams
+  - Removed Interface AfdCustomDomainsUpdateOptionalParams
+  - Removed Interface AfdEndpoints
+  - Removed Interface AfdEndpointsCreateOptionalParams
+  - Removed Interface AfdEndpointsDeleteOptionalParams
+  - Removed Interface AfdEndpointsGetOptionalParams
+  - Removed Interface AfdEndpointsListByProfileOptionalParams
+  - Removed Interface AfdEndpointsListResourceUsageOptionalParams
+  - Removed Interface AfdEndpointsPurgeContentOptionalParams
+  - Removed Interface AfdEndpointsUpdateOptionalParams
+  - Removed Interface AfdEndpointsValidateCustomDomainOptionalParams
+  - Removed Interface AfdErrorResponse
+  - Removed Interface AfdOriginGroups
+  - Removed Interface AfdOriginGroupsCreateOptionalParams
+  - Removed Interface AfdOriginGroupsDeleteOptionalParams
+  - Removed Interface AfdOriginGroupsGetOptionalParams
+  - Removed Interface AfdOriginGroupsListByProfileOptionalParams
+  - Removed Interface AfdOriginGroupsListResourceUsageOptionalParams
+  - Removed Interface AfdOriginGroupsUpdateOptionalParams
+  - Removed Interface AfdOrigins
+  - Removed Interface AfdOriginsCreateOptionalParams
+  - Removed Interface AfdOriginsDeleteOptionalParams
+  - Removed Interface AfdOriginsGetOptionalParams
+  - Removed Interface AfdOriginsListByOriginGroupOptionalParams
+  - Removed Interface AfdOriginsUpdateOptionalParams
+  - Removed Interface AfdProfiles
+  - Removed Interface AfdProfilesCheckEndpointNameAvailabilityOptionalParams
+  - Removed Interface AfdProfilesCheckHostNameAvailabilityOptionalParams
+  - Removed Interface AfdProfilesListResourceUsageOptionalParams
+  - Removed Interface AfdProfilesUpgradeOptionalParams
+  - Removed Interface AfdProfilesValidateSecretOptionalParams
+  - Removed Interface AzureFirstPartyManagedCertificate
+  - Removed Interface CdnWebApplicationFirewallPolicyList
+  - Removed Interface Certificate
+  - Removed Interface CustomerCertificate
+  - Removed Interface DeliveryRuleActionAutoGenerated
+  - Removed Interface ManagedCertificate
+  - Removed Interface ManagedRuleSetDefinitionList
+  - Removed Interface ValidationToken
+  - Type of parameter certificateSource of interface CustomDomainHttpsParameters is changed from "Cdn" | "AzureKeyVault" to CertificateSource
+  - Type of parameter actions of interface DeliveryRule is changed from DeliveryRuleActionAutoGeneratedUnion[] to DeliveryRuleActionUnion[]
+  - Type of parameter name of interface DeliveryRuleCondition is changed from "RemoteAddress" | "RequestMethod" | "QueryString" | "PostArgs" | "RequestUri" | "RequestHeader" | "RequestBody" | "RequestScheme" | "UrlPath" | "UrlFileExtension" | "UrlFileName" | "HttpVersion" | "Cookies" | "IsDevice" | "SocketAddr" | "ClientPort" | "ServerPort" | "HostName" | "SslProtocol" to MatchVariable
+  - Type of parameter typeName of interface KeyVaultSigningKeyParameters is changed from "KeyVaultSigningKeyParameters" to KeyVaultSigningKeyParametersType
+  - Type of parameter operator of interface RequestSchemeMatchConditionParameters is changed from "Equal" to RequestSchemeMatchConditionParametersOperator
+  - Type of parameter actions of interface Rule is changed from DeliveryRuleActionAutoGeneratedUnion[] to DeliveryRuleActionUnion[]
+  - Type of parameter actions of interface RuleProperties is changed from DeliveryRuleActionAutoGeneratedUnion[] to DeliveryRuleActionUnion[]
+  - Type of parameter actions of interface RuleUpdateParameters is changed from DeliveryRuleActionAutoGeneratedUnion[] to DeliveryRuleActionUnion[]
+  - Type of parameter actions of interface RuleUpdatePropertiesParameters is changed from DeliveryRuleActionAutoGeneratedUnion[] to DeliveryRuleActionUnion[]
+  - Type of parameter type of interface SecretParameters is changed from "UrlSigningKey" | "ManagedCertificate" | "CustomerCertificate" | "AzureFirstPartyManagedCertificate" to SecretType
+  - Type of parameter type of interface SecurityPolicyPropertiesParameters is changed from "WebApplicationFirewall" to SecurityPolicyType
+  - Parameter hostName of interface OriginProperties is now required
+  - Parameter secretVersion of interface UrlSigningKeyParameters is now required
+  - Removed Type Alias Algorithm_2
+  - Removed Type Alias DeliveryRuleAction
+  - Removed Type Alias DeliveryRuleActionAutoGeneratedUnion
+  - Removed Type Alias IdentityType
+  - Removed Type Alias IsDeviceMatchConditionParametersMatchValuesItem
+  - Removed Type Alias RequestMethodMatchConditionParametersMatchValuesItem
+  - Removed Type Alias RequestSchemeMatchConditionParametersMatchValuesItem
+  - Type alias "AfdMinimumTlsVersion" has been changed
+  - Type alias "CustomDomainHttpsParametersUnion" has been changed
+  - Type alias "DeliveryRuleConditionUnion" has been changed
+  - Type alias "SecretParametersUnion" has been changed
+  - Type alias "SecurityPolicyPropertiesParametersUnion" has been changed
+  - Removed Enum KnownDeliveryRuleAction
+  - Removed Enum KnownIdentityType
+  - Removed Enum KnownIsDeviceMatchConditionParametersMatchValuesItem
+  - Removed Enum KnownRequestMethodMatchConditionParametersMatchValuesItem
+  - Removed Enum KnownRequestSchemeMatchConditionParametersMatchValuesItem
 
-### Bugs Fixed
-
-### Other Changes
-
-## 9.1.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 9.1.0 (2024-04-08)
     
 ### Features Added
