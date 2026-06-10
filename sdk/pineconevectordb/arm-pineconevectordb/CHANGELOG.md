@@ -1,15 +1,14 @@
 # Release History
-    
-## 1.0.0-beta.3 (Unreleased)
+
+## 1.0.0-beta.3 (2026-06-10)
+Compared with version 1.0.0-beta.2
 
 ### Features Added
+  - Interface VectorDbClientOptionalParams has a new optional parameter cloudSetting
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+    
 ## 1.0.0-beta.2 (2025-03-25)
 Compared with version 1.0.0-beta.1
     
