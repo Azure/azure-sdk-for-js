@@ -106,9 +106,16 @@ function hasInputPageMarker(markdown: string): boolean {
  *
  * The markdown body contains the extracted text with page-break markers
  * (`<!-- InputPageNumber: N -->`) inserted at page boundaries so downstream
- * consumers can locate content by page number. When the service-provided
- * markdown already contains `<!-- InputPageNumber:` markers, the helper
- * passes the markdown through unchanged to avoid duplicate markers.
+ * consumers can locate content by page number. `N` is the **original 1-based
+ * page number from the source document** (i.e., the page index in the
+ * analyzed PDF), not a counter that restarts at 1 for each call. This matters
+ * when the analyze request specifies a `contentRange` (e.g., `"2-3,5"`): the
+ * markers in the output will read `InputPageNumber: 2`, `3`, `5` — not `1`,
+ * `2`, `3`. Downstream consumers (RAG indexers, page-citation prompts) can
+ * rely on the marker value to cite the correct source page even when only a
+ * subset of pages was analyzed. When the service-provided markdown already
+ * contains `<!-- InputPageNumber:` markers, the helper passes the markdown
+ * through unchanged to avoid duplicate markers.
  *
  * For single-content results (documents, images), the output is a flat
  * text block. For multi-segment results (video, audio), each segment is
