@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
@@ -590,6 +591,10 @@ export interface SignalRCustomCertificatesListOptionalParams extends OperationOp
 
 // @public
 export interface SignalRCustomCertificatesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, certificateName: string, parameters: CustomCertificate, options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CustomCertificate>, CustomCertificate>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, certificateName: string, parameters: CustomCertificate, options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams) => Promise<CustomCertificate>;
     createOrUpdate: (resourceGroupName: string, resourceName: string, certificateName: string, parameters: CustomCertificate, options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams) => PollerLike<OperationState<CustomCertificate>, CustomCertificate>;
     delete: (resourceGroupName: string, resourceName: string, certificateName: string, options?: SignalRCustomCertificatesDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, resourceName: string, certificateName: string, options?: SignalRCustomCertificatesGetOptionalParams) => Promise<CustomCertificate>;
@@ -616,6 +621,14 @@ export interface SignalRCustomDomainsListOptionalParams extends OperationOptions
 
 // @public
 export interface SignalRCustomDomainsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, name: string, parameters: CustomDomain, options?: SignalRCustomDomainsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CustomDomain>, CustomDomain>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, name: string, parameters: CustomDomain, options?: SignalRCustomDomainsCreateOrUpdateOptionalParams) => Promise<CustomDomain>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, name: string, options?: SignalRCustomDomainsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, name: string, options?: SignalRCustomDomainsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, resourceName: string, name: string, parameters: CustomDomain, options?: SignalRCustomDomainsCreateOrUpdateOptionalParams) => PollerLike<OperationState<CustomDomain>, CustomDomain>;
     delete: (resourceGroupName: string, resourceName: string, name: string, options?: SignalRCustomDomainsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, resourceName: string, name: string, options?: SignalRCustomDomainsGetOptionalParams) => Promise<CustomDomain>;
@@ -699,6 +712,26 @@ export interface SignalRNetworkACLs {
 
 // @public
 export interface SignalROperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, parameters: SignalRResource, options?: SignalRCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SignalRResource>, SignalRResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, parameters: SignalRResource, options?: SignalRCreateOrUpdateOptionalParams) => Promise<SignalRResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, options?: SignalRDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, options?: SignalRDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRegenerateKey: (resourceGroupName: string, resourceName: string, parameters: RegenerateKeyParameters, options?: SignalRRegenerateKeyOptionalParams) => Promise<SimplePollerLike<OperationState<SignalRKeys>, SignalRKeys>>;
+    // @deprecated (undocumented)
+    beginRegenerateKeyAndWait: (resourceGroupName: string, resourceName: string, parameters: RegenerateKeyParameters, options?: SignalRRegenerateKeyOptionalParams) => Promise<SignalRKeys>;
+    // @deprecated (undocumented)
+    beginRestart: (resourceGroupName: string, resourceName: string, options?: SignalRRestartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestartAndWait: (resourceGroupName: string, resourceName: string, options?: SignalRRestartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, parameters: SignalRResource, options?: SignalRUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SignalRResource>, SignalRResource>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, parameters: SignalRResource, options?: SignalRUpdateOptionalParams) => Promise<SignalRResource>;
     checkNameAvailability: (location: string, parameters: NameAvailabilityParameters, options?: SignalRCheckNameAvailabilityOptionalParams) => Promise<NameAvailability>;
     createOrUpdate: (resourceGroupName: string, resourceName: string, parameters: SignalRResource, options?: SignalRCreateOrUpdateOptionalParams) => PollerLike<OperationState<SignalRResource>, SignalRResource>;
     delete: (resourceGroupName: string, resourceName: string, options?: SignalRDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -728,6 +761,10 @@ export interface SignalRPrivateEndpointConnectionsListOptionalParams extends Ope
 
 // @public
 export interface SignalRPrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: SignalRPrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: SignalRPrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
     delete: (privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: SignalRPrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: SignalRPrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
     list: (resourceGroupName: string, resourceName: string, options?: SignalRPrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -808,6 +845,10 @@ export interface SignalRReplicaSharedPrivateLinkResourcesListOptionalParams exte
 
 // @public
 export interface SignalRReplicaSharedPrivateLinkResourcesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, parameters: SharedPrivateLinkResource, options?: SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, parameters: SharedPrivateLinkResource, options?: SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams) => Promise<SharedPrivateLinkResource>;
     createOrUpdate: (resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, parameters: SharedPrivateLinkResource, options?: SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams) => PollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>;
     get: (resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, options?: SignalRReplicaSharedPrivateLinkResourcesGetOptionalParams) => Promise<SharedPrivateLinkResource>;
     list: (resourceGroupName: string, resourceName: string, replicaName: string, options?: SignalRReplicaSharedPrivateLinkResourcesListOptionalParams) => PagedAsyncIterableIterator<SharedPrivateLinkResource>;
@@ -819,6 +860,18 @@ export interface SignalRReplicasListOptionalParams extends OperationOptions {
 
 // @public
 export interface SignalRReplicasOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: SignalRReplicasCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Replica>, Replica>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: SignalRReplicasCreateOrUpdateOptionalParams) => Promise<Replica>;
+    // @deprecated (undocumented)
+    beginRestart: (resourceGroupName: string, resourceName: string, replicaName: string, options?: SignalRReplicasRestartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestartAndWait: (resourceGroupName: string, resourceName: string, replicaName: string, options?: SignalRReplicasRestartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: SignalRReplicasUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Replica>, Replica>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: SignalRReplicasUpdateOptionalParams) => Promise<Replica>;
     createOrUpdate: (resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: SignalRReplicasCreateOrUpdateOptionalParams) => PollerLike<OperationState<Replica>, Replica>;
     delete: (resourceGroupName: string, resourceName: string, replicaName: string, options?: SignalRReplicasDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, resourceName: string, replicaName: string, options?: SignalRReplicasGetOptionalParams) => Promise<Replica>;
@@ -896,6 +949,14 @@ export interface SignalRSharedPrivateLinkResourcesListOptionalParams extends Ope
 
 // @public
 export interface SignalRSharedPrivateLinkResourcesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, parameters: SharedPrivateLinkResource, options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, parameters: SharedPrivateLinkResource, options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams) => Promise<SharedPrivateLinkResource>;
+    // @deprecated (undocumented)
+    beginDelete: (sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, parameters: SharedPrivateLinkResource, options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams) => PollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>;
     delete: (sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: SignalRSharedPrivateLinkResourcesGetOptionalParams) => Promise<SharedPrivateLinkResource>;
@@ -928,6 +989,28 @@ export interface SignalRUsage {
 export interface SignalRUsageName {
     localizedValue?: string;
     value?: string;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public

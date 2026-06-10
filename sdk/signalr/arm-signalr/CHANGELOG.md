@@ -45,6 +45,7 @@ Compared with version 5.2.0
   - Added Interface SignalRReplicasListOptionalParams
   - Added Interface SignalRReplicasRestartOptionalParams
   - Added Interface SignalRReplicasUpdateOptionalParams
+  - Added Interface SimplePollerLike
   - Added Interface ThrottleByJwtCustomClaimRule
   - Added Interface ThrottleByJwtSignatureRule
   - Added Interface ThrottleByUserIdRule
@@ -74,28 +75,6 @@ Compared with version 5.2.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation SignalR.beginCreateOrUpdate
-  - Removed operation SignalR.beginCreateOrUpdateAndWait
-  - Removed operation SignalR.beginDelete
-  - Removed operation SignalR.beginDeleteAndWait
-  - Removed operation SignalR.beginRegenerateKey
-  - Removed operation SignalR.beginRegenerateKeyAndWait
-  - Removed operation SignalR.beginRestart
-  - Removed operation SignalR.beginRestartAndWait
-  - Removed operation SignalR.beginUpdate
-  - Removed operation SignalR.beginUpdateAndWait
-  - Removed operation SignalRCustomCertificates.beginCreateOrUpdate
-  - Removed operation SignalRCustomCertificates.beginCreateOrUpdateAndWait
-  - Removed operation SignalRCustomDomains.beginCreateOrUpdate
-  - Removed operation SignalRCustomDomains.beginCreateOrUpdateAndWait
-  - Removed operation SignalRCustomDomains.beginDelete
-  - Removed operation SignalRCustomDomains.beginDeleteAndWait
-  - Removed operation SignalRPrivateEndpointConnections.beginDelete
-  - Removed operation SignalRPrivateEndpointConnections.beginDeleteAndWait
-  - Removed operation SignalRSharedPrivateLinkResources.beginCreateOrUpdate
-  - Removed operation SignalRSharedPrivateLinkResources.beginCreateOrUpdateAndWait
-  - Removed operation SignalRSharedPrivateLinkResources.beginDelete
-  - Removed operation SignalRSharedPrivateLinkResources.beginDeleteAndWait
   - Class SignalRManagementClient no longer has parameter apiVersion
   - Class SignalRManagementClient no longer has parameter subscriptionId
   - Removed Interface CustomCertificateList

@@ -16,6 +16,8 @@ import type {
 } from "../../api/signalRCustomCertificates/options.js";
 import type { CustomCertificate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SignalRCustomCertificates operations. */
@@ -41,6 +43,22 @@ export interface SignalRCustomCertificatesOperations {
     parameters: CustomCertificate,
     options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<CustomCertificate>, CustomCertificate>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    parameters: CustomCertificate,
+    options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<CustomCertificate>, CustomCertificate>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    parameters: CustomCertificate,
+    options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams,
+  ) => Promise<CustomCertificate>;
   /** Get a custom certificate. */
   get: (
     resourceGroupName: string,
@@ -78,6 +96,40 @@ function _getSignalRCustomCertificates(context: SignalRManagementContext) {
         parameters,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      resourceName: string,
+      certificateName: string,
+      parameters: CustomCertificate,
+      options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        resourceName,
+        certificateName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      resourceName: string,
+      certificateName: string,
+      parameters: CustomCertificate,
+      options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        resourceName,
+        certificateName,
+        parameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       resourceName: string,

@@ -39,6 +39,8 @@ import type {
   NameAvailability,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SignalR operations. */
@@ -68,6 +70,18 @@ export interface SignalROperations {
     resourceName: string,
     options?: SignalRRestartOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use restart instead */
+  beginRestart: (
+    resourceGroupName: string,
+    resourceName: string,
+    options?: SignalRRestartOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use restart instead */
+  beginRestartAndWait: (
+    resourceGroupName: string,
+    resourceName: string,
+    options?: SignalRRestartOptionalParams,
+  ) => Promise<void>;
   /** Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the same time. */
   regenerateKey: (
     resourceGroupName: string,
@@ -75,6 +89,20 @@ export interface SignalROperations {
     parameters: RegenerateKeyParameters,
     options?: SignalRRegenerateKeyOptionalParams,
   ) => PollerLike<OperationState<SignalRKeys>, SignalRKeys>;
+  /** @deprecated use regenerateKey instead */
+  beginRegenerateKey: (
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: RegenerateKeyParameters,
+    options?: SignalRRegenerateKeyOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<SignalRKeys>, SignalRKeys>>;
+  /** @deprecated use regenerateKey instead */
+  beginRegenerateKeyAndWait: (
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: RegenerateKeyParameters,
+    options?: SignalRRegenerateKeyOptionalParams,
+  ) => Promise<SignalRKeys>;
   /** Get the access keys of the resource. */
   listKeys: (
     resourceGroupName: string,
@@ -96,6 +124,18 @@ export interface SignalROperations {
     resourceName: string,
     options?: SignalRDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    resourceName: string,
+    options?: SignalRDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    resourceName: string,
+    options?: SignalRDeleteOptionalParams,
+  ) => Promise<void>;
   /** Operation to update an exiting resource. */
   update: (
     resourceGroupName: string,
@@ -103,6 +143,20 @@ export interface SignalROperations {
     parameters: SignalRResource,
     options?: SignalRUpdateOptionalParams,
   ) => PollerLike<OperationState<SignalRResource>, SignalRResource>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: SignalRResource,
+    options?: SignalRUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<SignalRResource>, SignalRResource>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: SignalRResource,
+    options?: SignalRUpdateOptionalParams,
+  ) => Promise<SignalRResource>;
   /** Create or update a resource. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -110,6 +164,20 @@ export interface SignalROperations {
     parameters: SignalRResource,
     options?: SignalRCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<SignalRResource>, SignalRResource>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: SignalRResource,
+    options?: SignalRCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<SignalRResource>, SignalRResource>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: SignalRResource,
+    options?: SignalRCreateOrUpdateOptionalParams,
+  ) => Promise<SignalRResource>;
   /** Get the resource and its properties. */
   get: (
     resourceGroupName: string,
@@ -141,12 +209,46 @@ function _getSignalR(context: SignalRManagementContext) {
       resourceName: string,
       options?: SignalRRestartOptionalParams,
     ) => restart(context, resourceGroupName, resourceName, options),
+    beginRestart: async (
+      resourceGroupName: string,
+      resourceName: string,
+      options?: SignalRRestartOptionalParams,
+    ) => {
+      const poller = restart(context, resourceGroupName, resourceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRestartAndWait: async (
+      resourceGroupName: string,
+      resourceName: string,
+      options?: SignalRRestartOptionalParams,
+    ) => {
+      return await restart(context, resourceGroupName, resourceName, options);
+    },
     regenerateKey: (
       resourceGroupName: string,
       resourceName: string,
       parameters: RegenerateKeyParameters,
       options?: SignalRRegenerateKeyOptionalParams,
     ) => regenerateKey(context, resourceGroupName, resourceName, parameters, options),
+    beginRegenerateKey: async (
+      resourceGroupName: string,
+      resourceName: string,
+      parameters: RegenerateKeyParameters,
+      options?: SignalRRegenerateKeyOptionalParams,
+    ) => {
+      const poller = regenerateKey(context, resourceGroupName, resourceName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRegenerateKeyAndWait: async (
+      resourceGroupName: string,
+      resourceName: string,
+      parameters: RegenerateKeyParameters,
+      options?: SignalRRegenerateKeyOptionalParams,
+    ) => {
+      return await regenerateKey(context, resourceGroupName, resourceName, parameters, options);
+    },
     listKeys: (
       resourceGroupName: string,
       resourceName: string,
@@ -163,18 +265,70 @@ function _getSignalR(context: SignalRManagementContext) {
       resourceName: string,
       options?: SignalRDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, resourceName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      resourceName: string,
+      options?: SignalRDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, resourceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      resourceName: string,
+      options?: SignalRDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, resourceName, options);
+    },
     update: (
       resourceGroupName: string,
       resourceName: string,
       parameters: SignalRResource,
       options?: SignalRUpdateOptionalParams,
     ) => update(context, resourceGroupName, resourceName, parameters, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      resourceName: string,
+      parameters: SignalRResource,
+      options?: SignalRUpdateOptionalParams,
+    ) => {
+      const poller = update(context, resourceGroupName, resourceName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      resourceName: string,
+      parameters: SignalRResource,
+      options?: SignalRUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, resourceName, parameters, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       resourceName: string,
       parameters: SignalRResource,
       options?: SignalRCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, resourceName, parameters, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      resourceName: string,
+      parameters: SignalRResource,
+      options?: SignalRCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(context, resourceGroupName, resourceName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      resourceName: string,
+      parameters: SignalRResource,
+      options?: SignalRCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, resourceGroupName, resourceName, parameters, options);
+    },
     get: (resourceGroupName: string, resourceName: string, options?: SignalRGetOptionalParams) =>
       get(context, resourceGroupName, resourceName, options),
   };

@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -136,9 +136,10 @@
+@@ -137,9 +137,10 @@
  
  export { isRestError }
  
@@ -19,7 +19,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export enum KnownACLAction {
      Allow = "Allow",
-@@ -427,9 +428,9 @@
+@@ -428,9 +429,9 @@
  }
  
  // @public
