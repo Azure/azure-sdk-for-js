@@ -944,7 +944,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/selfhelp/arm-selfhelp/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/signalr/arm-signalr/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed

@@ -1,15 +1,116 @@
 # Release History
-    
-## 6.0.0-beta.3 (Unreleased)
+
+## 6.0.0-beta.3 (2026-06-10)
+Compared with version 5.2.0
 
 ### Features Added
+  - Added operation group SignalRReplicaSharedPrivateLinkResourcesOperations
+  - Added operation group SignalRReplicasOperations
+  - Added operation SignalROperations.createOrUpdate
+  - Added operation SignalROperations.delete
+  - Added operation SignalROperations.listReplicaSkus
+  - Added operation SignalROperations.regenerateKey
+  - Added operation SignalROperations.restart
+  - Added operation SignalROperations.update
+  - Added operation SignalRCustomCertificatesOperations.createOrUpdate
+  - Added operation SignalRCustomDomainsOperations.createOrUpdate
+  - Added operation SignalRCustomDomainsOperations.delete
+  - Added operation SignalRPrivateEndpointConnectionsOperations.delete
+  - Added operation SignalRSharedPrivateLinkResourcesOperations.createOrUpdate
+  - Added operation SignalRSharedPrivateLinkResourcesOperations.delete
+  - Class SignalRManagementClient has a new constructor "constructor(credential: TokenCredential, options?: SignalRManagementClientOptionalParams);"
+  - Added Interface ApplicationFirewallSettings
+  - Added Interface ClientConnectionCountRule
+  - Added Interface ClientTrafficControlRule
+  - Added Interface CustomCertificateProperties
+  - Added Interface CustomDomainProperties
+  - Added Interface IPRule
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface Replica
+  - Added Interface ReplicaProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface RouteSettings
+  - Added Interface SharedPrivateLinkResourceProperties
+  - Added Interface SignalRListReplicaSkusOptionalParams
+  - Added Interface SignalRProperties
+  - Added Interface SignalRReplicasCreateOrUpdateOptionalParams
+  - Added Interface SignalRReplicasDeleteOptionalParams
+  - Added Interface SignalRReplicasGetOptionalParams
+  - Added Interface SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
+  - Added Interface SignalRReplicaSharedPrivateLinkResourcesGetOptionalParams
+  - Added Interface SignalRReplicaSharedPrivateLinkResourcesListOptionalParams
+  - Added Interface SignalRReplicasListOptionalParams
+  - Added Interface SignalRReplicasRestartOptionalParams
+  - Added Interface SignalRReplicasUpdateOptionalParams
+  - Added Interface ThrottleByJwtCustomClaimRule
+  - Added Interface ThrottleByJwtSignatureRule
+  - Added Interface ThrottleByUserIdRule
+  - Added Interface TrafficThrottleByJwtCustomClaimRule
+  - Added Interface TrafficThrottleByJwtSignatureRule
+  - Added Interface TrafficThrottleByUserIdRule
+  - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface ServerlessSettings has a new optional parameter keepAliveIntervalInSeconds
+  - Interface SharedPrivateLinkResource has a new optional parameter fqdns
+  - Interface SignalRNetworkACLs has a new optional parameter ipRules
+  - Interface SignalRResource has a new optional parameter applicationFirewall
+  - Interface SignalRResource has a new optional parameter regionEndpointEnabled
+  - Interface SignalRResource has a new optional parameter resourceStopped
+  - Interface SignalRResource has a new optional parameter routeSettings
+  - Interface TrackedResource has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ClientConnectionCountRuleDiscriminator
+  - Added Type Alias ClientConnectionCountRuleUnion
+  - Added Type Alias ClientTrafficControlRuleDiscriminator
+  - Added Type Alias ClientTrafficControlRuleUnion
+  - Added Type Alias KeyType
+  - Added Enum AzureClouds
+  - Added Enum KnownClientConnectionCountRuleDiscriminator
+  - Added Enum KnownClientTrafficControlRuleDiscriminator
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Removed operation SignalR.beginCreateOrUpdate
+  - Removed operation SignalR.beginCreateOrUpdateAndWait
+  - Removed operation SignalR.beginDelete
+  - Removed operation SignalR.beginDeleteAndWait
+  - Removed operation SignalR.beginRegenerateKey
+  - Removed operation SignalR.beginRegenerateKeyAndWait
+  - Removed operation SignalR.beginRestart
+  - Removed operation SignalR.beginRestartAndWait
+  - Removed operation SignalR.beginUpdate
+  - Removed operation SignalR.beginUpdateAndWait
+  - Removed operation SignalRCustomCertificates.beginCreateOrUpdate
+  - Removed operation SignalRCustomCertificates.beginCreateOrUpdateAndWait
+  - Removed operation SignalRCustomDomains.beginCreateOrUpdate
+  - Removed operation SignalRCustomDomains.beginCreateOrUpdateAndWait
+  - Removed operation SignalRCustomDomains.beginDelete
+  - Removed operation SignalRCustomDomains.beginDeleteAndWait
+  - Removed operation SignalRPrivateEndpointConnections.beginDelete
+  - Removed operation SignalRPrivateEndpointConnections.beginDeleteAndWait
+  - Removed operation SignalRSharedPrivateLinkResources.beginCreateOrUpdate
+  - Removed operation SignalRSharedPrivateLinkResources.beginCreateOrUpdateAndWait
+  - Removed operation SignalRSharedPrivateLinkResources.beginDelete
+  - Removed operation SignalRSharedPrivateLinkResources.beginDeleteAndWait
+  - Class SignalRManagementClient no longer has parameter apiVersion
+  - Class SignalRManagementClient no longer has parameter subscriptionId
+  - Removed Interface CustomCertificateList
+  - Removed Interface CustomDomainList
+  - Removed Interface OperationList
+  - Removed Interface PrivateEndpointConnectionList
+  - Removed Interface PrivateLinkResourceList
+  - Removed Interface SharedPrivateLinkResourceList
+  - Removed Interface SignalRResourceList
+  - Removed Interface SignalRUsageList
+  - Parameter location of interface SignalRResource is now required
+  - Parameter location of interface TrackedResource is now required
+  - Removed Type Alias KeyType_2
 
-### Bugs Fixed
-
-### Other Changes
-
+    
 ## 6.0.0-beta.2 (2023-10-09)
     
 ### Features Added
