@@ -11,6 +11,8 @@ import type {
 } from "../../api/tagRules/options.js";
 import type { MonitoringTagRules } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a TagRules operations. */
@@ -28,6 +30,20 @@ export interface TagRulesOperations {
     ruleSetName: string,
     options?: TagRulesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    monitorName: string,
+    ruleSetName: string,
+    options?: TagRulesDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    monitorName: string,
+    ruleSetName: string,
+    options?: TagRulesDeleteOptionalParams,
+  ) => Promise<void>;
   /** Create or update a tag rule set for a given Elastic monitor resource, enabling fine-grained control over observability based on resource tags. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -54,6 +70,24 @@ function _getTagRules(context: MicrosoftElasticContext) {
       ruleSetName: string,
       options?: TagRulesDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, monitorName, ruleSetName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      monitorName: string,
+      ruleSetName: string,
+      options?: TagRulesDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, monitorName, ruleSetName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      monitorName: string,
+      ruleSetName: string,
+      options?: TagRulesDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, monitorName, ruleSetName, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       monitorName: string,

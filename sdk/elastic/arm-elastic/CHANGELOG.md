@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0-beta.1 (2026-06-09)
+## 3.0.0-beta.1 (2026-06-10)
 Compared with version 2.0.0
 
 ### Features Added
@@ -23,6 +23,7 @@ Compared with version 2.0.0
   - Added Interface ProxyResource
   - Added Interface Resource
   - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
   - Added Interface TrackedResource
   - Interface MonitoredSubscriptionProperties has a new optional parameter systemData
   - Interface OpenAIIntegrationRPModel has a new optional parameter systemData
@@ -31,32 +32,7 @@ Compared with version 2.0.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation AssociateTrafficFilter.beginAssociate
-  - Removed operation AssociateTrafficFilter.beginAssociateAndWait
-  - Removed operation CreateAndAssociateIPFilter.beginCreate
-  - Removed operation CreateAndAssociateIPFilter.beginCreateAndWait
-  - Removed operation CreateAndAssociatePLFilter.beginCreate
-  - Removed operation CreateAndAssociatePLFilter.beginCreateAndWait
-  - Removed operation DetachTrafficFilter.beginUpdate
-  - Removed operation DetachTrafficFilter.beginUpdateAndWait
-  - Removed operation Monitor.beginUpgrade
-  - Removed operation Monitor.beginUpgradeAndWait
-  - Removed operation MonitoredSubscriptions.beginCreateorUpdate
-  - Removed operation MonitoredSubscriptions.beginCreateorUpdateAndWait
-  - Removed operation MonitoredSubscriptions.beginDelete
-  - Removed operation MonitoredSubscriptions.beginDeleteAndWait
-  - Removed operation MonitoredSubscriptions.beginUpdate
-  - Removed operation MonitoredSubscriptions.beginUpdateAndWait
-  - Removed operation Monitors.beginCreate
-  - Removed operation Monitors.beginCreateAndWait
-  - Removed operation Monitors.beginDelete
-  - Removed operation Monitors.beginDeleteAndWait
-  - Removed operation Monitors.beginUpdate
-  - Removed operation Monitors.beginUpdateAndWait
-  - Removed operation Organizations.beginResubscribe
-  - Removed operation Organizations.beginResubscribeAndWait
-  - Removed operation TagRules.beginDelete
-  - Removed operation TagRules.beginDeleteAndWait
+  - Operation MonitoredSubscriptions.beginDeleteAndWait has a new signature
   - Class MicrosoftElastic no longer has parameter apiVersion
   - Class MicrosoftElastic no longer has parameter subscriptionId
   - Class MicrosoftElastic no longer has parameter vMCollection

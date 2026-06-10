@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
@@ -33,6 +34,10 @@ export interface AssociateTrafficFilterAssociateOptionalParams extends Operation
 // @public
 export interface AssociateTrafficFilterOperations {
     associate: (resourceGroupName: string, monitorName: string, options?: AssociateTrafficFilterAssociateOptionalParams) => PollerLike<OperationState<void>, void>;
+    // @deprecated (undocumented)
+    beginAssociate: (resourceGroupName: string, monitorName: string, options?: AssociateTrafficFilterAssociateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginAssociateAndWait: (resourceGroupName: string, monitorName: string, options?: AssociateTrafficFilterAssociateOptionalParams) => Promise<void>;
 }
 
 // @public
@@ -109,6 +114,10 @@ export interface CreateAndAssociateIPFilterCreateOptionalParams extends Operatio
 
 // @public
 export interface CreateAndAssociateIPFilterOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, monitorName: string, options?: CreateAndAssociateIPFilterCreateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, monitorName: string, options?: CreateAndAssociateIPFilterCreateOptionalParams) => Promise<void>;
     create: (resourceGroupName: string, monitorName: string, options?: CreateAndAssociateIPFilterCreateOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
@@ -122,6 +131,10 @@ export interface CreateAndAssociatePLFilterCreateOptionalParams extends Operatio
 
 // @public
 export interface CreateAndAssociatePLFilterOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, monitorName: string, options?: CreateAndAssociatePLFilterCreateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, monitorName: string, options?: CreateAndAssociatePLFilterCreateOptionalParams) => Promise<void>;
     create: (resourceGroupName: string, monitorName: string, options?: CreateAndAssociatePLFilterCreateOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
@@ -162,6 +175,10 @@ export interface DetachAndDeleteTrafficFilterOperations {
 
 // @public
 export interface DetachTrafficFilterOperations {
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, monitorName: string, options?: DetachTrafficFilterUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, monitorName: string, options?: DetachTrafficFilterUpdateOptionalParams) => Promise<void>;
     update: (resourceGroupName: string, monitorName: string, options?: DetachTrafficFilterUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
@@ -585,6 +602,18 @@ export interface MonitoredSubscriptionsListOptionalParams extends OperationOptio
 
 // @public
 export interface MonitoredSubscriptionsOperations {
+    // @deprecated (undocumented)
+    beginCreateorUpdate: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MonitoredSubscriptionProperties>, MonitoredSubscriptionProperties>>;
+    // @deprecated (undocumented)
+    beginCreateorUpdateAndWait: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams) => Promise<MonitoredSubscriptionProperties>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MonitoredSubscriptionProperties>, MonitoredSubscriptionProperties>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsUpdateOptionalParams) => Promise<MonitoredSubscriptionProperties>;
     createorUpdate: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams) => PollerLike<OperationState<MonitoredSubscriptionProperties>, MonitoredSubscriptionProperties>;
     delete: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsGetOptionalParams) => Promise<MonitoredSubscriptionProperties>;
@@ -615,6 +644,10 @@ export interface MonitoringTagRulesProperties {
 
 // @public
 export interface MonitorOperations {
+    // @deprecated (undocumented)
+    beginUpgrade: (resourceGroupName: string, monitorName: string, options?: MonitorUpgradeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginUpgradeAndWait: (resourceGroupName: string, monitorName: string, options?: MonitorUpgradeOptionalParams) => Promise<void>;
     upgrade: (resourceGroupName: string, monitorName: string, options?: MonitorUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
@@ -663,6 +696,18 @@ export interface MonitorsListOptionalParams extends OperationOptions {
 
 // @public
 export interface MonitorsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ElasticMonitorResource>, ElasticMonitorResource>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams) => Promise<ElasticMonitorResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ElasticMonitorResource>, ElasticMonitorResource>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams) => Promise<ElasticMonitorResource>;
     create: (resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams) => PollerLike<OperationState<ElasticMonitorResource>, ElasticMonitorResource>;
     delete: (resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams) => Promise<ElasticMonitorResource>;
@@ -780,6 +825,10 @@ export interface OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams
 
 // @public
 export interface OrganizationsOperations {
+    // @deprecated (undocumented)
+    beginResubscribe: (resourceGroupName: string, monitorName: string, options?: OrganizationsResubscribeOptionalParams) => Promise<SimplePollerLike<OperationState<ElasticMonitorResource>, ElasticMonitorResource>>;
+    // @deprecated (undocumented)
+    beginResubscribeAndWait: (resourceGroupName: string, monitorName: string, options?: OrganizationsResubscribeOptionalParams) => Promise<ElasticMonitorResource>;
     getApiKey: (options?: OrganizationsGetApiKeyOptionalParams) => Promise<UserApiKeyResponse>;
     getElasticToAzureSubscriptionMapping: (options?: OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams) => Promise<ElasticOrganizationToAzureSubscriptionMappingResponse>;
     resubscribe: (resourceGroupName: string, monitorName: string, options?: OrganizationsResubscribeOptionalParams) => PollerLike<OperationState<ElasticMonitorResource>, ElasticMonitorResource>;
@@ -878,6 +927,28 @@ export interface ResubscribeProperties {
 export type SendingLogs = string;
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export type Status = string;
 
 // @public
@@ -920,6 +991,10 @@ export interface TagRulesListOptionalParams extends OperationOptions {
 
 // @public
 export interface TagRulesOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesCreateOrUpdateOptionalParams) => Promise<MonitoringTagRules>;
     delete: (resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesGetOptionalParams) => Promise<MonitoringTagRules>;

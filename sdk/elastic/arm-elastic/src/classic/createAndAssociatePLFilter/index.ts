@@ -4,6 +4,8 @@
 import type { MicrosoftElasticContext } from "../../api/microsoftElasticContext.js";
 import { create } from "../../api/createAndAssociatePLFilter/operations.js";
 import type { CreateAndAssociatePLFilterCreateOptionalParams } from "../../api/createAndAssociatePLFilter/options.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CreateAndAssociatePLFilter operations. */
@@ -14,6 +16,18 @@ export interface CreateAndAssociatePLFilterOperations {
     monitorName: string,
     options?: CreateAndAssociatePLFilterCreateOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    monitorName: string,
+    options?: CreateAndAssociatePLFilterCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    monitorName: string,
+    options?: CreateAndAssociatePLFilterCreateOptionalParams,
+  ) => Promise<void>;
 }
 
 function _getCreateAndAssociatePLFilter(context: MicrosoftElasticContext) {
@@ -23,6 +37,22 @@ function _getCreateAndAssociatePLFilter(context: MicrosoftElasticContext) {
       monitorName: string,
       options?: CreateAndAssociatePLFilterCreateOptionalParams,
     ) => create(context, resourceGroupName, monitorName, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      monitorName: string,
+      options?: CreateAndAssociatePLFilterCreateOptionalParams,
+    ) => {
+      const poller = create(context, resourceGroupName, monitorName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      monitorName: string,
+      options?: CreateAndAssociatePLFilterCreateOptionalParams,
+    ) => {
+      return await create(context, resourceGroupName, monitorName, options);
+    },
   };
 }
 

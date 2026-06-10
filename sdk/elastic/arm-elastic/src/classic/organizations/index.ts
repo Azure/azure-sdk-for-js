@@ -17,6 +17,8 @@ import type {
   UserApiKeyResponse,
   ElasticOrganizationToAzureSubscriptionMappingResponse,
 } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Organizations operations. */
@@ -37,6 +39,18 @@ export interface OrganizationsOperations {
     monitorName: string,
     options?: OrganizationsResubscribeOptionalParams,
   ) => PollerLike<OperationState<ElasticMonitorResource>, ElasticMonitorResource>;
+  /** @deprecated use resubscribe instead */
+  beginResubscribe: (
+    resourceGroupName: string,
+    monitorName: string,
+    options?: OrganizationsResubscribeOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<ElasticMonitorResource>, ElasticMonitorResource>>;
+  /** @deprecated use resubscribe instead */
+  beginResubscribeAndWait: (
+    resourceGroupName: string,
+    monitorName: string,
+    options?: OrganizationsResubscribeOptionalParams,
+  ) => Promise<ElasticMonitorResource>;
 }
 
 function _getOrganizations(context: MicrosoftElasticContext) {
@@ -50,6 +64,22 @@ function _getOrganizations(context: MicrosoftElasticContext) {
       monitorName: string,
       options?: OrganizationsResubscribeOptionalParams,
     ) => resubscribe(context, resourceGroupName, monitorName, options),
+    beginResubscribe: async (
+      resourceGroupName: string,
+      monitorName: string,
+      options?: OrganizationsResubscribeOptionalParams,
+    ) => {
+      const poller = resubscribe(context, resourceGroupName, monitorName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginResubscribeAndWait: async (
+      resourceGroupName: string,
+      monitorName: string,
+      options?: OrganizationsResubscribeOptionalParams,
+    ) => {
+      return await resubscribe(context, resourceGroupName, monitorName, options);
+    },
   };
 }
 
