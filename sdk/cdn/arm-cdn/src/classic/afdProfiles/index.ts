@@ -28,6 +28,8 @@ import type {
   ProfileUpgradeParameters,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AFDProfiles operations. */
@@ -39,6 +41,20 @@ export interface AFDProfilesOperations {
     profileUpgradeParameters: ProfileUpgradeParameters,
     options?: AFDProfilesUpgradeOptionalParams,
   ) => PollerLike<OperationState<Profile>, Profile>;
+  /** @deprecated use upgrade instead */
+  beginUpgrade: (
+    resourceGroupName: string,
+    profileName: string,
+    profileUpgradeParameters: ProfileUpgradeParameters,
+    options?: AFDProfilesUpgradeOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Profile>, Profile>>;
+  /** @deprecated use upgrade instead */
+  beginUpgradeAndWait: (
+    resourceGroupName: string,
+    profileName: string,
+    profileUpgradeParameters: ProfileUpgradeParameters,
+    options?: AFDProfilesUpgradeOptionalParams,
+  ) => Promise<Profile>;
   /** Validate a Secret in the profile. */
   validateSecret: (
     resourceGroupName: string,
@@ -76,6 +92,36 @@ function _getAFDProfiles(context: CdnManagementContext) {
       profileUpgradeParameters: ProfileUpgradeParameters,
       options?: AFDProfilesUpgradeOptionalParams,
     ) => upgrade(context, resourceGroupName, profileName, profileUpgradeParameters, options),
+    beginUpgrade: async (
+      resourceGroupName: string,
+      profileName: string,
+      profileUpgradeParameters: ProfileUpgradeParameters,
+      options?: AFDProfilesUpgradeOptionalParams,
+    ) => {
+      const poller = upgrade(
+        context,
+        resourceGroupName,
+        profileName,
+        profileUpgradeParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpgradeAndWait: async (
+      resourceGroupName: string,
+      profileName: string,
+      profileUpgradeParameters: ProfileUpgradeParameters,
+      options?: AFDProfilesUpgradeOptionalParams,
+    ) => {
+      return await upgrade(
+        context,
+        resourceGroupName,
+        profileName,
+        profileUpgradeParameters,
+        options,
+      );
+    },
     validateSecret: (
       resourceGroupName: string,
       profileName: string,

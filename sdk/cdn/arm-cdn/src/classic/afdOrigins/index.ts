@@ -18,6 +18,8 @@ import type {
 } from "../../api/afdOrigins/options.js";
 import type { AFDOrigin, AFDOriginUpdateParameters } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AFDOrigins operations. */
@@ -37,6 +39,22 @@ export interface AFDOriginsOperations {
     originName: string,
     options?: AFDOriginsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    profileName: string,
+    originGroupName: string,
+    originName: string,
+    options?: AFDOriginsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    profileName: string,
+    originGroupName: string,
+    originName: string,
+    options?: AFDOriginsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates an existing origin within an origin group. */
   update: (
     resourceGroupName: string,
@@ -46,6 +64,24 @@ export interface AFDOriginsOperations {
     originUpdateProperties: AFDOriginUpdateParameters,
     options?: AFDOriginsUpdateOptionalParams,
   ) => PollerLike<OperationState<AFDOrigin>, AFDOrigin>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    profileName: string,
+    originGroupName: string,
+    originName: string,
+    originUpdateProperties: AFDOriginUpdateParameters,
+    options?: AFDOriginsUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<AFDOrigin>, AFDOrigin>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    profileName: string,
+    originGroupName: string,
+    originName: string,
+    originUpdateProperties: AFDOriginUpdateParameters,
+    options?: AFDOriginsUpdateOptionalParams,
+  ) => Promise<AFDOrigin>;
   /** Creates a new origin within the specified origin group. */
   create: (
     resourceGroupName: string,
@@ -55,6 +91,24 @@ export interface AFDOriginsOperations {
     origin: AFDOrigin,
     options?: AFDOriginsCreateOptionalParams,
   ) => PollerLike<OperationState<AFDOrigin>, AFDOrigin>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    profileName: string,
+    originGroupName: string,
+    originName: string,
+    origin: AFDOrigin,
+    options?: AFDOriginsCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<AFDOrigin>, AFDOrigin>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    profileName: string,
+    originGroupName: string,
+    originName: string,
+    origin: AFDOrigin,
+    options?: AFDOriginsCreateOptionalParams,
+  ) => Promise<AFDOrigin>;
   /** Gets an existing origin within an origin group. */
   get: (
     resourceGroupName: string,
@@ -80,6 +134,40 @@ function _getAFDOrigins(context: CdnManagementContext) {
       originName: string,
       options?: AFDOriginsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, profileName, originGroupName, originName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      profileName: string,
+      originGroupName: string,
+      originName: string,
+      options?: AFDOriginsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        profileName,
+        originGroupName,
+        originName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      profileName: string,
+      originGroupName: string,
+      originName: string,
+      options?: AFDOriginsDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        profileName,
+        originGroupName,
+        originName,
+        options,
+      );
+    },
     update: (
       resourceGroupName: string,
       profileName: string,
@@ -97,6 +185,44 @@ function _getAFDOrigins(context: CdnManagementContext) {
         originUpdateProperties,
         options,
       ),
+    beginUpdate: async (
+      resourceGroupName: string,
+      profileName: string,
+      originGroupName: string,
+      originName: string,
+      originUpdateProperties: AFDOriginUpdateParameters,
+      options?: AFDOriginsUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        profileName,
+        originGroupName,
+        originName,
+        originUpdateProperties,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      profileName: string,
+      originGroupName: string,
+      originName: string,
+      originUpdateProperties: AFDOriginUpdateParameters,
+      options?: AFDOriginsUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        profileName,
+        originGroupName,
+        originName,
+        originUpdateProperties,
+        options,
+      );
+    },
     create: (
       resourceGroupName: string,
       profileName: string,
@@ -106,6 +232,44 @@ function _getAFDOrigins(context: CdnManagementContext) {
       options?: AFDOriginsCreateOptionalParams,
     ) =>
       create(context, resourceGroupName, profileName, originGroupName, originName, origin, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      profileName: string,
+      originGroupName: string,
+      originName: string,
+      origin: AFDOrigin,
+      options?: AFDOriginsCreateOptionalParams,
+    ) => {
+      const poller = create(
+        context,
+        resourceGroupName,
+        profileName,
+        originGroupName,
+        originName,
+        origin,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      profileName: string,
+      originGroupName: string,
+      originName: string,
+      origin: AFDOrigin,
+      options?: AFDOriginsCreateOptionalParams,
+    ) => {
+      return await create(
+        context,
+        resourceGroupName,
+        profileName,
+        originGroupName,
+        originName,
+        origin,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       profileName: string,

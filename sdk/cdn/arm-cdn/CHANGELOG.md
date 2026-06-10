@@ -28,6 +28,12 @@ Compared with version 9.1.0
   - Added operation OriginsOperations.update
   - Added operation PoliciesOperations.createOrUpdate
   - Added operation PoliciesOperations.update
+  - Added operation ProfilesOperations.beginCdnCanMigrateToAfd
+  - Added operation ProfilesOperations.beginCdnCanMigrateToAfdAndWait
+  - Added operation ProfilesOperations.beginCdnMigrateToAfd
+  - Added operation ProfilesOperations.beginCdnMigrateToAfdAndWait
+  - Added operation ProfilesOperations.beginMigrationAbort
+  - Added operation ProfilesOperations.beginMigrationAbortAndWait
   - Added operation ProfilesOperations.canMigrate
   - Added operation ProfilesOperations.cdnCanMigrateToAfd
   - Added operation ProfilesOperations.cdnMigrateToAfd
@@ -43,6 +49,8 @@ Compared with version 9.1.0
   - Added operation RulesOperations.create
   - Added operation RulesOperations.delete
   - Added operation RulesOperations.update
+  - Added operation RuleSetsOperations.beginCreate
+  - Added operation RuleSetsOperations.beginCreateAndWait
   - Added operation RuleSetsOperations.delete
   - Added operation SecretsOperations.create
   - Added operation SecretsOperations.delete
@@ -108,6 +116,7 @@ Compared with version 9.1.0
   - Added Interface ProfilesMigrationAbortOptionalParams
   - Added Interface RestorePollerOptions
   - Added Interface SecurityPolicyUpdateProperties
+  - Added Interface SimplePollerLike
   - Interface AFDDomainHttpsParameters has a new optional parameter cipherSuiteSetType
   - Interface AFDDomainHttpsParameters has a new optional parameter customizedCipherSuiteSet
   - Interface AFDOriginGroup has a new optional parameter authentication
@@ -158,84 +167,31 @@ Compared with version 9.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation CustomDomains.beginCreate
-  - Removed operation CustomDomains.beginCreateAndWait
-  - Removed operation CustomDomains.beginDelete
-  - Removed operation CustomDomains.beginDeleteAndWait
-  - Removed operation CustomDomains.beginDisableCustomHttps
-  - Removed operation CustomDomains.beginDisableCustomHttpsAndWait
-  - Removed operation CustomDomains.beginEnableCustomHttps
-  - Removed operation CustomDomains.beginEnableCustomHttpsAndWait
-  - Removed operation Endpoints.beginCreate
-  - Removed operation Endpoints.beginCreateAndWait
-  - Removed operation Endpoints.beginDelete
-  - Removed operation Endpoints.beginDeleteAndWait
-  - Removed operation Endpoints.beginLoadContent
-  - Removed operation Endpoints.beginLoadContentAndWait
-  - Removed operation Endpoints.beginPurgeContent
-  - Removed operation Endpoints.beginPurgeContentAndWait
-  - Removed operation Endpoints.beginStart
-  - Removed operation Endpoints.beginStartAndWait
-  - Removed operation Endpoints.beginStop
-  - Removed operation Endpoints.beginStopAndWait
-  - Removed operation Endpoints.beginUpdate
-  - Removed operation Endpoints.beginUpdateAndWait
-  - Removed operation OriginGroups.beginCreate
-  - Removed operation OriginGroups.beginCreateAndWait
-  - Removed operation OriginGroups.beginDelete
-  - Removed operation OriginGroups.beginDeleteAndWait
-  - Removed operation OriginGroups.beginUpdate
-  - Removed operation OriginGroups.beginUpdateAndWait
-  - Removed operation Origins.beginCreate
-  - Removed operation Origins.beginCreateAndWait
-  - Removed operation Origins.beginDelete
-  - Removed operation Origins.beginDeleteAndWait
-  - Removed operation Origins.beginUpdate
-  - Removed operation Origins.beginUpdateAndWait
-  - Removed operation Policies.beginCreateOrUpdate
-  - Removed operation Policies.beginCreateOrUpdateAndWait
-  - Removed operation Policies.beginUpdate
-  - Removed operation Policies.beginUpdateAndWait
-  - Removed operation Profiles.beginCanMigrate
-  - Removed operation Profiles.beginCanMigrateAndWait
-  - Removed operation Profiles.beginCreate
-  - Removed operation Profiles.beginCreateAndWait
-  - Removed operation Profiles.beginDelete
-  - Removed operation Profiles.beginDeleteAndWait
-  - Removed operation Profiles.beginMigrate
-  - Removed operation Profiles.beginMigrateAndWait
-  - Removed operation Profiles.beginMigrationCommit
-  - Removed operation Profiles.beginMigrationCommitAndWait
-  - Removed operation Profiles.beginUpdate
-  - Removed operation Profiles.beginUpdateAndWait
-  - Removed operation Routes.beginCreate
-  - Removed operation Routes.beginCreateAndWait
-  - Removed operation Routes.beginDelete
-  - Removed operation Routes.beginDeleteAndWait
-  - Removed operation Routes.beginUpdate
-  - Removed operation Routes.beginUpdateAndWait
-  - Removed operation Rules.beginCreate
-  - Removed operation Rules.beginCreateAndWait
-  - Removed operation Rules.beginDelete
-  - Removed operation Rules.beginDeleteAndWait
-  - Removed operation Rules.beginUpdate
-  - Removed operation Rules.beginUpdateAndWait
-  - Removed operation RuleSets.beginDelete
-  - Removed operation RuleSets.beginDeleteAndWait
-  - Removed operation Secrets.beginCreate
-  - Removed operation Secrets.beginCreateAndWait
-  - Removed operation Secrets.beginDelete
-  - Removed operation Secrets.beginDeleteAndWait
-  - Removed operation SecurityPolicies.beginCreate
-  - Removed operation SecurityPolicies.beginCreateAndWait
-  - Removed operation SecurityPolicies.beginDelete
-  - Removed operation SecurityPolicies.beginDeleteAndWait
-  - Removed operation SecurityPolicies.beginPatch
-  - Removed operation SecurityPolicies.beginPatchAndWait
+  - Operation CustomDomains.beginCreateAndWait has a new signature
+  - Operation CustomDomains.beginDeleteAndWait has a new signature
+  - Operation CustomDomains.beginDisableCustomHttpsAndWait has a new signature
+  - Operation CustomDomains.beginEnableCustomHttps has a new signature
+  - Operation CustomDomains.beginEnableCustomHttpsAndWait has a new signature
   - Operation CustomDomains.get has a new signature
+  - Operation Endpoints.beginCreate has a new signature
+  - Operation Endpoints.beginCreateAndWait has a new signature
+  - Operation Endpoints.beginStartAndWait has a new signature
+  - Operation Endpoints.beginStopAndWait has a new signature
+  - Operation Endpoints.beginUpdate has a new signature
+  - Operation Endpoints.beginUpdateAndWait has a new signature
   - Operation Endpoints.get has a new signature
+  - Operation Rules.beginCreate has a new signature
+  - Operation Rules.beginCreateAndWait has a new signature
+  - Operation Rules.beginUpdate has a new signature
+  - Operation Rules.beginUpdateAndWait has a new signature
   - Operation Rules.get has a new signature
+  - Operation Secrets.beginCreate has a new signature
+  - Operation Secrets.beginCreateAndWait has a new signature
   - Operation Secrets.get has a new signature
+  - Operation SecurityPolicies.beginCreate has a new signature
+  - Operation SecurityPolicies.beginCreateAndWait has a new signature
+  - Operation SecurityPolicies.beginPatch has a new signature
+  - Operation SecurityPolicies.beginPatchAndWait has a new signature
   - Operation SecurityPolicies.get has a new signature
   - Class CdnManagementClient no longer has parameter apiVersion
   - Class CdnManagementClient no longer has parameter resourceUsageOperations
