@@ -13,7 +13,10 @@ const EMITTER_PACKAGE_NAME = "@azure-tools/typespec-ts";
 const EMITTER_PACKAGE_JSON_PATH = path.join(SDK_ROOT, "eng/emitter-package.json");
 const EMITTER_OVERRIDES_JSON_PATH = path.join(SDK_ROOT, "eng/emitter-overrides.json");
 const TYPESPEC_SYNC_SCRIPT = path.join(SDK_ROOT, "eng/common/scripts/TypeSpec-Project-Sync.ps1");
-const TYPESPEC_GENERATE_SCRIPT = path.join(SDK_ROOT, "eng/common/scripts/TypeSpec-Project-Generate.ps1");
+const TYPESPEC_GENERATE_SCRIPT = path.join(
+  SDK_ROOT,
+  "eng/common/scripts/TypeSpec-Project-Generate.ps1",
+);
 const RELEASE_TOOLS_DIR = "eng/tools/js-sdk-release-tools";
 const DEV_VERSION_SENTINEL = "dev";
 
@@ -38,7 +41,7 @@ function runCommandCapturing(command, commandArgs, workingDirectory) {
     child.stderr.on("data", (chunk) => (combinedOutput += chunk));
     child.on("close", (exitCode) => resolve({ exitCode, output: combinedOutput }));
     child.on("error", (err) =>
-      resolve({ exitCode: 1, output: combinedOutput + `\nspawn error: ${err.message}` })
+      resolve({ exitCode: 1, output: combinedOutput + `\nspawn error: ${err.message}` }),
     );
   });
 }
@@ -93,10 +96,9 @@ function logCollapsedGroup(title, body) {
 
 /** Emit an ADO `setvariable` log command. */
 function setPipelineVariable(name, value, { isOutput = false, isSecret = false } = {}) {
-  const flags = [
-    isOutput ? "isOutput=true" : null,
-    isSecret ? "issecret=true" : null,
-  ].filter(Boolean).join(";");
+  const flags = [isOutput ? "isOutput=true" : null, isSecret ? "issecret=true" : null]
+    .filter(Boolean)
+    .join(";");
   const prefix = flags ? `;${flags}` : "";
   console.log(`##vso[task.setvariable variable=${name}${prefix}]${value}`);
 }
@@ -119,7 +121,10 @@ async function runResolveEmitter() {
   let resolvedEmitterVersion;
   if (normalizedInput === DEV_VERSION_SENTINEL) {
     const { exitCode, output } = await runCommandCapturing(
-      "npm", ["view", EMITTER_PACKAGE_NAME, "dist-tags.dev"], process.cwd());
+      "npm",
+      ["view", EMITTER_PACKAGE_NAME, "dist-tags.dev"],
+      process.cwd(),
+    );
     resolvedEmitterVersion = output.trim();
     if (exitCode !== 0 || !resolvedEmitterVersion) {
       console.error("##[error]npm view returned empty dev tag");
@@ -167,10 +172,10 @@ function regenerateEmitterPackageFiles(emitterVersion) {
     : "";
   runShell(
     `tsp-client generate-config-files ` +
-    `--package-json "${emitterPackageJsonPath}" ` +
-    `--emitter-package-json-path "${EMITTER_PACKAGE_JSON_PATH}" ` +
-    overridesFlag,
-    SDK_ROOT
+      `--package-json "${emitterPackageJsonPath}" ` +
+      `--emitter-package-json-path "${EMITTER_PACKAGE_JSON_PATH}" ` +
+      overridesFlag,
+    SDK_ROOT,
   );
 }
 
@@ -193,8 +198,13 @@ function preinstallReleaseTools() {
 
 function shallowCloneSpecRepo(branch, cloneDir) {
   runShellNoEcho("git", [
-    "clone", "--depth", "1", "--branch", branch,
-    "https://github.com/Azure/azure-rest-api-specs.git", cloneDir,
+    "clone",
+    "--depth",
+    "1",
+    "--branch",
+    branch,
+    "https://github.com/Azure/azure-rest-api-specs.git",
+    cloneDir,
   ]);
 }
 
@@ -228,16 +238,29 @@ async function runShard() {
   const shardPackages = loadShardPackages(directoryListFile);
   console.log(`Shard packages: ${shardPackages.length}`);
 
-  const regenerationOutcomes = await regenerateAll(shardPackages, perPackageConcurrency, specRepoCloneDir);
+  const regenerationOutcomes = await regenerateAll(
+    shardPackages,
+    perPackageConcurrency,
+    specRepoCloneDir,
+  );
   const successfullyRegenerated = regenerationOutcomes.filter((p) => p.success);
 
-  const buildOutcome = (skipBuild || successfullyRegenerated.length === 0)
-    ? { skipped: true, builtPackages: [], failedPackages: [] }
-    : await buildRegeneratedPackages(shardPackages, successfullyRegenerated, turboBuildConcurrency);
+  const buildOutcome =
+    skipBuild || successfullyRegenerated.length === 0
+      ? { skipped: true, builtPackages: [], failedPackages: [] }
+      : await buildRegeneratedPackages(
+          shardPackages,
+          successfullyRegenerated,
+          turboBuildConcurrency,
+        );
 
   const changelogOutcomes = buildOutcome.skipped
     ? []
-    : await generateChangelogsForBuilt(successfullyRegenerated, buildOutcome.builtPackages, perPackageConcurrency);
+    : await generateChangelogsForBuilt(
+        successfullyRegenerated,
+        buildOutcome.builtPackages,
+        perPackageConcurrency,
+      );
 
   const shardSummary = composeShardSummary({
     shardPackages,
@@ -306,7 +329,9 @@ async function regenerateAll(packages, concurrency, specRepoCloneDir) {
   const outcomes = [];
   const completedCount = { value: 0 };
   await runWithConcurrency(packages, concurrency, async (pkg) => {
-    outcomes.push(await regenerateOnePackage(pkg, specRepoCloneDir, completedCount, packages.length));
+    outcomes.push(
+      await regenerateOnePackage(pkg, specRepoCloneDir, completedCount, packages.length),
+    );
   });
   return outcomes;
 }
@@ -323,13 +348,19 @@ async function regenerateOnePackage(pkg, specRepoCloneDir, completedCount, total
     : null;
 
   const syncResult = await runCommandCapturing(
-    "pwsh", ["-File", TYPESPEC_SYNC_SCRIPT, pkg.packageDir, specRepoCloneDir], SDK_ROOT);
+    "pwsh",
+    ["-File", TYPESPEC_SYNC_SCRIPT, pkg.packageDir, specRepoCloneDir],
+    SDK_ROOT,
+  );
   let combinedLog = `===== TypeSpec-Project-Sync =====\n${syncResult.output}\nExit: ${syncResult.exitCode}\n`;
   let success = syncResult.exitCode === 0;
 
   if (success) {
     const generateResult = await runCommandCapturing(
-      "pwsh", ["-File", TYPESPEC_GENERATE_SCRIPT, pkg.packageDir], SDK_ROOT);
+      "pwsh",
+      ["-File", TYPESPEC_GENERATE_SCRIPT, pkg.packageDir],
+      SDK_ROOT,
+    );
     combinedLog += `\n===== TypeSpec-Project-Generate =====\n${generateResult.output}\nExit: ${generateResult.exitCode}\n`;
     success = generateResult.exitCode === 0;
   }
@@ -338,7 +369,9 @@ async function regenerateOnePackage(pkg, specRepoCloneDir, completedCount, total
 
   const durationSeconds = ((Date.now() - startedAtMs) / 1000).toFixed(1);
   completedCount.value += 1;
-  console.log(`  ${success ? "✅" : "❌"} [${completedCount.value}/${totalPackageCount}] ${pkg.sdkPath} (${durationSeconds}s)`);
+  console.log(
+    `  ${success ? "✅" : "❌"} [${completedCount.value}/${totalPackageCount}] ${pkg.sdkPath} (${durationSeconds}s)`,
+  );
   logCollapsedGroup(`regen log: ${pkg.sdkPath}`, combinedLog);
 
   const errorTail = success ? null : extractLastNonEmptyLines(combinedLog, 25);
@@ -346,7 +379,8 @@ async function regenerateOnePackage(pkg, specRepoCloneDir, completedCount, total
 }
 
 function extractLastNonEmptyLines(text, lineCount) {
-  return text.split("\n")
+  return text
+    .split("\n")
     .map((line) => line.replace(/\s+$/, ""))
     .filter(Boolean)
     .slice(-lineCount)
@@ -363,17 +397,24 @@ async function buildRegeneratedPackages(allPackages, successfullyRegenerated, tu
   // UPSTREAM-ISSUES.md §9.
   removeStaleTempTypespecDirs(allPackages);
 
-  const installResult = await runCommandCapturing("pnpm", ["install", "--no-frozen-lockfile"], SDK_ROOT);
+  const installResult = await runCommandCapturing(
+    "pnpm",
+    ["install", "--no-frozen-lockfile"],
+    SDK_ROOT,
+  );
   if (installResult.exitCode !== 0) {
     logCollapsedGroup("pnpm install output", installResult.output.slice(-2000));
     return { skipped: true, builtPackages: [], failedPackages: [] };
   }
 
-  const turboFilters = successfullyRegenerated.flatMap((pkg) => ["--filter", `${pkg.npmPackageName}...`]);
+  const turboFilters = successfullyRegenerated.flatMap((pkg) => [
+    "--filter",
+    `${pkg.npmPackageName}...`,
+  ]);
   const buildResult = await runCommandCapturing(
     "pnpm",
     ["turbo", "build", ...turboFilters, "--token", "1", `--concurrency=${turboConcurrency}`],
-    SDK_ROOT
+    SDK_ROOT,
   );
   logCollapsedGroup("turbo build output", buildResult.output.slice(-4000));
 
@@ -396,7 +437,9 @@ function removeStaleTempTypespecDirs(packages) {
 
 async function generateChangelogsForBuilt(successfullyRegenerated, builtSdkPaths, concurrency) {
   const builtSdkPathSet = new Set(builtSdkPaths);
-  const packagesNeedingChangelog = successfullyRegenerated.filter((p) => builtSdkPathSet.has(p.sdkPath));
+  const packagesNeedingChangelog = successfullyRegenerated.filter((p) =>
+    builtSdkPathSet.has(p.sdkPath),
+  );
   if (packagesNeedingChangelog.length === 0) return [];
 
   console.log(`\n===== Changelog (${packagesNeedingChangelog.length} packages) =====`);
@@ -410,12 +453,26 @@ async function generateChangelogsForBuilt(successfullyRegenerated, builtSdkPaths
 async function generateChangelogForOnePackage(pkg) {
   // Bypass eng/scripts/update-changelog-content.ps1 (Windows backslash bug,
   // UPSTREAM-ISSUES.md §3) by invoking the bin directly.
-  const result = await runCommandCapturing("npm", [
-    "--prefix", RELEASE_TOOLS_DIR, "exec", "--no", "--",
-    "update-changelog", "--sdkRepoPath", SDK_ROOT, "--packagePath", pkg.packageDir,
-  ], SDK_ROOT);
+  const result = await runCommandCapturing(
+    "npm",
+    [
+      "--prefix",
+      RELEASE_TOOLS_DIR,
+      "exec",
+      "--no",
+      "--",
+      "update-changelog",
+      "--sdkRepoPath",
+      SDK_ROOT,
+      "--packagePath",
+      pkg.packageDir,
+    ],
+    SDK_ROOT,
+  );
 
-  const { hasBreakingChanges, breakingChangesText } = extractBreakingChangesFromChangelog(pkg.packageDir);
+  const { hasBreakingChanges, breakingChangesText } = extractBreakingChangesFromChangelog(
+    pkg.packageDir,
+  );
 
   logCollapsedGroup(`changelog log: ${pkg.sdkPath}`, result.output);
   return {
@@ -432,17 +489,26 @@ function extractBreakingChangesFromChangelog(packageDir) {
   if (!fs.existsSync(changelogPath)) return empty;
 
   try {
-    const changelogTop = fs.readFileSync(changelogPath, "utf8").split("\n").slice(0, 200).join("\n");
+    const changelogTop = fs
+      .readFileSync(changelogPath, "utf8")
+      .split("\n")
+      .slice(0, 200)
+      .join("\n");
     const firstVersionHeadingIndex = changelogTop.indexOf("\n## ");
-    const secondVersionHeadingIndex = firstVersionHeadingIndex >= 0
-      ? changelogTop.indexOf("\n## ", firstVersionHeadingIndex + 1)
-      : -1;
-    const topUnreleasedSection = firstVersionHeadingIndex < 0
-      ? changelogTop
-      : changelogTop.slice(0, secondVersionHeadingIndex > 0 ? secondVersionHeadingIndex : changelogTop.length);
+    const secondVersionHeadingIndex =
+      firstVersionHeadingIndex >= 0
+        ? changelogTop.indexOf("\n## ", firstVersionHeadingIndex + 1)
+        : -1;
+    const topUnreleasedSection =
+      firstVersionHeadingIndex < 0
+        ? changelogTop
+        : changelogTop.slice(
+            0,
+            secondVersionHeadingIndex > 0 ? secondVersionHeadingIndex : changelogTop.length,
+          );
 
     const breakingChangesMatch = topUnreleasedSection.match(
-      /^###\s+Breaking Changes\b[^\n]*\n([\s\S]*?)(?=\n###\s|\n##\s|$)/m
+      /^###\s+Breaking Changes\b[^\n]*\n([\s\S]*?)(?=\n###\s|\n##\s|$)/m,
     );
     return breakingChangesMatch
       ? { hasBreakingChanges: true, breakingChangesText: breakingChangesMatch[1].trim() }
@@ -454,7 +520,12 @@ function extractBreakingChangesFromChangelog(packageDir) {
 
 // ── Compose shard outputs ───────────────────────────────────────────────────
 
-function composeShardSummary({ shardPackages, regenerationOutcomes, buildOutcome, changelogOutcomes }) {
+function composeShardSummary({
+  shardPackages,
+  regenerationOutcomes,
+  buildOutcome,
+  changelogOutcomes,
+}) {
   const regenerationFailures = regenerationOutcomes
     .filter((o) => !o.success)
     .map((o) => ({ pkg: o.sdkPath, errorTail: o.errorTail }));
@@ -467,21 +538,25 @@ function composeShardSummary({ shardPackages, regenerationOutcomes, buildOutcome
       failed: regenerationFailures.length,
       failures: regenerationFailures,
     },
-    build: buildOutcome.skipped ? null : {
-      total: buildOutcome.builtPackages.length + buildOutcome.failedPackages.length,
-      success: buildOutcome.builtPackages.length,
-      failed: buildOutcome.failedPackages.length,
-      failures: buildOutcome.failedPackages.map((sdkPath) => ({ pkg: sdkPath })),
-    },
-    changelog: buildOutcome.skipped ? null : {
-      total: changelogOutcomes.length,
-      generated: changelogOutcomes.filter((o) => o.success).length,
-      failed: changelogOutcomes.filter((o) => !o.success).map((o) => o.pkg),
-      withBreaking: changelogOutcomes.filter((o) => o.success && o.hasBreaking).length,
-      breakingPackages: changelogOutcomes
-        .filter((o) => o.success && o.hasBreaking)
-        .map((o) => ({ pkg: o.pkg, breakingText: o.breakingText })),
-    },
+    build: buildOutcome.skipped
+      ? null
+      : {
+          total: buildOutcome.builtPackages.length + buildOutcome.failedPackages.length,
+          success: buildOutcome.builtPackages.length,
+          failed: buildOutcome.failedPackages.length,
+          failures: buildOutcome.failedPackages.map((sdkPath) => ({ pkg: sdkPath })),
+        },
+    changelog: buildOutcome.skipped
+      ? null
+      : {
+          total: changelogOutcomes.length,
+          generated: changelogOutcomes.filter((o) => o.success).length,
+          failed: changelogOutcomes.filter((o) => !o.success).map((o) => o.pkg),
+          withBreaking: changelogOutcomes.filter((o) => o.success && o.hasBreaking).length,
+          breakingPackages: changelogOutcomes
+            .filter((o) => o.success && o.hasBreaking)
+            .map((o) => ({ pkg: o.pkg, breakingText: o.breakingText })),
+        },
   };
 }
 
@@ -501,16 +576,21 @@ function runCreatePr() {
   // $(Build.SourceBranch) comes through as 'refs/heads/<branch>'; strip the
   // prefix. (We can't use $(Build.SourceBranchName) — it loses slashes in
   // branch names like 'feature/break-check'.)
-  const baseBranch      = getFlag("--targetBranch", "main").replace(/^refs\/heads\//, "");
-  const headBranchName  = resolveHeadBranchName(getFlag("--branch", "").trim(), getFlag("--buildId", ""));
-  const emitterVersion  = getFlag("--emitterVersion", "");
-  const buildNumber     = getFlag("--buildNumber", "");
-  const buildUrl        = getFlag("--buildUrl", "");
-  const pipelineName    = getFlag("--definitionName", "");
+  const baseBranch = getFlag("--targetBranch", "main").replace(/^refs\/heads\//, "");
+  const headBranchName = resolveHeadBranchName(
+    getFlag("--branch", "").trim(),
+    getFlag("--buildId", ""),
+  );
+  const emitterVersion = getFlag("--emitterVersion", "");
+  const buildNumber = getFlag("--buildNumber", "");
+  const buildUrl = getFlag("--buildUrl", "");
+  const pipelineName = getFlag("--definitionName", "");
 
   const authToken = process.env.AUTH_TOKEN || "";
   if (!authToken) {
-    console.error("##[error]AUTH_TOKEN env var is empty. The YAML must set AUTH_TOKEN: $(azuresdk-github-pat).");
+    console.error(
+      "##[error]AUTH_TOKEN env var is empty. The YAML must set AUTH_TOKEN: $(azuresdk-github-pat).",
+    );
     process.exit(1);
   }
 
@@ -523,17 +603,29 @@ function runCreatePr() {
   ].join("\n");
 
   runPwshFile("eng/common/scripts/Submit-PullRequest.ps1", [
-    "-RepoOwner",  repoOwner,  "-RepoName", repoName,
-    "-BaseBranch", baseBranch,
-    "-PROwner",    repoOwner,  "-PRBranch", headBranchName,
-    "-AuthToken",  authToken,
-    "-PRTitle",    prTitle,
-    "-PRBody",     prBody,
+    "-RepoOwner",
+    repoOwner,
+    "-RepoName",
+    repoName,
+    "-BaseBranch",
+    baseBranch,
+    "-PROwner",
+    repoOwner,
+    "-PRBranch",
+    headBranchName,
+    "-AuthToken",
+    authToken,
+    "-PRTitle",
+    prTitle,
+    "-PRBody",
+    prBody,
   ]);
 }
 
 function resolveHeadBranchName(headBranchOverride, buildId) {
-  return headBranchOverride.toLowerCase() === "auto" ? `sdk-regenerate-${buildId}` : headBranchOverride;
+  return headBranchOverride.toLowerCase() === "auto"
+    ? `sdk-regenerate-${buildId}`
+    : headBranchOverride;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -548,12 +640,18 @@ function runBuildMatrix() {
     process.exit(2);
   }
   runPwshFile("eng/common/scripts/New-RegenerateMatrix.ps1", [
-    "-OutputDirectory",        outDir,
-    "-OutputVariableName",     "matrix",
-    "-JobCount",               "10",
-    "-MinimumPerJob",          "10",
-    "-OnlyTypeSpec",           "true",
-    "-DirectoryFilterPattern", getFlag("--filter", "arm-*"),
+    "-OutputDirectory",
+    outDir,
+    "-OutputVariableName",
+    "matrix",
+    "-JobCount",
+    "10",
+    "-MinimumPerJob",
+    "10",
+    "-OnlyTypeSpec",
+    "true",
+    "-DirectoryFilterPattern",
+    getFlag("--filter", "arm-*"),
   ]);
 }
 
@@ -562,11 +660,11 @@ function runBuildMatrix() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const SUBCOMMANDS = {
-  "resolve-emitter":    runResolveEmitter,
+  "resolve-emitter": runResolveEmitter,
   "regenerate-emitter": runRegenerateEmitter,
-  "build-matrix":       runBuildMatrix,
-  "shard":              runShard,
-  "create-pr":          runCreatePr,
+  "build-matrix": runBuildMatrix,
+  shard: runShard,
+  "create-pr": runCreatePr,
 };
 
 const subcommandName = process.argv[2];
@@ -577,4 +675,7 @@ if (!subcommandHandler) {
 }
 Promise.resolve()
   .then(() => subcommandHandler())
-  .catch((err) => { console.error(err); process.exit(1); });
+  .catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
