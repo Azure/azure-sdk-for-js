@@ -422,6 +422,7 @@ export function transformSnapshotResponse<T extends Snapshot>(snapshot: T): Snap
     ...snapshot,
     createdOn: snapshot.createdOn ? new Date(snapshot.createdOn) : undefined,
     expiresOn: snapshot.expiresOn ? new Date(snapshot.expiresOn) : undefined,
+    itemCount: snapshot.itemsCount,
   };
   if (hasUnderscoreResponse(snapshot)) {
     Object.defineProperty(configSnapshot, "_response", {
