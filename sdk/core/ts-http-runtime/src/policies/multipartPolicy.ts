@@ -6,7 +6,7 @@ import type { PipelinePolicy } from "../pipeline.js";
 import type { NodeReadableStream, WebReadableStream } from "#platform/types";
 import { stringToUint8Array } from "#platform/bytesEncoding";
 import { isBlob } from "../util/typeGuards.js";
-import { randomUUID } from "../util/uuidUtils.js";
+import { randomUUID } from "#platform/uuid";
 import { concat } from "#platform/concat";
 
 function generateBoundary(): string {

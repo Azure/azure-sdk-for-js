@@ -73,6 +73,10 @@
       "react-native": "./src/util/userAgentPlatform-react-native.mts",
       "default": "./src/util/userAgentPlatform.ts"
     },
+    "#platform/uuid": {
+      "react-native": "./src/util/uuidUtils-react-native.mts",
+      "default": "./src/util/uuidUtils.ts"
+    },
     "#platform/typeGuards": {
       "browser": "./src/util/typeGuards-browser.mts",
       "react-native": "./src/util/typeGuards-react-native.mts",

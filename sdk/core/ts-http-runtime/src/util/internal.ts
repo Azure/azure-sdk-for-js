@@ -6,7 +6,7 @@ export { getRandomIntegerInclusive } from "./random.js";
 export { isObject, type UnknownObject } from "./object.js";
 export { isError } from "./error.js";
 export { computeSha256Hash, computeSha256Hmac } from "#platform/sha256";
-export { randomUUID } from "./uuidUtils.js";
+export { randomUUID } from "#platform/uuid";
 export {
   isBrowser,
   isBun,

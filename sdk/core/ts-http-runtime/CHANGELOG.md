@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-- Removed the internal `randomUUID` polyfill and its platform-specific conditional exports, relying on `globalThis.crypto.randomUUID()` which is available on all supported platforms.
+- Removed the internal `randomUUID` polyfill for Node.js and browsers, relying on `globalThis.crypto.randomUUID()` which is available on those platforms. React Native keeps a `Math.random()` based fallback since its JS engines do not provide `crypto.randomUUID()`.
 
 ## 0.3.6 (2026-06-04)
 
