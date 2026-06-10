@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
@@ -135,6 +136,18 @@ export interface ConnectedClusterListClusterUserCredentialOptionalParams extends
 
 // @public
 export interface ConnectedClusterOperations {
+    // @deprecated (undocumented)
+    beginCreateOrReplace: (resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClusterCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<ConnectedCluster>, ConnectedCluster>>;
+    // @deprecated (undocumented)
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClusterCreateOrReplaceOptionalParams) => Promise<ConnectedCluster>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, options?: ConnectedClusterDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, options?: ConnectedClusterDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdateAsync: (resourceGroupName: string, clusterName: string, connectedClusterPatch: ConnectedClusterPatch, options?: ConnectedClusterUpdateAsyncOptionalParams) => Promise<SimplePollerLike<OperationState<ConnectedCluster>, ConnectedCluster>>;
+    // @deprecated (undocumented)
+    beginUpdateAsyncAndWait: (resourceGroupName: string, clusterName: string, connectedClusterPatch: ConnectedClusterPatch, options?: ConnectedClusterUpdateAsyncOptionalParams) => Promise<ConnectedCluster>;
     createOrReplace: (resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClusterCreateOrReplaceOptionalParams) => PollerLike<OperationState<ConnectedCluster>, ConnectedCluster>;
     delete: (resourceGroupName: string, clusterName: string, options?: ConnectedClusterDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, clusterName: string, options?: ConnectedClusterGetOptionalParams) => Promise<ConnectedCluster>;
@@ -434,6 +447,28 @@ export interface SecurityProfile {
 // @public
 export interface SecurityProfileWorkloadIdentity {
     enabled?: boolean;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public

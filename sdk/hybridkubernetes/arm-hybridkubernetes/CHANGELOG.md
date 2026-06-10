@@ -4,6 +4,10 @@
 Compared with version 2.1.0
 
 ### Features Added
+  - Added operation ConnectedClusterOperations.beginCreateOrReplace
+  - Added operation ConnectedClusterOperations.beginCreateOrReplaceAndWait
+  - Added operation ConnectedClusterOperations.beginUpdateAsync
+  - Added operation ConnectedClusterOperations.beginUpdateAsyncAndWait
   - Added operation ConnectedClusterOperations.createOrReplace
   - Added operation ConnectedClusterOperations.delete
   - Added operation ConnectedClusterOperations.updateAsync
@@ -24,6 +28,7 @@ Compared with version 2.1.0
   - Added Interface RestorePollerOptions
   - Added Interface SecurityProfile
   - Added Interface SecurityProfileWorkloadIdentity
+  - Added Interface SimplePollerLike
   - Added Interface SystemComponent
   - Interface ConnectedCluster has a new optional parameter aadProfile
   - Interface ConnectedCluster has a new optional parameter arcAgentProfile
@@ -68,8 +73,6 @@ Compared with version 2.1.0
 ### Breaking Changes
   - Removed operation ConnectedCluster.beginCreate
   - Removed operation ConnectedCluster.beginCreateAndWait
-  - Removed operation ConnectedCluster.beginDelete
-  - Removed operation ConnectedCluster.beginDeleteAndWait
   - Removed operation ConnectedCluster.update
   - Removed operation Operations.list
   - Class ConnectedKubernetesClient no longer has parameter apiVersion
