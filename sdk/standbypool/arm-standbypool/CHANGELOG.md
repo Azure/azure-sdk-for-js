@@ -1,16 +1,21 @@
 # Release History
 
-## 2.1.0 (2026-03-10)
+## 2.1.0 (2026-06-10)
 
 ### Features Added
   - Added Interface DynamicSizing
+  - Added Interface VmStateDistribution
   - Interface StandbyContainerGroupPoolElasticityProfile has a new optional parameter dynamicSizing
   - Interface StandbyPoolManagementClientOptionalParams has a new optional parameter cloudSetting
   - Interface StandbyVirtualMachinePoolElasticityProfile has a new optional parameter dynamicSizing
   - Interface StandbyVirtualMachinePoolElasticityProfile has a new optional parameter postProvisioningDelay
+  - Interface StandbyVirtualMachinePoolResourceProperties has a new optional parameter vmStateDistribution
+  - Interface StandbyVirtualMachinePoolResourceUpdateProperties has a new optional parameter vmStateDistribution
   - Added Type Alias AzureSupportedClouds
   - Added Enum AzureClouds
-  - Enum KnownVersions has a new value _20251001
+  - Enum KnownVersions has a new value V20251001
+  - Enum KnownVersions has a new value V20260401
+  - Enum KnownVirtualMachineState has a new value Mix
 
     
 ## 2.0.0 (2025-04-16)

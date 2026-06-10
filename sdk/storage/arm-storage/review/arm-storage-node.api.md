@@ -4,17 +4,17 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { ClientOptions } from '@azure-rest/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
 import { RestError } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessPolicy {
@@ -87,6 +87,56 @@ export interface ActiveDirectoryProperties {
     netBiosDomainName?: string;
     samAccountName?: string;
 }
+
+// @public
+export interface AdvancedPlatformMetricsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AdvancedPlatformMetricsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export type AdvancedPlatformMetricsFilterType = string;
+
+// @public
+export interface AdvancedPlatformMetricsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AdvancedPlatformMetricsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AdvancedPlatformMetricsOperations {
+    createOrUpdate: (resourceGroupName: string, accountName: string, advancedPlatformMetricsRuleType: AdvancedPlatformMetricsRuleType, resource: AdvancedPlatformMetricsRule, options?: AdvancedPlatformMetricsCreateOrUpdateOptionalParams) => Promise<AdvancedPlatformMetricsRule>;
+    delete: (resourceGroupName: string, accountName: string, advancedPlatformMetricsRuleType: AdvancedPlatformMetricsRuleType, options?: AdvancedPlatformMetricsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, accountName: string, advancedPlatformMetricsRuleType: AdvancedPlatformMetricsRuleType, options?: AdvancedPlatformMetricsGetOptionalParams) => Promise<AdvancedPlatformMetricsRule>;
+    list: (resourceGroupName: string, accountName: string, options?: AdvancedPlatformMetricsListOptionalParams) => PagedAsyncIterableIterator<AdvancedPlatformMetricsRule>;
+}
+
+// @public
+export interface AdvancedPlatformMetricsRule extends ProxyResource {
+    properties?: AdvancedPlatformMetricsRuleProperties;
+}
+
+// @public
+export interface AdvancedPlatformMetricsRuleConfig {
+    filterType?: AdvancedPlatformMetricsFilterType;
+    filterValues?: string[];
+}
+
+// @public
+export interface AdvancedPlatformMetricsRuleProperties {
+    enabled: boolean;
+    readonly lastModifiedTime?: Date;
+    readonly metricsEmitted?: MetricsEmitted[];
+    ruleConfig: AdvancedPlatformMetricsRuleConfig;
+    readonly ruleType?: AdvancedPlatformMetricsRuleType;
+}
+
+// @public
+export type AdvancedPlatformMetricsRuleType = string;
 
 // @public
 export type AllowedCopyScope = string;
@@ -984,6 +1034,8 @@ export interface FileShareItem extends AzureEntityResource {
 
 // @public
 export interface FileShareLimits {
+    readonly guardrailBandwidthScalar?: number;
+    readonly guardrailIOScalar?: number;
     readonly maxProvisionedBandwidthMiBPerSec?: number;
     readonly maxProvisionedIops?: number;
     readonly maxProvisionedStorageGiB?: number;
@@ -1233,6 +1285,18 @@ export enum KnownAccountType {
 }
 
 // @public
+export enum KnownAdvancedPlatformMetricsFilterType {
+    AllContainersFilter = "AllContainersFilter",
+    ContainerListFilter = "ContainerListFilter",
+    ContainerPrefixFilter = "ContainerPrefixFilter"
+}
+
+// @public
+export enum KnownAdvancedPlatformMetricsRuleType {
+    ContainerLevelCapacityMetrics = "ContainerLevelCapacityMetrics"
+}
+
+// @public
 export enum KnownAllowedCopyScope {
     AAD = "AAD",
     All = "All",
@@ -1468,6 +1532,12 @@ export enum KnownListLocalUserIncludeParam {
 // @public
 export enum KnownManagementPolicyName {
     Default = "default"
+}
+
+// @public
+export enum KnownMetricsEmitted {
+    ContainerBlobCount = "ContainerBlobCount",
+    ContainerUsedSize = "ContainerUsedSize"
 }
 
 // @public
@@ -1775,7 +1845,8 @@ export enum KnownTriggerType {
 // @public
 export enum KnownVersions {
     V20250601 = "2025-06-01",
-    V20250801 = "2025-08-01"
+    V20250801 = "2025-08-01",
+    V20260401 = "2026-04-01"
 }
 
 // @public
@@ -2102,6 +2173,9 @@ export interface ManagementPolicyVersion {
     tierToCool?: DateAfterCreation;
     tierToHot?: DateAfterCreation;
 }
+
+// @public
+export type MetricsEmitted = string;
 
 // @public
 export interface MetricSpecification {
@@ -3389,6 +3463,7 @@ export interface StorageDataSharePropertiesUpdate {
 export class StorageManagementClient {
     constructor(credential: TokenCredential, options?: StorageManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: StorageManagementClientOptionalParams);
+    readonly advancedPlatformMetrics: AdvancedPlatformMetricsOperations;
     readonly blobContainers: BlobContainersOperations;
     readonly blobInventoryPolicies: BlobInventoryPoliciesOperations;
     readonly blobServices: BlobServicesOperations;

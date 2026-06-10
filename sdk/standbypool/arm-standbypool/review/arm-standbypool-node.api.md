@@ -4,14 +4,16 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -80,6 +82,8 @@ export interface ErrorResponse {
 // @public
 export type HealthStateCode = string;
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -142,13 +146,15 @@ export enum KnownRefillPolicy {
 export enum KnownVersions {
     _20240301 = "2024-03-01",
     _20250301 = "2025-03-01",
-    _20251001 = "2025-10-01"
+    V20251001 = "2025-10-01",
+    V20260401 = "2026-04-01"
 }
 
 // @public
 export enum KnownVirtualMachineState {
     Deallocated = "Deallocated",
     Hibernated = "Hibernated",
+    Mix = "Mix",
     Running = "Running"
 }
 
@@ -234,6 +240,8 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: StandbyPoolManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -402,6 +410,7 @@ export interface StandbyVirtualMachinePoolResourceProperties {
     elasticityProfile?: StandbyVirtualMachinePoolElasticityProfile;
     readonly provisioningState?: ProvisioningState;
     virtualMachineState: VirtualMachineState;
+    vmStateDistribution?: VmStateDistribution;
 }
 
 // @public
@@ -415,6 +424,7 @@ export interface StandbyVirtualMachinePoolResourceUpdateProperties {
     attachedVirtualMachineScaleSetId?: string;
     elasticityProfile?: StandbyVirtualMachinePoolElasticityProfile;
     virtualMachineState?: VirtualMachineState;
+    vmStateDistribution?: VmStateDistribution;
 }
 
 // @public
@@ -534,6 +544,13 @@ export interface VirtualMachineInstanceCountSummary {
 
 // @public
 export type VirtualMachineState = string;
+
+// @public
+export interface VmStateDistribution {
+    deallocatedPercent?: number;
+    hibernatedPercent?: number;
+    runningPercent?: number;
+}
 
 // (No @packageDocumentation comment for this package)
 
