@@ -1,7 +1,7 @@
 # Release History
     
-## 1.0.0-beta.1 (2026-03-12)
+## 1.0.0 (2026-06-10)
 
 ### Features Added
 
-Initial release of the @azure/arm-marketplace package
+This is the first stable release of the @azure/arm-marketplace package. It introduces a new SDK generation with layered APIs, smaller bundles, and improved ergonomics. For more details, see the https://aka.ms/azsdk/js/sdk/quickstart.
