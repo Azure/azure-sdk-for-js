@@ -3934,6 +3934,7 @@ export function protocolVersionRecordDeserializer(item: any): ProtocolVersionRec
 export type AgentProtocol =
   | "activity_protocol"
   | "responses"
+  | "a2a"
   | "mcp"
   | "invocations"
   | "invocations_ws";
@@ -8140,6 +8141,8 @@ export interface EvaluatorVersion {
   evaluator_type: EvaluatorType;
   /** The categories of the evaluator */
   categories: EvaluatorCategory[];
+  /** Evaluation levels this evaluator supports (e.g., `turn`, `conversation`). When omitted on create, the service defaults to `["turn"]`. On update, omitting this field leaves it unchanged; an empty list is rejected. Custom code-based evaluators support only `turn`; custom prompt-based evaluators support exactly one level (`turn` or `conversation`). */
+  supported_evaluation_levels?: EvaluationLevel[];
   /** Definition of the evaluator */
   definition: EvaluatorDefinitionUnion;
   /** Provenance artifacts from the generation pipeline. Read-only; present only on evaluator versions created via an EvaluatorGenerationJob. Each artifact resolves to a versioned Foundry Dataset. */
@@ -8168,6 +8171,7 @@ export function evaluatorVersionSerializer(item: EvaluatorVersion): any {
     metadata: item["metadata"],
     evaluator_type: item["evaluator_type"],
     categories: item["categories"],
+    supported_evaluation_levels: item["supported_evaluation_levels"],
     definition: evaluatorDefinitionUnionSerializer(item["definition"]),
     description: item["description"],
     tags: item["tags"],
@@ -8180,6 +8184,7 @@ export function evaluatorVersionDeserializer(item: any): EvaluatorVersion {
     metadata: item["metadata"],
     evaluator_type: item["evaluator_type"],
     categories: item["categories"],
+    supported_evaluation_levels: item["supported_evaluation_levels"],
     definition: evaluatorDefinitionUnionDeserializer(item["definition"]),
     generation_artifacts: !item["generation_artifacts"]
       ? item["generation_artifacts"]
@@ -10463,7 +10468,7 @@ export interface RedTeam {
   numTurns?: number;
   /** List of attack strategies or nested lists of attack strategies. */
   attackStrategies?: AttackStrategy[];
-  /** Simulation-only or Simulation + Evaluation. Default false, if true the scan outputs conversation not evaluation result. */
+  /** Simulation-only or Simulation + Evaluation. If `true` the scan outputs conversation not evaluation result. The service defaults to `false` if a value is not specified by the caller. */
   simulationOnly?: boolean;
   /** List of risk categories to generate attack objectives for. */
   riskCategories?: RiskCategory[];
@@ -10651,7 +10656,7 @@ export function routineTriggerUnionRecordDeserializer(
 /** Base model for a routine trigger. */
 export interface RoutineTrigger {
   /** The trigger type. */
-  /** The discriminator possible values: schedule, timer, github_issue_opened */
+  /** The discriminator possible values: schedule, timer, github_issue, custom */
   type: RoutineTriggerType;
 }
 
@@ -10967,15 +10972,15 @@ export function invokeAgentInvocationsApiRoutineActionDeserializer(
 /** A routine definition returned by the service. */
 export interface Routine {
   /** The routine name. */
-  name: string;
+  name?: string;
   /** A human-readable description of the routine. */
   description?: string;
   /** Whether the routine is enabled. */
   enabled: boolean;
   /** The triggers configured for the routine. */
-  triggers: Record<string, RoutineTriggerUnion>;
+  triggers?: Record<string, RoutineTriggerUnion>;
   /** The action executed when the routine fires. */
-  action: RoutineActionUnion;
+  action?: RoutineActionUnion;
   /** The time when the routine was created. */
   created_at?: Date;
   /** The time when the routine was last updated. */
@@ -11055,7 +11060,7 @@ export interface RoutineRun {
   /** The unique run identifier for the routine attempt. */
   readonly id: string;
   /** The run status. */
-  status?: string;
+  status?: RoutineRunStatus;
   /** The AgentExtensions lifecycle phase for the routine attempt. */
   phase?: RoutineRunPhase;
   /** The trigger type that produced the routine attempt. */
@@ -11101,7 +11106,7 @@ export interface RoutineRun {
 export function routineRunDeserializer(item: any): RoutineRun {
   return {
     id: item["id"],
-    status: item["status"],
+    status: !item["status"] ? item["status"] : routineRunStatusDeserializer(item["status"]),
     phase: item["phase"],
     trigger_type: item["trigger_type"],
     trigger_name: item["trigger_name"],
@@ -11127,6 +11132,13 @@ export function routineRunDeserializer(item: any): RoutineRun {
     error_type: item["error_type"],
     error_message: item["error_message"],
   };
+}
+
+/** The status of a routine run. */
+export type RoutineRunStatus = string;
+
+export function routineRunStatusDeserializer(item: any): RoutineRunStatus {
+  return item;
 }
 
 /** Known lifecycle phases recorded for a routine run. */

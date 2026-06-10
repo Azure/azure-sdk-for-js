@@ -78,70 +78,85 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaAgents operations. */
 export interface BetaAgentsOperations {
-  /** Promotes a candidate, recording the deployment timestamp and target agent version. */
+  /** Promotes the specified candidate and records the deployment timestamp and target agent version. */
   promoteCandidate: (
     jobId: string,
     candidateId: string,
     candidateRequest: PromoteCandidateRequest,
     options?: BetaAgentsPromoteCandidateOptionalParams,
   ) => Promise<PromoteCandidateResponse>;
-  /** Stream a specific file from the candidate's blob directory. */
+  /** Streams the specified file from the candidate's blob directory. */
   getCandidateFile: (
     jobId: string,
     candidateId: string,
     path: string,
     options?: BetaAgentsGetCandidateFileOptionalParams,
   ) => Promise<BetaAgentsGetCandidateFileResponse>;
-  /** Get full per-task evaluation results for a candidate. */
+  /** Retrieves full per-task evaluation results for the specified candidate. */
   getOptimizationCandidateResults: (
     jobId: string,
     candidateId: string,
     options?: BetaAgentsGetOptimizationCandidateResultsOptionalParams,
   ) => Promise<CandidateResults>;
-  /** Get the candidate's deploy config JSON. Used to compose `agents.create_version(...)` from a candidate. */
+  /**
+   * Retrieves the deploy configuration JSON for the specified candidate.
+   * Clients can use it to compose `agents.create_version(...)` requests.
+   */
   getOptimizationCandidateConfig: (
     jobId: string,
     candidateId: string,
     options?: BetaAgentsGetOptimizationCandidateConfigOptionalParams,
   ) => Promise<CandidateDeployConfig>;
-  /** Get a single candidate's metadata, manifest, and promotion info. */
+  /** Retrieves metadata, manifest information, and promotion details for the specified candidate. */
   getOptimizationCandidate: (
     jobId: string,
     candidateId: string,
     options?: BetaAgentsGetOptimizationCandidateOptionalParams,
   ) => Promise<CandidateMetadata>;
-  /** List candidates produced by a job. */
+  /** Returns the candidates produced by the specified optimization job. */
   listOptimizationCandidates: (
     jobId: string,
     options?: BetaAgentsListOptimizationCandidatesOptionalParams,
   ) => Promise<AgentsPagedResultOptimizationCandidate>;
-  /** Delete the job and its candidate artifacts. Cancels first if non-terminal. */
+  /**
+   * Deletes the specified agent optimization job and its candidate artifacts.
+   * Cancels the job first when it is still in a non-terminal state.
+   */
   deleteOptimizationJob: (
     jobId: string,
     options?: BetaAgentsDeleteOptimizationJobOptionalParams,
   ) => Promise<void>;
-  /** Request cancellation. Idempotent on terminal states. */
+  /**
+   * Requests cancellation of the specified agent optimization job.
+   * The operation remains idempotent after the job reaches a terminal state.
+   */
   cancelOptimizationJob: (
     jobId: string,
     options?: BetaAgentsCancelOptimizationJobOptionalParams,
   ) => Promise<OptimizationJob>;
-  /** List optimization jobs. Supports cursor pagination and optional status / agent_name filters. */
+  /** Returns agent optimization jobs with cursor pagination and optional lifecycle or agent filters. */
   listOptimizationJobs: (
     options?: BetaAgentsListOptimizationJobsOptionalParams,
   ) => PagedAsyncIterableIterator<OptimizationJob>;
-  /** Get an optimization job by id. Returns 202 while in progress, 200 when terminal. */
+  /**
+   * Retrieves the specified agent optimization job.
+   * Returns 202 while the job is in progress and 200 after it reaches a terminal state.
+   */
   getOptimizationJob: (
     jobId: string,
     options?: BetaAgentsGetOptimizationJobOptionalParams,
   ) => Promise<OptimizationJob>;
-  /** Create an optimization job. Returns 201 with the queued job. Honours `Operation-Id` for idempotent retry. */
+  /**
+   * Creates an agent optimization job and returns the queued job.
+   * Honors `Operation-Id` for idempotent retry.
+   */
   createOptimizationJob: (
     inputs: OptimizationJobInputs,
     options?: BetaAgentsCreateOptimizationJobOptionalParams,
   ) => Promise<OptimizationJob>;
   /**
-   * Delete a file or directory from the session sandbox.
-   * If `recursive` is false (default) and the target is a non-empty directory, the API returns 409 Conflict.
+   * Deletes the specified file or directory from the session sandbox.
+   * When `recursive` is false, deleting a non-empty directory returns 409 Conflict.
    */
   deleteSessionFile: (
     agentName: string,
@@ -150,16 +165,18 @@ export interface BetaAgentsOperations {
     options?: BetaAgentsDeleteSessionFileOptionalParams,
   ) => Promise<void>;
   /**
-   * List files and directories at a given path in the session sandbox.
-   * Returns only the immediate children of the specified directory (non-recursive).
-   * If path is not provided, lists the session home directory.
+   * Returns files and directories at the specified path in the session sandbox.
+   * The response includes only the immediate children of the target directory and defaults to the session home directory when no path is supplied.
    */
   listSessionFiles: (
     agentName: string,
     agentSessionId: string,
     options?: BetaAgentsListSessionFilesOptionalParams,
   ) => PagedAsyncIterableIterator<SessionDirectoryEntry>;
-  /** Download a file from the session sandbox as a binary stream. */
+  /**
+   * Downloads the file at the specified sandbox path as a binary stream.
+   * The path is resolved relative to the session home directory.
+   */
   downloadSessionFile: (
     agentName: string,
     agentSessionId: string,
@@ -167,8 +184,8 @@ export interface BetaAgentsOperations {
     options?: BetaAgentsDownloadSessionFileOptionalParams,
   ) => Promise<BetaAgentsDownloadSessionFileResponse>;
   /**
-   * Upload a file to the session sandbox via binary stream.
-   * Maximum file size is 50 MB. Uploads exceeding this limit return 413 Payload Too Large.
+   * Uploads binary file content to the specified path in the session sandbox.
+   * The service stores the file relative to the session home directory and rejects payloads larger than 50 MB.
    */
   uploadSessionFile: (
     agentName: string,
@@ -211,15 +228,12 @@ export interface BetaAgentsOperations {
     sessionId: string,
     options?: BetaAgentsGetSessionLogStreamOptionalParams,
   ) => Promise<BetaAgentsDownloadSessionFileResponse>;
-  /** Returns a list of sessions for the specified agent. */
+  /** Returns a paged collection of sessions associated with the specified agent endpoint. */
   listSessions: (
     agentName: string,
     options?: BetaAgentsListSessionsOptionalParams,
   ) => PagedAsyncIterableIterator<AgentSessionResource>;
-  /**
-   * Stops a session.
-   * Returns 204 No Content when the stop succeeds.
-   */
+  /** Terminates the specified hosted agent session and returns 204 No Content when the request succeeds. */
   stopSession: (
     agentName: string,
     sessionId: string,
@@ -234,7 +248,7 @@ export interface BetaAgentsOperations {
     sessionId: string,
     options?: BetaAgentsDeleteSessionOptionalParams,
   ) => Promise<void>;
-  /** Retrieves a session by ID. */
+  /** Retrieves the details of a hosted agent session by agent name and session identifier. */
   getSession: (
     agentName: string,
     sessionId: string,
@@ -251,7 +265,7 @@ export interface BetaAgentsOperations {
     options?: BetaAgentsCreateSessionOptionalParams,
   ) => Promise<AgentSessionResource>;
   /**
-   * Download the code zip for a code-based hosted agent.
+   * Downloads the code zip for a code-based hosted agent.
    * Returns the previously-uploaded zip (`application/zip`).
    *
    * If `agent_version` is supplied, returns that version's code zip; otherwise
@@ -265,8 +279,11 @@ export interface BetaAgentsOperations {
     options?: BetaAgentsDownloadAgentCodeOptionalParams,
   ) => Promise<BetaAgentsDownloadAgentCodeResponse>;
   /**
-   * Creates a new agent version from code content and makes it available for hosting.
-   * Returns the created version, which may be in `provisioning` state — clients should poll `getVersion` until the status is `active` before creating sessions or downloading code.
+   * Creates a new agent version from code. Uploads the code zip and creates a new version
+   * for an existing agent. The SHA-256 hex digest of the zip is provided in the
+   * `x-ms-code-zip-sha256` header for integrity and dedup.
+   * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
+   * Maximum upload size is 250 MB.
    */
   createVersionFromCode: (
     agentName: string,
@@ -274,7 +291,7 @@ export interface BetaAgentsOperations {
     content: CreateAgentVersionFromCodeContent,
     options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams,
   ) => Promise<AgentVersion>;
-  /** Updates an agent endpoint. */
+  /** Applies a merge-patch update to the specified agent endpoint configuration. */
   updateAgent: (
     agentName: string,
     options?: BetaAgentsPatchAgentObjectOptionalParams,

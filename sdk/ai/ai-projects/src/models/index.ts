@@ -401,6 +401,7 @@ export type {
   InvokeAgentInvocationsApiRoutineAction,
   Routine,
   RoutineRun,
+  RoutineRunStatus,
   RoutineRunPhase,
   RoutineAttemptSource,
   RoutineDispatchPayload,
