@@ -69,8 +69,6 @@ Compared with version 1.2.0
   - Operation DnsSecurityRules.beginDeleteAndWait has a new signature
   - Operation DnsSecurityRules.beginUpdateAndWait has a new signature
   - Operation DnsSecurityRules.get has a new signature
-  - Class DnsResolverManagementClient no longer has parameter apiVersion
-  - Class DnsResolverManagementClient no longer has parameter subscriptionId
   - Parameter dnsResolverDomainLists of interface DnsSecurityRule is now optional
 
 ## 2.0.0-beta.1 (2025-11-13)

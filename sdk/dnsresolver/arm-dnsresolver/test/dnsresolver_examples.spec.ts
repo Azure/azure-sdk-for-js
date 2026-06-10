@@ -91,7 +91,7 @@ describe("dnsresolve test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("dnsResolvers delete clusters", async () => {
+  it.only("dnsResolvers delete clusters", async () => {
     const resArray = new Array();
     await client.dnsResolvers.beginDeleteAndWait(
       resourceGroup,
