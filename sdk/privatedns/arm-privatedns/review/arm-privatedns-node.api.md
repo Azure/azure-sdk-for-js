@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
@@ -187,6 +188,18 @@ export interface PrivateZonesListOptionalParams extends OperationOptions {
 
 // @public
 export interface PrivateZonesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, privateZoneName: string, parameters: PrivateZone, options?: PrivateZonesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateZone>, PrivateZone>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, privateZoneName: string, parameters: PrivateZone, options?: PrivateZonesCreateOrUpdateOptionalParams) => Promise<PrivateZone>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, privateZoneName: string, options?: PrivateZonesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, privateZoneName: string, options?: PrivateZonesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, privateZoneName: string, parameters: PrivateZone, options?: PrivateZonesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateZone>, PrivateZone>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, privateZoneName: string, parameters: PrivateZone, options?: PrivateZonesUpdateOptionalParams) => Promise<PrivateZone>;
     createOrUpdate: (resourceGroupName: string, privateZoneName: string, parameters: PrivateZone, options?: PrivateZonesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateZone>, PrivateZone>;
     delete: (resourceGroupName: string, privateZoneName: string, options?: PrivateZonesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, privateZoneName: string, options?: PrivateZonesGetOptionalParams) => Promise<PrivateZone>;
@@ -315,6 +328,28 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 }
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface SoaRecord {
     email?: string;
     expireTime?: number;
@@ -398,6 +433,18 @@ export interface VirtualNetworkLinksListOptionalParams extends OperationOptions 
 
 // @public
 export interface VirtualNetworkLinksOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualNetworkLink>, VirtualNetworkLink>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksCreateOrUpdateOptionalParams) => Promise<VirtualNetworkLink>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualNetworkLink>, VirtualNetworkLink>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksUpdateOptionalParams) => Promise<VirtualNetworkLink>;
     createOrUpdate: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualNetworkLink>, VirtualNetworkLink>;
     delete: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksGetOptionalParams) => Promise<VirtualNetworkLink>;

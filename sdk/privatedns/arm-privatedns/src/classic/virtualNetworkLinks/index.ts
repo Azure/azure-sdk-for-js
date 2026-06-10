@@ -18,6 +18,8 @@ import type {
 } from "../../api/virtualNetworkLinks/options.js";
 import type { VirtualNetworkLink } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualNetworkLinks operations. */
@@ -35,6 +37,20 @@ export interface VirtualNetworkLinksOperations {
     virtualNetworkLinkName: string,
     options?: VirtualNetworkLinksDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    privateZoneName: string,
+    virtualNetworkLinkName: string,
+    options?: VirtualNetworkLinksDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    privateZoneName: string,
+    virtualNetworkLinkName: string,
+    options?: VirtualNetworkLinksDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates a virtual network link to the specified Private DNS zone. */
   update: (
     resourceGroupName: string,
@@ -43,6 +59,22 @@ export interface VirtualNetworkLinksOperations {
     parameters: VirtualNetworkLink,
     options?: VirtualNetworkLinksUpdateOptionalParams,
   ) => PollerLike<OperationState<VirtualNetworkLink>, VirtualNetworkLink>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    privateZoneName: string,
+    virtualNetworkLinkName: string,
+    parameters: VirtualNetworkLink,
+    options?: VirtualNetworkLinksUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<VirtualNetworkLink>, VirtualNetworkLink>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    privateZoneName: string,
+    virtualNetworkLinkName: string,
+    parameters: VirtualNetworkLink,
+    options?: VirtualNetworkLinksUpdateOptionalParams,
+  ) => Promise<VirtualNetworkLink>;
   /** Creates or updates a virtual network link to the specified Private DNS zone. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -51,6 +83,22 @@ export interface VirtualNetworkLinksOperations {
     parameters: VirtualNetworkLink,
     options?: VirtualNetworkLinksCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<VirtualNetworkLink>, VirtualNetworkLink>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    privateZoneName: string,
+    virtualNetworkLinkName: string,
+    parameters: VirtualNetworkLink,
+    options?: VirtualNetworkLinksCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<VirtualNetworkLink>, VirtualNetworkLink>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    privateZoneName: string,
+    virtualNetworkLinkName: string,
+    parameters: VirtualNetworkLink,
+    options?: VirtualNetworkLinksCreateOrUpdateOptionalParams,
+  ) => Promise<VirtualNetworkLink>;
   /** Gets a virtual network link to the specified Private DNS zone. */
   get: (
     resourceGroupName: string,
@@ -73,6 +121,36 @@ function _getVirtualNetworkLinks(context: PrivateDnsManagementContext) {
       virtualNetworkLinkName: string,
       options?: VirtualNetworkLinksDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, privateZoneName, virtualNetworkLinkName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      privateZoneName: string,
+      virtualNetworkLinkName: string,
+      options?: VirtualNetworkLinksDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        privateZoneName,
+        virtualNetworkLinkName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      privateZoneName: string,
+      virtualNetworkLinkName: string,
+      options?: VirtualNetworkLinksDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        privateZoneName,
+        virtualNetworkLinkName,
+        options,
+      );
+    },
     update: (
       resourceGroupName: string,
       privateZoneName: string,
@@ -88,6 +166,40 @@ function _getVirtualNetworkLinks(context: PrivateDnsManagementContext) {
         parameters,
         options,
       ),
+    beginUpdate: async (
+      resourceGroupName: string,
+      privateZoneName: string,
+      virtualNetworkLinkName: string,
+      parameters: VirtualNetworkLink,
+      options?: VirtualNetworkLinksUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        privateZoneName,
+        virtualNetworkLinkName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      privateZoneName: string,
+      virtualNetworkLinkName: string,
+      parameters: VirtualNetworkLink,
+      options?: VirtualNetworkLinksUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        privateZoneName,
+        virtualNetworkLinkName,
+        parameters,
+        options,
+      );
+    },
     createOrUpdate: (
       resourceGroupName: string,
       privateZoneName: string,
@@ -103,6 +215,40 @@ function _getVirtualNetworkLinks(context: PrivateDnsManagementContext) {
         parameters,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      privateZoneName: string,
+      virtualNetworkLinkName: string,
+      parameters: VirtualNetworkLink,
+      options?: VirtualNetworkLinksCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        privateZoneName,
+        virtualNetworkLinkName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      privateZoneName: string,
+      virtualNetworkLinkName: string,
+      parameters: VirtualNetworkLink,
+      options?: VirtualNetworkLinksCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        privateZoneName,
+        virtualNetworkLinkName,
+        parameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       privateZoneName: string,

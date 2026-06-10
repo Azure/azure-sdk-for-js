@@ -15,6 +15,7 @@ Compared with version 3.3.0
   - Added Interface PrivateZoneProperties
   - Added Interface RecordSetProperties
   - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
   - Added Interface SystemData
   - Added Interface VirtualNetworkLinkProperties
   - Interface PrivateZone has a new optional parameter systemData
@@ -29,18 +30,6 @@ Compared with version 3.3.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation PrivateZones.beginCreateOrUpdate
-  - Removed operation PrivateZones.beginCreateOrUpdateAndWait
-  - Removed operation PrivateZones.beginDelete
-  - Removed operation PrivateZones.beginDeleteAndWait
-  - Removed operation PrivateZones.beginUpdate
-  - Removed operation PrivateZones.beginUpdateAndWait
-  - Removed operation VirtualNetworkLinks.beginCreateOrUpdate
-  - Removed operation VirtualNetworkLinks.beginCreateOrUpdateAndWait
-  - Removed operation VirtualNetworkLinks.beginDelete
-  - Removed operation VirtualNetworkLinks.beginDeleteAndWait
-  - Removed operation VirtualNetworkLinks.beginUpdate
-  - Removed operation VirtualNetworkLinks.beginUpdateAndWait
   - Class PrivateDnsManagementClient no longer has parameter apiVersion
   - Class PrivateDnsManagementClient no longer has parameter subscriptionId
   - Removed Interface TrackedResource
