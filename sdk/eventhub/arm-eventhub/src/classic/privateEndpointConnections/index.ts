@@ -16,6 +16,8 @@ import type {
 } from "../../api/privateEndpointConnections/options.js";
 import type { PrivateEndpointConnection } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateEndpointConnections operations. */
@@ -33,6 +35,20 @@ export interface PrivateEndpointConnectionsOperations {
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    namespaceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    namespaceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Creates or updates PrivateEndpointConnections of service namespace. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -63,6 +79,36 @@ function _getPrivateEndpointConnections(context: EventHubManagementContext) {
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, namespaceName, privateEndpointConnectionName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      privateEndpointConnectionName: string,
+      options?: PrivateEndpointConnectionsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        namespaceName,
+        privateEndpointConnectionName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      privateEndpointConnectionName: string,
+      options?: PrivateEndpointConnectionsDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        namespaceName,
+        privateEndpointConnectionName,
+        options,
+      );
+    },
     createOrUpdate: (
       resourceGroupName: string,
       namespaceName: string,

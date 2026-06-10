@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
@@ -239,6 +240,18 @@ export interface ClustersListNamespacesOptionalParams extends OperationOptions {
 
 // @public
 export interface ClustersOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams) => Promise<Cluster>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersUpdateOptionalParams) => Promise<Cluster>;
     createOrUpdate: (resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
     delete: (resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams) => Promise<Cluster>;
@@ -941,6 +954,18 @@ export interface NamespacesListOptionalParams extends OperationOptions {
 
 // @public
 export interface NamespacesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, namespaceName: string, parameters: EHNamespace, options?: NamespacesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<EHNamespace>, EHNamespace>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, namespaceName: string, parameters: EHNamespace, options?: NamespacesCreateOrUpdateOptionalParams) => Promise<EHNamespace>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginFailover: (resourceGroupName: string, namespaceName: string, parameters: FailOver, options?: NamespacesFailoverOptionalParams) => Promise<SimplePollerLike<OperationState<FailOver>, FailOver>>;
+    // @deprecated (undocumented)
+    beginFailoverAndWait: (resourceGroupName: string, namespaceName: string, parameters: FailOver, options?: NamespacesFailoverOptionalParams) => Promise<FailOver>;
     checkNameAvailability: (parameters: CheckNameAvailabilityParameter, options?: NamespacesCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResult>;
     createOrUpdate: (resourceGroupName: string, namespaceName: string, parameters: EHNamespace, options?: NamespacesCreateOrUpdateOptionalParams) => PollerLike<OperationState<EHNamespace>, EHNamespace>;
     createOrUpdateAuthorizationRule: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
@@ -1071,6 +1096,10 @@ export interface NetworkSecurityPerimeterConfigurationsGetResourceAssociationNam
 
 // @public
 export interface NetworkSecurityPerimeterConfigurationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, namespaceName: string, resourceAssociationName: string, options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkSecurityPerimeterConfiguration>, NetworkSecurityPerimeterConfiguration>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, namespaceName: string, resourceAssociationName: string, options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
     createOrUpdate: (resourceGroupName: string, namespaceName: string, resourceAssociationName: string, options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<NetworkSecurityPerimeterConfiguration>, NetworkSecurityPerimeterConfiguration>;
     getResourceAssociationName: (resourceGroupName: string, namespaceName: string, resourceAssociationName: string, options?: NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
 }
@@ -1195,6 +1224,10 @@ export interface PrivateEndpointConnectionsListOptionalParams extends OperationO
 
 // @public
 export interface PrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
     delete: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
@@ -1360,6 +1393,28 @@ export interface SchemaRegistryOperations {
 
 // @public
 export type SchemaType = string;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export interface Sku {

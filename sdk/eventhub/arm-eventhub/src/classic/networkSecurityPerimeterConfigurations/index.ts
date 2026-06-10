@@ -11,6 +11,8 @@ import type {
   NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams,
 } from "../../api/networkSecurityPerimeterConfigurations/options.js";
 import type { NetworkSecurityPerimeterConfiguration } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkSecurityPerimeterConfigurations operations. */
@@ -25,6 +27,25 @@ export interface NetworkSecurityPerimeterConfigurationsOperations {
     OperationState<NetworkSecurityPerimeterConfiguration>,
     NetworkSecurityPerimeterConfiguration
   >;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    namespaceName: string,
+    resourceAssociationName: string,
+    options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<NetworkSecurityPerimeterConfiguration>,
+      NetworkSecurityPerimeterConfiguration
+    >
+  >;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    namespaceName: string,
+    resourceAssociationName: string,
+    options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams,
+  ) => Promise<NetworkSecurityPerimeterConfiguration>;
   /** Return a NetworkSecurityPerimeterConfigurations resourceAssociationName */
   getResourceAssociationName: (
     resourceGroupName: string,
@@ -43,6 +64,36 @@ function _getNetworkSecurityPerimeterConfigurations(context: EventHubManagementC
       options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(context, resourceGroupName, namespaceName, resourceAssociationName, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      resourceAssociationName: string,
+      options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        namespaceName,
+        resourceAssociationName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      resourceAssociationName: string,
+      options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        namespaceName,
+        resourceAssociationName,
+        options,
+      );
+    },
     getResourceAssociationName: (
       resourceGroupName: string,
       namespaceName: string,

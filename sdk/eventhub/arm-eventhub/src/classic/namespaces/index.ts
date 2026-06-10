@@ -52,6 +52,8 @@ import type {
   NetworkRuleSetListResult,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Namespaces operations. */
@@ -130,6 +132,20 @@ export interface NamespacesOperations {
     parameters: FailOver,
     options?: NamespacesFailoverOptionalParams,
   ) => PollerLike<OperationState<FailOver>, FailOver>;
+  /** @deprecated use failover instead */
+  beginFailover: (
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: FailOver,
+    options?: NamespacesFailoverOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<FailOver>, FailOver>>;
+  /** @deprecated use failover instead */
+  beginFailoverAndWait: (
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: FailOver,
+    options?: NamespacesFailoverOptionalParams,
+  ) => Promise<FailOver>;
   /** Lists all the available Namespaces within a subscription, irrespective of the resource groups. */
   list: (options?: NamespacesListOptionalParams) => PagedAsyncIterableIterator<EHNamespace>;
   /** Lists the available Namespaces within a resource group. */
@@ -143,6 +159,18 @@ export interface NamespacesOperations {
     namespaceName: string,
     options?: NamespacesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: NamespacesDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: NamespacesDeleteOptionalParams,
+  ) => Promise<void>;
   /** Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent. */
   update: (
     resourceGroupName: string,
@@ -157,6 +185,20 @@ export interface NamespacesOperations {
     parameters: EHNamespace,
     options?: NamespacesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<EHNamespace>, EHNamespace>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: EHNamespace,
+    options?: NamespacesCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<EHNamespace>, EHNamespace>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: EHNamespace,
+    options?: NamespacesCreateOrUpdateOptionalParams,
+  ) => Promise<EHNamespace>;
   /** Gets the description of the specified namespace. */
   get: (
     resourceGroupName: string,
@@ -261,6 +303,24 @@ function _getNamespaces(context: EventHubManagementContext) {
       parameters: FailOver,
       options?: NamespacesFailoverOptionalParams,
     ) => failover(context, resourceGroupName, namespaceName, parameters, options),
+    beginFailover: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      parameters: FailOver,
+      options?: NamespacesFailoverOptionalParams,
+    ) => {
+      const poller = failover(context, resourceGroupName, namespaceName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginFailoverAndWait: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      parameters: FailOver,
+      options?: NamespacesFailoverOptionalParams,
+    ) => {
+      return await failover(context, resourceGroupName, namespaceName, parameters, options);
+    },
     list: (options?: NamespacesListOptionalParams) => list(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
@@ -271,6 +331,22 @@ function _getNamespaces(context: EventHubManagementContext) {
       namespaceName: string,
       options?: NamespacesDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, namespaceName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      options?: NamespacesDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, namespaceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      options?: NamespacesDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, namespaceName, options);
+    },
     update: (
       resourceGroupName: string,
       namespaceName: string,
@@ -283,6 +359,24 @@ function _getNamespaces(context: EventHubManagementContext) {
       parameters: EHNamespace,
       options?: NamespacesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, namespaceName, parameters, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      parameters: EHNamespace,
+      options?: NamespacesCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(context, resourceGroupName, namespaceName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      parameters: EHNamespace,
+      options?: NamespacesCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, resourceGroupName, namespaceName, parameters, options);
+    },
     get: (
       resourceGroupName: string,
       namespaceName: string,

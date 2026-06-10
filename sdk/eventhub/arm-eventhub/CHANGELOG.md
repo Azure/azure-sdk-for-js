@@ -7,6 +7,8 @@ Compared with version 5.2.0
   - Added operation ClustersOperations.createOrUpdate
   - Added operation ClustersOperations.delete
   - Added operation ClustersOperations.update
+  - Added operation NamespacesOperations.beginFailover
+  - Added operation NamespacesOperations.beginFailoverAndWait
   - Added operation NamespacesOperations.createOrUpdate
   - Added operation NamespacesOperations.delete
   - Added operation NamespacesOperations.failover
@@ -39,6 +41,7 @@ Compared with version 5.2.0
   - Added Interface PrivateLinkResourceProperties
   - Added Interface RestorePollerOptions
   - Added Interface SchemaGroupProperties
+  - Added Interface SimplePollerLike
   - Interface Cluster has a new optional parameter platformCapabilities
   - Interface Cluster has a new optional parameter zoneRedundant
   - Interface EHNamespace has a new optional parameter geoDataReplication
@@ -66,22 +69,9 @@ Compared with version 5.2.0
   - Enum KnownTlsVersion has a new value One3
 
 ### Breaking Changes
-  - Removed operation Clusters.beginCreateOrUpdate
-  - Removed operation Clusters.beginCreateOrUpdateAndWait
-  - Removed operation Clusters.beginDelete
-  - Removed operation Clusters.beginDeleteAndWait
-  - Removed operation Clusters.beginUpdate
-  - Removed operation Clusters.beginUpdateAndWait
-  - Removed operation Namespaces.beginCreateOrUpdate
-  - Removed operation Namespaces.beginCreateOrUpdateAndWait
-  - Removed operation Namespaces.beginDelete
-  - Removed operation Namespaces.beginDeleteAndWait
-  - Removed operation NetworkSecurityPerimeterConfigurations.beginCreateOrUpdate
-  - Removed operation NetworkSecurityPerimeterConfigurations.beginCreateOrUpdateAndWait
-  - Removed operation PrivateEndpointConnections.beginDelete
-  - Removed operation PrivateEndpointConnections.beginDeleteAndWait
   - Operation ApplicationGroup.createOrUpdateApplicationGroup has a new signature
   - Operation ApplicationGroup.get has a new signature
+  - Operation NetworkSecurityPerimeterConfigurations.beginCreateOrUpdateAndWait has a new signature
   - Class EventHubManagementClient no longer has parameter apiVersion
   - Class EventHubManagementClient no longer has parameter applicationGroupOperations
   - Class EventHubManagementClient no longer has parameter networkSecurityPerimeterConfigurationOperations

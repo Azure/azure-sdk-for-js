@@ -28,6 +28,8 @@ import type {
   AvailableClustersList,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Clusters operations. */
@@ -57,6 +59,18 @@ export interface ClustersOperations {
     clusterName: string,
     options?: ClustersDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersDeleteOptionalParams,
+  ) => Promise<void>;
   /** Modifies mutable properties on the Event Hubs Cluster. This operation is idempotent. */
   update: (
     resourceGroupName: string,
@@ -64,6 +78,20 @@ export interface ClustersOperations {
     parameters: Cluster,
     options?: ClustersUpdateOptionalParams,
   ) => PollerLike<OperationState<Cluster>, Cluster>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Cluster,
+    options?: ClustersUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Cluster,
+    options?: ClustersUpdateOptionalParams,
+  ) => Promise<Cluster>;
   /** Creates or updates an instance of an Event Hubs Cluster. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -71,6 +99,20 @@ export interface ClustersOperations {
     parameters: Cluster,
     options?: ClustersCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Cluster>, Cluster>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Cluster,
+    options?: ClustersCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Cluster,
+    options?: ClustersCreateOrUpdateOptionalParams,
+  ) => Promise<Cluster>;
   /** Gets the resource description of the specified Event Hubs Cluster. */
   get: (
     resourceGroupName: string,
@@ -99,18 +141,70 @@ function _getClusters(context: EventHubManagementContext) {
       clusterName: string,
       options?: ClustersDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, clusterName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: ClustersDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, clusterName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: ClustersDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, clusterName, options);
+    },
     update: (
       resourceGroupName: string,
       clusterName: string,
       parameters: Cluster,
       options?: ClustersUpdateOptionalParams,
     ) => update(context, resourceGroupName, clusterName, parameters, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      clusterName: string,
+      parameters: Cluster,
+      options?: ClustersUpdateOptionalParams,
+    ) => {
+      const poller = update(context, resourceGroupName, clusterName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      parameters: Cluster,
+      options?: ClustersUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, clusterName, parameters, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       clusterName: string,
       parameters: Cluster,
       options?: ClustersCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, clusterName, parameters, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      clusterName: string,
+      parameters: Cluster,
+      options?: ClustersCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(context, resourceGroupName, clusterName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      parameters: Cluster,
+      options?: ClustersCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, resourceGroupName, clusterName, parameters, options);
+    },
     get: (resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams) =>
       get(context, resourceGroupName, clusterName, options),
   };
