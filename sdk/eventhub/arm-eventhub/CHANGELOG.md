@@ -1,4 +1,99 @@
 # Release History
+
+## 6.0.0-beta.1 (2026-06-10)
+Compared with version 5.2.0
+
+### Features Added
+  - Added operation ClustersOperations.createOrUpdate
+  - Added operation ClustersOperations.delete
+  - Added operation ClustersOperations.update
+  - Added operation NamespacesOperations.createOrUpdate
+  - Added operation NamespacesOperations.delete
+  - Added operation NamespacesOperations.failover
+  - Added operation NetworkSecurityPerimeterConfigurationsOperations.createOrUpdate
+  - Added operation NetworkSecurityPerimeterConfigurationsOperations.getResourceAssociationName
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Class EventHubManagementClient has a new constructor "constructor(credential: TokenCredential, options?: EventHubManagementClientOptionalParams);"
+  - Added Interface ApplicationGroupProperties
+  - Added Interface ArmDisasterRecoveryProperties
+  - Added Interface AuthorizationRuleProperties
+  - Added Interface ClusterProperties
+  - Added Interface ConfidentialCompute
+  - Added Interface ConsumerGroupProperties
+  - Added Interface DestinationProperties
+  - Added Interface EHNamespaceProperties
+  - Added Interface EventhubProperties
+  - Added Interface FailOver
+  - Added Interface FailOverProperties
+  - Added Interface GeoDataReplicationProperties
+  - Added Interface MessageTimestampDescription
+  - Added Interface NamespaceReplicaLocation
+  - Added Interface NamespacesFailoverOptionalParams
+  - Added Interface NetworkRuleSetProperties
+  - Added Interface NetworkSecurityPerimeterConfigurationProperties
+  - Added Interface NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PlatformCapabilities
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SchemaGroupProperties
+  - Interface Cluster has a new optional parameter platformCapabilities
+  - Interface Cluster has a new optional parameter zoneRedundant
+  - Interface EHNamespace has a new optional parameter geoDataReplication
+  - Interface EHNamespace has a new optional parameter ipV6Enabled
+  - Interface EHNamespace has a new optional parameter platformCapabilities
+  - Interface Eventhub has a new optional parameter identifier
+  - Interface Eventhub has a new optional parameter messageTimestampDescription
+  - Interface NetworkSecurityPerimeterConfiguration has a new optional parameter systemData
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface RetentionDescription has a new optional parameter minCompactionLagTimeInMinutes
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias GeoDRRoleType
+  - Added Type Alias KeyType
+  - Added Type Alias Mode
+  - Added Type Alias TimestampType
+  - Added Enum AzureClouds
+  - Added Enum KnownGeoDRRoleType
+  - Added Enum KnownMode
+  - Added Enum KnownTimestampType
+  - Added Enum KnownVersions
+  - Enum KnownCleanupPolicyRetentionDescription has a new value DeleteOrCompact
+  - Enum KnownSchemaType has a new value Json
+  - Enum KnownSchemaType has a new value ProtoBuf
+  - Enum KnownTlsVersion has a new value One3
+
+### Breaking Changes
+  - Removed operation Clusters.beginCreateOrUpdate
+  - Removed operation Clusters.beginCreateOrUpdateAndWait
+  - Removed operation Clusters.beginDelete
+  - Removed operation Clusters.beginDeleteAndWait
+  - Removed operation Clusters.beginUpdate
+  - Removed operation Clusters.beginUpdateAndWait
+  - Removed operation Namespaces.beginCreateOrUpdate
+  - Removed operation Namespaces.beginCreateOrUpdateAndWait
+  - Removed operation Namespaces.beginDelete
+  - Removed operation Namespaces.beginDeleteAndWait
+  - Removed operation NetworkSecurityPerimeterConfigurations.beginCreateOrUpdate
+  - Removed operation NetworkSecurityPerimeterConfigurations.beginCreateOrUpdateAndWait
+  - Removed operation PrivateEndpointConnections.beginDelete
+  - Removed operation PrivateEndpointConnections.beginDeleteAndWait
+  - Operation ApplicationGroup.createOrUpdateApplicationGroup has a new signature
+  - Operation ApplicationGroup.get has a new signature
+  - Class EventHubManagementClient no longer has parameter apiVersion
+  - Class EventHubManagementClient no longer has parameter applicationGroupOperations
+  - Class EventHubManagementClient no longer has parameter networkSecurityPerimeterConfigurationOperations
+  - Class EventHubManagementClient no longer has parameter subscriptionId
+  - Removed Interface TrackedResource
+  - Type of parameter type of interface ApplicationGroupPolicy is changed from "ThrottlingPolicy" to ApplicationGroupPolicyType
+  - Interface ProxyResource no longer has parameter location
+  - Parameter value of interface NetworkRuleSetListResult is now required
+  - Parameter value of interface PrivateLinkResourcesListResult is now required
+  - Removed Type Alias KeyType_2
+  - Type alias "ApplicationGroupPolicyUnion" has been changed
+
     
 ## 5.3.0-beta.1 (2025-02-12)
 Compared with version 5.2.0

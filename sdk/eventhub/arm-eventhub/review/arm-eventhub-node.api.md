@@ -4,11 +4,16 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessKeys {
@@ -28,94 +33,81 @@ export type AccessRights = string;
 export interface ApplicationGroup extends ProxyResource {
     clientAppGroupIdentifier?: string;
     isEnabled?: boolean;
+    readonly location?: string;
     policies?: ApplicationGroupPolicyUnion[];
-    readonly systemData?: SystemData;
 }
 
 // @public
-export interface ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApplicationGroupCreateOrUpdateApplicationGroupResponse = ApplicationGroup;
-
-// @public
-export interface ApplicationGroupDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationGroupDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ApplicationGroupGetOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationGroupGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApplicationGroupGetResponse = ApplicationGroup;
-
-// @public
-export interface ApplicationGroupListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationGroupListByNamespaceNextResponse = ApplicationGroupListResult;
-
-// @public
-export interface ApplicationGroupListByNamespaceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationGroupListByNamespaceResponse = ApplicationGroupListResult;
-
-// @public
-export interface ApplicationGroupListResult {
-    readonly nextLink?: string;
-    value?: ApplicationGroup[];
+export interface ApplicationGroupListByNamespaceOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface ApplicationGroupOperations {
-    createOrUpdateApplicationGroup(resourceGroupName: string, namespaceName: string, applicationGroupName: string, parameters: ApplicationGroup, options?: ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams): Promise<ApplicationGroupCreateOrUpdateApplicationGroupResponse>;
-    delete(resourceGroupName: string, namespaceName: string, applicationGroupName: string, options?: ApplicationGroupDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, namespaceName: string, applicationGroupName: string, options?: ApplicationGroupGetOptionalParams): Promise<ApplicationGroupGetResponse>;
-    listByNamespace(resourceGroupName: string, namespaceName: string, options?: ApplicationGroupListByNamespaceOptionalParams): PagedAsyncIterableIterator<ApplicationGroup>;
+    createOrUpdateApplicationGroup: (resourceGroupName: string, namespaceName: string, applicationGroupName: string, parameters: ApplicationGroup, options?: ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams) => Promise<ApplicationGroup>;
+    delete: (resourceGroupName: string, namespaceName: string, applicationGroupName: string, options?: ApplicationGroupDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, applicationGroupName: string, options?: ApplicationGroupGetOptionalParams) => Promise<ApplicationGroup>;
+    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: ApplicationGroupListByNamespaceOptionalParams) => PagedAsyncIterableIterator<ApplicationGroup>;
 }
 
 // @public
 export interface ApplicationGroupPolicy {
     name: string;
-    type: "ThrottlingPolicy";
+    type: ApplicationGroupPolicyType;
 }
 
 // @public
 export type ApplicationGroupPolicyType = string;
 
-// @public (undocumented)
-export type ApplicationGroupPolicyUnion = ApplicationGroupPolicy | ThrottlingPolicy;
+// @public
+export type ApplicationGroupPolicyUnion = ThrottlingPolicy | ApplicationGroupPolicy;
+
+// @public
+export interface ApplicationGroupProperties {
+    clientAppGroupIdentifier: string;
+    isEnabled?: boolean;
+    policies?: ApplicationGroupPolicyUnion[];
+}
 
 // @public
 export interface ArmDisasterRecovery extends ProxyResource {
+    alternateName?: string;
+    readonly location?: string;
+    partnerNamespace?: string;
+    readonly pendingReplicationOperationsCount?: number;
+    readonly provisioningState?: ProvisioningStateDR;
+    readonly role?: RoleDisasterRecovery;
+}
+
+// @public
+export interface ArmDisasterRecoveryProperties {
     alternateName?: string;
     partnerNamespace?: string;
     readonly pendingReplicationOperationsCount?: number;
     readonly provisioningState?: ProvisioningStateDR;
     readonly role?: RoleDisasterRecovery;
-    readonly systemData?: SystemData;
-}
-
-// @public
-export interface ArmDisasterRecoveryListResult {
-    readonly nextLink?: string;
-    value?: ArmDisasterRecovery[];
 }
 
 // @public
 export interface AuthorizationRule extends ProxyResource {
+    readonly location?: string;
     rights?: AccessRights[];
-    readonly systemData?: SystemData;
 }
 
 // @public
-export interface AuthorizationRuleListResult {
-    nextLink?: string;
-    value?: AuthorizationRule[];
+export interface AuthorizationRuleProperties {
+    rights: AccessRights[];
 }
 
 // @public
@@ -127,6 +119,16 @@ export interface AvailableCluster {
 export interface AvailableClustersList {
     value?: AvailableCluster[];
 }
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CaptureDescription {
@@ -163,66 +165,52 @@ export interface CheckNameAvailabilityResult {
 export type CleanupPolicyRetentionDescription = string;
 
 // @public
-export interface Cluster extends TrackedResource {
+export interface Cluster extends ProxyResource {
     readonly createdAt?: string;
+    location?: string;
     readonly metricId?: string;
+    // (undocumented)
+    platformCapabilities?: PlatformCapabilities;
     readonly provisioningState?: ProvisioningState;
     sku?: ClusterSku;
     readonly status?: string;
     supportsScaling?: boolean;
-    readonly systemData?: SystemData;
+    tags?: Record<string, string>;
     readonly updatedAt?: string;
+    zoneRedundant?: boolean;
 }
 
 // @public
-export interface ClusterListResult {
-    nextLink?: string;
-    value?: Cluster[];
+export interface ClusterProperties {
+    readonly createdAt?: string;
+    readonly metricId?: string;
+    // (undocumented)
+    platformCapabilities?: PlatformCapabilities;
+    readonly provisioningState?: ProvisioningState;
+    readonly status?: string;
+    supportsScaling?: boolean;
+    readonly updatedAt?: string;
+    zoneRedundant?: boolean;
 }
 
 // @public
 export interface ClusterQuotaConfigurationProperties {
-    settings?: {
-        [propertyName: string]: string;
-    };
+    settings?: Record<string, string>;
 }
 
 // @public
-export interface Clusters {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<ClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
-    get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
-    listAvailableClusterRegion(options?: ClustersListAvailableClusterRegionOptionalParams): Promise<ClustersListAvailableClusterRegionResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
-    listBySubscription(options?: ClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Cluster>;
-    listNamespaces(resourceGroupName: string, clusterName: string, options?: ClustersListNamespacesOptionalParams): Promise<ClustersListNamespacesResponse>;
-}
-
-// @public
-export interface ClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ClustersCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ClustersCreateOrUpdateResponse = Cluster;
-
-// @public
-export interface ClustersDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ClustersDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ClustersGetOptionalParams extends coreClient.OperationOptions {
+export interface ClustersGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ClustersGetResponse = Cluster;
 
 // @public
 export interface ClusterSku {
@@ -234,75 +222,56 @@ export interface ClusterSku {
 export type ClusterSkuName = string;
 
 // @public
-export interface ClustersListAvailableClusterRegionOptionalParams extends coreClient.OperationOptions {
+export interface ClustersListAvailableClusterRegionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ClustersListAvailableClusterRegionResponse = AvailableClustersList;
-
-// @public
-export interface ClustersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ClustersListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ClustersListByResourceGroupNextResponse = ClusterListResult;
-
-// @public
-export interface ClustersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ClustersListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ClustersListByResourceGroupResponse = ClusterListResult;
-
-// @public
-export interface ClustersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface ClustersListNamespacesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ClustersListBySubscriptionNextResponse = ClusterListResult;
-
-// @public
-export interface ClustersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface ClustersOperations {
+    createOrUpdate: (resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
+    delete: (resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams) => Promise<Cluster>;
+    listAvailableClusterRegion: (options?: ClustersListAvailableClusterRegionOptionalParams) => Promise<AvailableClustersList>;
+    listByResourceGroup: (resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Cluster>;
+    listBySubscription: (options?: ClustersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Cluster>;
+    listNamespaces: (resourceGroupName: string, clusterName: string, options?: ClustersListNamespacesOptionalParams) => Promise<EHNamespaceIdListResult>;
+    update: (resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersUpdateOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
 }
 
 // @public
-export type ClustersListBySubscriptionResponse = ClusterListResult;
-
-// @public
-export interface ClustersListNamespacesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ClustersListNamespacesResponse = EHNamespaceIdListResult;
-
-// @public
-export interface ClustersUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ClustersUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ClustersUpdateResponse = Cluster;
-
-// @public
-export interface Configuration {
-    get(resourceGroupName: string, clusterName: string, options?: ConfigurationGetOptionalParams): Promise<ConfigurationGetResponse>;
-    patch(resourceGroupName: string, clusterName: string, parameters: ClusterQuotaConfigurationProperties, options?: ConfigurationPatchOptionalParams): Promise<ConfigurationPatchResponse>;
+export interface ConfidentialCompute {
+    mode?: Mode;
 }
 
 // @public
-export interface ConfigurationGetOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationGetResponse = ClusterQuotaConfigurationProperties;
-
-// @public
-export interface ConfigurationPatchOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationOperations {
+    get: (resourceGroupName: string, clusterName: string, options?: ConfigurationGetOptionalParams) => Promise<ClusterQuotaConfigurationProperties>;
+    patch: (resourceGroupName: string, clusterName: string, parameters: ClusterQuotaConfigurationProperties, options?: ConfigurationPatchOptionalParams) => Promise<ClusterQuotaConfigurationProperties | undefined>;
 }
 
 // @public
-export type ConfigurationPatchResponse = ClusterQuotaConfigurationProperties;
+export interface ConfigurationPatchOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface ConnectionState {
@@ -313,58 +282,48 @@ export interface ConnectionState {
 // @public
 export interface ConsumerGroup extends ProxyResource {
     readonly createdAt?: Date;
-    readonly systemData?: SystemData;
+    readonly location?: string;
     readonly updatedAt?: Date;
     userMetadata?: string;
 }
 
 // @public
-export interface ConsumerGroupListResult {
-    nextLink?: string;
-    value?: ConsumerGroup[];
+export interface ConsumerGroupProperties {
+    readonly createdAt?: Date;
+    readonly updatedAt?: Date;
+    userMetadata?: string;
 }
 
 // @public
-export interface ConsumerGroups {
-    createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, parameters: ConsumerGroup, options?: ConsumerGroupsCreateOrUpdateOptionalParams): Promise<ConsumerGroupsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, options?: ConsumerGroupsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, options?: ConsumerGroupsGetOptionalParams): Promise<ConsumerGroupsGetResponse>;
-    listByEventHub(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: ConsumerGroupsListByEventHubOptionalParams): PagedAsyncIterableIterator<ConsumerGroup>;
+export interface ConsumerGroupsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConsumerGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ConsumerGroupsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConsumerGroupsCreateOrUpdateResponse = ConsumerGroup;
-
-// @public
-export interface ConsumerGroupsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ConsumerGroupsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConsumerGroupsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ConsumerGroupsGetResponse = ConsumerGroup;
-
-// @public
-export interface ConsumerGroupsListByEventHubNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ConsumerGroupsListByEventHubNextResponse = ConsumerGroupListResult;
-
-// @public
-export interface ConsumerGroupsListByEventHubOptionalParams extends coreClient.OperationOptions {
+export interface ConsumerGroupsListByEventHubOptionalParams extends OperationOptions {
     skip?: number;
     top?: number;
 }
 
 // @public
-export type ConsumerGroupsListByEventHubResponse = ConsumerGroupListResult;
+export interface ConsumerGroupsOperations {
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, parameters: ConsumerGroup, options?: ConsumerGroupsCreateOrUpdateOptionalParams) => Promise<ConsumerGroup>;
+    delete: (resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, options?: ConsumerGroupsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, options?: ConsumerGroupsGetOptionalParams) => Promise<ConsumerGroup>;
+    listByEventHub: (resourceGroupName: string, namespaceName: string, eventHubName: string, options?: ConsumerGroupsListByEventHubOptionalParams) => PagedAsyncIterableIterator<ConsumerGroup>;
+}
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
@@ -385,96 +344,71 @@ export interface Destination {
 }
 
 // @public
-export interface DisasterRecoveryConfigs {
-    breakPairing(resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsBreakPairingOptionalParams): Promise<void>;
-    checkNameAvailability(resourceGroupName: string, namespaceName: string, parameters: CheckNameAvailabilityParameter, options?: DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams): Promise<DisasterRecoveryConfigsCheckNameAvailabilityResponse>;
-    createOrUpdate(resourceGroupName: string, namespaceName: string, alias: string, parameters: ArmDisasterRecovery, options?: DisasterRecoveryConfigsCreateOrUpdateOptionalParams): Promise<DisasterRecoveryConfigsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsDeleteOptionalParams): Promise<void>;
-    failOver(resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsFailOverOptionalParams): Promise<void>;
-    get(resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsGetOptionalParams): Promise<DisasterRecoveryConfigsGetResponse>;
-    getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams): Promise<DisasterRecoveryConfigsGetAuthorizationRuleResponse>;
-    list(resourceGroupName: string, namespaceName: string, options?: DisasterRecoveryConfigsListOptionalParams): PagedAsyncIterableIterator<ArmDisasterRecovery>;
-    listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams): PagedAsyncIterableIterator<AuthorizationRule>;
-    listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: DisasterRecoveryConfigsListKeysOptionalParams): Promise<DisasterRecoveryConfigsListKeysResponse>;
+export interface DestinationProperties {
+    archiveNameFormat?: string;
+    blobContainer?: string;
+    dataLakeAccountName?: string;
+    dataLakeFolderPath?: string;
+    dataLakeSubscriptionId?: string;
+    storageAccountResourceId?: string;
 }
 
 // @public
-export interface DisasterRecoveryConfigsBreakPairingOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsBreakPairingOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisasterRecoveryConfigsCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
-
-// @public
-export interface DisasterRecoveryConfigsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisasterRecoveryConfigsCreateOrUpdateResponse = ArmDisasterRecovery;
-
-// @public
-export interface DisasterRecoveryConfigsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DisasterRecoveryConfigsFailOverOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsFailOverOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisasterRecoveryConfigsGetAuthorizationRuleResponse = AuthorizationRule;
-
-// @public
-export interface DisasterRecoveryConfigsGetOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisasterRecoveryConfigsGetResponse = ArmDisasterRecovery;
-
-// @public
-export interface DisasterRecoveryConfigsListAuthorizationRulesNextOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsListAuthorizationRulesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisasterRecoveryConfigsListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
-
-// @public
-export interface DisasterRecoveryConfigsListAuthorizationRulesOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsListKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisasterRecoveryConfigsListAuthorizationRulesResponse = AuthorizationRuleListResult;
-
-// @public
-export interface DisasterRecoveryConfigsListKeysOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisasterRecoveryConfigsListKeysResponse = AccessKeys;
-
-// @public
-export interface DisasterRecoveryConfigsListNextOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsOperations {
+    breakPairing: (resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsBreakPairingOptionalParams) => Promise<void>;
+    checkNameAvailability: (resourceGroupName: string, namespaceName: string, parameters: CheckNameAvailabilityParameter, options?: DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResult>;
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, alias: string, parameters: ArmDisasterRecovery, options?: DisasterRecoveryConfigsCreateOrUpdateOptionalParams) => Promise<ArmDisasterRecovery>;
+    delete: (resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsDeleteOptionalParams) => Promise<void>;
+    failOver: (resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsFailOverOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsGetOptionalParams) => Promise<ArmDisasterRecovery>;
+    getAuthorizationRule: (resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
+    list: (resourceGroupName: string, namespaceName: string, options?: DisasterRecoveryConfigsListOptionalParams) => PagedAsyncIterableIterator<ArmDisasterRecovery>;
+    listAuthorizationRules: (resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams) => PagedAsyncIterableIterator<AuthorizationRule>;
+    listKeys: (resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: DisasterRecoveryConfigsListKeysOptionalParams) => Promise<AccessKeys>;
 }
 
 // @public
-export type DisasterRecoveryConfigsListNextResponse = ArmDisasterRecoveryListResult;
-
-// @public
-export interface DisasterRecoveryConfigsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DisasterRecoveryConfigsListResponse = ArmDisasterRecoveryListResult;
-
-// @public
-export interface EHNamespace extends TrackedResource {
+export interface EHNamespace extends ProxyResource {
     alternateName?: string;
     clusterArmId?: string;
     readonly createdAt?: Date;
@@ -482,18 +416,22 @@ export interface EHNamespace extends TrackedResource {
     encryption?: Encryption;
     geoDataReplication?: GeoDataReplicationProperties;
     identity?: Identity;
+    ipV6Enabled?: boolean;
     isAutoInflateEnabled?: boolean;
     kafkaEnabled?: boolean;
+    location?: string;
     maximumThroughputUnits?: number;
     readonly metricId?: string;
     minimumTlsVersion?: TlsVersion;
+    // (undocumented)
+    platformCapabilities?: PlatformCapabilities;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     readonly serviceBusEndpoint?: string;
     sku?: Sku;
     readonly status?: string;
-    readonly systemData?: SystemData;
+    tags?: Record<string, string>;
     readonly updatedAt?: Date;
     zoneRedundant?: boolean;
 }
@@ -509,9 +447,28 @@ export interface EHNamespaceIdListResult {
 }
 
 // @public
-export interface EHNamespaceListResult {
-    nextLink?: string;
-    value?: EHNamespace[];
+export interface EHNamespaceProperties {
+    alternateName?: string;
+    clusterArmId?: string;
+    readonly createdAt?: Date;
+    disableLocalAuth?: boolean;
+    encryption?: Encryption;
+    geoDataReplication?: GeoDataReplicationProperties;
+    ipV6Enabled?: boolean;
+    isAutoInflateEnabled?: boolean;
+    kafkaEnabled?: boolean;
+    maximumThroughputUnits?: number;
+    readonly metricId?: string;
+    minimumTlsVersion?: TlsVersion;
+    // (undocumented)
+    platformCapabilities?: PlatformCapabilities;
+    privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly serviceBusEndpoint?: string;
+    readonly status?: string;
+    readonly updatedAt?: Date;
+    zoneRedundant?: boolean;
 }
 
 // @public
@@ -532,7 +489,7 @@ export type EntityStatus = "Active" | "Disabled" | "Restoring" | "SendDisabled" 
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -555,163 +512,122 @@ export interface Eventhub extends ProxyResource {
     captureDescription?: CaptureDescription;
     readonly createdAt?: Date;
     readonly identifier?: string;
+    readonly location?: string;
     messageRetentionInDays?: number;
     messageTimestampDescription?: MessageTimestampDescription;
     partitionCount?: number;
     readonly partitionIds?: string[];
     retentionDescription?: RetentionDescription;
     status?: EntityStatus;
-    readonly systemData?: SystemData;
+    readonly updatedAt?: Date;
+    userMetadata?: string;
+}
+
+// @public (undocumented)
+export class EventHubManagementClient {
+    constructor(credential: TokenCredential, options?: EventHubManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: EventHubManagementClientOptionalParams);
+    readonly applicationGroup: ApplicationGroupOperations;
+    readonly clusters: ClustersOperations;
+    readonly configuration: ConfigurationOperations;
+    readonly consumerGroups: ConsumerGroupsOperations;
+    readonly disasterRecoveryConfigs: DisasterRecoveryConfigsOperations;
+    readonly eventHubs: EventHubsOperations;
+    readonly namespaces: NamespacesOperations;
+    readonly networkSecurityPerimeterConfiguration: NetworkSecurityPerimeterConfigurationOperations;
+    readonly networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurationsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
+    readonly schemaRegistry: SchemaRegistryOperations;
+}
+
+// @public
+export interface EventHubManagementClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
+export interface EventhubProperties {
+    captureDescription?: CaptureDescription;
+    readonly createdAt?: Date;
+    readonly identifier?: string;
+    messageRetentionInDays?: number;
+    messageTimestampDescription?: MessageTimestampDescription;
+    partitionCount?: number;
+    readonly partitionIds?: string[];
+    retentionDescription?: RetentionDescription;
+    status?: EntityStatus;
     readonly updatedAt?: Date;
     userMetadata?: string;
 }
 
 // @public
-export interface EventHubListResult {
-    nextLink?: string;
-    value?: Eventhub[];
-}
-
-// @public (undocumented)
-export class EventHubManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: EventHubManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    applicationGroupOperations: ApplicationGroupOperations;
-    // (undocumented)
-    clusters: Clusters;
-    // (undocumented)
-    configuration: Configuration;
-    // (undocumented)
-    consumerGroups: ConsumerGroups;
-    // (undocumented)
-    disasterRecoveryConfigs: DisasterRecoveryConfigs;
-    // (undocumented)
-    eventHubs: EventHubs;
-    // (undocumented)
-    namespaces: Namespaces;
-    // (undocumented)
-    networkSecurityPerimeterConfigurationOperations: NetworkSecurityPerimeterConfigurationOperations;
-    // (undocumented)
-    networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
-    // (undocumented)
-    privateLinkResources: PrivateLinkResources;
-    // (undocumented)
-    schemaRegistry: SchemaRegistry;
-    // (undocumented)
-    subscriptionId: string;
+export interface EventHubsCreateOrUpdateAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface EventHubManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
+export interface EventHubsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface EventHubs {
-    createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, parameters: Eventhub, options?: EventHubsCreateOrUpdateOptionalParams): Promise<EventHubsCreateOrUpdateResponse>;
-    createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: EventHubsCreateOrUpdateAuthorizationRuleOptionalParams): Promise<EventHubsCreateOrUpdateAuthorizationRuleResponse>;
-    delete(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: EventHubsDeleteOptionalParams): Promise<void>;
-    deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, options?: EventHubsDeleteAuthorizationRuleOptionalParams): Promise<void>;
-    get(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: EventHubsGetOptionalParams): Promise<EventHubsGetResponse>;
-    getAuthorizationRule(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, options?: EventHubsGetAuthorizationRuleOptionalParams): Promise<EventHubsGetAuthorizationRuleResponse>;
-    listAuthorizationRules(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: EventHubsListAuthorizationRulesOptionalParams): PagedAsyncIterableIterator<AuthorizationRule>;
-    listByNamespace(resourceGroupName: string, namespaceName: string, options?: EventHubsListByNamespaceOptionalParams): PagedAsyncIterableIterator<Eventhub>;
-    listKeys(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, options?: EventHubsListKeysOptionalParams): Promise<EventHubsListKeysResponse>;
-    regenerateKeys(resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: EventHubsRegenerateKeysOptionalParams): Promise<EventHubsRegenerateKeysResponse>;
+export interface EventHubsDeleteAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface EventHubsCreateOrUpdateAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface EventHubsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type EventHubsCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
-
-// @public
-export interface EventHubsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface EventHubsGetAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export type EventHubsCreateOrUpdateResponse = Eventhub;
-
-// @public
-export interface EventHubsDeleteAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface EventHubsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface EventHubsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface EventHubsListAuthorizationRulesOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface EventHubsGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EventHubsGetAuthorizationRuleResponse = AuthorizationRule;
-
-// @public
-export interface EventHubsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EventHubsGetResponse = Eventhub;
-
-// @public
-export interface EventHubsListAuthorizationRulesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EventHubsListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
-
-// @public
-export interface EventHubsListAuthorizationRulesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EventHubsListAuthorizationRulesResponse = AuthorizationRuleListResult;
-
-// @public
-export interface EventHubsListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EventHubsListByNamespaceNextResponse = EventHubListResult;
-
-// @public
-export interface EventHubsListByNamespaceOptionalParams extends coreClient.OperationOptions {
+export interface EventHubsListByNamespaceOptionalParams extends OperationOptions {
     skip?: number;
     top?: number;
 }
 
 // @public
-export type EventHubsListByNamespaceResponse = EventHubListResult;
-
-// @public
-export interface EventHubsListKeysOptionalParams extends coreClient.OperationOptions {
+export interface EventHubsListKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type EventHubsListKeysResponse = AccessKeys;
-
-// @public
-export interface EventHubsRegenerateKeysOptionalParams extends coreClient.OperationOptions {
+export interface EventHubsOperations {
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, eventHubName: string, parameters: Eventhub, options?: EventHubsCreateOrUpdateOptionalParams) => Promise<Eventhub>;
+    createOrUpdateAuthorizationRule: (resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: EventHubsCreateOrUpdateAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
+    delete: (resourceGroupName: string, namespaceName: string, eventHubName: string, options?: EventHubsDeleteOptionalParams) => Promise<void>;
+    deleteAuthorizationRule: (resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, options?: EventHubsDeleteAuthorizationRuleOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, eventHubName: string, options?: EventHubsGetOptionalParams) => Promise<Eventhub>;
+    getAuthorizationRule: (resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, options?: EventHubsGetAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
+    listAuthorizationRules: (resourceGroupName: string, namespaceName: string, eventHubName: string, options?: EventHubsListAuthorizationRulesOptionalParams) => PagedAsyncIterableIterator<AuthorizationRule>;
+    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: EventHubsListByNamespaceOptionalParams) => PagedAsyncIterableIterator<Eventhub>;
+    listKeys: (resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, options?: EventHubsListKeysOptionalParams) => Promise<AccessKeys>;
+    regenerateKeys: (resourceGroupName: string, namespaceName: string, eventHubName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: EventHubsRegenerateKeysOptionalParams) => Promise<AccessKeys>;
 }
 
 // @public
-export type EventHubsRegenerateKeysResponse = AccessKeys;
+export interface EventHubsRegenerateKeysOptionalParams extends OperationOptions {
+}
 
-// @public (undocumented)
+// @public
 export interface FailOver {
+    force?: boolean;
+    primaryLocation?: string;
+}
+
+// @public
+export interface FailOverProperties {
     force?: boolean;
     primaryLocation?: string;
 }
@@ -726,17 +642,14 @@ export interface GeoDataReplicationProperties {
 export type GeoDRRoleType = string;
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
+
+export { isRestError }
 
 // @public
 export type KeyType = string;
@@ -816,6 +729,12 @@ export enum KnownMetricId {
     IncomingMessages = "IncomingMessages",
     OutgoingBytes = "OutgoingBytes",
     OutgoingMessages = "OutgoingMessages"
+}
+
+// @public
+export enum KnownMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -926,7 +845,13 @@ export enum KnownTimestampType {
 export enum KnownTlsVersion {
     One0 = "1.0",
     One1 = "1.1",
-    One2 = "1.2"
+    One2 = "1.2",
+    One3 = "1.3"
+}
+
+// @public
+export enum KnownVersions {
+    V20260101 = "2026-01-01"
 }
 
 // @public
@@ -941,6 +866,9 @@ export interface MessageTimestampDescription {
 export type MetricId = string;
 
 // @public
+export type Mode = string;
+
+// @public
 export interface NamespaceReplicaLocation {
     clusterArmId?: string;
     locationName?: string;
@@ -949,174 +877,96 @@ export interface NamespaceReplicaLocation {
 }
 
 // @public
-export interface Namespaces {
-    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, parameters: EHNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NamespacesCreateOrUpdateResponse>, NamespacesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, parameters: EHNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<NamespacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<void>;
-    beginFailover(resourceGroupName: string, namespaceName: string, parameters: FailOver, options?: NamespacesFailoverOptionalParams): Promise<SimplePollerLike<OperationState<NamespacesFailoverResponse>, NamespacesFailoverResponse>>;
-    beginFailoverAndWait(resourceGroupName: string, namespaceName: string, parameters: FailOver, options?: NamespacesFailoverOptionalParams): Promise<NamespacesFailoverResponse>;
-    checkNameAvailability(parameters: CheckNameAvailabilityParameter, options?: NamespacesCheckNameAvailabilityOptionalParams): Promise<NamespacesCheckNameAvailabilityResponse>;
-    createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse>;
-    createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: NetworkRuleSet, options?: NamespacesCreateOrUpdateNetworkRuleSetOptionalParams): Promise<NamespacesCreateOrUpdateNetworkRuleSetResponse>;
-    deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesDeleteAuthorizationRuleOptionalParams): Promise<void>;
-    get(resourceGroupName: string, namespaceName: string, options?: NamespacesGetOptionalParams): Promise<NamespacesGetResponse>;
-    getAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesGetAuthorizationRuleOptionalParams): Promise<NamespacesGetAuthorizationRuleResponse>;
-    getNetworkRuleSet(resourceGroupName: string, namespaceName: string, options?: NamespacesGetNetworkRuleSetOptionalParams): Promise<NamespacesGetNetworkRuleSetResponse>;
-    list(options?: NamespacesListOptionalParams): PagedAsyncIterableIterator<EHNamespace>;
-    listAuthorizationRules(resourceGroupName: string, namespaceName: string, options?: NamespacesListAuthorizationRulesOptionalParams): PagedAsyncIterableIterator<AuthorizationRule>;
-    listByResourceGroup(resourceGroupName: string, options?: NamespacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<EHNamespace>;
-    listKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesListKeysOptionalParams): Promise<NamespacesListKeysResponse>;
-    listNetworkRuleSet(resourceGroupName: string, namespaceName: string, options?: NamespacesListNetworkRuleSetOptionalParams): Promise<NamespacesListNetworkRuleSetResponse>;
-    regenerateKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: NamespacesRegenerateKeysOptionalParams): Promise<NamespacesRegenerateKeysResponse>;
-    update(resourceGroupName: string, namespaceName: string, parameters: EHNamespace, options?: NamespacesUpdateOptionalParams): Promise<NamespacesUpdateResponse>;
+export interface NamespacesCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NamespacesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesCreateOrUpdateAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
-
-// @public
-export interface NamespacesCreateOrUpdateAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesCreateOrUpdateNetworkRuleSetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
-
-// @public
-export interface NamespacesCreateOrUpdateNetworkRuleSetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesCreateOrUpdateNetworkRuleSetResponse = NetworkRuleSet;
-
-// @public
-export interface NamespacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NamespacesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type NamespacesCreateOrUpdateResponse = EHNamespace;
-
-// @public
-export interface NamespacesDeleteAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesDeleteAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NamespacesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NamespacesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface NamespacesFailoverHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface NamespacesFailoverOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NamespacesFailoverOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type NamespacesFailoverResponse = FailOver;
-
-// @public
-export interface NamespacesGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesGetAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesGetAuthorizationRuleResponse = AuthorizationRule;
-
-// @public
-export interface NamespacesGetNetworkRuleSetOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesGetNetworkRuleSetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesGetNetworkRuleSetResponse = NetworkRuleSet;
-
-// @public
-export interface NamespacesGetOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesGetResponse = EHNamespace;
-
-// @public
-export interface NamespacesListAuthorizationRulesNextOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesListAuthorizationRulesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
-
-// @public
-export interface NamespacesListAuthorizationRulesOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListAuthorizationRulesResponse = AuthorizationRuleListResult;
-
-// @public
-export interface NamespacesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesListKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListByResourceGroupNextResponse = EHNamespaceListResult;
-
-// @public
-export interface NamespacesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesListNetworkRuleSetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListByResourceGroupResponse = EHNamespaceListResult;
-
-// @public
-export interface NamespacesListKeysOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListKeysResponse = AccessKeys;
-
-// @public
-export interface NamespacesListNetworkRuleSetOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesOperations {
+    checkNameAvailability: (parameters: CheckNameAvailabilityParameter, options?: NamespacesCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResult>;
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, parameters: EHNamespace, options?: NamespacesCreateOrUpdateOptionalParams) => PollerLike<OperationState<EHNamespace>, EHNamespace>;
+    createOrUpdateAuthorizationRule: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
+    createOrUpdateNetworkRuleSet: (resourceGroupName: string, namespaceName: string, parameters: NetworkRuleSet, options?: NamespacesCreateOrUpdateNetworkRuleSetOptionalParams) => Promise<NetworkRuleSet>;
+    delete: (resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteAuthorizationRule: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesDeleteAuthorizationRuleOptionalParams) => Promise<void>;
+    failover: (resourceGroupName: string, namespaceName: string, parameters: FailOver, options?: NamespacesFailoverOptionalParams) => PollerLike<OperationState<FailOver>, FailOver>;
+    get: (resourceGroupName: string, namespaceName: string, options?: NamespacesGetOptionalParams) => Promise<EHNamespace>;
+    getAuthorizationRule: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesGetAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
+    getNetworkRuleSet: (resourceGroupName: string, namespaceName: string, options?: NamespacesGetNetworkRuleSetOptionalParams) => Promise<NetworkRuleSet>;
+    list: (options?: NamespacesListOptionalParams) => PagedAsyncIterableIterator<EHNamespace>;
+    listAuthorizationRules: (resourceGroupName: string, namespaceName: string, options?: NamespacesListAuthorizationRulesOptionalParams) => PagedAsyncIterableIterator<AuthorizationRule>;
+    listByResourceGroup: (resourceGroupName: string, options?: NamespacesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<EHNamespace>;
+    listKeys: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesListKeysOptionalParams) => Promise<AccessKeys>;
+    listNetworkRuleSet: (resourceGroupName: string, namespaceName: string, options?: NamespacesListNetworkRuleSetOptionalParams) => Promise<NetworkRuleSetListResult>;
+    regenerateKeys: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: NamespacesRegenerateKeysOptionalParams) => Promise<AccessKeys>;
+    update: (resourceGroupName: string, namespaceName: string, parameters: EHNamespace, options?: NamespacesUpdateOptionalParams) => Promise<EHNamespace | undefined>;
 }
 
 // @public
-export type NamespacesListNetworkRuleSetResponse = NetworkRuleSetListResult;
-
-// @public
-export interface NamespacesListNextOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesRegenerateKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListNextResponse = EHNamespaceListResult;
-
-// @public
-export interface NamespacesListOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type NamespacesListResponse = EHNamespaceListResult;
-
-// @public
-export interface NamespacesRegenerateKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesRegenerateKeysResponse = AccessKeys;
-
-// @public
-export interface NamespacesUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesUpdateResponse = EHNamespace;
 
 // @public
 export type NetworkRuleIPAction = string;
@@ -1125,8 +975,8 @@ export type NetworkRuleIPAction = string;
 export interface NetworkRuleSet extends ProxyResource {
     defaultAction?: DefaultAction;
     ipRules?: NWRuleSetIpRules[];
+    readonly location?: string;
     publicNetworkAccess?: PublicNetworkAccessFlag;
-    readonly systemData?: SystemData;
     trustedServiceAccessEnabled?: boolean;
     virtualNetworkRules?: NWRuleSetVirtualNetworkRules[];
 }
@@ -1134,7 +984,16 @@ export interface NetworkRuleSet extends ProxyResource {
 // @public
 export interface NetworkRuleSetListResult {
     nextLink?: string;
-    value?: NetworkRuleSet[];
+    value: NetworkRuleSet[];
+}
+
+// @public
+export interface NetworkRuleSetProperties {
+    defaultAction?: DefaultAction;
+    ipRules?: NWRuleSetIpRules[];
+    publicNetworkAccess?: PublicNetworkAccessFlag;
+    trustedServiceAccessEnabled?: boolean;
+    virtualNetworkRules?: NWRuleSetVirtualNetworkRules[];
 }
 
 // @public
@@ -1148,10 +1007,11 @@ export interface NetworkSecurityPerimeter {
 export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
     readonly applicableFeatures?: string[];
     readonly isBackingResource?: boolean;
+    readonly location?: string;
     readonly networkSecurityPerimeter?: NetworkSecurityPerimeter;
     readonly parentAssociationName?: string;
     readonly profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile;
-    provisioningIssues?: ProvisioningIssue[];
+    readonly provisioningIssues?: ProvisioningIssue[];
     provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
     readonly resourceAssociation?: NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation;
     readonly sourceResourceId?: string;
@@ -1163,15 +1023,25 @@ export interface NetworkSecurityPerimeterConfigurationList {
 }
 
 // @public
-export interface NetworkSecurityPerimeterConfigurationListOptionalParams extends coreClient.OperationOptions {
+export interface NetworkSecurityPerimeterConfigurationListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NetworkSecurityPerimeterConfigurationListResponse = NetworkSecurityPerimeterConfigurationList;
+export interface NetworkSecurityPerimeterConfigurationOperations {
+    list: (resourceGroupName: string, namespaceName: string, options?: NetworkSecurityPerimeterConfigurationListOptionalParams) => Promise<NetworkSecurityPerimeterConfigurationList>;
+}
 
 // @public
-export interface NetworkSecurityPerimeterConfigurationOperations {
-    list(resourceGroupName: string, namespaceName: string, options?: NetworkSecurityPerimeterConfigurationListOptionalParams): Promise<NetworkSecurityPerimeterConfigurationListResponse>;
+export interface NetworkSecurityPerimeterConfigurationProperties {
+    readonly applicableFeatures?: string[];
+    readonly isBackingResource?: boolean;
+    readonly networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    readonly parentAssociationName?: string;
+    readonly profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile;
+    readonly provisioningIssues?: ProvisioningIssue[];
+    provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+    readonly resourceAssociation?: NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation;
+    readonly sourceResourceId?: string;
 }
 
 // @public
@@ -1191,15 +1061,18 @@ export interface NetworkSecurityPerimeterConfigurationPropertiesResourceAssociat
 export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
 
 // @public
-export interface NetworkSecurityPerimeterConfigurations {
-    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, resourceAssociationName: string, options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, resourceAssociationName: string, options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams): Promise<void>;
+export interface NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+export interface NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsOperations {
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, resourceAssociationName: string, options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<NetworkSecurityPerimeterConfiguration>, NetworkSecurityPerimeterConfiguration>;
+    getResourceAssociationName: (resourceGroupName: string, namespaceName: string, resourceAssociationName: string, options?: NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
 }
 
 // @public
@@ -1245,7 +1118,7 @@ export interface Operation {
     isDataAction?: boolean;
     readonly name?: string;
     origin?: string;
-    properties?: Record<string, unknown>;
+    properties?: any;
 }
 
 // @public
@@ -1257,29 +1130,31 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
-export type OperationsListResponse = OperationListResult;
+export interface PlatformCapabilities {
+    // (undocumented)
+    confidentialCompute?: ConfidentialCompute;
+}
 
 // @public
 export interface PrivateEndpoint {
@@ -1288,60 +1163,43 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends ProxyResource {
+    readonly location?: string;
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: ConnectionState;
     provisioningState?: EndPointProvisioningState;
-    readonly systemData?: SystemData;
 }
 
 // @public
-export interface PrivateEndpointConnectionListResult {
-    nextLink?: string;
-    value?: PrivateEndpointConnection[];
+export interface PrivateEndpointConnectionProperties {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: ConnectionState;
+    provisioningState?: EndPointProvisioningState;
 }
 
 // @public
-export interface PrivateEndpointConnections {
-    beginDelete(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    get(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    list(resourceGroupName: string, namespaceName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionListResult;
-
-// @public
-export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsOperations {
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    list: (resourceGroupName: string, namespaceName: string, options?: PrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
-
-// @public
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
 
 // @public
 export type PrivateLinkConnectionStatus = string;
@@ -1357,21 +1215,25 @@ export interface PrivateLinkResource {
 }
 
 // @public
-export interface PrivateLinkResources {
-    get(resourceGroupName: string, namespaceName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
+export interface PrivateLinkResourceProperties {
+    groupId?: string;
+    requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
-export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type PrivateLinkResourcesGetResponse = PrivateLinkResourcesListResult;
 
 // @public
 export interface PrivateLinkResourcesListResult {
     nextLink?: string;
-    value?: PrivateLinkResource[];
+    value: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResourcesOperations {
+    get: (resourceGroupName: string, namespaceName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkResourcesListResult>;
 }
 
 // @public
@@ -1393,11 +1255,7 @@ export type ProvisioningState = string;
 export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
 
 // @public
-export interface ProxyResource {
-    readonly id?: string;
-    readonly location?: string;
-    readonly name?: string;
-    readonly type?: string;
+export interface ProxyResource extends Resource {
 }
 
 // @public
@@ -1416,16 +1274,29 @@ export interface RegenerateAccessKeyParameters {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
 export type ResourceAssociationAccessMode = string;
 
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: EventHubManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
 // @public
 export interface RetentionDescription {
     cleanupPolicy?: CleanupPolicyRetentionDescription;
-    minCompactionLagInMins?: number;
+    minCompactionLagTimeInMinutes?: number;
     retentionTimeInHours?: number;
     tombstoneRetentionTimeInHours?: number;
 }
@@ -1440,64 +1311,52 @@ export type SchemaCompatibility = string;
 export interface SchemaGroup extends ProxyResource {
     readonly createdAtUtc?: Date;
     readonly eTag?: string;
-    groupProperties?: {
-        [propertyName: string]: string;
-    };
+    groupProperties?: Record<string, string>;
+    readonly location?: string;
     // (undocumented)
     schemaCompatibility?: SchemaCompatibility;
     // (undocumented)
     schemaType?: SchemaType;
-    readonly systemData?: SystemData;
     readonly updatedAtUtc?: Date;
 }
 
 // @public
-export interface SchemaGroupListResult {
-    nextLink?: string;
-    value?: SchemaGroup[];
+export interface SchemaGroupProperties {
+    readonly createdAtUtc?: Date;
+    readonly eTag?: string;
+    groupProperties?: Record<string, string>;
+    // (undocumented)
+    schemaCompatibility?: SchemaCompatibility;
+    // (undocumented)
+    schemaType?: SchemaType;
+    readonly updatedAtUtc?: Date;
 }
 
 // @public
-export interface SchemaRegistry {
-    createOrUpdate(resourceGroupName: string, namespaceName: string, schemaGroupName: string, parameters: SchemaGroup, options?: SchemaRegistryCreateOrUpdateOptionalParams): Promise<SchemaRegistryCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, namespaceName: string, schemaGroupName: string, options?: SchemaRegistryDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, namespaceName: string, schemaGroupName: string, options?: SchemaRegistryGetOptionalParams): Promise<SchemaRegistryGetResponse>;
-    listByNamespace(resourceGroupName: string, namespaceName: string, options?: SchemaRegistryListByNamespaceOptionalParams): PagedAsyncIterableIterator<SchemaGroup>;
+export interface SchemaRegistryCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SchemaRegistryCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface SchemaRegistryDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SchemaRegistryCreateOrUpdateResponse = SchemaGroup;
-
-// @public
-export interface SchemaRegistryDeleteOptionalParams extends coreClient.OperationOptions {
+export interface SchemaRegistryGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SchemaRegistryGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SchemaRegistryGetResponse = SchemaGroup;
-
-// @public
-export interface SchemaRegistryListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SchemaRegistryListByNamespaceNextResponse = SchemaGroupListResult;
-
-// @public
-export interface SchemaRegistryListByNamespaceOptionalParams extends coreClient.OperationOptions {
+export interface SchemaRegistryListByNamespaceOptionalParams extends OperationOptions {
     skip?: number;
     top?: number;
 }
 
 // @public
-export type SchemaRegistryListByNamespaceResponse = SchemaGroupListResult;
+export interface SchemaRegistryOperations {
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, schemaGroupName: string, parameters: SchemaGroup, options?: SchemaRegistryCreateOrUpdateOptionalParams) => Promise<SchemaGroup>;
+    delete: (resourceGroupName: string, namespaceName: string, schemaGroupName: string, options?: SchemaRegistryDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, schemaGroupName: string, options?: SchemaRegistryGetOptionalParams) => Promise<SchemaGroup>;
+    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: SchemaRegistryListByNamespaceOptionalParams) => PagedAsyncIterableIterator<SchemaGroup>;
+}
 
 // @public
 export type SchemaType = string;
@@ -1544,14 +1403,6 @@ export type TimestampType = string;
 export type TlsVersion = string;
 
 // @public
-export interface TrackedResource extends Resource {
-    location?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
 export type UnavailableReason = "None" | "InvalidName" | "SubscriptionIsDisabled" | "NameInUse" | "NameInLockdown" | "TooManyNamespaceInCurrentSubscription";
 
 // @public
@@ -1560,7 +1411,7 @@ export interface UserAssignedIdentity {
     readonly principalId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UserAssignedIdentityProperties {
     userAssignedIdentity?: string;
 }
