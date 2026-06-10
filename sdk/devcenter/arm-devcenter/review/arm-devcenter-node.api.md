@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
@@ -96,6 +97,14 @@ export interface AttachedNetworksListByProjectOptionalParams extends OperationOp
 
 // @public
 export interface AttachedNetworksOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, devCenterName: string, attachedNetworkConnectionName: string, body: AttachedNetworkConnection, options?: AttachedNetworksCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AttachedNetworkConnection>, AttachedNetworkConnection>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, devCenterName: string, attachedNetworkConnectionName: string, body: AttachedNetworkConnection, options?: AttachedNetworksCreateOrUpdateOptionalParams) => Promise<AttachedNetworkConnection>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, devCenterName: string, attachedNetworkConnectionName: string, options?: AttachedNetworksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, devCenterName: string, attachedNetworkConnectionName: string, options?: AttachedNetworksDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, devCenterName: string, attachedNetworkConnectionName: string, body: AttachedNetworkConnection, options?: AttachedNetworksCreateOrUpdateOptionalParams) => PollerLike<OperationState<AttachedNetworkConnection>, AttachedNetworkConnection>;
     delete: (resourceGroupName: string, devCenterName: string, attachedNetworkConnectionName: string, options?: AttachedNetworksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     getByDevCenter: (resourceGroupName: string, devCenterName: string, attachedNetworkConnectionName: string, options?: AttachedNetworksGetByDevCenterOptionalParams) => Promise<AttachedNetworkConnection>;
@@ -214,6 +223,26 @@ export interface CatalogsListByDevCenterOptionalParams extends OperationOptions 
 
 // @public
 export interface CatalogsOperations {
+    // @deprecated (undocumented)
+    beginConnect: (resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsConnectOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginConnectAndWait: (resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsConnectOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, devCenterName: string, catalogName: string, body: Catalog, options?: CatalogsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Catalog>, Catalog>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, devCenterName: string, catalogName: string, body: Catalog, options?: CatalogsCreateOrUpdateOptionalParams) => Promise<Catalog>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginSync: (resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsSyncOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginSyncAndWait: (resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsSyncOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, devCenterName: string, catalogName: string, body: CatalogUpdate, options?: CatalogsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Catalog>, Catalog>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, devCenterName: string, catalogName: string, body: CatalogUpdate, options?: CatalogsUpdateOptionalParams) => Promise<Catalog>;
     connect: (resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsConnectOptionalParams) => PollerLike<OperationState<void>, void>;
     createOrUpdate: (resourceGroupName: string, devCenterName: string, catalogName: string, body: Catalog, options?: CatalogsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Catalog>, Catalog>;
     delete: (resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -452,6 +481,18 @@ export interface DevBoxDefinitionsListByProjectOptionalParams extends OperationO
 
 // @public
 export interface DevBoxDefinitionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, body: DevBoxDefinition, options?: DevBoxDefinitionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DevBoxDefinition>, DevBoxDefinition>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, body: DevBoxDefinition, options?: DevBoxDefinitionsCreateOrUpdateOptionalParams) => Promise<DevBoxDefinition>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, options?: DevBoxDefinitionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, options?: DevBoxDefinitionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, body: DevBoxDefinitionUpdate, options?: DevBoxDefinitionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DevBoxDefinition>, DevBoxDefinition>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, body: DevBoxDefinitionUpdate, options?: DevBoxDefinitionsUpdateOptionalParams) => Promise<DevBoxDefinition>;
     createOrUpdate: (resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, body: DevBoxDefinition, options?: DevBoxDefinitionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DevBoxDefinition>, DevBoxDefinition>;
     delete: (resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, options?: DevBoxDefinitionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, options?: DevBoxDefinitionsGetOptionalParams) => Promise<DevBoxDefinition>;
@@ -527,6 +568,10 @@ export interface DevCenterCatalogImageDefinitionBuildGetOptionalParams extends O
 
 // @public
 export interface DevCenterCatalogImageDefinitionBuildOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: DevCenterCatalogImageDefinitionBuildCancelOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: DevCenterCatalogImageDefinitionBuildCancelOptionalParams) => Promise<void>;
     cancel: (resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: DevCenterCatalogImageDefinitionBuildCancelOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: DevCenterCatalogImageDefinitionBuildGetOptionalParams) => Promise<ImageDefinitionBuild>;
     getBuildDetails: (resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: DevCenterCatalogImageDefinitionBuildGetBuildDetailsOptionalParams) => Promise<ImageDefinitionBuildDetails>;
@@ -561,6 +606,10 @@ export interface DevCenterCatalogImageDefinitionsListByDevCenterCatalogOptionalP
 
 // @public
 export interface DevCenterCatalogImageDefinitionsOperations {
+    // @deprecated (undocumented)
+    beginBuildImage: (resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, options?: DevCenterCatalogImageDefinitionsBuildImageOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginBuildImageAndWait: (resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, options?: DevCenterCatalogImageDefinitionsBuildImageOptionalParams) => Promise<void>;
     buildImage: (resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, options?: DevCenterCatalogImageDefinitionsBuildImageOptionalParams) => PollerLike<OperationState<void>, void>;
     getByDevCenterCatalog: (resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, options?: DevCenterCatalogImageDefinitionsGetByDevCenterCatalogOptionalParams) => Promise<ImageDefinition>;
     getErrorDetails: (resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, options?: DevCenterCatalogImageDefinitionsGetErrorDetailsOptionalParams) => Promise<CatalogResourceValidationErrorDetails>;
@@ -681,6 +730,18 @@ export interface DevCentersListBySubscriptionOptionalParams extends OperationOpt
 
 // @public
 export interface DevCentersOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, devCenterName: string, body: DevCenter, options?: DevCentersCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DevCenter>, DevCenter>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, devCenterName: string, body: DevCenter, options?: DevCentersCreateOrUpdateOptionalParams) => Promise<DevCenter>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, devCenterName: string, options?: DevCentersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, devCenterName: string, options?: DevCentersDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, devCenterName: string, body: DevCenterUpdate, options?: DevCentersUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DevCenter>, DevCenter>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, devCenterName: string, body: DevCenterUpdate, options?: DevCentersUpdateOptionalParams) => Promise<DevCenter>;
     createOrUpdate: (resourceGroupName: string, devCenterName: string, body: DevCenter, options?: DevCentersCreateOrUpdateOptionalParams) => PollerLike<OperationState<DevCenter>, DevCenter>;
     delete: (resourceGroupName: string, devCenterName: string, options?: DevCentersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, devCenterName: string, options?: DevCentersGetOptionalParams) => Promise<DevCenter>;
@@ -744,6 +805,18 @@ export interface EncryptionSetsListOptionalParams extends OperationOptions {
 
 // @public
 export interface EncryptionSetsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, devCenterName: string, encryptionSetName: string, body: DevCenterEncryptionSet, options?: EncryptionSetsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DevCenterEncryptionSet>, DevCenterEncryptionSet>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, devCenterName: string, encryptionSetName: string, body: DevCenterEncryptionSet, options?: EncryptionSetsCreateOrUpdateOptionalParams) => Promise<DevCenterEncryptionSet>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, devCenterName: string, encryptionSetName: string, options?: EncryptionSetsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, devCenterName: string, encryptionSetName: string, options?: EncryptionSetsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, devCenterName: string, encryptionSetName: string, body: EncryptionSetUpdate, options?: EncryptionSetsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DevCenterEncryptionSet>, DevCenterEncryptionSet>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, devCenterName: string, encryptionSetName: string, body: EncryptionSetUpdate, options?: EncryptionSetsUpdateOptionalParams) => Promise<DevCenterEncryptionSet>;
     createOrUpdate: (resourceGroupName: string, devCenterName: string, encryptionSetName: string, body: DevCenterEncryptionSet, options?: EncryptionSetsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DevCenterEncryptionSet>, DevCenterEncryptionSet>;
     delete: (resourceGroupName: string, devCenterName: string, encryptionSetName: string, options?: EncryptionSetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, devCenterName: string, encryptionSetName: string, options?: EncryptionSetsGetOptionalParams) => Promise<DevCenterEncryptionSet>;
@@ -947,6 +1020,14 @@ export interface GalleriesListByDevCenterOptionalParams extends OperationOptions
 
 // @public
 export interface GalleriesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, devCenterName: string, galleryName: string, body: Gallery, options?: GalleriesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Gallery>, Gallery>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, devCenterName: string, galleryName: string, body: Gallery, options?: GalleriesCreateOrUpdateOptionalParams) => Promise<Gallery>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, devCenterName: string, galleryName: string, options?: GalleriesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, devCenterName: string, galleryName: string, options?: GalleriesDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, devCenterName: string, galleryName: string, body: Gallery, options?: GalleriesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Gallery>, Gallery>;
     delete: (resourceGroupName: string, devCenterName: string, galleryName: string, options?: GalleriesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, devCenterName: string, galleryName: string, options?: GalleriesGetOptionalParams) => Promise<Gallery>;
@@ -1688,6 +1769,22 @@ export interface NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptio
 
 // @public
 export interface NetworkConnectionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, networkConnectionName: string, body: NetworkConnection, options?: NetworkConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkConnection>, NetworkConnection>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, networkConnectionName: string, body: NetworkConnection, options?: NetworkConnectionsCreateOrUpdateOptionalParams) => Promise<NetworkConnection>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRunHealthChecks: (resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsRunHealthChecksOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRunHealthChecksAndWait: (resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsRunHealthChecksOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, networkConnectionName: string, body: NetworkConnectionUpdate, options?: NetworkConnectionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkConnection>, NetworkConnection>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, networkConnectionName: string, body: NetworkConnectionUpdate, options?: NetworkConnectionsUpdateOptionalParams) => Promise<NetworkConnection>;
     createOrUpdate: (resourceGroupName: string, networkConnectionName: string, body: NetworkConnection, options?: NetworkConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<NetworkConnection>, NetworkConnection>;
     delete: (resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsGetOptionalParams) => Promise<NetworkConnection>;
@@ -1861,6 +1958,22 @@ export interface PoolsListByProjectOptionalParams extends OperationOptions {
 
 // @public
 export interface PoolsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, projectName: string, poolName: string, body: Pool, options?: PoolsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Pool>, Pool>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, projectName: string, poolName: string, body: Pool, options?: PoolsCreateOrUpdateOptionalParams) => Promise<Pool>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, projectName: string, poolName: string, options?: PoolsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, projectName: string, poolName: string, options?: PoolsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRunHealthChecks: (resourceGroupName: string, projectName: string, poolName: string, options?: PoolsRunHealthChecksOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRunHealthChecksAndWait: (resourceGroupName: string, projectName: string, poolName: string, options?: PoolsRunHealthChecksOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, projectName: string, poolName: string, body: PoolUpdate, options?: PoolsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Pool>, Pool>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, projectName: string, poolName: string, body: PoolUpdate, options?: PoolsUpdateOptionalParams) => Promise<Pool>;
     createOrUpdate: (resourceGroupName: string, projectName: string, poolName: string, body: Pool, options?: PoolsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Pool>, Pool>;
     delete: (resourceGroupName: string, projectName: string, poolName: string, options?: PoolsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, projectName: string, poolName: string, options?: PoolsGetOptionalParams) => Promise<Pool>;
@@ -1962,6 +2075,10 @@ export interface ProjectCatalogImageDefinitionBuildGetOptionalParams extends Ope
 
 // @public
 export interface ProjectCatalogImageDefinitionBuildOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: ProjectCatalogImageDefinitionBuildCancelOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: ProjectCatalogImageDefinitionBuildCancelOptionalParams) => Promise<void>;
     cancel: (resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: ProjectCatalogImageDefinitionBuildCancelOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: ProjectCatalogImageDefinitionBuildGetOptionalParams) => Promise<ImageDefinitionBuild>;
     getBuildDetails: (resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: ProjectCatalogImageDefinitionBuildGetBuildDetailsOptionalParams) => Promise<ImageDefinitionBuildDetails>;
@@ -1996,6 +2113,10 @@ export interface ProjectCatalogImageDefinitionsListByProjectCatalogOptionalParam
 
 // @public
 export interface ProjectCatalogImageDefinitionsOperations {
+    // @deprecated (undocumented)
+    beginBuildImage: (resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, options?: ProjectCatalogImageDefinitionsBuildImageOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginBuildImageAndWait: (resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, options?: ProjectCatalogImageDefinitionsBuildImageOptionalParams) => Promise<void>;
     buildImage: (resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, options?: ProjectCatalogImageDefinitionsBuildImageOptionalParams) => PollerLike<OperationState<void>, void>;
     getByProjectCatalog: (resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, options?: ProjectCatalogImageDefinitionsGetByProjectCatalogOptionalParams) => Promise<ImageDefinition>;
     getErrorDetails: (resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, options?: ProjectCatalogImageDefinitionsGetErrorDetailsOptionalParams) => Promise<CatalogResourceValidationErrorDetails>;
@@ -2037,6 +2158,26 @@ export interface ProjectCatalogsListOptionalParams extends OperationOptions {
 
 // @public
 export interface ProjectCatalogsOperations {
+    // @deprecated (undocumented)
+    beginConnect: (resourceGroupName: string, projectName: string, catalogName: string, options?: ProjectCatalogsConnectOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginConnectAndWait: (resourceGroupName: string, projectName: string, catalogName: string, options?: ProjectCatalogsConnectOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, projectName: string, catalogName: string, body: Catalog, options?: ProjectCatalogsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Catalog>, Catalog>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, projectName: string, catalogName: string, body: Catalog, options?: ProjectCatalogsCreateOrUpdateOptionalParams) => Promise<Catalog>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, projectName: string, catalogName: string, options?: ProjectCatalogsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, projectName: string, catalogName: string, options?: ProjectCatalogsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPatch: (resourceGroupName: string, projectName: string, catalogName: string, body: CatalogUpdate, options?: ProjectCatalogsPatchOptionalParams) => Promise<SimplePollerLike<OperationState<Catalog>, Catalog>>;
+    // @deprecated (undocumented)
+    beginPatchAndWait: (resourceGroupName: string, projectName: string, catalogName: string, body: CatalogUpdate, options?: ProjectCatalogsPatchOptionalParams) => Promise<Catalog>;
+    // @deprecated (undocumented)
+    beginSync: (resourceGroupName: string, projectName: string, catalogName: string, options?: ProjectCatalogsSyncOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginSyncAndWait: (resourceGroupName: string, projectName: string, catalogName: string, options?: ProjectCatalogsSyncOptionalParams) => Promise<void>;
     connect: (resourceGroupName: string, projectName: string, catalogName: string, options?: ProjectCatalogsConnectOptionalParams) => PollerLike<OperationState<void>, void>;
     createOrUpdate: (resourceGroupName: string, projectName: string, catalogName: string, body: Catalog, options?: ProjectCatalogsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Catalog>, Catalog>;
     delete: (resourceGroupName: string, projectName: string, catalogName: string, options?: ProjectCatalogsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -2165,6 +2306,18 @@ export interface ProjectPoliciesListByDevCenterOptionalParams extends OperationO
 
 // @public
 export interface ProjectPoliciesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, devCenterName: string, projectPolicyName: string, body: ProjectPolicy, options?: ProjectPoliciesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ProjectPolicy>, ProjectPolicy>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, devCenterName: string, projectPolicyName: string, body: ProjectPolicy, options?: ProjectPoliciesCreateOrUpdateOptionalParams) => Promise<ProjectPolicy>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, devCenterName: string, projectPolicyName: string, options?: ProjectPoliciesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, devCenterName: string, projectPolicyName: string, options?: ProjectPoliciesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, devCenterName: string, projectPolicyName: string, body: ProjectPolicyUpdate, options?: ProjectPoliciesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ProjectPolicy>, ProjectPolicy>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, devCenterName: string, projectPolicyName: string, body: ProjectPolicyUpdate, options?: ProjectPoliciesUpdateOptionalParams) => Promise<ProjectPolicy>;
     createOrUpdate: (resourceGroupName: string, devCenterName: string, projectPolicyName: string, body: ProjectPolicy, options?: ProjectPoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<ProjectPolicy>, ProjectPolicy>;
     delete: (resourceGroupName: string, devCenterName: string, projectPolicyName: string, options?: ProjectPoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, devCenterName: string, projectPolicyName: string, options?: ProjectPoliciesGetOptionalParams) => Promise<ProjectPolicy>;
@@ -2237,6 +2390,18 @@ export interface ProjectsListBySubscriptionOptionalParams extends OperationOptio
 
 // @public
 export interface ProjectsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, projectName: string, body: Project, options?: ProjectsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Project>, Project>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, projectName: string, body: Project, options?: ProjectsCreateOrUpdateOptionalParams) => Promise<Project>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, projectName: string, options?: ProjectsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, projectName: string, options?: ProjectsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, projectName: string, body: ProjectUpdate, options?: ProjectsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Project>, Project>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, projectName: string, body: ProjectUpdate, options?: ProjectsUpdateOptionalParams) => Promise<Project>;
     createOrUpdate: (resourceGroupName: string, projectName: string, body: Project, options?: ProjectsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Project>, Project>;
     delete: (resourceGroupName: string, projectName: string, options?: ProjectsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, projectName: string, options?: ProjectsGetOptionalParams) => Promise<Project>;
@@ -2373,6 +2538,18 @@ export interface SchedulesListByPoolOptionalParams extends OperationOptions {
 
 // @public
 export interface SchedulesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: Schedule, options?: SchedulesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Schedule>, Schedule>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: Schedule, options?: SchedulesCreateOrUpdateOptionalParams) => Promise<Schedule>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, options?: SchedulesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, options?: SchedulesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: ScheduleUpdate, options?: SchedulesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Schedule>, Schedule>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: ScheduleUpdate, options?: SchedulesUpdateOptionalParams) => Promise<Schedule>;
     createOrUpdate: (resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: Schedule, options?: SchedulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Schedule>, Schedule>;
     delete: (resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, options?: SchedulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, options?: SchedulesGetOptionalParams) => Promise<Schedule>;
@@ -2415,6 +2592,28 @@ export type ServerlessGpuSessionsMode = string;
 export interface ServerlessGpuSessionsSettings {
     maxConcurrentSessionsPerProject?: number;
     serverlessGpuSessionsMode?: ServerlessGpuSessionsMode;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public

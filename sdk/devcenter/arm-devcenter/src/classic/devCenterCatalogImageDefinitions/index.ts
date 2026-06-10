@@ -19,6 +19,8 @@ import type {
   ImageDefinition,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DevCenterCatalogImageDefinitions operations. */
@@ -31,6 +33,22 @@ export interface DevCenterCatalogImageDefinitionsOperations {
     imageDefinitionName: string,
     options?: DevCenterCatalogImageDefinitionsBuildImageOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use buildImage instead */
+  beginBuildImage: (
+    resourceGroupName: string,
+    devCenterName: string,
+    catalogName: string,
+    imageDefinitionName: string,
+    options?: DevCenterCatalogImageDefinitionsBuildImageOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use buildImage instead */
+  beginBuildImageAndWait: (
+    resourceGroupName: string,
+    devCenterName: string,
+    catalogName: string,
+    imageDefinitionName: string,
+    options?: DevCenterCatalogImageDefinitionsBuildImageOptionalParams,
+  ) => Promise<void>;
   /** Gets Image Definition error details. */
   getErrorDetails: (
     resourceGroupName: string,
@@ -73,6 +91,40 @@ function _getDevCenterCatalogImageDefinitions(context: DevCenterContext) {
         imageDefinitionName,
         options,
       ),
+    beginBuildImage: async (
+      resourceGroupName: string,
+      devCenterName: string,
+      catalogName: string,
+      imageDefinitionName: string,
+      options?: DevCenterCatalogImageDefinitionsBuildImageOptionalParams,
+    ) => {
+      const poller = buildImage(
+        context,
+        resourceGroupName,
+        devCenterName,
+        catalogName,
+        imageDefinitionName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginBuildImageAndWait: async (
+      resourceGroupName: string,
+      devCenterName: string,
+      catalogName: string,
+      imageDefinitionName: string,
+      options?: DevCenterCatalogImageDefinitionsBuildImageOptionalParams,
+    ) => {
+      return await buildImage(
+        context,
+        resourceGroupName,
+        devCenterName,
+        catalogName,
+        imageDefinitionName,
+        options,
+      );
+    },
     getErrorDetails: (
       resourceGroupName: string,
       devCenterName: string,

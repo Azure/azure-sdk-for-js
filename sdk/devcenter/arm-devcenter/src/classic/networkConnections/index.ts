@@ -33,6 +33,8 @@ import type {
   HealthCheckStatusDetails,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkConnections operations. */
@@ -61,6 +63,18 @@ export interface NetworkConnectionsOperations {
     networkConnectionName: string,
     options?: NetworkConnectionsRunHealthChecksOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use runHealthChecks instead */
+  beginRunHealthChecks: (
+    resourceGroupName: string,
+    networkConnectionName: string,
+    options?: NetworkConnectionsRunHealthChecksOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use runHealthChecks instead */
+  beginRunHealthChecksAndWait: (
+    resourceGroupName: string,
+    networkConnectionName: string,
+    options?: NetworkConnectionsRunHealthChecksOptionalParams,
+  ) => Promise<void>;
   /** Lists network connections in a subscription. */
   listBySubscription: (
     options?: NetworkConnectionsListBySubscriptionOptionalParams,
@@ -76,6 +90,18 @@ export interface NetworkConnectionsOperations {
     networkConnectionName: string,
     options?: NetworkConnectionsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    networkConnectionName: string,
+    options?: NetworkConnectionsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    networkConnectionName: string,
+    options?: NetworkConnectionsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Partially updates a Network Connection. */
   update: (
     resourceGroupName: string,
@@ -83,6 +109,20 @@ export interface NetworkConnectionsOperations {
     body: NetworkConnectionUpdate,
     options?: NetworkConnectionsUpdateOptionalParams,
   ) => PollerLike<OperationState<NetworkConnection>, NetworkConnection>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    networkConnectionName: string,
+    body: NetworkConnectionUpdate,
+    options?: NetworkConnectionsUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<NetworkConnection>, NetworkConnection>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    networkConnectionName: string,
+    body: NetworkConnectionUpdate,
+    options?: NetworkConnectionsUpdateOptionalParams,
+  ) => Promise<NetworkConnection>;
   /** Creates or updates a Network Connections resource. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -90,6 +130,20 @@ export interface NetworkConnectionsOperations {
     body: NetworkConnection,
     options?: NetworkConnectionsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<NetworkConnection>, NetworkConnection>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    networkConnectionName: string,
+    body: NetworkConnection,
+    options?: NetworkConnectionsCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<NetworkConnection>, NetworkConnection>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    networkConnectionName: string,
+    body: NetworkConnection,
+    options?: NetworkConnectionsCreateOrUpdateOptionalParams,
+  ) => Promise<NetworkConnection>;
   /** Gets a network connection resource. */
   get: (
     resourceGroupName: string,
@@ -126,6 +180,22 @@ function _getNetworkConnections(context: DevCenterContext) {
       networkConnectionName: string,
       options?: NetworkConnectionsRunHealthChecksOptionalParams,
     ) => runHealthChecks(context, resourceGroupName, networkConnectionName, options),
+    beginRunHealthChecks: async (
+      resourceGroupName: string,
+      networkConnectionName: string,
+      options?: NetworkConnectionsRunHealthChecksOptionalParams,
+    ) => {
+      const poller = runHealthChecks(context, resourceGroupName, networkConnectionName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRunHealthChecksAndWait: async (
+      resourceGroupName: string,
+      networkConnectionName: string,
+      options?: NetworkConnectionsRunHealthChecksOptionalParams,
+    ) => {
+      return await runHealthChecks(context, resourceGroupName, networkConnectionName, options);
+    },
     listBySubscription: (options?: NetworkConnectionsListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
     listByResourceGroup: (
@@ -137,18 +207,76 @@ function _getNetworkConnections(context: DevCenterContext) {
       networkConnectionName: string,
       options?: NetworkConnectionsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, networkConnectionName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      networkConnectionName: string,
+      options?: NetworkConnectionsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, networkConnectionName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      networkConnectionName: string,
+      options?: NetworkConnectionsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, networkConnectionName, options);
+    },
     update: (
       resourceGroupName: string,
       networkConnectionName: string,
       body: NetworkConnectionUpdate,
       options?: NetworkConnectionsUpdateOptionalParams,
     ) => update(context, resourceGroupName, networkConnectionName, body, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      networkConnectionName: string,
+      body: NetworkConnectionUpdate,
+      options?: NetworkConnectionsUpdateOptionalParams,
+    ) => {
+      const poller = update(context, resourceGroupName, networkConnectionName, body, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      networkConnectionName: string,
+      body: NetworkConnectionUpdate,
+      options?: NetworkConnectionsUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, networkConnectionName, body, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       networkConnectionName: string,
       body: NetworkConnection,
       options?: NetworkConnectionsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, networkConnectionName, body, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      networkConnectionName: string,
+      body: NetworkConnection,
+      options?: NetworkConnectionsCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        networkConnectionName,
+        body,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      networkConnectionName: string,
+      body: NetworkConnection,
+      options?: NetworkConnectionsCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, resourceGroupName, networkConnectionName, body, options);
+    },
     get: (
       resourceGroupName: string,
       networkConnectionName: string,

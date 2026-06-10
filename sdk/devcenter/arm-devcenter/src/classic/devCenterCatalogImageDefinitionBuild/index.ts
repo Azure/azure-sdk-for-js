@@ -13,6 +13,8 @@ import type {
   DevCenterCatalogImageDefinitionBuildGetOptionalParams,
 } from "../../api/devCenterCatalogImageDefinitionBuild/options.js";
 import type { ImageDefinitionBuild, ImageDefinitionBuildDetails } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DevCenterCatalogImageDefinitionBuild operations. */
@@ -35,6 +37,24 @@ export interface DevCenterCatalogImageDefinitionBuildOperations {
     buildName: string,
     options?: DevCenterCatalogImageDefinitionBuildCancelOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use cancel instead */
+  beginCancel: (
+    resourceGroupName: string,
+    devCenterName: string,
+    catalogName: string,
+    imageDefinitionName: string,
+    buildName: string,
+    options?: DevCenterCatalogImageDefinitionBuildCancelOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use cancel instead */
+  beginCancelAndWait: (
+    resourceGroupName: string,
+    devCenterName: string,
+    catalogName: string,
+    imageDefinitionName: string,
+    buildName: string,
+    options?: DevCenterCatalogImageDefinitionBuildCancelOptionalParams,
+  ) => Promise<void>;
   /** Gets a build for a specified image definition. */
   get: (
     resourceGroupName: string,
@@ -82,6 +102,44 @@ function _getDevCenterCatalogImageDefinitionBuild(context: DevCenterContext) {
         buildName,
         options,
       ),
+    beginCancel: async (
+      resourceGroupName: string,
+      devCenterName: string,
+      catalogName: string,
+      imageDefinitionName: string,
+      buildName: string,
+      options?: DevCenterCatalogImageDefinitionBuildCancelOptionalParams,
+    ) => {
+      const poller = cancel(
+        context,
+        resourceGroupName,
+        devCenterName,
+        catalogName,
+        imageDefinitionName,
+        buildName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCancelAndWait: async (
+      resourceGroupName: string,
+      devCenterName: string,
+      catalogName: string,
+      imageDefinitionName: string,
+      buildName: string,
+      options?: DevCenterCatalogImageDefinitionBuildCancelOptionalParams,
+    ) => {
+      return await cancel(
+        context,
+        resourceGroupName,
+        devCenterName,
+        catalogName,
+        imageDefinitionName,
+        buildName,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       devCenterName: string,

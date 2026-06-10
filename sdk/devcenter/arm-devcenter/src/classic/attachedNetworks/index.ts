@@ -20,6 +20,8 @@ import type {
 } from "../../api/attachedNetworks/options.js";
 import type { AttachedNetworkConnection } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AttachedNetworks operations. */
@@ -50,6 +52,20 @@ export interface AttachedNetworksOperations {
     attachedNetworkConnectionName: string,
     options?: AttachedNetworksDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    devCenterName: string,
+    attachedNetworkConnectionName: string,
+    options?: AttachedNetworksDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    devCenterName: string,
+    attachedNetworkConnectionName: string,
+    options?: AttachedNetworksDeleteOptionalParams,
+  ) => Promise<void>;
   /** Creates or updates an attached NetworkConnection. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -58,6 +74,24 @@ export interface AttachedNetworksOperations {
     body: AttachedNetworkConnection,
     options?: AttachedNetworksCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<AttachedNetworkConnection>, AttachedNetworkConnection>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    devCenterName: string,
+    attachedNetworkConnectionName: string,
+    body: AttachedNetworkConnection,
+    options?: AttachedNetworksCreateOrUpdateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<AttachedNetworkConnection>, AttachedNetworkConnection>
+  >;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    devCenterName: string,
+    attachedNetworkConnectionName: string,
+    body: AttachedNetworkConnection,
+    options?: AttachedNetworksCreateOrUpdateOptionalParams,
+  ) => Promise<AttachedNetworkConnection>;
   /** Gets an attached NetworkConnection. */
   getByDevCenter: (
     resourceGroupName: string,
@@ -92,6 +126,36 @@ function _getAttachedNetworks(context: DevCenterContext) {
       attachedNetworkConnectionName: string,
       options?: AttachedNetworksDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, devCenterName, attachedNetworkConnectionName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      devCenterName: string,
+      attachedNetworkConnectionName: string,
+      options?: AttachedNetworksDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        devCenterName,
+        attachedNetworkConnectionName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      devCenterName: string,
+      attachedNetworkConnectionName: string,
+      options?: AttachedNetworksDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        devCenterName,
+        attachedNetworkConnectionName,
+        options,
+      );
+    },
     createOrUpdate: (
       resourceGroupName: string,
       devCenterName: string,
@@ -107,6 +171,40 @@ function _getAttachedNetworks(context: DevCenterContext) {
         body,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      devCenterName: string,
+      attachedNetworkConnectionName: string,
+      body: AttachedNetworkConnection,
+      options?: AttachedNetworksCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        devCenterName,
+        attachedNetworkConnectionName,
+        body,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      devCenterName: string,
+      attachedNetworkConnectionName: string,
+      body: AttachedNetworkConnection,
+      options?: AttachedNetworksCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        devCenterName,
+        attachedNetworkConnectionName,
+        body,
+        options,
+      );
+    },
     getByDevCenter: (
       resourceGroupName: string,
       devCenterName: string,

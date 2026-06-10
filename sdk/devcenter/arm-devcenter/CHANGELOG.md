@@ -140,6 +140,7 @@ Compared with version 1.1.0
   - Added Interface ResourcePolicy
   - Added Interface RestorePollerOptions
   - Added Interface ServerlessGpuSessionsSettings
+  - Added Interface SimplePollerLike
   - Added Interface SkusListByProjectOptionalParams
   - Added Interface StopOnNoConnectConfiguration
   - Added Interface WorkspaceStorageSettings
@@ -261,74 +262,22 @@ Compared with version 1.1.0
   - Enum KnownHealthCheckStatus has a new value Informational
 
 ### Breaking Changes
-  - Removed operation AttachedNetworks.beginCreateOrUpdate
-  - Removed operation AttachedNetworks.beginCreateOrUpdateAndWait
-  - Removed operation AttachedNetworks.beginDelete
-  - Removed operation AttachedNetworks.beginDeleteAndWait
-  - Removed operation Catalogs.beginConnect
-  - Removed operation Catalogs.beginConnectAndWait
-  - Removed operation Catalogs.beginCreateOrUpdate
-  - Removed operation Catalogs.beginCreateOrUpdateAndWait
-  - Removed operation Catalogs.beginDelete
-  - Removed operation Catalogs.beginDeleteAndWait
-  - Removed operation Catalogs.beginSync
-  - Removed operation Catalogs.beginSyncAndWait
-  - Removed operation Catalogs.beginUpdate
-  - Removed operation Catalogs.beginUpdateAndWait
-  - Removed operation DevBoxDefinitions.beginCreateOrUpdate
-  - Removed operation DevBoxDefinitions.beginCreateOrUpdateAndWait
-  - Removed operation DevBoxDefinitions.beginDelete
-  - Removed operation DevBoxDefinitions.beginDeleteAndWait
-  - Removed operation DevBoxDefinitions.beginUpdate
-  - Removed operation DevBoxDefinitions.beginUpdateAndWait
-  - Removed operation DevCenters.beginCreateOrUpdate
-  - Removed operation DevCenters.beginCreateOrUpdateAndWait
-  - Removed operation DevCenters.beginDelete
-  - Removed operation DevCenters.beginDeleteAndWait
-  - Removed operation DevCenters.beginUpdate
-  - Removed operation DevCenters.beginUpdateAndWait
-  - Removed operation Galleries.beginCreateOrUpdate
-  - Removed operation Galleries.beginCreateOrUpdateAndWait
-  - Removed operation Galleries.beginDelete
-  - Removed operation Galleries.beginDeleteAndWait
-  - Removed operation NetworkConnections.beginCreateOrUpdate
-  - Removed operation NetworkConnections.beginCreateOrUpdateAndWait
-  - Removed operation NetworkConnections.beginDelete
-  - Removed operation NetworkConnections.beginDeleteAndWait
-  - Removed operation NetworkConnections.beginRunHealthChecks
-  - Removed operation NetworkConnections.beginRunHealthChecksAndWait
-  - Removed operation NetworkConnections.beginUpdate
-  - Removed operation NetworkConnections.beginUpdateAndWait
-  - Removed operation Pools.beginCreateOrUpdate
-  - Removed operation Pools.beginCreateOrUpdateAndWait
-  - Removed operation Pools.beginDelete
-  - Removed operation Pools.beginDeleteAndWait
-  - Removed operation Pools.beginRunHealthChecks
-  - Removed operation Pools.beginRunHealthChecksAndWait
-  - Removed operation Pools.beginUpdate
-  - Removed operation Pools.beginUpdateAndWait
-  - Removed operation ProjectCatalogs.beginConnect
-  - Removed operation ProjectCatalogs.beginConnectAndWait
-  - Removed operation ProjectCatalogs.beginCreateOrUpdate
-  - Removed operation ProjectCatalogs.beginCreateOrUpdateAndWait
-  - Removed operation ProjectCatalogs.beginDelete
-  - Removed operation ProjectCatalogs.beginDeleteAndWait
-  - Removed operation ProjectCatalogs.beginPatch
-  - Removed operation ProjectCatalogs.beginPatchAndWait
-  - Removed operation ProjectCatalogs.beginSync
-  - Removed operation ProjectCatalogs.beginSyncAndWait
-  - Removed operation Projects.beginCreateOrUpdate
-  - Removed operation Projects.beginCreateOrUpdateAndWait
-  - Removed operation Projects.beginDelete
-  - Removed operation Projects.beginDeleteAndWait
-  - Removed operation Projects.beginUpdate
-  - Removed operation Projects.beginUpdateAndWait
-  - Removed operation Schedules.beginCreateOrUpdate
-  - Removed operation Schedules.beginCreateOrUpdateAndWait
-  - Removed operation Schedules.beginDelete
-  - Removed operation Schedules.beginDeleteAndWait
-  - Removed operation Schedules.beginUpdate
-  - Removed operation Schedules.beginUpdateAndWait
+  - Operation AttachedNetworks.beginDeleteAndWait has a new signature
+  - Operation Catalogs.beginConnectAndWait has a new signature
+  - Operation Catalogs.beginDeleteAndWait has a new signature
+  - Operation Catalogs.beginSyncAndWait has a new signature
+  - Operation DevBoxDefinitions.beginDeleteAndWait has a new signature
+  - Operation DevCenters.beginDeleteAndWait has a new signature
+  - Operation Galleries.beginDeleteAndWait has a new signature
+  - Operation NetworkConnections.beginDeleteAndWait has a new signature
+  - Operation NetworkConnections.beginRunHealthChecksAndWait has a new signature
+  - Operation Pools.beginDeleteAndWait has a new signature
+  - Operation Pools.beginRunHealthChecksAndWait has a new signature
+  - Operation ProjectCatalogs.beginConnectAndWait has a new signature
+  - Operation ProjectCatalogs.beginDeleteAndWait has a new signature
+  - Operation ProjectCatalogs.beginSyncAndWait has a new signature
+  - Operation Projects.beginDeleteAndWait has a new signature
+  - Operation Schedules.beginDeleteAndWait has a new signature
   - Class DevCenterClient no longer has parameter apiVersion
   - Class DevCenterClient no longer has parameter subscriptionId
   - Removed Interface Image_2
