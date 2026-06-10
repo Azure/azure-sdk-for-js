@@ -7,11 +7,13 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -1255,6 +1257,8 @@ export interface IsNullOrUndefinedAdvancedFilter extends AdvancedFilter {
 export interface IsNullOrUndefinedFilter extends Filter {
     operatorType: "IsNullOrUndefined";
 }
+
+export { isRestError }
 
 // @public
 export interface IssuerCertificateInfo {
@@ -2548,7 +2552,7 @@ export type PartnerClientAuthenticationType = string;
 export type PartnerClientAuthenticationUnion = AzureADPartnerClientAuthentication | PartnerClientAuthentication;
 
 // @public
-export interface PartnerConfiguration extends Resource {
+export interface PartnerConfiguration extends ProxyResource {
     location?: string;
     partnerAuthorization?: PartnerAuthorization;
     provisioningState?: PartnerConfigurationProvisioningState;
@@ -3099,7 +3103,7 @@ export interface PartnerTopicsOperations {
     get: (resourceGroupName: string, partnerTopicName: string, options?: PartnerTopicsGetOptionalParams) => Promise<PartnerTopic>;
     listByResourceGroup: (resourceGroupName: string, options?: PartnerTopicsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<PartnerTopic>;
     listBySubscription: (options?: PartnerTopicsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<PartnerTopic>;
-    update: (resourceGroupName: string, partnerTopicName: string, partnerTopicUpdateParameters: PartnerTopicUpdateParameters, options?: PartnerTopicsUpdateOptionalParams) => Promise<PartnerTopic>;
+    update: (resourceGroupName: string, partnerTopicName: string, partnerTopicUpdateParameters: PartnerTopicUpdateParameters, options?: PartnerTopicsUpdateOptionalParams) => Promise<PartnerTopic | undefined>;
 }
 
 // @public
@@ -3360,6 +3364,8 @@ export type ResourceRegionType = string;
 export interface ResourceSku {
     name?: Sku;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: EventGridManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

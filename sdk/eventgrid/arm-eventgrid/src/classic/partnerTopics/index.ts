@@ -52,11 +52,6 @@ export interface PartnerTopicsOperations {
     options?: PartnerTopicsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<PartnerTopic>;
   /** Delete existing partner topic. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     partnerTopicName: string,
@@ -80,7 +75,7 @@ export interface PartnerTopicsOperations {
     partnerTopicName: string,
     partnerTopicUpdateParameters: PartnerTopicUpdateParameters,
     options?: PartnerTopicsUpdateOptionalParams,
-  ) => Promise<PartnerTopic>;
+  ) => Promise<PartnerTopic | undefined>;
   /** Asynchronously creates a new partner topic with the specified parameters. */
   createOrUpdate: (
     resourceGroupName: string,

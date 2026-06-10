@@ -54,11 +54,6 @@ export interface PartnerTopicEventSubscriptionsOperations {
     options?: PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams,
   ) => PagedAsyncIterableIterator<EventSubscription>;
   /** Delete an existing event subscription of a partner topic. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     partnerTopicName: string,
