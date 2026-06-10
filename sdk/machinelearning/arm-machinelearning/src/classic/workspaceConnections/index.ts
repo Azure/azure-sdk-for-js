@@ -22,6 +22,8 @@ import type {
 } from "../../api/workspaceConnections/options.js";
 import type { WorkspaceConnectionPropertiesV2BasicResource } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkspaceConnections operations. */
@@ -33,6 +35,20 @@ export interface WorkspaceConnectionsOperations {
     connectionName: string,
     options?: WorkspaceConnectionsTestConnectionOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use testConnection instead */
+  beginTestConnection: (
+    resourceGroupName: string,
+    workspaceName: string,
+    connectionName: string,
+    options?: WorkspaceConnectionsTestConnectionOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use testConnection instead */
+  beginTestConnectionAndWait: (
+    resourceGroupName: string,
+    workspaceName: string,
+    connectionName: string,
+    options?: WorkspaceConnectionsTestConnectionOptionalParams,
+  ) => Promise<void>;
   /** List all the secrets of a machine learning workspaces connections. */
   listSecrets: (
     resourceGroupName: string,
@@ -84,6 +100,36 @@ function _getWorkspaceConnections(context: AzureMachineLearningServicesManagemen
       connectionName: string,
       options?: WorkspaceConnectionsTestConnectionOptionalParams,
     ) => testConnection(context, resourceGroupName, workspaceName, connectionName, options),
+    beginTestConnection: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      connectionName: string,
+      options?: WorkspaceConnectionsTestConnectionOptionalParams,
+    ) => {
+      const poller = testConnection(
+        context,
+        resourceGroupName,
+        workspaceName,
+        connectionName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginTestConnectionAndWait: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      connectionName: string,
+      options?: WorkspaceConnectionsTestConnectionOptionalParams,
+    ) => {
+      return await testConnection(
+        context,
+        resourceGroupName,
+        workspaceName,
+        connectionName,
+        options,
+      );
+    },
     listSecrets: (
       resourceGroupName: string,
       workspaceName: string,

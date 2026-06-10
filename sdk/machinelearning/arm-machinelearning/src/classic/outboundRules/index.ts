@@ -20,6 +20,14 @@ export interface OutboundRulesOperations {
     body: ManagedNetworkSettingsBasicResource,
     options?: OutboundRulesPostOptionalParams,
   ) => PagedAsyncIterableIterator<OutboundRuleBasicResource>;
+  /** @deprecated use post instead */
+  beginListPostAndWait: (
+    resourceGroupName: string,
+    workspaceName: string,
+    managedNetworkName: string,
+    body: ManagedNetworkSettingsBasicResource,
+    options?: OutboundRulesPostOptionalParams,
+  ) => PagedAsyncIterableIterator<OutboundRuleBasicResource>;
 }
 
 function _getOutboundRules(context: AzureMachineLearningServicesManagementContext) {
@@ -31,6 +39,15 @@ function _getOutboundRules(context: AzureMachineLearningServicesManagementContex
       body: ManagedNetworkSettingsBasicResource,
       options?: OutboundRulesPostOptionalParams,
     ) => post(context, resourceGroupName, workspaceName, managedNetworkName, body, options),
+    beginListPostAndWait: (
+      resourceGroupName: string,
+      workspaceName: string,
+      managedNetworkName: string,
+      body: ManagedNetworkSettingsBasicResource,
+      options?: OutboundRulesPostOptionalParams,
+    ) => {
+      return post(context, resourceGroupName, workspaceName, managedNetworkName, body, options);
+    },
   };
 }
 

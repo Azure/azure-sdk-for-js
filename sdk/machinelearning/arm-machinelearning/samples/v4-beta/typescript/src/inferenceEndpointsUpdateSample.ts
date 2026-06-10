@@ -19,6 +19,7 @@ async function updateWorkspaceInferenceEndpoint(): Promise<void> {
     "my-aml-workspace",
     "string",
     "testEndpointName",
+    { tags: {} },
   );
   console.log(result);
 }

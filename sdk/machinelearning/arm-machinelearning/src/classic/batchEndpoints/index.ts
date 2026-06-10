@@ -24,6 +24,8 @@ import type {
   PartialMinimalTrackedResourceWithIdentity,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BatchEndpoints operations. */
@@ -48,6 +50,20 @@ export interface BatchEndpointsOperations {
     endpointName: string,
     options?: BatchEndpointsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    workspaceName: string,
+    endpointName: string,
+    options?: BatchEndpointsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    workspaceName: string,
+    endpointName: string,
+    options?: BatchEndpointsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update a batch inference endpoint (asynchronous). */
   update: (
     resourceGroupName: string,
@@ -56,6 +72,22 @@ export interface BatchEndpointsOperations {
     body: PartialMinimalTrackedResourceWithIdentity,
     options?: BatchEndpointsUpdateOptionalParams,
   ) => PollerLike<OperationState<BatchEndpoint>, BatchEndpoint>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    workspaceName: string,
+    endpointName: string,
+    body: PartialMinimalTrackedResourceWithIdentity,
+    options?: BatchEndpointsUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<BatchEndpoint>, BatchEndpoint>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    workspaceName: string,
+    endpointName: string,
+    body: PartialMinimalTrackedResourceWithIdentity,
+    options?: BatchEndpointsUpdateOptionalParams,
+  ) => Promise<BatchEndpoint>;
   /** Creates a batch inference endpoint (asynchronous). */
   createOrUpdate: (
     resourceGroupName: string,
@@ -64,6 +96,22 @@ export interface BatchEndpointsOperations {
     body: BatchEndpoint,
     options?: BatchEndpointsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<BatchEndpoint>, BatchEndpoint>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    workspaceName: string,
+    endpointName: string,
+    body: BatchEndpoint,
+    options?: BatchEndpointsCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<BatchEndpoint>, BatchEndpoint>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    workspaceName: string,
+    endpointName: string,
+    body: BatchEndpoint,
+    options?: BatchEndpointsCreateOrUpdateOptionalParams,
+  ) => Promise<BatchEndpoint>;
   /** Gets a batch inference endpoint by name. */
   get: (
     resourceGroupName: string,
@@ -92,6 +140,24 @@ function _getBatchEndpoints(context: AzureMachineLearningServicesManagementConte
       endpointName: string,
       options?: BatchEndpointsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, workspaceName, endpointName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      endpointName: string,
+      options?: BatchEndpointsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, workspaceName, endpointName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      endpointName: string,
+      options?: BatchEndpointsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, workspaceName, endpointName, options);
+    },
     update: (
       resourceGroupName: string,
       workspaceName: string,
@@ -99,6 +165,26 @@ function _getBatchEndpoints(context: AzureMachineLearningServicesManagementConte
       body: PartialMinimalTrackedResourceWithIdentity,
       options?: BatchEndpointsUpdateOptionalParams,
     ) => update(context, resourceGroupName, workspaceName, endpointName, body, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      endpointName: string,
+      body: PartialMinimalTrackedResourceWithIdentity,
+      options?: BatchEndpointsUpdateOptionalParams,
+    ) => {
+      const poller = update(context, resourceGroupName, workspaceName, endpointName, body, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      endpointName: string,
+      body: PartialMinimalTrackedResourceWithIdentity,
+      options?: BatchEndpointsUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, workspaceName, endpointName, body, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       workspaceName: string,
@@ -106,6 +192,40 @@ function _getBatchEndpoints(context: AzureMachineLearningServicesManagementConte
       body: BatchEndpoint,
       options?: BatchEndpointsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, workspaceName, endpointName, body, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      endpointName: string,
+      body: BatchEndpoint,
+      options?: BatchEndpointsCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        workspaceName,
+        endpointName,
+        body,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      endpointName: string,
+      body: BatchEndpoint,
+      options?: BatchEndpointsCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        workspaceName,
+        endpointName,
+        body,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       workspaceName: string,

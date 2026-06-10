@@ -18,6 +18,8 @@ import type {
 } from "../../api/componentVersions/options.js";
 import type { DestinationAsset, ComponentVersion } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ComponentVersions operations. */
@@ -31,6 +33,24 @@ export interface ComponentVersionsOperations {
     body: DestinationAsset,
     options?: ComponentVersionsPublishOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use publish instead */
+  beginPublish: (
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: DestinationAsset,
+    options?: ComponentVersionsPublishOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use publish instead */
+  beginPublishAndWait: (
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: DestinationAsset,
+    options?: ComponentVersionsPublishOptionalParams,
+  ) => Promise<void>;
   /** List component versions. */
   list: (
     resourceGroupName: string,
@@ -75,6 +95,36 @@ function _getComponentVersions(context: AzureMachineLearningServicesManagementCo
       body: DestinationAsset,
       options?: ComponentVersionsPublishOptionalParams,
     ) => publish(context, resourceGroupName, workspaceName, name, version, body, options),
+    beginPublish: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      name: string,
+      version: string,
+      body: DestinationAsset,
+      options?: ComponentVersionsPublishOptionalParams,
+    ) => {
+      const poller = publish(
+        context,
+        resourceGroupName,
+        workspaceName,
+        name,
+        version,
+        body,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginPublishAndWait: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      name: string,
+      version: string,
+      body: DestinationAsset,
+      options?: ComponentVersionsPublishOptionalParams,
+    ) => {
+      return await publish(context, resourceGroupName, workspaceName, name, version, body, options);
+    },
     list: (
       resourceGroupName: string,
       workspaceName: string,

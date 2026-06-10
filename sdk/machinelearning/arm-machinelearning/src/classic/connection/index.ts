@@ -24,6 +24,8 @@ import type {
   EndpointModelProperties,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Connection operations. */
@@ -43,6 +45,22 @@ export interface ConnectionOperations {
     deploymentName: string,
     options?: ConnectionDeleteDeploymentOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use deleteDeployment instead */
+  beginDeleteDeployment: (
+    resourceGroupName: string,
+    workspaceName: string,
+    connectionName: string,
+    deploymentName: string,
+    options?: ConnectionDeleteDeploymentOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use deleteDeployment instead */
+  beginDeleteDeploymentAndWait: (
+    resourceGroupName: string,
+    workspaceName: string,
+    connectionName: string,
+    deploymentName: string,
+    options?: ConnectionDeleteDeploymentOptionalParams,
+  ) => Promise<void>;
   /** Create or update Azure OpenAI connection deployment resource with the specified parameters */
   createOrUpdateDeployment: (
     resourceGroupName: string,
@@ -55,6 +73,29 @@ export interface ConnectionOperations {
     OperationState<EndpointDeploymentResourcePropertiesBasicResource>,
     EndpointDeploymentResourcePropertiesBasicResource
   >;
+  /** @deprecated use createOrUpdateDeployment instead */
+  beginCreateOrUpdateDeployment: (
+    resourceGroupName: string,
+    workspaceName: string,
+    connectionName: string,
+    deploymentName: string,
+    body: EndpointDeploymentResourcePropertiesBasicResource,
+    options?: ConnectionCreateOrUpdateDeploymentOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<EndpointDeploymentResourcePropertiesBasicResource>,
+      EndpointDeploymentResourcePropertiesBasicResource
+    >
+  >;
+  /** @deprecated use createOrUpdateDeployment instead */
+  beginCreateOrUpdateDeploymentAndWait: (
+    resourceGroupName: string,
+    workspaceName: string,
+    connectionName: string,
+    deploymentName: string,
+    body: EndpointDeploymentResourcePropertiesBasicResource,
+    options?: ConnectionCreateOrUpdateDeploymentOptionalParams,
+  ) => Promise<EndpointDeploymentResourcePropertiesBasicResource>;
   /** Get deployments under the Azure OpenAI connection by name. */
   getDeployment: (
     resourceGroupName: string,
@@ -101,6 +142,40 @@ function _getConnection(context: AzureMachineLearningServicesManagementContext) 
         deploymentName,
         options,
       ),
+    beginDeleteDeployment: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      connectionName: string,
+      deploymentName: string,
+      options?: ConnectionDeleteDeploymentOptionalParams,
+    ) => {
+      const poller = deleteDeployment(
+        context,
+        resourceGroupName,
+        workspaceName,
+        connectionName,
+        deploymentName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteDeploymentAndWait: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      connectionName: string,
+      deploymentName: string,
+      options?: ConnectionDeleteDeploymentOptionalParams,
+    ) => {
+      return await deleteDeployment(
+        context,
+        resourceGroupName,
+        workspaceName,
+        connectionName,
+        deploymentName,
+        options,
+      );
+    },
     createOrUpdateDeployment: (
       resourceGroupName: string,
       workspaceName: string,
@@ -118,6 +193,44 @@ function _getConnection(context: AzureMachineLearningServicesManagementContext) 
         body,
         options,
       ),
+    beginCreateOrUpdateDeployment: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      connectionName: string,
+      deploymentName: string,
+      body: EndpointDeploymentResourcePropertiesBasicResource,
+      options?: ConnectionCreateOrUpdateDeploymentOptionalParams,
+    ) => {
+      const poller = createOrUpdateDeployment(
+        context,
+        resourceGroupName,
+        workspaceName,
+        connectionName,
+        deploymentName,
+        body,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateDeploymentAndWait: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      connectionName: string,
+      deploymentName: string,
+      body: EndpointDeploymentResourcePropertiesBasicResource,
+      options?: ConnectionCreateOrUpdateDeploymentOptionalParams,
+    ) => {
+      return await createOrUpdateDeployment(
+        context,
+        resourceGroupName,
+        workspaceName,
+        connectionName,
+        deploymentName,
+        body,
+        options,
+      );
+    },
     getDeployment: (
       resourceGroupName: string,
       workspaceName: string,

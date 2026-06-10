@@ -5,6 +5,8 @@ import type { AzureMachineLearningServicesManagementContext } from "../../api/az
 import { provisionManagedNetwork } from "../../api/managedNetworkProvisions/operations.js";
 import type { ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams } from "../../api/managedNetworkProvisions/options.js";
 import type { ManagedNetworkProvisionStatus } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedNetworkProvisions operations. */
@@ -15,6 +17,20 @@ export interface ManagedNetworkProvisionsOperations {
     workspaceName: string,
     options?: ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams,
   ) => PollerLike<OperationState<ManagedNetworkProvisionStatus>, ManagedNetworkProvisionStatus>;
+  /** @deprecated use provisionManagedNetwork instead */
+  beginProvisionManagedNetwork: (
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<ManagedNetworkProvisionStatus>, ManagedNetworkProvisionStatus>
+  >;
+  /** @deprecated use provisionManagedNetwork instead */
+  beginProvisionManagedNetworkAndWait: (
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams,
+  ) => Promise<ManagedNetworkProvisionStatus>;
 }
 
 function _getManagedNetworkProvisions(context: AzureMachineLearningServicesManagementContext) {
@@ -24,6 +40,22 @@ function _getManagedNetworkProvisions(context: AzureMachineLearningServicesManag
       workspaceName: string,
       options?: ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams,
     ) => provisionManagedNetwork(context, resourceGroupName, workspaceName, options),
+    beginProvisionManagedNetwork: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      options?: ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams,
+    ) => {
+      const poller = provisionManagedNetwork(context, resourceGroupName, workspaceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginProvisionManagedNetworkAndWait: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      options?: ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams,
+    ) => {
+      return await provisionManagedNetwork(context, resourceGroupName, workspaceName, options);
+    },
   };
 }
 

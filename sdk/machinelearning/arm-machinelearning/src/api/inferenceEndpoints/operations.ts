@@ -159,6 +159,7 @@ export function _updateSend(
   workspaceName: string,
   poolName: string,
   endpointName: string,
+  body: Record<string, any>,
   options: InferenceEndpointsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -177,7 +178,9 @@ export function _updateSend(
   );
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: body,
   });
 }
 
@@ -204,13 +207,14 @@ export function update(
   workspaceName: string,
   poolName: string,
   endpointName: string,
+  body: Record<string, any>,
   options: InferenceEndpointsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<InferenceEndpoint>, InferenceEndpoint> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, workspaceName, poolName, endpointName, options),
+      _updateSend(context, resourceGroupName, workspaceName, poolName, endpointName, body, options),
     resourceLocationConfig: "location",
     apiVersion: context.apiVersion ?? "2026-03-15-preview",
   }) as PollerLike<OperationState<InferenceEndpoint>, InferenceEndpoint>;

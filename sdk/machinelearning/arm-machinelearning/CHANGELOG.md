@@ -31,6 +31,8 @@ Compared with version 3.0.0
   - Added operation BatchEndpointsOperations.update
   - Added operation CodeVersionsOperations.publish
   - Added operation ComponentVersionsOperations.publish
+  - Added operation ComputeOperations.beginResize
+  - Added operation ComputeOperations.beginResizeAndWait
   - Added operation ComputeOperations.createOrUpdate
   - Added operation ComputeOperations.delete
   - Added operation ComputeOperations.getAllowedResizeSizes
@@ -97,6 +99,8 @@ Compared with version 3.0.0
   - Added operation ServerlessEndpointsOperations.delete
   - Added operation ServerlessEndpointsOperations.regenerateKeys
   - Added operation ServerlessEndpointsOperations.update
+  - Added operation WorkspaceConnectionsOperations.beginTestConnection
+  - Added operation WorkspaceConnectionsOperations.beginTestConnectionAndWait
   - Added operation WorkspaceConnectionsOperations.testConnection
   - Added operation WorkspaceConnectionsOperations.update
   - Added operation WorkspacesOperations.createOrUpdate
@@ -283,6 +287,7 @@ Compared with version 3.0.0
   - Added Interface ServerlessEndpointResourceProperties
   - Added Interface ServerlessOffer
   - Added Interface SharedPrivateLinkResourceProperty
+  - Added Interface SimplePollerLike
   - Added Interface SpeechEndpointDeploymentResourceProperties
   - Added Interface SpeechEndpointResourceProperties
   - Added Interface StringStringKeyValuePair
@@ -536,177 +541,48 @@ Compared with version 3.0.0
   - Enum KnownServerlessInferenceEndpointAuthMode has a new value KeyAndAAD
 
 ### Breaking Changes
-  - Removed operation BatchDeployments.beginCreateOrUpdate
-  - Removed operation BatchDeployments.beginCreateOrUpdateAndWait
-  - Removed operation BatchDeployments.beginDelete
-  - Removed operation BatchDeployments.beginDeleteAndWait
-  - Removed operation BatchDeployments.beginUpdate
-  - Removed operation BatchDeployments.beginUpdateAndWait
-  - Removed operation BatchEndpoints.beginCreateOrUpdate
-  - Removed operation BatchEndpoints.beginCreateOrUpdateAndWait
-  - Removed operation BatchEndpoints.beginDelete
-  - Removed operation BatchEndpoints.beginDeleteAndWait
-  - Removed operation BatchEndpoints.beginUpdate
-  - Removed operation BatchEndpoints.beginUpdateAndWait
-  - Removed operation CodeVersions.beginPublish
-  - Removed operation CodeVersions.beginPublishAndWait
-  - Removed operation ComponentVersions.beginPublish
-  - Removed operation ComponentVersions.beginPublishAndWait
-  - Removed operation Compute.beginCreateOrUpdate
-  - Removed operation Compute.beginCreateOrUpdateAndWait
-  - Removed operation Compute.beginDelete
-  - Removed operation Compute.beginDeleteAndWait
-  - Removed operation Compute.beginRestart
-  - Removed operation Compute.beginRestartAndWait
-  - Removed operation Compute.beginStart
-  - Removed operation Compute.beginStartAndWait
-  - Removed operation Compute.beginStop
-  - Removed operation Compute.beginStopAndWait
-  - Removed operation Compute.beginUpdate
-  - Removed operation Compute.beginUpdateAndWait
-  - Removed operation DataVersions.beginPublish
-  - Removed operation DataVersions.beginPublishAndWait
-  - Removed operation EnvironmentVersions.beginPublish
-  - Removed operation EnvironmentVersions.beginPublishAndWait
-  - Removed operation FeaturesetContainers.beginCreateOrUpdate
-  - Removed operation FeaturesetContainers.beginCreateOrUpdateAndWait
-  - Removed operation FeaturesetContainers.beginDelete
-  - Removed operation FeaturesetContainers.beginDeleteAndWait
-  - Removed operation FeaturesetVersions.beginBackfill
-  - Removed operation FeaturesetVersions.beginBackfillAndWait
-  - Removed operation FeaturesetVersions.beginCreateOrUpdate
-  - Removed operation FeaturesetVersions.beginCreateOrUpdateAndWait
-  - Removed operation FeaturesetVersions.beginDelete
-  - Removed operation FeaturesetVersions.beginDeleteAndWait
-  - Removed operation FeaturestoreEntityContainers.beginCreateOrUpdate
-  - Removed operation FeaturestoreEntityContainers.beginCreateOrUpdateAndWait
-  - Removed operation FeaturestoreEntityContainers.beginDelete
-  - Removed operation FeaturestoreEntityContainers.beginDeleteAndWait
-  - Removed operation FeaturestoreEntityVersions.beginCreateOrUpdate
-  - Removed operation FeaturestoreEntityVersions.beginCreateOrUpdateAndWait
-  - Removed operation FeaturestoreEntityVersions.beginDelete
-  - Removed operation FeaturestoreEntityVersions.beginDeleteAndWait
-  - Removed operation Jobs.beginCancel
-  - Removed operation Jobs.beginCancelAndWait
-  - Removed operation Jobs.beginDelete
-  - Removed operation Jobs.beginDeleteAndWait
-  - Removed operation ManagedNetworkProvisions.beginProvisionManagedNetwork
-  - Removed operation ManagedNetworkProvisions.beginProvisionManagedNetworkAndWait
-  - Removed operation ManagedNetworkSettingsRule.beginCreateOrUpdate
-  - Removed operation ManagedNetworkSettingsRule.beginCreateOrUpdateAndWait
-  - Removed operation ManagedNetworkSettingsRule.beginDelete
-  - Removed operation ManagedNetworkSettingsRule.beginDeleteAndWait
-  - Removed operation MarketplaceSubscriptions.beginCreateOrUpdate
-  - Removed operation MarketplaceSubscriptions.beginCreateOrUpdateAndWait
-  - Removed operation MarketplaceSubscriptions.beginDelete
-  - Removed operation MarketplaceSubscriptions.beginDeleteAndWait
-  - Removed operation ModelVersions.beginPublish
-  - Removed operation ModelVersions.beginPublishAndWait
-  - Removed operation OnlineDeployments.beginCreateOrUpdate
-  - Removed operation OnlineDeployments.beginCreateOrUpdateAndWait
-  - Removed operation OnlineDeployments.beginDelete
-  - Removed operation OnlineDeployments.beginDeleteAndWait
-  - Removed operation OnlineDeployments.beginUpdate
-  - Removed operation OnlineDeployments.beginUpdateAndWait
-  - Removed operation OnlineEndpoints.beginCreateOrUpdate
-  - Removed operation OnlineEndpoints.beginCreateOrUpdateAndWait
-  - Removed operation OnlineEndpoints.beginDelete
-  - Removed operation OnlineEndpoints.beginDeleteAndWait
-  - Removed operation OnlineEndpoints.beginRegenerateKeys
-  - Removed operation OnlineEndpoints.beginRegenerateKeysAndWait
-  - Removed operation OnlineEndpoints.beginUpdate
-  - Removed operation OnlineEndpoints.beginUpdateAndWait
-  - Removed operation Registries.beginCreateOrUpdate
-  - Removed operation Registries.beginCreateOrUpdateAndWait
-  - Removed operation Registries.beginDelete
-  - Removed operation Registries.beginDeleteAndWait
-  - Removed operation Registries.beginRemoveRegions
-  - Removed operation Registries.beginRemoveRegionsAndWait
-  - Removed operation RegistryCodeContainers.beginCreateOrUpdate
-  - Removed operation RegistryCodeContainers.beginCreateOrUpdateAndWait
-  - Removed operation RegistryCodeContainers.beginDelete
-  - Removed operation RegistryCodeContainers.beginDeleteAndWait
-  - Removed operation RegistryCodeVersions.beginCreateOrUpdate
-  - Removed operation RegistryCodeVersions.beginCreateOrUpdateAndWait
-  - Removed operation RegistryCodeVersions.beginDelete
-  - Removed operation RegistryCodeVersions.beginDeleteAndWait
-  - Removed operation RegistryComponentContainers.beginCreateOrUpdate
-  - Removed operation RegistryComponentContainers.beginCreateOrUpdateAndWait
-  - Removed operation RegistryComponentContainers.beginDelete
-  - Removed operation RegistryComponentContainers.beginDeleteAndWait
-  - Removed operation RegistryComponentVersions.beginCreateOrUpdate
-  - Removed operation RegistryComponentVersions.beginCreateOrUpdateAndWait
-  - Removed operation RegistryComponentVersions.beginDelete
-  - Removed operation RegistryComponentVersions.beginDeleteAndWait
-  - Removed operation RegistryDataContainers.beginCreateOrUpdate
-  - Removed operation RegistryDataContainers.beginCreateOrUpdateAndWait
-  - Removed operation RegistryDataContainers.beginDelete
-  - Removed operation RegistryDataContainers.beginDeleteAndWait
-  - Removed operation RegistryDataVersions.beginCreateOrUpdate
-  - Removed operation RegistryDataVersions.beginCreateOrUpdateAndWait
-  - Removed operation RegistryDataVersions.beginDelete
-  - Removed operation RegistryDataVersions.beginDeleteAndWait
-  - Removed operation RegistryEnvironmentContainers.beginCreateOrUpdate
-  - Removed operation RegistryEnvironmentContainers.beginCreateOrUpdateAndWait
-  - Removed operation RegistryEnvironmentContainers.beginDelete
-  - Removed operation RegistryEnvironmentContainers.beginDeleteAndWait
-  - Removed operation RegistryEnvironmentVersions.beginCreateOrUpdate
-  - Removed operation RegistryEnvironmentVersions.beginCreateOrUpdateAndWait
-  - Removed operation RegistryEnvironmentVersions.beginDelete
-  - Removed operation RegistryEnvironmentVersions.beginDeleteAndWait
-  - Removed operation RegistryModelContainers.beginCreateOrUpdate
-  - Removed operation RegistryModelContainers.beginCreateOrUpdateAndWait
-  - Removed operation RegistryModelContainers.beginDelete
-  - Removed operation RegistryModelContainers.beginDeleteAndWait
-  - Removed operation RegistryModelVersions.beginCreateOrUpdate
-  - Removed operation RegistryModelVersions.beginCreateOrUpdateAndWait
-  - Removed operation RegistryModelVersions.beginDelete
-  - Removed operation RegistryModelVersions.beginDeleteAndWait
-  - Removed operation Schedules.beginCreateOrUpdate
-  - Removed operation Schedules.beginCreateOrUpdateAndWait
-  - Removed operation Schedules.beginDelete
-  - Removed operation Schedules.beginDeleteAndWait
-  - Removed operation ServerlessEndpoints.beginCreateOrUpdate
-  - Removed operation ServerlessEndpoints.beginCreateOrUpdateAndWait
-  - Removed operation ServerlessEndpoints.beginDelete
-  - Removed operation ServerlessEndpoints.beginDeleteAndWait
-  - Removed operation ServerlessEndpoints.beginRegenerateKeys
-  - Removed operation ServerlessEndpoints.beginRegenerateKeysAndWait
-  - Removed operation ServerlessEndpoints.beginUpdate
-  - Removed operation ServerlessEndpoints.beginUpdateAndWait
-  - Removed operation Workspaces.beginCreateOrUpdate
-  - Removed operation Workspaces.beginCreateOrUpdateAndWait
-  - Removed operation Workspaces.beginDelete
-  - Removed operation Workspaces.beginDeleteAndWait
-  - Removed operation Workspaces.beginDiagnose
-  - Removed operation Workspaces.beginDiagnoseAndWait
-  - Removed operation Workspaces.beginPrepareNotebook
-  - Removed operation Workspaces.beginPrepareNotebookAndWait
-  - Removed operation Workspaces.beginResyncKeys
-  - Removed operation Workspaces.beginResyncKeysAndWait
-  - Removed operation Workspaces.beginUpdate
-  - Removed operation Workspaces.beginUpdateAndWait
+  - Operation BatchDeployments.beginCreateOrUpdate has a new signature
+  - Operation BatchDeployments.beginCreateOrUpdateAndWait has a new signature
+  - Operation BatchDeployments.beginUpdateAndWait has a new signature
   - Operation BatchDeployments.get has a new signature
   - Operation CodeVersions.createOrGetStartPendingUpload has a new signature
+  - Operation Compute.beginCreateOrUpdate has a new signature
+  - Operation Compute.beginCreateOrUpdateAndWait has a new signature
+  - Operation Compute.beginUpdateAndWait has a new signature
   - Operation Compute.get has a new signature
   - Operation Compute.listKeys has a new signature
   - Operation Datastores.createOrUpdate has a new signature
   - Operation Datastores.get has a new signature
   - Operation Datastores.listSecrets has a new signature
+  - Operation FeaturesetVersions.beginCreateOrUpdate has a new signature
+  - Operation FeaturesetVersions.beginCreateOrUpdateAndWait has a new signature
   - Operation FeaturesetVersions.get has a new signature
   - Operation Jobs.createOrUpdate has a new signature
   - Operation Jobs.get has a new signature
+  - Operation ManagedNetworkSettingsRule.beginCreateOrUpdate has a new signature
+  - Operation ManagedNetworkSettingsRule.beginCreateOrUpdateAndWait has a new signature
   - Operation ManagedNetworkSettingsRule.get has a new signature
+  - Operation MarketplaceSubscriptions.beginDeleteAndWait has a new signature
+  - Operation OnlineDeployments.beginCreateOrUpdate has a new signature
+  - Operation OnlineDeployments.beginCreateOrUpdateAndWait has a new signature
+  - Operation OnlineDeployments.beginUpdateAndWait has a new signature
   - Operation OnlineDeployments.get has a new signature
   - Operation PrivateLinkResources.list has a new signature
   - Operation RegistryCodeVersions.createOrGetStartPendingUpload has a new signature
   - Operation RegistryDataReferences.getBlobReferenceSAS has a new signature
   - Operation RegistryDataVersions.createOrGetStartPendingUpload has a new signature
   - Operation RegistryModelVersions.createOrGetStartPendingUpload has a new signature
+  - Operation Schedules.beginCreateOrUpdate has a new signature
+  - Operation Schedules.beginCreateOrUpdateAndWait has a new signature
   - Operation Schedules.get has a new signature
+  - Operation ServerlessEndpoints.beginDeleteAndWait has a new signature
   - Operation WorkspaceConnections.create has a new signature
   - Operation WorkspaceConnections.get has a new signature
   - Operation WorkspaceConnections.listSecrets has a new signature
+  - Operation Workspaces.beginCreateOrUpdate has a new signature
+  - Operation Workspaces.beginCreateOrUpdateAndWait has a new signature
+  - Operation Workspaces.beginUpdate has a new signature
+  - Operation Workspaces.beginUpdateAndWait has a new signature
   - Operation Workspaces.get has a new signature
   - Class AzureMachineLearningServicesManagementClient no longer has parameter apiVersion
   - Class AzureMachineLearningServicesManagementClient no longer has parameter computeOperations

@@ -16,6 +16,8 @@ import type {
 } from "../../api/registryEnvironmentContainers/options.js";
 import type { EnvironmentContainer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RegistryEnvironmentContainers operations. */
@@ -33,6 +35,20 @@ export interface RegistryEnvironmentContainersOperations {
     environmentName: string,
     options?: RegistryEnvironmentContainersDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    registryName: string,
+    environmentName: string,
+    options?: RegistryEnvironmentContainersDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    registryName: string,
+    environmentName: string,
+    options?: RegistryEnvironmentContainersDeleteOptionalParams,
+  ) => Promise<void>;
   /** Create or update container. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -41,6 +57,22 @@ export interface RegistryEnvironmentContainersOperations {
     body: EnvironmentContainer,
     options?: RegistryEnvironmentContainersCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<EnvironmentContainer>, EnvironmentContainer>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    registryName: string,
+    environmentName: string,
+    body: EnvironmentContainer,
+    options?: RegistryEnvironmentContainersCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<EnvironmentContainer>, EnvironmentContainer>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    registryName: string,
+    environmentName: string,
+    body: EnvironmentContainer,
+    options?: RegistryEnvironmentContainersCreateOrUpdateOptionalParams,
+  ) => Promise<EnvironmentContainer>;
   /** Get container. */
   get: (
     resourceGroupName: string,
@@ -63,6 +95,24 @@ function _getRegistryEnvironmentContainers(context: AzureMachineLearningServices
       environmentName: string,
       options?: RegistryEnvironmentContainersDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, registryName, environmentName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      registryName: string,
+      environmentName: string,
+      options?: RegistryEnvironmentContainersDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, registryName, environmentName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      registryName: string,
+      environmentName: string,
+      options?: RegistryEnvironmentContainersDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, registryName, environmentName, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       registryName: string,
@@ -70,6 +120,40 @@ function _getRegistryEnvironmentContainers(context: AzureMachineLearningServices
       body: EnvironmentContainer,
       options?: RegistryEnvironmentContainersCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, registryName, environmentName, body, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      registryName: string,
+      environmentName: string,
+      body: EnvironmentContainer,
+      options?: RegistryEnvironmentContainersCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        registryName,
+        environmentName,
+        body,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      registryName: string,
+      environmentName: string,
+      body: EnvironmentContainer,
+      options?: RegistryEnvironmentContainersCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        registryName,
+        environmentName,
+        body,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       registryName: string,
