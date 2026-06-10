@@ -4,14 +4,16 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -77,6 +79,11 @@ export interface Feature extends ProxyResource {
 }
 
 // @public
+export interface FeatureEnableRequest {
+    serviceTreeId?: string;
+}
+
+// @public
 export interface FeatureProperties {
     readonly provisioningState?: ResourceProvisioningState;
     state?: FeatureState;
@@ -89,6 +96,7 @@ export interface FeaturesDisableOptionalParams extends OperationOptions {
 
 // @public
 export interface FeaturesEnableOptionalParams extends OperationOptions {
+    body?: FeatureEnableRequest;
     updateIntervalInMs?: number;
 }
 
@@ -145,6 +153,8 @@ export interface GuestSubscriptionsOperations {
     listBySubscriptionLocationResource: (location: string, options?: GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams) => PagedAsyncIterableIterator<GuestSubscription>;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -182,7 +192,8 @@ export enum KnownResourceProvisioningState {
 export enum KnownVersions {
     V20250815 = "2025-08-15",
     V20260320 = "2026-03-20",
-    V20260430 = "2026-04-30"
+    V20260430 = "2026-04-30",
+    V20260601 = "2026-06-01"
 }
 
 // @public
@@ -259,6 +270,8 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ComputeLimitClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
