@@ -33,8 +33,6 @@ Compared with version 2.0.0
 
 ### Breaking Changes
   - Operation MonitoredSubscriptions.beginDeleteAndWait has a new signature
-  - Class MicrosoftElastic no longer has parameter apiVersion
-  - Class MicrosoftElastic no longer has parameter subscriptionId
   - Class MicrosoftElastic no longer has parameter vMCollection
   - Class MicrosoftElastic no longer has parameter vMHost
   - Class MicrosoftElastic no longer has parameter vMIngestion
