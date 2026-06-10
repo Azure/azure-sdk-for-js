@@ -379,18 +379,19 @@ export function serializeAsConfigurationSettingParam(
  * @internal
  */
 export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
-  kvp: T,
+  kvp: T | undefined,
   status: number | undefined,
 ): ConfigurationSetting & { eTag?: string } & HttpResponseFields {
+  const source = (kvp ?? {}) as T;
   const response = {
-    ...transformKeyValue(kvp),
+    ...transformKeyValue(source),
     statusCode: status ?? -1,
   };
 
-  if (hasUnderscoreResponse(kvp)) {
+  if (hasUnderscoreResponse(source)) {
     Object.defineProperty(response, "_response", {
       enumerable: false,
-      value: kvp._response,
+      value: source._response,
     });
   }
   return response;
