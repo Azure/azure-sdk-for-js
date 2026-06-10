@@ -3,7 +3,7 @@
 
 import { BulkOperationType, CosmosClient } from "../../../src/index.js";
 import type { Container } from "../../../src/index.js";
-import { endpoint } from "../common/_testConfig.js";
+import { endpoint, skipTestForSignOff } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, beforeAll, afterAll, expect } from "vitest";
@@ -358,7 +358,15 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
 ];
 const LARGE_DATASET_SIZE = 5000;
 
-describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
+// Skipped in the signoff pipeline: the ephemeral CGW staging gateway rejects
+// the SDK's cross-partition OrderBy / Composite continuation tokens with
+// "Invalid Continuation Token: Continuation token is missing range." These
+// tests pass against production / RGW accounts; the CGW staging endpoint
+// validates token shape more strictly than what the SDK currently emits.
+// Tracked for follow-up; remove this skip once the CGW staging endpoint
+// accepts the SDK's continuation-token format.
+const describeContinuationTokens = describe.skipIf(skipTestForSignOff);
+describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
   let singlePartitionContainer: Container;
   let multiPartitionContainer: Container;
   let multiPartitionContainer2: Container; // Large dataset container for stress tests
