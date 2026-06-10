@@ -6,8 +6,8 @@ import type {
   EventHubManagementClientOptionalParams,
 } from "./api/index.js";
 import { createEventHubManagement } from "./api/index.js";
-import type { ApplicationGroupOperations } from "./classic/applicationGroup/index.js";
-import { _getApplicationGroupOperations } from "./classic/applicationGroup/index.js";
+import type { ApplicationGroupOperationsOperations } from "./classic/applicationGroupOperations/index.js";
+import { _getApplicationGroupOperationsOperations } from "./classic/applicationGroupOperations/index.js";
 import type { ClustersOperations } from "./classic/clusters/index.js";
 import { _getClustersOperations } from "./classic/clusters/index.js";
 import type { ConfigurationOperations } from "./classic/configuration/index.js";
@@ -20,8 +20,8 @@ import type { EventHubsOperations } from "./classic/eventHubs/index.js";
 import { _getEventHubsOperations } from "./classic/eventHubs/index.js";
 import type { NamespacesOperations } from "./classic/namespaces/index.js";
 import { _getNamespacesOperations } from "./classic/namespaces/index.js";
-import type { NetworkSecurityPerimeterConfigurationOperations } from "./classic/networkSecurityPerimeterConfiguration/index.js";
-import { _getNetworkSecurityPerimeterConfigurationOperations } from "./classic/networkSecurityPerimeterConfiguration/index.js";
+import type { NetworkSecurityPerimeterConfigurationOperationsOperations } from "./classic/networkSecurityPerimeterConfigurationOperations/index.js";
+import { _getNetworkSecurityPerimeterConfigurationOperationsOperations } from "./classic/networkSecurityPerimeterConfigurationOperations/index.js";
 import type { NetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
 import { _getNetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
@@ -71,10 +71,10 @@ export class EventHubManagementClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.applicationGroup = _getApplicationGroupOperations(this._client);
+    this.applicationGroupOperations = _getApplicationGroupOperationsOperations(this._client);
     this.schemaRegistry = _getSchemaRegistryOperations(this._client);
-    this.networkSecurityPerimeterConfiguration =
-      _getNetworkSecurityPerimeterConfigurationOperations(this._client);
+    this.networkSecurityPerimeterConfigurationOperations =
+      _getNetworkSecurityPerimeterConfigurationOperationsOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.namespaces = _getNamespacesOperations(this._client);
     this.configuration = _getConfigurationOperations(this._client);
@@ -88,12 +88,12 @@ export class EventHubManagementClient {
     this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for applicationGroup */
-  public readonly applicationGroup: ApplicationGroupOperations;
+  /** The operation groups for applicationGroupOperations */
+  public readonly applicationGroupOperations: ApplicationGroupOperationsOperations;
   /** The operation groups for schemaRegistry */
   public readonly schemaRegistry: SchemaRegistryOperations;
-  /** The operation groups for networkSecurityPerimeterConfiguration */
-  public readonly networkSecurityPerimeterConfiguration: NetworkSecurityPerimeterConfigurationOperations;
+  /** The operation groups for networkSecurityPerimeterConfigurationOperations */
+  public readonly networkSecurityPerimeterConfigurationOperations: NetworkSecurityPerimeterConfigurationOperationsOperations;
   /** The operation groups for privateLinkResources */
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for namespaces */

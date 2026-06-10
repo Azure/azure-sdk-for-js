@@ -13,10 +13,10 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  ApplicationGroupListByNamespaceOptionalParams,
-  ApplicationGroupDeleteOptionalParams,
-  ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams,
-  ApplicationGroupGetOptionalParams,
+  ApplicationGroupOperationsListByNamespaceOptionalParams,
+  ApplicationGroupOperationsDeleteOptionalParams,
+  ApplicationGroupOperationsCreateOrUpdateApplicationGroupOptionalParams,
+  ApplicationGroupOperationsGetOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -25,7 +25,7 @@ export function _listByNamespaceSend(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  options: ApplicationGroupListByNamespaceOptionalParams = { requestOptions: {} },
+  options: ApplicationGroupOperationsListByNamespaceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/applicationGroups{?api%2Dversion}",
@@ -66,7 +66,7 @@ export function listByNamespace(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  options: ApplicationGroupListByNamespaceOptionalParams = { requestOptions: {} },
+  options: ApplicationGroupOperationsListByNamespaceOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ApplicationGroup> {
   return buildPagedAsyncIterator(
     context,
@@ -82,7 +82,7 @@ export function _$deleteSend(
   resourceGroupName: string,
   namespaceName: string,
   applicationGroupName: string,
-  options: ApplicationGroupDeleteOptionalParams = { requestOptions: {} },
+  options: ApplicationGroupOperationsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/applicationGroups/{applicationGroupName}{?api%2Dversion}",
@@ -120,7 +120,7 @@ export async function $delete(
   resourceGroupName: string,
   namespaceName: string,
   applicationGroupName: string,
-  options: ApplicationGroupDeleteOptionalParams = { requestOptions: {} },
+  options: ApplicationGroupOperationsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _$deleteSend(
     context,
@@ -138,7 +138,9 @@ export function _createOrUpdateApplicationGroupSend(
   namespaceName: string,
   applicationGroupName: string,
   parameters: ApplicationGroup,
-  options: ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams = { requestOptions: {} },
+  options: ApplicationGroupOperationsCreateOrUpdateApplicationGroupOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/applicationGroups/{applicationGroupName}{?api%2Dversion}",
@@ -184,7 +186,9 @@ export async function createOrUpdateApplicationGroup(
   namespaceName: string,
   applicationGroupName: string,
   parameters: ApplicationGroup,
-  options: ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams = { requestOptions: {} },
+  options: ApplicationGroupOperationsCreateOrUpdateApplicationGroupOptionalParams = {
+    requestOptions: {},
+  },
 ): Promise<ApplicationGroup> {
   const result = await _createOrUpdateApplicationGroupSend(
     context,
@@ -202,7 +206,7 @@ export function _getSend(
   resourceGroupName: string,
   namespaceName: string,
   applicationGroupName: string,
-  options: ApplicationGroupGetOptionalParams = { requestOptions: {} },
+  options: ApplicationGroupOperationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/applicationGroups/{applicationGroupName}{?api%2Dversion}",
@@ -243,7 +247,7 @@ export async function get(
   resourceGroupName: string,
   namespaceName: string,
   applicationGroupName: string,
-  options: ApplicationGroupGetOptionalParams = { requestOptions: {} },
+  options: ApplicationGroupOperationsGetOptionalParams = { requestOptions: {} },
 ): Promise<ApplicationGroup> {
   const result = await _getSend(
     context,

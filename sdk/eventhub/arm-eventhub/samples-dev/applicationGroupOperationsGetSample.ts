@@ -5,28 +5,25 @@ import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to gets a list of application groups for a Namespace.
+ * This sample demonstrates how to gets an ApplicationGroup for a Namespace.
  *
- * @summary gets a list of application groups for a Namespace.
- * x-ms-original-file: 2026-01-01/ApplicationGroup/ApplicationGroupListByNamespace.json
+ * @summary gets an ApplicationGroup for a Namespace.
+ * x-ms-original-file: 2026-01-01/ApplicationGroup/ApplicationGroupGet.json
  */
-async function listApplicationGroups(): Promise<void> {
+async function applicationGroupGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new EventHubManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (const item of client.applicationGroup.listByNamespace(
+  const result = await client.applicationGroupOperations.get(
     "contosotest",
     "contoso-ua-test-eh-system-1",
-  )) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+    "appGroup1",
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {
-  await listApplicationGroups();
+  await applicationGroupGet();
 }
 
 main().catch(console.error);

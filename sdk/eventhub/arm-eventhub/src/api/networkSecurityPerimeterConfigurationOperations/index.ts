@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { list } from "./operations.js";
-export type { NetworkSecurityPerimeterConfigurationListOptionalParams } from "./options.js";
+export type { NetworkSecurityPerimeterConfigurationOperationsListOptionalParams } from "./options.js";

@@ -15,7 +15,7 @@ async function listApplicationGroups() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new EventHubManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.applicationGroup.listByNamespace(
+  for await (const item of client.applicationGroupOperations.listByNamespace(
     "contosotest",
     "contoso-ua-test-eh-system-1",
   )) {

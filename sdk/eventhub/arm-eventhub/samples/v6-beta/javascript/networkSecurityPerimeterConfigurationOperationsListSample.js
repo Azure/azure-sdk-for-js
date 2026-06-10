@@ -14,7 +14,7 @@ async function namspaceNetworkSecurityPerimeterConfigurationList() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new EventHubManagementClient(credential, subscriptionId);
-  const result = await client.networkSecurityPerimeterConfiguration.list(
+  const result = await client.networkSecurityPerimeterConfigurationOperations.list(
     "SDK-EventHub-4794",
     "sdk-Namespace-5828",
   );

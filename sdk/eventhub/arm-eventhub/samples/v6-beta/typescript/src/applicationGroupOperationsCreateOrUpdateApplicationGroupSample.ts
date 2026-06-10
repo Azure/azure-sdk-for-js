@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { EventHubManagementClient } = require("@azure/arm-eventhub");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { EventHubManagementClient } from "@azure/arm-eventhub";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to creates or updates an ApplicationGroup for a Namespace.
@@ -10,11 +10,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary creates or updates an ApplicationGroup for a Namespace.
  * x-ms-original-file: 2026-01-01/ApplicationGroup/ApplicationGroupCreate.json
  */
-async function applicationGroupCreate() {
+async function applicationGroupCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new EventHubManagementClient(credential, subscriptionId);
-  const result = await client.applicationGroup.createOrUpdateApplicationGroup(
+  const result = await client.applicationGroupOperations.createOrUpdateApplicationGroup(
     "contosotest",
     "contoso-ua-test-eh-system-1",
     "appGroup1",
@@ -46,7 +46,7 @@ async function applicationGroupCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await applicationGroupCreate();
 }
 

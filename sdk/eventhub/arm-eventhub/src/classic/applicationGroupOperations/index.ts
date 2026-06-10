@@ -7,30 +7,30 @@ import {
   $delete,
   createOrUpdateApplicationGroup,
   get,
-} from "../../api/applicationGroup/operations.js";
+} from "../../api/applicationGroupOperations/operations.js";
 import type {
-  ApplicationGroupListByNamespaceOptionalParams,
-  ApplicationGroupDeleteOptionalParams,
-  ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams,
-  ApplicationGroupGetOptionalParams,
-} from "../../api/applicationGroup/options.js";
+  ApplicationGroupOperationsListByNamespaceOptionalParams,
+  ApplicationGroupOperationsDeleteOptionalParams,
+  ApplicationGroupOperationsCreateOrUpdateApplicationGroupOptionalParams,
+  ApplicationGroupOperationsGetOptionalParams,
+} from "../../api/applicationGroupOperations/options.js";
 import type { ApplicationGroup } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
-/** Interface representing a ApplicationGroup operations. */
-export interface ApplicationGroupOperations {
+/** Interface representing a ApplicationGroupOperations operations. */
+export interface ApplicationGroupOperationsOperations {
   /** Gets a list of application groups for a Namespace. */
   listByNamespace: (
     resourceGroupName: string,
     namespaceName: string,
-    options?: ApplicationGroupListByNamespaceOptionalParams,
+    options?: ApplicationGroupOperationsListByNamespaceOptionalParams,
   ) => PagedAsyncIterableIterator<ApplicationGroup>;
   /** Deletes an ApplicationGroup for a Namespace. */
   delete: (
     resourceGroupName: string,
     namespaceName: string,
     applicationGroupName: string,
-    options?: ApplicationGroupDeleteOptionalParams,
+    options?: ApplicationGroupOperationsDeleteOptionalParams,
   ) => Promise<void>;
   /** Creates or updates an ApplicationGroup for a Namespace. */
   createOrUpdateApplicationGroup: (
@@ -38,36 +38,36 @@ export interface ApplicationGroupOperations {
     namespaceName: string,
     applicationGroupName: string,
     parameters: ApplicationGroup,
-    options?: ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams,
+    options?: ApplicationGroupOperationsCreateOrUpdateApplicationGroupOptionalParams,
   ) => Promise<ApplicationGroup>;
   /** Gets an ApplicationGroup for a Namespace. */
   get: (
     resourceGroupName: string,
     namespaceName: string,
     applicationGroupName: string,
-    options?: ApplicationGroupGetOptionalParams,
+    options?: ApplicationGroupOperationsGetOptionalParams,
   ) => Promise<ApplicationGroup>;
 }
 
-function _getApplicationGroup(context: EventHubManagementContext) {
+function _getApplicationGroupOperations(context: EventHubManagementContext) {
   return {
     listByNamespace: (
       resourceGroupName: string,
       namespaceName: string,
-      options?: ApplicationGroupListByNamespaceOptionalParams,
+      options?: ApplicationGroupOperationsListByNamespaceOptionalParams,
     ) => listByNamespace(context, resourceGroupName, namespaceName, options),
     delete: (
       resourceGroupName: string,
       namespaceName: string,
       applicationGroupName: string,
-      options?: ApplicationGroupDeleteOptionalParams,
+      options?: ApplicationGroupOperationsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, namespaceName, applicationGroupName, options),
     createOrUpdateApplicationGroup: (
       resourceGroupName: string,
       namespaceName: string,
       applicationGroupName: string,
       parameters: ApplicationGroup,
-      options?: ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams,
+      options?: ApplicationGroupOperationsCreateOrUpdateApplicationGroupOptionalParams,
     ) =>
       createOrUpdateApplicationGroup(
         context,
@@ -81,15 +81,15 @@ function _getApplicationGroup(context: EventHubManagementContext) {
       resourceGroupName: string,
       namespaceName: string,
       applicationGroupName: string,
-      options?: ApplicationGroupGetOptionalParams,
+      options?: ApplicationGroupOperationsGetOptionalParams,
     ) => get(context, resourceGroupName, namespaceName, applicationGroupName, options),
   };
 }
 
-export function _getApplicationGroupOperations(
+export function _getApplicationGroupOperationsOperations(
   context: EventHubManagementContext,
-): ApplicationGroupOperations {
+): ApplicationGroupOperationsOperations {
   return {
-    ..._getApplicationGroup(context),
+    ..._getApplicationGroupOperations(context),
   };
 }

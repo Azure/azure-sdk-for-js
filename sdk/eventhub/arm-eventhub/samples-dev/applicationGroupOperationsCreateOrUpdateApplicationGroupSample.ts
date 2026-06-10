@@ -14,7 +14,7 @@ async function applicationGroupCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new EventHubManagementClient(credential, subscriptionId);
-  const result = await client.applicationGroup.createOrUpdateApplicationGroup(
+  const result = await client.applicationGroupOperations.createOrUpdateApplicationGroup(
     "contosotest",
     "contoso-ua-test-eh-system-1",
     "appGroup1",

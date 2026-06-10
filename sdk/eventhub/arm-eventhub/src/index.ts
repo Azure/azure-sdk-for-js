@@ -156,11 +156,11 @@ export {
 } from "./models/index.js";
 export type { EventHubManagementClientOptionalParams } from "./api/index.js";
 export type {
-  ApplicationGroupListByNamespaceOptionalParams,
-  ApplicationGroupDeleteOptionalParams,
-  ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams,
-  ApplicationGroupGetOptionalParams,
-} from "./api/applicationGroup/index.js";
+  ApplicationGroupOperationsListByNamespaceOptionalParams,
+  ApplicationGroupOperationsDeleteOptionalParams,
+  ApplicationGroupOperationsCreateOrUpdateApplicationGroupOptionalParams,
+  ApplicationGroupOperationsGetOptionalParams,
+} from "./api/applicationGroupOperations/index.js";
 export type {
   ClustersListAvailableClusterRegionOptionalParams,
   ClustersListNamespacesOptionalParams,
@@ -224,7 +224,7 @@ export type {
   NamespacesCreateOrUpdateOptionalParams,
   NamespacesGetOptionalParams,
 } from "./api/namespaces/index.js";
-export type { NetworkSecurityPerimeterConfigurationListOptionalParams } from "./api/networkSecurityPerimeterConfiguration/index.js";
+export type { NetworkSecurityPerimeterConfigurationOperationsListOptionalParams } from "./api/networkSecurityPerimeterConfigurationOperations/index.js";
 export type {
   NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams,
   NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams,
@@ -244,14 +244,14 @@ export type {
   SchemaRegistryGetOptionalParams,
 } from "./api/schemaRegistry/index.js";
 export type {
-  ApplicationGroupOperations,
+  ApplicationGroupOperationsOperations,
   ClustersOperations,
   ConfigurationOperations,
   ConsumerGroupsOperations,
   DisasterRecoveryConfigsOperations,
   EventHubsOperations,
   NamespacesOperations,
-  NetworkSecurityPerimeterConfigurationOperations,
+  NetworkSecurityPerimeterConfigurationOperationsOperations,
   NetworkSecurityPerimeterConfigurationsOperations,
   OperationsOperations,
   PrivateEndpointConnectionsOperations,

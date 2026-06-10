@@ -14,7 +14,11 @@ async function applicationGroupDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new EventHubManagementClient(credential, subscriptionId);
-  await client.applicationGroup.delete("contosotest", "contoso-ua-test-eh-system-1", "appGroup1");
+  await client.applicationGroupOperations.delete(
+    "contosotest",
+    "contoso-ua-test-eh-system-1",
+    "appGroup1",
+  );
 }
 
 async function main(): Promise<void> {

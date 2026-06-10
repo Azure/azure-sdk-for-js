@@ -16,6 +16,10 @@ Compared with version 5.2.0
   - Added operation NetworkSecurityPerimeterConfigurationsOperations.getResourceAssociationName
   - Added operation PrivateEndpointConnectionsOperations.delete
   - Class EventHubManagementClient has a new constructor "constructor(credential: TokenCredential, options?: EventHubManagementClientOptionalParams);"
+  - Added Interface ApplicationGroupOperationsCreateOrUpdateApplicationGroupOptionalParams
+  - Added Interface ApplicationGroupOperationsDeleteOptionalParams
+  - Added Interface ApplicationGroupOperationsGetOptionalParams
+  - Added Interface ApplicationGroupOperationsListByNamespaceOptionalParams
   - Added Interface ApplicationGroupProperties
   - Added Interface ArmDisasterRecoveryProperties
   - Added Interface AuthorizationRuleProperties
@@ -32,6 +36,7 @@ Compared with version 5.2.0
   - Added Interface NamespaceReplicaLocation
   - Added Interface NamespacesFailoverOptionalParams
   - Added Interface NetworkRuleSetProperties
+  - Added Interface NetworkSecurityPerimeterConfigurationOperationsListOptionalParams
   - Added Interface NetworkSecurityPerimeterConfigurationProperties
   - Added Interface NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams
   - Added Interface PagedAsyncIterableIterator
@@ -69,13 +74,16 @@ Compared with version 5.2.0
   - Enum KnownTlsVersion has a new value One3
 
 ### Breaking Changes
-  - Operation ApplicationGroup.createOrUpdateApplicationGroup has a new signature
-  - Operation ApplicationGroup.get has a new signature
+  - Operation ApplicationGroupOperations.createOrUpdateApplicationGroup has a new signature
+  - Operation ApplicationGroupOperations.get has a new signature
   - Operation NetworkSecurityPerimeterConfigurations.beginCreateOrUpdateAndWait has a new signature
   - Class EventHubManagementClient no longer has parameter apiVersion
-  - Class EventHubManagementClient no longer has parameter applicationGroupOperations
-  - Class EventHubManagementClient no longer has parameter networkSecurityPerimeterConfigurationOperations
   - Class EventHubManagementClient no longer has parameter subscriptionId
+  - Removed Interface ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams
+  - Removed Interface ApplicationGroupDeleteOptionalParams
+  - Removed Interface ApplicationGroupGetOptionalParams
+  - Removed Interface ApplicationGroupListByNamespaceOptionalParams
+  - Removed Interface NetworkSecurityPerimeterConfigurationListOptionalParams
   - Removed Interface TrackedResource
   - Type of parameter type of interface ApplicationGroupPolicy is changed from "ThrottlingPolicy" to ApplicationGroupPolicyType
   - Interface ProxyResource no longer has parameter location

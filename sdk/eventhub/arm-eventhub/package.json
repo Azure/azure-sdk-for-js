@@ -48,18 +48,18 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
-    "./api/applicationGroup": {
+    "./api/applicationGroupOperations": {
       "browser": {
-        "types": "./dist/browser/api/applicationGroup/index.d.ts",
-        "default": "./dist/browser/api/applicationGroup/index.js"
+        "types": "./dist/browser/api/applicationGroupOperations/index.d.ts",
+        "default": "./dist/browser/api/applicationGroupOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/applicationGroup/index.d.ts",
-        "default": "./dist/esm/api/applicationGroup/index.js"
+        "types": "./dist/esm/api/applicationGroupOperations/index.d.ts",
+        "default": "./dist/esm/api/applicationGroupOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/applicationGroup/index.d.ts",
-        "default": "./dist/commonjs/api/applicationGroup/index.js"
+        "types": "./dist/commonjs/api/applicationGroupOperations/index.d.ts",
+        "default": "./dist/commonjs/api/applicationGroupOperations/index.js"
       }
     },
     "./api/schemaRegistry": {
@@ -76,18 +76,18 @@
         "default": "./dist/commonjs/api/schemaRegistry/index.js"
       }
     },
-    "./api/networkSecurityPerimeterConfiguration": {
+    "./api/networkSecurityPerimeterConfigurationOperations": {
       "browser": {
-        "types": "./dist/browser/api/networkSecurityPerimeterConfiguration/index.d.ts",
-        "default": "./dist/browser/api/networkSecurityPerimeterConfiguration/index.js"
+        "types": "./dist/browser/api/networkSecurityPerimeterConfigurationOperations/index.d.ts",
+        "default": "./dist/browser/api/networkSecurityPerimeterConfigurationOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/networkSecurityPerimeterConfiguration/index.d.ts",
-        "default": "./dist/esm/api/networkSecurityPerimeterConfiguration/index.js"
+        "types": "./dist/esm/api/networkSecurityPerimeterConfigurationOperations/index.d.ts",
+        "default": "./dist/esm/api/networkSecurityPerimeterConfigurationOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/networkSecurityPerimeterConfiguration/index.d.ts",
-        "default": "./dist/commonjs/api/networkSecurityPerimeterConfiguration/index.js"
+        "types": "./dist/commonjs/api/networkSecurityPerimeterConfigurationOperations/index.d.ts",
+        "default": "./dist/commonjs/api/networkSecurityPerimeterConfigurationOperations/index.js"
       }
     },
     "./api/privateLinkResources": {

@@ -39,27 +39,27 @@ export interface ApplicationGroup extends ProxyResource {
 }
 
 // @public
-export interface ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams extends OperationOptions {
+export interface ApplicationGroupOperationsCreateOrUpdateApplicationGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ApplicationGroupDeleteOptionalParams extends OperationOptions {
+export interface ApplicationGroupOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ApplicationGroupGetOptionalParams extends OperationOptions {
+export interface ApplicationGroupOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ApplicationGroupListByNamespaceOptionalParams extends OperationOptions {
+export interface ApplicationGroupOperationsListByNamespaceOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ApplicationGroupOperations {
-    createOrUpdateApplicationGroup: (resourceGroupName: string, namespaceName: string, applicationGroupName: string, parameters: ApplicationGroup, options?: ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams) => Promise<ApplicationGroup>;
-    delete: (resourceGroupName: string, namespaceName: string, applicationGroupName: string, options?: ApplicationGroupDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, namespaceName: string, applicationGroupName: string, options?: ApplicationGroupGetOptionalParams) => Promise<ApplicationGroup>;
-    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: ApplicationGroupListByNamespaceOptionalParams) => PagedAsyncIterableIterator<ApplicationGroup>;
+export interface ApplicationGroupOperationsOperations {
+    createOrUpdateApplicationGroup: (resourceGroupName: string, namespaceName: string, applicationGroupName: string, parameters: ApplicationGroup, options?: ApplicationGroupOperationsCreateOrUpdateApplicationGroupOptionalParams) => Promise<ApplicationGroup>;
+    delete: (resourceGroupName: string, namespaceName: string, applicationGroupName: string, options?: ApplicationGroupOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, applicationGroupName: string, options?: ApplicationGroupOperationsGetOptionalParams) => Promise<ApplicationGroup>;
+    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: ApplicationGroupOperationsListByNamespaceOptionalParams) => PagedAsyncIterableIterator<ApplicationGroup>;
 }
 
 // @public
@@ -540,14 +540,14 @@ export interface Eventhub extends ProxyResource {
 export class EventHubManagementClient {
     constructor(credential: TokenCredential, options?: EventHubManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: EventHubManagementClientOptionalParams);
-    readonly applicationGroup: ApplicationGroupOperations;
+    readonly applicationGroupOperations: ApplicationGroupOperationsOperations;
     readonly clusters: ClustersOperations;
     readonly configuration: ConfigurationOperations;
     readonly consumerGroups: ConsumerGroupsOperations;
     readonly disasterRecoveryConfigs: DisasterRecoveryConfigsOperations;
     readonly eventHubs: EventHubsOperations;
     readonly namespaces: NamespacesOperations;
-    readonly networkSecurityPerimeterConfiguration: NetworkSecurityPerimeterConfigurationOperations;
+    readonly networkSecurityPerimeterConfigurationOperations: NetworkSecurityPerimeterConfigurationOperationsOperations;
     readonly networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurationsOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
@@ -1048,12 +1048,12 @@ export interface NetworkSecurityPerimeterConfigurationList {
 }
 
 // @public
-export interface NetworkSecurityPerimeterConfigurationListOptionalParams extends OperationOptions {
+export interface NetworkSecurityPerimeterConfigurationOperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NetworkSecurityPerimeterConfigurationOperations {
-    list: (resourceGroupName: string, namespaceName: string, options?: NetworkSecurityPerimeterConfigurationListOptionalParams) => Promise<NetworkSecurityPerimeterConfigurationList>;
+export interface NetworkSecurityPerimeterConfigurationOperationsOperations {
+    list: (resourceGroupName: string, namespaceName: string, options?: NetworkSecurityPerimeterConfigurationOperationsListOptionalParams) => Promise<NetworkSecurityPerimeterConfigurationList>;
 }
 
 // @public
