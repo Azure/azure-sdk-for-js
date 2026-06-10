@@ -1,6 +1,6 @@
 # Release History
 
-## 24.1.0 (2026-06-09)
+## 24.1.0 (2026-06-10)
 
 ### Features Added
   - Interface CacheProperties has a new optional parameter fileAccessLogs
