@@ -30,8 +30,6 @@ Compared with version 3.3.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Class PrivateDnsManagementClient no longer has parameter apiVersion
-  - Class PrivateDnsManagementClient no longer has parameter subscriptionId
   - Removed Interface TrackedResource
 
     
