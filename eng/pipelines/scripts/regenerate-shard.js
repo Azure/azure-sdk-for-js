@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Sole script for sdk-regenerate.yml. The YAML only checks out, installs node,
-// and dispatches to one of the subcommands at the bottom of this file.
+// Sole script for sdk-regenerate.yml. The YAML dispatches to one of the
+// subcommands at the bottom of this file.
 // Per-emitter-bug workarounds do NOT live here; see UPSTREAM-ISSUES.md.
 
 const { spawn, spawnSync } = require("child_process");
@@ -33,7 +33,7 @@ function getFlag(flagName, defaultValue = "") {
 function runCommandCapturing(command, commandArgs, workingDirectory) {
   return new Promise((resolve) => {
     let combinedOutput = "";
-    const child = spawn(command, commandArgs, { cwd: workingDirectory })
+    const child = spawn(command, commandArgs, { cwd: workingDirectory });
     child.stdout.on("data", (chunk) => (combinedOutput += chunk));
     child.stderr.on("data", (chunk) => (combinedOutput += chunk));
     child.on("close", (exitCode) => resolve({ exitCode, output: combinedOutput }));
@@ -101,12 +101,17 @@ function setPipelineVariable(name, value, { isOutput = false, isSecret = false }
   console.log(`##vso[task.setvariable variable=${name}${prefix}]${value}`);
 }
 
+/** Emit an ADO log issue (warning/error) without failing the step. */
+function logPipelineIssue(severity, message) {
+  console.log(`##vso[task.logissue type=${severity}]${message}`);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Subcommand: resolve-emitter
-// Resolve the EmitterVersion pipeline parameter to a concrete npm version.
-// The sentinel value "dev" means: look up the current `dev` dist-tag of
-// @azure-tools/typespec-ts. Any other value is used verbatim as the version.
+// Resolve --input to a concrete npm version. "dev" means: look up the current
+// `dev` dist-tag of @azure-tools/typespec-ts. Anything else is used verbatim.
 // ─────────────────────────────────────────────────────────────────────────────
+
 async function runResolveEmitter() {
   const rawInputVersion = getFlag("--input", "");
   const normalizedInput = rawInputVersion.trim().toLowerCase();
@@ -129,48 +134,19 @@ async function runResolveEmitter() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Subcommand: prepare
-// Per-agent setup. Two modes:
-//   --mode emitter  Setup job: regenerate eng/emitter-package.json + lock so
-//                   the Setup-stage commit pins the resolved emitter version.
-//   --mode shard    Matrix shard: install per-shard tools + shallow-clone the
-//                   spec repo. Does NOT touch emitter-package* (those are
-//                   already on the PR branch from the Setup-stage commit).
+// Subcommand: regenerate-emitter
+// Pin eng/emitter-package.json + emitter-package-lock.json to the resolved
+// emitter version. Setup publishes the result as emitter_artifacts.
 // ─────────────────────────────────────────────────────────────────────────────
 
-function runPrepare() {
-  const mode = getFlag("--mode");
-  installGlobalCliTools();
-
-  // 'full' = emitter + shard combined; used when CreatePullRequest=false (no
-  // separate Setup-stage commit, so each shard must regen emitter-package itself).
-  const wantsEmitter = mode === "emitter" || mode === "full";
-  const wantsShard   = mode === "shard"   || mode === "full";
-
-  if (!wantsEmitter && !wantsShard) {
-    console.error("ERROR: --mode must be 'emitter', 'shard', or 'full'");
+function runRegenerateEmitter() {
+  const emitterVersion = getFlag("--emitterVersion");
+  if (!emitterVersion) {
+    console.error("ERROR: --emitterVersion is required");
     process.exit(2);
   }
-
-  if (wantsEmitter) {
-    const emitterVersion = getFlag("--emitterVersion");
-    if (!emitterVersion) {
-      console.error("ERROR: --emitterVersion is required for --mode emitter/full");
-      process.exit(2);
-    }
-    regenerateEmitterPackageFiles(emitterVersion);
-  }
-
-  if (wantsShard) {
-    const specRepoBranch = getFlag("--specRepoBranch", "main");
-    const specRepoCloneDir = getFlag("--specRepoRoot");
-    if (!specRepoCloneDir) {
-      console.error("ERROR: --specRepoRoot is required for --mode shard/full");
-      process.exit(2);
-    }
-    preinstallReleaseTools();
-    shallowCloneSpecRepo(specRepoBranch, specRepoCloneDir);
-  }
+  installGlobalCliTools();
+  regenerateEmitterPackageFiles(emitterVersion);
 }
 
 function installGlobalCliTools() {
@@ -179,13 +155,11 @@ function installGlobalCliTools() {
   runShell("npm config set legacy-peer-deps true");
 }
 
-// Mirrors azure-sdk-for-net's archetype-typespec-emitter.yml — `tsp-client
-// generate-config-files` (a) updates eng/emitter-package.json with the resolved
-// emitter version, (b) pins every peerDependency of the emitter to the version
-// listed in the emitter's own devDependencies (this auto-pins @typespec/xml so
-// the runtime require() in typespec-client-generator-core resolves), and
-// (c) regenerates emitter-package-lock.json. Any extra forced versions live in
-// eng/emitter-overrides.json (committed, optional).
+// `tsp-client generate-config-files` updates eng/emitter-package.json, pins
+// every emitter peerDependency to the version in the emitter's own
+// devDependencies (this auto-pins @typespec/xml so the runtime require() in
+// typespec-client-generator-core resolves), and regenerates the lockfile.
+// Extra forced versions live in eng/emitter-overrides.json (optional).
 function regenerateEmitterPackageFiles(emitterVersion) {
   const emitterPackageJsonPath = downloadEmitterPackageJsonFromNpm(emitterVersion);
   const overridesFlag = fs.existsSync(EMITTER_OVERRIDES_JSON_PATH)
@@ -226,19 +200,30 @@ function shallowCloneSpecRepo(branch, cloneDir) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Subcommand: shard
-// Heavy lifter — runs once per matrix shard.
-// Phases: regenerate (fan-out) → build (turbo, batched) → changelog (fan-out).
+// Runs once per matrix shard. Phases:
+//   install tools + clone spec repo → regenerate (fan-out) → build (turbo,
+//   batched) → changelog (fan-out).
 // ─────────────────────────────────────────────────────────────────────────────
 
 async function runShard() {
+  const specRepoBranch = getFlag("--specRepoBranch", "main");
   const specRepoCloneDir = getFlag("--specRepoRoot");
   const directoryListFile = getFlag("--directoryList");
   const perPackageConcurrency = 4;
   const turboBuildConcurrency = 4;
   const skipBuild = getFlag("--skipBuild", "false").toLowerCase() === "true";
 
-  requireReadablePath("--specRepoRoot", specRepoCloneDir);
+  if (!specRepoCloneDir) {
+    console.error("ERROR: --specRepoRoot is required");
+    process.exit(2);
+  }
   requireReadablePath("--directoryList", directoryListFile);
+
+  // shallowCloneSpecRepo creates --specRepoRoot, so it must run before any
+  // path check on that directory.
+  installGlobalCliTools();
+  preinstallReleaseTools();
+  shallowCloneSpecRepo(specRepoBranch, specRepoCloneDir);
 
   const shardPackages = loadShardPackages(directoryListFile);
   console.log(`Shard packages: ${shardPackages.length}`);
@@ -283,10 +268,10 @@ function discardNonSdkChanges() {
   for (const file of filesToReset) {
     spawnSync("git", ["checkout", "HEAD", "--", file], { cwd: SDK_ROOT });
   }
-  // Stage everything so git-push-changes.yml's `commit -am` picks up new
-  // files too (the -a flag alone only auto-stages modified/deleted tracked
-  // files; regen can create brand-new files like new review/*.api.md).
-  spawnSync("git", ["add", "-A"], { cwd: SDK_ROOT });
+  // No `git add -A` here — the YAML filter step ("Filter shard output to
+  // api.md + CHANGELOG only") needs an unstaged working tree so its
+  // `git stash --keep-index` can drop everything except the staged api.md
+  // and CHANGELOG.md files.
 }
 
 function requireReadablePath(flagName, value) {
@@ -373,9 +358,9 @@ function extractLastNonEmptyLines(text, lineCount) {
 async function buildRegeneratedPackages(allPackages, successfullyRegenerated, turboConcurrency) {
   console.log(`\n===== Build (pnpm turbo, concurrency=${turboConcurrency}) =====`);
 
-  // Stale TempTypeSpecFiles/<svc>/package.json pin unpublished dev versions of
-  // @azure-tools/typespec-ts. pnpm install would then 401 from the internal
-  // feed and skip the whole shard build. See UPSTREAM-ISSUES.md §9.
+  // Stale TempTypeSpecFiles/<svc>/package.json pin unpublished dev emitter
+  // versions, causing pnpm install to 401 from the internal feed. See
+  // UPSTREAM-ISSUES.md §9.
   removeStaleTempTypespecDirs(allPackages);
 
   const installResult = await runCommandCapturing("pnpm", ["install", "--no-frozen-lockfile"], SDK_ROOT);
@@ -423,8 +408,8 @@ async function generateChangelogsForBuilt(successfullyRegenerated, builtSdkPaths
 }
 
 async function generateChangelogForOnePackage(pkg) {
-  // Invoking the bin directly bypasses eng/scripts/update-changelog-content.ps1's
-  // Windows backslash bug (UPSTREAM-ISSUES.md §3).
+  // Bypass eng/scripts/update-changelog-content.ps1 (Windows backslash bug,
+  // UPSTREAM-ISSUES.md §3) by invoking the bin directly.
   const result = await runCommandCapturing("npm", [
     "--prefix", RELEASE_TOOLS_DIR, "exec", "--no", "--",
     "update-changelog", "--sdkRepoPath", SDK_ROOT, "--packagePath", pkg.packageDir,
@@ -474,7 +459,7 @@ function composeShardSummary({ shardPackages, regenerationOutcomes, buildOutcome
     .filter((o) => !o.success)
     .map((o) => ({ pkg: o.sdkPath, errorTail: o.errorTail }));
 
-  const summary = {
+  return {
     packages: shardPackages.map((p) => p.sdkPath),
     regeneration: {
       total: shardPackages.length,
@@ -498,31 +483,36 @@ function composeShardSummary({ shardPackages, regenerationOutcomes, buildOutcome
         .map((o) => ({ pkg: o.pkg, breakingText: o.breakingText })),
     },
   };
-  return summary;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Subcommand: create-pr
-// Opens a PR from the per-build branch (every shard pushed into it via
-// git-push-changes.yml) into the target base branch. Body is intentionally
-// minimal — per-package outcomes (regenerated/built/breaking) live in the
-// ADO build log + the PR's Files-changed view (CHANGELOG.md diffs).
-// Matches the autorest.go / .NET regen pipelines.
+// Opens a PR from the per-build branch into the trigger branch. Body is
+// minimal; per-package outcomes live in the ADO build log + Files-changed.
+// AUTH_TOKEN comes from the YAML env block ($(azuresdk-github-pat)).
 // ─────────────────────────────────────────────────────────────────────────────
 
 function runCreatePr() {
-  const [sourceRepoOwner, sourceRepoName] = (getFlag("--sourceRepo") || "").split("/");
-  const targetRepoOwner = getFlag("--targetOwner") || sourceRepoOwner;
-  const targetRepoName  = getFlag("--targetName")  || sourceRepoName;
-  const baseBranch      = getFlag("--targetBranch", "main");
+  const [repoOwner, repoName] = (getFlag("--sourceRepo") || "").split("/");
+  if (!repoOwner || !repoName) {
+    console.error("ERROR: --sourceRepo must be 'owner/name'");
+    process.exit(2);
+  }
+  // $(Build.SourceBranch) comes through as 'refs/heads/<branch>'; strip the
+  // prefix. (We can't use $(Build.SourceBranchName) — it loses slashes in
+  // branch names like 'feature/break-check'.)
+  const baseBranch      = getFlag("--targetBranch", "main").replace(/^refs\/heads\//, "");
   const headBranchName  = resolveHeadBranchName(getFlag("--branch", "").trim(), getFlag("--buildId", ""));
   const emitterVersion  = getFlag("--emitterVersion", "");
   const buildNumber     = getFlag("--buildNumber", "");
   const buildUrl        = getFlag("--buildUrl", "");
   const pipelineName    = getFlag("--definitionName", "");
 
-  const isTargetingFork = targetRepoOwner !== sourceRepoOwner || targetRepoName !== sourceRepoName;
-  const pushToken = selectPushToken(isTargetingFork, targetRepoOwner, targetRepoName);
+  const authToken = process.env.AUTH_TOKEN || "";
+  if (!authToken) {
+    console.error("##[error]AUTH_TOKEN env var is empty. The YAML must set AUTH_TOKEN: $(azuresdk-github-pat).");
+    process.exit(1);
+  }
 
   const prTitle = `TypeSpec regeneration: emitter ${emitterVersion}`;
   const prBody = [
@@ -533,27 +523,13 @@ function runCreatePr() {
   ].join("\n");
 
   runPwshFile("eng/common/scripts/Submit-PullRequest.ps1", [
-    "-RepoOwner",  targetRepoOwner,  "-RepoName", targetRepoName,
+    "-RepoOwner",  repoOwner,  "-RepoName", repoName,
     "-BaseBranch", baseBranch,
-    "-PROwner",    targetRepoOwner,  "-PRBranch", headBranchName,
-    "-AuthToken",  pushToken,
+    "-PROwner",    repoOwner,  "-PRBranch", headBranchName,
+    "-AuthToken",  authToken,
     "-PRTitle",    prTitle,
     "-PRBody",     prBody,
   ]);
-}
-
-function selectPushToken(isTargetingFork, targetOwner, targetName) {
-  const token = isTargetingFork
-    ? (process.env.FORK_TOKEN || "")
-    : (process.env.GH_TOKEN_VAL || process.env.GH_TOKEN || "");
-  if (isTargetingFork && !token) {
-    console.error(
-      `##[error]Targeting fork ${targetOwner}/${targetName} but no PAT was provided. ` +
-      `Set ForkTokenVariableName to an ADO secret variable holding a GitHub PAT (repo scope).`
-    );
-    process.exit(1);
-  }
-  return token;
 }
 
 function resolveHeadBranchName(headBranchOverride, buildId) {
@@ -562,8 +538,7 @@ function resolveHeadBranchName(headBranchOverride, buildId) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Subcommand: build-matrix
-// Wraps eng/common/scripts/New-RegenerateMatrix.ps1 with the argument
-// forwarding the YAML needs.
+// Wraps eng/common/scripts/New-RegenerateMatrix.ps1 with fixed arguments.
 // ─────────────────────────────────────────────────────────────────────────────
 
 function runBuildMatrix() {
@@ -583,53 +558,15 @@ function runBuildMatrix() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Subcommands: setup-pr-branch
-// CreatePullRequest=true plumbing. Two modes:
-//   base   – Setup job: fetch the PR target branch and reset prBranch to it.
-//   switch – Shard job: copy this script outside the working tree (the PR
-//            branch is based on main and does NOT contain feature/break-check's
-//            pipeline source), add the fork remote, and check out prBranch.
-//            Token comes from env PUSH_TOKEN so it never hits a command line.
-// ─────────────────────────────────────────────────────────────────────────────
-
-function runSetupPrBranch() {
-  const mode      = getFlag("--mode");
-  const prBranch  = getFlag("--prBranch");
-
-  // ALWAYS self-copy to $AGENT_TEMPDIRECTORY before any git work — the upcoming
-  // checkout swaps the working tree to origin/main, which on the PR branch path
-  // does NOT contain this script. The temp copy is what every later step calls
-  // (see $(shardScriptInvoke) in sdk-regenerate.yml).
-  const tempDir = process.env.AGENT_TEMPDIRECTORY;
-  if (tempDir) fs.copyFileSync(__filename, path.join(tempDir, path.basename(__filename)));
-
-  if (mode === "base") {
-    runShell(`git fetch origin ${getFlag("--targetBranch")} --depth=1`);
-    runShell(`git checkout -B ${prBranch} FETCH_HEAD`);
-    return;
-  }
-  if (mode === "switch") {
-    const remote = `https://x-access-token:${process.env.PUSH_TOKEN}@github.com/${getFlag("--targetOwner")}/${getFlag("--targetName")}.git`;
-    runShellNoEcho("git", ["remote", "add", "azure-sdk-fork", remote]);
-    runShell(`git fetch azure-sdk-fork ${prBranch} --depth=1`);
-    runShell(`git checkout -B ${prBranch} azure-sdk-fork/${prBranch}`);
-    return;
-  }
-  console.error(`ERROR: --mode must be 'base' or 'switch' (got '${mode}')`);
-  process.exit(2);
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // Dispatcher
 // ─────────────────────────────────────────────────────────────────────────────
 
 const SUBCOMMANDS = {
-  "resolve-emitter": runResolveEmitter,
-  "build-matrix":    runBuildMatrix,
-  "setup-pr-branch": runSetupPrBranch,
-  "prepare":         runPrepare,
-  "shard":           runShard,
-  "create-pr":       runCreatePr,
+  "resolve-emitter":    runResolveEmitter,
+  "regenerate-emitter": runRegenerateEmitter,
+  "build-matrix":       runBuildMatrix,
+  "shard":              runShard,
+  "create-pr":          runCreatePr,
 };
 
 const subcommandName = process.argv[2];

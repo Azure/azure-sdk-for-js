@@ -1,17 +1,17 @@
 # JS SDK TypeSpec breaking-change check pipeline (ARM only).
 #
-# Architecture (mirrors azure-sdk-for-net's archetype-typespec-emitter.yml):
-#   Setup              Resolve emitter version, build shard matrix, and
-#                      (when CreatePullRequest=true) push an initial commit
-#                      containing the resolved eng/emitter-package* to the
-#                      PR branch on the target repo / fork.
-#   RegenerateAndBuild Matrix shards. Each shard switches to the PR branch,
-#                      regenerates its slice of packages, then uses the
-#                      shared git-push-changes.yml template to commit + push
-#                      (the template's git-branch-push.ps1 already handles
-#                      fetch / rebase / retry on push conflicts).
-#   CreatePR           Opens the GitHub PR. Body is build-metadata only —
-#                      per-package outcomes live in the ADO build log.
+# Stages / jobs:
+#   Setup              Resolve emitter version, build shard matrix, pin
+#                      eng/emitter-package* to the resolved version, and
+#                      publish them as artifacts.
+#
+#   RegenerateAndBuild Matrix shards. Each downloads its slice, regenerates +
+#                      builds, generates changelogs. In PR mode, pushes only
+#                      api.md + CHANGELOG.md deltas to the PR branch
+#                      (break-check semantics — see regenerate-shard.js).
+#
+#   CreatePR           Opens the GitHub PR. Body is minimal; per-package
+#                      outcomes are in the build log.
 #
 # All shard logic lives in eng/pipelines/scripts/regenerate-shard.js.
 
@@ -21,6 +21,7 @@ trigger:
     include:
       - eng/emitter-package.json
       - eng/common/scripts/TypeSpec-*
+      - eng/common/scripts/New-RegenerateMatrix.ps1
       - eng/pipelines/sdk-regenerate.yml
       - eng/pipelines/scripts/regenerate-shard.js
 
@@ -30,6 +31,7 @@ pr:
     include:
       - eng/emitter-package.json
       - eng/common/scripts/TypeSpec-*
+      - eng/common/scripts/New-RegenerateMatrix.ps1
       - eng/pipelines/sdk-regenerate.yml
       - eng/pipelines/scripts/regenerate-shard.js
 
@@ -47,10 +49,12 @@ parameters:
   - name: SkipBuild
     type: boolean
     default: false
+
   - name: PackageFilter
     displayName: "Package filter (comma-separated wildcards; 'arm-*' = all)"
     type: string
     default: 'arm-*'
+
   - name: SpecRepoBranch
     type: string
     default: 'main'
@@ -58,25 +62,11 @@ parameters:
   - name: CreatePullRequest
     type: boolean
     default: false
-  - name: PullRequestTargetBranch
-    type: string
-    default: 'main'
+
   - name: PullRequestBranch
     displayName: "PR source branch ('auto' = sdk-regenerate-<buildId>)"
     type: string
     default: 'auto'
-  - name: PullRequestRepoOwner
-    displayName: "PR target repo owner (use your GitHub username for a fork)"
-    type: string
-    default: 'Azure'
-  - name: PullRequestRepoName
-    displayName: "PR target repo name"
-    type: string
-    default: 'azure-sdk-for-js'
-  - name: ForkTokenVariableName
-    displayName: "ADO secret variable holding the GitHub PAT (required when CreatePullRequest=true)"
-    type: string
-    default: ''
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -96,20 +86,6 @@ variables:
   - ${{ else }}:
     - name: prBranchName
       value: ${{ parameters.PullRequestBranch }}
-  - name: targetOwner
-    value: ${{ parameters.PullRequestRepoOwner }}
-  - name: targetName
-    value: ${{ parameters.PullRequestRepoName }}
-  - ${{ if parameters.CreatePullRequest }}:
-    - name: shardPrepareMode
-      value: full
-    - name: shardScriptInvoke
-      value: $(Agent.TempDirectory)/regenerate-shard.js
-  - ${{ else }}:
-    - name: shardPrepareMode
-      value: full
-    - name: shardScriptInvoke
-      value: $(Build.SourcesDirectory)/eng/pipelines/scripts/regenerate-shard.js
 
 stages:
 - stage: SDKRegenerate
@@ -117,6 +93,8 @@ stages:
   jobs:
 
   - job: Setup
+    displayName: 'Resolve emitter + build matrix + publish artifacts'
+    timeoutInMinutes: 30
     steps:
       - checkout: self
         fetchDepth: 1
@@ -139,24 +117,23 @@ stages:
       - publish: $(Build.ArtifactStagingDirectory)/matrix
         artifact: matrix_artifacts
 
-      - ${{ if parameters.CreatePullRequest }}:
-        - bash: |
-            node $(shardScript) setup-pr-branch --mode base \
-              --targetBranch "${{ parameters.PullRequestTargetBranch }}" \
-              --prBranch     "$(prBranchName)"
-            # Push an empty PR branch (= target main) to the fork so shards
-            # can fetch and rebase onto it. No emitter-package commit — each
-            # shard pins emitter locally via `prepare --mode full`, and the
-            # final PR contains only api.md + CHANGELOG.md diffs.
-            git push --force \
-              "https://x-access-token:$PUSH_TOKEN@github.com/$(targetOwner)/$(targetName).git" \
-              "$(prBranchName):refs/heads/$(prBranchName)"
-          displayName: 'Create empty PR branch on fork'
-          env:
-            PUSH_TOKEN: $(${{ parameters.ForkTokenVariableName }})
-          workingDirectory: $(sdkRoot)
+      # Pin eng/emitter-package.json + lock to the resolved emitter version.
+      - bash: |
+          node $(shardScript) regenerate-emitter \
+            --emitterVersion "$(resolveVersion.emitterVersion)"
+        displayName: 'Regenerate emitter-package files'
+
+      - bash: |
+          mkdir -p "$(Build.ArtifactStagingDirectory)/emitter"
+          cp "$(sdkRoot)/eng/emitter-package.json"      "$(Build.ArtifactStagingDirectory)/emitter/"
+          cp "$(sdkRoot)/eng/emitter-package-lock.json" "$(Build.ArtifactStagingDirectory)/emitter/"
+        displayName: 'Stage emitter artifact'
+
+      - publish: $(Build.ArtifactStagingDirectory)/emitter
+        artifact: emitter_artifacts
 
   - job: RegenerateAndBuild
+    displayName: 'Regenerate + build shards'
     dependsOn: Setup
     timeoutInMinutes: 180
     strategy:
@@ -168,65 +145,64 @@ stages:
         fetchDepth: 1
         fetchTags: false
         submodules: false
+
+      # PR mode: create the PR branch locally from the trigger branch HEAD.
+      # The first shard's push creates the remote branch; git-push-changes.yml
+      # handles the concurrent-first-push race via rebase + retry.
+      - ${{ if parameters.CreatePullRequest }}:
+        - bash: git checkout -B "$(prBranchName)" HEAD
+          displayName: 'Create local PR branch'
+
       - task: NodeTool@0
         inputs: { versionSpec: $(nodeVersion) }
+
       - download: current
         artifact: matrix_artifacts
+      - download: current
+        artifact: emitter_artifacts
 
-      - ${{ if parameters.CreatePullRequest }}:
-        # Copy the script outside the working tree first: the next step switches
-        # git to the PR branch (based on the user-selected target branch), which
-        # does NOT contain this pipeline's source. An in-tree path would disappear
-        # after the checkout. Then add the fork remote and switch branches.
-        # See switch-to-pr-branch.
-        - bash: |
-            node $(shardScript) setup-pr-branch --mode switch \
-              --targetOwner  "$(targetOwner)" \
-              --targetName   "$(targetName)" \
-              --prBranch     "$(prBranchName)"
-          displayName: 'Switch to PR branch'
-          env:
-            PUSH_TOKEN: $(${{ parameters.ForkTokenVariableName }})
+      # Overlay the pinned emitter-package files from Setup's artifact.
+      - bash: |
+          cp "$(Pipeline.Workspace)/emitter_artifacts/emitter-package.json"      "$(sdkRoot)/eng/emitter-package.json"
+          cp "$(Pipeline.Workspace)/emitter_artifacts/emitter-package-lock.json" "$(sdkRoot)/eng/emitter-package-lock.json"
+        displayName: 'Apply pinned emitter-package files'
 
       - bash: |
-          node "$(shardScriptInvoke)" prepare \
-            --mode           "$(shardPrepareMode)" \
-            --emitterVersion "$(emitterVersion)" \
+          node $(shardScript) shard \
             --specRepoBranch "${{ parameters.SpecRepoBranch }}" \
-            --specRepoRoot   "$(specRepoRoot)"
-        displayName: 'Prepare (install tools, clone spec repo)'
-
-      - bash: |
-          node "$(shardScriptInvoke)" shard \
-            --specRepoRoot  "$(specRepoRoot)" \
-            --directoryList "$(Pipeline.Workspace)/matrix_artifacts/$(DirectoryList)" \
-            --skipBuild     "${{ parameters.SkipBuild }}"
+            --specRepoRoot   "$(specRepoRoot)" \
+            --directoryList  "$(Pipeline.Workspace)/matrix_artifacts/$(DirectoryList)" \
+            --skipBuild      "${{ parameters.SkipBuild }}"
         displayName: 'Regenerate + build shard'
         workingDirectory: $(sdkRoot)
 
       - ${{ if parameters.CreatePullRequest }}:
+        # Restrict the PR to api.md + CHANGELOG.md (break-check semantics).
+        # `git add -A` covers modifications, additions and deletions of those
+        # files; `git stash --keep-index --include-untracked` then drops all
+        # other working-tree and untracked changes so the subsequent push
+        # commits only the staged api.md + CHANGELOG.md set.
         - bash: |
-            # Break-check semantics: PR carries only the API surface (api.md)
-            # and changelog deltas. Regenerated src/, samples/, metadata.json,
-            # eng/emitter-package*, etc. are discarded before commit.
-            git add 'sdk/*/*/review/*.api.md' 'sdk/*/*/CHANGELOG.md'
-            git stash --keep-index --include-untracked
+            set +e
+            git add -A 'sdk/*/*/review/*.api.md' 'sdk/*/*/CHANGELOG.md'
+            set -e
+            git stash --keep-index --include-untracked || true
             git stash drop || true
           displayName: 'Filter shard output to api.md + CHANGELOG only'
           workingDirectory: $(sdkRoot)
 
         - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
           parameters:
-            BaseRepoOwner:  $(targetOwner)
-            TargetRepoName: $(targetName)
+            BaseRepoOwner:  Azure
             BaseRepoBranch: $(prBranchName)
             CommitMsg:      'Regenerate shard $(JobKey) (emitter $(emitterVersion))'
-            AuthToken:      $(${{ parameters.ForkTokenVariableName }})
 
   - ${{ if parameters.CreatePullRequest }}:
     - job: CreatePR
+      displayName: 'Open pull request'
       dependsOn: [Setup, RegenerateAndBuild]
-      condition: succeededOrFailed()
+      condition: and(succeeded('Setup'), succeededOrFailed('RegenerateAndBuild'))
+      timeoutInMinutes: 15
       variables:
         emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
       steps:
@@ -240,9 +216,7 @@ stages:
         - bash: |
             node $(shardScript) create-pr \
               --sourceRepo     "$(Build.Repository.Name)" \
-              --targetOwner    "$(targetOwner)" \
-              --targetName     "$(targetName)" \
-              --targetBranch   "${{ parameters.PullRequestTargetBranch }}" \
+              --targetBranch   "$(Build.SourceBranch)" \
               --branch         "$(prBranchName)" \
               --buildId        "$(Build.BuildId)" \
               --emitterVersion "$(emitterVersion)" \
@@ -251,4 +225,4 @@ stages:
               --definitionName "$(Build.DefinitionName)"
           displayName: 'Open pull request'
           env:
-            FORK_TOKEN: $(${{ parameters.ForkTokenVariableName }})
+            AUTH_TOKEN: $(azuresdk-github-pat)
