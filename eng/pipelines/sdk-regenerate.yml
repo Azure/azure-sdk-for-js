@@ -72,6 +72,9 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
+  # Provides $(azuresdk-github-pat) for git-push-changes.yml and the
+  # create-pr step.
+  - group: Release Secrets for GitHub
   - name: sdkRoot
     value: $(Build.SourcesDirectory)
   - name: specRepoRoot
