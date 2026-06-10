@@ -4,15 +4,17 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AdminCredentials {
@@ -550,9 +552,11 @@ export interface DatabasesOperations {
 // @public
 export interface DataEncryption {
     readonly geoBackupEncryptionKeyStatus?: EncryptionKeyStatus;
+    geoBackupFederatedIdentityClientId?: string;
     geoBackupKeyURI?: string;
     geoBackupUserAssignedIdentityId?: string;
     readonly primaryEncryptionKeyStatus?: EncryptionKeyStatus;
+    primaryFederatedIdentityClientId?: string;
     primaryKeyURI?: string;
     primaryUserAssignedIdentityId?: string;
     type?: DataEncryptionType;
@@ -710,6 +714,8 @@ export interface ImpactRecord {
     unit?: string;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownAzureManagedDiskPerformanceTier {
     P1 = "P1",
@@ -841,10 +847,12 @@ export enum KnownHighAvailabilityMode {
 
 // @public
 export enum KnownHighAvailabilityState {
+    ComputeUpdatingByFailover = "ComputeUpdatingByFailover",
     CreatingStandby = "CreatingStandby",
     FailingOver = "FailingOver",
     Healthy = "Healthy",
     NotEnabled = "NotEnabled",
+    RecreatingStandby = "RecreatingStandby",
     RemovingStandby = "RemovingStandby",
     ReplicatingData = "ReplicatingData"
 }
@@ -867,6 +875,34 @@ export enum KnownLocationRestricted {
 export enum KnownLogicalReplicationOnSourceServer {
     False = "False",
     True = "True"
+}
+
+// @public
+export enum KnownMaintenanceEventStatus {
+    Canceled = "Canceled",
+    Complete = "Complete",
+    InProgress = "InProgress",
+    Planned = "Planned",
+    Rescheduled = "Rescheduled"
+}
+
+// @public
+export enum KnownMaintenanceEventStatusFilter {
+    Past = "Past",
+    Upcoming = "Upcoming"
+}
+
+// @public
+export enum KnownMaintenanceType {
+    PlannedMaintenance = "PlannedMaintenance"
+}
+
+// @public
+export enum KnownMajorVersionUpgradePrecheckStatus {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Validating = "Validating"
 }
 
 // @public
@@ -1183,7 +1219,8 @@ export enum KnownValidationState {
 // @public
 export enum KnownVersions {
     V20250801 = "2025-08-01",
-    V20260101 = "2026-01-01-preview"
+    V20260101 = "2026-01-01-preview",
+    V20260401 = "2026-04-01-preview"
 }
 
 // @public
@@ -1240,6 +1277,87 @@ export interface LtrPreBackupResponse {
 }
 
 // @public
+export interface MaintenanceEventActionResponse {
+    appliedNow?: boolean;
+    lastUpdatedTime?: Date;
+    maintenanceEventId?: string;
+    plannedEndTime?: Date;
+    plannedStartTime?: Date;
+    serverId?: string;
+    status?: MaintenanceEventStatus;
+}
+
+// @public
+export interface MaintenanceEventRescheduleRequest {
+    postponeToDateTime: Date;
+}
+
+// @public
+export interface MaintenanceEventResource extends ProxyResource {
+    properties?: MaintenanceEventResourceProperties;
+}
+
+// @public
+export interface MaintenanceEventResourceProperties {
+    readonly deferrable: boolean;
+    readonly deferralDeadline?: Date;
+    readonly description?: string;
+    readonly endTime: Date;
+    readonly estimatedDowntime?: string;
+    readonly lastUpdatedTime?: Date;
+    readonly maintenanceEventId?: string;
+    readonly maintenanceType: MaintenanceType;
+    readonly originalStartTime: Date;
+    readonly rescheduledFrom?: Date;
+    readonly startTime: Date;
+    readonly status: MaintenanceEventStatus;
+}
+
+// @public
+export interface MaintenanceEventsApplyNowOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MaintenanceEventsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenanceEventsListOptionalParams extends OperationOptions {
+    maintenanceStatus?: MaintenanceEventStatusFilter;
+}
+
+// @public
+export interface MaintenanceEventsOperations {
+    applyNow: (resourceGroupName: string, serverName: string, maintenanceEventId: string, options?: MaintenanceEventsApplyNowOptionalParams) => PollerLike<OperationState<MaintenanceEventActionResponse>, MaintenanceEventActionResponse>;
+    // @deprecated (undocumented)
+    beginApplyNow: (resourceGroupName: string, serverName: string, maintenanceEventId: string, options?: MaintenanceEventsApplyNowOptionalParams) => Promise<SimplePollerLike<OperationState<MaintenanceEventActionResponse>, MaintenanceEventActionResponse>>;
+    // @deprecated (undocumented)
+    beginApplyNowAndWait: (resourceGroupName: string, serverName: string, maintenanceEventId: string, options?: MaintenanceEventsApplyNowOptionalParams) => Promise<MaintenanceEventActionResponse>;
+    // @deprecated (undocumented)
+    beginReschedule: (resourceGroupName: string, serverName: string, maintenanceEventId: string, body: MaintenanceEventRescheduleRequest, options?: MaintenanceEventsRescheduleOptionalParams) => Promise<SimplePollerLike<OperationState<MaintenanceEventActionResponse>, MaintenanceEventActionResponse>>;
+    // @deprecated (undocumented)
+    beginRescheduleAndWait: (resourceGroupName: string, serverName: string, maintenanceEventId: string, body: MaintenanceEventRescheduleRequest, options?: MaintenanceEventsRescheduleOptionalParams) => Promise<MaintenanceEventActionResponse>;
+    get: (resourceGroupName: string, serverName: string, maintenanceEventId: string, options?: MaintenanceEventsGetOptionalParams) => Promise<MaintenanceEventResource>;
+    list: (resourceGroupName: string, serverName: string, options?: MaintenanceEventsListOptionalParams) => PagedAsyncIterableIterator<MaintenanceEventResource>;
+    reschedule: (resourceGroupName: string, serverName: string, maintenanceEventId: string, body: MaintenanceEventRescheduleRequest, options?: MaintenanceEventsRescheduleOptionalParams) => PollerLike<OperationState<MaintenanceEventActionResponse>, MaintenanceEventActionResponse>;
+}
+
+// @public
+export interface MaintenanceEventsRescheduleOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MaintenanceEventStatus = string;
+
+// @public
+export type MaintenanceEventStatusFilter = string;
+
+// @public
+export type MaintenanceType = string;
+
+// @public
 export interface MaintenanceWindow {
     customWindow?: string;
     dayOfWeek?: number;
@@ -1254,6 +1372,37 @@ export interface MaintenanceWindowForPatch {
     startHour?: number;
     startMinute?: number;
 }
+
+// @public
+export interface MajorVersionUpgradePrecheckGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MajorVersionUpgradePrecheckListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MajorVersionUpgradePrecheckOperations {
+    get: (resourceGroupName: string, serverName: string, precheckValidationId: string, options?: MajorVersionUpgradePrecheckGetOptionalParams) => Promise<MajorVersionUpgradePrecheckResource>;
+    list: (resourceGroupName: string, serverName: string, options?: MajorVersionUpgradePrecheckListOptionalParams) => PagedAsyncIterableIterator<MajorVersionUpgradePrecheckResource>;
+}
+
+// @public
+export interface MajorVersionUpgradePrecheckResource extends ProxyResource {
+    properties?: MajorVersionUpgradePrecheckResourceProperties;
+}
+
+// @public
+export interface MajorVersionUpgradePrecheckResourceProperties {
+    createTime?: Date;
+    policyDetails?: PolicyDetail[];
+    precheckResult?: PrecheckResult;
+    status?: MajorVersionUpgradePrecheckStatus;
+    targetVersion?: PostgresMajorVersion;
+}
+
+// @public
+export type MajorVersionUpgradePrecheckStatus = string;
 
 // @public
 export interface MetricSpecification {
@@ -1439,7 +1588,7 @@ export interface MigrationsListByTargetServerOptionalParams extends OperationOpt
 
 // @public
 export interface MigrationsOperations {
-    cancel: (resourceGroupName: string, serverName: string, migrationName: string, options?: MigrationsCancelOptionalParams) => Promise<Migration>;
+    cancel: (resourceGroupName: string, serverName: string, migrationName: string, options?: MigrationsCancelOptionalParams) => Promise<Migration | undefined>;
     checkNameAvailability: (resourceGroupName: string, serverName: string, parameters: MigrationNameAvailability, options?: MigrationsCheckNameAvailabilityOptionalParams) => Promise<MigrationNameAvailability>;
     create: (resourceGroupName: string, serverName: string, migrationName: string, parameters: Migration, options?: MigrationsCreateOptionalParams) => Promise<Migration>;
     get: (resourceGroupName: string, serverName: string, migrationName: string, options?: MigrationsGetOptionalParams) => Promise<Migration>;
@@ -1620,6 +1769,15 @@ export interface PageSettings {
 export type PasswordBasedAuth = string;
 
 // @public
+export interface PolicyDetail {
+    errorCode?: number;
+    errorMessage?: string;
+    passed?: boolean;
+    policyDescription?: string;
+    policyName?: string;
+}
+
+// @public
 export type PostgresMajorVersion = string;
 
 // @public
@@ -1639,6 +1797,8 @@ export class PostgreSQLManagementFlexibleServerClient {
     readonly configurations: ConfigurationsOperations;
     readonly databases: DatabasesOperations;
     readonly firewallRules: FirewallRulesOperations;
+    readonly maintenanceEvents: MaintenanceEventsOperations;
+    readonly majorVersionUpgradePrecheck: MajorVersionUpgradePrecheckOperations;
     readonly migrations: MigrationsOperations;
     readonly nameAvailability: NameAvailabilityOperations;
     readonly operations: OperationsOperations;
@@ -1650,7 +1810,7 @@ export class PostgreSQLManagementFlexibleServerClient {
     readonly replicas: ReplicasOperations;
     readonly servers: ServersOperations;
     readonly serverThreatProtectionSettings: ServerThreatProtectionSettingsOperations;
-    readonly tuningOptions: TuningOptionsOperations;
+    readonly tuningOptionsOperations: TuningOptionsOperationsOperations;
     readonly virtualEndpoints: VirtualEndpointsOperations;
     readonly virtualNetworkSubnetUsage: VirtualNetworkSubnetUsageOperations;
 }
@@ -1659,6 +1819,19 @@ export class PostgreSQLManagementFlexibleServerClient {
 export interface PostgreSQLManagementFlexibleServerClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
+export interface PrecheckErrorInfo {
+    errorCode?: number;
+    errorMessage?: string;
+}
+
+// @public
+export interface PrecheckResult {
+    action?: string;
+    errorInfo?: PrecheckErrorInfo[];
+    upgradeSequence?: UpgradeSequence;
 }
 
 // @public
@@ -1846,6 +2019,8 @@ export interface RestartParameter {
     restartWithFailover?: boolean;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: PostgreSQLManagementFlexibleServerClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -2030,6 +2205,10 @@ export interface ServersOperations {
     // @deprecated (undocumented)
     beginStartAndWait: (resourceGroupName: string, serverName: string, options?: ServersStartOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
+    beginStartMajorVersionUpgradePrecheck: (resourceGroupName: string, serverName: string, body: StartMajorVersionUpgradePrecheckRequest, options?: ServersStartMajorVersionUpgradePrecheckOptionalParams) => Promise<SimplePollerLike<OperationState<StartMajorVersionUpgradePrecheckResponse>, StartMajorVersionUpgradePrecheckResponse>>;
+    // @deprecated (undocumented)
+    beginStartMajorVersionUpgradePrecheckAndWait: (resourceGroupName: string, serverName: string, body: StartMajorVersionUpgradePrecheckRequest, options?: ServersStartMajorVersionUpgradePrecheckOptionalParams) => Promise<StartMajorVersionUpgradePrecheckResponse>;
+    // @deprecated (undocumented)
     beginStop: (resourceGroupName: string, serverName: string, options?: ServersStopOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginStopAndWait: (resourceGroupName: string, serverName: string, options?: ServersStopOptionalParams) => Promise<void>;
@@ -2045,6 +2224,7 @@ export interface ServersOperations {
     migrateNetworkMode: (resourceGroupName: string, serverName: string, options?: ServersMigrateNetworkModeOptionalParams) => PollerLike<OperationState<MigrateNetworkStatus>, MigrateNetworkStatus>;
     restart: (resourceGroupName: string, serverName: string, options?: ServersRestartOptionalParams) => PollerLike<OperationState<void>, void>;
     start: (resourceGroupName: string, serverName: string, options?: ServersStartOptionalParams) => PollerLike<OperationState<void>, void>;
+    startMajorVersionUpgradePrecheck: (resourceGroupName: string, serverName: string, body: StartMajorVersionUpgradePrecheckRequest, options?: ServersStartMajorVersionUpgradePrecheckOptionalParams) => PollerLike<OperationState<StartMajorVersionUpgradePrecheckResponse>, StartMajorVersionUpgradePrecheckResponse>;
     stop: (resourceGroupName: string, serverName: string, options?: ServersStopOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, serverName: string, parameters: ServerForPatch, options?: ServersUpdateOptionalParams) => PollerLike<OperationState<Server>, Server>;
 }
@@ -2052,6 +2232,11 @@ export interface ServersOperations {
 // @public
 export interface ServersRestartOptionalParams extends OperationOptions {
     parameters?: RestartParameter;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ServersStartMajorVersionUpgradePrecheckOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -2147,6 +2332,18 @@ export type SslMode = string;
 export type StartDataMigration = string;
 
 // @public
+export interface StartMajorVersionUpgradePrecheckRequest {
+    targetVersion: PostgresMajorVersion;
+}
+
+// @public
+export interface StartMajorVersionUpgradePrecheckResponse {
+    createTime?: Date;
+    name?: string;
+    status?: MajorVersionUpgradePrecheckStatus;
+}
+
+// @public
 export interface Storage {
     autoGrow?: StorageAutoGrow;
     iops?: number;
@@ -2230,28 +2427,34 @@ export interface TuningOptions extends ProxyResource {
 }
 
 // @public
-export interface TuningOptionsGetOptionalParams extends OperationOptions {
+export interface TuningOptionsOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TuningOptionsListByServerOptionalParams extends OperationOptions {
+export interface TuningOptionsOperationsListByServerOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TuningOptionsListRecommendationsOptionalParams extends OperationOptions {
+export interface TuningOptionsOperationsListRecommendationsOptionalParams extends OperationOptions {
     recommendationType?: RecommendationTypeParameterEnum;
 }
 
 // @public
-export interface TuningOptionsOperations {
-    get: (resourceGroupName: string, serverName: string, tuningOption: TuningOptionParameterEnum, options?: TuningOptionsGetOptionalParams) => Promise<TuningOptions>;
-    listByServer: (resourceGroupName: string, serverName: string, options?: TuningOptionsListByServerOptionalParams) => PagedAsyncIterableIterator<TuningOptions>;
-    listRecommendations: (resourceGroupName: string, serverName: string, tuningOption: TuningOptionParameterEnum, options?: TuningOptionsListRecommendationsOptionalParams) => PagedAsyncIterableIterator<ObjectRecommendation>;
+export interface TuningOptionsOperationsOperations {
+    get: (resourceGroupName: string, serverName: string, tuningOption: TuningOptionParameterEnum, options?: TuningOptionsOperationsGetOptionalParams) => Promise<TuningOptions>;
+    listByServer: (resourceGroupName: string, serverName: string, options?: TuningOptionsOperationsListByServerOptionalParams) => PagedAsyncIterableIterator<TuningOptions>;
+    listRecommendations: (resourceGroupName: string, serverName: string, tuningOption: TuningOptionParameterEnum, options?: TuningOptionsOperationsListRecommendationsOptionalParams) => PagedAsyncIterableIterator<ObjectRecommendation>;
 }
 
 // @public
 export interface TuningOptionsProperties {
     readonly state?: string;
+}
+
+// @public
+export interface UpgradeSequence {
+    sourceVersion?: PostgresMajorVersion;
+    targetVersion?: PostgresMajorVersion;
 }
 
 // @public
