@@ -1,21 +1,51 @@
 # Release History
 
-## 3.3.2 (Unreleased)
+## 4.0.0-beta.1 (2026-06-10)
+Compared with version 3.3.0
 
 ### Features Added
+  - Added operation PrivateZonesOperations.createOrUpdate
+  - Added operation PrivateZonesOperations.delete
+  - Added operation PrivateZonesOperations.update
+  - Added operation VirtualNetworkLinksOperations.createOrUpdate
+  - Added operation VirtualNetworkLinksOperations.delete
+  - Added operation VirtualNetworkLinksOperations.update
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateZoneProperties
+  - Added Interface RecordSetProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SystemData
+  - Added Interface VirtualNetworkLinkProperties
+  - Interface PrivateZone has a new optional parameter systemData
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface RecordSet has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface VirtualNetworkLink has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Enum AzureClouds
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Removed operation PrivateZones.beginCreateOrUpdate
+  - Removed operation PrivateZones.beginCreateOrUpdateAndWait
+  - Removed operation PrivateZones.beginDelete
+  - Removed operation PrivateZones.beginDeleteAndWait
+  - Removed operation PrivateZones.beginUpdate
+  - Removed operation PrivateZones.beginUpdateAndWait
+  - Removed operation VirtualNetworkLinks.beginCreateOrUpdate
+  - Removed operation VirtualNetworkLinks.beginCreateOrUpdateAndWait
+  - Removed operation VirtualNetworkLinks.beginDelete
+  - Removed operation VirtualNetworkLinks.beginDeleteAndWait
+  - Removed operation VirtualNetworkLinks.beginUpdate
+  - Removed operation VirtualNetworkLinks.beginUpdateAndWait
+  - Class PrivateDnsManagementClient no longer has parameter apiVersion
+  - Class PrivateDnsManagementClient no longer has parameter subscriptionId
+  - Removed Interface TrackedResource
 
-### Bugs Fixed
-
-### Other Changes
-
-## 3.3.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 3.3.0 (2024-09-12)
     
 ### Features Added
