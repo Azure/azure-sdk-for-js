@@ -59,8 +59,6 @@ Compared with version 1.1.0
   - Removed operation MonitoredSubscriptions.beginCreateorUpdate
   - Removed operation MonitoredSubscriptions.beginCreateorUpdateAndWait
   - Operation MonitoredSubscriptions.beginDeleteAndWait has a new signature
-  - Class NewRelicObservability no longer has parameter apiVersion
-  - Class NewRelicObservability no longer has parameter subscriptionId
   - Removed Interface AccountsListResponse
   - Removed Interface AppServicesGetParameter
   - Removed Interface AppServicesListResponse
