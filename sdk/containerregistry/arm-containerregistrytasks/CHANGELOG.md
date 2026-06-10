@@ -1,7 +1,152 @@
 # Release History
-    
-## 1.0.0-beta.1 (2026-01-21)
+
+## 1.0.0-beta.2 (2026-06-10)
+Compared with version 1.0.0-beta.1
 
 ### Features Added
+  - Added operation group AgentPoolsOperations
+  - Added operation group RegistriesOperations
+  - Added operation group RunsOperations
+  - Added operation group TaskRunsOperations
+  - Added operation group TasksOperations
+  - Added Class ContainerRegistryTasksManagementClient
+  - Added Interface AgentPool
+  - Added Interface AgentPoolProperties
+  - Added Interface AgentPoolPropertiesUpdateParameters
+  - Added Interface AgentPoolQueueStatus
+  - Added Interface AgentPoolsCreateOptionalParams
+  - Added Interface AgentPoolsDeleteOptionalParams
+  - Added Interface AgentPoolsGetOptionalParams
+  - Added Interface AgentPoolsGetQueueStatusOptionalParams
+  - Added Interface AgentPoolsListOptionalParams
+  - Added Interface AgentPoolsUpdateOptionalParams
+  - Added Interface AgentPoolUpdateParameters
+  - Added Interface AgentProperties
+  - Added Interface Argument
+  - Added Interface AuthInfo
+  - Added Interface AuthInfoUpdateParameters
+  - Added Interface BaseImageDependency
+  - Added Interface BaseImageTrigger
+  - Added Interface BaseImageTriggerUpdateParameters
+  - Added Interface ContainerRegistryTasksManagementClientOptionalParams
+  - Added Interface Credentials
+  - Added Interface CustomRegistryCredentials
+  - Added Interface DockerBuildRequest
+  - Added Interface DockerBuildStep
+  - Added Interface DockerBuildStepUpdateParameters
+  - Added Interface EncodedTaskRunRequest
+  - Added Interface EncodedTaskStep
+  - Added Interface EncodedTaskStepUpdateParameters
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface FileTaskRunRequest
+  - Added Interface FileTaskStep
+  - Added Interface FileTaskStepUpdateParameters
+  - Added Interface IdentityProperties
+  - Added Interface ImageDescriptor
+  - Added Interface ImageUpdateTrigger
+  - Added Interface OverrideTaskStepProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PlatformProperties
+  - Added Interface PlatformUpdateParameters
+  - Added Interface ProxyResource
+  - Added Interface RegistriesGetBuildSourceUploadUrlOptionalParams
+  - Added Interface RegistriesScheduleRunOptionalParams
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface Run
+  - Added Interface RunGetLogResult
+  - Added Interface RunProperties
+  - Added Interface RunRequest
+  - Added Interface RunsCancelOptionalParams
+  - Added Interface RunsGetLogSasUrlOptionalParams
+  - Added Interface RunsGetOptionalParams
+  - Added Interface RunsListOptionalParams
+  - Added Interface RunsUpdateOptionalParams
+  - Added Interface RunUpdateParameters
+  - Added Interface SecretObject
+  - Added Interface SetValue
+  - Added Interface SourceProperties
+  - Added Interface SourceRegistryCredentials
+  - Added Interface SourceTrigger
+  - Added Interface SourceTriggerDescriptor
+  - Added Interface SourceTriggerUpdateParameters
+  - Added Interface SourceUpdateParameters
+  - Added Interface SourceUploadDefinition
+  - Added Interface SystemData
+  - Added Interface Task
+  - Added Interface TaskProperties
+  - Added Interface TaskPropertiesUpdateParameters
+  - Added Interface TaskRun
+  - Added Interface TaskRunProperties
+  - Added Interface TaskRunPropertiesUpdateParameters
+  - Added Interface TaskRunRequest
+  - Added Interface TaskRunsCreateOptionalParams
+  - Added Interface TaskRunsDeleteOptionalParams
+  - Added Interface TaskRunsGetDetailsOptionalParams
+  - Added Interface TaskRunsGetOptionalParams
+  - Added Interface TaskRunsListOptionalParams
+  - Added Interface TaskRunsUpdateOptionalParams
+  - Added Interface TaskRunUpdateParameters
+  - Added Interface TasksCreateOptionalParams
+  - Added Interface TasksDeleteOptionalParams
+  - Added Interface TasksGetDetailsOptionalParams
+  - Added Interface TasksGetOptionalParams
+  - Added Interface TasksListOptionalParams
+  - Added Interface TaskStepProperties
+  - Added Interface TaskStepUpdateParameters
+  - Added Interface TasksUpdateOptionalParams
+  - Added Interface TaskUpdateParameters
+  - Added Interface TimerTrigger
+  - Added Interface TimerTriggerDescriptor
+  - Added Interface TimerTriggerUpdateParameters
+  - Added Interface TrackedResource
+  - Added Interface TriggerProperties
+  - Added Interface TriggerUpdateParameters
+  - Added Interface UserIdentityProperties
+  - Added Type Alias Architecture
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BaseImageDependencyType
+  - Added Type Alias BaseImageTriggerType
+  - Added Type Alias CreatedByType
+  - Added Type Alias OS
+  - Added Type Alias ProvisioningState
+  - Added Type Alias ResourceIdentityType
+  - Added Type Alias RunRequestUnion
+  - Added Type Alias RunStatus
+  - Added Type Alias RunType
+  - Added Type Alias SecretObjectType
+  - Added Type Alias SourceControlType
+  - Added Type Alias SourceRegistryLoginMode
+  - Added Type Alias SourceTriggerEvent
+  - Added Type Alias StepType
+  - Added Type Alias TaskStatus
+  - Added Type Alias TaskStepPropertiesUnion
+  - Added Type Alias TaskStepUpdateParametersUnion
+  - Added Type Alias TokenType
+  - Added Type Alias TriggerStatus
+  - Added Type Alias UpdateTriggerPayloadType
+  - Added Type Alias Variant
+  - Added Enum AzureClouds
+  - Added Enum KnownArchitecture
+  - Added Enum KnownBaseImageDependencyType
+  - Added Enum KnownBaseImageTriggerType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownOS
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownRunStatus
+  - Added Enum KnownRunType
+  - Added Enum KnownSecretObjectType
+  - Added Enum KnownSourceControlType
+  - Added Enum KnownSourceRegistryLoginMode
+  - Added Enum KnownSourceTriggerEvent
+  - Added Enum KnownStepType
+  - Added Enum KnownTaskStatus
+  - Added Enum KnownTokenType
+  - Added Enum KnownTriggerStatus
+  - Added Enum KnownUpdateTriggerPayloadType
+  - Added Enum KnownVariant
+  - Added Enum KnownVersions
 
-Initial release of the @azure/arm-containerregistrytasks package
