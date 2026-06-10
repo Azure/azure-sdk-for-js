@@ -1,21 +1,435 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 2.0.0-beta.1 (2026-06-10)
+Compared with version 1.1.0
 
 ### Features Added
+  - Added operation group CustomizationTasksOperations
+  - Added operation group DevCenterCatalogImageDefinitionBuildOperations
+  - Added operation group DevCenterCatalogImageDefinitionBuildsOperations
+  - Added operation group DevCenterCatalogImageDefinitionsOperations
+  - Added operation group EncryptionSetsOperations
+  - Added operation group ProjectCatalogImageDefinitionBuildOperations
+  - Added operation group ProjectCatalogImageDefinitionBuildsOperations
+  - Added operation group ProjectCatalogImageDefinitionsOperations
+  - Added operation group ProjectPoliciesOperations
+  - Added operation AttachedNetworksOperations.createOrUpdate
+  - Added operation AttachedNetworksOperations.delete
+  - Added operation CatalogsOperations.connect
+  - Added operation CatalogsOperations.createOrUpdate
+  - Added operation CatalogsOperations.delete
+  - Added operation CatalogsOperations.sync
+  - Added operation CatalogsOperations.update
+  - Added operation DevBoxDefinitionsOperations.createOrUpdate
+  - Added operation DevBoxDefinitionsOperations.delete
+  - Added operation DevBoxDefinitionsOperations.update
+  - Added operation DevCentersOperations.createOrUpdate
+  - Added operation DevCentersOperations.delete
+  - Added operation DevCentersOperations.update
+  - Added operation GalleriesOperations.createOrUpdate
+  - Added operation GalleriesOperations.delete
+  - Added operation ImagesOperations.getByProject
+  - Added operation ImagesOperations.listByProject
+  - Added operation ImageVersionsOperations.getByProject
+  - Added operation ImageVersionsOperations.listByProject
+  - Added operation NetworkConnectionsOperations.createOrUpdate
+  - Added operation NetworkConnectionsOperations.delete
+  - Added operation NetworkConnectionsOperations.runHealthChecks
+  - Added operation NetworkConnectionsOperations.update
+  - Added operation PoolsOperations.createOrUpdate
+  - Added operation PoolsOperations.delete
+  - Added operation PoolsOperations.runHealthChecks
+  - Added operation PoolsOperations.update
+  - Added operation ProjectCatalogsOperations.connect
+  - Added operation ProjectCatalogsOperations.createOrUpdate
+  - Added operation ProjectCatalogsOperations.delete
+  - Added operation ProjectCatalogsOperations.patch
+  - Added operation ProjectCatalogsOperations.sync
+  - Added operation ProjectsOperations.createOrUpdate
+  - Added operation ProjectsOperations.delete
+  - Added operation ProjectsOperations.getInheritedSettings
+  - Added operation ProjectsOperations.update
+  - Added operation SchedulesOperations.createOrUpdate
+  - Added operation SchedulesOperations.delete
+  - Added operation SchedulesOperations.update
+  - Added operation SkusOperations.listByProject
+  - Added Interface ActiveHoursConfiguration
+  - Added Interface AllowedEnvironmentTypeProperties
+  - Added Interface AssignedGroup
+  - Added Interface AttachedNetworkConnectionProperties
+  - Added Interface AzureAiServicesSettings
+  - Added Interface ConfigurationPolicies
+  - Added Interface CustomizationTask
+  - Added Interface CustomizationTaskInput
+  - Added Interface CustomizationTaskInstance
+  - Added Interface CustomizationTaskProperties
+  - Added Interface CustomizationTasksGetErrorDetailsOptionalParams
+  - Added Interface CustomizationTasksGetOptionalParams
+  - Added Interface CustomizationTasksListByCatalogOptionalParams
+  - Added Interface DefaultValue
+  - Added Interface DefinitionParametersItem
+  - Added Interface DevBoxProvisioningSettings
+  - Added Interface DevBoxScheduleDeleteSettings
+  - Added Interface DevCenterCatalogImageDefinitionBuildCancelOptionalParams
+  - Added Interface DevCenterCatalogImageDefinitionBuildGetBuildDetailsOptionalParams
+  - Added Interface DevCenterCatalogImageDefinitionBuildGetOptionalParams
+  - Added Interface DevCenterCatalogImageDefinitionBuildsListByImageDefinitionOptionalParams
+  - Added Interface DevCenterCatalogImageDefinitionsBuildImageOptionalParams
+  - Added Interface DevCenterCatalogImageDefinitionsGetByDevCenterCatalogOptionalParams
+  - Added Interface DevCenterCatalogImageDefinitionsGetErrorDetailsOptionalParams
+  - Added Interface DevCenterCatalogImageDefinitionsListByDevCenterCatalogOptionalParams
+  - Added Interface DevCenterEncryptionSet
+  - Added Interface DevCenterEncryptionSetProperties
+  - Added Interface DevCenterEncryptionSetUpdateProperties
+  - Added Interface DevCenterNetworkSettings
+  - Added Interface EncryptionSetsCreateOrUpdateOptionalParams
+  - Added Interface EncryptionSetsDeleteOptionalParams
+  - Added Interface EncryptionSetsGetOptionalParams
+  - Added Interface EncryptionSetsListOptionalParams
+  - Added Interface EncryptionSetsUpdateOptionalParams
+  - Added Interface EncryptionSetUpdate
+  - Added Interface EnvironmentDefinitionProperties
+  - Added Interface FeatureState
+  - Added Interface GalleryProperties
+  - Added Interface HealthCheckStatusDetailsProperties
+  - Added Interface Image
+  - Added Interface ImageCreationErrorDetails
+  - Added Interface ImageDefinition
+  - Added Interface ImageDefinitionBuild
+  - Added Interface ImageDefinitionBuildDetails
+  - Added Interface ImageDefinitionBuildProperties
+  - Added Interface ImageDefinitionBuildTask
+  - Added Interface ImageDefinitionBuildTaskGroup
+  - Added Interface ImageDefinitionBuildTaskParametersItem
+  - Added Interface ImageDefinitionProperties
+  - Added Interface ImageDefinitionReference
+  - Added Interface ImageProperties
+  - Added Interface ImagesGetByProjectOptionalParams
+  - Added Interface ImagesListByProjectOptionalParams
+  - Added Interface ImageVersionProperties
+  - Added Interface ImageVersionsGetByProjectOptionalParams
+  - Added Interface ImageVersionsListByProjectOptionalParams
+  - Added Interface InheritedProjectCatalogSettings
+  - Added Interface InheritedSettingsForProject
+  - Added Interface KeyEncryptionKeyIdentity
+  - Added Interface LatestImageBuild
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PoolDevBoxDefinition
+  - Added Interface ProjectCatalogImageDefinitionBuildCancelOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionBuildGetBuildDetailsOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionBuildGetOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionBuildsListByImageDefinitionOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionsBuildImageOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionsGetByProjectCatalogOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionsGetErrorDetailsOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionsListByProjectCatalogOptionalParams
+  - Added Interface ProjectCustomizationManagedIdentity
+  - Added Interface ProjectCustomizationSettings
+  - Added Interface ProjectNetworkSettings
+  - Added Interface ProjectPoliciesCreateOrUpdateOptionalParams
+  - Added Interface ProjectPoliciesDeleteOptionalParams
+  - Added Interface ProjectPoliciesGetOptionalParams
+  - Added Interface ProjectPoliciesListByDevCenterOptionalParams
+  - Added Interface ProjectPoliciesUpdateOptionalParams
+  - Added Interface ProjectPolicy
+  - Added Interface ProjectPolicyProperties
+  - Added Interface ProjectPolicyUpdate
+  - Added Interface ProjectPolicyUpdateProperties
+  - Added Interface ProjectsGetInheritedSettingsOptionalParams
+  - Added Interface ResourcePolicy
+  - Added Interface RestorePollerOptions
+  - Added Interface ServerlessGpuSessionsSettings
+  - Added Interface SkusListByProjectOptionalParams
+  - Added Interface StopOnNoConnectConfiguration
+  - Added Interface WorkspaceStorageSettings
+  - Interface AllowedEnvironmentType has a new optional parameter properties
+  - Interface AttachedNetworkConnection has a new optional parameter properties
+  - Interface Catalog has a new optional parameter properties
+  - Interface CatalogProperties has a new optional parameter autoImageBuildEnableStatus
+  - Interface CatalogUpdate has a new optional parameter autoImageBuildEnableStatus
+  - Interface CatalogUpdateProperties has a new optional parameter autoImageBuildEnableStatus
+  - Interface DevBoxDefinition has a new optional parameter properties
+  - Interface DevCenter has a new optional parameter properties
+  - Interface DevCenterProperties has a new optional parameter devBoxProvisioningSettings
+  - Interface DevCenterProperties has a new optional parameter networkSettings
+  - Interface DevCenterUpdate has a new optional parameter devBoxProvisioningSettings
+  - Interface DevCenterUpdate has a new optional parameter networkSettings
+  - Interface DevCenterUpdateProperties has a new optional parameter devBoxProvisioningSettings
+  - Interface DevCenterUpdateProperties has a new optional parameter networkSettings
+  - Interface EnvironmentDefinition has a new optional parameter properties
+  - Interface EnvironmentType has a new optional parameter properties
+  - Interface Gallery has a new optional parameter properties
+  - Interface HealthCheckStatusDetails has a new optional parameter properties
+  - Interface ImageVersion has a new optional parameter properties
+  - Interface NetworkConnection has a new optional parameter properties
+  - Interface Pool has a new optional parameter properties
+  - Interface PoolProperties has a new optional parameter activeHoursConfiguration
+  - Interface PoolProperties has a new optional parameter devBoxDefinition
+  - Interface PoolProperties has a new optional parameter devBoxDefinitionType
+  - Interface PoolProperties has a new optional parameter devBoxTunnelEnableStatus
+  - Interface PoolProperties has a new optional parameter stopOnNoConnect
+  - Interface PoolUpdate has a new optional parameter activeHoursConfiguration
+  - Interface PoolUpdate has a new optional parameter devBoxDefinition
+  - Interface PoolUpdate has a new optional parameter devBoxDefinitionType
+  - Interface PoolUpdate has a new optional parameter devBoxTunnelEnableStatus
+  - Interface PoolUpdate has a new optional parameter stopOnNoConnect
+  - Interface PoolUpdateProperties has a new optional parameter activeHoursConfiguration
+  - Interface PoolUpdateProperties has a new optional parameter devBoxDefinition
+  - Interface PoolUpdateProperties has a new optional parameter devBoxDefinitionType
+  - Interface PoolUpdateProperties has a new optional parameter devBoxTunnelEnableStatus
+  - Interface PoolUpdateProperties has a new optional parameter stopOnNoConnect
+  - Interface Project has a new optional parameter properties
+  - Interface ProjectEnvironmentType has a new optional parameter properties
+  - Interface ProjectProperties has a new optional parameter assignedGroups
+  - Interface ProjectProperties has a new optional parameter azureAiServicesSettings
+  - Interface ProjectProperties has a new optional parameter customizationSettings
+  - Interface ProjectProperties has a new optional parameter devBoxScheduleDeleteSettings
+  - Interface ProjectProperties has a new optional parameter serverlessGpuSessionsSettings
+  - Interface ProjectProperties has a new optional parameter workspaceStorageSettings
+  - Interface ProjectUpdate has a new optional parameter assignedGroups
+  - Interface ProjectUpdate has a new optional parameter azureAiServicesSettings
+  - Interface ProjectUpdate has a new optional parameter customizationSettings
+  - Interface ProjectUpdate has a new optional parameter devBoxScheduleDeleteSettings
+  - Interface ProjectUpdate has a new optional parameter serverlessGpuSessionsSettings
+  - Interface ProjectUpdate has a new optional parameter workspaceStorageSettings
+  - Interface ProjectUpdateProperties has a new optional parameter assignedGroups
+  - Interface ProjectUpdateProperties has a new optional parameter azureAiServicesSettings
+  - Interface ProjectUpdateProperties has a new optional parameter customizationSettings
+  - Interface ProjectUpdateProperties has a new optional parameter devBoxScheduleDeleteSettings
+  - Interface ProjectUpdateProperties has a new optional parameter serverlessGpuSessionsSettings
+  - Interface ProjectUpdateProperties has a new optional parameter workspaceStorageSettings
+  - Interface Schedule has a new optional parameter properties
+  - Added Type Alias ArchitectureType
+  - Added Type Alias AssignedGroupScope
+  - Added Type Alias AutoImageBuildStatus
+  - Added Type Alias AutoStartEnableStatus
+  - Added Type Alias AzureAiServicesMode
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CancelOnConnectEnableStatus
+  - Added Type Alias CatalogAutoImageBuildEnableStatus
+  - Added Type Alias CmkIdentityType
+  - Added Type Alias CustomizationTaskInputType
+  - Added Type Alias DayOfWeek
+  - Added Type Alias DevBoxDeleteMode
+  - Added Type Alias DevboxDisksEncryptionEnableStatus
+  - Added Type Alias DevBoxTunnelEnableStatus
+  - Added Type Alias DevCenterResourceType
+  - Added Type Alias FeatureStateModifiable
+  - Added Type Alias FeatureStatus
+  - Added Type Alias ImageDefinitionBuildStatus
+  - Added Type Alias InstallAzureMonitorAgentEnableStatus
+  - Added Type Alias KeepAwakeEnableStatus
+  - Added Type Alias MicrosoftHostedNetworkEnableStatus
+  - Added Type Alias PolicyAction
+  - Added Type Alias PoolDevBoxDefinitionType
+  - Added Type Alias ProjectCustomizationIdentityType
+  - Added Type Alias ServerlessGpuSessionsMode
+  - Added Type Alias StopOnNoConnectEnableStatus
+  - Added Type Alias UserCustomizationsEnableStatus
+  - Added Type Alias WorkspaceStorageMode
+  - Added Enum AzureClouds
+  - Added Enum KnownArchitectureType
+  - Added Enum KnownAssignedGroupScope
+  - Added Enum KnownAutoImageBuildStatus
+  - Added Enum KnownAutoStartEnableStatus
+  - Added Enum KnownAzureAiServicesMode
+  - Added Enum KnownCancelOnConnectEnableStatus
+  - Added Enum KnownCatalogAutoImageBuildEnableStatus
+  - Added Enum KnownCmkIdentityType
+  - Added Enum KnownCustomizationTaskInputType
+  - Added Enum KnownDevBoxDeleteMode
+  - Added Enum KnownDevboxDisksEncryptionEnableStatus
+  - Added Enum KnownDevBoxTunnelEnableStatus
+  - Added Enum KnownDevCenterResourceType
+  - Added Enum KnownFeatureStateModifiable
+  - Added Enum KnownFeatureStatus
+  - Added Enum KnownImageDefinitionBuildStatus
+  - Added Enum KnownInstallAzureMonitorAgentEnableStatus
+  - Added Enum KnownKeepAwakeEnableStatus
+  - Added Enum KnownMicrosoftHostedNetworkEnableStatus
+  - Added Enum KnownPolicyAction
+  - Added Enum KnownPoolDevBoxDefinitionType
+  - Added Enum KnownProjectCustomizationIdentityType
+  - Added Enum KnownServerlessGpuSessionsMode
+  - Added Enum KnownStopOnNoConnectEnableStatus
+  - Added Enum KnownUserCustomizationsEnableStatus
+  - Added Enum KnownVersions
+  - Added Enum KnownWorkspaceStorageMode
+  - Enum KnownCatalogItemType has a new value ImageDefinition
+  - Enum KnownDomainJoinType has a new value None
+  - Enum KnownHealthCheckStatus has a new value Informational
 
 ### Breaking Changes
+  - Removed operation AttachedNetworks.beginCreateOrUpdate
+  - Removed operation AttachedNetworks.beginCreateOrUpdateAndWait
+  - Removed operation AttachedNetworks.beginDelete
+  - Removed operation AttachedNetworks.beginDeleteAndWait
+  - Removed operation Catalogs.beginConnect
+  - Removed operation Catalogs.beginConnectAndWait
+  - Removed operation Catalogs.beginCreateOrUpdate
+  - Removed operation Catalogs.beginCreateOrUpdateAndWait
+  - Removed operation Catalogs.beginDelete
+  - Removed operation Catalogs.beginDeleteAndWait
+  - Removed operation Catalogs.beginSync
+  - Removed operation Catalogs.beginSyncAndWait
+  - Removed operation Catalogs.beginUpdate
+  - Removed operation Catalogs.beginUpdateAndWait
+  - Removed operation DevBoxDefinitions.beginCreateOrUpdate
+  - Removed operation DevBoxDefinitions.beginCreateOrUpdateAndWait
+  - Removed operation DevBoxDefinitions.beginDelete
+  - Removed operation DevBoxDefinitions.beginDeleteAndWait
+  - Removed operation DevBoxDefinitions.beginUpdate
+  - Removed operation DevBoxDefinitions.beginUpdateAndWait
+  - Removed operation DevCenters.beginCreateOrUpdate
+  - Removed operation DevCenters.beginCreateOrUpdateAndWait
+  - Removed operation DevCenters.beginDelete
+  - Removed operation DevCenters.beginDeleteAndWait
+  - Removed operation DevCenters.beginUpdate
+  - Removed operation DevCenters.beginUpdateAndWait
+  - Removed operation Galleries.beginCreateOrUpdate
+  - Removed operation Galleries.beginCreateOrUpdateAndWait
+  - Removed operation Galleries.beginDelete
+  - Removed operation Galleries.beginDeleteAndWait
+  - Removed operation NetworkConnections.beginCreateOrUpdate
+  - Removed operation NetworkConnections.beginCreateOrUpdateAndWait
+  - Removed operation NetworkConnections.beginDelete
+  - Removed operation NetworkConnections.beginDeleteAndWait
+  - Removed operation NetworkConnections.beginRunHealthChecks
+  - Removed operation NetworkConnections.beginRunHealthChecksAndWait
+  - Removed operation NetworkConnections.beginUpdate
+  - Removed operation NetworkConnections.beginUpdateAndWait
+  - Removed operation Pools.beginCreateOrUpdate
+  - Removed operation Pools.beginCreateOrUpdateAndWait
+  - Removed operation Pools.beginDelete
+  - Removed operation Pools.beginDeleteAndWait
+  - Removed operation Pools.beginRunHealthChecks
+  - Removed operation Pools.beginRunHealthChecksAndWait
+  - Removed operation Pools.beginUpdate
+  - Removed operation Pools.beginUpdateAndWait
+  - Removed operation ProjectCatalogs.beginConnect
+  - Removed operation ProjectCatalogs.beginConnectAndWait
+  - Removed operation ProjectCatalogs.beginCreateOrUpdate
+  - Removed operation ProjectCatalogs.beginCreateOrUpdateAndWait
+  - Removed operation ProjectCatalogs.beginDelete
+  - Removed operation ProjectCatalogs.beginDeleteAndWait
+  - Removed operation ProjectCatalogs.beginPatch
+  - Removed operation ProjectCatalogs.beginPatchAndWait
+  - Removed operation ProjectCatalogs.beginSync
+  - Removed operation ProjectCatalogs.beginSyncAndWait
+  - Removed operation Projects.beginCreateOrUpdate
+  - Removed operation Projects.beginCreateOrUpdateAndWait
+  - Removed operation Projects.beginDelete
+  - Removed operation Projects.beginDeleteAndWait
+  - Removed operation Projects.beginUpdate
+  - Removed operation Projects.beginUpdateAndWait
+  - Removed operation Schedules.beginCreateOrUpdate
+  - Removed operation Schedules.beginCreateOrUpdateAndWait
+  - Removed operation Schedules.beginDelete
+  - Removed operation Schedules.beginDeleteAndWait
+  - Removed operation Schedules.beginUpdate
+  - Removed operation Schedules.beginUpdateAndWait
+  - Class DevCenterClient no longer has parameter apiVersion
+  - Class DevCenterClient no longer has parameter subscriptionId
+  - Removed Interface Image_2
+  - Removed Interface OutboundEnvironmentEndpointCollection
+  - Removed Interface TrackedResourceUpdate
+  - Interface AllowedEnvironmentType no longer has parameter displayName
+  - Interface AllowedEnvironmentType no longer has parameter provisioningState
+  - Interface AttachedNetworkConnection no longer has parameter domainJoinType
+  - Interface AttachedNetworkConnection no longer has parameter healthCheckStatus
+  - Interface AttachedNetworkConnection no longer has parameter networkConnectionId
+  - Interface AttachedNetworkConnection no longer has parameter networkConnectionLocation
+  - Interface AttachedNetworkConnection no longer has parameter provisioningState
+  - Interface Catalog no longer has parameter adoGit
+  - Interface Catalog no longer has parameter connectionState
+  - Interface Catalog no longer has parameter gitHub
+  - Interface Catalog no longer has parameter lastConnectionTime
+  - Interface Catalog no longer has parameter lastSyncStats
+  - Interface Catalog no longer has parameter lastSyncTime
+  - Interface Catalog no longer has parameter provisioningState
+  - Interface Catalog no longer has parameter syncState
+  - Interface Catalog no longer has parameter syncType
+  - Interface Catalog no longer has parameter tags
+  - Interface DevBoxDefinition no longer has parameter activeImageReference
+  - Interface DevBoxDefinition no longer has parameter hibernateSupport
+  - Interface DevBoxDefinition no longer has parameter imageReference
+  - Interface DevBoxDefinition no longer has parameter imageValidationErrorDetails
+  - Interface DevBoxDefinition no longer has parameter imageValidationStatus
+  - Interface DevBoxDefinition no longer has parameter osStorageType
+  - Interface DevBoxDefinition no longer has parameter provisioningState
+  - Interface DevBoxDefinition no longer has parameter sku
+  - Interface DevBoxDefinition no longer has parameter validationStatus
+  - Interface DevCenter no longer has parameter devCenterUri
+  - Interface DevCenter no longer has parameter displayName
+  - Interface DevCenter no longer has parameter encryption
+  - Interface DevCenter no longer has parameter projectCatalogSettings
+  - Interface DevCenter no longer has parameter provisioningState
+  - Interface EnvironmentDefinition no longer has parameter description
+  - Interface EnvironmentDefinition no longer has parameter parameters
+  - Interface EnvironmentDefinition no longer has parameter templatePath
+  - Interface EnvironmentDefinition no longer has parameter validationStatus
+  - Interface EnvironmentType no longer has parameter displayName
+  - Interface EnvironmentType no longer has parameter provisioningState
+  - Interface Gallery no longer has parameter galleryResourceId
+  - Interface Gallery no longer has parameter provisioningState
+  - Interface HealthCheckStatusDetails no longer has parameter endDateTime
+  - Interface HealthCheckStatusDetails no longer has parameter healthChecks
+  - Interface HealthCheckStatusDetails no longer has parameter startDateTime
+  - Interface ImageVersion no longer has parameter excludeFromLatest
+  - Interface ImageVersion no longer has parameter namePropertiesName
+  - Interface ImageVersion no longer has parameter osDiskImageSizeInGb
+  - Interface ImageVersion no longer has parameter provisioningState
+  - Interface ImageVersion no longer has parameter publishedDate
+  - Interface NetworkConnection no longer has parameter domainJoinType
+  - Interface NetworkConnection no longer has parameter domainName
+  - Interface NetworkConnection no longer has parameter domainPassword
+  - Interface NetworkConnection no longer has parameter domainUsername
+  - Interface NetworkConnection no longer has parameter healthCheckStatus
+  - Interface NetworkConnection no longer has parameter networkingResourceGroupName
+  - Interface NetworkConnection no longer has parameter organizationUnit
+  - Interface NetworkConnection no longer has parameter provisioningState
+  - Interface NetworkConnection no longer has parameter subnetId
+  - Interface OperationStatus no longer has parameter resourceId
+  - Interface Pool no longer has parameter devBoxCount
+  - Interface Pool no longer has parameter devBoxDefinitionName
+  - Interface Pool no longer has parameter displayName
+  - Interface Pool no longer has parameter healthStatus
+  - Interface Pool no longer has parameter healthStatusDetails
+  - Interface Pool no longer has parameter licenseType
+  - Interface Pool no longer has parameter localAdministrator
+  - Interface Pool no longer has parameter managedVirtualNetworkRegions
+  - Interface Pool no longer has parameter networkConnectionName
+  - Interface Pool no longer has parameter provisioningState
+  - Interface Pool no longer has parameter singleSignOnStatus
+  - Interface Pool no longer has parameter stopOnDisconnect
+  - Interface Pool no longer has parameter virtualNetworkType
+  - Interface Project no longer has parameter catalogSettings
+  - Interface Project no longer has parameter description
+  - Interface Project no longer has parameter devCenterId
+  - Interface Project no longer has parameter devCenterUri
+  - Interface Project no longer has parameter displayName
+  - Interface Project no longer has parameter maxDevBoxesPerUser
+  - Interface Project no longer has parameter provisioningState
+  - Interface ProjectEnvironmentType no longer has parameter creatorRoleAssignment
+  - Interface ProjectEnvironmentType no longer has parameter deploymentTargetId
+  - Interface ProjectEnvironmentType no longer has parameter displayName
+  - Interface ProjectEnvironmentType no longer has parameter environmentCount
+  - Interface ProjectEnvironmentType no longer has parameter provisioningState
+  - Interface ProjectEnvironmentType no longer has parameter status
+  - Interface ProjectEnvironmentType no longer has parameter userRoleAssignments
+  - Interface Schedule no longer has parameter frequency
+  - Interface Schedule no longer has parameter location
+  - Interface Schedule no longer has parameter provisioningState
+  - Interface Schedule no longer has parameter state
+  - Interface Schedule no longer has parameter tags
+  - Interface Schedule no longer has parameter time
+  - Interface Schedule no longer has parameter timeZone
+  - Interface Schedule no longer has parameter typePropertiesType
+  - Interface SchedulesGetOptionalParams no longer has parameter top
+  - Parameter location of interface ProjectEnvironmentType is now required
 
-### Bugs Fixed
-
-### Other Changes
-
-## 1.1.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 1.1.0 (2024-04-22)
     
 ### Features Added

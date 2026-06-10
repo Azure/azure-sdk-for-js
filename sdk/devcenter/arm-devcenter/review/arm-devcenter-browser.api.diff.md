@@ -7,53 +7,38 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -1075,22 +1075,23 @@
+@@ -1013,11 +1013,12 @@
  // @public
  export type IdentityType = string;
  
  // @public
 -export interface Image extends ProxyResource {
 +interface Image_2 extends ProxyResource {
-     readonly description?: string;
-     readonly hibernateSupport?: HibernateSupport;
-     readonly offer?: string;
-     readonly provisioningState?: ProvisioningState;
-     readonly publisher?: string;
-     readonly recommendedMachineConfiguration?: RecommendedMachineConfiguration;
-     readonly sku?: string;
+     properties?: ImageProperties;
  }
 +export { Image_2 as Image }
  
  // @public
- export interface ImageListResult {
-     readonly nextLink?: string;
--    readonly value?: Image[];
-+    readonly value?: Image_2[];
+ export interface ImageCreationErrorDetails {
+     code?: string;
+@@ -1145,13 +1146,13 @@
  }
  
  // @public
- export interface ImageReference {
-@@ -1100,18 +1101,18 @@
- 
- // @public
- export interface Images {
-     get(resourceGroupName: string, devCenterName: string, galleryName: string, imageName: string, options?: ImagesGetOptionalParams): Promise<ImagesGetResponse>;
--    listByDevCenter(resourceGroupName: string, devCenterName: string, options?: ImagesListByDevCenterOptionalParams): PagedAsyncIterableIterator<Image>;
--    listByGallery(resourceGroupName: string, devCenterName: string, galleryName: string, options?: ImagesListByGalleryOptionalParams): PagedAsyncIterableIterator<Image>;
-+    listByDevCenter(resourceGroupName: string, devCenterName: string, options?: ImagesListByDevCenterOptionalParams): PagedAsyncIterableIterator<Image_2>;
-+    listByGallery(resourceGroupName: string, devCenterName: string, galleryName: string, options?: ImagesListByGalleryOptionalParams): PagedAsyncIterableIterator<Image_2>;
+ export interface ImagesOperations {
+-    get: (resourceGroupName: string, devCenterName: string, galleryName: string, imageName: string, options?: ImagesGetOptionalParams) => Promise<Image>;
+-    getByProject: (resourceGroupName: string, projectName: string, imageName: string, options?: ImagesGetByProjectOptionalParams) => Promise<Image>;
+-    listByDevCenter: (resourceGroupName: string, devCenterName: string, options?: ImagesListByDevCenterOptionalParams) => PagedAsyncIterableIterator<Image>;
+-    listByGallery: (resourceGroupName: string, devCenterName: string, galleryName: string, options?: ImagesListByGalleryOptionalParams) => PagedAsyncIterableIterator<Image>;
+-    listByProject: (resourceGroupName: string, projectName: string, options?: ImagesListByProjectOptionalParams) => PagedAsyncIterableIterator<Image>;
++    get: (resourceGroupName: string, devCenterName: string, galleryName: string, imageName: string, options?: ImagesGetOptionalParams) => Promise<Image_2>;
++    getByProject: (resourceGroupName: string, projectName: string, imageName: string, options?: ImagesGetByProjectOptionalParams) => Promise<Image_2>;
++    listByDevCenter: (resourceGroupName: string, devCenterName: string, options?: ImagesListByDevCenterOptionalParams) => PagedAsyncIterableIterator<Image_2>;
++    listByGallery: (resourceGroupName: string, devCenterName: string, galleryName: string, options?: ImagesListByGalleryOptionalParams) => PagedAsyncIterableIterator<Image_2>;
++    listByProject: (resourceGroupName: string, projectName: string, options?: ImagesListByProjectOptionalParams) => PagedAsyncIterableIterator<Image_2>;
  }
  
  // @public
- export interface ImagesGetOptionalParams extends coreClient.OperationOptions {
- }
- 
- // @public
--export type ImagesGetResponse = Image;
-+export type ImagesGetResponse = Image_2;
- 
- // @public
- export interface ImagesListByDevCenterNextOptionalParams extends coreClient.OperationOptions {
- }
+ export interface ImageValidationErrorDetails {
 
 ```
