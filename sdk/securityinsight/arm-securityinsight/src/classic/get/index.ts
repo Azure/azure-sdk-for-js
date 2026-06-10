@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { singleRecommendation } from "../../api/get/operations.js";
-import { GetSingleRecommendationOptionalParams } from "../../api/get/options.js";
-import { Recommendation } from "../../models/models.js";
+import type { GetSingleRecommendationOptionalParams } from "../../api/get/options.js";
+import type { Recommendation } from "../../models/models.js";
 
 /** Interface representing a Get operations. */
 export interface GetOperations {

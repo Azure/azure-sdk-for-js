@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { $delete, list, create, get } from "../../api/sourceControls/operations.js";
-import {
+import type {
   SourceControlsDeleteOptionalParams,
   SourceControlsListOptionalParams,
   SourceControlsCreateOptionalParams,
   SourceControlsGetOptionalParams,
 } from "../../api/sourceControls/options.js";
-import { SourceControl, RepositoryAccessProperties, Warning } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SourceControl, RepositoryAccessProperties, Warning } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SourceControls operations. */
 export interface SourceControlsOperations {

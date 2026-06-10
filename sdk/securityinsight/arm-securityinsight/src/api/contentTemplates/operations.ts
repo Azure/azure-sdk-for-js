@@ -1,25 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext as Client } from "../index.js";
-import {
-  cloudErrorDeserializer,
-  TemplateModel,
-  _TemplateList,
-  _templateListDeserializer,
-} from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { SecurityInsightsContext as Client } from "../index.js";
+import type { TemplateModel, _TemplateList } from "../../models/models.js";
+import { cloudErrorDeserializer, _templateListDeserializer } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { ContentTemplatesListOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { ContentTemplatesListOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -57,7 +47,9 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

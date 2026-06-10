@@ -1,27 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext as Client } from "./index.js";
-import {
+import type { SecurityInsightsContext as Client } from "./index.js";
+import type {
   EnrichmentIpAddressBody,
-  enrichmentIpAddressBodySerializer,
   EnrichmentIpGeodata,
-  enrichmentIpGeodataDeserializer,
-  cloudErrorDeserializer,
   EnrichmentDomainBody,
-  enrichmentDomainBodySerializer,
   EnrichmentDomainWhois,
-  enrichmentDomainWhoisDeserializer,
   EnrichmentType,
 } from "../models/models.js";
-import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import { ListWhoisByDomainOptionalParams, ListGeodataByIpOptionalParams } from "./options.js";
 import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+  enrichmentIpAddressBodySerializer,
+  enrichmentIpGeodataDeserializer,
+  cloudErrorDeserializer,
+  enrichmentDomainBodySerializer,
+  enrichmentDomainWhoisDeserializer,
+} from "../models/models.js";
+import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
+import type { ListWhoisByDomainOptionalParams, ListGeodataByIpOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listWhoisByDomainSend(
   context: Client,
@@ -58,7 +56,9 @@ export async function _listWhoisByDomainDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -121,7 +121,9 @@ export async function _listGeodataByIpDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

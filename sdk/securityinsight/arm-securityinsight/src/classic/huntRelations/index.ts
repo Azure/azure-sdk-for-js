@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/huntRelations/operations.js";
-import {
+import type {
   HuntRelationsListOptionalParams,
   HuntRelationsDeleteOptionalParams,
   HuntRelationsCreateOrUpdateOptionalParams,
   HuntRelationsGetOptionalParams,
 } from "../../api/huntRelations/options.js";
-import { HuntRelation } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { HuntRelation } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a HuntRelations operations. */
 export interface HuntRelationsOperations {

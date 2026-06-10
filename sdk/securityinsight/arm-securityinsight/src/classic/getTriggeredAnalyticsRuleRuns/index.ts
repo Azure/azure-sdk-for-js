@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list } from "../../api/getTriggeredAnalyticsRuleRuns/operations.js";
-import { GetTriggeredAnalyticsRuleRunsListOptionalParams } from "../../api/getTriggeredAnalyticsRuleRuns/options.js";
-import { TriggeredAnalyticsRuleRun } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { GetTriggeredAnalyticsRuleRunsListOptionalParams } from "../../api/getTriggeredAnalyticsRuleRuns/options.js";
+import type { TriggeredAnalyticsRuleRun } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GetTriggeredAnalyticsRuleRuns operations. */
 export interface GetTriggeredAnalyticsRuleRunsOperations {

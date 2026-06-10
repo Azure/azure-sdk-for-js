@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/incidentTasks/operations.js";
-import {
+import type {
   IncidentTasksListOptionalParams,
   IncidentTasksDeleteOptionalParams,
   IncidentTasksCreateOrUpdateOptionalParams,
   IncidentTasksGetOptionalParams,
 } from "../../api/incidentTasks/options.js";
-import { IncidentTask } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { IncidentTask } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a IncidentTasks operations. */
 export interface IncidentTasksOperations {

@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, $delete, create, get } from "../../api/sentinelOnboardingStates/operations.js";
-import {
+import type {
   SentinelOnboardingStatesListOptionalParams,
   SentinelOnboardingStatesDeleteOptionalParams,
   SentinelOnboardingStatesCreateOptionalParams,
   SentinelOnboardingStatesGetOptionalParams,
 } from "../../api/sentinelOnboardingStates/options.js";
-import { SentinelOnboardingState, SentinelOnboardingStatesList } from "../../models/models.js";
+import type { SentinelOnboardingState, SentinelOnboardingStatesList } from "../../models/models.js";
 
 /** Interface representing a SentinelOnboardingStates operations. */
 export interface SentinelOnboardingStatesOperations {

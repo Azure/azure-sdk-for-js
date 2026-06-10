@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list } from "../../api/entitiesRelations/operations.js";
-import { EntitiesRelationsListOptionalParams } from "../../api/entitiesRelations/options.js";
-import { Relation } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { EntitiesRelationsListOptionalParams } from "../../api/entitiesRelations/options.js";
+import type { Relation } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a EntitiesRelations operations. */
 export interface EntitiesRelationsOperations {

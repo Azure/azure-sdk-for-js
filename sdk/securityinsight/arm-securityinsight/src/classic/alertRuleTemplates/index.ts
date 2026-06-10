@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, get } from "../../api/alertRuleTemplates/operations.js";
-import {
+import type {
   AlertRuleTemplatesListOptionalParams,
   AlertRuleTemplatesGetOptionalParams,
 } from "../../api/alertRuleTemplates/options.js";
-import { AlertRuleTemplateUnion } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { AlertRuleTemplateUnion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AlertRuleTemplates operations. */
 export interface AlertRuleTemplatesOperations {

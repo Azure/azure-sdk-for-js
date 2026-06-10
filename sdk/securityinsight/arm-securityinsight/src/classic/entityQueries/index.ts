@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/entityQueries/operations.js";
-import {
+import type {
   EntityQueriesListOptionalParams,
   EntityQueriesDeleteOptionalParams,
   EntityQueriesCreateOrUpdateOptionalParams,
   EntityQueriesGetOptionalParams,
 } from "../../api/entityQueries/options.js";
-import { EntityQueryUnion, CustomEntityQueryUnion } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { EntityQueryUnion, CustomEntityQueryUnion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a EntityQueries operations. */
 export interface EntityQueriesOperations {

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.8 (2026-05-21)
+## 1.0.0-beta.8 (2026-06-10)
 Compared with version 1.0.0-beta.6
 
 ### Features Added
@@ -34,6 +34,9 @@ Compared with version 1.0.0-beta.6
   - Added operation EntitiesOperations.runPlaybook
   - Added operation FileImportsOperations.delete
   - Added operation ThreatIntelligenceIndicatorOperations.queryIndicators
+  - Class SecurityInsights has a new constructor "constructor(credential: TokenCredential, options?: SecurityInsightsOptionalParams);"
+  - Class SecurityInsights has a new constructor "listGeodataByIp(resourceGroupName: string, workspaceName: string, enrichmentType: EnrichmentType, ipAddressBody: EnrichmentIpAddressBody, options?: ListGeodataByIpOptionalParams): Promise<EnrichmentIpGeodata>;"
+  - Class SecurityInsights has a new constructor "listWhoisByDomain(resourceGroupName: string, workspaceName: string, enrichmentType: EnrichmentType, domainBody: EnrichmentDomainBody, options?: ListWhoisByDomainOptionalParams): Promise<EnrichmentDomainWhois>;"
   - Added Interface ActivityEntityQueriesProperties
   - Added Interface ActivityEntityQueryTemplateProperties
   - Added Interface AddIncidentTaskActionProperties
@@ -437,6 +440,13 @@ Compared with version 1.0.0-beta.6
   - Operation SourceControls.create has a new signature
   - Operation SourceControls.delete has a new signature
   - Operation SourceControls.get has a new signature
+  - Class SecurityInsights no longer has parameter apiVersion
+  - Class SecurityInsights no longer has parameter bookmarkOperations
+  - Class SecurityInsights no longer has parameter dataConnectorsCheckRequirementsOperations
+  - Class SecurityInsights no longer has parameter domainWhois
+  - Class SecurityInsights no longer has parameter iPGeodata
+  - Class SecurityInsights no longer has parameter sourceControlOperations
+  - Class SecurityInsights no longer has parameter subscriptionId
   - Removed Interface ActionsList
   - Removed Interface AlertRulesList
   - Removed Interface AlertRuleTemplatesList

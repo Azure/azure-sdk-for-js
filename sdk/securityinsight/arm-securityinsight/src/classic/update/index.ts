@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { recommendation } from "../../api/update/operations.js";
-import { UpdateRecommendationOptionalParams } from "../../api/update/options.js";
-import { Recommendation, RecommendationPatch } from "../../models/models.js";
+import type { UpdateRecommendationOptionalParams } from "../../api/update/options.js";
+import type { Recommendation, RecommendationPatch } from "../../models/models.js";
 
 /** Interface representing a Update operations. */
 export interface UpdateOperations {

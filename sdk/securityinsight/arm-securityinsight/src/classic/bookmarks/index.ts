@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/bookmarks/operations.js";
-import {
+import type {
   BookmarksListOptionalParams,
   BookmarksDeleteOptionalParams,
   BookmarksCreateOrUpdateOptionalParams,
   BookmarksGetOptionalParams,
 } from "../../api/bookmarks/options.js";
-import { Bookmark } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Bookmark } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Bookmarks operations. */
 export interface BookmarksOperations {

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, $delete, update, get } from "../../api/productSettings/operations.js";
-import {
+import type {
   ProductSettingsListOptionalParams,
   ProductSettingsDeleteOptionalParams,
   ProductSettingsUpdateOptionalParams,
   ProductSettingsGetOptionalParams,
 } from "../../api/productSettings/options.js";
-import { SettingsUnion } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SettingsUnion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ProductSettings operations. */
 export interface ProductSettingsOperations {

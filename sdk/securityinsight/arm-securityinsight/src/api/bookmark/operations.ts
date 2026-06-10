@@ -1,22 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext as Client } from "../index.js";
+import type { SecurityInsightsContext as Client } from "../index.js";
+import type { BookmarkExpandParameters, BookmarkExpandResponse } from "../../models/models.js";
 import {
   cloudErrorDeserializer,
-  BookmarkExpandParameters,
   bookmarkExpandParametersSerializer,
-  BookmarkExpandResponse,
   bookmarkExpandResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { BookmarkExpandOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { BookmarkExpandOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _expandSend(
   context: Client,
@@ -53,7 +48,9 @@ export async function _expandDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

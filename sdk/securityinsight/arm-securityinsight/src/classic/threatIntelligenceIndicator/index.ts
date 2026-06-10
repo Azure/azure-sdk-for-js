@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import {
   queryIndicators,
   createIndicator,
@@ -11,7 +11,7 @@ import {
   create,
   get,
 } from "../../api/threatIntelligenceIndicator/operations.js";
-import {
+import type {
   ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams,
   ThreatIntelligenceIndicatorCreateIndicatorOptionalParams,
   ThreatIntelligenceIndicatorReplaceTagsOptionalParams,
@@ -20,13 +20,13 @@ import {
   ThreatIntelligenceIndicatorCreateOptionalParams,
   ThreatIntelligenceIndicatorGetOptionalParams,
 } from "../../api/threatIntelligenceIndicator/options.js";
-import {
+import type {
   ThreatIntelligenceInformationUnion,
   ThreatIntelligenceIndicatorModel,
   ThreatIntelligenceAppendTags,
   ThreatIntelligenceFilteringCriteria,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ThreatIntelligenceIndicator operations. */
 export interface ThreatIntelligenceIndicatorOperations {

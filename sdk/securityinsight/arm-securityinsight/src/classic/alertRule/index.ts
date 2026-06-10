@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { triggerRuleRun } from "../../api/alertRule/operations.js";
-import { AlertRuleTriggerRuleRunOptionalParams } from "../../api/alertRule/options.js";
-import { AlertRuleUnion, AnalyticsRuleRunTrigger } from "../../models/models.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { AlertRuleTriggerRuleRunOptionalParams } from "../../api/alertRule/options.js";
+import type { AlertRuleUnion, AnalyticsRuleRunTrigger } from "../../models/models.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AlertRule operations. */
 export interface AlertRuleOperations {

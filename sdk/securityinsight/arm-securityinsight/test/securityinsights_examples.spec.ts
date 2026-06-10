@@ -6,11 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { SecurityInsights } from "../src/securityInsights.js";
-import { SentinelOnboardingState } from "../src/models/index.js";
-import { SentinelOnboardingStatesCreateOptionalParams } from "../src/api/sentinelOnboardingStates/options.js";
+import type { SentinelOnboardingState } from "../src/models/index.js";
+import type { SentinelOnboardingStatesCreateOptionalParams } from "../src/api/sentinelOnboardingStates/options.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
@@ -84,7 +85,7 @@ describe.skip("securityinsight test", () => {
   it("sentinel list test", async () => {
     const resArray = new Array();
     const result = await client.sentinelOnboardingStates.list(resourceGroup, workspaceName);
-    for await (let item of result.value) {
+    for await (const item of result.value) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);

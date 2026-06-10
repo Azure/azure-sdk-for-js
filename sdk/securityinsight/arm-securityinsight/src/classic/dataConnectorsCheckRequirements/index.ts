@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { post } from "../../api/dataConnectorsCheckRequirements/operations.js";
-import { DataConnectorsCheckRequirementsPostOptionalParams } from "../../api/dataConnectorsCheckRequirements/options.js";
-import {
+import type { DataConnectorsCheckRequirementsPostOptionalParams } from "../../api/dataConnectorsCheckRequirements/options.js";
+import type {
   DataConnectorsCheckRequirementsUnion,
   DataConnectorRequirementsState,
 } from "../../models/models.js";

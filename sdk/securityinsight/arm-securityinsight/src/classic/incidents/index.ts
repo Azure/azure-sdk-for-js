@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import {
   listEntities,
   listBookmarks,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/incidents/operations.js";
-import {
+import type {
   IncidentsListEntitiesOptionalParams,
   IncidentsListBookmarksOptionalParams,
   IncidentsListAlertsOptionalParams,
@@ -22,14 +22,14 @@ import {
   IncidentsCreateOrUpdateOptionalParams,
   IncidentsGetOptionalParams,
 } from "../../api/incidents/options.js";
-import {
+import type {
   Incident,
   IncidentAlertList,
   IncidentBookmarkList,
   IncidentEntitiesResponse,
   IncidentsRunPlaybookResponse,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Incidents operations. */
 export interface IncidentsOperations {

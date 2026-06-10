@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, $delete, update, create, get } from "../../api/metadata/operations.js";
-import {
+import type {
   MetadataListOptionalParams,
   MetadataDeleteOptionalParams,
   MetadataUpdateOptionalParams,
   MetadataCreateOptionalParams,
   MetadataGetOptionalParams,
 } from "../../api/metadata/options.js";
-import { MetadataModel, MetadataPatch } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { MetadataModel, MetadataPatch } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Metadata operations. */
 export interface MetadataOperations {

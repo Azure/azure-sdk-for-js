@@ -1,33 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext as Client } from "../index.js";
-import {
-  cloudErrorDeserializer,
-  entityUnionDeserializer,
+import type { SecurityInsightsContext as Client } from "../index.js";
+import type {
   EntityUnion,
   _EntityList,
-  _entityListDeserializer,
-  entityManualTriggerRequestBodySerializer,
   EntityExpandParameters,
-  entityExpandParametersSerializer,
   EntityExpandResponse,
-  entityExpandResponseDeserializer,
   _GetQueriesResponse,
-  _getQueriesResponseDeserializer,
   EntityQueryItemUnion,
   EntityGetInsightsParameters,
-  entityGetInsightsParametersSerializer,
   EntityGetInsightsResponse,
-  entityGetInsightsResponseDeserializer,
   EntityItemQueryKind,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  cloudErrorDeserializer,
+  entityUnionDeserializer,
+  _entityListDeserializer,
+  entityManualTriggerRequestBodySerializer,
+  entityExpandParametersSerializer,
+  entityExpandResponseDeserializer,
+  _getQueriesResponseDeserializer,
+  entityGetInsightsParametersSerializer,
+  entityGetInsightsResponseDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   EntitiesGetInsightsOptionalParams,
   EntitiesQueriesOptionalParams,
   EntitiesExpandOptionalParams,
@@ -35,12 +35,8 @@ import {
   EntitiesListOptionalParams,
   EntitiesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getInsightsSend(
   context: Client,
@@ -77,7 +73,9 @@ export async function _getInsightsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -139,7 +137,9 @@ export async function _queriesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -204,7 +204,9 @@ export async function _expandDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -265,7 +267,9 @@ export async function _runPlaybookDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -319,7 +323,9 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -377,7 +383,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<En
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

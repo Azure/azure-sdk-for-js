@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { expand } from "../../api/bookmark/operations.js";
-import { BookmarkExpandOptionalParams } from "../../api/bookmark/options.js";
-import { BookmarkExpandParameters, BookmarkExpandResponse } from "../../models/models.js";
+import type { BookmarkExpandOptionalParams } from "../../api/bookmark/options.js";
+import type { BookmarkExpandParameters, BookmarkExpandResponse } from "../../models/models.js";
 
 /** Interface representing a Bookmark operations. */
 export interface BookmarkOperations {

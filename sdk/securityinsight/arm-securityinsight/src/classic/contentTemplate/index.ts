@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { $delete, install, get } from "../../api/contentTemplate/operations.js";
-import {
+import type {
   ContentTemplateDeleteOptionalParams,
   ContentTemplateInstallOptionalParams,
   ContentTemplateGetOptionalParams,
 } from "../../api/contentTemplate/options.js";
-import { TemplateModel } from "../../models/models.js";
+import type { TemplateModel } from "../../models/models.js";
 
 /** Interface representing a ContentTemplate operations. */
 export interface ContentTemplateOperations {

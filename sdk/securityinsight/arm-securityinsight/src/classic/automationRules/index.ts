@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/automationRules/operations.js";
-import {
+import type {
   AutomationRulesListOptionalParams,
   AutomationRulesDeleteOptionalParams,
   AutomationRulesCreateOrUpdateOptionalParams,
   AutomationRulesGetOptionalParams,
 } from "../../api/automationRules/options.js";
-import { AutomationRule, AutomationRulesDeleteResponse } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { AutomationRule, AutomationRulesDeleteResponse } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AutomationRules operations. */
 export interface AutomationRulesOperations {

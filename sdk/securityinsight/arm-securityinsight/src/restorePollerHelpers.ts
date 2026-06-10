@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsights } from "./securityInsights.js";
+import type { SecurityInsights } from "./securityInsights.js";
 import { _triggerRuleRunDeserialize } from "./api/alertRule/operations.js";
 import { _$deleteDeserialize } from "./api/fileImports/operations.js";
 import {
@@ -9,14 +9,10 @@ import {
   _createOrUpdateDeserialize,
 } from "./api/watchlists/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,

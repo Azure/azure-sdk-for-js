@@ -1,24 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext as Client } from "../index.js";
+import type { SecurityInsightsContext as Client } from "../index.js";
+import type { AlertRuleUnion, AnalyticsRuleRunTrigger } from "../../models/models.js";
 import {
   alertRuleUnionDeserializer,
-  AlertRuleUnion,
   errorResponseDeserializer,
-  AnalyticsRuleRunTrigger,
   analyticsRuleRunTriggerSerializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { AlertRuleTriggerRuleRunOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { AlertRuleTriggerRuleRunOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _triggerRuleRunSend(
   context: Client,
@@ -54,7 +49,9 @@ export async function _triggerRuleRunDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/watchlistItems/operations.js";
-import {
+import type {
   WatchlistItemsListOptionalParams,
   WatchlistItemsDeleteOptionalParams,
   WatchlistItemsCreateOrUpdateOptionalParams,
   WatchlistItemsGetOptionalParams,
 } from "../../api/watchlistItems/options.js";
-import { WatchlistItem } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { WatchlistItem } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WatchlistItems operations. */
 export interface WatchlistItemsOperations {

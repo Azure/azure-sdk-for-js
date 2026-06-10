@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.SecurityInsights": "2025-07-01-preview"
   },
-  "emitterVersion": "0.53.2",
+  "emitterVersion": "0.54.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.SecurityInsights",
     "CrossLanguageDefinitionId": {

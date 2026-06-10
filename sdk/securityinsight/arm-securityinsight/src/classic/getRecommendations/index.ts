@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list } from "../../api/getRecommendations/operations.js";
-import { GetRecommendationsListOptionalParams } from "../../api/getRecommendations/options.js";
-import { Recommendation } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { GetRecommendationsListOptionalParams } from "../../api/getRecommendations/options.js";
+import type { Recommendation } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GetRecommendations operations. */
 export interface GetRecommendationsOperations {

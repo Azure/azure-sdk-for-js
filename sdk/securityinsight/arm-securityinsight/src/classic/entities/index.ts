@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import {
   getInsights,
   queries,
@@ -10,7 +10,7 @@ import {
   list,
   get,
 } from "../../api/entities/operations.js";
-import {
+import type {
   EntitiesGetInsightsOptionalParams,
   EntitiesQueriesOptionalParams,
   EntitiesExpandOptionalParams,
@@ -18,7 +18,7 @@ import {
   EntitiesListOptionalParams,
   EntitiesGetOptionalParams,
 } from "../../api/entities/options.js";
-import {
+import type {
   EntityUnion,
   EntityExpandParameters,
   EntityExpandResponse,
@@ -27,7 +27,7 @@ import {
   EntityGetInsightsResponse,
   EntityItemQueryKind,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Entities operations. */
 export interface EntitiesOperations {

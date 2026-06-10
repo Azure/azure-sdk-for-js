@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/huntComments/operations.js";
-import {
+import type {
   HuntCommentsListOptionalParams,
   HuntCommentsDeleteOptionalParams,
   HuntCommentsCreateOrUpdateOptionalParams,
   HuntCommentsGetOptionalParams,
 } from "../../api/huntComments/options.js";
-import { HuntComment } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { HuntComment } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a HuntComments operations. */
 export interface HuntCommentsOperations {

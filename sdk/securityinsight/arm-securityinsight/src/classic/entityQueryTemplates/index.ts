@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, get } from "../../api/entityQueryTemplates/operations.js";
-import {
+import type {
   EntityQueryTemplatesListOptionalParams,
   EntityQueryTemplatesGetOptionalParams,
 } from "../../api/entityQueryTemplates/options.js";
-import { EntityQueryTemplateUnion } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { EntityQueryTemplateUnion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a EntityQueryTemplates operations. */
 export interface EntityQueryTemplatesOperations {

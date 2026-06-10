@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list } from "../../api/threatIntelligenceIndicatorMetrics/operations.js";
-import { ThreatIntelligenceIndicatorMetricsListOptionalParams } from "../../api/threatIntelligenceIndicatorMetrics/options.js";
-import { ThreatIntelligenceMetricsList } from "../../models/models.js";
+import type { ThreatIntelligenceIndicatorMetricsListOptionalParams } from "../../api/threatIntelligenceIndicatorMetrics/options.js";
+import type { ThreatIntelligenceMetricsList } from "../../models/models.js";
 
 /** Interface representing a ThreatIntelligenceIndicatorMetrics operations. */
 export interface ThreatIntelligenceIndicatorMetricsOperations {

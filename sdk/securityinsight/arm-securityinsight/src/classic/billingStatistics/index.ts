@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, get } from "../../api/billingStatistics/operations.js";
-import {
+import type {
   BillingStatisticsListOptionalParams,
   BillingStatisticsGetOptionalParams,
 } from "../../api/billingStatistics/options.js";
-import { BillingStatisticUnion } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { BillingStatisticUnion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BillingStatistics operations. */
 export interface BillingStatisticsOperations {

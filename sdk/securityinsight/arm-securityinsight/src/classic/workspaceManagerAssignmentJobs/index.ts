@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, $delete, get, create } from "../../api/workspaceManagerAssignmentJobs/operations.js";
-import {
+import type {
   WorkspaceManagerAssignmentJobsListOptionalParams,
   WorkspaceManagerAssignmentJobsDeleteOptionalParams,
   WorkspaceManagerAssignmentJobsGetOptionalParams,
   WorkspaceManagerAssignmentJobsCreateOptionalParams,
 } from "../../api/workspaceManagerAssignmentJobs/options.js";
-import { Job } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Job } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspaceManagerAssignmentJobs operations. */
 export interface WorkspaceManagerAssignmentJobsOperations {

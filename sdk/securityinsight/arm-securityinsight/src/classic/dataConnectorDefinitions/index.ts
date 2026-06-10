@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import {
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/dataConnectorDefinitions/operations.js";
-import {
+import type {
   DataConnectorDefinitionsListOptionalParams,
   DataConnectorDefinitionsDeleteOptionalParams,
   DataConnectorDefinitionsCreateOrUpdateOptionalParams,
   DataConnectorDefinitionsGetOptionalParams,
 } from "../../api/dataConnectorDefinitions/options.js";
-import { DataConnectorDefinitionUnion } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DataConnectorDefinitionUnion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DataConnectorDefinitions operations. */
 export interface DataConnectorDefinitionsOperations {

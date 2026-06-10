@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { get } from "../../api/triggeredAnalyticsRuleRun/operations.js";
-import { TriggeredAnalyticsRuleRunGetOptionalParams } from "../../api/triggeredAnalyticsRuleRun/options.js";
-import { TriggeredAnalyticsRuleRun } from "../../models/models.js";
+import type { TriggeredAnalyticsRuleRunGetOptionalParams } from "../../api/triggeredAnalyticsRuleRun/options.js";
+import type { TriggeredAnalyticsRuleRun } from "../../models/models.js";
 
 /** Interface representing a TriggeredAnalyticsRuleRun operations. */
 export interface TriggeredAnalyticsRuleRunOperations {

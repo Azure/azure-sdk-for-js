@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { recommendation } from "../../api/reevaluate/operations.js";
-import { ReevaluateRecommendationOptionalParams } from "../../api/reevaluate/options.js";
-import { ReevaluateResponse } from "../../models/models.js";
+import type { ReevaluateRecommendationOptionalParams } from "../../api/reevaluate/options.js";
+import type { ReevaluateResponse } from "../../models/models.js";
 
 /** Interface representing a Reevaluate operations. */
 export interface ReevaluateOperations {
