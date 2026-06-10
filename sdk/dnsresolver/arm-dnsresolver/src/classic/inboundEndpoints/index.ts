@@ -18,6 +18,8 @@ import type {
 } from "../../api/inboundEndpoints/options.js";
 import type { InboundEndpoint, InboundEndpointPatch } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a InboundEndpoints operations. */
@@ -35,6 +37,20 @@ export interface InboundEndpointsOperations {
     inboundEndpointName: string,
     options?: InboundEndpointsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    dnsResolverName: string,
+    inboundEndpointName: string,
+    options?: InboundEndpointsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    dnsResolverName: string,
+    inboundEndpointName: string,
+    options?: InboundEndpointsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates an inbound endpoint for a DNS resolver. */
   update: (
     resourceGroupName: string,
@@ -43,6 +59,22 @@ export interface InboundEndpointsOperations {
     parameters: InboundEndpointPatch,
     options?: InboundEndpointsUpdateOptionalParams,
   ) => PollerLike<OperationState<InboundEndpoint>, InboundEndpoint>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    dnsResolverName: string,
+    inboundEndpointName: string,
+    parameters: InboundEndpointPatch,
+    options?: InboundEndpointsUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<InboundEndpoint>, InboundEndpoint>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    dnsResolverName: string,
+    inboundEndpointName: string,
+    parameters: InboundEndpointPatch,
+    options?: InboundEndpointsUpdateOptionalParams,
+  ) => Promise<InboundEndpoint>;
   /** Creates or updates an inbound endpoint for a DNS resolver. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -51,6 +83,22 @@ export interface InboundEndpointsOperations {
     parameters: InboundEndpoint,
     options?: InboundEndpointsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<InboundEndpoint>, InboundEndpoint>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    dnsResolverName: string,
+    inboundEndpointName: string,
+    parameters: InboundEndpoint,
+    options?: InboundEndpointsCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<InboundEndpoint>, InboundEndpoint>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    dnsResolverName: string,
+    inboundEndpointName: string,
+    parameters: InboundEndpoint,
+    options?: InboundEndpointsCreateOrUpdateOptionalParams,
+  ) => Promise<InboundEndpoint>;
   /** Gets properties of an inbound endpoint for a DNS resolver. */
   get: (
     resourceGroupName: string,
@@ -73,6 +121,36 @@ function _getInboundEndpoints(context: DnsResolverManagementContext) {
       inboundEndpointName: string,
       options?: InboundEndpointsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, dnsResolverName, inboundEndpointName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      dnsResolverName: string,
+      inboundEndpointName: string,
+      options?: InboundEndpointsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        dnsResolverName,
+        inboundEndpointName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      dnsResolverName: string,
+      inboundEndpointName: string,
+      options?: InboundEndpointsDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        dnsResolverName,
+        inboundEndpointName,
+        options,
+      );
+    },
     update: (
       resourceGroupName: string,
       dnsResolverName: string,
@@ -81,6 +159,40 @@ function _getInboundEndpoints(context: DnsResolverManagementContext) {
       options?: InboundEndpointsUpdateOptionalParams,
     ) =>
       update(context, resourceGroupName, dnsResolverName, inboundEndpointName, parameters, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      dnsResolverName: string,
+      inboundEndpointName: string,
+      parameters: InboundEndpointPatch,
+      options?: InboundEndpointsUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        dnsResolverName,
+        inboundEndpointName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      dnsResolverName: string,
+      inboundEndpointName: string,
+      parameters: InboundEndpointPatch,
+      options?: InboundEndpointsUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        dnsResolverName,
+        inboundEndpointName,
+        parameters,
+        options,
+      );
+    },
     createOrUpdate: (
       resourceGroupName: string,
       dnsResolverName: string,
@@ -96,6 +208,40 @@ function _getInboundEndpoints(context: DnsResolverManagementContext) {
         parameters,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      dnsResolverName: string,
+      inboundEndpointName: string,
+      parameters: InboundEndpoint,
+      options?: InboundEndpointsCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        dnsResolverName,
+        inboundEndpointName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      dnsResolverName: string,
+      inboundEndpointName: string,
+      parameters: InboundEndpoint,
+      options?: InboundEndpointsCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        dnsResolverName,
+        inboundEndpointName,
+        parameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       dnsResolverName: string,

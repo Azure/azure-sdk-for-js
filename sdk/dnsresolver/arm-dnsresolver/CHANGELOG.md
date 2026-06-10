@@ -48,6 +48,7 @@ Compared with version 1.2.0
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
   - Added Interface VirtualNetworkLinkPatchProperties
   - Added Interface VirtualNetworkLinkProperties
   - Added Interface VirtualNetworkLinkSubResourceProperties
@@ -60,62 +61,13 @@ Compared with version 1.2.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation DnsForwardingRulesets.beginCreateOrUpdate
-  - Removed operation DnsForwardingRulesets.beginCreateOrUpdateAndWait
-  - Removed operation DnsForwardingRulesets.beginDelete
-  - Removed operation DnsForwardingRulesets.beginDeleteAndWait
-  - Removed operation DnsForwardingRulesets.beginUpdate
-  - Removed operation DnsForwardingRulesets.beginUpdateAndWait
-  - Removed operation DnsResolverDomainLists.beginBulk
-  - Removed operation DnsResolverDomainLists.beginBulkAndWait
-  - Removed operation DnsResolverDomainLists.beginCreateOrUpdate
-  - Removed operation DnsResolverDomainLists.beginCreateOrUpdateAndWait
-  - Removed operation DnsResolverDomainLists.beginDelete
-  - Removed operation DnsResolverDomainLists.beginDeleteAndWait
-  - Removed operation DnsResolverDomainLists.beginUpdate
-  - Removed operation DnsResolverDomainLists.beginUpdateAndWait
-  - Removed operation DnsResolverPolicies.beginCreateOrUpdate
-  - Removed operation DnsResolverPolicies.beginCreateOrUpdateAndWait
-  - Removed operation DnsResolverPolicies.beginDelete
-  - Removed operation DnsResolverPolicies.beginDeleteAndWait
-  - Removed operation DnsResolverPolicies.beginUpdate
-  - Removed operation DnsResolverPolicies.beginUpdateAndWait
-  - Removed operation DnsResolverPolicyVirtualNetworkLinks.beginCreateOrUpdate
-  - Removed operation DnsResolverPolicyVirtualNetworkLinks.beginCreateOrUpdateAndWait
-  - Removed operation DnsResolverPolicyVirtualNetworkLinks.beginDelete
-  - Removed operation DnsResolverPolicyVirtualNetworkLinks.beginDeleteAndWait
-  - Removed operation DnsResolverPolicyVirtualNetworkLinks.beginUpdate
-  - Removed operation DnsResolverPolicyVirtualNetworkLinks.beginUpdateAndWait
-  - Removed operation DnsResolvers.beginCreateOrUpdate
-  - Removed operation DnsResolvers.beginCreateOrUpdateAndWait
-  - Removed operation DnsResolvers.beginDelete
-  - Removed operation DnsResolvers.beginDeleteAndWait
-  - Removed operation DnsResolvers.beginUpdate
-  - Removed operation DnsResolvers.beginUpdateAndWait
-  - Removed operation DnsSecurityRules.beginCreateOrUpdate
-  - Removed operation DnsSecurityRules.beginCreateOrUpdateAndWait
-  - Removed operation DnsSecurityRules.beginDelete
-  - Removed operation DnsSecurityRules.beginDeleteAndWait
-  - Removed operation DnsSecurityRules.beginUpdate
-  - Removed operation DnsSecurityRules.beginUpdateAndWait
-  - Removed operation InboundEndpoints.beginCreateOrUpdate
-  - Removed operation InboundEndpoints.beginCreateOrUpdateAndWait
-  - Removed operation InboundEndpoints.beginDelete
-  - Removed operation InboundEndpoints.beginDeleteAndWait
-  - Removed operation InboundEndpoints.beginUpdate
-  - Removed operation InboundEndpoints.beginUpdateAndWait
-  - Removed operation OutboundEndpoints.beginCreateOrUpdate
-  - Removed operation OutboundEndpoints.beginCreateOrUpdateAndWait
-  - Removed operation OutboundEndpoints.beginDelete
-  - Removed operation OutboundEndpoints.beginDeleteAndWait
-  - Removed operation OutboundEndpoints.beginUpdate
-  - Removed operation OutboundEndpoints.beginUpdateAndWait
-  - Removed operation VirtualNetworkLinks.beginCreateOrUpdate
-  - Removed operation VirtualNetworkLinks.beginCreateOrUpdateAndWait
-  - Removed operation VirtualNetworkLinks.beginDelete
-  - Removed operation VirtualNetworkLinks.beginDeleteAndWait
-  - Removed operation VirtualNetworkLinks.beginUpdate
-  - Removed operation VirtualNetworkLinks.beginUpdateAndWait
+  - Operation DnsResolverDomainLists.beginDeleteAndWait has a new signature
+  - Operation DnsResolverPolicies.beginDeleteAndWait has a new signature
+  - Operation DnsResolverPolicyVirtualNetworkLinks.beginDeleteAndWait has a new signature
+  - Operation DnsSecurityRules.beginCreateOrUpdate has a new signature
+  - Operation DnsSecurityRules.beginCreateOrUpdateAndWait has a new signature
+  - Operation DnsSecurityRules.beginDeleteAndWait has a new signature
+  - Operation DnsSecurityRules.beginUpdateAndWait has a new signature
   - Operation DnsSecurityRules.get has a new signature
   - Class DnsResolverManagementClient no longer has parameter apiVersion
   - Class DnsResolverManagementClient no longer has parameter subscriptionId

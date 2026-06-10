@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
@@ -107,6 +108,18 @@ export interface DnsForwardingRulesetsListOptionalParams extends OperationOption
 
 // @public
 export interface DnsForwardingRulesetsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, dnsForwardingRulesetName: string, parameters: DnsForwardingRuleset, options?: DnsForwardingRulesetsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DnsForwardingRuleset>, DnsForwardingRuleset>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, dnsForwardingRulesetName: string, parameters: DnsForwardingRuleset, options?: DnsForwardingRulesetsCreateOrUpdateOptionalParams) => Promise<DnsForwardingRuleset>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, dnsForwardingRulesetName: string, options?: DnsForwardingRulesetsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, dnsForwardingRulesetName: string, options?: DnsForwardingRulesetsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, dnsForwardingRulesetName: string, parameters: DnsForwardingRulesetPatch, options?: DnsForwardingRulesetsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DnsForwardingRuleset>, DnsForwardingRuleset>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, dnsForwardingRulesetName: string, parameters: DnsForwardingRulesetPatch, options?: DnsForwardingRulesetsUpdateOptionalParams) => Promise<DnsForwardingRuleset>;
     createOrUpdate: (resourceGroupName: string, dnsForwardingRulesetName: string, parameters: DnsForwardingRuleset, options?: DnsForwardingRulesetsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DnsForwardingRuleset>, DnsForwardingRuleset>;
     delete: (resourceGroupName: string, dnsForwardingRulesetName: string, options?: DnsForwardingRulesetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, dnsForwardingRulesetName: string, options?: DnsForwardingRulesetsGetOptionalParams) => Promise<DnsForwardingRuleset>;
@@ -207,6 +220,22 @@ export interface DnsResolverDomainListsListOptionalParams extends OperationOptio
 
 // @public
 export interface DnsResolverDomainListsOperations {
+    // @deprecated (undocumented)
+    beginBulk: (resourceGroupName: string, dnsResolverDomainListName: string, parameters: DnsResolverDomainListBulk, options?: DnsResolverDomainListsBulkOptionalParams) => Promise<SimplePollerLike<OperationState<DnsResolverDomainList>, DnsResolverDomainList>>;
+    // @deprecated (undocumented)
+    beginBulkAndWait: (resourceGroupName: string, dnsResolverDomainListName: string, parameters: DnsResolverDomainListBulk, options?: DnsResolverDomainListsBulkOptionalParams) => Promise<DnsResolverDomainList>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, dnsResolverDomainListName: string, parameters: DnsResolverDomainList, options?: DnsResolverDomainListsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DnsResolverDomainList>, DnsResolverDomainList>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, dnsResolverDomainListName: string, parameters: DnsResolverDomainList, options?: DnsResolverDomainListsCreateOrUpdateOptionalParams) => Promise<DnsResolverDomainList>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, dnsResolverDomainListName: string, options?: DnsResolverDomainListsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, dnsResolverDomainListName: string, options?: DnsResolverDomainListsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, dnsResolverDomainListName: string, parameters: DnsResolverDomainListPatch, options?: DnsResolverDomainListsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DnsResolverDomainList>, DnsResolverDomainList>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, dnsResolverDomainListName: string, parameters: DnsResolverDomainListPatch, options?: DnsResolverDomainListsUpdateOptionalParams) => Promise<DnsResolverDomainList>;
     bulk: (resourceGroupName: string, dnsResolverDomainListName: string, parameters: DnsResolverDomainListBulk, options?: DnsResolverDomainListsBulkOptionalParams) => PollerLike<OperationState<DnsResolverDomainList>, DnsResolverDomainList>;
     createOrUpdate: (resourceGroupName: string, dnsResolverDomainListName: string, parameters: DnsResolverDomainList, options?: DnsResolverDomainListsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DnsResolverDomainList>, DnsResolverDomainList>;
     delete: (resourceGroupName: string, dnsResolverDomainListName: string, options?: DnsResolverDomainListsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -282,6 +311,18 @@ export interface DnsResolverPoliciesListOptionalParams extends OperationOptions 
 
 // @public
 export interface DnsResolverPoliciesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, dnsResolverPolicyName: string, parameters: DnsResolverPolicy, options?: DnsResolverPoliciesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DnsResolverPolicy>, DnsResolverPolicy>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, dnsResolverPolicyName: string, parameters: DnsResolverPolicy, options?: DnsResolverPoliciesCreateOrUpdateOptionalParams) => Promise<DnsResolverPolicy>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, dnsResolverPolicyName: string, options?: DnsResolverPoliciesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, dnsResolverPolicyName: string, options?: DnsResolverPoliciesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, dnsResolverPolicyName: string, parameters: DnsResolverPolicyPatch, options?: DnsResolverPoliciesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DnsResolverPolicy>, DnsResolverPolicy>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, dnsResolverPolicyName: string, parameters: DnsResolverPolicyPatch, options?: DnsResolverPoliciesUpdateOptionalParams) => Promise<DnsResolverPolicy>;
     createOrUpdate: (resourceGroupName: string, dnsResolverPolicyName: string, parameters: DnsResolverPolicy, options?: DnsResolverPoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<DnsResolverPolicy>, DnsResolverPolicy>;
     delete: (resourceGroupName: string, dnsResolverPolicyName: string, options?: DnsResolverPoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, dnsResolverPolicyName: string, options?: DnsResolverPoliciesGetOptionalParams) => Promise<DnsResolverPolicy>;
@@ -357,6 +398,18 @@ export interface DnsResolverPolicyVirtualNetworkLinksListOptionalParams extends 
 
 // @public
 export interface DnsResolverPolicyVirtualNetworkLinksOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, dnsResolverPolicyName: string, dnsResolverPolicyVirtualNetworkLinkName: string, parameters: DnsResolverPolicyVirtualNetworkLink, options?: DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DnsResolverPolicyVirtualNetworkLink>, DnsResolverPolicyVirtualNetworkLink>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, dnsResolverPolicyName: string, dnsResolverPolicyVirtualNetworkLinkName: string, parameters: DnsResolverPolicyVirtualNetworkLink, options?: DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateOptionalParams) => Promise<DnsResolverPolicyVirtualNetworkLink>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, dnsResolverPolicyName: string, dnsResolverPolicyVirtualNetworkLinkName: string, options?: DnsResolverPolicyVirtualNetworkLinksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, dnsResolverPolicyName: string, dnsResolverPolicyVirtualNetworkLinkName: string, options?: DnsResolverPolicyVirtualNetworkLinksDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, dnsResolverPolicyName: string, dnsResolverPolicyVirtualNetworkLinkName: string, parameters: DnsResolverPolicyVirtualNetworkLinkPatch, options?: DnsResolverPolicyVirtualNetworkLinksUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DnsResolverPolicyVirtualNetworkLink>, DnsResolverPolicyVirtualNetworkLink>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, dnsResolverPolicyName: string, dnsResolverPolicyVirtualNetworkLinkName: string, parameters: DnsResolverPolicyVirtualNetworkLinkPatch, options?: DnsResolverPolicyVirtualNetworkLinksUpdateOptionalParams) => Promise<DnsResolverPolicyVirtualNetworkLink>;
     createOrUpdate: (resourceGroupName: string, dnsResolverPolicyName: string, dnsResolverPolicyVirtualNetworkLinkName: string, parameters: DnsResolverPolicyVirtualNetworkLink, options?: DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateOptionalParams) => PollerLike<OperationState<DnsResolverPolicyVirtualNetworkLink>, DnsResolverPolicyVirtualNetworkLink>;
     delete: (resourceGroupName: string, dnsResolverPolicyName: string, dnsResolverPolicyVirtualNetworkLinkName: string, options?: DnsResolverPolicyVirtualNetworkLinksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, dnsResolverPolicyName: string, dnsResolverPolicyVirtualNetworkLinkName: string, options?: DnsResolverPolicyVirtualNetworkLinksGetOptionalParams) => Promise<DnsResolverPolicyVirtualNetworkLink>;
@@ -412,6 +465,18 @@ export interface DnsResolversListOptionalParams extends OperationOptions {
 
 // @public
 export interface DnsResolversOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, dnsResolverName: string, parameters: DnsResolver, options?: DnsResolversCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DnsResolver>, DnsResolver>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, dnsResolverName: string, parameters: DnsResolver, options?: DnsResolversCreateOrUpdateOptionalParams) => Promise<DnsResolver>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, dnsResolverName: string, options?: DnsResolversDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, dnsResolverName: string, options?: DnsResolversDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, dnsResolverName: string, parameters: DnsResolverPatch, options?: DnsResolversUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DnsResolver>, DnsResolver>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, dnsResolverName: string, parameters: DnsResolverPatch, options?: DnsResolversUpdateOptionalParams) => Promise<DnsResolver>;
     createOrUpdate: (resourceGroupName: string, dnsResolverName: string, parameters: DnsResolver, options?: DnsResolversCreateOrUpdateOptionalParams) => PollerLike<OperationState<DnsResolver>, DnsResolver>;
     delete: (resourceGroupName: string, dnsResolverName: string, options?: DnsResolversDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, dnsResolverName: string, options?: DnsResolversGetOptionalParams) => Promise<DnsResolver>;
@@ -499,6 +564,18 @@ export interface DnsSecurityRulesListOptionalParams extends OperationOptions {
 
 // @public
 export interface DnsSecurityRulesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, dnsResolverPolicyName: string, dnsSecurityRuleName: string, parameters: DnsSecurityRule, options?: DnsSecurityRulesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DnsSecurityRule>, DnsSecurityRule>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, dnsResolverPolicyName: string, dnsSecurityRuleName: string, parameters: DnsSecurityRule, options?: DnsSecurityRulesCreateOrUpdateOptionalParams) => Promise<DnsSecurityRule>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, dnsResolverPolicyName: string, dnsSecurityRuleName: string, options?: DnsSecurityRulesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, dnsResolverPolicyName: string, dnsSecurityRuleName: string, options?: DnsSecurityRulesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, dnsResolverPolicyName: string, dnsSecurityRuleName: string, parameters: DnsSecurityRulePatch, options?: DnsSecurityRulesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DnsSecurityRule>, DnsSecurityRule>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, dnsResolverPolicyName: string, dnsSecurityRuleName: string, parameters: DnsSecurityRulePatch, options?: DnsSecurityRulesUpdateOptionalParams) => Promise<DnsSecurityRule>;
     createOrUpdate: (resourceGroupName: string, dnsResolverPolicyName: string, dnsSecurityRuleName: string, parameters: DnsSecurityRule, options?: DnsSecurityRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<DnsSecurityRule>, DnsSecurityRule>;
     delete: (resourceGroupName: string, dnsResolverPolicyName: string, dnsSecurityRuleName: string, options?: DnsSecurityRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, dnsResolverPolicyName: string, dnsSecurityRuleName: string, options?: DnsSecurityRulesGetOptionalParams) => Promise<DnsSecurityRule>;
@@ -649,6 +726,18 @@ export interface InboundEndpointsListOptionalParams extends OperationOptions {
 
 // @public
 export interface InboundEndpointsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, parameters: InboundEndpoint, options?: InboundEndpointsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<InboundEndpoint>, InboundEndpoint>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, parameters: InboundEndpoint, options?: InboundEndpointsCreateOrUpdateOptionalParams) => Promise<InboundEndpoint>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, options?: InboundEndpointsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, options?: InboundEndpointsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, parameters: InboundEndpointPatch, options?: InboundEndpointsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<InboundEndpoint>, InboundEndpoint>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, parameters: InboundEndpointPatch, options?: InboundEndpointsUpdateOptionalParams) => Promise<InboundEndpoint>;
     createOrUpdate: (resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, parameters: InboundEndpoint, options?: InboundEndpointsCreateOrUpdateOptionalParams) => PollerLike<OperationState<InboundEndpoint>, InboundEndpoint>;
     delete: (resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, options?: InboundEndpointsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, options?: InboundEndpointsGetOptionalParams) => Promise<InboundEndpoint>;
@@ -787,6 +876,18 @@ export interface OutboundEndpointsListOptionalParams extends OperationOptions {
 
 // @public
 export interface OutboundEndpointsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, parameters: OutboundEndpoint, options?: OutboundEndpointsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<OutboundEndpoint>, OutboundEndpoint>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, parameters: OutboundEndpoint, options?: OutboundEndpointsCreateOrUpdateOptionalParams) => Promise<OutboundEndpoint>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, options?: OutboundEndpointsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, options?: OutboundEndpointsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, parameters: OutboundEndpointPatch, options?: OutboundEndpointsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<OutboundEndpoint>, OutboundEndpoint>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, parameters: OutboundEndpointPatch, options?: OutboundEndpointsUpdateOptionalParams) => Promise<OutboundEndpoint>;
     createOrUpdate: (resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, parameters: OutboundEndpoint, options?: OutboundEndpointsCreateOrUpdateOptionalParams) => PollerLike<OperationState<OutboundEndpoint>, OutboundEndpoint>;
     delete: (resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, options?: OutboundEndpointsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, options?: OutboundEndpointsGetOptionalParams) => Promise<OutboundEndpoint>;
@@ -837,6 +938,28 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -921,6 +1044,18 @@ export interface VirtualNetworkLinksListOptionalParams extends OperationOptions 
 
 // @public
 export interface VirtualNetworkLinksOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualNetworkLink>, VirtualNetworkLink>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksCreateOrUpdateOptionalParams) => Promise<VirtualNetworkLink>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLinkPatch, options?: VirtualNetworkLinksUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualNetworkLink>, VirtualNetworkLink>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLinkPatch, options?: VirtualNetworkLinksUpdateOptionalParams) => Promise<VirtualNetworkLink>;
     createOrUpdate: (resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualNetworkLink>, VirtualNetworkLink>;
     delete: (resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksGetOptionalParams) => Promise<VirtualNetworkLink>;

@@ -22,6 +22,8 @@ import type {
 } from "../../api/dnsResolvers/options.js";
 import type { DnsResolver, SubResource, DnsResolverPatch } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DnsResolvers operations. */
@@ -45,6 +47,18 @@ export interface DnsResolversOperations {
     dnsResolverName: string,
     options?: DnsResolversDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    dnsResolverName: string,
+    options?: DnsResolversDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    dnsResolverName: string,
+    options?: DnsResolversDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates a DNS resolver. */
   update: (
     resourceGroupName: string,
@@ -52,6 +66,20 @@ export interface DnsResolversOperations {
     parameters: DnsResolverPatch,
     options?: DnsResolversUpdateOptionalParams,
   ) => PollerLike<OperationState<DnsResolver>, DnsResolver>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    dnsResolverName: string,
+    parameters: DnsResolverPatch,
+    options?: DnsResolversUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<DnsResolver>, DnsResolver>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    dnsResolverName: string,
+    parameters: DnsResolverPatch,
+    options?: DnsResolversUpdateOptionalParams,
+  ) => Promise<DnsResolver>;
   /** Creates or updates a DNS resolver. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -59,6 +87,20 @@ export interface DnsResolversOperations {
     parameters: DnsResolver,
     options?: DnsResolversCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<DnsResolver>, DnsResolver>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    dnsResolverName: string,
+    parameters: DnsResolver,
+    options?: DnsResolversCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<DnsResolver>, DnsResolver>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    dnsResolverName: string,
+    parameters: DnsResolver,
+    options?: DnsResolversCreateOrUpdateOptionalParams,
+  ) => Promise<DnsResolver>;
   /** Gets properties of a DNS resolver. */
   get: (
     resourceGroupName: string,
@@ -84,18 +126,76 @@ function _getDnsResolvers(context: DnsResolverManagementContext) {
       dnsResolverName: string,
       options?: DnsResolversDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, dnsResolverName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      dnsResolverName: string,
+      options?: DnsResolversDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, dnsResolverName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      dnsResolverName: string,
+      options?: DnsResolversDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, dnsResolverName, options);
+    },
     update: (
       resourceGroupName: string,
       dnsResolverName: string,
       parameters: DnsResolverPatch,
       options?: DnsResolversUpdateOptionalParams,
     ) => update(context, resourceGroupName, dnsResolverName, parameters, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      dnsResolverName: string,
+      parameters: DnsResolverPatch,
+      options?: DnsResolversUpdateOptionalParams,
+    ) => {
+      const poller = update(context, resourceGroupName, dnsResolverName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      dnsResolverName: string,
+      parameters: DnsResolverPatch,
+      options?: DnsResolversUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, dnsResolverName, parameters, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       dnsResolverName: string,
       parameters: DnsResolver,
       options?: DnsResolversCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, dnsResolverName, parameters, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      dnsResolverName: string,
+      parameters: DnsResolver,
+      options?: DnsResolversCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        dnsResolverName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      dnsResolverName: string,
+      parameters: DnsResolver,
+      options?: DnsResolversCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, resourceGroupName, dnsResolverName, parameters, options);
+    },
     get: (
       resourceGroupName: string,
       dnsResolverName: string,
