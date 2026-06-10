@@ -1,58 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a SQL virtual machine.
- *
- * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateVirtualMachineWithVMGroup.json
- */
-
-import type { SqlVirtualMachine } from "@azure/arm-sqlvirtualmachine";
-import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
+import { SqlVirtualMachineClient } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
-async function createsOrUpdatesASqlVirtualMachineAndJoinsItToASqlVirtualMachineGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
-  const sqlVirtualMachineName = "testvm";
-  const parameters: SqlVirtualMachine = {
-    location: "northeurope",
-    sqlVirtualMachineGroupResourceId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/testvmgroup",
-    virtualMachineResourceId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm2",
-    wsfcDomainCredentials: {
-      clusterBootstrapAccountPassword: "<Password>",
-      clusterOperatorAccountPassword: "<Password>",
-      sqlServiceAccountPassword: "<Password>",
-    },
-    wsfcStaticIp: "10.0.0.7",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
-  const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    sqlVirtualMachineName,
-    parameters,
-  );
-  console.log(result);
-}
 
 /**
- * This sample demonstrates how to Creates or updates a SQL virtual machine.
+ * This sample demonstrates how to creates or updates a SQL virtual machine.
  *
- * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineAutomatedBackupWeekly.json
+ * @summary creates or updates a SQL virtual machine.
+ * x-ms-original-file: 2023-10-01/CreateOrUpdateSqlVirtualMachineAutomatedBackupWeekly.json
  */
-async function createsOrUpdatesASqlVirtualMachineForAutomatedBackUpSettingsWithWeeklyAndDaysOfTheWeekToRunTheBackUp(): Promise<void> {
-  const subscriptionId =
-    process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
-  const sqlVirtualMachineName = "testvm";
-  const parameters: SqlVirtualMachine = {
+async function createsOrUpdatesASQLVirtualMachineForAutomatedBackUpSettingsWithWeeklyAndDaysOfTheWeekToRunTheBackUp(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlVirtualMachineClient(credential, subscriptionId);
+  const result = await client.sqlVirtualMachines.createOrUpdate("testrg", "testvm", {
+    location: "northeurope",
     autoBackupSettings: {
       backupScheduleType: "Manual",
       backupSystemDbs: true,
@@ -76,7 +39,6 @@ async function createsOrUpdatesASqlVirtualMachineForAutomatedBackUpSettingsWithW
       maintenanceWindowStartingHour: 2,
     },
     keyVaultCredentialSettings: { enable: false },
-    location: "northeurope",
     serverConfigurationsManagementSettings: {
       additionalFeaturesServerConfigurations: { isRServicesEnabled: false },
       sqlConnectivityUpdateSettings: {
@@ -85,122 +47,33 @@ async function createsOrUpdatesASqlVirtualMachineForAutomatedBackUpSettingsWithW
         sqlAuthUpdatePassword: "<password>",
         sqlAuthUpdateUserName: "sqllogin",
       },
-      sqlStorageUpdateSettings: {
-        diskConfigurationType: "NEW",
-        diskCount: 1,
-        startingDeviceId: 2,
-      },
+      sqlStorageUpdateSettings: { diskConfigurationType: "NEW", diskCount: 1, startingDeviceId: 2 },
       sqlWorkloadTypeUpdateSettings: { sqlWorkloadType: "OLTP" },
     },
     sqlImageSku: "Enterprise",
-    sqlManagement: "Full",
     sqlServerLicenseType: "PAYG",
     virtualMachineResourceId:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
-  const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    sqlVirtualMachineName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a SQL virtual machine.
+ * This sample demonstrates how to creates or updates a SQL virtual machine.
  *
- * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineStorageConfigurationEXTEND.json
+ * @summary creates or updates a SQL virtual machine.
+ * x-ms-original-file: 2023-10-01/CreateOrUpdateSqlVirtualMachineMAX.json
  */
-async function createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToExtendDataLogOrTempDbStoragePool(): Promise<void> {
-  const subscriptionId =
-    process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
-  const sqlVirtualMachineName = "testvm";
-  const parameters: SqlVirtualMachine = {
+async function createsOrUpdatesASQLVirtualMachineWithMaxParameters(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlVirtualMachineClient(credential, subscriptionId);
+  const result = await client.sqlVirtualMachines.createOrUpdate("testrg", "testvm", {
     location: "northeurope",
-    storageConfigurationSettings: {
-      diskConfigurationType: "EXTEND",
-      sqlDataSettings: { luns: [2] },
-    },
-    virtualMachineResourceId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
-  const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    sqlVirtualMachineName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates a SQL virtual machine.
- *
- * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineStorageConfigurationNEW.json
- */
-async function createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToNewDataLogAndTempDbStoragePool(): Promise<void> {
-  const subscriptionId =
-    process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
-  const sqlVirtualMachineName = "testvm";
-  const parameters: SqlVirtualMachine = {
-    location: "northeurope",
-    storageConfigurationSettings: {
-      diskConfigurationType: "NEW",
-      sqlDataSettings: { defaultFilePath: "F:\\folderpath\\", luns: [0] },
-      sqlLogSettings: { defaultFilePath: "G:\\folderpath\\", luns: [1] },
-      sqlSystemDbOnDataDisk: true,
-      sqlTempDbSettings: {
-        dataFileCount: 8,
-        dataFileSize: 256,
-        dataGrowth: 512,
-        defaultFilePath: "D:\\TEMP",
-        logFileSize: 256,
-        logGrowth: 512,
-      },
-      storageWorkloadType: "OLTP",
-    },
-    virtualMachineResourceId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
-  const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    sqlVirtualMachineName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates a SQL virtual machine.
- *
- * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineMAX.json
- */
-async function createsOrUpdatesASqlVirtualMachineWithMaxParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
-  const sqlVirtualMachineName = "testvm";
-  const parameters: SqlVirtualMachine = {
     assessmentSettings: {
       enable: true,
       runImmediately: true,
-      schedule: {
-        dayOfWeek: "Sunday",
-        enable: true,
-        monthlyOccurrence: undefined,
-        startTime: "23:17",
-        weeklyInterval: 1,
-      },
+      schedule: { dayOfWeek: "Sunday", enable: true, startTime: "23:17", weeklyInterval: 1 },
     },
     autoBackupSettings: {
       backupScheduleType: "Manual",
@@ -226,12 +99,9 @@ async function createsOrUpdatesASqlVirtualMachineWithMaxParameters(): Promise<vo
     enableAutomaticUpgrade: true,
     keyVaultCredentialSettings: { enable: false },
     leastPrivilegeMode: "Enabled",
-    location: "northeurope",
     serverConfigurationsManagementSettings: {
       additionalFeaturesServerConfigurations: { isRServicesEnabled: false },
-      azureAdAuthenticationSettings: {
-        clientId: "11111111-2222-3333-4444-555555555555",
-      },
+      azureAdAuthenticationSettings: { clientId: "11111111-2222-3333-4444-555555555555" },
       sqlConnectivityUpdateSettings: {
         connectivityType: "PRIVATE",
         port: 1433,
@@ -247,62 +117,165 @@ async function createsOrUpdatesASqlVirtualMachineWithMaxParameters(): Promise<vo
         maxServerMemoryMB: 128,
         minServerMemoryMB: 0,
       },
-      sqlStorageUpdateSettings: {
-        diskConfigurationType: "NEW",
-        diskCount: 1,
-        startingDeviceId: 2,
-      },
+      sqlStorageUpdateSettings: { diskConfigurationType: "NEW", diskCount: 1, startingDeviceId: 2 },
       sqlWorkloadTypeUpdateSettings: { sqlWorkloadType: "OLTP" },
     },
     sqlImageSku: "Enterprise",
-    sqlManagement: "Full",
     sqlServerLicenseType: "PAYG",
+    storageConfigurationSettings: {
+      diskConfigurationType: "NEW",
+      enableStorageConfigBlade: true,
+      sqlDataSettings: { defaultFilePath: "F:\\folderpath\\", luns: [0], useStoragePool: false },
+      sqlLogSettings: { defaultFilePath: "G:\\folderpath\\", luns: [1], useStoragePool: false },
+      sqlSystemDbOnDataDisk: true,
+      sqlTempDbSettings: {
+        dataFileCount: 8,
+        dataFileSize: 256,
+        dataGrowth: 512,
+        defaultFilePath: "D:\\TEMP",
+        logFileSize: 256,
+        logGrowth: 512,
+        luns: [2],
+        useStoragePool: false,
+      },
+      storageWorkloadType: "OLTP",
+    },
     virtualMachineResourceId:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
-  const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    sqlVirtualMachineName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a SQL virtual machine.
+ * This sample demonstrates how to creates or updates a SQL virtual machine.
  *
- * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineMIN.json
+ * @summary creates or updates a SQL virtual machine.
+ * x-ms-original-file: 2023-10-01/CreateOrUpdateSqlVirtualMachineMIN.json
  */
-async function createsOrUpdatesASqlVirtualMachineWithMinParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
-  const sqlVirtualMachineName = "testvm";
-  const parameters: SqlVirtualMachine = {
+async function createsOrUpdatesASQLVirtualMachineWithMinParameters(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlVirtualMachineClient(credential, subscriptionId);
+  const result = await client.sqlVirtualMachines.createOrUpdate("testrg", "testvm", {
     location: "northeurope",
     virtualMachineResourceId:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
-  };
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a SQL virtual machine.
+ *
+ * @summary creates or updates a SQL virtual machine.
+ * x-ms-original-file: 2023-10-01/CreateOrUpdateSqlVirtualMachineStorageConfigurationEXTEND.json
+ */
+async function createsOrUpdatesASQLVirtualMachineForStorageConfigurationSettingsToExtendDataLogOrTempDBStoragePool(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
-  const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    sqlVirtualMachineName,
-    parameters,
-  );
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlVirtualMachineClient(credential, subscriptionId);
+  const result = await client.sqlVirtualMachines.createOrUpdate("testrg", "testvm", {
+    location: "northeurope",
+    storageConfigurationSettings: {
+      diskConfigurationType: "EXTEND",
+      sqlDataSettings: { luns: [2] },
+    },
+    virtualMachineResourceId:
+      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a SQL virtual machine.
+ *
+ * @summary creates or updates a SQL virtual machine.
+ * x-ms-original-file: 2023-10-01/CreateOrUpdateSqlVirtualMachineStorageConfigurationNEW.json
+ */
+async function createsOrUpdatesASQLVirtualMachineForStorageConfigurationSettingsToNEWDataLogAndTempDBStoragePool(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlVirtualMachineClient(credential, subscriptionId);
+  const result = await client.sqlVirtualMachines.createOrUpdate("testrg", "testvm", {
+    location: "northeurope",
+    storageConfigurationSettings: {
+      diskConfigurationType: "NEW",
+      sqlDataSettings: { defaultFilePath: "F:\\folderpath\\", luns: [0] },
+      sqlLogSettings: { defaultFilePath: "G:\\folderpath\\", luns: [1] },
+      sqlSystemDbOnDataDisk: true,
+      sqlTempDbSettings: {
+        dataFileCount: 8,
+        dataFileSize: 256,
+        dataGrowth: 512,
+        defaultFilePath: "D:\\TEMP",
+        logFileSize: 256,
+        logGrowth: 512,
+      },
+      storageWorkloadType: "OLTP",
+    },
+    virtualMachineResourceId:
+      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a SQL virtual machine.
+ *
+ * @summary creates or updates a SQL virtual machine.
+ * x-ms-original-file: 2023-10-01/CreateOrUpdateSqlVirtualMachineVmIdentitySettings.json
+ */
+async function createsOrUpdatesASQLVirtualMachineToEnableTheUsageOfVirtualMachineManagedIdentity(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlVirtualMachineClient(credential, subscriptionId);
+  const result = await client.sqlVirtualMachines.createOrUpdate("testrg", "testvm", {
+    location: "northeurope",
+    virtualMachineIdentitySettings: {
+      type: "UserAssigned",
+      resourceId:
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourcegroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testvmidentity",
+    },
+    virtualMachineResourceId:
+      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a SQL virtual machine.
+ *
+ * @summary creates or updates a SQL virtual machine.
+ * x-ms-original-file: 2023-10-01/CreateOrUpdateVirtualMachineWithVMGroup.json
+ */
+async function createsOrUpdatesASQLVirtualMachineAndJoinsItToASQLVirtualMachineGroup(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlVirtualMachineClient(credential, subscriptionId);
+  const result = await client.sqlVirtualMachines.createOrUpdate("testrg", "testvm", {
+    location: "northeurope",
+    sqlVirtualMachineGroupResourceId:
+      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/testvmgroup",
+    virtualMachineResourceId:
+      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm2",
+    wsfcDomainCredentials: {
+      clusterBootstrapAccountPassword: "<Password>",
+      clusterOperatorAccountPassword: "<Password>",
+      sqlServiceAccountPassword: "<Password>",
+    },
+    wsfcStaticIp: "10.0.0.7",
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await createsOrUpdatesASqlVirtualMachineAndJoinsItToASqlVirtualMachineGroup();
-  await createsOrUpdatesASqlVirtualMachineForAutomatedBackUpSettingsWithWeeklyAndDaysOfTheWeekToRunTheBackUp();
-  await createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToExtendDataLogOrTempDbStoragePool();
-  await createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToNewDataLogAndTempDbStoragePool();
-  await createsOrUpdatesASqlVirtualMachineWithMaxParameters();
-  await createsOrUpdatesASqlVirtualMachineWithMinParameters();
+  await createsOrUpdatesASQLVirtualMachineForAutomatedBackUpSettingsWithWeeklyAndDaysOfTheWeekToRunTheBackUp();
+  await createsOrUpdatesASQLVirtualMachineWithMaxParameters();
+  await createsOrUpdatesASQLVirtualMachineWithMinParameters();
+  await createsOrUpdatesASQLVirtualMachineForStorageConfigurationSettingsToExtendDataLogOrTempDBStoragePool();
+  await createsOrUpdatesASQLVirtualMachineForStorageConfigurationSettingsToNEWDataLogAndTempDBStoragePool();
+  await createsOrUpdatesASQLVirtualMachineToEnableTheUsageOfVirtualMachineManagedIdentity();
+  await createsOrUpdatesASQLVirtualMachineAndJoinsItToASQLVirtualMachineGroup();
 }
 
 main().catch(console.error);

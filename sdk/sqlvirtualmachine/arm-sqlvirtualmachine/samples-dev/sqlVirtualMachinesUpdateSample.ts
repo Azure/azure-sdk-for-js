@@ -1,36 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates a SQL virtual machine.
- *
- * @summary Updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/UpdateSqlVirtualMachine.json
- */
-
-import type { SqlVirtualMachineUpdate } from "@azure/arm-sqlvirtualmachine";
-import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
+import { SqlVirtualMachineClient } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function updatesASqlVirtualMachineTags(): Promise<void> {
-  const subscriptionId =
-    process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
-  const sqlVirtualMachineName = "testvm";
-  const parameters: SqlVirtualMachineUpdate = { tags: { mytag: "myval" } };
+/**
+ * This sample demonstrates how to updates SQL virtual machine tags.
+ *
+ * @summary updates SQL virtual machine tags.
+ * x-ms-original-file: 2023-10-01/UpdateSqlVirtualMachine.json
+ */
+async function updatesASQLVirtualMachineTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
-  const result = await client.sqlVirtualMachines.beginUpdateAndWait(
-    resourceGroupName,
-    sqlVirtualMachineName,
-    parameters,
-  );
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlVirtualMachineClient(credential, subscriptionId);
+  const result = await client.sqlVirtualMachines.update("testrg", "testvm", {
+    tags: { mytag: "myval" },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await updatesASqlVirtualMachineTags();
+  await updatesASQLVirtualMachineTags();
 }
 
 main().catch(console.error);

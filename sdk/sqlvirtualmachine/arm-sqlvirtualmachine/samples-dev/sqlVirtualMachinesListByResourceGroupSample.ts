@@ -1,32 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets all SQL virtual machines in a resource group.
- *
- * @summary Gets all SQL virtual machines in a resource group.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/ListByResourceGroupSqlVirtualMachine.json
- */
-
-import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
+import { SqlVirtualMachineClient } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getsAllSqlVirtualMachinesInAResourceGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
+/**
+ * This sample demonstrates how to gets all SQL virtual machines in a resource group.
+ *
+ * @summary gets all SQL virtual machines in a resource group.
+ * x-ms-original-file: 2023-10-01/ListByResourceGroupSqlVirtualMachine.json
+ */
+async function getsAllSQLVirtualMachinesInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlVirtualMachineClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.sqlVirtualMachines.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.sqlVirtualMachines.listByResourceGroup("testrg")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await getsAllSqlVirtualMachinesInAResourceGroup();
+  await getsAllSQLVirtualMachinesInAResourceGroup();
 }
 
 main().catch(console.error);
