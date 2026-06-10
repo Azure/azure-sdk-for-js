@@ -6,12 +6,8 @@ export const endpoint = process.env.ACCOUNT_HOST || "https://localhost:8081";
 if (endpoint.includes("https://localhost")) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 }
-// This is used for skipping tests for features not available on staging accounts used in signoff pipelines
-export const skipTestForSignOff: boolean = process.env.SKIP_COMPUTE_GATEWAY_TESTS === "true";
-
-// True when running against an account whose only gateway is the Compute Gateway (CGW), e.g. the
-// signoff PPE staging account. Set this to skip tests that assert Routing/Regional Gateway-specific
-// behavior (such as the 401 HMAC-mismatch responses for trailing-whitespace / percent-encoded ids
-// in `test/public/functional/item/itemIdEncoding.spec.ts`), since those tests will hit CGW and see
-// CGW behavior instead.
-export const skipTestForRoutingGateway: boolean = process.env.SKIP_ROUTING_GATEWAY_TESTS === "true";
+// Set to `true` in the signoff pipeline. Skips tests that depend on features or environments
+// unavailable in the signoff staging account: the local emulator (sslVerification), partition-key
+// delete (container, clientSideEncryption), ChangeFeed AllVersionsAndDeletes (changeFeedIterator),
+// and Routing Gateway failure-mode assertions (itemIdEncoding RGW_* tests).
+export const skipTestForSignOff: boolean = process.env.SKIP_TESTS_FOR_SIGN_OFF === "true";
