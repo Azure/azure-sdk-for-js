@@ -18,6 +18,8 @@ import type {
 } from "../../api/tagRules/options.js";
 import type { TagRule, TagRuleUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a TagRules operations. */
@@ -35,6 +37,20 @@ export interface TagRulesOperations {
     ruleSetName: string,
     options?: TagRulesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    monitorName: string,
+    ruleSetName: string,
+    options?: TagRulesDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    monitorName: string,
+    ruleSetName: string,
+    options?: TagRulesDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates the tag rules for a specific New Relic monitor resource, allowing you to modify the rules that control which Azure resources are monitored */
   update: (
     resourceGroupName: string,
@@ -51,6 +67,22 @@ export interface TagRulesOperations {
     resource: TagRule,
     options?: TagRulesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<TagRule>, TagRule>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    monitorName: string,
+    ruleSetName: string,
+    resource: TagRule,
+    options?: TagRulesCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<TagRule>, TagRule>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    monitorName: string,
+    ruleSetName: string,
+    resource: TagRule,
+    options?: TagRulesCreateOrUpdateOptionalParams,
+  ) => Promise<TagRule>;
   /** Retrieves the details of the tag rules for a specific New Relic monitor resource, providing insight into its setup and status */
   get: (
     resourceGroupName: string,
@@ -73,6 +105,24 @@ function _getTagRules(context: NewRelicObservabilityContext) {
       ruleSetName: string,
       options?: TagRulesDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, monitorName, ruleSetName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      monitorName: string,
+      ruleSetName: string,
+      options?: TagRulesDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, monitorName, ruleSetName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      monitorName: string,
+      ruleSetName: string,
+      options?: TagRulesDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, monitorName, ruleSetName, options);
+    },
     update: (
       resourceGroupName: string,
       monitorName: string,
@@ -87,6 +137,40 @@ function _getTagRules(context: NewRelicObservabilityContext) {
       resource: TagRule,
       options?: TagRulesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, monitorName, ruleSetName, resource, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      monitorName: string,
+      ruleSetName: string,
+      resource: TagRule,
+      options?: TagRulesCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        monitorName,
+        ruleSetName,
+        resource,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      monitorName: string,
+      ruleSetName: string,
+      resource: TagRule,
+      options?: TagRulesCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        monitorName,
+        ruleSetName,
+        resource,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       monitorName: string,

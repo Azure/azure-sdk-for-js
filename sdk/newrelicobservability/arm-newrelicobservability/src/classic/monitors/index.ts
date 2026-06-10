@@ -61,6 +61,8 @@ import type {
   LatestLinkedSaaSResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Monitors operations. */
@@ -71,6 +73,18 @@ export interface MonitorsOperations {
     monitorName: string,
     options?: MonitorsResubscribeOptionalParams,
   ) => PollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>;
+  /** @deprecated use resubscribe instead */
+  beginResubscribe: (
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsResubscribeOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>>;
+  /** @deprecated use resubscribe instead */
+  beginResubscribeAndWait: (
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsResubscribeOptionalParams,
+  ) => Promise<NewRelicMonitorResource>;
   /** Links a new SaaS to the newrelic organization of the underlying monitor. */
   linkSaaS: (
     resourceGroupName: string,
@@ -78,6 +92,20 @@ export interface MonitorsOperations {
     body: SaaSData,
     options?: MonitorsLinkSaaSOptionalParams,
   ) => PollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>;
+  /** @deprecated use linkSaaS instead */
+  beginLinkSaaS: (
+    resourceGroupName: string,
+    monitorName: string,
+    body: SaaSData,
+    options?: MonitorsLinkSaaSOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>>;
+  /** @deprecated use linkSaaS instead */
+  beginLinkSaaSAndWait: (
+    resourceGroupName: string,
+    monitorName: string,
+    body: SaaSData,
+    options?: MonitorsLinkSaaSOptionalParams,
+  ) => Promise<NewRelicMonitorResource>;
   /** Returns the latest SaaS linked to the newrelic organization of the underlying monitor. */
   latestLinkedSaaS: (
     resourceGroupName: string,
@@ -159,6 +187,20 @@ export interface MonitorsOperations {
     userEmail: string,
     options?: MonitorsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    monitorName: string,
+    userEmail: string,
+    options?: MonitorsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    monitorName: string,
+    userEmail: string,
+    options?: MonitorsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates an existing New Relic monitor resource from your Azure subscription */
   update: (
     resourceGroupName: string,
@@ -166,6 +208,20 @@ export interface MonitorsOperations {
     properties: NewRelicMonitorResourceUpdate,
     options?: MonitorsUpdateOptionalParams,
   ) => PollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    monitorName: string,
+    properties: NewRelicMonitorResourceUpdate,
+    options?: MonitorsUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    monitorName: string,
+    properties: NewRelicMonitorResourceUpdate,
+    options?: MonitorsUpdateOptionalParams,
+  ) => Promise<NewRelicMonitorResource>;
   /** Creates a new or updates an existing New Relic monitor resource in your Azure subscription. This sets up the integration between Azure and your New Relic account, enabling observability and monitoring of your Azure resources through New Relic */
   createOrUpdate: (
     resourceGroupName: string,
@@ -173,6 +229,20 @@ export interface MonitorsOperations {
     resource: NewRelicMonitorResource,
     options?: MonitorsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    monitorName: string,
+    resource: NewRelicMonitorResource,
+    options?: MonitorsCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    monitorName: string,
+    resource: NewRelicMonitorResource,
+    options?: MonitorsCreateOrUpdateOptionalParams,
+  ) => Promise<NewRelicMonitorResource>;
   /** Retrieves the properties and configuration details of a specific New Relic monitor resource, providing insight into its setup and status */
   get: (
     resourceGroupName: string,
@@ -188,12 +258,46 @@ function _getMonitors(context: NewRelicObservabilityContext) {
       monitorName: string,
       options?: MonitorsResubscribeOptionalParams,
     ) => resubscribe(context, resourceGroupName, monitorName, options),
+    beginResubscribe: async (
+      resourceGroupName: string,
+      monitorName: string,
+      options?: MonitorsResubscribeOptionalParams,
+    ) => {
+      const poller = resubscribe(context, resourceGroupName, monitorName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginResubscribeAndWait: async (
+      resourceGroupName: string,
+      monitorName: string,
+      options?: MonitorsResubscribeOptionalParams,
+    ) => {
+      return await resubscribe(context, resourceGroupName, monitorName, options);
+    },
     linkSaaS: (
       resourceGroupName: string,
       monitorName: string,
       body: SaaSData,
       options?: MonitorsLinkSaaSOptionalParams,
     ) => linkSaaS(context, resourceGroupName, monitorName, body, options),
+    beginLinkSaaS: async (
+      resourceGroupName: string,
+      monitorName: string,
+      body: SaaSData,
+      options?: MonitorsLinkSaaSOptionalParams,
+    ) => {
+      const poller = linkSaaS(context, resourceGroupName, monitorName, body, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginLinkSaaSAndWait: async (
+      resourceGroupName: string,
+      monitorName: string,
+      body: SaaSData,
+      options?: MonitorsLinkSaaSOptionalParams,
+    ) => {
+      return await linkSaaS(context, resourceGroupName, monitorName, body, options);
+    },
     latestLinkedSaaS: (
       resourceGroupName: string,
       monitorName: string,
@@ -261,18 +365,72 @@ function _getMonitors(context: NewRelicObservabilityContext) {
       userEmail: string,
       options?: MonitorsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, monitorName, userEmail, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      monitorName: string,
+      userEmail: string,
+      options?: MonitorsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, monitorName, userEmail, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      monitorName: string,
+      userEmail: string,
+      options?: MonitorsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, monitorName, userEmail, options);
+    },
     update: (
       resourceGroupName: string,
       monitorName: string,
       properties: NewRelicMonitorResourceUpdate,
       options?: MonitorsUpdateOptionalParams,
     ) => update(context, resourceGroupName, monitorName, properties, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      monitorName: string,
+      properties: NewRelicMonitorResourceUpdate,
+      options?: MonitorsUpdateOptionalParams,
+    ) => {
+      const poller = update(context, resourceGroupName, monitorName, properties, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      monitorName: string,
+      properties: NewRelicMonitorResourceUpdate,
+      options?: MonitorsUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, monitorName, properties, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       monitorName: string,
       resource: NewRelicMonitorResource,
       options?: MonitorsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, monitorName, resource, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      monitorName: string,
+      resource: NewRelicMonitorResource,
+      options?: MonitorsCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(context, resourceGroupName, monitorName, resource, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      monitorName: string,
+      resource: NewRelicMonitorResource,
+      options?: MonitorsCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, resourceGroupName, monitorName, resource, options);
+    },
     get: (resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams) =>
       get(context, resourceGroupName, monitorName, options),
   };

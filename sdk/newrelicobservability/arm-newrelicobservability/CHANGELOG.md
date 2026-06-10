@@ -1,13 +1,21 @@
 # Release History
 
-## 2.0.0-beta.2 (2026-06-09)
+## 2.0.0-beta.2 (2026-06-10)
 Compared with version 1.1.0
 
 ### Features Added
   - Added operation group SaaSOperations
+  - Added operation MonitoredSubscriptionsOperations.beginCreateOrUpdate
+  - Added operation MonitoredSubscriptionsOperations.beginCreateOrUpdateAndWait
   - Added operation MonitoredSubscriptionsOperations.createOrUpdate
   - Added operation MonitoredSubscriptionsOperations.delete
   - Added operation MonitoredSubscriptionsOperations.update
+  - Added operation MonitorsOperations.beginLinkSaaS
+  - Added operation MonitorsOperations.beginLinkSaaSAndWait
+  - Added operation MonitorsOperations.beginResubscribe
+  - Added operation MonitorsOperations.beginResubscribeAndWait
+  - Added operation MonitorsOperations.beginUpdate
+  - Added operation MonitorsOperations.beginUpdateAndWait
   - Added operation MonitorsOperations.createOrUpdate
   - Added operation MonitorsOperations.delete
   - Added operation MonitorsOperations.latestLinkedSaaS
@@ -35,6 +43,7 @@ Compared with version 1.1.0
   - Added Interface SaaSActivateResourceOptionalParams
   - Added Interface SaaSData
   - Added Interface SaaSResourceDetailsResponse
+  - Added Interface SimplePollerLike
   - Added Interface TagRuleUpdateProperties
   - Interface MarketplaceSaaSInfo has a new optional parameter offerId
   - Interface MarketplaceSaaSInfo has a new optional parameter publisherId
@@ -49,18 +58,7 @@ Compared with version 1.1.0
 ### Breaking Changes
   - Removed operation MonitoredSubscriptions.beginCreateorUpdate
   - Removed operation MonitoredSubscriptions.beginCreateorUpdateAndWait
-  - Removed operation MonitoredSubscriptions.beginDelete
-  - Removed operation MonitoredSubscriptions.beginDeleteAndWait
-  - Removed operation MonitoredSubscriptions.beginUpdate
-  - Removed operation MonitoredSubscriptions.beginUpdateAndWait
-  - Removed operation Monitors.beginCreateOrUpdate
-  - Removed operation Monitors.beginCreateOrUpdateAndWait
-  - Removed operation Monitors.beginDelete
-  - Removed operation Monitors.beginDeleteAndWait
-  - Removed operation TagRules.beginCreateOrUpdate
-  - Removed operation TagRules.beginCreateOrUpdateAndWait
-  - Removed operation TagRules.beginDelete
-  - Removed operation TagRules.beginDeleteAndWait
+  - Operation MonitoredSubscriptions.beginDeleteAndWait has a new signature
   - Class NewRelicObservability no longer has parameter apiVersion
   - Class NewRelicObservability no longer has parameter subscriptionId
   - Removed Interface AccountsListResponse
