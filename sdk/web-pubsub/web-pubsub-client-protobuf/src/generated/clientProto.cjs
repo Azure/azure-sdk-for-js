@@ -112,19 +112,23 @@ $root.UpstreamMessage = (function() {
      * @param {$protobuf.Writer} [writer] Writer to encode to
      * @returns {$protobuf.Writer} Writer
      */
-    UpstreamMessage.encode = function encode(message, writer) {
+    UpstreamMessage.encode = function encode(message, writer, q) {
         if (!writer)
             writer = $Writer.create();
+        if (q === undefined)
+            q = 0;
+        if (q > $util.recursionLimit)
+            throw Error("max depth exceeded");
         if (message.sendToGroupMessage != null && Object.hasOwnProperty.call(message, "sendToGroupMessage"))
-            $root.UpstreamMessage.SendToGroupMessage.encode(message.sendToGroupMessage, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            $root.UpstreamMessage.SendToGroupMessage.encode(message.sendToGroupMessage, writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
         if (message.eventMessage != null && Object.hasOwnProperty.call(message, "eventMessage"))
-            $root.UpstreamMessage.EventMessage.encode(message.eventMessage, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+            $root.UpstreamMessage.EventMessage.encode(message.eventMessage, writer.uint32(/* id 5, wireType 2 =*/42).fork(), q + 1).ldelim();
         if (message.joinGroupMessage != null && Object.hasOwnProperty.call(message, "joinGroupMessage"))
-            $root.UpstreamMessage.JoinGroupMessage.encode(message.joinGroupMessage, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+            $root.UpstreamMessage.JoinGroupMessage.encode(message.joinGroupMessage, writer.uint32(/* id 6, wireType 2 =*/50).fork(), q + 1).ldelim();
         if (message.leaveGroupMessage != null && Object.hasOwnProperty.call(message, "leaveGroupMessage"))
-            $root.UpstreamMessage.LeaveGroupMessage.encode(message.leaveGroupMessage, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+            $root.UpstreamMessage.LeaveGroupMessage.encode(message.leaveGroupMessage, writer.uint32(/* id 7, wireType 2 =*/58).fork(), q + 1).ldelim();
         if (message.sequenceAckMessage != null && Object.hasOwnProperty.call(message, "sequenceAckMessage"))
-            $root.UpstreamMessage.SequenceAckMessage.encode(message.sequenceAckMessage, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+            $root.UpstreamMessage.SequenceAckMessage.encode(message.sequenceAckMessage, writer.uint32(/* id 8, wireType 2 =*/66).fork(), q + 1).ldelim();
         return writer;
     };
 
@@ -138,7 +142,7 @@ $root.UpstreamMessage = (function() {
      * @returns {$protobuf.Writer} Writer
      */
     UpstreamMessage.encodeDelimited = function encodeDelimited(message, writer) {
-        return this.encode(message, writer).ldelim();
+        return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
     };
 
     /**
@@ -287,33 +291,35 @@ $root.UpstreamMessage = (function() {
     UpstreamMessage.fromObject = function fromObject(object, long) {
         if (object instanceof $root.UpstreamMessage)
             return object;
+        if (!$util.isObject(object))
+            throw TypeError(".UpstreamMessage: object expected");
         if (long === undefined)
             long = 0;
         if (long > $util.recursionLimit)
             throw Error("maximum nesting depth exceeded");
         var message = new $root.UpstreamMessage();
         if (object.sendToGroupMessage != null) {
-            if (typeof object.sendToGroupMessage !== "object")
+            if (!$util.isObject(object.sendToGroupMessage))
                 throw TypeError(".UpstreamMessage.sendToGroupMessage: object expected");
             message.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.fromObject(object.sendToGroupMessage, long + 1);
         }
         if (object.eventMessage != null) {
-            if (typeof object.eventMessage !== "object")
+            if (!$util.isObject(object.eventMessage))
                 throw TypeError(".UpstreamMessage.eventMessage: object expected");
             message.eventMessage = $root.UpstreamMessage.EventMessage.fromObject(object.eventMessage, long + 1);
         }
         if (object.joinGroupMessage != null) {
-            if (typeof object.joinGroupMessage !== "object")
+            if (!$util.isObject(object.joinGroupMessage))
                 throw TypeError(".UpstreamMessage.joinGroupMessage: object expected");
             message.joinGroupMessage = $root.UpstreamMessage.JoinGroupMessage.fromObject(object.joinGroupMessage, long + 1);
         }
         if (object.leaveGroupMessage != null) {
-            if (typeof object.leaveGroupMessage !== "object")
+            if (!$util.isObject(object.leaveGroupMessage))
                 throw TypeError(".UpstreamMessage.leaveGroupMessage: object expected");
             message.leaveGroupMessage = $root.UpstreamMessage.LeaveGroupMessage.fromObject(object.leaveGroupMessage, long + 1);
         }
         if (object.sequenceAckMessage != null) {
-            if (typeof object.sequenceAckMessage !== "object")
+            if (!$util.isObject(object.sequenceAckMessage))
                 throw TypeError(".UpstreamMessage.sequenceAckMessage: object expected");
             message.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.fromObject(object.sequenceAckMessage, long + 1);
         }
@@ -329,32 +335,36 @@ $root.UpstreamMessage = (function() {
      * @param {$protobuf.IConversionOptions} [options] Conversion options
      * @returns {Object.<string,*>} Plain object
      */
-    UpstreamMessage.toObject = function toObject(message, options) {
+    UpstreamMessage.toObject = function toObject(message, options, q) {
         if (!options)
             options = {};
+        if (q === undefined)
+            q = 0;
+        if (q > $util.recursionLimit)
+            throw Error("max depth exceeded");
         var object = {};
         if (message.sendToGroupMessage != null && message.hasOwnProperty("sendToGroupMessage")) {
-            object.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.toObject(message.sendToGroupMessage, options);
+            object.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.toObject(message.sendToGroupMessage, options, q + 1);
             if (options.oneofs)
                 object.message = "sendToGroupMessage";
         }
         if (message.eventMessage != null && message.hasOwnProperty("eventMessage")) {
-            object.eventMessage = $root.UpstreamMessage.EventMessage.toObject(message.eventMessage, options);
+            object.eventMessage = $root.UpstreamMessage.EventMessage.toObject(message.eventMessage, options, q + 1);
             if (options.oneofs)
                 object.message = "eventMessage";
         }
         if (message.joinGroupMessage != null && message.hasOwnProperty("joinGroupMessage")) {
-            object.joinGroupMessage = $root.UpstreamMessage.JoinGroupMessage.toObject(message.joinGroupMessage, options);
+            object.joinGroupMessage = $root.UpstreamMessage.JoinGroupMessage.toObject(message.joinGroupMessage, options, q + 1);
             if (options.oneofs)
                 object.message = "joinGroupMessage";
         }
         if (message.leaveGroupMessage != null && message.hasOwnProperty("leaveGroupMessage")) {
-            object.leaveGroupMessage = $root.UpstreamMessage.LeaveGroupMessage.toObject(message.leaveGroupMessage, options);
+            object.leaveGroupMessage = $root.UpstreamMessage.LeaveGroupMessage.toObject(message.leaveGroupMessage, options, q + 1);
             if (options.oneofs)
                 object.message = "leaveGroupMessage";
         }
         if (message.sequenceAckMessage != null && message.hasOwnProperty("sequenceAckMessage")) {
-            object.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.toObject(message.sequenceAckMessage, options);
+            object.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.toObject(message.sequenceAckMessage, options, q + 1);
             if (options.oneofs)
                 object.message = "sequenceAckMessage";
         }
@@ -482,15 +492,19 @@ $root.UpstreamMessage = (function() {
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        SendToGroupMessage.encode = function encode(message, writer) {
+        SendToGroupMessage.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.group != null && Object.hasOwnProperty.call(message, "group"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.group);
             if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.ackId);
             if (message.data != null && Object.hasOwnProperty.call(message, "data"))
-                $root.MessageData.encode(message.data, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                $root.MessageData.encode(message.data, writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
             if (message.noEcho != null && Object.hasOwnProperty.call(message, "noEcho"))
                 writer.uint32(/* id 4, wireType 0 =*/32).bool(message.noEcho);
             return writer;
@@ -506,7 +520,7 @@ $root.UpstreamMessage = (function() {
          * @returns {$protobuf.Writer} Writer
          */
         SendToGroupMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
 
         /**
@@ -621,6 +635,8 @@ $root.UpstreamMessage = (function() {
         SendToGroupMessage.fromObject = function fromObject(object, long) {
             if (object instanceof $root.UpstreamMessage.SendToGroupMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".UpstreamMessage.SendToGroupMessage: object expected");
             if (long === undefined)
                 long = 0;
             if (long > $util.recursionLimit)
@@ -630,7 +646,7 @@ $root.UpstreamMessage = (function() {
                 message.group = String(object.group);
             if (object.ackId != null)
                 if ($util.Long)
-                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                    message.ackId = $util.Long.fromValue(object.ackId, true);
                 else if (typeof object.ackId === "string")
                     message.ackId = parseInt(object.ackId, 10);
                 else if (typeof object.ackId === "number")
@@ -638,7 +654,7 @@ $root.UpstreamMessage = (function() {
                 else if (typeof object.ackId === "object")
                     message.ackId = new $util.LongBits(object.ackId.low >>> 0, object.ackId.high >>> 0).toNumber(true);
             if (object.data != null) {
-                if (typeof object.data !== "object")
+                if (!$util.isObject(object.data))
                     throw TypeError(".UpstreamMessage.SendToGroupMessage.data: object expected");
                 message.data = $root.MessageData.fromObject(object.data, long + 1);
             }
@@ -656,9 +672,13 @@ $root.UpstreamMessage = (function() {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        SendToGroupMessage.toObject = function toObject(message, options) {
+        SendToGroupMessage.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.group = "";
@@ -667,7 +687,9 @@ $root.UpstreamMessage = (function() {
             if (message.group != null && message.hasOwnProperty("group"))
                 object.group = message.group;
             if (message.ackId != null && message.hasOwnProperty("ackId")) {
-                if (typeof message.ackId === "number")
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.ackId = typeof message.ackId === "number" ? BigInt(message.ackId) : $util.Long.fromBits(message.ackId.low >>> 0, message.ackId.high >>> 0, true).toBigInt();
+                else if (typeof message.ackId === "number")
                     object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
                 else
                     object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
@@ -675,7 +697,7 @@ $root.UpstreamMessage = (function() {
                     object._ackId = "ackId";
             }
             if (message.data != null && message.hasOwnProperty("data"))
-                object.data = $root.MessageData.toObject(message.data, options);
+                object.data = $root.MessageData.toObject(message.data, options, q + 1);
             if (message.noEcho != null && message.hasOwnProperty("noEcho")) {
                 object.noEcho = message.noEcho;
                 if (options.oneofs)
@@ -793,13 +815,17 @@ $root.UpstreamMessage = (function() {
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        EventMessage.encode = function encode(message, writer) {
+        EventMessage.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.event != null && Object.hasOwnProperty.call(message, "event"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.event);
             if (message.data != null && Object.hasOwnProperty.call(message, "data"))
-                $root.MessageData.encode(message.data, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                $root.MessageData.encode(message.data, writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
             if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.ackId);
             return writer;
@@ -815,7 +841,7 @@ $root.UpstreamMessage = (function() {
          * @returns {$protobuf.Writer} Writer
          */
         EventMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
 
         /**
@@ -921,6 +947,8 @@ $root.UpstreamMessage = (function() {
         EventMessage.fromObject = function fromObject(object, long) {
             if (object instanceof $root.UpstreamMessage.EventMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".UpstreamMessage.EventMessage: object expected");
             if (long === undefined)
                 long = 0;
             if (long > $util.recursionLimit)
@@ -929,13 +957,13 @@ $root.UpstreamMessage = (function() {
             if (object.event != null)
                 message.event = String(object.event);
             if (object.data != null) {
-                if (typeof object.data !== "object")
+                if (!$util.isObject(object.data))
                     throw TypeError(".UpstreamMessage.EventMessage.data: object expected");
                 message.data = $root.MessageData.fromObject(object.data, long + 1);
             }
             if (object.ackId != null)
                 if ($util.Long)
-                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                    message.ackId = $util.Long.fromValue(object.ackId, true);
                 else if (typeof object.ackId === "string")
                     message.ackId = parseInt(object.ackId, 10);
                 else if (typeof object.ackId === "number")
@@ -954,9 +982,13 @@ $root.UpstreamMessage = (function() {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        EventMessage.toObject = function toObject(message, options) {
+        EventMessage.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.event = "";
@@ -965,9 +997,11 @@ $root.UpstreamMessage = (function() {
             if (message.event != null && message.hasOwnProperty("event"))
                 object.event = message.event;
             if (message.data != null && message.hasOwnProperty("data"))
-                object.data = $root.MessageData.toObject(message.data, options);
+                object.data = $root.MessageData.toObject(message.data, options, q + 1);
             if (message.ackId != null && message.hasOwnProperty("ackId")) {
-                if (typeof message.ackId === "number")
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.ackId = typeof message.ackId === "number" ? BigInt(message.ackId) : $util.Long.fromBits(message.ackId.low >>> 0, message.ackId.high >>> 0, true).toBigInt();
+                else if (typeof message.ackId === "number")
                     object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
                 else
                     object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
@@ -1077,9 +1111,13 @@ $root.UpstreamMessage = (function() {
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        JoinGroupMessage.encode = function encode(message, writer) {
+        JoinGroupMessage.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.group != null && Object.hasOwnProperty.call(message, "group"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.group);
             if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
@@ -1097,7 +1135,7 @@ $root.UpstreamMessage = (function() {
          * @returns {$protobuf.Writer} Writer
          */
         JoinGroupMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
 
         /**
@@ -1194,6 +1232,8 @@ $root.UpstreamMessage = (function() {
         JoinGroupMessage.fromObject = function fromObject(object, long) {
             if (object instanceof $root.UpstreamMessage.JoinGroupMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".UpstreamMessage.JoinGroupMessage: object expected");
             if (long === undefined)
                 long = 0;
             if (long > $util.recursionLimit)
@@ -1203,7 +1243,7 @@ $root.UpstreamMessage = (function() {
                 message.group = String(object.group);
             if (object.ackId != null)
                 if ($util.Long)
-                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                    message.ackId = $util.Long.fromValue(object.ackId, true);
                 else if (typeof object.ackId === "string")
                     message.ackId = parseInt(object.ackId, 10);
                 else if (typeof object.ackId === "number")
@@ -1222,16 +1262,22 @@ $root.UpstreamMessage = (function() {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        JoinGroupMessage.toObject = function toObject(message, options) {
+        JoinGroupMessage.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.group = "";
             if (message.group != null && message.hasOwnProperty("group"))
                 object.group = message.group;
             if (message.ackId != null && message.hasOwnProperty("ackId")) {
-                if (typeof message.ackId === "number")
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.ackId = typeof message.ackId === "number" ? BigInt(message.ackId) : $util.Long.fromBits(message.ackId.low >>> 0, message.ackId.high >>> 0, true).toBigInt();
+                else if (typeof message.ackId === "number")
                     object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
                 else
                     object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
@@ -1341,9 +1387,13 @@ $root.UpstreamMessage = (function() {
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        LeaveGroupMessage.encode = function encode(message, writer) {
+        LeaveGroupMessage.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.group != null && Object.hasOwnProperty.call(message, "group"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.group);
             if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
@@ -1361,7 +1411,7 @@ $root.UpstreamMessage = (function() {
          * @returns {$protobuf.Writer} Writer
          */
         LeaveGroupMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
 
         /**
@@ -1458,6 +1508,8 @@ $root.UpstreamMessage = (function() {
         LeaveGroupMessage.fromObject = function fromObject(object, long) {
             if (object instanceof $root.UpstreamMessage.LeaveGroupMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".UpstreamMessage.LeaveGroupMessage: object expected");
             if (long === undefined)
                 long = 0;
             if (long > $util.recursionLimit)
@@ -1467,7 +1519,7 @@ $root.UpstreamMessage = (function() {
                 message.group = String(object.group);
             if (object.ackId != null)
                 if ($util.Long)
-                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                    message.ackId = $util.Long.fromValue(object.ackId, true);
                 else if (typeof object.ackId === "string")
                     message.ackId = parseInt(object.ackId, 10);
                 else if (typeof object.ackId === "number")
@@ -1486,16 +1538,22 @@ $root.UpstreamMessage = (function() {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        LeaveGroupMessage.toObject = function toObject(message, options) {
+        LeaveGroupMessage.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.group = "";
             if (message.group != null && message.hasOwnProperty("group"))
                 object.group = message.group;
             if (message.ackId != null && message.hasOwnProperty("ackId")) {
-                if (typeof message.ackId === "number")
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.ackId = typeof message.ackId === "number" ? BigInt(message.ackId) : $util.Long.fromBits(message.ackId.low >>> 0, message.ackId.high >>> 0, true).toBigInt();
+                else if (typeof message.ackId === "number")
                     object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
                 else
                     object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
@@ -1587,9 +1645,13 @@ $root.UpstreamMessage = (function() {
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        SequenceAckMessage.encode = function encode(message, writer) {
+        SequenceAckMessage.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.sequenceId != null && Object.hasOwnProperty.call(message, "sequenceId"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.sequenceId);
             return writer;
@@ -1605,7 +1667,7 @@ $root.UpstreamMessage = (function() {
          * @returns {$protobuf.Writer} Writer
          */
         SequenceAckMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
 
         /**
@@ -1692,6 +1754,8 @@ $root.UpstreamMessage = (function() {
         SequenceAckMessage.fromObject = function fromObject(object, long) {
             if (object instanceof $root.UpstreamMessage.SequenceAckMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".UpstreamMessage.SequenceAckMessage: object expected");
             if (long === undefined)
                 long = 0;
             if (long > $util.recursionLimit)
@@ -1699,7 +1763,7 @@ $root.UpstreamMessage = (function() {
             var message = new $root.UpstreamMessage.SequenceAckMessage();
             if (object.sequenceId != null)
                 if ($util.Long)
-                    (message.sequenceId = $util.Long.fromValue(object.sequenceId)).unsigned = true;
+                    message.sequenceId = $util.Long.fromValue(object.sequenceId, true);
                 else if (typeof object.sequenceId === "string")
                     message.sequenceId = parseInt(object.sequenceId, 10);
                 else if (typeof object.sequenceId === "number")
@@ -1718,18 +1782,24 @@ $root.UpstreamMessage = (function() {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        SequenceAckMessage.toObject = function toObject(message, options) {
+        SequenceAckMessage.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.sequenceId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    object.sequenceId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.sequenceId = options.longs === String ? "0" : 0;
+                    object.sequenceId = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
             if (message.sequenceId != null && message.hasOwnProperty("sequenceId"))
-                if (typeof message.sequenceId === "number")
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.sequenceId = typeof message.sequenceId === "number" ? BigInt(message.sequenceId) : $util.Long.fromBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0, true).toBigInt();
+                else if (typeof message.sequenceId === "number")
                     object.sequenceId = options.longs === String ? String(message.sequenceId) : message.sequenceId;
                 else
                     object.sequenceId = options.longs === String ? $util.Long.prototype.toString.call(message.sequenceId) : options.longs === Number ? new $util.LongBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0).toNumber(true) : message.sequenceId;
@@ -1853,15 +1923,19 @@ $root.DownstreamMessage = (function() {
      * @param {$protobuf.Writer} [writer] Writer to encode to
      * @returns {$protobuf.Writer} Writer
      */
-    DownstreamMessage.encode = function encode(message, writer) {
+    DownstreamMessage.encode = function encode(message, writer, q) {
         if (!writer)
             writer = $Writer.create();
+        if (q === undefined)
+            q = 0;
+        if (q > $util.recursionLimit)
+            throw Error("max depth exceeded");
         if (message.ackMessage != null && Object.hasOwnProperty.call(message, "ackMessage"))
-            $root.DownstreamMessage.AckMessage.encode(message.ackMessage, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            $root.DownstreamMessage.AckMessage.encode(message.ackMessage, writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
         if (message.dataMessage != null && Object.hasOwnProperty.call(message, "dataMessage"))
-            $root.DownstreamMessage.DataMessage.encode(message.dataMessage, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            $root.DownstreamMessage.DataMessage.encode(message.dataMessage, writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
         if (message.systemMessage != null && Object.hasOwnProperty.call(message, "systemMessage"))
-            $root.DownstreamMessage.SystemMessage.encode(message.systemMessage, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            $root.DownstreamMessage.SystemMessage.encode(message.systemMessage, writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
         return writer;
     };
 
@@ -1875,7 +1949,7 @@ $root.DownstreamMessage = (function() {
      * @returns {$protobuf.Writer} Writer
      */
     DownstreamMessage.encodeDelimited = function encodeDelimited(message, writer) {
-        return this.encode(message, writer).ldelim();
+        return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
     };
 
     /**
@@ -1996,23 +2070,25 @@ $root.DownstreamMessage = (function() {
     DownstreamMessage.fromObject = function fromObject(object, long) {
         if (object instanceof $root.DownstreamMessage)
             return object;
+        if (!$util.isObject(object))
+            throw TypeError(".DownstreamMessage: object expected");
         if (long === undefined)
             long = 0;
         if (long > $util.recursionLimit)
             throw Error("maximum nesting depth exceeded");
         var message = new $root.DownstreamMessage();
         if (object.ackMessage != null) {
-            if (typeof object.ackMessage !== "object")
+            if (!$util.isObject(object.ackMessage))
                 throw TypeError(".DownstreamMessage.ackMessage: object expected");
             message.ackMessage = $root.DownstreamMessage.AckMessage.fromObject(object.ackMessage, long + 1);
         }
         if (object.dataMessage != null) {
-            if (typeof object.dataMessage !== "object")
+            if (!$util.isObject(object.dataMessage))
                 throw TypeError(".DownstreamMessage.dataMessage: object expected");
             message.dataMessage = $root.DownstreamMessage.DataMessage.fromObject(object.dataMessage, long + 1);
         }
         if (object.systemMessage != null) {
-            if (typeof object.systemMessage !== "object")
+            if (!$util.isObject(object.systemMessage))
                 throw TypeError(".DownstreamMessage.systemMessage: object expected");
             message.systemMessage = $root.DownstreamMessage.SystemMessage.fromObject(object.systemMessage, long + 1);
         }
@@ -2028,22 +2104,26 @@ $root.DownstreamMessage = (function() {
      * @param {$protobuf.IConversionOptions} [options] Conversion options
      * @returns {Object.<string,*>} Plain object
      */
-    DownstreamMessage.toObject = function toObject(message, options) {
+    DownstreamMessage.toObject = function toObject(message, options, q) {
         if (!options)
             options = {};
+        if (q === undefined)
+            q = 0;
+        if (q > $util.recursionLimit)
+            throw Error("max depth exceeded");
         var object = {};
         if (message.ackMessage != null && message.hasOwnProperty("ackMessage")) {
-            object.ackMessage = $root.DownstreamMessage.AckMessage.toObject(message.ackMessage, options);
+            object.ackMessage = $root.DownstreamMessage.AckMessage.toObject(message.ackMessage, options, q + 1);
             if (options.oneofs)
                 object.message = "ackMessage";
         }
         if (message.dataMessage != null && message.hasOwnProperty("dataMessage")) {
-            object.dataMessage = $root.DownstreamMessage.DataMessage.toObject(message.dataMessage, options);
+            object.dataMessage = $root.DownstreamMessage.DataMessage.toObject(message.dataMessage, options, q + 1);
             if (options.oneofs)
                 object.message = "dataMessage";
         }
         if (message.systemMessage != null && message.hasOwnProperty("systemMessage")) {
-            object.systemMessage = $root.DownstreamMessage.SystemMessage.toObject(message.systemMessage, options);
+            object.systemMessage = $root.DownstreamMessage.SystemMessage.toObject(message.systemMessage, options, q + 1);
             if (options.oneofs)
                 object.message = "systemMessage";
         }
@@ -2156,15 +2236,19 @@ $root.DownstreamMessage = (function() {
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        AckMessage.encode = function encode(message, writer) {
+        AckMessage.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.ackId);
             if (message.success != null && Object.hasOwnProperty.call(message, "success"))
                 writer.uint32(/* id 2, wireType 0 =*/16).bool(message.success);
             if (message.error != null && Object.hasOwnProperty.call(message, "error"))
-                $root.DownstreamMessage.AckMessage.ErrorMessage.encode(message.error, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                $root.DownstreamMessage.AckMessage.ErrorMessage.encode(message.error, writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
             return writer;
         };
 
@@ -2178,7 +2262,7 @@ $root.DownstreamMessage = (function() {
          * @returns {$protobuf.Writer} Writer
          */
         AckMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
 
         /**
@@ -2285,6 +2369,8 @@ $root.DownstreamMessage = (function() {
         AckMessage.fromObject = function fromObject(object, long) {
             if (object instanceof $root.DownstreamMessage.AckMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".DownstreamMessage.AckMessage: object expected");
             if (long === undefined)
                 long = 0;
             if (long > $util.recursionLimit)
@@ -2292,7 +2378,7 @@ $root.DownstreamMessage = (function() {
             var message = new $root.DownstreamMessage.AckMessage();
             if (object.ackId != null)
                 if ($util.Long)
-                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                    message.ackId = $util.Long.fromValue(object.ackId, true);
                 else if (typeof object.ackId === "string")
                     message.ackId = parseInt(object.ackId, 10);
                 else if (typeof object.ackId === "number")
@@ -2302,7 +2388,7 @@ $root.DownstreamMessage = (function() {
             if (object.success != null)
                 message.success = Boolean(object.success);
             if (object.error != null) {
-                if (typeof object.error !== "object")
+                if (!$util.isObject(object.error))
                     throw TypeError(".DownstreamMessage.AckMessage.error: object expected");
                 message.error = $root.DownstreamMessage.AckMessage.ErrorMessage.fromObject(object.error, long + 1);
             }
@@ -2318,27 +2404,33 @@ $root.DownstreamMessage = (function() {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        AckMessage.toObject = function toObject(message, options) {
+        AckMessage.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.ackId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    object.ackId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.ackId = options.longs === String ? "0" : 0;
+                    object.ackId = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.success = false;
             }
             if (message.ackId != null && message.hasOwnProperty("ackId"))
-                if (typeof message.ackId === "number")
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.ackId = typeof message.ackId === "number" ? BigInt(message.ackId) : $util.Long.fromBits(message.ackId.low >>> 0, message.ackId.high >>> 0, true).toBigInt();
+                else if (typeof message.ackId === "number")
                     object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
                 else
                     object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
             if (message.success != null && message.hasOwnProperty("success"))
                 object.success = message.success;
             if (message.error != null && message.hasOwnProperty("error")) {
-                object.error = $root.DownstreamMessage.AckMessage.ErrorMessage.toObject(message.error, options);
+                object.error = $root.DownstreamMessage.AckMessage.ErrorMessage.toObject(message.error, options, q + 1);
                 if (options.oneofs)
                     object._error = "error";
             }
@@ -2433,9 +2525,13 @@ $root.DownstreamMessage = (function() {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ErrorMessage.encode = function encode(message, writer) {
+            ErrorMessage.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
                 if (message.message != null && Object.hasOwnProperty.call(message, "message"))
@@ -2453,7 +2549,7 @@ $root.DownstreamMessage = (function() {
              * @returns {$protobuf.Writer} Writer
              */
             ErrorMessage.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
 
             /**
@@ -2547,6 +2643,8 @@ $root.DownstreamMessage = (function() {
             ErrorMessage.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.DownstreamMessage.AckMessage.ErrorMessage)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".DownstreamMessage.AckMessage.ErrorMessage: object expected");
                 if (long === undefined)
                     long = 0;
                 if (long > $util.recursionLimit)
@@ -2568,9 +2666,13 @@ $root.DownstreamMessage = (function() {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            ErrorMessage.toObject = function toObject(message, options) {
+            ErrorMessage.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.name = "";
@@ -2710,15 +2812,19 @@ $root.DownstreamMessage = (function() {
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        DataMessage.encode = function encode(message, writer) {
+        DataMessage.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.from != null && Object.hasOwnProperty.call(message, "from"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.from);
             if (message.group != null && Object.hasOwnProperty.call(message, "group"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.group);
             if (message.data != null && Object.hasOwnProperty.call(message, "data"))
-                $root.MessageData.encode(message.data, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                $root.MessageData.encode(message.data, writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
             if (message.sequenceId != null && Object.hasOwnProperty.call(message, "sequenceId"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.sequenceId);
             return writer;
@@ -2734,7 +2840,7 @@ $root.DownstreamMessage = (function() {
          * @returns {$protobuf.Writer} Writer
          */
         DataMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
 
         /**
@@ -2849,6 +2955,8 @@ $root.DownstreamMessage = (function() {
         DataMessage.fromObject = function fromObject(object, long) {
             if (object instanceof $root.DownstreamMessage.DataMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".DownstreamMessage.DataMessage: object expected");
             if (long === undefined)
                 long = 0;
             if (long > $util.recursionLimit)
@@ -2859,13 +2967,13 @@ $root.DownstreamMessage = (function() {
             if (object.group != null)
                 message.group = String(object.group);
             if (object.data != null) {
-                if (typeof object.data !== "object")
+                if (!$util.isObject(object.data))
                     throw TypeError(".DownstreamMessage.DataMessage.data: object expected");
                 message.data = $root.MessageData.fromObject(object.data, long + 1);
             }
             if (object.sequenceId != null)
                 if ($util.Long)
-                    (message.sequenceId = $util.Long.fromValue(object.sequenceId)).unsigned = true;
+                    message.sequenceId = $util.Long.fromValue(object.sequenceId, true);
                 else if (typeof object.sequenceId === "string")
                     message.sequenceId = parseInt(object.sequenceId, 10);
                 else if (typeof object.sequenceId === "number")
@@ -2884,9 +2992,13 @@ $root.DownstreamMessage = (function() {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        DataMessage.toObject = function toObject(message, options) {
+        DataMessage.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.from = "";
@@ -2900,9 +3012,11 @@ $root.DownstreamMessage = (function() {
                     object._group = "group";
             }
             if (message.data != null && message.hasOwnProperty("data"))
-                object.data = $root.MessageData.toObject(message.data, options);
+                object.data = $root.MessageData.toObject(message.data, options, q + 1);
             if (message.sequenceId != null && message.hasOwnProperty("sequenceId")) {
-                if (typeof message.sequenceId === "number")
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.sequenceId = typeof message.sequenceId === "number" ? BigInt(message.sequenceId) : $util.Long.fromBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0, true).toBigInt();
+                else if (typeof message.sequenceId === "number")
                     object.sequenceId = options.longs === String ? String(message.sequenceId) : message.sequenceId;
                 else
                     object.sequenceId = options.longs === String ? $util.Long.prototype.toString.call(message.sequenceId) : options.longs === Number ? new $util.LongBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0).toNumber(true) : message.sequenceId;
@@ -3017,13 +3131,17 @@ $root.DownstreamMessage = (function() {
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        SystemMessage.encode = function encode(message, writer) {
+        SystemMessage.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.connectedMessage != null && Object.hasOwnProperty.call(message, "connectedMessage"))
-                $root.DownstreamMessage.SystemMessage.ConnectedMessage.encode(message.connectedMessage, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                $root.DownstreamMessage.SystemMessage.ConnectedMessage.encode(message.connectedMessage, writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
             if (message.disconnectedMessage != null && Object.hasOwnProperty.call(message, "disconnectedMessage"))
-                $root.DownstreamMessage.SystemMessage.DisconnectedMessage.encode(message.disconnectedMessage, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                $root.DownstreamMessage.SystemMessage.DisconnectedMessage.encode(message.disconnectedMessage, writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
             return writer;
         };
 
@@ -3037,7 +3155,7 @@ $root.DownstreamMessage = (function() {
          * @returns {$protobuf.Writer} Writer
          */
         SystemMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
 
         /**
@@ -3144,18 +3262,20 @@ $root.DownstreamMessage = (function() {
         SystemMessage.fromObject = function fromObject(object, long) {
             if (object instanceof $root.DownstreamMessage.SystemMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".DownstreamMessage.SystemMessage: object expected");
             if (long === undefined)
                 long = 0;
             if (long > $util.recursionLimit)
                 throw Error("maximum nesting depth exceeded");
             var message = new $root.DownstreamMessage.SystemMessage();
             if (object.connectedMessage != null) {
-                if (typeof object.connectedMessage !== "object")
+                if (!$util.isObject(object.connectedMessage))
                     throw TypeError(".DownstreamMessage.SystemMessage.connectedMessage: object expected");
                 message.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.fromObject(object.connectedMessage, long + 1);
             }
             if (object.disconnectedMessage != null) {
-                if (typeof object.disconnectedMessage !== "object")
+                if (!$util.isObject(object.disconnectedMessage))
                     throw TypeError(".DownstreamMessage.SystemMessage.disconnectedMessage: object expected");
                 message.disconnectedMessage = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.fromObject(object.disconnectedMessage, long + 1);
             }
@@ -3171,17 +3291,21 @@ $root.DownstreamMessage = (function() {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        SystemMessage.toObject = function toObject(message, options) {
+        SystemMessage.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (message.connectedMessage != null && message.hasOwnProperty("connectedMessage")) {
-                object.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.toObject(message.connectedMessage, options);
+                object.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.toObject(message.connectedMessage, options, q + 1);
                 if (options.oneofs)
                     object.message = "connectedMessage";
             }
             if (message.disconnectedMessage != null && message.hasOwnProperty("disconnectedMessage")) {
-                object.disconnectedMessage = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.toObject(message.disconnectedMessage, options);
+                object.disconnectedMessage = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.toObject(message.disconnectedMessage, options, q + 1);
                 if (options.oneofs)
                     object.message = "disconnectedMessage";
             }
@@ -3285,9 +3409,13 @@ $root.DownstreamMessage = (function() {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ConnectedMessage.encode = function encode(message, writer) {
+            ConnectedMessage.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.connectionId != null && Object.hasOwnProperty.call(message, "connectionId"))
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.connectionId);
                 if (message.userId != null && Object.hasOwnProperty.call(message, "userId"))
@@ -3307,7 +3435,7 @@ $root.DownstreamMessage = (function() {
              * @returns {$protobuf.Writer} Writer
              */
             ConnectedMessage.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
 
             /**
@@ -3408,6 +3536,8 @@ $root.DownstreamMessage = (function() {
             ConnectedMessage.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.DownstreamMessage.SystemMessage.ConnectedMessage)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".DownstreamMessage.SystemMessage.ConnectedMessage: object expected");
                 if (long === undefined)
                     long = 0;
                 if (long > $util.recursionLimit)
@@ -3431,9 +3561,13 @@ $root.DownstreamMessage = (function() {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            ConnectedMessage.toObject = function toObject(message, options) {
+            ConnectedMessage.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.connectionId = "";
@@ -3531,9 +3665,13 @@ $root.DownstreamMessage = (function() {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            DisconnectedMessage.encode = function encode(message, writer) {
+            DisconnectedMessage.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.reason != null && Object.hasOwnProperty.call(message, "reason"))
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.reason);
                 return writer;
@@ -3549,7 +3687,7 @@ $root.DownstreamMessage = (function() {
              * @returns {$protobuf.Writer} Writer
              */
             DisconnectedMessage.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
 
             /**
@@ -3636,6 +3774,8 @@ $root.DownstreamMessage = (function() {
             DisconnectedMessage.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.DownstreamMessage.SystemMessage.DisconnectedMessage)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".DownstreamMessage.SystemMessage.DisconnectedMessage: object expected");
                 if (long === undefined)
                     long = 0;
                 if (long > $util.recursionLimit)
@@ -3655,9 +3795,13 @@ $root.DownstreamMessage = (function() {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            DisconnectedMessage.toObject = function toObject(message, options) {
+            DisconnectedMessage.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.defaults)
                     object.reason = "";
@@ -3795,15 +3939,19 @@ $root.MessageData = (function() {
      * @param {$protobuf.Writer} [writer] Writer to encode to
      * @returns {$protobuf.Writer} Writer
      */
-    MessageData.encode = function encode(message, writer) {
+    MessageData.encode = function encode(message, writer, q) {
         if (!writer)
             writer = $Writer.create();
+        if (q === undefined)
+            q = 0;
+        if (q > $util.recursionLimit)
+            throw Error("max depth exceeded");
         if (message.textData != null && Object.hasOwnProperty.call(message, "textData"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.textData);
         if (message.binaryData != null && Object.hasOwnProperty.call(message, "binaryData"))
             writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.binaryData);
         if (message.protobufData != null && Object.hasOwnProperty.call(message, "protobufData"))
-            $root.google.protobuf.Any.encode(message.protobufData, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            $root.google.protobuf.Any.encode(message.protobufData, writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
         if (message.jsonData != null && Object.hasOwnProperty.call(message, "jsonData"))
             writer.uint32(/* id 4, wireType 2 =*/34).string(message.jsonData);
         return writer;
@@ -3819,7 +3967,7 @@ $root.MessageData = (function() {
      * @returns {$protobuf.Writer} Writer
      */
     MessageData.encodeDelimited = function encodeDelimited(message, writer) {
-        return this.encode(message, writer).ldelim();
+        return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
     };
 
     /**
@@ -3945,6 +4093,8 @@ $root.MessageData = (function() {
     MessageData.fromObject = function fromObject(object, long) {
         if (object instanceof $root.MessageData)
             return object;
+        if (!$util.isObject(object))
+            throw TypeError(".MessageData: object expected");
         if (long === undefined)
             long = 0;
         if (long > $util.recursionLimit)
@@ -3958,7 +4108,7 @@ $root.MessageData = (function() {
             else if (object.binaryData.length >= 0)
                 message.binaryData = object.binaryData;
         if (object.protobufData != null) {
-            if (typeof object.protobufData !== "object")
+            if (!$util.isObject(object.protobufData))
                 throw TypeError(".MessageData.protobufData: object expected");
             message.protobufData = $root.google.protobuf.Any.fromObject(object.protobufData, long + 1);
         }
@@ -3976,9 +4126,13 @@ $root.MessageData = (function() {
      * @param {$protobuf.IConversionOptions} [options] Conversion options
      * @returns {Object.<string,*>} Plain object
      */
-    MessageData.toObject = function toObject(message, options) {
+    MessageData.toObject = function toObject(message, options, q) {
         if (!options)
             options = {};
+        if (q === undefined)
+            q = 0;
+        if (q > $util.recursionLimit)
+            throw Error("max depth exceeded");
         var object = {};
         if (message.textData != null && message.hasOwnProperty("textData")) {
             object.textData = message.textData;
@@ -3991,7 +4145,7 @@ $root.MessageData = (function() {
                 object.data = "binaryData";
         }
         if (message.protobufData != null && message.hasOwnProperty("protobufData")) {
-            object.protobufData = $root.google.protobuf.Any.toObject(message.protobufData, options);
+            object.protobufData = $root.google.protobuf.Any.toObject(message.protobufData, options, q + 1);
             if (options.oneofs)
                 object.data = "protobufData";
         }
@@ -4112,9 +4266,13 @@ $root.google = (function() {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Any.encode = function encode(message, writer) {
+            Any.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.type_url != null && Object.hasOwnProperty.call(message, "type_url"))
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.type_url);
                 if (message.value != null && Object.hasOwnProperty.call(message, "value"))
@@ -4132,7 +4290,7 @@ $root.google = (function() {
              * @returns {$protobuf.Writer} Writer
              */
             Any.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
 
             /**
@@ -4226,6 +4384,8 @@ $root.google = (function() {
             Any.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.google.protobuf.Any)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".google.protobuf.Any: object expected");
                 if (long === undefined)
                     long = 0;
                 if (long > $util.recursionLimit)
@@ -4250,9 +4410,13 @@ $root.google = (function() {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Any.toObject = function toObject(message, options) {
+            Any.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.type_url = "";

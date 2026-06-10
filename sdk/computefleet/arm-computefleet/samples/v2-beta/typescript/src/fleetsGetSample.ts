@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Fleet
  *
  * @summary get a Fleet
- * x-ms-original-file: 2025-07-01-preview/Fleets_Get.json
+ * x-ms-original-file: 2026-04-01-preview/Fleets_Get_MaximumSet_Gen.json
  */
-async function fleetsGet(): Promise<void> {
+async function fleetsGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
@@ -19,7 +19,7 @@ async function fleetsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await fleetsGet();
+  await fleetsGetMaximumSetGen();
 }
 
 main().catch(console.error);

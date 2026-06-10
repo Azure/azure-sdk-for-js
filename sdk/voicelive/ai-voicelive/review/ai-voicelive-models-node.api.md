@@ -57,6 +57,8 @@ export interface AssistantMessageItem extends MessageItem {
 
 // @public
 export interface AudioEchoCancellation {
+    channels?: number;
+    referenceSource?: EchoCancellationReferenceSource;
     type: "server_echo_cancellation";
 }
 
@@ -145,6 +147,15 @@ export interface AzurePersonalVoice extends AzureVoice {
     type: "azure-personal";
     volume?: string;
 }
+
+// @public
+export interface AzureRealtimeNativeVoice {
+    name: AzureRealtimeNativeVoiceName;
+    type: "azure-realtime-native";
+}
+
+// @public
+export type AzureRealtimeNativeVoiceName = string;
 
 // @public
 export interface AzureSemanticDetection extends EouDetection {
@@ -359,6 +370,13 @@ export interface ClientEventResponseCreate extends ClientEvent {
 }
 
 // @public
+export interface ClientEventRtcCallSdpCreate extends ClientEvent {
+    sdpOffer: string;
+    session?: RequestSession;
+    type: "rtc.call.sdp.create";
+}
+
+// @public
 export interface ClientEventSessionAvatarConnect extends ClientEvent {
     clientSdp: string;
     type: "session.avatar.connect";
@@ -375,7 +393,7 @@ export interface ClientEventSessionUpdate extends ClientEvent {
 export type ClientEventType = string;
 
 // @public
-export type ClientEventUnion = ClientEventSessionUpdate | ClientEventSessionAvatarConnect | ClientEventInputAudioTurnStart | ClientEventInputAudioTurnAppend | ClientEventInputAudioTurnEnd | ClientEventInputAudioTurnCancel | ClientEventInputAudioClear | ClientEventInputAudioBufferAppend | ClientEventInputAudioBufferCommit | ClientEventInputAudioBufferClear | ClientEventConversationItemCreate | ClientEventConversationItemTruncate | ClientEventConversationItemDelete | ClientEventResponseCreate | ClientEventResponseCancel | ClientEventConversationItemRetrieve | ClientEventOutputAudioBufferClear | ClientEvent;
+export type ClientEventUnion = ClientEventSessionUpdate | ClientEventSessionAvatarConnect | ClientEventInputAudioTurnStart | ClientEventInputAudioTurnAppend | ClientEventInputAudioTurnEnd | ClientEventInputAudioTurnCancel | ClientEventInputAudioClear | ClientEventInputAudioBufferAppend | ClientEventInputAudioBufferCommit | ClientEventInputAudioBufferClear | ClientEventConversationItemCreate | ClientEventConversationItemTruncate | ClientEventConversationItemDelete | ClientEventResponseCreate | ClientEventResponseCancel | ClientEventConversationItemRetrieve | ClientEventOutputAudioBufferClear | ClientEventRtcCallSdpCreate | ClientEvent;
 
 // @public
 export interface ContentPart {
@@ -403,6 +421,9 @@ export interface ConversationRequestItem {
 
 // @public
 export type ConversationRequestItemUnion = MessageItemUnion | FunctionCallItem | FunctionCallOutputItem | MCPApprovalResponseRequestItem | ConversationRequestItem;
+
+// @public
+export type EchoCancellationReferenceSource = string;
 
 // @public
 export interface EouDetection {
@@ -554,6 +575,22 @@ export enum KnownAvatarOutputProtocol {
 }
 
 // @public
+export enum KnownAzureRealtimeNativeVoiceName {
+    Aarti = "aarti",
+    Andrew = "andrew",
+    Ava = "ava",
+    Denise = "denise",
+    Diya = "diya",
+    Elsa = "elsa",
+    Florian = "florian",
+    Francisca = "francisca",
+    Meera = "meera",
+    Xiaoxiao = "xiaoxiao",
+    Ximena = "ximena",
+    Yunxi = "yunxi"
+}
+
+// @public
 export enum KnownAzureVoiceType {
     AvatarVoiceSync = "avatar-voice-sync",
     AzureCustom = "azure-custom",
@@ -579,6 +616,7 @@ export enum KnownClientEventType {
     OutputAudioBufferClear = "output_audio_buffer.clear",
     ResponseCancel = "response.cancel",
     ResponseCreate = "response.create",
+    RtcCallSdpCreate = "rtc.call.sdp.create",
     SessionAvatarConnect = "session.avatar.connect",
     SessionUpdate = "session.update"
 }
@@ -590,6 +628,12 @@ export enum KnownContentPartType {
     InputImage = "input_image",
     InputText = "input_text",
     Text = "text"
+}
+
+// @public
+export enum KnownEchoCancellationReferenceSource {
+    Client = "client",
+    Server = "server"
 }
 
 // @public
@@ -747,6 +791,8 @@ export enum KnownServerEventType {
     McpListToolsFailed = "mcp_list_tools.failed",
     McpListToolsInProgress = "mcp_list_tools.in_progress",
     OutputAudioBufferCleared = "output_audio_buffer.cleared",
+    OutputAudioBufferStarted = "output_audio_buffer.started",
+    OutputAudioBufferStopped = "output_audio_buffer.stopped",
     ResponseAnimationBlendshapesDelta = "response.animation_blendshapes.delta",
     ResponseAnimationBlendshapesDone = "response.animation_blendshapes.done",
     ResponseAnimationVisemeDelta = "response.animation_viseme.delta",
@@ -767,6 +813,7 @@ export enum KnownServerEventType {
     ResponseFileSearchCallSearching = "response.file_search_call.searching",
     ResponseFunctionCallArgumentsDelta = "response.function_call_arguments.delta",
     ResponseFunctionCallArgumentsDone = "response.function_call_arguments.done",
+    ResponseInvocationDelta = "response.invocation.delta",
     ResponseMcpCallArgumentsDelta = "response.mcp_call_arguments.delta",
     ResponseMcpCallArgumentsDone = "response.mcp_call_arguments.done",
     ResponseMcpCallCompleted = "response.mcp_call.completed",
@@ -780,6 +827,8 @@ export enum KnownServerEventType {
     ResponseWebSearchCallCompleted = "response.web_search_call.completed",
     ResponseWebSearchCallInProgress = "response.web_search_call.in_progress",
     ResponseWebSearchCallSearching = "response.web_search_call.searching",
+    RtcCallError = "rtc.call.error",
+    RtcCallSdpCreated = "rtc.call.sdp.created",
     SessionAvatarConnecting = "session.avatar.connecting",
     SessionAvatarSwitchToIdle = "session.avatar.switch_to_idle",
     SessionAvatarSwitchToSpeaking = "session.avatar.switch_to_speaking",
@@ -940,9 +989,9 @@ export interface RequestImageContentPart extends ContentPart {
     // (undocumented)
     detail?: RequestImageContentPartDetail;
     // (undocumented)
-    type: "input_image";
+    imageUrl?: string;
     // (undocumented)
-    url?: string;
+    type: "input_image";
 }
 
 // @public
@@ -1006,6 +1055,7 @@ export interface ResponseCreateParams {
     inputItems?: ConversationRequestItemUnion[];
     instructions?: string;
     interimResponse?: InterimResponseConfig;
+    invokeInput?: Record<string, any>;
     maxOutputTokens?: number | "inf";
     metadata?: Record<string, string>;
     modalities?: Modality[];
@@ -1185,6 +1235,13 @@ export interface ResponseWebSearchCallItem extends ResponseItem {
 }
 
 // @public
+export interface RtcCallErrorDetails {
+    code?: string;
+    message: string;
+    type: string;
+}
+
+// @public
 export interface Scene {
     amplitude?: number;
     positionX?: number;
@@ -1325,6 +1382,18 @@ export interface ServerEventMcpListToolsInProgress extends ServerEvent {
 // @public
 export interface ServerEventOutputAudioBufferCleared extends ServerEvent {
     type: "output_audio_buffer.cleared";
+}
+
+// @public
+export interface ServerEventOutputAudioBufferStarted extends ServerEvent {
+    responseId?: string;
+    type: "output_audio_buffer.started";
+}
+
+// @public
+export interface ServerEventOutputAudioBufferStopped extends ServerEvent {
+    responseId?: string;
+    type: "output_audio_buffer.stopped";
 }
 
 // @public
@@ -1558,6 +1627,12 @@ export interface ServerEventResponseFunctionCallArgumentsDone extends ServerEven
 }
 
 // @public
+export interface ServerEventResponseInvocationDelta extends ServerEvent {
+    delta: Record<string, any>;
+    type: "response.invocation.delta";
+}
+
+// @public
 export interface ServerEventResponseMcpCallArgumentsDelta extends ServerEvent {
     delta: string;
     itemId: string;
@@ -1676,6 +1751,21 @@ export interface ServerEventResponseWebSearchCallSearching extends ServerEvent {
 }
 
 // @public
+export interface ServerEventRtcCallError extends ServerEvent {
+    error: RtcCallErrorDetails;
+    operation?: string;
+    rtcCallId?: string;
+    type: "rtc.call.error";
+}
+
+// @public
+export interface ServerEventRtcCallSdpCreated extends ServerEvent {
+    rtcCallId: string;
+    sdpAnswer: string;
+    type: "rtc.call.sdp.created";
+}
+
+// @public
 export interface ServerEventSessionAvatarConnecting extends ServerEvent {
     serverSdp: string;
     type: "session.avatar.connecting";
@@ -1711,7 +1801,7 @@ export interface ServerEventSessionUpdated extends ServerEvent {
 export type ServerEventType = string;
 
 // @public
-export type ServerEventUnion = ServerEventError | ServerEventWarning | ServerEventSessionCreated | ServerEventSessionUpdated | ServerEventSessionAvatarConnecting | ServerEventInputAudioBufferCommitted | ServerEventInputAudioBufferCleared | ServerEventInputAudioBufferSpeechStarted | ServerEventInputAudioBufferSpeechStopped | ServerEventConversationItemCreated | ServerEventConversationItemInputAudioTranscriptionCompleted | ServerEventConversationItemInputAudioTranscriptionFailed | ServerEventConversationItemTruncated | ServerEventConversationItemDeleted | ServerEventResponseCreated | ServerEventResponseDone | ServerEventResponseOutputItemAdded | ServerEventResponseOutputItemDone | ServerEventResponseContentPartAdded | ServerEventResponseContentPartDone | ServerEventResponseTextDelta | ServerEventResponseTextDone | ServerEventResponseAudioTranscriptDelta | ServerEventResponseAudioTranscriptDone | ServerEventResponseAudioDelta | ServerEventResponseAudioDone | ServerEventResponseAnimationBlendshapeDelta | ServerEventResponseAnimationBlendshapeDone | ServerEventResponseAudioTimestampDelta | ServerEventResponseAudioTimestampDone | ServerEventResponseAnimationVisemeDelta | ServerEventResponseAnimationVisemeDone | ServerEventConversationItemInputAudioTranscriptionDelta | ServerEventConversationItemRetrieved | ServerEventResponseFunctionCallArgumentsDelta | ServerEventResponseFunctionCallArgumentsDone | ServerEventMcpListToolsInProgress | ServerEventMcpListToolsCompleted | ServerEventMcpListToolsFailed | ServerEventResponseMcpCallArgumentsDelta | ServerEventResponseMcpCallArgumentsDone | ServerEventResponseMcpCallInProgress | ServerEventResponseMcpCallCompleted | ServerEventResponseMcpCallFailed | ServerEventSessionAvatarSwitchToSpeaking | ServerEventSessionAvatarSwitchToIdle | ServerEventResponseVideoDelta | ServerEventResponseWebSearchCallSearching | ServerEventResponseWebSearchCallInProgress | ServerEventResponseWebSearchCallCompleted | ServerEventResponseFileSearchCallSearching | ServerEventResponseFileSearchCallInProgress | ServerEventResponseFileSearchCallCompleted | ServerEventOutputAudioBufferCleared | ServerEventResponseAudioTranscriptAnnotationAdded | ServerEvent;
+export type ServerEventUnion = ServerEventError | ServerEventWarning | ServerEventSessionCreated | ServerEventSessionUpdated | ServerEventSessionAvatarConnecting | ServerEventInputAudioBufferCommitted | ServerEventInputAudioBufferCleared | ServerEventInputAudioBufferSpeechStarted | ServerEventInputAudioBufferSpeechStopped | ServerEventConversationItemCreated | ServerEventConversationItemInputAudioTranscriptionCompleted | ServerEventConversationItemInputAudioTranscriptionFailed | ServerEventConversationItemTruncated | ServerEventConversationItemDeleted | ServerEventResponseCreated | ServerEventResponseDone | ServerEventResponseOutputItemAdded | ServerEventResponseOutputItemDone | ServerEventResponseContentPartAdded | ServerEventResponseContentPartDone | ServerEventResponseTextDelta | ServerEventResponseTextDone | ServerEventResponseAudioTranscriptDelta | ServerEventResponseAudioTranscriptDone | ServerEventResponseAudioDelta | ServerEventResponseAudioDone | ServerEventResponseAnimationBlendshapeDelta | ServerEventResponseAnimationBlendshapeDone | ServerEventResponseAudioTimestampDelta | ServerEventResponseAudioTimestampDone | ServerEventResponseAnimationVisemeDelta | ServerEventResponseAnimationVisemeDone | ServerEventConversationItemInputAudioTranscriptionDelta | ServerEventConversationItemRetrieved | ServerEventResponseFunctionCallArgumentsDelta | ServerEventResponseFunctionCallArgumentsDone | ServerEventMcpListToolsInProgress | ServerEventMcpListToolsCompleted | ServerEventMcpListToolsFailed | ServerEventResponseMcpCallArgumentsDelta | ServerEventResponseMcpCallArgumentsDone | ServerEventResponseMcpCallInProgress | ServerEventResponseMcpCallCompleted | ServerEventResponseMcpCallFailed | ServerEventSessionAvatarSwitchToSpeaking | ServerEventSessionAvatarSwitchToIdle | ServerEventResponseVideoDelta | ServerEventResponseWebSearchCallSearching | ServerEventResponseWebSearchCallInProgress | ServerEventResponseWebSearchCallCompleted | ServerEventResponseFileSearchCallSearching | ServerEventResponseFileSearchCallInProgress | ServerEventResponseFileSearchCallCompleted | ServerEventOutputAudioBufferCleared | ServerEventResponseAudioTranscriptAnnotationAdded | ServerEventResponseInvocationDelta | ServerEventRtcCallSdpCreated | ServerEventRtcCallError | ServerEventOutputAudioBufferStarted | ServerEventOutputAudioBufferStopped | ServerEvent;
 
 // @public
 export interface ServerEventWarning extends ServerEvent {
@@ -1861,7 +1951,7 @@ export interface VideoResolution {
 }
 
 // @public
-export type Voice = OAIVoice | OpenAIVoice | AzureVoiceUnion;
+export type Voice = OAIVoice | OpenAIVoice | AzureVoiceUnion | AzureRealtimeNativeVoice;
 
 // @public
 export interface VoiceLiveErrorDetails {
