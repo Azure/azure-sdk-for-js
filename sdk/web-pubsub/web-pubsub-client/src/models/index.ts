@@ -3,10 +3,10 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { WebPubSubClientProtocol } from "../protocols/index.js";
-import type { JSONTypes } from "../webPubSubClient.js";
 import type {
   DisconnectedMessage,
   GroupDataMessage,
+  JSONTypes,
   ServerDataMessage,
   StreamDataError,
   StreamInfo,
@@ -53,6 +53,11 @@ export interface WebPubSubClientOptions {
    * (again, about 3x lower) so the timeout only triggers when multiple pings fail.
    */
   keepAliveIntervalInMs?: number;
+  /**
+   * Options that control how inbound group streams are tracked and dispatched
+   * to factories registered via `client.onGroupStream(...)`.
+   */
+  groupStreamOptions?: GroupStreamOptions;
 }
 
 /**
@@ -245,7 +250,7 @@ export interface StreamPublisher {
    */
   publish(
     content: JSONTypes | ArrayBuffer,
-    dataType?: WebPubSubDataType,
+    dataType: WebPubSubDataType,
     options?: SendStreamDataOptions,
   ): Promise<void>;
   /**
@@ -379,31 +384,49 @@ export interface OnGroupStreamEndArgs {
 }
 
 /**
- * Callback contract for consuming one logical stream.
+ * Per-stream value object passed to a factory registered via
+ * `client.onGroupStream(...)`. * `GroupStream` instance is created per observed stream lifecycle. The factory returns a `GroupStreamHandler`
+ * whose callbacks consume that single stream.
+ */
+export interface OnGroupStreamArgs {
+  /**
+   * The group this stream belongs to.
+   */
+  readonly group: string;
+  /**
+   * The stream identifier assigned by the publisher.
+   */
+  readonly streamId: string;
+}
+
+/**
+ * Callbacks attached to a single inbound group stream. Returned by the factory
+ * registered via `client.onGroupStream(factory)`. All callbacks are optional.
  */
 export interface GroupStreamHandler {
   /**
-   * Called for every stream fragment.
+   * Called for each non-terminal data fragment.
    */
   onMessage?: (args: OnGroupStreamDataArgs) => void;
   /**
-   * Called when the stream completes without error.
+   * Called once when the stream completes successfully.
    */
   onComplete?: (args: OnGroupStreamEndArgs) => void;
   /**
-   * Called when the stream ends with error.
+   * Called once when the stream terminates with an error (including `IdleTimeout`).
    */
   onError?: (args: OnGroupStreamEndArgs) => void;
 }
 
 /**
- * onGroupStream operation options.
+ * Client-wide options controlling how inbound group streams are tracked and
+ * dispatched to factories registered via `client.onGroupStream(...)`.
  */
-export interface OnGroupStreamOptions {
+export interface GroupStreamOptions {
   /**
-   * Inactivity timeout in milliseconds for a stream handler in the client-side registry.
+   * Inactivity timeout in milliseconds for an active stream in the client-side registry.
    * The timer is reset whenever a new stream fragment is received.
-   * If no fragment arrives within this duration, the stream handler is evicted.
+   * If no fragment arrives within this duration, the stream is terminated with an `IdleTimeout` error.
    * Default: 300000 (5 minutes).
    */
   ttlInMs?: number;
@@ -414,16 +437,6 @@ export interface OnGroupStreamOptions {
    * Default: false.
    */
   handleFromStart?: boolean;
-}
-
-/**
- * Group stream subscription handle returned by `onGroupStream`.
- */
-export interface GroupStreamSubscription {
-  /**
-   * Unregister this stream subscription.
-   */
-  close(): void;
 }
 
 /**

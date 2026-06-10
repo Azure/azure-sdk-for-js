@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a specific backup, given its name.
  *
  * @summary deletes a specific backup, given its name.
- * x-ms-original-file: 2026-01-01-preview/BackupsAutomaticAndOnDemandDelete.json
+ * x-ms-original-file: 2026-04-01-preview/BackupsAutomaticAndOnDemandDelete.json
  */
 async function deleteAnOnDemandBackupGivenItsName(): Promise<void> {
   const credential = new DefaultAzureCredential();

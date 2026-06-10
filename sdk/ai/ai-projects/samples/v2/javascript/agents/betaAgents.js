@@ -33,8 +33,8 @@ async function main() {
       kind: "hosted",
       cpu: "0.5",
       memory: "1Gi",
-      image,
-      container_protocol_versions: [{ protocol: "responses", version: "v1" }],
+      container_configuration: { image },
+      protocol_versions: [{ protocol: "responses", version: "v1" }],
     },
     {
       foundryFeatures: "HostedAgents=V1Preview",
@@ -58,8 +58,6 @@ async function main() {
     }
   }
 
-  const isolationKey = "sample-isolation-key-13";
-
   // ── Session CRUD ──────────────────────────────────────────────────────
 
   // Create a session
@@ -67,11 +65,7 @@ async function main() {
     type: "version_ref",
     agent_version: agent.version,
   };
-  const session = await project.beta.agents.createSession(
-    agentName,
-    isolationKey,
-    versionIndicator,
-  );
+  const session = await project.beta.agents.createSession(agentName, versionIndicator);
   console.log(`Session created (id: ${session.agent_session_id}, status: ${session.status})`);
 
   // Retrieve the session
@@ -101,14 +95,19 @@ async function main() {
   );
   console.log(`Uploaded file: ${uploadResult.path} (${uploadResult.bytes_written} bytes)`);
 
-  // List files in the session sandbox
-  const listing = await project.beta.agents.listSessionFiles(
-    agentName,
-    session.agent_session_id,
-    "/sandbox",
-  );
-  console.log(`Files in /sandbox:`);
-  for (const entry of listing.entries) {
+  // List files in the session sandbox (with pagination monitoring)
+  const files = [];
+  let pageCount = 0;
+  const pager = project.beta.agents.listSessionFiles(agentName, session.agent_session_id, {
+    path: "/sandbox",
+  });
+  for await (const page of pager.byPage()) {
+    pageCount++;
+    console.log(`  Page ${pageCount}: ${page.length} entries`);
+    files.push(...page);
+  }
+  console.log(`Files in /sandbox (${files.length} total across ${pageCount} page(s)):`);
+  for (const entry of files) {
     console.log(
       `  - ${entry.name} (${entry.is_directory ? "directory" : "file"})`,
       JSON.stringify(entry),
@@ -145,7 +144,7 @@ async function main() {
   // ── Cleanup ───────────────────────────────────────────────────────────
 
   // Delete the session
-  await project.beta.agents.deleteSession(agentName, session.agent_session_id, isolationKey);
+  await project.beta.agents.deleteSession(agentName, session.agent_session_id);
   console.log("Session deleted");
 
   // Delete the agent version

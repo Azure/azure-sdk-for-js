@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a UpdateRun
  *
  * @summary create a UpdateRun
- * x-ms-original-file: 2026-02-01-preview/UpdateRuns_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-02-preview/UpdateRuns_CreateOrUpdate.json
  */
 async function createAnUpdateRun() {
   const credential = new DefaultAzureCredential();
