@@ -99,6 +99,7 @@ export class LiveMetrics {
   private quickpulseExporter: QuickpulseMetricExporter;
   private pingSender: QuickpulseSender;
   private isCollectingData: boolean;
+  private isDeactivating: boolean = false;
   private lastSuccessTime: number = Date.now();
   private handle: NodeJS.Timer;
   // Monitoring data point with common properties
@@ -202,8 +203,8 @@ export class LiveMetrics {
     this.lastHrTime = process.hrtime.bigint();
   }
 
-  public shutdown(): void {
-    this.meterProvider?.shutdown();
+  public async shutdown(): Promise<void> {
+    await this.meterProvider?.shutdown();
   }
 
   private async goQuickpulse(): Promise<void> {
@@ -240,8 +241,23 @@ export class LiveMetrics {
         }
       } else {
         if (Date.now() - this.lastSuccessTime >= MAX_POST_WAIT_TIME) {
+          // Re-entrancy guard: MeterProvider.shutdown() triggers a final
+          // force-flush export which, on failure, re-invokes this callback.
+          // Without this guard we would recursively call deactivateMetrics()
+          // from inside the shutdown's export, saturating the CPU.
+          if (this.isDeactivating) {
+            return;
+          }
+          this.isDeactivating = true;
           this.postInterval = FALLBACK_INTERVAL;
-          this.deactivateMetrics();
+          try {
+            await this.deactivateMetrics();
+          } finally {
+            this.isDeactivating = false;
+          }
+          // Reset the success-time baseline so the FALLBACK_INTERVAL backoff
+          // can take effect before we consider deactivating again.
+          this.lastSuccessTime = Date.now();
           this.activateMetrics({ collectionInterval: this.postInterval });
         }
       }
@@ -258,7 +274,14 @@ export class LiveMetrics {
       // If collecting was stoped
       if (!this.isCollectingData && this.meterProvider) {
         this.etag = "";
-        this.deactivateMetrics();
+        if (!this.isDeactivating) {
+          this.isDeactivating = true;
+          try {
+            await this.deactivateMetrics();
+          } finally {
+            this.isDeactivating = false;
+          }
+        }
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         this.handle = setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
         this.handle.unref();
@@ -387,7 +410,7 @@ export class LiveMetrics {
   /**
    * Deactivate metric collection
    */
-  public deactivateMetrics(): void {
+  public async deactivateMetrics(): Promise<void> {
     this.documents = [];
     this.validDocumentFilterConjuctionGroupInfos.clear();
     this.errorTracker.clearRunTimeErrors();
@@ -395,8 +418,12 @@ export class LiveMetrics {
     this.validDerivedMetrics.clear();
     this.derivedMetricProjection.clearProjectionMaps();
     this.seenMetricIds.clear();
-    this.meterProvider?.shutdown();
+    // Capture and clear the reference before awaiting shutdown so any
+    // re-entrant calls triggered by the shutdown's final force-flush export
+    // observe meterProvider as undefined and exit early.
+    const provider = this.meterProvider;
     this.meterProvider = undefined;
+    await provider?.shutdown();
   }
 
   /**
