@@ -204,7 +204,20 @@ export class LiveMetrics {
   }
 
   public async shutdown(): Promise<void> {
-    await this.meterProvider?.shutdown();
+    // Force collecting=false before tearing down so the shutdown's final
+    // force-flush export, if it fails, cannot trigger the deactivate/
+    // reactivate fallback in quickPulseDone(). Delegate to deactivateMetrics()
+    // so the re-entrancy guard and meterProvider clearing apply here too.
+    this.isCollectingData = false;
+    if (this.isDeactivating) {
+      return;
+    }
+    this.isDeactivating = true;
+    try {
+      await this.deactivateMetrics();
+    } finally {
+      this.isDeactivating = false;
+    }
   }
 
   private async goQuickpulse(): Promise<void> {
@@ -232,7 +245,6 @@ export class LiveMetrics {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   private async quickPulseDone(response: QuickpulseResponse | undefined): Promise<void> {
     if (!response) {
       if (!this.isCollectingData) {
@@ -252,6 +264,14 @@ export class LiveMetrics {
           this.postInterval = FALLBACK_INTERVAL;
           try {
             await this.deactivateMetrics();
+          } catch (error) {
+            // The exporter invokes postCallback without awaiting it, so a
+            // rejection here would surface as an unhandled rejection. Swallow
+            // and log so the failure path stays contained.
+            Logger.getInstance().warn(
+              "Failed to deactivate Live Metrics during failure fallback",
+              error,
+            );
           } finally {
             this.isDeactivating = false;
           }
