@@ -1,5 +1,11 @@
 # Release History
 
+## 2.7.0 (Unreleased)
+
+### Features Added
+
+- Added `getBinaryStreamResponse` helper that resolves a `StreamableMethod` into a binary stream response. It can be imported and shared by generated SDK packages.
+
 ## 2.6.1 (2026-06-04)
 
 ### Bugs Fixed
