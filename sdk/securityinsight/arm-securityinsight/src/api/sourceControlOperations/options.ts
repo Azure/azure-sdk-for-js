@@ -4,4 +4,4 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface DataConnectorsCheckRequirementsPostOptionalParams extends OperationOptions {}
+export interface SourceControlOperationsListRepositoriesOptionalParams extends OperationOptions {}

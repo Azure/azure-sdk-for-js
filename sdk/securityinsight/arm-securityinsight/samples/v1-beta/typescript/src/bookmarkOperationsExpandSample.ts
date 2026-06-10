@@ -14,7 +14,7 @@ async function expandAnBookmark(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.bookmark.expand(
+  const result = await client.bookmarkOperations.expand(
     "myRg",
     "myWorkspace",
     "73e01a99-5cd7-4139-a149-9f2736ff2ab5",

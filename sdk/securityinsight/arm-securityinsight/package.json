@@ -174,32 +174,32 @@
         "default": "./dist/commonjs/api/threatIntelligenceIndicatorMetrics/index.js"
       }
     },
-    "./api/sourceControl": {
+    "./api/sourceControlOperations": {
       "browser": {
-        "types": "./dist/browser/api/sourceControl/index.d.ts",
-        "default": "./dist/browser/api/sourceControl/index.js"
+        "types": "./dist/browser/api/sourceControlOperations/index.d.ts",
+        "default": "./dist/browser/api/sourceControlOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/sourceControl/index.d.ts",
-        "default": "./dist/esm/api/sourceControl/index.js"
+        "types": "./dist/esm/api/sourceControlOperations/index.d.ts",
+        "default": "./dist/esm/api/sourceControlOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/sourceControl/index.d.ts",
-        "default": "./dist/commonjs/api/sourceControl/index.js"
+        "types": "./dist/commonjs/api/sourceControlOperations/index.d.ts",
+        "default": "./dist/commonjs/api/sourceControlOperations/index.js"
       }
     },
-    "./api/dataConnectorsCheckRequirements": {
+    "./api/dataConnectorsCheckRequirementsOperations": {
       "browser": {
-        "types": "./dist/browser/api/dataConnectorsCheckRequirements/index.d.ts",
-        "default": "./dist/browser/api/dataConnectorsCheckRequirements/index.js"
+        "types": "./dist/browser/api/dataConnectorsCheckRequirementsOperations/index.d.ts",
+        "default": "./dist/browser/api/dataConnectorsCheckRequirementsOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/dataConnectorsCheckRequirements/index.d.ts",
-        "default": "./dist/esm/api/dataConnectorsCheckRequirements/index.js"
+        "types": "./dist/esm/api/dataConnectorsCheckRequirementsOperations/index.d.ts",
+        "default": "./dist/esm/api/dataConnectorsCheckRequirementsOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/dataConnectorsCheckRequirements/index.d.ts",
-        "default": "./dist/commonjs/api/dataConnectorsCheckRequirements/index.js"
+        "types": "./dist/commonjs/api/dataConnectorsCheckRequirementsOperations/index.d.ts",
+        "default": "./dist/commonjs/api/dataConnectorsCheckRequirementsOperations/index.js"
       }
     },
     "./api/threatIntelligenceIndicators": {
@@ -384,18 +384,18 @@
         "default": "./dist/commonjs/api/contentPackages/index.js"
       }
     },
-    "./api/bookmark": {
+    "./api/bookmarkOperations": {
       "browser": {
-        "types": "./dist/browser/api/bookmark/index.d.ts",
-        "default": "./dist/browser/api/bookmark/index.js"
+        "types": "./dist/browser/api/bookmarkOperations/index.d.ts",
+        "default": "./dist/browser/api/bookmarkOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/bookmark/index.d.ts",
-        "default": "./dist/esm/api/bookmark/index.js"
+        "types": "./dist/esm/api/bookmarkOperations/index.d.ts",
+        "default": "./dist/esm/api/bookmarkOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/bookmark/index.d.ts",
-        "default": "./dist/commonjs/api/bookmark/index.js"
+        "types": "./dist/commonjs/api/bookmarkOperations/index.d.ts",
+        "default": "./dist/commonjs/api/bookmarkOperations/index.js"
       }
     },
     "./api/actions": {

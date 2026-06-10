@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { post } from "./operations.js";
-export type { DataConnectorsCheckRequirementsPostOptionalParams } from "./options.js";
+export type { DataConnectorsCheckRequirementsOperationsPostOptionalParams } from "./options.js";

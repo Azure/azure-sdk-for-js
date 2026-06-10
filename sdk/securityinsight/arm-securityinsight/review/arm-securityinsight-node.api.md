@@ -848,10 +848,6 @@ export interface BookmarkEntityMappings {
 }
 
 // @public
-export interface BookmarkExpandOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface BookmarkExpandParameters {
     endTime?: Date;
     expansionId?: string;
@@ -871,8 +867,12 @@ export interface BookmarkExpandResponseValue {
 }
 
 // @public
-export interface BookmarkOperations {
-    expand: (resourceGroupName: string, workspaceName: string, bookmarkId: string, parameters: BookmarkExpandParameters, options?: BookmarkExpandOptionalParams) => Promise<BookmarkExpandResponse>;
+export interface BookmarkOperationsExpandOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BookmarkOperationsOperations {
+    expand: (resourceGroupName: string, workspaceName: string, bookmarkId: string, parameters: BookmarkExpandParameters, options?: BookmarkOperationsExpandOptionalParams) => Promise<BookmarkExpandResponse>;
 }
 
 // @public
@@ -1470,12 +1470,12 @@ export interface DataConnectorsCheckRequirements {
 }
 
 // @public
-export interface DataConnectorsCheckRequirementsOperations {
-    post: (resourceGroupName: string, workspaceName: string, dataConnectorsCheckRequirements: DataConnectorsCheckRequirementsUnion, options?: DataConnectorsCheckRequirementsPostOptionalParams) => Promise<DataConnectorRequirementsState>;
+export interface DataConnectorsCheckRequirementsOperationsOperations {
+    post: (resourceGroupName: string, workspaceName: string, dataConnectorsCheckRequirements: DataConnectorsCheckRequirementsUnion, options?: DataConnectorsCheckRequirementsOperationsPostOptionalParams) => Promise<DataConnectorRequirementsState>;
 }
 
 // @public
-export interface DataConnectorsCheckRequirementsPostOptionalParams extends OperationOptions {
+export interface DataConnectorsCheckRequirementsOperationsPostOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -6180,7 +6180,7 @@ export class SecurityInsights {
     readonly alertRuleTemplates: AlertRuleTemplatesOperations;
     readonly automationRules: AutomationRulesOperations;
     readonly billingStatistics: BillingStatisticsOperations;
-    readonly bookmark: BookmarkOperations;
+    readonly bookmarkOperations: BookmarkOperationsOperations;
     readonly bookmarkRelations: BookmarkRelationsOperations;
     readonly bookmarks: BookmarksOperations;
     readonly contentPackage: ContentPackageOperations;
@@ -6189,7 +6189,7 @@ export class SecurityInsights {
     readonly contentTemplates: ContentTemplatesOperations;
     readonly dataConnectorDefinitions: DataConnectorDefinitionsOperations;
     readonly dataConnectors: DataConnectorsOperations;
-    readonly dataConnectorsCheckRequirements: DataConnectorsCheckRequirementsOperations;
+    readonly dataConnectorsCheckRequirementsOperations: DataConnectorsCheckRequirementsOperationsOperations;
     readonly entities: EntitiesOperations;
     readonly entitiesGetTimeline: EntitiesGetTimelineOperations;
     readonly entitiesRelations: EntitiesRelationsOperations;
@@ -6221,7 +6221,7 @@ export class SecurityInsights {
     readonly reevaluate: ReevaluateOperations;
     readonly securityMLAnalyticsSettings: SecurityMLAnalyticsSettingsOperations;
     readonly sentinelOnboardingStates: SentinelOnboardingStatesOperations;
-    readonly sourceControl: SourceControlOperations;
+    readonly sourceControlOperations: SourceControlOperationsOperations;
     readonly sourceControls: SourceControlsOperations;
     readonly threatIntelligence: ThreatIntelligenceOperations;
     readonly threatIntelligenceIndicator: ThreatIntelligenceIndicatorOperations;
@@ -6393,12 +6393,12 @@ export interface SourceControl extends ProxyResource {
 }
 
 // @public
-export interface SourceControlListRepositoriesOptionalParams extends OperationOptions {
+export interface SourceControlOperationsListRepositoriesOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SourceControlOperations {
-    listRepositories: (resourceGroupName: string, workspaceName: string, repositoryAccess: RepositoryAccessProperties, options?: SourceControlListRepositoriesOptionalParams) => PagedAsyncIterableIterator<Repo>;
+export interface SourceControlOperationsOperations {
+    listRepositories: (resourceGroupName: string, workspaceName: string, repositoryAccess: RepositoryAccessProperties, options?: SourceControlOperationsListRepositoriesOptionalParams) => PagedAsyncIterableIterator<Repo>;
 }
 
 // @public

@@ -9,7 +9,7 @@ import {
   bookmarkExpandResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { BookmarkExpandOptionalParams } from "./options.js";
+import type { BookmarkOperationsExpandOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
@@ -19,7 +19,7 @@ export function _expandSend(
   workspaceName: string,
   bookmarkId: string,
   parameters: BookmarkExpandParameters,
-  options: BookmarkExpandOptionalParams = { requestOptions: {} },
+  options: BookmarkOperationsExpandOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks/{bookmarkId}/expand{?api%2Dversion}",
@@ -65,7 +65,7 @@ export async function expand(
   workspaceName: string,
   bookmarkId: string,
   parameters: BookmarkExpandParameters,
-  options: BookmarkExpandOptionalParams = { requestOptions: {} },
+  options: BookmarkOperationsExpandOptionalParams = { requestOptions: {} },
 ): Promise<BookmarkExpandResponse> {
   const result = await _expandSend(
     context,

@@ -14,10 +14,11 @@ async function checkRequirementsForAadipAzureActiveDirectoryIdentityProtection()
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "AzureActiveDirectory",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "AzureActiveDirectory", tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8" },
+  );
   console.log(result);
 }
 
@@ -31,10 +32,11 @@ async function checkRequirementsForAadipAzureActiveDirectoryIdentityProtectionNo
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "AzureActiveDirectory",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "AzureActiveDirectory", tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8" },
+  );
   console.log(result);
 }
 
@@ -48,10 +50,11 @@ async function checkRequirementsForAadipAzureActiveDirectoryIdentityProtectionNo
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "AzureActiveDirectory",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "AzureActiveDirectory", tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8" },
+  );
   console.log(result);
 }
 
@@ -65,10 +68,11 @@ async function checkRequirementsForASC(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "AzureSecurityCenter",
-    subscriptionId: "c0688291-89d7-4bed-87a2-a7b1bff43f4c",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "AzureSecurityCenter", subscriptionId: "c0688291-89d7-4bed-87a2-a7b1bff43f4c" },
+  );
   console.log(result);
 }
 
@@ -82,10 +86,11 @@ async function checkRequirementsForDynamics365(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "Dynamics365",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "Dynamics365", tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8" },
+  );
   console.log(result);
 }
 
@@ -99,10 +104,11 @@ async function checkRequirementsForIoT(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "IOT",
-    subscriptionId: "c0688291-89d7-4bed-87a2-a7b1bff43f4c",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "IOT", subscriptionId: "c0688291-89d7-4bed-87a2-a7b1bff43f4c" },
+  );
   console.log(result);
 }
 
@@ -116,10 +122,11 @@ async function checkRequirementsForMdatp(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "MicrosoftCloudAppSecurity",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "MicrosoftCloudAppSecurity", tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8" },
+  );
   console.log(result);
 }
 
@@ -133,10 +140,11 @@ async function checkRequirementsForMcas(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "MicrosoftCloudAppSecurity",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "MicrosoftCloudAppSecurity", tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8" },
+  );
   console.log(result);
 }
 
@@ -150,10 +158,14 @@ async function checkRequirementsForMicrosoftPurviewInformationProtection(): Prom
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "MicrosoftPurviewInformationProtection",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    {
+      kind: "MicrosoftPurviewInformationProtection",
+      tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+    },
+  );
   console.log(result);
 }
 
@@ -167,10 +179,11 @@ async function checkRequirementsForMicrosoftThreatIntelligence(): Promise<void> 
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "MicrosoftThreatIntelligence",
-    tenantId: "06b3ccb8-1384-4bcc-aec7-852f6d57161b",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "MicrosoftThreatIntelligence", tenantId: "06b3ccb8-1384-4bcc-aec7-852f6d57161b" },
+  );
   console.log(result);
 }
 
@@ -184,10 +197,11 @@ async function checkRequirementsForMicrosoftThreatProtection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "MicrosoftThreatProtection",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "MicrosoftThreatProtection", tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8" },
+  );
   console.log(result);
 }
 
@@ -201,10 +215,11 @@ async function checkRequirementsForOffice365Project(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "Office365Project",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "Office365Project", tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8" },
+  );
   console.log(result);
 }
 
@@ -218,10 +233,11 @@ async function checkRequirementsForOfficeATP(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "OfficeATP",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "OfficeATP", tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8" },
+  );
   console.log(result);
 }
 
@@ -235,10 +251,11 @@ async function checkRequirementsForOfficeIRM(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "OfficeIRM",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "OfficeIRM", tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8" },
+  );
   console.log(result);
 }
 
@@ -252,10 +269,11 @@ async function checkRequirementsForOfficePowerBI(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "OfficePowerBI",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "OfficePowerBI", tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8" },
+  );
   console.log(result);
 }
 
@@ -269,10 +287,11 @@ async function checkRequirementsForPurviewAudit(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "PurviewAudit",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "PurviewAudit", tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8" },
+  );
   console.log(result);
 }
 
@@ -286,10 +305,11 @@ async function checkRequirementsForTI(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "ThreatIntelligence",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "ThreatIntelligence", tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8" },
+  );
   console.log(result);
 }
 
@@ -303,10 +323,11 @@ async function checkRequirementsForTITaxii(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
-    kind: "ThreatIntelligenceTaxii",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  });
+  const result = await client.dataConnectorsCheckRequirementsOperations.post(
+    "myRg",
+    "myWorkspace",
+    { kind: "ThreatIntelligenceTaxii", tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8" },
+  );
   console.log(result);
 }
 

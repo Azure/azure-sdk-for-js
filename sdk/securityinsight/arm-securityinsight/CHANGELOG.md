@@ -60,6 +60,7 @@ Compared with version 1.0.0-beta.6
   - Added Interface BillingStatistic
   - Added Interface BillingStatisticsGetOptionalParams
   - Added Interface BillingStatisticsListOptionalParams
+  - Added Interface BookmarkOperationsExpandOptionalParams
   - Added Interface BookmarkProperties
   - Added Interface CcpAuthConfig
   - Added Interface CcpResponseConfig
@@ -90,6 +91,7 @@ Compared with version 1.0.0-beta.6
   - Added Interface DataConnectorDefinitionsDeleteOptionalParams
   - Added Interface DataConnectorDefinitionsGetOptionalParams
   - Added Interface DataConnectorDefinitionsListOptionalParams
+  - Added Interface DataConnectorsCheckRequirementsOperationsPostOptionalParams
   - Added Interface DCRConfiguration
   - Added Interface EnrichmentDomainBody
   - Added Interface EnrichmentIpAddressBody
@@ -227,6 +229,7 @@ Compared with version 1.0.0-beta.6
   - Added Interface SentinelOnboardingStateProperties
   - Added Interface ServicePrincipal
   - Added Interface SessionAuthModel
+  - Added Interface SourceControlOperationsListRepositoriesOptionalParams
   - Added Interface SourceControlProperties
   - Added Interface TemplateModel
   - Added Interface TemplateProperties
@@ -432,28 +435,27 @@ Compared with version 1.0.0-beta.6
   - Removed operation ThreatIntelligenceIndicator.listQueryIndicators
   - Operation AutomationRules.createOrUpdate has a new signature
   - Operation AutomationRules.get has a new signature
-  - Operation DataConnectorsCheckRequirements.post has a new signature
+  - Operation DataConnectorsCheckRequirementsOperations.post has a new signature
   - Operation Entities.queries has a new signature
   - Operation EntitiesGetTimeline.list has a new signature
   - Operation ProductSettings.list has a new signature
-  - Operation SourceControl.listRepositories has a new signature
+  - Operation SourceControlOperations.listRepositories has a new signature
   - Operation SourceControls.create has a new signature
   - Operation SourceControls.delete has a new signature
   - Operation SourceControls.get has a new signature
   - Class SecurityInsights no longer has parameter apiVersion
-  - Class SecurityInsights no longer has parameter bookmarkOperations
-  - Class SecurityInsights no longer has parameter dataConnectorsCheckRequirementsOperations
   - Class SecurityInsights no longer has parameter domainWhois
   - Class SecurityInsights no longer has parameter iPGeodata
-  - Class SecurityInsights no longer has parameter sourceControlOperations
   - Class SecurityInsights no longer has parameter subscriptionId
   - Removed Interface ActionsList
   - Removed Interface AlertRulesList
   - Removed Interface AlertRuleTemplatesList
   - Removed Interface AutomationRulesList
+  - Removed Interface BookmarkExpandOptionalParams
   - Removed Interface BookmarkList
   - Removed Interface ContentPathMap
   - Removed Interface DataConnectorList
+  - Removed Interface DataConnectorsCheckRequirementsPostOptionalParams
   - Removed Interface DomainWhois
   - Removed Interface DomainWhoisGetOptionalParams
   - Removed Interface EntityList
@@ -477,6 +479,7 @@ Compared with version 1.0.0-beta.6
   - Removed Interface SecurityMLAnalyticsSettingsList
   - Removed Interface SettingList
   - Removed Interface SourceControlList
+  - Removed Interface SourceControlListRepositoriesOptionalParams
   - Removed Interface TeamProperties
   - Removed Interface ThreatIntelligenceInformationList
   - Removed Interface WatchlistItemList

@@ -2,37 +2,37 @@
 // Licensed under the MIT License.
 
 import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
-import { listRepositories } from "../../api/sourceControl/operations.js";
-import type { SourceControlListRepositoriesOptionalParams } from "../../api/sourceControl/options.js";
+import { listRepositories } from "../../api/sourceControlOperations/operations.js";
+import type { SourceControlOperationsListRepositoriesOptionalParams } from "../../api/sourceControlOperations/options.js";
 import type { RepositoryAccessProperties, Repo } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
-/** Interface representing a SourceControl operations. */
-export interface SourceControlOperations {
+/** Interface representing a SourceControlOperations operations. */
+export interface SourceControlOperationsOperations {
   /** Gets a list of repositories metadata. */
   listRepositories: (
     resourceGroupName: string,
     workspaceName: string,
     repositoryAccess: RepositoryAccessProperties,
-    options?: SourceControlListRepositoriesOptionalParams,
+    options?: SourceControlOperationsListRepositoriesOptionalParams,
   ) => PagedAsyncIterableIterator<Repo>;
 }
 
-function _getSourceControl(context: SecurityInsightsContext) {
+function _getSourceControlOperations(context: SecurityInsightsContext) {
   return {
     listRepositories: (
       resourceGroupName: string,
       workspaceName: string,
       repositoryAccess: RepositoryAccessProperties,
-      options?: SourceControlListRepositoriesOptionalParams,
+      options?: SourceControlOperationsListRepositoriesOptionalParams,
     ) => listRepositories(context, resourceGroupName, workspaceName, repositoryAccess, options),
   };
 }
 
-export function _getSourceControlOperations(
+export function _getSourceControlOperationsOperations(
   context: SecurityInsightsContext,
-): SourceControlOperations {
+): SourceControlOperationsOperations {
   return {
-    ..._getSourceControl(context),
+    ..._getSourceControlOperations(context),
   };
 }

@@ -2,36 +2,38 @@
 // Licensed under the MIT License.
 
 import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
-import { expand } from "../../api/bookmark/operations.js";
-import type { BookmarkExpandOptionalParams } from "../../api/bookmark/options.js";
+import { expand } from "../../api/bookmarkOperations/operations.js";
+import type { BookmarkOperationsExpandOptionalParams } from "../../api/bookmarkOperations/options.js";
 import type { BookmarkExpandParameters, BookmarkExpandResponse } from "../../models/models.js";
 
-/** Interface representing a Bookmark operations. */
-export interface BookmarkOperations {
+/** Interface representing a BookmarkOperations operations. */
+export interface BookmarkOperationsOperations {
   /** Expand an bookmark */
   expand: (
     resourceGroupName: string,
     workspaceName: string,
     bookmarkId: string,
     parameters: BookmarkExpandParameters,
-    options?: BookmarkExpandOptionalParams,
+    options?: BookmarkOperationsExpandOptionalParams,
   ) => Promise<BookmarkExpandResponse>;
 }
 
-function _getBookmark(context: SecurityInsightsContext) {
+function _getBookmarkOperations(context: SecurityInsightsContext) {
   return {
     expand: (
       resourceGroupName: string,
       workspaceName: string,
       bookmarkId: string,
       parameters: BookmarkExpandParameters,
-      options?: BookmarkExpandOptionalParams,
+      options?: BookmarkOperationsExpandOptionalParams,
     ) => expand(context, resourceGroupName, workspaceName, bookmarkId, parameters, options),
   };
 }
 
-export function _getBookmarkOperations(context: SecurityInsightsContext): BookmarkOperations {
+export function _getBookmarkOperationsOperations(
+  context: SecurityInsightsContext,
+): BookmarkOperationsOperations {
   return {
-    ..._getBookmark(context),
+    ..._getBookmarkOperations(context),
   };
 }

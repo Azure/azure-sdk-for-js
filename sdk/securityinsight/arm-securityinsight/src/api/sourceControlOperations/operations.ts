@@ -11,7 +11,7 @@ import {
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { SourceControlListRepositoriesOptionalParams } from "./options.js";
+import type { SourceControlOperationsListRepositoriesOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
@@ -20,7 +20,7 @@ export function _listRepositoriesSend(
   resourceGroupName: string,
   workspaceName: string,
   repositoryAccess: RepositoryAccessProperties,
-  options: SourceControlListRepositoriesOptionalParams = { requestOptions: {} },
+  options: SourceControlOperationsListRepositoriesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/listRepositories{?api%2Dversion}",
@@ -64,7 +64,7 @@ export function listRepositories(
   resourceGroupName: string,
   workspaceName: string,
   repositoryAccess: RepositoryAccessProperties,
-  options: SourceControlListRepositoriesOptionalParams = { requestOptions: {} },
+  options: SourceControlOperationsListRepositoriesOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Repo> {
   return buildPagedAsyncIterator(
     context,

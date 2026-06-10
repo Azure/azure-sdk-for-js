@@ -12,7 +12,7 @@ import {
   dataConnectorRequirementsStateDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { DataConnectorsCheckRequirementsPostOptionalParams } from "./options.js";
+import type { DataConnectorsCheckRequirementsOperationsPostOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
@@ -21,7 +21,7 @@ export function _postSend(
   resourceGroupName: string,
   workspaceName: string,
   dataConnectorsCheckRequirements: DataConnectorsCheckRequirementsUnion,
-  options: DataConnectorsCheckRequirementsPostOptionalParams = { requestOptions: {} },
+  options: DataConnectorsCheckRequirementsOperationsPostOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements{?api%2Dversion}",
@@ -65,7 +65,7 @@ export async function post(
   resourceGroupName: string,
   workspaceName: string,
   dataConnectorsCheckRequirements: DataConnectorsCheckRequirementsUnion,
-  options: DataConnectorsCheckRequirementsPostOptionalParams = { requestOptions: {} },
+  options: DataConnectorsCheckRequirementsOperationsPostOptionalParams = { requestOptions: {} },
 ): Promise<DataConnectorRequirementsState> {
   const result = await _postSend(
     context,

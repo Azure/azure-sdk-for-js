@@ -811,7 +811,7 @@ export type {
   BillingStatisticsListOptionalParams,
   BillingStatisticsGetOptionalParams,
 } from "./api/billingStatistics/index.js";
-export type { BookmarkExpandOptionalParams } from "./api/bookmark/index.js";
+export type { BookmarkOperationsExpandOptionalParams } from "./api/bookmarkOperations/index.js";
 export type {
   BookmarkRelationsListOptionalParams,
   BookmarkRelationsDeleteOptionalParams,
@@ -852,7 +852,7 @@ export type {
   DataConnectorsCreateOrUpdateOptionalParams,
   DataConnectorsGetOptionalParams,
 } from "./api/dataConnectors/index.js";
-export type { DataConnectorsCheckRequirementsPostOptionalParams } from "./api/dataConnectorsCheckRequirements/index.js";
+export type { DataConnectorsCheckRequirementsOperationsPostOptionalParams } from "./api/dataConnectorsCheckRequirementsOperations/index.js";
 export type {
   EntitiesGetInsightsOptionalParams,
   EntitiesQueriesOptionalParams,
@@ -965,7 +965,7 @@ export type {
   SentinelOnboardingStatesCreateOptionalParams,
   SentinelOnboardingStatesGetOptionalParams,
 } from "./api/sentinelOnboardingStates/index.js";
-export type { SourceControlListRepositoriesOptionalParams } from "./api/sourceControl/index.js";
+export type { SourceControlOperationsListRepositoriesOptionalParams } from "./api/sourceControlOperations/index.js";
 export type {
   SourceControlsDeleteOptionalParams,
   SourceControlsListOptionalParams,
@@ -1038,7 +1038,7 @@ export type {
   AlertRuleTemplatesOperations,
   AutomationRulesOperations,
   BillingStatisticsOperations,
-  BookmarkOperations,
+  BookmarkOperationsOperations,
   BookmarkRelationsOperations,
   BookmarksOperations,
   ContentPackageOperations,
@@ -1047,7 +1047,7 @@ export type {
   ContentTemplatesOperations,
   DataConnectorDefinitionsOperations,
   DataConnectorsOperations,
-  DataConnectorsCheckRequirementsOperations,
+  DataConnectorsCheckRequirementsOperationsOperations,
   EntitiesOperations,
   EntitiesGetTimelineOperations,
   EntitiesRelationsOperations,
@@ -1076,7 +1076,7 @@ export type {
   ReevaluateOperations,
   SecurityMLAnalyticsSettingsOperations,
   SentinelOnboardingStatesOperations,
-  SourceControlOperations,
+  SourceControlOperationsOperations,
   SourceControlsOperations,
   ThreatIntelligenceOperations,
   ThreatIntelligenceIndicatorOperations,

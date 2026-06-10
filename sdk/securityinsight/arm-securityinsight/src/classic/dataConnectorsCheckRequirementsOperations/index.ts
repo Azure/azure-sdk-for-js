@@ -2,39 +2,39 @@
 // Licensed under the MIT License.
 
 import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
-import { post } from "../../api/dataConnectorsCheckRequirements/operations.js";
-import type { DataConnectorsCheckRequirementsPostOptionalParams } from "../../api/dataConnectorsCheckRequirements/options.js";
+import { post } from "../../api/dataConnectorsCheckRequirementsOperations/operations.js";
+import type { DataConnectorsCheckRequirementsOperationsPostOptionalParams } from "../../api/dataConnectorsCheckRequirementsOperations/options.js";
 import type {
   DataConnectorsCheckRequirementsUnion,
   DataConnectorRequirementsState,
 } from "../../models/models.js";
 
-/** Interface representing a DataConnectorsCheckRequirements operations. */
-export interface DataConnectorsCheckRequirementsOperations {
+/** Interface representing a DataConnectorsCheckRequirementsOperations operations. */
+export interface DataConnectorsCheckRequirementsOperationsOperations {
   /** Get requirements state for a data connector type. */
   post: (
     resourceGroupName: string,
     workspaceName: string,
     dataConnectorsCheckRequirements: DataConnectorsCheckRequirementsUnion,
-    options?: DataConnectorsCheckRequirementsPostOptionalParams,
+    options?: DataConnectorsCheckRequirementsOperationsPostOptionalParams,
   ) => Promise<DataConnectorRequirementsState>;
 }
 
-function _getDataConnectorsCheckRequirements(context: SecurityInsightsContext) {
+function _getDataConnectorsCheckRequirementsOperations(context: SecurityInsightsContext) {
   return {
     post: (
       resourceGroupName: string,
       workspaceName: string,
       dataConnectorsCheckRequirements: DataConnectorsCheckRequirementsUnion,
-      options?: DataConnectorsCheckRequirementsPostOptionalParams,
+      options?: DataConnectorsCheckRequirementsOperationsPostOptionalParams,
     ) => post(context, resourceGroupName, workspaceName, dataConnectorsCheckRequirements, options),
   };
 }
 
-export function _getDataConnectorsCheckRequirementsOperations(
+export function _getDataConnectorsCheckRequirementsOperationsOperations(
   context: SecurityInsightsContext,
-): DataConnectorsCheckRequirementsOperations {
+): DataConnectorsCheckRequirementsOperationsOperations {
   return {
-    ..._getDataConnectorsCheckRequirements(context),
+    ..._getDataConnectorsCheckRequirementsOperations(context),
   };
 }

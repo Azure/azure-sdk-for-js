@@ -20,8 +20,8 @@ import type { AutomationRulesOperations } from "./classic/automationRules/index.
 import { _getAutomationRulesOperations } from "./classic/automationRules/index.js";
 import type { BillingStatisticsOperations } from "./classic/billingStatistics/index.js";
 import { _getBillingStatisticsOperations } from "./classic/billingStatistics/index.js";
-import type { BookmarkOperations } from "./classic/bookmark/index.js";
-import { _getBookmarkOperations } from "./classic/bookmark/index.js";
+import type { BookmarkOperationsOperations } from "./classic/bookmarkOperations/index.js";
+import { _getBookmarkOperationsOperations } from "./classic/bookmarkOperations/index.js";
 import type { BookmarkRelationsOperations } from "./classic/bookmarkRelations/index.js";
 import { _getBookmarkRelationsOperations } from "./classic/bookmarkRelations/index.js";
 import type { BookmarksOperations } from "./classic/bookmarks/index.js";
@@ -38,8 +38,8 @@ import type { DataConnectorDefinitionsOperations } from "./classic/dataConnector
 import { _getDataConnectorDefinitionsOperations } from "./classic/dataConnectorDefinitions/index.js";
 import type { DataConnectorsOperations } from "./classic/dataConnectors/index.js";
 import { _getDataConnectorsOperations } from "./classic/dataConnectors/index.js";
-import type { DataConnectorsCheckRequirementsOperations } from "./classic/dataConnectorsCheckRequirements/index.js";
-import { _getDataConnectorsCheckRequirementsOperations } from "./classic/dataConnectorsCheckRequirements/index.js";
+import type { DataConnectorsCheckRequirementsOperationsOperations } from "./classic/dataConnectorsCheckRequirementsOperations/index.js";
+import { _getDataConnectorsCheckRequirementsOperationsOperations } from "./classic/dataConnectorsCheckRequirementsOperations/index.js";
 import type { EntitiesOperations } from "./classic/entities/index.js";
 import { _getEntitiesOperations } from "./classic/entities/index.js";
 import type { EntitiesGetTimelineOperations } from "./classic/entitiesGetTimeline/index.js";
@@ -96,8 +96,8 @@ import type { SecurityMLAnalyticsSettingsOperations } from "./classic/securityML
 import { _getSecurityMLAnalyticsSettingsOperations } from "./classic/securityMLAnalyticsSettings/index.js";
 import type { SentinelOnboardingStatesOperations } from "./classic/sentinelOnboardingStates/index.js";
 import { _getSentinelOnboardingStatesOperations } from "./classic/sentinelOnboardingStates/index.js";
-import type { SourceControlOperations } from "./classic/sourceControl/index.js";
-import { _getSourceControlOperations } from "./classic/sourceControl/index.js";
+import type { SourceControlOperationsOperations } from "./classic/sourceControlOperations/index.js";
+import { _getSourceControlOperationsOperations } from "./classic/sourceControlOperations/index.js";
 import type { SourceControlsOperations } from "./classic/sourceControls/index.js";
 import { _getSourceControlsOperations } from "./classic/sourceControls/index.js";
 import type { ThreatIntelligenceOperations } from "./classic/threatIntelligence/index.js";
@@ -186,10 +186,9 @@ export class SecurityInsights {
     this.threatIntelligenceIndicatorMetrics = _getThreatIntelligenceIndicatorMetricsOperations(
       this._client,
     );
-    this.sourceControl = _getSourceControlOperations(this._client);
-    this.dataConnectorsCheckRequirements = _getDataConnectorsCheckRequirementsOperations(
-      this._client,
-    );
+    this.sourceControlOperations = _getSourceControlOperationsOperations(this._client);
+    this.dataConnectorsCheckRequirementsOperations =
+      _getDataConnectorsCheckRequirementsOperationsOperations(this._client);
     this.threatIntelligenceIndicators = _getThreatIntelligenceIndicatorsOperations(this._client);
     this.threatIntelligenceIndicator = _getThreatIntelligenceIndicatorOperations(this._client);
     this.metadata = _getMetadataOperations(this._client);
@@ -203,7 +202,7 @@ export class SecurityInsights {
     this.productPackage = _getProductPackageOperations(this._client);
     this.contentPackage = _getContentPackageOperations(this._client);
     this.contentPackages = _getContentPackagesOperations(this._client);
-    this.bookmark = _getBookmarkOperations(this._client);
+    this.bookmarkOperations = _getBookmarkOperationsOperations(this._client);
     this.actions = _getActionsOperations(this._client);
     this.alertRule = _getAlertRuleOperations(this._client);
     this.workspaceManagerMembers = _getWorkspaceManagerMembersOperations(this._client);
@@ -296,10 +295,10 @@ export class SecurityInsights {
   public readonly threatIntelligence: ThreatIntelligenceOperations;
   /** The operation groups for threatIntelligenceIndicatorMetrics */
   public readonly threatIntelligenceIndicatorMetrics: ThreatIntelligenceIndicatorMetricsOperations;
-  /** The operation groups for sourceControl */
-  public readonly sourceControl: SourceControlOperations;
-  /** The operation groups for dataConnectorsCheckRequirements */
-  public readonly dataConnectorsCheckRequirements: DataConnectorsCheckRequirementsOperations;
+  /** The operation groups for sourceControlOperations */
+  public readonly sourceControlOperations: SourceControlOperationsOperations;
+  /** The operation groups for dataConnectorsCheckRequirementsOperations */
+  public readonly dataConnectorsCheckRequirementsOperations: DataConnectorsCheckRequirementsOperationsOperations;
   /** The operation groups for threatIntelligenceIndicators */
   public readonly threatIntelligenceIndicators: ThreatIntelligenceIndicatorsOperations;
   /** The operation groups for threatIntelligenceIndicator */
@@ -326,8 +325,8 @@ export class SecurityInsights {
   public readonly contentPackage: ContentPackageOperations;
   /** The operation groups for contentPackages */
   public readonly contentPackages: ContentPackagesOperations;
-  /** The operation groups for bookmark */
-  public readonly bookmark: BookmarkOperations;
+  /** The operation groups for bookmarkOperations */
+  public readonly bookmarkOperations: BookmarkOperationsOperations;
   /** The operation groups for actions */
   public readonly actions: ActionsOperations;
   /** The operation groups for alertRule */
