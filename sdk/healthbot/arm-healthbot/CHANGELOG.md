@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0 (2026-01-22)
+## 3.0.0 (2026-06-10)
 
 ### Features Added
   - Added operation BotsOperations.beginUpdate
@@ -9,30 +9,35 @@
   - Added operation BotsOperations.delete
   - Added operation BotsOperations.listSecrets
   - Added operation BotsOperations.regenerateApiJwtSecret
-  - Added interface HealthBotKey
-  - Added interface HealthBotKeysResponse
-  - Added interface KeyVaultProperties
+  - Added Interface BotsListSecretsOptionalParams
+  - Added Interface BotsRegenerateApiJwtSecretOptionalParams
+  - Added Interface HealthBotKey
+  - Added Interface HealthBotKeysResponse
+  - Added Interface KeyVaultProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Interface BotsUpdateOptionalParams has a new optional parameter updateIntervalInMs
   - Interface HealthBotProperties has a new optional parameter accessControlMethod
   - Interface HealthBotProperties has a new optional parameter keyVaultProperties
   - Interface HealthBotUpdateParameters has a new optional parameter properties
-  - Added support for Azure cloud environment selection
-  - Added type CreatedByType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Enum AzureClouds
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownVersions
 
 ### Breaking Changes
   - Operation Bots.beginCreate has a new signature
   - Operation Bots.beginCreateAndWait has a new signature
   - Operation Bots.get has a new signature
   - Operation Bots.update has a new signature
-  - Removed interface AvailableOperations
-  - Removed interface BotResponseList
-  - Removed type alias IdentityType
-  - Type alias SkuName has been changed
-  - Removed enum KnownIdentityType
-  - Long-running operations now return PollerLike instead of SimplePollerLike
-  - Rehydration moved from an operation option (resumeFrom) to a client-level helper restorePoller function
-  - Replaced getContinuationToken helper with direct continuationToken property
-
-**Note:** This release includes migration-related changes. See the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/migration-guide-for-libraries-generated-from-TypeSpec.md) for details on migrating from previous versions.
+  - Removed Interface AvailableOperations
+  - Removed Interface BotResponseList
+  - Removed Type Alias IdentityType
+  - Type alias "SkuName" has been changed
+  - Removed Enum KnownIdentityType
 
     
 ## 2.1.0 (2022-11-25)

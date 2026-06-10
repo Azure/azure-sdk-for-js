@@ -6,11 +6,13 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -214,9 +216,15 @@ export interface CveResult {
     cvssV2Score?: string;
     cvssV3Score?: string;
     cvssVersion?: string;
+    cwes?: CweProperties[];
     description?: string;
     effectiveCvssScore?: number;
     effectiveCvssVersion?: number;
+    effectiveExploitMaturity?: ExploitMaturityLevel;
+    effectiveVectorString?: string;
+    epss?: EpssProperties;
+    fixedInVersions?: string[];
+    kev?: KevProperties;
     readonly links?: CveLink[];
     readonly provisioningState?: ProvisioningState;
     severity?: string;
@@ -242,9 +250,36 @@ export interface CveSummary extends SummaryResourceProperties {
 }
 
 // @public
+export interface CveSummaryResource extends SummaryResourceProperties {
+    criticalCveCount?: number;
+    highCveCount?: number;
+    lowCveCount?: number;
+    mediumCveCount?: number;
+    schemaVersion?: string;
+    summaryType: "CVE";
+    totalCveCount?: number;
+    unknownCveCount?: number;
+}
+
+// @public
 export interface CvssScore {
+    exploitMaturity?: ExploitMaturityLevel;
     score?: number;
+    vectorString?: string;
     version: number;
+}
+
+// @public
+export interface CweProperties {
+    cweId?: string;
+    cweName?: string;
+    description?: string;
+}
+
+// @public
+export interface EpssProperties {
+    percentile?: number;
+    score?: number;
 }
 
 // @public
@@ -269,6 +304,9 @@ export interface ErrorResponse {
 
 // @public
 export type ExecutableClass = string;
+
+// @public
+export type ExploitMaturityLevel = string;
 
 // @public
 export interface Firmware extends ProxyResource {
@@ -362,6 +400,16 @@ export interface IoTFirmwareDefenseClientOptionalParams extends ClientOptions {
     cloudSetting?: AzureSupportedClouds;
 }
 
+export { isRestError }
+
+// @public
+export interface KevProperties {
+    dateAdded?: Date;
+    knownRansomwareCampaignUse?: RansomwareCampaignUse;
+    remediationDueDate?: Date;
+    requiredAction?: string;
+}
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -408,6 +456,14 @@ export enum KnownExecutableClass {
 }
 
 // @public
+export enum KnownExploitMaturityLevel {
+    Attacked = "ATTACKED",
+    NotDefined = "NOT_DEFINED",
+    ProofOfConcept = "PROOF_OF_CONCEPT",
+    Unreported = "UNREPORTED"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -425,6 +481,12 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownRansomwareCampaignUse {
+    Known = "Known",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownStatus {
     Analyzing = "Analyzing",
     Error = "Error",
@@ -439,12 +501,17 @@ export enum KnownSummaryType {
     CommonVulnerabilitiesAndExposures = "CommonVulnerabilitiesAndExposures",
     CryptoCertificate = "CryptoCertificate",
     CryptoKey = "CryptoKey",
-    Firmware = "Firmware"
+    Cve = "CVE",
+    Firmware = "Firmware",
+    PasswordHash = "PasswordHash",
+    Sbom = "SBOM"
 }
 
 // @public
 export enum KnownVersions {
-    V20250802 = "2025-08-02"
+    V20250401Preview = "2025-04-01-preview",
+    V20250802 = "2025-08-02",
+    V20251201Preview = "2025-12-01-preview"
 }
 
 // @public
@@ -521,11 +588,20 @@ export interface PasswordHashResource extends ProxyResource {
 }
 
 // @public
+export interface PasswordHashSummaryResource extends SummaryResourceProperties {
+    summaryType: "PasswordHash";
+    totalPasswordHashCount?: number;
+}
+
+// @public
 export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
 }
+
+// @public
+export type RansomwareCampaignUse = string;
 
 // @public
 export interface Resource {
@@ -534,6 +610,8 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: IoTFirmwareDefenseClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -567,6 +645,12 @@ export interface SbomComponentsListByFirmwareOptionalParams extends OperationOpt
 // @public
 export interface SbomComponentsOperations {
     listByFirmware: (resourceGroupName: string, workspaceName: string, firmwareId: string, options?: SbomComponentsListByFirmwareOptionalParams) => PagedAsyncIterableIterator<SbomComponentResource>;
+}
+
+// @public
+export interface SbomSummaryResource extends SummaryResourceProperties {
+    summaryType: "SBOM";
+    totalComponentCount?: number;
 }
 
 // @public
@@ -616,7 +700,7 @@ export interface SummaryResourceProperties {
 }
 
 // @public
-export type SummaryResourcePropertiesUnion = FirmwareSummary | CveSummary | BinaryHardeningSummaryResource | CryptoCertificateSummaryResource | CryptoKeySummaryResource | SummaryResourceProperties;
+export type SummaryResourcePropertiesUnion = FirmwareSummary | CveSummary | BinaryHardeningSummaryResource | CryptoCertificateSummaryResource | CryptoKeySummaryResource | CveSummaryResource | SbomSummaryResource | PasswordHashSummaryResource | SummaryResourceProperties;
 
 // @public
 export type SummaryType = string;
