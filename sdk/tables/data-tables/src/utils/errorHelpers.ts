@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions, OperationRequest } from "@azure/core-client";
 import type { PipelineResponse, RestError } from "@azure/core-rest-pipeline";
 import type { AzureLogger } from "@azure/logger";
 
@@ -26,7 +26,7 @@ export type TableServiceErrorResponse = PipelineResponse & {
   /**
    * The request that generated the response.
    */
-  request: any;
+  request: OperationRequest;
 };
 
 export function handleTableAlreadyExists(

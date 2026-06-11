@@ -210,7 +210,7 @@ export class TableServiceClient {
       options,
       async (updatedOptions) => {
         const body = await this.service.getStatistics(
-          injectSecondaryEndpointHeader(updatedOptions) as any,
+          injectSecondaryEndpointHeader(updatedOptions),
         );
         return { ...body } as GetStatisticsResponse;
       },

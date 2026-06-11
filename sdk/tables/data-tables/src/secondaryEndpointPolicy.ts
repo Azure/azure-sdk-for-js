@@ -4,6 +4,7 @@
 import type { OperationOptions } from "@azure/core-client";
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { getSecondaryUrlFromPrimary } from "#platform/getSecondaryUrlFromPrimary";
+import { OperationRequestOptions } from "@azure-rest/core-client";
 
 /**
  * The programmatic identifier of the tablesSecondaryEndpointPolicy.
@@ -43,6 +44,6 @@ export function injectSecondaryEndpointHeader(options: OperationOptions): Operat
         ...(options.requestOptions as any)?.headers,
         ...headerToInject,
       },
-    } as any,
+    } as OperationRequestOptions,
   };
 }
