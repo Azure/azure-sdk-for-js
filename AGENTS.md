@@ -81,11 +81,9 @@ Rules for the agent that maintains this file:
   then a row in the "Where to find guidance" table above pointing at
   it.
 - Package-specific tribal knowledge → a package-owned skill at
-  `sdk/<svc>/<pkg>/.github/skills/<name>/SKILL.md`, then register it
-  in `find-package-skill/SKILL.md`.
+  `sdk/<svc>/<pkg>/.github/skills/<name>/SKILL.md`.
 - Contributor-facing prose (workflows, prerequisites, setup) →
   `CONTRIBUTING.md`, not here. AGENTS.md is for agent-routing only.
 
 If a fact would belong in two places, pick the more-specific one. Link
 from the less-specific to the more-specific, don't copy.
-
