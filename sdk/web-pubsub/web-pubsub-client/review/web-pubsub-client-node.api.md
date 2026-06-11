@@ -27,6 +27,12 @@ export interface CancelInvocationMessage extends WebPubSubMessageBase {
 }
 
 // @public
+export interface CompleteStreamOptions {
+    abortSignal?: AbortSignalLike;
+    error?: StreamEndError;
+}
+
+// @public
 export interface ConnectedMessage extends WebPubSubMessageBase {
     connectionId: string;
     readonly kind: "connected";
@@ -92,12 +98,6 @@ export type DownstreamMessageType =
 | "groupStateUpdate";
 
 // @public
-export interface EndStreamOptions {
-    abortSignal?: AbortSignalLike;
-    error?: StreamEndError;
-}
-
-// @public
 export interface GetClientAccessUrlOptions {
     abortSignal?: AbortSignalLike;
 }
@@ -144,7 +144,7 @@ export interface GroupStreamHandler {
 
 // @public
 export interface GroupStreamPublisher {
-    complete(options?: EndStreamOptions): Promise<void>;
+    complete(options?: CompleteStreamOptions): Promise<void>;
     keepAlive(options?: SendStreamKeepAliveOptions): Promise<void>;
     onError(listener: (error: StreamDataError) => void): () => void;
     publish(content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendStreamDataOptions): Promise<void>;

@@ -5,7 +5,7 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
 import { logger } from "./logger.js";
 import type {
-  EndStreamOptions,
+  CompleteStreamOptions,
   SendStreamKeepAliveOptions,
   StreamDataError,
 } from "./models/index.js";
@@ -26,7 +26,7 @@ interface OutboundStreamDataAction {
 
 interface OutboundStreamEndAction {
   type: "end";
-  options?: EndStreamOptions;
+  options?: CompleteStreamOptions;
   completion: Deferred<void>;
 }
 
@@ -44,7 +44,7 @@ export interface OutboundStreamSessionOptions {
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
   ): Promise<void>;
-  sendEnd(options?: EndStreamOptions): Promise<void>;
+  sendEnd(options?: CompleteStreamOptions): Promise<void>;
   sendKeepAlive(options?: SendStreamKeepAliveOptions): Promise<void>;
 }
 
@@ -64,7 +64,7 @@ export class OutboundStreamSession {
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
   ) => Promise<void>;
-  private readonly _sendEnd: (options?: EndStreamOptions) => Promise<void>;
+  private readonly _sendEnd: (options?: CompleteStreamOptions) => Promise<void>;
   private readonly _sendKeepAlive: (options?: SendStreamKeepAliveOptions) => Promise<void>;
 
   private _started = false;
@@ -141,7 +141,7 @@ export class OutboundStreamSession {
     await this._sendKeepAlive(options);
   }
 
-  public async complete(options?: EndStreamOptions): Promise<void> {
+  public async complete(options?: CompleteStreamOptions): Promise<void> {
     this._throwIfClosed();
     this._writeClosed = true;
 
@@ -242,7 +242,7 @@ export class OutboundStreamSession {
     return completion;
   }
 
-  private async _enqueueEndAction(options?: EndStreamOptions): Promise<Deferred<void>> {
+  private async _enqueueEndAction(options?: CompleteStreamOptions): Promise<Deferred<void>> {
     const completion = createDeferred<void>();
     const sequenceId = await this._queue.enqueue({
       type: "end",

@@ -219,9 +219,9 @@ export interface SendStreamKeepAliveOptions {
 }
 
 /**
- * End stream options.
+ * Complete stream options.
  */
-export interface EndStreamOptions {
+export interface CompleteStreamOptions {
   /**
    * Optional stream end error.
    */
@@ -255,7 +255,7 @@ export interface GroupStreamPublisher {
   /**
    * Complete the stream.
    */
-  complete(options?: EndStreamOptions): Promise<void>;
+  complete(options?: CompleteStreamOptions): Promise<void>;
   /**
    * Register outbound stream error callback.
    * Returns a function to unregister this callback.

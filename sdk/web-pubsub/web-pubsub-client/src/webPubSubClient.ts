@@ -28,7 +28,7 @@ import type {
   StreamToGroupOptions,
   SendStreamDataOptions,
   SendStreamKeepAliveOptions,
-  EndStreamOptions,
+  CompleteStreamOptions,
   OnGroupStreamArgs,
   GroupStreamHandler,
   OnGroupStreamOptions,
@@ -735,7 +735,7 @@ export class WebPubSubClient {
       keepAlive: async (keepAliveOptions?: SendStreamKeepAliveOptions): Promise<void> => {
         await session.keepAlive(keepAliveOptions);
       },
-      complete: async (endOptions?: EndStreamOptions): Promise<void> => {
+      complete: async (endOptions?: CompleteStreamOptions): Promise<void> => {
         await session.complete(endOptions);
       },
       onError: (listener: (error: StreamDataError) => void): (() => void) => {
@@ -1414,7 +1414,7 @@ export class WebPubSubClient {
     await this._sendMessage(message, options?.abortSignal);
   }
 
-  private async _sendStreamEnd(streamId: string, options?: EndStreamOptions): Promise<void> {
+  private async _sendStreamEnd(streamId: string, options?: CompleteStreamOptions): Promise<void> {
     const message: StreamEndMessage = {
       kind: "streamEnd",
       streamId,
