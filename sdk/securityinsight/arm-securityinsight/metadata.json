@@ -730,7 +730,7 @@
       "@azure/arm-securityinsight!SourceControlOperationsOperations#listRepositories:member": "Microsoft.SecurityInsights.SourceControlOperationGroup.listRepositories",
       "@azure/arm-securityinsight!DataConnectorsCheckRequirementsOperationsOperations#post:member": "Microsoft.SecurityInsights.DataConnectorsCheckRequirementsOperationGroup.post",
       "@azure/arm-securityinsight!ThreatIntelligenceIndicatorsOperations#list:member": "Microsoft.SecurityInsights.ThreatIntelligenceInformationOperations.list",
-      "@azure/arm-securityinsight!ThreatIntelligenceIndicatorOperations#queryIndicators:member": "Microsoft.SecurityInsights.ThreatIntelligenceIndicatorOperationGroup.queryIndicators",
+      "@azure/arm-securityinsight!ThreatIntelligenceIndicatorOperations#listQueryIndicators:member": "Microsoft.SecurityInsights.ThreatIntelligenceIndicatorOperationGroup.queryIndicators",
       "@azure/arm-securityinsight!ThreatIntelligenceIndicatorOperations#createIndicator:member": "Microsoft.SecurityInsights.ThreatIntelligenceIndicatorOperationGroup.createIndicator",
       "@azure/arm-securityinsight!ThreatIntelligenceIndicatorOperations#replaceTags:member": "Microsoft.SecurityInsights.ThreatIntelligenceInformationOperations.replaceTags",
       "@azure/arm-securityinsight!ThreatIntelligenceIndicatorOperations#appendTags:member": "Microsoft.SecurityInsights.ThreatIntelligenceInformationOperations.appendTags",

@@ -15,7 +15,7 @@ async function queryThreatIntelligenceIndicatorsAsPerFilteringCriteria(): Promis
   const subscriptionId = "bd794837-4d29-4647-9105-6339bfdb4e6a";
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.threatIntelligenceIndicator.queryIndicators(
+  for await (const item of client.threatIntelligenceIndicator.listQueryIndicators(
     "myRg",
     "myWorkspace",
     {

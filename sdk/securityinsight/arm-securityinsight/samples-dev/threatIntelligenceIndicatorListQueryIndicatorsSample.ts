@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SecurityInsights } = require("@azure/arm-securityinsight");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { SecurityInsights } from "@azure/arm-securityinsight";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to query threat intelligence indicators as per filtering criteria.
@@ -10,12 +10,12 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary query threat intelligence indicators as per filtering criteria.
  * x-ms-original-file: 2025-07-01-preview/threatintelligence/QueryThreatIntelligence.json
  */
-async function queryThreatIntelligenceIndicatorsAsPerFilteringCriteria() {
+async function queryThreatIntelligenceIndicatorsAsPerFilteringCriteria(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "bd794837-4d29-4647-9105-6339bfdb4e6a";
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.threatIntelligenceIndicator.queryIndicators(
+  for await (const item of client.threatIntelligenceIndicator.listQueryIndicators(
     "myRg",
     "myWorkspace",
     {
@@ -34,7 +34,7 @@ async function queryThreatIntelligenceIndicatorsAsPerFilteringCriteria() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await queryThreatIntelligenceIndicatorsAsPerFilteringCriteria();
 }
 

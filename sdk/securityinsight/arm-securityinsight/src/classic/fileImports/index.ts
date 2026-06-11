@@ -11,6 +11,8 @@ import type {
 } from "../../api/fileImports/options.js";
 import type { FileImport } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FileImports operations. */
@@ -28,6 +30,20 @@ export interface FileImportsOperations {
     fileImportId: string,
     options?: FileImportsDeleteOptionalParams,
   ) => PollerLike<OperationState<FileImport>, FileImport>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    workspaceName: string,
+    fileImportId: string,
+    options?: FileImportsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<FileImport>, FileImport>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    workspaceName: string,
+    fileImportId: string,
+    options?: FileImportsDeleteOptionalParams,
+  ) => Promise<FileImport>;
   /** Creates the file import. */
   create: (
     resourceGroupName: string,
@@ -58,6 +74,24 @@ function _getFileImports(context: SecurityInsightsContext) {
       fileImportId: string,
       options?: FileImportsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, workspaceName, fileImportId, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      fileImportId: string,
+      options?: FileImportsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, workspaceName, fileImportId, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      fileImportId: string,
+      options?: FileImportsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, workspaceName, fileImportId, options);
+    },
     create: (
       resourceGroupName: string,
       workspaceName: string,

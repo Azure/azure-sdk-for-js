@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.8 (2026-06-10)
+## 1.0.0-beta.8 (2026-06-11)
 Compared with version 1.0.0-beta.6
 
 ### Features Added
@@ -33,7 +33,10 @@ Compared with version 1.0.0-beta.6
   - Added operation group WorkspaceManagerMembersOperations
   - Added operation EntitiesOperations.runPlaybook
   - Added operation FileImportsOperations.delete
-  - Added operation ThreatIntelligenceIndicatorOperations.queryIndicators
+  - Added operation WatchlistsOperations.beginCreateOrUpdate
+  - Added operation WatchlistsOperations.beginCreateOrUpdateAndWait
+  - Added operation WatchlistsOperations.beginDelete
+  - Added operation WatchlistsOperations.beginDeleteAndWait
   - Class SecurityInsights has a new constructor "constructor(credential: TokenCredential, options?: SecurityInsightsOptionalParams);"
   - Class SecurityInsights has a new constructor "listGeodataByIp(resourceGroupName: string, workspaceName: string, enrichmentType: EnrichmentType, ipAddressBody: EnrichmentIpAddressBody, options?: ListGeodataByIpOptionalParams): Promise<EnrichmentIpGeodata>;"
   - Class SecurityInsights has a new constructor "listWhoisByDomain(resourceGroupName: string, workspaceName: string, enrichmentType: EnrichmentType, domainBody: EnrichmentDomainBody, options?: ListWhoisByDomainOptionalParams): Promise<EnrichmentDomainWhois>;"
@@ -229,6 +232,7 @@ Compared with version 1.0.0-beta.6
   - Added Interface SentinelOnboardingStateProperties
   - Added Interface ServicePrincipal
   - Added Interface SessionAuthModel
+  - Added Interface SimplePollerLike
   - Added Interface SourceControlOperationsListRepositoriesOptionalParams
   - Added Interface SourceControlProperties
   - Added Interface TemplateModel
@@ -237,6 +241,7 @@ Compared with version 1.0.0-beta.6
   - Added Interface ThreatIntelligenceAlertRuleProperties
   - Added Interface ThreatIntelligenceCount
   - Added Interface ThreatIntelligenceCountOptionalParams
+  - Added Interface ThreatIntelligenceIndicatorListQueryIndicatorsOptionalParams
   - Added Interface ThreatIntelligenceQueryOptionalParams
   - Added Interface TIObject
   - Added Interface TIObjectCommonProperties
@@ -429,10 +434,7 @@ Compared with version 1.0.0-beta.6
   - Enum KnownSourceType has a new value Local
 
 ### Breaking Changes
-  - Removed operation FileImports.beginDelete
-  - Removed operation FileImports.beginDeleteAndWait
   - Removed operation Incidents.createTeam
-  - Removed operation ThreatIntelligenceIndicator.listQueryIndicators
   - Operation AutomationRules.createOrUpdate has a new signature
   - Operation AutomationRules.get has a new signature
   - Operation DataConnectorsCheckRequirementsOperations.post has a new signature
@@ -443,8 +445,10 @@ Compared with version 1.0.0-beta.6
   - Operation SourceControls.create has a new signature
   - Operation SourceControls.delete has a new signature
   - Operation SourceControls.get has a new signature
+  - Class SecurityInsights no longer has parameter apiVersion
   - Class SecurityInsights no longer has parameter domainWhois
   - Class SecurityInsights no longer has parameter iPGeodata
+  - Class SecurityInsights no longer has parameter subscriptionId
   - Removed Interface ActionsList
   - Removed Interface AlertRulesList
   - Removed Interface AlertRuleTemplatesList
@@ -479,6 +483,7 @@ Compared with version 1.0.0-beta.6
   - Removed Interface SourceControlList
   - Removed Interface SourceControlListRepositoriesOptionalParams
   - Removed Interface TeamProperties
+  - Removed Interface ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams
   - Removed Interface ThreatIntelligenceInformationList
   - Removed Interface WatchlistItemList
   - Removed Interface WatchlistList

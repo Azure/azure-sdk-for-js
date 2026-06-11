@@ -4,7 +4,7 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams extends OperationOptions {}
+export interface ThreatIntelligenceIndicatorListQueryIndicatorsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ThreatIntelligenceIndicatorCreateIndicatorOptionalParams extends OperationOptions {}

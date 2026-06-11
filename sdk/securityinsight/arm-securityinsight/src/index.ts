@@ -10,6 +10,7 @@ import type {
 } from "./static-helpers/pagingHelpers.js";
 
 export { SecurityInsights } from "./securityInsights.js";
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
@@ -977,7 +978,7 @@ export type {
   ThreatIntelligenceCountOptionalParams,
 } from "./api/threatIntelligence/index.js";
 export type {
-  ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams,
+  ThreatIntelligenceIndicatorListQueryIndicatorsOptionalParams,
   ThreatIntelligenceIndicatorCreateIndicatorOptionalParams,
   ThreatIntelligenceIndicatorReplaceTagsOptionalParams,
   ThreatIntelligenceIndicatorAppendTagsOptionalParams,

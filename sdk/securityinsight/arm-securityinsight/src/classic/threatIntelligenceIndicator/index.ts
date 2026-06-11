@@ -3,7 +3,7 @@
 
 import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import {
-  queryIndicators,
+  listQueryIndicators,
   createIndicator,
   replaceTags,
   appendTags,
@@ -12,7 +12,7 @@ import {
   get,
 } from "../../api/threatIntelligenceIndicator/operations.js";
 import type {
-  ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams,
+  ThreatIntelligenceIndicatorListQueryIndicatorsOptionalParams,
   ThreatIntelligenceIndicatorCreateIndicatorOptionalParams,
   ThreatIntelligenceIndicatorReplaceTagsOptionalParams,
   ThreatIntelligenceIndicatorAppendTagsOptionalParams,
@@ -31,11 +31,11 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 /** Interface representing a ThreatIntelligenceIndicator operations. */
 export interface ThreatIntelligenceIndicatorOperations {
   /** Query threat intelligence indicators as per filtering criteria. */
-  queryIndicators: (
+  listQueryIndicators: (
     resourceGroupName: string,
     workspaceName: string,
     threatIntelligenceFilteringCriteria: ThreatIntelligenceFilteringCriteria,
-    options?: ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams,
+    options?: ThreatIntelligenceIndicatorListQueryIndicatorsOptionalParams,
   ) => PagedAsyncIterableIterator<ThreatIntelligenceInformationUnion>;
   /** Create a new threat intelligence indicator. */
   createIndicator: (
@@ -86,13 +86,13 @@ export interface ThreatIntelligenceIndicatorOperations {
 
 function _getThreatIntelligenceIndicator(context: SecurityInsightsContext) {
   return {
-    queryIndicators: (
+    listQueryIndicators: (
       resourceGroupName: string,
       workspaceName: string,
       threatIntelligenceFilteringCriteria: ThreatIntelligenceFilteringCriteria,
-      options?: ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams,
+      options?: ThreatIntelligenceIndicatorListQueryIndicatorsOptionalParams,
     ) =>
-      queryIndicators(
+      listQueryIndicators(
         context,
         resourceGroupName,
         workspaceName,

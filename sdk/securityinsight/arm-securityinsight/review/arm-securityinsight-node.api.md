@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
@@ -284,6 +285,10 @@ export type AlertRuleKind = string;
 
 // @public
 export interface AlertRuleOperations {
+    // @deprecated (undocumented)
+    beginTriggerRuleRun: (resourceGroupName: string, workspaceName: string, ruleId: string, analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger, options?: AlertRuleTriggerRuleRunOptionalParams) => Promise<SimplePollerLike<OperationState<AlertRuleUnion>, AlertRuleUnion>>;
+    // @deprecated (undocumented)
+    beginTriggerRuleRunAndWait: (resourceGroupName: string, workspaceName: string, ruleId: string, analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger, options?: AlertRuleTriggerRuleRunOptionalParams) => Promise<AlertRuleUnion>;
     triggerRuleRun: (resourceGroupName: string, workspaceName: string, ruleId: string, analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger, options?: AlertRuleTriggerRuleRunOptionalParams) => PollerLike<OperationState<AlertRuleUnion>, AlertRuleUnion>;
 }
 
@@ -2192,6 +2197,10 @@ export interface FileImportsListOptionalParams extends OperationOptions {
 
 // @public
 export interface FileImportsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, workspaceName: string, fileImportId: string, options?: FileImportsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<FileImport>, FileImport>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, workspaceName: string, fileImportId: string, options?: FileImportsDeleteOptionalParams) => Promise<FileImport>;
     create: (resourceGroupName: string, workspaceName: string, fileImportId: string, fileImport: FileImport, options?: FileImportsCreateOptionalParams) => Promise<FileImport>;
     delete: (resourceGroupName: string, workspaceName: string, fileImportId: string, options?: FileImportsDeleteOptionalParams) => PollerLike<OperationState<FileImport>, FileImport>;
     get: (resourceGroupName: string, workspaceName: string, fileImportId: string, options?: FileImportsGetOptionalParams) => Promise<FileImport>;
@@ -6372,6 +6381,28 @@ export type SettingsUnion = Anomalies | EyesOn | EntityAnalytics | Ueba | Settin
 export type SettingType = string;
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export type SortingDirection = string;
 
 // @public
@@ -6704,6 +6735,10 @@ export interface ThreatIntelligenceIndicatorGetOptionalParams extends OperationO
 }
 
 // @public
+export interface ThreatIntelligenceIndicatorListQueryIndicatorsOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface ThreatIntelligenceIndicatorMetricsListOptionalParams extends OperationOptions {
 }
 
@@ -6755,7 +6790,7 @@ export interface ThreatIntelligenceIndicatorOperations {
     createIndicator: (resourceGroupName: string, workspaceName: string, threatIntelligenceProperties: ThreatIntelligenceIndicatorModel, options?: ThreatIntelligenceIndicatorCreateIndicatorOptionalParams) => Promise<ThreatIntelligenceInformationUnion>;
     delete: (resourceGroupName: string, workspaceName: string, name: string, options?: ThreatIntelligenceIndicatorDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, workspaceName: string, name: string, options?: ThreatIntelligenceIndicatorGetOptionalParams) => Promise<ThreatIntelligenceInformationUnion>;
-    queryIndicators: (resourceGroupName: string, workspaceName: string, threatIntelligenceFilteringCriteria: ThreatIntelligenceFilteringCriteria, options?: ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams) => PagedAsyncIterableIterator<ThreatIntelligenceInformationUnion>;
+    listQueryIndicators: (resourceGroupName: string, workspaceName: string, threatIntelligenceFilteringCriteria: ThreatIntelligenceFilteringCriteria, options?: ThreatIntelligenceIndicatorListQueryIndicatorsOptionalParams) => PagedAsyncIterableIterator<ThreatIntelligenceInformationUnion>;
     replaceTags: (resourceGroupName: string, workspaceName: string, name: string, threatIntelligenceReplaceTags: ThreatIntelligenceIndicatorModel, options?: ThreatIntelligenceIndicatorReplaceTagsOptionalParams) => Promise<ThreatIntelligenceInformationUnion>;
 }
 
@@ -6789,10 +6824,6 @@ export interface ThreatIntelligenceIndicatorProperties extends EntityCommonPrope
     threatTypes?: string[];
     validFrom?: string;
     validUntil?: string;
-}
-
-// @public
-export interface ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -7263,6 +7294,14 @@ export interface WatchlistsListOptionalParams extends OperationOptions {
 
 // @public
 export interface WatchlistsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, workspaceName: string, watchlistAlias: string, watchlist: Watchlist, options?: WatchlistsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Watchlist>, Watchlist>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, workspaceName: string, watchlistAlias: string, watchlist: Watchlist, options?: WatchlistsCreateOrUpdateOptionalParams) => Promise<Watchlist>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: WatchlistsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: WatchlistsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, workspaceName: string, watchlistAlias: string, watchlist: Watchlist, options?: WatchlistsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Watchlist>, Watchlist>;
     delete: (resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: WatchlistsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: WatchlistsGetOptionalParams) => Promise<Watchlist>;

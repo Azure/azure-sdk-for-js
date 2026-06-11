@@ -5,6 +5,8 @@ import type { SecurityInsightsContext } from "../../api/securityInsightsContext.
 import { triggerRuleRun } from "../../api/alertRule/operations.js";
 import type { AlertRuleTriggerRuleRunOptionalParams } from "../../api/alertRule/options.js";
 import type { AlertRuleUnion, AnalyticsRuleRunTrigger } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AlertRule operations. */
@@ -17,6 +19,22 @@ export interface AlertRuleOperations {
     analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger,
     options?: AlertRuleTriggerRuleRunOptionalParams,
   ) => PollerLike<OperationState<AlertRuleUnion>, AlertRuleUnion>;
+  /** @deprecated use triggerRuleRun instead */
+  beginTriggerRuleRun: (
+    resourceGroupName: string,
+    workspaceName: string,
+    ruleId: string,
+    analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger,
+    options?: AlertRuleTriggerRuleRunOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<AlertRuleUnion>, AlertRuleUnion>>;
+  /** @deprecated use triggerRuleRun instead */
+  beginTriggerRuleRunAndWait: (
+    resourceGroupName: string,
+    workspaceName: string,
+    ruleId: string,
+    analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger,
+    options?: AlertRuleTriggerRuleRunOptionalParams,
+  ) => Promise<AlertRuleUnion>;
 }
 
 function _getAlertRule(context: SecurityInsightsContext) {
@@ -36,6 +54,40 @@ function _getAlertRule(context: SecurityInsightsContext) {
         analyticsRuleRunTriggerParameter,
         options,
       ),
+    beginTriggerRuleRun: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      ruleId: string,
+      analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger,
+      options?: AlertRuleTriggerRuleRunOptionalParams,
+    ) => {
+      const poller = triggerRuleRun(
+        context,
+        resourceGroupName,
+        workspaceName,
+        ruleId,
+        analyticsRuleRunTriggerParameter,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginTriggerRuleRunAndWait: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      ruleId: string,
+      analyticsRuleRunTriggerParameter: AnalyticsRuleRunTrigger,
+      options?: AlertRuleTriggerRuleRunOptionalParams,
+    ) => {
+      return await triggerRuleRun(
+        context,
+        resourceGroupName,
+        workspaceName,
+        ruleId,
+        analyticsRuleRunTriggerParameter,
+        options,
+      );
+    },
   };
 }
 

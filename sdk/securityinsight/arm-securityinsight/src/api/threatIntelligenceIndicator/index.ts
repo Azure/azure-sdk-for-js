@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export {
-  queryIndicators,
+  listQueryIndicators,
   createIndicator,
   replaceTags,
   appendTags,
@@ -11,7 +11,7 @@ export {
   get,
 } from "./operations.js";
 export type {
-  ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams,
+  ThreatIntelligenceIndicatorListQueryIndicatorsOptionalParams,
   ThreatIntelligenceIndicatorCreateIndicatorOptionalParams,
   ThreatIntelligenceIndicatorReplaceTagsOptionalParams,
   ThreatIntelligenceIndicatorAppendTagsOptionalParams,

@@ -21,7 +21,7 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams,
+  ThreatIntelligenceIndicatorListQueryIndicatorsOptionalParams,
   ThreatIntelligenceIndicatorCreateIndicatorOptionalParams,
   ThreatIntelligenceIndicatorReplaceTagsOptionalParams,
   ThreatIntelligenceIndicatorAppendTagsOptionalParams,
@@ -32,12 +32,12 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
-export function _queryIndicatorsSend(
+export function _listQueryIndicatorsSend(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
   threatIntelligenceFilteringCriteria: ThreatIntelligenceFilteringCriteria,
-  options: ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams = { requestOptions: {} },
+  options: ThreatIntelligenceIndicatorListQueryIndicatorsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/threatIntelligence/main/queryIndicators{?api%2Dversion}",
@@ -59,7 +59,7 @@ export function _queryIndicatorsSend(
   });
 }
 
-export async function _queryIndicatorsDeserialize(
+export async function _listQueryIndicatorsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ThreatIntelligenceInformationList> {
   const expectedStatuses = ["200"];
@@ -76,24 +76,24 @@ export async function _queryIndicatorsDeserialize(
 }
 
 /** Query threat intelligence indicators as per filtering criteria. */
-export function queryIndicators(
+export function listQueryIndicators(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
   threatIntelligenceFilteringCriteria: ThreatIntelligenceFilteringCriteria,
-  options: ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams = { requestOptions: {} },
+  options: ThreatIntelligenceIndicatorListQueryIndicatorsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ThreatIntelligenceInformationUnion> {
   return buildPagedAsyncIterator(
     context,
     () =>
-      _queryIndicatorsSend(
+      _listQueryIndicatorsSend(
         context,
         resourceGroupName,
         workspaceName,
         threatIntelligenceFilteringCriteria,
         options,
       ),
-    _queryIndicatorsDeserialize,
+    _listQueryIndicatorsDeserialize,
     ["200"],
     {
       itemName: "value",
