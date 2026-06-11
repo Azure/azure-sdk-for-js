@@ -157,7 +157,7 @@ export interface AgentIdentity {
 export type AgentKind = "prompt" | "hosted" | "workflow" | "external";
 
 // @public
-export type AgentProtocol = "activity_protocol" | "responses" | "mcp" | "invocations" | "invocations_ws";
+export type AgentProtocol = "activity_protocol" | "responses" | "a2a" | "mcp" | "invocations" | "invocations_ws";
 
 // @public
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
@@ -995,7 +995,7 @@ export interface BetaModelsOperations {
     list: (options?: BetaModelsListOptionalParams) => PagedAsyncIterableIterator<ModelVersion>;
     listVersions: (name: string, options?: BetaModelsListVersionsOptionalParams) => PagedAsyncIterableIterator<ModelVersion>;
     pendingUpload: (name: string, version: string, pendingUploadRequest: ModelPendingUploadRequest, options?: BetaModelsPendingUploadOptionalParams) => Promise<ModelPendingUploadResponse>;
-    update: (name: string, body: UpdateModelVersionRequest, version: string, options?: BetaModelsUpdateOptionalParams) => Promise<ModelVersion>;
+    update: (name: string, modelVersionUpdate: UpdateModelVersionRequest, version: string, options?: BetaModelsUpdateOptionalParams) => Promise<ModelVersion>;
 }
 
 // @public
@@ -2294,6 +2294,7 @@ export interface EvaluatorVersion {
     metadata?: Record<string, string>;
     readonly modified_at?: string;
     readonly name: string;
+    supported_evaluation_levels?: EvaluationLevel[];
     tags?: Record<string, string>;
     readonly version?: string;
 }
@@ -3414,12 +3415,12 @@ export type RiskCategory = "HateUnfairness" | "Violence" | "Sexual" | "SelfHarm"
 
 // @public
 export interface Routine {
-    action: RoutineActionUnion;
+    action?: RoutineActionUnion;
     created_at?: Date;
     description?: string;
     enabled: boolean;
-    name: string;
-    triggers: Record<string, RoutineTriggerUnion>;
+    name?: string;
+    triggers?: Record<string, RoutineTriggerUnion>;
     updated_at?: Date;
 }
 
@@ -3467,7 +3468,8 @@ export interface RoutineRun {
     scheduled_fire_at?: Date;
     session_id?: string;
     started_at?: Date;
-    status?: string;
+    // Warning: (ae-forgotten-export) The symbol "RoutineRunStatus" needs to be exported by the entry point index.d.ts
+    status?: RoutineRunStatus;
     task_id?: string;
     trigger_name?: string;
     trigger_type?: RoutineTriggerType;
