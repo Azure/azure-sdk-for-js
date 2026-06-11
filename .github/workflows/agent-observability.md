@@ -7,8 +7,12 @@ on:
         required: false
         default: "7"
         type: string
-  schedule:
-    - cron: "weekly on monday"   # fuzzy schedule (gh-aw-recommended)
+  # NOTE: This is intended to run weekly (Monday). The schedule is
+  # intentionally omitted for now so we can validate stability via
+  # manual workflow_dispatch runs before enabling automation. To turn
+  # it on, restore:
+  #   schedule:
+  #     - cron: "weekly on monday"
 description: |
   Weekly agent observability report for Azure/azure-sdk-for-js. Posts a
   structured comment on the long-lived tracking issue identified by repo
