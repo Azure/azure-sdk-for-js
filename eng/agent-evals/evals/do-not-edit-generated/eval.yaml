@@ -1,0 +1,102 @@
+# P0-2: do-not-edit-generated
+#
+# Tests that the agent does not modify files under a package's
+# `generated/` directory when asked to make a change. `generated/` is
+# the raw codegen output; edits there are silently lost on the next
+# `azsdk_package_generate_code` / `tsp-client` run. The customization
+# layer (typically `src/api/` or `src/`) is the correct place for
+# modifications.
+#
+# Surfaced by:
+#   - .github/skills/create-package-skill/SKILL.md § Security guardrail
+#     ("Never instruct agents to edit files in generated/ directly —
+#      always route through the customization workflow or TypeSpec
+#      decorators")
+#   - documentation/modular-customization.md (the canonical workflow)
+#
+# Why this is an eval, not a CI check:
+# The honest CI alternative — re-run TypeSpec generation and assert
+# the working tree is clean — is expensive (minutes per package, needs
+# spec source + emitter version pinning + network) and impractical
+# per-PR for every package. Cheap heuristics (filename glob, PR labels,
+# git diff filters) all break on legitimate regeneration PRs that DO
+# change generated/ as expected.
+#
+# This eval sidesteps the ambiguity by framing a stimulus that should
+# ONLY touch src/ — we never ask for regeneration, so any generated/
+# diff is unambiguously wrong.
+
+name: do-not-edit-generated
+description: |
+  Verify the agent routes modifications through the src/ customization
+  layer and does not touch files under generated/, which is regenerated
+  on each codegen run.
+type: capability
+
+config:
+  runs: 1
+  timeout: 5m
+
+environment:
+  # Strategy A: whole-repo worktree so the agent sees AGENTS.md,
+  # create-package-skill, the modular-customization docs, and the
+  # template package layout (which makes the generated/ vs src/
+  # distinction visible).
+  git:
+    type: worktree
+    ref: HEAD
+    source: ../../../..
+
+stimuli:
+  - name: add-optional-property
+    prompt: |
+      In the `@azure/template` package at `sdk/template/template`, the
+      list-widgets operation needs a new optional parameter:
+
+          requestId?: string;
+
+      Add it to whatever interface the operation's options bag uses, so
+      that callers of the public list-widgets API can supply it. Don't
+      modify any other interface or operation.
+
+      **Do not run `pnpm install`, `pnpm build`, `pnpm test`, or any
+      `pnpm turbo` command in this turn.** The workspace is a git
+      worktree without `node_modules/` installed; those commands would
+      populate `node_modules/` with workspace symlinks that the eval's
+      grading step can't handle.
+
+    constraints:
+      max_turns: 10
+
+    graders:
+      # The agent actually added the property to the customization
+      # layer's options bag. The hand-authored options for the
+      # list-widgets operation live under src/, and the matching
+      # interface there is WidgetsListWidgetsOptionalParams. Constraining
+      # the path to `src/**` ensures we don't accept an addition under
+      # `generated/` for this check.
+      - type: file-matches
+        config:
+          path: "sdk/template/template/src/**/*.ts"
+          pattern: "WidgetsListWidgetsOptionalParams[\\s\\S]{0,200}?requestId\\?\\s*:\\s*string"
+
+      # The rule under test: no edits under generated/. Vally's executor
+      # runs from the worktree's workDir; `test -z "$(...)"` returns 0
+      # only when the diff output is empty. If the agent touched
+      # anything under generated/, the diff is non-empty and this fails.
+      - type: run-command
+        config:
+          command: 'test -z "$(git diff --name-only HEAD -- sdk/template/template/generated/)"'
+          expected_exit_code: 0
+
+      - type: completed
+
+# Vally 0.5.0 note: scoring.weights are validated but NOT applied by the
+# scorer — the final score is the unweighted mean of grader scores. We
+# control verdict via grader count + threshold instead.
+#
+# 3 graders. Threshold 0.7 means at least 3/3 must pass to clear
+# (2/3 = 0.667 < 0.7). If the agent edits generated/, the run-command
+# grader fails and the eval fails regardless of the others.
+scoring:
+  threshold: 0.7

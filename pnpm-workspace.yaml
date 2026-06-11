@@ -2,6 +2,7 @@ packages:
   - sdk/**
   - common/tools/dev-tool
   - common/tools/eslint-plugin-azure-sdk
+  - eng/agent-evals
   - eng/containers/turborepo-remote-cache
   - common/tools/vite-plugin-browser-test-map
   - common/tools/warp

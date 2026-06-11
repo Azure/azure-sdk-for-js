@@ -201,3 +201,6 @@ sdk/**/sshKey.pub
 # vitest browser test artifacts
 .vitest-attachments/
 **/__screenshots__/
+
+# vally trajectory output from agent evals (eng/agent-evals)
+eng/agent-evals/vally-results/
