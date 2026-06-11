@@ -19,6 +19,8 @@ jobs:
   - script: |
       npm install -g pnpm
     displayName: "Install Pnpm"
+    env:
+      npm_config_userconfig: .npmrc
 
   - script: |
       pnpm update --recursive --no-save
@@ -61,6 +63,8 @@ jobs:
   - script: |
       npm install -g pnpm
     displayName: "Install Pnpm"
+    env:
+      npm_config_userconfig: .npmrc
 
   - script: |
       pnpm purge

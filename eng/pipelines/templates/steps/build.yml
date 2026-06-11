@@ -28,6 +28,8 @@ steps:
   - script: |
       npm install -g pnpm
     displayName: "Install Pnpm"
+    env:
+      npm_config_userconfig: .npmrc
 
   - script: |
       npm ci
