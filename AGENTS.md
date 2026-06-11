@@ -49,7 +49,7 @@ lint rule or CI check, not an eval).
   linking breaks it.
 - Do **not** edit files under `<package>/generated/`. Those are
   regenerated on every `tsp-client` run. Customizations go in `src/`
-  or via TypeSpec decorators. See the modular-customization doc.
+  or via TypeSpec decorators. See `documentation/modular-customization.md`.
 - `snippets.spec.ts` files are documentation source, **not** real tests.
   Don't refactor, delete, or "fix" them as part of test cleanup. They're
   consumed by `dev-tool run update-snippets` to keep README code blocks
@@ -62,9 +62,9 @@ lint rule or CI check, not an eval).
 - Do **not** hand-roll long-running operations. Use the LRO primitives
   in `@azure/core-lro` and `@azure/core-client`. Review
   `sdk/core/core-lro` for the latest patterns.
-- Always consult `find-package-skill/SKILL.md` (and the relevant
-  package-specific `SKILL.md` if one is registered there) **before**
-  modifying a package under `sdk/`.
+- Always consult `.github/skills/find-package-skill/SKILL.md` (and the
+  relevant package-specific `SKILL.md` if one is registered there)
+  **before** modifying a package under `sdk/`.
 
 ## Where new guidance belongs
 
