@@ -75,8 +75,6 @@ Compared with version 5.2.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Class SignalRManagementClient no longer has parameter apiVersion
-  - Class SignalRManagementClient no longer has parameter subscriptionId
   - Removed Interface CustomCertificateList
   - Removed Interface CustomDomainList
   - Removed Interface OperationList

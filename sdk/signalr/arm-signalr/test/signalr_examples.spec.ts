@@ -73,7 +73,7 @@ describe("signalr test", () => {
       {
         location,
         tags: { key1: "value1" },
-        sku: { name: "Free_F1", capacity: 1, tier: "free" },
+        sku: { name: "Standard_S1", capacity: 1, tier: "Standard" },
         kind: "SignalR",
         identity: { type: "SystemAssigned" },
         tls: {
