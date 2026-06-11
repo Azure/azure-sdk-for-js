@@ -1,0 +1,6 @@
+steps:
+  - pwsh: |
+      $packageManager = (Get-Content -Raw "$(Build.SourcesDirectory)/package.json" | ConvertFrom-Json).packageManager
+      Write-Host "Installing $packageManager"
+      npm install -g $packageManager
+    displayName: "Install Pnpm"
