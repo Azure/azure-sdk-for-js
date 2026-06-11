@@ -4,7 +4,7 @@ trigger:
       - main
   paths:
     include:
-      - .github/copilot-instructions.md
+      - AGENTS.md
       - eng/common/instructions/azsdk-tools/**
 
 pr: none

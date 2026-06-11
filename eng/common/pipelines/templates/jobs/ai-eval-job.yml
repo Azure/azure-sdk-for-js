@@ -89,7 +89,7 @@ jobs:
         AZURE_OPENAI_MODEL_DEPLOYMENT_NAME: ${{ parameters.Model }}
         AZURE_OPENAI_ENDPOINT: ${{ parameters.OpenAIEndPoint }}
         REPOSITORY_NAME: ${{ parameters.TargetRepoName }}
-        COPILOT_INSTRUCTIONS_PATH_MCP_EVALS: $(System.DefaultWorkingDirectory)/${{ parameters.TargetRepoName }}/.github/copilot-instructions.md
+        COPILOT_INSTRUCTIONS_PATH_MCP_EVALS: $(System.DefaultWorkingDirectory)/${{ parameters.TargetRepoName }}/AGENTS.md
 
     - task: PublishTestResults@2
       condition: succeededOrFailed()
