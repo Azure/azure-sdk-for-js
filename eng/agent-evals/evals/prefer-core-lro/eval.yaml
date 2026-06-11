@@ -1,0 +1,92 @@
+# N2: prefer-core-lro
+#
+# Tests that the agent recommends using `@azure/core-lro` primitives
+# (in conjunction with `@azure/core-client`) when asked how to implement
+# a long-running operation in an Azure SDK client, rather than
+# hand-rolling polling logic.
+#
+# `.github/copilot-instructions.md` documents this rule:
+#
+#   "Never recommend writing an LRO by hand - instead you always use
+#    the LRO primitives from the core packages. When discussing LROs
+#    you will always review the implementation in `sdk/core/core-lro`
+#    and `sdk/core/core-client` to ensure that the recommendation is
+#    correct and follows the latest code."
+#
+# Hand-rolled polling reintroduces problems core-lro already solved
+# (cancellation, resume-from-state, telemetry, throttling). Worse,
+# hand-rolled LROs ship inconsistencies across packages that users
+# notice.
+#
+# Why this is an eval, not a linter:
+# Detecting "this is a polling loop" statically is hard — agents that
+# write LROs by hand use plausible-looking helper names. The signal is
+# the agent's RECOMMENDATION when asked, which only an eval can probe.
+#
+# Trigger for this eval failing: prose about LRO primitives moves or
+# gets dropped, and the agent reverts to suggesting setTimeout polling.
+
+name: prefer-core-lro
+description: |
+  Verify the agent recommends @azure/core-lro primitives for
+  long-running operations, not hand-rolled polling.
+type: capability
+
+config:
+  runs: 1
+  timeout: 2m
+
+environment:
+  git:
+    type: worktree
+    ref: HEAD
+    source: ../../../..
+
+stimuli:
+  - name: how-to-implement-lro
+    prompt: |
+      I'm adding a new operation to my Azure SDK client. The service
+      returns a 202 Accepted with an `Operation-Location` header and
+      the actual result is available after polling that location until
+      it returns a terminal status.
+
+      How should I implement this in the client? Walk me through the
+      approach and which packages or APIs I should use.
+
+    constraints:
+      max_turns: 6
+
+    graders:
+      # The agent must mention the core-lro package.
+      - type: output-matches
+        config:
+          pattern: "@azure/core-lro|core-lro"
+
+      # The agent should also reference core-client (the LRO helpers
+      # live across both packages in the modern SDK lineage).
+      - type: output-matches
+        config:
+          pattern: "@azure(-rest)?/core-client|core-client"
+
+      # Anti-pattern guard: don't suggest setTimeout-based polling. The
+      # common hand-rolled forms either use setTimeout in a loop or a
+      # while loop with manual delay.
+      - type: output-not-contains
+        config:
+          substring: "setTimeout"
+
+      - type: output-not-contains
+        config:
+          substring: "setInterval"
+
+      - type: completed
+
+# Vally 0.5.0 note: scoring.weights are validated but NOT applied by the
+# scorer — the final score is the unweighted mean of grader scores.
+#
+# 5 graders. Threshold 0.8 means at least 5/5 must pass (4/5 = 0.8 is
+# right at the threshold). Strict: any of the rule checks failing fails
+# the eval. The two output-matches are the positive rule; the two
+# output-not-contains are the anti-pattern guards.
+scoring:
+  threshold: 0.8
