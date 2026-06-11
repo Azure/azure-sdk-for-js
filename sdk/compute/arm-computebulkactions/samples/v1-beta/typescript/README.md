@@ -71,23 +71,23 @@ node dist/bulkActionsCancelSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[bulkactionscancelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computebulkactions/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsCancelSample.ts
-[bulkactionscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computebulkactions/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsCreateOrUpdateSample.ts
-[bulkactionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computebulkactions/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsDeleteSample.ts
-[bulkactionsgetoperationstatussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computebulkactions/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsGetOperationStatusSample.ts
-[bulkactionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computebulkactions/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsGetSample.ts
-[bulkactionslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computebulkactions/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsListByResourceGroupSample.ts
-[bulkactionslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computebulkactions/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsListBySubscriptionSample.ts
-[bulkactionslistvirtualmachinessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computebulkactions/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsListVirtualMachinesSample.ts
-[bulkactionsvirtualmachinescanceloperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computebulkactions/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsVirtualMachinesCancelOperationsSample.ts
-[bulkactionsvirtualmachinesexecutecreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computebulkactions/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsVirtualMachinesExecuteCreateSample.ts
-[bulkactionsvirtualmachinesexecutedeallocatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computebulkactions/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsVirtualMachinesExecuteDeallocateSample.ts
-[bulkactionsvirtualmachinesexecutedeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computebulkactions/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsVirtualMachinesExecuteDeleteSample.ts
-[bulkactionsvirtualmachinesexecutehibernatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computebulkactions/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsVirtualMachinesExecuteHibernateSample.ts
-[bulkactionsvirtualmachinesexecutestartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computebulkactions/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsVirtualMachinesExecuteStartSample.ts
-[bulkactionsvirtualmachinesgetoperationstatussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computebulkactions/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsVirtualMachinesGetOperationStatusSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computebulkactions/arm-computebulkactions/samples/v1-beta/typescript/src/operationsListSample.ts
+[bulkactionscancelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsCancelSample.ts
+[bulkactionscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsCreateOrUpdateSample.ts
+[bulkactionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsDeleteSample.ts
+[bulkactionsgetoperationstatussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsGetOperationStatusSample.ts
+[bulkactionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsGetSample.ts
+[bulkactionslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsListByResourceGroupSample.ts
+[bulkactionslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsListBySubscriptionSample.ts
+[bulkactionslistvirtualmachinessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsListVirtualMachinesSample.ts
+[bulkactionsvirtualmachinescanceloperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsVirtualMachinesCancelOperationsSample.ts
+[bulkactionsvirtualmachinesexecutecreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsVirtualMachinesExecuteCreateSample.ts
+[bulkactionsvirtualmachinesexecutedeallocatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsVirtualMachinesExecuteDeallocateSample.ts
+[bulkactionsvirtualmachinesexecutedeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsVirtualMachinesExecuteDeleteSample.ts
+[bulkactionsvirtualmachinesexecutehibernatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsVirtualMachinesExecuteHibernateSample.ts
+[bulkactionsvirtualmachinesexecutestartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsVirtualMachinesExecuteStartSample.ts
+[bulkactionsvirtualmachinesgetoperationstatussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-computebulkactions/samples/v1-beta/typescript/src/bulkActionsVirtualMachinesGetOperationStatusSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-computebulkactions/samples/v1-beta/typescript/src/operationsListSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-computebulkactions?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computebulkactions/arm-computebulkactions/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-computebulkactions/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

@@ -29,12 +29,12 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js",
-    "directory": "sdk/computebulkactions/arm-computebulkactions"
+    "directory": "sdk/compute/arm-computebulkactions"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computebulkactions/arm-computebulkactions/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-computebulkactions/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": [

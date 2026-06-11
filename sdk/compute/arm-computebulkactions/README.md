@@ -6,7 +6,7 @@ Microsoft.ComputeBulkActions Resource Provider management API.
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computebulkactions/arm-computebulkactions)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-computebulkactions)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-computebulkactions)
 - [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-computebulkactions?view=azure-node-preview)
 

@@ -6507,14 +6507,20 @@ importers:
         specifier: catalog:testing
         version: 4.1.8(@opentelemetry/api@1.9.1)(@types/node@20.19.42)(@vitest/browser-playwright@4.1.8)(@vitest/coverage-istanbul@4.1.8)(vite@7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
 
-  sdk/compute/arm-computerecommender:
+  sdk/compute/arm-computebulkactions:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
         version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
@@ -6580,20 +6586,14 @@ importers:
         specifier: catalog:testing
         version: 4.1.8(@opentelemetry/api@1.9.1)(@types/node@20.19.42)(@vitest/browser-playwright@4.1.8)(@vitest/coverage-istanbul@4.1.8)(vite@7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
 
-  sdk/computebulkactions/arm-computebulkactions:
+  sdk/compute/arm-computerecommender:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
         version: link:../../core/core-client-rest
-      '@azure/abort-controller':
-        specifier: ^2.1.2
-        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-lro':
-        specifier: ^3.1.0
-        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline

@@ -1,15 +1,19 @@
 {
-  "name": "@azure-samples/arm-computebulkactions-js-beta",
+  "name": "@azure-samples/arm-computebulkactions-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "@azure/arm-computebulkactions client library samples for JavaScript (Beta)",
+  "description": "@azure/arm-computebulkactions client library samples for TypeScript (Beta)",
   "engines": {
     "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/computebulkactions/arm-computebulkactions"
+    "directory": "sdk/compute/arm-computebulkactions"
   },
   "keywords": [
     "node",
@@ -24,13 +28,16 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computebulkactions/arm-computebulkactions",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-computebulkactions",
   "dependencies": {
     "@azure/arm-computebulkactions": "next",
     "dotenv": "latest",
     "@azure/identity": "^4.13.0"
   },
   "devDependencies": {
-    "cross-env": "latest"
+    "@types/node": "^20.0.0",
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~5.9.3"
   }
 }
