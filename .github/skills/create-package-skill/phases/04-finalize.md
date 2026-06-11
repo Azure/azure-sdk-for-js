@@ -1,14 +1,20 @@
-# Phase 4: Register 📋
+# Phase 4: Finalize 📋
 
-> 📍 **Phase 4 — Register** | Add the skill to the find-package-skill discovery table.
+> 📍 **Phase 4 — Finalize** | Confirm the skill is in its discoverable location and summarize.
 
-## Step 1 — Update find-package-skill
+## Step 1 — Confirm discoverable location
 
-Add a row to `.github/skills/find-package-skill/SKILL.md` in the **Package Skills** table:
+Package skills are discovered automatically by `find-package-skill`, which looks
+for a `.github/skills/` directory **inside the package directory**. There is no
+central registry to update — placement *is* registration.
 
-```markdown
-| `@azure/<package-name>` or `@azure-rest/<package-name>` | `sdk/<service>/<package>/.github/skills/<skill-name>/SKILL.md` |
+Verify the skill lives at:
+
 ```
+sdk/<service>/<package>/.github/skills/<skill-name>/SKILL.md
+```
+
+If it's there, it will be discovered for that package. No further wiring needed.
 
 ## Step 2 — Summary
 
@@ -21,7 +27,7 @@ Print a summary of everything created:
 | SKILL.md | `sdk/<service>/<package-name>/.github/skills/<skill-name>/SKILL.md` | Created |
 | architecture.md | `...references/architecture.md` | Created/Skipped |
 | customization.md | `...references/customization.md` | Created/Skipped |
-| find-package-skill | `.github/skills/find-package-skill/SKILL.md` | Updated |
+| find-package-skill | discovers automatically via package `.github/skills/` | No action |
 | vally lint | 3/3 checks | Passed |
 
 **Next steps for the service team:**
@@ -36,6 +42,6 @@ Print a summary of everything created:
 
 ## Step 3 — CONFIRM
 
-Question: "Register the skill in find-package-skill now (recommended), or skip?"
+Question: "The skill is in place and will be discovered automatically. Anything else to adjust?"
 
-📍 **Phase 4 complete** | Skill registered | Wizard done 🎉
+📍 **Phase 4 complete** | Skill in place and discoverable | Wizard done 🎉
