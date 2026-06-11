@@ -86,7 +86,7 @@ describe("CustomerSDKStatsMetrics", () => {
   });
 
   describe("countDroppedItems", () => {
-    it("should store drop.reason for CLIENT_EXCEPTION drop code", () => {
+    it("should store dropReason for CLIENT_EXCEPTION drop code", () => {
       const exceptionMessage = "Network connection timeout";
 
       customerSDKStatsMetrics.countDroppedItems(
@@ -111,7 +111,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(successMap.get(null)).toBe(5);
     });
 
-    it("should not store drop.reason for CLIENT_EXCEPTION when message not provided", () => {
+    it("should not store dropReason for CLIENT_EXCEPTION when message not provided", () => {
       customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(3, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
@@ -133,7 +133,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(successMap.get(null)).toBe(3);
     });
 
-    it("should NOT store drop.reason for non-CLIENT_EXCEPTION drop codes", () => {
+    it("should NOT store dropReason for non-CLIENT_EXCEPTION drop codes", () => {
       const exceptionMessage = "Some error message";
 
       customerSDKStatsMetrics.countDroppedItems(
@@ -158,7 +158,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(successMap.get(null)).toBe(2);
     });
 
-    it("should store correct drop.reason for CLIENT_STORAGE_DISABLED drop code", () => {
+    it("should store correct dropReason for CLIENT_STORAGE_DISABLED drop code", () => {
       customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(3, TelemetryType.TRACE),
         DropCode.CLIENT_STORAGE_DISABLED,
@@ -250,7 +250,7 @@ describe("CustomerSDKStatsMetrics", () => {
   });
 
   describe("countRetryItems", () => {
-    it("should store retry.reason for CLIENT_EXCEPTION retry code", () => {
+    it("should store retryReason for CLIENT_EXCEPTION retry code", () => {
       const exceptionMessage = "Retry due to connection error";
 
       customerSDKStatsMetrics.countRetryItems(
@@ -273,7 +273,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(reasonMap.get("Network exception")).toBe(3);
     });
 
-    it("should not store retry.reason for CLIENT_EXCEPTION when message not provided", () => {
+    it("should not store retryReason for CLIENT_EXCEPTION when message not provided", () => {
       customerSDKStatsMetrics.countRetryItems(
         createMockEnvelopes(2, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
@@ -293,7 +293,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(reasonMap.get("Client exception")).toBe(2);
     });
 
-    it("should not store retry.reason for non-CLIENT_EXCEPTION retry codes", () => {
+    it("should not store retryReason for non-CLIENT_EXCEPTION retry codes", () => {
       const exceptionMessage = "Some retry message";
 
       customerSDKStatsMetrics.countRetryItems(
@@ -346,7 +346,7 @@ describe("CustomerSDKStatsMetrics", () => {
   });
 
   describe("Observable Callbacks", () => {
-    it("should include drop.reason in drop count metrics when present", () => {
+    it("should include dropReason in drop count metrics when present", () => {
       // Test that a 403 status code sets the drop code to the number 403
       customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(5, TelemetryType.TRACE, 403),
@@ -365,17 +365,17 @@ describe("CustomerSDKStatsMetrics", () => {
 
       expect(mockObservableResult.observe).toHaveBeenCalledTimes(1);
 
-      // Check that drop.code is set to 403 (numeric) and drop.reason is "Forbidden"
+      // Check that dropCode is set to 403 (numeric) and dropReason is "Forbidden"
       const statusCodeCall = mockObservableResult.observe.mock.calls.find(
-        (call: any) => call[2]["drop.code"] === 403,
+        (call: any) => call[2]["dropCode"] === 403,
       );
       expect(statusCodeCall).toBeDefined();
-      expect(statusCodeCall![2]).toHaveProperty("drop.code", 403);
-      expect(statusCodeCall![2]).toHaveProperty("drop.reason", "Forbidden");
+      expect(statusCodeCall![2]).toHaveProperty("dropCode", 403);
+      expect(statusCodeCall![2]).toHaveProperty("dropReason", "Forbidden");
       expect(statusCodeCall![1]).toBe(5); // Count should be 5
     });
 
-    it("should include retry.reason in retry count metrics when present", () => {
+    it("should include retryReason in retry count metrics when present", () => {
       // Add entries with different scenarios
       customerSDKStatsMetrics.countRetryItems(
         createMockEnvelopes(4, TelemetryType.TRACE),
@@ -399,19 +399,19 @@ describe("CustomerSDKStatsMetrics", () => {
 
       expect(mockObservableResult.observe).toHaveBeenCalledTimes(2);
 
-      // Check that retry.reason is included for CLIENT_EXCEPTION
+      // Check that retryReason is included for CLIENT_EXCEPTION
       const clientExceptionCall = mockObservableResult.observe.mock.calls.find(
-        (call: any) => call[2]["retry.code"] === RetryCode.CLIENT_EXCEPTION,
+        (call: any) => call[2]["retryCode"] === RetryCode.CLIENT_EXCEPTION,
       );
       expect(clientExceptionCall).toBeDefined();
-      expect(clientExceptionCall![2]).toHaveProperty("retry.reason", "Client exception");
+      expect(clientExceptionCall![2]).toHaveProperty("retryReason", "Client exception");
 
-      // Check that retry.reason is included for other codes too (now)
+      // Check that retryReason is included for other codes too (now)
       const retryableCall = mockObservableResult.observe.mock.calls.find(
-        (call: any) => call[2]["retry.code"] === 502,
+        (call: any) => call[2]["retryCode"] === 502,
       );
       expect(retryableCall).toBeDefined();
-      expect(retryableCall![2]).toHaveProperty("retry.reason", "Bad gateway");
+      expect(retryableCall![2]).toHaveProperty("retryReason", "Bad gateway");
     });
 
     it("should reset counts to zero after observation", () => {
@@ -464,7 +464,7 @@ describe("CustomerSDKStatsMetrics", () => {
     });
   });
   describe("Drop Reason Integration Tests", () => {
-    it("should capture drop.reason in statsbeat when drop code is CLIENT_EXCEPTION", () => {
+    it("should capture dropReason in statsbeat when drop code is CLIENT_EXCEPTION", () => {
       const testErrorMessage = "Network connection failed";
 
       // Count dropped items with CLIENT_EXCEPTION and exception message
@@ -474,7 +474,7 @@ describe("CustomerSDKStatsMetrics", () => {
         testErrorMessage,
       );
 
-      // Verify the internal counter stores the telemetry_type
+      // Verify the internal counter stores the telemetryType
       const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
 
@@ -489,7 +489,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(integrationSuccessMap).toBeDefined();
       expect(integrationSuccessMap.get(null)).toBe(5);
 
-      // Test the observable callback includes drop.reason in attributes
+      // Test the observable callback includes dropReason in attributes
       const mockObservableResult = {
         observe: vi.fn(),
       };
@@ -498,13 +498,13 @@ describe("CustomerSDKStatsMetrics", () => {
         customerSDKStatsMetrics,
       );
       dropCallback(mockObservableResult);
-      // Should observe the metric with drop.reason attribute
+      // Should observe the metric with dropReason attribute
       expect(mockObservableResult.observe).toHaveBeenCalledWith(
         expect.any(Object), // The observable gauge
         5,
         expect.objectContaining({
-          "drop.code": DropCode.CLIENT_EXCEPTION,
-          "drop.reason": "Network exception",
+          dropCode: DropCode.CLIENT_EXCEPTION,
+          dropReason: "Network exception",
           language: expect.any(String),
           version: expect.any(String),
           computeType: expect.any(String),
@@ -512,7 +512,7 @@ describe("CustomerSDKStatsMetrics", () => {
       );
     });
 
-    it("should capture retry.reason in statsbeat when retry code is CLIENT_EXCEPTION", () => {
+    it("should capture retryReason in statsbeat when retry code is CLIENT_EXCEPTION", () => {
       const testErrorMessage = "Connection timeout during retry";
 
       // Count retry items with CLIENT_EXCEPTION and exception message
@@ -535,7 +535,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(reasonMap.size).toBe(1);
       expect(reasonMap.get("Timeout exception")).toBe(3);
 
-      // Test the observable callback includes retry.reason in attributes
+      // Test the observable callback includes retryReason in attributes
       const mockObservableResult = {
         observe: vi.fn(),
       };
@@ -544,13 +544,13 @@ describe("CustomerSDKStatsMetrics", () => {
         customerSDKStatsMetrics,
       );
       retryCallback(mockObservableResult);
-      // Should observe the metric with retry.reason attribute
+      // Should observe the metric with retryReason attribute
       expect(mockObservableResult.observe).toHaveBeenCalledWith(
         expect.any(Object), // The observable gauge
         3,
         expect.objectContaining({
-          "retry.code": RetryCode.CLIENT_EXCEPTION,
-          "retry.reason": "Timeout exception",
+          retryCode: RetryCode.CLIENT_EXCEPTION,
+          retryReason: "Timeout exception",
           language: expect.any(String),
           version: expect.any(String),
           computeType: expect.any(String),
@@ -558,7 +558,7 @@ describe("CustomerSDKStatsMetrics", () => {
       );
     });
 
-    it("should NOT capture drop.reason for non-CLIENT_EXCEPTION codes even when provided", () => {
+    it("should NOT capture dropReason for non-CLIENT_EXCEPTION codes even when provided", () => {
       const testErrorMessage = "Some error message";
 
       // Test dropped items with non-CLIENT_EXCEPTION code (using 500 status code)
@@ -582,7 +582,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(nonClientExceptionSuccessMap).toBeDefined();
       expect(nonClientExceptionSuccessMap.get(null)).toBe(2);
 
-      // Test observable callback does not include drop.reason
+      // Test observable callback does not include dropReason
       const mockObservableResult = {
         observe: vi.fn(),
       };
@@ -595,7 +595,7 @@ describe("CustomerSDKStatsMetrics", () => {
         expect.any(Object), // The observable gauge
         2,
         expect.objectContaining({
-          "drop.code": 500,
+          dropCode: 500,
           language: expect.any(String),
           version: expect.any(String),
           computeType: expect.any(String),
@@ -640,8 +640,8 @@ describe("CustomerSDKStatsMetrics", () => {
         expect.any(Object), // The observable gauge
         3,
         expect.objectContaining({
-          "drop.code": DropCode.CLIENT_EXCEPTION,
-          "drop.reason": "Timeout exception",
+          dropCode: DropCode.CLIENT_EXCEPTION,
+          dropReason: "Timeout exception",
           language: expect.any(String),
           version: expect.any(String),
           computeType: expect.any(String),
@@ -652,8 +652,8 @@ describe("CustomerSDKStatsMetrics", () => {
         expect.any(Object), // The observable gauge
         2,
         expect.objectContaining({
-          "retry.code": RetryCode.CLIENT_EXCEPTION,
-          "retry.reason": "Client exception",
+          retryCode: RetryCode.CLIENT_EXCEPTION,
+          retryReason: "Client exception",
           language: expect.any(String),
           version: expect.any(String),
           computeType: expect.any(String),
@@ -703,8 +703,8 @@ describe("CustomerSDKStatsMetrics", () => {
         expect.any(Object), // The observable gauge
         5,
         expect.objectContaining({
-          "drop.code": DropCode.CLIENT_EXCEPTION,
-          "drop.reason": "Network exception",
+          dropCode: DropCode.CLIENT_EXCEPTION,
+          dropReason: "Network exception",
           language: expect.any(String),
           version: expect.any(String),
           computeType: expect.any(String),
@@ -713,7 +713,7 @@ describe("CustomerSDKStatsMetrics", () => {
     });
   });
 
-  describe("telemetry_success functionality", () => {
+  describe("telemetrySuccess functionality", () => {
     it("should track successful REQUEST telemetry items", () => {
       const requestEnvelopes = createMockEnvelopes(3, TelemetryType.REQUEST);
       customerSDKStatsMetrics.countSuccessfulItems(requestEnvelopes);
@@ -731,7 +731,7 @@ describe("CustomerSDKStatsMetrics", () => {
         expect.any(Object), // The observable gauge
         3,
         expect.objectContaining({
-          telemetry_type: TelemetryType.REQUEST,
+          telemetryType: TelemetryType.REQUEST,
           language: expect.any(String),
           version: expect.any(String),
           computeType: expect.any(String),
@@ -756,7 +756,7 @@ describe("CustomerSDKStatsMetrics", () => {
         expect.any(Object), // The observable gauge
         2,
         expect.objectContaining({
-          telemetry_type: TelemetryType.DEPENDENCY,
+          telemetryType: TelemetryType.DEPENDENCY,
           language: expect.any(String),
           version: expect.any(String),
           computeType: expect.any(String),
@@ -784,14 +784,14 @@ describe("CustomerSDKStatsMetrics", () => {
 
       // Check REQUEST telemetry
       const requestCall = mockObservableResult.observe.mock.calls.find(
-        (call: any) => call[2].telemetry_type === TelemetryType.REQUEST,
+        (call: any) => call[2].telemetryType === TelemetryType.REQUEST,
       );
       expect(requestCall).toBeDefined();
       expect(requestCall![1]).toBe(2); // Count should be 2
 
       // Check DEPENDENCY telemetry
       const dependencyCall = mockObservableResult.observe.mock.calls.find(
-        (call: any) => call[2].telemetry_type === TelemetryType.DEPENDENCY,
+        (call: any) => call[2].telemetryType === TelemetryType.DEPENDENCY,
       );
       expect(dependencyCall).toBeDefined();
       expect(dependencyCall![1]).toBe(1); // Count should be 1
@@ -817,14 +817,14 @@ describe("CustomerSDKStatsMetrics", () => {
 
       // Check TRACE telemetry
       const traceCall = mockObservableResult.observe.mock.calls.find(
-        (call: any) => call[2].telemetry_type === TelemetryType.TRACE,
+        (call: any) => call[2].telemetryType === TelemetryType.TRACE,
       );
       expect(traceCall).toBeDefined();
       expect(traceCall![1]).toBe(3); // Count should be 3
 
       // Check CUSTOM_EVENT telemetry
       const eventCall = mockObservableResult.observe.mock.calls.find(
-        (call: any) => call[2].telemetry_type === TelemetryType.CUSTOM_EVENT,
+        (call: any) => call[2].telemetryType === TelemetryType.CUSTOM_EVENT,
       );
       expect(eventCall).toBeDefined();
       expect(eventCall![1]).toBe(2); // Count should be 2
@@ -854,28 +854,28 @@ describe("CustomerSDKStatsMetrics", () => {
 
       // Check REQUEST telemetry
       const requestCall = mockObservableResult.observe.mock.calls.find(
-        (call: any) => call[2].telemetry_type === TelemetryType.REQUEST,
+        (call: any) => call[2].telemetryType === TelemetryType.REQUEST,
       );
       expect(requestCall).toBeDefined();
       expect(requestCall![1]).toBe(1); // Count should be 1
 
       // Check DEPENDENCY telemetry
       const dependencyCall = mockObservableResult.observe.mock.calls.find(
-        (call: any) => call[2].telemetry_type === TelemetryType.DEPENDENCY,
+        (call: any) => call[2].telemetryType === TelemetryType.DEPENDENCY,
       );
       expect(dependencyCall).toBeDefined();
       expect(dependencyCall![1]).toBe(2); // Count should be 2
 
       // Check TRACE telemetry
       const traceCall = mockObservableResult.observe.mock.calls.find(
-        (call: any) => call[2].telemetry_type === TelemetryType.TRACE,
+        (call: any) => call[2].telemetryType === TelemetryType.TRACE,
       );
       expect(traceCall).toBeDefined();
       expect(traceCall![1]).toBe(10); // Count should be 10
 
       // Check CUSTOM_EVENT telemetry
       const eventCall = mockObservableResult.observe.mock.calls.find(
-        (call: any) => call[2].telemetry_type === TelemetryType.CUSTOM_EVENT,
+        (call: any) => call[2].telemetryType === TelemetryType.CUSTOM_EVENT,
       );
       expect(eventCall).toBeDefined();
       expect(eventCall![1]).toBe(5); // Count should be 5
@@ -899,7 +899,7 @@ describe("CustomerSDKStatsMetrics", () => {
         expect.any(Object),
         2,
         expect.objectContaining({
-          telemetry_type: TelemetryType.REQUEST,
+          telemetryType: TelemetryType.REQUEST,
         }),
       );
 
@@ -911,7 +911,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(mockObservableResult.observe).not.toHaveBeenCalled();
     });
 
-    describe("dropped telemetry telemetry_success field marking", () => {
+    describe("dropped telemetry telemetrySuccess field marking", () => {
       // Helper function to create mock envelopes with specific success values
       function createMockEnvelopesWithSuccess(
         count: number,
@@ -959,7 +959,7 @@ describe("CustomerSDKStatsMetrics", () => {
         return envelopes;
       }
 
-      it("should mark telemetry_success as true for dropped REQUEST envelopes with success=true", () => {
+      it("should mark telemetrySuccess as true for dropped REQUEST envelopes with success=true", () => {
         const successfulRequestEnvelopes = createMockEnvelopesWithSuccess(
           2,
           TelemetryType.REQUEST,
@@ -983,14 +983,14 @@ describe("CustomerSDKStatsMetrics", () => {
           expect.any(Object),
           2,
           expect.objectContaining({
-            telemetry_type: TelemetryType.REQUEST,
-            "drop.code": DropCode.CLIENT_EXCEPTION,
-            telemetry_success: true,
+            telemetryType: TelemetryType.REQUEST,
+            dropCode: DropCode.CLIENT_EXCEPTION,
+            telemetrySuccess: true,
           }),
         );
       });
 
-      it("should mark telemetry_success as false for dropped REQUEST envelopes with success=false", () => {
+      it("should mark telemetrySuccess as false for dropped REQUEST envelopes with success=false", () => {
         const failedRequestEnvelopes = createMockEnvelopesWithSuccess(
           3,
           TelemetryType.REQUEST,
@@ -1011,14 +1011,14 @@ describe("CustomerSDKStatsMetrics", () => {
           expect.any(Object),
           3,
           expect.objectContaining({
-            telemetry_type: TelemetryType.REQUEST,
-            "drop.code": DropCode.UNKNOWN,
-            telemetry_success: false,
+            telemetryType: TelemetryType.REQUEST,
+            dropCode: DropCode.UNKNOWN,
+            telemetrySuccess: false,
           }),
         );
       });
 
-      it("should mark telemetry_success as true for dropped DEPENDENCY envelopes with success=true", () => {
+      it("should mark telemetrySuccess as true for dropped DEPENDENCY envelopes with success=true", () => {
         const successfulDependencyEnvelopes = createMockEnvelopesWithSuccess(
           4,
           TelemetryType.DEPENDENCY,
@@ -1042,14 +1042,14 @@ describe("CustomerSDKStatsMetrics", () => {
           expect.any(Object),
           4,
           expect.objectContaining({
-            telemetry_type: TelemetryType.DEPENDENCY,
-            "drop.code": DropCode.CLIENT_STORAGE_DISABLED,
-            telemetry_success: true,
+            telemetryType: TelemetryType.DEPENDENCY,
+            dropCode: DropCode.CLIENT_STORAGE_DISABLED,
+            telemetrySuccess: true,
           }),
         );
       });
 
-      it("should mark telemetry_success as false for dropped DEPENDENCY envelopes with success=false", () => {
+      it("should mark telemetrySuccess as false for dropped DEPENDENCY envelopes with success=false", () => {
         const failedDependencyEnvelopes = createMockEnvelopesWithSuccess(
           1,
           TelemetryType.DEPENDENCY,
@@ -1073,14 +1073,14 @@ describe("CustomerSDKStatsMetrics", () => {
           expect.any(Object),
           1,
           expect.objectContaining({
-            telemetry_type: TelemetryType.DEPENDENCY,
-            "drop.code": DropCode.CLIENT_STORAGE_DISABLED,
-            telemetry_success: false,
+            telemetryType: TelemetryType.DEPENDENCY,
+            dropCode: DropCode.CLIENT_STORAGE_DISABLED,
+            telemetrySuccess: false,
           }),
         );
       });
 
-      it("should not include telemetry_success for dropped REQUEST envelopes with undefined success", () => {
+      it("should not include telemetrySuccess for dropped REQUEST envelopes with undefined success", () => {
         const requestEnvelopesWithoutSuccess = createMockEnvelopesWithSuccess(
           2,
           TelemetryType.REQUEST,
@@ -1100,23 +1100,23 @@ describe("CustomerSDKStatsMetrics", () => {
         );
         dropCallback(mockObservableResult);
 
-        // Should call observe but without telemetry_success since success is undefined
+        // Should call observe but without telemetrySuccess since success is undefined
         expect(mockObservableResult.observe).toHaveBeenCalledWith(
           expect.any(Object),
           2,
           expect.objectContaining({
-            telemetry_type: TelemetryType.REQUEST,
-            "drop.code": DropCode.CLIENT_EXCEPTION,
+            telemetryType: TelemetryType.REQUEST,
+            dropCode: DropCode.CLIENT_EXCEPTION,
           }),
         );
 
-        // Verify telemetry_success is NOT included in the attributes
+        // Verify telemetrySuccess is NOT included in the attributes
         const observeCall = mockObservableResult.observe.mock.calls[0];
         const attributes = observeCall[2];
-        expect(attributes).not.toHaveProperty("telemetry_success");
+        expect(attributes).not.toHaveProperty("telemetrySuccess");
       });
 
-      it("should not include telemetry_success for dropped DEPENDENCY envelopes with undefined success", () => {
+      it("should not include telemetrySuccess for dropped DEPENDENCY envelopes with undefined success", () => {
         const dependencyEnvelopesWithoutSuccess = createMockEnvelopesWithSuccess(
           3,
           TelemetryType.DEPENDENCY,
@@ -1136,23 +1136,23 @@ describe("CustomerSDKStatsMetrics", () => {
         );
         dropCallback(mockObservableResult);
 
-        // Should call observe but without telemetry_success since success is undefined
+        // Should call observe but without telemetrySuccess since success is undefined
         expect(mockObservableResult.observe).toHaveBeenCalledWith(
           expect.any(Object),
           3,
           expect.objectContaining({
-            telemetry_type: TelemetryType.DEPENDENCY,
-            "drop.code": DropCode.UNKNOWN,
+            telemetryType: TelemetryType.DEPENDENCY,
+            dropCode: DropCode.UNKNOWN,
           }),
         );
 
-        // Verify telemetry_success is NOT included in the attributes
+        // Verify telemetrySuccess is NOT included in the attributes
         const observeCall = mockObservableResult.observe.mock.calls[0];
         const attributes = observeCall[2];
-        expect(attributes).not.toHaveProperty("telemetry_success");
+        expect(attributes).not.toHaveProperty("telemetrySuccess");
       });
 
-      it("should not include telemetry_success for dropped non-REQUEST/DEPENDENCY telemetry types", () => {
+      it("should not include telemetrySuccess for dropped non-REQUEST/DEPENDENCY telemetry types", () => {
         const traceEnvelopes = createMockEnvelopes(2, TelemetryType.TRACE);
         const eventEnvelopes = createMockEnvelopes(1, TelemetryType.CUSTOM_EVENT);
 
@@ -1170,19 +1170,19 @@ describe("CustomerSDKStatsMetrics", () => {
 
         expect(mockObservableResult.observe).toHaveBeenCalledTimes(2);
 
-        // Check TRACE telemetry - should not have telemetry_success
+        // Check TRACE telemetry - should not have telemetrySuccess
         const traceCall = mockObservableResult.observe.mock.calls.find(
-          (call: any) => call[2].telemetry_type === TelemetryType.TRACE,
+          (call: any) => call[2].telemetryType === TelemetryType.TRACE,
         );
         expect(traceCall).toBeDefined();
-        expect(traceCall![2]).not.toHaveProperty("telemetry_success");
+        expect(traceCall![2]).not.toHaveProperty("telemetrySuccess");
 
-        // Check CUSTOM_EVENT telemetry - should not have telemetry_success
+        // Check CUSTOM_EVENT telemetry - should not have telemetrySuccess
         const eventCall = mockObservableResult.observe.mock.calls.find(
-          (call: any) => call[2].telemetry_type === TelemetryType.CUSTOM_EVENT,
+          (call: any) => call[2].telemetryType === TelemetryType.CUSTOM_EVENT,
         );
         expect(eventCall).toBeDefined();
-        expect(eventCall![2]).not.toHaveProperty("telemetry_success");
+        expect(eventCall![2]).not.toHaveProperty("telemetrySuccess");
       });
 
       it("should handle mixed success states for multiple dropped REQUEST envelopes", () => {
@@ -1216,39 +1216,39 @@ describe("CustomerSDKStatsMetrics", () => {
 
         // Find and verify successful envelopes call
         const successCall = mockObservableResult.observe.mock.calls.find(
-          (call: any) => call[2]["drop.code"] === DropCode.CLIENT_EXCEPTION,
+          (call: any) => call[2]["dropCode"] === DropCode.CLIENT_EXCEPTION,
         );
         expect(successCall).toBeDefined();
         expect(successCall![1]).toBe(2); // count
         expect(successCall![2]).toMatchObject({
-          telemetry_type: TelemetryType.REQUEST,
-          "drop.code": DropCode.CLIENT_EXCEPTION,
-          telemetry_success: true,
+          telemetryType: TelemetryType.REQUEST,
+          dropCode: DropCode.CLIENT_EXCEPTION,
+          telemetrySuccess: true,
         });
 
         // Find and verify failed envelopes call
         const failedCall = mockObservableResult.observe.mock.calls.find(
-          (call: any) => call[2]["drop.code"] === DropCode.UNKNOWN,
+          (call: any) => call[2]["dropCode"] === DropCode.UNKNOWN,
         );
         expect(failedCall).toBeDefined();
         expect(failedCall![1]).toBe(3); // count
         expect(failedCall![2]).toMatchObject({
-          telemetry_type: TelemetryType.REQUEST,
-          "drop.code": DropCode.UNKNOWN,
-          telemetry_success: false,
+          telemetryType: TelemetryType.REQUEST,
+          dropCode: DropCode.UNKNOWN,
+          telemetrySuccess: false,
         });
 
         // Find and verify undefined success envelopes call
         const undefinedCall = mockObservableResult.observe.mock.calls.find(
-          (call: any) => call[2]["drop.code"] === DropCode.CLIENT_STORAGE_DISABLED,
+          (call: any) => call[2]["dropCode"] === DropCode.CLIENT_STORAGE_DISABLED,
         );
         expect(undefinedCall).toBeDefined();
         expect(undefinedCall![1]).toBe(1); // count
         expect(undefinedCall![2]).toMatchObject({
-          telemetry_type: TelemetryType.REQUEST,
-          "drop.code": DropCode.CLIENT_STORAGE_DISABLED,
+          telemetryType: TelemetryType.REQUEST,
+          dropCode: DropCode.CLIENT_STORAGE_DISABLED,
         });
-        expect(undefinedCall![2]).not.toHaveProperty("telemetry_success");
+        expect(undefinedCall![2]).not.toHaveProperty("telemetrySuccess");
       });
 
       it("should handle mixed success states for multiple dropped DEPENDENCY envelopes", () => {
@@ -1286,39 +1286,39 @@ describe("CustomerSDKStatsMetrics", () => {
 
         // Find and verify successful envelopes call
         const successCall = mockObservableResult.observe.mock.calls.find(
-          (call: any) => call[2]["drop.code"] === DropCode.CLIENT_STORAGE_DISABLED,
+          (call: any) => call[2]["dropCode"] === DropCode.CLIENT_STORAGE_DISABLED,
         );
         expect(successCall).toBeDefined();
         expect(successCall![1]).toBe(1); // count
         expect(successCall![2]).toMatchObject({
-          telemetry_type: TelemetryType.DEPENDENCY,
-          "drop.code": DropCode.CLIENT_STORAGE_DISABLED,
-          telemetry_success: true,
+          telemetryType: TelemetryType.DEPENDENCY,
+          dropCode: DropCode.CLIENT_STORAGE_DISABLED,
+          telemetrySuccess: true,
         });
 
         // Find and verify failed envelopes call
         const failedCall = mockObservableResult.observe.mock.calls.find(
-          (call: any) => call[2]["drop.code"] === DropCode.CLIENT_EXCEPTION,
+          (call: any) => call[2]["dropCode"] === DropCode.CLIENT_EXCEPTION,
         );
         expect(failedCall).toBeDefined();
         expect(failedCall![1]).toBe(2); // count
         expect(failedCall![2]).toMatchObject({
-          telemetry_type: TelemetryType.DEPENDENCY,
-          "drop.code": DropCode.CLIENT_EXCEPTION,
-          telemetry_success: false,
+          telemetryType: TelemetryType.DEPENDENCY,
+          dropCode: DropCode.CLIENT_EXCEPTION,
+          telemetrySuccess: false,
         });
 
         // Find and verify undefined success envelopes call
         const undefinedCall = mockObservableResult.observe.mock.calls.find(
-          (call: any) => call[2]["drop.code"] === DropCode.CLIENT_READONLY,
+          (call: any) => call[2]["dropCode"] === DropCode.CLIENT_READONLY,
         );
         expect(undefinedCall).toBeDefined();
         expect(undefinedCall![1]).toBe(4); // count
         expect(undefinedCall![2]).toMatchObject({
-          telemetry_type: TelemetryType.DEPENDENCY,
-          "drop.code": DropCode.CLIENT_READONLY,
+          telemetryType: TelemetryType.DEPENDENCY,
+          dropCode: DropCode.CLIENT_READONLY,
         });
-        expect(undefinedCall![2]).not.toHaveProperty("telemetry_success");
+        expect(undefinedCall![2]).not.toHaveProperty("telemetrySuccess");
       });
     });
   });

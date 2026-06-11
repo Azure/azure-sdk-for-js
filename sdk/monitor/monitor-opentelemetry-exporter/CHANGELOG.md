@@ -6,6 +6,8 @@
 
 ### Breaking Changes
 
+- Renamed customer SDK Stats attribute keys to camelCase to align with the [Customer Facing SDK Stats spec](https://github.com/aep-health-and-standards/Telemetry-Collection-Spec/pull/963): `drop.code` → `dropCode`, `drop.reason` → `dropReason`, `retry.code` → `retryCode`, `retry.reason` → `retryReason`, `telemetry_type` → `telemetryType`, `telemetry_success` → `telemetrySuccess`.
+
 ### Bugs Fixed
 
 - Refuse to follow server-issued 307/308 redirects whose `Location` header points outside the configured ingestion host or the known Azure Monitor / Application Insights ingestion domain suffixes. Previously a single attacker-controlled redirect could permanently re-point the exporter at a foreign host, causing every subsequent telemetry call (and the AAD bearer token attached by the auth policy) to be sent to the attacker.
