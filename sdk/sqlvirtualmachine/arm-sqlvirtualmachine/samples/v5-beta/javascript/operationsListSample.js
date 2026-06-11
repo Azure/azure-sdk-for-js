@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlVirtualMachineClient } = require("@azure/arm-sqlvirtualmachine");
+const { SqlVirtualMachineManagementClient } = require("@azure/arm-sqlvirtualmachine");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -12,7 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  */
 async function listsAllOfTheAvailableSQLVirtualMachineRestAPIOperations() {
   const credential = new DefaultAzureCredential();
-  const client = new SqlVirtualMachineClient(credential);
+  const client = new SqlVirtualMachineManagementClient(credential);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);

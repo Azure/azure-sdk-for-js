@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlVirtualMachineClient } = require("@azure/arm-sqlvirtualmachine");
+const { SqlVirtualMachineManagementClient } = require("@azure/arm-sqlvirtualmachine");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function createsOrUpdatesASQLVirtualMachineForAutomatedBackUpSettingsWithWeeklyAndDaysOfTheWeekToRunTheBackUp() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlVirtualMachineClient(credential, subscriptionId);
+  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
   const result = await client.sqlVirtualMachines.createOrUpdate("testrg", "testvm", {
     location: "northeurope",
     autoBackupSettings: {
@@ -67,7 +67,7 @@ async function createsOrUpdatesASQLVirtualMachineForAutomatedBackUpSettingsWithW
 async function createsOrUpdatesASQLVirtualMachineWithMaxParameters() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlVirtualMachineClient(credential, subscriptionId);
+  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
   const result = await client.sqlVirtualMachines.createOrUpdate("testrg", "testvm", {
     location: "northeurope",
     assessmentSettings: {
@@ -155,7 +155,7 @@ async function createsOrUpdatesASQLVirtualMachineWithMaxParameters() {
 async function createsOrUpdatesASQLVirtualMachineWithMinParameters() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlVirtualMachineClient(credential, subscriptionId);
+  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
   const result = await client.sqlVirtualMachines.createOrUpdate("testrg", "testvm", {
     location: "northeurope",
     virtualMachineResourceId:
@@ -173,7 +173,7 @@ async function createsOrUpdatesASQLVirtualMachineWithMinParameters() {
 async function createsOrUpdatesASQLVirtualMachineForStorageConfigurationSettingsToExtendDataLogOrTempDBStoragePool() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlVirtualMachineClient(credential, subscriptionId);
+  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
   const result = await client.sqlVirtualMachines.createOrUpdate("testrg", "testvm", {
     location: "northeurope",
     storageConfigurationSettings: {
@@ -195,7 +195,7 @@ async function createsOrUpdatesASQLVirtualMachineForStorageConfigurationSettings
 async function createsOrUpdatesASQLVirtualMachineForStorageConfigurationSettingsToNEWDataLogAndTempDBStoragePool() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlVirtualMachineClient(credential, subscriptionId);
+  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
   const result = await client.sqlVirtualMachines.createOrUpdate("testrg", "testvm", {
     location: "northeurope",
     storageConfigurationSettings: {
@@ -228,7 +228,7 @@ async function createsOrUpdatesASQLVirtualMachineForStorageConfigurationSettings
 async function createsOrUpdatesASQLVirtualMachineToEnableTheUsageOfVirtualMachineManagedIdentity() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlVirtualMachineClient(credential, subscriptionId);
+  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
   const result = await client.sqlVirtualMachines.createOrUpdate("testrg", "testvm", {
     location: "northeurope",
     virtualMachineIdentitySettings: {
@@ -251,7 +251,7 @@ async function createsOrUpdatesASQLVirtualMachineToEnableTheUsageOfVirtualMachin
 async function createsOrUpdatesASQLVirtualMachineAndJoinsItToASQLVirtualMachineGroup() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlVirtualMachineClient(credential, subscriptionId);
+  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
   const result = await client.sqlVirtualMachines.createOrUpdate("testrg", "testvm", {
     location: "northeurope",
     sqlVirtualMachineGroupResourceId:

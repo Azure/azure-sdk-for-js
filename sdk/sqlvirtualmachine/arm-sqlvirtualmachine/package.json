@@ -163,7 +163,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/api/sqlVirtualMachineContext.ts",
+        "path": "src/api/sqlVirtualMachineManagementContext.ts",
         "prefix": "userAgentInfo"
       }
     ]

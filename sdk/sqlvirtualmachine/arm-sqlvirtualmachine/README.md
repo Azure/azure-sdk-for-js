@@ -1,6 +1,6 @@
-# Azure SqlVirtualMachine client library for JavaScript
+# Azure SqlVirtualMachineManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure SqlVirtualMachine client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure SqlVirtualMachineManagement client.
 
 The SQL virtual machine management API provides a RESTful set of web APIs that interact with Azure Compute, Network & Storage services to manage your SQL Server virtual machine. The API enables users to create, delete and retrieve a SQL virtual machine, SQL virtual machine group or availability group listener.
 
@@ -26,16 +26,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-sqlvirtualmachine` package
 
-Install the Azure SqlVirtualMachine client library for JavaScript with `npm`:
+Install the Azure SqlVirtualMachineManagement client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-sqlvirtualmachine
 ```
 
-### Create and authenticate a `SqlVirtualMachineClient`
+### Create and authenticate a `SqlVirtualMachineManagementClient`
 
-To create a client object to access the Azure SqlVirtualMachine API, you will need the `endpoint` of your Azure SqlVirtualMachine resource and a `credential`. The Azure SqlVirtualMachine client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure SqlVirtualMachine resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure SqlVirtualMachineManagement API, you will need the `endpoint` of your Azure SqlVirtualMachineManagement resource and a `credential`. The Azure SqlVirtualMachineManagement client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure SqlVirtualMachineManagement resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -45,32 +45,32 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to Azure SqlVirtualMachine** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to Azure SqlVirtualMachineManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { SqlVirtualMachineClient } from "@azure/arm-sqlvirtualmachine";
+import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new SqlVirtualMachineClient(new DefaultAzureCredential(), subscriptionId);
+const client = new SqlVirtualMachineManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { SqlVirtualMachineClient } from "@azure/arm-sqlvirtualmachine";
+import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new SqlVirtualMachineClient(credential, subscriptionId);
+const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
 ```
 
 
@@ -79,9 +79,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### SqlVirtualMachineClient
+### SqlVirtualMachineManagementClient
 
-`SqlVirtualMachineClient` is the primary interface for developers using the Azure SqlVirtualMachine client library. Explore the methods on this client object to understand the different features of the Azure SqlVirtualMachine service that you can access.
+`SqlVirtualMachineManagementClient` is the primary interface for developers using the Azure SqlVirtualMachineManagement client library. Explore the methods on this client object to understand the different features of the Azure SqlVirtualMachineManagement service that you can access.
 
 ## Troubleshooting
 

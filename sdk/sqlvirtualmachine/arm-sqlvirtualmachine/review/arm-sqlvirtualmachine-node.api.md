@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
@@ -128,6 +129,14 @@ export interface AvailabilityGroupListenersListByGroupOptionalParams extends Ope
 
 // @public
 export interface AvailabilityGroupListenersOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, parameters: AvailabilityGroupListener, options?: AvailabilityGroupListenersCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AvailabilityGroupListener>, AvailabilityGroupListener>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, parameters: AvailabilityGroupListener, options?: AvailabilityGroupListenersCreateOrUpdateOptionalParams) => Promise<AvailabilityGroupListener>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, options?: AvailabilityGroupListenersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, options?: AvailabilityGroupListenersDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, parameters: AvailabilityGroupListener, options?: AvailabilityGroupListenersCreateOrUpdateOptionalParams) => PollerLike<OperationState<AvailabilityGroupListener>, AvailabilityGroupListener>;
     delete: (resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, options?: AvailabilityGroupListenersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, options?: AvailabilityGroupListenersGetOptionalParams) => Promise<AvailabilityGroupListener>;
@@ -329,8 +338,8 @@ export enum KnownOperationOrigin {
 
 // @public
 export enum KnownReadableSecondary {
-    All = "All",
-    No = "No",
+    ALL = "All",
+    NO = "No",
     ReadOnly = "Read_Only"
 }
 
@@ -497,7 +506,7 @@ export interface ResourceIdentity {
 export { RestError }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: SqlVirtualMachineClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: SqlVirtualMachineManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
@@ -529,6 +538,28 @@ export interface ServerConfigurationsManagementSettings {
     sqlInstanceSettings?: SQLInstanceSettings;
     sqlStorageUpdateSettings?: SqlStorageUpdateSettings;
     sqlWorkloadTypeUpdateSettings?: SqlWorkloadTypeUpdateSettings;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -613,24 +644,6 @@ export interface SqlVirtualMachine extends TrackedResource {
     wsfcStaticIp?: string;
 }
 
-// @public (undocumented)
-export class SqlVirtualMachineClient {
-    constructor(credential: TokenCredential, options?: SqlVirtualMachineClientOptionalParams);
-    constructor(credential: TokenCredential, subscriptionId: string, options?: SqlVirtualMachineClientOptionalParams);
-    readonly availabilityGroupListeners: AvailabilityGroupListenersOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-    readonly sqlVirtualMachineGroups: SqlVirtualMachineGroupsOperations;
-    readonly sqlVirtualMachines: SqlVirtualMachinesOperations;
-    readonly sqlVirtualMachineTroubleshoot: SqlVirtualMachineTroubleshootOperations;
-}
-
-// @public
-export interface SqlVirtualMachineClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
-}
-
 // @public
 export interface SqlVirtualMachineGroup extends TrackedResource {
     readonly clusterConfiguration?: ClusterConfiguration;
@@ -677,6 +690,18 @@ export interface SqlVirtualMachineGroupsListOptionalParams extends OperationOpti
 
 // @public
 export interface SqlVirtualMachineGroupsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, sqlVirtualMachineGroupName: string, parameters: SqlVirtualMachineGroup, options?: SqlVirtualMachineGroupsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SqlVirtualMachineGroup>, SqlVirtualMachineGroup>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, sqlVirtualMachineGroupName: string, parameters: SqlVirtualMachineGroup, options?: SqlVirtualMachineGroupsCreateOrUpdateOptionalParams) => Promise<SqlVirtualMachineGroup>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: SqlVirtualMachineGroupsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: SqlVirtualMachineGroupsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, sqlVirtualMachineGroupName: string, parameters: SqlVirtualMachineGroupUpdate, options?: SqlVirtualMachineGroupsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SqlVirtualMachineGroup>, SqlVirtualMachineGroup>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, sqlVirtualMachineGroupName: string, parameters: SqlVirtualMachineGroupUpdate, options?: SqlVirtualMachineGroupsUpdateOptionalParams) => Promise<SqlVirtualMachineGroup>;
     createOrUpdate: (resourceGroupName: string, sqlVirtualMachineGroupName: string, parameters: SqlVirtualMachineGroup, options?: SqlVirtualMachineGroupsCreateOrUpdateOptionalParams) => PollerLike<OperationState<SqlVirtualMachineGroup>, SqlVirtualMachineGroup>;
     delete: (resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: SqlVirtualMachineGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: SqlVirtualMachineGroupsGetOptionalParams) => Promise<SqlVirtualMachineGroup>;
@@ -693,6 +718,24 @@ export interface SqlVirtualMachineGroupsUpdateOptionalParams extends OperationOp
 // @public
 export interface SqlVirtualMachineGroupUpdate {
     tags?: Record<string, string>;
+}
+
+// @public (undocumented)
+export class SqlVirtualMachineManagementClient {
+    constructor(credential: TokenCredential, options?: SqlVirtualMachineManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: SqlVirtualMachineManagementClientOptionalParams);
+    readonly availabilityGroupListeners: AvailabilityGroupListenersOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly sqlVirtualMachineGroups: SqlVirtualMachineGroupsOperations;
+    readonly sqlVirtualMachines: SqlVirtualMachinesOperations;
+    readonly sqlVirtualMachineTroubleshoot: SqlVirtualMachineTroubleshootOperations;
+}
+
+// @public
+export interface SqlVirtualMachineManagementClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -754,6 +797,30 @@ export interface SqlVirtualMachinesListOptionalParams extends OperationOptions {
 
 // @public
 export interface SqlVirtualMachinesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVirtualMachine, options?: SqlVirtualMachinesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SqlVirtualMachine>, SqlVirtualMachine>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVirtualMachine, options?: SqlVirtualMachinesCreateOrUpdateOptionalParams) => Promise<SqlVirtualMachine>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginFetchDCAssessment: (resourceGroupName: string, sqlVirtualMachineName: string, parameters: DiskConfigAssessmentRequest, options?: SqlVirtualMachinesFetchDCAssessmentOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginFetchDCAssessmentAndWait: (resourceGroupName: string, sqlVirtualMachineName: string, parameters: DiskConfigAssessmentRequest, options?: SqlVirtualMachinesFetchDCAssessmentOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRedeploy: (resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesRedeployOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRedeployAndWait: (resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesRedeployOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStartAssessment: (resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesStartAssessmentOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartAssessmentAndWait: (resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesStartAssessmentOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVirtualMachineUpdate, options?: SqlVirtualMachinesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SqlVirtualMachine>, SqlVirtualMachine>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVirtualMachineUpdate, options?: SqlVirtualMachinesUpdateOptionalParams) => Promise<SqlVirtualMachine>;
     createOrUpdate: (resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVirtualMachine, options?: SqlVirtualMachinesCreateOrUpdateOptionalParams) => PollerLike<OperationState<SqlVirtualMachine>, SqlVirtualMachine>;
     delete: (resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     fetchDCAssessment: (resourceGroupName: string, sqlVirtualMachineName: string, parameters: DiskConfigAssessmentRequest, options?: SqlVirtualMachinesFetchDCAssessmentOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -783,6 +850,10 @@ export interface SqlVirtualMachinesUpdateOptionalParams extends OperationOptions
 
 // @public
 export interface SqlVirtualMachineTroubleshootOperations {
+    // @deprecated (undocumented)
+    beginTroubleshoot: (resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVmTroubleshooting, options?: SqlVirtualMachineTroubleshootTroubleshootOptionalParams) => Promise<SimplePollerLike<OperationState<SqlVmTroubleshooting>, SqlVmTroubleshooting>>;
+    // @deprecated (undocumented)
+    beginTroubleshootAndWait: (resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVmTroubleshooting, options?: SqlVirtualMachineTroubleshootTroubleshootOptionalParams) => Promise<SqlVmTroubleshooting>;
     troubleshoot: (resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVmTroubleshooting, options?: SqlVirtualMachineTroubleshootTroubleshootOptionalParams) => PollerLike<OperationState<SqlVmTroubleshooting>, SqlVmTroubleshooting>;
 }
 

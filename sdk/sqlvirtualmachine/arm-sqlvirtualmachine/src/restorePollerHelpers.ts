@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlVirtualMachineClient } from "./sqlVirtualMachineClient.js";
+import type { SqlVirtualMachineManagementClient } from "./sqlVirtualMachineManagementClient.js";
 import { _troubleshootDeserialize } from "./api/sqlVirtualMachineTroubleshoot/operations.js";
 import {
   _$deleteDeserialize,
@@ -46,7 +46,7 @@ export interface RestorePollerOptions<
  * needs to be constructed after the original one is not in scope.
  */
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
-  client: SqlVirtualMachineClient,
+  client: SqlVirtualMachineManagementClient,
   serializedState: string,
   sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export type {
-  SqlVirtualMachineContext,
-  SqlVirtualMachineClientOptionalParams,
-} from "./sqlVirtualMachineContext.js";
-export { createSqlVirtualMachine } from "./sqlVirtualMachineContext.js";
+  SqlVirtualMachineManagementContext,
+  SqlVirtualMachineManagementClientOptionalParams,
+} from "./sqlVirtualMachineManagementContext.js";
+export { createSqlVirtualMachineManagement } from "./sqlVirtualMachineManagementContext.js";

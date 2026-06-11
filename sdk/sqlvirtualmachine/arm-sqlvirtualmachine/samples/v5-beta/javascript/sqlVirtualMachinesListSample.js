@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlVirtualMachineClient } = require("@azure/arm-sqlvirtualmachine");
+const { SqlVirtualMachineManagementClient } = require("@azure/arm-sqlvirtualmachine");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function getsAllSQLVirtualMachinesInASubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlVirtualMachineClient(credential, subscriptionId);
+  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.sqlVirtualMachines.list()) {
     resArray.push(item);

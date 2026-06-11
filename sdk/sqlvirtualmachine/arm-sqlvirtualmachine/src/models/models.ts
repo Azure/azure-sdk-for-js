@@ -518,9 +518,9 @@ export type Failover = string;
 /** Replica readable secondary mode in availability group. */
 export enum KnownReadableSecondary {
   /** No */
-  No = "No",
+  NO = "No",
   /** All */
-  All = "All",
+  ALL = "All",
   /** Read_Only */
   ReadOnly = "Read_Only",
 }

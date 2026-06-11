@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import type {
-  SqlVirtualMachineContext,
-  SqlVirtualMachineClientOptionalParams,
+  SqlVirtualMachineManagementContext,
+  SqlVirtualMachineManagementClientOptionalParams,
 } from "./api/index.js";
-import { createSqlVirtualMachine } from "./api/index.js";
+import { createSqlVirtualMachineManagement } from "./api/index.js";
 import type { AvailabilityGroupListenersOperations } from "./classic/availabilityGroupListeners/index.js";
 import { _getAvailabilityGroupListenersOperations } from "./classic/availabilityGroupListeners/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
@@ -19,24 +19,27 @@ import { _getSqlVirtualMachinesOperations } from "./classic/sqlVirtualMachines/i
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export type { SqlVirtualMachineClientOptionalParams } from "./api/sqlVirtualMachineContext.js";
+export type { SqlVirtualMachineManagementClientOptionalParams } from "./api/sqlVirtualMachineManagementContext.js";
 
-export class SqlVirtualMachineClient {
-  private _client: SqlVirtualMachineContext;
+export class SqlVirtualMachineManagementClient {
+  private _client: SqlVirtualMachineManagementContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  constructor(credential: TokenCredential, options?: SqlVirtualMachineClientOptionalParams);
+  constructor(
+    credential: TokenCredential,
+    options?: SqlVirtualMachineManagementClientOptionalParams,
+  );
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options?: SqlVirtualMachineClientOptionalParams,
+    options?: SqlVirtualMachineManagementClientOptionalParams,
   );
   /** The SQL virtual machine management API provides a RESTful set of web APIs that interact with Azure Compute, Network & Storage services to manage your SQL Server virtual machine. The API enables users to create, delete and retrieve a SQL virtual machine, SQL virtual machine group or availability group listener. */
   constructor(
     credential: TokenCredential,
-    subscriptionIdOrOptions?: string | SqlVirtualMachineClientOptionalParams,
-    options?: SqlVirtualMachineClientOptionalParams,
+    subscriptionIdOrOptions?: string | SqlVirtualMachineManagementClientOptionalParams,
+    options?: SqlVirtualMachineManagementClientOptionalParams,
   ) {
     let subscriptionId: string | undefined;
 
@@ -51,7 +54,7 @@ export class SqlVirtualMachineClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createSqlVirtualMachine(credential, subscriptionId ?? "", {
+    this._client = createSqlVirtualMachineManagement(credential, subscriptionId ?? "", {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

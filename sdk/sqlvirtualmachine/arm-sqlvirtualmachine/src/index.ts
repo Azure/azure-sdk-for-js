@@ -9,7 +9,8 @@ import type {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { SqlVirtualMachineClient } from "./sqlVirtualMachineClient.js";
+export { SqlVirtualMachineManagementClient } from "./sqlVirtualMachineManagementClient.js";
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
@@ -120,7 +121,7 @@ export {
   KnownClusterSubnetType,
   KnownVersions,
 } from "./models/index.js";
-export type { SqlVirtualMachineClientOptionalParams } from "./api/index.js";
+export type { SqlVirtualMachineManagementClientOptionalParams } from "./api/index.js";
 export type {
   AvailabilityGroupListenersListByGroupOptionalParams,
   AvailabilityGroupListenersDeleteOptionalParams,
