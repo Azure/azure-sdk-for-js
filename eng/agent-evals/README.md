@@ -238,6 +238,16 @@ These bit us during initial setup; preserved so you don't hit them again.
   Vally's globbing graders follow those into the entire repo and loop
   indefinitely. Use Strategy A (git worktree, no node_modules) instead,
   or explicitly list subdirectories that exclude `node_modules/`.
+- **Agents may spontaneously run `pnpm install` to verify their work.**
+  Even with a `git worktree` environment (no pre-installed
+  node_modules), a well-behaved agent may decide to run
+  `pnpm install --frozen-lockfile && pnpm turbo build ...` to verify
+  the edit compiles. This populates `node_modules/` with pnpm
+  symlinks mid-run, and grading then hangs for the same reason as the
+  bullet above. For file-edit evals using globbing graders, explicitly
+  tell the agent NOT to run pnpm install / build / test in the
+  stimulus. Long-term fix is upstream in vally — `globFiles` should
+  set `followSymbolicLinks: false`.
 - **Model names are case-sensitive** and must match what the Copilot
   CLI's model registry knows. `claude-sonnet-4.5` is verified working.
   `GPT-5.5` (uppercase) fails; use `gpt-5.5`. The default model id for

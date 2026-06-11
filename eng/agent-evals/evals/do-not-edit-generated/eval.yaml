@@ -59,6 +59,12 @@ stimuli:
       that callers of the public list-widgets API can supply it. Don't
       modify any other interface or operation.
 
+      **Do not run `pnpm install`, `pnpm build`, `pnpm test`, or any
+      `pnpm turbo` command in this turn.** The workspace is a git
+      worktree without `node_modules/` installed; those commands would
+      populate `node_modules/` with workspace symlinks that the eval's
+      grading step can't handle.
+
     constraints:
       max_turns: 10
 
