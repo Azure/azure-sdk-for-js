@@ -12,7 +12,8 @@ on:
 description: |
   Weekly agent observability report for Azure/azure-sdk-for-js. Posts a
   structured comment on the long-lived tracking issue identified by repo
-  variable AGENT_OBSERVABILITY_ISSUE. Measures Tier 1 (leading indicators)
+  variable AGENT_OBSERVABILITY_ISSUE (hardcoded to #38930 in this
+  prototype). Measures Tier 1 (leading indicators)
   from the AI-Forward Starter Kit plus Copilot Code Review reaction quality.
 permissions:
   contents: read
@@ -26,7 +27,7 @@ tools:
 safe-outputs:
   add-comment:
     max: 1
-    target: ${{ vars.AGENT_OBSERVABILITY_ISSUE }}
+    target: "38930"   # tracking issue (prototype). TODO: move to repo var AGENT_OBSERVABILITY_ISSUE
     hide-older-comments: true
     footer: false
 ---
@@ -35,7 +36,8 @@ safe-outputs:
 
 You are producing the weekly agent-observability report for
 `Azure/azure-sdk-for-js`. The report is a single comment posted on the
-tracking issue identified by repo variable `AGENT_OBSERVABILITY_ISSUE`.
+tracking issue #38930 (in this prototype the number is hardcoded; it
+will later move to repo variable `AGENT_OBSERVABILITY_ISSUE`).
 
 The goal of this workflow is **measurement, not action**. Do not open
 PRs, do not edit files, do not file new issues. Your only output is the
