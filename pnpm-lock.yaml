@@ -13532,6 +13532,12 @@ importers:
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
+      '@azure/arm-network':
+        specifier: ^36.0.0
+        version: link:../../network/arm-network
+      '@azure/arm-storage':
+        specifier: ^20.0.0
+        version: link:../../storage/arm-storage
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth

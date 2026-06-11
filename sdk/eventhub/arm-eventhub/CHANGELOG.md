@@ -77,8 +77,6 @@ Compared with version 5.2.0
   - Operation ApplicationGroupOperations.createOrUpdateApplicationGroup has a new signature
   - Operation ApplicationGroupOperations.get has a new signature
   - Operation NetworkSecurityPerimeterConfigurations.beginCreateOrUpdateAndWait has a new signature
-  - Class EventHubManagementClient no longer has parameter apiVersion
-  - Class EventHubManagementClient no longer has parameter subscriptionId
   - Removed Interface ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams
   - Removed Interface ApplicationGroupDeleteOptionalParams
   - Removed Interface ApplicationGroupGetOptionalParams
