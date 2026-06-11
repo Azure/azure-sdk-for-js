@@ -195,7 +195,7 @@ export interface StreamToGroupOptions {
   /**
    * Optional stream idle timeout in milliseconds.
    */
-  idleTimeoutMs?: number;
+  idleTimeoutInMs?: number;
 }
 
 /**
@@ -209,9 +209,9 @@ export interface SendStreamDataOptions {
 }
 
 /**
- * Send stream keepalive options.
+ * Send stream keepAlive options.
  */
-export interface SendStreamKeepaliveOptions {
+export interface SendStreamKeepAliveOptions {
   /**
    * Optional abort signal.
    */
@@ -233,9 +233,9 @@ export interface EndStreamOptions {
 }
 
 /**
- * Stream publisher abstraction for sending one logical stream.
+ * Group stream publisher abstraction for sending one logical stream to a group.
  */
-export interface StreamPublisher {
+export interface GroupStreamPublisher {
   /**
    * Stream identifier.
    */
@@ -249,9 +249,9 @@ export interface StreamPublisher {
     options?: SendStreamDataOptions,
   ): Promise<void>;
   /**
-   * Send stream keepalive.
+   * Send stream keepAlive.
    */
-  keepalive(options?: SendStreamKeepaliveOptions): Promise<void>;
+  keepAlive(options?: SendStreamKeepAliveOptions): Promise<void>;
   /**
    * Complete the stream.
    */
@@ -436,7 +436,7 @@ export interface OnGroupStreamOptions {
    * `IdleTimeout` error; sibling streams of the same handler are unaffected.
    * Default: 300000 (5 minutes).
    */
-  ttlInMs?: number;
+  idleTimeoutInMs?: number;
   /**
    * Whether to require the first observed fragment of a stream to start at
    * `streamSequenceId === 1`, evaluated independently per stream (identified by

@@ -5,8 +5,8 @@
 ### Features Added
 
 - Added client-side support for group message streaming (preview):
-  - Added `streamToGroup` to `WebPubSubClient`, which returns a `StreamPublisher` for sending a single logical stream to a group as ordered fragments via `publish`, with `keepalive` and `complete` operations.
-  - Added `onGroupStream` / `offGroupStream` to register and remove per-stream handlers (`GroupStreamHandler`) that consume inbound group streams. Each `onGroupStream` registration accepts optional `OnGroupStreamOptions` (`ttlInMs`, `handleFromStart`) whose effects apply independently to each stream.
+  - Added `streamToGroup` to `WebPubSubClient`, which returns a `GroupStreamPublisher` for sending a single logical stream to a group as ordered fragments via `publish`, with `keepAlive` and `complete` operations.
+  - Added `onGroupStream` / `offGroupStream` to register and remove per-stream handlers (`GroupStreamHandler`) that consume inbound group streams. Each `onGroupStream` registration accepts optional `OnGroupStreamOptions` (`idleTimeoutInMs`, `handleFromStart`) whose effects apply independently to each stream.
 
 ### Breaking Changes
 

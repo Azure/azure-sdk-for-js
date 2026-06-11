@@ -6,7 +6,7 @@ import { delay } from "@azure/core-util";
 import { logger } from "./logger.js";
 import type {
   EndStreamOptions,
-  SendStreamKeepaliveOptions,
+  SendStreamKeepAliveOptions,
   StreamDataError,
 } from "./models/index.js";
 import type { JSONTypes, WebPubSubDataType } from "./models/messages.js";
@@ -36,7 +36,7 @@ const SEND_RETRY_MAX_DELAY_MS = 5000;
 export interface OutboundStreamSessionOptions {
   streamId: string;
   groupName: string;
-  idleTimeoutMs?: number;
+  idleTimeoutInMs?: number;
   canSend(): boolean;
   sendStart(): Promise<void>;
   sendData(
@@ -45,13 +45,13 @@ export interface OutboundStreamSessionOptions {
     dataType: WebPubSubDataType,
   ): Promise<void>;
   sendEnd(options?: EndStreamOptions): Promise<void>;
-  sendKeepalive(options?: SendStreamKeepaliveOptions): Promise<void>;
+  sendKeepAlive(options?: SendStreamKeepAliveOptions): Promise<void>;
 }
 
 export class OutboundStreamSession {
   public readonly streamId: string;
   public readonly groupName: string;
-  public readonly idleTimeoutMs?: number;
+  public readonly idleTimeoutInMs?: number;
 
   private readonly _queue: AsyncSeqQueue<OutboundStreamAction>;
   private readonly _errorHandlers: Set<(error: StreamDataError) => void>;
@@ -65,7 +65,7 @@ export class OutboundStreamSession {
     dataType: WebPubSubDataType,
   ) => Promise<void>;
   private readonly _sendEnd: (options?: EndStreamOptions) => Promise<void>;
-  private readonly _sendKeepalive: (options?: SendStreamKeepaliveOptions) => Promise<void>;
+  private readonly _sendKeepAlive: (options?: SendStreamKeepAliveOptions) => Promise<void>;
 
   private _started = false;
   private _writeClosed = false;
@@ -77,7 +77,7 @@ export class OutboundStreamSession {
   constructor(options: OutboundStreamSessionOptions) {
     this.streamId = options.streamId;
     this.groupName = options.groupName;
-    this.idleTimeoutMs = options.idleTimeoutMs;
+    this.idleTimeoutInMs = options.idleTimeoutInMs;
     this._queue = new AsyncSeqQueue<OutboundStreamAction>();
     this._errorHandlers = new Set<(error: StreamDataError) => void>();
     this._pendingActionCompletions = new Map<number, Deferred<void>>();
@@ -87,7 +87,7 @@ export class OutboundStreamSession {
     this._sendStart = options.sendStart;
     this._sendData = options.sendData;
     this._sendEnd = options.sendEnd;
-    this._sendKeepalive = options.sendKeepalive;
+    this._sendKeepAlive = options.sendKeepAlive;
 
     void this._runSendLoop();
   }
@@ -130,15 +130,15 @@ export class OutboundStreamSession {
     await this._waitForActionCompletion(completion.promise, abortSignal);
   }
 
-  public async keepalive(options?: SendStreamKeepaliveOptions): Promise<void> {
+  public async keepAlive(options?: SendStreamKeepAliveOptions): Promise<void> {
     this._throwIfClosed();
     if (this._paused || !this._canSend()) {
       throw new Error(
-        `Stream '${this.streamId}' cannot send keepalive while connection is unavailable.`,
+        `Stream '${this.streamId}' cannot send keepAlive while connection is unavailable.`,
       );
     }
 
-    await this._sendKeepalive(options);
+    await this._sendKeepAlive(options);
   }
 
   public async complete(options?: EndStreamOptions): Promise<void> {

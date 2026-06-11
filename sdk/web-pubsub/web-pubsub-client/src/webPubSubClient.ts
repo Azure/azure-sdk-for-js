@@ -27,12 +27,12 @@ import type {
   InvokeEventResult,
   StreamToGroupOptions,
   SendStreamDataOptions,
-  SendStreamKeepaliveOptions,
+  SendStreamKeepAliveOptions,
   EndStreamOptions,
   OnGroupStreamArgs,
   GroupStreamHandler,
   OnGroupStreamOptions,
-  StreamPublisher,
+  GroupStreamPublisher,
 } from "./models/index.js";
 import type {
   ConnectedMessage,
@@ -327,7 +327,7 @@ export class WebPubSubClient {
    * gives every stream its own independent state.
    *
    * The optional `options` apply only to this registration, so different
-   * handlers may use different `ttlInMs` / `handleFromStart` values.
+   * handlers may use different `idleTimeoutInMs` / `handleFromStart` values.
    * @param factory - Per-stream factory returning a `GroupStreamHandler`.
    * @param options - Per-handler options controlling how this handler's streams are tracked.
    */
@@ -691,7 +691,7 @@ export class WebPubSubClient {
   public async streamToGroup(
     groupName: string,
     options?: StreamToGroupOptions,
-  ): Promise<StreamPublisher> {
+  ): Promise<GroupStreamPublisher> {
     const streamId = options?.streamId ?? this._generateOutboundStreamId();
     if (this._outboundStreams.has(streamId)) {
       throw new Error(`Stream '${streamId}' already exists.`);
@@ -700,18 +700,18 @@ export class WebPubSubClient {
     const session = new OutboundStreamSession({
       streamId,
       groupName,
-      idleTimeoutMs: options?.idleTimeoutMs,
+      idleTimeoutInMs: options?.idleTimeoutInMs,
       canSend: () => this._canSendStreamTraffic(),
       sendStart: async () =>
         this._sendStreamStart(streamId, groupName, {
           noEcho: options?.noEcho,
-          idleTimeoutMs: options?.idleTimeoutMs,
+          idleTimeoutInMs: options?.idleTimeoutInMs,
         }),
       sendData: async (sequenceId, content, dataType) =>
         this._sendStreamData(streamId, sequenceId, content, dataType),
       sendEnd: async (endOptions) => this._sendStreamEnd(streamId, endOptions),
-      sendKeepalive: async (keepaliveOptions) =>
-        this._sendStreamKeepalive(streamId, keepaliveOptions),
+      sendKeepAlive: async (keepAliveOptions) =>
+        this._sendStreamKeepAlive(streamId, keepAliveOptions),
     });
     this._outboundStreams.set(streamId, session);
 
@@ -732,8 +732,8 @@ export class WebPubSubClient {
       ): Promise<void> => {
         await session.publish(content, dataType, sendOptions?.abortSignal);
       },
-      keepalive: async (keepaliveOptions?: SendStreamKeepaliveOptions): Promise<void> => {
-        await session.keepalive(keepaliveOptions);
+      keepAlive: async (keepAliveOptions?: SendStreamKeepAliveOptions): Promise<void> => {
+        await session.keepAlive(keepAliveOptions);
       },
       complete: async (endOptions?: EndStreamOptions): Promise<void> => {
         await session.complete(endOptions);
@@ -1381,7 +1381,7 @@ export class WebPubSubClient {
       noEcho: options?.noEcho ?? false,
       stream: {
         streamId,
-        idleTimeoutMs: options?.idleTimeoutMs,
+        idleTimeoutInMs: options?.idleTimeoutInMs,
       },
     };
     await this._sendMessage(message);
@@ -1403,9 +1403,9 @@ export class WebPubSubClient {
     await this._sendMessage(message);
   }
 
-  private async _sendStreamKeepalive(
+  private async _sendStreamKeepAlive(
     streamId: string,
-    options?: SendStreamKeepaliveOptions,
+    options?: SendStreamKeepAliveOptions,
   ): Promise<void> {
     const message: StreamDataMessage = {
       kind: "streamData",

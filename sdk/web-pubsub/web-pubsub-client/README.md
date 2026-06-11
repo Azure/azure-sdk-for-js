@@ -140,7 +140,7 @@ await publisher.publish("world", "text");
 await publisher.complete();
 ```
 
-`onGroupStream` registers a factory that returns a `GroupStreamHandler` for every observed stream; pass the same factory reference to `offGroupStream` to unregister it. `streamToGroup` returns a `StreamPublisher` you use to `publish` fragments, send `keepalive`, and `complete` the stream.
+`onGroupStream` registers a factory that returns a `GroupStreamHandler` for every observed stream; pass the same factory reference to `offGroupStream` to unregister it. `streamToGroup` returns a `GroupStreamPublisher` you use to `publish` fragments, send `keepAlive`, and `complete` the stream.
 
 ---
 

@@ -261,7 +261,7 @@ describe("WebPubSubClient", () => {
 
       const stream = await client.streamToGroup("groupName", {
         streamId: "stream1",
-        idleTimeoutMs: 15000,
+        idleTimeoutInMs: 15000,
       });
       await stream.publish("chunk1", "text");
       await stream.publish("chunk2", "text");
@@ -274,7 +274,7 @@ describe("WebPubSubClient", () => {
         noEcho: false,
         stream: {
           streamId: "stream1",
-          idleTimeoutMs: 15000,
+          idleTimeoutInMs: 15000,
         },
       });
       expect(mock).toHaveBeenNthCalledWith(2, {
@@ -318,7 +318,7 @@ describe("WebPubSubClient", () => {
         noEcho: true,
         stream: {
           streamId: "stream-noecho-true",
-          idleTimeoutMs: undefined,
+          idleTimeoutInMs: undefined,
         },
       });
     });
@@ -385,7 +385,7 @@ describe("WebPubSubClient", () => {
         noEcho: false,
         stream: {
           streamId: "stream1",
-          idleTimeoutMs: undefined,
+          idleTimeoutInMs: undefined,
         },
       });
       expect(mock).toHaveBeenNthCalledWith(2, {
@@ -394,7 +394,7 @@ describe("WebPubSubClient", () => {
         noEcho: false,
         stream: {
           streamId: "stream1",
-          idleTimeoutMs: undefined,
+          idleTimeoutInMs: undefined,
         },
       });
       expect(mock).toHaveBeenNthCalledWith(3, {

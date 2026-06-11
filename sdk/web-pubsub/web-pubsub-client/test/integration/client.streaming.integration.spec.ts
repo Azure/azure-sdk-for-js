@@ -309,7 +309,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
 
     const stream = await sender.streamToGroup(group, {
       streamId: `s-service-expire-${ts}`,
-      idleTimeoutMs: 300,
+      idleTimeoutInMs: 300,
     });
     stream.onError((error) => senderError.resolve({ name: error.name, message: error.message }));
 
@@ -361,7 +361,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
           },
         };
       },
-      { ttlInMs: 200, handleFromStart: false },
+      { idleTimeoutInMs: 200, handleFromStart: false },
     );
 
     await startSenderReceiverInGroup(sender, receiver, group);
@@ -427,7 +427,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
           },
         };
       },
-      { ttlInMs: 200, handleFromStart: true },
+      { idleTimeoutInMs: 200, handleFromStart: true },
     );
 
     await startSenderReceiverInGroup(sender, receiver, group);

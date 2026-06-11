@@ -430,7 +430,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
               },
             };
           },
-          { handleFromStart: true, ttlInMs: 2000 },
+          { handleFromStart: true, idleTimeoutInMs: 2000 },
         );
       }),
       2000,
@@ -506,7 +506,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
               },
             };
           },
-          { ttlInMs: 120, handleFromStart: true },
+          { idleTimeoutInMs: 120, handleFromStart: true },
         );
       }),
       2000,
@@ -624,7 +624,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
           },
         };
       },
-      { ttlInMs: 400 },
+      { idleTimeoutInMs: 400 },
     );
 
     // Both streams start in the same group at seq 1.
@@ -937,7 +937,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     expect(invoked).toBe(false);
   });
 
-  it("sends sendToGroup stream-start, streamData, keepalive and streamEnd payloads via stream publisher", async () => {
+  it("sends sendToGroup stream-start, streamData, keepAlive and streamEnd payloads via stream publisher", async () => {
     client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
@@ -952,9 +952,9 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     });
 
     enableAutoStartAck(socket);
-    const stream = await client.streamToGroup("g1", { streamId: "s1", idleTimeoutMs: 15000 });
+    const stream = await client.streamToGroup("g1", { streamId: "s1", idleTimeoutInMs: 15000 });
     await stream.publish("chunk-1", "text");
-    await stream.keepalive();
+    await stream.keepAlive();
     await stream.complete({
       error: { message: "detail", userErrorCode: "app" },
     });
@@ -1001,7 +1001,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     });
   });
 
-  it("fails stream keepalive when disconnected", async () => {
+  it("fails stream keepAlive when disconnected", async () => {
     client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
@@ -1023,8 +1023,8 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     socket.close();
     await new Promise<void>((resolve) => setTimeout(resolve, 50));
 
-    await expect(stream.keepalive()).rejects.toThrow(
-      "cannot send keepalive while connection is unavailable",
+    await expect(stream.keepAlive()).rejects.toThrow(
+      "cannot send keepAlive while connection is unavailable",
     );
   });
 

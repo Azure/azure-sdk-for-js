@@ -11,7 +11,7 @@ import type {
 } from "./models/index.js";
 import type { GroupDataMessage, StreamDataError, StreamInfo } from "./models/messages.js";
 
-const DEFAULT_TTL_IN_MS = 300000;
+const DEFAULT_IDLE_TIMEOUT_IN_MS = 300000;
 const DEFAULT_HANDLE_FROM_START = false;
 
 /**
@@ -25,11 +25,11 @@ export type GroupStreamFactory = (args: OnGroupStreamArgs) => GroupStreamHandler
  * and independent stream-tracking state, and encapsulates all per-handler
  * logic: starting or ignoring streams, emitting fragments and terminal events,
  * and enforcing the idle timeout. Each session observes streams in isolation,
- * so options like `ttlInMs` and `handleFromStart` only affect this handler.
+ * so options like `idleTimeoutInMs` and `handleFromStart` only affect this handler.
  */
 class GroupStreamSession {
   public readonly factory: GroupStreamFactory;
-  private readonly _ttlInMs: number;
+  private readonly _idleTimeoutInMs: number;
   private readonly _handleFromStart: boolean;
   // Active streams keyed by an encoded [group, streamId] tuple.
   private readonly _activeStreams = new Map<string, ActiveStream>();
@@ -39,7 +39,7 @@ class GroupStreamSession {
 
   constructor(factory: GroupStreamFactory, options?: OnGroupStreamOptions) {
     this.factory = factory;
-    this._ttlInMs = options?.ttlInMs ?? DEFAULT_TTL_IN_MS;
+    this._idleTimeoutInMs = options?.idleTimeoutInMs ?? DEFAULT_IDLE_TIMEOUT_IN_MS;
     this._handleFromStart = options?.handleFromStart ?? DEFAULT_HANDLE_FROM_START;
   }
 
@@ -177,7 +177,7 @@ class GroupStreamSession {
 
       const timeoutError: StreamDataError = {
         name: "IdleTimeout",
-        message: "Stream idle timeout: no data received within ttlInMs in client registry.",
+        message: "Stream idle timeout: no data received within idleTimeoutInMs in client registry.",
       };
       this._fireError(current.handler, {
         streamId: current.streamId,
@@ -186,7 +186,7 @@ class GroupStreamSession {
       });
       this._activeStreams.delete(active.key);
       this._activeTimeouts.delete(active.key);
-    }, this._ttlInMs);
+    }, this._idleTimeoutInMs);
 
     this._activeTimeouts.set(active.key, timeout);
   }

@@ -357,7 +357,7 @@ export interface StartStreamOptions {
   /**
    * Optional stream idle timeout in milliseconds.
    */
-  idleTimeoutMs?: number;
+  idleTimeoutInMs?: number;
 }
 
 /**

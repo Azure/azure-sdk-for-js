@@ -143,6 +143,15 @@ export interface GroupStreamHandler {
 }
 
 // @public
+export interface GroupStreamPublisher {
+    complete(options?: EndStreamOptions): Promise<void>;
+    keepAlive(options?: SendStreamKeepAliveOptions): Promise<void>;
+    onError(listener: (error: StreamDataError) => void): () => void;
+    publish(content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendStreamDataOptions): Promise<void>;
+    readonly streamId: string;
+}
+
+// @public
 export class InvocationError extends Error {
     constructor(message: string, options: InvocationErrorOptions);
     errorDetail?: InvokeResponseError;
@@ -266,7 +275,7 @@ export interface OnGroupStreamEndArgs {
 // @public
 export interface OnGroupStreamOptions {
     handleFromStart?: boolean;
-    ttlInMs?: number;
+    idleTimeoutInMs?: number;
 }
 
 // @public
@@ -333,7 +342,7 @@ export interface SendStreamDataOptions {
 }
 
 // @public
-export interface SendStreamKeepaliveOptions {
+export interface SendStreamKeepAliveOptions {
     abortSignal?: AbortSignalLike;
 }
 
@@ -385,7 +394,7 @@ export interface StartOptions {
 
 // @public
 export interface StartStreamOptions {
-    idleTimeoutMs?: number;
+    idleTimeoutInMs?: number;
     streamId: string;
 }
 
@@ -453,17 +462,8 @@ export interface StreamNackMessage extends WebPubSubMessageBase {
 }
 
 // @public
-export interface StreamPublisher {
-    complete(options?: EndStreamOptions): Promise<void>;
-    keepalive(options?: SendStreamKeepaliveOptions): Promise<void>;
-    onError(listener: (error: StreamDataError) => void): () => void;
-    publish(content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendStreamDataOptions): Promise<void>;
-    readonly streamId: string;
-}
-
-// @public
 export interface StreamToGroupOptions {
-    idleTimeoutMs?: number;
+    idleTimeoutInMs?: number;
     noEcho?: boolean;
     streamId?: string;
 }
@@ -562,7 +562,7 @@ export class WebPubSubClient {
     sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendToGroupOptions): Promise<WebPubSubResult>;
     start(options?: StartOptions): Promise<void>;
     stop(): void;
-    streamToGroup(groupName: string, options?: StreamToGroupOptions): Promise<StreamPublisher>;
+    streamToGroup(groupName: string, options?: StreamToGroupOptions): Promise<GroupStreamPublisher>;
 }
 
 // @public
