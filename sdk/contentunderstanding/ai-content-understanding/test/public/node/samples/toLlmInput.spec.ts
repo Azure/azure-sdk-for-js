@@ -158,7 +158,6 @@ describe("Sample: toLlmInput", () => {
     );
 
     // Page markers in the markdown body should use the original page numbers
-    // Page markers in the markdown body should use the original page numbers
     // (<!-- InputPageNumber: 2 -->, <!-- InputPageNumber: 3 -->, <!-- InputPageNumber: 5 -->),
     // not renumbered (1, 2, 3).
     assert(
