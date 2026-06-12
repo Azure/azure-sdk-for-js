@@ -428,7 +428,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/compute/arm-compute/      @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cloudhealth/arm-cloudhealth/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1043,13 +1043,13 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/imagebuilder/arm-imagebuilder/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/securityinsight/arm-securityinsight/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/oep/arm-oep/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/dnsresolver/arm-dnsresolver/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

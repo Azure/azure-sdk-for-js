@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a Entity
  *
  * @summary create a Entity
- * x-ms-original-file: 2025-05-01-preview/Entities_CreateOrUpdate.json
+ * x-ms-original-file: 2026-01-01-preview/Entities_CreateOrUpdate.json
  */
 async function entitiesCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
@@ -22,40 +22,85 @@ async function entitiesCreateOrUpdate() {
       properties: {
         displayName: "My entity",
         canvasPosition: { x: 14, y: 13 },
-        icon: {
-          iconName: "Custom",
-          customData: "rcitntvapruccrhtxmkqjphbxunkz",
-        },
+        icon: { iconName: "Custom", customData: "rcitntvapruccrhtxmkqjphbxunkz" },
         healthObjective: 62,
         impact: "Standard",
-        labels: { key1376: "ixfvzsfnpvkkbrce" },
-        signals: {
+        tags: { key1376: "sample tag" },
+        signalGroups: {
           azureResource: {
-            signalAssignments: [{ signalDefinitions: ["sigdef1"] }],
-            authenticationSetting: "B3P1X3e-FZtZ-4Ak-2VLHGQ-4m4-05DE-XNW5zW3P-46XY-DC3SSX",
+            authenticationSetting: "auth123",
             azureResourceId:
               "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1",
-          },
-          azureLogAnalytics: {
-            signalAssignments: [
+            azureResourceKind: "functionapp",
+            signals: [
               {
-                signalDefinitions: ["B3P1X3e-FZtZ-4Ak-2VLHGQ-4m4-05DE-XNW5zW3P-46XY-DC3SSX"],
+                name: "uniqueSignalName1",
+                signalDefinitionName: "sigdef1",
+                signalKind: "AzureResourceMetric",
+                metricNamespace: "microsoft.compute/virtualMachines",
+                metricName: "cpuusage",
+                aggregationType: "None",
+                dimension: "nodename",
+                dimensionFilter: "node1",
+                displayName: "CPU usage",
+                refreshInterval: "PT1M",
+                timeGrain: "PT1M",
+                dataUnit: "Count",
+                evaluationRules: {
+                  degradedRule: { operator: "LowerThan", threshold: 10 },
+                  unhealthyRule: { operator: "LowerThan", threshold: 1 },
+                },
               },
             ],
-            authenticationSetting: "B3P1X3e-FZtZ-4Ak-2VLHGQ-4m4-05DE-XNW5zW3P-46XY-DC3SSX",
+          },
+          azureLogAnalytics: {
+            authenticationSetting: "auth123",
             logAnalyticsWorkspaceResourceId:
               "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.OperationalInsights/workspaces/myworkspace",
+            signals: [
+              {
+                name: "uniqueSignalName2",
+                signalKind: "LogAnalyticsQuery",
+                evaluationRules: {
+                  degradedRule: { operator: "GreaterThan", threshold: 1 },
+                  unhealthyRule: { operator: "GreaterThan", threshold: 5 },
+                },
+                refreshInterval: "PT1M",
+                queryText: "print 1",
+                timeGrain: "PT30M",
+                valueColumnName: "result",
+                displayName: "Test LA signal",
+                dataUnit: "my unit",
+              },
+            ],
           },
           azureMonitorWorkspace: {
-            signalAssignments: [
-              { signalDefinitions: ["sigdef2"] },
-              { signalDefinitions: ["sigdef3"] },
-            ],
-            authenticationSetting: "B3P1X3e-FZtZ-4Ak-2VLHGQ-4m4-05DE-XNW5zW3P-46XY-DC3SSX",
+            authenticationSetting: "auth123",
             azureMonitorWorkspaceResourceId:
               "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.OperationalInsights/workspaces/myworkspace",
+            signals: [
+              {
+                name: "pod-cpu-usage",
+                signalDefinitionName: "PodCpuUsageDefinition",
+                signalKind: "PrometheusMetricsQuery",
+                displayName: "Pod CPU Usage",
+                refreshInterval: "PT1M",
+                dataUnit: "Percent",
+                queryText: 'rate(container_cpu_usage_seconds_total{pod=~"my-app-.*"}[5m]) * 100',
+                timeGrain: "PT5M",
+                evaluationRules: {
+                  degradedRule: { operator: "GreaterThan", threshold: 70 },
+                  unhealthyRule: { operator: "GreaterThan", threshold: 90 },
+                },
+              },
+            ],
           },
-          dependencies: { aggregationType: "WorstOf" },
+          dependencies: {
+            aggregationType: "MinHealthy",
+            unit: "Percentage",
+            degradedThreshold: 80,
+            unhealthyThreshold: 50,
+          },
         },
         alerts: {
           unhealthy: {

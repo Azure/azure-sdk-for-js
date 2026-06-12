@@ -1,31 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete setting of the product.
- *
- * @summary Delete setting of the product.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/settings/DeleteEyesOnSetting.json
- */
-
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to delete setting of the product.
+ *
+ * @summary delete setting of the product.
+ * x-ms-original-file: 2025-07-01-preview/settings/DeleteEyesOnSetting.json
+ */
 async function deleteEyesOnSettings(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const settingsName = "EyesOn";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.productSettings.delete(
-    resourceGroupName,
-    workspaceName,
-    settingsName,
-  );
-  console.log(result);
+  await client.productSettings.delete("myRg", "myWorkspace", "EyesOn");
 }
 
 async function main(): Promise<void> {
