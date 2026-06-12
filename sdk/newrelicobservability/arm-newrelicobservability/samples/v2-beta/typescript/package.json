@@ -2,7 +2,7 @@
   "name": "@azure-samples/arm-newrelicobservability-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": " client library samples for TypeScript (Beta)",
+  "description": "@azure/arm-newrelicobservability client library samples for TypeScript (Beta)",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -18,10 +18,10 @@
   "keywords": [
     "node",
     "azure",
+    "cloud",
     "typescript",
     "browser",
-    "isomorphic",
-    "cloud"
+    "isomorphic"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/newrelicobservability/arm-newrelicobservability",
   "dependencies": {
-    "@azure/arm-newrelicobservability": "next",
+    "@azure/arm-newrelicobservability": "beta",
     "dotenv": "latest",
     "@azure/identity": "^4.13.0"
   },
@@ -38,6 +38,6 @@
     "@types/node": "^20.0.0",
     "cross-env": "latest",
     "rimraf": "latest",
-    "typescript": "~5.9.3"
+    "typescript": "~6.0.2"
   }
 }

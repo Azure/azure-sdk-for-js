@@ -23,38 +23,38 @@ import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelper
 
 /** Interface representing a BetaSchedules operations. */
 export interface BetaSchedulesOperations {
-  /** List all schedule runs. */
+  /** Returns schedule runs that match the supplied filters. */
   listRuns: (
     scheduleId: string,
     foundryFeatures: "Schedules=V1Preview",
     options?: BetaSchedulesListRunsOptionalParams,
   ) => PagedAsyncIterableIterator<ScheduleRun>;
-  /** Get a schedule run by id. */
+  /** Retrieves the specified run for a schedule. */
   getRun: (
     scheduleId: string,
     runId: string,
     foundryFeatures: "Schedules=V1Preview",
     options?: BetaSchedulesGetRunOptionalParams,
   ) => Promise<ScheduleRun>;
-  /** Create or update operation template. */
+  /** Creates a new schedule or updates an existing schedule with the supplied definition. */
   createOrUpdate: (
     scheduleId: string,
     foundryFeatures: "Schedules=V1Preview",
     schedule: Schedule,
     options?: BetaSchedulesCreateOrUpdateOptionalParams,
   ) => Promise<Schedule>;
-  /** List all schedules. */
+  /** Returns schedules that match the supplied type and enabled filters. */
   list: (
     foundryFeatures: "Schedules=V1Preview",
     options?: BetaSchedulesListOptionalParams,
   ) => PagedAsyncIterableIterator<Schedule>;
-  /** Get a schedule by id. */
+  /** Retrieves the specified schedule resource. */
   get: (
     scheduleId: string,
     foundryFeatures: "Schedules=V1Preview",
     options?: BetaSchedulesGetOptionalParams,
   ) => Promise<Schedule>;
-  /** Delete a schedule. */
+  /** Deletes the specified schedule resource. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")

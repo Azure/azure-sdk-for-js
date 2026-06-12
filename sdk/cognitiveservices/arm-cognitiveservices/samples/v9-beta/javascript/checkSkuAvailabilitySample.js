@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to check available SKUs.
  *
  * @summary check available SKUs.
- * x-ms-original-file: 2026-01-15-preview/CheckSkuAvailability.json
+ * x-ms-original-file: 2026-03-15-preview/CheckSkuAvailability.json
  */
 async function checkSKUAvailability() {
   const credential = new DefaultAzureCredential();

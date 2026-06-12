@@ -2385,6 +2385,205 @@ export enum KnownModelLifecycleStatus {
  */
 export type ModelLifecycleStatus = string;
 
+/** Request body for the evaluateDeploymentPolicies action. */
+export interface EvaluateDeploymentPoliciesRequest {
+  /** The list of hypothetical deployments to evaluate against Azure Policy. */
+  deployments: EvaluateDeploymentPoliciesDeployment[];
+}
+
+export function evaluateDeploymentPoliciesRequestSerializer(
+  item: EvaluateDeploymentPoliciesRequest,
+): any {
+  return { deployments: evaluateDeploymentPoliciesDeploymentArraySerializer(item["deployments"]) };
+}
+
+export function evaluateDeploymentPoliciesDeploymentArraySerializer(
+  result: Array<EvaluateDeploymentPoliciesDeployment>,
+): any[] {
+  return result.map((item) => {
+    return evaluateDeploymentPoliciesDeploymentSerializer(item);
+  });
+}
+
+/** A hypothetical deployment definition used for policy dry-run evaluation. */
+export interface EvaluateDeploymentPoliciesDeployment {
+  /** The name of the hypothetical deployment. */
+  name: string;
+  /** Properties of the hypothetical deployment. */
+  properties: EvaluateDeploymentPoliciesDeploymentProperties;
+}
+
+export function evaluateDeploymentPoliciesDeploymentSerializer(
+  item: EvaluateDeploymentPoliciesDeployment,
+): any {
+  return {
+    name: item["name"],
+    properties: evaluateDeploymentPoliciesDeploymentPropertiesSerializer(item["properties"]),
+  };
+}
+
+/** Properties of a hypothetical deployment for policy evaluation. */
+export interface EvaluateDeploymentPoliciesDeploymentProperties {
+  /** The model to evaluate. */
+  model: DeploymentModel;
+  /** The name of the RAI policy to evaluate. */
+  raiPolicyName?: string;
+}
+
+export function evaluateDeploymentPoliciesDeploymentPropertiesSerializer(
+  item: EvaluateDeploymentPoliciesDeploymentProperties,
+): any {
+  return { model: deploymentModelSerializer(item["model"]), raiPolicyName: item["raiPolicyName"] };
+}
+
+/** Response body for the evaluateDeploymentPolicies action. */
+export interface EvaluateDeploymentPoliciesResponse {
+  /** Per-deployment policy evaluation results, keyed by deployment name. */
+  results?: Record<string, DeploymentPolicyEvaluationResult>;
+}
+
+export function evaluateDeploymentPoliciesResponseDeserializer(
+  item: any,
+): EvaluateDeploymentPoliciesResponse {
+  return {
+    results: !item["results"]
+      ? item["results"]
+      : deploymentPolicyEvaluationResultRecordDeserializer(item["results"]),
+  };
+}
+
+export function deploymentPolicyEvaluationResultRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, DeploymentPolicyEvaluationResult> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : deploymentPolicyEvaluationResultDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** Policy evaluation result for a single deployment. */
+export interface DeploymentPolicyEvaluationResult {
+  /** The evaluation outcome. */
+  evaluationOutcome?: PolicyEvaluationOutcome;
+  /** Error message if the evaluation outcome is Error. */
+  errorMessage?: string;
+  /** Details of non-compliant policy assignments. */
+  nonCompliantAssignments?: PolicyAssignmentEvaluationDetails[];
+}
+
+export function deploymentPolicyEvaluationResultDeserializer(
+  item: any,
+): DeploymentPolicyEvaluationResult {
+  return {
+    evaluationOutcome: item["evaluationOutcome"],
+    errorMessage: item["errorMessage"],
+    nonCompliantAssignments: !item["nonCompliantAssignments"]
+      ? item["nonCompliantAssignments"]
+      : policyAssignmentEvaluationDetailsArrayDeserializer(item["nonCompliantAssignments"]),
+  };
+}
+
+/** The outcome of a policy evaluation. */
+export enum KnownPolicyEvaluationOutcome {
+  /** The deployment is compliant with all policies. */
+  Compliant = "Compliant",
+  /** The deployment violates one or more policies. */
+  NonCompliant = "NonCompliant",
+  /** An error occurred during evaluation. */
+  Error = "Error",
+}
+
+/**
+ * The outcome of a policy evaluation. \
+ * {@link KnownPolicyEvaluationOutcome} can be used interchangeably with PolicyEvaluationOutcome,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Compliant**: The deployment is compliant with all policies. \
+ * **NonCompliant**: The deployment violates one or more policies. \
+ * **Error**: An error occurred during evaluation.
+ */
+export type PolicyEvaluationOutcome = string;
+
+export function policyAssignmentEvaluationDetailsArrayDeserializer(
+  result: Array<PolicyAssignmentEvaluationDetails>,
+): any[] {
+  return result.map((item) => {
+    return policyAssignmentEvaluationDetailsDeserializer(item);
+  });
+}
+
+/** Details of a non-compliant policy assignment. */
+export interface PolicyAssignmentEvaluationDetails {
+  /** The policy assignment ID. */
+  assignmentId?: string;
+  /** The policy definition ID. */
+  policyDefinitionId?: string;
+  /** The policy set definition ID. */
+  policySetDefinitionId?: string;
+  /** The evaluation outcome for this assignment. */
+  evaluationOutcome?: PolicyEvaluationOutcome;
+  /** The reason for non-compliance. */
+  nonComplianceReason?: string;
+  /** The policy effect (e.g., Deny, Audit). */
+  effect?: string;
+  /** Expression-level evaluation details. */
+  expressionEvaluations?: PolicyExpressionEvaluationDetails[];
+}
+
+export function policyAssignmentEvaluationDetailsDeserializer(
+  item: any,
+): PolicyAssignmentEvaluationDetails {
+  return {
+    assignmentId: item["assignmentId"],
+    policyDefinitionId: item["policyDefinitionId"],
+    policySetDefinitionId: item["policySetDefinitionId"],
+    evaluationOutcome: item["evaluationOutcome"],
+    nonComplianceReason: item["nonComplianceReason"],
+    effect: item["effect"],
+    expressionEvaluations: !item["expressionEvaluations"]
+      ? item["expressionEvaluations"]
+      : policyExpressionEvaluationDetailsArrayDeserializer(item["expressionEvaluations"]),
+  };
+}
+
+export function policyExpressionEvaluationDetailsArrayDeserializer(
+  result: Array<PolicyExpressionEvaluationDetails>,
+): any[] {
+  return result.map((item) => {
+    return policyExpressionEvaluationDetailsDeserializer(item);
+  });
+}
+
+/** Details of a policy expression evaluation. */
+export interface PolicyExpressionEvaluationDetails {
+  /** The policy expression. */
+  expression?: string;
+  /** The kind of expression. */
+  expressionKind?: string;
+  /** The operator used in evaluation. */
+  operator?: string;
+  /** The evaluation result. */
+  result?: string;
+  /** The target value of the expression. */
+  targetValue?: string;
+  /** The actual value of the expression. */
+  expressionValue?: string;
+}
+
+export function policyExpressionEvaluationDetailsDeserializer(
+  item: any,
+): PolicyExpressionEvaluationDetails {
+  return {
+    expression: item["expression"],
+    expressionKind: item["expressionKind"],
+    operator: item["operator"],
+    result: item["result"],
+    targetValue: item["targetValue"],
+    expressionValue: item["expressionValue"],
+  };
+}
+
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
@@ -7375,6 +7574,196 @@ export function agentReferenceDeserializer(item: any): AgentReference {
   };
 }
 
+/** Cognitive Services account managed compute deployment, backed by managed compute (GPU) resources. */
+export interface ManagedComputeDeployment extends ProxyResource {
+  /** Properties of the Cognitive Services managed compute deployment. */
+  properties?: ManagedComputeDeploymentProperties;
+  /** The resource model definition representing SKU */
+  sku?: Sku;
+  /** Resource Etag. */
+  readonly etag?: string;
+}
+
+export function managedComputeDeploymentSerializer(item: ManagedComputeDeployment): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : managedComputeDeploymentPropertiesSerializer(item["properties"]),
+    sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
+  };
+}
+
+export function managedComputeDeploymentDeserializer(item: any): ManagedComputeDeployment {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : managedComputeDeploymentPropertiesDeserializer(item["properties"]),
+    sku: !item["sku"] ? item["sku"] : skuDeserializer(item["sku"]),
+    etag: item["etag"],
+  };
+}
+
+/** Properties of a Cognitive Services managed compute deployment. */
+export interface ManagedComputeDeploymentProperties {
+  /**
+   * AzureML Registry model asset URI. Required on creation; immutable after creation.
+   * Example: azureml://registries/{registry}/models/{model}/versions/{version}
+   */
+  model: string;
+  /**
+   * Deployment template identifier. Optional on creation.
+   * Accepts an AzureML Registry deployment template URI or a project-scoped deployment template path for VmManagedCompute.
+   * Examples: azureml://registries/{registry}/deploymenttemplates/{template}/versions/{version}, projects/{project}/deploymentTemplates/{template}/versions/{version}
+   */
+  deploymentTemplate?: string;
+  /** Accelerator type (e.g., H100_80GB). Optional on creation; immutable after creation. */
+  acceleratorType?: string;
+  /** Template auto-upgrade policy. Defaults to OnceNewDefaultVersionAvailable. */
+  versionUpgradeOption?: DeploymentModelVersionUpgradeOption;
+  /** Foundry compute ARM resource ID for VM-backed managed compute deployments. Required when sku.name is VmManagedCompute; immutable after creation. */
+  computeId?: string;
+  /** Scheduling priority for VM-backed managed compute deployments. Immutable after creation. */
+  priority?: string;
+  /** Read-only. Number of accelerators (GPUs) consumed by each model instance, sourced from the deployment template. */
+  readonly acceleratorsPerInstance?: number;
+  /** Read-only. Total accelerators allocated: sku.capacity (instances) x acceleratorsPerInstance. */
+  readonly totalAccelerators?: number;
+  /** Read-only. Current provisioning state. */
+  readonly provisioningState?: ProvisioningState;
+  /** Read-only. Status message and timestamp from the last provisioning operation. */
+  readonly provisioningDetails?: ManagedComputeDeploymentProvisioningDetails;
+  /** Read-only. Inference route paths relative to the account endpoint. Populated when provisioningState is Succeeded. */
+  readonly routes?: ManagedComputeDeploymentRoutes;
+}
+
+export function managedComputeDeploymentPropertiesSerializer(
+  item: ManagedComputeDeploymentProperties,
+): any {
+  return {
+    model: item["model"],
+    deploymentTemplate: item["deploymentTemplate"],
+    acceleratorType: item["acceleratorType"],
+    versionUpgradeOption: item["versionUpgradeOption"],
+    computeId: item["computeId"],
+    priority: item["priority"],
+  };
+}
+
+export function managedComputeDeploymentPropertiesDeserializer(
+  item: any,
+): ManagedComputeDeploymentProperties {
+  return {
+    model: item["model"],
+    deploymentTemplate: item["deploymentTemplate"],
+    acceleratorType: item["acceleratorType"],
+    versionUpgradeOption: item["versionUpgradeOption"],
+    computeId: item["computeId"],
+    priority: item["priority"],
+    acceleratorsPerInstance: item["acceleratorsPerInstance"],
+    totalAccelerators: item["totalAccelerators"],
+    provisioningState: item["provisioningState"],
+    provisioningDetails: !item["provisioningDetails"]
+      ? item["provisioningDetails"]
+      : managedComputeDeploymentProvisioningDetailsDeserializer(item["provisioningDetails"]),
+    routes: !item["routes"]
+      ? item["routes"]
+      : managedComputeDeploymentRoutesDeserializer(item["routes"]),
+  };
+}
+
+/** Provisioning status details for a managed compute deployment. */
+export interface ManagedComputeDeploymentProvisioningDetails {
+  /** A human-readable status message from the last provisioning operation. */
+  message?: string;
+  /** Timestamp of the last provisioning operation. */
+  lastOperationTimestamp?: Date;
+}
+
+export function managedComputeDeploymentProvisioningDetailsDeserializer(
+  item: any,
+): ManagedComputeDeploymentProvisioningDetails {
+  return {
+    message: item["message"],
+    lastOperationTimestamp: !item["lastOperationTimestamp"]
+      ? item["lastOperationTimestamp"]
+      : new Date(item["lastOperationTimestamp"]),
+  };
+}
+
+/**
+ * Inference route paths for a managed compute deployment, relative to the account endpoint.
+ * Populated when provisioningState is Succeeded.
+ */
+export interface ManagedComputeDeploymentRoutes {
+  /** Relative path to the chat completions scoring endpoint. */
+  chatCompletionsScoringPath?: string;
+  /** Relative path to the Swagger/OpenAPI endpoint. */
+  swagger?: string;
+  /** Relative path to the messages API scoring endpoint. */
+  messagesApiScoringPath?: string;
+}
+
+export function managedComputeDeploymentRoutesDeserializer(
+  item: any,
+): ManagedComputeDeploymentRoutes {
+  return {
+    chatCompletionsScoringPath: item["chatCompletionsScoringPath"],
+    swagger: item["swagger"],
+    messagesApiScoringPath: item["messagesApiScoringPath"],
+  };
+}
+
+/** The object being used to update sku of a resource, in general used for PATCH operations. */
+export interface PatchResourceSku {
+  /** The resource model definition representing SKU */
+  sku?: Sku;
+}
+
+export function patchResourceSkuSerializer(item: PatchResourceSku): any {
+  return { sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]) };
+}
+
+/** The list of managed compute deployments. */
+export interface _ManagedComputeDeploymentListResult {
+  /** The link used to get the next page of managed compute deployments. */
+  nextLink?: string;
+  /** Gets the list of managed compute deployments and their properties. */
+  readonly value?: ManagedComputeDeployment[];
+}
+
+export function _managedComputeDeploymentListResultDeserializer(
+  item: any,
+): _ManagedComputeDeploymentListResult {
+  return {
+    nextLink: item["nextLink"],
+    value: !item["value"]
+      ? item["value"]
+      : managedComputeDeploymentArrayDeserializer(item["value"]),
+  };
+}
+
+export function managedComputeDeploymentArraySerializer(
+  result: Array<ManagedComputeDeployment>,
+): any[] {
+  return result.map((item) => {
+    return managedComputeDeploymentSerializer(item);
+  });
+}
+
+export function managedComputeDeploymentArrayDeserializer(
+  result: Array<ManagedComputeDeployment>,
+): any[] {
+  return result.map((item) => {
+    return managedComputeDeploymentDeserializer(item);
+  });
+}
+
 /** The status of an async compute operation. */
 export interface ComputeOperationStatus extends ProxyResource {
   /** The properties of the compute operation status. */
@@ -7441,6 +7830,697 @@ export enum KnownComputeOperationStatusType {
  * **Canceled**: The operation has been canceled.
  */
 export type ComputeOperationStatusType = string;
+
+/** List of managed compute quota entries. */
+export interface _ManagedComputeUsageListResult {
+  /** The link used to get the next page of managed compute usages. */
+  nextLink?: string;
+  /** Per-SKU managed compute quota usage entries. */
+  value?: ManagedComputeUsage[];
+}
+
+export function _managedComputeUsageListResultDeserializer(
+  item: any,
+): _ManagedComputeUsageListResult {
+  return {
+    nextLink: item["nextLink"],
+    value: !item["value"] ? item["value"] : managedComputeUsageArrayDeserializer(item["value"]),
+  };
+}
+
+export function managedComputeUsageArrayDeserializer(result: Array<ManagedComputeUsage>): any[] {
+  return result.map((item) => {
+    return managedComputeUsageDeserializer(item);
+  });
+}
+
+/** Managed compute quota usage for a specific SKU. */
+export interface ManagedComputeUsage {
+  /** Fully qualified resource ID for the managed compute usage. */
+  readonly id?: string;
+  /** The name information for the metric. */
+  readonly name?: MetricName;
+  /** The resource type. */
+  readonly type?: string;
+  /** The unit of the metric. */
+  unit?: UnitType;
+  /** Maximum value for this metric. */
+  limit?: number;
+  /** Current value for this metric. */
+  currentValue?: number;
+  /** Offer scope (e.g., 'Global', 'Datazone-US'). */
+  offerScope?: string;
+  /** Deployments consuming this managed compute quota. */
+  deployments?: ManagedComputeDeploymentInfo[];
+}
+
+export function managedComputeUsageDeserializer(item: any): ManagedComputeUsage {
+  return {
+    id: item["id"],
+    name: !item["name"] ? item["name"] : metricNameDeserializer(item["name"]),
+    type: item["type"],
+    unit: item["unit"],
+    limit: item["limit"],
+    currentValue: item["currentValue"],
+    offerScope: item["offerScope"],
+    deployments: !item["deployments"]
+      ? item["deployments"]
+      : managedComputeDeploymentInfoArrayDeserializer(item["deployments"]),
+  };
+}
+
+export function managedComputeDeploymentInfoArrayDeserializer(
+  result: Array<ManagedComputeDeploymentInfo>,
+): any[] {
+  return result.map((item) => {
+    return managedComputeDeploymentInfoDeserializer(item);
+  });
+}
+
+/** Deployment detail within a managed compute usage entry. */
+export interface ManagedComputeDeploymentInfo {
+  /** Full ARM resource ID of the deployment. */
+  deploymentId?: string;
+  /** Full ARM resource ID of the account/project. */
+  projectId?: string;
+  /** Model name (e.g., 'azureml://registries//models//versions/gpt-4o'). */
+  modelId?: string;
+  /** Number of GPUs consumed by this deployment. */
+  acceleratorCount?: number;
+  /** Number of instances for this deployment. */
+  instanceCount?: number;
+}
+
+export function managedComputeDeploymentInfoDeserializer(item: any): ManagedComputeDeploymentInfo {
+  return {
+    deploymentId: item["deploymentId"],
+    projectId: item["projectId"],
+    modelId: item["modelId"],
+    acceleratorCount: item["acceleratorCount"],
+    instanceCount: item["instanceCount"],
+  };
+}
+
+/**
+ * Cognitive Services compute resource. Supports polymorphic compute types
+ * (Cluster, ContainerInstance) via the computeType discriminator in properties.
+ */
+export interface Compute extends ProxyResource {
+  /** Polymorphic properties of the compute resource. Use computeType to select Cluster or ContainerInstance. */
+  properties: ComputePropertiesUnion;
+  /** Resource Etag. */
+  readonly etag?: string;
+  /** The location of the compute resource. */
+  location?: string;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The kind (type) of compute resource. */
+  kind?: string;
+  /** Identity for the resource. */
+  identity?: Identity;
+}
+
+export function computeSerializer(item: Compute): any {
+  return {
+    properties: computePropertiesUnionSerializer(item["properties"]),
+    location: item["location"],
+    tags: item["tags"],
+    kind: item["kind"],
+    identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
+  };
+}
+
+export function computeDeserializer(item: any): Compute {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: computePropertiesUnionDeserializer(item["properties"]),
+    etag: item["etag"],
+    location: item["location"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    kind: item["kind"],
+    identity: !item["identity"] ? item["identity"] : identityDeserializer(item["identity"]),
+  };
+}
+
+/**
+ * Base properties for all compute resource types.
+ * The computeType discriminator determines the concrete property shape.
+ */
+export interface ComputeProperties {
+  /** The type of compute resource. */
+  /** The discriminator possible values: Cluster, ContainerInstance */
+  computeType: ComputeType;
+  /** Provisioning state of the compute resource. */
+  readonly provisioningState?: ComputeProvisioningState;
+  /** Error details for the compute resource. */
+  readonly errors?: ErrorDetail[];
+  /** Creation time of the compute resource. */
+  readonly creationTime?: Date;
+}
+
+export function computePropertiesSerializer(item: ComputeProperties): any {
+  return { computeType: item["computeType"] };
+}
+
+export function computePropertiesDeserializer(item: any): ComputeProperties {
+  return {
+    computeType: item["computeType"],
+    provisioningState: item["provisioningState"],
+    errors: !item["errors"] ? item["errors"] : errorDetailArrayDeserializer(item["errors"]),
+    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
+  };
+}
+
+/** Alias for ComputePropertiesUnion */
+export type ComputePropertiesUnion =
+  | ClusterComputeProperties
+  | ContainerInstanceComputeProperties
+  | ComputeProperties;
+
+export function computePropertiesUnionSerializer(item: ComputePropertiesUnion): any {
+  switch (item.computeType) {
+    case "Cluster":
+      return clusterComputePropertiesSerializer(item as ClusterComputeProperties);
+
+    case "ContainerInstance":
+      return containerInstanceComputePropertiesSerializer(
+        item as ContainerInstanceComputeProperties,
+      );
+
+    default:
+      return computePropertiesSerializer(item);
+  }
+}
+
+export function computePropertiesUnionDeserializer(item: any): ComputePropertiesUnion {
+  switch (item["computeType"]) {
+    case "Cluster":
+      return clusterComputePropertiesDeserializer(item as ClusterComputeProperties);
+
+    case "ContainerInstance":
+      return containerInstanceComputePropertiesDeserializer(
+        item as ContainerInstanceComputeProperties,
+      );
+
+    default:
+      return computePropertiesDeserializer(item);
+  }
+}
+
+/** The type of compute resource. */
+export enum KnownComputeType {
+  /** Cluster (AKS-backed) compute type. */
+  Cluster = "Cluster",
+  /** Container Instance compute type. */
+  ContainerInstance = "ContainerInstance",
+}
+
+/**
+ * The type of compute resource. \
+ * {@link KnownComputeType} can be used interchangeably with ComputeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Cluster**: Cluster (AKS-backed) compute type. \
+ * **ContainerInstance**: Container Instance compute type.
+ */
+export type ComputeType = string;
+
+/** The provisioning state of a compute resource. */
+export enum KnownComputeProvisioningState {
+  /** The resource provisioning request has been accepted. */
+  Accepted = "Accepted",
+  /** The resource has been fully provisioned. */
+  Succeeded = "Succeeded",
+  /** The resource provisioning has failed. */
+  Failed = "Failed",
+  /** The resource provisioning was canceled. */
+  Canceled = "Canceled",
+  /** The resource is being deleted. */
+  Deleting = "Deleting",
+  /** The resource is scaling. */
+  Scaling = "Scaling",
+  /** The resource is disabled. */
+  Disabled = "Disabled",
+  /** The compute resource is starting. */
+  Starting = "Starting",
+  /** The compute resource is stopping. */
+  Stopping = "Stopping",
+  /** The compute resource is restarting. */
+  Restarting = "Restarting",
+  /** The compute resource is stopped. */
+  Stopped = "Stopped",
+}
+
+/**
+ * The provisioning state of a compute resource. \
+ * {@link KnownComputeProvisioningState} can be used interchangeably with ComputeProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted**: The resource provisioning request has been accepted. \
+ * **Succeeded**: The resource has been fully provisioned. \
+ * **Failed**: The resource provisioning has failed. \
+ * **Canceled**: The resource provisioning was canceled. \
+ * **Deleting**: The resource is being deleted. \
+ * **Scaling**: The resource is scaling. \
+ * **Disabled**: The resource is disabled. \
+ * **Starting**: The compute resource is starting. \
+ * **Stopping**: The compute resource is stopping. \
+ * **Restarting**: The compute resource is restarting. \
+ * **Stopped**: The compute resource is stopped.
+ */
+export type ComputeProvisioningState = string;
+
+/** Properties for a Cluster (AKS-backed) compute resource. */
+export interface ClusterComputeProperties extends ComputeProperties {
+  /** The type of compute resource. */
+  computeType: "Cluster";
+  /** Pools attached to this compute cluster. */
+  pools: Pool[];
+  /** ARM ID of the subnet used for compute. */
+  subnetArmId?: string;
+}
+
+export function clusterComputePropertiesSerializer(item: ClusterComputeProperties): any {
+  return {
+    computeType: item["computeType"],
+    pools: poolArraySerializer(item["pools"]),
+    subnetArmId: item["subnetArmId"],
+  };
+}
+
+export function clusterComputePropertiesDeserializer(item: any): ClusterComputeProperties {
+  return {
+    computeType: item["computeType"],
+    provisioningState: item["provisioningState"],
+    errors: !item["errors"] ? item["errors"] : errorDetailArrayDeserializer(item["errors"]),
+    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
+    pools: poolArrayDeserializer(item["pools"]),
+    subnetArmId: item["subnetArmId"],
+  };
+}
+
+export function poolArraySerializer(result: Array<Pool>): any[] {
+  return result.map((item) => {
+    return poolSerializer(item);
+  });
+}
+
+export function poolArrayDeserializer(result: Array<Pool>): any[] {
+  return result.map((item) => {
+    return poolDeserializer(item);
+  });
+}
+
+/** A compute pool configuration. */
+export interface Pool {
+  /** The name of the pool. */
+  name: string;
+  /** The VM priority of the pool. */
+  vmPriority: VmPriority;
+  /** The instance type (VM SKU) used in the pool. */
+  instanceType: string;
+  /** The number of nodes in the pool. */
+  nodeCount: number;
+}
+
+export function poolSerializer(item: Pool): any {
+  return {
+    name: item["name"],
+    vmPriority: item["vmPriority"],
+    instanceType: item["instanceType"],
+    nodeCount: item["nodeCount"],
+  };
+}
+
+export function poolDeserializer(item: any): Pool {
+  return {
+    name: item["name"],
+    vmPriority: item["vmPriority"],
+    instanceType: item["instanceType"],
+    nodeCount: item["nodeCount"],
+  };
+}
+
+/** VM priority for a compute pool. */
+export enum KnownVmPriority {
+  /** Regular VM priority. */
+  Regular = "Regular",
+  /** Low-priority VM. */
+  LowPriority = "LowPriority",
+}
+
+/**
+ * VM priority for a compute pool. \
+ * {@link KnownVmPriority} can be used interchangeably with VmPriority,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Regular**: Regular VM priority. \
+ * **LowPriority**: Low-priority VM.
+ */
+export type VmPriority = string;
+
+/** Properties for a Container Instance compute resource. */
+export interface ContainerInstanceComputeProperties extends ComputeProperties {
+  /** The type of compute resource. */
+  computeType: "ContainerInstance";
+  /** ARM resource ID of the parent cluster that hosts this container instance. */
+  targetClusterId: string;
+  /** Container image URI (e.g., MCR or ACR image path) for the container instance. */
+  imageLink: string;
+  /** ISO 8601 duration before the idle instance is automatically shut down (e.g., 'PT30M'). */
+  idleTimeBeforeShutdown?: string;
+  /** SSH configuration for remote access to the container instance. */
+  sshSettings?: SshSettings;
+  /** Network connectivity endpoints assigned to the container instance. */
+  readonly connectivityEndpoints?: ConnectivityEndpoints;
+}
+
+export function containerInstanceComputePropertiesSerializer(
+  item: ContainerInstanceComputeProperties,
+): any {
+  return {
+    computeType: item["computeType"],
+    targetClusterId: item["targetClusterId"],
+    imageLink: item["imageLink"],
+    idleTimeBeforeShutdown: item["idleTimeBeforeShutdown"],
+    sshSettings: !item["sshSettings"]
+      ? item["sshSettings"]
+      : sshSettingsSerializer(item["sshSettings"]),
+  };
+}
+
+export function containerInstanceComputePropertiesDeserializer(
+  item: any,
+): ContainerInstanceComputeProperties {
+  return {
+    computeType: item["computeType"],
+    provisioningState: item["provisioningState"],
+    errors: !item["errors"] ? item["errors"] : errorDetailArrayDeserializer(item["errors"]),
+    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
+    targetClusterId: item["targetClusterId"],
+    imageLink: item["imageLink"],
+    idleTimeBeforeShutdown: item["idleTimeBeforeShutdown"],
+    sshSettings: !item["sshSettings"]
+      ? item["sshSettings"]
+      : sshSettingsDeserializer(item["sshSettings"]),
+    connectivityEndpoints: !item["connectivityEndpoints"]
+      ? item["connectivityEndpoints"]
+      : connectivityEndpointsDeserializer(item["connectivityEndpoints"]),
+  };
+}
+
+/** SSH configuration for a Container Instance compute. */
+export interface SshSettings {
+  /** The SSH public key for authenticating to the compute instance. */
+  sshPublicKey?: string;
+  /** Whether SSH admin access is enabled. */
+  adminEnabled?: boolean;
+}
+
+export function sshSettingsSerializer(item: SshSettings): any {
+  return { sshPublicKey: item["sshPublicKey"], adminEnabled: item["adminEnabled"] };
+}
+
+export function sshSettingsDeserializer(item: any): SshSettings {
+  return {
+    sshPublicKey: item["sshPublicKey"],
+    adminEnabled: item["adminEnabled"],
+  };
+}
+
+/** Network connectivity endpoints for a Container Instance compute. */
+export interface ConnectivityEndpoints {
+  /** The public IP address of the compute instance. */
+  readonly publicIpAddress?: string;
+  /** The SSH port for the compute instance. */
+  readonly sshPort?: number;
+}
+
+export function connectivityEndpointsDeserializer(item: any): ConnectivityEndpoints {
+  return {
+    publicIpAddress: item["publicIpAddress"],
+    sshPort: item["sshPort"],
+  };
+}
+
+/** The list of cognitive services computes operation response. */
+export interface _ComputeListResult {
+  /** The link used to get the next page of compute list. */
+  nextLink?: string;
+  /** Gets the list of computes. */
+  value?: Compute[];
+}
+
+export function _computeListResultDeserializer(item: any): _ComputeListResult {
+  return {
+    nextLink: item["nextLink"],
+    value: !item["value"] ? item["value"] : computeArrayDeserializer(item["value"]),
+  };
+}
+
+export function computeArraySerializer(result: Array<Compute>): any[] {
+  return result.map((item) => {
+    return computeSerializer(item);
+  });
+}
+
+export function computeArrayDeserializer(result: Array<Compute>): any[] {
+  return result.map((item) => {
+    return computeDeserializer(item);
+  });
+}
+
+/**
+ * Workbench resource under a Cognitive Services project.
+ * Provides interactive compute with data access for AI development.
+ */
+export interface Workbench extends ProxyResource {
+  /** Properties of the workbench resource. */
+  properties: WorkbenchProperties;
+  /** Resource Etag. */
+  readonly etag?: string;
+  /** The location of the workbench resource. */
+  location?: string;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** Identity for the resource. */
+  identity?: Identity;
+}
+
+export function workbenchSerializer(item: Workbench): any {
+  return {
+    properties: workbenchPropertiesSerializer(item["properties"]),
+    location: item["location"],
+    tags: item["tags"],
+    identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
+  };
+}
+
+export function workbenchDeserializer(item: any): Workbench {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: workbenchPropertiesDeserializer(item["properties"]),
+    etag: item["etag"],
+    location: item["location"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    identity: !item["identity"] ? item["identity"] : identityDeserializer(item["identity"]),
+  };
+}
+
+/** Properties for a Workbench resource. */
+export interface WorkbenchProperties {
+  /** ARM resource ID of the parent cluster that hosts this workbench. */
+  targetClusterId: string;
+  /** Container image URI (e.g., MCR or ACR image path) for the workbench. */
+  imageLink: string;
+  /** ISO 8601 duration before the idle workbench is automatically shut down (e.g., 'PT30M'). */
+  idleTimeBeforeShutdown?: string;
+  /** The dataset ID to mount for the workbench. */
+  datasetId?: string;
+  /** SSH configuration for remote access to the workbench. */
+  sshSettings?: SshSettings;
+  /** Network connectivity endpoints assigned to the workbench. */
+  readonly connectivityEndpoints?: ConnectivityEndpoints;
+  /** The web endpoint URL for accessing the workbench. */
+  readonly webEndpoint?: string;
+  /** Provisioning state of the workbench resource. */
+  readonly provisioningState?: ComputeProvisioningState;
+  /** Error details for the workbench resource. */
+  readonly errors?: ErrorDetail[];
+  /** Creation time of the workbench resource. */
+  readonly creationTime?: Date;
+}
+
+export function workbenchPropertiesSerializer(item: WorkbenchProperties): any {
+  return {
+    targetClusterId: item["targetClusterId"],
+    imageLink: item["imageLink"],
+    idleTimeBeforeShutdown: item["idleTimeBeforeShutdown"],
+    datasetId: item["datasetId"],
+    sshSettings: !item["sshSettings"]
+      ? item["sshSettings"]
+      : sshSettingsSerializer(item["sshSettings"]),
+  };
+}
+
+export function workbenchPropertiesDeserializer(item: any): WorkbenchProperties {
+  return {
+    targetClusterId: item["targetClusterId"],
+    imageLink: item["imageLink"],
+    idleTimeBeforeShutdown: item["idleTimeBeforeShutdown"],
+    datasetId: item["datasetId"],
+    sshSettings: !item["sshSettings"]
+      ? item["sshSettings"]
+      : sshSettingsDeserializer(item["sshSettings"]),
+    connectivityEndpoints: !item["connectivityEndpoints"]
+      ? item["connectivityEndpoints"]
+      : connectivityEndpointsDeserializer(item["connectivityEndpoints"]),
+    webEndpoint: item["webEndpoint"],
+    provisioningState: item["provisioningState"],
+    errors: !item["errors"] ? item["errors"] : errorDetailArrayDeserializer(item["errors"]),
+    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
+  };
+}
+
+/** The list of workbenches operation response. */
+export interface _WorkbenchListResult {
+  /** The link used to get the next page of workbench list. */
+  nextLink?: string;
+  /** Gets the list of workbenches. */
+  value?: Workbench[];
+}
+
+export function _workbenchListResultDeserializer(item: any): _WorkbenchListResult {
+  return {
+    nextLink: item["nextLink"],
+    value: !item["value"] ? item["value"] : workbenchArrayDeserializer(item["value"]),
+  };
+}
+
+export function workbenchArraySerializer(result: Array<Workbench>): any[] {
+  return result.map((item) => {
+    return workbenchSerializer(item);
+  });
+}
+
+export function workbenchArrayDeserializer(result: Array<Workbench>): any[] {
+  return result.map((item) => {
+    return workbenchDeserializer(item);
+  });
+}
+
+/** The list of managed compute capacities response. */
+export interface _ManagedComputeCapacityListResult {
+  /** The link used to get the next page of managed compute capacities. */
+  nextLink?: string;
+  /** Gets the list of managed compute capacities. */
+  readonly value?: ManagedComputeCapacity[];
+}
+
+export function _managedComputeCapacityListResultDeserializer(
+  item: any,
+): _ManagedComputeCapacityListResult {
+  return {
+    nextLink: item["nextLink"],
+    value: !item["value"] ? item["value"] : managedComputeCapacityArrayDeserializer(item["value"]),
+  };
+}
+
+export function managedComputeCapacityArrayDeserializer(
+  result: Array<ManagedComputeCapacity>,
+): any[] {
+  return result.map((item) => {
+    return managedComputeCapacityDeserializer(item);
+  });
+}
+
+/**
+ * Managed compute capacity information for Cognitive Services managed compute deployments.
+ * Provides available accelerator capacity per type and region at the subscription level.
+ */
+export interface ManagedComputeCapacity extends ProxyResource {
+  /** Properties of the managed compute capacity resource. */
+  properties?: ManagedComputeCapacityProperties;
+}
+
+export function managedComputeCapacityDeserializer(item: any): ManagedComputeCapacity {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : managedComputeCapacityPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a managed compute capacity resource. */
+export interface ManagedComputeCapacityProperties {
+  /** The type of accelerator (e.g., Azure.A100, Azure.H100). */
+  readonly acceleratorType?: string;
+  /** The Azure region where the capacity is available. */
+  readonly location?: string;
+  /** The number of available accelerators in the region. */
+  readonly availableAccelerators?: number;
+  /** Capacity information broken down by deployment size. */
+  readonly deploymentSizeCapacities?: DeploymentSizeCapacity[];
+}
+
+export function managedComputeCapacityPropertiesDeserializer(
+  item: any,
+): ManagedComputeCapacityProperties {
+  return {
+    acceleratorType: item["acceleratorType"],
+    location: item["location"],
+    availableAccelerators: item["availableAccelerators"],
+    deploymentSizeCapacities: !item["deploymentSizeCapacities"]
+      ? item["deploymentSizeCapacities"]
+      : deploymentSizeCapacityArrayDeserializer(item["deploymentSizeCapacities"]),
+  };
+}
+
+export function deploymentSizeCapacityArrayDeserializer(
+  result: Array<DeploymentSizeCapacity>,
+): any[] {
+  return result.map((item) => {
+    return deploymentSizeCapacityDeserializer(item);
+  });
+}
+
+/** Capacity information for a specific deployment size. */
+export interface DeploymentSizeCapacity {
+  /** The number of accelerators required per model instance. */
+  readonly modelInstanceAcceleratorCount?: number;
+  /** The total available capacity for this deployment size. */
+  readonly totalAvailableCapacity?: number;
+  /** The largest contiguous deployment capacity available for this deployment size. */
+  readonly largestDeploymentCapacity?: number;
+}
+
+export function deploymentSizeCapacityDeserializer(item: any): DeploymentSizeCapacity {
+  return {
+    modelInstanceAcceleratorCount: item["modelInstanceAcceleratorCount"],
+    totalAvailableCapacity: item["totalAvailableCapacity"],
+    largestDeploymentCapacity: item["largestDeploymentCapacity"],
+  };
+}
 
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
@@ -9272,6 +10352,10 @@ export enum KnownVersions {
   V20251201 = "2025-12-01",
   /** The 2026-01-15-preview API version. */
   V20260115Preview = "2026-01-15-preview",
+  /** The 2026-03-01 API version. */
+  V20260301 = "2026-03-01",
+  /** The 2026-03-15-preview API version. */
+  V20260315Preview = "2026-03-15-preview",
 }
 
 export function raiBlocklistItemBulkRequestArraySerializer(

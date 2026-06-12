@@ -2,6 +2,10 @@
 // Licensed under the MIT License.
 
 export {
+  listFaultSimulation,
+  getFaultSimulation,
+  stopFaultSimulation,
+  startFaultSimulation,
   start,
   restart,
   reimage,
@@ -14,7 +18,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
+export type {
+  NodeTypesListFaultSimulationOptionalParams,
+  NodeTypesGetFaultSimulationOptionalParams,
+  NodeTypesStopFaultSimulationOptionalParams,
+  NodeTypesStartFaultSimulationOptionalParams,
   NodeTypesStartOptionalParams,
   NodeTypesRestartOptionalParams,
   NodeTypesReimageOptionalParams,

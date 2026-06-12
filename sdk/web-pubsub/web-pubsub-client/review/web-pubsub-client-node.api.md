@@ -81,7 +81,15 @@ export type DownstreamMessageType =
 /**
 * Type for StreamClosedMessage
 */
-| "streamClosed";
+| "streamClosed"
+/**
+* Type for GroupStateSnapshotMessage
+*/
+| "groupStateSnapshot"
+/**
+* Type for GroupStateUpdateMessage
+*/
+| "groupStateUpdate";
 
 // @public
 export interface EndStreamOptions {
@@ -103,6 +111,28 @@ export interface GroupDataMessage extends WebPubSubMessageBase {
     readonly kind: "groupData";
     sequenceId?: number;
     stream?: StreamInfo;
+}
+
+// @public
+export interface GroupStateItem {
+    connectionId: string;
+    state?: Record<string, string>;
+    updatedAt: number;
+    userId?: string;
+}
+
+// @public
+export interface GroupStateSnapshotMessage extends WebPubSubMessageBase {
+    group: string;
+    items: GroupStateItem[];
+    readonly kind: "groupStateSnapshot";
+}
+
+// @public
+export interface GroupStateUpdateMessage extends WebPubSubMessageBase {
+    group: string;
+    items: GroupStateItem[];
+    readonly kind: "groupStateUpdate";
 }
 
 // @public
@@ -338,7 +368,14 @@ export interface ServerDataMessage extends WebPubSubMessageBase {
     dataType: WebPubSubDataType;
     readonly kind: "serverData";
     sequenceId?: number;
-    stream?: StreamInfo;
+}
+
+// @public
+export interface SetGroupStateMessage extends WebPubSubMessageBase {
+    ackId?: number;
+    group: string;
+    readonly kind: "setGroupState";
+    state?: Record<string, string>;
 }
 
 // @public
@@ -420,7 +457,7 @@ export interface StreamPublisher {
     complete(options?: EndStreamOptions): Promise<void>;
     keepalive(options?: SendStreamKeepaliveOptions): Promise<void>;
     onError(listener: (error: StreamDataError) => void): () => void;
-    publish(content: JSONTypes | ArrayBuffer, dataType?: WebPubSubDataType, options?: SendStreamDataOptions): Promise<void>;
+    publish(content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendStreamDataOptions): Promise<void>;
     readonly streamId: string;
 }
 
@@ -429,6 +466,20 @@ export interface StreamToGroupOptions {
     idleTimeoutMs?: number;
     noEcho?: boolean;
     streamId?: string;
+}
+
+// @public
+export interface SubscribeGroupStateMessage extends WebPubSubMessageBase {
+    ackId?: number;
+    group: string;
+    readonly kind: "subscribeGroupState";
+}
+
+// @public
+export interface UnsubscribeGroupStateMessage extends WebPubSubMessageBase {
+    ackId?: number;
+    group: string;
+    readonly kind: "unsubscribeGroupState";
 }
 
 // @public
@@ -472,7 +523,19 @@ export type UpstreamMessageType =
 /**
 * Type for StreamEndMessage
 */
-| "streamEnd";
+| "streamEnd"
+/**
+* Type for SetGroupStateMessage
+*/
+| "setGroupState"
+/**
+* Type for SubscribeGroupStateMessage
+*/
+| "subscribeGroupState"
+/**
+* Type for UnsubscribeGroupStateMessage
+*/
+| "unsubscribeGroupState";
 
 // @public
 export class WebPubSubClient {
@@ -553,7 +616,7 @@ export const WebPubSubJsonProtocol: () => WebPubSubClientProtocol;
 export const WebPubSubJsonReliableProtocol: () => WebPubSubClientProtocol;
 
 // @public
-export type WebPubSubMessage = GroupDataMessage | ServerDataMessage | JoinGroupMessage | LeaveGroupMessage | ConnectedMessage | DisconnectedMessage | SendToGroupMessage | SendEventMessage | SequenceAckMessage | PingMessage | AckMessage | InvokeMessage | InvokeResponseMessage | CancelInvocationMessage | PongMessage | StreamDataMessage | StreamEndMessage | StreamAckMessage | StreamNackMessage | StreamClosedMessage;
+export type WebPubSubMessage = GroupDataMessage | ServerDataMessage | JoinGroupMessage | LeaveGroupMessage | ConnectedMessage | DisconnectedMessage | SendToGroupMessage | SendEventMessage | SequenceAckMessage | PingMessage | AckMessage | InvokeMessage | InvokeResponseMessage | CancelInvocationMessage | PongMessage | StreamDataMessage | StreamEndMessage | StreamAckMessage | StreamNackMessage | StreamClosedMessage | SetGroupStateMessage | SubscribeGroupStateMessage | UnsubscribeGroupStateMessage | GroupStateSnapshotMessage | GroupStateUpdateMessage;
 
 // @public
 export interface WebPubSubMessageBase {
