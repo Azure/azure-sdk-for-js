@@ -34,7 +34,7 @@ import { isBrowser, isNode } from "@azure/core-util";
 import { decodeBase64 } from "./utils/encoding.js";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 import { isVitestTestContext, TestInfo, VitestSuite } from "./testInfo.js";
-import { env } from "./utils/env.js";
+import { env } from "#platform/env";
 
 /**
  * Caculates session file path and JSON assets path from test context
@@ -446,9 +446,15 @@ export class Recorder {
       // Ideally this should be handled by the test-proxy.  However, it was suggested that
       // there may be scenarios where it is desired to include these headers.
       // Thus we are ignoring Accept-Language and Accept-Encoding headers in recorder for browser.
-      // Origin header - https://github.com/Azure/azure-sdk-for-js/issues/32851
+      // "Origin"/"Cache-Control"/"Pragma" headers - https://github.com/Azure/azure-sdk-for-js/issues/32851
       const excludedHeaders = isBrowser
-        ? (options.excludedHeaders ?? []).concat("Accept-Language", "Accept-Encoding", "Origin")
+        ? (options.excludedHeaders ?? []).concat(
+            "Accept-Language",
+            "Accept-Encoding",
+            "Origin",
+            "Cache-Control",
+            "Pragma",
+          )
         : options.excludedHeaders;
 
       const updatedOptions = {

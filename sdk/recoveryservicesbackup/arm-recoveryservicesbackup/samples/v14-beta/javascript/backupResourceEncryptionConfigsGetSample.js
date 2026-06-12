@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to fetches Vault Encryption config.
  *
  * @summary fetches Vault Encryption config.
- * x-ms-original-file: 2026-01-01-preview/BackupResourceEncryptionConfig_Get.json
+ * x-ms-original-file: 2026-01-31-preview/BackupResourceEncryptionConfig_Get.json
  */
 async function getVaultEncryptionConfiguration() {
   const credential = new DefaultAzureCredential();

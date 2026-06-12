@@ -149,7 +149,7 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
         credential: credentials,
       };
 
-    const packageDetails = `azsdk-js-arm-machinelearning/3.0.0`;
+    const packageDetails = `azsdk-js-arm-machinelearning/3.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

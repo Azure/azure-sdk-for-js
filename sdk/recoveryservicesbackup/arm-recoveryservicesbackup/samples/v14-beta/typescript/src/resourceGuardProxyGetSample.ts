@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns ResourceGuardProxy under vault and with the name referenced in request
  *
  * @summary returns ResourceGuardProxy under vault and with the name referenced in request
- * x-ms-original-file: 2026-01-01-preview/ResourceGuardProxyCRUD/GetResourceGuardProxy.json
+ * x-ms-original-file: 2026-01-31-preview/ResourceGuardProxyCRUD/GetResourceGuardProxy.json
  */
 async function getResourceGuardProxy(): Promise<void> {
   const credential = new DefaultAzureCredential();

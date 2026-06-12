@@ -1,21 +1,24 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.3 (2026-05-26)
+Compared with version 1.0.0-beta.1
 
 ### Features Added
+  - Added operation group OperationsOperations
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Type Alias ActionType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias Origin
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownOrigin
+  - Added Enum KnownVersions
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0-beta.2 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 1.0.0-beta.1 (2024-10-25)
 
 ### Features Added

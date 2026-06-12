@@ -12,21 +12,34 @@ on:
   permissions:
     pull-requests: write
   steps:
-    - name: Remove trigger label
-      id: remove_label
+    - name: Swap trigger label to in-progress
+      id: swap_label
       if: github.event_name == 'pull_request_target' && github.event.label.name == 'mgmt-review-needed'
       uses: actions/github-script@v8
       with:
         script: |
+          const pr = context.payload.pull_request.number;
+          // Remove trigger label
           try {
             await github.rest.issues.removeLabel({
               ...context.repo,
-              issue_number: context.payload.pull_request.number,
+              issue_number: pr,
               name: 'mgmt-review-needed'
             });
           } catch (e) {
-            core.warning(`Could not remove label: ${e.message}`);
+            core.warning(`Could not remove trigger label: ${e.message}`);
           }
+          // Add in-progress label
+          try {
+            await github.rest.issues.addLabels({
+              ...context.repo,
+              issue_number: pr,
+              labels: ['mgmt-review-in-progress']
+            });
+          } catch (e) {
+            core.warning(`Could not add in-progress label: ${e.message}`);
+          }
+checkout: false
 labels: [mgmt-review-needed]
 if: github.event.label.name == 'mgmt-review-needed' || github.event_name == 'workflow_dispatch'
 concurrency:
@@ -47,7 +60,6 @@ tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
   bash: true
-  edit:
   cache-memory:
   repo-memory:
 safe-outputs:
@@ -60,14 +72,18 @@ safe-outputs:
     max: 10
     side: "RIGHT"
     target: "${{ github.event.pull_request.number || github.event.issue.number }}"
-  push-to-pull-request-branch:
-    max: 3
-    protected-files: allowed
-    allowed-files: ["sdk/", "eng/", "pnpm-lock.yaml"]
   submit-pull-request-review:
     max: 1
     footer: "if-body"
     target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+  add-labels:
+    max: 1
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+  remove-labels:
+    max: 1
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+  dispatch-workflow:
+    - format-auto-fix
   messages:
     footer: "> ⚡ *Benchmarked by [{workflow_name}]({run_url})*"
     run-started: "⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review..."
@@ -219,7 +235,7 @@ These are exact strings/patterns to search for in CI logs and PR status. They ar
 | `UnitTest FAILED` request url mismatch | Stale test recordings | You need to record new recordings per [test guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode). Or you could simply skip tests with maintainer approval. | No |
 | `UnitTest FAILED` missing browser recordings | Missing browser recordings | You need to record browser recordings per [test guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode). | No |
 | `Build FAILED` | Compilation failure | Fix compile errors | No |
-| `Check-format FAILED` | Code not formatted | Run `pnpm format` | Yes |
+| `Check-format FAILED` | Code not formatted | Dispatch the `format-auto-fix` workflow to apply the formatting fix | dispatch-workflow |
 | `verify-links` broken URL | Broken markdown links | Add URL to `eng/ignore-links.txt` | No |
 | PR `Merging is blocking` pnpm-lock conflict | pnpm-lock.yaml conflict | Bot regenerates `pnpm-lock.yaml` and pushes the fix to the PR branch; if auto-fix fails, follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | No |
 | `ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY` Broken lockfile | pnpm-lock.yaml conflict | Bot regenerates `pnpm-lock.yaml` and pushes the fix to the PR branch; if auto-fix fails, follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | NO |
@@ -232,13 +248,9 @@ Besides above cases also:
 
 ### Step 3. Auto-fix failures if possible
 
-> **Time budget**: Spend at most **10 minutes** on all auto-fix attempts combined. If an auto-fix fails or takes too long, stop immediately and report it as a manual-fix item in Step 4. Never let auto-fix attempts prevent you from posting the complete failure report.
-
-For failures with `Auto Fix: Yes` from your Step 2 list, attempt fixes and push directly to the PR branch via `push-to-pull-request-branch`.
-
-#### 3a. Check-format failure
-
-Run `cd <package-dir> && pnpm format` then push via `push-to-pull-request-branch`.
+- If `Check-format FAILED` is detected:
+  1. Dispatch the `format-auto-fix` workflow immediately via `dispatch-workflow`, passing the PR number as input `pr_number`. Use the actual PR number from context (pull_request event number or `item_number` input).
+- All other failures require manual fixes by the contributor.
 
 ### Step 4. Post a comment
 
@@ -252,14 +264,14 @@ Compose a single GitHub PR comment (not a review) with:
 - **Header**: `## Next Steps to Merge`
 - **Message**: `Only failed checks and required actions are listed below:`
 - Include **all** currently failing/blocking checks from your Step 2 list:
-  - Successfully auto-fixed: `- ✅ <Check name>: <reason>. Auto-fixed in commit <sha-link>.`
-  - Not auto-fixed (or auto-fix failed): `- ❌ <Check name>: <reason>. Action: <fix steps>. Review [ADO logs](<target_url from check API>).`
+  - Format auto-fix triggered: `- 🔧 <Check name>: code not formatted — auto-fix workflow dispatched, will apply \`pnpm format\` and push.`
+  - Not auto-fixed: `- ❌ <Check name>: <reason>. Action: <fix steps>. Review [ADO logs](<target_url from check API>).`
   - pnpm-lock conflict (manual): `- 🔄 pnpm-lock conflict: <reason>. Follow the [conflict guide](...).`
   - Still running: `- ⏳ <Check name>: still running.`
   - **Note:** Always include the real ADO `target_url` link; never use placeholder URLs.
 - Keep concise (target <= 15 lines). If nothing blocks: `## PR is ready to merge`.
 
-Post via `add_comment` exactly once. Use `hide-older-comments: true` to avoid duplicates. Include marker `<!-- gh-aw-workflow-id: mgmt-review -->` in the body.
+Post via `add-comment` exactly once. Use `hide-older-comments: true` to avoid duplicates. Include marker `<!-- gh-aw-workflow-id: mgmt-review -->` in the body.
 
 ### Required Output Template
 
@@ -270,7 +282,16 @@ Use this exact shape and keep it short. The comment MUST include ALL blocking it
 Only failed checks and required actions are listed below.
 
 - ❌ <failed check name>: <short failure reason>. Action: <specific fix command or step>. Review [ADO logs](<real target_url from check API>).
-- ✅ <auto-fixed check name>: <short failure reason>. Auto-fixed in commit [`<sha>`](<commit-url>).
+- 🔧 <format check name>: code not formatted — auto-fix workflow dispatched, will apply `pnpm format` and push.
 - 🔄 pnpm-lock conflict: merge conflict in pnpm-lock.yaml. Follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) to fix this issue.
 - ⏳ <pending check name>: still running.
 ```
+
+## Final Step — Update Labels
+
+After completing all review steps, update the PR labels to indicate completion:
+
+1. Remove the `mgmt-review-in-progress` label
+2. Add the `mgmt-review-added` label
+
+Use the GitHub MCP tool to manage these labels on PR #${{ github.event.pull_request.number }}.

@@ -1,26 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The operation returns the admin kubeconfig.
- *
- * @summary The operation returns the admin kubeconfig.
- * x-ms-original-file: specification/redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/openshiftclusters/stable/2023-11-22/examples/OpenShiftClusters_ListAdminCredentials.json
- */
-
 import { AzureRedHatOpenShiftClient } from "@azure/arm-redhatopenshift";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to the operation returns the admin kubeconfig.
+ *
+ * @summary the operation returns the admin kubeconfig.
+ * x-ms-original-file: 2025-07-25/OpenShiftClusters_ListAdminCredentials.json
+ */
 async function listsAdminKubeconfigOfAnOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAndResourceName(): Promise<void> {
-  const subscriptionId = process.env["REDHATOPENSHIFT_SUBSCRIPTION_ID"] || "subscriptionId";
-  const resourceGroupName = process.env["REDHATOPENSHIFT_RESOURCE_GROUP"] || "resourceGroup";
-  const resourceName = "resourceName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureRedHatOpenShiftClient(credential, subscriptionId);
   const result = await client.openShiftClusters.listAdminCredentials(
-    resourceGroupName,
-    resourceName,
+    "resourceGroup",
+    "resourceName",
   );
   console.log(result);
 }

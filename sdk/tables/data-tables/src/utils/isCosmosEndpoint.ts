@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { getAzuriteAccounts } from "#platform/utils/getAzuriteAccounts";
+
 export function isCosmosEndpoint(url: string): boolean {
   const parsedURL = new URL(url);
   if (parsedURL.hostname.indexOf(".table.cosmosdb.") !== -1) {
@@ -19,7 +21,7 @@ export function isCosmosEndpoint(url: string): boolean {
     return false;
   }
 
-  const azuriteAccounts = globalThis.process?.env?.AZURITE_ACCOUNTS?.split(":");
+  const azuriteAccounts = getAzuriteAccounts()?.split(":");
   if (azuriteAccounts?.[0] && parsedURL.hostname.includes(azuriteAccounts[0])) {
     return false;
   }

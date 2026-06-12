@@ -15,7 +15,8 @@
  * @azsdk-weight 60
  */
 
-import { TranscriptionClient, ProfanityFilterMode } from "@azure/ai-speech-transcription";
+import { TranscriptionClient } from "@azure/ai-speech-transcription";
+import type { ProfanityFilterMode } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as fs from "fs";
 

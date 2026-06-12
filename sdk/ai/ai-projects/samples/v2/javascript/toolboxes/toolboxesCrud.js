@@ -11,9 +11,9 @@
  * @summary Demonstrates CRUD operations on Toolboxes using the beta toolboxes API.
  */
 
+const { RestError } = require("@azure/ai-projects");
 const { AIProjectClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
-const { RestError } = require("@azure/core-rest-pipeline");
 require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";

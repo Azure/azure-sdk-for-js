@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates, using Put verb, the value assigned to a specific modifiable configuration (also known as server parameter) of a server.
  *
  * @summary updates, using Put verb, the value assigned to a specific modifiable configuration (also known as server parameter) of a server.
- * x-ms-original-file: 2026-01-01-preview/ConfigurationsUpdateUsingPut.json
+ * x-ms-original-file: 2026-04-01-preview/ConfigurationsUpdateUsingPut.json
  */
 async function updateUsingPutVerbTheValueAssignedToASpecificModifiableConfigurationAlsoKnownAsServerParameterOfAServer() {
   const credential = new DefaultAzureCredential();

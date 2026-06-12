@@ -110,7 +110,7 @@ jobs:
                 ${{ insert }}: ${{ parameters.EnvVars }}
 
       - script: |
-          npm install -g pnpm
+          npm install -g pnpm@10.34.2
         displayName: "Install Pnpm"
 
       - script: |
@@ -163,7 +163,7 @@ jobs:
             pwsh: true
             ScriptType: InlineScript
             Inline: |
-              Start-Process "node" -ArgumentList "launch.js run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
+              Start-Process "node" -ArgumentList "launch.ts run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
               for ($i = 0; $i -lt 10; $i++) {
                   try {
                       Invoke-WebRequest -Uri "http://localhost:4895/health" | Out-Null
@@ -184,7 +184,7 @@ jobs:
 
       - ${{ else }}:
         - pwsh: |
-            Start-Process "node" -ArgumentList "launch.js run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
+            Start-Process "node" -ArgumentList "launch.ts run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
             for ($i = 0; $i -lt 10; $i++) {
                 try {
                     Invoke-WebRequest -Uri "http://localhost:4895/health" | Out-Null

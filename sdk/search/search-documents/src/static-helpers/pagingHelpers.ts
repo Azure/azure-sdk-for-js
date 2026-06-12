@@ -222,7 +222,7 @@ function getNextLink(body: unknown, nextLinkName?: string): string | undefined {
     return undefined;
   }
 
-  return nextLink;
+  return nextLink as string;
 }
 
 /**

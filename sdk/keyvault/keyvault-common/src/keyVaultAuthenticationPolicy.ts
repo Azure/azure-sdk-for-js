@@ -12,6 +12,7 @@ import type { WWWAuthenticate } from "./parseWWWAuthenticate.js";
 import { parseWWWAuthenticateHeader } from "./parseWWWAuthenticate.js";
 
 import type { GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 import { createTokenCycler } from "./tokenCycler.js";
 import { logger } from "./logger.js";
 
@@ -225,7 +226,7 @@ export function keyVaultAuthenticationPolicy(
       return response;
     }
 
-    const claims = atob(base64EncodedClaims);
+    const claims = uint8ArrayToString(stringToUint8Array(base64EncodedClaims, "base64"), "utf-8");
 
     const accessToken = await getAccessToken(challengeState.scopes, {
       ...getTokenOptions,

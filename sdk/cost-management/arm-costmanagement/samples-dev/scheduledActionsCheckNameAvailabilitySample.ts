@@ -1,26 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Checks availability and correctness of the name for a scheduled action.
- *
- * @summary Checks availability and correctness of the name for a scheduled action.
- * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/checkNameAvailability-private-scheduledAction.json
- */
-
-import type { CheckNameAvailabilityRequest } from "@azure/arm-costmanagement";
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to checks availability and correctness of the name for a scheduled action.
+ *
+ * @summary checks availability and correctness of the name for a scheduled action.
+ * x-ms-original-file: 2025-03-01/scheduledActions/checkNameAvailability-private-scheduledAction.json
+ */
 async function scheduledActionCheckNameAvailability(): Promise<void> {
-  const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
-    name: "testName",
-    type: "Microsoft.CostManagement/ScheduledActions",
-  };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.scheduledActions.checkNameAvailability(checkNameAvailabilityRequest);
+  const result = await client.scheduledActions.checkNameAvailability({
+    name: "testName",
+    type: "Microsoft.CostManagement/ScheduledActions",
+  });
   console.log(result);
 }
 

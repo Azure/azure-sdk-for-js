@@ -36,6 +36,7 @@ import type {
   NarrowedModel,
   QueryAnswer,
   QueryCaption,
+  QueryRewrites,
   SearchDocumentsPageResult,
   SearchDocumentsResult,
   SearchFieldArray,
@@ -48,6 +49,7 @@ import type {
   SuggestOptions,
   UploadDocumentsOptions,
   VectorQuery,
+  VectorizableImageBinaryQuery,
 } from "./indexModels.js";
 import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
@@ -312,6 +314,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       highlightFields,
       vectorSearchOptions,
       semanticSearchOptions,
+      debug,
       ...restOptions
     } = options as typeof options & { queryType: "semantic" };
 
@@ -322,6 +325,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       answers,
       captions,
       debugMode,
+      queryRewrites,
       ...restSemanticOptions
     } = semanticSearchOptions ?? {};
     const { queries, filterMode, ...restVectorOptions } = vectorSearchOptions ?? {};
@@ -339,9 +343,10 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       vectorQueries: queries?.map(this.convertVectorQuery.bind(this)),
       answers: this.convertQueryAnswers(answers),
       captions: this.convertQueryCaptions(captions),
+      queryRewrites: this.convertQueryRewrites(queryRewrites),
       semanticErrorHandling: errorMode,
       semanticConfigurationName: configurationName,
-      debug: debugMode,
+      debug: debugMode ?? debug, // Use semanticSearchOptions.debugMode if set, otherwise use top-level debug
       vectorFilterMode: filterMode,
     };
 
@@ -785,33 +790,33 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     if (select) {
       return select.join(",");
     }
-    return select;
+    return undefined;
   }
 
   private convertVectorQueryFields(fields?: SearchFieldArray<TModel>): string | undefined {
     if (fields) {
       return fields.join(",");
     }
-    return fields;
+    return undefined;
   }
 
   private convertSearchFields(searchFields?: SearchFieldArray<TModel>): string | undefined {
     if (searchFields) {
       return searchFields.join(",");
     }
-    return searchFields;
+    return undefined;
   }
 
   private convertOrderBy(orderBy?: string[]): string | undefined {
     if (orderBy) {
       return orderBy.join(",");
     }
-    return orderBy;
+    return undefined;
   }
 
   private convertQueryAnswers(answers?: QueryAnswer): BaseAnswers | undefined {
     if (!answers) {
-      return answers;
+      return undefined;
     }
 
     const config = [];
@@ -838,7 +843,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   private convertQueryCaptions(captions?: QueryCaption): BaseCaptions | undefined {
     if (!captions) {
-      return captions;
+      return undefined;
     }
 
     const config = [];
@@ -859,6 +864,20 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     return output;
   }
 
+  private convertQueryRewrites(queryRewrites?: QueryRewrites): string | undefined {
+    if (!queryRewrites) {
+      return undefined;
+    }
+
+    const { rewritesType, count } = queryRewrites;
+
+    if (count !== undefined) {
+      return `${rewritesType}|count-${count}`;
+    }
+
+    return rewritesType;
+  }
+
   private convertVectorQuery<T extends VectorQuery<TModel>>(vectorQuery: T): GeneratedVectorQuery {
     switch (vectorQuery.kind) {
       case "text": {
@@ -869,9 +888,18 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
         };
       }
       case "vector":
-      case "imageUrl":
-      case "imageBinary": {
+      case "imageUrl": {
         return { ...vectorQuery, fields: this.convertVectorQueryFields(vectorQuery?.fields) };
+      }
+      case "imageBinary": {
+        // Map convenience layer's binaryImage to generated layer's base64Image
+        const { binaryImage, fields, ...rest } =
+          vectorQuery as VectorizableImageBinaryQuery<TModel>;
+        return {
+          ...rest,
+          base64Image: binaryImage,
+          fields: this.convertVectorQueryFields(fields),
+        };
       }
       default: {
         logger.warning("Unknown vector query kind; sending without serialization");
