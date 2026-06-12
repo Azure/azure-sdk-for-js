@@ -17,7 +17,7 @@ jobs:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
   - script: |
-      npm install -g pnpm
+      npm install -g pnpm@10.34.2
     displayName: "Install Pnpm"
 
   - script: |
@@ -59,7 +59,7 @@ jobs:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
   - script: |
-      npm install -g pnpm
+      npm install -g pnpm@10.34.2
     displayName: "Install Pnpm"
 
   - script: |
