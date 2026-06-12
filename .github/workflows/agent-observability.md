@@ -14,14 +14,14 @@ on:
   #   schedule:
   #     - cron: "weekly on monday"
 description: |
-  Weekly agent observability report for Azure/azure-sdk-for-js. Posts a
-  structured comment on the long-lived tracking issue identified by repo
-  variable AGENT_OBSERVABILITY_ISSUE (hardcoded to #38930 in this
-  prototype). Measures Tier 1 (leading indicators) from the AI-Forward
-  Starter Kit plus Copilot Code Review reaction quality. Follows the
-  gh-aw DataOps pattern: all data is gathered by an authenticated shell
-  step (zero AI tokens, deterministic), and the agent only reads the
-  pre-computed JSON and writes the narrative.
+  Weekly agent observability report for this repository. Posts a
+  structured comment on a long-lived tracking issue (its number is set
+  in the add-comment safe-output below). Measures Tier 1 (leading
+  indicators) from the AI-Forward Starter Kit plus Copilot Code Review
+  reaction quality. Follows the gh-aw DataOps pattern: all data is
+  gathered by an authenticated shell step (zero AI tokens,
+  deterministic), and the agent only reads the pre-computed JSON and
+  writes the narrative.
 permissions:
   contents: read
   actions: read
@@ -34,10 +34,10 @@ steps:
   - name: Collect observability data
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # Prototype: target repo is hardcoded so this also works in trial
-      # mode (where github.repository would be the trial host repo).
-      # In production this can become ${{ github.repository }}.
-      REPO: Azure/azure-sdk-for-js
+      # The repository the workflow runs in. In trial mode, gh aw's
+      # --logical-repo sets this to the simulated target, so the same
+      # value works for both production and trials.
+      REPO: ${{ github.repository }}
       WINDOW_DAYS: ${{ github.event.inputs.window_days || '7' }}
       OUTDIR: /tmp/gh-aw/agent
     run: |
@@ -51,9 +51,6 @@ steps:
       since=$(date -u -d "@$since_s" +%Y-%m-%dT%H:%M:%SZ)
       until=$(date -u -d "@$now_s" +%Y-%m-%dT%H:%M:%SZ)
       prior_since=$(date -u -d "@$prior_s" +%Y-%m-%dT%H:%M:%SZ)
-      since_d=$(date -u -d "@$since_s" +%Y-%m-%d)
-      until_d=$(date -u -d "@$now_s" +%Y-%m-%d)
-      prior_since_d=$(date -u -d "@$prior_s" +%Y-%m-%d)
 
       jq -n --arg wd "$WINDOW_DAYS" --arg s "$since" --arg u "$until" --arg ps "$prior_since" \
         '{window_days:($wd|tonumber), since:$s, until:$u, prior_since:$ps}' > "$OUTDIR/meta.json"
@@ -176,12 +173,6 @@ steps:
             p95_s:    (if $n==0 then null else $d[(($n*0.95 - 0.001)|floor)] end) }
       ' > "$OUTDIR/ci.json"
 
-      # --- Step 6: agent-activity proxy (commit search, date-ranged) ---
-      search_count() { api "/search/commits?q=repo:$REPO+Co-authored-by:Copilot+author-date:$1..$2&per_page=1" 2>/dev/null | jq '.total_count // null'; }
-      cur_a=$(search_count "$since_d" "$until_d")
-      prior_a=$(search_count "$prior_since_d" "$since_d")
-      jq -n --argjson c "${cur_a:-null}" --argjson p "${prior_a:-null}" '{current:$c, prior:$p}' > "$OUTDIR/activity.json"
-
       rm -f "$ccr_dump"
       echo "=== collected ==="; ls -1 "$OUTDIR"/*.json
 tools:
@@ -195,19 +186,25 @@ safe-outputs:
   allowed-github-references: []
   add-comment:
     max: 1
-    target: "38930"   # tracking issue (prototype). TODO: move to repo var AGENT_OBSERVABILITY_ISSUE
+    # The long-lived tracking issue this report comments on each week.
+    # NOTE: gh-aw requires a literal issue number here (a ${{ vars.* }}
+    # expression silently disables fixed-target mode and breaks posting),
+    # so this is a per-deployment constant rather than a repo variable.
+    # To deploy in another repo, create a tracking issue and put its
+    # number here.
+    target: "38930"
     hide-older-comments: true
     footer: false
 ---
 
 # Agent observability report
 
-You are writing the weekly agent-observability report for
-`Azure/azure-sdk-for-js`, posted as a single comment on tracking issue
-#38930. **All measurement has already been done for you** by a
-deterministic shell step — your only job is to read the pre-computed
-JSON and write a clear, well-structured narrative. Do not fetch data,
-do not call APIs, do not open PRs or files. Read JSON, write Markdown.
+You are writing the weekly agent-observability report for this
+repository, posted as a single comment on the tracking issue.
+**All measurement has already been done for you** by a deterministic
+shell step — your only job is to read the pre-computed JSON and write a
+clear, well-structured narrative. Do not fetch data, do not call APIs,
+do not open PRs or files. Read JSON, write Markdown.
 
 ## Where the data is
 
@@ -221,7 +218,6 @@ Every file lives in `/tmp/gh-aw/agent/`. Read them with `cat`:
 | `ci.json` | `{merged_prs, count, median_s, p95_s}` — `js - pullrequest` durations across **all** merged PRs in the window (`count` = umbrella runs measured). |
 | `hygiene.json` | `{eslint_directives, eslint_files, skip, only}` — counts under `sdk/`. |
 | `docs.json` | `{total, stale_count, top[], taste}` — `documentation/` staleness (>30d) and the `taste/` folder check. |
-| `activity.json` | `{current, prior}` — commits with the `Co-authored-by: Copilot` trailer (date-ranged). |
 
 A `null` value means that metric could not be collected this run; render
 it as `n/a` and mention it in **Notes** at the end. Never invent numbers.
@@ -230,8 +226,8 @@ it as `n/a` and mention it in **Notes** at the end. Never invent numbers.
 
 - **Helpful rate** = `plus / (plus + minus)` — `n/a` if `plus+minus == 0`.
 - **Coverage** = `with_reaction / comments` — `n/a` if `comments == 0`.
-- **Deltas (Δ)** = current − prior, for helpful rate, CCR volume, and the
-  agent-activity count. Show direction (e.g. `↓ 10 pp`, `+3`).
+- **Deltas (Δ)** = current − prior, for helpful rate and CCR volume.
+  Show direction (e.g. `↓ 10 pp`, `+3`).
 - **Durations**: convert `median_s` / `p95_s` to minutes (1 dp) for display.
 
 ## Report format (follow gh-aw report style exactly)
@@ -297,11 +293,6 @@ _Window: <since> → <until> (<window_days>d). Prior window starts <prior_since>
 - `taste/` folder: <present + age, or "missing — gap">
 
 > [!NOTE|WARNING|CAUTION] verdict; cite 1–2 of the oldest files from docs.json `top`.
-
-### Agent activity (MVP proxy)
-- Commits with `Co-authored-by: Copilot` trailer: <current> (Δ <…> vs prior)
-- Scope note: counts Copilot-CLI-authored commits only — VS Code inline
-  edits and CCR comments are not captured. A directional floor, not a total.
 
 ### What I'm noticing
 <3–5 sentences naming the single most interesting signal this week. Be
