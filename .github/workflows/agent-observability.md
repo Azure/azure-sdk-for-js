@@ -7,10 +7,11 @@ on:
         required: false
         default: "7"
         type: string
-  # NOTE: This is intended to run weekly (Monday). The schedule is
-  # intentionally omitted for now so we can validate stability via
-  # manual workflow_dispatch runs before enabling automation. To turn
-  # it on, restore:
+  # Phased rollout: this is intended to run weekly (Monday). The
+  # schedule is intentionally left off for the initial rollout so we
+  # run it a few times on demand (workflow_dispatch) and confirm the
+  # output is stable before enabling automation. To turn on the weekly
+  # cadence, uncomment:
   #   schedule:
   #     - cron: "weekly on monday"
 description: |
