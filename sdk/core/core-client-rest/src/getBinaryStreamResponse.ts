@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HttpResponse, StreamableMethod } from "@azure-rest/core-client";
-import type { NodeReadableStream } from "#platform/static-helpers/platform-types";
+import type { NodeReadableStream } from "@azure/core-rest-pipeline";
+import type { HttpResponse, StreamableMethod } from "./common.js";
 
 /**
  * Resolves a StreamableMethod into a binary stream response using Node.js streaming.
