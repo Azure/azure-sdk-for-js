@@ -42,6 +42,7 @@ import { handleTableAlreadyExists } from "./utils/errorHelpers.js";
 import { isCredential } from "./utils/isCredential.js";
 import { logger } from "./logger.js";
 import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils.js";
+import { toRestOperationOptions } from "./utils/operationOptionsAdapter.js";
 import { tablesNamedKeyCredentialPolicy } from "#platform/tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy.js";
 import { tracingClient } from "./utils/tracing.js";
@@ -227,7 +228,7 @@ export class TableServiceClient {
       "TableServiceClient.getProperties",
       options,
       async (updatedOptions) => {
-        const body = await this.service.getProperties(updatedOptions as any);
+        const body = await this.service.getProperties(toRestOperationOptions(updatedOptions));
         return { ...body } as GetPropertiesResponse;
       },
     );
@@ -249,9 +250,9 @@ export class TableServiceClient {
       async (updatedOptions) => {
         const { requestId, ...rest } = updatedOptions;
         await this.service.setProperties(properties, {
-          ...rest,
+          ...toRestOperationOptions(rest),
           clientRequestId: requestId,
-        } as any);
+        });
         return {} as SetPropertiesResponse;
       },
     );
@@ -271,7 +272,7 @@ export class TableServiceClient {
           const result = await _createSend(
             this.context,
             { tableName: name },
-            updatedOptions as any,
+            toRestOperationOptions(updatedOptions),
           );
           if (result.status === "201" || result.status === "204") {
             return;
@@ -311,7 +312,7 @@ export class TableServiceClient {
       "TableServiceClient.deleteTable",
       options,
       async (updatedOptions) => {
-        const result = await _$deleteSend(this.context, name, updatedOptions as any);
+        const result = await _$deleteSend(this.context, name, toRestOperationOptions(updatedOptions));
         if (result.status === "404") {
           logger.info("TableServiceClient.deleteTable: Table doesn't exist");
         } else if (result.status !== "204") {
@@ -401,7 +402,7 @@ export class TableServiceClient {
   private async _listTables(options: InternalListTablesOptions = {}): Promise<TableItemResultPage> {
     const { continuationToken: nextTableName, queryOptions, ...restOptions } = options;
     const result = await _querySend(this.context, {
-      ...(restOptions as any),
+      ...toRestOperationOptions(restOptions),
       filter: queryOptions?.filter,
       top: (queryOptions as any)?.top,
       nextTableName,

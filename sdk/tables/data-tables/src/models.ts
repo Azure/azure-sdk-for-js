@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommonClientOptions, OperationOptions } from "@azure-rest/core-client";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import type { TableGetAccessPolicyHeaders, TableInsertEntityHeaders } from "./generatedModels.js";
 
 /**

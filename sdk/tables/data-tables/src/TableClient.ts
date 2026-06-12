@@ -74,6 +74,7 @@ import { isCosmosEndpoint } from "./utils/isCosmosEndpoint.js";
 import { isCredential } from "./utils/isCredential.js";
 import { logger } from "./logger.js";
 import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils.js";
+import { toRestOperationOptions } from "./utils/operationOptionsAdapter.js";
 import { tablesNamedKeyCredentialPolicy } from "#platform/tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy.js";
 import { tracingClient } from "./utils/tracing.js";
@@ -303,7 +304,11 @@ export class TableClient {
    */
   public deleteTable(options: OperationOptions = {}): Promise<void> {
     return tracingClient.withSpan("TableClient.deleteTable", options, async (updatedOptions) => {
-      const result = await _$deleteSend(this.context, this.tableName, updatedOptions as any);
+      const result = await _$deleteSend(
+        this.context,
+        this.tableName,
+        toRestOperationOptions(updatedOptions),
+      );
       if (result.status === "404") {
         logger.info("TableClient.deleteTable: Table doesn't exist");
       } else if (result.status !== "204") {
@@ -338,7 +343,7 @@ export class TableClient {
         const result = await _createSend(
           this.context,
           { tableName: this.tableName },
-          updatedOptions as any,
+          toRestOperationOptions(updatedOptions),
         );
         if (result.status === "201" || result.status === "204") {
           return;
@@ -409,9 +414,9 @@ export class TableClient {
         encodePercent(escapeQuotes(partitionKey)),
         encodePercent(escapeQuotes(rowKey)),
         {
-          ...getEntityOptions,
+          ...toRestOperationOptions(getEntityOptions),
           ...serializedQuery,
-        } as any,
+        },
       );
       const tableEntity = deserialize<TableEntityResult<T>>(entity, disableTypeConversion ?? false);
 
@@ -589,9 +594,8 @@ export class TableClient {
     options: OperationOptions = {},
   ): Promise<CreateTableEntityResponse> {
     return tracingClient.withSpan("TableClient.createEntity", options, async (updatedOptions) => {
-      const { ...createTableEntity } = updatedOptions || {};
       const result = await _insertEntitySend(this.context, this.tableName, {
-        ...(createTableEntity as any),
+        ...toRestOperationOptions(updatedOptions),
         tableEntityProperties: serialize(entity),
         prefer: "return-no-content",
       });
@@ -647,7 +651,7 @@ export class TableClient {
         etag,
         encodePercent(escapeQuotes(partitionKey)),
         encodePercent(escapeQuotes(rowKey)),
-        { ...rest } as any,
+        toRestOperationOptions(rest),
       );
       await _deleteEntityDeserialize(result);
       return extractResponseHeaders(result) as DeleteTableEntityResponse;
@@ -720,8 +724,8 @@ export class TableClient {
             {
               tableEntityProperties: serialize(entity),
               ifMatch: etag,
-              ...updateEntityOptions,
-            } as any,
+              ...toRestOperationOptions(updateEntityOptions),
+            },
           );
           await _mergeEntityDeserialize(result);
           return extractResponseHeaders(result) as UpdateEntityResponse;
@@ -735,8 +739,8 @@ export class TableClient {
             {
               tableEntityProperties: serialize(entity),
               ifMatch: etag,
-              ...updateEntityOptions,
-            } as any,
+              ...toRestOperationOptions(updateEntityOptions),
+            },
           );
           await _updateEntityDeserialize(result);
           return extractResponseHeaders(result) as UpdateEntityResponse;
@@ -812,8 +816,8 @@ export class TableClient {
             rowKey,
             {
               tableEntityProperties: serialize(entity),
-              ...updatedOptions,
-            } as any,
+              ...toRestOperationOptions(updatedOptions),
+            },
           );
           await _mergeEntityDeserialize(result);
           return extractResponseHeaders(result) as UpsertEntityResponse;
@@ -827,8 +831,8 @@ export class TableClient {
             rowKey,
             {
               tableEntityProperties: serialize(entity),
-              ...updatedOptions,
-            } as any,
+              ...toRestOperationOptions(updatedOptions),
+            },
           );
           await _updateEntityDeserialize(result);
           return extractResponseHeaders(result) as UpsertEntityResponse;
@@ -853,7 +857,10 @@ export class TableClient {
       "TableClient.getAccessPolicy",
       options,
       async (updatedOptions) => {
-        const result = await this.table.getAccessPolicy(this.tableName, updatedOptions as any);
+        const result = await this.table.getAccessPolicy(
+          this.tableName,
+          toRestOperationOptions(updatedOptions),
+        );
         return deserializeSignedIdentifier((result as any).identifiers ?? []);
       },
     );
@@ -876,7 +883,7 @@ export class TableClient {
         await this.table.setAccessPolicy(
           this.tableName,
           { identifiers: serlializedAcl } as any,
-          updatedOptions as any,
+          toRestOperationOptions(updatedOptions),
         );
         return {} as SetAccessPolicyResponse;
       },
