@@ -51,7 +51,6 @@ permissions:
   pull-requests: read
   actions: read
   security-events: read
-  copilot-requests: write
 network:
   allowed:
     - defaults
