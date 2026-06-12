@@ -111,7 +111,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(successMap.get(null)).toBe(5);
     });
 
-    it("should not store dropReason for CLIENT_EXCEPTION when message not provided", () => {
+    it("should store default dropReason for CLIENT_EXCEPTION when message not provided", () => {
       customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(3, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
@@ -133,7 +133,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(successMap.get(null)).toBe(3);
     });
 
-    it("should NOT store dropReason for non-CLIENT_EXCEPTION drop codes", () => {
+    it("should store categorized dropReason for non-CLIENT_EXCEPTION drop codes", () => {
       const exceptionMessage = "Some error message";
 
       customerSDKStatsMetrics.countDroppedItems(
@@ -273,7 +273,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(reasonMap.get("Network exception")).toBe(3);
     });
 
-    it("should not store retryReason for CLIENT_EXCEPTION when message not provided", () => {
+    it("should store default retryReason for CLIENT_EXCEPTION when message not provided", () => {
       customerSDKStatsMetrics.countRetryItems(
         createMockEnvelopes(2, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
@@ -293,7 +293,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(reasonMap.get("Client exception")).toBe(2);
     });
 
-    it("should not store retryReason for non-CLIENT_EXCEPTION retry codes", () => {
+    it("should store categorized retryReason for non-CLIENT_EXCEPTION retry codes", () => {
       const exceptionMessage = "Some retry message";
 
       customerSDKStatsMetrics.countRetryItems(

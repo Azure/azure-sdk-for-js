@@ -6,7 +6,7 @@
 
 ### Breaking Changes
 
-- Renamed customer SDK Stats attribute keys to camelCase to align with the [Customer Facing SDK Stats spec](https://github.com/aep-health-and-standards/Telemetry-Collection-Spec/pull/963): `drop.code` → `dropCode`, `drop.reason` → `dropReason`, `retry.code` → `retryCode`, `retry.reason` → `retryReason`, `telemetry_type` → `telemetryType`, `telemetry_success` → `telemetrySuccess`.
+- Renamed customer SDK Stats attribute keys to camelCase: `drop.code` → `dropCode`, `drop.reason` → `dropReason`, `retry.code` → `retryCode`, `retry.reason` → `retryReason`, `telemetry_type` → `telemetryType`, `telemetry_success` → `telemetrySuccess`.
 
 ### Bugs Fixed
 
