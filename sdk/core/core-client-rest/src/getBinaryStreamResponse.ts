@@ -9,8 +9,6 @@ import type { HttpResponse, StreamableMethod } from "./common.js";
  * Returns both the raw HttpResponse (for status/header inspection) and the readable stream body.
  * Error handling is left to the caller so that generated deserializers can apply
  * operation-specific error deserialization (per-status-code details, exception headers, etc.).
- *
- * @public
  */
 export async function getBinaryStreamResponse(streamableMethod: StreamableMethod): Promise<
   HttpResponse & {
