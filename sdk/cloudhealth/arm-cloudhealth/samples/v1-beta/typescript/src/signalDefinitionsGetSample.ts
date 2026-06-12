@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a SignalDefinition
  *
  * @summary get a SignalDefinition
- * x-ms-original-file: 2025-05-01-preview/SignalDefinitions_Get.json
+ * x-ms-original-file: 2026-01-01-preview/SignalDefinitions_Get.json
  */
 async function signalDefinitionsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
