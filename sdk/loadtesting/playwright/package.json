@@ -110,5 +110,11 @@
       "Azure Playwright workspace": "https://learn.microsoft.com/azure/playwright-testing/"
     }
   },
-  "type": "module"
+  "type": "module",
+  "imports": {
+    "#platform/*": {
+      "require": "./src/*-cjs.ts",
+      "default": "./src/*.ts"
+    }
+  }
 }

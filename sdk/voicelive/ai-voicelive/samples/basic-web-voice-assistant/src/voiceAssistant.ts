@@ -35,6 +35,9 @@ export interface VoiceAssistantConfig {
   debugMode?: boolean;
 }
 
+const OPENAI_VOICES = ['alloy', 'echo', 'shimmer', 'ash', 'ballad', 'coral', 'sage', 'verse', 'fable', 'onyx', 'nova'];
+const AZURE_REALTIME_NATIVE_VOICE_SUFFIX = '-native';
+
 export interface VoiceAssistantCallbacks {
   onConnectionStatusChange: (status: string) => void;
   onAssistantStatusChange: (status: string) => void;
@@ -86,30 +89,28 @@ export class VoiceAssistant {
       // Create appropriate credential based on configuration
       const credential = this._createCredential(config);
       
-      // Create client options for session
+      // Create session options
       const sessionOptions: any = {
         connectionTimeoutInMs: 30000,
-        enableDebugLogging: config.debugMode !== false // Enable by default
       };
 
-      console.log(`🔧 Creating Voice Live client with debug mode: ${sessionOptions.enableDebugLogging}`);
       console.log(`🔑 Using credential type: ${config.useTokenCredential ? 'TokenCredential' : 'API Key'}`);
       console.log('⚡ Using fail-fast connection policy - any disconnection will terminate session');
-      
-      if (sessionOptions.enableDebugLogging) {
-        console.log('🐛 Debug mode enabled - you will see detailed SDK logs');
+
+      if (config.debugMode !== false) {
+        console.log('🐛 Debug mode enabled - set AZURE_LOG_LEVEL=verbose (or call setLogLevel("verbose") from @azure/logger) to see detailed SDK logs');
         console.log('🔍 Check Network tab for WebSocket messages');
         console.log('📡 Watch Events panel for real-time SDK events');
       }
 
-      // Create Voice Live client
+      // Create Voice Live client. `apiVersion` defaults to the latest known
+      // version; override only to pin a specific version.
       this.client = new VoiceLiveClient(config.endpoint, credential, {
-        apiVersion: '2025-10-01',
         defaultSessionOptions: sessionOptions
       });
       
-      // Create and connect a session with model
-      this.session = await this.client.startSession('gpt-4.1', sessionOptions);
+      // Create and connect a session with a model compatible with the selected voice.
+      this.session = await this.client.startSession(this.getModelForVoice(config.voice), sessionOptions);
       
       // Setup handler-based event subscription (Azure SDK pattern)
       this.subscription = this.session.subscribe(this.createEventHandlers());
@@ -519,8 +520,8 @@ export class VoiceAssistant {
         turnDetection: {
           type: 'server_vad',
           threshold: 0.5,
-          prefixPaddingMs: 300,
-          silenceDurationMs: 500
+          prefixPaddingInMs: 300,
+          silenceDurationInMs: 500
         }
       });
       
@@ -533,10 +534,14 @@ export class VoiceAssistant {
   }
 
   private createVoiceObject(voiceName: string): any {
-    // Check if it's an OpenAI voice (simple names like 'alloy', 'echo', etc.)
-    const openAIVoices = ['alloy', 'echo', 'shimmer', 'ash', 'ballad', 'coral', 'sage', 'verse'];
-    
-    if (openAIVoices.includes(voiceName.toLowerCase())) {
+    if (voiceName.endsWith(AZURE_REALTIME_NATIVE_VOICE_SUFFIX)) {
+      return {
+        type: 'azure-realtime-native',
+        name: voiceName.slice(0, -AZURE_REALTIME_NATIVE_VOICE_SUFFIX.length)
+      };
+    }
+
+    if (OPENAI_VOICES.includes(voiceName.toLowerCase())) {
       return {
         type: 'openai',
         name: voiceName.toLowerCase()
@@ -548,6 +553,14 @@ export class VoiceAssistant {
       type: 'azure-standard',
       name: voiceName
     };
+  }
+
+  private getModelForVoice(voiceName: string): string {
+    if (voiceName.endsWith(AZURE_REALTIME_NATIVE_VOICE_SUFFIX)) {
+      return 'azure-realtime';
+    }
+
+    return 'gpt-4.1';
   }
 
   private async sendAudioData(audioData: ArrayBuffer): Promise<void> {

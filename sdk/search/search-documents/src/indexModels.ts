@@ -5,15 +5,18 @@ import type { OperationOptions } from "@azure-rest/core-client";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
   AutocompleteMode,
+  HybridSearch,
   IndexActionType,
   KnownSemanticErrorMode,
   KnownSemanticErrorReason,
   KnownVectorFilterMode,
   KnownVectorQueryKind,
   QueryDebugMode,
+  QueryResultDocumentRerankerInput,
   QueryType,
   ScoringStatistics,
   SearchMode,
+  SemanticFieldState,
   SemanticSearchResultsType,
   VectorsDebugInfo,
 } from "./models/azure/search/documents/index.js";
@@ -94,6 +97,16 @@ export interface GetDocumentOptions<
    * the returned document.
    */
   selectedFields?: readonly TFields[];
+  /**
+   * Token identifying the user for which the query is being executed. This token is used to
+   * enforce security restrictions on documents.
+   */
+  querySourceAuthorization?: string;
+  /**
+   * A value that enables elevated read that bypass document level permission checks for the
+   * query operation.
+   */
+  enableElevatedRead?: boolean;
 }
 
 /**
@@ -415,9 +428,23 @@ export interface BaseSearchRequestOptions<
    */
   vectorSearchOptions?: VectorSearchOptions<TModel>;
   /**
+   * The query parameters to configure hybrid search behaviors.
+   */
+  hybridSearch?: HybridSearch;
+  /**
    * Enables a debugging tool that can be used to further explore your search results.
    */
   debug?: QueryDebugMode;
+  /**
+   * Token identifying the user for which the query is being executed. This token is used to
+   * enforce security restrictions on documents.
+   */
+  querySourceAuthorization?: string;
+  /**
+   * A value that enables elevated read that bypass document level permission checks for the
+   * query operation.
+   */
+  enableElevatedRead?: boolean;
 }
 
 /**
@@ -920,6 +947,11 @@ export interface QueryResultDocumentSemanticField {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
+  /**
+   * The way the field was used for the semantic enrichment process (fully used, partially used, or unused).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: SemanticFieldState;
 }
 
 /**
@@ -957,6 +989,11 @@ export interface SemanticDebugInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keywordFields?: QueryResultDocumentSemanticField[];
+  /**
+   * The raw concatenated strings that were sent to the semantic enrichment process.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rerankerInput?: QueryResultDocumentRerankerInput;
 }
 
 /**

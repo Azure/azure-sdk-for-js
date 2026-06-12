@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createServiceFabricManagedClustersManagement,
-  type ServiceFabricManagedClustersManagementContext,
-  type ServiceFabricManagedClustersManagementClientOptionalParams,
+export type {
+  ServiceFabricManagedClustersManagementContext,
+  ServiceFabricManagedClustersManagementClientOptionalParams,
 } from "./serviceFabricManagedClustersManagementContext.js";
+export { createServiceFabricManagedClustersManagement } from "./serviceFabricManagedClustersManagementContext.js";

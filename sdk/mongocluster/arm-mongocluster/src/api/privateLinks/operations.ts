@@ -18,9 +18,7 @@ export function _listByMongoClusterSend(
   context: Client,
   resourceGroupName: string,
   mongoClusterName: string,
-  options: PrivateLinksListByMongoClusterOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateLinksListByMongoClusterOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateLinkResources{?api%2Dversion}",
@@ -28,7 +26,7 @@ export function _listByMongoClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -36,10 +34,7 @@ export function _listByMongoClusterSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -50,6 +45,7 @@ export async function _listByMongoClusterDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -61,15 +57,17 @@ export function listByMongoCluster(
   context: Client,
   resourceGroupName: string,
   mongoClusterName: string,
-  options: PrivateLinksListByMongoClusterOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateLinksListByMongoClusterOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<PrivateLinkResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByMongoClusterSend(context, resourceGroupName, mongoClusterName, options),
     _listByMongoClusterDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    },
   );
 }

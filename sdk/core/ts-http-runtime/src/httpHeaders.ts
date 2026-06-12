@@ -12,6 +12,17 @@ function normalizeName(name: string): string {
   return name.toLowerCase();
 }
 
+/**
+ * Removes CR and LF characters from a header value to prevent obs-fold
+ * (line folding) sequences, as forbidden by RFC 7230 §3.2.4.
+ * @param value - The header value to sanitize.
+ */
+function normalizeValue(value: string | number | boolean): string {
+  return String(value)
+    .trim()
+    .replace(/[\r\n]/g, "");
+}
+
 function* headerIterator(map: Map<string, HeaderEntry>): IterableIterator<[string, string]> {
   for (const entry of map.values()) {
     yield [entry.name, entry.value];
@@ -37,7 +48,7 @@ class HttpHeadersImpl implements HttpHeaders {
    * @param value - The value of the header to set.
    */
   public set(name: string, value: string | number | boolean): void {
-    this._headersMap.set(normalizeName(name), { name, value: String(value).trim() });
+    this._headersMap.set(normalizeName(name), { name, value: normalizeValue(value) });
   }
 
   /**

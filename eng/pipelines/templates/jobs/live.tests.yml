@@ -110,7 +110,7 @@ jobs:
                 ${{ insert }}: ${{ parameters.EnvVars }}
 
       - script: |
-          npm install -g pnpm
+          npm install -g pnpm@10.34.2
         displayName: "Install Pnpm"
 
       - script: |

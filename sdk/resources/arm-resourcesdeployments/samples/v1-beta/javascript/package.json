@@ -2,7 +2,7 @@
   "name": "@azure-samples/arm-resourcesdeployments-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": " client library samples for JavaScript (Beta)",
+  "description": "@azure/arm-resourcesdeployments client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -14,10 +14,10 @@
   "keywords": [
     "node",
     "azure",
+    "cloud",
     "typescript",
     "browser",
-    "isomorphic",
-    "cloud"
+    "isomorphic"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -26,8 +26,11 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resources/arm-resourcesdeployments",
   "dependencies": {
-    "@azure/arm-resourcesdeployments": "next",
+    "@azure/arm-resourcesdeployments": "beta",
     "dotenv": "latest",
-    "@azure/identity": "^4.6.0"
+    "@azure/identity": "^4.13.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }
