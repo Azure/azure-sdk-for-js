@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import type { AutomationClient } from "./automationClient.js";
-import { _replaceContentDeserialize } from "./api/runbookDraft/operations.js";
 import { _publishDeserialize } from "./api/runbook/operations.js";
-import { _createOrUpdateDeserialize } from "./api/dscNodeConfiguration/operations.js";
+import { _replaceContentDeserialize } from "./api/runbookDraftOperations/operations.js";
+import { _createOrUpdateDeserialize } from "./api/dscNodeConfigurationOperations/operations.js";
 import {
   _$deleteDeserialize,
   _createOrUpdateDeserialize as _createOrUpdateDeserializePrivateEndpointConnections,
@@ -80,10 +80,10 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/content":
-    { deserializer: _replaceContentDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/publish":
     { deserializer: _publishDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/content":
+    { deserializer: _replaceContentDeserialize, expectedStatuses: ["202", "200", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations/{nodeConfigurationName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/privateEndpointConnections/{privateEndpointConnectionName}":

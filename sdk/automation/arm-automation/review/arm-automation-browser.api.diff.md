@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -592,14 +592,15 @@
+@@ -594,14 +594,15 @@
  // @public
  export type CreatedByType = string;
  
@@ -22,27 +22,27 @@ For the complete API surface, see the corresponding -node.api.md file.
 +export { Credential_2 as Credential }
  
  // @public
- export interface CredentialCreateOrUpdateOptionalParams extends OperationOptions {
- }
-@@ -632,13 +633,13 @@
- }
- 
- // @public
- export interface CredentialOperations {
--    createOrUpdate: (resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: CredentialCreateOrUpdateParameters, options?: CredentialCreateOrUpdateOptionalParams) => Promise<Credential>;
-+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: CredentialCreateOrUpdateParameters, options?: CredentialCreateOrUpdateOptionalParams) => Promise<Credential_2>;
-     delete: (resourceGroupName: string, automationAccountName: string, credentialName: string, options?: CredentialDeleteOptionalParams) => Promise<void>;
--    get: (resourceGroupName: string, automationAccountName: string, credentialName: string, options?: CredentialGetOptionalParams) => Promise<Credential>;
--    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: CredentialListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Credential>;
--    update: (resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: CredentialUpdateParameters, options?: CredentialUpdateOptionalParams) => Promise<Credential>;
-+    get: (resourceGroupName: string, automationAccountName: string, credentialName: string, options?: CredentialGetOptionalParams) => Promise<Credential_2>;
-+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: CredentialListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Credential_2>;
-+    update: (resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: CredentialUpdateParameters, options?: CredentialUpdateOptionalParams) => Promise<Credential_2>;
+ export interface CredentialCreateOrUpdateParameters {
+     description?: string;
+@@ -634,13 +635,13 @@
  }
  
  // @public
- export interface CredentialProperties {
-@@ -1134,9 +1135,9 @@
+ export interface CredentialOperationsOperations {
+-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: CredentialCreateOrUpdateParameters, options?: CredentialOperationsCreateOrUpdateOptionalParams) => Promise<Credential>;
++    createOrUpdate: (resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: CredentialCreateOrUpdateParameters, options?: CredentialOperationsCreateOrUpdateOptionalParams) => Promise<Credential_2>;
+     delete: (resourceGroupName: string, automationAccountName: string, credentialName: string, options?: CredentialOperationsDeleteOptionalParams) => Promise<void>;
+-    get: (resourceGroupName: string, automationAccountName: string, credentialName: string, options?: CredentialOperationsGetOptionalParams) => Promise<Credential>;
+-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: CredentialOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Credential>;
+-    update: (resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: CredentialUpdateParameters, options?: CredentialOperationsUpdateOptionalParams) => Promise<Credential>;
++    get: (resourceGroupName: string, automationAccountName: string, credentialName: string, options?: CredentialOperationsGetOptionalParams) => Promise<Credential_2>;
++    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: CredentialOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Credential_2>;
++    update: (resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: CredentialUpdateParameters, options?: CredentialOperationsUpdateOptionalParams) => Promise<Credential_2>;
+ }
+ 
+ // @public
+ export interface CredentialOperationsUpdateOptionalParams extends OperationOptions {
+@@ -1140,9 +1141,9 @@
      lastSeenDateTime?: Date;
      registeredDateTime?: Date;
      vmResourceId?: string;
@@ -53,7 +53,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface HybridRunbookWorkerCreateOrUpdateParameters {
-@@ -1213,9 +1214,9 @@
+@@ -1219,9 +1220,9 @@
      lastSeenDateTime?: Date;
      registeredDateTime?: Date;
      vmResourceId?: string;
@@ -64,7 +64,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface HybridRunbookWorkersCreateOptionalParams extends OperationOptions {
-@@ -3748,9 +3749,10 @@
+@@ -3758,9 +3759,10 @@
  // @public
  export type WindowsUpdateClasses = string;
  

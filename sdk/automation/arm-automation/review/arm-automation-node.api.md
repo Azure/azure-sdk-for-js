@@ -29,17 +29,17 @@ export interface Activity {
 }
 
 // @public
-export interface ActivityGetOptionalParams extends OperationOptions {
+export interface ActivityOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ActivityListByModuleOptionalParams extends OperationOptions {
+export interface ActivityOperationsListByModuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ActivityOperations {
-    get: (resourceGroupName: string, automationAccountName: string, moduleName: string, activityName: string, options?: ActivityGetOptionalParams) => Promise<Activity>;
-    listByModule: (resourceGroupName: string, automationAccountName: string, moduleName: string, options?: ActivityListByModuleOptionalParams) => PagedAsyncIterableIterator<Activity>;
+export interface ActivityOperationsOperations {
+    get: (resourceGroupName: string, automationAccountName: string, moduleName: string, activityName: string, options?: ActivityOperationsGetOptionalParams) => Promise<Activity>;
+    listByModule: (resourceGroupName: string, automationAccountName: string, moduleName: string, options?: ActivityOperationsListByModuleOptionalParams) => PagedAsyncIterableIterator<Activity>;
 }
 
 // @public
@@ -150,10 +150,6 @@ export interface AutomationAccount extends TrackedResource {
 }
 
 // @public
-export interface AutomationAccountCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface AutomationAccountCreateOrUpdateParameters {
     disableLocalAuth?: boolean;
     encryption?: EncryptionProperties;
@@ -174,34 +170,42 @@ export interface AutomationAccountCreateOrUpdateProperties {
 }
 
 // @public
-export interface AutomationAccountDeleteOptionalParams extends OperationOptions {
+export interface AutomationAccountOperationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AutomationAccountGetOptionalParams extends OperationOptions {
+export interface AutomationAccountOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AutomationAccountListByResourceGroupOptionalParams extends OperationOptions {
+export interface AutomationAccountOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AutomationAccountListDeletedRunbooksOptionalParams extends OperationOptions {
+export interface AutomationAccountOperationsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AutomationAccountListOptionalParams extends OperationOptions {
+export interface AutomationAccountOperationsListDeletedRunbooksOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AutomationAccountOperations {
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, parameters: AutomationAccountCreateOrUpdateParameters, options?: AutomationAccountCreateOrUpdateOptionalParams) => Promise<AutomationAccount>;
-    delete: (resourceGroupName: string, automationAccountName: string, options?: AutomationAccountDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, options?: AutomationAccountGetOptionalParams) => Promise<AutomationAccount>;
-    list: (options?: AutomationAccountListOptionalParams) => PagedAsyncIterableIterator<AutomationAccount>;
-    listByResourceGroup: (resourceGroupName: string, options?: AutomationAccountListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AutomationAccount>;
-    listDeletedRunbooks: (resourceGroupName: string, automationAccountName: string, options?: AutomationAccountListDeletedRunbooksOptionalParams) => PagedAsyncIterableIterator<DeletedRunbook>;
-    update: (resourceGroupName: string, automationAccountName: string, parameters: AutomationAccountUpdateParameters, options?: AutomationAccountUpdateOptionalParams) => Promise<AutomationAccount>;
+export interface AutomationAccountOperationsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AutomationAccountOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, parameters: AutomationAccountCreateOrUpdateParameters, options?: AutomationAccountOperationsCreateOrUpdateOptionalParams) => Promise<AutomationAccount>;
+    delete: (resourceGroupName: string, automationAccountName: string, options?: AutomationAccountOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, options?: AutomationAccountOperationsGetOptionalParams) => Promise<AutomationAccount>;
+    list: (options?: AutomationAccountOperationsListOptionalParams) => PagedAsyncIterableIterator<AutomationAccount>;
+    listByResourceGroup: (resourceGroupName: string, options?: AutomationAccountOperationsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AutomationAccount>;
+    listDeletedRunbooks: (resourceGroupName: string, automationAccountName: string, options?: AutomationAccountOperationsListDeletedRunbooksOptionalParams) => PagedAsyncIterableIterator<DeletedRunbook>;
+    update: (resourceGroupName: string, automationAccountName: string, parameters: AutomationAccountUpdateParameters, options?: AutomationAccountOperationsUpdateOptionalParams) => Promise<AutomationAccount>;
+}
+
+// @public
+export interface AutomationAccountOperationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -221,10 +225,6 @@ export interface AutomationAccountProperties {
 
 // @public
 export type AutomationAccountState = string;
-
-// @public
-export interface AutomationAccountUpdateOptionalParams extends OperationOptions {
-}
 
 // @public
 export interface AutomationAccountUpdateParameters {
@@ -250,27 +250,28 @@ export interface AutomationAccountUpdateProperties {
 export class AutomationClient {
     constructor(credential: TokenCredential, options?: AutomationClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: AutomationClientOptionalParams);
-    readonly activity: ActivityOperations;
+    readonly activityOperations: ActivityOperationsOperations;
     readonly agentRegistrationInformation: AgentRegistrationInformationOperations;
-    readonly automationAccount: AutomationAccountOperations;
-    readonly certificate: CertificateOperations;
-    readonly connection: ConnectionOperations;
-    readonly connectionType: ConnectionTypeOperations;
+    readonly automationAccountOperations: AutomationAccountOperationsOperations;
+    readonly certificateOperations: CertificateOperationsOperations;
+    readonly connectionOperations: ConnectionOperationsOperations;
+    readonly connectionTypeOperations: ConnectionTypeOperationsOperations;
     convertGraphRunbookContent(resourceGroupName: string, automationAccountName: string, parameters: GraphicalRunbookContent, options?: ConvertGraphRunbookContentOptionalParams): Promise<GraphicalRunbookContent>;
-    readonly credential: CredentialOperations;
+    readonly credentialOperations: CredentialOperationsOperations;
     readonly deletedAutomationAccounts: DeletedAutomationAccountsOperations;
-    readonly dscConfiguration: DscConfigurationOperations;
-    readonly dscNode: DscNodeOperations;
+    readonly dscConfigurationOperations: DscConfigurationOperationsOperations;
     readonly dscNodeConfiguration: DscNodeConfigurationOperations;
+    readonly dscNodeConfigurationOperations: DscNodeConfigurationOperationsOperations;
+    readonly dscNodeOperations: DscNodeOperationsOperations;
     readonly fields: FieldsOperations;
-    readonly hybridRunbookWorkerGroup: HybridRunbookWorkerGroupOperations;
+    readonly hybridRunbookWorkerGroupOperations: HybridRunbookWorkerGroupOperationsOperations;
     readonly hybridRunbookWorkers: HybridRunbookWorkersOperations;
-    readonly job: JobOperations;
-    readonly jobSchedule: JobScheduleOperations;
-    readonly jobStream: JobStreamOperations;
+    readonly jobOperations: JobOperationsOperations;
+    readonly jobScheduleOperations: JobScheduleOperationsOperations;
+    readonly jobStreamOperations: JobStreamOperationsOperations;
     readonly keys: KeysOperations;
-    readonly linkedWorkspace: LinkedWorkspaceOperations;
-    readonly module: ModuleOperations;
+    readonly linkedWorkspaceOperations: LinkedWorkspaceOperationsOperations;
+    readonly moduleOperations: ModuleOperationsOperations;
     readonly nodeCountInformation: NodeCountInformationOperations;
     readonly nodeReports: NodeReportsOperations;
     readonly objectDataTypes: ObjectDataTypesOperations;
@@ -282,22 +283,23 @@ export class AutomationClient {
     readonly python2Package: Python2PackageOperations;
     readonly python3Package: Python3PackageOperations;
     readonly runbook: RunbookOperations;
-    readonly runbookDraft: RunbookDraftOperations;
+    readonly runbookDraftOperations: RunbookDraftOperationsOperations;
+    readonly runbookOperations: RunbookOperationsOperations;
     readonly runtimeEnvironments: RuntimeEnvironmentsOperations;
-    readonly schedule: ScheduleOperations;
+    readonly scheduleOperations: ScheduleOperationsOperations;
     readonly softwareUpdateConfigurationMachineRuns: SoftwareUpdateConfigurationMachineRunsOperations;
     readonly softwareUpdateConfigurationRuns: SoftwareUpdateConfigurationRunsOperations;
     readonly softwareUpdateConfigurations: SoftwareUpdateConfigurationsOperations;
-    readonly sourceControl: SourceControlOperations;
-    readonly sourceControlSyncJob: SourceControlSyncJobOperations;
+    readonly sourceControlOperations: SourceControlOperationsOperations;
+    readonly sourceControlSyncJobOperations: SourceControlSyncJobOperationsOperations;
     readonly sourceControlSyncJobStreams: SourceControlSyncJobStreamsOperations;
-    readonly statistics: StatisticsOperations;
-    readonly testJob: TestJobOperations;
+    readonly statisticsOperations: StatisticsOperationsOperations;
+    readonly testJobOperations: TestJobOperationsOperations;
     readonly testJobStreams: TestJobStreamsOperations;
     readonly usages: UsagesOperations;
-    readonly variable: VariableOperations;
-    readonly watcher: WatcherOperations;
-    readonly webhook: WebhookOperations;
+    readonly variableOperations: VariableOperationsOperations;
+    readonly watcherOperations: WatcherOperationsOperations;
+    readonly webhookOperations: WebhookOperationsOperations;
 }
 
 // @public
@@ -346,10 +348,6 @@ export interface Certificate extends ProxyResource {
 }
 
 // @public
-export interface CertificateCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface CertificateCreateOrUpdateParameters {
     base64Value: string;
     description?: string;
@@ -367,24 +365,32 @@ export interface CertificateCreateOrUpdateProperties {
 }
 
 // @public
-export interface CertificateDeleteOptionalParams extends OperationOptions {
+export interface CertificateOperationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CertificateGetOptionalParams extends OperationOptions {
+export interface CertificateOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CertificateListByAutomationAccountOptionalParams extends OperationOptions {
+export interface CertificateOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CertificateOperations {
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, certificateName: string, parameters: CertificateCreateOrUpdateParameters, options?: CertificateCreateOrUpdateOptionalParams) => Promise<Certificate>;
-    delete: (resourceGroupName: string, automationAccountName: string, certificateName: string, options?: CertificateDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, certificateName: string, options?: CertificateGetOptionalParams) => Promise<Certificate>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: CertificateListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Certificate>;
-    update: (resourceGroupName: string, automationAccountName: string, certificateName: string, parameters: CertificateUpdateParameters, options?: CertificateUpdateOptionalParams) => Promise<Certificate>;
+export interface CertificateOperationsListByAutomationAccountOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CertificateOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, certificateName: string, parameters: CertificateCreateOrUpdateParameters, options?: CertificateOperationsCreateOrUpdateOptionalParams) => Promise<Certificate>;
+    delete: (resourceGroupName: string, automationAccountName: string, certificateName: string, options?: CertificateOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, certificateName: string, options?: CertificateOperationsGetOptionalParams) => Promise<Certificate>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: CertificateOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Certificate>;
+    update: (resourceGroupName: string, automationAccountName: string, certificateName: string, parameters: CertificateUpdateParameters, options?: CertificateOperationsUpdateOptionalParams) => Promise<Certificate>;
+}
+
+// @public
+export interface CertificateOperationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -395,10 +401,6 @@ export interface CertificateProperties {
     readonly isExportable?: boolean;
     readonly lastModifiedTime?: Date;
     readonly thumbprint?: string;
-}
-
-// @public
-export interface CertificateUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -428,10 +430,6 @@ export interface Connection extends ProxyResource {
 }
 
 // @public
-export interface ConnectionCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface ConnectionCreateOrUpdateParameters {
     connectionType: ConnectionTypeAssociationProperty;
     description?: string;
@@ -447,24 +445,32 @@ export interface ConnectionCreateOrUpdateProperties {
 }
 
 // @public
-export interface ConnectionDeleteOptionalParams extends OperationOptions {
+export interface ConnectionOperationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConnectionGetOptionalParams extends OperationOptions {
+export interface ConnectionOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConnectionListByAutomationAccountOptionalParams extends OperationOptions {
+export interface ConnectionOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConnectionOperations {
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, connectionName: string, parameters: ConnectionCreateOrUpdateParameters, options?: ConnectionCreateOrUpdateOptionalParams) => Promise<Connection>;
-    delete: (resourceGroupName: string, automationAccountName: string, connectionName: string, options?: ConnectionDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, connectionName: string, options?: ConnectionGetOptionalParams) => Promise<Connection>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: ConnectionListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Connection>;
-    update: (resourceGroupName: string, automationAccountName: string, connectionName: string, parameters: ConnectionUpdateParameters, options?: ConnectionUpdateOptionalParams) => Promise<Connection>;
+export interface ConnectionOperationsListByAutomationAccountOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConnectionOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, connectionName: string, parameters: ConnectionCreateOrUpdateParameters, options?: ConnectionOperationsCreateOrUpdateOptionalParams) => Promise<Connection>;
+    delete: (resourceGroupName: string, automationAccountName: string, connectionName: string, options?: ConnectionOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, connectionName: string, options?: ConnectionOperationsGetOptionalParams) => Promise<Connection>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: ConnectionOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Connection>;
+    update: (resourceGroupName: string, automationAccountName: string, connectionName: string, parameters: ConnectionUpdateParameters, options?: ConnectionOperationsUpdateOptionalParams) => Promise<Connection>;
+}
+
+// @public
+export interface ConnectionOperationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -491,10 +497,6 @@ export interface ConnectionTypeAssociationProperty {
 }
 
 // @public
-export interface ConnectionTypeCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface ConnectionTypeCreateOrUpdateParameters {
     fieldDefinitions: Record<string, FieldDefinition>;
     isGlobal?: boolean;
@@ -508,23 +510,27 @@ export interface ConnectionTypeCreateOrUpdateProperties {
 }
 
 // @public
-export interface ConnectionTypeDeleteOptionalParams extends OperationOptions {
+export interface ConnectionTypeOperationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConnectionTypeGetOptionalParams extends OperationOptions {
+export interface ConnectionTypeOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConnectionTypeListByAutomationAccountOptionalParams extends OperationOptions {
+export interface ConnectionTypeOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConnectionTypeOperations {
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, connectionTypeName: string, parameters: ConnectionTypeCreateOrUpdateParameters, options?: ConnectionTypeCreateOrUpdateOptionalParams) => Promise<ConnectionType>;
-    delete: (resourceGroupName: string, automationAccountName: string, connectionTypeName: string, options?: ConnectionTypeDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, connectionTypeName: string, options?: ConnectionTypeGetOptionalParams) => Promise<ConnectionType>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: ConnectionTypeListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<ConnectionType>;
+export interface ConnectionTypeOperationsListByAutomationAccountOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConnectionTypeOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, connectionTypeName: string, parameters: ConnectionTypeCreateOrUpdateParameters, options?: ConnectionTypeOperationsCreateOrUpdateOptionalParams) => Promise<ConnectionType>;
+    delete: (resourceGroupName: string, automationAccountName: string, connectionTypeName: string, options?: ConnectionTypeOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, connectionTypeName: string, options?: ConnectionTypeOperationsGetOptionalParams) => Promise<ConnectionType>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: ConnectionTypeOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<ConnectionType>;
 }
 
 // @public
@@ -534,10 +540,6 @@ export interface ConnectionTypeProperties {
     readonly fieldDefinitions?: Record<string, FieldDefinition>;
     isGlobal?: boolean;
     lastModifiedTime?: Date;
-}
-
-// @public
-export interface ConnectionUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -601,10 +603,6 @@ export interface Credential extends ProxyResource {
 }
 
 // @public
-export interface CredentialCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface CredentialCreateOrUpdateParameters {
     description?: string;
     name: string;
@@ -620,24 +618,32 @@ export interface CredentialCreateOrUpdateProperties {
 }
 
 // @public
-export interface CredentialDeleteOptionalParams extends OperationOptions {
+export interface CredentialOperationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CredentialGetOptionalParams extends OperationOptions {
+export interface CredentialOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CredentialListByAutomationAccountOptionalParams extends OperationOptions {
+export interface CredentialOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CredentialOperations {
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: CredentialCreateOrUpdateParameters, options?: CredentialCreateOrUpdateOptionalParams) => Promise<Credential>;
-    delete: (resourceGroupName: string, automationAccountName: string, credentialName: string, options?: CredentialDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, credentialName: string, options?: CredentialGetOptionalParams) => Promise<Credential>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: CredentialListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Credential>;
-    update: (resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: CredentialUpdateParameters, options?: CredentialUpdateOptionalParams) => Promise<Credential>;
+export interface CredentialOperationsListByAutomationAccountOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CredentialOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: CredentialCreateOrUpdateParameters, options?: CredentialOperationsCreateOrUpdateOptionalParams) => Promise<Credential>;
+    delete: (resourceGroupName: string, automationAccountName: string, credentialName: string, options?: CredentialOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, credentialName: string, options?: CredentialOperationsGetOptionalParams) => Promise<Credential>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: CredentialOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Credential>;
+    update: (resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: CredentialUpdateParameters, options?: CredentialOperationsUpdateOptionalParams) => Promise<Credential>;
+}
+
+// @public
+export interface CredentialOperationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -646,10 +652,6 @@ export interface CredentialProperties {
     description?: string;
     readonly lastModifiedTime?: Date;
     readonly userName?: string;
-}
-
-// @public
-export interface CredentialUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -751,10 +753,6 @@ export interface DscConfigurationAssociationProperty {
 }
 
 // @public
-export interface DscConfigurationCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface DscConfigurationCreateOrUpdateParameters {
     description?: string;
     location?: string;
@@ -776,24 +774,28 @@ export interface DscConfigurationCreateOrUpdateProperties {
 }
 
 // @public
-export interface DscConfigurationDeleteOptionalParams extends OperationOptions {
+export interface DscConfigurationOperationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DscConfigurationGetContentOptionalParams extends OperationOptions {
+export interface DscConfigurationOperationsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DscConfigurationOperationsGetContentOptionalParams extends OperationOptions {
 }
 
 // @public (undocumented)
-export type DscConfigurationGetContentResponse = {
+export type DscConfigurationOperationsGetContentResponse = {
     body: string;
 };
 
 // @public
-export interface DscConfigurationGetOptionalParams extends OperationOptions {
+export interface DscConfigurationOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DscConfigurationListByAutomationAccountOptionalParams extends OperationOptions {
+export interface DscConfigurationOperationsListByAutomationAccountOptionalParams extends OperationOptions {
     filter?: string;
     inlinecount?: string;
     skip?: number;
@@ -801,13 +803,18 @@ export interface DscConfigurationListByAutomationAccountOptionalParams extends O
 }
 
 // @public
-export interface DscConfigurationOperations {
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, configurationName: string, parameters: DscConfigurationCreateOrUpdateParameters, options?: DscConfigurationCreateOrUpdateOptionalParams) => Promise<DscConfiguration>;
-    delete: (resourceGroupName: string, automationAccountName: string, configurationName: string, options?: DscConfigurationDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, configurationName: string, options?: DscConfigurationGetOptionalParams) => Promise<DscConfiguration>;
-    getContent: (resourceGroupName: string, automationAccountName: string, configurationName: string, options?: DscConfigurationGetContentOptionalParams) => Promise<DscConfigurationGetContentResponse>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: DscConfigurationListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<DscConfiguration>;
-    update: (resourceGroupName: string, automationAccountName: string, configurationName: string, options?: DscConfigurationUpdateOptionalParams) => Promise<DscConfiguration>;
+export interface DscConfigurationOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, configurationName: string, parameters: DscConfigurationCreateOrUpdateParameters, options?: DscConfigurationOperationsCreateOrUpdateOptionalParams) => Promise<DscConfiguration>;
+    delete: (resourceGroupName: string, automationAccountName: string, configurationName: string, options?: DscConfigurationOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, configurationName: string, options?: DscConfigurationOperationsGetOptionalParams) => Promise<DscConfiguration>;
+    getContent: (resourceGroupName: string, automationAccountName: string, configurationName: string, options?: DscConfigurationOperationsGetContentOptionalParams) => Promise<DscConfigurationOperationsGetContentResponse>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: DscConfigurationOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<DscConfiguration>;
+    update: (resourceGroupName: string, automationAccountName: string, configurationName: string, options?: DscConfigurationOperationsUpdateOptionalParams) => Promise<DscConfiguration>;
+}
+
+// @public
+export interface DscConfigurationOperationsUpdateOptionalParams extends OperationOptions {
+    parameters?: DscConfigurationUpdateParameters;
 }
 
 // @public
@@ -834,11 +841,6 @@ export interface DscConfigurationProperties {
 
 // @public
 export type DscConfigurationState = string;
-
-// @public
-export interface DscConfigurationUpdateOptionalParams extends OperationOptions {
-    parameters?: DscConfigurationUpdateParameters;
-}
 
 // @public
 export interface DscConfigurationUpdateParameters {
@@ -892,11 +894,6 @@ export interface DscNodeConfigurationAssociationProperty {
 }
 
 // @public
-export interface DscNodeConfigurationCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface DscNodeConfigurationCreateOrUpdateParameters {
     configuration?: DscConfigurationAssociationProperty;
     incrementNodeConfigurationBuild?: boolean;
@@ -913,14 +910,6 @@ export interface DscNodeConfigurationCreateOrUpdateParametersProperties {
 }
 
 // @public
-export interface DscNodeConfigurationDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DscNodeConfigurationGetOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface DscNodeConfigurationListByAutomationAccountOptionalParams extends OperationOptions {
     filter?: string;
     inlinecount?: string;
@@ -930,14 +919,31 @@ export interface DscNodeConfigurationListByAutomationAccountOptionalParams exten
 
 // @public
 export interface DscNodeConfigurationOperations {
-    // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, parameters: DscNodeConfigurationCreateOrUpdateParameters, options?: DscNodeConfigurationCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DscNodeConfiguration>, DscNodeConfiguration>>;
-    // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, parameters: DscNodeConfigurationCreateOrUpdateParameters, options?: DscNodeConfigurationCreateOrUpdateOptionalParams) => Promise<DscNodeConfiguration>;
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, parameters: DscNodeConfigurationCreateOrUpdateParameters, options?: DscNodeConfigurationCreateOrUpdateOptionalParams) => PollerLike<OperationState<DscNodeConfiguration>, DscNodeConfiguration>;
-    delete: (resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, options?: DscNodeConfigurationDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, options?: DscNodeConfigurationGetOptionalParams) => Promise<DscNodeConfiguration>;
     listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: DscNodeConfigurationListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<DscNodeConfiguration>;
+}
+
+// @public
+export interface DscNodeConfigurationOperationsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DscNodeConfigurationOperationsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DscNodeConfigurationOperationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DscNodeConfigurationOperationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, parameters: DscNodeConfigurationCreateOrUpdateParameters, options?: DscNodeConfigurationOperationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DscNodeConfiguration>, DscNodeConfiguration>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, parameters: DscNodeConfigurationCreateOrUpdateParameters, options?: DscNodeConfigurationOperationsCreateOrUpdateOptionalParams) => Promise<DscNodeConfiguration>;
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, parameters: DscNodeConfigurationCreateOrUpdateParameters, options?: DscNodeConfigurationOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DscNodeConfiguration>, DscNodeConfiguration>;
+    delete: (resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, options?: DscNodeConfigurationOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, options?: DscNodeConfigurationOperationsGetOptionalParams) => Promise<DscNodeConfiguration>;
 }
 
 // @public
@@ -951,21 +957,21 @@ export interface DscNodeConfigurationProperties {
 }
 
 // @public
-export interface DscNodeDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface DscNodeExtensionHandlerAssociationProperty {
     name?: string;
     version?: string;
 }
 
 // @public
-export interface DscNodeGetOptionalParams extends OperationOptions {
+export interface DscNodeOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DscNodeListByAutomationAccountOptionalParams extends OperationOptions {
+export interface DscNodeOperationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DscNodeOperationsListByAutomationAccountOptionalParams extends OperationOptions {
     filter?: string;
     inlinecount?: string;
     skip?: number;
@@ -973,11 +979,15 @@ export interface DscNodeListByAutomationAccountOptionalParams extends OperationO
 }
 
 // @public
-export interface DscNodeOperations {
-    delete: (resourceGroupName: string, automationAccountName: string, nodeId: string, options?: DscNodeDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, nodeId: string, options?: DscNodeGetOptionalParams) => Promise<DscNode>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: DscNodeListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<DscNode>;
-    update: (resourceGroupName: string, automationAccountName: string, nodeId: string, dscNodeUpdateParameters: DscNodeUpdateParameters, options?: DscNodeUpdateOptionalParams) => Promise<DscNode>;
+export interface DscNodeOperationsOperations {
+    delete: (resourceGroupName: string, automationAccountName: string, nodeId: string, options?: DscNodeOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, nodeId: string, options?: DscNodeOperationsGetOptionalParams) => Promise<DscNode>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: DscNodeOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<DscNode>;
+    update: (resourceGroupName: string, automationAccountName: string, nodeId: string, dscNodeUpdateParameters: DscNodeUpdateParameters, options?: DscNodeOperationsUpdateOptionalParams) => Promise<DscNode>;
+}
+
+// @public
+export interface DscNodeOperationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1015,10 +1025,6 @@ export interface DscNodeReport {
     startTime?: Date;
     status?: string;
     type?: string;
-}
-
-// @public
-export interface DscNodeUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1156,10 +1162,6 @@ export interface HybridRunbookWorkerGroup extends TrackedResource {
 }
 
 // @public
-export interface HybridRunbookWorkerGroupCreateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface HybridRunbookWorkerGroupCreateOrUpdateParameters {
     credential?: RunAsCredentialAssociationProperty;
     name?: string;
@@ -1171,35 +1173,39 @@ export interface HybridRunbookWorkerGroupCreateOrUpdateProperties {
 }
 
 // @public
-export interface HybridRunbookWorkerGroupDeleteOptionalParams extends OperationOptions {
+export interface HybridRunbookWorkerGroupOperationsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface HybridRunbookWorkerGroupGetOptionalParams extends OperationOptions {
+export interface HybridRunbookWorkerGroupOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface HybridRunbookWorkerGroupListByAutomationAccountOptionalParams extends OperationOptions {
+export interface HybridRunbookWorkerGroupOperationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface HybridRunbookWorkerGroupOperationsListByAutomationAccountOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export interface HybridRunbookWorkerGroupOperations {
-    create: (resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, hybridRunbookWorkerGroupCreationParameters: HybridRunbookWorkerGroupCreateOrUpdateParameters, options?: HybridRunbookWorkerGroupCreateOptionalParams) => Promise<HybridRunbookWorkerGroup>;
-    delete: (resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, options?: HybridRunbookWorkerGroupDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, options?: HybridRunbookWorkerGroupGetOptionalParams) => Promise<HybridRunbookWorkerGroup>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: HybridRunbookWorkerGroupListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<HybridRunbookWorkerGroup>;
-    update: (resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, hybridRunbookWorkerGroupUpdationParameters: HybridRunbookWorkerGroupCreateOrUpdateParameters, options?: HybridRunbookWorkerGroupUpdateOptionalParams) => Promise<HybridRunbookWorkerGroup>;
+export interface HybridRunbookWorkerGroupOperationsOperations {
+    create: (resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, hybridRunbookWorkerGroupCreationParameters: HybridRunbookWorkerGroupCreateOrUpdateParameters, options?: HybridRunbookWorkerGroupOperationsCreateOptionalParams) => Promise<HybridRunbookWorkerGroup>;
+    delete: (resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, options?: HybridRunbookWorkerGroupOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, options?: HybridRunbookWorkerGroupOperationsGetOptionalParams) => Promise<HybridRunbookWorkerGroup>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: HybridRunbookWorkerGroupOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<HybridRunbookWorkerGroup>;
+    update: (resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, hybridRunbookWorkerGroupUpdationParameters: HybridRunbookWorkerGroupCreateOrUpdateParameters, options?: HybridRunbookWorkerGroupOperationsUpdateOptionalParams) => Promise<HybridRunbookWorkerGroup>;
+}
+
+// @public
+export interface HybridRunbookWorkerGroupOperationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface HybridRunbookWorkerGroupProperties {
     credential?: RunAsCredentialAssociationProperty;
     groupType?: GroupTypeEnum;
-}
-
-// @public
-export interface HybridRunbookWorkerGroupUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1313,11 +1319,6 @@ export interface JobCollectionItemProperties {
 }
 
 // @public
-export interface JobCreateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
 export interface JobCreateParameters {
     parameters?: Record<string, string>;
     runbook?: RunbookAssociationProperty;
@@ -1332,51 +1333,71 @@ export interface JobCreateProperties {
 }
 
 // @public
-export interface JobGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface JobGetOutputOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public (undocumented)
-export type JobGetOutputResponse = {
-    body: string;
-};
-
-// @public
-export interface JobGetRunbookContentOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public (undocumented)
-export type JobGetRunbookContentResponse = {
-    body: string;
-};
-
-// @public
-export interface JobListByAutomationAccountOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-    filter?: string;
-}
-
-// @public
 export interface JobNavigation {
     readonly id?: string;
 }
 
 // @public
-export interface JobOperations {
-    create: (resourceGroupName: string, automationAccountName: string, jobName: string, parameters: JobCreateParameters, options?: JobCreateOptionalParams) => Promise<Job>;
-    get: (resourceGroupName: string, automationAccountName: string, jobName: string, options?: JobGetOptionalParams) => Promise<Job>;
-    getOutput: (resourceGroupName: string, automationAccountName: string, jobName: string, options?: JobGetOutputOptionalParams) => Promise<JobGetOutputResponse>;
-    getRunbookContent: (resourceGroupName: string, automationAccountName: string, jobName: string, options?: JobGetRunbookContentOptionalParams) => Promise<JobGetRunbookContentResponse>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: JobListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<JobCollectionItem>;
-    resume: (resourceGroupName: string, automationAccountName: string, jobName: string, options?: JobResumeOptionalParams) => Promise<void>;
-    stop: (resourceGroupName: string, automationAccountName: string, jobName: string, options?: JobStopOptionalParams) => Promise<void>;
-    suspend: (resourceGroupName: string, automationAccountName: string, jobName: string, options?: JobSuspendOptionalParams) => Promise<void>;
+export interface JobOperationsCreateOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface JobOperationsGetOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface JobOperationsGetOutputOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public (undocumented)
+export type JobOperationsGetOutputResponse = {
+    body: string;
+};
+
+// @public
+export interface JobOperationsGetRunbookContentOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public (undocumented)
+export type JobOperationsGetRunbookContentResponse = {
+    body: string;
+};
+
+// @public
+export interface JobOperationsListByAutomationAccountOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    filter?: string;
+}
+
+// @public
+export interface JobOperationsOperations {
+    create: (resourceGroupName: string, automationAccountName: string, jobName: string, parameters: JobCreateParameters, options?: JobOperationsCreateOptionalParams) => Promise<Job>;
+    get: (resourceGroupName: string, automationAccountName: string, jobName: string, options?: JobOperationsGetOptionalParams) => Promise<Job>;
+    getOutput: (resourceGroupName: string, automationAccountName: string, jobName: string, options?: JobOperationsGetOutputOptionalParams) => Promise<JobOperationsGetOutputResponse>;
+    getRunbookContent: (resourceGroupName: string, automationAccountName: string, jobName: string, options?: JobOperationsGetRunbookContentOptionalParams) => Promise<JobOperationsGetRunbookContentResponse>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: JobOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<JobCollectionItem>;
+    resume: (resourceGroupName: string, automationAccountName: string, jobName: string, options?: JobOperationsResumeOptionalParams) => Promise<void>;
+    stop: (resourceGroupName: string, automationAccountName: string, jobName: string, options?: JobOperationsStopOptionalParams) => Promise<void>;
+    suspend: (resourceGroupName: string, automationAccountName: string, jobName: string, options?: JobOperationsSuspendOptionalParams) => Promise<void>;
+}
+
+// @public
+export interface JobOperationsResumeOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface JobOperationsStopOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface JobOperationsSuspendOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
@@ -1402,11 +1423,6 @@ export interface JobProperties {
 export type JobProvisioningState = string;
 
 // @public
-export interface JobResumeOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
 export interface JobRuntimeEnvironment {
     runtimeEnvironmentName?: string;
 }
@@ -1418,10 +1434,6 @@ export interface JobSchedule extends ProxyResource {
     runbook?: RunbookAssociationProperty;
     runOn?: string;
     schedule?: ScheduleAssociationProperty;
-}
-
-// @public
-export interface JobScheduleCreateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1441,24 +1453,28 @@ export interface JobScheduleCreateProperties {
 }
 
 // @public
-export interface JobScheduleDeleteOptionalParams extends OperationOptions {
+export interface JobScheduleOperationsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface JobScheduleGetOptionalParams extends OperationOptions {
+export interface JobScheduleOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface JobScheduleListByAutomationAccountOptionalParams extends OperationOptions {
+export interface JobScheduleOperationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface JobScheduleOperationsListByAutomationAccountOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export interface JobScheduleOperations {
-    create: (resourceGroupName: string, automationAccountName: string, jobScheduleId: string, parameters: JobScheduleCreateParameters, options?: JobScheduleCreateOptionalParams) => Promise<JobSchedule>;
-    delete: (resourceGroupName: string, automationAccountName: string, jobScheduleId: string, options?: JobScheduleDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, jobScheduleId: string, options?: JobScheduleGetOptionalParams) => Promise<JobSchedule>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: JobScheduleListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<JobSchedule>;
+export interface JobScheduleOperationsOperations {
+    create: (resourceGroupName: string, automationAccountName: string, jobScheduleId: string, parameters: JobScheduleCreateParameters, options?: JobScheduleOperationsCreateOptionalParams) => Promise<JobSchedule>;
+    delete: (resourceGroupName: string, automationAccountName: string, jobScheduleId: string, options?: JobScheduleOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, jobScheduleId: string, options?: JobScheduleOperationsGetOptionalParams) => Promise<JobSchedule>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: JobScheduleOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<JobSchedule>;
 }
 
 // @public
@@ -1474,11 +1490,6 @@ export interface JobScheduleProperties {
 export type JobStatus = string;
 
 // @public
-export interface JobStopOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
 export interface JobStream {
     id?: string;
     jobStreamId?: string;
@@ -1490,20 +1501,20 @@ export interface JobStream {
 }
 
 // @public
-export interface JobStreamGetOptionalParams extends OperationOptions {
+export interface JobStreamOperationsGetOptionalParams extends OperationOptions {
     clientRequestId?: string;
 }
 
 // @public
-export interface JobStreamListByJobOptionalParams extends OperationOptions {
+export interface JobStreamOperationsListByJobOptionalParams extends OperationOptions {
     clientRequestId?: string;
     filter?: string;
 }
 
 // @public
-export interface JobStreamOperations {
-    get: (resourceGroupName: string, automationAccountName: string, jobName: string, jobStreamId: string, options?: JobStreamGetOptionalParams) => Promise<JobStream>;
-    listByJob: (resourceGroupName: string, automationAccountName: string, jobName: string, options?: JobStreamListByJobOptionalParams) => PagedAsyncIterableIterator<JobStream>;
+export interface JobStreamOperationsOperations {
+    get: (resourceGroupName: string, automationAccountName: string, jobName: string, jobStreamId: string, options?: JobStreamOperationsGetOptionalParams) => Promise<JobStream>;
+    listByJob: (resourceGroupName: string, automationAccountName: string, jobName: string, options?: JobStreamOperationsListByJobOptionalParams) => PagedAsyncIterableIterator<JobStream>;
 }
 
 // @public
@@ -1518,11 +1529,6 @@ export interface JobStreamProperties {
 
 // @public
 export type JobStreamType = string;
-
-// @public
-export interface JobSuspendOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
 
 // @public
 export interface Key {
@@ -1861,12 +1867,12 @@ export interface LinkedWorkspace {
 }
 
 // @public
-export interface LinkedWorkspaceGetOptionalParams extends OperationOptions {
+export interface LinkedWorkspaceOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface LinkedWorkspaceOperations {
-    get: (resourceGroupName: string, automationAccountName: string, options?: LinkedWorkspaceGetOptionalParams) => Promise<LinkedWorkspace>;
+export interface LinkedWorkspaceOperationsOperations {
+    get: (resourceGroupName: string, automationAccountName: string, options?: LinkedWorkspaceOperationsGetOptionalParams) => Promise<LinkedWorkspace>;
 }
 
 // @public
@@ -1914,10 +1920,6 @@ export interface Module extends TrackedResource {
 }
 
 // @public
-export interface ModuleCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface ModuleCreateOrUpdateParameters {
     contentLink: ContentLink;
     location?: string;
@@ -1931,30 +1933,38 @@ export interface ModuleCreateOrUpdateProperties {
 }
 
 // @public
-export interface ModuleDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface ModuleErrorInfo {
     code?: string;
     message?: string;
 }
 
 // @public
-export interface ModuleGetOptionalParams extends OperationOptions {
+export interface ModuleOperationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ModuleListByAutomationAccountOptionalParams extends OperationOptions {
+export interface ModuleOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ModuleOperations {
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, moduleName: string, parameters: ModuleCreateOrUpdateParameters, options?: ModuleCreateOrUpdateOptionalParams) => Promise<Module>;
-    delete: (resourceGroupName: string, automationAccountName: string, moduleName: string, options?: ModuleDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, moduleName: string, options?: ModuleGetOptionalParams) => Promise<Module>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: ModuleListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Module>;
-    update: (resourceGroupName: string, automationAccountName: string, moduleName: string, parameters: ModuleUpdateParameters, options?: ModuleUpdateOptionalParams) => Promise<Module>;
+export interface ModuleOperationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ModuleOperationsListByAutomationAccountOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ModuleOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, moduleName: string, parameters: ModuleCreateOrUpdateParameters, options?: ModuleOperationsCreateOrUpdateOptionalParams) => Promise<Module>;
+    delete: (resourceGroupName: string, automationAccountName: string, moduleName: string, options?: ModuleOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, moduleName: string, options?: ModuleOperationsGetOptionalParams) => Promise<Module>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: ModuleOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Module>;
+    update: (resourceGroupName: string, automationAccountName: string, moduleName: string, parameters: ModuleUpdateParameters, options?: ModuleOperationsUpdateOptionalParams) => Promise<Module>;
+}
+
+// @public
+export interface ModuleOperationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1974,10 +1984,6 @@ export interface ModuleProperties {
 
 // @public
 export type ModuleProvisioningState = string;
-
-// @public
-export interface ModuleUpdateOptionalParams extends OperationOptions {
-}
 
 // @public
 export interface ModuleUpdateParameters {
@@ -2421,10 +2427,6 @@ export interface RunbookAssociationProperty {
 }
 
 // @public
-export interface RunbookCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface RunbookCreateOrUpdateParameters {
     description?: string;
     draft?: RunbookDraft;
@@ -2452,10 +2454,6 @@ export interface RunbookCreateOrUpdateProperties {
 }
 
 // @public
-export interface RunbookDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface RunbookDraft {
     creationTime?: Date;
     draftContentLink?: ContentLink;
@@ -2466,37 +2464,37 @@ export interface RunbookDraft {
 }
 
 // @public
-export interface RunbookDraftGetContentOptionalParams extends OperationOptions {
+export interface RunbookDraftOperationsGetContentOptionalParams extends OperationOptions {
 }
 
 // @public (undocumented)
-export type RunbookDraftGetContentResponse = {
+export type RunbookDraftOperationsGetContentResponse = {
     body: string;
 };
 
 // @public
-export interface RunbookDraftGetOptionalParams extends OperationOptions {
+export interface RunbookDraftOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RunbookDraftOperations {
+export interface RunbookDraftOperationsOperations {
     // @deprecated (undocumented)
-    beginReplaceContent: (resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: string, options?: RunbookDraftReplaceContentOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginReplaceContent: (resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: string, options?: RunbookDraftOperationsReplaceContentOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginReplaceContentAndWait: (resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: string, options?: RunbookDraftReplaceContentOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDraftGetOptionalParams) => Promise<RunbookDraft>;
-    getContent: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDraftGetContentOptionalParams) => Promise<RunbookDraftGetContentResponse>;
-    replaceContent: (resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: string, options?: RunbookDraftReplaceContentOptionalParams) => PollerLike<OperationState<void>, void>;
-    undoEdit: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDraftUndoEditOptionalParams) => Promise<RunbookDraftUndoEditResult>;
+    beginReplaceContentAndWait: (resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: string, options?: RunbookDraftOperationsReplaceContentOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDraftOperationsGetOptionalParams) => Promise<RunbookDraft>;
+    getContent: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDraftOperationsGetContentOptionalParams) => Promise<RunbookDraftOperationsGetContentResponse>;
+    replaceContent: (resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: string, options?: RunbookDraftOperationsReplaceContentOptionalParams) => PollerLike<OperationState<void>, void>;
+    undoEdit: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDraftOperationsUndoEditOptionalParams) => Promise<RunbookDraftUndoEditResult>;
 }
 
 // @public
-export interface RunbookDraftReplaceContentOptionalParams extends OperationOptions {
+export interface RunbookDraftOperationsReplaceContentOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface RunbookDraftUndoEditOptionalParams extends OperationOptions {
+export interface RunbookDraftOperationsUndoEditOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -2517,26 +2515,42 @@ export type RunbookGetContentResponse = {
 };
 
 // @public
-export interface RunbookGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface RunbookListByAutomationAccountOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface RunbookOperations {
     // @deprecated (undocumented)
     beginPublish: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookPublishOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginPublishAndWait: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookPublishOptionalParams) => Promise<void>;
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: RunbookCreateOrUpdateParameters, options?: RunbookCreateOrUpdateOptionalParams) => Promise<Runbook>;
-    delete: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookGetOptionalParams) => Promise<Runbook>;
     getContent: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookGetContentOptionalParams) => Promise<RunbookGetContentResponse>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: RunbookListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Runbook>;
     publish: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookPublishOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: RunbookUpdateParameters, options?: RunbookUpdateOptionalParams) => Promise<Runbook>;
+}
+
+// @public
+export interface RunbookOperationsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RunbookOperationsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RunbookOperationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RunbookOperationsListByAutomationAccountOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RunbookOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: RunbookCreateOrUpdateParameters, options?: RunbookOperationsCreateOrUpdateOptionalParams) => Promise<Runbook>;
+    delete: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookOperationsGetOptionalParams) => Promise<Runbook>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: RunbookOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Runbook>;
+    update: (resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: RunbookUpdateParameters, options?: RunbookOperationsUpdateOptionalParams) => Promise<Runbook>;
+}
+
+// @public
+export interface RunbookOperationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -2577,10 +2591,6 @@ export type RunbookState = string;
 
 // @public
 export type RunbookTypeEnum = string;
-
-// @public
-export interface RunbookUpdateOptionalParams extends OperationOptions {
-}
 
 // @public
 export interface RunbookUpdateParameters {
@@ -2686,10 +2696,6 @@ export interface ScheduleAssociationProperty {
 }
 
 // @public
-export interface ScheduleCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface ScheduleCreateOrUpdateParameters {
     advancedSchedule?: AdvancedSchedule;
     description?: string;
@@ -2716,27 +2722,35 @@ export interface ScheduleCreateOrUpdateProperties {
 export type ScheduleDay = string;
 
 // @public
-export interface ScheduleDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
 export type ScheduleFrequency = string;
 
 // @public
-export interface ScheduleGetOptionalParams extends OperationOptions {
+export interface ScheduleOperationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScheduleListByAutomationAccountOptionalParams extends OperationOptions {
+export interface ScheduleOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScheduleOperations {
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, scheduleName: string, parameters: ScheduleCreateOrUpdateParameters, options?: ScheduleCreateOrUpdateOptionalParams) => Promise<Schedule | undefined>;
-    delete: (resourceGroupName: string, automationAccountName: string, scheduleName: string, options?: ScheduleDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, scheduleName: string, options?: ScheduleGetOptionalParams) => Promise<Schedule>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: ScheduleListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Schedule>;
-    update: (resourceGroupName: string, automationAccountName: string, scheduleName: string, parameters: ScheduleUpdateParameters, options?: ScheduleUpdateOptionalParams) => Promise<Schedule>;
+export interface ScheduleOperationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduleOperationsListByAutomationAccountOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduleOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, scheduleName: string, parameters: ScheduleCreateOrUpdateParameters, options?: ScheduleOperationsCreateOrUpdateOptionalParams) => Promise<Schedule | undefined>;
+    delete: (resourceGroupName: string, automationAccountName: string, scheduleName: string, options?: ScheduleOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, scheduleName: string, options?: ScheduleOperationsGetOptionalParams) => Promise<Schedule>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: ScheduleOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Schedule>;
+    update: (resourceGroupName: string, automationAccountName: string, scheduleName: string, parameters: ScheduleUpdateParameters, options?: ScheduleOperationsUpdateOptionalParams) => Promise<Schedule>;
+}
+
+// @public
+export interface ScheduleOperationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -2755,10 +2769,6 @@ export interface ScheduleProperties {
     startTime?: Date;
     readonly startTimeOffsetMinutes?: number;
     timeZone?: string;
-}
-
-// @public
-export interface ScheduleUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -3033,10 +3043,6 @@ export interface SourceControl extends ProxyResource {
 }
 
 // @public
-export interface SourceControlCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface SourceControlCreateOrUpdateParameters {
     autoSync?: boolean;
     branch?: string;
@@ -3061,25 +3067,33 @@ export interface SourceControlCreateOrUpdateProperties {
 }
 
 // @public
-export interface SourceControlDeleteOptionalParams extends OperationOptions {
+export interface SourceControlOperationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SourceControlGetOptionalParams extends OperationOptions {
+export interface SourceControlOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SourceControlListByAutomationAccountOptionalParams extends OperationOptions {
+export interface SourceControlOperationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SourceControlOperationsListByAutomationAccountOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export interface SourceControlOperations {
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, sourceControlName: string, parameters: SourceControlCreateOrUpdateParameters, options?: SourceControlCreateOrUpdateOptionalParams) => Promise<SourceControl>;
-    delete: (resourceGroupName: string, automationAccountName: string, sourceControlName: string, options?: SourceControlDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, sourceControlName: string, options?: SourceControlGetOptionalParams) => Promise<SourceControl>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: SourceControlListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<SourceControl>;
-    update: (resourceGroupName: string, automationAccountName: string, sourceControlName: string, parameters: SourceControlUpdateParameters, options?: SourceControlUpdateOptionalParams) => Promise<SourceControl>;
+export interface SourceControlOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, sourceControlName: string, parameters: SourceControlCreateOrUpdateParameters, options?: SourceControlOperationsCreateOrUpdateOptionalParams) => Promise<SourceControl>;
+    delete: (resourceGroupName: string, automationAccountName: string, sourceControlName: string, options?: SourceControlOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, sourceControlName: string, options?: SourceControlOperationsGetOptionalParams) => Promise<SourceControl>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: SourceControlOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<SourceControl>;
+    update: (resourceGroupName: string, automationAccountName: string, sourceControlName: string, parameters: SourceControlUpdateParameters, options?: SourceControlOperationsUpdateOptionalParams) => Promise<SourceControl>;
+}
+
+// @public
+export interface SourceControlOperationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -3139,10 +3153,6 @@ export interface SourceControlSyncJobByIdProperties {
 }
 
 // @public
-export interface SourceControlSyncJobCreateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface SourceControlSyncJobCreateParameters {
     commitId: string;
 }
@@ -3153,19 +3163,23 @@ export interface SourceControlSyncJobCreateProperties {
 }
 
 // @public
-export interface SourceControlSyncJobGetOptionalParams extends OperationOptions {
+export interface SourceControlSyncJobOperationsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SourceControlSyncJobListByAutomationAccountOptionalParams extends OperationOptions {
+export interface SourceControlSyncJobOperationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SourceControlSyncJobOperationsListByAutomationAccountOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export interface SourceControlSyncJobOperations {
-    create: (resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, parameters: SourceControlSyncJobCreateParameters, options?: SourceControlSyncJobCreateOptionalParams) => Promise<SourceControlSyncJob>;
-    get: (resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, options?: SourceControlSyncJobGetOptionalParams) => Promise<SourceControlSyncJobById>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, sourceControlName: string, options?: SourceControlSyncJobListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<SourceControlSyncJob>;
+export interface SourceControlSyncJobOperationsOperations {
+    create: (resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, parameters: SourceControlSyncJobCreateParameters, options?: SourceControlSyncJobOperationsCreateOptionalParams) => Promise<SourceControlSyncJob>;
+    get: (resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, options?: SourceControlSyncJobOperationsGetOptionalParams) => Promise<SourceControlSyncJobById>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, sourceControlName: string, options?: SourceControlSyncJobOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<SourceControlSyncJob>;
 }
 
 // @public
@@ -3232,10 +3246,6 @@ export interface SourceControlSyncJobStreamsOperations {
 }
 
 // @public
-export interface SourceControlUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface SourceControlUpdateParameters {
     autoSync?: boolean;
     branch?: string;
@@ -3268,13 +3278,13 @@ export interface Statistics {
 }
 
 // @public
-export interface StatisticsListByAutomationAccountOptionalParams extends OperationOptions {
+export interface StatisticsOperationsListByAutomationAccountOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export interface StatisticsOperations {
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: StatisticsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Statistics>;
+export interface StatisticsOperationsOperations {
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: StatisticsOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Statistics>;
 }
 
 // @public
@@ -3348,10 +3358,6 @@ export interface TestJob {
 }
 
 // @public
-export interface TestJobCreateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface TestJobCreateParameters {
     parameters?: Record<string, string>;
     runOn?: string;
@@ -3359,24 +3365,32 @@ export interface TestJobCreateParameters {
 }
 
 // @public
-export interface TestJobGetOptionalParams extends OperationOptions {
+export interface TestJobOperationsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TestJobOperations {
-    create: (resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: TestJobCreateParameters, options?: TestJobCreateOptionalParams) => Promise<TestJob>;
-    get: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: TestJobGetOptionalParams) => Promise<TestJob>;
-    resume: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: TestJobResumeOptionalParams) => Promise<void>;
-    stop: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: TestJobStopOptionalParams) => Promise<void>;
-    suspend: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: TestJobSuspendOptionalParams) => Promise<void>;
+export interface TestJobOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TestJobResumeOptionalParams extends OperationOptions {
+export interface TestJobOperationsOperations {
+    create: (resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: TestJobCreateParameters, options?: TestJobOperationsCreateOptionalParams) => Promise<TestJob>;
+    get: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: TestJobOperationsGetOptionalParams) => Promise<TestJob>;
+    resume: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: TestJobOperationsResumeOptionalParams) => Promise<void>;
+    stop: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: TestJobOperationsStopOptionalParams) => Promise<void>;
+    suspend: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: TestJobOperationsSuspendOptionalParams) => Promise<void>;
 }
 
 // @public
-export interface TestJobStopOptionalParams extends OperationOptions {
+export interface TestJobOperationsResumeOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TestJobOperationsStopOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TestJobOperationsSuspendOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -3392,10 +3406,6 @@ export interface TestJobStreamsListByTestJobOptionalParams extends OperationOpti
 export interface TestJobStreamsOperations {
     get: (resourceGroupName: string, automationAccountName: string, runbookName: string, jobStreamId: string, options?: TestJobStreamsGetOptionalParams) => Promise<JobStream>;
     listByTestJob: (resourceGroupName: string, automationAccountName: string, runbookName: string, options?: TestJobStreamsListByTestJobOptionalParams) => PagedAsyncIterableIterator<JobStream>;
-}
-
-// @public
-export interface TestJobSuspendOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -3484,10 +3494,6 @@ export interface Variable extends ProxyResource {
 }
 
 // @public
-export interface VariableCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface VariableCreateOrUpdateParameters {
     description?: string;
     isEncrypted?: boolean;
@@ -3503,24 +3509,32 @@ export interface VariableCreateOrUpdateProperties {
 }
 
 // @public
-export interface VariableDeleteOptionalParams extends OperationOptions {
+export interface VariableOperationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface VariableGetOptionalParams extends OperationOptions {
+export interface VariableOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface VariableListByAutomationAccountOptionalParams extends OperationOptions {
+export interface VariableOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface VariableOperations {
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, variableName: string, parameters: VariableCreateOrUpdateParameters, options?: VariableCreateOrUpdateOptionalParams) => Promise<Variable>;
-    delete: (resourceGroupName: string, automationAccountName: string, variableName: string, options?: VariableDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, variableName: string, options?: VariableGetOptionalParams) => Promise<Variable>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: VariableListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Variable>;
-    update: (resourceGroupName: string, automationAccountName: string, variableName: string, parameters: VariableUpdateParameters, options?: VariableUpdateOptionalParams) => Promise<Variable>;
+export interface VariableOperationsListByAutomationAccountOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VariableOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, variableName: string, parameters: VariableCreateOrUpdateParameters, options?: VariableOperationsCreateOrUpdateOptionalParams) => Promise<Variable>;
+    delete: (resourceGroupName: string, automationAccountName: string, variableName: string, options?: VariableOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, variableName: string, options?: VariableOperationsGetOptionalParams) => Promise<Variable>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: VariableOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Variable>;
+    update: (resourceGroupName: string, automationAccountName: string, variableName: string, parameters: VariableUpdateParameters, options?: VariableOperationsUpdateOptionalParams) => Promise<Variable>;
+}
+
+// @public
+export interface VariableOperationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -3530,10 +3544,6 @@ export interface VariableProperties {
     isEncrypted?: boolean;
     lastModifiedTime?: Date;
     value?: string;
-}
-
-// @public
-export interface VariableUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -3566,31 +3576,43 @@ export interface Watcher extends ProxyResource {
 }
 
 // @public
-export interface WatcherCreateOrUpdateOptionalParams extends OperationOptions {
+export interface WatcherOperationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WatcherDeleteOptionalParams extends OperationOptions {
+export interface WatcherOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WatcherGetOptionalParams extends OperationOptions {
+export interface WatcherOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WatcherListByAutomationAccountOptionalParams extends OperationOptions {
+export interface WatcherOperationsListByAutomationAccountOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export interface WatcherOperations {
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: Watcher, options?: WatcherCreateOrUpdateOptionalParams) => Promise<Watcher>;
-    delete: (resourceGroupName: string, automationAccountName: string, watcherName: string, options?: WatcherDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, automationAccountName: string, watcherName: string, options?: WatcherGetOptionalParams) => Promise<Watcher>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: WatcherListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Watcher>;
-    start: (resourceGroupName: string, automationAccountName: string, watcherName: string, options?: WatcherStartOptionalParams) => Promise<void>;
-    stop: (resourceGroupName: string, automationAccountName: string, watcherName: string, options?: WatcherStopOptionalParams) => Promise<void>;
-    update: (resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: WatcherUpdateParameters, options?: WatcherUpdateOptionalParams) => Promise<Watcher>;
+export interface WatcherOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: Watcher, options?: WatcherOperationsCreateOrUpdateOptionalParams) => Promise<Watcher>;
+    delete: (resourceGroupName: string, automationAccountName: string, watcherName: string, options?: WatcherOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, automationAccountName: string, watcherName: string, options?: WatcherOperationsGetOptionalParams) => Promise<Watcher>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: WatcherOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Watcher>;
+    start: (resourceGroupName: string, automationAccountName: string, watcherName: string, options?: WatcherOperationsStartOptionalParams) => Promise<void>;
+    stop: (resourceGroupName: string, automationAccountName: string, watcherName: string, options?: WatcherOperationsStopOptionalParams) => Promise<void>;
+    update: (resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: WatcherUpdateParameters, options?: WatcherOperationsUpdateOptionalParams) => Promise<Watcher>;
+}
+
+// @public
+export interface WatcherOperationsStartOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WatcherOperationsStopOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WatcherOperationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -3604,18 +3626,6 @@ export interface WatcherProperties {
     scriptParameters?: Record<string, string>;
     scriptRunOn?: string;
     readonly status?: string;
-}
-
-// @public
-export interface WatcherStartOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface WatcherStopOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface WatcherUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -3645,10 +3655,6 @@ export interface Webhook extends ProxyResource {
 }
 
 // @public
-export interface WebhookCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface WebhookCreateOrUpdateParameters {
     expiryTime?: Date;
     isEnabled?: boolean;
@@ -3670,35 +3676,43 @@ export interface WebhookCreateOrUpdateProperties {
 }
 
 // @public
-export interface WebhookDeleteOptionalParams extends OperationOptions {
+export interface WebhookOperationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebhookGenerateUriOptionalParams extends OperationOptions {
+export interface WebhookOperationsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WebhookOperationsGenerateUriOptionalParams extends OperationOptions {
 }
 
 // @public (undocumented)
-export type WebhookGenerateUriResponse = {
+export type WebhookOperationsGenerateUriResponse = {
     body: string;
 };
 
 // @public
-export interface WebhookGetOptionalParams extends OperationOptions {
+export interface WebhookOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebhookListByAutomationAccountOptionalParams extends OperationOptions {
+export interface WebhookOperationsListByAutomationAccountOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export interface WebhookOperations {
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: WebhookCreateOrUpdateParameters, options?: WebhookCreateOrUpdateOptionalParams) => Promise<Webhook>;
-    delete: (resourceGroupName: string, automationAccountName: string, webhookName: string, options?: WebhookDeleteOptionalParams) => Promise<void>;
-    generateUri: (resourceGroupName: string, automationAccountName: string, options?: WebhookGenerateUriOptionalParams) => Promise<WebhookGenerateUriResponse>;
-    get: (resourceGroupName: string, automationAccountName: string, webhookName: string, options?: WebhookGetOptionalParams) => Promise<Webhook>;
-    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: WebhookListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Webhook>;
-    update: (resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: WebhookUpdateParameters, options?: WebhookUpdateOptionalParams) => Promise<Webhook>;
+export interface WebhookOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: WebhookCreateOrUpdateParameters, options?: WebhookOperationsCreateOrUpdateOptionalParams) => Promise<Webhook>;
+    delete: (resourceGroupName: string, automationAccountName: string, webhookName: string, options?: WebhookOperationsDeleteOptionalParams) => Promise<void>;
+    generateUri: (resourceGroupName: string, automationAccountName: string, options?: WebhookOperationsGenerateUriOptionalParams) => Promise<WebhookOperationsGenerateUriResponse>;
+    get: (resourceGroupName: string, automationAccountName: string, webhookName: string, options?: WebhookOperationsGetOptionalParams) => Promise<Webhook>;
+    listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: WebhookOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Webhook>;
+    update: (resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: WebhookUpdateParameters, options?: WebhookOperationsUpdateOptionalParams) => Promise<Webhook>;
+}
+
+// @public
+export interface WebhookOperationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -3714,10 +3728,6 @@ export interface WebhookProperties {
     runbook?: RunbookAssociationProperty;
     runOn?: string;
     uri?: string;
-}
-
-// @public
-export interface WebhookUpdateOptionalParams extends OperationOptions {
 }
 
 // @public

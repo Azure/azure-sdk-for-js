@@ -14,15 +14,3 @@ export interface DscNodeConfigurationListByAutomationAccountOptionalParams exten
   /** Return total rows. */
   inlinecount?: string;
 }
-
-/** Optional parameters. */
-export interface DscNodeConfigurationDeleteOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface DscNodeConfigurationCreateOrUpdateOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
-export interface DscNodeConfigurationGetOptionalParams extends OperationOptions {}

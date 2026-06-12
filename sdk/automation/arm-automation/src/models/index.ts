@@ -267,13 +267,13 @@ export type {
   DeletedAutomationAccount,
   DeletedAutomationAccountProperties,
   CountType,
-  RunbookDraftGetContentResponse,
   RunbookGetContentResponse,
-  DscConfigurationGetContentResponse,
+  RunbookDraftOperationsGetContentResponse,
+  DscConfigurationOperationsGetContentResponse,
   NodeReportsGetContentResponse,
-  WebhookGenerateUriResponse,
-  JobGetRunbookContentResponse,
-  JobGetOutputResponse,
+  WebhookOperationsGenerateUriResponse,
+  JobOperationsGetRunbookContentResponse,
+  JobOperationsGetOutputResponse,
 } from "./models.js";
 export {
   KnownGraphRunbookType,

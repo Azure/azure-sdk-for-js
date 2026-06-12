@@ -279,13 +279,13 @@ export type {
   DeletedAutomationAccount,
   DeletedAutomationAccountProperties,
   CountType,
-  RunbookDraftGetContentResponse,
   RunbookGetContentResponse,
-  DscConfigurationGetContentResponse,
+  RunbookDraftOperationsGetContentResponse,
+  DscConfigurationOperationsGetContentResponse,
   NodeReportsGetContentResponse,
-  WebhookGenerateUriResponse,
-  JobGetRunbookContentResponse,
-  JobGetOutputResponse,
+  WebhookOperationsGenerateUriResponse,
+  JobOperationsGetRunbookContentResponse,
+  JobOperationsGetOutputResponse,
 } from "./models/index.js";
 export {
   KnownGraphRunbookType,
@@ -324,78 +324,78 @@ export type {
   ConvertGraphRunbookContentOptionalParams,
 } from "./api/index.js";
 export type {
-  ActivityListByModuleOptionalParams,
-  ActivityGetOptionalParams,
-} from "./api/activity/index.js";
+  ActivityOperationsListByModuleOptionalParams,
+  ActivityOperationsGetOptionalParams,
+} from "./api/activityOperations/index.js";
 export type {
   AgentRegistrationInformationRegenerateKeyOptionalParams,
   AgentRegistrationInformationGetOptionalParams,
 } from "./api/agentRegistrationInformation/index.js";
 export type {
-  AutomationAccountListDeletedRunbooksOptionalParams,
-  AutomationAccountListOptionalParams,
-  AutomationAccountListByResourceGroupOptionalParams,
-  AutomationAccountDeleteOptionalParams,
-  AutomationAccountUpdateOptionalParams,
-  AutomationAccountCreateOrUpdateOptionalParams,
-  AutomationAccountGetOptionalParams,
-} from "./api/automationAccount/index.js";
+  AutomationAccountOperationsListDeletedRunbooksOptionalParams,
+  AutomationAccountOperationsListOptionalParams,
+  AutomationAccountOperationsListByResourceGroupOptionalParams,
+  AutomationAccountOperationsDeleteOptionalParams,
+  AutomationAccountOperationsUpdateOptionalParams,
+  AutomationAccountOperationsCreateOrUpdateOptionalParams,
+  AutomationAccountOperationsGetOptionalParams,
+} from "./api/automationAccountOperations/index.js";
 export type {
-  CertificateListByAutomationAccountOptionalParams,
-  CertificateDeleteOptionalParams,
-  CertificateUpdateOptionalParams,
-  CertificateCreateOrUpdateOptionalParams,
-  CertificateGetOptionalParams,
-} from "./api/certificate/index.js";
+  CertificateOperationsListByAutomationAccountOptionalParams,
+  CertificateOperationsDeleteOptionalParams,
+  CertificateOperationsUpdateOptionalParams,
+  CertificateOperationsCreateOrUpdateOptionalParams,
+  CertificateOperationsGetOptionalParams,
+} from "./api/certificateOperations/index.js";
 export type {
-  ConnectionListByAutomationAccountOptionalParams,
-  ConnectionDeleteOptionalParams,
-  ConnectionUpdateOptionalParams,
-  ConnectionCreateOrUpdateOptionalParams,
-  ConnectionGetOptionalParams,
-} from "./api/connection/index.js";
+  ConnectionOperationsListByAutomationAccountOptionalParams,
+  ConnectionOperationsDeleteOptionalParams,
+  ConnectionOperationsUpdateOptionalParams,
+  ConnectionOperationsCreateOrUpdateOptionalParams,
+  ConnectionOperationsGetOptionalParams,
+} from "./api/connectionOperations/index.js";
 export type {
-  ConnectionTypeListByAutomationAccountOptionalParams,
-  ConnectionTypeDeleteOptionalParams,
-  ConnectionTypeCreateOrUpdateOptionalParams,
-  ConnectionTypeGetOptionalParams,
-} from "./api/connectionType/index.js";
+  ConnectionTypeOperationsListByAutomationAccountOptionalParams,
+  ConnectionTypeOperationsDeleteOptionalParams,
+  ConnectionTypeOperationsCreateOrUpdateOptionalParams,
+  ConnectionTypeOperationsGetOptionalParams,
+} from "./api/connectionTypeOperations/index.js";
 export type {
-  CredentialListByAutomationAccountOptionalParams,
-  CredentialDeleteOptionalParams,
-  CredentialUpdateOptionalParams,
-  CredentialCreateOrUpdateOptionalParams,
-  CredentialGetOptionalParams,
-} from "./api/credential/index.js";
+  CredentialOperationsListByAutomationAccountOptionalParams,
+  CredentialOperationsDeleteOptionalParams,
+  CredentialOperationsUpdateOptionalParams,
+  CredentialOperationsCreateOrUpdateOptionalParams,
+  CredentialOperationsGetOptionalParams,
+} from "./api/credentialOperations/index.js";
 export type { DeletedAutomationAccountsListBySubscriptionOptionalParams } from "./api/deletedAutomationAccounts/index.js";
 export type {
-  DscConfigurationGetContentOptionalParams,
-  DscConfigurationListByAutomationAccountOptionalParams,
-  DscConfigurationDeleteOptionalParams,
-  DscConfigurationUpdateOptionalParams,
-  DscConfigurationCreateOrUpdateOptionalParams,
-  DscConfigurationGetOptionalParams,
-} from "./api/dscConfiguration/index.js";
+  DscConfigurationOperationsGetContentOptionalParams,
+  DscConfigurationOperationsListByAutomationAccountOptionalParams,
+  DscConfigurationOperationsDeleteOptionalParams,
+  DscConfigurationOperationsUpdateOptionalParams,
+  DscConfigurationOperationsCreateOrUpdateOptionalParams,
+  DscConfigurationOperationsGetOptionalParams,
+} from "./api/dscConfigurationOperations/index.js";
+export type { DscNodeConfigurationListByAutomationAccountOptionalParams } from "./api/dscNodeConfiguration/index.js";
 export type {
-  DscNodeListByAutomationAccountOptionalParams,
-  DscNodeDeleteOptionalParams,
-  DscNodeUpdateOptionalParams,
-  DscNodeGetOptionalParams,
-} from "./api/dscNode/index.js";
+  DscNodeConfigurationOperationsDeleteOptionalParams,
+  DscNodeConfigurationOperationsCreateOrUpdateOptionalParams,
+  DscNodeConfigurationOperationsGetOptionalParams,
+} from "./api/dscNodeConfigurationOperations/index.js";
 export type {
-  DscNodeConfigurationListByAutomationAccountOptionalParams,
-  DscNodeConfigurationDeleteOptionalParams,
-  DscNodeConfigurationCreateOrUpdateOptionalParams,
-  DscNodeConfigurationGetOptionalParams,
-} from "./api/dscNodeConfiguration/index.js";
+  DscNodeOperationsListByAutomationAccountOptionalParams,
+  DscNodeOperationsDeleteOptionalParams,
+  DscNodeOperationsUpdateOptionalParams,
+  DscNodeOperationsGetOptionalParams,
+} from "./api/dscNodeOperations/index.js";
 export type { FieldsListByTypeOptionalParams } from "./api/fields/index.js";
 export type {
-  HybridRunbookWorkerGroupListByAutomationAccountOptionalParams,
-  HybridRunbookWorkerGroupDeleteOptionalParams,
-  HybridRunbookWorkerGroupUpdateOptionalParams,
-  HybridRunbookWorkerGroupCreateOptionalParams,
-  HybridRunbookWorkerGroupGetOptionalParams,
-} from "./api/hybridRunbookWorkerGroup/index.js";
+  HybridRunbookWorkerGroupOperationsListByAutomationAccountOptionalParams,
+  HybridRunbookWorkerGroupOperationsDeleteOptionalParams,
+  HybridRunbookWorkerGroupOperationsUpdateOptionalParams,
+  HybridRunbookWorkerGroupOperationsCreateOptionalParams,
+  HybridRunbookWorkerGroupOperationsGetOptionalParams,
+} from "./api/hybridRunbookWorkerGroupOperations/index.js";
 export type {
   HybridRunbookWorkersMoveOptionalParams,
   HybridRunbookWorkersListByHybridRunbookWorkerGroupOptionalParams,
@@ -405,34 +405,34 @@ export type {
   HybridRunbookWorkersGetOptionalParams,
 } from "./api/hybridRunbookWorkers/index.js";
 export type {
-  JobResumeOptionalParams,
-  JobStopOptionalParams,
-  JobSuspendOptionalParams,
-  JobGetRunbookContentOptionalParams,
-  JobGetOutputOptionalParams,
-  JobCreateOptionalParams,
-  JobGetOptionalParams,
-  JobListByAutomationAccountOptionalParams,
-} from "./api/job/index.js";
+  JobOperationsResumeOptionalParams,
+  JobOperationsStopOptionalParams,
+  JobOperationsSuspendOptionalParams,
+  JobOperationsGetRunbookContentOptionalParams,
+  JobOperationsGetOutputOptionalParams,
+  JobOperationsCreateOptionalParams,
+  JobOperationsGetOptionalParams,
+  JobOperationsListByAutomationAccountOptionalParams,
+} from "./api/jobOperations/index.js";
 export type {
-  JobScheduleListByAutomationAccountOptionalParams,
-  JobScheduleDeleteOptionalParams,
-  JobScheduleCreateOptionalParams,
-  JobScheduleGetOptionalParams,
-} from "./api/jobSchedule/index.js";
+  JobScheduleOperationsListByAutomationAccountOptionalParams,
+  JobScheduleOperationsDeleteOptionalParams,
+  JobScheduleOperationsCreateOptionalParams,
+  JobScheduleOperationsGetOptionalParams,
+} from "./api/jobScheduleOperations/index.js";
 export type {
-  JobStreamListByJobOptionalParams,
-  JobStreamGetOptionalParams,
-} from "./api/jobStream/index.js";
+  JobStreamOperationsListByJobOptionalParams,
+  JobStreamOperationsGetOptionalParams,
+} from "./api/jobStreamOperations/index.js";
 export type { KeysListByAutomationAccountOptionalParams } from "./api/keys/index.js";
-export type { LinkedWorkspaceGetOptionalParams } from "./api/linkedWorkspace/index.js";
+export type { LinkedWorkspaceOperationsGetOptionalParams } from "./api/linkedWorkspaceOperations/index.js";
 export type {
-  ModuleListByAutomationAccountOptionalParams,
-  ModuleDeleteOptionalParams,
-  ModuleUpdateOptionalParams,
-  ModuleCreateOrUpdateOptionalParams,
-  ModuleGetOptionalParams,
-} from "./api/module/index.js";
+  ModuleOperationsListByAutomationAccountOptionalParams,
+  ModuleOperationsDeleteOptionalParams,
+  ModuleOperationsUpdateOptionalParams,
+  ModuleOperationsCreateOrUpdateOptionalParams,
+  ModuleOperationsGetOptionalParams,
+} from "./api/moduleOperations/index.js";
 export type { NodeCountInformationGetOptionalParams } from "./api/nodeCountInformation/index.js";
 export type {
   NodeReportsGetContentOptionalParams,
@@ -475,18 +475,20 @@ export type {
 export type {
   RunbookGetContentOptionalParams,
   RunbookPublishOptionalParams,
-  RunbookListByAutomationAccountOptionalParams,
-  RunbookDeleteOptionalParams,
-  RunbookUpdateOptionalParams,
-  RunbookCreateOrUpdateOptionalParams,
-  RunbookGetOptionalParams,
 } from "./api/runbook/index.js";
 export type {
-  RunbookDraftUndoEditOptionalParams,
-  RunbookDraftGetOptionalParams,
-  RunbookDraftReplaceContentOptionalParams,
-  RunbookDraftGetContentOptionalParams,
-} from "./api/runbookDraft/index.js";
+  RunbookDraftOperationsUndoEditOptionalParams,
+  RunbookDraftOperationsGetOptionalParams,
+  RunbookDraftOperationsReplaceContentOptionalParams,
+  RunbookDraftOperationsGetContentOptionalParams,
+} from "./api/runbookDraftOperations/index.js";
+export type {
+  RunbookOperationsListByAutomationAccountOptionalParams,
+  RunbookOperationsDeleteOptionalParams,
+  RunbookOperationsUpdateOptionalParams,
+  RunbookOperationsCreateOrUpdateOptionalParams,
+  RunbookOperationsGetOptionalParams,
+} from "./api/runbookOperations/index.js";
 export type {
   RuntimeEnvironmentsListByAutomationAccountOptionalParams,
   RuntimeEnvironmentsDeleteOptionalParams,
@@ -495,12 +497,12 @@ export type {
   RuntimeEnvironmentsGetOptionalParams,
 } from "./api/runtimeEnvironments/index.js";
 export type {
-  ScheduleListByAutomationAccountOptionalParams,
-  ScheduleDeleteOptionalParams,
-  ScheduleUpdateOptionalParams,
-  ScheduleCreateOrUpdateOptionalParams,
-  ScheduleGetOptionalParams,
-} from "./api/schedule/index.js";
+  ScheduleOperationsListByAutomationAccountOptionalParams,
+  ScheduleOperationsDeleteOptionalParams,
+  ScheduleOperationsUpdateOptionalParams,
+  ScheduleOperationsCreateOrUpdateOptionalParams,
+  ScheduleOperationsGetOptionalParams,
+} from "./api/scheduleOperations/index.js";
 export type {
   SoftwareUpdateConfigurationMachineRunsListOptionalParams,
   SoftwareUpdateConfigurationMachineRunsGetByIdOptionalParams,
@@ -516,79 +518,80 @@ export type {
   SoftwareUpdateConfigurationsGetByNameOptionalParams,
 } from "./api/softwareUpdateConfigurations/index.js";
 export type {
-  SourceControlListByAutomationAccountOptionalParams,
-  SourceControlDeleteOptionalParams,
-  SourceControlUpdateOptionalParams,
-  SourceControlCreateOrUpdateOptionalParams,
-  SourceControlGetOptionalParams,
-} from "./api/sourceControl/index.js";
+  SourceControlOperationsListByAutomationAccountOptionalParams,
+  SourceControlOperationsDeleteOptionalParams,
+  SourceControlOperationsUpdateOptionalParams,
+  SourceControlOperationsCreateOrUpdateOptionalParams,
+  SourceControlOperationsGetOptionalParams,
+} from "./api/sourceControlOperations/index.js";
 export type {
-  SourceControlSyncJobListByAutomationAccountOptionalParams,
-  SourceControlSyncJobGetOptionalParams,
-  SourceControlSyncJobCreateOptionalParams,
-} from "./api/sourceControlSyncJob/index.js";
+  SourceControlSyncJobOperationsListByAutomationAccountOptionalParams,
+  SourceControlSyncJobOperationsGetOptionalParams,
+  SourceControlSyncJobOperationsCreateOptionalParams,
+} from "./api/sourceControlSyncJobOperations/index.js";
 export type {
   SourceControlSyncJobStreamsGetOptionalParams,
   SourceControlSyncJobStreamsListBySyncJobOptionalParams,
 } from "./api/sourceControlSyncJobStreams/index.js";
-export type { StatisticsListByAutomationAccountOptionalParams } from "./api/statistics/index.js";
+export type { StatisticsOperationsListByAutomationAccountOptionalParams } from "./api/statisticsOperations/index.js";
 export type {
-  TestJobSuspendOptionalParams,
-  TestJobStopOptionalParams,
-  TestJobResumeOptionalParams,
-  TestJobGetOptionalParams,
-  TestJobCreateOptionalParams,
-} from "./api/testJob/index.js";
+  TestJobOperationsSuspendOptionalParams,
+  TestJobOperationsStopOptionalParams,
+  TestJobOperationsResumeOptionalParams,
+  TestJobOperationsGetOptionalParams,
+  TestJobOperationsCreateOptionalParams,
+} from "./api/testJobOperations/index.js";
 export type {
   TestJobStreamsListByTestJobOptionalParams,
   TestJobStreamsGetOptionalParams,
 } from "./api/testJobStreams/index.js";
 export type { UsagesListByAutomationAccountOptionalParams } from "./api/usages/index.js";
 export type {
-  VariableListByAutomationAccountOptionalParams,
-  VariableDeleteOptionalParams,
-  VariableUpdateOptionalParams,
-  VariableCreateOrUpdateOptionalParams,
-  VariableGetOptionalParams,
-} from "./api/variable/index.js";
+  VariableOperationsListByAutomationAccountOptionalParams,
+  VariableOperationsDeleteOptionalParams,
+  VariableOperationsUpdateOptionalParams,
+  VariableOperationsCreateOrUpdateOptionalParams,
+  VariableOperationsGetOptionalParams,
+} from "./api/variableOperations/index.js";
 export type {
-  WatcherStopOptionalParams,
-  WatcherStartOptionalParams,
-  WatcherListByAutomationAccountOptionalParams,
-  WatcherDeleteOptionalParams,
-  WatcherUpdateOptionalParams,
-  WatcherCreateOrUpdateOptionalParams,
-  WatcherGetOptionalParams,
-} from "./api/watcher/index.js";
+  WatcherOperationsStopOptionalParams,
+  WatcherOperationsStartOptionalParams,
+  WatcherOperationsListByAutomationAccountOptionalParams,
+  WatcherOperationsDeleteOptionalParams,
+  WatcherOperationsUpdateOptionalParams,
+  WatcherOperationsCreateOrUpdateOptionalParams,
+  WatcherOperationsGetOptionalParams,
+} from "./api/watcherOperations/index.js";
 export type {
-  WebhookListByAutomationAccountOptionalParams,
-  WebhookDeleteOptionalParams,
-  WebhookUpdateOptionalParams,
-  WebhookCreateOrUpdateOptionalParams,
-  WebhookGetOptionalParams,
-  WebhookGenerateUriOptionalParams,
-} from "./api/webhook/index.js";
+  WebhookOperationsListByAutomationAccountOptionalParams,
+  WebhookOperationsDeleteOptionalParams,
+  WebhookOperationsUpdateOptionalParams,
+  WebhookOperationsCreateOrUpdateOptionalParams,
+  WebhookOperationsGetOptionalParams,
+  WebhookOperationsGenerateUriOptionalParams,
+} from "./api/webhookOperations/index.js";
 export type {
-  ActivityOperations,
+  ActivityOperationsOperations,
   AgentRegistrationInformationOperations,
-  AutomationAccountOperations,
-  CertificateOperations,
-  ConnectionOperations,
-  ConnectionTypeOperations,
-  CredentialOperations,
+  AutomationAccountOperationsOperations,
+  CertificateOperationsOperations,
+  ConnectionOperationsOperations,
+  ConnectionTypeOperationsOperations,
+  CredentialOperationsOperations,
   DeletedAutomationAccountsOperations,
-  DscConfigurationOperations,
-  DscNodeOperations,
+  DscConfigurationOperationsOperations,
   DscNodeConfigurationOperations,
+  DscNodeConfigurationOperationsOperations,
+  DscNodeOperationsOperations,
   FieldsOperations,
-  HybridRunbookWorkerGroupOperations,
+  HybridRunbookWorkerGroupOperationsOperations,
   HybridRunbookWorkersOperations,
-  JobOperations,
-  JobScheduleOperations,
-  JobStreamOperations,
+  JobOperationsOperations,
+  JobScheduleOperationsOperations,
+  JobStreamOperationsOperations,
   KeysOperations,
-  LinkedWorkspaceOperations,
-  ModuleOperations,
+  LinkedWorkspaceOperationsOperations,
+  ModuleOperationsOperations,
   NodeCountInformationOperations,
   NodeReportsOperations,
   ObjectDataTypesOperations,
@@ -599,22 +602,23 @@ export type {
   Python2PackageOperations,
   Python3PackageOperations,
   RunbookOperations,
-  RunbookDraftOperations,
+  RunbookDraftOperationsOperations,
+  RunbookOperationsOperations,
   RuntimeEnvironmentsOperations,
-  ScheduleOperations,
+  ScheduleOperationsOperations,
   SoftwareUpdateConfigurationMachineRunsOperations,
   SoftwareUpdateConfigurationRunsOperations,
   SoftwareUpdateConfigurationsOperations,
-  SourceControlOperations,
-  SourceControlSyncJobOperations,
+  SourceControlOperationsOperations,
+  SourceControlSyncJobOperationsOperations,
   SourceControlSyncJobStreamsOperations,
-  StatisticsOperations,
-  TestJobOperations,
+  StatisticsOperationsOperations,
+  TestJobOperationsOperations,
   TestJobStreamsOperations,
   UsagesOperations,
-  VariableOperations,
-  WatcherOperations,
-  WebhookOperations,
+  VariableOperationsOperations,
+  WatcherOperationsOperations,
+  WebhookOperationsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };

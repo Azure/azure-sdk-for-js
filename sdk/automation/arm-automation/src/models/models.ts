@@ -9264,16 +9264,16 @@ export function _deletedAutomationAccountPropertiesDeserializer(item: any) {
   };
 }
 
-export type RunbookDraftGetContentResponse = { body: string };
-
 export type RunbookGetContentResponse = { body: string };
 
-export type DscConfigurationGetContentResponse = { body: string };
+export type RunbookDraftOperationsGetContentResponse = { body: string };
+
+export type DscConfigurationOperationsGetContentResponse = { body: string };
 
 export type NodeReportsGetContentResponse = { body: string };
 
-export type WebhookGenerateUriResponse = { body: string };
+export type WebhookOperationsGenerateUriResponse = { body: string };
 
-export type JobGetRunbookContentResponse = { body: string };
+export type JobOperationsGetRunbookContentResponse = { body: string };
 
-export type JobGetOutputResponse = { body: string };
+export type JobOperationsGetOutputResponse = { body: string };
