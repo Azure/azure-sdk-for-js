@@ -1049,7 +1049,7 @@
 # PRLabel: %Mgmt
 /sdk/oep/arm-oep/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/dnsresolver/arm-dnsresolver/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
