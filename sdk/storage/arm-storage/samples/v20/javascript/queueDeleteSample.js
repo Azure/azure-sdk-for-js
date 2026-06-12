@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the queue with the specified queue name, under the specified account if it exists.
  *
  * @summary deletes the queue with the specified queue name, under the specified account if it exists.
- * x-ms-original-file: 2025-08-01/QueueOperationDelete.json
+ * x-ms-original-file: 2026-04-01/QueueOperationDelete.json
  */
 async function queueOperationDelete() {
   const credential = new DefaultAzureCredential();

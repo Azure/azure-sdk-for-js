@@ -368,7 +368,6 @@ export interface ServerDataMessage extends WebPubSubMessageBase {
     dataType: WebPubSubDataType;
     readonly kind: "serverData";
     sequenceId?: number;
-    stream?: StreamInfo;
 }
 
 // @public
@@ -458,7 +457,7 @@ export interface StreamPublisher {
     complete(options?: EndStreamOptions): Promise<void>;
     keepalive(options?: SendStreamKeepaliveOptions): Promise<void>;
     onError(listener: (error: StreamDataError) => void): () => void;
-    publish(content: JSONTypes | ArrayBuffer, dataType?: WebPubSubDataType, options?: SendStreamDataOptions): Promise<void>;
+    publish(content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendStreamDataOptions): Promise<void>;
     readonly streamId: string;
 }
 

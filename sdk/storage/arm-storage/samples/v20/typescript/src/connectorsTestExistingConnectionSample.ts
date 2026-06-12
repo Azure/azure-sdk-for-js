@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This API is designed to be used for monitoring and debugging purposes. From the caller’s perspective,
  * this method does the following: Calls List on the backing data store, attempting to list up to one blob/object/etc.
  * If the above succeeds, and if a blob/object/etc is found, calls Get on that object, attempting to download one byte.
- * x-ms-original-file: 2025-08-01/StorageConnectorCRUD/StorageConnectors_TestExistingConnection.json
+ * x-ms-original-file: 2026-04-01/StorageConnectorCRUD/StorageConnectors_TestExistingConnection.json
  */
 async function existingConnectionTest(): Promise<void> {
   const credential = new DefaultAzureCredential();

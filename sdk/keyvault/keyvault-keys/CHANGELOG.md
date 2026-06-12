@@ -1,12 +1,10 @@
 # Release History
 
-## 4.10.2 (Unreleased)
+## 4.10.2 (2026-06-09)
 
 ### Features Added
 
 - Added support for service API version `2025-07-01` [#38515](https://github.com/Azure/azure-sdk-for-js/pull/38515)
-
-### Breaking Changes
 
 ### Bugs Fixed
 

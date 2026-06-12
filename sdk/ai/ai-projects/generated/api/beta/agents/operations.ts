@@ -22,21 +22,29 @@ import {
   sessionLogEventDeserializer,
   SessionFileWriteResponse,
   sessionFileWriteResponseDeserializer,
-  SessionDirectoryListResponse,
-  sessionDirectoryListResponseDeserializer,
+  _SessionDirectoryListResponse,
+  _sessionDirectoryListResponseDeserializer,
+  SessionDirectoryEntry,
+  OptimizationJobInputs,
+  optimizationJobInputsSerializer,
   OptimizationJob,
-  optimizationJobSerializer,
   optimizationJobDeserializer,
   OptimizationCandidate,
-  optimizationCandidateDeserializer,
   _AgentsPagedResultOptimizationJob,
   _agentsPagedResultOptimizationJobDeserializer,
-  AgentsPagedResultOptimizationCandidate,
-  agentsPagedResultOptimizationCandidateDeserializer,
+  _AgentsPagedResultOptimizationCandidate,
+  _agentsPagedResultOptimizationCandidateDeserializer,
+  CandidateMetadata,
+  candidateMetadataDeserializer,
   CandidateDeployConfig,
   candidateDeployConfigDeserializer,
   CandidateResults,
   candidateResultsDeserializer,
+  PromoteCandidateRequest,
+  promoteCandidateRequestSerializer,
+  PromoteCandidateResponse,
+  promoteCandidateResponseDeserializer,
+  BetaAgentsGetCandidateFileResponse,
   BetaAgentsDownloadSessionFileResponse,
   BetaAgentsDownloadAgentCodeResponse,
 } from "../../../models/models.js";
@@ -47,6 +55,8 @@ import {
 import { getBinaryStreamResponse } from "../../../static-helpers/serialization/get-binary-stream-response.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import {
+  BetaAgentsPromoteCandidateOptionalParams,
+  BetaAgentsGetCandidateFileOptionalParams,
   BetaAgentsGetOptimizationCandidateResultsOptionalParams,
   BetaAgentsGetOptimizationCandidateConfigOptionalParams,
   BetaAgentsGetOptimizationCandidateOptionalParams,
@@ -57,11 +67,12 @@ import {
   BetaAgentsGetOptimizationJobOptionalParams,
   BetaAgentsCreateOptimizationJobOptionalParams,
   BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsGetSessionFilesOptionalParams,
+  BetaAgentsListSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
   BetaAgentsUploadSessionFileOptionalParams,
   BetaAgentsGetSessionLogStreamOptionalParams,
   BetaAgentsListSessionsOptionalParams,
+  BetaAgentsStopSessionOptionalParams,
   BetaAgentsDeleteSessionOptionalParams,
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
@@ -75,6 +86,147 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+
+export function _promoteCandidateSend(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  candidateRequest: PromoteCandidateRequest,
+  options: BetaAgentsPromoteCandidateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}/candidates/{candidateId}:promote{?api%2Dversion}",
+    {
+      jobId: jobId,
+      candidateId: candidateId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: promoteCandidateRequestSerializer(candidateRequest),
+    });
+}
+
+export async function _promoteCandidateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PromoteCandidateResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
+    throw error;
+  }
+
+  return promoteCandidateResponseDeserializer(result.body);
+}
+
+/** Promotes the specified candidate and records the deployment timestamp and target agent version. */
+export async function promoteCandidate(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  candidateRequest: PromoteCandidateRequest,
+  options: BetaAgentsPromoteCandidateOptionalParams = { requestOptions: {} },
+): Promise<PromoteCandidateResponse> {
+  const result = await _promoteCandidateSend(
+    context,
+    jobId,
+    candidateId,
+    candidateRequest,
+    options,
+  );
+  return _promoteCandidateDeserialize(result);
+}
+
+export function _getCandidateFileSend(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  path: string,
+  options: BetaAgentsGetCandidateFileOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path_1 = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}/candidates/{candidateId}/files{?path,api%2Dversion}",
+    {
+      jobId: jobId,
+      candidateId: candidateId,
+      path: path,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path_1)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/octet-stream",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getCandidateFileDeserialize(
+  result: PathUncheckedResponse & BetaAgentsGetCandidateFileResponse,
+): Promise<BetaAgentsGetCandidateFileResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
+    throw error;
+  }
+
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+}
+
+/** Streams the specified file from the candidate's blob directory. */
+export async function getCandidateFile(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  path: string,
+  options: BetaAgentsGetCandidateFileOptionalParams = { requestOptions: {} },
+): Promise<BetaAgentsGetCandidateFileResponse> {
+  const result = await _getCandidateFileSend(context, jobId, candidateId, path, options);
+  return _getCandidateFileDeserialize(result);
+}
 
 export function _getOptimizationCandidateResultsSend(
   context: Client,
@@ -113,15 +265,23 @@ export async function _getOptimizationCandidateResultsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return candidateResultsDeserializer(result.body);
 }
 
-/** Get full per-task evaluation results for a candidate. */
+/** Retrieves full per-task evaluation results for the specified candidate. */
 export async function getOptimizationCandidateResults(
   context: Client,
   jobId: string,
@@ -169,15 +329,26 @@ export async function _getOptimizationCandidateConfigDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return candidateDeployConfigDeserializer(result.body);
 }
 
-/** Get the candidate's deploy config JSON. Used to compose `agents.create_version(...)` from a candidate. */
+/**
+ * Retrieves the deploy configuration JSON for the specified candidate.
+ * Clients can use it to compose `agents.create_version(...)` requests.
+ */
 export async function getOptimizationCandidateConfig(
   context: Client,
   jobId: string,
@@ -221,25 +392,33 @@ export function _getOptimizationCandidateSend(
 
 export async function _getOptimizationCandidateDeserialize(
   result: PathUncheckedResponse,
-): Promise<OptimizationCandidate> {
+): Promise<CandidateMetadata> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
-  return optimizationCandidateDeserializer(result.body);
+  return candidateMetadataDeserializer(result.body);
 }
 
-/** Get a single candidate manifest and aggregated evaluation summary. */
+/** Retrieves metadata, manifest information, and promotion details for the specified candidate. */
 export async function getOptimizationCandidate(
   context: Client,
   jobId: string,
   candidateId: string,
   options: BetaAgentsGetOptimizationCandidateOptionalParams = { requestOptions: {} },
-): Promise<OptimizationCandidate> {
+): Promise<CandidateMetadata> {
   const result = await _getOptimizationCandidateSend(context, jobId, candidateId, options);
   return _getOptimizationCandidateDeserialize(result);
 }
@@ -279,26 +458,39 @@ export function _listOptimizationCandidatesSend(
 
 export async function _listOptimizationCandidatesDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentsPagedResultOptimizationCandidate> {
+): Promise<_AgentsPagedResultOptimizationCandidate> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
-  return agentsPagedResultOptimizationCandidateDeserializer(result.body);
+  return _agentsPagedResultOptimizationCandidateDeserializer(result.body);
 }
 
-/** List candidates produced by a job. */
-export async function listOptimizationCandidates(
+/** Returns the candidates produced by the specified optimization job. */
+export function listOptimizationCandidates(
   context: Client,
   jobId: string,
   options: BetaAgentsListOptimizationCandidatesOptionalParams = { requestOptions: {} },
-): Promise<AgentsPagedResultOptimizationCandidate> {
-  const result = await _listOptimizationCandidatesSend(context, jobId, options);
-  return _listOptimizationCandidatesDeserialize(result);
+): PagedAsyncIterableIterator<OptimizationCandidate> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listOptimizationCandidatesSend(context, jobId, options),
+    _listOptimizationCandidatesDeserialize,
+    ["200"],
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+  );
 }
 
 export function _deleteOptimizationJobSend(
@@ -307,9 +499,10 @@ export function _deleteOptimizationJobSend(
   options: BetaAgentsDeleteOptimizationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agent_optimization_jobs/{jobId}{?api%2Dversion}",
+    "/agent_optimization_jobs/{jobId}{?force,api%2Dversion}",
     {
       jobId: jobId,
+      force: options?.force,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -335,15 +528,26 @@ export async function _deleteOptimizationJobDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return;
 }
 
-/** Delete the job and its candidate artifacts. Cancels first if non-terminal. */
+/**
+ * Deletes the specified agent optimization job and its candidate artifacts.
+ * Cancels the job first when it is still in a non-terminal state.
+ */
 export async function deleteOptimizationJob(
   context: Client,
   jobId: string,
@@ -388,15 +592,26 @@ export async function _cancelOptimizationJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return optimizationJobDeserializer(result.body);
 }
 
-/** Request cancellation. Idempotent on terminal states. */
+/**
+ * Requests cancellation of the specified agent optimization job.
+ * The operation remains idempotent after the job reaches a terminal state.
+ */
 export async function cancelOptimizationJob(
   context: Client,
   jobId: string,
@@ -445,15 +660,23 @@ export async function _listOptimizationJobsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return _agentsPagedResultOptimizationJobDeserializer(result.body);
 }
 
-/** List optimization jobs. Supports cursor pagination and optional `status` / `agent_name` filters. */
+/** Returns agent optimization jobs with cursor pagination and optional lifecycle or agent filters. */
 export function listOptimizationJobs(
   context: Client,
   options: BetaAgentsListOptimizationJobsOptionalParams = { requestOptions: {} },
@@ -499,18 +722,29 @@ export function _getOptimizationJobSend(
 export async function _getOptimizationJobDeserialize(
   result: PathUncheckedResponse,
 ): Promise<OptimizationJob> {
-  const expectedStatuses = ["200"];
+  const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return optimizationJobDeserializer(result.body);
 }
 
-/** Get an optimization job by id. Emits `Retry-After` while the job is non-terminal. */
+/**
+ * Retrieves the specified agent optimization job.
+ * Returns 202 while the job is in progress and 200 after it reaches a terminal state.
+ */
 export async function getOptimizationJob(
   context: Client,
   jobId: string,
@@ -522,7 +756,7 @@ export async function getOptimizationJob(
 
 export function _createOptimizationJobSend(
   context: Client,
-  job: OptimizationJob,
+  inputs: OptimizationJobInputs,
   options: BetaAgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -547,7 +781,7 @@ export function _createOptimizationJobSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: optimizationJobSerializer(job),
+      body: optimizationJobInputsSerializer(inputs),
     });
 }
 
@@ -557,21 +791,32 @@ export async function _createOptimizationJobDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return optimizationJobDeserializer(result.body);
 }
 
-/** Create an optimization job. Returns 201 with the queued job. Honours `Operation-Id` for idempotent retry. */
+/**
+ * Creates an agent optimization job and returns the queued job.
+ * Honors `Operation-Id` for idempotent retry.
+ */
 export async function createOptimizationJob(
   context: Client,
-  job: OptimizationJob,
+  inputs: OptimizationJobInputs,
   options: BetaAgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): Promise<OptimizationJob> {
-  const result = await _createOptimizationJobSend(context, job, options);
+  const result = await _createOptimizationJobSend(context, inputs, options);
   return _createOptimizationJobDeserialize(result);
 }
 
@@ -615,8 +860,16 @@ export async function _deleteSessionFileDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
@@ -624,8 +877,8 @@ export async function _deleteSessionFileDeserialize(result: PathUncheckedRespons
 }
 
 /**
- * Delete a file or directory from the session sandbox.
- * If `recursive` is false (default) and the target is a non-empty directory, the API returns 409 Conflict.
+ * Deletes the specified file or directory from the session sandbox.
+ * When `recursive` is false, deleting a non-empty directory returns 409 Conflict.
  */
 export async function deleteSessionFile(
   context: Client,
@@ -638,19 +891,22 @@ export async function deleteSessionFile(
   return _deleteSessionFileDeserialize(result);
 }
 
-export function _getSessionFilesSend(
+export function _listSessionFilesSend(
   context: Client,
   agentName: string,
   agentSessionId: string,
-  path: string,
-  options: BetaAgentsGetSessionFilesOptionalParams = { requestOptions: {} },
+  options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?path,api%2Dversion}",
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?path,limit,order,after,before,api%2Dversion}",
     {
       agent_name: agentName,
       agent_session_id: agentSessionId,
-      path: path,
+      path: options?.path,
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -658,7 +914,7 @@ export function _getSessionFilesSend(
     },
   );
   return context
-    .path(path_1)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
@@ -674,33 +930,45 @@ export function _getSessionFilesSend(
     });
 }
 
-export async function _getSessionFilesDeserialize(
+export async function _listSessionFilesDeserialize(
   result: PathUncheckedResponse,
-): Promise<SessionDirectoryListResponse> {
+): Promise<_SessionDirectoryListResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
-  return sessionDirectoryListResponseDeserializer(result.body);
+  return _sessionDirectoryListResponseDeserializer(result.body);
 }
 
 /**
- * List files and directories at a given path in the session sandbox.
- * Returns only the immediate children of the specified directory (non-recursive).
+ * Returns files and directories at the specified path in the session sandbox.
+ * The response includes only the immediate children of the target directory and defaults to the session home directory when no path is supplied.
  */
-export async function getSessionFiles(
+export function listSessionFiles(
   context: Client,
   agentName: string,
   agentSessionId: string,
-  path: string,
-  options: BetaAgentsGetSessionFilesOptionalParams = { requestOptions: {} },
-): Promise<SessionDirectoryListResponse> {
-  const result = await _getSessionFilesSend(context, agentName, agentSessionId, path, options);
-  return _getSessionFilesDeserialize(result);
+  options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<SessionDirectoryEntry> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listSessionFilesSend(context, agentName, agentSessionId, options),
+    _listSessionFilesDeserialize,
+    ["200"],
+    { itemName: "entries", apiVersion: context.apiVersion ?? "v1" },
+  );
 }
 
 export function _downloadSessionFileSend(
@@ -745,15 +1013,26 @@ export async function _downloadSessionFileDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
-/** Download a file from the session sandbox as a binary stream. */
+/**
+ * Downloads the file at the specified sandbox path as a binary stream.
+ * The path is resolved relative to the session home directory.
+ */
 export async function downloadSessionFile(
   context: Client,
   agentName: string,
@@ -810,8 +1089,16 @@ export async function _uploadSessionFileDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
@@ -819,8 +1106,8 @@ export async function _uploadSessionFileDeserialize(
 }
 
 /**
- * Upload a file to the session sandbox via binary stream.
- * Maximum file size is 50 MB. Uploads exceeding this limit return 413 Payload Too Large.
+ * Uploads binary file content to the specified path in the session sandbox.
+ * The service stores the file relative to the session home directory and rejects payloads larger than 50 MB.
  */
 export async function uploadSessionFile(
   context: Client,
@@ -880,8 +1167,16 @@ export async function _getSessionLogStreamDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
@@ -975,15 +1270,23 @@ export async function _listSessionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return _agentsPagedResultAgentSessionResourceDeserializer(result.body);
 }
 
-/** Returns a list of sessions for the specified agent. */
+/** Returns a paged collection of sessions associated with the specified agent endpoint. */
 export function listSessions(
   context: Client,
   agentName: string,
@@ -996,6 +1299,67 @@ export function listSessions(
     ["200"],
     { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
   );
+}
+
+export function _stopSessionSend(
+  context: Client,
+  agentName: string,
+  sessionId: string,
+  options: BetaAgentsStopSessionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/endpoint/sessions/{session_id}:stop{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      session_id: sessionId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _stopSessionDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
+    throw error;
+  }
+
+  return;
+}
+
+/** Terminates the specified hosted agent session and returns 204 No Content when the request succeeds. */
+export async function stopSession(
+  context: Client,
+  agentName: string,
+  sessionId: string,
+  options: BetaAgentsStopSessionOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _stopSessionSend(context, agentName, sessionId, options);
+  return _stopSessionDeserialize(result);
 }
 
 export function _deleteSessionSend(
@@ -1035,8 +1399,16 @@ export async function _deleteSessionDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
@@ -1097,15 +1469,23 @@ export async function _getSessionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return agentSessionResourceDeserializer(result.body);
 }
 
-/** Retrieves a session by ID. */
+/** Retrieves the details of a hosted agent session by agent name and session identifier. */
 export async function getSession(
   context: Client,
   agentName: string,
@@ -1160,8 +1540,16 @@ export async function _createSessionDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
@@ -1219,8 +1607,16 @@ export async function _downloadAgentCodeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
@@ -1228,7 +1624,7 @@ export async function _downloadAgentCodeDeserialize(
 }
 
 /**
- * Download the code zip for a code-based hosted agent.
+ * Downloads the code zip for a code-based hosted agent.
  * Returns the previously-uploaded zip (`application/zip`).
  *
  * If `agent_version` is supplied, returns that version's code zip; otherwise
@@ -1287,14 +1683,29 @@ export async function _createVersionFromCodeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return agentVersionDeserializer(result.body);
 }
 
+/**
+ * Creates a new agent version from code. Uploads the code zip and creates a new version
+ * for an existing agent. The SHA-256 hex digest of the zip is provided in the
+ * `x-ms-code-zip-sha256` header for integrity and dedup.
+ * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
+ * Maximum upload size is 250 MB.
+ */
 export async function createVersionFromCode(
   context: Client,
   agentName: string,
@@ -1354,15 +1765,23 @@ export async function _patchAgentObjectDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return agentDeserializer(result.body);
 }
 
-/** Updates an agent endpoint. */
+/** Applies a merge-patch update to the specified agent endpoint configuration. */
 export async function patchAgentObject(
   context: Client,
   agentName: string,
