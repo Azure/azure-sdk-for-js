@@ -75,8 +75,6 @@ Compared with version 2.1.0
   - Removed operation ConnectedClusterOperations.beginCreate
   - Removed operation ConnectedClusterOperations.beginCreateAndWait
   - Removed operation ConnectedClusterOperations.update
-  - Class ConnectedKubernetesClient no longer has parameter apiVersion
-  - Class ConnectedKubernetesClient no longer has parameter subscriptionId
   - Removed Interface ConnectedClusterCreateOptionalParams
   - Removed Interface ConnectedClusterDeleteOptionalParams
   - Removed Interface ConnectedClusterGetOptionalParams
