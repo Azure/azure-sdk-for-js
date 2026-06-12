@@ -17,18 +17,182 @@ description: |
   Weekly agent observability report for Azure/azure-sdk-for-js. Posts a
   structured comment on the long-lived tracking issue identified by repo
   variable AGENT_OBSERVABILITY_ISSUE (hardcoded to #38930 in this
-  prototype). Measures Tier 1 (leading indicators)
-  from the AI-Forward Starter Kit plus Copilot Code Review reaction quality.
+  prototype). Measures Tier 1 (leading indicators) from the AI-Forward
+  Starter Kit plus Copilot Code Review reaction quality. Follows the
+  gh-aw DataOps pattern: all data is gathered by an authenticated shell
+  step (zero AI tokens, deterministic), and the agent only reads the
+  pre-computed JSON and writes the narrative.
 permissions:
   contents: read
   actions: read
   pull-requests: read
   issues: read
+# DataOps: collect every metric in a deterministic, authenticated shell
+# step (GH_TOKEN → 5000 req/hr, runs outside the agent sandbox). The
+# agent never makes API calls; it only reads /tmp/gh-aw/agent/*.json.
+steps:
+  - name: Collect observability data
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Prototype: target repo is hardcoded so this also works in trial
+      # mode (where github.repository would be the trial host repo).
+      # In production this can become ${{ github.repository }}.
+      REPO: Azure/azure-sdk-for-js
+      WINDOW_DAYS: ${{ github.event.inputs.window_days || '7' }}
+      OUTDIR: /tmp/gh-aw/agent
+    run: |
+      set -uo pipefail
+      REPODIR="$OUTDIR/repo"
+      mkdir -p "$OUTDIR"
+
+      now_s=$(date -u +%s)
+      since_s=$(( now_s - WINDOW_DAYS * 86400 ))
+      prior_s=$(( since_s - WINDOW_DAYS * 86400 ))
+      since=$(date -u -d "@$since_s" +%Y-%m-%dT%H:%M:%SZ)
+      until=$(date -u -d "@$now_s" +%Y-%m-%dT%H:%M:%SZ)
+      prior_since=$(date -u -d "@$prior_s" +%Y-%m-%dT%H:%M:%SZ)
+      since_d=$(date -u -d "@$since_s" +%Y-%m-%d)
+      until_d=$(date -u -d "@$now_s" +%Y-%m-%d)
+      prior_since_d=$(date -u -d "@$prior_s" +%Y-%m-%d)
+
+      jq -n --arg wd "$WINDOW_DAYS" --arg s "$since" --arg u "$until" --arg ps "$prior_since" \
+        '{window_days:($wd|tonumber), since:$s, until:$u, prior_since:$ps}' > "$OUTDIR/meta.json"
+      echo "window: $since .. $until (prior from $prior_since)"
+
+      api() { gh api -H "Accept: application/vnd.github+json" "$@"; }
+
+      # --- Step 0: blobless clone (full history; blobs fetched on demand) ---
+      if [ ! -d "$REPODIR/.git" ]; then
+        git clone --filter=blob:none "https://github.com/$REPO.git" "$REPODIR" 2>/dev/null \
+          && echo "clone ok" || echo "clone FAILED"
+      fi
+
+      # --- Step 1: CCR review-comment reactions (repo-level, inline reactions) ---
+      collect_ccr() {
+        jq -s --arg lo "$1" --arg hi "$2" '
+          [ .[][] | select(.user.login=="Copilot")
+            | select(.created_at >= $lo and .created_at < $hi) ] as $c
+          | { comments: ($c|length),
+              plus:   ([$c[].reactions["+1"]] | add // 0),
+              minus:  ([$c[].reactions["-1"]] | add // 0),
+              with_reaction: ([$c[] | select((.reactions["+1"]+.reactions["-1"])>0)] | length),
+              prs: ([$c[] | (.pull_request_url | split("/") | last)] | unique) }
+        ' "$3"
+      }
+      ccr_dump="$OUTDIR/.ccr_pages.json"; : > "$ccr_dump"
+      page=1; pages_fetched=0
+      while [ "$page" -le 20 ]; do
+        resp=$(api "/repos/$REPO/pulls/comments?sort=created&direction=desc&per_page=100&page=$page" 2>/dev/null)
+        [ -z "$resp" ] && break
+        cnt=$(echo "$resp" | jq 'length'); [ "$cnt" -eq 0 ] && break
+        echo "$resp" >> "$ccr_dump"
+        pages_fetched=$((pages_fetched+1))
+        oldest=$(echo "$resp" | jq -r '.[-1].created_at')
+        [[ "$oldest" < "$prior_since" ]] && break
+        page=$((page+1))
+      done
+      cur=$(collect_ccr "$since" "$until" "$ccr_dump")
+      prior=$(collect_ccr "$prior_since" "$since" "$ccr_dump")
+      jq -n --argjson cur "$cur" --argjson prior "$prior" --argjson pages "$pages_fetched" \
+        '{current:$cur, prior:$prior, pages_fetched:$pages}' > "$OUTDIR/ccr.json"
+
+      # --- Step 2: context layer health (local git log) ---
+      ctx="[]"
+      if [ -d "$REPODIR/.git" ]; then
+        mapfile -t files < <(cd "$REPODIR" && { \
+          echo AGENTS.md; echo .github/copilot-instructions.md; \
+          git ls-files '.github/skills/**/SKILL.md'; \
+          git ls-files '.github/instructions/reviewer/*.md'; } | sort -u)
+        ctx=$(
+          for f in "${files[@]}"; do
+            if [ -f "$REPODIR/$f" ]; then
+              last=$(cd "$REPODIR" && git log -1 --format=%ct -- "$f" 2>/dev/null)
+              if [ -n "$last" ]; then age=$(( (now_s - last) / 86400 )); else age=null; fi
+              jq -n --arg p "$f" --argjson a "${age:-null}" '{path:$p, present:true, age_days:$a}'
+            else
+              jq -n --arg p "$f" '{path:$p, present:false, age_days:null}'
+            fi
+          done | jq -s '.'
+        )
+      fi
+      echo "$ctx" > "$OUTDIR/context.json"
+
+      # --- Step 4: codebase hygiene (grep) ---
+      ed=null; ef=null; sk=null; on=null
+      if [ -d "$REPODIR/sdk" ]; then
+        cd "$REPODIR"
+        ed=$(grep -rE "eslint-disable" sdk --include="*.ts" --include="*.mts" --include="*.cts" \
+              --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=test 2>/dev/null | wc -l | tr -d ' ')
+        ef=$(grep -rlE "eslint-disable" sdk --include="*.ts" --include="*.mts" --include="*.cts" \
+              --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=test 2>/dev/null | wc -l | tr -d ' ')
+        sk=$(grep -rnE "\.skip\(" sdk --include="*.ts" --include="*.mts" --include="*.cts" \
+              --exclude-dir=node_modules --exclude-dir=dist 2>/dev/null | grep -E "/test/" | grep -v "snippets.spec" | wc -l | tr -d ' ')
+        on=$(grep -rnE "\.only\(" sdk --include="*.ts" --include="*.mts" --include="*.cts" \
+              --exclude-dir=node_modules --exclude-dir=dist 2>/dev/null | grep -E "/test/" | grep -v "snippets.spec" | wc -l | tr -d ' ')
+      fi
+      jq -n --argjson ed "${ed:-null}" --argjson ef "${ef:-null}" --argjson sk "${sk:-null}" --argjson on "${on:-null}" \
+        '{eslint_directives:$ed, eslint_files:$ef, skip:$sk, only:$on}' > "$OUTDIR/hygiene.json"
+
+      # --- Step 5: stale documentation (local git log; all files, no sampling) ---
+      if [ -d "$REPODIR/.git" ]; then
+        cd "$REPODIR"
+        doclist=$(git ls-files documentation/ | while read -r f; do
+          last=$(git log -1 --format=%ct -- "$f" 2>/dev/null); [ -z "$last" ] && continue
+          age=$(( (now_s - last) / 86400 ))
+          jq -n --arg f "$f" --argjson a "$age" '{file:$f, age_days:$a}'
+        done | jq -s 'sort_by(-.age_days)')
+        total=$(echo "$doclist" | jq 'length')
+        stale=$(echo "$doclist" | jq '[.[]|select(.age_days>30)]|length')
+        top=$(echo "$doclist" | jq '.[0:5]')
+        if [ -d "$REPODIR/taste" ]; then
+          tlast=$(git log -1 --format=%ct -- taste 2>/dev/null); tage=$(( (now_s - tlast) / 86400 ))
+          taste=$(jq -n --argjson a "$tage" '{present:true, age_days:$a}')
+        else
+          taste='{"present":false,"age_days":null}'
+        fi
+        jq -n --argjson t "$total" --argjson s "$stale" --argjson top "$top" --argjson taste "$taste" \
+          '{total:$t, stale_count:$s, top:$top, taste:$taste}' > "$OUTDIR/docs.json"
+      else
+        echo '{"total":null,"stale_count":null,"top":[],"taste":{"present":false,"age_days":null}}' > "$OUTDIR/docs.json"
+      fi
+
+      # --- Step 3: CI speed (check-runs for every merged PR in the window) ---
+      merged=$(api "/repos/$REPO/pulls?state=closed&base=main&sort=updated&direction=desc&per_page=100" 2>/dev/null \
+        | jq --arg s "$since" --arg u "$until" '[.[] | select(.merged_at != null and .merged_at >= $s and .merged_at < $u)]')
+      mcount=$(echo "$merged" | jq 'length')
+      durs="[]"
+      for sha in $(echo "$merged" | jq -r '.[].head.sha'); do
+        d=$(api "/repos/$REPO/commits/$sha/check-runs?per_page=100" 2>/dev/null \
+          | jq '[.check_runs[]
+              | select(.app.slug=="azure-pipelines" and .name=="js - pullrequest"
+                       and .status=="completed" and .started_at!=null and .completed_at!=null)
+              | ((.completed_at|fromdateiso8601) - (.started_at|fromdateiso8601))]')
+        durs=$(jq -n --argjson a "$durs" --argjson b "${d:-[]}" '$a + $b')
+      done
+      jq -n --argjson durs "$durs" --argjson mc "$mcount" '
+        ($durs|sort) as $d | ($d|length) as $n
+        | { merged_prs:$mc, count:$n,
+            median_s: (if $n==0 then null else $d[(($n-1)/2)|floor] end),
+            p95_s:    (if $n==0 then null else $d[(($n*0.95 - 0.001)|floor)] end) }
+      ' > "$OUTDIR/ci.json"
+
+      # --- Step 6: agent-activity proxy (commit search, date-ranged) ---
+      search_count() { api "/search/commits?q=repo:$REPO+Co-authored-by:Copilot+author-date:$1..$2&per_page=1" 2>/dev/null | jq '.total_count // null'; }
+      cur_a=$(search_count "$since_d" "$until_d")
+      prior_a=$(search_count "$prior_since_d" "$since_d")
+      jq -n --argjson c "${cur_a:-null}" --argjson p "${prior_a:-null}" '{current:$c, prior:$p}' > "$OUTDIR/activity.json"
+
+      rm -f "$ccr_dump"
+      echo "=== collected ==="; ls -1 "$OUTDIR"/*.json
 tools:
-  github:
-    toolsets: [default]
   bash: true
 safe-outputs:
+  # Report hygiene (gh-aw report best practices): no @mentions (the
+  # tracking issue is assigned to the owner, who is already subscribed),
+  # and no bare #NNN references (they would backlink onto every cited PR
+  # each week). Use full markdown links for PRs instead.
+  mentions: false
+  allowed-github-references: []
   add-comment:
     max: 1
     target: "38930"   # tracking issue (prototype). TODO: move to repo var AGENT_OBSERVABILITY_ISSUE
@@ -36,257 +200,123 @@ safe-outputs:
     footer: false
 ---
 
-# Weekly Agent Observability Report
+# Agent observability report
 
-You are producing the weekly agent-observability report for
-`Azure/azure-sdk-for-js`. The report is a single comment posted on the
-tracking issue #38930 (in this prototype the number is hardcoded; it
-will later move to repo variable `AGENT_OBSERVABILITY_ISSUE`).
+You are writing the weekly agent-observability report for
+`Azure/azure-sdk-for-js`, posted as a single comment on tracking issue
+#38930. **All measurement has already been done for you** by a
+deterministic shell step — your only job is to read the pre-computed
+JSON and write a clear, well-structured narrative. Do not fetch data,
+do not call APIs, do not open PRs or files. Read JSON, write Markdown.
 
-The goal of this workflow is **measurement, not action**. Do not open
-PRs, do not edit files, do not file new issues. Your only output is the
-comment.
+## Where the data is
 
-## Inputs
+Every file lives in `/tmp/gh-aw/agent/`. Read them with `cat`:
 
-- `window_days` (workflow input, default `7`): the size of the
-  measurement window in days. Compute `since = today - window_days` and
-  `until = today` (UTC). Refer to this as "the window" throughout.
+| File | Contents |
+|---|---|
+| `meta.json` | `{window_days, since, until, prior_since}` — the measurement window (UTC). |
+| `ccr.json` | `{current, prior, pages_fetched}`. Each of current/prior: `{comments, plus, minus, with_reaction, prs[]}` — Copilot review-comment counts and inline 👍/👎 totals. |
+| `context.json` | array of `{path, present, age_days}` for AGENTS.md, the copilot-instructions stub, every skill, and every reviewer instruction file. |
+| `ci.json` | `{merged_prs, count, median_s, p95_s}` — `js - pullrequest` durations across **all** merged PRs in the window (`count` = umbrella runs measured). |
+| `hygiene.json` | `{eslint_directives, eslint_files, skip, only}` — counts under `sdk/`. |
+| `docs.json` | `{total, stale_count, top[], taste}` — `documentation/` staleness (>30d) and the `taste/` folder check. |
+| `activity.json` | `{current, prior}` — commits with the `Co-authored-by: Copilot` trailer (date-ranged). |
 
-## Required output shape
+A `null` value means that metric could not be collected this run; render
+it as `n/a` and mention it in **Notes** at the end. Never invent numbers.
 
-The comment **must** follow this exact structure so that humans and
-future agents can diff weeks at a glance. Use the marker comment so
-gh-aw can deduplicate.
+## Deriving the few computed values
+
+- **Helpful rate** = `plus / (plus + minus)` — `n/a` if `plus+minus == 0`.
+- **Coverage** = `with_reaction / comments` — `n/a` if `comments == 0`.
+- **Deltas (Δ)** = current − prior, for helpful rate, CCR volume, and the
+  agent-activity count. Show direction (e.g. `↓ 10 pp`, `+3`).
+- **Durations**: convert `median_s` / `p95_s` to minutes (1 dp) for display.
+
+## Report format (follow gh-aw report style exactly)
+
+- Use **`###`** for the main sections and **`####`** for any subsection.
+  Never use `#` or `##` (reserved for titles).
+- For status, use GitHub alerts, **not** emoji: `> [!NOTE]` (healthy /
+  neutral), `> [!WARNING]` (needs attention), `> [!CAUTION]`
+  (problem / regression). Do not use ✅ ⚠️ ❌.
+- Refer to PRs with full markdown links — `[#38913](https://github.com/Azure/azure-sdk-for-js/pull/38913)`
+  — never a bare `#38913` (it would backlink the PR every week).
+- Put the long context-layer table inside a `<details>` block; keep the
+  headline stats and any failures visible.
+
+Produce exactly this structure:
 
 ```markdown
 <!-- gh-aw-workflow-id: agent-observability -->
-# Week of YYYY-MM-DD — Agent observability
+### Week of <until date> — agent observability
 
-cc @maorleger — please assign yourself if not already assigned.
+_Window: <since> → <until> (<window_days>d). Prior window starts <prior_since>._
 
-## CCR review-comment reactions (last N days)
-- M inline comments by Copilot on K PRs
-- R reactions logged: A 👍, B 👎
-- **Helpful rate: P%** (Δ vs prior window)
-- **Coverage: C%** of CCR comments got an explicit reaction
+### CCR review-comment reactions
+- <comments> Copilot review comments across <prs|length> PRs
+- <plus> 👍 / <minus> 👎 logged
+- **Helpful rate: <P>%** (Δ <…> vs prior)
+- **Coverage: <C>%** of CCR comments got a reaction
 
-## Tier 1 — Are we set up?
+> [!NOTE|WARNING|CAUTION] one-line read on CCR signal quality (e.g. low coverage = needs team diligence).
 
-### Context layer health
+### Tier 1 — are we set up?
+
+#### Context layer health
+<headline: N files tracked; X within 14d, Y at 14–30d, Z over 30d or missing>
+
+> [!NOTE|WARNING|CAUTION] verdict naming the worst offenders.
+
+<details>
+<summary>Per-file freshness</summary>
+
 | File | Present | Days since last commit |
 |---|---|---|
-| ... | | |
+| … one row per context.json entry … |
 
-**Verdict:** ✅ / ⚠️ / ❌ one-line summary
+</details>
 
-### CI speed — `js - pullrequest` (Azure Pipelines via GitHub check-runs)
-- Median duration: ...
-- p95: ...
-- Check-runs counted: ...
-- **Verdict:** ...
+#### CI speed — `js - pullrequest` (Azure Pipelines)
+- Median: <median_min> min
+- p95: <p95_min> min
+- Measured: <count> umbrella runs across <merged_prs> merged PRs
 
-### Codebase hygiene
-- `eslint-disable` directives under `sdk/**/src/**`: N (Δ vs last week)
-- `.skip(` under `sdk/**/test/**`: N
-- `.only(` under `sdk/**/test/**`: N
-- **Verdict:** ...
+> [!NOTE|WARNING|CAUTION] verdict.
 
-### Stale documentation (>30d threshold)
-- Files under `documentation/` with no commits in >30 days: N / total
-- Top stale (up to 5): ...
-- `taste/` folder: present (days-since-last-commit) **or** **missing — gap**
-- **Verdict:** ...
+#### Codebase hygiene
+- `eslint-disable` directives under `sdk/**/src/**`: <eslint_directives> across <eslint_files> files
+- `.skip(` under `sdk/**/test/**`: <skip>
+- `.only(` under `sdk/**/test/**`: <only>
 
-## Agent activity (MVP proxy)
-- Commits in window with `Co-authored-by: Copilot` trailer: N (Δ vs prior)
-- Scope note: counts Copilot-CLI-authored commits only; VS Code inline
-  edits + CCR comments are not captured by this signal.
+> [!NOTE|WARNING|CAUTION] verdict — committed `.only(` is the highest-signal item if > 0.
 
-## What I'm noticing
-[One short paragraph — 3-5 sentences — naming the most interesting
-signal this week. Be specific: name PR numbers, file paths, percentages.
-Don't editorialize beyond what the numbers support.]
+#### Stale documentation (>30d)
+- <stale_count> of <total> files in `documentation/` are stale
+- `taste/` folder: <present + age, or "missing — gap">
+
+> [!NOTE|WARNING|CAUTION] verdict; cite 1–2 of the oldest files from docs.json `top`.
+
+### Agent activity (MVP proxy)
+- Commits with `Co-authored-by: Copilot` trailer: <current> (Δ <…> vs prior)
+- Scope note: counts Copilot-CLI-authored commits only — VS Code inline
+  edits and CCR comments are not captured. A directional floor, not a total.
+
+### What I'm noticing
+<3–5 sentences naming the single most interesting signal this week. Be
+specific: cite percentages, the oldest doc, the worst-stale context file,
+PR links where relevant. Do not restate every number; do not speculate
+beyond the data.>
+
+### Notes
+<Only if any metric was n/a or partial — say which and why. Omit this
+section entirely if everything was collected.>
 ```
-
-## Data collection — step by step
-
-For every API call below, prefer `gh api` from bash. Page through
-results when `per_page=100` is insufficient. All dates are UTC.
-
-### Step 1 — CCR review-comment reactions
-
-For each PR updated in the window:
-
-1. `gh api '/repos/Azure/azure-sdk-for-js/pulls?state=all&sort=updated&direction=desc&per_page=100'`
-   (page until `updated_at < since`).
-2. For each PR, list inline review comments:
-   `gh api '/repos/Azure/azure-sdk-for-js/pulls/{n}/comments?per_page=100'`
-3. Keep comments where `user.login == "Copilot"` **and**
-   `created_at` is within the window.
-4. For each kept comment, fetch reactions:
-   `gh api '/repos/Azure/azure-sdk-for-js/pulls/comments/{id}/reactions?per_page=100'`
-   Tally `+1` and `-1` content values.
-
-Compute:
-- `total_comments = count of kept comments`
-- `total_reactions = count of +1 and -1 across kept comments`
-- `helpful_rate = (+1) / (+1 + -1)` — display `n/a` if denominator is 0
-- `coverage = total_reactions / total_comments` — display `n/a` if 0
-- `Δ vs prior window` — re-run steps 1-4 against the window
-  `since - window_days .. since` to get a baseline.
-
-Verified example: PR #38913 has two Copilot inline comments, one with a
-`+1` reaction and one with a `-1`. Use it as a sanity check during
-development.
-
-### Step 2 — Context layer health
-
-Check existence (via `gh api '/repos/.../contents/{path}'` or
-`bash: test -f`) and most-recent commit date (via
-`gh api '/repos/.../commits?path={path}&per_page=1'`, take
-`commit.committer.date`) for each of:
-
-- `AGENTS.md`
-- `.github/copilot-instructions.md` (mark as intentionally removed —
-  see PR #38927 — if missing)
-- Every `.github/skills/**/SKILL.md`
-- Every `.github/instructions/reviewer/**/*.md`
-
-Verdict: ✅ if all present files have a commit within 14 days,
-⚠️ if any are 14-30 days, ❌ if any are >30 days or expected-present
-files are missing.
-
-### Step 3 — CI speed (GitHub check-runs API)
-
-For each PR **merged into `main`** in the window:
-
-1. `gh api '/repos/Azure/azure-sdk-for-js/pulls?state=closed&base=main&sort=updated&direction=desc&per_page=100'`
-   (filter `merged_at` within window).
-2. Get the head SHA: `pr.head.sha`.
-3. `gh api '/repos/Azure/azure-sdk-for-js/commits/{sha}/check-runs?per_page=100'`
-4. Filter to check-runs where:
-   - `app.slug == "azure-pipelines"`
-   - `name == "js - pullrequest"` (the umbrella check-run; ignore
-     matrix children whose names match `js - pullrequest (...)`)
-   - `status == "completed"`
-   - both `started_at` and `completed_at` are present
-5. Compute `duration_seconds = completed_at - started_at` per check-run.
-
-Report median and p95 of all durations, plus the count.
-
-If a PR has multiple check-runs named exactly `js - pullrequest` (re-runs),
-include all of them — re-run cost is real wait cost.
-
-### Step 4 — Codebase hygiene
-
-Run in bash from the repo root (the workflow's checkout):
-
-```bash
-grep -rE "eslint-disable" sdk --include="*.ts" --include="*.mts" --include="*.cts" \
-  -l --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=test \
-  | wc -l    # file count
-grep -rE "eslint-disable" sdk --include="*.ts" --include="*.mts" --include="*.cts" \
-  --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=test \
-  | wc -l    # directive count
-```
-
-For `.skip` / `.only`, search under `sdk/**/test/**`:
-
-```bash
-grep -rnE "\.skip\(" sdk --include="*.ts" --include="*.mts" --include="*.cts" \
-  --exclude-dir=node_modules --exclude-dir=dist \
-  | grep -E "/test/" | wc -l
-grep -rnE "\.only\(" sdk --include="*.ts" --include="*.mts" --include="*.cts" \
-  --exclude-dir=node_modules --exclude-dir=dist \
-  | grep -E "/test/" | wc -l
-```
-
-Exclude `test/snippets.spec.ts` files — those are documentation
-snippets, not real tests.
-
-Δ vs prior window: compare against the count from a checkout of the
-commit that was `HEAD` `window_days` ago. Use:
-
-```bash
-prior_sha=$(git rev-list -1 --before="$(date -u -d "$window_days days ago" +%Y-%m-%d)" main)
-```
-
-then `git show $prior_sha:<path>` to diff counts. If this is too
-expensive, report current counts only and note Δ as `n/a` for this run.
-
-### Step 5 — Stale documentation
-
-For each markdown file under `documentation/`:
-
-```bash
-for f in $(git ls-files documentation/); do
-  last=$(git log -1 --format=%ct -- "$f")
-  age_days=$(( ( $(date -u +%s) - last ) / 86400 ))
-  echo "$age_days $f"
-done | sort -rn
-```
-
-Count files with `age_days > 30`. Report the count, the total, and the
-top 5 stale files with human-readable ages.
-
-**`taste/` folder check:**
-- `test -d taste` — if missing, report `**missing — gap**` (the article's
-  example repo structure includes this folder; absence is itself a
-  stale-context signal).
-- If present, compute age the same way as a `documentation/` file using
-  `git log -1 --format=%ct -- taste`.
-
-### Step 6 — Agent activity proxy
-
-```bash
-since=$(date -u -d "$window_days days ago" +%Y-%m-%d)
-gh api -X GET search/commits \
-  -f q="repo:Azure/azure-sdk-for-js Co-authored-by:Copilot author-date:>=$since" \
-  --jq '.total_count'
-```
-
-Repeat with the prior window for Δ. Verified working: 23 commits in
-the last ~2 weeks at the time this workflow was authored.
-
-**Honest scope caveat to include verbatim in the report:** this signal
-counts commits whose message contains `Co-authored-by: Copilot`. That
-trailer is added automatically by Copilot CLI but **not** by VS Code
-inline Copilot edits and **not** by CCR review comments. The number is
-a directional floor on Copilot-CLI-authored commits, not a count of
-all agent-assisted work.
-
-### Step 7 — "What I'm noticing"
-
-Write 3-5 sentences. Anchor on the most surprising number in the run.
-Examples of good observations:
-
-- "Helpful rate dropped 12 points week-over-week, driven by three
-  PRs against `sdk/keyvault/*` where CCR flagged formatting issues
-  (PRs #X, #Y, #Z)."
-- "Median CI time stayed flat but p95 jumped — three re-runs of `js -
-  pullrequest` on PR #X account for the tail."
-- "`taste/` is still missing. Article-recommended infrastructure gap."
-
-Avoid:
-- Restating numbers from the tables.
-- Speculating about causes you can't see in the data.
-- Generic "things are going well" filler.
 
 ## Process
 
-1. Resolve the window: `since = today - window_days`.
-2. Execute steps 1-6 in order. If any step fails (rate limit, missing
-   data), capture the failure into the comment under a `## Errors`
-   section but **still post the comment** with whatever data succeeded.
-3. Assemble the comment per the required output shape.
-4. Post via `safe-outputs.add-comment` exactly once.
-
-## Validation expectations
-
-Before turning on the cron, this workflow will be run via
-`workflow_dispatch` against at least 3 distinct window ranges (using
-different `window_days` values to span past data). Output shape must
-be identical across runs. If you encounter ambiguity in the spec
-during a run, prefer the more conservative interpretation and note
-the choice in the `## Errors` section.
+1. `cat` each JSON file in `/tmp/gh-aw/agent/`.
+2. Derive the few computed values above.
+3. Write the comment in the exact structure shown.
+4. Emit it via `safe-outputs.add-comment` exactly once. That is your only output.

@@ -1,4 +1,4 @@
-# gh-aw-metadata: {"schema_version":"v4","frontmatter_hash":"0d079a4f8817a876b9e956ead135dea5db21710a119d161a687ce0a9a4efdb67","body_hash":"942b096da9edd4a8760229bf0a09ffa06a3b1da7fe3bbef81a0f332c6704c1f9","compiler_version":"v0.79.6","strict":true,"agent_id":"copilot","engine_versions":{"copilot":"1.0.60"}}
+# gh-aw-metadata: {"schema_version":"v4","frontmatter_hash":"0a76236a9c3ef63c24ea27ebd89778010cef511f633df1d423c1815bd0c69819","body_hash":"f3591a4b16e9cc421dee224057e68570fd88ad044afcf7445815e2deaab9d711","compiler_version":"v0.79.6","strict":true,"agent_id":"copilot","engine_versions":{"copilot":"1.0.60"}}
 # gh-aw-manifest: {"version":1,"secrets":["COPILOT_GITHUB_TOKEN","GH_AW_GITHUB_MCP_SERVER_TOKEN","GH_AW_GITHUB_TOKEN","GITHUB_TOKEN"],"actions":[{"repo":"actions/checkout","sha":"df4cb1c069e1874edd31b4311f1884172cec0e10","version":"v6.0.3"},{"repo":"actions/download-artifact","sha":"3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c","version":"v8.0.1"},{"repo":"actions/github-script","sha":"3a2844b7e9c422d3c10d287c895573f7108da1b3","version":"v9.0.0"},{"repo":"actions/setup-node","sha":"48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e","version":"v6.4.0"},{"repo":"actions/upload-artifact","sha":"043fb46d1a93c77aae656e7c1c64a875d1fc6a0a","version":"v7.0.1"},{"repo":"github/gh-aw-actions/setup","sha":"5c2fe865bb4dc46e1450f6ee0d0541d759aea73a","version":"v0.79.6"}],"containers":[{"image":"ghcr.io/github/gh-aw-firewall/agent:0.27.2","digest":"sha256:f88e5b17b6b7a600117bc121114d6ce2155c88c983c0c939c5df884f730fa1d6","pinned_image":"ghcr.io/github/gh-aw-firewall/agent:0.27.2@sha256:f88e5b17b6b7a600117bc121114d6ce2155c88c983c0c939c5df884f730fa1d6"},{"image":"ghcr.io/github/gh-aw-firewall/api-proxy:0.27.2","digest":"sha256:ee39841d980878ebbb87592903b06d31a1af500c71525c9616f7e8e2a27041a4","pinned_image":"ghcr.io/github/gh-aw-firewall/api-proxy:0.27.2@sha256:ee39841d980878ebbb87592903b06d31a1af500c71525c9616f7e8e2a27041a4"},{"image":"ghcr.io/github/gh-aw-firewall/squid:0.27.2","digest":"sha256:2e3a717e5f19a654cd9a2263beb52012b56bcb68562ec5ae2e42f9d156b49591","pinned_image":"ghcr.io/github/gh-aw-firewall/squid:0.27.2@sha256:2e3a717e5f19a654cd9a2263beb52012b56bcb68562ec5ae2e42f9d156b49591"},{"image":"ghcr.io/github/gh-aw-mcpg:v0.3.25","digest":"sha256:c10331ad17668ef89f38f5e356678788a40b0cd5fef96e8f92e1d9c1de47cbaa","pinned_image":"ghcr.io/github/gh-aw-mcpg:v0.3.25@sha256:c10331ad17668ef89f38f5e356678788a40b0cd5fef96e8f92e1d9c1de47cbaa"},{"image":"ghcr.io/github/github-mcp-server:v1.1.2","digest":"sha256:30197479d8036c7811892bc07e06f9a05c9ef3cdd79bc59f256d50647f95788c","pinned_image":"ghcr.io/github/github-mcp-server:v1.1.2@sha256:30197479d8036c7811892bc07e06f9a05c9ef3cdd79bc59f256d50647f95788c"}]}
 #    ___                   _   _      
 #   / _ \                 | | (_)     
@@ -25,8 +25,11 @@
 # Weekly agent observability report for Azure/azure-sdk-for-js. Posts a
 # structured comment on the long-lived tracking issue identified by repo
 # variable AGENT_OBSERVABILITY_ISSUE (hardcoded to #38930 in this
-# prototype). Measures Tier 1 (leading indicators)
-# from the AI-Forward Starter Kit plus Copilot Code Review reaction quality.
+# prototype). Measures Tier 1 (leading indicators) from the AI-Forward
+# Starter Kit plus Copilot Code Review reaction quality. Follows the
+# gh-aw DataOps pattern: all data is gathered by an authenticated shell
+# step (zero AI tokens, deterministic), and the agent only reads the
+# pre-computed JSON and writes the narrative.
 #
 # Secrets used:
 #   - COPILOT_GITHUB_TOKEN
@@ -50,7 +53,7 @@
 #   - ghcr.io/github/gh-aw-mcpg:v0.3.25@sha256:c10331ad17668ef89f38f5e356678788a40b0cd5fef96e8f92e1d9c1de47cbaa
 #   - ghcr.io/github/github-mcp-server:v1.1.2@sha256:30197479d8036c7811892bc07e06f9a05c9ef3cdd79bc59f256d50647f95788c
 
-name: "Weekly Agent Observability Report"
+name: "Agent observability report"
 on:
   workflow_dispatch:
     inputs:
@@ -70,7 +73,7 @@ permissions: {}
 concurrency:
   group: "gh-aw-${{ github.workflow }}"
 
-run-name: "Weekly Agent Observability Report"
+run-name: "Agent observability report"
 
 jobs:
   activation:
@@ -103,7 +106,7 @@ jobs:
           job-name: ${{ github.job }}
           safe-output-artifact-client: ${{ env.GH_AW_MAX_DAILY_AI_CREDITS != '' }}
         env:
-          GH_AW_SETUP_WORKFLOW_NAME: "Weekly Agent Observability Report"
+          GH_AW_SETUP_WORKFLOW_NAME: "Agent observability report"
           GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/agent-observability.lock.yml@${{ github.ref }}
           GH_AW_INFO_VERSION: "1.0.60"
           GH_AW_INFO_AWF_VERSION: "v0.27.2"
@@ -117,7 +120,7 @@ jobs:
           GH_AW_INFO_VERSION: "1.0.60"
           GH_AW_INFO_AGENT_VERSION: "1.0.60"
           GH_AW_INFO_CLI_VERSION: "v0.79.6"
-          GH_AW_INFO_WORKFLOW_NAME: "Weekly Agent Observability Report"
+          GH_AW_INFO_WORKFLOW_NAME: "Agent observability report"
           GH_AW_INFO_EXPERIMENTAL: "false"
           GH_AW_INFO_SUPPORTS_TOOLS_ALLOWLIST: "true"
           GH_AW_INFO_STAGED: "false"
@@ -139,7 +142,7 @@ jobs:
         if: ${{ env.GH_AW_MAX_DAILY_AI_CREDITS != '' }}
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
-          GH_AW_WORKFLOW_NAME: "Weekly Agent Observability Report"
+          GH_AW_WORKFLOW_NAME: "Agent observability report"
           GH_AW_WORKFLOW_ID: "agent-observability"
           GH_AW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GH_AW_WORKFLOW_DISPATCH_AW_CONTEXT: ${{ github.event.inputs.aw_context || '' }}
@@ -386,7 +389,7 @@ jobs:
           trace-id: ${{ needs.activation.outputs.setup-trace-id }}
           parent-span-id: ${{ needs.activation.outputs.setup-parent-span-id || needs.activation.outputs.setup-span-id }}
         env:
-          GH_AW_SETUP_WORKFLOW_NAME: "Weekly Agent Observability Report"
+          GH_AW_SETUP_WORKFLOW_NAME: "Agent observability report"
           GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/agent-observability.lock.yml@${{ github.ref }}
           GH_AW_INFO_VERSION: "1.0.60"
           GH_AW_INFO_AWF_VERSION: "v0.27.2"
@@ -409,6 +412,14 @@ jobs:
         run: bash "${RUNNER_TEMP}/gh-aw/actions/configure_gh_for_ghe.sh"
         env:
           GH_TOKEN: ${{ github.token }}
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OUTDIR: /tmp/gh-aw/agent
+          REPO: Azure/azure-sdk-for-js
+          WINDOW_DAYS: ${{ github.event.inputs.window_days || '7' }}
+        name: Collect observability data
+        run: "set -uo pipefail\nREPODIR=\"$OUTDIR/repo\"\nmkdir -p \"$OUTDIR\"\n\nnow_s=$(date -u +%s)\nsince_s=$(( now_s - WINDOW_DAYS * 86400 ))\nprior_s=$(( since_s - WINDOW_DAYS * 86400 ))\nsince=$(date -u -d \"@$since_s\" +%Y-%m-%dT%H:%M:%SZ)\nuntil=$(date -u -d \"@$now_s\" +%Y-%m-%dT%H:%M:%SZ)\nprior_since=$(date -u -d \"@$prior_s\" +%Y-%m-%dT%H:%M:%SZ)\nsince_d=$(date -u -d \"@$since_s\" +%Y-%m-%d)\nuntil_d=$(date -u -d \"@$now_s\" +%Y-%m-%d)\nprior_since_d=$(date -u -d \"@$prior_s\" +%Y-%m-%d)\n\njq -n --arg wd \"$WINDOW_DAYS\" --arg s \"$since\" --arg u \"$until\" --arg ps \"$prior_since\" \\\n  '{window_days:($wd|tonumber), since:$s, until:$u, prior_since:$ps}' > \"$OUTDIR/meta.json\"\necho \"window: $since .. $until (prior from $prior_since)\"\n\napi() { gh api -H \"Accept: application/vnd.github+json\" \"$@\"; }\n\n# --- Step 0: blobless clone (full history; blobs fetched on demand) ---\nif [ ! -d \"$REPODIR/.git\" ]; then\n  git clone --filter=blob:none \"https://github.com/$REPO.git\" \"$REPODIR\" 2>/dev/null \\\n    && echo \"clone ok\" || echo \"clone FAILED\"\nfi\n\n# --- Step 1: CCR review-comment reactions (repo-level, inline reactions) ---\ncollect_ccr() {\n  jq -s --arg lo \"$1\" --arg hi \"$2\" '\n    [ .[][] | select(.user.login==\"Copilot\")\n      | select(.created_at >= $lo and .created_at < $hi) ] as $c\n    | { comments: ($c|length),\n        plus:   ([$c[].reactions[\"+1\"]] | add // 0),\n        minus:  ([$c[].reactions[\"-1\"]] | add // 0),\n        with_reaction: ([$c[] | select((.reactions[\"+1\"]+.reactions[\"-1\"])>0)] | length),\n        prs: ([$c[] | (.pull_request_url | split(\"/\") | last)] | unique) }\n  ' \"$3\"\n}\nccr_dump=\"$OUTDIR/.ccr_pages.json\"; : > \"$ccr_dump\"\npage=1; pages_fetched=0\nwhile [ \"$page\" -le 20 ]; do\n  resp=$(api \"/repos/$REPO/pulls/comments?sort=created&direction=desc&per_page=100&page=$page\" 2>/dev/null)\n  [ -z \"$resp\" ] && break\n  cnt=$(echo \"$resp\" | jq 'length'); [ \"$cnt\" -eq 0 ] && break\n  echo \"$resp\" >> \"$ccr_dump\"\n  pages_fetched=$((pages_fetched+1))\n  oldest=$(echo \"$resp\" | jq -r '.[-1].created_at')\n  [[ \"$oldest\" < \"$prior_since\" ]] && break\n  page=$((page+1))\ndone\ncur=$(collect_ccr \"$since\" \"$until\" \"$ccr_dump\")\nprior=$(collect_ccr \"$prior_since\" \"$since\" \"$ccr_dump\")\njq -n --argjson cur \"$cur\" --argjson prior \"$prior\" --argjson pages \"$pages_fetched\" \\\n  '{current:$cur, prior:$prior, pages_fetched:$pages}' > \"$OUTDIR/ccr.json\"\n\n# --- Step 2: context layer health (local git log) ---\nctx=\"[]\"\nif [ -d \"$REPODIR/.git\" ]; then\n  mapfile -t files < <(cd \"$REPODIR\" && { \\\n    echo AGENTS.md; echo .github/copilot-instructions.md; \\\n    git ls-files '.github/skills/**/SKILL.md'; \\\n    git ls-files '.github/instructions/reviewer/*.md'; } | sort -u)\n  ctx=$(\n    for f in \"${files[@]}\"; do\n      if [ -f \"$REPODIR/$f\" ]; then\n        last=$(cd \"$REPODIR\" && git log -1 --format=%ct -- \"$f\" 2>/dev/null)\n        if [ -n \"$last\" ]; then age=$(( (now_s - last) / 86400 )); else age=null; fi\n        jq -n --arg p \"$f\" --argjson a \"${age:-null}\" '{path:$p, present:true, age_days:$a}'\n      else\n        jq -n --arg p \"$f\" '{path:$p, present:false, age_days:null}'\n      fi\n    done | jq -s '.'\n  )\nfi\necho \"$ctx\" > \"$OUTDIR/context.json\"\n\n# --- Step 4: codebase hygiene (grep) ---\ned=null; ef=null; sk=null; on=null\nif [ -d \"$REPODIR/sdk\" ]; then\n  cd \"$REPODIR\"\n  ed=$(grep -rE \"eslint-disable\" sdk --include=\"*.ts\" --include=\"*.mts\" --include=\"*.cts\" \\\n        --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=test 2>/dev/null | wc -l | tr -d ' ')\n  ef=$(grep -rlE \"eslint-disable\" sdk --include=\"*.ts\" --include=\"*.mts\" --include=\"*.cts\" \\\n        --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=test 2>/dev/null | wc -l | tr -d ' ')\n  sk=$(grep -rnE \"\\.skip\\(\" sdk --include=\"*.ts\" --include=\"*.mts\" --include=\"*.cts\" \\\n        --exclude-dir=node_modules --exclude-dir=dist 2>/dev/null | grep -E \"/test/\" | grep -v \"snippets.spec\" | wc -l | tr -d ' ')\n  on=$(grep -rnE \"\\.only\\(\" sdk --include=\"*.ts\" --include=\"*.mts\" --include=\"*.cts\" \\\n        --exclude-dir=node_modules --exclude-dir=dist 2>/dev/null | grep -E \"/test/\" | grep -v \"snippets.spec\" | wc -l | tr -d ' ')\nfi\njq -n --argjson ed \"${ed:-null}\" --argjson ef \"${ef:-null}\" --argjson sk \"${sk:-null}\" --argjson on \"${on:-null}\" \\\n  '{eslint_directives:$ed, eslint_files:$ef, skip:$sk, only:$on}' > \"$OUTDIR/hygiene.json\"\n\n# --- Step 5: stale documentation (local git log; all files, no sampling) ---\nif [ -d \"$REPODIR/.git\" ]; then\n  cd \"$REPODIR\"\n  doclist=$(git ls-files documentation/ | while read -r f; do\n    last=$(git log -1 --format=%ct -- \"$f\" 2>/dev/null); [ -z \"$last\" ] && continue\n    age=$(( (now_s - last) / 86400 ))\n    jq -n --arg f \"$f\" --argjson a \"$age\" '{file:$f, age_days:$a}'\n  done | jq -s 'sort_by(-.age_days)')\n  total=$(echo \"$doclist\" | jq 'length')\n  stale=$(echo \"$doclist\" | jq '[.[]|select(.age_days>30)]|length')\n  top=$(echo \"$doclist\" | jq '.[0:5]')\n  if [ -d \"$REPODIR/taste\" ]; then\n    tlast=$(git log -1 --format=%ct -- taste 2>/dev/null); tage=$(( (now_s - tlast) / 86400 ))\n    taste=$(jq -n --argjson a \"$tage\" '{present:true, age_days:$a}')\n  else\n    taste='{\"present\":false,\"age_days\":null}'\n  fi\n  jq -n --argjson t \"$total\" --argjson s \"$stale\" --argjson top \"$top\" --argjson taste \"$taste\" \\\n    '{total:$t, stale_count:$s, top:$top, taste:$taste}' > \"$OUTDIR/docs.json\"\nelse\n  echo '{\"total\":null,\"stale_count\":null,\"top\":[],\"taste\":{\"present\":false,\"age_days\":null}}' > \"$OUTDIR/docs.json\"\nfi\n\n# --- Step 3: CI speed (check-runs for every merged PR in the window) ---\nmerged=$(api \"/repos/$REPO/pulls?state=closed&base=main&sort=updated&direction=desc&per_page=100\" 2>/dev/null \\\n  | jq --arg s \"$since\" --arg u \"$until\" '[.[] | select(.merged_at != null and .merged_at >= $s and .merged_at < $u)]')\nmcount=$(echo \"$merged\" | jq 'length')\ndurs=\"[]\"\nfor sha in $(echo \"$merged\" | jq -r '.[].head.sha'); do\n  d=$(api \"/repos/$REPO/commits/$sha/check-runs?per_page=100\" 2>/dev/null \\\n    | jq '[.check_runs[]\n        | select(.app.slug==\"azure-pipelines\" and .name==\"js - pullrequest\"\n                 and .status==\"completed\" and .started_at!=null and .completed_at!=null)\n        | ((.completed_at|fromdateiso8601) - (.started_at|fromdateiso8601))]')\n  durs=$(jq -n --argjson a \"$durs\" --argjson b \"${d:-[]}\" '$a + $b')\ndone\njq -n --argjson durs \"$durs\" --argjson mc \"$mcount\" '\n  ($durs|sort) as $d | ($d|length) as $n\n  | { merged_prs:$mc, count:$n,\n      median_s: (if $n==0 then null else $d[(($n-1)/2)|floor] end),\n      p95_s:    (if $n==0 then null else $d[(($n*0.95 - 0.001)|floor)] end) }\n' > \"$OUTDIR/ci.json\"\n\n# --- Step 6: agent-activity proxy (commit search, date-ranged) ---\nsearch_count() { api \"/search/commits?q=repo:$REPO+Co-authored-by:Copilot+author-date:$1..$2&per_page=1\" 2>/dev/null | jq '.total_count // null'; }\ncur_a=$(search_count \"$since_d\" \"$until_d\")\nprior_a=$(search_count \"$prior_since_d\" \"$since_d\")\njq -n --argjson c \"${cur_a:-null}\" --argjson p \"${prior_a:-null}\" '{current:$c, prior:$p}' > \"$OUTDIR/activity.json\"\n\nrm -f \"$ccr_dump\"\necho \"=== collected ===\"; ls -1 \"$OUTDIR\"/*.json\n"
+
       - name: Configure Git credentials
         env:
           REPO_NAME: ${{ github.repository }}
@@ -479,9 +490,9 @@ jobs:
           mkdir -p "${RUNNER_TEMP}/gh-aw/safeoutputs"
           mkdir -p /tmp/gh-aw/safeoutputs
           mkdir -p /tmp/gh-aw/mcp-logs/safeoutputs
-          cat > "${RUNNER_TEMP}/gh-aw/safeoutputs/config.json" << 'GH_AW_SAFE_OUTPUTS_CONFIG_3d46e4762bc4c11a_EOF'
-          {"add_comment":{"footer":false,"hide_older_comments":true,"max":1,"target":"38930"},"create_report_incomplete_issue":{},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"true"},"report_incomplete":{}}
-          GH_AW_SAFE_OUTPUTS_CONFIG_3d46e4762bc4c11a_EOF
+          cat > "${RUNNER_TEMP}/gh-aw/safeoutputs/config.json" << 'GH_AW_SAFE_OUTPUTS_CONFIG_21e06922894d2500_EOF'
+          {"add_comment":{"footer":false,"hide_older_comments":true,"max":1,"target":"38930"},"create_report_incomplete_issue":{},"mentions":{"enabled":false},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"true"},"report_incomplete":{}}
+          GH_AW_SAFE_OUTPUTS_CONFIG_21e06922894d2500_EOF
       - name: Generate Safe Outputs Tools
         env:
           GH_AW_TOOLS_META_JSON: |
@@ -515,6 +526,9 @@ jobs:
                     "maxLength": 256
                   }
                 }
+              },
+              "mentions": {
+                "enabled": false
               },
               "missing_data": {
                 "defaultMax": 20,
@@ -865,6 +879,7 @@ jobs:
         env:
           GH_AW_SAFE_OUTPUTS: ${{ steps.set-runtime-paths.outputs.GH_AW_SAFE_OUTPUTS }}
           GH_AW_ALLOWED_DOMAINS: "api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,api.snapcraft.io,archive.ubuntu.com,azure.archive.ubuntu.com,crl.geotrust.com,crl.globalsign.com,crl.identrust.com,crl.sectigo.com,crl.thawte.com,crl.usertrust.com,crl.verisign.com,crl3.digicert.com,crl4.digicert.com,crls.ssl.com,github.com,host.docker.internal,json-schema.org,json.schemastore.org,keyserver.ubuntu.com,ocsp.digicert.com,ocsp.geotrust.com,ocsp.globalsign.com,ocsp.identrust.com,ocsp.sectigo.com,ocsp.ssl.com,ocsp.thawte.com,ocsp.usertrust.com,ocsp.verisign.com,packagecloud.io,packages.cloud.google.com,packages.microsoft.com,ppa.launchpad.net,raw.githubusercontent.com,registry.npmjs.org,s.symcb.com,s.symcd.com,security.ubuntu.com,telemetry.enterprise.githubcopilot.com,ts-crl.ws.symantec.com,ts-ocsp.ws.symantec.com,www.googleapis.com"
+          GH_AW_ALLOWED_GITHUB_REFS: ""
           GITHUB_SERVER_URL: ${{ github.server_url }}
           GITHUB_API_URL: ${{ github.api_url }}
         with:
@@ -995,7 +1010,7 @@ jobs:
           trace-id: ${{ needs.activation.outputs.setup-trace-id }}
           parent-span-id: ${{ needs.activation.outputs.setup-parent-span-id || needs.activation.outputs.setup-span-id }}
         env:
-          GH_AW_SETUP_WORKFLOW_NAME: "Weekly Agent Observability Report"
+          GH_AW_SETUP_WORKFLOW_NAME: "Agent observability report"
           GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/agent-observability.lock.yml@${{ github.ref }}
           GH_AW_INFO_VERSION: "1.0.60"
           GH_AW_INFO_AWF_VERSION: "v0.27.2"
@@ -1054,7 +1069,7 @@ jobs:
         env:
           GH_AW_AGENT_OUTPUT: ${{ steps.setup-agent-output-env.outputs.GH_AW_AGENT_OUTPUT }}
           GH_AW_NOOP_MAX: "1"
-          GH_AW_WORKFLOW_NAME: "Weekly Agent Observability Report"
+          GH_AW_WORKFLOW_NAME: "Agent observability report"
           GH_AW_WORKFLOW_SOURCE_URL: "${{ github.server_url }}/${{ github.repository }}/blob/${{ github.ref_name }}/.github/workflows/agent-observability.md"
           GH_AW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GH_AW_AGENT_CONCLUSION: ${{ needs.agent.result }}
@@ -1075,7 +1090,7 @@ jobs:
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           GH_AW_AGENT_OUTPUT: ${{ steps.setup-agent-output-env.outputs.GH_AW_AGENT_OUTPUT }}
-          GH_AW_WORKFLOW_NAME: "Weekly Agent Observability Report"
+          GH_AW_WORKFLOW_NAME: "Agent observability report"
           GH_AW_WORKFLOW_SOURCE_URL: "${{ github.server_url }}/${{ github.repository }}/blob/${{ github.ref_name }}/.github/workflows/agent-observability.md"
           GH_AW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GH_AW_DETECTION_CONCLUSION: ${{ needs.detection.outputs.detection_conclusion }}
@@ -1093,7 +1108,7 @@ jobs:
         env:
           GH_AW_AGENT_OUTPUT: ${{ steps.setup-agent-output-env.outputs.GH_AW_AGENT_OUTPUT }}
           GH_AW_MISSING_TOOL_CREATE_ISSUE: "true"
-          GH_AW_WORKFLOW_NAME: "Weekly Agent Observability Report"
+          GH_AW_WORKFLOW_NAME: "Agent observability report"
           GH_AW_WORKFLOW_SOURCE_URL: "${{ github.server_url }}/${{ github.repository }}/blob/${{ github.ref_name }}/.github/workflows/agent-observability.md"
         with:
           github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
@@ -1108,7 +1123,7 @@ jobs:
         env:
           GH_AW_AGENT_OUTPUT: ${{ steps.setup-agent-output-env.outputs.GH_AW_AGENT_OUTPUT }}
           GH_AW_REPORT_INCOMPLETE_CREATE_ISSUE: "true"
-          GH_AW_WORKFLOW_NAME: "Weekly Agent Observability Report"
+          GH_AW_WORKFLOW_NAME: "Agent observability report"
           GH_AW_WORKFLOW_SOURCE_URL: "${{ github.server_url }}/${{ github.repository }}/blob/${{ github.ref_name }}/.github/workflows/agent-observability.md"
         with:
           github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
@@ -1123,7 +1138,7 @@ jobs:
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           GH_AW_AGENT_OUTPUT: ${{ steps.setup-agent-output-env.outputs.GH_AW_AGENT_OUTPUT }}
-          GH_AW_WORKFLOW_NAME: "Weekly Agent Observability Report"
+          GH_AW_WORKFLOW_NAME: "Agent observability report"
           GH_AW_WORKFLOW_SOURCE_URL: "${{ github.server_url }}/${{ github.repository }}/blob/${{ github.ref_name }}/.github/workflows/agent-observability.md"
           GH_AW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GH_AW_AGENT_CONCLUSION: ${{ needs.agent.result }}
@@ -1185,7 +1200,7 @@ jobs:
           trace-id: ${{ needs.activation.outputs.setup-trace-id }}
           parent-span-id: ${{ needs.activation.outputs.setup-parent-span-id || needs.activation.outputs.setup-span-id }}
         env:
-          GH_AW_SETUP_WORKFLOW_NAME: "Weekly Agent Observability Report"
+          GH_AW_SETUP_WORKFLOW_NAME: "Agent observability report"
           GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/agent-observability.lock.yml@${{ github.ref }}
           GH_AW_INFO_VERSION: "1.0.60"
           GH_AW_INFO_AWF_VERSION: "v0.27.2"
@@ -1258,8 +1273,8 @@ jobs:
         if: always() && steps.detection_guard.outputs.run_detection == 'true'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
-          WORKFLOW_NAME: "Weekly Agent Observability Report"
-          WORKFLOW_DESCRIPTION: "Weekly agent observability report for Azure/azure-sdk-for-js. Posts a\nstructured comment on the long-lived tracking issue identified by repo\nvariable AGENT_OBSERVABILITY_ISSUE (hardcoded to #38930 in this\nprototype). Measures Tier 1 (leading indicators)\nfrom the AI-Forward Starter Kit plus Copilot Code Review reaction quality."
+          WORKFLOW_NAME: "Agent observability report"
+          WORKFLOW_DESCRIPTION: "Weekly agent observability report for Azure/azure-sdk-for-js. Posts a\nstructured comment on the long-lived tracking issue identified by repo\nvariable AGENT_OBSERVABILITY_ISSUE (hardcoded to #38930 in this\nprototype). Measures Tier 1 (leading indicators) from the AI-Forward\nStarter Kit plus Copilot Code Review reaction quality. Follows the\ngh-aw DataOps pattern: all data is gathered by an authenticated shell\nstep (zero AI tokens, deterministic), and the agent only reads the\npre-computed JSON and writes the narrative."
           HAS_PATCH: ${{ needs.agent.outputs.has_patch }}
         with:
           script: |
@@ -1425,7 +1440,7 @@ jobs:
       GH_AW_ENGINE_VERSION: "1.0.60"
       GH_AW_THREAT_DETECTION_AIC: ${{ needs.detection.outputs.aic }}
       GH_AW_WORKFLOW_ID: "agent-observability"
-      GH_AW_WORKFLOW_NAME: "Weekly Agent Observability Report"
+      GH_AW_WORKFLOW_NAME: "Agent observability report"
       GH_AW_WORKFLOW_SOURCE_URL: "${{ github.server_url }}/${{ github.repository }}/blob/${{ github.ref_name }}/.github/workflows/agent-observability.md"
     outputs:
       code_push_failure_count: ${{ steps.process_safe_outputs.outputs.code_push_failure_count }}
@@ -1446,7 +1461,7 @@ jobs:
           trace-id: ${{ needs.activation.outputs.setup-trace-id }}
           parent-span-id: ${{ needs.activation.outputs.setup-parent-span-id || needs.activation.outputs.setup-span-id }}
         env:
-          GH_AW_SETUP_WORKFLOW_NAME: "Weekly Agent Observability Report"
+          GH_AW_SETUP_WORKFLOW_NAME: "Agent observability report"
           GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/agent-observability.lock.yml@${{ github.ref }}
           GH_AW_INFO_VERSION: "1.0.60"
           GH_AW_INFO_AWF_VERSION: "v0.27.2"
@@ -1484,7 +1499,7 @@ jobs:
           GH_AW_ALLOWED_DOMAINS: "api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,api.snapcraft.io,archive.ubuntu.com,azure.archive.ubuntu.com,crl.geotrust.com,crl.globalsign.com,crl.identrust.com,crl.sectigo.com,crl.thawte.com,crl.usertrust.com,crl.verisign.com,crl3.digicert.com,crl4.digicert.com,crls.ssl.com,github.com,host.docker.internal,json-schema.org,json.schemastore.org,keyserver.ubuntu.com,ocsp.digicert.com,ocsp.geotrust.com,ocsp.globalsign.com,ocsp.identrust.com,ocsp.sectigo.com,ocsp.ssl.com,ocsp.thawte.com,ocsp.usertrust.com,ocsp.verisign.com,packagecloud.io,packages.cloud.google.com,packages.microsoft.com,ppa.launchpad.net,raw.githubusercontent.com,registry.npmjs.org,s.symcb.com,s.symcd.com,security.ubuntu.com,telemetry.enterprise.githubcopilot.com,ts-crl.ws.symantec.com,ts-ocsp.ws.symantec.com,www.googleapis.com"
           GITHUB_SERVER_URL: ${{ github.server_url }}
           GITHUB_API_URL: ${{ github.api_url }}
-          GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: "{\"add_comment\":{\"footer\":false,\"hide_older_comments\":true,\"max\":1,\"target\":\"38930\"},\"create_report_incomplete_issue\":{},\"missing_data\":{},\"missing_tool\":{},\"noop\":{\"max\":1,\"report-as-issue\":\"true\"},\"report_incomplete\":{}}"
+          GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: "{\"add_comment\":{\"footer\":false,\"hide_older_comments\":true,\"max\":1,\"target\":\"38930\"},\"create_report_incomplete_issue\":{},\"mentions\":{\"enabled\":false},\"missing_data\":{},\"missing_tool\":{},\"noop\":{\"max\":1,\"report-as-issue\":\"true\"},\"report_incomplete\":{}}"
         with:
           github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
