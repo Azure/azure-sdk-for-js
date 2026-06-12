@@ -27,64 +27,107 @@ import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelper
 
 /** Interface representing a BetaToolboxes operations. */
 export interface BetaToolboxesOperations {
-  /** Delete a specific version of a toolbox. */
+  /** Removes the specified version of a toolbox. */
   deleteVersion: (
     name: string,
     version: string,
+    foundryFeatures: "Toolboxes=V1Preview",
     options?: DeleteVersionOptionalParams,
   ) => Promise<void>;
-  /** Delete a toolbox and all its versions. */
+  /** Removes the specified toolbox along with all of its versions. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
    *         to the operation to override the generated name.
    */
-  delete: (name: string, options?: BetaToolboxesDeleteOptionalParams) => Promise<void>;
-  /** Update a toolbox to point to a specific version. */
+  delete: (
+    name: string,
+    foundryFeatures: "Toolboxes=V1Preview",
+    options?: BetaToolboxesDeleteOptionalParams,
+  ) => Promise<void>;
+  /** Updates the toolbox's default version pointer to the specified version. */
   update: (
     name: string,
     defaultVersion: string,
+    foundryFeatures: "Toolboxes=V1Preview",
     options?: BetaToolboxesUpdateOptionalParams,
   ) => Promise<ToolboxObject>;
-  /** Retrieve a specific version of a toolbox. */
+  /** Retrieves the specified version of a toolbox by name and version identifier. */
   getVersion: (
     name: string,
     version: string,
+    foundryFeatures: "Toolboxes=V1Preview",
     options?: GetVersionOptionalParams,
   ) => Promise<ToolboxVersionObject>;
-  /** List all versions of a toolbox. */
+  /** Returns the available versions for the specified toolbox. */
   listVersions: (
     name: string,
+    foundryFeatures: "Toolboxes=V1Preview",
     options?: ListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<ToolboxVersionObject>;
-  /** List all toolboxes. */
-  list: (options?: BetaToolboxesListOptionalParams) => PagedAsyncIterableIterator<ToolboxObject>;
-  /** Retrieve a toolbox. */
-  get: (name: string, options?: BetaToolboxesGetOptionalParams) => Promise<ToolboxObject>;
-  /** Create a new version of a toolbox. If the toolbox does not exist, it will be created. */
+  /** Returns the toolboxes available in the current project. */
+  list: (
+    foundryFeatures: "Toolboxes=V1Preview",
+    options?: BetaToolboxesListOptionalParams,
+  ) => PagedAsyncIterableIterator<ToolboxObject>;
+  /** Retrieves the specified toolbox and its current configuration. */
+  get: (
+    name: string,
+    foundryFeatures: "Toolboxes=V1Preview",
+    options?: BetaToolboxesGetOptionalParams,
+  ) => Promise<ToolboxObject>;
+  /** Creates a new toolbox version, provisioning the toolbox itself if it does not already exist. */
   createVersion: (
     name: string,
     tools: ToolUnion[],
+    foundryFeatures: "Toolboxes=V1Preview",
     options?: CreateVersionOptionalParams,
   ) => Promise<ToolboxVersionObject>;
 }
 
 function _getBetaToolboxes(context: AIProjectContext) {
   return {
-    deleteVersion: (name: string, version: string, options?: DeleteVersionOptionalParams) =>
-      deleteVersion(context, name, version, options),
-    delete: (name: string, options?: BetaToolboxesDeleteOptionalParams) =>
-      $delete(context, name, options),
-    update: (name: string, defaultVersion: string, options?: BetaToolboxesUpdateOptionalParams) =>
-      update(context, name, defaultVersion, options),
-    getVersion: (name: string, version: string, options?: GetVersionOptionalParams) =>
-      getVersion(context, name, version, options),
-    listVersions: (name: string, options?: ListVersionsOptionalParams) =>
-      listVersions(context, name, options),
-    list: (options?: BetaToolboxesListOptionalParams) => list(context, options),
-    get: (name: string, options?: BetaToolboxesGetOptionalParams) => get(context, name, options),
-    createVersion: (name: string, tools: ToolUnion[], options?: CreateVersionOptionalParams) =>
-      createVersion(context, name, tools, options),
+    deleteVersion: (
+      name: string,
+      version: string,
+      foundryFeatures: "Toolboxes=V1Preview",
+      options?: DeleteVersionOptionalParams,
+    ) => deleteVersion(context, name, version, foundryFeatures, options),
+    delete: (
+      name: string,
+      foundryFeatures: "Toolboxes=V1Preview",
+      options?: BetaToolboxesDeleteOptionalParams,
+    ) => $delete(context, name, foundryFeatures, options),
+    update: (
+      name: string,
+      defaultVersion: string,
+      foundryFeatures: "Toolboxes=V1Preview",
+      options?: BetaToolboxesUpdateOptionalParams,
+    ) => update(context, name, defaultVersion, foundryFeatures, options),
+    getVersion: (
+      name: string,
+      version: string,
+      foundryFeatures: "Toolboxes=V1Preview",
+      options?: GetVersionOptionalParams,
+    ) => getVersion(context, name, version, foundryFeatures, options),
+    listVersions: (
+      name: string,
+      foundryFeatures: "Toolboxes=V1Preview",
+      options?: ListVersionsOptionalParams,
+    ) => listVersions(context, name, foundryFeatures, options),
+    list: (foundryFeatures: "Toolboxes=V1Preview", options?: BetaToolboxesListOptionalParams) =>
+      list(context, foundryFeatures, options),
+    get: (
+      name: string,
+      foundryFeatures: "Toolboxes=V1Preview",
+      options?: BetaToolboxesGetOptionalParams,
+    ) => get(context, name, foundryFeatures, options),
+    createVersion: (
+      name: string,
+      tools: ToolUnion[],
+      foundryFeatures: "Toolboxes=V1Preview",
+      options?: CreateVersionOptionalParams,
+    ) => createVersion(context, name, tools, foundryFeatures, options),
   };
 }
 

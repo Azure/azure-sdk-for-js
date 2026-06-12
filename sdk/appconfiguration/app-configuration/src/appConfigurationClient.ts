@@ -76,9 +76,9 @@ import {
   transformSnapshotResponse,
 } from "./internal/helpers.js";
 import {
-  AzureAppConfigurationClient,
-  type AzureAppConfigurationClientOptionalParams,
-} from "./generated/azureAppConfigurationClient.js";
+  AppConfigurationClient as GeneratedAppConfigurationClient,
+  type AppConfigurationClientOptionalParams as GeneratedAppConfigurationClientOptionalParams,
+} from "./generated/appConfigurationClient.js";
 import type {
   _KeyValueListResult,
   _LabelListResult,
@@ -99,7 +99,7 @@ import {
   _createSnapshotDeserialize,
 } from "./generated/api/operations.js";
 import { getLongRunningPoller } from "./generated/static-helpers/pollingHelpers.js";
-import type { AzureAppConfigurationContext } from "./generated/api/azureAppConfigurationContext.js";
+import type { AppConfigurationContext } from "./generated/api/appConfigurationContext.js";
 import type { FeatureFlagValue } from "./featureFlag.js";
 import type { SecretReferenceValue } from "./secretReference.js";
 import type { SnapshotReferenceValue } from "./snapshotReference.js";
@@ -129,7 +129,7 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
  * Client for the Azure App Configuration service.
  */
 export class AppConfigurationClient {
-  private client: AzureAppConfigurationClient;
+  private client: GeneratedAppConfigurationClient;
   private _syncTokens: SyncTokens;
 
   /**
@@ -185,7 +185,7 @@ export class AppConfigurationClient {
       }
     }
 
-    const generatedClientOptions: AzureAppConfigurationClientOptionalParams = {
+    const generatedClientOptions: GeneratedAppConfigurationClientOptionalParams = {
       ...appConfigOptions,
       userAgentOptions: {
         ...appConfigOptions.userAgentOptions,
@@ -208,7 +208,7 @@ export class AppConfigurationClient {
     };
 
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
-    this.client = new AzureAppConfigurationClient(
+    this.client = new GeneratedAppConfigurationClient(
       appConfigEndpoint,
       appConfigCredential,
       generatedClientOptions,
@@ -660,8 +660,8 @@ export class AppConfigurationClient {
     return getPagedAsyncIterator(pagedResult);
   }
 
-  private get _context(): AzureAppConfigurationContext {
-    return (this.client as any)._client as AzureAppConfigurationContext;
+  private get _context(): AppConfigurationContext {
+    return (this.client as any)._client as AppConfigurationContext;
   }
 
   private async sendLabelsRequest(

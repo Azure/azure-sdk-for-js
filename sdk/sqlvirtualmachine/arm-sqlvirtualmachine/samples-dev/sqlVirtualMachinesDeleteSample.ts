@@ -1,33 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes a SQL virtual machine.
- *
- * @summary Deletes a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/DeleteSqlVirtualMachine.json
- */
-
 import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function deletesASqlVirtualMachine(): Promise<void> {
-  const subscriptionId =
-    process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
-  const sqlVirtualMachineName = "testvm1";
+/**
+ * This sample demonstrates how to deletes a SQL virtual machine.
+ *
+ * @summary deletes a SQL virtual machine.
+ * x-ms-original-file: 2023-10-01/DeleteSqlVirtualMachine.json
+ */
+async function deletesASQLVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
-  const result = await client.sqlVirtualMachines.beginDeleteAndWait(
-    resourceGroupName,
-    sqlVirtualMachineName,
-  );
-  console.log(result);
+  await client.sqlVirtualMachines.delete("testrg", "testvm1");
 }
 
 async function main(): Promise<void> {
-  await deletesASqlVirtualMachine();
+  await deletesASQLVirtualMachine();
 }
 
 main().catch(console.error);

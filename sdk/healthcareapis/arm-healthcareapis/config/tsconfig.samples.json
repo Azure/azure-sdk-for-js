@@ -2,9 +2,7 @@
   "extends": "../../../../eng/tsconfigs/samples.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-healthcareapis": [
-        "../dist/esm"
-      ]
+      "@azure/arm-healthcareapis": ["../dist/esm"]
     }
   }
 }
