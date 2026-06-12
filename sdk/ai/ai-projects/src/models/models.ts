@@ -5843,12 +5843,19 @@ export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
   evalId: string;
   /** Maximum number of evaluation runs allowed per hour. */
   maxHourlyRuns?: number;
+  /** Percentage (0-100] chance that a matching event triggers an evaluation. When omitted, the service-default is to evaluate every event, which is equivalent to setting a sampling rate of 100. */
+  samplingRate?: number;
 }
 
 export function continuousEvaluationRuleActionSerializer(
   item: ContinuousEvaluationRuleAction,
 ): any {
-  return { type: item["type"], evalId: item["evalId"], maxHourlyRuns: item["maxHourlyRuns"] };
+  return {
+    type: item["type"],
+    evalId: item["evalId"],
+    maxHourlyRuns: item["maxHourlyRuns"],
+    samplingRate: item["samplingRate"],
+  };
 }
 
 export function continuousEvaluationRuleActionDeserializer(
@@ -5858,6 +5865,7 @@ export function continuousEvaluationRuleActionDeserializer(
     type: item["type"],
     evalId: item["evalId"],
     maxHourlyRuns: item["maxHourlyRuns"],
+    samplingRate: item["samplingRate"],
   };
 }
 

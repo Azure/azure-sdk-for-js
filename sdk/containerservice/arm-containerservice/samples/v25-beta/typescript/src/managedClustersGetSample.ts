@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a managed cluster.
  *
  * @summary gets a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersGet.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersGet.json
  */
 async function getManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

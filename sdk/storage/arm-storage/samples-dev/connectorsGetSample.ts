@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the specified Storage Connector.
  *
  * @summary get the specified Storage Connector.
- * x-ms-original-file: 2025-08-01/StorageConnectorCRUD/StorageConnectors_Get.json
+ * x-ms-original-file: 2026-04-01/StorageConnectorCRUD/StorageConnectors_Get.json
  */
 async function getConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();

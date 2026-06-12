@@ -3,10 +3,10 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { WebPubSubClientProtocol } from "../protocols/index.js";
-import type { JSONTypes } from "../webPubSubClient.js";
 import type {
   DisconnectedMessage,
   GroupDataMessage,
+  JSONTypes,
   ServerDataMessage,
   StreamDataError,
   StreamInfo,
@@ -250,7 +250,7 @@ export interface StreamPublisher {
    */
   publish(
     content: JSONTypes | ArrayBuffer,
-    dataType?: WebPubSubDataType,
+    dataType: WebPubSubDataType,
     options?: SendStreamDataOptions,
   ): Promise<void>;
   /**
