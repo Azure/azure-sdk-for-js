@@ -211,7 +211,7 @@ describe("toLlmInput - pages", () => {
     assert.equal(_compressPageNumbers([1]), 1);
   });
 
-  it("renders <!-- page N --> markers from pages[].spans", () => {
+  it("renders <!-- InputPageNumber: N --> markers from pages[].spans", () => {
     const markdown = "Page1Content\nPage2Content";
     const pages: DocumentPage[] = [
       { pageNumber: 1, spans: [{ offset: 0, length: 13 }] },
@@ -220,9 +220,25 @@ describe("toLlmInput - pages", () => {
     const text = toLlmInput(
       makeResult([makeDocument({ markdown, pages, startPageNumber: 1, endPageNumber: 2 })]),
     );
-    assert.include(text, "<!-- page 1 -->");
-    assert.include(text, "<!-- page 2 -->");
+    assert.include(text, "<!-- InputPageNumber: 1 -->");
+    assert.include(text, "<!-- InputPageNumber: 2 -->");
     assert.include(text, "pages: 1-2");
+  });
+
+  it("does not inject duplicate markers when service markdown already has them", () => {
+    const markdown =
+      "<!-- InputPageNumber: 1 -->\n\nFirst page text.\n\n<!-- InputPageNumber: 2 -->\n\nSecond page text.";
+    const pages: DocumentPage[] = [
+      { pageNumber: 1, spans: [{ offset: 0, length: 47 }] },
+      { pageNumber: 2, spans: [{ offset: 49, length: 48 }] },
+    ];
+    const text = toLlmInput(
+      makeResult([makeDocument({ markdown, pages, startPageNumber: 1, endPageNumber: 2 })]),
+    );
+    const count1 = text.split("<!-- InputPageNumber: 1 -->").length - 1;
+    const count2 = text.split("<!-- InputPageNumber: 2 -->").length - 1;
+    assert.equal(count1, 1);
+    assert.equal(count2, 1);
   });
 
   it("falls back to PageBreak splitting using startPageNumber", () => {
@@ -230,10 +246,77 @@ describe("toLlmInput - pages", () => {
     const text = toLlmInput(
       makeResult([makeDocument({ markdown, startPageNumber: 3, endPageNumber: 4 })]),
     );
-    assert.include(text, "<!-- page 3 -->");
-    assert.include(text, "<!-- page 4 -->");
+    assert.include(text, "<!-- InputPageNumber: 3 -->");
+    assert.include(text, "<!-- InputPageNumber: 4 -->");
     assert.include(text, "First page text");
     assert.include(text, "Second page text");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// rai_warnings (LLMStats telemetry filter)
+// ---------------------------------------------------------------------------
+
+describe("toLlmInput - rai_warnings filter", () => {
+  it("drops LLMStats: telemetry warnings but keeps real warnings", () => {
+    const text = toLlmInput(
+      makeResult(
+        [makeDocument()],
+        [
+          { code: "Telemetry", message: "LLMStats: completion calls: 2; embedding calls: 1" },
+          { code: "ContentWarning", message: "Potentially sensitive content." },
+        ],
+      ),
+    );
+    assert.include(text, "rai_warnings:");
+    assert.notInclude(text, "LLMStats:");
+    assert.include(text, "Potentially sensitive content.");
+  });
+
+  it("omits the rai_warnings block when only LLMStats: warnings exist", () => {
+    const text = toLlmInput(
+      makeResult(
+        [makeDocument()],
+        [{ code: "Telemetry", message: "LLMStats: completion latency: 7.71s" }],
+      ),
+    );
+    assert.notInclude(text, "rai_warnings:");
+    assert.notInclude(text, "LLMStats:");
+  });
+
+  it("is case-sensitive (lowercase llmstats: is preserved)", () => {
+    const text = toLlmInput(
+      makeResult(
+        [makeDocument()],
+        [{ code: "ContentWarning", message: "llmstats: keep as a real warning" }],
+      ),
+    );
+    assert.include(text, "rai_warnings:");
+    assert.include(text, "llmstats: keep as a real warning");
+  });
+
+  it("preserves LLMStats: text in the document markdown body", () => {
+    const bodyText = "A log excerpt:\n- LLMStats: keep this body text";
+    const text = toLlmInput(
+      makeResult(
+        [makeDocument({ markdown: bodyText })],
+        [{ code: "Telemetry", message: "LLMStats: remove this warning text" }],
+      ),
+    );
+    assert.notInclude(text, "rai_warnings:");
+    assert.include(text, "LLMStats: keep this body text");
+    assert.notInclude(text, "LLMStats: remove this warning text");
+  });
+
+  it("filters LLMStats: warnings with leading whitespace", () => {
+    const text = toLlmInput(
+      makeResult(
+        [makeDocument()],
+        [{ code: "Telemetry", message: "  LLMStats: completion calls: 2" }],
+      ),
+    );
+    assert.notInclude(text, "rai_warnings:");
+    assert.notInclude(text, "LLMStats:");
   });
 });
 

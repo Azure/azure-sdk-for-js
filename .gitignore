@@ -201,3 +201,6 @@ sdk/**/sshKey.pub
 # vitest browser test artifacts
 .vitest-attachments/
 **/__screenshots__/
+
+# agentic workflow logs
+.github/aw/logs/
