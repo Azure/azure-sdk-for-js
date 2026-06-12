@@ -575,7 +575,7 @@
 # PRLabel: %Mgmt
 /sdk/eventgrid/arm-eventgrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/eventhub/arm-eventhub/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
