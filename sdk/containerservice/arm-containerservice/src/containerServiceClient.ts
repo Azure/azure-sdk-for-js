@@ -17,6 +17,8 @@ import type { MachinesOperations } from "./classic/machines/index.js";
 import { _getMachinesOperations } from "./classic/machines/index.js";
 import type { MaintenanceConfigurationsOperations } from "./classic/maintenanceConfigurations/index.js";
 import { _getMaintenanceConfigurationsOperations } from "./classic/maintenanceConfigurations/index.js";
+import type { MaintenanceWindowsOperations } from "./classic/maintenanceWindows/index.js";
+import { _getMaintenanceWindowsOperations } from "./classic/maintenanceWindows/index.js";
 import type { ManagedClusterSnapshotsOperations } from "./classic/managedClusterSnapshots/index.js";
 import { _getManagedClusterSnapshotsOperations } from "./classic/managedClusterSnapshots/index.js";
 import type { ManagedClustersOperations } from "./classic/managedClusters/index.js";
@@ -100,6 +102,7 @@ export class ContainerServiceClient {
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.machines = _getMachinesOperations(this._client);
     this.managedNamespaces = _getManagedNamespacesOperations(this._client);
+    this.maintenanceWindows = _getMaintenanceWindowsOperations(this._client);
     this.maintenanceConfigurations = _getMaintenanceConfigurationsOperations(this._client);
     this.managedClusters = _getManagedClustersOperations(this._client);
     this.agentPools = _getAgentPoolsOperations(this._client);
@@ -139,6 +142,8 @@ export class ContainerServiceClient {
   public readonly machines: MachinesOperations;
   /** The operation groups for managedNamespaces */
   public readonly managedNamespaces: ManagedNamespacesOperations;
+  /** The operation groups for maintenanceWindows */
+  public readonly maintenanceWindows: MaintenanceWindowsOperations;
   /** The operation groups for maintenanceConfigurations */
   public readonly maintenanceConfigurations: MaintenanceConfigurationsOperations;
   /** The operation groups for managedClusters */

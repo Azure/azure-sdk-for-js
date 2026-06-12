@@ -3,41 +3,40 @@
 
 const { NewRelicObservability } = require("@azure/arm-newrelicobservability");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to List the operations for the provider
+ * This sample demonstrates how to list the operations for the provider
  *
- * @summary List the operations for the provider
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/preview/2025-05-01-preview/examples/Operations_List_MaximumSet_Gen.json
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2025-05-01-preview/Operations_List_MaximumSet_Gen.json
  */
 async function operationsListMaximumSetGen() {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to List the operations for the provider
+ * This sample demonstrates how to list the operations for the provider
  *
- * @summary List the operations for the provider
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/preview/2025-05-01-preview/examples/Operations_List_MinimumSet_Gen.json
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2025-05-01-preview/Operations_List_MinimumSet_Gen.json
  */
 async function operationsListMinimumSetGen() {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

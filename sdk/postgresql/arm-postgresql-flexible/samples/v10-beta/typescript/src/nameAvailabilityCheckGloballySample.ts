@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks the validity and availability of the given name, to assign it to a new server or to use it as the base name of a new pair of virtual endpoints.
  *
  * @summary checks the validity and availability of the given name, to assign it to a new server or to use it as the base name of a new pair of virtual endpoints.
- * x-ms-original-file: 2026-01-01-preview/NameAvailabilityCheckGlobally.json
+ * x-ms-original-file: 2026-04-01-preview/NameAvailabilityCheckGlobally.json
  */
 async function checkTheValidityAndAvailabilityOfTheGivenNameToAssignItToANewServerOrToUseItAsTheBaseNameOfANewPairOfVirtualEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { JSONTypes } from "../webPubSubClient.js";
+/**
+ * Types which can be serialized and sent as JSON.
+ */
+export type JSONTypes = string | number | boolean | object;
 
 /**
  * The web pubsub message
@@ -26,7 +29,12 @@ export type WebPubSubMessage =
   | StreamEndMessage
   | StreamAckMessage
   | StreamNackMessage
-  | StreamClosedMessage;
+  | StreamClosedMessage
+  | SetGroupStateMessage
+  | SubscribeGroupStateMessage
+  | UnsubscribeGroupStateMessage
+  | GroupStateSnapshotMessage
+  | GroupStateUpdateMessage;
 
 /**
  * The common of web pubsub message
@@ -78,7 +86,15 @@ export type DownstreamMessageType =
   /**
    * Type for StreamClosedMessage
    */
-  | "streamClosed";
+  | "streamClosed"
+  /**
+   * Type for GroupStateSnapshotMessage
+   */
+  | "groupStateSnapshot"
+  /**
+   * Type for GroupStateUpdateMessage
+   */
+  | "groupStateUpdate";
 
 /**
  * Types for upstream messages
@@ -123,7 +139,19 @@ export type UpstreamMessageType =
   /**
    * Type for StreamEndMessage
    */
-  | "streamEnd";
+  | "streamEnd"
+  /**
+   * Type for SetGroupStateMessage
+   */
+  | "setGroupState"
+  /**
+   * Type for SubscribeGroupStateMessage
+   */
+  | "subscribeGroupState"
+  /**
+   * Type for UnsubscribeGroupStateMessage
+   */
+  | "unsubscribeGroupState";
 
 /**
  * The ack message
@@ -261,10 +289,6 @@ export interface ServerDataMessage extends WebPubSubMessageBase {
    * The sequence id of the data. Only available in reliable protocols
    */
   sequenceId?: number;
-  /**
-   * Streaming metadata when the payload belongs to a stream.
-   */
-  stream?: StreamInfo;
 }
 
 /**
@@ -648,6 +672,122 @@ export interface PingMessage extends WebPubSubMessageBase {
    * Message type
    */
   readonly kind: "ping";
+}
+
+/**
+ * Set group state message
+ */
+export interface SetGroupStateMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "setGroupState";
+  /**
+   * The group name
+   */
+  group: string;
+  /**
+   * The state dictionary. Omit or pass undefined to clear the state.
+   */
+  state?: Record<string, string>;
+  /**
+   * Optional ack id. If specified, an AckMessage with success or not will be returned with the same ackId
+   */
+  ackId?: number;
+}
+
+/**
+ * Subscribe group state message
+ */
+export interface SubscribeGroupStateMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "subscribeGroupState";
+  /**
+   * The group name
+   */
+  group: string;
+  /**
+   * Optional ack id. If specified, an AckMessage with success or not will be returned with the same ackId
+   */
+  ackId?: number;
+}
+
+/**
+ * Unsubscribe group state message
+ */
+export interface UnsubscribeGroupStateMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "unsubscribeGroupState";
+  /**
+   * The group name
+   */
+  group: string;
+  /**
+   * Optional ack id. If specified, an AckMessage with success or not will be returned with the same ackId
+   */
+  ackId?: number;
+}
+
+/**
+ * A single connection's state entry within a group
+ */
+export interface GroupStateItem {
+  /**
+   * The connection id
+   */
+  connectionId: string;
+  /**
+   * The user id. Absent for anonymous connections.
+   */
+  userId?: string;
+  /**
+   * The state dictionary. Absent when the state has been cleared.
+   */
+  state?: Record<string, string>;
+  /**
+   * Unix epoch timestamp in milliseconds when the state was last updated
+   */
+  updatedAt: number;
+}
+
+/**
+ * Group state snapshot message, sent after a successful subscribeGroupState
+ */
+export interface GroupStateSnapshotMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "groupStateSnapshot";
+  /**
+   * The group name
+   */
+  group: string;
+  /**
+   * The current state items in the group
+   */
+  items: GroupStateItem[];
+}
+
+/**
+ * Group state update message, pushed when a connection's state changes
+ */
+export interface GroupStateUpdateMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "groupStateUpdate";
+  /**
+   * The group name
+   */
+  group: string;
+  /**
+   * The updated state items
+   */
+  items: GroupStateItem[];
 }
 
 /**

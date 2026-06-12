@@ -172,6 +172,21 @@ describe("snippets", () => {
     }
   });
 
+  it("EnhancedModeWithLocale", async () => {
+    const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
+
+    const audioFile = readFileSync("path/to/audio.wav");
+    const result = await client.transcribe(audioFile, {
+      enhancedMode: {
+        task: "transcribe",
+      },
+      // Guide recognition toward a specific language; the service uses the first locale as a hint
+      locales: ["en-US"],
+    });
+
+    console.log("Transcription:", result.combinedPhrases[0]?.text);
+  });
+
   it("TranslateWithEnhancedMode", async () => {
     const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 

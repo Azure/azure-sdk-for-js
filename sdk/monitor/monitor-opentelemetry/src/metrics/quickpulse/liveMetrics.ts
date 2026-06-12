@@ -196,7 +196,7 @@ export class LiveMetrics {
     this.pingInterval = PING_INTERVAL; // Default
     this.postInterval = POST_INTERVAL;
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
+    this.handle = setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
     this.handle.unref(); // Don't block apps from terminating
     this.lastCpuUsage = process.cpuUsage();
     this.lastHrTime = process.hrtime.bigint();
@@ -223,7 +223,7 @@ export class LiveMetrics {
         this.quickPulseDone(undefined);
       }
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
+      this.handle = setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
       this.handle.unref();
     }
     if (this.isCollectingData) {
@@ -260,7 +260,7 @@ export class LiveMetrics {
         this.etag = "";
         this.deactivateMetrics();
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
+        this.handle = setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
         this.handle.unref();
       }
 

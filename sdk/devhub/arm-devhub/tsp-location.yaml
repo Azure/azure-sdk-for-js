@@ -1,0 +1,4 @@
+directory: specification/developerhub/resource-manager/Microsoft.DevHub/DeveloperHub
+commit: 67238f9942ca7884c610073323ce29a78674ef4d
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 

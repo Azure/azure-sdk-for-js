@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to clears legal hold tags. Clearing the same or non-existent tag results in an idempotent operation. ClearLegalHold clears out only the specified tags in the request.
  *
  * @summary clears legal hold tags. Clearing the same or non-existent tag results in an idempotent operation. ClearLegalHold clears out only the specified tags in the request.
- * x-ms-original-file: 2025-08-01/BlobContainersClearLegalHold.json
+ * x-ms-original-file: 2026-04-01/BlobContainersClearLegalHold.json
  */
 async function clearLegalHoldContainers(): Promise<void> {
   const credential = new DefaultAzureCredential();
