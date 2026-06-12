@@ -191,6 +191,7 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+import { stringToUint8Array } from "@azure/core-util";
 
 export function _getSearchPointWithAssetsSend(
   context: Client,
@@ -1076,7 +1077,7 @@ export async function _getSearchWmtsCapabilitiesDeserialize(
   }
 
   return {
-    body: typeof result.body === "string" ? new TextEncoder().encode(result.body) : result.body,
+    body: typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body,
   };
 }
 
@@ -1876,7 +1877,7 @@ export async function _getSearchWmtsCapabilitiesByTmsDeserialize(
   }
 
   return {
-    body: typeof result.body === "string" ? new TextEncoder().encode(result.body) : result.body,
+    body: typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body,
   };
 }
 
@@ -3871,7 +3872,7 @@ export async function _getCollectionWmtsCapabilitiesByTmsDeserialize(
   }
 
   return {
-    body: typeof result.body === "string" ? new TextEncoder().encode(result.body) : result.body,
+    body: typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body,
   };
 }
 
@@ -3951,7 +3952,7 @@ export async function _getCollectionWmtsCapabilitiesDeserialize(
   }
 
   return {
-    body: typeof result.body === "string" ? new TextEncoder().encode(result.body) : result.body,
+    body: typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body,
   };
 }
 
@@ -5989,7 +5990,7 @@ export async function _getItemWmtsCapabilitiesByTmsDeserialize(
   }
 
   return {
-    body: typeof result.body === "string" ? new TextEncoder().encode(result.body) : result.body,
+    body: typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body,
   };
 }
 
@@ -6096,7 +6097,7 @@ export async function _getItemWmtsCapabilitiesDeserialize(
   }
 
   return {
-    body: typeof result.body === "string" ? new TextEncoder().encode(result.body) : result.body,
+    body: typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body,
   };
 }
 

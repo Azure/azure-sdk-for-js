@@ -113,3 +113,4 @@ https://learn.microsoft.com/javascript/api/@azure/arm-postgresqlhsc?view=azure-n
 https://www.npmjs.com/package/@azure/arm-postgresqlhsc
 https://learn.microsoft.com/javascript/api/@azure/planetarycomputer
 https://www.npmjs.com/package/@azure/planetarycomputer
+https://learn.microsoft.com/javascript/api/@azure/planetarycomputer?view=azure-node-preview
