@@ -42,7 +42,10 @@ import { handleTableAlreadyExists } from "./utils/errorHelpers.js";
 import { isCredential } from "./utils/isCredential.js";
 import { logger } from "./logger.js";
 import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils.js";
-import { toRestOperationOptions } from "./utils/operationOptionsAdapter.js";
+import {
+  toFullOperationResponse,
+  toRestOperationOptions,
+} from "./utils/operationOptionsAdapter.js";
 import { tablesNamedKeyCredentialPolicy } from "#platform/tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy.js";
 import { tracingClient } from "./utils/tracing.js";
@@ -283,14 +286,7 @@ export class TableServiceClient {
           ) {
             logger.info(`Table ${name} already Exists`);
             if (updatedOptions.onResponse) {
-              updatedOptions.onResponse(
-                {
-                  headers: result.headers as any,
-                  request: result.request,
-                  status: 409,
-                } as any,
-                {},
-              );
+              updatedOptions.onResponse(toFullOperationResponse(result, 409), {});
             }
             return;
           }
@@ -312,7 +308,11 @@ export class TableServiceClient {
       "TableServiceClient.deleteTable",
       options,
       async (updatedOptions) => {
-        const result = await _$deleteSend(this.context, name, toRestOperationOptions(updatedOptions));
+        const result = await _$deleteSend(
+          this.context,
+          name,
+          toRestOperationOptions(updatedOptions),
+        );
         if (result.status === "404") {
           logger.info("TableServiceClient.deleteTable: Table doesn't exist");
         } else if (result.status !== "204") {

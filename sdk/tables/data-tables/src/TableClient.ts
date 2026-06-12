@@ -74,7 +74,10 @@ import { isCosmosEndpoint } from "./utils/isCosmosEndpoint.js";
 import { isCredential } from "./utils/isCredential.js";
 import { logger } from "./logger.js";
 import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils.js";
-import { toRestOperationOptions } from "./utils/operationOptionsAdapter.js";
+import {
+  toFullOperationResponse,
+  toRestOperationOptions,
+} from "./utils/operationOptionsAdapter.js";
 import { tablesNamedKeyCredentialPolicy } from "#platform/tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy.js";
 import { tracingClient } from "./utils/tracing.js";
@@ -354,14 +357,7 @@ export class TableClient {
         ) {
           logger.info(`Table ${this.tableName} already Exists`);
           if (updatedOptions.onResponse) {
-            updatedOptions.onResponse(
-              {
-                headers: result.headers as any,
-                request: result.request,
-                status: 409,
-              } as any,
-              {},
-            );
+            updatedOptions.onResponse(toFullOperationResponse(result, 409), {});
           }
           return;
         }
