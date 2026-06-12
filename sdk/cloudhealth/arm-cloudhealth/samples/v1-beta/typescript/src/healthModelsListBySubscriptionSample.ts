@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list HealthModel resources by subscription ID
  *
  * @summary list HealthModel resources by subscription ID
- * x-ms-original-file: 2025-05-01-preview/HealthModels_ListBySubscription.json
+ * x-ms-original-file: 2026-01-01-preview/HealthModels_ListBySubscription.json
  */
 async function healthModelsListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

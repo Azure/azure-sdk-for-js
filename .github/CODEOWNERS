@@ -428,7 +428,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/compute/arm-compute/      @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cloudhealth/arm-cloudhealth/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
