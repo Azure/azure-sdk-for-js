@@ -1,13 +1,11 @@
 # Release History
 
-## 4.10.2 (Unreleased)
+## 4.10.2 (2026-06-09)
 
 ### Features Added
 
 - Added `KeyClient.secureWrapKey` and `KeyClient.secureUnwrapKey` methods to wrap a 256-bit AES key generated inside a Trusted Execution Environment (TEE) using a key encryption key stored in Managed HSM, and to unwrap that key back inside an attested TEE via the Microsoft Azure Attestation service (MAA).
 - Added support for service API version `2025-07-01` [#38515](https://github.com/Azure/azure-sdk-for-js/pull/38515)
-
-### Breaking Changes
 
 ### Bugs Fixed
 
