@@ -43,6 +43,8 @@ jobs:
       - script: |
           pnpm install
         displayName: "Install library dependencies"
+        env:
+          npm_config_userconfig: .npmrc
 
       - script: |
           pnpm --filter @azure/dev-tool... build
