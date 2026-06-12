@@ -63,8 +63,6 @@ Compared with version 4.0.0
   - Operation Channels.listWithKeys has a new signature
   - Operation Channels.update has a new signature
   - Operation DirectLine.regenerateKeys has a new signature
-  - Class AzureBotService no longer has parameter apiVersion
-  - Class AzureBotService no longer has parameter subscriptionId
   - Removed Interface BotResponseList
   - Removed Interface ChannelResponseList
   - Removed Interface ConnectionItemName
