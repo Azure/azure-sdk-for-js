@@ -243,7 +243,7 @@ Delete the following files that are no longer needed:
 2. **Build the package:**
 
    ```bash
-   pnpm build
+   pnpm turbo build
    ```
 
 3. **Run tests:**
@@ -269,7 +269,7 @@ After migration, your development workflow becomes:
 
 1. **Update TypeSpec definitions** in azure-rest-api-specs
 2. **Generate new code:** `npm run generate:client`
-3. **Build and test:** `pnpm build && pnpm test`
+3. **Build and test:** `pnpm turbo build && pnpm test`
 
 ### Version Management
 

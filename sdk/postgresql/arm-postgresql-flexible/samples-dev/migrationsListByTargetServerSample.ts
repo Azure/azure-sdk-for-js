@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all migrations of a target flexible server.
  *
  * @summary lists all migrations of a target flexible server.
- * x-ms-original-file: 2026-01-01-preview/MigrationsListByTargetServer.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsListByTargetServer.json
  */
 async function listAllMigrationsOfATargetFlexibleServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
