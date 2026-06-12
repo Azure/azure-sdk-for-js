@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { BotProperties, Sku, Kind } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -16,7 +17,15 @@ export interface BotsListByResourceGroupOptionalParams extends OperationOptions 
 export interface BotsDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BotsUpdateOptionalParams extends OperationOptions {}
+export interface BotsUpdateOptionalParams extends OperationOptions {
+  properties?: BotProperties;
+  location?: string;
+  tags?: Record<string, string>;
+  sku?: Sku;
+  kind?: Kind;
+  etag?: string;
+  zones?: string[];
+}
 
 /** Optional parameters. */
 export interface BotsCreateOptionalParams extends OperationOptions {}

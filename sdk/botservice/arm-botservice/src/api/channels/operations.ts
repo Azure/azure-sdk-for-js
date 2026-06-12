@@ -10,8 +10,10 @@ import type {
 } from "../../models/models.js";
 import {
   errorDeserializer,
+  skuSerializer,
   botChannelSerializer,
   botChannelDeserializer,
+  channelUnionSerializer,
   _channelResponseListDeserializer,
   listChannelWithKeysResponseDeserializer,
 } from "../../models/models.js";
@@ -203,7 +205,6 @@ export function _updateSend(
   resourceGroupName: string,
   resourceName: string,
   channelName: ChannelName,
-  parameters: BotChannel,
   options: ChannelsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -223,7 +224,16 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: botChannelSerializer(parameters),
+    body: {
+      properties: !options?.properties
+        ? options?.properties
+        : channelUnionSerializer(options?.properties),
+      location: options?.location,
+      tags: options?.tags,
+      sku: !options?.sku ? options?.sku : skuSerializer(options?.sku),
+      kind: options?.kind,
+      etag: options?.etag,
+    },
   });
 }
 
@@ -247,17 +257,9 @@ export async function update(
   resourceGroupName: string,
   resourceName: string,
   channelName: ChannelName,
-  parameters: BotChannel,
   options: ChannelsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<BotChannel> {
-  const result = await _updateSend(
-    context,
-    resourceGroupName,
-    resourceName,
-    channelName,
-    parameters,
-    options,
-  );
+  const result = await _updateSend(context, resourceGroupName, resourceName, channelName, options);
   return _updateDeserialize(result);
 }
 

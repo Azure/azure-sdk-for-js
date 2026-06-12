@@ -14,6 +14,8 @@ import type {
 } from "../../api/networkSecurityPerimeterConfigurations/options.js";
 import type { NetworkSecurityPerimeterConfiguration } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkSecurityPerimeterConfigurations operations. */
@@ -28,6 +30,25 @@ export interface NetworkSecurityPerimeterConfigurationsOperations {
     OperationState<NetworkSecurityPerimeterConfiguration>,
     NetworkSecurityPerimeterConfiguration
   >;
+  /** @deprecated use reconcile instead */
+  beginReconcile: (
+    resourceGroupName: string,
+    resourceName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<NetworkSecurityPerimeterConfiguration>,
+      NetworkSecurityPerimeterConfiguration
+    >
+  >;
+  /** @deprecated use reconcile instead */
+  beginReconcileAndWait: (
+    resourceGroupName: string,
+    resourceName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  ) => Promise<NetworkSecurityPerimeterConfiguration>;
   /** List Network Security Perimeter configurations associated with the Bot. */
   list: (
     resourceGroupName: string,
@@ -58,6 +79,36 @@ function _getNetworkSecurityPerimeterConfigurations(context: AzureBotServiceCont
         networkSecurityPerimeterConfigurationName,
         options,
       ),
+    beginReconcile: async (
+      resourceGroupName: string,
+      resourceName: string,
+      networkSecurityPerimeterConfigurationName: string,
+      options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+    ) => {
+      const poller = reconcile(
+        context,
+        resourceGroupName,
+        resourceName,
+        networkSecurityPerimeterConfigurationName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginReconcileAndWait: async (
+      resourceGroupName: string,
+      resourceName: string,
+      networkSecurityPerimeterConfigurationName: string,
+      options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+    ) => {
+      return await reconcile(
+        context,
+        resourceGroupName,
+        resourceName,
+        networkSecurityPerimeterConfigurationName,
+        options,
+      );
+    },
     list: (
       resourceGroupName: string,
       resourceName: string,

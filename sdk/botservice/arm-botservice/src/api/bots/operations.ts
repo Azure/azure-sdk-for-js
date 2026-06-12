@@ -12,6 +12,8 @@ import {
   errorDeserializer,
   botSerializer,
   botDeserializer,
+  botPropertiesSerializer,
+  skuSerializer,
   _botResponseListDeserializer,
   checkNameAvailabilityRequestBodySerializer,
   checkNameAvailabilityResponseBodyDeserializer,
@@ -238,7 +240,6 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   resourceName: string,
-  parameters: Bot,
   options: BotsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -257,7 +258,16 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: botSerializer(parameters),
+    body: {
+      properties: !options?.properties
+        ? options?.properties
+        : botPropertiesSerializer(options?.properties),
+      location: options?.location,
+      tags: options?.tags,
+      sku: !options?.sku ? options?.sku : skuSerializer(options?.sku),
+      kind: options?.kind,
+      etag: options?.etag,
+    },
   });
 }
 
@@ -280,10 +290,9 @@ export async function update(
   context: Client,
   resourceGroupName: string,
   resourceName: string,
-  parameters: Bot,
   options: BotsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Bot> {
-  const result = await _updateSend(context, resourceGroupName, resourceName, parameters, options);
+  const result = await _updateSend(context, resourceGroupName, resourceName, options);
   return _updateDeserialize(result);
 }
 

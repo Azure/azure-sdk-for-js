@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.BotService": "2023-09-15-preview"
   },
-  "emitterVersion": "0.54.0",
+  "emitterVersion": "0.54.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.BotService",
     "CrossLanguageDefinitionId": {

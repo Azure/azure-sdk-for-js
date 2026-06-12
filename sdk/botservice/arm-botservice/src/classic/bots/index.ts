@@ -51,7 +51,6 @@ export interface BotsOperations {
   update: (
     resourceGroupName: string,
     resourceName: string,
-    parameters: Bot,
     options?: BotsUpdateOptionalParams,
   ) => Promise<Bot>;
   /** Creates a Bot Service. Bot Service is a resource group wide resource type. */
@@ -82,12 +81,8 @@ function _getBots(context: AzureBotServiceContext) {
     ) => listByResourceGroup(context, resourceGroupName, options),
     delete: (resourceGroupName: string, resourceName: string, options?: BotsDeleteOptionalParams) =>
       $delete(context, resourceGroupName, resourceName, options),
-    update: (
-      resourceGroupName: string,
-      resourceName: string,
-      parameters: Bot,
-      options?: BotsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, resourceName, parameters, options),
+    update: (resourceGroupName: string, resourceName: string, options?: BotsUpdateOptionalParams) =>
+      update(context, resourceGroupName, resourceName, options),
     create: (
       resourceGroupName: string,
       resourceName: string,

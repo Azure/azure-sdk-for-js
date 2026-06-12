@@ -15,9 +15,6 @@ async function updateBot() {
   const subscriptionId = "subscription-id";
   const client = new AzureBotService(credential, subscriptionId);
   const result = await client.bots.update("OneResourceGroupName", "samplebotname", {
-    etag: "etag1",
-    kind: "sdk",
-    location: "West US",
     properties: {
       description: "The description of the bot",
       cmekKeyVaultUrl: "https://myCmekKey",
@@ -39,8 +36,11 @@ async function updateBot() {
       publicNetworkAccess: "Enabled",
       schemaTransformationVersion: "1.0",
     },
-    sku: { name: "S1" },
+    location: "West US",
     tags: { tag1: "value1", tag2: "value2" },
+    sku: { name: "S1" },
+    kind: "sdk",
+    etag: "etag1",
   });
   console.log(result);
 }

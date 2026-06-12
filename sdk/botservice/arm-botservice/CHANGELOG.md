@@ -1,6 +1,6 @@
 # Release History
 
-## 5.0.0-beta.1 (2026-06-04)
+## 5.0.0-beta.1 (2026-06-12)
 Compared with version 4.0.0
 
 ### Features Added
@@ -29,10 +29,13 @@ Compared with version 4.0.0
   - Added Interface ProxyResource
   - Added Interface ResourceAssociation
   - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
   - Added Interface SystemData
   - Interface Bot has a new optional parameter systemData
   - Interface BotChannel has a new optional parameter systemData
   - Interface BotProperties has a new optional parameter networkSecurityPerimeterConfigurations
+  - Interface BotsUpdateOptionalParams has a new optional parameter zones
+  - Interface ChannelsUpdateOptionalParams has a new optional parameter zones
   - Interface ConnectionSetting has a new optional parameter systemData
   - Interface ConnectionSettingProperties has a new optional parameter id
   - Interface ConnectionSettingProperties has a new optional parameter name
@@ -55,9 +58,6 @@ Compared with version 4.0.0
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
 
 ### Breaking Changes
-  - Removed operation OperationResults.beginGet
-  - Removed operation OperationResults.beginGetAndWait
-  - Operation Bots.update has a new signature
   - Operation Channels.create has a new signature
   - Operation Channels.get has a new signature
   - Operation Channels.listWithKeys has a new signature
@@ -70,18 +70,6 @@ Compared with version 4.0.0
   - Removed Interface ConnectionItemName
   - Removed Interface ConnectionSettingResponseList
   - Type of parameter channelName of interface Channel is changed from "AlexaChannel" | "FacebookChannel" | "EmailChannel" | "OutlookChannel" | "MsTeamsChannel" | "SkypeChannel" | "KikChannel" | "WebChatChannel" | "DirectLineChannel" | "TelegramChannel" | "SmsChannel" | "SlackChannel" | "LineChannel" | "DirectLineSpeechChannel" | "Omnichannel" | "TelephonyChannel" | "AcsChatChannel" | "SearchAssistant" | "M365Extensions" to string
-  - Interface BotsUpdateOptionalParams no longer has parameter etag
-  - Interface BotsUpdateOptionalParams no longer has parameter kind
-  - Interface BotsUpdateOptionalParams no longer has parameter location
-  - Interface BotsUpdateOptionalParams no longer has parameter properties
-  - Interface BotsUpdateOptionalParams no longer has parameter sku
-  - Interface BotsUpdateOptionalParams no longer has parameter tags
-  - Interface ChannelsUpdateOptionalParams no longer has parameter etag
-  - Interface ChannelsUpdateOptionalParams no longer has parameter kind
-  - Interface ChannelsUpdateOptionalParams no longer has parameter location
-  - Interface ChannelsUpdateOptionalParams no longer has parameter properties
-  - Interface ChannelsUpdateOptionalParams no longer has parameter sku
-  - Interface ChannelsUpdateOptionalParams no longer has parameter tags
   - Interface Resource no longer has parameter etag
   - Interface Resource no longer has parameter kind
   - Interface Resource no longer has parameter location

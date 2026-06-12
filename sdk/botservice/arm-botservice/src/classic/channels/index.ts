@@ -48,7 +48,6 @@ export interface ChannelsOperations {
     resourceGroupName: string,
     resourceName: string,
     channelName: ChannelName,
-    parameters: BotChannel,
     options?: ChannelsUpdateOptionalParams,
   ) => Promise<BotChannel>;
   /** Creates a Channel registration for a Bot Service */
@@ -91,9 +90,8 @@ function _getChannels(context: AzureBotServiceContext) {
       resourceGroupName: string,
       resourceName: string,
       channelName: ChannelName,
-      parameters: BotChannel,
       options?: ChannelsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, resourceName, channelName, parameters, options),
+    ) => update(context, resourceGroupName, resourceName, channelName, options),
     create: (
       resourceGroupName: string,
       resourceName: string,

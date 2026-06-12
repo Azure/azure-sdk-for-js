@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
@@ -205,11 +206,25 @@ export interface BotsOperations {
     getCheckNameAvailability: (parameters: CheckNameAvailabilityRequestBody, options?: BotsGetCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResponseBody>;
     list: (options?: BotsListOptionalParams) => PagedAsyncIterableIterator<Bot>;
     listByResourceGroup: (resourceGroupName: string, options?: BotsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Bot>;
-    update: (resourceGroupName: string, resourceName: string, parameters: Bot, options?: BotsUpdateOptionalParams) => Promise<Bot>;
+    update: (resourceGroupName: string, resourceName: string, options?: BotsUpdateOptionalParams) => Promise<Bot>;
 }
 
 // @public
 export interface BotsUpdateOptionalParams extends OperationOptions {
+    // (undocumented)
+    etag?: string;
+    // (undocumented)
+    kind?: Kind;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    properties?: BotProperties;
+    // (undocumented)
+    sku?: Sku;
+    // (undocumented)
+    tags?: Record<string, string>;
+    // (undocumented)
+    zones?: string[];
 }
 
 // @public
@@ -264,11 +279,25 @@ export interface ChannelsOperations {
     get: (resourceGroupName: string, resourceName: string, channelName: string, options?: ChannelsGetOptionalParams) => Promise<BotChannel>;
     listByResourceGroup: (resourceGroupName: string, resourceName: string, options?: ChannelsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<BotChannel>;
     listWithKeys: (resourceGroupName: string, resourceName: string, channelName: ChannelName, options?: ChannelsListWithKeysOptionalParams) => Promise<ListChannelWithKeysResponse>;
-    update: (resourceGroupName: string, resourceName: string, channelName: ChannelName, parameters: BotChannel, options?: ChannelsUpdateOptionalParams) => Promise<BotChannel>;
+    update: (resourceGroupName: string, resourceName: string, channelName: ChannelName, options?: ChannelsUpdateOptionalParams) => Promise<BotChannel>;
 }
 
 // @public
 export interface ChannelsUpdateOptionalParams extends OperationOptions {
+    // (undocumented)
+    etag?: string;
+    // (undocumented)
+    kind?: Kind;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    properties?: ChannelUnion;
+    // (undocumented)
+    sku?: Sku;
+    // (undocumented)
+    tags?: Record<string, string>;
+    // (undocumented)
+    zones?: string[];
 }
 
 // @public
@@ -691,6 +720,10 @@ export interface NetworkSecurityPerimeterConfigurationsListOptionalParams extend
 
 // @public
 export interface NetworkSecurityPerimeterConfigurationsOperations {
+    // @deprecated (undocumented)
+    beginReconcile: (resourceGroupName: string, resourceName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkSecurityPerimeterConfiguration>, NetworkSecurityPerimeterConfiguration>>;
+    // @deprecated (undocumented)
+    beginReconcileAndWait: (resourceGroupName: string, resourceName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
     get: (resourceGroupName: string, resourceName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
     list: (resourceGroupName: string, resourceName: string, options?: NetworkSecurityPerimeterConfigurationsListOptionalParams) => PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
     reconcile: (resourceGroupName: string, resourceName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams) => PollerLike<OperationState<NetworkSecurityPerimeterConfiguration>, NetworkSecurityPerimeterConfiguration>;
@@ -762,6 +795,10 @@ export interface OperationResultsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface OperationResultsOperations {
+    // @deprecated (undocumented)
+    beginGet: (operationResultId: string, options?: OperationResultsGetOptionalParams) => Promise<SimplePollerLike<OperationState<OperationResultsDescription>, OperationResultsDescription>>;
+    // @deprecated (undocumented)
+    beginGetAndWait: (operationResultId: string, options?: OperationResultsGetOptionalParams) => Promise<OperationResultsDescription>;
     get: (operationResultId: string, options?: OperationResultsGetOptionalParams) => PollerLike<OperationState<OperationResultsDescription>, OperationResultsDescription>;
 }
 
@@ -1022,6 +1059,28 @@ export interface ServiceProviderResponseList {
 
 // @public
 export type Severity = string;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export interface Site {

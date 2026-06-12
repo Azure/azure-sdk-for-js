@@ -19,11 +19,11 @@ async function updateAlexaChannel(): Promise<void> {
     "samplebotname",
     "AlexaChannel",
     {
-      location: "global",
       properties: {
         channelName: "AlexaChannel",
         properties: { alexaSkillId: "XAlexaSkillIdX", isEnabled: true },
       },
+      location: "global",
     },
   );
   console.log(result);
@@ -44,11 +44,11 @@ async function updateChannel(): Promise<void> {
     "samplebotname",
     "EmailChannel",
     {
-      location: "global",
       properties: {
         channelName: "EmailChannel",
         properties: { emailAddress: "a@b.com", isEnabled: true, password: "pwd" },
       },
+      location: "global",
     },
   );
   console.log(result);
@@ -69,7 +69,6 @@ async function updateDirectLineSpeechChannel(): Promise<void> {
     "samplebotname",
     "DirectLineSpeechChannel",
     {
-      location: "global",
       properties: {
         channelName: "DirectLineSpeechChannel",
         properties: {
@@ -78,6 +77,7 @@ async function updateDirectLineSpeechChannel(): Promise<void> {
           isEnabled: true,
         },
       },
+      location: "global",
     },
   );
   console.log(result);
@@ -98,7 +98,6 @@ async function updateLineChannel(): Promise<void> {
     "samplebotname",
     "LineChannel",
     {
-      location: "global",
       properties: {
         channelName: "LineChannel",
         properties: {
@@ -107,6 +106,7 @@ async function updateLineChannel(): Promise<void> {
           ],
         },
       },
+      location: "global",
     },
   );
   console.log(result);
