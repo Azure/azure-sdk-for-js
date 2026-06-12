@@ -271,7 +271,7 @@ Compose a single GitHub PR comment (not a review) with:
   - **Note:** Always include the real ADO `target_url` link; never use placeholder URLs.
 - Keep concise (target <= 15 lines). If nothing blocks: `## PR is ready to merge`.
 
-Post via `add_comment` exactly once. Use `hide-older-comments: true` to avoid duplicates. Include marker `<!-- gh-aw-workflow-id: mgmt-review -->` in the body.
+Post via `add-comment` exactly once. Use `hide-older-comments: true` to avoid duplicates. Include marker `<!-- gh-aw-workflow-id: mgmt-review -->` in the body.
 
 ### Required Output Template
 
