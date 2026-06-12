@@ -86,7 +86,13 @@ Write-Host "##[group]Deploying Identity Docker image to ACR"
 az acr login -n $DeploymentOutputs['IDENTITY_ACR_NAME']
 $loginServer = $DeploymentOutputs['IDENTITY_ACR_LOGIN_SERVER']
 $image = "$loginServer/identity-aks-test-image"
-docker build --no-cache -t $image "$workingFolder/AzureKubernetes"
+
+$kubernetesContext = "$workingFolder/AzureKubernetes"
+$kubernetesNpmrc = "$kubernetesContext/.npmrc"
+$sourceNpmrc = $env:NPM_CONFIG_USERCONFIG
+Write-Host "Copying authenticated .npmrc from $sourceNpmrc to $kubernetesNpmrc"
+Copy-Item -Path $sourceNpmrc -Destination $kubernetesNpmrc -Force
+docker build --no-cache -t $image $kubernetesContext
 docker push $image
 
 Write-Host "Deployed image to ACR"
