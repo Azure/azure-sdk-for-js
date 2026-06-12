@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed a CPU-saturating deactivate/reactivate loop in Live Metrics that occurred when live-endpoint posts failed while subscribed.
+
 ### Other Changes
 
 ## 1.18.1 (2026-05-29)

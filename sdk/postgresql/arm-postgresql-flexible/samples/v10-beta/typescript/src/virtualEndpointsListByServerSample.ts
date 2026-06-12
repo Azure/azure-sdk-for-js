@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists pair of virtual endpoints associated to a server.
  *
  * @summary lists pair of virtual endpoints associated to a server.
- * x-ms-original-file: 2026-01-01-preview/VirtualEndpointsListByServer.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualEndpointsListByServer.json
  */
 async function listPairOfVirtualEndpointsAssociatedToAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

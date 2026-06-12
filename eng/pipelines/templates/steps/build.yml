@@ -26,7 +26,7 @@ steps:
   - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
 
   - script: |
-      npm install -g pnpm
+      npm install -g pnpm@10.34.2
     displayName: "Install Pnpm"
 
   - script: |

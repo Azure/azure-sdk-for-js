@@ -112,7 +112,7 @@ async function main() {
   // Analyze specific pages using contentRange.
   // Page markers in the output will use the original document page numbers,
   // so even though we only requested pages 2-3 and 5, the markers will say
-  // <!-- page 2 -->, <!-- page 3 -->, <!-- page 5 --> (not 1, 2, 3).
+  // <!-- InputPageNumber: 2 -->, <!-- InputPageNumber: 3 -->, <!-- InputPageNumber: 5 --> (not 1, 2, 3).
   console.log("Analyzing pages 2-3 and 5 of a multi-page PDF...");
   console.log(`  URL: ${multiPageUrl}`);
   console.log("  contentRange: '2-3,5'\n");

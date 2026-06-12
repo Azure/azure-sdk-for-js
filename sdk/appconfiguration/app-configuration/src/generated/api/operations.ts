@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureAppConfigurationContext as Client } from "./index.js";
+import { AppConfigurationContext as Client } from "./index.js";
 import {
   _KeyListResult,
   _keyListResultDeserializer,
@@ -164,6 +164,7 @@ export function _getRevisionsSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.kvset+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -228,6 +229,7 @@ export function _deleteLockSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -282,6 +284,7 @@ export function _putLockSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -399,6 +402,7 @@ export function _getLabelsSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.labelset+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -518,6 +522,7 @@ export function _updateSnapshotSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.snapshot+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
       body: snapshotUpdateParametersSerializer(entity),
@@ -574,6 +579,7 @@ export function _createSnapshotSend(
       contentType: contentType,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
+        accept: "application/vnd.microsoft.appconfig.snapshot+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
       body: configurationSnapshotSerializer(entity),
@@ -695,6 +701,7 @@ export function _getSnapshotSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.snapshot+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -804,6 +811,7 @@ export function _getSnapshotsSend(
       ...operationOptionsToRequestParameters(options),
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
+        accept: "application/vnd.microsoft.appconfig.snapshotset+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -934,6 +942,7 @@ export function _deleteKeyValueSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -996,9 +1005,10 @@ export function _putKeyValueSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
-      body: !options["entity"] ? options["entity"] : keyValueSerializer(options["entity"]),
+      body: !options?.entity ? options?.entity : keyValueSerializer(options?.entity),
     });
 }
 
@@ -1071,6 +1081,7 @@ export function _getKeyValueSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -1203,6 +1214,7 @@ export function _getKeyValuesSend(
           : {}),
         ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
         ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        accept: "application/vnd.microsoft.appconfig.kvset+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -1317,6 +1329,7 @@ export function _getKeysSend(
         ...(options?.acceptDatetime !== undefined
           ? { "accept-datetime": options?.acceptDatetime }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.keyset+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
