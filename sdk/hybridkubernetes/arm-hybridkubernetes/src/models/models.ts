@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
 import { stringToUint8Array } from "@azure/core-util";
 
 /**
@@ -933,27 +932,16 @@ export type CreatedByType = string;
 export interface ConnectedClusterPatch {
   /** Resource tags. */
   tags?: Record<string, string>;
-  /** Represents the distribution of the connected cluster */
-  distribution?: string;
-  /** Represents the Kubernetes distribution version on this connected cluster. */
-  distributionVersion?: string;
-  /** Indicates whether Azure Hybrid Benefit is opted in */
-  azureHybridBenefit?: AzureHybridBenefit;
-  /** Indicates whether Gateway is enabled for the connected cluster resource */
-  gateway?: Gateway;
+  /** Describes the connected cluster resource properties that can be updated during PATCH operation. */
+  properties?: ConnectedClusterPatchProperties;
 }
 
 export function connectedClusterPatchSerializer(item: ConnectedClusterPatch): any {
   return {
     tags: item["tags"],
-    properties: areAllPropsUndefined(item, [
-      "distribution",
-      "distributionVersion",
-      "azureHybridBenefit",
-      "gateway",
-    ])
-      ? undefined
-      : _connectedClusterPatchPropertiesSerializer(item),
+    properties: !item["properties"]
+      ? item["properties"]
+      : connectedClusterPatchPropertiesSerializer(item["properties"]),
   };
 }
 
@@ -1186,14 +1174,5 @@ export function _connectedClusterPropertiesDeserializer(item: any) {
       : Object.fromEntries(
           Object.entries(item["miscellaneousProperties"]).map(([k, p]: [string, any]) => [k, p]),
         ),
-  };
-}
-
-export function _connectedClusterPatchPropertiesSerializer(item: ConnectedClusterPatch): any {
-  return {
-    distribution: item["distribution"],
-    distributionVersion: item["distributionVersion"],
-    azureHybridBenefit: item["azureHybridBenefit"],
-    gateway: !item["gateway"] ? item["gateway"] : gatewaySerializer(item["gateway"]),
   };
 }

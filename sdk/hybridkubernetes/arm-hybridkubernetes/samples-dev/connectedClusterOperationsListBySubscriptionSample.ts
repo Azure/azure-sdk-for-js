@@ -15,7 +15,7 @@ async function getClustersBySubscriptionExample(): Promise<void> {
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.connectedCluster.listBySubscription()) {
+  for await (const item of client.connectedClusterOperations.listBySubscription()) {
     resArray.push(item);
   }
 

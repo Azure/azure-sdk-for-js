@@ -14,7 +14,7 @@ async function listConnectedClusterOperationsExample() {
   const credential = new DefaultAzureCredential();
   const client = new ConnectedKubernetesClient(credential);
   const resArray = new Array();
-  for await (const item of client.operations.get()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
 

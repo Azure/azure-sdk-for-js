@@ -7,13 +7,13 @@ import { _operationListDeserializer, errorResponseDeserializer } from "../../mod
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { OperationsGetOptionalParams } from "./options.js";
+import type { OperationsListOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
-export function _getSend(
+export function _listSend(
   context: Client,
-  options: OperationsGetOptionalParams = { requestOptions: {} },
+  options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Kubernetes/operations{?api%2Dversion}",
@@ -30,7 +30,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<_OperationList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_OperationList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -45,14 +45,14 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<_O
 }
 
 /** List the operations for the provider */
-export function get(
+export function list(
   context: Client,
-  options: OperationsGetOptionalParams = { requestOptions: {} },
+  options: OperationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Operation> {
   return buildPagedAsyncIterator(
     context,
-    () => _getSend(context, options),
-    _getDeserialize,
+    () => _listSend(context, options),
+    _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-01" },
   );

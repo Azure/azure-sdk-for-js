@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ConnectedKubernetesClient } = require("@azure/arm-hybridkubernetes");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to aPI to register a new Kubernetes cluster and create or replace a connected cluster tracked resource in Azure Resource Manager (ARM).
@@ -10,11 +10,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary aPI to register a new Kubernetes cluster and create or replace a connected cluster tracked resource in Azure Resource Manager (ARM).
  * x-ms-original-file: 2026-05-01/CreateClusterExample.json
  */
-async function createClusterExample(): Promise<void> {
+async function createClusterExample() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
-  const result = await client.connectedCluster.createOrReplace("k8sc-rg", "testCluster", {
+  const result = await client.connectedClusterOperations.createOrReplace("k8sc-rg", "testCluster", {
     identity: { type: "SystemAssigned" },
     location: "East US",
     agentPublicKeyCertificate:
@@ -33,11 +33,11 @@ async function createClusterExample(): Promise<void> {
  * @summary aPI to register a new Kubernetes cluster and create or replace a connected cluster tracked resource in Azure Resource Manager (ARM).
  * x-ms-original-file: 2026-05-01/CreateClusterPrivateLinkExample.json
  */
-async function createClusterPrivateLinkExample(): Promise<void> {
+async function createClusterPrivateLinkExample() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
-  const result = await client.connectedCluster.createOrReplace("k8sc-rg", "testCluster", {
+  const result = await client.connectedClusterOperations.createOrReplace("k8sc-rg", "testCluster", {
     identity: { type: "SystemAssigned" },
     location: "East US",
     agentPublicKeyCertificate:
@@ -59,11 +59,11 @@ async function createClusterPrivateLinkExample(): Promise<void> {
  * @summary aPI to register a new Kubernetes cluster and create or replace a connected cluster tracked resource in Azure Resource Manager (ARM).
  * x-ms-original-file: 2026-05-01/CreateCluster_KindExample.json
  */
-async function createClusterKindExample(): Promise<void> {
+async function createClusterKindExample() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
-  const result = await client.connectedCluster.createOrReplace("k8sc-rg", "testCluster", {
+  const result = await client.connectedClusterOperations.createOrReplace("k8sc-rg", "testCluster", {
     identity: { type: "SystemAssigned" },
     kind: "ProvisionedCluster",
     location: "East US",
@@ -93,11 +93,11 @@ async function createClusterKindExample(): Promise<void> {
  * @summary aPI to register a new Kubernetes cluster and create or replace a connected cluster tracked resource in Azure Resource Manager (ARM).
  * x-ms-original-file: 2026-05-01/UpdateClusterByPutExample.json
  */
-async function updateClusterByPutExample(): Promise<void> {
+async function updateClusterByPutExample() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
-  const result = await client.connectedCluster.createOrReplace("k8sc-rg", "testCluster", {
+  const result = await client.connectedClusterOperations.createOrReplace("k8sc-rg", "testCluster", {
     identity: { type: "SystemAssigned" },
     location: "East US",
     agentPublicKeyCertificate:
@@ -111,7 +111,7 @@ async function updateClusterByPutExample(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await createClusterExample();
   await createClusterPrivateLinkExample();
   await createClusterKindExample();

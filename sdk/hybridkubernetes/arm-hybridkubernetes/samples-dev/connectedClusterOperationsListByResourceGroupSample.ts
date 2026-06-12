@@ -15,7 +15,7 @@ async function getClustersExample(): Promise<void> {
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.connectedCluster.listByResourceGroup("k8sc-rg")) {
+  for await (const item of client.connectedClusterOperations.listByResourceGroup("k8sc-rg")) {
     resArray.push(item);
   }
 

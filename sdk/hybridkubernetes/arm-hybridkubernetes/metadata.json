@@ -52,14 +52,14 @@
       "@azure/arm-hybridkubernetes!ConnectedClusterPropertiesArcAgentryConfigurations:type": "Microsoft.Kubernetes.ConnectedClusterProperties.arcAgentryConfigurations.anonymous",
       "@azure/arm-hybridkubernetes!ArcAgentryConfigurationsSettings:type": "Microsoft.Kubernetes.ArcAgentryConfigurations.settings.anonymous",
       "@azure/arm-hybridkubernetes!ArcAgentryConfigurationsProtectedSettings:type": "Microsoft.Kubernetes.ArcAgentryConfigurations.protectedSettings.anonymous",
-      "@azure/arm-hybridkubernetes!ConnectedClusterOperations#listClusterUserCredential:member": "Microsoft.Kubernetes.ConnectedClusters.listClusterUserCredential",
-      "@azure/arm-hybridkubernetes!ConnectedClusterOperations#listBySubscription:member": "Microsoft.Kubernetes.ConnectedClusters.listBySubscription",
-      "@azure/arm-hybridkubernetes!ConnectedClusterOperations#listByResourceGroup:member": "Microsoft.Kubernetes.ConnectedClusters.listByResourceGroup",
-      "@azure/arm-hybridkubernetes!ConnectedClusterOperations#delete:member": "Microsoft.Kubernetes.ConnectedClusters.delete",
-      "@azure/arm-hybridkubernetes!ConnectedClusterOperations#updateAsync:member": "Microsoft.Kubernetes.ConnectedClusters.updateAsync",
-      "@azure/arm-hybridkubernetes!ConnectedClusterOperations#createOrReplace:member": "Microsoft.Kubernetes.ConnectedClusters.createOrReplace",
-      "@azure/arm-hybridkubernetes!ConnectedClusterOperations#get:member": "Microsoft.Kubernetes.ConnectedClusters.get",
-      "@azure/arm-hybridkubernetes!OperationsOperations#Get:member": "Azure.ResourceManager.Legacy.Operations.list"
+      "@azure/arm-hybridkubernetes!ConnectedClusterOperationsOperations#listClusterUserCredential:member": "Microsoft.Kubernetes.ConnectedClusters.listClusterUserCredential",
+      "@azure/arm-hybridkubernetes!ConnectedClusterOperationsOperations#listBySubscription:member": "Microsoft.Kubernetes.ConnectedClusters.listBySubscription",
+      "@azure/arm-hybridkubernetes!ConnectedClusterOperationsOperations#listByResourceGroup:member": "Microsoft.Kubernetes.ConnectedClusters.listByResourceGroup",
+      "@azure/arm-hybridkubernetes!ConnectedClusterOperationsOperations#delete:member": "Microsoft.Kubernetes.ConnectedClusters.delete",
+      "@azure/arm-hybridkubernetes!ConnectedClusterOperationsOperations#updateAsync:member": "Microsoft.Kubernetes.ConnectedClusters.updateAsync",
+      "@azure/arm-hybridkubernetes!ConnectedClusterOperationsOperations#createOrReplace:member": "Microsoft.Kubernetes.ConnectedClusters.createOrReplace",
+      "@azure/arm-hybridkubernetes!ConnectedClusterOperationsOperations#get:member": "Microsoft.Kubernetes.ConnectedClusters.get",
+      "@azure/arm-hybridkubernetes!OperationsOperations#list:member": "Azure.ResourceManager.Legacy.Operations.list"
     }
   }
 }

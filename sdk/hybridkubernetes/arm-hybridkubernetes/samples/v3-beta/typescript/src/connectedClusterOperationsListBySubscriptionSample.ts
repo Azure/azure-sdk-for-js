@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ConnectedKubernetesClient } = require("@azure/arm-hybridkubernetes");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to aPI to enumerate registered connected K8s clusters under a Subscription
@@ -10,19 +10,19 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary aPI to enumerate registered connected K8s clusters under a Subscription
  * x-ms-original-file: 2026-05-01/GetClustersBySubscriptionExample.json
  */
-async function getClustersBySubscriptionExample() {
+async function getClustersBySubscriptionExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.connectedCluster.listBySubscription()) {
+  for await (const item of client.connectedClusterOperations.listBySubscription()) {
     resArray.push(item);
   }
 
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getClustersBySubscriptionExample();
 }
 

@@ -6,8 +6,8 @@ import type {
   ConnectedKubernetesClientOptionalParams,
 } from "./api/index.js";
 import { createConnectedKubernetes } from "./api/index.js";
-import type { ConnectedClusterOperations } from "./classic/connectedCluster/index.js";
-import { _getConnectedClusterOperations } from "./classic/connectedCluster/index.js";
+import type { ConnectedClusterOperationsOperations } from "./classic/connectedClusterOperations/index.js";
+import { _getConnectedClusterOperationsOperations } from "./classic/connectedClusterOperations/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { TokenCredential } from "@azure/core-auth";
@@ -49,12 +49,12 @@ export class ConnectedKubernetesClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.connectedCluster = _getConnectedClusterOperations(this._client);
+    this.connectedClusterOperations = _getConnectedClusterOperationsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for connectedCluster */
-  public readonly connectedCluster: ConnectedClusterOperations;
+  /** The operation groups for connectedClusterOperations */
+  public readonly connectedClusterOperations: ConnectedClusterOperationsOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
 }

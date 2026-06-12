@@ -14,11 +14,13 @@ async function updateClusterExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
-  const result = await client.connectedCluster.updateAsync("k8sc-rg", "testCluster", {
-    azureHybridBenefit: "NotApplicable",
-    distribution: "AKS",
-    distributionVersion: "1.0",
-    gateway: { enabled: true },
+  const result = await client.connectedClusterOperations.updateAsync("k8sc-rg", "testCluster", {
+    properties: {
+      azureHybridBenefit: "NotApplicable",
+      distribution: "AKS",
+      distributionVersion: "1.0",
+      gateway: { enabled: true },
+    },
     tags: { tag1: "value1", tag2: "value2" },
   });
   console.log(result);

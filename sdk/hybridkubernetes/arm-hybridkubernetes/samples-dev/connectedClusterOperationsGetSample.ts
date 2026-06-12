@@ -14,7 +14,7 @@ async function getClusterExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
-  const result = await client.connectedCluster.get("k8sc-rg", "testCluster");
+  const result = await client.connectedClusterOperations.get("k8sc-rg", "testCluster");
   console.log(result);
 }
 
@@ -28,7 +28,7 @@ async function getProvisionedClusterExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
-  const result = await client.connectedCluster.get("k8sc-rg", "testCluster");
+  const result = await client.connectedClusterOperations.get("k8sc-rg", "testCluster");
   console.log(result);
 }
 

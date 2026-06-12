@@ -67,16 +67,19 @@ export {
 } from "./models/index.js";
 export type { ConnectedKubernetesClientOptionalParams } from "./api/index.js";
 export type {
-  ConnectedClusterListClusterUserCredentialOptionalParams,
-  ConnectedClusterListBySubscriptionOptionalParams,
-  ConnectedClusterListByResourceGroupOptionalParams,
-  ConnectedClusterDeleteOptionalParams,
-  ConnectedClusterUpdateAsyncOptionalParams,
-  ConnectedClusterCreateOrReplaceOptionalParams,
-  ConnectedClusterGetOptionalParams,
-} from "./api/connectedCluster/index.js";
-export type { OperationsGetOptionalParams } from "./api/operations/index.js";
-export type { ConnectedClusterOperations, OperationsOperations } from "./classic/index.js";
+  ConnectedClusterOperationsListClusterUserCredentialOptionalParams,
+  ConnectedClusterOperationsListBySubscriptionOptionalParams,
+  ConnectedClusterOperationsListByResourceGroupOptionalParams,
+  ConnectedClusterOperationsDeleteOptionalParams,
+  ConnectedClusterOperationsUpdateAsyncOptionalParams,
+  ConnectedClusterOperationsCreateOrReplaceOptionalParams,
+  ConnectedClusterOperationsGetOptionalParams,
+} from "./api/connectedClusterOperations/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
+  ConnectedClusterOperationsOperations,
+  OperationsOperations,
+} from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };

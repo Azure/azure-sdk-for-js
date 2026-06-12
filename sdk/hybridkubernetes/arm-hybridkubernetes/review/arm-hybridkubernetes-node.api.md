@@ -99,20 +99,6 @@ export interface ConnectedCluster extends TrackedResource {
 }
 
 // @public
-export interface ConnectedClusterCreateOrReplaceOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ConnectedClusterDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ConnectedClusterGetOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface ConnectedClusterIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -123,46 +109,62 @@ export interface ConnectedClusterIdentity {
 export type ConnectedClusterKind = string;
 
 // @public
-export interface ConnectedClusterListByResourceGroupOptionalParams extends OperationOptions {
+export interface ConnectedClusterOperationsCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface ConnectedClusterListBySubscriptionOptionalParams extends OperationOptions {
+export interface ConnectedClusterOperationsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface ConnectedClusterListClusterUserCredentialOptionalParams extends OperationOptions {
+export interface ConnectedClusterOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConnectedClusterOperations {
+export interface ConnectedClusterOperationsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConnectedClusterOperationsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConnectedClusterOperationsListClusterUserCredentialOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConnectedClusterOperationsOperations {
     // @deprecated (undocumented)
-    beginCreateOrReplace: (resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClusterCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<ConnectedCluster>, ConnectedCluster>>;
+    beginCreateOrReplace: (resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClusterOperationsCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<ConnectedCluster>, ConnectedCluster>>;
     // @deprecated (undocumented)
-    beginCreateOrReplaceAndWait: (resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClusterCreateOrReplaceOptionalParams) => Promise<ConnectedCluster>;
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClusterOperationsCreateOrReplaceOptionalParams) => Promise<ConnectedCluster>;
     // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, clusterName: string, options?: ConnectedClusterDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete: (resourceGroupName: string, clusterName: string, options?: ConnectedClusterOperationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, options?: ConnectedClusterDeleteOptionalParams) => Promise<void>;
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, options?: ConnectedClusterOperationsDeleteOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginUpdateAsync: (resourceGroupName: string, clusterName: string, connectedClusterPatch: ConnectedClusterPatch, options?: ConnectedClusterUpdateAsyncOptionalParams) => Promise<SimplePollerLike<OperationState<ConnectedCluster>, ConnectedCluster>>;
+    beginUpdateAsync: (resourceGroupName: string, clusterName: string, connectedClusterPatch: ConnectedClusterPatch, options?: ConnectedClusterOperationsUpdateAsyncOptionalParams) => Promise<SimplePollerLike<OperationState<ConnectedCluster>, ConnectedCluster>>;
     // @deprecated (undocumented)
-    beginUpdateAsyncAndWait: (resourceGroupName: string, clusterName: string, connectedClusterPatch: ConnectedClusterPatch, options?: ConnectedClusterUpdateAsyncOptionalParams) => Promise<ConnectedCluster>;
-    createOrReplace: (resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClusterCreateOrReplaceOptionalParams) => PollerLike<OperationState<ConnectedCluster>, ConnectedCluster>;
-    delete: (resourceGroupName: string, clusterName: string, options?: ConnectedClusterDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, clusterName: string, options?: ConnectedClusterGetOptionalParams) => Promise<ConnectedCluster>;
-    listByResourceGroup: (resourceGroupName: string, options?: ConnectedClusterListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ConnectedCluster>;
-    listBySubscription: (options?: ConnectedClusterListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ConnectedCluster>;
-    listClusterUserCredential: (resourceGroupName: string, clusterName: string, properties: ListClusterUserCredentialProperties, options?: ConnectedClusterListClusterUserCredentialOptionalParams) => Promise<CredentialResults>;
-    updateAsync: (resourceGroupName: string, clusterName: string, connectedClusterPatch: ConnectedClusterPatch, options?: ConnectedClusterUpdateAsyncOptionalParams) => PollerLike<OperationState<ConnectedCluster>, ConnectedCluster>;
+    beginUpdateAsyncAndWait: (resourceGroupName: string, clusterName: string, connectedClusterPatch: ConnectedClusterPatch, options?: ConnectedClusterOperationsUpdateAsyncOptionalParams) => Promise<ConnectedCluster>;
+    createOrReplace: (resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClusterOperationsCreateOrReplaceOptionalParams) => PollerLike<OperationState<ConnectedCluster>, ConnectedCluster>;
+    delete: (resourceGroupName: string, clusterName: string, options?: ConnectedClusterOperationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, options?: ConnectedClusterOperationsGetOptionalParams) => Promise<ConnectedCluster>;
+    listByResourceGroup: (resourceGroupName: string, options?: ConnectedClusterOperationsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ConnectedCluster>;
+    listBySubscription: (options?: ConnectedClusterOperationsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ConnectedCluster>;
+    listClusterUserCredential: (resourceGroupName: string, clusterName: string, properties: ListClusterUserCredentialProperties, options?: ConnectedClusterOperationsListClusterUserCredentialOptionalParams) => Promise<CredentialResults>;
+    updateAsync: (resourceGroupName: string, clusterName: string, connectedClusterPatch: ConnectedClusterPatch, options?: ConnectedClusterOperationsUpdateAsyncOptionalParams) => PollerLike<OperationState<ConnectedCluster>, ConnectedCluster>;
+}
+
+// @public
+export interface ConnectedClusterOperationsUpdateAsyncOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
 export interface ConnectedClusterPatch {
-    azureHybridBenefit?: AzureHybridBenefit;
-    distribution?: string;
-    distributionVersion?: string;
-    gateway?: Gateway;
+    properties?: ConnectedClusterPatchProperties;
     tags?: Record<string, string>;
 }
 
@@ -201,16 +203,11 @@ export interface ConnectedClusterProperties {
     readonly totalNodeCount?: number;
 }
 
-// @public
-export interface ConnectedClusterUpdateAsyncOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
 // @public (undocumented)
 export class ConnectedKubernetesClient {
     constructor(credential: TokenCredential, options?: ConnectedKubernetesClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: ConnectedKubernetesClientOptionalParams);
-    readonly connectedCluster: ConnectedClusterOperations;
+    readonly connectedClusterOperations: ConnectedClusterOperationsOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
 }
@@ -387,12 +384,12 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsGetOptionalParams extends OperationOptions {
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface OperationsOperations {
-    get: (options?: OperationsGetOptionalParams) => PagedAsyncIterableIterator<Operation>;
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public

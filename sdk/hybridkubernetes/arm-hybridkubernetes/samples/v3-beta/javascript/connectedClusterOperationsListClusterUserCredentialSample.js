@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ConnectedKubernetesClient } = require("@azure/arm-hybridkubernetes");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to gets cluster user credentials of the connected cluster with a specified resource group and name.
@@ -10,14 +10,15 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets cluster user credentials of the connected cluster with a specified resource group and name.
  * x-ms-original-file: 2026-05-01/ConnectedClustersListClusterCredentialResultCSPAAD.json
  */
-async function listClusterUserCredentialExample(): Promise<void> {
+async function listClusterUserCredentialExample() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
-  const result = await client.connectedCluster.listClusterUserCredential("k8sc-rg", "testCluster", {
-    authenticationMethod: "AAD",
-    clientProxy: true,
-  });
+  const result = await client.connectedClusterOperations.listClusterUserCredential(
+    "k8sc-rg",
+    "testCluster",
+    { authenticationMethod: "AAD", clientProxy: true },
+  );
   console.log(result);
 }
 
@@ -27,14 +28,15 @@ async function listClusterUserCredentialExample(): Promise<void> {
  * @summary gets cluster user credentials of the connected cluster with a specified resource group and name.
  * x-ms-original-file: 2026-05-01/ConnectedClustersListClusterCredentialResultCSPToken.json
  */
-async function listClusterUserCredentialNonAadExample(): Promise<void> {
+async function listClusterUserCredentialNonAadExample() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
-  const result = await client.connectedCluster.listClusterUserCredential("k8sc-rg", "testCluster", {
-    authenticationMethod: "Token",
-    clientProxy: true,
-  });
+  const result = await client.connectedClusterOperations.listClusterUserCredential(
+    "k8sc-rg",
+    "testCluster",
+    { authenticationMethod: "Token", clientProxy: true },
+  );
   console.log(result);
 }
 
@@ -44,14 +46,15 @@ async function listClusterUserCredentialNonAadExample(): Promise<void> {
  * @summary gets cluster user credentials of the connected cluster with a specified resource group and name.
  * x-ms-original-file: 2026-05-01/ConnectedClustersListClusterCredentialResultHPAAD.json
  */
-async function listClusterUserCredentialCSPExample(): Promise<void> {
+async function listClusterUserCredentialCSPExample() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
-  const result = await client.connectedCluster.listClusterUserCredential("k8sc-rg", "testCluster", {
-    authenticationMethod: "AAD",
-    clientProxy: false,
-  });
+  const result = await client.connectedClusterOperations.listClusterUserCredential(
+    "k8sc-rg",
+    "testCluster",
+    { authenticationMethod: "AAD", clientProxy: false },
+  );
   console.log(result);
 }
 
@@ -61,18 +64,19 @@ async function listClusterUserCredentialCSPExample(): Promise<void> {
  * @summary gets cluster user credentials of the connected cluster with a specified resource group and name.
  * x-ms-original-file: 2026-05-01/ConnectedClustersListClusterCredentialResultHPToken.json
  */
-async function listClusterUserCredentialNonAadCSPExample(): Promise<void> {
+async function listClusterUserCredentialNonAadCSPExample() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
-  const result = await client.connectedCluster.listClusterUserCredential("k8sc-rg", "testCluster", {
-    authenticationMethod: "Token",
-    clientProxy: false,
-  });
+  const result = await client.connectedClusterOperations.listClusterUserCredential(
+    "k8sc-rg",
+    "testCluster",
+    { authenticationMethod: "Token", clientProxy: false },
+  );
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await listClusterUserCredentialExample();
   await listClusterUserCredentialNonAadExample();
   await listClusterUserCredentialCSPExample();

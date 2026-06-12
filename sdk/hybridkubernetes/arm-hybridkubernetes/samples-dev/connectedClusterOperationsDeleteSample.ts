@@ -14,7 +14,7 @@ async function deleteClusterExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
-  await client.connectedCluster.delete("k8sc-rg", "testCluster");
+  await client.connectedClusterOperations.delete("k8sc-rg", "testCluster");
 }
 
 async function main(): Promise<void> {

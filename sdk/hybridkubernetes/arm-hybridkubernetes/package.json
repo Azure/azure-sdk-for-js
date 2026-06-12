@@ -48,18 +48,18 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
-    "./api/connectedCluster": {
+    "./api/connectedClusterOperations": {
       "browser": {
-        "types": "./dist/browser/api/connectedCluster/index.d.ts",
-        "default": "./dist/browser/api/connectedCluster/index.js"
+        "types": "./dist/browser/api/connectedClusterOperations/index.d.ts",
+        "default": "./dist/browser/api/connectedClusterOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/connectedCluster/index.d.ts",
-        "default": "./dist/esm/api/connectedCluster/index.js"
+        "types": "./dist/esm/api/connectedClusterOperations/index.d.ts",
+        "default": "./dist/esm/api/connectedClusterOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/connectedCluster/index.d.ts",
-        "default": "./dist/commonjs/api/connectedCluster/index.js"
+        "types": "./dist/commonjs/api/connectedClusterOperations/index.d.ts",
+        "default": "./dist/commonjs/api/connectedClusterOperations/index.js"
       }
     },
     "./api/operations": {

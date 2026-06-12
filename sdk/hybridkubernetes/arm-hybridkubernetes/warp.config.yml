@@ -4,7 +4,7 @@ exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
-  "./api/connectedCluster": "./src/api/connectedCluster/index.ts"
+  "./api/connectedClusterOperations": "./src/api/connectedClusterOperations/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
 

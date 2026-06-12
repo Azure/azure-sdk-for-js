@@ -23,13 +23,13 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  ConnectedClusterListClusterUserCredentialOptionalParams,
-  ConnectedClusterListBySubscriptionOptionalParams,
-  ConnectedClusterListByResourceGroupOptionalParams,
-  ConnectedClusterDeleteOptionalParams,
-  ConnectedClusterUpdateAsyncOptionalParams,
-  ConnectedClusterCreateOrReplaceOptionalParams,
-  ConnectedClusterGetOptionalParams,
+  ConnectedClusterOperationsListClusterUserCredentialOptionalParams,
+  ConnectedClusterOperationsListBySubscriptionOptionalParams,
+  ConnectedClusterOperationsListByResourceGroupOptionalParams,
+  ConnectedClusterOperationsDeleteOptionalParams,
+  ConnectedClusterOperationsUpdateAsyncOptionalParams,
+  ConnectedClusterOperationsCreateOrReplaceOptionalParams,
+  ConnectedClusterOperationsGetOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -40,7 +40,9 @@ export function _listClusterUserCredentialSend(
   resourceGroupName: string,
   clusterName: string,
   properties: ListClusterUserCredentialProperties,
-  options: ConnectedClusterListClusterUserCredentialOptionalParams = { requestOptions: {} },
+  options: ConnectedClusterOperationsListClusterUserCredentialOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}/listClusterUserCredential{?api%2Dversion}",
@@ -84,7 +86,9 @@ export async function listClusterUserCredential(
   resourceGroupName: string,
   clusterName: string,
   properties: ListClusterUserCredentialProperties,
-  options: ConnectedClusterListClusterUserCredentialOptionalParams = { requestOptions: {} },
+  options: ConnectedClusterOperationsListClusterUserCredentialOptionalParams = {
+    requestOptions: {},
+  },
 ): Promise<CredentialResults> {
   const result = await _listClusterUserCredentialSend(
     context,
@@ -98,7 +102,7 @@ export async function listClusterUserCredential(
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: ConnectedClusterListBySubscriptionOptionalParams = { requestOptions: {} },
+  options: ConnectedClusterOperationsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Kubernetes/connectedClusters{?api%2Dversion}",
@@ -135,7 +139,7 @@ export async function _listBySubscriptionDeserialize(
 /** API to enumerate registered connected K8s clusters under a Subscription */
 export function listBySubscription(
   context: Client,
-  options: ConnectedClusterListBySubscriptionOptionalParams = { requestOptions: {} },
+  options: ConnectedClusterOperationsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ConnectedCluster> {
   return buildPagedAsyncIterator(
     context,
@@ -149,7 +153,7 @@ export function listBySubscription(
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: ConnectedClusterListByResourceGroupOptionalParams = { requestOptions: {} },
+  options: ConnectedClusterOperationsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters{?api%2Dversion}",
@@ -188,7 +192,7 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: ConnectedClusterListByResourceGroupOptionalParams = { requestOptions: {} },
+  options: ConnectedClusterOperationsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ConnectedCluster> {
   return buildPagedAsyncIterator(
     context,
@@ -203,7 +207,7 @@ export function _$deleteSend(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  options: ConnectedClusterDeleteOptionalParams = { requestOptions: {} },
+  options: ConnectedClusterOperationsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}{?api%2Dversion}",
@@ -239,7 +243,7 @@ export function $delete(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  options: ConnectedClusterDeleteOptionalParams = { requestOptions: {} },
+  options: ConnectedClusterOperationsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -255,7 +259,7 @@ export function _updateAsyncSend(
   resourceGroupName: string,
   clusterName: string,
   connectedClusterPatch: ConnectedClusterPatch,
-  options: ConnectedClusterUpdateAsyncOptionalParams = { requestOptions: {} },
+  options: ConnectedClusterOperationsUpdateAsyncOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}{?api%2Dversion}",
@@ -299,7 +303,7 @@ export function updateAsync(
   resourceGroupName: string,
   clusterName: string,
   connectedClusterPatch: ConnectedClusterPatch,
-  options: ConnectedClusterUpdateAsyncOptionalParams = { requestOptions: {} },
+  options: ConnectedClusterOperationsUpdateAsyncOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ConnectedCluster>, ConnectedCluster> {
   return getLongRunningPoller(context, _updateAsyncDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -316,7 +320,7 @@ export function _createOrReplaceSend(
   resourceGroupName: string,
   clusterName: string,
   connectedCluster: ConnectedCluster,
-  options: ConnectedClusterCreateOrReplaceOptionalParams = { requestOptions: {} },
+  options: ConnectedClusterOperationsCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}{?api%2Dversion}",
@@ -360,7 +364,7 @@ export function createOrReplace(
   resourceGroupName: string,
   clusterName: string,
   connectedCluster: ConnectedCluster,
-  options: ConnectedClusterCreateOrReplaceOptionalParams = { requestOptions: {} },
+  options: ConnectedClusterOperationsCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ConnectedCluster>, ConnectedCluster> {
   return getLongRunningPoller(context, _createOrReplaceDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -376,7 +380,7 @@ export function _getSend(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  options: ConnectedClusterGetOptionalParams = { requestOptions: {} },
+  options: ConnectedClusterOperationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}{?api%2Dversion}",
@@ -415,7 +419,7 @@ export async function get(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  options: ConnectedClusterGetOptionalParams = { requestOptions: {} },
+  options: ConnectedClusterOperationsGetOptionalParams = { requestOptions: {} },
 ): Promise<ConnectedCluster> {
   const result = await _getSend(context, resourceGroupName, clusterName, options);
   return _getDeserialize(result);

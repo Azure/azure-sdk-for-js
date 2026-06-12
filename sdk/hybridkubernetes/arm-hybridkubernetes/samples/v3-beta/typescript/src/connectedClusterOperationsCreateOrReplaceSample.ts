@@ -14,7 +14,7 @@ async function createClusterExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
-  const result = await client.connectedCluster.createOrReplace("k8sc-rg", "testCluster", {
+  const result = await client.connectedClusterOperations.createOrReplace("k8sc-rg", "testCluster", {
     identity: { type: "SystemAssigned" },
     location: "East US",
     agentPublicKeyCertificate:
@@ -37,7 +37,7 @@ async function createClusterPrivateLinkExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
-  const result = await client.connectedCluster.createOrReplace("k8sc-rg", "testCluster", {
+  const result = await client.connectedClusterOperations.createOrReplace("k8sc-rg", "testCluster", {
     identity: { type: "SystemAssigned" },
     location: "East US",
     agentPublicKeyCertificate:
@@ -63,7 +63,7 @@ async function createClusterKindExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
-  const result = await client.connectedCluster.createOrReplace("k8sc-rg", "testCluster", {
+  const result = await client.connectedClusterOperations.createOrReplace("k8sc-rg", "testCluster", {
     identity: { type: "SystemAssigned" },
     kind: "ProvisionedCluster",
     location: "East US",
@@ -97,7 +97,7 @@ async function updateClusterByPutExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
-  const result = await client.connectedCluster.createOrReplace("k8sc-rg", "testCluster", {
+  const result = await client.connectedClusterOperations.createOrReplace("k8sc-rg", "testCluster", {
     identity: { type: "SystemAssigned" },
     location: "East US",
     agentPublicKeyCertificate:

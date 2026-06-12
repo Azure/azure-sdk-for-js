@@ -10,16 +10,16 @@ import {
   updateAsync,
   createOrReplace,
   get,
-} from "../../api/connectedCluster/operations.js";
+} from "../../api/connectedClusterOperations/operations.js";
 import type {
-  ConnectedClusterListClusterUserCredentialOptionalParams,
-  ConnectedClusterListBySubscriptionOptionalParams,
-  ConnectedClusterListByResourceGroupOptionalParams,
-  ConnectedClusterDeleteOptionalParams,
-  ConnectedClusterUpdateAsyncOptionalParams,
-  ConnectedClusterCreateOrReplaceOptionalParams,
-  ConnectedClusterGetOptionalParams,
-} from "../../api/connectedCluster/options.js";
+  ConnectedClusterOperationsListClusterUserCredentialOptionalParams,
+  ConnectedClusterOperationsListBySubscriptionOptionalParams,
+  ConnectedClusterOperationsListByResourceGroupOptionalParams,
+  ConnectedClusterOperationsDeleteOptionalParams,
+  ConnectedClusterOperationsUpdateAsyncOptionalParams,
+  ConnectedClusterOperationsCreateOrReplaceOptionalParams,
+  ConnectedClusterOperationsGetOptionalParams,
+} from "../../api/connectedClusterOperations/options.js";
 import type {
   ConnectedCluster,
   ConnectedClusterPatch,
@@ -31,115 +31,115 @@ import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
-/** Interface representing a ConnectedCluster operations. */
-export interface ConnectedClusterOperations {
+/** Interface representing a ConnectedClusterOperations operations. */
+export interface ConnectedClusterOperationsOperations {
   /** Gets cluster user credentials of the connected cluster with a specified resource group and name. */
   listClusterUserCredential: (
     resourceGroupName: string,
     clusterName: string,
     properties: ListClusterUserCredentialProperties,
-    options?: ConnectedClusterListClusterUserCredentialOptionalParams,
+    options?: ConnectedClusterOperationsListClusterUserCredentialOptionalParams,
   ) => Promise<CredentialResults>;
   /** API to enumerate registered connected K8s clusters under a Subscription */
   listBySubscription: (
-    options?: ConnectedClusterListBySubscriptionOptionalParams,
+    options?: ConnectedClusterOperationsListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<ConnectedCluster>;
   /** API to enumerate registered connected K8s clusters under a Resource Group */
   listByResourceGroup: (
     resourceGroupName: string,
-    options?: ConnectedClusterListByResourceGroupOptionalParams,
+    options?: ConnectedClusterOperationsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ConnectedCluster>;
   /** Delete a connected cluster, removing the tracked resource in Azure Resource Manager (ARM). */
   delete: (
     resourceGroupName: string,
     clusterName: string,
-    options?: ConnectedClusterDeleteOptionalParams,
+    options?: ConnectedClusterOperationsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use delete instead */
   beginDelete: (
     resourceGroupName: string,
     clusterName: string,
-    options?: ConnectedClusterDeleteOptionalParams,
+    options?: ConnectedClusterOperationsDeleteOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use delete instead */
   beginDeleteAndWait: (
     resourceGroupName: string,
     clusterName: string,
-    options?: ConnectedClusterDeleteOptionalParams,
+    options?: ConnectedClusterOperationsDeleteOptionalParams,
   ) => Promise<void>;
   /** API to update certain properties of the connected cluster resource */
   updateAsync: (
     resourceGroupName: string,
     clusterName: string,
     connectedClusterPatch: ConnectedClusterPatch,
-    options?: ConnectedClusterUpdateAsyncOptionalParams,
+    options?: ConnectedClusterOperationsUpdateAsyncOptionalParams,
   ) => PollerLike<OperationState<ConnectedCluster>, ConnectedCluster>;
   /** @deprecated use updateAsync instead */
   beginUpdateAsync: (
     resourceGroupName: string,
     clusterName: string,
     connectedClusterPatch: ConnectedClusterPatch,
-    options?: ConnectedClusterUpdateAsyncOptionalParams,
+    options?: ConnectedClusterOperationsUpdateAsyncOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<ConnectedCluster>, ConnectedCluster>>;
   /** @deprecated use updateAsync instead */
   beginUpdateAsyncAndWait: (
     resourceGroupName: string,
     clusterName: string,
     connectedClusterPatch: ConnectedClusterPatch,
-    options?: ConnectedClusterUpdateAsyncOptionalParams,
+    options?: ConnectedClusterOperationsUpdateAsyncOptionalParams,
   ) => Promise<ConnectedCluster>;
   /** API to register a new Kubernetes cluster and create or replace a connected cluster tracked resource in Azure Resource Manager (ARM). */
   createOrReplace: (
     resourceGroupName: string,
     clusterName: string,
     connectedCluster: ConnectedCluster,
-    options?: ConnectedClusterCreateOrReplaceOptionalParams,
+    options?: ConnectedClusterOperationsCreateOrReplaceOptionalParams,
   ) => PollerLike<OperationState<ConnectedCluster>, ConnectedCluster>;
   /** @deprecated use createOrReplace instead */
   beginCreateOrReplace: (
     resourceGroupName: string,
     clusterName: string,
     connectedCluster: ConnectedCluster,
-    options?: ConnectedClusterCreateOrReplaceOptionalParams,
+    options?: ConnectedClusterOperationsCreateOrReplaceOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<ConnectedCluster>, ConnectedCluster>>;
   /** @deprecated use createOrReplace instead */
   beginCreateOrReplaceAndWait: (
     resourceGroupName: string,
     clusterName: string,
     connectedCluster: ConnectedCluster,
-    options?: ConnectedClusterCreateOrReplaceOptionalParams,
+    options?: ConnectedClusterOperationsCreateOrReplaceOptionalParams,
   ) => Promise<ConnectedCluster>;
   /** Returns the properties of the specified connected cluster, including name, identity, properties, and additional cluster details. */
   get: (
     resourceGroupName: string,
     clusterName: string,
-    options?: ConnectedClusterGetOptionalParams,
+    options?: ConnectedClusterOperationsGetOptionalParams,
   ) => Promise<ConnectedCluster>;
 }
 
-function _getConnectedCluster(context: ConnectedKubernetesContext) {
+function _getConnectedClusterOperations(context: ConnectedKubernetesContext) {
   return {
     listClusterUserCredential: (
       resourceGroupName: string,
       clusterName: string,
       properties: ListClusterUserCredentialProperties,
-      options?: ConnectedClusterListClusterUserCredentialOptionalParams,
+      options?: ConnectedClusterOperationsListClusterUserCredentialOptionalParams,
     ) => listClusterUserCredential(context, resourceGroupName, clusterName, properties, options),
-    listBySubscription: (options?: ConnectedClusterListBySubscriptionOptionalParams) =>
+    listBySubscription: (options?: ConnectedClusterOperationsListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
-      options?: ConnectedClusterListByResourceGroupOptionalParams,
+      options?: ConnectedClusterOperationsListByResourceGroupOptionalParams,
     ) => listByResourceGroup(context, resourceGroupName, options),
     delete: (
       resourceGroupName: string,
       clusterName: string,
-      options?: ConnectedClusterDeleteOptionalParams,
+      options?: ConnectedClusterOperationsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, clusterName, options),
     beginDelete: async (
       resourceGroupName: string,
       clusterName: string,
-      options?: ConnectedClusterDeleteOptionalParams,
+      options?: ConnectedClusterOperationsDeleteOptionalParams,
     ) => {
       const poller = $delete(context, resourceGroupName, clusterName, options);
       await poller.submitted();
@@ -148,7 +148,7 @@ function _getConnectedCluster(context: ConnectedKubernetesContext) {
     beginDeleteAndWait: async (
       resourceGroupName: string,
       clusterName: string,
-      options?: ConnectedClusterDeleteOptionalParams,
+      options?: ConnectedClusterOperationsDeleteOptionalParams,
     ) => {
       return await $delete(context, resourceGroupName, clusterName, options);
     },
@@ -156,13 +156,13 @@ function _getConnectedCluster(context: ConnectedKubernetesContext) {
       resourceGroupName: string,
       clusterName: string,
       connectedClusterPatch: ConnectedClusterPatch,
-      options?: ConnectedClusterUpdateAsyncOptionalParams,
+      options?: ConnectedClusterOperationsUpdateAsyncOptionalParams,
     ) => updateAsync(context, resourceGroupName, clusterName, connectedClusterPatch, options),
     beginUpdateAsync: async (
       resourceGroupName: string,
       clusterName: string,
       connectedClusterPatch: ConnectedClusterPatch,
-      options?: ConnectedClusterUpdateAsyncOptionalParams,
+      options?: ConnectedClusterOperationsUpdateAsyncOptionalParams,
     ) => {
       const poller = updateAsync(
         context,
@@ -178,7 +178,7 @@ function _getConnectedCluster(context: ConnectedKubernetesContext) {
       resourceGroupName: string,
       clusterName: string,
       connectedClusterPatch: ConnectedClusterPatch,
-      options?: ConnectedClusterUpdateAsyncOptionalParams,
+      options?: ConnectedClusterOperationsUpdateAsyncOptionalParams,
     ) => {
       return await updateAsync(
         context,
@@ -192,13 +192,13 @@ function _getConnectedCluster(context: ConnectedKubernetesContext) {
       resourceGroupName: string,
       clusterName: string,
       connectedCluster: ConnectedCluster,
-      options?: ConnectedClusterCreateOrReplaceOptionalParams,
+      options?: ConnectedClusterOperationsCreateOrReplaceOptionalParams,
     ) => createOrReplace(context, resourceGroupName, clusterName, connectedCluster, options),
     beginCreateOrReplace: async (
       resourceGroupName: string,
       clusterName: string,
       connectedCluster: ConnectedCluster,
-      options?: ConnectedClusterCreateOrReplaceOptionalParams,
+      options?: ConnectedClusterOperationsCreateOrReplaceOptionalParams,
     ) => {
       const poller = createOrReplace(
         context,
@@ -214,7 +214,7 @@ function _getConnectedCluster(context: ConnectedKubernetesContext) {
       resourceGroupName: string,
       clusterName: string,
       connectedCluster: ConnectedCluster,
-      options?: ConnectedClusterCreateOrReplaceOptionalParams,
+      options?: ConnectedClusterOperationsCreateOrReplaceOptionalParams,
     ) => {
       return await createOrReplace(
         context,
@@ -227,15 +227,15 @@ function _getConnectedCluster(context: ConnectedKubernetesContext) {
     get: (
       resourceGroupName: string,
       clusterName: string,
-      options?: ConnectedClusterGetOptionalParams,
+      options?: ConnectedClusterOperationsGetOptionalParams,
     ) => get(context, resourceGroupName, clusterName, options),
   };
 }
 
-export function _getConnectedClusterOperations(
+export function _getConnectedClusterOperationsOperations(
   context: ConnectedKubernetesContext,
-): ConnectedClusterOperations {
+): ConnectedClusterOperationsOperations {
   return {
-    ..._getConnectedCluster(context),
+    ..._getConnectedClusterOperations(context),
   };
 }
