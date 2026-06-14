@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import atob from "../utils/atob.js";
+import { stringToUint8Array } from "@azure/core-util";
 import type { ResourceType } from "../common/index.js";
 import { Constants, getContainerLink, OperationType, trimSlashes } from "../common/index.js";
 import type { CosmosHeaders } from "../queryExecutionContext/index.js";
@@ -83,9 +83,9 @@ export class SessionContainer {
   private validateOwnerID(ownerId: string): boolean {
     // If ownerId contains exactly 8 bytes it represents a unique database+collection identifier. Otherwise it represents another resource
     // The first 4 bytes are the database. The last 4 bytes are the collection.
-    // Cosmos rids potentially contain "-" which is an invalid character in the browser atob implementation
+    // Cosmos rids potentially contain "-" which is invalid in standard base64
     // See https://en.wikipedia.org/wiki/Base64#Filenames
-    return atob(ownerId.replace(/-/g, "/")).length === 8;
+    return stringToUint8Array(ownerId.replace(/-/g, "/"), "base64").length === 8;
   }
 
   private getPartitionKeyRangeIdToTokenMap(

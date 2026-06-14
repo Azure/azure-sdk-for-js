@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { scheduleCallback } from "#platform/bulk/scheduleCallback";
 import { StatusCodes } from "../common/statusCodes.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { RetryCallback } from "../utils/batch.js";
@@ -63,20 +64,6 @@ class DoublyLinkedList<T> {
 
   public isEmpty(): boolean {
     return this.length === 0;
-  }
-}
-
-/**
- * Returns a function that will schedule the given callback using the best available method.
- */
-function scheduleCallback(fn: () => void): void {
-  if (typeof process !== "undefined" && typeof process.nextTick === "function") {
-    process.nextTick(fn);
-  } else if (typeof setImmediate === "function") {
-    setImmediate(fn);
-  } else {
-    // eslint-disable-next-line promise/catch-or-return
-    Promise.resolve().then(fn);
   }
 }
 

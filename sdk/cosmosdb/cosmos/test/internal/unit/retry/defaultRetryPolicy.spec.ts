@@ -8,8 +8,8 @@ import {
   DiagnosticNodeType,
   OperationType,
   StatusCodes,
+  CosmosDbDiagnosticLevel,
 } from "../../../../src/index.js";
-import { CosmosDbDiagnosticLevel } from "../../../../dist/esm/index.js";
 
 describe("DefaultRetryPolicy", () => {
   const dummyError = {

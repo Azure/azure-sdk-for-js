@@ -8,6 +8,7 @@ import { PluginOn } from "../../../src/index.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
 import { StatusCodes } from "../../../src/common/statusCodes.js";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
 const endpoint = "https://ppcb.documents.azure.com/";
 
@@ -175,7 +176,7 @@ const SuccessResponse = {
   diagnostics: getEmptyCosmosDiagnostics(),
 };
 
-describe("Per Partition Circuit Breaker", { timeout: 30000 }, () => {
+describe.skipIf(emulatorUnavailable)("Per Partition Circuit Breaker", { timeout: 30000 }, () => {
   it("ppcb", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";

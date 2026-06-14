@@ -4,11 +4,19 @@
 import { EncryptionType } from "../../../../src/index.js";
 import { AeadAes256CbcHmacSha256Algorithm } from "../../../../src/encryption/AeadAes256CbcHmacSha256Algorithm/index.js";
 import { DataEncryptionKey } from "../../../../src/encryption/EncryptionKey/index.js";
-import { describe, it, assert, beforeEach } from "vitest";
+import { describe, it, assert, expect, beforeEach } from "vitest";
+import { stringToUint8Array } from "@azure/core-util";
 
 class TestDataEncryptionKey extends DataEncryptionKey {
-  constructor(rootKey: Buffer) {
+  private constructor(rootKey: Uint8Array<ArrayBuffer>) {
     super(rootKey, "Test Key");
+  }
+
+  static async createTest(rootKey: Uint8Array): Promise<TestDataEncryptionKey> {
+    const typed = rootKey as Uint8Array<ArrayBuffer>;
+    const key = new TestDataEncryptionKey(typed);
+    await key.deriveKeys(typed);
+    return key;
   }
 }
 
@@ -16,59 +24,61 @@ describe("AeadAes256CbcHmacSha256 Algorithm", () => {
   let dataEncryptionKey: DataEncryptionKey;
   let algorithm: AeadAes256CbcHmacSha256Algorithm;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     const hexString = "A5237E37726177F68CBC114F96B3B2DE4E792E701CC5AA955BEFF41BCF4862A8";
-    const rootKey = Buffer.from(hexString, "hex");
-    dataEncryptionKey = new TestDataEncryptionKey(rootKey);
+    const rootKey = stringToUint8Array(hexString, "hex");
+    dataEncryptionKey = await TestDataEncryptionKey.createTest(rootKey);
     algorithm = new AeadAes256CbcHmacSha256Algorithm(dataEncryptionKey, EncryptionType.RANDOMIZED);
   });
 
-  it("should encrypt and decrypt correctly", () => {
-    const plainTextBuffer = Buffer.from("This is a test message");
-    const cipherTextBuffer = algorithm.encrypt(plainTextBuffer);
-    const decryptedBuffer = algorithm.decrypt(cipherTextBuffer);
-    assert.strictEqual(decryptedBuffer.toString(), plainTextBuffer.toString());
+  it("should encrypt and decrypt correctly", async () => {
+    const plainText = new TextEncoder().encode("This is a test message");
+    const cipherText = await algorithm.encrypt(plainText);
+    const decrypted = await algorithm.decrypt(cipherText);
+    assert.deepEqual(decrypted, plainText);
   });
 
-  it("should produce different ciphertext for the same plaintext when using randomized encryption", () => {
-    const plainTextBuffer = Buffer.from("This is a test message");
-    const cipherTextBuffer1 = algorithm.encrypt(plainTextBuffer);
-    const cipherTextBuffer2 = algorithm.encrypt(plainTextBuffer);
+  it("should produce different ciphertext for the same plaintext when using randomized encryption", async () => {
+    const plainText = new TextEncoder().encode("This is a test message");
+    const cipherText1 = await algorithm.encrypt(plainText);
+    const cipherText2 = await algorithm.encrypt(plainText);
 
-    assert.ok(cipherTextBuffer1 !== cipherTextBuffer2);
+    assert.notDeepEqual(cipherText1, cipherText2);
   });
 
-  it("should produce the same ciphertext for the same plaintext when using deterministic encryption", () => {
+  it("should produce the same ciphertext for the same plaintext when using deterministic encryption", async () => {
     const deterministicAlgorithm = new AeadAes256CbcHmacSha256Algorithm(
       dataEncryptionKey,
       EncryptionType.DETERMINISTIC,
     );
-    const plainTextBuffer = Buffer.from("This is a test message");
-    const cipherTextBuffer1 = deterministicAlgorithm.encrypt(plainTextBuffer);
-    const cipherTextBuffer2 = deterministicAlgorithm.encrypt(plainTextBuffer);
+    const plainText = new TextEncoder().encode("This is a test message");
+    const cipherText1 = await deterministicAlgorithm.encrypt(plainText);
+    const cipherText2 = await deterministicAlgorithm.encrypt(plainText);
 
-    assert.ok(cipherTextBuffer1.equals(cipherTextBuffer2));
+    assert.deepEqual(cipherText1, cipherText2);
   });
 
-  it("should throw an error if ciphertext is too short", () => {
-    const invalidCipherText = Buffer.from([0x1]);
-    assert.throws(() => algorithm.decrypt(invalidCipherText), /Invalid cipher text length/);
+  it("should throw an error if ciphertext is too short", async () => {
+    const invalidCipherText = new Uint8Array([0x1]);
+    await expect(algorithm.decrypt(invalidCipherText)).rejects.toThrow(
+      /Invalid cipher text length/,
+    );
   });
 
-  it("should throw an error if ciphertext has an invalid version", () => {
-    const plainTextBuffer = Buffer.from("This is a test message");
-    const cipherTextBuffer = algorithm.encrypt(plainTextBuffer);
+  it("should throw an error if ciphertext has an invalid version", async () => {
+    const plainText = new TextEncoder().encode("This is a test message");
+    const cipherText = await algorithm.encrypt(plainText);
     // The first byte of the cipher text represents algo version, altering it should throw error
-    cipherTextBuffer[0] = 0x2;
-    assert.throws(() => algorithm.decrypt(cipherTextBuffer), /Invalid cipher text version/);
+    cipherText[0] = 0x2;
+    await expect(algorithm.decrypt(cipherText)).rejects.toThrow(/Invalid cipher text version/);
   });
 
-  it("should throw an error if the authentication tag is invalid", () => {
-    const plainTextBuffer = Buffer.from("This is a test message");
-    const cipherTextBuffer = algorithm.encrypt(plainTextBuffer);
-    // Modify the last byte of cipherTextBuffer tag to make the authentication tag invalid
-    cipherTextBuffer[cipherTextBuffer.length - 1] = ~cipherTextBuffer[cipherTextBuffer.length - 1];
+  it("should throw an error if the authentication tag is invalid", async () => {
+    const plainText = new TextEncoder().encode("This is a test message");
+    const cipherText = await algorithm.encrypt(plainText);
+    // Modify the last byte of cipherText to make the authentication tag invalid
+    cipherText[cipherText.length - 1] = ~cipherText[cipherText.length - 1];
     // should fail while decrypting since cipher text is tampered
-    assert.throws(() => algorithm.decrypt(cipherTextBuffer), /Invalid authentication tag/);
+    await expect(algorithm.decrypt(cipherText)).rejects.toThrow(/Invalid authentication tag/);
   });
 });

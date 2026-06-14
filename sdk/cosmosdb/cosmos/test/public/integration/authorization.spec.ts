@@ -4,11 +4,11 @@
 import type { Container } from "../../../src/index.js";
 import { CosmosClient, PermissionMode } from "../../../src/index.js";
 import type { Database } from "../../../src/index.js";
-import { endpoint } from "../common/_testConfig.js";
+import { endpoint, emulatorUnavailable } from "../common/_testConfig.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("Authorization", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("Authorization", { timeout: 10000 }, () => {
   // TODO: should have types for all these things
   let database: Database;
   let container: Container;

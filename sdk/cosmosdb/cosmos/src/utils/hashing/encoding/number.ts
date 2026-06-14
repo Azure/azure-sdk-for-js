@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { concatUint8Arrays, hexStringToUint8Array } from "../../uint8.js";
+import { concatUint8Arrays } from "../../uint8.js";
+import { stringToUint8Array } from "@azure/core-util";
 import { BytePrefix } from "./prefix.js";
 
 export function writeNumberForBinaryEncodingBigInt(hash: number): Uint8Array {
   let payload = encodeNumberAsUInt64BigInt(hash);
   // Convert the BytePrefix.Number hex string to Uint8Array.
-  let outputStream = hexStringToUint8Array(BytePrefix.Number);
+  let outputStream = stringToUint8Array(BytePrefix.Number, "hex");
 
   const firstChunk = (payload >> BigInt(56)) & BigInt(0xff);
   outputStream = concatUint8Arrays([
     outputStream,
-    hexStringToUint8Array(firstChunk.toString(16).padStart(2, "0")),
+    stringToUint8Array(firstChunk.toString(16).padStart(2, "0"), "hex"),
   ]);
 
   payload = (payload << BigInt(8)) & BigInt("0xffffffffffffffff");
@@ -24,7 +25,7 @@ export function writeNumberForBinaryEncodingBigInt(hash: number): Uint8Array {
     if (!firstIteration) {
       const padded = byteToWrite.toString(16).padStart(2, "0");
       if (padded !== "00") {
-        outputStream = concatUint8Arrays([outputStream, hexStringToUint8Array(padded)]);
+        outputStream = concatUint8Arrays([outputStream, stringToUint8Array(padded, "hex")]);
       }
     } else {
       firstIteration = false;
@@ -38,7 +39,7 @@ export function writeNumberForBinaryEncodingBigInt(hash: number): Uint8Array {
   const lastChunk = byteToWrite & BigInt(0xfe);
   const padded = lastChunk.toString(16).padStart(2, "0");
   if (padded !== "00") {
-    outputStream = concatUint8Arrays([outputStream, hexStringToUint8Array(padded)]);
+    outputStream = concatUint8Arrays([outputStream, stringToUint8Array(padded, "hex")]);
   }
 
   return outputStream;

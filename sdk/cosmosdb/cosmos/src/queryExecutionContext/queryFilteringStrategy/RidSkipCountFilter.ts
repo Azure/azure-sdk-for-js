@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { stringToUint8Array } from "@azure/core-util";
 import type { FilterContext, FilterStrategy } from "../index.js";
 import { compareOrderByItems } from "../orderByComparator.js";
 
@@ -161,7 +162,7 @@ export class RidSkipCountFilter implements FilterStrategy {
 
     try {
       const normalizedRid = rid.replace(/-/g, "/");
-      const bytes = Buffer.from(normalizedRid, "base64");
+      const bytes = stringToUint8Array(normalizedRid, "base64");
 
       // Validate RID length - must be at least 16 bytes to contain document ID
       if (bytes.length < 16) {

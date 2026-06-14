@@ -3,7 +3,7 @@
 
 import { CosmosClient } from "../../../src/index.js";
 import type { Container } from "../../../src/index.js";
-import { endpoint } from "../common/_testConfig.js";
+import { endpoint, emulatorUnavailable } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, beforeAll, assert } from "vitest";
@@ -13,7 +13,7 @@ const client = new CosmosClient({
   key: masterKey,
 });
 
-describe("Queries", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("Queries", { timeout: 10000 }, () => {
   let container: Container;
 
   beforeAll(async () => {

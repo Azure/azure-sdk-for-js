@@ -9,8 +9,9 @@ import {
   TimeSpan,
 } from "../../../src/index.js";
 import { describe, it, assert } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("QueryMetrics", () => {
+describe.skipIf(emulatorUnavailable)("QueryMetrics", () => {
   // Properties
   const totalQueryExecutionTime = TimeSpan.fromMilliseconds(33.67);
   const queryCompilationTime = TimeSpan.fromMilliseconds(0.06);

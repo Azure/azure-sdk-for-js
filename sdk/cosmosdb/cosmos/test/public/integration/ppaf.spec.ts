@@ -8,6 +8,7 @@ import { PluginOn } from "../../../src/index.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
 import { StatusCodes, SubStatusCodes } from "../../../src/common/statusCodes.js";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
 const endpoint = "https://ppaf.documents.azure.com/";
 
@@ -183,7 +184,7 @@ const SuccessResponse = {
   diagnostics: getEmptyCosmosDiagnostics(),
 };
 
-describe("Dynamic PPAF Enablement", { timeout: 30000 }, () => {
+describe.skipIf(emulatorUnavailable)("Dynamic PPAF Enablement", { timeout: 30000 }, () => {
   it("should detect and adapt to service-side PPAF enablement changes (initially off, then on). PPCB = false", async () => {
     let requestIndex = 0;
     let ppafEventTriggered = false;
@@ -666,7 +667,7 @@ describe("Dynamic PPAF Enablement", { timeout: 30000 }, () => {
   });
 });
 
-describe("Per Partition Automatic Failover", { timeout: 30000 }, () => {
+describe.skipIf(emulatorUnavailable)("Per Partition Automatic Failover", { timeout: 30000 }, () => {
   it("ppaf", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";

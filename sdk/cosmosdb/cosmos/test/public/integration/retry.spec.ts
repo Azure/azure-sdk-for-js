@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 import { describe, it } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
 // import assert from "assert";
 // import { ConnectionPolicy, Constants, CosmosClient, RetryOptions } from "../../src";
 // import * as request from "../../src/request";
 
-describe("retry policy tests", () => {
+describe.skipIf(emulatorUnavailable)("retry policy tests", () => {
   // this.timeout(300000);
   // const collectionDefinition = {
   //   id: "sample collection"

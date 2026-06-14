@@ -7,7 +7,7 @@ import { isReadRequest, prepareURL } from "../common/index.js";
 import { Constants, ResourceType } from "../common/constants.js";
 import { executePlugins, PluginOn } from "../plugins/Plugin.js";
 import * as RetryUtility from "../retry/retryUtility.js";
-import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent.js";
+import { defaultHttpAgent, defaultHttpsAgent } from "#platform/request/defaultAgent";
 import { ErrorResponse } from "./ErrorResponse.js";
 import { bodyFromData } from "./request.js";
 import type { RequestContext } from "./RequestContext.js";
@@ -47,7 +47,7 @@ async function httpRequest(
 
   // Wrap users passed abort events and call our own internal abort()
   const userSignal = requestContext.options && requestContext.options.abortSignal;
-  let userSignalListener: EventListener | undefined = undefined;
+  let userSignalListener: (() => void) | undefined = undefined;
   if (userSignal) {
     if (userSignal.aborted) {
       controller.abort();

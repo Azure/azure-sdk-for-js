@@ -2,6 +2,6 @@
 // Licensed under the MIT License.
 
 export interface Serializer {
-  serialize(value: any): Buffer;
-  deserialize(bytes: Buffer): any;
+  serialize(value: any): Uint8Array<ArrayBuffer>;
+  deserialize(bytes: Uint8Array<ArrayBuffer>): any;
 }

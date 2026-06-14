@@ -12,6 +12,7 @@ import {
 } from "../common/TestHelpers.js";
 import type { TestContext } from "vitest";
 import { describe, it, assert, beforeEach } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
 const normalizeStringBody = (body: any): string => body.replace(/\s+/g, " ").trim();
 
@@ -31,7 +32,7 @@ function getFullTitle(context: TestContext): string {
 // Used for sproc
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });

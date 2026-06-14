@@ -9,7 +9,7 @@ import type {
 } from "../../../src/index.js";
 import { CosmosClient } from "../../../src/index.js";
 import type { Container } from "../../../src/index.js";
-import { endpoint } from "../common/_testConfig.js";
+import { endpoint, emulatorUnavailable } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import {
   getTestContainer,
@@ -29,7 +29,7 @@ const client = new CosmosClient({
   connectionPolicy: { enableBackgroundEndpointRefreshing: false },
 });
 
-describe("Queries", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("Queries", { timeout: 10000 }, () => {
   beforeAll(async () => {
     await removeAllDatabases();
   });
@@ -654,7 +654,7 @@ describe("Queries", { timeout: 10000 }, () => {
   });
 });
 
-describe("Full Text Search queries", () => {
+describe.skipIf(emulatorUnavailable)("Full Text Search queries", () => {
   let database: Database;
   const dbName = `fts-query-db`;
 
