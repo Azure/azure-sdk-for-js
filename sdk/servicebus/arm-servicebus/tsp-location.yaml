@@ -1,0 +1,4 @@
+directory: specification/servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus
+commit: 49de8edaf1b1a951a8998670ed781e911586c4a4
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
