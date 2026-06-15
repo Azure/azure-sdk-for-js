@@ -4,14 +4,16 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AbsoluteDeleteOption extends DeleteOption {
@@ -284,7 +286,7 @@ export interface BackupDatasourceParameters {
 }
 
 // @public
-export type BackupDatasourceParametersUnion = KubernetesClusterBackupDatasourceParameters | BlobBackupDatasourceParametersUnion | BlobBackupDatasourceParametersForAutoProtection | AdlsBlobBackupDatasourceParametersForAutoProtection | BackupDatasourceParameters;
+export type BackupDatasourceParametersUnion = KubernetesClusterBackupDatasourceParameters | BlobBackupDatasourceParametersUnion | BlobBackupDatasourceParametersForAutoProtection | AdlsBlobBackupDatasourceParametersForAutoProtection | PostgreSqlFlexibleServerBackupDatasourceParameters | BackupDatasourceParameters;
 
 // @public
 export interface BackupInstance {
@@ -356,7 +358,7 @@ export interface BackupInstancesOperations {
     createOrUpdate: (resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: BackupInstanceResource, options?: BackupInstancesCreateOrUpdateOptionalParams) => PollerLike<OperationState<BackupInstanceResource>, BackupInstanceResource>;
     delete: (resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesGetOptionalParams) => Promise<BackupInstanceResource>;
-    getBackupInstanceOperationResult: (resourceGroupName: string, vaultName: string, backupInstanceName: string, operationId: string, options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams) => Promise<BackupInstanceResource>;
+    getBackupInstanceOperationResult: (resourceGroupName: string, vaultName: string, backupInstanceName: string, operationId: string, options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams) => Promise<BackupInstanceResource | undefined>;
     list: (resourceGroupName: string, vaultName: string, options?: BackupInstancesListOptionalParams) => PagedAsyncIterableIterator<BackupInstanceResource>;
     resumeBackups: (resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeBackupsOptionalParams) => PollerLike<OperationState<void>, void>;
     resumeProtection: (resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeProtectionOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -379,6 +381,7 @@ export interface BackupInstancesResumeBackupsOptionalParams extends OperationOpt
 
 // @public
 export interface BackupInstancesResumeProtectionOptionalParams extends OperationOptions {
+    parameters?: ResumeProtectionRequest;
     updateIntervalInMs?: number;
 }
 
@@ -486,6 +489,9 @@ export interface BackupSchedule {
 }
 
 // @public
+export type BackupSolutionType = string;
+
+// @public
 export interface BackupVault {
     readonly bcdrSecurityLevel?: BcdrSecurityLevel;
     featureSettings?: FeatureSettings;
@@ -507,7 +513,7 @@ export interface BackupVaultOperationResultsGetOptionalParams extends OperationO
 
 // @public
 export interface BackupVaultOperationResultsOperations {
-    get: (resourceGroupName: string, vaultName: string, operationId: string, options?: BackupVaultOperationResultsGetOptionalParams) => Promise<BackupVaultResource>;
+    get: (resourceGroupName: string, vaultName: string, operationId: string, options?: BackupVaultOperationResultsGetOptionalParams) => Promise<BackupVaultResource | undefined>;
 }
 
 // @public
@@ -1059,7 +1065,7 @@ export interface ExportJobsOperationResultGetOptionalParams extends OperationOpt
 
 // @public
 export interface ExportJobsOperationResultOperations {
-    get: (resourceGroupName: string, vaultName: string, operationId: string, options?: ExportJobsOperationResultGetOptionalParams) => Promise<ExportJobsResult>;
+    get: (resourceGroupName: string, vaultName: string, operationId: string, options?: ExportJobsOperationResultGetOptionalParams) => Promise<ExportJobsResult | undefined>;
 }
 
 // @public
@@ -1191,6 +1197,8 @@ export interface InnerError {
     embeddedInnerError?: InnerError;
 }
 
+export { isRestError }
+
 // @public
 export interface ItemLevelRestoreCriteria {
     objectType: string;
@@ -1276,6 +1284,12 @@ export enum KnownAKSVolumeTypes {
 export enum KnownAlertsState {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownBackupSolutionType {
+    LogicalBackup = "LogicalBackup",
+    PhysicalBackup = "PhysicalBackup"
 }
 
 // @public
@@ -1499,6 +1513,11 @@ export enum KnownRestoreTargetLocationType {
 }
 
 // @public
+export enum KnownResumeProtectionRequestObjectType {
+    ResumeProtectionRequest = "ResumeProtectionRequest"
+}
+
+// @public
 export enum KnownSecretStoreType {
     AzureKeyVault = "AzureKeyVault",
     Invalid = "Invalid"
@@ -1568,7 +1587,8 @@ export enum KnownValidationType {
 export enum KnownVersions {
     V20250701 = "2025-07-01",
     V20250901 = "2025-09-01",
-    V20260301 = "2026-03-01"
+    V20260301 = "2026-03-01",
+    V20260401Preview = "2026-04-01-preview"
 }
 
 // @public
@@ -1705,7 +1725,7 @@ export interface OperationResultGetOptionalParams extends OperationOptions {
 
 // @public
 export interface OperationResultOperations {
-    get: (operationId: string, location: string, options?: OperationResultGetOptionalParams) => Promise<OperationJobExtendedInfo>;
+    get: (operationId: string, location: string, options?: OperationResultGetOptionalParams) => Promise<OperationJobExtendedInfo | undefined>;
 }
 
 // @public
@@ -1786,6 +1806,13 @@ export interface PolicyInfo {
 export interface PolicyParameters {
     backupDatasourceParametersList?: BackupDatasourceParametersUnion[];
     dataStoreParametersList?: DataStoreParametersUnion[];
+}
+
+// @public
+export interface PostgreSqlFlexibleServerBackupDatasourceParameters extends BackupDatasourceParameters {
+    backupSolutionType?: BackupSolutionType;
+    // (undocumented)
+    objectType: "PostgreSqlFlexibleServerBackupDatasourceParameters";
 }
 
 // @public
@@ -2028,6 +2055,8 @@ export type ResourceMoveState = string;
 // @public
 export type ResourcePropertiesObjectType = string;
 
+export { RestError }
+
 // @public
 export interface RestorableTimeRange {
     endTime: string;
@@ -2093,6 +2122,15 @@ export type RestoreTargetInfoBaseUnion = ItemLevelRestoreTargetInfo | RestoreFil
 
 // @public
 export type RestoreTargetLocationType = string;
+
+// @public
+export interface ResumeProtectionRequest {
+    identityDetails?: IdentityDetails;
+    objectType: ResumeProtectionRequestObjectType;
+}
+
+// @public
+export type ResumeProtectionRequestObjectType = string;
 
 // @public
 export interface RetentionTag {
