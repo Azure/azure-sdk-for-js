@@ -59,28 +59,71 @@ The ConfidentialLedger client is a REST client that provides access to the Confi
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const ledgerIdentity = await getLedgerIdentity("<ledger-name>");
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
+);
+const credential = new DefaultAzureCredential();
+
 const client = ConfidentialLedger(
-  "https://<ledger-name>.confidentialledger.azure.com",
-  ledgerIdentity.ledgerIdentityCertificate,
-  new DefaultAzureCredential(),
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  credential,
 );
 ```
 
 ### Create a ledger entry
 
 ```ts snippet:ReadmeSamplePostLedgerEntry
-const entry = await client.path("/app/transactions").post({
-  body: {
-    contents: "Hello, Confidential Ledger!",
-  },
-});
+import ConfidentialLedger, {
+  getLedgerIdentity,
+  LedgerEntry,
+  CreateLedgerEntryParameters,
+} from "@azure-rest/confidential-ledger";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
+);
+const credential = new DefaultAzureCredential();
+
+const client = ConfidentialLedger(
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  credential,
+);
+
+const entry: LedgerEntry = {
+  contents: "<content>",
+};
+const ledgerEntry: CreateLedgerEntryParameters = {
+  contentType: "application/json",
+  body: entry,
+};
+const result = await client.path("/app/transactions").post(ledgerEntry);
 ```
 
 ### Get a ledger entry
 
 ```ts snippet:ReadmeSampleGetLedgerEntry
-const entry = await client.path("/app/transactions/{transactionId}", transactionId).get();
+import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
+);
+const credential = new DefaultAzureCredential();
+
+const client = ConfidentialLedger(
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  credential,
+);
+
+const transactionId = "<TRANSACTION_ID>";
+const status = await client.path("/app/transactions/{transactionId}/status", transactionId).get();
 ```
 ## Troubleshooting
 
