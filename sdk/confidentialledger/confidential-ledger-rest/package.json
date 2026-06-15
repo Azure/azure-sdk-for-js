@@ -65,7 +65,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/t/vss/_work/1/s/azure-sdk-for-js/sdk/confidentialledger/confidential-ledger-rest/generated/confidentialLedgerClient.ts",
+        "path": "src/confidentialLedgerClient.ts",
         "prefix": "userAgentInfo"
       }
     ]
@@ -74,7 +74,6 @@
     "@azure-rest/core-client": "^2.3.1",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.20.0",
-    "@azure/core-util": "^1.12.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -86,11 +85,15 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
+    "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
   },
   "scripts": {
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",

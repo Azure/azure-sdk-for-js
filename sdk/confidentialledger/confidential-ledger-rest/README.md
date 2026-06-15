@@ -22,7 +22,7 @@ Key links:
 
 ### Install the `@azure-rest/confidential-ledger` package
 
-Install the Azure ConfidentialLedger REST client REST client library for JavaScript with `npm`:
+Install the Azure ConfidentialLedger REST client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/confidential-ledger
