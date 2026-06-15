@@ -6,11 +6,13 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -239,9 +241,30 @@ export interface AvsVmVolumeUpdateProperties {
 }
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface AzureVmwareService {
     avsEnabled: boolean;
     clusterResourceId?: string;
+}
+
+// @public
+export interface AzureVolumeProperties {
+    readonly createdAt?: Date;
+    provisionedSize?: number;
+    readonly provisioningState?: ProvisioningState;
+    readonly serialNumber?: string;
+    sourceVolumeGroupResourceId?: string;
+    sourceVolumeResourceId?: string;
+    readonly space?: Space;
 }
 
 // @public
@@ -273,17 +296,25 @@ export class BlockClient {
     readonly pipeline: Pipeline;
     readonly reservations: ReservationsOperations;
     readonly storagePools: StoragePoolsOperations;
+    readonly volumeGroups: VolumeGroupsOperations;
+    readonly volumes: VolumesOperations;
 }
 
 // @public
 export interface BlockClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export interface CompanyDetails {
     address?: Address;
     companyName: string;
+}
+
+// @public
+export interface ConnectionParametersResponse {
+    iscsi: IscsiConnectionParameters;
 }
 
 // @public
@@ -330,6 +361,20 @@ export interface IopsUsage {
     max: number;
     provisioned: number;
 }
+
+// @public
+export interface IscsiConnectionParameters {
+    endpoints: IscsiEndpoint[];
+}
+
+// @public
+export interface IscsiEndpoint {
+    ip: string;
+    iqn: string;
+    port: number;
+}
+
+export { isRestError }
 
 // @public
 export enum KnownActionType {
@@ -400,7 +445,10 @@ export enum KnownUsageSeverity {
 
 // @public
 export enum KnownVersions {
-    V20241101 = "2024-11-01"
+    V20241001Preview = "2024-10-01-preview",
+    V20241101 = "2024-11-01",
+    V20241101Preview = "2024-11-01-preview",
+    V20260101Preview = "2026-01-01-preview"
 }
 
 // @public
@@ -431,7 +479,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -499,9 +547,21 @@ export interface PageSettings {
 }
 
 // @public
+export interface PerformanceParameters {
+    bandwidthLimitMbPerSec?: number;
+    iopsLimit?: number;
+}
+
+// @public
 export interface PerformancePolicyLimits {
     bandwidthLimit: RangeLimits;
     iopsLimit: RangeLimits;
+}
+
+// @public
+export interface ProtectionParameters {
+    frequency?: string;
+    retention?: string;
 }
 
 // @public
@@ -634,6 +694,8 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: BlockClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -849,7 +911,87 @@ export interface VnetInjection {
 }
 
 // @public
+export interface Volume extends ProxyResource {
+    properties?: AzureVolumeProperties;
+}
+
+// @public
 export type VolumeContainerType = string;
+
+// @public
+export interface VolumeGroup extends TrackedResource {
+    properties?: VolumeGroupProperties;
+}
+
+// @public
+export interface VolumeGroupProperties {
+    performanceParameters?: PerformanceParameters;
+    protectionParameters?: ProtectionParameters;
+    readonly provisioningState?: ProvisioningState;
+    sourceVolumeGroupResourceId?: string;
+    readonly storagePoolInternalId?: string;
+    readonly volumeGroupInternalId?: string;
+}
+
+// @public
+export interface VolumeGroupsCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumeGroupsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumeGroupsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VolumeGroupsGetStatusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VolumeGroupsListByStoragePoolOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VolumeGroupsListConnectionParametersOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VolumeGroupsOperations {
+    create: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, resource: VolumeGroup, options?: VolumeGroupsCreateOptionalParams) => PollerLike<OperationState<VolumeGroup>, VolumeGroup>;
+    delete: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, options?: VolumeGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, options?: VolumeGroupsGetOptionalParams) => Promise<VolumeGroup>;
+    getStatus: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, options?: VolumeGroupsGetStatusOptionalParams) => Promise<VolumeGroupStatus>;
+    listByStoragePool: (resourceGroupName: string, storagePoolName: string, options?: VolumeGroupsListByStoragePoolOptionalParams) => PagedAsyncIterableIterator<VolumeGroup>;
+    listConnectionParameters: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, options?: VolumeGroupsListConnectionParametersOptionalParams) => Promise<ConnectionParametersResponse>;
+    update: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, properties: VolumeGroupUpdate, options?: VolumeGroupsUpdateOptionalParams) => PollerLike<OperationState<VolumeGroup>, VolumeGroup>;
+}
+
+// @public
+export interface VolumeGroupStatus {
+    connectedHostCount: number;
+    space: Space;
+}
+
+// @public
+export interface VolumeGroupsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumeGroupUpdate {
+    properties?: VolumeGroupUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface VolumeGroupUpdateProperties {
+    performanceParameters?: PerformanceParameters;
+    protectionParameters?: ProtectionParameters;
+}
 
 // @public
 export interface VolumeLimits {
@@ -872,7 +1014,49 @@ export interface VolumeProperties {
 }
 
 // @public
+export interface VolumesCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VolumesListByVolumeGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VolumesOperations {
+    create: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, volumeName: string, resource: Volume, options?: VolumesCreateOptionalParams) => PollerLike<OperationState<Volume>, Volume>;
+    delete: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, volumeName: string, options?: VolumesGetOptionalParams) => Promise<Volume>;
+    listByVolumeGroup: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, options?: VolumesListByVolumeGroupOptionalParams) => PagedAsyncIterableIterator<Volume>;
+    update: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, volumeName: string, properties: VolumeUpdate, options?: VolumesUpdateOptionalParams) => PollerLike<OperationState<Volume>, Volume>;
+}
+
+// @public
+export interface VolumesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export type VolumeType = string;
+
+// @public
+export interface VolumeUpdate {
+    properties?: VolumeUpdateProperties;
+}
+
+// @public
+export interface VolumeUpdateProperties {
+    provisionedSize?: number;
+}
 
 // (No @packageDocumentation comment for this package)
 
