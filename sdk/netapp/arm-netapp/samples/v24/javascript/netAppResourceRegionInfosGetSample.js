@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to provides storage to network proximity and logical zone mapping information.
  *
  * @summary provides storage to network proximity and logical zone mapping information.
- * x-ms-original-file: 2026-01-01/RegionInfos_Get.json
+ * x-ms-original-file: 2026-04-01/RegionInfos_Get.json
  */
 async function regionInfosGet() {
   const credential = new DefaultAzureCredential();

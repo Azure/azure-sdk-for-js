@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all volumes within the capacity pool
  *
  * @summary list all volumes within the capacity pool
- * x-ms-original-file: 2026-01-01/Volumes_List.json
+ * x-ms-original-file: 2026-04-01/Volumes_List.json
  */
 async function volumesList() {
   const credential = new DefaultAzureCredential();

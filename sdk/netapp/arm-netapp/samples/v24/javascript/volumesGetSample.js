@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the details of the specified volume
  *
  * @summary get the details of the specified volume
- * x-ms-original-file: 2026-01-01/Volumes_Get.json
+ * x-ms-original-file: 2026-04-01/Volumes_Get.json
  */
 async function volumesGet() {
   const credential = new DefaultAzureCredential();

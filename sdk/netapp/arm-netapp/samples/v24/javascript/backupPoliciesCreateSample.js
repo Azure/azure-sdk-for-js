@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a backup policy for Netapp Account
  *
  * @summary create a backup policy for Netapp Account
- * x-ms-original-file: 2026-01-01/BackupPolicies_Create.json
+ * x-ms-original-file: 2026-04-01/BackupPolicies_Create.json
  */
 async function backupPoliciesCreate() {
   const credential = new DefaultAzureCredential();

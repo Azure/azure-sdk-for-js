@@ -179,6 +179,7 @@ export type {
   CifsChangeNotifyState,
   GlobalFileLockingState,
   EnableWriteBackState,
+  CacheFileAccessLogs,
   CacheUpdate,
   CacheUpdateProperties,
   PeeringPassphrases,
@@ -288,6 +289,7 @@ export {
   KnownCifsChangeNotifyState,
   KnownGlobalFileLockingState,
   KnownEnableWriteBackState,
+  KnownCacheFileAccessLogs,
   KnownRegionStorageToNetworkProximity,
   KnownActiveDirectoryStatus,
   KnownKeySource,
@@ -493,3 +495,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
