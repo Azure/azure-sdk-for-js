@@ -1,17 +1,7 @@
 # Release History
-
-## 1.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0-beta.1 (2025-09-02)
+    
+## 1.0.0 (2026-06-15)
 
 ### Features Added
 
-This is the first stable version with the package of @azure/arm-workloadorchestration
+This is the first stable release of the @azure/arm-workloadorchestration package. It introduces a new SDK generation with layered APIs, smaller bundles, and improved ergonomics. For more details, see the https://aka.ms/azsdk/js/sdk/quickstart.

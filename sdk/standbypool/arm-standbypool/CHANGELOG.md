@@ -1,6 +1,19 @@
 # Release History
 
-## 2.1.0 (2026-03-10)
+## 3.0.0 (2026-06-15)
+
+### Features Added
+  - Added Interface VmStateDistribution
+  - Interface StandbyVirtualMachinePoolResourceProperties has a new optional parameter vmStateDistribution
+  - Interface StandbyVirtualMachinePoolResourceUpdateProperties has a new optional parameter vmStateDistribution
+  - Enum KnownVersions has a new value V20251001
+  - Enum KnownVersions has a new value V20260401
+  - Enum KnownVirtualMachineState has a new value Mix
+
+### Breaking Changes
+  - Enum KnownVersions no longer has value _20251001
+
+## 2.1.0 (2026-06-12)
 
 ### Features Added
   - Added Interface DynamicSizing
