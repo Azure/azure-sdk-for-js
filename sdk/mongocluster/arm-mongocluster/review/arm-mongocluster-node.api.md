@@ -4,16 +4,16 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
 import { RestError } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -383,15 +383,9 @@ export enum KnownUserRole {
 
 // @public
 export enum KnownVersions {
-    V20240301Preview = "2024-03-01-preview",
-    V20240601Preview = "2024-06-01-preview",
     V20240701 = "2024-07-01",
-    V20241001Preview = "2024-10-01-preview",
-    V20250401Preview = "2025-04-01-preview",
-    V20250701Preview = "2025-07-01-preview",
-    V20250801Preview = "2025-08-01-preview",
     V20250901 = "2025-09-01",
-    V20260201Preview = "2026-02-01-preview"
+    V20260601 = "2026-06-01"
 }
 
 // @public
