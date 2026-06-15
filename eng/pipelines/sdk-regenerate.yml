@@ -42,7 +42,7 @@ schedules:
 
 parameters:
   - name: EmitterVersion
-    displayName: "Emitter version ('dev' = latest dev dist-tag from npm)"
+    displayName: "Emitter version ('dev' = latest -dev version from npm)"
     type: string
     default: 'dev'
 

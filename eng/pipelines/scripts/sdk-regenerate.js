@@ -36,7 +36,11 @@ function getFlag(flagName, defaultValue = "") {
 function runCommandCapturing(command, commandArgs, workingDirectory) {
   return new Promise((resolve) => {
     let combinedOutput = "";
-    const child = spawn(command, commandArgs, { cwd: workingDirectory });
+    const useShell = shouldUseShellForSpawn(command);
+    const child = spawn(useShell ? buildShellCommandLine(command, commandArgs) : command, useShell ? [] : commandArgs, {
+      cwd: workingDirectory,
+      shell: useShell,
+    });
     child.stdout.on("data", (chunk) => (combinedOutput += chunk));
     child.stderr.on("data", (chunk) => (combinedOutput += chunk));
     child.on("close", (exitCode) => resolve({ exitCode, output: combinedOutput }));
@@ -44,6 +48,20 @@ function runCommandCapturing(command, commandArgs, workingDirectory) {
       resolve({ exitCode: 1, output: combinedOutput + `\nspawn error: ${err.message}` }),
     );
   });
+}
+
+function shouldUseShellForSpawn(command) {
+  const windowsCommandShims = new Set(["npm", "npx", "pnpm"]);
+  return process.platform === "win32" && windowsCommandShims.has(command);
+}
+
+function buildShellCommandLine(command, commandArgs) {
+  return [command, ...commandArgs.map(quoteShellArg)].join(" ");
+}
+
+function quoteShellArg(arg) {
+  const text = String(arg);
+  return /^[^\s"&|<>^]+$/.test(text) ? text : `"${text.replace(/(["^])/g, "^$1")}"`;
 }
 
 /** Run a shell command line; stream to agent log; abort on non-zero exit. */
@@ -110,8 +128,9 @@ function logPipelineIssue(severity, message) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Subcommand: resolve-emitter
-// Resolve --input to a concrete npm version. "dev" means: look up the current
-// `dev` dist-tag of @azure-tools/typespec-ts. Anything else is used verbatim.
+// Resolve --input to a concrete npm version. "dev" means: scan all published
+// @azure-tools/typespec-ts versions and choose the highest `-dev` prerelease.
+// Anything else is used verbatim.
 // ─────────────────────────────────────────────────────────────────────────────
 
 async function runResolveEmitter() {
@@ -120,22 +139,101 @@ async function runResolveEmitter() {
 
   let resolvedEmitterVersion;
   if (normalizedInput === DEV_VERSION_SENTINEL) {
-    const { exitCode, output } = await runCommandCapturing(
-      "npm",
-      ["view", EMITTER_PACKAGE_NAME, "dist-tags.dev"],
-      process.cwd(),
-    );
-    resolvedEmitterVersion = output.trim();
-    if (exitCode !== 0 || !resolvedEmitterVersion) {
-      console.error("##[error]npm view returned empty dev tag");
-      process.exit(1);
-    }
+    resolvedEmitterVersion = await resolveLatestDevEmitterVersion();
   } else {
     resolvedEmitterVersion = rawInputVersion.trim();
   }
 
   console.log(`Emitter version: ${resolvedEmitterVersion}`);
   setPipelineVariable("emitterVersion", resolvedEmitterVersion, { isOutput: true });
+}
+
+async function resolveLatestDevEmitterVersion() {
+  const { exitCode, output } = await runCommandCapturing(
+    "npm",
+    ["view", EMITTER_PACKAGE_NAME, "versions", "--json"],
+    process.cwd(),
+  );
+  if (exitCode !== 0) {
+    console.error(`##[error]npm view failed while listing ${EMITTER_PACKAGE_NAME} versions`);
+    console.error(extractLastNonEmptyLines(output, 20));
+    process.exit(1);
+  }
+
+  let publishedVersions;
+  try {
+    publishedVersions = JSON.parse(output);
+  } catch (err) {
+    console.error(`##[error]npm view returned invalid JSON: ${err.message}`);
+    process.exit(1);
+  }
+
+  if (!Array.isArray(publishedVersions)) {
+    console.error("##[error]npm view did not return a version array");
+    process.exit(1);
+  }
+
+  const devVersions = publishedVersions.filter(isDevPrereleaseVersion).sort(compareSemverVersions);
+  const latestDevVersion = devVersions.at(-1);
+  if (!latestDevVersion) {
+    console.error(`##[error]No -dev versions found for ${EMITTER_PACKAGE_NAME}`);
+    process.exit(1);
+  }
+
+  console.log(`Latest -dev emitter version from npm versions: ${latestDevVersion}`);
+  return latestDevVersion;
+}
+
+function isDevPrereleaseVersion(version) {
+  const parsed = parseSemver(version);
+  return parsed?.prerelease.some((identifier) => identifier === "dev" || identifier.startsWith("dev."));
+}
+
+function compareSemverVersions(left, right) {
+  const parsedLeft = parseSemver(left);
+  const parsedRight = parseSemver(right);
+  if (!parsedLeft || !parsedRight) return left.localeCompare(right);
+
+  for (const key of ["major", "minor", "patch"]) {
+    const comparison = parsedLeft[key] - parsedRight[key];
+    if (comparison !== 0) return comparison;
+  }
+
+  return comparePrereleaseIdentifiers(parsedLeft.prerelease, parsedRight.prerelease);
+}
+
+function parseSemver(version) {
+  const match = version.match(/^(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?(?:\+.+)?$/);
+  if (!match) return null;
+  return {
+    major: Number(match[1]),
+    minor: Number(match[2]),
+    patch: Number(match[3]),
+    prerelease: match[4] ? match[4].split(".") : [],
+  };
+}
+
+function comparePrereleaseIdentifiers(leftIdentifiers, rightIdentifiers) {
+  if (leftIdentifiers.length === 0 && rightIdentifiers.length === 0) return 0;
+  if (leftIdentifiers.length === 0) return 1;
+  if (rightIdentifiers.length === 0) return -1;
+
+  const length = Math.max(leftIdentifiers.length, rightIdentifiers.length);
+  for (let i = 0; i < length; i++) {
+    const left = leftIdentifiers[i];
+    const right = rightIdentifiers[i];
+    if (left === undefined) return -1;
+    if (right === undefined) return 1;
+    if (left === right) continue;
+
+    const leftNumeric = /^\d+$/.test(left);
+    const rightNumeric = /^\d+$/.test(right);
+    if (leftNumeric && rightNumeric) return Number(left) - Number(right);
+    if (leftNumeric) return -1;
+    if (rightNumeric) return 1;
+    return left.localeCompare(right);
+  }
+  return 0;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
