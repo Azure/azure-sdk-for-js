@@ -138,7 +138,6 @@ export interface ListCollections {
   /** Collection ids are user-created collections of ledger entries */
   get(
     options?: ListCollectionsParameters,
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/clientDefinitions.ts
   ): StreamableMethod<ListCollections200Response | ListCollectionsDefaultResponse>;
 }
 
@@ -147,13 +146,6 @@ export interface ListTags {
   get(
     options?: ListTagsParameters,
   ): StreamableMethod<ListTags200Response | ListTagsDefaultResponse>;
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/clientDefinitions.ts
-  ): StreamableMethod<
-    ListCollections200Response | ListCollectionsDefaultResponse
-  >;
-=======
-  ): StreamableMethod<ListCollections200Response | ListCollectionsDefaultResponse>;
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/clientDefinitions.ts
 }
 
 export interface ListLedgerEntries {
@@ -267,20 +259,10 @@ export interface GetRuntimeOptions {
   ): StreamableMethod<GetRuntimeOptions200Response | GetRuntimeOptionsDefaultResponse>;
   /** Updates the runtime options. */
   patch(
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/clientDefinitions.ts
     options: UpdateRuntimeOptionsStableParameters,
   ): StreamableMethod<
     UpdateRuntimeOptionsStable200Response | UpdateRuntimeOptionsStableDefaultResponse
   >;
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/clientDefinitions.ts
-    options: UpdateRuntimeOptionsParameters,
-  ): StreamableMethod<
-    UpdateRuntimeOptions200Response | UpdateRuntimeOptionsDefaultResponse
-  >;
-=======
-    options: UpdateRuntimeOptionsParameters,
-  ): StreamableMethod<UpdateRuntimeOptions200Response | UpdateRuntimeOptionsDefaultResponse>;
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/clientDefinitions.ts
 }
 
 export interface GetUserDefinedEndpointsModule {
@@ -338,23 +320,12 @@ export interface GetUserDefinedRole {
   ): StreamableMethod<GetUserDefinedRole200Response | GetUserDefinedRoleDefaultResponse>;
   /** User defined roles allow users to define and manage app specific AuthZ policy. */
   put(
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/clientDefinitions.ts
     options: CreateUserDefinedRoleStableParameters,
   ): StreamableMethod<
     CreateUserDefinedRoleStable200Response | CreateUserDefinedRoleStableDefaultResponse
   >;
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/clientDefinitions.ts
-    options: CreateUserDefinedRoleParameters,
-  ): StreamableMethod<
-    CreateUserDefinedRole200Response | CreateUserDefinedRoleDefaultResponse
-  >;
-=======
-    options: CreateUserDefinedRoleParameters,
-  ): StreamableMethod<CreateUserDefinedRole200Response | CreateUserDefinedRoleDefaultResponse>;
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/clientDefinitions.ts
   /** User defined roles allow users to define and manage app specific AuthZ policy. */
   patch(
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/clientDefinitions.ts
     options: UpdateUserDefinedRoleStableParameters,
   ): StreamableMethod<
     UpdateUserDefinedRoleStable200Response | UpdateUserDefinedRoleStableDefaultResponse
@@ -363,32 +334,11 @@ export interface GetUserDefinedRole {
    * A user defined role allows the users to create and manage their own role
    * actions using the API.
    */
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/clientDefinitions.ts
-    options: UpdateUserDefinedRoleParameters,
-  ): StreamableMethod<
-    UpdateUserDefinedRole200Response | UpdateUserDefinedRoleDefaultResponse
-  >;
-  /** A user defined role allows the users to create and manage their own role actions using the API. */
-=======
-    options: UpdateUserDefinedRoleParameters,
-  ): StreamableMethod<UpdateUserDefinedRole200Response | UpdateUserDefinedRoleDefaultResponse>;
-  /** A user defined role allows the users to create and manage their own role actions using the API. */
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/clientDefinitions.ts
   delete(
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/clientDefinitions.ts
     options: DeleteUserDefinedRoleStableParameters,
   ): StreamableMethod<
     DeleteUserDefinedRoleStable204Response | DeleteUserDefinedRoleStableDefaultResponse
   >;
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/clientDefinitions.ts
-    options: DeleteUserDefinedRoleParameters,
-  ): StreamableMethod<
-    DeleteUserDefinedRole200Response | DeleteUserDefinedRoleDefaultResponse
-  >;
-=======
-    options: DeleteUserDefinedRoleParameters,
-  ): StreamableMethod<DeleteUserDefinedRole200Response | DeleteUserDefinedRoleDefaultResponse>;
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/clientDefinitions.ts
 }
 
 export interface Routes {

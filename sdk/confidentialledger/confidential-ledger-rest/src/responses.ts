@@ -26,17 +26,9 @@ import type {
   PagedUserDefinedFunctionsOutput,
   UserDefinedFunctionOutput,
   UserDefinedFunctionExecutionResponseOutput,
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/responses.ts
   UserDefinedRoleOutput,
   UserDefinedRolesOutput,
 } from "./outputModels.js";
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/responses.ts
-  RoleOutput,
-} from "./outputModels";
-=======
-  RoleOutput,
-} from "./outputModels.js";
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/responses.ts
 
 /** The request has succeeded. */
 export interface GetConstitution200Response extends HttpResponse {
@@ -300,16 +292,7 @@ export interface GetUserDefinedEndpointsModule200Response extends HttpResponse {
   body: ModuleDefOutput;
 }
 
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/responses.ts
 export interface GetUserDefinedEndpointsModuleDefaultResponse extends HttpResponse {
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/responses.ts
-/** It gets the module for the user defined endpoint. */
-export interface GetUserDefinedEndpointsModuleDefaultResponse
-  extends HttpResponse {
-=======
-/** It gets the module for the user defined endpoint. */
-export interface GetUserDefinedEndpointsModuleDefaultResponse extends HttpResponse {
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/responses.ts
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -381,16 +364,7 @@ export interface ExecuteUserDefinedFunction200Response extends HttpResponse {
   body: UserDefinedFunctionExecutionResponseOutput;
 }
 
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/responses.ts
 export interface ExecuteUserDefinedFunctionDefaultResponse extends HttpResponse {
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/responses.ts
-/** Executes the user defined function in the Confidential Ledger */
-export interface ExecuteUserDefinedFunctionDefaultResponse
-  extends HttpResponse {
-=======
-/** Executes the user defined function in the Confidential Ledger */
-export interface ExecuteUserDefinedFunctionDefaultResponse extends HttpResponse {
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/responses.ts
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
