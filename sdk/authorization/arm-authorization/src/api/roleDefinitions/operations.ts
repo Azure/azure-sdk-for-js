@@ -56,7 +56,9 @@ export async function _getByIdDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -102,7 +104,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -148,16 +152,20 @@ export function _$deleteSend(
   });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<RoleDefinition> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<RoleDefinition | undefined> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return roleDefinitionDeserializer(result.body);
+  return result.body ? roleDefinitionDeserializer(result.body) : undefined;
 }
 
 /** Deletes a role definition. */
@@ -166,7 +174,7 @@ export async function $delete(
   scope: string,
   roleDefinitionId: string,
   options: RoleDefinitionsDeleteOptionalParams = { requestOptions: {} },
-): Promise<RoleDefinition> {
+): Promise<RoleDefinition | undefined> {
   const result = await _$deleteSend(context, scope, roleDefinitionId, options);
   return _$deleteDeserialize(result);
 }
@@ -203,7 +211,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -256,7 +266,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

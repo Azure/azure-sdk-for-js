@@ -56,7 +56,9 @@ export async function _stopDeserialize(result: PathUncheckedResponse): Promise<v
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -103,7 +105,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -150,7 +154,9 @@ export async function _deleteByIdDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -203,7 +209,9 @@ export async function _createOrUpdateByIdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -260,7 +268,9 @@ export async function _getByIdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }
