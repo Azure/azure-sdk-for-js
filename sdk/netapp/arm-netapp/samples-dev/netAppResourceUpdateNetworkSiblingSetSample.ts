@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the network features of the specified network sibling set.
  *
  * @summary update the network features of the specified network sibling set.
- * x-ms-original-file: 2026-01-01/NetworkSiblingSet_Update.json
+ * x-ms-original-file: 2026-04-01/NetworkSiblingSet_Update.json
  */
 async function networkFeaturesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
