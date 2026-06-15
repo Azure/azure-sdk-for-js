@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to upgrades the version of the underlying resources in the given Network Fabric instance.
  *
  * @summary upgrades the version of the underlying resources in the given Network Fabric instance.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabrics_Upgrade.json
+ * x-ms-original-file: 2025-07-15/NetworkFabrics_Upgrade.json
  */
 async function networkFabricsUpgradeMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements NetworkMonitor GET method.
  *
  * @summary implements NetworkMonitor GET method.
- * x-ms-original-file: 2024-06-15-preview/NetworkMonitors_Get.json
+ * x-ms-original-file: 2025-07-15/NetworkMonitors_Get.json
  */
 async function networkMonitorsGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

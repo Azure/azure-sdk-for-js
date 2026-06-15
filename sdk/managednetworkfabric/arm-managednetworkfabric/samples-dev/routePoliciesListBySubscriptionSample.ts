@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements RoutePolicies list by subscription GET method.
  *
  * @summary implements RoutePolicies list by subscription GET method.
- * x-ms-original-file: 2024-06-15-preview/RoutePolicies_ListBySubscription.json
+ * x-ms-original-file: 2025-07-15/RoutePolicies_ListBySubscription.json
  */
 async function routePoliciesListBySubscriptionMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

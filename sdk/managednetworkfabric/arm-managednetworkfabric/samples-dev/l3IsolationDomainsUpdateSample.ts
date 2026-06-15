@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to aPI to update certain properties of the L3 Isolation Domain resource.
  *
  * @summary aPI to update certain properties of the L3 Isolation Domain resource.
- * x-ms-original-file: 2024-06-15-preview/L3IsolationDomains_Update.json
+ * x-ms-original-file: 2025-07-15/L3IsolationDomains_Update.json
  */
 async function l3IsolationDomainsUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -16,6 +16,7 @@ async function l3IsolationDomainsUpdateMaximumSetGen(): Promise<void> {
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
   const result = await client.l3IsolationDomains.update("example-rg", "example-l3domain", {
     tags: { KeyId: "KeyValue" },
+    identity: { type: "None", userAssignedIdentities: { key8793: {} } },
     annotation: "annotation1",
     redistributeConnectedSubnets: "True",
     redistributeStaticRoutes: "True",
@@ -39,7 +40,9 @@ async function l3IsolationDomainsUpdateMaximumSetGen(): Promise<void> {
           "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourceGroups/example-rg/providers/Microsoft.ManagedNetworkFabric/routePolicies/example-routePolicy",
       },
     },
-    routePrefixLimit: { hardLimit: 28, threshold: 50 },
+    v4RoutePrefixLimit: { hardLimit: 1000, threshold: 50 },
+    v6RoutePrefixLimit: { hardLimit: 1000, threshold: 50 },
+    exportPolicyConfiguration: { exportPolicies: ["Pre-Policy"] },
   });
   console.log(result);
 }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to displays L2IsolationDomains list by subscription GET method.
  *
  * @summary displays L2IsolationDomains list by subscription GET method.
- * x-ms-original-file: 2024-06-15-preview/L2IsolationDomains_ListBySubscription.json
+ * x-ms-original-file: 2025-07-15/L2IsolationDomains_ListBySubscription.json
  */
 async function l2IsolationDomainsListBySubscriptionMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

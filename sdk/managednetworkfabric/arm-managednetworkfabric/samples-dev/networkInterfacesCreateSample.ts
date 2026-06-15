@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Network Interface resource.
  *
  * @summary create a Network Interface resource.
- * x-ms-original-file: 2024-06-15-preview/NetworkInterfaces_Create.json
+ * x-ms-original-file: 2025-07-15/NetworkInterfaces_Create.json
  */
 async function networkInterfacesCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,7 @@ async function networkInterfacesCreateMaximumSetGen(): Promise<void> {
     "example-rg",
     "example-device",
     "example-interface",
-    { annotation: "annotation", description: "device 1", additionalDescription: "device 1" },
+    { annotation: "annotation", additionalDescription: "device 1" },
   );
   console.log(result);
 }

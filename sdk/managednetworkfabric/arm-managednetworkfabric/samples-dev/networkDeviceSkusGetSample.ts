@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Network Device SKU details.
  *
  * @summary get a Network Device SKU details.
- * x-ms-original-file: 2024-06-15-preview/NetworkDeviceSkus_Get.json
+ * x-ms-original-file: 2025-07-15/NetworkDeviceSkus_Get.json
  */
 async function networkDeviceSkusGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

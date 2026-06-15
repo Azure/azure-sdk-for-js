@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update certain properties of the Network To NetworkInterconnects resource.
  *
  * @summary update certain properties of the Network To NetworkInterconnects resource.
- * x-ms-original-file: 2024-06-15-preview/NetworkToNetworkInterconnects_Update.json
+ * x-ms-original-file: 2025-07-15/NetworkToNetworkInterconnects_Update.json
  */
 async function networkToNetworkInterconnectsUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

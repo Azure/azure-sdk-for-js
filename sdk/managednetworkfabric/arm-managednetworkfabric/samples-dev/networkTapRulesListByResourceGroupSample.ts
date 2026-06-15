@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all the Network Tap Rule resources in the given resource group.
  *
  * @summary list all the Network Tap Rule resources in the given resource group.
- * x-ms-original-file: 2024-06-15-preview/NetworkTapRules_ListByResourceGroup.json
+ * x-ms-original-file: 2025-07-15/NetworkTapRules_ListByResourceGroup.json
  */
 async function networkTapRulesListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

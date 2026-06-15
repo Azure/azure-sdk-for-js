@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves details of this L3 Isolation Domain.
  *
  * @summary retrieves details of this L3 Isolation Domain.
- * x-ms-original-file: 2024-06-15-preview/L3IsolationDomains_Get.json
+ * x-ms-original-file: 2025-07-15/L3IsolationDomains_Get.json
  */
 async function l3IsolationDomainsGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

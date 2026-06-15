@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to displays InternalNetworks list by resource group GET method.
  *
  * @summary displays InternalNetworks list by resource group GET method.
- * x-ms-original-file: 2024-06-15-preview/InternalNetworks_ListByL3IsolationDomain.json
+ * x-ms-original-file: 2025-07-15/InternalNetworks_ListByL3IsolationDomain.json
  */
 async function internalNetworksListByL3IsolationDomainMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

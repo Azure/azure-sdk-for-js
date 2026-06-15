@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to post action: Returns a status of commit batch operation.
  *
  * @summary post action: Returns a status of commit batch operation.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabrics_CommitBatchStatus.json
+ * x-ms-original-file: 2025-07-15/NetworkFabrics_CommitBatchStatus.json
  */
 async function networkFabricsCommitBatchStatusMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

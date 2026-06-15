@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the Network Device resource details.
  *
  * @summary gets the Network Device resource details.
- * x-ms-original-file: 2024-06-15-preview/NetworkDevices_Get.json
+ * x-ms-original-file: 2025-07-15/NetworkDevices_Get.json
  */
 async function networkDevicesGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

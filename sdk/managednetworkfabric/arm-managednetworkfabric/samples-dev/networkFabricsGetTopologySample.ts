@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets Topology of the underlying resources in the given Network Fabric instance.
  *
  * @summary gets Topology of the underlying resources in the given Network Fabric instance.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabrics_GetTopology.json
+ * x-ms-original-file: 2025-07-15/NetworkFabrics_GetTopology.json
  */
 async function networkFabricsGetTopologyMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

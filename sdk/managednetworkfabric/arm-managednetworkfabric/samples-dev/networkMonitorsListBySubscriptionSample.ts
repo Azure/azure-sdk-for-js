@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to displays NetworkMonitors list by subscription GET method.
  *
  * @summary displays NetworkMonitors list by subscription GET method.
- * x-ms-original-file: 2024-06-15-preview/NetworkMonitors_ListBySubscription.json
+ * x-ms-original-file: 2025-07-15/NetworkMonitors_ListBySubscription.json
  */
 async function networkMonitorsListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

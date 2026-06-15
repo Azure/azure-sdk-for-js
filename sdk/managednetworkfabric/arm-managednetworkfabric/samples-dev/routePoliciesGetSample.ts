@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements Route Policy GET method.
  *
  * @summary implements Route Policy GET method.
- * x-ms-original-file: 2024-06-15-preview/RoutePolicies_Get.json
+ * x-ms-original-file: 2025-07-15/RoutePolicies_Get.json
  */
 async function routePoliciesGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update certain properties of the Network Rack resource.
  *
  * @summary update certain properties of the Network Rack resource.
- * x-ms-original-file: 2024-06-15-preview/NetworkRacks_Update.json
+ * x-ms-original-file: 2025-07-15/NetworkRacks_Update.json
  */
 async function networkRacksUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

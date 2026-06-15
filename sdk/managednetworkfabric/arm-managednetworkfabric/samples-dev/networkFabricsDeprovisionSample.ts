@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deprovisions the underlying resources in the given Network Fabric instance.
  *
  * @summary deprovisions the underlying resources in the given Network Fabric instance.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabrics_Deprovision.json
+ * x-ms-original-file: 2025-07-15/NetworkFabrics_Deprovision.json
  */
 async function networkFabricsDeprovisionMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the Neighbor Group.
  *
  * @summary gets the Neighbor Group.
- * x-ms-original-file: 2024-06-15-preview/NeighborGroups_Get.json
+ * x-ms-original-file: 2025-07-15/NeighborGroups_Get.json
  */
 async function neighborGroupsGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

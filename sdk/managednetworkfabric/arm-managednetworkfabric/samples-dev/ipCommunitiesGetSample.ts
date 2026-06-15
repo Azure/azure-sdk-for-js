@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements an IP Community GET method.
  *
  * @summary implements an IP Community GET method.
- * x-ms-original-file: 2024-06-15-preview/IpCommunities_Get.json
+ * x-ms-original-file: 2025-07-15/IpCommunities_Get.json
  */
 async function ipCommunitiesGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

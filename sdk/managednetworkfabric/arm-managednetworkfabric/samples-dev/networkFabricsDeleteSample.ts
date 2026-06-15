@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete Network Fabric resource.
  *
  * @summary delete Network Fabric resource.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabrics_Delete.json
+ * x-ms-original-file: 2025-07-15/NetworkFabrics_Delete.json
  */
 async function networkFabricsDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

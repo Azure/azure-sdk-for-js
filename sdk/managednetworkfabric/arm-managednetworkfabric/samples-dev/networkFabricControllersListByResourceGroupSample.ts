@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the NetworkFabricControllers thats available in the resource group.
  *
  * @summary lists all the NetworkFabricControllers thats available in the resource group.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabricControllers_ListByResourceGroup.json
+ * x-ms-original-file: 2025-07-15/NetworkFabricControllers_ListByResourceGroup.json
  */
 async function networkFabricControllersListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

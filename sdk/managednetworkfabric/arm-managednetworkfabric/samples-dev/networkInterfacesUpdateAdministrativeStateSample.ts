@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the admin state of the Network Interface.
  *
  * @summary update the admin state of the Network Interface.
- * x-ms-original-file: 2024-06-15-preview/NetworkInterfaces_UpdateAdministrativeState.json
+ * x-ms-original-file: 2025-07-15/NetworkInterfaces_UpdateAdministrativeState.json
  */
 async function networkInterfacesUpdateAdministrativeStateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

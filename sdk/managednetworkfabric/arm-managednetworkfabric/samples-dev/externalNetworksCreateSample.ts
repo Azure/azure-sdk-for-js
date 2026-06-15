@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates ExternalNetwork PUT method.
  *
  * @summary creates ExternalNetwork PUT method.
- * x-ms-original-file: 2024-06-15-preview/ExternalNetworks_Create.json
+ * x-ms-original-file: 2025-07-15/ExternalNetworks_Create.json
  */
 async function externalNetworksCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

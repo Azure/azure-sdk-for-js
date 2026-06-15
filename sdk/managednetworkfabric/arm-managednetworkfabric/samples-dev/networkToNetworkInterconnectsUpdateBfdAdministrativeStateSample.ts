@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the Admin State.
  *
  * @summary updates the Admin State.
- * x-ms-original-file: 2024-06-15-preview/NetworkToNetworkInterconnects_UpdateBfdAdministrativeState.json
+ * x-ms-original-file: 2025-07-15/NetworkToNetworkInterconnects_UpdateBfdAdministrativeState.json
  */
 async function networkToNetworkInterconnectsUpdateBfdAdministrativeState(): Promise<void> {
   const credential = new DefaultAzureCredential();

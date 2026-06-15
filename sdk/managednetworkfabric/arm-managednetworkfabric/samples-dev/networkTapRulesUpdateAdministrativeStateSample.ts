@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements the operation to the underlying resources.
  *
  * @summary implements the operation to the underlying resources.
- * x-ms-original-file: 2024-06-15-preview/NetworkTapRules_UpdateAdministrativeState.json
+ * x-ms-original-file: 2025-07-15/NetworkTapRules_UpdateAdministrativeState.json
  */
 async function networkTapRulesUpdateAdministrativeStateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -17,7 +17,12 @@ async function networkTapRulesUpdateAdministrativeStateMaximumSetGen(): Promise<
   const result = await client.networkTapRules.updateAdministrativeState(
     "example-rg",
     "example-tapRule",
-    { resourceIds: [""], state: "Enable" },
+    {
+      resourceIds: [
+        "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourcegroups/example-rg/providers/Microsoft.ManagedNetworkFabric/networkTapRules/example-tapRule",
+      ],
+      state: "Enable",
+    },
   );
   console.log(result);
 }

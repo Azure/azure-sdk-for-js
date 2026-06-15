@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to displays NetworkMonitors list by resource group GET method.
  *
  * @summary displays NetworkMonitors list by resource group GET method.
- * x-ms-original-file: 2024-06-15-preview/NetworkMonitors_ListByResourceGroup.json
+ * x-ms-original-file: 2025-07-15/NetworkMonitors_ListByResourceGroup.json
  */
 async function networkMonitorsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

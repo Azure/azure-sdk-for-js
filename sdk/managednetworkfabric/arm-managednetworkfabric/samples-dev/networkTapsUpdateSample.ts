@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to aPI to update certain properties of the Network Tap resource.
  *
  * @summary aPI to update certain properties of the Network Tap resource.
- * x-ms-original-file: 2024-06-15-preview/NetworkTaps_Update.json
+ * x-ms-original-file: 2025-07-15/NetworkTaps_Update.json
  */
 async function networkTapsUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -16,6 +16,7 @@ async function networkTapsUpdateMaximumSetGen(): Promise<void> {
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
   const result = await client.networkTaps.update("example-rg", "example-networkTap", {
     tags: { keyId: "keyValue" },
+    identity: { type: "None", userAssignedIdentities: { key8793: {} } },
     annotation: "annotation1",
     pollingType: "Pull",
     destinations: [

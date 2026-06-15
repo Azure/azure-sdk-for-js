@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to configuration used to setup CE-PE connectivity PUT Method.
  *
  * @summary configuration used to setup CE-PE connectivity PUT Method.
- * x-ms-original-file: 2024-06-15-preview/NetworkToNetworkInterconnects_Create.json
+ * x-ms-original-file: 2025-07-15/NetworkToNetworkInterconnects_Create.json
  */
 async function networkToNetworkInterconnectsCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

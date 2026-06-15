@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements Gateway GET method.
  *
  * @summary implements Gateway GET method.
- * x-ms-original-file: 2024-06-15-preview/InternetGateways_Get.json
+ * x-ms-original-file: 2025-07-15/InternetGateways_Get.json
  */
 async function internetGatewaysGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

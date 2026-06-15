@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to executes update operation to enable or disable administrative State for externalNetwork.
  *
  * @summary executes update operation to enable or disable administrative State for externalNetwork.
- * x-ms-original-file: 2024-06-15-preview/ExternalNetworks_UpdateAdministrativeState.json
+ * x-ms-original-file: 2025-07-15/ExternalNetworks_UpdateAdministrativeState.json
  */
 async function externalNetworksUpdateAdministrativeStateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

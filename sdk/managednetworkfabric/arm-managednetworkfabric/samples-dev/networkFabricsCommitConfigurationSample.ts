@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to atomic update of the given Network Fabric instance. Sync update of NFA resources at Fabric level.
  *
  * @summary atomic update of the given Network Fabric instance. Sync update of NFA resources at Fabric level.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabrics_CommitConfiguration.json
+ * x-ms-original-file: 2025-07-15/NetworkFabrics_CommitConfiguration.json
  */
 async function networkFabricsCommitConfigurationMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

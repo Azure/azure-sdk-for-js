@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a Network Fabric Service Internet Gateway resource instance.
  *
  * @summary creates a Network Fabric Service Internet Gateway resource instance.
- * x-ms-original-file: 2024-06-15-preview/InternetGateways_Create.json
+ * x-ms-original-file: 2025-07-15/InternetGateways_Create.json
  */
 async function internetGatewaysCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

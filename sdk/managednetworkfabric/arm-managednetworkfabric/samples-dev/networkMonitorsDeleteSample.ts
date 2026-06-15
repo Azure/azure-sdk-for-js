@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes layer 2 connectivity between compute nodes by managed by named NetworkMonitor name.
  *
  * @summary deletes layer 2 connectivity between compute nodes by managed by named NetworkMonitor name.
- * x-ms-original-file: 2024-06-15-preview/NetworkMonitors_Delete.json
+ * x-ms-original-file: 2025-07-15/NetworkMonitors_Delete.json
  */
 async function networkMonitorsDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

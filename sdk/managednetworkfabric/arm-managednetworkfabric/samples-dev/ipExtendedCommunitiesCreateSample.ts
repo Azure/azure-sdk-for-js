@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements IP Extended Community PUT method.
  *
  * @summary implements IP Extended Community PUT method.
- * x-ms-original-file: 2024-06-15-preview/IpExtendedCommunities_Create.json
+ * x-ms-original-file: 2025-07-15/IpExtendedCommunities_Create.json
  */
 async function ipExtendedCommunitiesCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

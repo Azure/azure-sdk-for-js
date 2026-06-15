@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to validates the configuration of the resources.
  *
  * @summary validates the configuration of the resources.
- * x-ms-original-file: 2024-06-15-preview/L2IsolationDomains_ValidateConfiguration.json
+ * x-ms-original-file: 2025-07-15/L2IsolationDomains_ValidateConfiguration.json
  */
 async function l2IsolationDomainsValidateConfigurationMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

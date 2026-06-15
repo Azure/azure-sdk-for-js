@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the NetworkFabricControllers by subscription.
  *
  * @summary lists all the NetworkFabricControllers by subscription.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabricControllers_ListBySubscription.json
+ * x-ms-original-file: 2025-07-15/NetworkFabricControllers_ListBySubscription.json
  */
 async function networkFabricControllersListBySubscriptionMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to provisions the underlying resources in the given Network Fabric instance.
  *
  * @summary provisions the underlying resources in the given Network Fabric instance.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabrics_Provision.json
+ * x-ms-original-file: 2025-07-15/NetworkFabrics_Provision.json
  */
 async function networkFabricsProvisionMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

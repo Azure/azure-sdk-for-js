@@ -5,10 +5,10 @@ import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetwor
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to update Administrative state of  InternalNetworks on resources referred by their resource ids.
+ * This sample demonstrates how to executes update operation to enable or disable administrative State for InternalNetwork.
  *
- * @summary update Administrative state of  InternalNetworks on resources referred by their resource ids.
- * x-ms-original-file: 2024-06-15-preview/InternalNetworks_UpdateAdministrativeState.json
+ * @summary executes update operation to enable or disable administrative State for InternalNetwork.
+ * x-ms-original-file: 2025-07-15/InternalNetworks_UpdateAdministrativeState.json
  */
 async function internalNetworksUpdateAdministrativeStateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

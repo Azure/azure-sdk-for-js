@@ -8,14 +8,15 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to upgrades the version of the Network Device.
  *
  * @summary upgrades the version of the Network Device.
- * x-ms-original-file: 2024-06-15-preview/NetworkDevices_Upgrade.json
+ * x-ms-original-file: 2025-07-15/NetworkDevices_Upgrade.json
  */
-async function networkDevicesUpgradeMaximumSetGen(): Promise<void> {
+async function networkDevicesUpgradeMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
+  const subscriptionId = "1234ABCD-0A1B-1234-5678-123456ABCDEF";
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
-  const result = await client.networkDevices.upgrade("example-rg", "example-device", {
+  const result = await client.networkDevices.upgrade("rgmanagednetworkfabric", "example-device", {
     version: "1.0.0",
+    rwDeviceConfigUrl: "https://microsoft.com/a",
   });
   console.log(result);
 }

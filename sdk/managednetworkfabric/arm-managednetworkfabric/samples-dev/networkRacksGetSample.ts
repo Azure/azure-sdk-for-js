@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get Network Rack resource details.
  *
  * @summary get Network Rack resource details.
- * x-ms-original-file: 2024-06-15-preview/NetworkRacks_Get.json
+ * x-ms-original-file: 2025-07-15/NetworkRacks_Get.json
  */
 async function networkRacksGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a Network Fabric Controller.
  *
  * @summary creates a Network Fabric Controller.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabricControllers_Create.json
+ * x-ms-original-file: 2025-07-15/NetworkFabricControllers_Create.json
  */
 async function networkFabricControllersCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -38,6 +38,7 @@ async function networkFabricControllersCreateMaximumSetGen(): Promise<void> {
       ipv4AddressSpace: "172.253.0.0/19",
       ipv6AddressSpace: "::/60",
       nfcSku: "Standard",
+      identity: { type: "None", userAssignedIdentities: { key4876: {} } },
       tags: { keyId: "KeyValue" },
       location: "eastus",
     },

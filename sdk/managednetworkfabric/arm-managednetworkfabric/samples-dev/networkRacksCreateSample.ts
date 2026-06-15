@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create Network Rack resource.
  *
  * @summary create Network Rack resource.
- * x-ms-original-file: 2024-06-15-preview/NetworkRacks_Create.json
+ * x-ms-original-file: 2025-07-15/NetworkRacks_Create.json
  */
 async function networkRacksCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

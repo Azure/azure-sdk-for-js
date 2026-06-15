@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements L2 Isolation Domain GET method.
  *
  * @summary implements L2 Isolation Domain GET method.
- * x-ms-original-file: 2024-06-15-preview/L2IsolationDomains_Get.json
+ * x-ms-original-file: 2025-07-15/L2IsolationDomains_Get.json
  */
 async function l2IsolationDomainsGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

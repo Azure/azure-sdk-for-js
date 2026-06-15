@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements ExternalNetworks GET method.
  *
  * @summary implements ExternalNetworks GET method.
- * x-ms-original-file: 2024-06-15-preview/ExternalNetworks_Get.json
+ * x-ms-original-file: 2025-07-15/ExternalNetworks_Get.json
  */
 async function externalNetworksGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

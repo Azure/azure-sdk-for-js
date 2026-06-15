@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to displays Network Taps list by subscription GET method.
  *
  * @summary displays Network Taps list by subscription GET method.
- * x-ms-original-file: 2024-06-15-preview/NetworkTaps_ListBySubscription.json
+ * x-ms-original-file: 2025-07-15/NetworkTaps_ListBySubscription.json
  */
 async function networkTapsListBySubscriptionMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

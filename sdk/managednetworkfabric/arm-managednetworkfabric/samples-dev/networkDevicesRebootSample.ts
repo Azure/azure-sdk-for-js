@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to reboot the Network Device.
  *
  * @summary reboot the Network Device.
- * x-ms-original-file: 2024-06-15-preview/NetworkDevices_Reboot.json
+ * x-ms-original-file: 2025-07-15/NetworkDevices_Reboot.json
  */
 async function networkDevicesRebootMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

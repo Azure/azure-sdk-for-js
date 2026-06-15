@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes Network Packet Broker.
  *
  * @summary deletes Network Packet Broker.
- * x-ms-original-file: 2024-06-15-preview/NetworkPacketBrokers_Delete.json
+ * x-ms-original-file: 2025-07-15/NetworkPacketBrokers_Delete.json
  */
 async function networkPacketBrokersDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

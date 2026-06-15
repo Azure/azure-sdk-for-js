@@ -8,13 +8,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements Network Fabric SKU GET method.
  *
  * @summary implements Network Fabric SKU GET method.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabricSkus_Get.json
+ * x-ms-original-file: 2025-07-15/NetworkFabricSkus_Get.json
  */
 async function networkFabricSkusGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
-  const result = await client.networkFabricSkus.get("wxample-fabricsku");
+  const result = await client.networkFabricSkus.get("example-fabricsku");
   console.log(result);
 }
 

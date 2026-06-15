@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to refreshes the configuration of the underlying resources in the given Network Fabric instance.
  *
  * @summary refreshes the configuration of the underlying resources in the given Network Fabric instance.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabrics_RefreshConfiguration.json
+ * x-ms-original-file: 2025-07-15/NetworkFabrics_RefreshConfiguration.json
  */
 async function networkFabricsRefreshConfigurationMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

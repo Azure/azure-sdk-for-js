@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes layer 2 connectivity between compute nodes by managed by named L2 Isolation name.
  *
  * @summary deletes layer 2 connectivity between compute nodes by managed by named L2 Isolation name.
- * x-ms-original-file: 2024-06-15-preview/L2IsolationDomains_Delete.json
+ * x-ms-original-file: 2025-07-15/L2IsolationDomains_Delete.json
  */
 async function l2IsolationDomainsDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

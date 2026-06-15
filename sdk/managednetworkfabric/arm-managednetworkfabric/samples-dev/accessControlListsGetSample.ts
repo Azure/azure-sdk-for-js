@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements Access Control List GET method.
  *
  * @summary implements Access Control List GET method.
- * x-ms-original-file: 2024-06-15-preview/AccessControlLists_Get.json
+ * x-ms-original-file: 2025-07-15/AccessControlLists_Get.json
  */
 async function accessControlListsGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -76,10 +76,12 @@ export function _resyncPasswordsSend(
 export async function _resyncPasswordsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<NetworkBootstrapDeviceResyncPasswordsResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -97,7 +99,7 @@ export function resyncPasswords(
   OperationState<NetworkBootstrapDeviceResyncPasswordsResponse>,
   NetworkBootstrapDeviceResyncPasswordsResponse
 > {
-  return getLongRunningPoller(context, _resyncPasswordsDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _resyncPasswordsDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -140,10 +142,12 @@ export function _updateAdministrativeStateSend(
 export async function _updateAdministrativeStateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<NetworkBootstrapDeviceUpdateAdministrativeStateResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -165,7 +169,7 @@ export function updateAdministrativeState(
   return getLongRunningPoller(
     context,
     _updateAdministrativeStateDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -216,10 +220,12 @@ export function _upgradeSend(
 export async function _upgradeDeserialize(
   result: PathUncheckedResponse,
 ): Promise<NetworkBootstrapDeviceUpgradeResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -238,7 +244,7 @@ export function upgrade(
   OperationState<NetworkBootstrapDeviceUpgradeResponse>,
   NetworkBootstrapDeviceUpgradeResponse
 > {
-  return getLongRunningPoller(context, _upgradeDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _upgradeDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -278,10 +284,12 @@ export function _refreshConfigurationSend(
 export async function _refreshConfigurationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<NetworkBootstrapDeviceRefreshConfigurationResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -299,7 +307,7 @@ export function refreshConfiguration(
   OperationState<NetworkBootstrapDeviceRefreshConfigurationResponse>,
   NetworkBootstrapDeviceRefreshConfigurationResponse
 > {
-  return getLongRunningPoller(context, _refreshConfigurationDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _refreshConfigurationDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -339,10 +347,12 @@ export function _rebootSend(
 export async function _rebootDeserialize(
   result: PathUncheckedResponse,
 ): Promise<NetworkBootstrapDeviceRebootResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -360,7 +370,7 @@ export function reboot(
   OperationState<NetworkBootstrapDeviceRebootResponse>,
   NetworkBootstrapDeviceRebootResponse
 > {
-  return getLongRunningPoller(context, _rebootDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _rebootDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -399,7 +409,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -449,7 +461,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -497,7 +511,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -506,11 +522,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes a Network Bootstrap Device resource. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -560,7 +571,9 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -619,7 +632,9 @@ export async function _createDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -675,7 +690,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

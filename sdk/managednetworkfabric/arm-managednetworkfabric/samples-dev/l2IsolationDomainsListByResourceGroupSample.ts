@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to displays L2IsolationDomains list by resource group GET method.
  *
  * @summary displays L2IsolationDomains list by resource group GET method.
- * x-ms-original-file: 2024-06-15-preview/L2IsolationDomains_ListByResourceGroup.json
+ * x-ms-original-file: 2025-07-15/L2IsolationDomains_ListByResourceGroup.json
  */
 async function l2IsolationDomainsListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

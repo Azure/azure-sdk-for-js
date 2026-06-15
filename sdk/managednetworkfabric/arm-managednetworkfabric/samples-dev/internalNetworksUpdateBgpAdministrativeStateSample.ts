@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update BGP state for internalNetwork. Allowed only on edge devices.
  *
  * @summary update BGP state for internalNetwork. Allowed only on edge devices.
- * x-ms-original-file: 2024-06-15-preview/InternalNetworks_UpdateBgpAdministrativeState.json
+ * x-ms-original-file: 2025-07-15/InternalNetworks_UpdateBgpAdministrativeState.json
  */
 async function internalNetworksUpdateBgpAdministrativeStateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

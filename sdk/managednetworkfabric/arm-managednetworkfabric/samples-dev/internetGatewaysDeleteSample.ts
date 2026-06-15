@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to execute a delete on Network Fabric Service Internet Gateway.
  *
  * @summary execute a delete on Network Fabric Service Internet Gateway.
- * x-ms-original-file: 2024-06-15-preview/InternetGateways_Delete.json
+ * x-ms-original-file: 2025-07-15/InternetGateways_Delete.json
  */
 async function internetGatewaysDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to post action: Discards a Batch operation in progress.
  *
  * @summary post action: Discards a Batch operation in progress.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabrics_DiscardCommitBatch.json
+ * x-ms-original-file: 2025-07-15/NetworkFabrics_DiscardCommitBatch.json
  */
 async function networkFabricsDiscardCommitBatch(): Promise<void> {
   const credential = new DefaultAzureCredential();

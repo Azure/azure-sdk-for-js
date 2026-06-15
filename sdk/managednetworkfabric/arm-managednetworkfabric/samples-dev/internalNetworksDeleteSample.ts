@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements InternalNetworks DELETE method.
  *
  * @summary implements InternalNetworks DELETE method.
- * x-ms-original-file: 2024-06-15-preview/InternalNetworks_Delete.json
+ * x-ms-original-file: 2025-07-15/InternalNetworks_Delete.json
  */
 async function internalNetworksDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

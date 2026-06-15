@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves details of this Network Tap.
  *
  * @summary retrieves details of this Network Tap.
- * x-ms-original-file: 2024-06-15-preview/NetworkTaps_Get.json
+ * x-ms-original-file: 2025-07-15/NetworkTaps_Get.json
  */
 async function networkTapsGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

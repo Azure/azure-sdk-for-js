@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to displays Network Packet Brokers list by subscription GET method.
  *
  * @summary displays Network Packet Brokers list by subscription GET method.
- * x-ms-original-file: 2024-06-15-preview/NetworkPacketBrokers_ListBySubscription.json
+ * x-ms-original-file: 2025-07-15/NetworkPacketBrokers_ListBySubscription.json
  */
 async function networkPacketBrokersListBySubscriptionMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

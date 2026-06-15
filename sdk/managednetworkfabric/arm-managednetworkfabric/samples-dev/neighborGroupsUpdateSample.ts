@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the Neighbor Group.
  *
  * @summary updates the Neighbor Group.
- * x-ms-original-file: 2024-06-15-preview/NeighborGroups_Update.json
+ * x-ms-original-file: 2025-07-15/NeighborGroups_Update.json
  */
 async function neighborGroupsUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -16,6 +16,7 @@ async function neighborGroupsUpdateMaximumSetGen(): Promise<void> {
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
   const result = await client.neighborGroups.update("example-rg", "example-neighborGroup", {
     tags: { KeyId: "KeyValue" },
+    identity: { type: "None", userAssignedIdentities: { key8793: {} } },
     annotation: "Updating",
     destination: {
       ipv4Addresses: [

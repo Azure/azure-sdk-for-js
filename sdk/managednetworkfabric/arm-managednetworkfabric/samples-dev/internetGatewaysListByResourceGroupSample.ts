@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to displays Internet Gateways list by resource group GET method.
  *
  * @summary displays Internet Gateways list by resource group GET method.
- * x-ms-original-file: 2024-06-15-preview/InternetGateways_ListByResourceGroup.json
+ * x-ms-original-file: 2025-07-15/InternetGateways_ListByResourceGroup.json
  */
 async function internetGatewaysListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

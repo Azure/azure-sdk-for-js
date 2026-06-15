@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements External Networks list by resource group GET method.
  *
  * @summary implements External Networks list by resource group GET method.
- * x-ms-original-file: 2024-06-15-preview/ExternalNetworks_ListByL3IsolationDomain.json
+ * x-ms-original-file: 2025-07-15/ExternalNetworks_ListByL3IsolationDomain.json
  */
 async function externalNetworksListByL3IsolationDomainMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

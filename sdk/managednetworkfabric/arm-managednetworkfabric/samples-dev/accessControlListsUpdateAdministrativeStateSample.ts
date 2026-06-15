@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements the operation to the underlying resources.
  *
  * @summary implements the operation to the underlying resources.
- * x-ms-original-file: 2024-06-15-preview/AccessControlLists_UpdateAdministrativeState.json
+ * x-ms-original-file: 2025-07-15/AccessControlLists_UpdateAdministrativeState.json
  */
 async function accessControlListsUpdateAdministrativeStateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

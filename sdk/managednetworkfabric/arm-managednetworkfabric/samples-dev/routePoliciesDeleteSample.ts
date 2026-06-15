@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements Route Policy DELETE method.
  *
  * @summary implements Route Policy DELETE method.
- * x-ms-original-file: 2024-06-15-preview/RoutePolicies_Delete.json
+ * x-ms-original-file: 2025-07-15/RoutePolicies_Delete.json
  */
 async function routePoliciesDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

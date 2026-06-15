@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to enables isolation domain across the fabric or on specified racks.
  *
  * @summary enables isolation domain across the fabric or on specified racks.
- * x-ms-original-file: 2024-06-15-preview/NetworkMonitors_UpdateAdministrativeState.json
+ * x-ms-original-file: 2025-07-15/NetworkMonitors_UpdateAdministrativeState.json
  */
 async function networkMonitorsUpdateAdministrativeState(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements IP Prefix GET method.
  *
  * @summary implements IP Prefix GET method.
- * x-ms-original-file: 2024-06-15-preview/IpPrefixes_Get.json
+ * x-ms-original-file: 2025-07-15/IpPrefixes_Get.json
  */
 async function ipPrefixesGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

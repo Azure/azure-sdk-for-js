@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to bFD administrative state for either static or bgp for internalNetwork.
  *
  * @summary bFD administrative state for either static or bgp for internalNetwork.
- * x-ms-original-file: 2024-06-15-preview/ExternalNetworks_UpdateBfdAdministrativeState.json
+ * x-ms-original-file: 2025-07-15/ExternalNetworks_UpdateBfdAdministrativeState.json
  */
 async function externalNetworksUpdateBfdAdministrativeState(): Promise<void> {
   const credential = new DefaultAzureCredential();

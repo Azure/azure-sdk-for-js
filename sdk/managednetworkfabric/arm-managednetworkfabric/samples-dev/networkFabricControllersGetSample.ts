@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to shows the provisioning status of Network Fabric Controller.
  *
  * @summary shows the provisioning status of Network Fabric Controller.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabricControllers_Get.json
+ * x-ms-original-file: 2025-07-15/NetworkFabricControllers_Get.json
  */
 async function networkFabricControllersGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

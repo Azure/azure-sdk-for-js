@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get Network Tap Rule resource details.
  *
  * @summary get Network Tap Rule resource details.
- * x-ms-original-file: 2024-06-15-preview/NetworkTapRules_Get.json
+ * x-ms-original-file: 2025-07-15/NetworkTapRules_Get.json
  */
 async function networkTapRulesGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

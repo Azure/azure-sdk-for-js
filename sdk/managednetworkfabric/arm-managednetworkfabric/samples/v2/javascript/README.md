@@ -455,6 +455,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [routepoliciesupdateadministrativestatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managednetworkfabric/arm-managednetworkfabric/samples/v2/javascript/routePoliciesUpdateAdministrativeStateSample.js
 [routepoliciesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managednetworkfabric/arm-managednetworkfabric/samples/v2/javascript/routePoliciesUpdateSample.js
 [routepoliciesvalidateconfigurationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managednetworkfabric/arm-managednetworkfabric/samples/v2/javascript/routePoliciesValidateConfigurationSample.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-managednetworkfabric?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-managednetworkfabric
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/managednetworkfabric/arm-managednetworkfabric/README.md

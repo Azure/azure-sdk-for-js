@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements Internet Gateway Rules DELETE method.
  *
  * @summary implements Internet Gateway Rules DELETE method.
- * x-ms-original-file: 2024-06-15-preview/InternetGatewayRules_Delete.json
+ * x-ms-original-file: 2025-07-15/InternetGatewayRules_Delete.json
  */
 async function internetGatewayRulesDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

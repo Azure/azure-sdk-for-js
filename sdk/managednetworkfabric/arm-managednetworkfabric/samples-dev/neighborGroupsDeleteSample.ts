@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements Neighbor Group DELETE method.
  *
  * @summary implements Neighbor Group DELETE method.
- * x-ms-original-file: 2024-06-15-preview/NeighborGroups_Delete.json
+ * x-ms-original-file: 2025-07-15/NeighborGroups_Delete.json
  */
 async function neighborGroupsDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

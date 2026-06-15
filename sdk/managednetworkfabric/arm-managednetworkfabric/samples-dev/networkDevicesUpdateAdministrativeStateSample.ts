@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the Administrative state of the Network Device.
  *
  * @summary updates the Administrative state of the Network Device.
- * x-ms-original-file: 2024-06-15-preview/NetworkDevices_UpdateAdministrativeState.json
+ * x-ms-original-file: 2025-07-15/NetworkDevices_UpdateAdministrativeState.json
  */
 async function networkDevicesUpdateAdministrativeStateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

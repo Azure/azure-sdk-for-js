@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the Network Interface resource details.
  *
  * @summary get the Network Interface resource details.
- * x-ms-original-file: 2024-06-15-preview/NetworkInterfaces_Get.json
+ * x-ms-original-file: 2025-07-15/NetworkInterfaces_Get.json
  */
 async function networkInterfacesGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements ExternalNetworks DELETE method.
  *
  * @summary implements ExternalNetworks DELETE method.
- * x-ms-original-file: 2024-06-15-preview/ExternalNetworks_Delete.json
+ * x-ms-original-file: 2025-07-15/ExternalNetworks_Delete.json
  */
 async function externalNetworksDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

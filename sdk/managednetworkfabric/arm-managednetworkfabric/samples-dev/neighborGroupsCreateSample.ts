@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements the Neighbor Group PUT method.
  *
  * @summary implements the Neighbor Group PUT method.
- * x-ms-original-file: 2024-06-15-preview/NeighborGroups_Create.json
+ * x-ms-original-file: 2025-07-15/NeighborGroups_Create.json
  */
 async function neighborGroupsCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,6 +30,7 @@ async function neighborGroupsCreateMaximumSetGen(): Promise<void> {
       ],
       ipv6Addresses: ["2F::/100"],
     },
+    identity: { type: "None", userAssignedIdentities: { key3673: {} } },
     tags: { KeyId: "KeyValue" },
     location: "eastus",
   });

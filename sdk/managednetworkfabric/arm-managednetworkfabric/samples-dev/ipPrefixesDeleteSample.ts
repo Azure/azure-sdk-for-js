@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements IP Prefix DELETE method.
  *
  * @summary implements IP Prefix DELETE method.
- * x-ms-original-file: 2024-06-15-preview/IpPrefixes_Delete.json
+ * x-ms-original-file: 2025-07-15/IpPrefixes_Delete.json
  */
 async function ipPrefixesDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

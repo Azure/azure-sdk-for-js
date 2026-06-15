@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements IP Prefix PUT method.
  *
  * @summary implements IP Prefix PUT method.
- * x-ms-original-file: 2024-06-15-preview/IpPrefixes_Create.json
+ * x-ms-original-file: 2025-07-15/IpPrefixes_Create.json
  */
 async function ipPrefixesCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes Network Tap.
  *
  * @summary deletes Network Tap.
- * x-ms-original-file: 2024-06-15-preview/NetworkTaps_Delete.json
+ * x-ms-original-file: 2025-07-15/NetworkTaps_Delete.json
  */
 async function networkTapsDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

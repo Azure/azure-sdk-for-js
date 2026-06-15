@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements IpPrefixes list by subscription GET method.
  *
  * @summary implements IpPrefixes list by subscription GET method.
- * x-ms-original-file: 2024-06-15-preview/IpPrefixes_ListBySubscription.json
+ * x-ms-original-file: 2025-07-15/IpPrefixes_ListBySubscription.json
  */
 async function ipPrefixesListBySubscriptionMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

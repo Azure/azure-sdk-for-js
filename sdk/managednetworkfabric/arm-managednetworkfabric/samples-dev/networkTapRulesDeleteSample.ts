@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete Network Tap Rule resource.
  *
  * @summary delete Network Tap Rule resource.
- * x-ms-original-file: 2024-06-15-preview/NetworkTapRules_Delete.json
+ * x-ms-original-file: 2025-07-15/NetworkTapRules_Delete.json
  */
 async function networkTapRulesDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

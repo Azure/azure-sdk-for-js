@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updated the admin state for this Route Policy.
  *
  * @summary updated the admin state for this Route Policy.
- * x-ms-original-file: 2024-06-15-preview/RoutePolicies_UpdateAdministrativeState.json
+ * x-ms-original-file: 2025-07-15/RoutePolicies_UpdateAdministrativeState.json
  */
 async function routePoliciesUpdateAdministrativeStateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

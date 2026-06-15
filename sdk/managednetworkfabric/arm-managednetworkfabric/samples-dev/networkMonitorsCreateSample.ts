@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates NetworkMonitor resource.
  *
  * @summary creates NetworkMonitor resource.
- * x-ms-original-file: 2024-06-15-preview/NetworkMonitors_Create.json
+ * x-ms-original-file: 2025-07-15/NetworkMonitors_Create.json
  */
 async function networkMonitorsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -31,6 +31,7 @@ async function networkMonitorsCreate(): Promise<void> {
         "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourceGroups/example-rg/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/example-l3domain",
       ],
       exportPolicy: "Pre-Policy",
+      exportPolicyConfiguration: { exportPolicies: ["Pre-Policy"] },
       monitoredAddressFamilies: ["ipv4Unicast"],
     },
     tags: { key: "value" },

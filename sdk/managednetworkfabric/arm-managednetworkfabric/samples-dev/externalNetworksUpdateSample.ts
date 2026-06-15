@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to aPI to update certain properties of the ExternalNetworks resource.
  *
  * @summary aPI to update certain properties of the ExternalNetworks resource.
- * x-ms-original-file: 2024-06-15-preview/ExternalNetworks_Update.json
+ * x-ms-original-file: 2025-07-15/ExternalNetworks_Update.json
  */
 async function externalNetworksUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all the Network Device resources in a given subscription.
  *
  * @summary list all the Network Device resources in a given subscription.
- * x-ms-original-file: 2024-06-15-preview/NetworkDevices_ListBySubscription.json
+ * x-ms-original-file: 2025-07-15/NetworkDevices_ListBySubscription.json
  */
 async function networkDevicesListBySubscriptionMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

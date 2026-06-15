@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements IP Extended Community DELETE method.
  *
  * @summary implements IP Extended Community DELETE method.
- * x-ms-original-file: 2024-06-15-preview/IpExtendedCommunities_Delete.json
+ * x-ms-original-file: 2025-07-15/IpExtendedCommunities_Delete.json
  */
 async function ipExtendedCommunitiesDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

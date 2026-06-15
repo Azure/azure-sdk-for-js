@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements IpExtendedCommunities list by resource group GET method.
  *
  * @summary implements IpExtendedCommunities list by resource group GET method.
- * x-ms-original-file: 2024-06-15-preview/IpExtendedCommunities_ListByResourceGroup.json
+ * x-ms-original-file: 2025-07-15/IpExtendedCommunities_ListByResourceGroup.json
  */
 async function ipExtendedCommunitiesListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

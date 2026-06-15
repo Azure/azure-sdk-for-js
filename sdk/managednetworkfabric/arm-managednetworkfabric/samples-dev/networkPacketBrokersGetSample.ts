@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves details of this Network Packet Broker.
  *
  * @summary retrieves details of this Network Packet Broker.
- * x-ms-original-file: 2024-06-15-preview/NetworkPacketBrokers_Get.json
+ * x-ms-original-file: 2025-07-15/NetworkPacketBrokers_Get.json
  */
 async function networkPacketBrokersGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

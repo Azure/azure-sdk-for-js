@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to execute patch on Network Fabric Service Internet Gateway.
  *
  * @summary execute patch on Network Fabric Service Internet Gateway.
- * x-ms-original-file: 2024-06-15-preview/InternetGateways_Update.json
+ * x-ms-original-file: 2025-07-15/InternetGateways_Update.json
  */
 async function internetGatewaysUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

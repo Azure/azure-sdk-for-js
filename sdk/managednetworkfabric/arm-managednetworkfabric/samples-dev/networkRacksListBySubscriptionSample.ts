@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all Network Rack resources in the given subscription
  *
  * @summary list all Network Rack resources in the given subscription
- * x-ms-original-file: 2024-06-15-preview/NetworkRacks_ListBySubscription.json
+ * x-ms-original-file: 2025-07-15/NetworkRacks_ListBySubscription.json
  */
 async function networkRacksListBySubscriptionMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

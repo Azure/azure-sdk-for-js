@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements Access Control List DELETE method.
  *
  * @summary implements Access Control List DELETE method.
- * x-ms-original-file: 2024-06-15-preview/AccessControlLists_Delete.json
+ * x-ms-original-file: 2025-07-15/AccessControlLists_Delete.json
  */
 async function accessControlListsDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

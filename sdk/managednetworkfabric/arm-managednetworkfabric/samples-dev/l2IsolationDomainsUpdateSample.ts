@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to aPI to update certain properties of the L2 Isolation Domain resource.
  *
  * @summary aPI to update certain properties of the L2 Isolation Domain resource.
- * x-ms-original-file: 2024-06-15-preview/L2IsolationDomains_Update.json
+ * x-ms-original-file: 2025-07-15/L2IsolationDomains_Update.json
  */
 async function l2IsolationDomainsUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -16,6 +16,7 @@ async function l2IsolationDomainsUpdateMaximumSetGen(): Promise<void> {
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
   const result = await client.l2IsolationDomains.update("example-rg", "example-l2domain", {
     tags: { KeyId: "KeyValue" },
+    identity: { type: "None", userAssignedIdentities: { key8793: {} } },
     annotation: "annotation1",
     mtu: 6000,
     networkToNetworkInterconnectId:

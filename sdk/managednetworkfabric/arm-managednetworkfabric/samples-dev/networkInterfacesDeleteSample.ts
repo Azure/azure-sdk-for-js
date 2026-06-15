@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the Network Interface resource.
  *
  * @summary delete the Network Interface resource.
- * x-ms-original-file: 2024-06-15-preview/NetworkInterfaces_Delete.json
+ * x-ms-original-file: 2025-07-15/NetworkInterfaces_Delete.json
  */
 async function networkInterfacesDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

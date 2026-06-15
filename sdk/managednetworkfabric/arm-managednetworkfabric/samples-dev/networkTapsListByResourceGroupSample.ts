@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to displays Network Taps list by resource group GET method.
  *
  * @summary displays Network Taps list by resource group GET method.
- * x-ms-original-file: 2024-06-15-preview/NetworkTaps_ListByResourceGroup.json
+ * x-ms-original-file: 2025-07-15/NetworkTaps_ListByResourceGroup.json
  */
 async function networkTapsListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

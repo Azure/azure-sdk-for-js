@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to refreshes the configuration the Network Device.
  *
  * @summary refreshes the configuration the Network Device.
- * x-ms-original-file: 2024-06-15-preview/NetworkDevices_RefreshConfiguration.json
+ * x-ms-original-file: 2025-07-15/NetworkDevices_RefreshConfiguration.json
  */
 async function networkDevicesRefreshConfigurationMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

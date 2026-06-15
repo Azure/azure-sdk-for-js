@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete Network Rack resource.
  *
  * @summary delete Network Rack resource.
- * x-ms-original-file: 2024-06-15-preview/NetworkRacks_Delete.json
+ * x-ms-original-file: 2025-07-15/NetworkRacks_Delete.json
  */
 async function networkRacksDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

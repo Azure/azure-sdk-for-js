@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a InternalNetworks.
  *
  * @summary updates a InternalNetworks.
- * x-ms-original-file: 2024-06-15-preview/InternalNetworks_Update.json
+ * x-ms-original-file: 2025-07-15/InternalNetworks_Update.json
  */
 async function internalNetworksUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

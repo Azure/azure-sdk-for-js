@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements NetworkToNetworkInterconnects DELETE method.
  *
  * @summary implements NetworkToNetworkInterconnects DELETE method.
- * x-ms-original-file: 2024-06-15-preview/NetworkToNetworkInterconnects_Delete.json
+ * x-ms-original-file: 2025-07-15/NetworkToNetworkInterconnects_Delete.json
  */
 async function networkToNetworkInterconnectsDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

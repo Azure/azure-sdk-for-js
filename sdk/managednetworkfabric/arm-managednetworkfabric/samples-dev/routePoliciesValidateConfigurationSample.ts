@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to validates the configuration of the resources.
  *
  * @summary validates the configuration of the resources.
- * x-ms-original-file: 2024-06-15-preview/RoutePolicies_ValidateConfiguration.json
+ * x-ms-original-file: 2025-07-15/RoutePolicies_ValidateConfiguration.json
  */
 async function routePoliciesValidateConfigurationMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

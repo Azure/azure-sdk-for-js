@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update certain properties of the Network Device resource.
  *
  * @summary update certain properties of the Network Device resource.
- * x-ms-original-file: 2024-06-15-preview/NetworkDevices_Update.json
+ * x-ms-original-file: 2025-07-15/NetworkDevices_Update.json
  */
 async function networkDevicesUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -16,6 +16,13 @@ async function networkDevicesUpdateMaximumSetGen(): Promise<void> {
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
   const result = await client.networkDevices.update("example-rg", "example-device", {
     tags: { KeyId: "KeyValue" },
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourcegroups/example-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/example-identity":
+          {},
+      },
+    },
     annotation: "annotation",
     hostName: "NFA-Device",
     identitySelector: {

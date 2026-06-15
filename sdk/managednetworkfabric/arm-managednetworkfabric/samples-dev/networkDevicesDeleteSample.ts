@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the Network Device resource.
  *
  * @summary delete the Network Device resource.
- * x-ms-original-file: 2024-06-15-preview/NetworkDevices_Delete.json
+ * x-ms-original-file: 2025-07-15/NetworkDevices_Delete.json
  */
 async function networkDevicesDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

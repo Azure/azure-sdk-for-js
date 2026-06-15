@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to aPI to update certain properties of the Internet Gateway Rule resource.
  *
  * @summary aPI to update certain properties of the Internet Gateway Rule resource.
- * x-ms-original-file: 2024-06-15-preview/InternetGatewayRules_Update.json
+ * x-ms-original-file: 2025-07-15/InternetGatewayRules_Update.json
  */
 async function internetGatewayRulesUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

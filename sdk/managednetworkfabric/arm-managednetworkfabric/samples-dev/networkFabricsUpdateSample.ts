@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update certain properties of the Network Fabric resource.
  *
  * @summary update certain properties of the Network Fabric resource.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabrics_Update.json
+ * x-ms-original-file: 2025-07-15/NetworkFabrics_Update.json
  */
 async function networkFabricsUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -32,6 +32,7 @@ async function networkFabricsUpdateMaximumSetGen(): Promise<void> {
           "/subscriptions/12345678-1234-1234-1234-123456789abc/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/my-id",
       },
     },
+    featureFlags: [{ featureFlagName: "uniqueRdConfiguration", featureFlagValue: "Enabled" }],
     terminalServerConfiguration: {
       username: "username1",
       password: "xxxxxxxx",
@@ -104,6 +105,23 @@ async function networkFabricsUpdateMaximumSetGen(): Promise<void> {
       uniqueRdConfigurationState: "Enabled",
       nniDerivedUniqueRdConfigurationState: "Enabled",
     },
+    qosConfiguration: { qosConfigurationState: "Enabled" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to update certain properties of the Network Fabric resource.
+ *
+ * @summary update certain properties of the Network Fabric resource.
+ * x-ms-original-file: 2025-07-15/NetworkFabrics_Update_QoS.json
+ */
+async function networkFabricsUpdateQoSEnable(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
+  const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
+  const result = await client.networkFabrics.update("example-rg", "example-fabric", {
+    qosConfiguration: { qosConfigurationState: "Enabled" },
   });
   console.log(result);
 }

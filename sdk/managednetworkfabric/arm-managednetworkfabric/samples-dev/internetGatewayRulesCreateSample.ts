@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates an Internet Gateway rule resource.
  *
  * @summary creates an Internet Gateway rule resource.
- * x-ms-original-file: 2024-06-15-preview/InternetGatewayRules_Create.json
+ * x-ms-original-file: 2025-07-15/InternetGatewayRules_Create.json
  */
 async function internetGatewayRulesCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

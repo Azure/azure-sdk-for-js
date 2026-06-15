@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create Network Tap Rule resource.
  *
  * @summary create Network Tap Rule resource.
- * x-ms-original-file: 2024-06-15-preview/NetworkTapRules_Create.json
+ * x-ms-original-file: 2025-07-15/NetworkTapRules_Create.json
  */
 async function networkTapRulesCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,6 +18,11 @@ async function networkTapRulesCreateMaximumSetGen(): Promise<void> {
     annotation: "annotation",
     configurationType: "File",
     tapRulesUrl: "https://microsoft.com/a",
+    identitySelector: {
+      identityType: "UserAssignedIdentity",
+      userAssignedIdentityResourceId:
+        "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourcegroups/example-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/example-identity",
+    },
     matchConfigurations: [
       {
         matchConfigurationName: "config1",
@@ -69,6 +74,7 @@ async function networkTapRulesCreateMaximumSetGen(): Promise<void> {
     ],
     pollingIntervalInSeconds: 30,
     globalNetworkTapRuleActions: { enableCount: "True", truncate: "truncate-name" },
+    identity: { type: "UserAssigned", userAssignedIdentities: { key872: {} } },
     tags: { keyId: "keyValue" },
     location: "eastuseuap",
   });

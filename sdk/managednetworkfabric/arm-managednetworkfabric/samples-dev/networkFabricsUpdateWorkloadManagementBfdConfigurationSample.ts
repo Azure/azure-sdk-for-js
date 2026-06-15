@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the Workload Management BFD Configuration of the underlying resources in the given Network Fabric instance.
  *
  * @summary updates the Workload Management BFD Configuration of the underlying resources in the given Network Fabric instance.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabrics_UpdateWorkloadManagementBfdConfiguration.json
+ * x-ms-original-file: 2025-07-15/NetworkFabrics_UpdateWorkloadManagementBfdConfiguration.json
  */
 async function networkFabricsUpdateWorkloadManagementBfdConfigurationMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

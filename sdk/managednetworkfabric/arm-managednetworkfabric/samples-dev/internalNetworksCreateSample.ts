@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates InternalNetwork PUT method.
  *
  * @summary creates InternalNetwork PUT method.
- * x-ms-original-file: 2024-06-15-preview/InternalNetworks_Create.json
+ * x-ms-original-file: 2025-07-15/InternalNetworks_Create.json
  */
 async function internalNetworksCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -53,7 +53,11 @@ async function internalNetworksCreateMaximumSetGen(): Promise<void> {
         ipv6ListenRangePrefixes: ["2fff::/66"],
         ipv4NeighborAddress: [{ address: "10.1.0.0" }],
         ipv6NeighborAddress: [{ address: "2fff::" }],
-        bmpConfiguration: { neighborIpExclusions: ["10.0.0.1"], bmpConfigurationState: "Enabled" },
+        bmpConfiguration: {
+          neighborIpExclusions: ["10.0.0.1"],
+          bmpConfigurationState: "Enabled",
+          exportPolicyConfiguration: { exportPolicies: ["Pre-Policy"] },
+        },
         v4OverV6BgpSession: "Enabled",
         v6OverV4BgpSession: "Enabled",
       },

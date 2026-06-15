@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements IpExtendedCommunities list by subscription GET method.
  *
  * @summary implements IpExtendedCommunities list by subscription GET method.
- * x-ms-original-file: 2024-06-15-preview/IpExtendedCommunities_ListBySubscription.json
+ * x-ms-original-file: 2025-07-15/IpExtendedCommunities_ListBySubscription.json
  */
 async function ipExtendedCommunitiesListBySubscriptionMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

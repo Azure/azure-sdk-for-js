@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to commits the configuration of the given resources.
  *
  * @summary commits the configuration of the given resources.
- * x-ms-original-file: 2024-06-15-preview/L2IsolationDomains_CommitConfiguration.json
+ * x-ms-original-file: 2025-07-15/L2IsolationDomains_CommitConfiguration.json
  */
 async function l2IsolationDomainsCommitConfigurationMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

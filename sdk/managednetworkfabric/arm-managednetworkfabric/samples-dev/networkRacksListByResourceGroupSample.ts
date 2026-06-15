@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all Network Rack resources in the given resource group.
  *
  * @summary list all Network Rack resources in the given resource group.
- * x-ms-original-file: 2024-06-15-preview/NetworkRacks_ListByResourceGroup.json
+ * x-ms-original-file: 2025-07-15/NetworkRacks_ListByResourceGroup.json
  */
 async function networkRacksListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates are currently not supported for the Network Fabric Controller resource.
  *
  * @summary updates are currently not supported for the Network Fabric Controller resource.
- * x-ms-original-file: 2024-06-15-preview/NetworkFabricControllers_Update.json
+ * x-ms-original-file: 2025-07-15/NetworkFabricControllers_Update.json
  */
 async function networkFabricControllersUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,6 +19,7 @@ async function networkFabricControllersUpdateMaximumSetGen(): Promise<void> {
     "example-networkController",
     {
       tags: { keyId: "KeyValue" },
+      identity: { type: "None", userAssignedIdentities: { key1402: {} } },
       infrastructureExpressRouteConnections: [
         {
           expressRouteCircuitId:

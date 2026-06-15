@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements Internet Gateway Rules list by resource group GET method.
  *
  * @summary implements Internet Gateway Rules list by resource group GET method.
- * x-ms-original-file: 2024-06-15-preview/InternetGatewayRules_ListByResourceGroup.json
+ * x-ms-original-file: 2025-07-15/InternetGatewayRules_ListByResourceGroup.json
  */
 async function internetGatewayRulesListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

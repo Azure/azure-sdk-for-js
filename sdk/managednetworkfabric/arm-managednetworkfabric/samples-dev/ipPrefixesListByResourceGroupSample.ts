@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements IpPrefixes list by resource group GET method.
  *
  * @summary implements IpPrefixes list by resource group GET method.
- * x-ms-original-file: 2024-06-15-preview/IpPrefixes_ListByResourceGroup.json
+ * x-ms-original-file: 2025-07-15/IpPrefixes_ListByResourceGroup.json
  */
 async function ipPrefixesListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

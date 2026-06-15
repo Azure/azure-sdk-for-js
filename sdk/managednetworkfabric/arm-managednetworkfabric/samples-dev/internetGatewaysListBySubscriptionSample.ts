@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to displays Internet Gateways list by subscription GET method.
  *
  * @summary displays Internet Gateways list by subscription GET method.
- * x-ms-original-file: 2024-06-15-preview/InternetGateways_ListBySubscription.json
+ * x-ms-original-file: 2025-07-15/InternetGateways_ListBySubscription.json
  */
 async function internetGatewaysListBySubscriptionMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

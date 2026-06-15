@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to aPI to update certain properties of the IP Prefix resource.
  *
  * @summary aPI to update certain properties of the IP Prefix resource.
- * x-ms-original-file: 2024-06-15-preview/IpPrefixes_Update.json
+ * x-ms-original-file: 2025-07-15/IpPrefixes_Update.json
  */
 async function ipPrefixesUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
