@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  *
  * @summary clear ransomware suspects for the given Advanced Ransomware Protection report. You should evaluate the report to determine whether the activity is acceptable (false positive) or whether an attack seems malicious.
  * ARP creates snapshots named Anti_ransomware_backup when it detects a potential ransomware threat. You can use one of these ARP snapshots or another snapshot of your volume to restore data",
- * x-ms-original-file: 2026-01-01/RansomwareReports_ClearSuspects.json
+ * x-ms-original-file: 2026-04-01/RansomwareReports_ClearSuspects.json
  */
 async function ransomwareReportsClearSuspects() {
   const credential = new DefaultAzureCredential();

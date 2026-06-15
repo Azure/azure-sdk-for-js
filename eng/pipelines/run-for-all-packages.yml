@@ -29,7 +29,7 @@ stages:
               ServiceDirectory: core
 
           - script: |
-              npm install -g pnpm
+              npm install -g pnpm@10.34.2
             displayName: "Install Pnpm"
             env:
               npm_config_userconfig: $(CommonNpmrcPath)

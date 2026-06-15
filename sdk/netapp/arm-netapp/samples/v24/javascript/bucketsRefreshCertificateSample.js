@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation will fetch the certificate from Azure Key Vault and install it on the bucket server.
  *
  * @summary this operation will fetch the certificate from Azure Key Vault and install it on the bucket server.
- * x-ms-original-file: 2026-01-01/Buckets_RefreshCertificate.json
+ * x-ms-original-file: 2026-04-01/Buckets_RefreshCertificate.json
  */
 async function bucketsRefreshCertificate() {
   const credential = new DefaultAzureCredential();

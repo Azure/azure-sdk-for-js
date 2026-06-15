@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation will populate availability zone information for a volume
  *
  * @summary this operation will populate availability zone information for a volume
- * x-ms-original-file: 2026-01-01/Volumes_PopulateAvailabilityZones.json
+ * x-ms-original-file: 2026-04-01/Volumes_PopulateAvailabilityZones.json
  */
 async function volumesPopulateAvailabilityZones() {
   const credential = new DefaultAzureCredential();

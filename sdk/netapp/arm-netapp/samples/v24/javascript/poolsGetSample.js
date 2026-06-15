@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get details of the specified capacity pool
  *
  * @summary get details of the specified capacity pool
- * x-ms-original-file: 2026-01-01/Pools_Get.json
+ * x-ms-original-file: 2026-04-01/Pools_Get.json
  */
 async function poolsGet() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function poolsGet() {
  * This sample demonstrates how to get details of the specified capacity pool
  *
  * @summary get details of the specified capacity pool
- * x-ms-original-file: 2026-01-01/Pools_Get_CustomThroughput.json
+ * x-ms-original-file: 2026-04-01/Pools_Get_CustomThroughput.json
  */
 async function poolsGetCustomThroughput() {
   const credential = new DefaultAzureCredential();
