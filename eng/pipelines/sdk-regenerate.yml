@@ -138,7 +138,7 @@ stages:
   - job: RegenerateAndBuild
     displayName: 'Regenerate + build shards'
     dependsOn: Setup
-    condition: and(succeeded(), or(ne(variables['Build.Reason'], 'Schedule'), eq(dependencies.Setup.outputs['resolveVersion.isNewDevVersion'], 'True')))
+    condition: and(succeeded(), eq(dependencies.Setup.outputs['resolveVersion.shouldRun'], 'True'))
     timeoutInMinutes: 180
     strategy:
       matrix: $[ dependencies.Setup.outputs['generateMatrix.matrix'] ]

@@ -136,19 +136,23 @@ function logPipelineIssue(severity, message) {
 async function runResolveEmitter() {
   const rawInputVersion = getFlag("--input", "");
   const normalizedInput = rawInputVersion.trim().toLowerCase();
+  const forceRun = getFlag("--force", "false").toLowerCase() === "true";
+  const isScheduled = (process.env.BUILD_REASON || "").toLowerCase() === "schedule";
 
   let resolvedEmitterVersion;
-  let isNewDevVersion = true;
+  let shouldRun = true;
   if (normalizedInput === DEV_VERSION_SENTINEL) {
     resolvedEmitterVersion = await resolveNextEmitterVersion();
-    isNewDevVersion = await isDevVersionFresh(resolvedEmitterVersion);
+    if (isScheduled && !forceRun) {
+      shouldRun = await isDevVersionFresh(resolvedEmitterVersion);
+    }
   } else {
     resolvedEmitterVersion = rawInputVersion.trim();
   }
 
-  console.log(`Emitter version: ${resolvedEmitterVersion}`);
+  console.log(`Emitter version: ${resolvedEmitterVersion}; shouldRun=${shouldRun}`);
   setPipelineVariable("emitterVersion", resolvedEmitterVersion, { isOutput: true });
-  setPipelineVariable("isNewDevVersion", String(isNewDevVersion), { isOutput: true });
+  setPipelineVariable("shouldRun", String(shouldRun), { isOutput: true });
 }
 
 async function isDevVersionFresh(version) {
