@@ -537,15 +537,21 @@ export interface FileCreateHeaders {
     lastModified?: Date;
     posixProperties?: FilePosixProperties;
     requestId?: string;
+    structuredBodyType?: string;
     version?: string;
 }
 
 // @public
 export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
+    content?: HttpRequestBody;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+    contentLength?: number;
+    contentMD5?: Uint8Array;
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
+    onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 // @public

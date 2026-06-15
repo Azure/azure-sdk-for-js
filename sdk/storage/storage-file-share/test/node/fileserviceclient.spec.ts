@@ -26,6 +26,34 @@ describe("FileServiceClient Node.js only", () => {
     await recorder.stop();
   });
 
+  it("IPv6 Test", async () => {
+    const accountName = "storageaccount";
+
+    let shareServiceURL = `https://${accountName}-ipv6.file.core.windows.net/`;
+    let shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-secondary-ipv6.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-secondary-dualstack.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-dualstack.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-secondary.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-something.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName + "-something");
+  });
+
   it("can be created with a url and a credential", async () => {
     const serviceClient = getBSU(recorder);
     const credential = serviceClient["credential"] as StorageSharedKeyCredential;

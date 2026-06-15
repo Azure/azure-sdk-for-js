@@ -9,6 +9,7 @@ import {
   getBSU,
   getUniqueName,
   createAndStartRecorder,
+  compareBodyWithUint8Array,
 } from "../utils/index.js";
 import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
 import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src/index.js";
@@ -66,6 +67,58 @@ describe("Highlevel Node.js only", () => {
   afterAll(async () => {
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
+  });
+
+  it("create with 4Mib content should work", async (ctx) => {
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
+    const byteLength = 4 * 1024 * 1024;
+    const createContent = new Uint8Array(4 * 1024 * 1024);
+
+    for (let i = 0; i < byteLength; i = i + 500) {
+      createContent[i] = i % 256;
+    }
+
+    await fileClient.create(4 * 1024 * 1024, {
+      content: createContent,
+      contentLength: createContent.length,
+    });
+
+    const response = await fileClient.download();
+    assert.equal(await compareBodyWithUint8Array(response, createContent), true);
+  });
+
+  it("create with content larger than 4Mib should fail", async () => {
+    const createContent = new Uint8Array(4 * 1024 * 1024 + 1);
+    try {
+      await fileClient.create(4 * 1024 * 1024, {
+        content: createContent,
+        contentLength: createContent.length,
+      });
+    } catch (ex) {
+      assert.equal((ex as any).statusCode, 413);
+      assert.equal((ex as any).code, "RequestBodyTooLarge");
+    }
+  });
+
+  it("create with 4Mib content with crc64 check should work", async (ctx) => {
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
+
+    const byteLength = 4 * 1024 * 1024;
+    const createContent = new Uint8Array(4 * 1024 * 1024);
+    const cResp = await fileClient.create(byteLength, {
+      content: createContent,
+      contentLength: byteLength,
+      contentChecksumAlgorithm: "StorageCrc64",
+    });
+    assert.equal(cResp.errorCode, undefined);
+    assert.deepEqual(cResp.structuredBodyType, "XSM/1.0; properties=crc64");
+
+    const response = await fileClient.download();
+    assert.equal(await compareBodyWithUint8Array(response, createContent), true);
   });
 
   it(
