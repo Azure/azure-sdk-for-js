@@ -76,7 +76,9 @@ export async function _$deleteDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -84,7 +86,7 @@ export async function _$deleteDeserialize(
   return deleteSkillResponseDeserializer(result.body);
 }
 
-/** Deletes a skill. */
+/** Removes the specified skill and its associated versions. */
 export async function $delete(
   context: Client,
   name: string,
@@ -127,7 +129,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -135,7 +139,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   return skillDeserializer(result.body);
 }
 
-/** Updates an existing skill. */
+/** Modifies the specified skill's configuration. */
 export async function update(
   context: Client,
   name: string,
@@ -180,7 +184,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -188,7 +194,7 @@ export async function _listDeserialize(
   return _agentsPagedResultSkillDeserializer(result.body);
 }
 
-/** Returns the list of all skills. */
+/** Returns the skills available in the current project. */
 export function list(
   context: Client,
   options: BetaSkillsListOptionalParams = { requestOptions: {} },
@@ -242,7 +248,9 @@ export async function _downloadVersionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -250,7 +258,7 @@ export async function _downloadVersionDeserialize(
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
-/** Download the zip content for a specific version of a skill. */
+/** Downloads the zip content for a specific version of a skill. */
 export async function downloadVersion(
   context: Client,
   name: string,
@@ -294,7 +302,9 @@ export async function _downloadDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -302,7 +312,7 @@ export async function _downloadDeserialize(
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
-/** Download the zip content for the default version of a skill. */
+/** Downloads the zip content for the default version of a skill. */
 export async function download(
   context: Client,
   name: string,
@@ -343,7 +353,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sk
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -351,7 +363,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sk
   return skillDeserializer(result.body);
 }
 
-/** Retrieves a skill. */
+/** Retrieves the specified skill and its current configuration. */
 export async function get(
   context: Client,
   name: string,
@@ -393,7 +405,9 @@ export async function _getVersionDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -401,7 +415,7 @@ export async function _getVersionDeserialize(result: PathUncheckedResponse): Pro
   return skillVersionDeserializer(result.body);
 }
 
-/** Retrieve a specific version of a skill. */
+/** Retrieves the specified version of a skill by name and version identifier. */
 export async function getVersion(
   context: Client,
   name: string,
@@ -448,7 +462,9 @@ export async function _listVersionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -456,7 +472,7 @@ export async function _listVersionsDeserialize(
   return _agentsPagedResultSkillVersionDeserializer(result.body);
 }
 
-/** List all versions of a skill. */
+/** Returns the available versions for the specified skill. */
 export function listVersions(
   context: Client,
   name: string,
@@ -506,7 +522,9 @@ export async function _createFromFilesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -562,7 +580,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -614,7 +634,9 @@ export async function _deleteVersionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -622,7 +644,7 @@ export async function _deleteVersionDeserialize(
   return deleteSkillVersionResponseDeserializer(result.body);
 }
 
-/** Delete a specific version of a skill. */
+/** Removes the specified version of a skill. */
 export async function deleteVersion(
   context: Client,
   name: string,

@@ -11,81 +11,21 @@ import type {
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface BetaAgentsPromoteCandidateOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentsOptimization=V1Preview";
-}
-
-/** Optional parameters. */
-export interface BetaAgentsGetCandidateFileOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentsOptimization=V1Preview";
-}
-
-/** Optional parameters. */
-export interface BetaAgentsGetOptimizationCandidateResultsOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentsOptimization=V1Preview";
-}
-
-/** Optional parameters. */
-export interface BetaAgentsGetOptimizationCandidateConfigOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentsOptimization=V1Preview";
-}
-
-/** Optional parameters. */
-export interface BetaAgentsGetOptimizationCandidateOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentsOptimization=V1Preview";
-}
-
-/** Optional parameters. */
-export interface BetaAgentsListOptimizationCandidatesOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentsOptimization=V1Preview";
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
-   * default is 20.
-   */
-  limit?: number;
-  /**
-   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
-   * for descending order.
-   */
-  order?: PageOrder;
-  /**
-   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
-   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
-   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
-   */
-  after?: string;
-  /**
-   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
-   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
-   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
-   */
-  before?: string;
-}
-
-/** Optional parameters. */
 export interface BetaAgentsDeleteOptimizationJobOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentsOptimization=V1Preview";
-  /** When true, force-delete even if the job is in a non-terminal state. */
-  force?: boolean;
+  foundryFeatures?: "AgentsOptimization=V2Preview";
 }
 
 /** Optional parameters. */
 export interface BetaAgentsCancelOptimizationJobOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentsOptimization=V1Preview";
+  foundryFeatures?: "AgentsOptimization=V2Preview";
 }
 
 /** Optional parameters. */
 export interface BetaAgentsListOptimizationJobsOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentsOptimization=V1Preview";
+  foundryFeatures?: "AgentsOptimization=V2Preview";
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -117,13 +57,13 @@ export interface BetaAgentsListOptimizationJobsOptionalParams extends OperationO
 /** Optional parameters. */
 export interface BetaAgentsGetOptimizationJobOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentsOptimization=V1Preview";
+  foundryFeatures?: "AgentsOptimization=V2Preview";
 }
 
 /** Optional parameters. */
 export interface BetaAgentsCreateOptimizationJobOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentsOptimization=V1Preview";
+  foundryFeatures?: "AgentsOptimization=V2Preview";
   /** Client-generated unique ID for idempotent retries. When absent, the server creates the job unconditionally. */
   operationId?: string;
 }
@@ -266,7 +206,7 @@ export interface BetaAgentsDownloadAgentCodeOptionalParams extends OperationOpti
 }
 
 /** Optional parameters. */
-export interface BetaAgentsCreateAgentVersionFromCodeOptionalParams extends OperationOptions {
+export interface BetaAgentsCreateVersionFromCodeOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: AgentDefinitionOptInKeys;
 }

@@ -72,7 +72,7 @@ export async function _listRunsDeserialize(
   return _pagedScheduleRunDeserializer(result.body);
 }
 
-/** List all schedule runs. */
+/** Returns schedule runs that match the supplied filters. */
 export function listRuns(
   context: Client,
   scheduleId: string,
@@ -128,14 +128,17 @@ export async function _getRunDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return scheduleRunDeserializer(result.body);
 }
 
-/** Get a schedule run by id. */
+/** Retrieves the specified run for a schedule. */
 export async function getRun(
   context: Client,
   scheduleId: string,
@@ -187,7 +190,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   return scheduleDeserializer(result.body);
 }
 
-/** Create or update operation template. */
+/** Creates a new schedule or updates an existing schedule with the supplied definition. */
 export async function createOrUpdate(
   context: Client,
   scheduleId: string,
@@ -236,7 +239,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   return _pagedScheduleDeserializer(result.body);
 }
 
-/** List all schedules. */
+/** Returns schedules that match the supplied type and enabled filters. */
 export function list(
   context: Client,
   options: BetaSchedulesListOptionalParams = { requestOptions: {} },
@@ -297,7 +300,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
   return scheduleDeserializer(result.body);
 }
 
-/** Get a schedule by id. */
+/** Retrieves the specified schedule resource. */
 export async function get(
   context: Client,
   scheduleId: string,
@@ -344,7 +347,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Delete a schedule. */
+/** Deletes the specified schedule resource. */
 export async function $delete(
   context: Client,
   scheduleId: string,

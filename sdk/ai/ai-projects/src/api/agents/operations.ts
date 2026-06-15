@@ -84,14 +84,17 @@ export async function _listVersionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return _agentsPagedResultAgentVersionObjectDeserializer(result.body);
 }
 
-/** Returns the list of versions of an agent. */
+/** Returns a paged collection of versions for the specified agent. */
 export function listVersions(
   context: Client,
   agentName: string,
@@ -141,7 +144,10 @@ export async function _deleteVersionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -190,14 +196,17 @@ export async function _getVersionDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return agentVersionDeserializer(result.body);
 }
 
-/** Retrieves a specific version of an agent. */
+/** Retrieves the specified version of an agent by its agent name and version identifier. */
 export async function getVersion(
   context: Client,
   agentName: string,
@@ -244,14 +253,17 @@ export async function _createAgentVersionFromManifestDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return agentVersionDeserializer(result.body);
 }
 
-/** Create a new agent version from a manifest. */
+/** Imports the provided manifest to create a new version for the specified agent. */
 export async function createAgentVersionFromManifest(
   context: Client,
   agentName: string,
@@ -330,14 +342,17 @@ export async function _createVersionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return agentVersionDeserializer(result.body);
 }
 
-/** Create a new agent version. */
+/** Creates a new version for the specified agent and returns the created version resource. */
 export async function createVersion(
   context: Client,
   agentName: string,
@@ -390,14 +405,17 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return _agentsPagedResultAgentObjectDeserializer(result.body);
 }
 
-/** Returns the list of all agents. */
+/** Returns a paged collection of agent resources. */
 export function list(
   context: Client,
   options: AgentsListOptionalParams = { requestOptions: {} },
@@ -416,7 +434,7 @@ export function list(
   );
 }
 
-export function _deleteSend(
+export function _$deleteSend(
   context: Client,
   agentName: string,
   options: AgentsDeleteOptionalParams = { requestOptions: {} },
@@ -438,13 +456,16 @@ export function _deleteSend(
   });
 }
 
-export async function _deleteDeserialize(
+export async function _$deleteDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DeleteAgentResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -461,8 +482,8 @@ export async function $delete(
   agentName: string,
   options: AgentsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<DeleteAgentResponse> {
-  const result = await _deleteSend(context, agentName, options);
-  return _deleteDeserialize(result);
+  const result = await _$deleteSend(context, agentName, options);
+  return _$deleteDeserialize(result);
 }
 
 export function _updateAgentFromManifestSend(
@@ -501,7 +522,10 @@ export async function _updateAgentFromManifestDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -565,14 +589,17 @@ export async function _createAgentFromManifestDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return agentDeserializer(result.body);
 }
 
-/** Creates an agent from a manifest. */
+/** Imports the provided manifest to create an agent and returns the created resource. */
 export async function createAgentFromManifest(
   context: Client,
   name: string,
@@ -649,7 +676,10 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -717,14 +747,17 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return agentDeserializer(result.body);
 }
 
-/** Creates the agent. */
+/** Creates a new agent or a new version of an existing agent. */
 export async function create(
   context: Client,
   name: string,
@@ -772,14 +805,17 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ag
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return agentDeserializer(result.body);
 }
 
-/** Retrieves the agent. */
+/** Retrieves an agent definition by its unique name. */
 export async function get(
   context: Client,
   agentName: string,

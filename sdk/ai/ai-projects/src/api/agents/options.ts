@@ -39,7 +39,7 @@ export interface AgentsListVersionsOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface AgentsDeleteVersionOptionalParams extends OperationOptions {
-  /** For Hosted Agents, if true, force-deletes the version even if it has active sessions, cascading deletion to all associated sessions. Defaults to `false`. This value is not relevant for other Agent types. */
+  /** For Hosted Agents, if `true`, force-deletes the version even if it has active sessions, cascading deletion to all associated sessions. The service defaults to `false` if a value is not specified by the caller. This value is not relevant for other Agent types. */
   force?: boolean;
 }
 
@@ -110,7 +110,7 @@ export interface AgentsListOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface AgentsDeleteOptionalParams extends OperationOptions {
-  /** For Hosted Agents, if true, force-deletes the agent even if its versions have active sessions, cascading deletion to all associated sessions. Defaults to `false`. This value is not relevant for other Agent types. */
+  /** For Hosted Agents, if `true`, force-deletes the agent even if its versions have active sessions, cascading deletion to all associated sessions. The service defaults to `false` if a value is not specified by the caller. This value is not relevant for other Agent types. */
   force?: boolean;
 }
 

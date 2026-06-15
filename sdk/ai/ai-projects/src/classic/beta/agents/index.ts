@@ -3,12 +3,6 @@
 
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
-  promoteCandidate,
-  getCandidateFile,
-  getOptimizationCandidateResults,
-  getOptimizationCandidateConfig,
-  getOptimizationCandidate,
-  listOptimizationCandidates,
   deleteOptimizationJob,
   cancelOptimizationJob,
   listOptimizationJobs,
@@ -29,12 +23,6 @@ import {
   updateAgentObject,
 } from "../../../api/beta/agents/operations.js";
 import type {
-  BetaAgentsPromoteCandidateOptionalParams,
-  BetaAgentsGetCandidateFileOptionalParams,
-  BetaAgentsGetOptimizationCandidateResultsOptionalParams,
-  BetaAgentsGetOptimizationCandidateConfigOptionalParams,
-  BetaAgentsGetOptimizationCandidateOptionalParams,
-  BetaAgentsListOptimizationCandidatesOptionalParams,
   BetaAgentsDeleteOptimizationJobOptionalParams,
   BetaAgentsCancelOptimizationJobOptionalParams,
   BetaAgentsListOptimizationJobsOptionalParams,
@@ -51,7 +39,7 @@ import type {
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
   BetaAgentsDownloadAgentCodeOptionalParams,
-  BetaAgentsCreateAgentVersionFromCodeOptionalParams,
+  BetaAgentsCreateVersionFromCodeOptionalParams,
   BetaAgentsPatchAgentObjectOptionalParams,
 } from "../../../api/beta/agents/options.js";
 import type {
@@ -62,15 +50,8 @@ import type {
   AgentSessionResource,
   SessionFileWriteResponse,
   SessionDirectoryEntry,
-  OptimizationJobInputs,
   OptimizationJob,
-  AgentsPagedResultOptimizationCandidate,
-  CandidateMetadata,
-  CandidateDeployConfig,
-  CandidateResults,
-  PromoteCandidateRequest,
-  PromoteCandidateResponse,
-  BetaAgentsGetCandidateFileResponse,
+  OptimizationJobListItem,
   BetaAgentsDownloadSessionFileResponse,
   BetaAgentsDownloadAgentCodeResponse,
 } from "../../../models/models.js";
@@ -78,80 +59,28 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaAgents operations. */
 export interface BetaAgentsOperations {
-  /** Promotes the specified candidate and records the deployment timestamp and target agent version. */
-  promoteCandidate: (
-    jobId: string,
-    candidateId: string,
-    candidateRequest: PromoteCandidateRequest,
-    options?: BetaAgentsPromoteCandidateOptionalParams,
-  ) => Promise<PromoteCandidateResponse>;
-  /** Streams the specified file from the candidate's blob directory. */
-  getCandidateFile: (
-    jobId: string,
-    candidateId: string,
-    path: string,
-    options?: BetaAgentsGetCandidateFileOptionalParams,
-  ) => Promise<BetaAgentsGetCandidateFileResponse>;
-  /** Retrieves full per-task evaluation results for the specified candidate. */
-  getOptimizationCandidateResults: (
-    jobId: string,
-    candidateId: string,
-    options?: BetaAgentsGetOptimizationCandidateResultsOptionalParams,
-  ) => Promise<CandidateResults>;
-  /**
-   * Retrieves the deploy configuration JSON for the specified candidate.
-   * Clients can use it to compose `agents.create_version(...)` requests.
-   */
-  getOptimizationCandidateConfig: (
-    jobId: string,
-    candidateId: string,
-    options?: BetaAgentsGetOptimizationCandidateConfigOptionalParams,
-  ) => Promise<CandidateDeployConfig>;
-  /** Retrieves metadata, manifest information, and promotion details for the specified candidate. */
-  getOptimizationCandidate: (
-    jobId: string,
-    candidateId: string,
-    options?: BetaAgentsGetOptimizationCandidateOptionalParams,
-  ) => Promise<CandidateMetadata>;
-  /** Returns the candidates produced by the specified optimization job. */
-  listOptimizationCandidates: (
-    jobId: string,
-    options?: BetaAgentsListOptimizationCandidatesOptionalParams,
-  ) => Promise<AgentsPagedResultOptimizationCandidate>;
-  /**
-   * Deletes the specified agent optimization job and its candidate artifacts.
-   * Cancels the job first when it is still in a non-terminal state.
-   */
+  /** Delete the job and its candidate artifacts. Cancels first if non-terminal. */
   deleteOptimizationJob: (
     jobId: string,
     options?: BetaAgentsDeleteOptimizationJobOptionalParams,
   ) => Promise<void>;
-  /**
-   * Requests cancellation of the specified agent optimization job.
-   * The operation remains idempotent after the job reaches a terminal state.
-   */
+  /** Request cancellation of a running or queued job. Returns an error if the job is already in a terminal state. */
   cancelOptimizationJob: (
     jobId: string,
     options?: BetaAgentsCancelOptimizationJobOptionalParams,
   ) => Promise<OptimizationJob>;
-  /** Returns agent optimization jobs with cursor pagination and optional lifecycle or agent filters. */
+  /** List optimization jobs. Supports cursor pagination and optional status / agent_name filters. */
   listOptimizationJobs: (
     options?: BetaAgentsListOptimizationJobsOptionalParams,
-  ) => PagedAsyncIterableIterator<OptimizationJob>;
-  /**
-   * Retrieves the specified agent optimization job.
-   * Returns 202 while the job is in progress and 200 after it reaches a terminal state.
-   */
+  ) => PagedAsyncIterableIterator<OptimizationJobListItem>;
+  /** Get an optimization job by id. */
   getOptimizationJob: (
     jobId: string,
     options?: BetaAgentsGetOptimizationJobOptionalParams,
   ) => Promise<OptimizationJob>;
-  /**
-   * Creates an agent optimization job and returns the queued job.
-   * Honors `Operation-Id` for idempotent retry.
-   */
+  /** Create an optimization job. Returns 201 with the queued job. Honours `Operation-Id` for idempotent retry. */
   createOptimizationJob: (
-    inputs: OptimizationJobInputs,
+    job: OptimizationJob,
     options?: BetaAgentsCreateOptimizationJobOptionalParams,
   ) => Promise<OptimizationJob>;
   /**
@@ -289,7 +218,7 @@ export interface BetaAgentsOperations {
     agentName: string,
     codeZipSha256: string,
     content: CreateAgentVersionFromCodeContent,
-    options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams,
+    options?: BetaAgentsCreateVersionFromCodeOptionalParams,
   ) => Promise<AgentVersion>;
   /** Applies a merge-patch update to the specified agent endpoint configuration. */
   updateAgent: (
@@ -300,37 +229,6 @@ export interface BetaAgentsOperations {
 
 function _getBetaAgents(context: AIProjectContext) {
   return {
-    promoteCandidate: (
-      jobId: string,
-      candidateId: string,
-      candidateRequest: PromoteCandidateRequest,
-      options?: BetaAgentsPromoteCandidateOptionalParams,
-    ) => promoteCandidate(context, jobId, candidateId, candidateRequest, options),
-    getCandidateFile: (
-      jobId: string,
-      candidateId: string,
-      path: string,
-      options?: BetaAgentsGetCandidateFileOptionalParams,
-    ) => getCandidateFile(context, jobId, candidateId, path, options),
-    getOptimizationCandidateResults: (
-      jobId: string,
-      candidateId: string,
-      options?: BetaAgentsGetOptimizationCandidateResultsOptionalParams,
-    ) => getOptimizationCandidateResults(context, jobId, candidateId, options),
-    getOptimizationCandidateConfig: (
-      jobId: string,
-      candidateId: string,
-      options?: BetaAgentsGetOptimizationCandidateConfigOptionalParams,
-    ) => getOptimizationCandidateConfig(context, jobId, candidateId, options),
-    getOptimizationCandidate: (
-      jobId: string,
-      candidateId: string,
-      options?: BetaAgentsGetOptimizationCandidateOptionalParams,
-    ) => getOptimizationCandidate(context, jobId, candidateId, options),
-    listOptimizationCandidates: (
-      jobId: string,
-      options?: BetaAgentsListOptimizationCandidatesOptionalParams,
-    ) => listOptimizationCandidates(context, jobId, options),
     deleteOptimizationJob: (
       jobId: string,
       options?: BetaAgentsDeleteOptimizationJobOptionalParams,
@@ -344,9 +242,9 @@ function _getBetaAgents(context: AIProjectContext) {
     getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) =>
       getOptimizationJob(context, jobId, options),
     createOptimizationJob: (
-      inputs: OptimizationJobInputs,
+      job: OptimizationJob,
       options?: BetaAgentsCreateOptimizationJobOptionalParams,
-    ) => createOptimizationJob(context, inputs, options),
+    ) => createOptimizationJob(context, job, options),
     deleteSessionFile: (
       agentName: string,
       agentSessionId: string,
@@ -405,7 +303,7 @@ function _getBetaAgents(context: AIProjectContext) {
       agentName: string,
       codeZipSha256: string,
       content: CreateAgentVersionFromCodeContent,
-      options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams,
+      options?: BetaAgentsCreateVersionFromCodeOptionalParams,
     ) => createVersionFromCode(context, agentName, codeZipSha256, content, options),
     updateAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) =>
       updateAgentObject(context, agentName, options),

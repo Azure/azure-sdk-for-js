@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { NodeReadableStream } from "#platform/static-helpers/platform-types";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { ContinuablePage } from "./static-helpers/pagingHelpers.js";
 export { RestError } from "@azure/core-rest-pipeline";
@@ -256,26 +257,24 @@ export type {
   SessionDirectoryListResponse,
   SessionDirectoryEntry,
   OptimizationJobInputs,
-  AgentIdentifier,
-  DatasetRef,
+  OptimizationAgentIdentifier,
+  OptimizationDatasetInput,
+  OptimizationDatasetInputUnion,
+  OptimizationDatasetInputType,
+  OptimizationInlineDatasetInput,
+  OptimizationDatasetItem,
+  OptimizationDatasetCriterion,
+  OptimizationReferenceDatasetInput,
+  OptimizationEvaluatorRef,
   OptimizationOptions,
   EvaluationLevel,
   OptimizationJob,
   JobStatus,
   OptimizationJobResult,
   OptimizationCandidate,
-  OptimizationAgentDefinition,
-  OptimizationTaskResult,
   PromotionInfo,
   OptimizationJobProgress,
-  DatasetInfo,
-  AgentsPagedResultOptimizationCandidate,
-  CandidateMetadata,
-  CandidateFileInfo,
-  CandidateDeployConfig,
-  CandidateResults,
-  PromoteCandidateRequest,
-  PromoteCandidateResponse,
+  OptimizationJobListItem,
   EvaluationTaxonomy,
   EvaluationTaxonomyInput,
   EvaluationTaxonomyInputUnion,
@@ -405,6 +404,7 @@ export type {
   InvokeAgentInvocationsApiRoutineAction,
   Routine,
   RoutineRun,
+  RoutineRunStatus,
   RoutineRunPhase,
   RoutineAttemptSource,
   RoutineDispatchPayload,
@@ -483,7 +483,6 @@ export type {
   KnownApiVersions,
   DownloadVersionResponse,
   BetaSkillsDownloadResponse,
-  BetaAgentsGetCandidateFileResponse,
   BetaAgentsDownloadSessionFileResponse,
   BetaAgentsDownloadAgentCodeResponse,
 } from "./models/index.js";
@@ -535,12 +534,6 @@ export type {
   IndexesListVersionsOptionalParams,
 } from "./api/indexes/index.js";
 export type {
-  BetaAgentsPromoteCandidateOptionalParams,
-  BetaAgentsGetCandidateFileOptionalParams,
-  BetaAgentsGetOptimizationCandidateResultsOptionalParams,
-  BetaAgentsGetOptimizationCandidateConfigOptionalParams,
-  BetaAgentsGetOptimizationCandidateOptionalParams,
-  BetaAgentsListOptimizationCandidatesOptionalParams,
   BetaAgentsDeleteOptimizationJobOptionalParams,
   BetaAgentsCancelOptimizationJobOptionalParams,
   BetaAgentsListOptimizationJobsOptionalParams,
@@ -557,7 +550,7 @@ export type {
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
   BetaAgentsDownloadAgentCodeOptionalParams,
-  BetaAgentsCreateAgentVersionFromCodeOptionalParams,
+  BetaAgentsCreateVersionFromCodeOptionalParams,
   BetaAgentsPatchAgentObjectOptionalParams,
 } from "./api/beta/agents/index.js";
 export type {
@@ -702,3 +695,6 @@ export type {
   TextResponseFormatConfigurationResponseFormatJsonObject,
   TextResponseFormatConfigurationUnion,
 } from "./deprecate.interface.js";
+
+export type { NodeReadableStream };
+export { isRestError } from "@azure/core-rest-pipeline";

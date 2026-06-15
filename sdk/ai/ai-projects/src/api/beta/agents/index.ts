@@ -2,12 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  promoteCandidate,
-  getCandidateFile,
-  getOptimizationCandidateResults,
-  getOptimizationCandidateConfig,
-  getOptimizationCandidate,
-  listOptimizationCandidates,
   deleteOptimizationJob,
   cancelOptimizationJob,
   listOptimizationJobs,
@@ -28,12 +22,6 @@ export {
   updateAgentObject,
 } from "./operations.js";
 export type {
-  BetaAgentsPromoteCandidateOptionalParams,
-  BetaAgentsGetCandidateFileOptionalParams,
-  BetaAgentsGetOptimizationCandidateResultsOptionalParams,
-  BetaAgentsGetOptimizationCandidateConfigOptionalParams,
-  BetaAgentsGetOptimizationCandidateOptionalParams,
-  BetaAgentsListOptimizationCandidatesOptionalParams,
   BetaAgentsDeleteOptimizationJobOptionalParams,
   BetaAgentsCancelOptimizationJobOptionalParams,
   BetaAgentsListOptimizationJobsOptionalParams,
@@ -50,6 +38,6 @@ export type {
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
   BetaAgentsDownloadAgentCodeOptionalParams,
-  BetaAgentsCreateAgentVersionFromCodeOptionalParams,
+  BetaAgentsCreateVersionFromCodeOptionalParams,
   BetaAgentsPatchAgentObjectOptionalParams,
 } from "./options.js";

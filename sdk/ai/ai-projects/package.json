@@ -156,6 +156,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/README.md",
   "imports": {
     "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }

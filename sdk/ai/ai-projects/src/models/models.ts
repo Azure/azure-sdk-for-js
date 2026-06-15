@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { NodeReadableStream } from "#platform/static-helpers/platform-types";
 import type { FileContents } from "../static-helpers/multipartHelpers.js";
 import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
@@ -291,11 +292,7 @@ export function hostedAgentDefinitionDeserializer(item: any): HostedAgentDefinit
     tools: !item["tools"] ? item["tools"] : toolUnionArrayDeserializer(item["tools"]),
     cpu: item["cpu"],
     memory: item["memory"],
-    environment_variables: !item["environment_variables"]
-      ? item["environment_variables"]
-      : Object.fromEntries(
-          Object.entries(item["environment_variables"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
+    environment_variables: item["environment_variables"],
     container_configuration: !item["container_configuration"]
       ? item["container_configuration"]
       : containerConfigurationDeserializer(item["container_configuration"]),
@@ -467,7 +464,7 @@ export function toolUnionSerializer(item: ToolUnion): any {
 }
 
 export function toolUnionDeserializer(item: any): ToolUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "bing_grounding":
       return bingGroundingToolDeserializer(item as BingGroundingTool);
 
@@ -1183,7 +1180,7 @@ export function openApiAuthDetailsUnionSerializer(item: OpenApiAuthDetailsUnion)
 }
 
 export function openApiAuthDetailsUnionDeserializer(item: any): OpenApiAuthDetailsUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "anonymous":
       return openApiAnonymousAuthDetailsDeserializer(item as OpenApiAnonymousAuthDetails);
 
@@ -2970,10 +2967,7 @@ export interface ImageGenTool extends Tool {
    *   or `auto`. Default: `auto`.
    */
   quality?: "low" | "medium" | "high" | "auto";
-  /**
-   * The size of the generated image. One of `1024x1024`, `1024x1536`,
-   *   `1536x1024`, or `auto`. Default: `auto`.
-   */
+  /** The size of the generated images. For `gpt-image-2` and `gpt-image-2-2026-04-21`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
   size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
   /**
    * The output format of the generated image. One of `png`, `webp`, or
@@ -3573,7 +3567,7 @@ export function customToolParamFormatUnionSerializer(item: CustomToolParamFormat
 }
 
 export function customToolParamFormatUnionDeserializer(item: any): CustomToolParamFormatUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "text":
       return customTextFormatParamDeserializer(item as CustomTextFormatParam);
 
@@ -4509,9 +4503,7 @@ export function toolChoiceAllowedDeserializer(item: any): ToolChoiceAllowed {
   return {
     type: item["type"],
     mode: item["mode"],
-    tools: item["tools"].map((p: any) => {
-      return Object.fromEntries(Object.entries(p).map(([k1, p1]: [string, any]) => [k1, p1]));
-    }),
+    tools: item["tools"],
   };
 }
 
@@ -4878,9 +4870,7 @@ export function textResponseFormatJsonSchemaDeserializer(item: any): TextRespons
     type: item["type"],
     description: item["description"],
     name: item["name"],
-    schema: Object.fromEntries(
-      Object.entries(item["schema"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
+    schema: item["schema"],
     strict: item["strict"],
   };
 }
@@ -4967,9 +4957,7 @@ export function structuredInputDefinitionDeserializer(item: any): StructuredInpu
   return {
     description: item["description"],
     default_value: item["default_value"],
-    schema: !item["schema"]
-      ? item["schema"]
-      : Object.fromEntries(Object.entries(item["schema"]).map(([k, p]: [string, any]) => [k, p])),
+    schema: item["schema"],
     required: item["required"],
   };
 }
@@ -5821,7 +5809,7 @@ export function evaluationRuleActionUnionSerializer(item: EvaluationRuleActionUn
 }
 
 export function evaluationRuleActionUnionDeserializer(item: any): EvaluationRuleActionUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "continuousEvaluation":
       return continuousEvaluationRuleActionDeserializer(item as ContinuousEvaluationRuleAction);
 
@@ -6006,7 +5994,7 @@ export type BaseCredentialsUnion =
   | BaseCredentials;
 
 export function baseCredentialsUnionDeserializer(item: any): BaseCredentialsUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "ApiKey":
       return apiKeyCredentialsDeserializer(item as ApiKeyCredentials);
 
@@ -6236,7 +6224,7 @@ export function datasetVersionUnionSerializer(item: DatasetVersionUnion): any {
 }
 
 export function datasetVersionUnionDeserializer(item: any): DatasetVersionUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "uri_file":
       return fileDatasetVersionDeserializer(item as FileDatasetVersion);
 
@@ -6418,7 +6406,7 @@ export function deploymentDeserializer(item: any): Deployment {
 export type DeploymentUnion = ModelDeployment | Deployment;
 
 export function deploymentUnionDeserializer(item: any): DeploymentUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "ModelDeployment":
       return modelDeploymentDeserializer(item as ModelDeployment);
 
@@ -6585,7 +6573,7 @@ export function indexUnionSerializer(item: IndexUnion): any {
 }
 
 export function indexUnionDeserializer(item: any): IndexUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "AzureSearch":
       return azureAISearchIndexDeserializer(item as AzureAISearchIndex);
 
@@ -7072,84 +7060,330 @@ export function sessionDirectoryEntryDeserializer(item: any): SessionDirectoryEn
   };
 }
 
+/** Agent optimization job resource — a long-running job that optimizes an agent's configuration (instructions, model, skills, tools) to maximize evaluation scores. On success, the result contains scored candidates. */
+export interface OptimizationJob {
+  /** Server-assigned unique identifier. */
+  readonly id: string;
+  /** Caller-supplied inputs. */
+  inputs?: OptimizationJobInputs;
+  /** Result produced on success. */
+  readonly result?: OptimizationJobResult;
+  /** Current lifecycle status. */
+  readonly status: JobStatus;
+  /** Error details — populated only on failure. */
+  readonly error?: ErrorModel;
+  /** The timestamp when the job was created, represented in Unix time. */
+  readonly created_at: Date;
+  /** The timestamp when the job was last updated, represented in Unix time. */
+  readonly updated_at: Date;
+  /** Progress snapshot. May be present in terminal states reflecting last-known progress. */
+  readonly progress?: OptimizationJobProgress;
+  /** Non-fatal warnings emitted at any point during optimization. */
+  readonly warnings?: string[];
+}
+
+export function optimizationJobSerializer(item: OptimizationJob): any {
+  return {
+    inputs: !item["inputs"] ? item["inputs"] : optimizationJobInputsSerializer(item["inputs"]),
+  };
+}
+
+export function optimizationJobDeserializer(item: any): OptimizationJob {
+  return {
+    id: item["id"],
+    inputs: !item["inputs"] ? item["inputs"] : optimizationJobInputsDeserializer(item["inputs"]),
+    result: !item["result"] ? item["result"] : optimizationJobResultDeserializer(item["result"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    created_at: new Date(item["created_at"] * 1000),
+    updated_at: new Date(item["updated_at"] * 1000),
+    progress: !item["progress"]
+      ? item["progress"]
+      : optimizationJobProgressDeserializer(item["progress"]),
+    warnings: !item["warnings"]
+      ? item["warnings"]
+      : item["warnings"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** Caller-supplied inputs for an optimization job. */
 export interface OptimizationJobInputs {
   /** The agent (and pinned version) being optimized. */
-  agent: AgentIdentifier;
-  /** Reference to a registered training dataset (required). */
-  train_dataset_reference: DatasetRef;
+  agent: OptimizationAgentIdentifier;
+  /** Training dataset — either inline items or a reference to a registered dataset. Required. */
+  train_dataset: OptimizationDatasetInputUnion;
   /** Optional held-out validation dataset for measuring generalization of the final candidate. */
-  validation_dataset_reference?: DatasetRef;
-  /** Job-level evaluators (referenced by name). Per-task criteria may override. Default: ['task_adherence']. */
-  evaluators?: string[];
+  validation_dataset?: OptimizationDatasetInputUnion;
+  /** Job-level evaluators referenced by name and optional version. Required; at least one must be provided. */
+  evaluators: OptimizationEvaluatorRef[];
   /** Tuning knobs and run-mode. */
   options?: OptimizationOptions;
 }
 
 export function optimizationJobInputsSerializer(item: OptimizationJobInputs): any {
   return {
-    agent: agentIdentifierSerializer(item["agent"]),
-    train_dataset_reference: datasetRefSerializer(item["train_dataset_reference"]),
-    validation_dataset_reference: !item["validation_dataset_reference"]
-      ? item["validation_dataset_reference"]
-      : datasetRefSerializer(item["validation_dataset_reference"]),
-    evaluators: !item["evaluators"]
-      ? item["evaluators"]
-      : item["evaluators"].map((p: any) => {
-          return p;
-        }),
+    agent: optimizationAgentIdentifierSerializer(item["agent"]),
+    train_dataset: optimizationDatasetInputUnionSerializer(item["train_dataset"]),
+    validation_dataset: !item["validation_dataset"]
+      ? item["validation_dataset"]
+      : optimizationDatasetInputUnionSerializer(item["validation_dataset"]),
+    evaluators: optimizationEvaluatorRefArraySerializer(item["evaluators"]),
     options: !item["options"] ? item["options"] : optimizationOptionsSerializer(item["options"]),
   };
 }
 
 export function optimizationJobInputsDeserializer(item: any): OptimizationJobInputs {
   return {
-    agent: agentIdentifierDeserializer(item["agent"]),
-    train_dataset_reference: datasetRefDeserializer(item["train_dataset_reference"]),
-    validation_dataset_reference: !item["validation_dataset_reference"]
-      ? item["validation_dataset_reference"]
-      : datasetRefDeserializer(item["validation_dataset_reference"]),
-    evaluators: !item["evaluators"]
-      ? item["evaluators"]
-      : item["evaluators"].map((p: any) => {
-          return p;
-        }),
+    agent: optimizationAgentIdentifierDeserializer(item["agent"]),
+    train_dataset: optimizationDatasetInputUnionDeserializer(item["train_dataset"]),
+    validation_dataset: !item["validation_dataset"]
+      ? item["validation_dataset"]
+      : optimizationDatasetInputUnionDeserializer(item["validation_dataset"]),
+    evaluators: optimizationEvaluatorRefArrayDeserializer(item["evaluators"]),
     options: !item["options"] ? item["options"] : optimizationOptionsDeserializer(item["options"]),
   };
 }
 
 /** Identifies the registered Foundry agent to optimize (request-only). Skills, tools, and system_prompt are specified in options.optimization_config. */
-export interface AgentIdentifier {
+export interface OptimizationAgentIdentifier {
   /** Registered Foundry agent name (required). */
   agent_name: string;
   /** Pinned agent version. Defaults to latest if omitted. */
   agent_version?: string;
 }
 
-export function agentIdentifierSerializer(item: AgentIdentifier): any {
+export function optimizationAgentIdentifierSerializer(item: OptimizationAgentIdentifier): any {
   return { agent_name: item["agent_name"], agent_version: item["agent_version"] };
 }
 
-export function agentIdentifierDeserializer(item: any): AgentIdentifier {
+export function optimizationAgentIdentifierDeserializer(item: any): OptimizationAgentIdentifier {
   return {
     agent_name: item["agent_name"],
     agent_version: item["agent_version"],
   };
 }
 
-/** Reference to a registered dataset in the Foundry Dataset Service. */
-export interface DatasetRef {
-  /** Dataset name. */
+/** Base discriminated model for dataset input. Either inline items or a registered reference. */
+export interface OptimizationDatasetInput {
+  /** Dataset input type discriminator. */
+  /** The discriminator possible values: inline, reference */
+  type: OptimizationDatasetInputType;
+}
+
+export function optimizationDatasetInputSerializer(item: OptimizationDatasetInput): any {
+  return { type: item["type"] };
+}
+
+export function optimizationDatasetInputDeserializer(item: any): OptimizationDatasetInput {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for OptimizationDatasetInputUnion */
+export type OptimizationDatasetInputUnion =
+  | OptimizationInlineDatasetInput
+  | OptimizationReferenceDatasetInput
+  | OptimizationDatasetInput;
+
+export function optimizationDatasetInputUnionSerializer(item: OptimizationDatasetInputUnion): any {
+  switch (item.type) {
+    case "inline":
+      return optimizationInlineDatasetInputSerializer(item as OptimizationInlineDatasetInput);
+
+    case "reference":
+      return optimizationReferenceDatasetInputSerializer(item as OptimizationReferenceDatasetInput);
+
+    default:
+      return optimizationDatasetInputSerializer(item);
+  }
+}
+
+export function optimizationDatasetInputUnionDeserializer(
+  item: any,
+): OptimizationDatasetInputUnion {
+  switch (item["type"]) {
+    case "inline":
+      return optimizationInlineDatasetInputDeserializer(item as OptimizationInlineDatasetInput);
+
+    case "reference":
+      return optimizationReferenceDatasetInputDeserializer(
+        item as OptimizationReferenceDatasetInput,
+      );
+
+    default:
+      return optimizationDatasetInputDeserializer(item);
+  }
+}
+
+/** Discriminator values for the dataset input union. */
+export type OptimizationDatasetInputType = "inline" | "reference";
+
+/** Inline dataset — items supplied directly in the request body. */
+export interface OptimizationInlineDatasetInput extends OptimizationDatasetInput {
+  /** Dataset input type discriminator. */
+  type: "inline";
+  /** Dataset items. */
+  items: OptimizationDatasetItem[];
+}
+
+export function optimizationInlineDatasetInputSerializer(
+  item: OptimizationInlineDatasetInput,
+): any {
+  return { type: item["type"], items: optimizationDatasetItemArraySerializer(item["items"]) };
+}
+
+export function optimizationInlineDatasetInputDeserializer(
+  item: any,
+): OptimizationInlineDatasetInput {
+  return {
+    type: item["type"],
+    items: optimizationDatasetItemArrayDeserializer(item["items"]),
+  };
+}
+
+export function optimizationDatasetItemArraySerializer(
+  result: Array<OptimizationDatasetItem>,
+): any[] {
+  return result.map((item) => {
+    return optimizationDatasetItemSerializer(item);
+  });
+}
+
+export function optimizationDatasetItemArrayDeserializer(
+  result: Array<OptimizationDatasetItem>,
+): any[] {
+  return result.map((item) => {
+    return optimizationDatasetItemDeserializer(item);
+  });
+}
+
+/** A single item in an inline dataset. */
+export interface OptimizationDatasetItem {
+  /** The user query / prompt. */
+  query?: string;
+  /** Expected ground truth answer. */
+  ground_truth?: string;
+  /** Desired number of conversation turns for simulation mode (1-20). */
+  desired_num_turns?: number;
+  /** Per-item evaluation criteria. */
+  criteria?: OptimizationDatasetCriterion[];
+}
+
+export function optimizationDatasetItemSerializer(item: OptimizationDatasetItem): any {
+  return {
+    query: item["query"],
+    ground_truth: item["ground_truth"],
+    desired_num_turns: item["desired_num_turns"],
+    criteria: !item["criteria"]
+      ? item["criteria"]
+      : optimizationDatasetCriterionArraySerializer(item["criteria"]),
+  };
+}
+
+export function optimizationDatasetItemDeserializer(item: any): OptimizationDatasetItem {
+  return {
+    query: item["query"],
+    ground_truth: item["ground_truth"],
+    desired_num_turns: item["desired_num_turns"],
+    criteria: !item["criteria"]
+      ? item["criteria"]
+      : optimizationDatasetCriterionArrayDeserializer(item["criteria"]),
+  };
+}
+
+export function optimizationDatasetCriterionArraySerializer(
+  result: Array<OptimizationDatasetCriterion>,
+): any[] {
+  return result.map((item) => {
+    return optimizationDatasetCriterionSerializer(item);
+  });
+}
+
+export function optimizationDatasetCriterionArrayDeserializer(
+  result: Array<OptimizationDatasetCriterion>,
+): any[] {
+  return result.map((item) => {
+    return optimizationDatasetCriterionDeserializer(item);
+  });
+}
+
+/** Evaluation criterion: a name + instruction pair used for per-item scoring. */
+export interface OptimizationDatasetCriterion {
+  /** Criterion name. */
+  name: string;
+  /** Criterion instruction / description. */
+  instruction: string;
+}
+
+export function optimizationDatasetCriterionSerializer(item: OptimizationDatasetCriterion): any {
+  return { name: item["name"], instruction: item["instruction"] };
+}
+
+export function optimizationDatasetCriterionDeserializer(item: any): OptimizationDatasetCriterion {
+  return {
+    name: item["name"],
+    instruction: item["instruction"],
+  };
+}
+
+/** Reference to a registered Foundry dataset. */
+export interface OptimizationReferenceDatasetInput extends OptimizationDatasetInput {
+  /** Dataset input type discriminator. */
+  type: "reference";
+  /** Registered dataset name. */
   name: string;
   /** Dataset version. If not specified, the latest version is used. */
   version?: string;
 }
 
-export function datasetRefSerializer(item: DatasetRef): any {
+export function optimizationReferenceDatasetInputSerializer(
+  item: OptimizationReferenceDatasetInput,
+): any {
+  return { type: item["type"], name: item["name"], version: item["version"] };
+}
+
+export function optimizationReferenceDatasetInputDeserializer(
+  item: any,
+): OptimizationReferenceDatasetInput {
+  return {
+    type: item["type"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+export function optimizationEvaluatorRefArraySerializer(
+  result: Array<OptimizationEvaluatorRef>,
+): any[] {
+  return result.map((item) => {
+    return optimizationEvaluatorRefSerializer(item);
+  });
+}
+
+export function optimizationEvaluatorRefArrayDeserializer(
+  result: Array<OptimizationEvaluatorRef>,
+): any[] {
+  return result.map((item) => {
+    return optimizationEvaluatorRefDeserializer(item);
+  });
+}
+
+/** Reference to a named evaluator, optionally pinned to a version. */
+export interface OptimizationEvaluatorRef {
+  /** Evaluator name. */
+  name: string;
+  /** Evaluator version. If not specified, the latest version is used. */
+  version?: string;
+}
+
+export function optimizationEvaluatorRefSerializer(item: OptimizationEvaluatorRef): any {
   return { name: item["name"], version: item["version"] };
 }
 
-export function datasetRefDeserializer(item: any): DatasetRef {
+export function optimizationEvaluatorRefDeserializer(item: any): OptimizationEvaluatorRef {
   return {
     name: item["name"],
     version: item["version"],
@@ -7158,8 +7392,8 @@ export function datasetRefDeserializer(item: any): DatasetRef {
 
 /** Tuning knobs and run-mode for an optimization job. */
 export interface OptimizationOptions {
-  /** Maximum optimization iterations per strategy. Must be >= 1. Default: 5. */
-  max_iterations?: number;
+  /** Maximum number of optimization candidates to generate. Must be >= 1. Default: 5. */
+  max_candidates?: number;
   /** Per-target-attribute configuration overrides. Contains skills, tools, system_prompt for the agent, plus model space for model optimization. */
   optimization_config?: Record<string, any>;
   /** Model deployment used for evaluation. Defaults to server config (typically 'gpt-4o'). */
@@ -7172,7 +7406,7 @@ export interface OptimizationOptions {
 
 export function optimizationOptionsSerializer(item: OptimizationOptions): any {
   return {
-    max_iterations: item["max_iterations"],
+    max_candidates: item["max_candidates"],
     optimization_config: item["optimization_config"],
     eval_model: item["eval_model"],
     optimization_model: item["optimization_model"],
@@ -7182,12 +7416,8 @@ export function optimizationOptionsSerializer(item: OptimizationOptions): any {
 
 export function optimizationOptionsDeserializer(item: any): OptimizationOptions {
   return {
-    max_iterations: item["max_iterations"],
-    optimization_config: !item["optimization_config"]
-      ? item["optimization_config"]
-      : Object.fromEntries(
-          Object.entries(item["optimization_config"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
+    max_candidates: item["max_candidates"],
+    optimization_config: item["optimization_config"],
     eval_model: item["eval_model"],
     optimization_model: item["optimization_model"],
     evaluation_level: item["evaluation_level"],
@@ -7197,80 +7427,32 @@ export function optimizationOptionsDeserializer(item: any): OptimizationOptions 
 /** The level at which evaluation is performed. */
 export type EvaluationLevel = "turn" | "conversation";
 
-/** Agent optimization job resource — a long-running job that optimizes an agent's configuration (instructions, model, skills, tools) to maximize evaluation scores. On success, the result contains scored candidates. */
-export interface OptimizationJob {
-  /** Server-assigned unique identifier. */
-  readonly id: string;
-  /** Current lifecycle status. */
-  readonly status: JobStatus;
-  /** Error details — populated only on failure. */
-  readonly error?: ErrorModel;
-  /** Result produced on success. */
-  readonly result?: OptimizationJobResult;
-  /** Caller-supplied inputs. */
-  inputs?: OptimizationJobInputs;
-  /** The timestamp when the job was created, represented in Unix time. */
-  readonly created_at: Date;
-  /** The timestamp when the job was last updated (status, progress, or result change), represented in Unix time. */
-  readonly updated_at?: Date;
-  /** Progress while in flight. Absent in terminal states. */
-  readonly progress?: OptimizationJobProgress;
-  /** Metadata about the dataset used for this optimization job. */
-  readonly dataset?: DatasetInfo;
-}
-
-export function optimizationJobDeserializer(item: any): OptimizationJob {
-  return {
-    id: item["id"],
-    status: item["status"],
-    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
-    result: !item["result"] ? item["result"] : optimizationJobResultDeserializer(item["result"]),
-    inputs: !item["inputs"] ? item["inputs"] : optimizationJobInputsDeserializer(item["inputs"]),
-    created_at: new Date(item["created_at"] * 1000),
-    updated_at: !item["updated_at"] ? item["updated_at"] : new Date(item["updated_at"] * 1000),
-    progress: !item["progress"]
-      ? item["progress"]
-      : optimizationJobProgressDeserializer(item["progress"]),
-    dataset: !item["dataset"] ? item["dataset"] : datasetInfoDeserializer(item["dataset"]),
-  };
-}
-
-/** Extensible status values shared by Foundry jobs. */
-export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
-
 /** Terminal-state result body. Populated when status is succeeded or failed. */
 export interface OptimizationJobResult {
-  /** Evaluation scores for the original (un-optimized) agent configuration. */
-  baseline?: OptimizationCandidate;
-  /** The highest-scoring candidate found during optimization. */
-  best?: OptimizationCandidate;
+  /** Candidate ID of the original (un-optimized) baseline evaluation. */
+  baseline?: string;
+  /** Candidate ID of the highest-scoring candidate found during optimization. */
+  best?: string;
   /** All evaluated candidates including baseline. */
   candidates?: OptimizationCandidate[];
-  /** The options used for this optimization run. */
-  options?: OptimizationOptions;
-  /** Non-fatal warnings from the optimization run (e.g., target attribute failures that were skipped). */
-  warnings?: string[];
-  /** True when all target attributes failed — only the baseline was evaluated. */
-  all_target_attributes_failed?: boolean;
 }
 
 export function optimizationJobResultDeserializer(item: any): OptimizationJobResult {
   return {
-    baseline: !item["baseline"]
-      ? item["baseline"]
-      : optimizationCandidateDeserializer(item["baseline"]),
-    best: !item["best"] ? item["best"] : optimizationCandidateDeserializer(item["best"]),
+    baseline: item["baseline"],
+    best: item["best"],
     candidates: !item["candidates"]
       ? item["candidates"]
       : optimizationCandidateArrayDeserializer(item["candidates"]),
-    options: !item["options"] ? item["options"] : optimizationOptionsDeserializer(item["options"]),
-    warnings: !item["warnings"]
-      ? item["warnings"]
-      : item["warnings"].map((p: any) => {
-          return p;
-        }),
-    all_target_attributes_failed: item["all_target_attributes_failed"],
   };
+}
+
+export function optimizationCandidateArrayDeserializer(
+  result: Array<OptimizationCandidate>,
+): any[] {
+  return result.map((item) => {
+    return optimizationCandidateDeserializer(item);
+  });
 }
 
 /** Aggregated evaluation result for a single candidate agent configuration across all tasks. */
@@ -7279,20 +7461,12 @@ export interface OptimizationCandidate {
   candidate_id?: string;
   /** Display name of the candidate (e.g., 'baseline', 'instruction-v2'). */
   name: string;
-  /** The agent configuration that produced this candidate. */
-  config: OptimizationAgentDefinition;
   /** What was mutated from the baseline (e.g., {system_prompt: 'new prompt'}). */
-  mutations: Record<string, any>;
+  mutations?: Record<string, any>;
   /** Average composite score across all tasks. */
   avg_score: number;
   /** Average token usage across all tasks. */
   avg_tokens: number;
-  /** Fraction of tasks that met the pass threshold. */
-  pass_rate: number;
-  /** Individual task-level scores. */
-  task_scores: OptimizationTaskResult[];
-  /** Whether this candidate is on the Pareto frontier (score vs cost). */
-  is_pareto_optimal: boolean;
   /** Foundry evaluation identifier used to score this candidate. */
   eval_id?: string;
   /** Foundry evaluation run identifier for this candidate's scoring run. */
@@ -7305,111 +7479,14 @@ export function optimizationCandidateDeserializer(item: any): OptimizationCandid
   return {
     candidate_id: item["candidate_id"],
     name: item["name"],
-    config: optimizationAgentDefinitionDeserializer(item["config"]),
-    mutations: Object.fromEntries(
-      Object.entries(item["mutations"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
+    mutations: item["mutations"],
     avg_score: item["avg_score"],
     avg_tokens: item["avg_tokens"],
-    pass_rate: item["pass_rate"],
-    task_scores: optimizationTaskResultArrayDeserializer(item["task_scores"]),
-    is_pareto_optimal: item["is_pareto_optimal"],
     eval_id: item["eval_id"],
     eval_run_id: item["eval_run_id"],
     promotion: !item["promotion"]
       ? item["promotion"]
       : promotionInfoDeserializer(item["promotion"]),
-  };
-}
-
-/** Agent definition returned in response payloads (includes resolved config). */
-export interface OptimizationAgentDefinition {
-  /** Agent name. */
-  agent_name?: string;
-  /** Agent version. */
-  agent_version?: string;
-  /** Model deployment name. */
-  model?: string;
-  /** System prompt / instructions. */
-  system_prompt?: string;
-  /** Agent skills. */
-  skills?: Record<string, any>[];
-  /** Agent tools. */
-  tools?: Record<string, any>[];
-}
-
-export function optimizationAgentDefinitionDeserializer(item: any): OptimizationAgentDefinition {
-  return {
-    agent_name: item["agent_name"],
-    agent_version: item["agent_version"],
-    model: item["model"],
-    system_prompt: item["system_prompt"],
-    skills: !item["skills"]
-      ? item["skills"]
-      : item["skills"].map((p: any) => {
-          return Object.fromEntries(Object.entries(p).map(([k1, p1]: [string, any]) => [k1, p1]));
-        }),
-    tools: !item["tools"]
-      ? item["tools"]
-      : item["tools"].map((p: any) => {
-          return Object.fromEntries(Object.entries(p).map(([k1, p1]: [string, any]) => [k1, p1]));
-        }),
-  };
-}
-
-export function optimizationTaskResultArrayDeserializer(
-  result: Array<OptimizationTaskResult>,
-): any[] {
-  return result.map((item) => {
-    return optimizationTaskResultDeserializer(item);
-  });
-}
-
-/** Per-task evaluation result for a single candidate. */
-export interface OptimizationTaskResult {
-  /** Task name (from the dataset). */
-  task_name: string;
-  /** The user query / input for the task. */
-  query?: string;
-  /** Per-evaluator scores keyed by evaluator name. */
-  scores: Record<string, number>;
-  /** Composite score combining all evaluator scores. */
-  composite_score: number;
-  /** Total tokens consumed during the agent run for this task. */
-  tokens: number;
-  /** Wall-clock seconds for this task's agent execution. */
-  duration_seconds: number;
-  /** Whether the task met the pass threshold. */
-  passed: boolean;
-  /** Error message if the task failed during execution. */
-  error_message?: string;
-  /** Per-evaluator reasoning keyed by evaluator name. */
-  rationales?: Record<string, string>;
-  /** Raw agent response text. */
-  response?: string;
-  /** Identifier of the agent run that produced this result. */
-  run_id?: string;
-}
-
-export function optimizationTaskResultDeserializer(item: any): OptimizationTaskResult {
-  return {
-    task_name: item["task_name"],
-    query: item["query"],
-    scores: Object.fromEntries(
-      Object.entries(item["scores"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
-    composite_score: item["composite_score"],
-    tokens: item["tokens"],
-    duration_seconds: item["duration_seconds"],
-    passed: item["passed"],
-    error_message: item["error_message"],
-    rationales: !item["rationales"]
-      ? item["rationales"]
-      : Object.fromEntries(
-          Object.entries(item["rationales"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    response: item["response"],
-    run_id: item["run_id"],
   };
 }
 
@@ -7431,18 +7508,13 @@ export function promotionInfoDeserializer(item: any): PromotionInfo {
   };
 }
 
-export function optimizationCandidateArrayDeserializer(
-  result: Array<OptimizationCandidate>,
-): any[] {
-  return result.map((item) => {
-    return optimizationCandidateDeserializer(item);
-  });
-}
+/** Extensible status values shared by Foundry jobs. */
+export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
 
 /** In-flight progress; only populated while status is queued or in_progress. */
 export interface OptimizationJobProgress {
-  /** 1-based current iteration index. */
-  current_iteration: number;
+  /** Number of candidates whose evaluation has completed so far. */
+  candidates_completed: number;
   /** Best score observed so far across all candidates. */
   best_score: number;
   /** Wall-clock time elapsed in seconds since the job began executing. */
@@ -7451,37 +7523,16 @@ export interface OptimizationJobProgress {
 
 export function optimizationJobProgressDeserializer(item: any): OptimizationJobProgress {
   return {
-    current_iteration: item["current_iteration"],
+    candidates_completed: item["candidates_completed"],
     best_score: item["best_score"],
     elapsed_seconds: item["elapsed_seconds"],
   };
 }
 
-/** Metadata about the dataset used for optimization, surfaced in the response. */
-export interface DatasetInfo {
-  /** Dataset name when using a registered dataset reference. Null for inline datasets. */
-  name?: string;
-  /** Dataset version when using a registered dataset reference. Null for inline datasets. */
-  version?: string;
-  /** Number of tasks/rows in the dataset. */
-  task_count: number;
-  /** True when the dataset was provided inline in the request body. */
-  is_inline: boolean;
-}
-
-export function datasetInfoDeserializer(item: any): DatasetInfo {
-  return {
-    name: item["name"],
-    version: item["version"],
-    task_count: item["task_count"],
-    is_inline: item["is_inline"],
-  };
-}
-
 /** The response data for a requested list of items. */
-export interface _AgentsPagedResultOptimizationJob {
+export interface _AgentsPagedResultOptimizationJobListItem {
   /** The requested list of items. */
-  data: OptimizationJob[];
+  data: OptimizationJobListItem[];
   /** The first ID represented in this list. */
   first_id?: string;
   /** The last ID represented in this list. */
@@ -7490,191 +7541,54 @@ export interface _AgentsPagedResultOptimizationJob {
   has_more: boolean;
 }
 
-export function _agentsPagedResultOptimizationJobDeserializer(
+export function _agentsPagedResultOptimizationJobListItemDeserializer(
   item: any,
-): _AgentsPagedResultOptimizationJob {
+): _AgentsPagedResultOptimizationJobListItem {
   return {
-    data: optimizationJobArrayDeserializer(item["data"]),
+    data: optimizationJobListItemArrayDeserializer(item["data"]),
     first_id: item["first_id"],
     last_id: item["last_id"],
     has_more: item["has_more"],
   };
 }
 
-export function optimizationJobArrayDeserializer(result: Array<OptimizationJob>): any[] {
+export function optimizationJobListItemArrayDeserializer(
+  result: Array<OptimizationJobListItem>,
+): any[] {
   return result.map((item) => {
-    return optimizationJobDeserializer(item);
+    return optimizationJobListItemDeserializer(item);
   });
 }
 
-/** The response data for a requested list of items. */
-export interface AgentsPagedResultOptimizationCandidate {
-  /** The requested list of items. */
-  data: OptimizationCandidate[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
+/** Slim job representation returned by the LIST endpoint. */
+export interface OptimizationJobListItem {
+  /** Server-assigned unique identifier. */
+  readonly id: string;
+  /** Current lifecycle status. */
+  readonly status: JobStatus;
+  /** Error details — populated only on failure. */
+  readonly error?: ErrorModel;
+  /** The timestamp when the job was created, represented in Unix time. */
+  readonly created_at: Date;
+  /** The timestamp when the job was last updated, represented in Unix time. */
+  readonly updated_at: Date;
+  /** Progress snapshot. May be present in terminal states reflecting last-known progress. */
+  readonly progress?: OptimizationJobProgress;
+  /** The agent targeted by this optimization job. */
+  readonly agent?: OptimizationAgentIdentifier;
 }
 
-export function agentsPagedResultOptimizationCandidateDeserializer(
-  item: any,
-): AgentsPagedResultOptimizationCandidate {
+export function optimizationJobListItemDeserializer(item: any): OptimizationJobListItem {
   return {
-    data: optimizationCandidateArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
-  };
-}
-
-/** Candidate metadata returned by GET /candidates/{id}. */
-export interface CandidateMetadata {
-  /** Server-assigned candidate identifier. */
-  candidate_id: string;
-  /** Owning optimization job id. */
-  job_id: string;
-  /** Display name of the candidate. */
-  candidate_name: string;
-  /** Candidate lifecycle status. */
-  status: string;
-  /** Candidate's aggregate score. */
-  score?: number;
-  /** Whether detailed results are available for this candidate. */
-  has_results: boolean;
-  /** Timestamp when the candidate was created, represented in Unix time. */
-  created_at: Date;
-  /** Timestamp when the candidate was last updated, represented in Unix time. */
-  updated_at: Date;
-  /** Promotion metadata. Null if not promoted. */
-  promotion?: PromotionInfo;
-  /** Files in the candidate's blob directory. */
-  files: CandidateFileInfo[];
-}
-
-export function candidateMetadataDeserializer(item: any): CandidateMetadata {
-  return {
-    candidate_id: item["candidate_id"],
-    job_id: item["job_id"],
-    candidate_name: item["candidate_name"],
+    id: item["id"],
     status: item["status"],
-    score: item["score"],
-    has_results: item["has_results"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
     created_at: new Date(item["created_at"] * 1000),
     updated_at: new Date(item["updated_at"] * 1000),
-    promotion: !item["promotion"]
-      ? item["promotion"]
-      : promotionInfoDeserializer(item["promotion"]),
-    files: candidateFileInfoArrayDeserializer(item["files"]),
-  };
-}
-
-export function candidateFileInfoArrayDeserializer(result: Array<CandidateFileInfo>): any[] {
-  return result.map((item) => {
-    return candidateFileInfoDeserializer(item);
-  });
-}
-
-/** File entry in a candidate's blob directory. */
-export interface CandidateFileInfo {
-  /** Relative path of the file. */
-  path: string;
-  /** File type category (e.g. 'config', 'results'). */
-  type: string;
-  /** File size in bytes. */
-  size_bytes: number;
-}
-
-export function candidateFileInfoDeserializer(item: any): CandidateFileInfo {
-  return {
-    path: item["path"],
-    type: item["type"],
-    size_bytes: item["size_bytes"],
-  };
-}
-
-/** Deploy-config blob for a candidate. Suitable for setting OPTIMIZATION_CONFIG on a hosted-agent version. */
-export interface CandidateDeployConfig {
-  /** System prompt / instructions. */
-  instructions?: string;
-  /** Foundry deployment name. */
-  model?: string;
-  /** Optional sampling temperature. */
-  temperature?: number;
-  /** Optional skill overrides. */
-  skills?: Record<string, any>[];
-  /** Optional tool overrides. */
-  tools?: Record<string, any>[];
-}
-
-export function candidateDeployConfigDeserializer(item: any): CandidateDeployConfig {
-  return {
-    instructions: item["instructions"],
-    model: item["model"],
-    temperature: item["temperature"],
-    skills: !item["skills"]
-      ? item["skills"]
-      : item["skills"].map((p: any) => {
-          return Object.fromEntries(Object.entries(p).map(([k1, p1]: [string, any]) => [k1, p1]));
-        }),
-    tools: !item["tools"]
-      ? item["tools"]
-      : item["tools"].map((p: any) => {
-          return Object.fromEntries(Object.entries(p).map(([k1, p1]: [string, any]) => [k1, p1]));
-        }),
-  };
-}
-
-/** Full per-task evaluation results for a candidate, returned by GET /candidates/{id}/results. */
-export interface CandidateResults {
-  /** Owning candidate id. */
-  candidate_id: string;
-  /** Per-task evaluation rows. */
-  results: OptimizationTaskResult[];
-}
-
-export function candidateResultsDeserializer(item: any): CandidateResults {
-  return {
-    candidate_id: item["candidate_id"],
-    results: optimizationTaskResultArrayDeserializer(item["results"]),
-  };
-}
-
-/** Request body for promoting a candidate to a Foundry agent version. */
-export interface PromoteCandidateRequest {
-  /** Name of the Foundry agent to promote to. */
-  agent_name: string;
-  /** Version of the Foundry agent to promote to. */
-  agent_version: string;
-}
-
-export function promoteCandidateRequestSerializer(item: PromoteCandidateRequest): any {
-  return { agent_name: item["agent_name"], agent_version: item["agent_version"] };
-}
-
-/** Response after successfully promoting a candidate. */
-export interface PromoteCandidateResponse {
-  /** The promoted candidate id. */
-  candidate_id: string;
-  /** Status after promotion. */
-  status: string;
-  /** Timestamp when promotion occurred, represented in Unix time. */
-  promoted_at: Date;
-  /** Name of the Foundry agent promoted to. */
-  agent_name: string;
-  /** Version of the Foundry agent promoted to. */
-  agent_version: string;
-}
-
-export function promoteCandidateResponseDeserializer(item: any): PromoteCandidateResponse {
-  return {
-    candidate_id: item["candidate_id"],
-    status: item["status"],
-    promoted_at: new Date(item["promoted_at"] * 1000),
-    agent_name: item["agent_name"],
-    agent_version: item["agent_version"],
+    progress: !item["progress"]
+      ? item["progress"]
+      : optimizationJobProgressDeserializer(item["progress"]),
+    agent: !item["agent"] ? item["agent"] : optimizationAgentIdentifierDeserializer(item["agent"]),
   };
 }
 
@@ -7756,7 +7670,7 @@ export function evaluationTaxonomyInputUnionSerializer(item: EvaluationTaxonomyI
 }
 
 export function evaluationTaxonomyInputUnionDeserializer(item: any): EvaluationTaxonomyInputUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "agent":
       return agentTaxonomyInputDeserializer(item as AgentTaxonomyInput);
 
@@ -7828,7 +7742,7 @@ export function evaluationTargetUnionSerializer(item: EvaluationTargetUnion): an
 }
 
 export function evaluationTargetUnionDeserializer(item: any): EvaluationTargetUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "azure_ai_model":
       return azureAIModelTargetDeserializer(item as AzureAIModelTarget);
 
@@ -8262,7 +8176,7 @@ export function evaluatorDefinitionUnionSerializer(item: EvaluatorDefinitionUnio
 }
 
 export function evaluatorDefinitionUnionDeserializer(item: any): EvaluatorDefinitionUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "code":
       return codeBasedEvaluatorDefinitionDeserializer(item as CodeBasedEvaluatorDefinition);
 
@@ -8452,16 +8366,8 @@ export function rubricBasedEvaluatorDefinitionDeserializer(
 ): RubricBasedEvaluatorDefinition {
   return {
     type: item["type"],
-    init_parameters: !item["init_parameters"]
-      ? item["init_parameters"]
-      : Object.fromEntries(
-          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    data_schema: !item["data_schema"]
-      ? item["data_schema"]
-      : Object.fromEntries(
-          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
+    init_parameters: item["init_parameters"],
+    data_schema: item["data_schema"],
     metrics: !item["metrics"]
       ? item["metrics"]
       : evaluatorMetricRecordDeserializer(item["metrics"]),
@@ -8490,7 +8396,7 @@ export interface Dimension {
   description: string;
   /** Relative weight of this dimension (1-10). The generation pipeline assigns exactly one dimension weight 8-10; all others use 1-6. User edits are not constrained by this heuristic. */
   weight: number;
-  /** When true, the LLM judge always scores this dimension regardless of relevance (skips applicability assessment). The service-generated general quality/policy dimension has this set to true and is non-editable. Users may set this on their own custom dimensions. */
+  /** When true, the LLM judge always scores this dimension regardless of relevance (skips applicability assessment). The service-generated general quality/policy dimension has this set to true and is non-editable. Users may set this on their own custom dimensions. The service defaults to `false` if a value is not specified by the caller. */
   always_applicable?: boolean;
 }
 
@@ -9194,7 +9100,7 @@ export type InsightResultUnion =
   | InsightResult;
 
 export function insightResultUnionDeserializer(item: any): InsightResultUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "EvaluationComparison":
       return evaluationComparisonInsightResultDeserializer(
         item as EvaluationComparisonInsightResult,
@@ -9499,7 +9405,7 @@ export function insightSampleDeserializer(item: any): InsightSample {
 export type InsightSampleUnion = EvaluationResultSample | InsightSample;
 
 export function insightSampleUnionDeserializer(item: any): InsightSampleUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "EvaluationResultSample":
       return evaluationResultSampleDeserializer(item as EvaluationResultSample);
 
@@ -9651,7 +9557,7 @@ export function memoryStoreDefinitionUnionSerializer(item: MemoryStoreDefinition
 }
 
 export function memoryStoreDefinitionUnionDeserializer(item: any): MemoryStoreDefinitionUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "default":
       return memoryStoreDefaultDefinitionDeserializer(item as MemoryStoreDefaultDefinition);
 
@@ -9705,7 +9611,7 @@ export interface MemoryStoreDefaultOptions {
   user_profile_details?: string;
   /** Whether to enable chat summary extraction and storage. Defaults to `true`. */
   chat_summary_enabled: boolean;
-  /** Whether to enable procedural memory extraction and storage. Defaults to `true`. */
+  /** Whether to enable procedural memory extraction and storage. The service defaults to `true` if a value is not specified by the caller. */
   procedural_memory_enabled?: boolean;
   /** The default time-to-live for memories in seconds. A value of `0` indicates that memories do not expire. Defaults to `0`. */
   default_ttl_seconds?: number;
@@ -9880,7 +9786,7 @@ export type MemoryItemUnion =
   | MemoryItem;
 
 export function memoryItemUnionDeserializer(item: any): MemoryItemUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "user_profile":
       return userProfileMemoryItemDeserializer(item as UserProfileMemoryItem);
 
@@ -10237,9 +10143,7 @@ export function modelVersionDeserializer(item: any): ModelVersion {
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    tags: item["tags"],
   };
 }
 
@@ -10576,7 +10480,7 @@ export function redTeamTargetConfigUnionSerializer(item: RedTeamTargetConfigUnio
 }
 
 export function redTeamTargetConfigUnionDeserializer(item: any): RedTeamTargetConfigUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "AzureOpenAIModel":
       return azureOpenAIModelConfigurationDeserializer(item as AzureOpenAIModelConfiguration);
 
@@ -10827,9 +10731,7 @@ export function customRoutineTriggerDeserializer(item: any): CustomRoutineTrigge
     type: item["type"],
     provider: item["provider"],
     event_name: item["event_name"],
-    parameters: Object.fromEntries(
-      Object.entries(item["parameters"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
+    parameters: item["parameters"],
   };
 }
 
@@ -11332,7 +11234,7 @@ export function triggerUnionSerializer(item: TriggerUnion): any {
 }
 
 export function triggerUnionDeserializer(item: any): TriggerUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "Cron":
       return cronTriggerDeserializer(item as CronTrigger);
 
@@ -11467,7 +11369,7 @@ export function recurrenceScheduleUnionSerializer(item: RecurrenceScheduleUnion)
 }
 
 export function recurrenceScheduleUnionDeserializer(item: any): RecurrenceScheduleUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "Hourly":
       return hourlyRecurrenceScheduleDeserializer(item as HourlyRecurrenceSchedule);
 
@@ -11639,7 +11541,7 @@ export function scheduleTaskUnionSerializer(item: ScheduleTaskUnion): any {
 }
 
 export function scheduleTaskUnionDeserializer(item: any): ScheduleTaskUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "Evaluation":
       return evaluationScheduleTaskDeserializer(item as EvaluationScheduleTask);
 
@@ -11906,11 +11808,7 @@ export interface ToolboxVersionObject {
 
 export function toolboxVersionObjectDeserializer(item: any): ToolboxVersionObject {
   return {
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : Object.fromEntries(
-          Object.entries(item["metadata"]).map(([k1, p1]: [string, any]) => [k1, p1]),
-        ),
+    metadata: item["metadata"],
     id: item["id"],
     name: item["name"],
     version: item["version"],
@@ -12714,9 +12612,7 @@ export function dataGenerationJobOutputOptionsDeserializer(
   return {
     name: item["name"],
     description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    tags: item["tags"],
   };
 }
 
@@ -12828,9 +12724,7 @@ export function datasetDataGenerationJobOutputDeserializer(
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    tags: item["tags"],
   };
 }
 
@@ -12934,7 +12828,7 @@ export type FoundryFeaturesOptInKeys =
   | "Skills=V1Preview"
   | "DataGenerationJobs=V1Preview"
   | "Models=V1Preview"
-  | "AgentsOptimization=V1Preview";
+  | "AgentsOptimization=V2Preview";
 /** The type of pending upload. */
 export type PendingUploadType = "None" | "BlobReference" | "TemporaryBlobReference";
 /** Type of MemoryStoreType */
@@ -12964,7 +12858,7 @@ export type DownloadVersionResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 export type BetaSkillsDownloadResponse = {
@@ -12981,24 +12875,7 @@ export type BetaSkillsDownloadResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
-};
-
-export type BetaAgentsGetCandidateFileResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 export type BetaAgentsDownloadSessionFileResponse = {
@@ -13015,7 +12892,7 @@ export type BetaAgentsDownloadSessionFileResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 export type BetaAgentsDownloadAgentCodeResponse = {
@@ -13032,5 +12909,5 @@ export type BetaAgentsDownloadAgentCodeResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
