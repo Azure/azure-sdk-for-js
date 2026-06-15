@@ -42,13 +42,13 @@ echo "window: $since .. $until (prior from $prior_since)"
 
 api() { gh api -H "Accept: application/vnd.github+json" "$@"; }
 
-# --- Step 0: blobless clone (full history; blobs fetched on demand) ---
+# --- Blobless clone (full history; blobs fetched on demand) ---
 if [ ! -d "$REPODIR/.git" ]; then
   git clone --filter=blob:none "https://github.com/$REPO.git" "$REPODIR" 2>/dev/null \
     && echo "clone ok" || echo "clone FAILED"
 fi
 
-# --- Step 1: CCR review-comment reactions (repo-level, inline reactions) ---
+# --- CCR review-comment reactions (repo-level, inline reactions) ---
 collect_ccr() {
   jq -s --arg lo "$1" --arg hi "$2" '
     [ .[][] | select(.user.login=="Copilot")
@@ -77,7 +77,7 @@ prior=$(collect_ccr "$prior_since" "$since" "$ccr_dump")
 jq -n --argjson cur "$cur" --argjson prior "$prior" --argjson pages "$pages_fetched" \
   '{current:$cur, prior:$prior, pages_fetched:$pages}' > "$OUTDIR/ccr.json"
 
-# --- Step 2: context layer health (local git log) ---
+# --- Context layer health (local git log) ---
 ctx="[]"
 if [ -d "$REPODIR/.git" ]; then
   mapfile -t files < <(cd "$REPODIR" && { \
@@ -98,7 +98,7 @@ if [ -d "$REPODIR/.git" ]; then
 fi
 echo "$ctx" > "$OUTDIR/context.json"
 
-# --- Step 4: codebase hygiene (grep) ---
+# --- Codebase hygiene (grep) ---
 ed=null; ef=null; sk=null; on=null
 if [ -d "$REPODIR/sdk" ]; then
   cd "$REPODIR" || exit 1
@@ -114,7 +114,7 @@ fi
 jq -n --argjson ed "${ed:-null}" --argjson ef "${ef:-null}" --argjson sk "${sk:-null}" --argjson on "${on:-null}" \
   '{eslint_directives:$ed, eslint_files:$ef, skip:$sk, only:$on}' > "$OUTDIR/hygiene.json"
 
-# --- Step 5: stale documentation (local git log; all files, no sampling) ---
+# --- Stale documentation (local git log; all files, no sampling) ---
 if [ -d "$REPODIR/.git" ]; then
   cd "$REPODIR" || exit 1
   doclist=$(git ls-files documentation/ | while read -r f; do
@@ -126,8 +126,9 @@ if [ -d "$REPODIR/.git" ]; then
   stale=$(echo "$doclist" | jq '[.[]|select(.age_days>30)]|length')
   top=$(echo "$doclist" | jq '.[0:5]')
   if [ -d "$REPODIR/taste" ]; then
-    tlast=$(git log -1 --format=%ct -- taste 2>/dev/null); tage=$(( (now_s - tlast) / 86400 ))
-    taste=$(jq -n --argjson a "$tage" '{present:true, age_days:$a}')
+    tlast=$(git log -1 --format=%ct -- taste 2>/dev/null)
+    if [ -n "$tlast" ]; then tage=$(( (now_s - tlast) / 86400 )); else tage=null; fi
+    taste=$(jq -n --argjson a "${tage:-null}" '{present:true, age_days:$a}')
   else
     taste='{"present":false,"age_days":null}'
   fi
@@ -137,7 +138,7 @@ else
   echo '{"total":null,"stale_count":null,"top":[],"taste":{"present":false,"age_days":null}}' > "$OUTDIR/docs.json"
 fi
 
-# --- Step 3: CI speed (check-runs for every merged PR in the window) ---
+# --- CI speed (check-runs for every merged PR in the window) ---
 merged=$(api "/repos/$REPO/pulls?state=closed&base=main&sort=updated&direction=desc&per_page=100" 2>/dev/null \
   | jq --arg s "$since" --arg u "$until" '[.[] | select(.merged_at != null and .merged_at >= $s and .merged_at < $u)]')
 mcount=$(echo "$merged" | jq 'length')
