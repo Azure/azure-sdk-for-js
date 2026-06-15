@@ -4,15 +4,17 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type Action = string;
@@ -47,6 +49,16 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export interface DeleteRetentionPolicy {
+    // (undocumented)
+    policyState?: PolicyState;
+    retentionPeriodDays?: number;
+}
+
+// @public
+export type DeleteType = string;
+
+// @public
 export interface DiskSnapshotList {
     diskSnapshotIds: string[];
 }
@@ -59,11 +71,16 @@ export interface ElasticSan extends TrackedResource {
 // @public (undocumented)
 export class ElasticSanManagement {
     constructor(credential: TokenCredential, subscriptionId: string, options?: ElasticSanManagementOptionalParams);
+    // @deprecated (undocumented)
+    beginRestoreVolume(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: RestoreVolumeOptionalParams): Promise<SimplePollerLike<OperationState<Volume>, Volume>>;
+    // @deprecated (undocumented)
+    beginRestoreVolumeAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: RestoreVolumeOptionalParams): Promise<Volume>;
     readonly elasticSans: ElasticSansOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
     readonly privateLinkResources: PrivateLinkResourcesOperations;
+    restoreVolume(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: RestoreVolumeOptionalParams): PollerLike<OperationState<Volume>, Volume>;
     readonly skus: SkusOperations;
     readonly volumeGroups: VolumeGroupsOperations;
     readonly volumes: VolumesOperations;
@@ -210,6 +227,8 @@ export interface IscsiTargetInfo {
     readonly targetPortalPort?: number;
 }
 
+export { isRestError }
+
 // @public
 export interface KeyVaultProperties {
     readonly currentVersionedKeyExpirationTimestamp?: Date;
@@ -246,6 +265,11 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDeleteType {
+    Permanent = "permanent"
+}
+
+// @public
 export enum KnownEncryptionType {
     EncryptionAtRestWithCustomerManagedKey = "EncryptionAtRestWithCustomerManagedKey",
     EncryptionAtRestWithPlatformKey = "EncryptionAtRestWithPlatformKey"
@@ -278,6 +302,12 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownPolicyState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
     Approved = "Approved",
     Failed = "Failed",
@@ -295,6 +325,7 @@ export enum KnownProvisioningStates {
     Invalid = "Invalid",
     Pending = "Pending",
     Restoring = "Restoring",
+    SoftDeleting = "SoftDeleting",
     Succeeded = "Succeeded",
     Updating = "Updating"
 }
@@ -324,7 +355,8 @@ export enum KnownStorageTargetType {
 
 // @public
 export enum KnownVersions {
-    V20250901 = "2025-09-01"
+    V20250901 = "2025-09-01",
+    V20260401Preview = "2026-04-01-preview"
 }
 
 // @public
@@ -334,6 +366,12 @@ export enum KnownVolumeCreateOption {
     DiskSnapshot = "DiskSnapshot",
     None = "None",
     VolumeSnapshot = "VolumeSnapshot"
+}
+
+// @public
+export enum KnownXMsAccessSoftDeletedResources {
+    False = "false",
+    True = "true"
 }
 
 // @public
@@ -401,6 +439,9 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 export interface PageSettings {
     continuationToken?: string;
 }
+
+// @public
+export type PolicyState = string;
 
 // @public
 export interface PreValidationResponse {
@@ -514,6 +555,8 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ElasticSanManagement, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -521,6 +564,11 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RestoreVolumeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -669,7 +717,9 @@ export interface VolumeGroup extends ProxyResource {
 
 // @public
 export interface VolumeGroupProperties {
+    deleteRetentionPolicy?: DeleteRetentionPolicy;
     encryption?: EncryptionType;
+    encryptionInTransit?: boolean;
     encryptionProperties?: EncryptionProperties;
     enforceDataIntegrityCheckForIscsi?: boolean;
     networkAcls?: NetworkRuleSet;
@@ -694,6 +744,7 @@ export interface VolumeGroupsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface VolumeGroupsListByElasticSanOptionalParams extends OperationOptions {
+    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
 }
 
 // @public
@@ -730,6 +781,7 @@ export interface VolumeGroupUpdate {
 
 // @public
 export interface VolumeGroupUpdateProperties {
+    deleteRetentionPolicy?: DeleteRetentionPolicy;
     encryption?: EncryptionType;
     encryptionProperties?: EncryptionProperties;
     enforceDataIntegrityCheckForIscsi?: boolean;
@@ -759,6 +811,7 @@ export interface VolumesCreateOptionalParams extends OperationOptions {
 
 // @public
 export interface VolumesDeleteOptionalParams extends OperationOptions {
+    deleteType?: DeleteType;
     updateIntervalInMs?: number;
     xMsDeleteSnapshots?: XMsDeleteSnapshots;
     xMsForceDelete?: XMsForceDelete;
@@ -770,6 +823,7 @@ export interface VolumesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface VolumesListByVolumeGroupOptionalParams extends OperationOptions {
+    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
 }
 
 // @public
@@ -863,6 +917,9 @@ export interface VolumeUpdateProperties {
     managedBy?: ManagedByInfo;
     sizeGiB?: number;
 }
+
+// @public
+export type XMsAccessSoftDeletedResources = string;
 
 // @public
 export type XMsDeleteSnapshots = string;
