@@ -7,16 +7,35 @@ import type {
   LedgerUser,
   LedgerUserMultipleRoles,
   Bundle,
-  JSRuntimeOptions,
+  JsRuntimeOptions,
   UserDefinedFunction,
   UserDefinedFunctionExecutionProperties,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/parameters.ts
+  UserDefinedRoles,
+} from "./models.js";
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/parameters.ts
+  Role,
+} from "./models";
+=======
   Role,
 } from "./models.js";
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/parameters.ts
 
 export type GetConstitutionParameters = RequestParameters;
 export type ListConsortiumMembersParameters = RequestParameters;
 export type GetEnclaveQuotesParameters = RequestParameters;
 export type ListCollectionsParameters = RequestParameters;
+
+export interface ListTagsQueryParamProperties {
+  /** The collection id. */
+  collectionId?: string;
+}
+
+export interface ListTagsQueryParam {
+  queryParameters?: ListTagsQueryParamProperties;
+}
+
+export type ListTagsParameters = ListTagsQueryParam & RequestParameters;
 
 export interface ListLedgerEntriesQueryParamProperties {
   /** The collection id. */
@@ -51,13 +70,7 @@ export interface CreateLedgerEntryQueryParam {
   queryParameters?: CreateLedgerEntryQueryParamProperties;
 }
 
-export interface CreateLedgerEntryMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
 export type CreateLedgerEntryParameters = CreateLedgerEntryQueryParam &
-  CreateLedgerEntryMediaTypesParam &
   CreateLedgerEntryBodyParam &
   RequestParameters;
 
@@ -97,8 +110,8 @@ export interface CreateOrUpdateUserBodyParam {
 }
 
 export interface CreateOrUpdateUserMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
+  /** application/merge-patch+json content-type */
+  contentType: "application/merge-patch+json";
 }
 
 export type CreateOrUpdateUserParameters = CreateOrUpdateUserMediaTypesParam &
@@ -115,8 +128,8 @@ export interface CreateOrUpdateLedgerUserBodyParam {
 }
 
 export interface CreateOrUpdateLedgerUserMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
+  /** application/merge-patch+json content-type */
+  contentType: "application/merge-patch+json";
 }
 
 export type CreateOrUpdateLedgerUserParameters = CreateOrUpdateLedgerUserMediaTypesParam &
@@ -125,10 +138,24 @@ export type CreateOrUpdateLedgerUserParameters = CreateOrUpdateLedgerUserMediaTy
 export type GetUserDefinedEndpointParameters = RequestParameters;
 
 export interface CreateUserDefinedEndpointBodyParam {
-  /** bundle parameter description */
+  /** Specify a user defined endpoint. */
   body: Bundle;
 }
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/parameters.ts
+export type CreateUserDefinedEndpointParameters = CreateUserDefinedEndpointBodyParam &
+  RequestParameters;
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/parameters.ts
+export interface CreateUserDefinedEndpointMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type CreateUserDefinedEndpointParameters =
+  CreateUserDefinedEndpointMediaTypesParam &
+    CreateUserDefinedEndpointBodyParam &
+    RequestParameters;
+=======
 export interface CreateUserDefinedEndpointMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
@@ -137,21 +164,35 @@ export interface CreateUserDefinedEndpointMediaTypesParam {
 export type CreateUserDefinedEndpointParameters = CreateUserDefinedEndpointMediaTypesParam &
   CreateUserDefinedEndpointBodyParam &
   RequestParameters;
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/parameters.ts
 export type GetRuntimeOptionsParameters = RequestParameters;
+/** JS Runtime options */
+export type JsRuntimeOptionsResourceMergeAndPatch = Partial<JsRuntimeOptions>;
 
-export interface UpdateRuntimeOptionsBodyParam {
-  /** JS runtime options */
-  body: JSRuntimeOptions;
+export interface UpdateRuntimeOptionsStableBodyParam {
+  /** JS Runtime options */
+  body: JsRuntimeOptionsResourceMergeAndPatch;
 }
 
-export interface UpdateRuntimeOptionsMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
+export interface UpdateRuntimeOptionsStableMediaTypesParam {
+  /** Content type */
+  contentType: "application/merge-patch+json";
 }
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/parameters.ts
+export type UpdateRuntimeOptionsStableParameters = UpdateRuntimeOptionsStableMediaTypesParam &
+  UpdateRuntimeOptionsStableBodyParam &
+  RequestParameters;
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/parameters.ts
+export type UpdateRuntimeOptionsParameters =
+  UpdateRuntimeOptionsMediaTypesParam &
+    UpdateRuntimeOptionsBodyParam &
+    RequestParameters;
+=======
 export type UpdateRuntimeOptionsParameters = UpdateRuntimeOptionsMediaTypesParam &
   UpdateRuntimeOptionsBodyParam &
   RequestParameters;
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/parameters.ts
 
 export interface GetUserDefinedEndpointsModuleQueryParamProperties {
   /** module name of the user defined endpoint */
@@ -173,6 +214,20 @@ export interface CreateUserDefinedFunctionBodyParam {
   body: UserDefinedFunction;
 }
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/parameters.ts
+export type CreateUserDefinedFunctionParameters = CreateUserDefinedFunctionBodyParam &
+  RequestParameters;
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/parameters.ts
+export interface CreateUserDefinedFunctionMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type CreateUserDefinedFunctionParameters =
+  CreateUserDefinedFunctionMediaTypesParam &
+    CreateUserDefinedFunctionBodyParam &
+    RequestParameters;
+=======
 export interface CreateUserDefinedFunctionMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
@@ -181,12 +236,27 @@ export interface CreateUserDefinedFunctionMediaTypesParam {
 export type CreateUserDefinedFunctionParameters = CreateUserDefinedFunctionMediaTypesParam &
   CreateUserDefinedFunctionBodyParam &
   RequestParameters;
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/parameters.ts
 
 export interface ExecuteUserDefinedFunctionBodyParam {
   /** Specify user defined function execution properties. */
   body?: UserDefinedFunctionExecutionProperties;
 }
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/parameters.ts
+export type ExecuteUserDefinedFunctionParameters = ExecuteUserDefinedFunctionBodyParam &
+  RequestParameters;
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/parameters.ts
+export interface ExecuteUserDefinedFunctionMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type ExecuteUserDefinedFunctionParameters =
+  ExecuteUserDefinedFunctionMediaTypesParam &
+    ExecuteUserDefinedFunctionBodyParam &
+    RequestParameters;
+=======
 export interface ExecuteUserDefinedFunctionMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
@@ -195,6 +265,7 @@ export interface ExecuteUserDefinedFunctionMediaTypesParam {
 export type ExecuteUserDefinedFunctionParameters = ExecuteUserDefinedFunctionMediaTypesParam &
   ExecuteUserDefinedFunctionBodyParam &
   RequestParameters;
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/parameters.ts
 
 export interface GetUserDefinedRoleQueryParamProperties {
   /** user defined role name */
@@ -207,11 +278,27 @@ export interface GetUserDefinedRoleQueryParam {
 
 export type GetUserDefinedRoleParameters = GetUserDefinedRoleQueryParam & RequestParameters;
 
-export interface CreateUserDefinedRoleBodyParam {
-  /** user defined role */
-  body: Array<Role>;
+export interface CreateUserDefinedRoleStableBodyParam {
+  /** Request body */
+  body: UserDefinedRoles;
 }
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/parameters.ts
+export type CreateUserDefinedRoleStableParameters = CreateUserDefinedRoleStableBodyParam &
+  RequestParameters;
+/** Request body */
+export type UserDefinedRolesResourceMergeAndPatch = Partial<UserDefinedRoles>;
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/parameters.ts
+export interface CreateUserDefinedRoleMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type CreateUserDefinedRoleParameters =
+  CreateUserDefinedRoleMediaTypesParam &
+    CreateUserDefinedRoleBodyParam &
+    RequestParameters;
+=======
 export interface CreateUserDefinedRoleMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
@@ -220,28 +307,48 @@ export interface CreateUserDefinedRoleMediaTypesParam {
 export type CreateUserDefinedRoleParameters = CreateUserDefinedRoleMediaTypesParam &
   CreateUserDefinedRoleBodyParam &
   RequestParameters;
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/parameters.ts
 
-export interface UpdateUserDefinedRoleBodyParam {
-  /** user defined role */
-  body: Array<Role>;
+export interface UpdateUserDefinedRoleStableBodyParam {
+  /** Request body */
+  body: UserDefinedRolesResourceMergeAndPatch;
 }
 
-export interface UpdateUserDefinedRoleMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
+export interface UpdateUserDefinedRoleStableMediaTypesParam {
+  /** Content type */
+  contentType: "application/merge-patch+json";
 }
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/parameters.ts
+export type UpdateUserDefinedRoleStableParameters = UpdateUserDefinedRoleStableMediaTypesParam &
+  UpdateUserDefinedRoleStableBodyParam &
+  RequestParameters;
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/parameters.ts
+export type UpdateUserDefinedRoleParameters =
+  UpdateUserDefinedRoleMediaTypesParam &
+    UpdateUserDefinedRoleBodyParam &
+    RequestParameters;
+=======
 export type UpdateUserDefinedRoleParameters = UpdateUserDefinedRoleMediaTypesParam &
   UpdateUserDefinedRoleBodyParam &
   RequestParameters;
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/parameters.ts
 
-export interface DeleteUserDefinedRoleQueryParamProperties {
+export interface DeleteUserDefinedRoleStableQueryParamProperties {
   /** user defined role name */
   roleName: string;
 }
 
-export interface DeleteUserDefinedRoleQueryParam {
-  queryParameters: DeleteUserDefinedRoleQueryParamProperties;
+export interface DeleteUserDefinedRoleStableQueryParam {
+  queryParameters: DeleteUserDefinedRoleStableQueryParamProperties;
 }
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/parameters.ts
+export type DeleteUserDefinedRoleStableParameters = DeleteUserDefinedRoleStableQueryParam &
+  RequestParameters;
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/parameters.ts
+export type DeleteUserDefinedRoleParameters = DeleteUserDefinedRoleQueryParam &
+  RequestParameters;
+=======
 export type DeleteUserDefinedRoleParameters = DeleteUserDefinedRoleQueryParam & RequestParameters;
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/parameters.ts

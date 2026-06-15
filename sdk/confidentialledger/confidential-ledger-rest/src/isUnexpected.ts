@@ -10,6 +10,8 @@ import type {
   GetEnclaveQuotesDefaultResponse,
   ListCollections200Response,
   ListCollectionsDefaultResponse,
+  ListTags200Response,
+  ListTagsDefaultResponse,
   ListLedgerEntries200Response,
   ListLedgerEntriesDefaultResponse,
   CreateLedgerEntry200Response,
@@ -44,8 +46,8 @@ import type {
   CreateUserDefinedEndpointDefaultResponse,
   GetRuntimeOptions200Response,
   GetRuntimeOptionsDefaultResponse,
-  UpdateRuntimeOptions200Response,
-  UpdateRuntimeOptionsDefaultResponse,
+  UpdateRuntimeOptionsStable200Response,
+  UpdateRuntimeOptionsStableDefaultResponse,
   GetUserDefinedEndpointsModule200Response,
   GetUserDefinedEndpointsModuleDefaultResponse,
   ListUserDefinedFunctions200Response,
@@ -61,6 +63,23 @@ import type {
   ExecuteUserDefinedFunctionDefaultResponse,
   GetUserDefinedRole200Response,
   GetUserDefinedRoleDefaultResponse,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/isUnexpected.ts
+  CreateUserDefinedRoleStable200Response,
+  CreateUserDefinedRoleStableDefaultResponse,
+  UpdateUserDefinedRoleStable200Response,
+  UpdateUserDefinedRoleStableDefaultResponse,
+  DeleteUserDefinedRoleStable204Response,
+  DeleteUserDefinedRoleStableDefaultResponse,
+} from "./responses.js";
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/isUnexpected.ts
+  CreateUserDefinedRole200Response,
+  CreateUserDefinedRoleDefaultResponse,
+  UpdateUserDefinedRole200Response,
+  UpdateUserDefinedRoleDefaultResponse,
+  DeleteUserDefinedRole200Response,
+  DeleteUserDefinedRoleDefaultResponse,
+} from "./responses";
+=======
   CreateUserDefinedRole200Response,
   CreateUserDefinedRoleDefaultResponse,
   UpdateUserDefinedRole200Response,
@@ -68,12 +87,14 @@ import type {
   DeleteUserDefinedRole200Response,
   DeleteUserDefinedRoleDefaultResponse,
 } from "./responses.js";
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/isUnexpected.ts
 
 const responseMap: Record<string, string[]> = {
   "GET /app/governance/constitution": ["200"],
   "GET /app/governance/members": ["200"],
   "GET /app/enclaveQuotes": ["200"],
   "GET /app/collections": ["200"],
+  "GET /app/collections/tags": ["200"],
   "GET /app/transactions": ["200"],
   "POST /app/transactions": ["200"],
   "GET /app/transactions/{transactionId}": ["200"],
@@ -101,7 +122,7 @@ const responseMap: Record<string, string[]> = {
   "GET /app/roles": ["200"],
   "PUT /app/roles": ["200"],
   "PATCH /app/roles": ["200"],
-  "DELETE /app/roles": ["200"],
+  "DELETE /app/roles": ["204"],
 };
 
 export function isUnexpected(
@@ -116,6 +137,9 @@ export function isUnexpected(
 export function isUnexpected(
   response: ListCollections200Response | ListCollectionsDefaultResponse,
 ): response is ListCollectionsDefaultResponse;
+export function isUnexpected(
+  response: ListTags200Response | ListTagsDefaultResponse,
+): response is ListTagsDefaultResponse;
 export function isUnexpected(
   response: ListLedgerEntries200Response | ListLedgerEntriesDefaultResponse,
 ): response is ListLedgerEntriesDefaultResponse;
@@ -168,8 +192,18 @@ export function isUnexpected(
   response: GetRuntimeOptions200Response | GetRuntimeOptionsDefaultResponse,
 ): response is GetRuntimeOptionsDefaultResponse;
 export function isUnexpected(
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/isUnexpected.ts
+  response: UpdateRuntimeOptionsStable200Response | UpdateRuntimeOptionsStableDefaultResponse,
+): response is UpdateRuntimeOptionsStableDefaultResponse;
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/isUnexpected.ts
+  response:
+    | UpdateRuntimeOptions200Response
+    | UpdateRuntimeOptionsDefaultResponse,
+): response is UpdateRuntimeOptionsDefaultResponse;
+=======
   response: UpdateRuntimeOptions200Response | UpdateRuntimeOptionsDefaultResponse,
 ): response is UpdateRuntimeOptionsDefaultResponse;
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/isUnexpected.ts
 export function isUnexpected(
   response: GetUserDefinedEndpointsModule200Response | GetUserDefinedEndpointsModuleDefaultResponse,
 ): response is GetUserDefinedEndpointsModuleDefaultResponse;
@@ -195,14 +229,44 @@ export function isUnexpected(
   response: GetUserDefinedRole200Response | GetUserDefinedRoleDefaultResponse,
 ): response is GetUserDefinedRoleDefaultResponse;
 export function isUnexpected(
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/isUnexpected.ts
+  response: CreateUserDefinedRoleStable200Response | CreateUserDefinedRoleStableDefaultResponse,
+): response is CreateUserDefinedRoleStableDefaultResponse;
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/isUnexpected.ts
+  response:
+    | CreateUserDefinedRole200Response
+    | CreateUserDefinedRoleDefaultResponse,
+): response is CreateUserDefinedRoleDefaultResponse;
+=======
   response: CreateUserDefinedRole200Response | CreateUserDefinedRoleDefaultResponse,
 ): response is CreateUserDefinedRoleDefaultResponse;
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/isUnexpected.ts
 export function isUnexpected(
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/isUnexpected.ts
+  response: UpdateUserDefinedRoleStable200Response | UpdateUserDefinedRoleStableDefaultResponse,
+): response is UpdateUserDefinedRoleStableDefaultResponse;
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/isUnexpected.ts
+  response:
+    | UpdateUserDefinedRole200Response
+    | UpdateUserDefinedRoleDefaultResponse,
+): response is UpdateUserDefinedRoleDefaultResponse;
+=======
   response: UpdateUserDefinedRole200Response | UpdateUserDefinedRoleDefaultResponse,
 ): response is UpdateUserDefinedRoleDefaultResponse;
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/isUnexpected.ts
 export function isUnexpected(
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/result/src/isUnexpected.ts
+  response: DeleteUserDefinedRoleStable204Response | DeleteUserDefinedRoleStableDefaultResponse,
+): response is DeleteUserDefinedRoleStableDefaultResponse;
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/base/sdk/confidentialledger/confidential-ledger-rest/generated/isUnexpected.ts
+  response:
+    | DeleteUserDefinedRole200Response
+    | DeleteUserDefinedRoleDefaultResponse,
+): response is DeleteUserDefinedRoleDefaultResponse;
+=======
   response: DeleteUserDefinedRole200Response | DeleteUserDefinedRoleDefaultResponse,
 ): response is DeleteUserDefinedRoleDefaultResponse;
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolqaGSaM/custom/sdk/confidentialledger/confidential-ledger-rest/src/isUnexpected.ts
 export function isUnexpected(
   response:
     | GetConstitution200Response
@@ -213,6 +277,8 @@ export function isUnexpected(
     | GetEnclaveQuotesDefaultResponse
     | ListCollections200Response
     | ListCollectionsDefaultResponse
+    | ListTags200Response
+    | ListTagsDefaultResponse
     | ListLedgerEntries200Response
     | ListLedgerEntriesDefaultResponse
     | CreateLedgerEntry200Response
@@ -247,8 +313,8 @@ export function isUnexpected(
     | CreateUserDefinedEndpointDefaultResponse
     | GetRuntimeOptions200Response
     | GetRuntimeOptionsDefaultResponse
-    | UpdateRuntimeOptions200Response
-    | UpdateRuntimeOptionsDefaultResponse
+    | UpdateRuntimeOptionsStable200Response
+    | UpdateRuntimeOptionsStableDefaultResponse
     | GetUserDefinedEndpointsModule200Response
     | GetUserDefinedEndpointsModuleDefaultResponse
     | ListUserDefinedFunctions200Response
@@ -264,17 +330,18 @@ export function isUnexpected(
     | ExecuteUserDefinedFunctionDefaultResponse
     | GetUserDefinedRole200Response
     | GetUserDefinedRoleDefaultResponse
-    | CreateUserDefinedRole200Response
-    | CreateUserDefinedRoleDefaultResponse
-    | UpdateUserDefinedRole200Response
-    | UpdateUserDefinedRoleDefaultResponse
-    | DeleteUserDefinedRole200Response
-    | DeleteUserDefinedRoleDefaultResponse,
+    | CreateUserDefinedRoleStable200Response
+    | CreateUserDefinedRoleStableDefaultResponse
+    | UpdateUserDefinedRoleStable200Response
+    | UpdateUserDefinedRoleStableDefaultResponse
+    | DeleteUserDefinedRoleStable204Response
+    | DeleteUserDefinedRoleStableDefaultResponse,
 ): response is
   | GetConstitutionDefaultResponse
   | ListConsortiumMembersDefaultResponse
   | GetEnclaveQuotesDefaultResponse
   | ListCollectionsDefaultResponse
+  | ListTagsDefaultResponse
   | ListLedgerEntriesDefaultResponse
   | CreateLedgerEntryDefaultResponse
   | GetLedgerEntryDefaultResponse
@@ -292,7 +359,7 @@ export function isUnexpected(
   | GetUserDefinedEndpointDefaultResponse
   | CreateUserDefinedEndpointDefaultResponse
   | GetRuntimeOptionsDefaultResponse
-  | UpdateRuntimeOptionsDefaultResponse
+  | UpdateRuntimeOptionsStableDefaultResponse
   | GetUserDefinedEndpointsModuleDefaultResponse
   | ListUserDefinedFunctionsDefaultResponse
   | DeleteUserDefinedFunctionDefaultResponse
@@ -300,9 +367,9 @@ export function isUnexpected(
   | CreateUserDefinedFunctionDefaultResponse
   | ExecuteUserDefinedFunctionDefaultResponse
   | GetUserDefinedRoleDefaultResponse
-  | CreateUserDefinedRoleDefaultResponse
-  | UpdateUserDefinedRoleDefaultResponse
-  | DeleteUserDefinedRoleDefaultResponse {
+  | CreateUserDefinedRoleStableDefaultResponse
+  | UpdateUserDefinedRoleStableDefaultResponse
+  | DeleteUserDefinedRoleStableDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

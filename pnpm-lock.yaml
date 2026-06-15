@@ -6995,6 +6995,9 @@ importers:
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
       '@azure/logger':
         specifier: ^1.2.0
         version: link:../../core/logger
@@ -7023,18 +7026,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.41
-      '@vitest/browser-playwright':
-        specifier: catalog:testing
-        version: 4.1.7(playwright@1.60.0)(vite@7.3.3(@types/node@20.19.41)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))(vitest@4.1.7)
-      '@vitest/coverage-istanbul':
-        specifier: catalog:testing
-        version: 4.1.7(vitest@4.1.7)
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
-      dotenv:
-        specifier: catalog:testing
-        version: 16.6.1
       eslint:
         specifier: 'catalog:'
         version: 9.39.4
@@ -7047,9 +7041,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
-      vitest:
-        specifier: catalog:testing
-        version: 4.1.7(@opentelemetry/api@1.9.1)(@types/node@20.19.41)(@vitest/browser-playwright@4.1.7)(@vitest/coverage-istanbul@4.1.7)(vite@7.3.3(@types/node@20.19.41)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
 
   sdk/confluent/arm-confluent:
     dependencies:
