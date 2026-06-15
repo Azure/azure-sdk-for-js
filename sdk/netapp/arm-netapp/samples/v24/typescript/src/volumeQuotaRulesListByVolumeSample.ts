@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all quota rules associated with the volume
  *
  * @summary list all quota rules associated with the volume
- * x-ms-original-file: 2026-01-01/VolumeQuotaRules_List.json
+ * x-ms-original-file: 2026-04-01/VolumeQuotaRules_List.json
  */
 async function volumeQuotaRulesList(): Promise<void> {
   const credential = new DefaultAzureCredential();

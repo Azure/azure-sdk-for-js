@@ -16,7 +16,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/transcription/ai-speech-transcription/src)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/ai-speech-transcription)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-speech-transcription?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-speech-transcription?view=azure-node-latest)
 - [Product documentation](https://learn.microsoft.com/azure/ai-services/speech-service/overview)
 
 ## Getting started
@@ -138,6 +138,7 @@ You can customize transcription with options like:
 - [Improve accuracy with custom phrases](#improve-accuracy-with-custom-phrases)
 - [Transcribe with a known language](#transcribe-with-a-known-language)
 - [Use Enhanced Mode for highest accuracy](#use-enhanced-mode-for-highest-accuracy)
+- [Guide Enhanced Mode with a locale](#guide-enhanced-mode-with-a-locale)
 - [Translate with Enhanced Mode](#translate-with-enhanced-mode)
 - [Combine multiple options](#combine-multiple-options)
 
@@ -186,13 +187,11 @@ const audioFile = readFileSync("path/to/audio.wav");
 const result = await client.transcribe(audioFile);
 for (const phrase of result.phrases) {
   console.log(`Phrase: ${phrase.text}`);
-  console.log(
-    `  Offset: ${phrase.offsetMilliseconds}ms | Duration: ${phrase.durationMilliseconds}ms`,
-  );
+  console.log(`  Offset: ${phrase.offsetInMs}ms | Duration: ${phrase.durationInMs}ms`);
   console.log(`  Confidence: ${phrase.confidence.toFixed(2)}`);
   // Access individual words in the phrase
   for (const word of phrase.words ?? []) {
-    console.log(`    Word: '${word.text}' | Offset: ${word.offsetMilliseconds}ms`);
+    console.log(`    Word: '${word.text}' | Offset: ${word.offsetInMs}ms`);
   }
 }
 ```
@@ -296,6 +295,8 @@ for (const phrase of result.phrases) {
 }
 ```
 
+> **Note**: `locales` applies to both Fast Transcription and Enhanced Mode. In Enhanced Mode the service runs in multi-lingual mode by default; when `locales` is specified, the service uses the first locale as a recognition hint to bias language recognition.
+
 ### Use Enhanced Mode for highest accuracy
 
 Enhanced Mode uses LLM-powered processing for the highest accuracy transcription:
@@ -323,6 +324,27 @@ const result = await client.transcribe(audioFile, {
 for (const phrase of result.phrases) {
   console.log(`[Speaker ${phrase.speaker}] ${phrase.text}`);
 }
+```
+
+### Guide Enhanced Mode with a locale
+
+Enhanced Mode runs in multi-lingual mode by default, so you don't need to specify the input language. To guide recognition toward a specific language, set `locales`; the service uses the first locale as a recognition hint:
+
+```ts snippet:EnhancedModeWithLocale
+import { TranscriptionClient } from "@azure/ai-speech-transcription";
+import { AzureKeyCredential } from "@azure/core-auth";
+import { readFileSync } from "node:fs";
+
+const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
+const audioFile = readFileSync("path/to/audio.wav");
+const result = await client.transcribe(audioFile, {
+  enhancedMode: {
+    task: "transcribe",
+  },
+  // Guide recognition toward a specific language; the service uses the first locale as a hint
+  locales: ["en-US"],
+});
+console.log("Transcription:", result.combinedPhrases[0]?.text);
 ```
 
 ### Translate with Enhanced Mode

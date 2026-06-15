@@ -17,7 +17,7 @@ jobs:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
   - script: |
-      npm install -g pnpm
+      npm install -g pnpm@10.34.2
     displayName: "Install Pnpm"
 
   - script: |
@@ -42,6 +42,7 @@ jobs:
       PRTitle: "[EngSys] automatic pnpm update"
       PRBody: "This is an automatic PR generated weekly with changes from running the command pnpm update"
       PushArgs: "-f"
+      AuthToken: ''
 
 
 - job: 'CheckDependency'
@@ -58,13 +59,15 @@ jobs:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
   - script: |
-      npm install -g pnpm
+      npm install -g pnpm@10.34.2
     displayName: "Install Pnpm"
 
   - script: |
       pnpm purge
       git clean -xdf
     displayName: "Reset workspace"
+
+  - template: /eng/common/pipelines/templates/steps/login-to-github.yml
 
   - task: PowerShell@2
     displayName: 'Check Dependency Warnings and File GitHub Issues'
@@ -74,7 +77,7 @@ jobs:
       arguments: >
         -RepoName azure-sdk-for-js
         -RepoOwner azure
-        -AuthToken "$(azuresdk-github-pat)"
+        -AuthToken "$(GH_TOKEN)"
       pwsh: true
 
   - script: |

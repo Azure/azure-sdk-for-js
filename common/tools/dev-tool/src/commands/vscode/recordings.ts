@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { subCommand, makeCommandInfo } from "../../framework/command";
+import { subCommand, makeCommandInfo } from "../../framework/command.ts";
 
 export const commandInfo = makeCommandInfo(
   "recordings",
@@ -9,6 +9,6 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default subCommand(commandInfo, {
-  show: () => import("./showRecordings"),
-  hide: () => import("./hideRecordings"),
+  show: () => import("./showRecordings.ts"),
+  hide: () => import("./hideRecordings.ts"),
 });

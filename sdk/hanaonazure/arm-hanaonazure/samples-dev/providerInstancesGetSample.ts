@@ -1,29 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, SapMonitor name, and resource name.
- *
- * @summary Gets properties of a provider instance for the specified subscription, resource group, SapMonitor name, and resource name.
- * x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/ProviderInstances_Get.json
- */
-
 import { HanaManagementClient } from "@azure/arm-hanaonazure";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function getPropertiesOfASapMonitor(): Promise<void> {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
-  const sapMonitorName = "mySapMonitor";
-  const providerInstanceName = "myProviderInstance";
+/**
+ * This sample demonstrates how to the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
+ *
+ * @summary the product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
+ * x-ms-original-file: 2020-02-07-preview/ProviderInstances_Get.json
+ */
+async function getPropertiesOfASAPMonitor(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new HanaManagementClient(credential, subscriptionId);
   const result = await client.providerInstances.get(
-    resourceGroupName,
-    sapMonitorName,
-    providerInstanceName,
+    "myResourceGroup",
+    "mySapMonitor",
+    "myProviderInstance",
   );
   console.log(result);
 }
 
-getPropertiesOfASapMonitor().catch(console.error);
+async function main(): Promise<void> {
+  await getPropertiesOfASAPMonitor();
+}
+
+main().catch(console.error);

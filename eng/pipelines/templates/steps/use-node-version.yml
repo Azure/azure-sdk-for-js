@@ -2,9 +2,9 @@ parameters:
   NodeVersion: $(NODE_VERSION_LTS_MAINTENANCE)
 
 steps:
-  - task: NodeTool@0
+  - task: UseNode@1
     inputs:
-      versionSpec: ${{ parameters.NodeVersion }}
+      version: ${{ parameters.NodeVersion }}
     displayName: "Use Node ${{ parameters.NodeVersion }}"
 
   - pwsh: |

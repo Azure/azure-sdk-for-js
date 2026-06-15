@@ -6,6 +6,12 @@
 
 - Added support for service version 2026-06-06.
 
+## 12.30.0 (2026-05-22)
+
+### Features Added
+
+- Includes all features released in 12.30.0-beta.1.
+
 ## 12.30.0-beta.1 (2026-03-05)
 
 ### Features Added

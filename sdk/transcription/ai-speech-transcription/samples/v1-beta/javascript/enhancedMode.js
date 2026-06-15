@@ -14,11 +14,15 @@
  * - `transcribe`: Transcribe audio in the input language (auto-detected or specified)
  * - `translate`: Translate audio to a specified target language
  *
+ * Locales:
+ * - `locales` is optional in Enhanced Mode. The service runs in multi-lingual mode by default;
+ *   when specified, the service uses the first locale as a recognition hint to bias language recognition.
+ *
  * Limitations:
  * - `confidence` is not available and always returns `0`
  * - Word-level timing is not supported for the `translate` task
  * - Diarization is not supported for the `translate` task
- * - `locales` and `phraseList` options are not required or applicable with Enhanced Mode
+ * - `phraseList` options are not required or applicable with Enhanced Mode
  *
  * @summary use Enhanced Mode for LLM-powered transcription and translation
  */
@@ -62,6 +66,19 @@ async function main() {
   }
 
   console.log(`Duration: ${transcribeResult.durationInMs}ms`);
+
+  // === Enhanced Mode with a Locale Hint ===
+  // Enhanced Mode runs in multi-lingual mode by default. To guide recognition toward a
+  // specific language, set `locales`; the service uses the first locale as a recognition hint.
+  console.log("\n--- Enhanced Mode with Locale Hint ---");
+
+  const localeResult = await client.transcribe(audioFile, {
+    enhancedMode: {
+      task: "transcribe",
+    },
+    locales: ["en-US"],
+  });
+  console.log("Transcription:", localeResult.combinedPhrases[0]?.text);
 
   // === Enhanced Mode Translation ===
   console.log("\n--- Enhanced Mode Translation ---");

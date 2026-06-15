@@ -2,8 +2,8 @@
   "name": "@azure-rest/ai-translation-text",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "2.0.0-beta.2",
-  "description": "An isomorphic client library for the Azure Cognitive Translator Service",
+  "version": "2.0.0",
+  "description": "An isomorphic client library for the Azure Translator Service",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-text-rest/README.md",
   "keywords": [
     "node",
@@ -93,6 +93,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -128,5 +129,12 @@
       }
     }
   },
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

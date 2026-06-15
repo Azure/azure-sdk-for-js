@@ -37,6 +37,25 @@ export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://rt.services.visualstudio.co
  */
 export const DEFAULT_LIVEMETRICS_HOST = "rt.services.visualstudio.com";
 /**
+ * Allowed domain suffixes for redirect targets. A 30x `Location` header is followed only when the
+ * current ingestion host and the redirect target either match exactly or both live under one of
+ * these trusted Azure Monitor / Application Insights suffixes. This prevents an attacker-controlled
+ * redirect from causing the bearer auth policy to attach a fresh AAD token (and the telemetry body)
+ * to an unrelated host.
+ * @internal
+ */
+export const ALLOWED_REDIRECT_DOMAIN_SUFFIXES: readonly string[] = [
+  ".livediagnostics.monitor.azure.com",
+  ".monitor.azure.com",
+  ".services.visualstudio.com",
+  ".applicationinsights.azure.com",
+  ".monitor.azure.us",
+  ".applicationinsights.azure.us",
+  ".monitor.azure.cn",
+  ".applicationinsights.azure.cn",
+];
+
+/**
  * Connection string environment variable name.
  * @internal
  */
@@ -115,6 +134,11 @@ export const ENV_AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
  * @internal
  */
 export const ENV_AZURE_MONITOR_DISTRO_VERSION = "AZURE_MONITOR_DISTRO_VERSION";
+/**
+ * Microsoft OpenTelemetry version.
+ * @internal
+ */
+export const ENV_MICROSOFT_OPENTELEMETRY_VERSION = "MICROSOFT_OPENTELEMETRY_VERSION";
 
 /**
  * Resource attribute used for Application Insights correlation when specified.

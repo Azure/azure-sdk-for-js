@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a AuthenticationSetting
  *
  * @summary delete a AuthenticationSetting
- * x-ms-original-file: 2025-05-01-preview/AuthenticationSettings_Delete.json
+ * x-ms-original-file: 2026-01-01-preview/AuthenticationSettings_Delete.json
  */
 async function authenticationSettingsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -4,7 +4,7 @@
 import {
   AgentKind,
   AgentBlueprintReferenceUnion,
-  AgentEndpoint,
+  AgentEndpointConfig,
   AgentCard,
   AgentDefinitionOptInKeys,
   PageOrder,
@@ -38,7 +38,10 @@ export interface AgentsListVersionsOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AgentsDeleteVersionOptionalParams extends OperationOptions {}
+export interface AgentsDeleteVersionOptionalParams extends OperationOptions {
+  /** For Hosted Agents, if `true`, force-deletes the version even if it has active sessions, cascading deletion to all associated sessions. The service defaults to `false` if a value is not specified by the caller. This value is not relevant for other Agent types. */
+  force?: boolean;
+}
 
 /** Optional parameters. */
 export interface AgentsGetVersionOptionalParams extends OperationOptions {}
@@ -106,7 +109,10 @@ export interface AgentsListOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AgentsDeleteOptionalParams extends OperationOptions {}
+export interface AgentsDeleteOptionalParams extends OperationOptions {
+  /** For Hosted Agents, if `true`, force-deletes the agent even if its versions have active sessions, cascading deletion to all associated sessions. The service defaults to `false` if a value is not specified by the caller. This value is not relevant for other Agent types. */
+  force?: boolean;
+}
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
@@ -175,7 +181,7 @@ export interface AgentsCreateAgentOptionalParams extends OperationOptions {
   /** The blueprint reference for the agent. */
   blueprintReference?: AgentBlueprintReferenceUnion;
   /** An optional endpoint configuration. If not specified, a default endpoint configuration will be set for the agent */
-  agentEndpoint?: AgentEndpoint;
+  agentEndpoint?: AgentEndpointConfig;
   /** Optional agent card for the agent */
   agentCard?: AgentCard;
 }

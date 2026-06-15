@@ -8,7 +8,6 @@ import type { TokenCredential } from "@azure/identity";
 import { TollFreeVerificationClient } from "../../src/index.js";
 import { configurationHttpClient } from "../public/utils/mockHttpClients.js";
 import { createMockToken } from "../public/utils/recordedClient.js";
-import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
 
 describe("TollFreeVerificationClient - headers", () => {
@@ -32,17 +31,14 @@ describe("TollFreeVerificationClient - headers", () => {
     request = spy.mock.calls[0][0];
   });
 
-  it("[node] sets correct host", (ctx) => {
-    if (!isNodeLike) {
-      ctx.skip();
-    }
+  it("sets correct host", () => {
     assert.equal(request.headers.get("host"), "contoso.spool.azure.local");
   });
 
   it("sets correct default user-agent", async () => {
-    const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
+    const userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
     assert.match(
-      request.headers.get(userAgentHeader) as string,
+      userAgent as string,
       new RegExp(`azsdk-js-communication-toll-free-verification/${SDK_VERSION}`, "g"),
     );
   });
@@ -107,9 +103,9 @@ describe("TollFreeVerificationClient - headers", () => {
 
     request = spy.mock.calls[0][0];
 
-    const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
+    const userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
     assert.match(
-      request.headers.get(userAgentHeader) as string,
+      userAgent as string,
       new RegExp(
         `tollfreeverificationclient-headers-test azsdk-js-communication-toll-free-verification/${SDK_VERSION}`,
         "g",

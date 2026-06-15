@@ -8,6 +8,12 @@
 - Added support for Blob Smart Tier.
 - Added support for Directory-level SAS and User Delegation SAS.
 
+## 12.32.0 (2026-05-22)
+
+### Features Added
+
+- Includes all features released in 12.32.0-beta.1.
+
 ## 12.32.0-beta.1 (2026-03-05)
 
 ### Features Added

@@ -207,8 +207,8 @@ export type AppendBlobAppendBlockResponse = WithResponse<AppendBlobAppendBlockHe
 
 // @public
 export class AppendBlobClient extends BlobClient {
-    constructor(connectionString: string, containerName: string, blobName: string, options?: BlobClientOptions);
-    constructor(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobClientOptions);
+    constructor(connectionString: string, containerName: string, blobName: string, options?: AppendBlobClientOptions);
+    constructor(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: AppendBlobClientOptions);
     constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
     appendBlock(body: HttpRequestBody, contentLength: number, options?: AppendBlobAppendBlockOptions): Promise<AppendBlobAppendBlockResponse>;
     appendBlockFromURL(sourceURL: string, sourceOffset: number, count: number, options?: AppendBlobAppendBlockFromURLOptions): Promise<AppendBlobAppendBlockFromUrlResponse>;
@@ -217,6 +217,9 @@ export class AppendBlobClient extends BlobClient {
     seal(options?: AppendBlobSealOptions): Promise<AppendBlobAppendBlockResponse>;
     withSnapshot(snapshot: string): AppendBlobClient;
 }
+
+// @public
+export type AppendBlobClientOptions = StoragePipelineOptions & BlobClientConfig;
 
 // @public
 export interface AppendBlobCreateHeaders {
@@ -1160,7 +1163,7 @@ export interface BlobSASSignatureValues {
 
 // @public
 export class BlobServiceClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobClientOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobServiceClientOptions);
     constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
     createContainer(containerName: string, options?: ContainerCreateOptions): Promise<{
         containerClient: ContainerClient;
@@ -1168,7 +1171,7 @@ export class BlobServiceClient extends StorageClient {
     }>;
     deleteContainer(containerName: string, options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse>;
     findBlobsByTags(tagFilterSqlExpression: string, options?: ServiceFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ServiceFindBlobsByTagsSegmentResponse>;
-    static fromConnectionString(connectionString: string, options?: BlobClientOptions): BlobServiceClient;
+    static fromConnectionString(connectionString: string, options?: BlobServiceClientOptions): BlobServiceClient;
     generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getAccountInfo(options?: ServiceGetAccountInfoOptions): Promise<ServiceGetAccountInfoResponse>;
@@ -1185,6 +1188,9 @@ export class BlobServiceClient extends StorageClient {
         containerUndeleteResponse: ContainerUndeleteResponse;
     }>;
 }
+
+// @public
+export type BlobServiceClientOptions = StoragePipelineOptions & BlobClientConfig;
 
 // @public
 export interface BlobServiceProperties {
@@ -1418,7 +1424,7 @@ export interface Block {
 // @public
 export class BlockBlobClient extends BlobClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobClientOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlockBlobClientOptions);
     constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
     commitBlockList(blocks: string[], options?: BlockBlobCommitBlockListOptions): Promise<BlockBlobCommitBlockListResponse>;
     getBlockList(listType: BlockListType, options?: BlockBlobGetBlockListOptions): Promise<BlockBlobGetBlockListResponse>;
@@ -1434,6 +1440,9 @@ export class BlockBlobClient extends BlobClient {
     uploadStream(stream: Readable, bufferSize?: number, maxConcurrency?: number, options?: BlockBlobUploadStreamOptions): Promise<BlobUploadCommonResponse>;
     withSnapshot(snapshot: string): BlockBlobClient;
 }
+
+// @public
+export type BlockBlobClientOptions = StoragePipelineOptions & BlobClientConfig;
 
 // @public
 export interface BlockBlobCommitBlockListHeaders {
@@ -1753,7 +1762,7 @@ export interface ContainerChangeLeaseOptions extends CommonOptions {
 // @public
 export class ContainerClient extends StorageClient {
     constructor(connectionString: string, containerName: string, options?: StoragePipelineOptions);
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobClientOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: ContainerClientOptions);
     constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
     get containerName(): string;
     create(options?: ContainerCreateOptions): Promise<ContainerCreateResponse>;
@@ -1789,6 +1798,9 @@ export class ContainerClient extends StorageClient {
         response: BlockBlobUploadResponse;
     }>;
 }
+
+// @public
+export type ContainerClientOptions = StoragePipelineOptions & BlobClientConfig;
 
 // @public
 export interface ContainerCreateHeaders {
@@ -2515,8 +2527,8 @@ export type PageBlobClearPagesResponse = WithResponse<PageBlobClearPagesHeaders,
 
 // @public
 export class PageBlobClient extends BlobClient {
-    constructor(connectionString: string, containerName: string, blobName: string, options?: BlobClientOptions);
-    constructor(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobClientOptions);
+    constructor(connectionString: string, containerName: string, blobName: string, options?: PageBlobClientOptions);
+    constructor(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: PageBlobClientOptions);
     constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
     clearPages(offset?: number, count?: number, options?: PageBlobClearPagesOptions): Promise<PageBlobClearPagesResponse>;
     create(size: number, options?: PageBlobCreateOptions): Promise<PageBlobCreateResponse>;
@@ -2533,6 +2545,9 @@ export class PageBlobClient extends BlobClient {
     uploadPagesFromURL(sourceURL: string, sourceOffset: number, destOffset: number, count: number, options?: PageBlobUploadPagesFromURLOptions): Promise<PageBlobUploadPagesFromURLResponse>;
     withSnapshot(snapshot: string): PageBlobClient;
 }
+
+// @public
+export type PageBlobClientOptions = StoragePipelineOptions & BlobClientConfig;
 
 // @public
 export interface PageBlobCopyIncrementalHeaders {

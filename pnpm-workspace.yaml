@@ -32,8 +32,8 @@ catalogs:
   arm:
     '@azure/arm-cognitiveservices': 8.1.0
     '@azure/arm-storage': 18.5.0
-    '@azure/arm-webpubsub': 1.2.2
-    '@azure/arm-resources': 7.0.1
+    '@azure/arm-webpubsub': 1.2.0
+    '@azure/arm-resources': 7.0.0
   internal:
     '@azure/identity': 4.13.0
     express: ^5.2.1
@@ -50,8 +50,26 @@ catalogs:
     '@types/react': ^19.2.14
     dotenv: ^16.6.1
     nock: ^13.5.6
-    playwright: ^1.58.2
+    playwright: ^1.60.0
     react-native: ^0.84.1
     vitest: ^4.1.2
 
+overrides:
+  '@azure/core-rest-pipeline': 'link:sdk/core/core-rest-pipeline'
+
 linkWorkspacePackages: true
+
+# Ensure lockfile includes optional dependencies for all CI and development platforms
+# This prevents lockfile churn when running pnpm install on different OSes
+# Lists all OS/CPU combinations used in CI (Ubuntu, Windows, macOS) and dev machines
+supportedArchitectures:
+  os:
+    - linux
+    - darwin
+    - win32
+  cpu:
+    - x64
+    - arm64
+  libc:
+    - glibc
+    - musl

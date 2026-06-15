@@ -287,19 +287,51 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     for (const pc of parsedConfigs) {
       for (const f of pc.parsedConfig.fileNames) allSourceFiles.add(f);
     }
-    const violations = validateNoDirectImports([...allSourceFiles], importsMap, packageRoot);
+
+    // Validate platform files when polyfillSuffix is NOT configured.
+    // Note: We check config rather than whether polyfill files exist on disk.
+    // If polyfillSuffix is configured but no files exist, the build will fail
+    // later anyway. Calling discoverPolyfills here would add I/O overhead.
+    const usesPolyfill = config.targets.some((t) => t.polyfillSuffix);
+    const violations = validateNoDirectImports(
+      [...allSourceFiles],
+      importsMap,
+      packageRoot,
+      !usesPolyfill,
+    );
+
     if (violations.length > 0) {
-      log.error(
-        `\n[warp] Found ${violations.length} direct import(s) bypassing the #imports mechanism:`,
-      );
-      for (const v of violations) {
+      const platformViolations = violations.filter((v) => v.targetPlatform);
+      const regularViolations = violations.filter((v) => !v.targetPlatform);
+
+      if (regularViolations.length > 0) {
         log.error(
-          `  ${path.relative(packageRoot, v.file)}:${v.line}  ${v.specifier}  →  use ${v.suggestedImport}`,
+          `\n[warp] Found ${regularViolations.length} direct import(s) bypassing the #imports mechanism:`,
+        );
+        for (const v of regularViolations) {
+          log.error(
+            `  ${path.relative(packageRoot, v.file)}:${v.line}  ${v.specifier}  →  use ${v.suggestedImport}`,
+          );
+        }
+        log.error(
+          `\n[warp] These files are mapped via package.json "imports". Use the #-prefixed specifier to ensure correct platform-specific resolution.`,
         );
       }
-      log.error(
-        `\n[warp] These files are mapped via package.json "imports". Use the #-prefixed specifier to ensure correct platform-specific resolution.`,
-      );
+
+      if (platformViolations.length > 0) {
+        log.error(
+          `\n[warp] Found ${platformViolations.length} platform-specific file(s) bypassing #imports:`,
+        );
+        for (const v of platformViolations) {
+          log.error(
+            `  ${path.relative(packageRoot, v.file)}:${v.line} [${v.targetPlatform}]  ${v.specifier}  →  use ${v.suggestedImport}`,
+          );
+        }
+        log.error(
+          `\n[warp] Platform entry files must use #-prefixed imports to ensure correct resolution.`,
+        );
+      }
+
       log.flush();
       return {
         success: false,
