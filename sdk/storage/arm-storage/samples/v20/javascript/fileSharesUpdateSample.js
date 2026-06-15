@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.
  *
  * @summary updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.
- * x-ms-original-file: 2025-08-01/FileShareAclsPatch.json
+ * x-ms-original-file: 2026-04-01/FileShareAclsPatch.json
  */
 async function updateShareAcls() {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function updateShareAcls() {
  * This sample demonstrates how to updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.
  *
  * @summary updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.
- * x-ms-original-file: 2025-08-01/FileSharesPatch.json
+ * x-ms-original-file: 2026-04-01/FileSharesPatch.json
  */
 async function updateShares() {
   const credential = new DefaultAzureCredential();
@@ -49,7 +49,7 @@ async function updateShares() {
  * This sample demonstrates how to updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.
  *
  * @summary updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.
- * x-ms-original-file: 2025-08-01/FileSharesPatch_PaidBursting.json
+ * x-ms-original-file: 2026-04-01/FileSharesPatch_PaidBursting.json
  */
 async function updateSharePaidBursting() {
   const credential = new DefaultAzureCredential();
@@ -69,7 +69,7 @@ async function updateSharePaidBursting() {
  * This sample demonstrates how to updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.
  *
  * @summary updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.
- * x-ms-original-file: 2025-08-01/FileSharesPatch_ProvisionedV2.json
+ * x-ms-original-file: 2026-04-01/FileSharesPatch_ProvisionedV2.json
  */
 async function updateShareProvisionedV2() {
   const credential = new DefaultAzureCredential();

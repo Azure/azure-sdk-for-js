@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a trusted access role binding.
  *
  * @summary get a trusted access role binding.
- * x-ms-original-file: 2026-03-02-preview/TrustedAccessRoleBindings_Get.json
+ * x-ms-original-file: 2026-04-02-preview/TrustedAccessRoleBindings_Get.json
  */
 async function getATrustedAccessRoleBinding(): Promise<void> {
   const credential = new DefaultAzureCredential();

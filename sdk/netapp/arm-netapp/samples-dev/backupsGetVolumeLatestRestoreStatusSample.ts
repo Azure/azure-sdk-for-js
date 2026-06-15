@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the latest status of the restore for a volume
  *
  * @summary get the latest status of the restore for a volume
- * x-ms-original-file: 2026-01-01/Volumes_LatestRestoreStatus.json
+ * x-ms-original-file: 2026-04-01/Volumes_LatestRestoreStatus.json
  */
 async function volumesRestoreStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

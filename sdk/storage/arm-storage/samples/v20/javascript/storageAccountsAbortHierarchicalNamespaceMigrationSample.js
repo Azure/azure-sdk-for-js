@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to abort live Migration of storage account to enable Hns
  *
  * @summary abort live Migration of storage account to enable Hns
- * x-ms-original-file: 2025-08-01/StorageAccountAbortHierarchicalNamespaceMigration.json
+ * x-ms-original-file: 2026-04-01/StorageAccountAbortHierarchicalNamespaceMigration.json
  */
 async function storageAccountAbortHierarchicalNamespaceMigration() {
   const credential = new DefaultAzureCredential();

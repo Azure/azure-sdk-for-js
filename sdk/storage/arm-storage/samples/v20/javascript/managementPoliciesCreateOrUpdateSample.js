@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to sets the managementpolicy to the specified storage account.
  *
  * @summary sets the managementpolicy to the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountSetManagementPolicy.json
+ * x-ms-original-file: 2026-04-01/StorageAccountSetManagementPolicy.json
  */
 async function storageAccountSetManagementPolicies() {
   const credential = new DefaultAzureCredential();
@@ -65,7 +65,7 @@ async function storageAccountSetManagementPolicies() {
  * This sample demonstrates how to sets the managementpolicy to the specified storage account.
  *
  * @summary sets the managementpolicy to the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountSetManagementPolicyColdTierActions.json
+ * x-ms-original-file: 2026-04-01/StorageAccountSetManagementPolicyColdTierActions.json
  */
 async function storageAccountSetManagementPolicyColdTierActions() {
   const credential = new DefaultAzureCredential();
@@ -108,7 +108,7 @@ async function storageAccountSetManagementPolicyColdTierActions() {
  * This sample demonstrates how to sets the managementpolicy to the specified storage account.
  *
  * @summary sets the managementpolicy to the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountSetManagementPolicyForBlockAndAppendBlobs.json
+ * x-ms-original-file: 2026-04-01/StorageAccountSetManagementPolicyForBlockAndAppendBlobs.json
  */
 async function storageAccountSetManagementPolicyForBlockAndAppendBlobs() {
   const credential = new DefaultAzureCredential();
@@ -143,7 +143,7 @@ async function storageAccountSetManagementPolicyForBlockAndAppendBlobs() {
  * This sample demonstrates how to sets the managementpolicy to the specified storage account.
  *
  * @summary sets the managementpolicy to the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountSetManagementPolicyHotTierActions.json
+ * x-ms-original-file: 2026-04-01/StorageAccountSetManagementPolicyHotTierActions.json
  */
 async function storageAccountSetManagementPolicyHotTierActions() {
   const credential = new DefaultAzureCredential();
@@ -175,7 +175,7 @@ async function storageAccountSetManagementPolicyHotTierActions() {
  * This sample demonstrates how to sets the managementpolicy to the specified storage account.
  *
  * @summary sets the managementpolicy to the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountSetManagementPolicyWithSnapshotAndVersion.json
+ * x-ms-original-file: 2026-04-01/StorageAccountSetManagementPolicyWithSnapshotAndVersion.json
  */
 async function storageAccountSetManagementPolicyWithSnapshotAndVersion() {
   const credential = new DefaultAzureCredential();
@@ -219,7 +219,7 @@ async function storageAccountSetManagementPolicyWithSnapshotAndVersion() {
  * This sample demonstrates how to sets the managementpolicy to the specified storage account.
  *
  * @summary sets the managementpolicy to the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountSetManagementPolicy_BaseBlobDaysAfterCreationActions.json
+ * x-ms-original-file: 2026-04-01/StorageAccountSetManagementPolicy_BaseBlobDaysAfterCreationActions.json
  */
 async function storageAccountSetManagementPolicyBaseBlobDaysAfterCreationActions() {
   const credential = new DefaultAzureCredential();
@@ -253,7 +253,7 @@ async function storageAccountSetManagementPolicyBaseBlobDaysAfterCreationActions
  * This sample demonstrates how to sets the managementpolicy to the specified storage account.
  *
  * @summary sets the managementpolicy to the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountSetManagementPolicy_LastAccessTimeBasedBlobActions.json
+ * x-ms-original-file: 2026-04-01/StorageAccountSetManagementPolicy_LastAccessTimeBasedBlobActions.json
  */
 async function storageAccountSetManagementPolicyLastAccessTimeBasedBlobActions() {
   const credential = new DefaultAzureCredential();
@@ -289,7 +289,7 @@ async function storageAccountSetManagementPolicyLastAccessTimeBasedBlobActions()
  * This sample demonstrates how to sets the managementpolicy to the specified storage account.
  *
  * @summary sets the managementpolicy to the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountSetManagementPolicy_LastTierChangeTimeActions.json
+ * x-ms-original-file: 2026-04-01/StorageAccountSetManagementPolicy_LastTierChangeTimeActions.json
  */
 async function storageAccountSetManagementPolicyLastTierChangeTimeActions() {
   const credential = new DefaultAzureCredential();

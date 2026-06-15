@@ -113,7 +113,7 @@ export class MetricHandler {
       histogramAggregation,
     );
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
-      exporter: this._azureExporter as any,
+      exporter: this._azureExporter,
       exportIntervalMillis: this._config.metricExportIntervalMillis || defaultInterval,
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
@@ -159,10 +159,9 @@ export class MetricHandler {
   /**
    * Shutdown handler
    */
-  // eslint-disable-next-line @typescript-eslint/require-await
   public async shutdown(): Promise<void> {
     this._standardMetrics?.shutdown();
-    this._liveMetrics?.shutdown();
-    this._performanceCounters?.shutdown();
+    await this._liveMetrics?.shutdown();
+    await this._performanceCounters?.shutdown();
   }
 }

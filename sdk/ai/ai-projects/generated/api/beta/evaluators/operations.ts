@@ -4,11 +4,19 @@
 import { AIProjectContext as Client } from "../../index.js";
 import {
   apiErrorResponseDeserializer,
+  PendingUploadRequest,
+  pendingUploadRequestSerializer,
+  PendingUploadResponse,
+  pendingUploadResponseDeserializer,
+  DatasetCredential,
+  datasetCredentialDeserializer,
   _PagedEvaluatorVersion,
   _pagedEvaluatorVersionDeserializer,
   EvaluatorVersion,
   evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
+  EvaluatorCredentialRequest,
+  evaluatorCredentialRequestSerializer,
   EvaluatorGenerationJob,
   evaluatorGenerationJobSerializer,
   evaluatorGenerationJobDeserializer,
@@ -26,6 +34,8 @@ import {
   BetaEvaluatorsListGenerationJobsOptionalParams,
   BetaEvaluatorsGetGenerationJobOptionalParams,
   BetaEvaluatorsCreateGenerationJobOptionalParams,
+  BetaEvaluatorsGetCredentialsOptionalParams,
+  BetaEvaluatorsPendingUploadOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
@@ -74,8 +84,16 @@ export async function _deleteGenerationJobDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
@@ -130,8 +148,16 @@ export async function _cancelGenerationJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
@@ -153,13 +179,12 @@ export function _listGenerationJobsSend(
   options: BetaEvaluatorsListGenerationJobsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluator_generation_jobs{?limit,order,after,before,category,api%2Dversion}",
+    "/evaluator_generation_jobs{?limit,order,after,before,api%2Dversion}",
     {
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      category: options?.category,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -186,8 +211,16 @@ export async function _listGenerationJobsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
@@ -243,8 +276,16 @@ export async function _getGenerationJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
@@ -263,7 +304,7 @@ export async function getGenerationJob(
 
 export function _createGenerationJobSend(
   context: Client,
-  body: EvaluatorGenerationJob,
+  job: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -288,7 +329,7 @@ export function _createGenerationJobSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: evaluatorGenerationJobSerializer(body),
+      body: evaluatorGenerationJobSerializer(job),
     });
 }
 
@@ -298,8 +339,16 @@ export async function _createGenerationJobDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
@@ -312,11 +361,147 @@ export async function _createGenerationJobDeserialize(
  */
 export async function createGenerationJob(
   context: Client,
-  body: EvaluatorGenerationJob,
+  job: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorGenerationJob> {
-  const result = await _createGenerationJobSend(context, body, options);
+  const result = await _createGenerationJobSend(context, job, options);
   return _createGenerationJobDeserialize(result);
+}
+
+export function _getCredentialsSend(
+  context: Client,
+  name: string,
+  credentialRequest: EvaluatorCredentialRequest,
+  version: string,
+  options: BetaEvaluatorsGetCredentialsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluators/{name}/versions/{version}/credentials{?api%2Dversion}",
+    {
+      name: name,
+      version: version,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: evaluatorCredentialRequestSerializer(credentialRequest),
+    });
+}
+
+export async function _getCredentialsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<DatasetCredential> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
+    throw error;
+  }
+
+  return datasetCredentialDeserializer(result.body);
+}
+
+/** Retrieves SAS credentials for accessing the storage account associated with the specified evaluator version. */
+export async function getCredentials(
+  context: Client,
+  name: string,
+  credentialRequest: EvaluatorCredentialRequest,
+  version: string,
+  options: BetaEvaluatorsGetCredentialsOptionalParams = { requestOptions: {} },
+): Promise<DatasetCredential> {
+  const result = await _getCredentialsSend(context, name, credentialRequest, version, options);
+  return _getCredentialsDeserialize(result);
+}
+
+export function _pendingUploadSend(
+  context: Client,
+  name: string,
+  version: string,
+  pendingUploadRequest: PendingUploadRequest,
+  options: BetaEvaluatorsPendingUploadOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluators/{name}/versions/{version}/startPendingUpload{?api%2Dversion}",
+    {
+      name: name,
+      version: version,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: pendingUploadRequestSerializer(pendingUploadRequest),
+    });
+}
+
+export async function _pendingUploadDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PendingUploadResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
+    throw error;
+  }
+
+  return pendingUploadResponseDeserializer(result.body);
+}
+
+/** Initiates a new pending upload or retrieves an existing one for the specified evaluator version. */
+export async function pendingUpload(
+  context: Client,
+  name: string,
+  version: string,
+  pendingUploadRequest: PendingUploadRequest,
+  options: BetaEvaluatorsPendingUploadOptionalParams = { requestOptions: {} },
+): Promise<PendingUploadResponse> {
+  const result = await _pendingUploadSend(context, name, version, pendingUploadRequest, options);
+  return _pendingUploadDeserialize(result);
 }
 
 export function _updateVersionSend(
@@ -363,7 +548,7 @@ export async function _updateVersionDeserialize(
   return evaluatorVersionDeserializer(result.body);
 }
 
-/** Update an existing EvaluatorVersion with the given version id */
+/** Updates the specified evaluator version in place. */
 export async function updateVersion(
   context: Client,
   name: string,
@@ -425,7 +610,7 @@ export async function _createVersionDeserialize(
   return evaluatorVersionDeserializer(result.body);
 }
 
-/** Create a new EvaluatorVersion with auto incremented version id */
+/** Creates a new evaluator version with an auto-incremented version identifier. */
 export async function createVersion(
   context: Client,
   name: string,
@@ -478,7 +663,7 @@ export async function _deleteVersionDeserialize(result: PathUncheckedResponse): 
   return;
 }
 
-/** Delete the specific version of the EvaluatorVersion. The service returns 204 No Content if the EvaluatorVersion was deleted successfully or if the EvaluatorVersion does not exist. */
+/** Removes the specified evaluator version. Returns 204 whether the version existed or not. */
 export async function deleteVersion(
   context: Client,
   name: string,
@@ -531,7 +716,7 @@ export async function _getVersionDeserialize(
   return evaluatorVersionDeserializer(result.body);
 }
 
-/** Get the specific version of the EvaluatorVersion. The service returns 404 Not Found error if the EvaluatorVersion does not exist. */
+/** Retrieves the specified evaluator version, returning 404 if it does not exist. */
 export async function getVersion(
   context: Client,
   name: string,
@@ -582,7 +767,7 @@ export async function _listDeserialize(
   return _pagedEvaluatorVersionDeserializer(result.body);
 }
 
-/** List the latest version of each evaluator */
+/** Lists the latest version of each evaluator */
 export function list(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",
@@ -638,7 +823,7 @@ export async function _listVersionsDeserialize(
   return _pagedEvaluatorVersionDeserializer(result.body);
 }
 
-/** List all versions of the given evaluator */
+/** Returns the available versions for the specified evaluator. */
 export function listVersions(
   context: Client,
   name: string,

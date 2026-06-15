@@ -10,6 +10,12 @@ export interface InternalNetworksUpdateBfdAdministrativeStateOptionalParams exte
 }
 
 /** Optional parameters. */
+export interface InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
 export interface InternalNetworksUpdateBgpAdministrativeStateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

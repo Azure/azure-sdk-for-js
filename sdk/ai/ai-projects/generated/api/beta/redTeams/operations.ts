@@ -60,15 +60,23 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return redTeamDeserializer(result.body);
 }
 
-/** Creates a redteam run. */
+/** Submits a new redteam run for execution with the provided configuration. */
 export async function create(
   context: Client,
   foundryFeatures: "RedTeams=V1Preview",
@@ -114,7 +122,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   return _pagedRedTeamDeserializer(result.body);
 }
 
-/** List a redteam by name. */
+/** Returns the redteams available in the current project. */
 export function list(
   context: Client,
   foundryFeatures: "RedTeams=V1Preview",
@@ -166,7 +174,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Re
   return redTeamDeserializer(result.body);
 }
 
-/** Get a redteam by name. */
+/** Retrieves the specified redteam and its configuration. */
 export async function get(
   context: Client,
   name: string,

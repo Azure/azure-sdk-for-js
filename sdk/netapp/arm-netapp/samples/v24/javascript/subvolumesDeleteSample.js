@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete subvolume
  *
  * @summary delete subvolume
- * x-ms-original-file: 2026-01-01/Subvolumes_Delete.json
+ * x-ms-original-file: 2026-04-01/Subvolumes_Delete.json
  */
 async function subvolumesDelete() {
   const credential = new DefaultAzureCredential();

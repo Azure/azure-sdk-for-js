@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to check if a quota is available.
  *
  * @summary check if a quota is available.
- * x-ms-original-file: 2026-01-01/CheckQuotaAvailability.json
+ * x-ms-original-file: 2026-04-01/CheckQuotaAvailability.json
  */
 async function checkQuotaAvailability() {
   const credential = new DefaultAzureCredential();

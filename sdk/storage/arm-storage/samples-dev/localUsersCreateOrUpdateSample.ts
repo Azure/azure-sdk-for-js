@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
  *
  * @summary create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
- * x-ms-original-file: 2025-08-01/LocalUserCreate.json
+ * x-ms-original-file: 2026-04-01/LocalUserCreate.json
  */
 async function createLocalUser(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function createLocalUser(): Promise<void> {
  * This sample demonstrates how to create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
  *
  * @summary create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
- * x-ms-original-file: 2025-08-01/LocalUserCreateNFSv3Enabled.json
+ * x-ms-original-file: 2026-04-01/LocalUserCreateNFSv3Enabled.json
  */
 async function createNFSv3EnabledLocalUser(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -49,7 +49,7 @@ async function createNFSv3EnabledLocalUser(): Promise<void> {
  * This sample demonstrates how to create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
  *
  * @summary create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
- * x-ms-original-file: 2025-08-01/LocalUserUpdate.json
+ * x-ms-original-file: 2026-04-01/LocalUserUpdate.json
  */
 async function updateLocalUser(): Promise<void> {
   const credential = new DefaultAzureCredential();

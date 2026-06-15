@@ -4,8 +4,10 @@
 import type {
   DisconnectedMessage,
   GroupDataMessage,
+  GroupStreamHandler,
   JoinGroupOptions,
   LeaveGroupOptions,
+  OnGroupStreamArgs,
   ServerDataMessage,
 } from "../src/models/index.js";
 import { WebPubSubClient } from "../src/webPubSubClient.js";
@@ -470,6 +472,44 @@ describe("WebPubSubClient", () => {
       expect(callback).toHaveBeenCalledWith({
         message: { kind: "groupData", group: "groupName", dataType: "text", data: "xyz" },
       });
+    });
+
+    it("keeps inbound streams distinct when group and streamId contain separators", () => {
+      const client = new WebPubSubClient("wss://service.com");
+      const messages: string[] = [];
+
+      client.onGroupStream(
+        (stream: OnGroupStreamArgs): GroupStreamHandler => ({
+          onMessage: (args) => {
+            messages.push(`${stream.group}/${stream.streamId}:${args.data}`);
+          },
+        }),
+      );
+
+      client["_handleStreamGroupMessage"]({
+        kind: "groupData",
+        group: "a|b",
+        fromUserId: "user",
+        dataType: "text",
+        data: "first",
+        stream: {
+          streamId: "c",
+          streamSequenceId: 1,
+        },
+      } as GroupDataMessage);
+      client["_handleStreamGroupMessage"]({
+        kind: "groupData",
+        group: "a",
+        fromUserId: "user",
+        dataType: "text",
+        data: "second",
+        stream: {
+          streamId: "b|c",
+          streamSequenceId: 1,
+        },
+      } as GroupDataMessage);
+
+      expect(messages).toEqual(["a|b/c:first", "a/b|c:second"]);
     });
 
     it("add server message event", () => {

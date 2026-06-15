@@ -14,10 +14,8 @@ const path = require("path");
 require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
-const containerConnectionName =
-  process.env["AZURE_STORAGE_CONNECTION_NAME"] || "<storage connection name>";
+const containerConnectionName = process.env["AZURE_STORAGE_CONNECTION_NAME"];
 const VERSION1 = "1.0";
-const VERSION1_UPDATE = "1.1";
 const VERSION2 = "2.0";
 const VERSION3 = "3.0";
 
@@ -43,11 +41,13 @@ async function main() {
   );
   console.log("Dataset1 created:", JSON.stringify(dataset1, null, 2));
 
-  const updatedDataset1 = await project.datasets.createOrUpdate(
-    datasetName,
-    VERSION1_UPDATE,
-    dataset1,
-  );
+  const updatedDataset1 = await project.datasets.createOrUpdate(datasetName, VERSION1, {
+    type: dataset1.type,
+    dataUri: dataset1.dataUri,
+    description: "Updated description",
+    name: datasetName,
+    version: VERSION1,
+  });
   console.log("Dataset1 updated:", JSON.stringify(updatedDataset1, null, 2));
 
   const credential = await project.datasets.getCredentials(dataset1.name, dataset1.version, {});
@@ -64,7 +64,7 @@ async function main() {
     {
       connectionName: containerConnectionName,
       // only upload sample_file1.txt and sample_file2.txt
-      filePattern: "/sample_file[1-2]\.txt$/",
+      filePattern: "sample_file[1-2]\\.txt$",
     },
   );
   console.log("Dataset2 created:", JSON.stringify(dataset2, null, 2));
