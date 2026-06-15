@@ -4159,7 +4159,7 @@ export class ShareFileClient extends StorageClient {
 
       if (options.content !== undefined) {
         if (options.contentLength === undefined) {
-          throw new RangeError(`contentLength nust be specified when creating file with content`);
+          throw new RangeError(`contentLength must be specified when creating file with content`);
         }
 
         const createChecksumBody = await setUploadChecksumParameters(
