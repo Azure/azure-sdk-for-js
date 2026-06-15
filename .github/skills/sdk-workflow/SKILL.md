@@ -26,7 +26,6 @@ development tasks. Read the referenced docs — don't guess at commands.
 | Post-generation steps (changelog, samples, release prep) | `documentation/steps-after-generations.md` |
 | Bundling for browser | `documentation/Bundling.md` |
 | Resolving pnpm-lock.yaml merge conflicts | `documentation/resolve-pnpm-lock-merge-conflict.md` |
-| Writing and running perf tests | `documentation/writing-performance-tests.md` |
 | TypeSpec client generator CLI | `eng/common/tsp-client/README.md` |
 | Code review agents (archie, scribe, sentinel, tester, dash, dexter) | `documentation/reviewer-agents.md` |
 | Troubleshooting CI failures | `documentation/Troubleshoot-ci-failure.md` |
