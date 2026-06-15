@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get project capabilityHost.
  *
  * @summary get project capabilityHost.
- * x-ms-original-file: 2026-01-15-preview/ProjectCapabilityHost/get.json
+ * x-ms-original-file: 2026-03-15-preview/ProjectCapabilityHost/get.json
  */
 async function getProjectCapabilityHost(): Promise<void> {
   const credential = new DefaultAzureCredential();

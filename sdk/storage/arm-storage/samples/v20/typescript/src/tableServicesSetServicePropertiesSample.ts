@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to sets the properties of a storage account’s Table service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary sets the properties of a storage account’s Table service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: 2025-08-01/TableServicesPut.json
+ * x-ms-original-file: 2026-04-01/TableServicesPut.json
  */
 async function tableServicesPut(): Promise<void> {
   const credential = new DefaultAzureCredential();

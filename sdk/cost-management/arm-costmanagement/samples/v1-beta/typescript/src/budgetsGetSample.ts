@@ -1,0 +1,44 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { CostManagementClient } from "@azure/arm-costmanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to gets the budget for the scope by budget name.
+ *
+ * @summary gets the budget for the scope by budget name.
+ * x-ms-original-file: 2025-03-01/Budgets/Get/Cost/Get-Cost-Budget.json
+ */
+async function getCostBudget(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new CostManagementClient(credential);
+  const result = await client.budgets.get(
+    "subscriptions/00000000-0000-0000-0000-000000000000",
+    "TestBudget",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets the budget for the scope by budget name.
+ *
+ * @summary gets the budget for the scope by budget name.
+ * x-ms-original-file: 2025-03-01/Budgets/Get/ReservationUtilization/Get-ReservationUtilization-AlertRule.json
+ */
+async function getReservationUtilizationAlertRule(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new CostManagementClient(credential);
+  const result = await client.budgets.get(
+    "providers/Microsoft.Billing/billingAccounts/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee:ffffffff-gggg-hhhh-iiii-jjjjjjjjjjjj_2023-04-01/billingProfiles/KKKK-LLLL-MMM-NNN",
+    "TestAlertRule",
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await getCostBudget();
+  await getReservationUtilizationAlertRule();
+}
+
+main().catch(console.error);

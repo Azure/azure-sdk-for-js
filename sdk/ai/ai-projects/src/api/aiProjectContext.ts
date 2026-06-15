@@ -12,6 +12,8 @@ export interface AIProjectContext extends Client {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownApiVersions} that the service accepts. */
   apiVersion: KnownApiVersions;
+  /** The endpoint URL for this client. */
+  endpoint: string;
 }
 
 /** Optional parameters for the client. */
@@ -30,8 +32,8 @@ export function createAIProject(
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-ai-projects/${SDK_VERSION}`;
   const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} ${userAgentInfo}`
-    : `${userAgentInfo}`;
+    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
+    : `azsdk-js-api ${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
@@ -42,5 +44,5 @@ export function createAIProject(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion ?? KnownApiVersions.v1;
-  return { ...clientContext, apiVersion } as AIProjectContext;
+  return { ...clientContext, apiVersion, endpoint: endpointUrl } as AIProjectContext;
 }

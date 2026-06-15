@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get current subscription usages
  *
  * @summary get current subscription usages
- * x-ms-original-file: 2026-01-01/Usages_List.json
+ * x-ms-original-file: 2026-04-01/Usages_List.json
  */
 async function usagesList() {
   const credential = new DefaultAzureCredential();

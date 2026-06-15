@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update the specified NetApp account within the resource group
  *
  * @summary create or update the specified NetApp account within the resource group
- * x-ms-original-file: 2026-01-01/Accounts_CreateOrUpdate.json
+ * x-ms-original-file: 2026-04-01/Accounts_CreateOrUpdate.json
  */
 async function accountsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function accountsCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to create or update the specified NetApp account within the resource group
  *
  * @summary create or update the specified NetApp account within the resource group
- * x-ms-original-file: 2026-01-01/Accounts_CreateOrUpdateAD.json
+ * x-ms-original-file: 2026-04-01/Accounts_CreateOrUpdateAD.json
  */
 async function accountsCreateOrUpdateWithActiveDirectory(): Promise<void> {
   const credential = new DefaultAzureCredential();

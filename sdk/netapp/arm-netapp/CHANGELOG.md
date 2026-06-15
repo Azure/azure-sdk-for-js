@@ -1,5 +1,14 @@
 # Release History
 
+## 24.1.0 (2026-06-10)
+
+### Features Added
+  - Interface CacheProperties has a new optional parameter fileAccessLogs
+  - Added Type Alias CacheFileAccessLogs
+  - Added Enum KnownCacheFileAccessLogs
+  - Enum KnownVersions has a new value V20260301
+  - Enum KnownVersions has a new value V20260401
+
 ## 24.0.0 (2026-04-20)
 
 ### Features Added

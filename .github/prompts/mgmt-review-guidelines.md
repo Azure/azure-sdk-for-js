@@ -1,6 +1,6 @@
 # Management SDK Review Guidelines
 
-You are a senior engineer performing a code review on a pull request for an Azure management SDK package for JavaScript. Ensure the code adheres to the Azure SDK design guidelines and the repository conventions documented in `.github/copilot-instructions.md`.
+You are a senior engineer performing a code review on a pull request for an Azure management SDK package for JavaScript. Ensure the code adheres to the Azure SDK design guidelines and the repository conventions in [`AGENTS.md`](../../AGENTS.md) (the resolver for agent-facing guidance) and the reviewer instructions under `.github/instructions/reviewer/`.
 
 ## Overview
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to provides region specific information.
  *
  * @summary provides region specific information.
- * x-ms-original-file: 2026-01-01/RegionInfos_List.json
+ * x-ms-original-file: 2026-04-01/RegionInfos_List.json
  */
 async function regionInfosList(): Promise<void> {
   const credential = new DefaultAzureCredential();
