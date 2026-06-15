@@ -1681,4 +1681,51 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       }
     }
   }
+
+  describe("ORDER BY with backslash-containing values", () => {
+    let escapeContainer: Container;
+
+    beforeAll(async () => {
+      escapeContainer = await getTestContainer("escape-test", client, {
+        partitionKey: { paths: ["/id"] },
+      });
+
+      const docs = [
+        { id: "esc01", sortField: "normal string" },
+        { id: "esc02", sortField: "Gold\u005cu2013Foran" },
+        { id: "esc03", sortField: "path\u005cto\u005cfile" },
+        { id: "esc04", sortField: "it\u005c's tricky" },
+        { id: "esc05", sortField: "line1\u005cnline2" },
+        { id: "esc06", sortField: "tab\u005cthere" },
+        { id: "esc07", sortField: "has\u005cu0027literal" },
+        { id: "esc08", sortField: "C:\u005cProgram Files\u005cO'Reilly" },
+        { id: "esc09", sortField: "\u005c\u005c\u005c" },
+        { id: "esc10", sortField: "end\u005c" },
+      ];
+
+      await Promise.all(docs.map((doc) => escapeContainer.items.create(doc)));
+    });
+
+    it("should return all documents when paginating with maxItemCount=1", async () => {
+      const allResults = await executeQueryWithContinuation(
+        "SELECT * FROM c ORDER BY c.sortField ASC",
+        escapeContainer,
+        { maxItemCount: 1, enableQueryControl: true, forceQueryPlan: true },
+        true,
+      );
+
+      expect(allResults.length).toBe(10);
+
+      const ids = allResults.map((r: any) => r.id).sort();
+      const expectedIds = Array.from(
+        { length: 10 },
+        (_, i) => `esc${String(i + 1).padStart(2, "0")}`,
+      );
+      expect(ids).toEqual(expectedIds);
+
+      for (let i = 1; i < allResults.length; i++) {
+        expect(allResults[i].sortField >= allResults[i - 1].sortField).toBe(true);
+      }
+    });
+  });
 });

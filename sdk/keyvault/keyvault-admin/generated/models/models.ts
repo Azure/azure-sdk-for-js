@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Full backup operation */
 export interface FullBackupOperation {
   /** Status of the backup operation. */
@@ -12,7 +18,7 @@ export interface FullBackupOperation {
   /** The start time of the backup operation in UTC */
   startTime?: Date;
   /** The end time of the backup operation in UTC */
-  endTime?: Date | null;
+  endTime?: Date;
   /** Identifier for the full backup operation. */
   jobId?: string;
   /** The Azure blob storage container Uri which contains the full backup */
@@ -54,7 +60,7 @@ export enum KnownOperationStatus {
  * **Failed**: The operation failed.
  */
 export type OperationStatus = string;
-/** Alias for ErrorModel */
+/** The key vault server error. */
 export type ErrorModel = {
   code?: string;
   message?: string;
@@ -142,7 +148,7 @@ export interface RestoreOperation {
   /** The start time of the restore operation */
   startTime?: Date;
   /** The end time of the restore operation */
-  endTime?: Date | null;
+  endTime?: Date;
 }
 
 export function restoreOperationDeserializer(item: any): RestoreOperation {
@@ -201,7 +207,7 @@ export interface SelectiveKeyRestoreOperation {
   /** The start time of the restore operation */
   startTime?: Date;
   /** The end time of the restore operation */
-  endTime?: Date | null;
+  endTime?: Date;
 }
 
 export function selectiveKeyRestoreOperationDeserializer(item: any): SelectiveKeyRestoreOperation {
@@ -301,8 +307,16 @@ export interface RoleDefinition {
   readonly name?: string;
   /** The role definition type. */
   readonly type?: RoleDefinitionType;
-  /** Role definition properties. */
-  properties?: RoleDefinitionProperties;
+  /** The role name. */
+  roleName?: string;
+  /** The role definition description. */
+  description?: string;
+  /** The role type. */
+  roleType?: RoleType;
+  /** Role definition permissions. */
+  permissions?: Permission[];
+  /** Role definition assignable scopes. */
+  assignableScopes?: RoleScope[];
 }
 
 export function roleDefinitionDeserializer(item: any): RoleDefinition {
@@ -310,9 +324,9 @@ export function roleDefinitionDeserializer(item: any): RoleDefinition {
     id: item["id"],
     name: item["name"],
     type: item["type"],
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : roleDefinitionPropertiesDeserializer(item["properties"]),
+      : _roleDefinitionPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -698,10 +712,7 @@ export interface RoleAssignmentProperties {
 }
 
 export function roleAssignmentPropertiesSerializer(item: RoleAssignmentProperties): any {
-  return {
-    roleDefinitionId: item["roleDefinitionId"],
-    principalId: item["principalId"],
-  };
+  return { roleDefinitionId: item["roleDefinitionId"], principalId: item["principalId"] };
 }
 
 /** Role assignment list operation result. */
@@ -733,4 +744,38 @@ export enum KnownVersions {
   V76Preview2 = "7.6-preview.2",
   /** The 7.6 API version. */
   V76 = "7.6",
+  /** The 2025-07-01 API version. */
+  V20250701 = "2025-07-01",
+}
+
+export function _roleDefinitionPropertiesSerializer(item: RoleDefinition): any {
+  return {
+    roleName: item["roleName"],
+    description: item["description"],
+    type: item["roleType"],
+    permissions: !item["permissions"]
+      ? item["permissions"]
+      : permissionArraySerializer(item["permissions"]),
+    assignableScopes: !item["assignableScopes"]
+      ? item["assignableScopes"]
+      : item["assignableScopes"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function _roleDefinitionPropertiesDeserializer(item: any) {
+  return {
+    roleName: item["roleName"],
+    description: item["description"],
+    roleType: item["type"],
+    permissions: !item["permissions"]
+      ? item["permissions"]
+      : permissionArrayDeserializer(item["permissions"]),
+    assignableScopes: !item["assignableScopes"]
+      ? item["assignableScopes"]
+      : item["assignableScopes"].map((p: any) => {
+          return p;
+        }),
+  };
 }

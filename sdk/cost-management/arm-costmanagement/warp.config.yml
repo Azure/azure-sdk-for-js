@@ -1,15 +1,40 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/priceSheet": "./src/api/priceSheet/index.ts"
+  "./api/generateReservationDetailsReport": "./src/api/generateReservationDetailsReport/index.ts"
+  "./api/query": "./src/api/query/index.ts"
+  "./api/dimensions": "./src/api/dimensions/index.ts"
+  "./api/forecast": "./src/api/forecast/index.ts"
+  "./api/generateDetailedCostReport": "./src/api/generateDetailedCostReport/index.ts"
+  "./api/generateBenefitUtilizationSummariesReport": "./src/api/generateBenefitUtilizationSummariesReport/index.ts"
+  "./api/benefitUtilizationSummaries": "./src/api/benefitUtilizationSummaries/index.ts"
+  "./api/benefitRecommendations": "./src/api/benefitRecommendations/index.ts"
+  "./api/costAllocationRules": "./src/api/costAllocationRules/index.ts"
+  "./api/generateCostDetailsReport": "./src/api/generateCostDetailsReport/index.ts"
+  "./api/settings": "./src/api/settings/index.ts"
+  "./api/scheduledActions": "./src/api/scheduledActions/index.ts"
+  "./api/alerts": "./src/api/alerts/index.ts"
+  "./api/views": "./src/api/views/index.ts"
+  "./api/generateDetailedCostReportOperationResults": "./src/api/generateDetailedCostReportOperationResults/index.ts"
+  "./api/exports": "./src/api/exports/index.ts"
+  "./api/budgets": "./src/api/budgets/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./api/generateDetailedCostReportOperationStatus": "./src/api/generateDetailedCostReportOperationStatus/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-  - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
+    tsconfig: "./config/tsconfig.src.browser.json"
+
   - name: esm
     condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
+    tsconfig: "./config/tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

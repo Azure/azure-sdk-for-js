@@ -200,10 +200,6 @@ export interface AccessControlList extends TrackedResource {
   globalAccessControlListActions?: GlobalAccessControlListActionProperties;
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
-  /** Associated Network Fabric Resource IDs */
-  readonly networkFabricIds?: string[];
-  /** Access Control List (ACL) configurations. */
-  controlPlaneAclConfiguration?: ControlPlaneAclProperties[];
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
   /** Provisioning state of the resource. */
@@ -260,10 +256,6 @@ export interface AccessControlListProperties {
   globalAccessControlListActions?: GlobalAccessControlListActionProperties;
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
-  /** Associated Network Fabric Resource IDs */
-  readonly networkFabricIds?: string[];
-  /** Access Control List (ACL) configurations. */
-  controlPlaneAclConfiguration?: ControlPlaneAclProperties[];
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
   /** Provisioning state of the resource. */
@@ -289,9 +281,6 @@ export function accessControlListPropertiesSerializer(item: AccessControlListPro
     globalAccessControlListActions: !item["globalAccessControlListActions"]
       ? item["globalAccessControlListActions"]
       : globalAccessControlListActionPropertiesSerializer(item["globalAccessControlListActions"]),
-    controlPlaneAclConfiguration: !item["controlPlaneAclConfiguration"]
-      ? item["controlPlaneAclConfiguration"]
-      : controlPlaneAclPropertiesArraySerializer(item["controlPlaneAclConfiguration"]),
   };
 }
 
@@ -318,14 +307,6 @@ export function accessControlListPropertiesDeserializer(item: any): AccessContro
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
-    networkFabricIds: !item["networkFabricIds"]
-      ? item["networkFabricIds"]
-      : item["networkFabricIds"].map((p: any) => {
-          return p;
-        }),
-    controlPlaneAclConfiguration: !item["controlPlaneAclConfiguration"]
-      ? item["controlPlaneAclConfiguration"]
-      : controlPlaneAclPropertiesArrayDeserializer(item["controlPlaneAclConfiguration"]),
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
@@ -804,8 +785,6 @@ export enum KnownBitRateUnit {
   Mbps = "Mbps",
   /** Bit rate unit in gigabits per second. */
   Gbps = "Gbps",
-  /** Bit rate unit in packets per second. */
-  Pps = "Pps",
 }
 
 /**
@@ -816,8 +795,7 @@ export enum KnownBitRateUnit {
  * **bps**: Bit rate unit in bits per second. \
  * **Kbps**: Bit rate unit in kilobits per second. \
  * **Mbps**: Bit rate unit in megabits per second. \
- * **Gbps**: Bit rate unit in gigabits per second. \
- * **Pps**: Bit rate unit in packets per second.
+ * **Gbps**: Bit rate unit in gigabits per second.
  */
 export type BitRateUnit = string;
 
@@ -850,8 +828,6 @@ export enum KnownBurstSizeUnit {
   MBytes = "MBytes",
   /** Burst size unit in gigabytes. */
   GBytes = "GBytes",
-  /** Burst size unit in packets. */
-  Packets = "Packets",
 }
 
 /**
@@ -862,8 +838,7 @@ export enum KnownBurstSizeUnit {
  * **Bytes**: Burst size unit in bytes. \
  * **KBytes**: Burst size unit in kilobytes. \
  * **MBytes**: Burst size unit in megabytes. \
- * **GBytes**: Burst size unit in gigabytes. \
- * **Packets**: Burst size unit in packets.
+ * **GBytes**: Burst size unit in gigabytes.
  */
 export type BurstSizeUnit = string;
 
@@ -1063,8 +1038,6 @@ export enum KnownAclType {
   Tenant = "Tenant",
   /** AclType Management */
   Management = "Management",
-  /** Control Plane Access Control List (ACL) */
-  ControlPlaneAcl = "ControlPlaneAcl",
 }
 
 /**
@@ -1074,8 +1047,7 @@ export enum KnownAclType {
  * ### Known values supported by the service
  * **ControlPlaneTrafficPolicy**: AclType Control Plane Traffic Policy \
  * **Tenant**: AclType Tenant \
- * **Management**: AclType Management \
- * **ControlPlaneAcl**: Control Plane Access Control List (ACL)
+ * **Management**: AclType Management
  */
 export type AclType = string;
 
@@ -1153,370 +1125,6 @@ export function lastOperationPropertiesDeserializer(item: any): LastOperationPro
   };
 }
 
-export function controlPlaneAclPropertiesArraySerializer(
-  result: Array<ControlPlaneAclProperties>,
-): any[] {
-  return result.map((item) => {
-    return controlPlaneAclPropertiesSerializer(item);
-  });
-}
-
-export function controlPlaneAclPropertiesArrayDeserializer(
-  result: Array<ControlPlaneAclProperties>,
-): any[] {
-  return result.map((item) => {
-    return controlPlaneAclPropertiesDeserializer(item);
-  });
-}
-
-/** Access Control List (ACL) configurations properties */
-export interface ControlPlaneAclProperties {
-  /** IP Address Type. IPv4 or IPv6 */
-  ipAddressType?: IPAddressType;
-  /** Access Control List (ACL) match configurations. */
-  matchConfigurations?: ControlPlaneAclMatchConfigurationProperties[];
-}
-
-export function controlPlaneAclPropertiesSerializer(item: ControlPlaneAclProperties): any {
-  return {
-    ipAddressType: item["ipAddressType"],
-    matchConfigurations: !item["matchConfigurations"]
-      ? item["matchConfigurations"]
-      : controlPlaneAclMatchConfigurationPropertiesArraySerializer(item["matchConfigurations"]),
-  };
-}
-
-export function controlPlaneAclPropertiesDeserializer(item: any): ControlPlaneAclProperties {
-  return {
-    ipAddressType: item["ipAddressType"],
-    matchConfigurations: !item["matchConfigurations"]
-      ? item["matchConfigurations"]
-      : controlPlaneAclMatchConfigurationPropertiesArrayDeserializer(item["matchConfigurations"]),
-  };
-}
-
-export function controlPlaneAclMatchConfigurationPropertiesArraySerializer(
-  result: Array<ControlPlaneAclMatchConfigurationProperties>,
-): any[] {
-  return result.map((item) => {
-    return controlPlaneAclMatchConfigurationPropertiesSerializer(item);
-  });
-}
-
-export function controlPlaneAclMatchConfigurationPropertiesArrayDeserializer(
-  result: Array<ControlPlaneAclMatchConfigurationProperties>,
-): any[] {
-  return result.map((item) => {
-    return controlPlaneAclMatchConfigurationPropertiesDeserializer(item);
-  });
-}
-
-/** Control Plane Access Control List (ACL) match configurations properties */
-export interface ControlPlaneAclMatchConfigurationProperties {
-  /** The name of the match configuration. */
-  matchConfigurationName?: string;
-  /** Sequence Number of the match configuration. */
-  sequenceNumber?: number;
-  /** Match conditions */
-  matchCondition?: ControlPlaneAclMatchCondition;
-  /** Action that need to be performed for the matched conditions. */
-  action?: ControlPlaneAclAction;
-}
-
-export function controlPlaneAclMatchConfigurationPropertiesSerializer(
-  item: ControlPlaneAclMatchConfigurationProperties,
-): any {
-  return {
-    matchConfigurationName: item["matchConfigurationName"],
-    sequenceNumber: item["sequenceNumber"],
-    matchCondition: !item["matchCondition"]
-      ? item["matchCondition"]
-      : controlPlaneAclMatchConditionSerializer(item["matchCondition"]),
-    action: !item["action"] ? item["action"] : controlPlaneAclActionSerializer(item["action"]),
-  };
-}
-
-export function controlPlaneAclMatchConfigurationPropertiesDeserializer(
-  item: any,
-): ControlPlaneAclMatchConfigurationProperties {
-  return {
-    matchConfigurationName: item["matchConfigurationName"],
-    sequenceNumber: item["sequenceNumber"],
-    matchCondition: !item["matchCondition"]
-      ? item["matchCondition"]
-      : controlPlaneAclMatchConditionDeserializer(item["matchCondition"]),
-    action: !item["action"] ? item["action"] : controlPlaneAclActionDeserializer(item["action"]),
-  };
-}
-
-/** Control Plane Access Control List (ACL) match conditions properties */
-export interface ControlPlaneAclMatchCondition {
-  /** Protocols that need to be matched. */
-  protocolTypes?: string;
-  /** IP condition that needs to be matched. */
-  ipCondition?: ControlPlanAclIpMatchCondition;
-  /** TTL [Time To Live] values that need to be matched. */
-  ttlMatchCondition?: ControlPlaneAclTtlMatchCondition;
-  /** Port condition that needs to be matched. */
-  portCondition?: ControlPlaneAclPortMatchCondition;
-  /** Flags that need to be matched. Example: established | initial | <List-of-TCP-flags>. List of eligible TCP Flags are ack, cwr, ece, fin, psh, rst, syn, urg, established */
-  flags?: string[];
-  /** Internet Control Message Protocol (ICMP) configuration */
-  icmpConfiguration?: IcmpConfigurationProperties;
-}
-
-export function controlPlaneAclMatchConditionSerializer(item: ControlPlaneAclMatchCondition): any {
-  return {
-    protocolTypes: item["protocolTypes"],
-    ipCondition: !item["ipCondition"]
-      ? item["ipCondition"]
-      : controlPlanAclIpMatchConditionSerializer(item["ipCondition"]),
-    ttlMatchCondition: !item["ttlMatchCondition"]
-      ? item["ttlMatchCondition"]
-      : controlPlaneAclTtlMatchConditionSerializer(item["ttlMatchCondition"]),
-    portCondition: !item["portCondition"]
-      ? item["portCondition"]
-      : controlPlaneAclPortMatchConditionSerializer(item["portCondition"]),
-    flags: !item["flags"]
-      ? item["flags"]
-      : item["flags"].map((p: any) => {
-          return p;
-        }),
-    icmpConfiguration: !item["icmpConfiguration"]
-      ? item["icmpConfiguration"]
-      : icmpConfigurationPropertiesSerializer(item["icmpConfiguration"]),
-  };
-}
-
-export function controlPlaneAclMatchConditionDeserializer(
-  item: any,
-): ControlPlaneAclMatchCondition {
-  return {
-    protocolTypes: item["protocolTypes"],
-    ipCondition: !item["ipCondition"]
-      ? item["ipCondition"]
-      : controlPlanAclIpMatchConditionDeserializer(item["ipCondition"]),
-    ttlMatchCondition: !item["ttlMatchCondition"]
-      ? item["ttlMatchCondition"]
-      : controlPlaneAclTtlMatchConditionDeserializer(item["ttlMatchCondition"]),
-    portCondition: !item["portCondition"]
-      ? item["portCondition"]
-      : controlPlaneAclPortMatchConditionDeserializer(item["portCondition"]),
-    flags: !item["flags"]
-      ? item["flags"]
-      : item["flags"].map((p: any) => {
-          return p;
-        }),
-    icmpConfiguration: !item["icmpConfiguration"]
-      ? item["icmpConfiguration"]
-      : icmpConfigurationPropertiesDeserializer(item["icmpConfiguration"]),
-  };
-}
-
-/** Control Plane Access Control List (ACL) IP condition properties */
-export interface ControlPlanAclIpMatchCondition {
-  /** List of the source IP addresses that need to be matched. */
-  sourceIpPrefix?: string;
-  /** List of the destination IP addresses that need to be matched. */
-  destinationIpPrefix?: string;
-}
-
-export function controlPlanAclIpMatchConditionSerializer(
-  item: ControlPlanAclIpMatchCondition,
-): any {
-  return {
-    sourceIpPrefix: item["sourceIpPrefix"],
-    destinationIpPrefix: item["destinationIpPrefix"],
-  };
-}
-
-export function controlPlanAclIpMatchConditionDeserializer(
-  item: any,
-): ControlPlanAclIpMatchCondition {
-  return {
-    sourceIpPrefix: item["sourceIpPrefix"],
-    destinationIpPrefix: item["destinationIpPrefix"],
-  };
-}
-
-/** TTL [Time To Live] match conditions properties */
-export interface ControlPlaneAclTtlMatchCondition {
-  /** TTL [Time To Live] values that need to be matched. */
-  ttlValue?: string;
-  /** TTL [Time To Live] match type. Example: eq | neq | gt | lt | range */
-  ttlMatchType?: ControlPlaneAclTtlMatchType;
-}
-
-export function controlPlaneAclTtlMatchConditionSerializer(
-  item: ControlPlaneAclTtlMatchCondition,
-): any {
-  return { ttlValue: item["ttlValue"], ttlMatchType: item["ttlMatchType"] };
-}
-
-export function controlPlaneAclTtlMatchConditionDeserializer(
-  item: any,
-): ControlPlaneAclTtlMatchCondition {
-  return {
-    ttlValue: item["ttlValue"],
-    ttlMatchType: item["ttlMatchType"],
-  };
-}
-
-/** Control Plane Access Control List (ACL) Time To Live (TTL) match conditions properties */
-export enum KnownControlPlaneAclTtlMatchType {
-  /** TTL-eq */
-  Equals = "eq",
-  /** TTL-neq */
-  NotEquals = "neq",
-  /** TTL-gt */
-  GreaterThan = "gt",
-  /** TTL-lt */
-  LesserThan = "lt",
-}
-
-/**
- * Control Plane Access Control List (ACL) Time To Live (TTL) match conditions properties \
- * {@link KnownControlPlaneAclTtlMatchType} can be used interchangeably with ControlPlaneAclTtlMatchType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **eq**: TTL-eq \
- * **neq**: TTL-neq \
- * **gt**: TTL-gt \
- * **lt**: TTL-lt
- */
-export type ControlPlaneAclTtlMatchType = string;
-
-/** Control Plane Access Control List (ACL) Port Match conditions properties */
-export interface ControlPlaneAclPortMatchCondition {
-  /** List of the ports that need to be matched. */
-  sourcePorts?: ControlPlaneAclPortCondition;
-  /** List of the destination ports that need to be matched. */
-  destinationPorts?: ControlPlaneAclPortCondition;
-}
-
-export function controlPlaneAclPortMatchConditionSerializer(
-  item: ControlPlaneAclPortMatchCondition,
-): any {
-  return {
-    sourcePorts: !item["sourcePorts"]
-      ? item["sourcePorts"]
-      : controlPlaneAclPortConditionSerializer(item["sourcePorts"]),
-    destinationPorts: !item["destinationPorts"]
-      ? item["destinationPorts"]
-      : controlPlaneAclPortConditionSerializer(item["destinationPorts"]),
-  };
-}
-
-export function controlPlaneAclPortMatchConditionDeserializer(
-  item: any,
-): ControlPlaneAclPortMatchCondition {
-  return {
-    sourcePorts: !item["sourcePorts"]
-      ? item["sourcePorts"]
-      : controlPlaneAclPortConditionDeserializer(item["sourcePorts"]),
-    destinationPorts: !item["destinationPorts"]
-      ? item["destinationPorts"]
-      : controlPlaneAclPortConditionDeserializer(item["destinationPorts"]),
-  };
-}
-
-/** Control Plane Access Control List (ACL) Port Match conditions properties */
-export interface ControlPlaneAclPortCondition {
-  /** List of the ports that need to be matched. Possible values: 1234, 1234-1235, 1234,1235,1236 */
-  ports?: string[];
-  /** Port match type. Example: eq | neq | gt | lt | range */
-  portMatchType?: ControlPlaneAclPortMatchType;
-}
-
-export function controlPlaneAclPortConditionSerializer(item: ControlPlaneAclPortCondition): any {
-  return {
-    ports: !item["ports"]
-      ? item["ports"]
-      : item["ports"].map((p: any) => {
-          return p;
-        }),
-    portMatchType: item["portMatchType"],
-  };
-}
-
-export function controlPlaneAclPortConditionDeserializer(item: any): ControlPlaneAclPortCondition {
-  return {
-    ports: !item["ports"]
-      ? item["ports"]
-      : item["ports"].map((p: any) => {
-          return p;
-        }),
-    portMatchType: item["portMatchType"],
-  };
-}
-
-/** Control Plane Access Control List (ACL) port match types */
-export enum KnownControlPlaneAclPortMatchType {
-  /** Port-eq */
-  Equals = "eq",
-  /** Port-neq */
-  NotEquals = "neq",
-  /** Port-gt */
-  GreaterThan = "gt",
-  /** Port-lt */
-  LesserThan = "lt",
-  /** Port-gt-eq */
-  Range = "range",
-}
-
-/**
- * Control Plane Access Control List (ACL) port match types \
- * {@link KnownControlPlaneAclPortMatchType} can be used interchangeably with ControlPlaneAclPortMatchType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **eq**: Port-eq \
- * **neq**: Port-neq \
- * **gt**: Port-gt \
- * **lt**: Port-lt \
- * **range**: Port-gt-eq
- */
-export type ControlPlaneAclPortMatchType = string;
-
-/** Control Plane Access Control List (ACL) Actions */
-export interface ControlPlaneAclAction {
-  /** Type of actions that can be performed. */
-  type?: ControlPlaneAclActionType;
-  /** Remark comment */
-  remarkComment?: string;
-}
-
-export function controlPlaneAclActionSerializer(item: ControlPlaneAclAction): any {
-  return { type: item["type"], remarkComment: item["remarkComment"] };
-}
-
-export function controlPlaneAclActionDeserializer(item: any): ControlPlaneAclAction {
-  return {
-    type: item["type"],
-    remarkComment: item["remarkComment"],
-  };
-}
-
-/** Control Plane Access Control List (ACL) Action Types */
-export enum KnownControlPlaneAclActionType {
-  /** AclActionType Permit */
-  Permit = "Permit",
-  /** AclActionType Deny */
-  Deny = "Deny",
-  /** AclActionType Remark */
-  Remark = "Remark",
-}
-
-/**
- * Control Plane Access Control List (ACL) Action Types \
- * {@link KnownControlPlaneAclActionType} can be used interchangeably with ControlPlaneAclActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Permit**: AclActionType Permit \
- * **Deny**: AclActionType Deny \
- * **Remark**: AclActionType Remark
- */
-export type ControlPlaneAclActionType = string;
-
 /** Configuration state for the resource. */
 export enum KnownConfigurationState {
   /** Success Configuration State */
@@ -1543,8 +1151,6 @@ export enum KnownConfigurationState {
   Provisioning = "Provisioning",
   /** PendingCommit Configuration State */
   PendingCommit = "PendingCommit",
-  /** PendingAdministrativeUpdate State */
-  PendingAdministrativeUpdate = "PendingAdministrativeUpdate",
 }
 
 /**
@@ -1563,8 +1169,7 @@ export enum KnownConfigurationState {
  * **ErrorDeprovisioning**: ErrorDeprovisioning Configuration State \
  * **DeferredControl**: DeferredControl Configuration State \
  * **Provisioning**: Provisioning Configuration State \
- * **PendingCommit**: PendingCommit Configuration State \
- * **PendingAdministrativeUpdate**: PendingAdministrativeUpdate State
+ * **PendingCommit**: PendingCommit Configuration State
  */
 export type ConfigurationState = string;
 
@@ -1610,8 +1215,6 @@ export enum KnownAdministrativeState {
   RMA = "RMA",
   /** UnderMaintenance Administrative State */
   UnderMaintenance = "UnderMaintenance",
-  /** EnabledDegraded Administrative State. */
-  EnabledDegraded = "EnabledDegraded",
 }
 
 /**
@@ -1623,8 +1226,7 @@ export enum KnownAdministrativeState {
  * **Disabled**: Disabled Administrative State \
  * **MAT**: MAT(Manual Action Taken) Administrative State \
  * **RMA**: RMA(Return Material Authorization) Administrative State \
- * **UnderMaintenance**: UnderMaintenance Administrative State \
- * **EnabledDegraded**: EnabledDegraded Administrative State.
+ * **UnderMaintenance**: UnderMaintenance Administrative State
  */
 export type AdministrativeState = string;
 
@@ -2012,8 +1614,6 @@ export interface AccessControlListPatch extends TagsUpdate {
   matchConfigurations?: AccessControlListMatchConfigurationPatch[];
   /** List of dynamic match configurations. */
   dynamicMatchConfigurations?: CommonDynamicMatchConfigurationPatch[];
-  /** Access Control List (ACL) configurations. */
-  controlPlaneAclConfiguration?: ControlPlaneAclPatchProperties[];
   /** Access Control List (ACL) Type */
   aclType?: AclType;
   /** Device Role */
@@ -2033,7 +1633,6 @@ export function accessControlListPatchSerializer(item: AccessControlListPatch): 
       "defaultAction",
       "matchConfigurations",
       "dynamicMatchConfigurations",
-      "controlPlaneAclConfiguration",
       "aclType",
       "deviceRole",
       "globalAccessControlListActions",
@@ -2056,8 +1655,6 @@ export interface AccessControlListPatchProperties {
   matchConfigurations?: AccessControlListMatchConfigurationPatch[];
   /** List of dynamic match configurations. */
   dynamicMatchConfigurations?: CommonDynamicMatchConfigurationPatch[];
-  /** Access Control List (ACL) configurations. */
-  controlPlaneAclConfiguration?: ControlPlaneAclPatchProperties[];
   /** Access Control List (ACL) Type */
   aclType?: AclType;
   /** Device Role */
@@ -2081,9 +1678,6 @@ export function accessControlListPatchPropertiesSerializer(
     dynamicMatchConfigurations: !item["dynamicMatchConfigurations"]
       ? item["dynamicMatchConfigurations"]
       : commonDynamicMatchConfigurationPatchArraySerializer(item["dynamicMatchConfigurations"]),
-    controlPlaneAclConfiguration: !item["controlPlaneAclConfiguration"]
-      ? item["controlPlaneAclConfiguration"]
-      : controlPlaneAclPatchPropertiesArraySerializer(item["controlPlaneAclConfiguration"]),
     aclType: item["aclType"],
     deviceRole: item["deviceRole"],
     globalAccessControlListActions: !item["globalAccessControlListActions"]
@@ -2412,173 +2006,6 @@ export function portGroupPatchPropertiesSerializer(item: PortGroupPatchPropertie
   };
 }
 
-export function controlPlaneAclPatchPropertiesArraySerializer(
-  result: Array<ControlPlaneAclPatchProperties>,
-): any[] {
-  return result.map((item) => {
-    return controlPlaneAclPatchPropertiesSerializer(item);
-  });
-}
-
-/** Access Control List (ACL) configurations patch properties */
-export interface ControlPlaneAclPatchProperties {
-  /** IP Address Type. IPv4 or IPv6 */
-  ipAddressType?: IPAddressType;
-  /** Access Control List (ACL) match configurations. */
-  matchConfigurations?: ControlPlaneAclMatchConfigurationPatchProperties[];
-}
-
-export function controlPlaneAclPatchPropertiesSerializer(
-  item: ControlPlaneAclPatchProperties,
-): any {
-  return {
-    ipAddressType: item["ipAddressType"],
-    matchConfigurations: !item["matchConfigurations"]
-      ? item["matchConfigurations"]
-      : controlPlaneAclMatchConfigurationPatchPropertiesArraySerializer(
-          item["matchConfigurations"],
-        ),
-  };
-}
-
-export function controlPlaneAclMatchConfigurationPatchPropertiesArraySerializer(
-  result: Array<ControlPlaneAclMatchConfigurationPatchProperties>,
-): any[] {
-  return result.map((item) => {
-    return controlPlaneAclMatchConfigurationPatchPropertiesSerializer(item);
-  });
-}
-
-/** Control Plane Access Control List (ACL) match configurations properties */
-export interface ControlPlaneAclMatchConfigurationPatchProperties {
-  /** The name of the match configuration. */
-  matchConfigurationName?: string;
-  /** Sequence Number of the match configuration. */
-  sequenceNumber?: number;
-  /** Match conditions */
-  matchCondition?: ControlPlaneAclMatchConditionPatch;
-  /** Action that need to be performed for the matched conditions. */
-  action?: ControlPlaneAclActionPatch;
-}
-
-export function controlPlaneAclMatchConfigurationPatchPropertiesSerializer(
-  item: ControlPlaneAclMatchConfigurationPatchProperties,
-): any {
-  return {
-    matchConfigurationName: item["matchConfigurationName"],
-    sequenceNumber: item["sequenceNumber"],
-    matchCondition: !item["matchCondition"]
-      ? item["matchCondition"]
-      : controlPlaneAclMatchConditionPatchSerializer(item["matchCondition"]),
-    action: !item["action"] ? item["action"] : controlPlaneAclActionPatchSerializer(item["action"]),
-  };
-}
-
-/** Control Plane Access Control List (ACL) match conditions properties */
-export interface ControlPlaneAclMatchConditionPatch {
-  /** Protocols that need to be matched. */
-  protocolTypes?: string;
-  /** IP condition that needs to be matched. */
-  ipCondition?: ControlPlaneAclIpMatchConditionPatch;
-  /** TTL [Time To Live] values that need to be matched. */
-  ttlMatchCondition?: ControlPlaneAclTtlMatchConditionPatch;
-  /** Port condition that needs to be matched. */
-  portCondition?: ControlPlaneAclPortMatchConditionPatch;
-  /** Flags that need to be matched. Example: established | initial | <List-of-TCP-flags>. List of eligible TCP Flags are ack, cwr, ece, fin, psh, rst, syn, urg, established */
-  flags?: string[];
-  /** Internet Control Message Protocol (ICMP) configuration */
-  icmpConfiguration?: IcmpConfigurationPatchProperties;
-}
-
-export function controlPlaneAclMatchConditionPatchSerializer(
-  item: ControlPlaneAclMatchConditionPatch,
-): any {
-  return {
-    protocolTypes: item["protocolTypes"],
-    ipCondition: !item["ipCondition"]
-      ? item["ipCondition"]
-      : controlPlaneAclIpMatchConditionPatchSerializer(item["ipCondition"]),
-    ttlMatchCondition: !item["ttlMatchCondition"]
-      ? item["ttlMatchCondition"]
-      : controlPlaneAclTtlMatchConditionPatchSerializer(item["ttlMatchCondition"]),
-    portCondition: !item["portCondition"]
-      ? item["portCondition"]
-      : controlPlaneAclPortMatchConditionPatchSerializer(item["portCondition"]),
-    flags: !item["flags"]
-      ? item["flags"]
-      : item["flags"].map((p: any) => {
-          return p;
-        }),
-    icmpConfiguration: !item["icmpConfiguration"]
-      ? item["icmpConfiguration"]
-      : icmpConfigurationPatchPropertiesSerializer(item["icmpConfiguration"]),
-  };
-}
-
-/** Control Plane Access Control List (ACL) IP condition patch properties */
-export interface ControlPlaneAclIpMatchConditionPatch {
-  /** List of the source IP addresses that need to be matched. */
-  sourceIpPrefix?: string;
-  /** List of the destination IP addresses that need to be matched. */
-  destinationIpPrefix?: string;
-}
-
-export function controlPlaneAclIpMatchConditionPatchSerializer(
-  item: ControlPlaneAclIpMatchConditionPatch,
-): any {
-  return {
-    sourceIpPrefix: item["sourceIpPrefix"],
-    destinationIpPrefix: item["destinationIpPrefix"],
-  };
-}
-
-/** TTL [Time To Live] match conditions patch properties */
-export interface ControlPlaneAclTtlMatchConditionPatch {
-  /** TTL [Time To Live] values that need to be matched. */
-  ttlValue?: string;
-  /** TTL [Time To Live] match type. Example: eq | neq | gt | lt | range */
-  ttlMatchType?: ControlPlaneAclTtlMatchType;
-}
-
-export function controlPlaneAclTtlMatchConditionPatchSerializer(
-  item: ControlPlaneAclTtlMatchConditionPatch,
-): any {
-  return { ttlValue: item["ttlValue"], ttlMatchType: item["ttlMatchType"] };
-}
-
-/** Control Plane Access Control List (ACL) Port Match conditions properties */
-export interface ControlPlaneAclPortMatchConditionPatch {
-  /** List of the ports that need to be matched. */
-  sourcePorts?: ControlPlaneAclPortCondition;
-  /** List of the destination ports that need to be matched. */
-  destinationPorts?: ControlPlaneAclPortCondition;
-}
-
-export function controlPlaneAclPortMatchConditionPatchSerializer(
-  item: ControlPlaneAclPortMatchConditionPatch,
-): any {
-  return {
-    sourcePorts: !item["sourcePorts"]
-      ? item["sourcePorts"]
-      : controlPlaneAclPortConditionSerializer(item["sourcePorts"]),
-    destinationPorts: !item["destinationPorts"]
-      ? item["destinationPorts"]
-      : controlPlaneAclPortConditionSerializer(item["destinationPorts"]),
-  };
-}
-
-/** Control Plane Access Control List (ACL) Actions */
-export interface ControlPlaneAclActionPatch {
-  /** Type of actions that can be performed. */
-  type?: ControlPlaneAclActionType;
-  /** Remark comment */
-  remarkComment?: string;
-}
-
-export function controlPlaneAclActionPatchSerializer(item: ControlPlaneAclActionPatch): any {
-  return { type: item["type"], remarkComment: item["remarkComment"] };
-}
-
 /** Global Access Control List actions patch properties */
 export interface GlobalAccessControlListActionPatchProperties {
   /** Configuration to enable or disable ACL action count. */
@@ -2793,122 +2220,6 @@ export function enableDisableOnResourcesSerializer(item: EnableDisableOnResource
     resourceIds: !item["resourceIds"]
       ? item["resourceIds"]
       : item["resourceIds"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** Update Administrative State Response. */
-export interface UpdateAdministrativeStateResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-  /** Response properties in case of successful administrative state update. */
-  properties?: UpdateAdministrativeStateResponseProperties;
-}
-
-export function updateAdministrativeStateResponseDeserializer(
-  item: any,
-): UpdateAdministrativeStateResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : updateAdministrativeStateResponsePropertiesDeserializer(item["properties"]),
-  };
-}
-
-export function operationStatusResultArrayDeserializer(
-  result: Array<OperationStatusResult>,
-): any[] {
-  return result.map((item) => {
-    return operationStatusResultDeserializer(item);
-  });
-}
-
-/** The current status of an async operation. */
-export interface OperationStatusResult {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function operationStatusResultDeserializer(item: any): OperationStatusResult {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
-}
-
-/** Update Administrative State Response Properties. */
-export interface UpdateAdministrativeStateResponseProperties {
-  /** List of ARM Resource IDs for which the given action applied successfully. */
-  successfulResources?: string[];
-  /** List of ARM Resource IDs for which the given action failed to apply. */
-  failedResources?: string[];
-}
-
-export function updateAdministrativeStateResponsePropertiesDeserializer(
-  item: any,
-): UpdateAdministrativeStateResponseProperties {
-  return {
-    successfulResources: !item["successfulResources"]
-      ? item["successfulResources"]
-      : item["successfulResources"].map((p: any) => {
-          return p;
-        }),
-    failedResources: !item["failedResources"]
-      ? item["failedResources"]
-      : item["failedResources"].map((p: any) => {
           return p;
         }),
   };
@@ -4045,8 +3356,6 @@ export function ipPrefixArrayDeserializer(result: Array<IpPrefix>): any[] {
 
 /** The L2 Isolation Domain resource definition. */
 export interface L2IsolationDomain extends TrackedResource {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
   /** Switch configuration description. */
   annotation?: string;
   /** ARM Resource ID of the Network Fabric. */
@@ -4074,9 +3383,6 @@ export function l2IsolationDomainSerializer(item: L2IsolationDomain): any {
     tags: item["tags"],
     location: item["location"],
     properties: _l2IsolationDomainPropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -4093,9 +3399,6 @@ export function l2IsolationDomainDeserializer(item: any): L2IsolationDomain {
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     ..._l2IsolationDomainPropertiesDeserializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -4167,85 +3470,8 @@ export enum KnownExtendedVlan {
  */
 export type ExtendedVlan = string;
 
-/** Managed service identity (system assigned and/or user assigned identities) */
-export interface ManagedServiceIdentity {
-  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  readonly principalId?: string;
-  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  readonly tenantId?: string;
-  /** The type of managed identity assigned to this resource. */
-  type: ManagedServiceIdentityType;
-  /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
-}
-
-export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
-}
-
-export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
-  return {
-    principalId: item["principalId"],
-    tenantId: item["tenantId"],
-    type: item["type"],
-    userAssignedIdentities: !item["userAssignedIdentities"]
-      ? item["userAssignedIdentities"]
-      : Object.fromEntries(
-          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
-            k,
-            !p ? p : userAssignedIdentityDeserializer(p),
-          ]),
-        ),
-  };
-}
-
-/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-export enum KnownManagedServiceIdentityType {
-  /** No managed identity. */
-  None = "None",
-  /** System assigned managed identity. */
-  SystemAssigned = "SystemAssigned",
-  /** User assigned managed identity. */
-  UserAssigned = "UserAssigned",
-  /** System and user assigned managed identity. */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-}
-
-/**
- * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
- * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None**: No managed identity. \
- * **SystemAssigned**: System assigned managed identity. \
- * **UserAssigned**: User assigned managed identity. \
- * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
- */
-export type ManagedServiceIdentityType = string;
-
-/** User assigned identity properties */
-export interface UserAssignedIdentity {
-  /** The principal ID of the assigned identity. */
-  readonly principalId?: string;
-  /** The client ID of the assigned identity. */
-  readonly clientId?: string;
-}
-
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
-}
-
-export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
-  return {
-    principalId: item["principalId"],
-    clientId: item["clientId"],
-  };
-}
-
 /** The L2 Isolation Domain patch resource definition. */
 export interface L2IsolationDomainPatch extends TagsUpdate {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatch;
   /** Switch configuration description. */
   annotation?: string;
   /** Maximum transmission unit. Default value is 1500. */
@@ -4267,9 +3493,6 @@ export function l2IsolationDomainPatchSerializer(item: L2IsolationDomainPatch): 
     ])
       ? undefined
       : _l2IsolationDomainPatchPropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityPatchSerializer(item["identity"]),
   };
 }
 
@@ -4292,18 +3515,6 @@ export function l2IsolationDomainPatchPropertiesSerializer(
     extendedVlan: item["extendedVlan"],
     networkToNetworkInterconnectId: item["networkToNetworkInterconnectId"],
   };
-}
-
-/** The managed service identities assigned to this resource. */
-export interface ManagedServiceIdentityPatch {
-  /** The type of managed identity assigned to this resource. */
-  type?: ManagedServiceIdentityType;
-  /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
-}
-
-export function managedServiceIdentityPatchSerializer(item: ManagedServiceIdentityPatch): any {
-  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 /** Paged collection of L2IsolationDomain items */
@@ -4335,10 +3546,37 @@ export function l2IsolationDomainArrayDeserializer(result: Array<L2IsolationDoma
   });
 }
 
+/** Common response for device updates. */
+export interface CommonPostActionResponseForDeviceUpdate extends CommonErrorResponse {
+  /** Gets the configuration state. */
+  readonly configurationState?: ConfigurationState;
+  /** List of ARM Resource IDs for which the given action applied successfully. */
+  successfulDevices?: string[];
+  /** List of ARM Resource IDs for which the given action failed to apply. */
+  failedDevices?: string[];
+}
+
+export function commonPostActionResponseForDeviceUpdateDeserializer(
+  item: any,
+): CommonPostActionResponseForDeviceUpdate {
+  return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    configurationState: item["configurationState"],
+    successfulDevices: !item["successfulDevices"]
+      ? item["successfulDevices"]
+      : item["successfulDevices"].map((p: any) => {
+          return p;
+        }),
+    failedDevices: !item["failedDevices"]
+      ? item["failedDevices"]
+      : item["failedDevices"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** The L3 Isolation Domain resource definition. */
 export interface L3IsolationDomain extends TrackedResource {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
   /** Switch configuration description. */
   annotation?: string;
   /** Advertise Connected Subnets. Ex: "True" | "False". */
@@ -4355,14 +3593,10 @@ export interface L3IsolationDomain extends TrackedResource {
   staticRouteRoutePolicy?: StaticRouteRoutePolicy;
   /** Unique Route Distinguisher configuration */
   uniqueRdConfiguration?: L3UniqueRouteDistinguisherProperties;
-  /** IPv4 VRF Limit configuration. */
-  v4RoutePrefixLimit?: RoutePrefixLimitProperties;
-  /** IPv6 VRF Limit configuration. */
-  v6RoutePrefixLimit?: RoutePrefixLimitProperties;
+  /** VRF Limit configuration. */
+  routePrefixLimit?: RoutePrefixLimitProperties;
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
-  /** BMP Export Policy configuration. */
-  exportPolicyConfiguration?: BmpExportPolicyProperties;
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
   /** Provisioning state of the resource. */
@@ -4376,9 +3610,6 @@ export function l3IsolationDomainSerializer(item: L3IsolationDomain): any {
     tags: item["tags"],
     location: item["location"],
     properties: _l3IsolationDomainPropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -4395,9 +3626,6 @@ export function l3IsolationDomainDeserializer(item: any): L3IsolationDomain {
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     ..._l3IsolationDomainPropertiesDeserializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -4419,14 +3647,10 @@ export interface L3IsolationDomainProperties {
   staticRouteRoutePolicy?: StaticRouteRoutePolicy;
   /** Unique Route Distinguisher configuration */
   uniqueRdConfiguration?: L3UniqueRouteDistinguisherProperties;
-  /** IPv4 VRF Limit configuration. */
-  v4RoutePrefixLimit?: RoutePrefixLimitProperties;
-  /** IPv6 VRF Limit configuration. */
-  v6RoutePrefixLimit?: RoutePrefixLimitProperties;
+  /** VRF Limit configuration. */
+  routePrefixLimit?: RoutePrefixLimitProperties;
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
-  /** BMP Export Policy configuration. */
-  exportPolicyConfiguration?: BmpExportPolicyProperties;
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
   /** Provisioning state of the resource. */
@@ -4453,15 +3677,9 @@ export function l3IsolationDomainPropertiesSerializer(item: L3IsolationDomainPro
     uniqueRdConfiguration: !item["uniqueRdConfiguration"]
       ? item["uniqueRdConfiguration"]
       : l3UniqueRouteDistinguisherPropertiesSerializer(item["uniqueRdConfiguration"]),
-    v4routePrefixLimit: !item["v4RoutePrefixLimit"]
-      ? item["v4RoutePrefixLimit"]
-      : routePrefixLimitPropertiesSerializer(item["v4RoutePrefixLimit"]),
-    v6routePrefixLimit: !item["v6RoutePrefixLimit"]
-      ? item["v6RoutePrefixLimit"]
-      : routePrefixLimitPropertiesSerializer(item["v6RoutePrefixLimit"]),
-    exportPolicyConfiguration: !item["exportPolicyConfiguration"]
-      ? item["exportPolicyConfiguration"]
-      : bmpExportPolicyPropertiesSerializer(item["exportPolicyConfiguration"]),
+    routePrefixLimit: !item["routePrefixLimit"]
+      ? item["routePrefixLimit"]
+      : routePrefixLimitPropertiesSerializer(item["routePrefixLimit"]),
   };
 }
 
@@ -4483,18 +3701,12 @@ export function l3IsolationDomainPropertiesDeserializer(item: any): L3IsolationD
     uniqueRdConfiguration: !item["uniqueRdConfiguration"]
       ? item["uniqueRdConfiguration"]
       : l3UniqueRouteDistinguisherPropertiesDeserializer(item["uniqueRdConfiguration"]),
-    v4RoutePrefixLimit: !item["v4routePrefixLimit"]
-      ? item["v4routePrefixLimit"]
-      : routePrefixLimitPropertiesDeserializer(item["v4routePrefixLimit"]),
-    v6RoutePrefixLimit: !item["v6routePrefixLimit"]
-      ? item["v6routePrefixLimit"]
-      : routePrefixLimitPropertiesDeserializer(item["v6routePrefixLimit"]),
+    routePrefixLimit: !item["routePrefixLimit"]
+      ? item["routePrefixLimit"]
+      : routePrefixLimitPropertiesDeserializer(item["routePrefixLimit"]),
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
-    exportPolicyConfiguration: !item["exportPolicyConfiguration"]
-      ? item["exportPolicyConfiguration"]
-      : bmpExportPolicyPropertiesDeserializer(item["exportPolicyConfiguration"]),
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
@@ -4704,60 +3916,8 @@ export function routePrefixLimitPropertiesDeserializer(item: any): RoutePrefixLi
   };
 }
 
-/** BMP Export Policy Configuration properties. */
-export interface BmpExportPolicyProperties {
-  /** Export Policy for the BGP Monitoring Protocol (BMP) Configuration. */
-  exportPolicies?: BmpExportPolicy[];
-}
-
-export function bmpExportPolicyPropertiesSerializer(item: BmpExportPolicyProperties): any {
-  return {
-    exportPolicies: !item["exportPolicies"]
-      ? item["exportPolicies"]
-      : item["exportPolicies"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function bmpExportPolicyPropertiesDeserializer(item: any): BmpExportPolicyProperties {
-  return {
-    exportPolicies: !item["exportPolicies"]
-      ? item["exportPolicies"]
-      : item["exportPolicies"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** Export Policy for the BGP Monitoring Protocol (BMP) Configuration. */
-export enum KnownBmpExportPolicy {
-  /** BMP ExportPolicy Pre-Policy */
-  PrePolicy = "Pre-Policy",
-  /** BMP ExportPolicy Post-Policy */
-  PostPolicy = "Post-Policy",
-  /** BMP ExportPolicy All */
-  All = "All",
-  /** BMP ExportPolicy LocalRib */
-  LocalRib = "LocalRib",
-}
-
-/**
- * Export Policy for the BGP Monitoring Protocol (BMP) Configuration. \
- * {@link KnownBmpExportPolicy} can be used interchangeably with BmpExportPolicy,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Pre-Policy**: BMP ExportPolicy Pre-Policy \
- * **Post-Policy**: BMP ExportPolicy Post-Policy \
- * **All**: BMP ExportPolicy All \
- * **LocalRib**: BMP ExportPolicy LocalRib
- */
-export type BmpExportPolicy = string;
-
 /** The L3 Isolation Domain patch resource definition. */
 export interface L3IsolationDomainPatch extends TagsUpdate {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatch;
   /** Switch configuration description. */
   annotation?: string;
   /** Advertise Connected Subnets. Ex: "True" | "False". */
@@ -4770,12 +3930,8 @@ export interface L3IsolationDomainPatch extends TagsUpdate {
   connectedSubnetRoutePolicy?: ConnectedSubnetRoutePolicyPatch;
   /** Static Route - route policy. */
   staticRouteRoutePolicy?: StaticRouteRoutePolicyPatch;
-  /** IPv4 VRF Limit configuration. */
-  v4RoutePrefixLimit?: RoutePrefixLimitPatchProperties;
-  /** IPv6 VRF Limit configuration. */
-  v6RoutePrefixLimit?: RoutePrefixLimitPatchProperties;
-  /** BMP Export Policy configuration. */
-  exportPolicyConfiguration?: BmpExportPolicyPatchProperties;
+  /** Virtual Routing and Forwarding (VRF) Limit configuration. */
+  routePrefixLimit?: RoutePrefixLimitPatchProperties;
 }
 
 export function l3IsolationDomainPatchSerializer(item: L3IsolationDomainPatch): any {
@@ -4788,15 +3944,10 @@ export function l3IsolationDomainPatchSerializer(item: L3IsolationDomainPatch): 
       "aggregateRouteConfiguration",
       "connectedSubnetRoutePolicy",
       "staticRouteRoutePolicy",
-      "v4routePrefixLimit",
-      "v6routePrefixLimit",
-      "exportPolicyConfiguration",
+      "routePrefixLimit",
     ])
       ? undefined
       : _l3IsolationDomainPatchPropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityPatchSerializer(item["identity"]),
   };
 }
 
@@ -4814,12 +3965,8 @@ export interface L3IsolationDomainPatchProperties {
   connectedSubnetRoutePolicy?: ConnectedSubnetRoutePolicyPatch;
   /** Static Route - route policy. */
   staticRouteRoutePolicy?: StaticRouteRoutePolicyPatch;
-  /** IPv4 VRF Limit configuration. */
-  v4RoutePrefixLimit?: RoutePrefixLimitPatchProperties;
-  /** IPv6 VRF Limit configuration. */
-  v6RoutePrefixLimit?: RoutePrefixLimitPatchProperties;
-  /** BMP Export Policy configuration. */
-  exportPolicyConfiguration?: BmpExportPolicyPatchProperties;
+  /** Virtual Routing and Forwarding (VRF) Limit configuration. */
+  routePrefixLimit?: RoutePrefixLimitPatchProperties;
 }
 
 export function l3IsolationDomainPatchPropertiesSerializer(
@@ -4838,15 +3985,9 @@ export function l3IsolationDomainPatchPropertiesSerializer(
     staticRouteRoutePolicy: !item["staticRouteRoutePolicy"]
       ? item["staticRouteRoutePolicy"]
       : staticRouteRoutePolicyPatchSerializer(item["staticRouteRoutePolicy"]),
-    v4routePrefixLimit: !item["v4RoutePrefixLimit"]
-      ? item["v4RoutePrefixLimit"]
-      : routePrefixLimitPatchPropertiesSerializer(item["v4RoutePrefixLimit"]),
-    v6routePrefixLimit: !item["v6RoutePrefixLimit"]
-      ? item["v6RoutePrefixLimit"]
-      : routePrefixLimitPatchPropertiesSerializer(item["v6RoutePrefixLimit"]),
-    exportPolicyConfiguration: !item["exportPolicyConfiguration"]
-      ? item["exportPolicyConfiguration"]
-      : bmpExportPolicyPatchPropertiesSerializer(item["exportPolicyConfiguration"]),
+    routePrefixLimit: !item["routePrefixLimit"]
+      ? item["routePrefixLimit"]
+      : routePrefixLimitPatchPropertiesSerializer(item["routePrefixLimit"]),
   };
 }
 
@@ -4930,24 +4071,6 @@ export function routePrefixLimitPatchPropertiesSerializer(
   return { hardLimit: item["hardLimit"], threshold: item["threshold"] };
 }
 
-/** BMP Export Policy Configuration properties. */
-export interface BmpExportPolicyPatchProperties {
-  /** Export Policy for the BGP Monitoring Protocol (BMP) Configuration. */
-  exportPolicies?: BmpExportPolicy[];
-}
-
-export function bmpExportPolicyPatchPropertiesSerializer(
-  item: BmpExportPolicyPatchProperties,
-): any {
-  return {
-    exportPolicies: !item["exportPolicies"]
-      ? item["exportPolicies"]
-      : item["exportPolicies"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
 /** Paged collection of L3IsolationDomain items */
 export interface _L3IsolationDomainsListResult {
   /** The L3IsolationDomain items on this page */
@@ -5011,8 +4134,6 @@ export interface InternalNetwork extends ProxyResource {
   nativeIpv6PrefixLimit?: NativeIpv6PrefixLimitProperties;
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
-  /** Associated Network Fabric Resource ID */
-  readonly networkFabricId?: string;
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
   /** Provisioning state of the resource. */
@@ -5071,8 +4192,6 @@ export interface InternalNetworkProperties {
   nativeIpv6PrefixLimit?: NativeIpv6PrefixLimitProperties;
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
-  /** Associated Network Fabric Resource ID */
-  readonly networkFabricId?: string;
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
   /** Provisioning state of the resource. */
@@ -5153,7 +4272,6 @@ export function internalNetworkPropertiesDeserializer(item: any): InternalNetwor
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
-    networkFabricId: item["networkFabricId"],
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
@@ -5493,8 +4611,6 @@ export interface InternalNetworkBmpProperties {
   neighborIpExclusions?: string[];
   /** BMP Monitoring configuration state. */
   bmpConfigurationState?: BmpConfigurationState;
-  /** BMP Export Policy configuration. */
-  exportPolicyConfiguration?: BmpExportPolicyProperties;
 }
 
 export function internalNetworkBmpPropertiesSerializer(item: InternalNetworkBmpProperties): any {
@@ -5505,9 +4621,6 @@ export function internalNetworkBmpPropertiesSerializer(item: InternalNetworkBmpP
           return p;
         }),
     bmpConfigurationState: item["bmpConfigurationState"],
-    exportPolicyConfiguration: !item["exportPolicyConfiguration"]
-      ? item["exportPolicyConfiguration"]
-      : bmpExportPolicyPropertiesSerializer(item["exportPolicyConfiguration"]),
   };
 }
 
@@ -5519,9 +4632,6 @@ export function internalNetworkBmpPropertiesDeserializer(item: any): InternalNet
           return p;
         }),
     bmpConfigurationState: item["bmpConfigurationState"],
-    exportPolicyConfiguration: !item["exportPolicyConfiguration"]
-      ? item["exportPolicyConfiguration"]
-      : bmpExportPolicyPropertiesDeserializer(item["exportPolicyConfiguration"]),
   };
 }
 
@@ -6007,7 +5117,7 @@ export function neighborAddressPatchSerializer(item: NeighborAddressPatch): any 
 
 /** Internal Network BMP Configuration */
 export interface InternalNetworkBmpPatchProperties {
-  /** Neighbor IP Address exclusions for BMP. */
+  /** BMP Collector Address. */
   neighborIpExclusions?: string[];
   /** BMP Monitoring configuration state. */
   bmpConfigurationState?: BmpConfigurationState;
@@ -6161,15 +5271,15 @@ export function internalNetworkArrayDeserializer(result: Array<InternalNetwork>)
 }
 
 /** Internal Network Administrative State Request */
-export interface InternalNetworkUpdateBgpAdministrativeStateRequest {
+export interface InternalNetworkBgpAdministrativeStateRequest {
   /** NeighborAddress - Input should be either All or Specific Ipv4 Address or Specific Ipv6 Address. */
   neighborAddress?: string;
   /** BGP Administrative state. */
   administrativeState?: BgpAdministrativeState;
 }
 
-export function internalNetworkUpdateBgpAdministrativeStateRequestSerializer(
-  item: InternalNetworkUpdateBgpAdministrativeStateRequest,
+export function internalNetworkBgpAdministrativeStateRequestSerializer(
+  item: InternalNetworkBgpAdministrativeStateRequest,
 ): any {
   return {
     neighborAddress: item["neighborAddress"],
@@ -6178,62 +5288,16 @@ export function internalNetworkUpdateBgpAdministrativeStateRequestSerializer(
 }
 
 /** Internal Network Administrative State Response */
-export interface InternalNetworkUpdateBgpAdministrativeStateResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-  /** Internal Network BGP Administrative State response properties */
-  properties?: InternalNetworkUpdateBgpAdministrativeStateResponseProperties;
-}
-
-export function internalNetworkUpdateBgpAdministrativeStateResponseDeserializer(
-  item: any,
-): InternalNetworkUpdateBgpAdministrativeStateResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : internalNetworkUpdateBgpAdministrativeStateResponsePropertiesDeserializer(
-          item["properties"],
-        ),
-  };
-}
-
-/** Internal Network BGP Administrative State response properties */
-export interface InternalNetworkUpdateBgpAdministrativeStateResponseProperties {
+export interface InternalNetworkBgpAdministrativeStateResponse extends CommonErrorResponse {
   /** NeighborAddress administrative status */
   neighborAddressAdministrativeStatus?: NeighborAddressBgpAdministrativeStatus[];
 }
 
-export function internalNetworkUpdateBgpAdministrativeStateResponsePropertiesDeserializer(
+export function internalNetworkBgpAdministrativeStateResponseDeserializer(
   item: any,
-): InternalNetworkUpdateBgpAdministrativeStateResponseProperties {
+): InternalNetworkBgpAdministrativeStateResponse {
   return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
     neighborAddressAdministrativeStatus: !item["neighborAddressAdministrativeStatus"]
       ? item["neighborAddressAdministrativeStatus"]
       : neighborAddressBgpAdministrativeStatusArrayDeserializer(
@@ -6271,7 +5335,7 @@ export function neighborAddressBgpAdministrativeStatusDeserializer(
 }
 
 /** Internal Network BFD Administrative State request */
-export interface InternalNetworkUpdateBfdAdministrativeStateRequest {
+export interface InternalNetworkBfdAdministrativeStateRequest {
   /** Route Type that helps to know which bfd we are updating. */
   routeType?: InternalNetworkRouteType;
   /** NeighborAddress - Input should be either All or Specific Ipv4 Address or Specific Ipv6 Address. */
@@ -6280,8 +5344,8 @@ export interface InternalNetworkUpdateBfdAdministrativeStateRequest {
   administrativeState?: BfdAdministrativeState;
 }
 
-export function internalNetworkUpdateBfdAdministrativeStateRequestSerializer(
-  item: InternalNetworkUpdateBfdAdministrativeStateRequest,
+export function internalNetworkBfdAdministrativeStateRequestSerializer(
+  item: InternalNetworkBfdAdministrativeStateRequest,
 ): any {
   return {
     routeType: item["routeType"],
@@ -6309,62 +5373,16 @@ export enum KnownInternalNetworkRouteType {
 export type InternalNetworkRouteType = string;
 
 /** Internal Network BFD Administrative State response */
-export interface InternalNetworkUpdateBfdAdministrativeStateResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-  /** Internal Network BFD Administrative State response properties */
-  properties?: InternalNetworkUpdateBfdAdministrativeStateResponseProperties;
-}
-
-export function internalNetworkUpdateBfdAdministrativeStateResponseDeserializer(
-  item: any,
-): InternalNetworkUpdateBfdAdministrativeStateResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : internalNetworkUpdateBfdAdministrativeStateResponsePropertiesDeserializer(
-          item["properties"],
-        ),
-  };
-}
-
-/** Internal Network BFD Administrative State response properties */
-export interface InternalNetworkUpdateBfdAdministrativeStateResponseProperties {
+export interface InternalNetworkBfdAdministrativeStateResponse extends CommonErrorResponse {
   /** NeighborAddress administrative status */
   neighborAddressAdministrativeStatus?: NeighborAddressBfdAdministrativeStatus[];
 }
 
-export function internalNetworkUpdateBfdAdministrativeStateResponsePropertiesDeserializer(
+export function internalNetworkBfdAdministrativeStateResponseDeserializer(
   item: any,
-): InternalNetworkUpdateBfdAdministrativeStateResponseProperties {
+): InternalNetworkBfdAdministrativeStateResponse {
   return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
     neighborAddressAdministrativeStatus: !item["neighborAddressAdministrativeStatus"]
       ? item["neighborAddressAdministrativeStatus"]
       : neighborAddressBfdAdministrativeStatusArrayDeserializer(
@@ -6421,8 +5439,6 @@ export interface ExternalNetwork extends ProxyResource {
   staticRouteConfiguration?: ExternalNetworkStaticRouteConfiguration;
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
-  /** Associated Network Fabric Resource ID */
-  readonly networkFabricId?: string;
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
   /** Provisioning state of the resource. */
@@ -6467,8 +5483,6 @@ export interface ExternalNetworkProperties {
   staticRouteConfiguration?: ExternalNetworkStaticRouteConfiguration;
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
-  /** Associated Network Fabric Resource ID */
-  readonly networkFabricId?: string;
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
   /** Provisioning state of the resource. */
@@ -6523,7 +5537,6 @@ export function externalNetworkPropertiesDeserializer(item: any): ExternalNetwor
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
-    networkFabricId: item["networkFabricId"],
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
@@ -7119,16 +6132,16 @@ export function externalNetworkArrayDeserializer(result: Array<ExternalNetwork>)
   });
 }
 
-/** External Network Update Administrative State request */
-export interface ExternalNetworkUpdateBfdAdministrativeStateRequest {
+/** External Network Administrative State request */
+export interface ExternalNetworkBfdAdministrativeStateRequest {
   /** Route Type that helps to know which bfd we are updating. */
   routeType?: ExternalNetworkRouteType;
   /** Administrative state. */
   administrativeState?: BfdAdministrativeState;
 }
 
-export function externalNetworkUpdateBfdAdministrativeStateRequestSerializer(
-  item: ExternalNetworkUpdateBfdAdministrativeStateRequest,
+export function externalNetworkBfdAdministrativeStateRequestSerializer(
+  item: ExternalNetworkBfdAdministrativeStateRequest,
 ): any {
   return { routeType: item["routeType"], administrativeState: item["administrativeState"] };
 }
@@ -7151,65 +6164,19 @@ export enum KnownExternalNetworkRouteType {
  */
 export type ExternalNetworkRouteType = string;
 
-/** External Network Update Administrative State response */
-export interface ExternalNetworkUpdateBfdAdministrativeStateResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-  /** Response properties. */
-  properties?: ExternalNetworkUpdateBfdAdministrativeStateResponseProperties;
-}
-
-export function externalNetworkUpdateBfdAdministrativeStateResponseDeserializer(
-  item: any,
-): ExternalNetworkUpdateBfdAdministrativeStateResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : externalNetworkUpdateBfdAdministrativeStateResponsePropertiesDeserializer(
-          item["properties"],
-        ),
-  };
-}
-
-/** Response properties for External Network BFD Administrative State. */
-export interface ExternalNetworkUpdateBfdAdministrativeStateResponseProperties {
+/** External Network Administrative State response */
+export interface ExternalNetworkBfdAdministrativeStateResponse extends CommonErrorResponse {
   /** Route Type that helps to know which bfd we are updating. */
   routeType?: ExternalNetworkRouteType;
   /** Administrative state. */
   administrativeState?: BfdAdministrativeState;
 }
 
-export function externalNetworkUpdateBfdAdministrativeStateResponsePropertiesDeserializer(
+export function externalNetworkBfdAdministrativeStateResponseDeserializer(
   item: any,
-): ExternalNetworkUpdateBfdAdministrativeStateResponseProperties {
+): ExternalNetworkBfdAdministrativeStateResponse {
   return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
     routeType: item["routeType"],
     administrativeState: item["administrativeState"],
   };
@@ -7217,8 +6184,6 @@ export function externalNetworkUpdateBfdAdministrativeStateResponsePropertiesDes
 
 /** Defines the Neighbor Group. */
 export interface NeighborGroup extends TrackedResource {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
   /** Switch configuration description. */
   annotation?: string;
   /** An array of destination IPv4 Addresses or IPv6 Addresses. */
@@ -7227,14 +6192,10 @@ export interface NeighborGroup extends TrackedResource {
   readonly networkTapIds?: string[];
   /** List of Network Tap Rule IDs where neighbor group is associated. */
   readonly networkTapRuleIds?: string[];
-  /** Associated Network Fabric Resource IDs */
-  readonly networkFabricIds?: string[];
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
   /** The provisioning state of the resource. */
   readonly provisioningState?: ProvisioningState;
-  /** Configuration state of the resource. */
-  readonly configurationState?: ConfigurationState;
 }
 
 export function neighborGroupSerializer(item: NeighborGroup): any {
@@ -7242,9 +6203,6 @@ export function neighborGroupSerializer(item: NeighborGroup): any {
     tags: item["tags"],
     location: item["location"],
     properties: _neighborGroupPropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -7261,9 +6219,6 @@ export function neighborGroupDeserializer(item: any): NeighborGroup {
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     ..._neighborGroupPropertiesDeserializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -7277,14 +6232,10 @@ export interface NeighborGroupProperties {
   readonly networkTapIds?: string[];
   /** List of Network Tap Rule IDs where neighbor group is associated. */
   readonly networkTapRuleIds?: string[];
-  /** Associated Network Fabric Resource IDs */
-  readonly networkFabricIds?: string[];
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
   /** The provisioning state of the resource. */
   readonly provisioningState?: ProvisioningState;
-  /** Configuration state of the resource. */
-  readonly configurationState?: ConfigurationState;
 }
 
 export function neighborGroupPropertiesSerializer(item: NeighborGroupProperties): any {
@@ -7308,16 +6259,10 @@ export function neighborGroupPropertiesDeserializer(item: any): NeighborGroupPro
       : item["networkTapRuleIds"].map((p: any) => {
           return p;
         }),
-    networkFabricIds: !item["networkFabricIds"]
-      ? item["networkFabricIds"]
-      : item["networkFabricIds"].map((p: any) => {
-          return p;
-        }),
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
     provisioningState: item["provisioningState"],
-    configurationState: item["configurationState"],
   };
 }
 
@@ -7361,8 +6306,6 @@ export function neighborGroupDestinationDeserializer(item: any): NeighborGroupDe
 
 /** The Neighbor Group Patch definition. */
 export interface NeighborGroupPatch extends TagsUpdate {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatch;
   /** Switch configuration description. */
   annotation?: string;
   /** An array of destination IPv4 Addresses or IPv6 Addresses. */
@@ -7375,9 +6318,6 @@ export function neighborGroupPatchSerializer(item: NeighborGroupPatch): any {
     properties: areAllPropsUndefined(item, ["annotation", "destination"])
       ? undefined
       : _neighborGroupPatchPropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityPatchSerializer(item["identity"]),
   };
 }
 
@@ -7446,44 +6386,6 @@ export function neighborGroupArrayDeserializer(result: Array<NeighborGroup>): an
   return result.map((item) => {
     return neighborGroupDeserializer(item);
   });
-}
-
-/** Response for Neighbor Group Resync operation. */
-export interface NeighborGroupResyncResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function neighborGroupResyncResponseDeserializer(item: any): NeighborGroupResyncResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
 }
 
 /** The NetworkDeviceSku resource definition. */
@@ -7679,16 +6581,12 @@ export function networkDeviceSkuArrayDeserializer(result: Array<NetworkDeviceSku
 
 /** The Network Device resource definition. */
 export interface NetworkDevice extends TrackedResource {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
   /** Switch configuration description. */
   annotation?: string;
   /** The host name of the device. */
   hostName?: string;
   /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
   serialNumber: string;
-  /** The selection of the managed identity to use with this storage account. The identity type must be either system assigned or user assigned. */
-  identitySelector?: IdentitySelector;
   /** Current version of the device as defined in SKU. */
   readonly version?: string;
   /** Network Device SKU name. */
@@ -7711,12 +6609,6 @@ export interface NetworkDevice extends TrackedResource {
   readonly provisioningState?: ProvisioningState;
   /** Administrative state of the resource. */
   readonly administrativeState?: AdministrativeState;
-  /** Secret rotation status for the device's secrets. */
-  readonly secretRotationStatus?: SecretRotationStatus[];
-  /** Certificate rotation status for the device's certificates. */
-  readonly certificateRotationStatus?: CertificateRotationStatus[];
-  /** Associated Network Fabric Resource ID */
-  readonly networkFabricId?: string;
 }
 
 export function networkDeviceSerializer(item: NetworkDevice): any {
@@ -7724,9 +6616,6 @@ export function networkDeviceSerializer(item: NetworkDevice): any {
     tags: item["tags"],
     location: item["location"],
     properties: _networkDevicePropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -7743,9 +6632,6 @@ export function networkDeviceDeserializer(item: any): NetworkDevice {
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     ..._networkDevicePropertiesDeserializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -7757,8 +6643,6 @@ export interface NetworkDeviceProperties {
   hostName?: string;
   /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
   serialNumber: string;
-  /** The selection of the managed identity to use with this storage account. The identity type must be either system assigned or user assigned. */
-  identitySelector?: IdentitySelector;
   /** Current version of the device as defined in SKU. */
   readonly version?: string;
   /** Network Device SKU name. */
@@ -7781,12 +6665,6 @@ export interface NetworkDeviceProperties {
   readonly provisioningState?: ProvisioningState;
   /** Administrative state of the resource. */
   readonly administrativeState?: AdministrativeState;
-  /** Secret rotation status for the device's secrets. */
-  readonly secretRotationStatus?: SecretRotationStatus[];
-  /** Certificate rotation status for the device's certificates. */
-  readonly certificateRotationStatus?: CertificateRotationStatus[];
-  /** Associated Network Fabric Resource ID */
-  readonly networkFabricId?: string;
 }
 
 export function networkDevicePropertiesSerializer(item: NetworkDeviceProperties): any {
@@ -7794,9 +6672,6 @@ export function networkDevicePropertiesSerializer(item: NetworkDeviceProperties)
     annotation: item["annotation"],
     hostName: item["hostName"],
     serialNumber: item["serialNumber"],
-    identitySelector: !item["identitySelector"]
-      ? item["identitySelector"]
-      : identitySelectorSerializer(item["identitySelector"]),
     networkDeviceSku: item["networkDeviceSku"],
   };
 }
@@ -7806,9 +6681,6 @@ export function networkDevicePropertiesDeserializer(item: any): NetworkDevicePro
     annotation: item["annotation"],
     hostName: item["hostName"],
     serialNumber: item["serialNumber"],
-    identitySelector: !item["identitySelector"]
-      ? item["identitySelector"]
-      : identitySelectorDeserializer(item["identitySelector"]),
     version: item["version"],
     networkDeviceSku: item["networkDeviceSku"],
     networkDeviceRole: item["networkDeviceRole"],
@@ -7822,55 +6694,8 @@ export function networkDevicePropertiesDeserializer(item: any): NetworkDevicePro
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
-    secretRotationStatus: !item["secretRotationStatus"]
-      ? item["secretRotationStatus"]
-      : secretRotationStatusArrayDeserializer(item["secretRotationStatus"]),
-    certificateRotationStatus: !item["certificateRotationStatus"]
-      ? item["certificateRotationStatus"]
-      : certificateRotationStatusArrayDeserializer(item["certificateRotationStatus"]),
-    networkFabricId: item["networkFabricId"],
   };
 }
-
-/** IdentitySelector represents the selection of a managed identity for use. */
-export interface IdentitySelector {
-  /** The type of managed identity that is being selected. */
-  identityType: ManagedServiceIdentitySelectorType;
-  /** The user assigned managed identity resource ID to use. Mutually exclusive with a system assigned identity type. */
-  userAssignedIdentityResourceId?: string;
-}
-
-export function identitySelectorSerializer(item: IdentitySelector): any {
-  return {
-    identityType: item["identityType"],
-    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
-  };
-}
-
-export function identitySelectorDeserializer(item: any): IdentitySelector {
-  return {
-    identityType: item["identityType"],
-    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
-  };
-}
-
-/** The type of managed identity. */
-export enum KnownManagedServiceIdentitySelectorType {
-  /** System Assigned Identity. */
-  SystemAssignedIdentity = "SystemAssignedIdentity",
-  /** User Assigned Identity. */
-  UserAssignedIdentity = "UserAssignedIdentity",
-}
-
-/**
- * The type of managed identity. \
- * {@link KnownManagedServiceIdentitySelectorType} can be used interchangeably with ManagedServiceIdentitySelectorType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SystemAssignedIdentity**: System Assigned Identity. \
- * **UserAssignedIdentity**: User Assigned Identity.
- */
-export type ManagedServiceIdentitySelectorType = string;
 
 /** NetworkDeviceRole is the device role: Example: CE | ToR. */
 export enum KnownNetworkDeviceRole {
@@ -7899,170 +6724,22 @@ export enum KnownNetworkDeviceRole {
  */
 export type NetworkDeviceRole = string;
 
-export function secretRotationStatusArrayDeserializer(result: Array<SecretRotationStatus>): any[] {
-  return result.map((item) => {
-    return secretRotationStatusDeserializer(item);
-  });
-}
-
-/** Status of a secret rotation for a device (Network Device or Terminal Server). */
-export interface SecretRotationStatus {
-  /** The date and time when the secret was last changed. */
-  readonly lastRotationTime?: Date;
-  /** Whether the device has been configured with the latest version of the secret. */
-  readonly synchronizationStatus?: SynchronizationStatus;
-  /** Reference to the currently configured version of the secret in a key vault. */
-  readonly secretArchiveReference?: SecretArchiveReference;
-  /** Identifies the secret according to its purpose. */
-  readonly secretType?: string;
-}
-
-export function secretRotationStatusDeserializer(item: any): SecretRotationStatus {
-  return {
-    lastRotationTime: !item["lastRotationTime"]
-      ? item["lastRotationTime"]
-      : new Date(item["lastRotationTime"]),
-    synchronizationStatus: item["synchronizationStatus"],
-    secretArchiveReference: !item["secretArchiveReference"]
-      ? item["secretArchiveReference"]
-      : secretArchiveReferenceDeserializer(item["secretArchiveReference"]),
-    secretType: item["secretType"],
-  };
-}
-
-/** Synchronization status of a secret or certificate for a device (Network Device or Terminal Server). Whether the device has been configured with the latest version of the secret or certificate. */
-export enum KnownSynchronizationStatus {
-  /** The device has been configured with the latest version of the secret. */
-  InSync = "InSync",
-  /**
-   * The device is being reconfigured with the latest version of the secret.
-   *
-   * While in this state, the secret archive reference may not match the secret configured on the device.
-   */
-  Synchronizing = "Synchronizing",
-  /** The device has not been configured with the latest version of the secret. */
-  OutOfSync = "OutOfSync",
-}
-
-/**
- * Synchronization status of a secret or certificate for a device (Network Device or Terminal Server). Whether the device has been configured with the latest version of the secret or certificate. \
- * {@link KnownSynchronizationStatus} can be used interchangeably with SynchronizationStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **InSync**: The device has been configured with the latest version of the secret. \
- * **Synchronizing**: The device is being reconfigured with the latest version of the secret.
- *
- * While in this state, the secret archive reference may not match the secret configured on the device. \
- * **OutOfSync**: The device has not been configured with the latest version of the secret.
- */
-export type SynchronizationStatus = string;
-
-/** A reference to a version of a secret in a key vault. */
-export interface SecretArchiveReference {
-  /** A Uniform Resource Identifier (URI) for the secret in the key vault. */
-  readonly keyVaultUri?: string;
-  /** The resource ID of the key vault containing the secret. */
-  readonly keyVaultId?: string;
-  /** The name of the secret in the key vault. */
-  readonly secretName?: string;
-  /** The version of the secret in the key vault. */
-  readonly secretVersion?: string;
-}
-
-export function secretArchiveReferenceDeserializer(item: any): SecretArchiveReference {
-  return {
-    keyVaultUri: item["keyVaultUri"],
-    keyVaultId: item["keyVaultId"],
-    secretName: item["secretName"],
-    secretVersion: item["secretVersion"],
-  };
-}
-
-export function certificateRotationStatusArrayDeserializer(
-  result: Array<CertificateRotationStatus>,
-): any[] {
-  return result.map((item) => {
-    return certificateRotationStatusDeserializer(item);
-  });
-}
-
-/** Status of a certificate rotation for a device (Network Device or Terminal Server). */
-export interface CertificateRotationStatus {
-  /** Time at which the certificate will expire, for certificates with a limited validity period. */
-  readonly expireTime?: Date;
-  /** The date and time when the certificate was last changed. */
-  readonly lastRotationTime?: Date;
-  /** Whether the device has been configured with the latest version of the certificate. */
-  readonly synchronizationStatus?: SynchronizationStatus;
-  /** Reference to the currently configured version of the certificate in a key vault. */
-  readonly certificateArchiveReference?: CertificateArchiveReference;
-  /** Identifies the certificate according to its purpose. */
-  readonly certificateType?: string;
-}
-
-export function certificateRotationStatusDeserializer(item: any): CertificateRotationStatus {
-  return {
-    expireTime: !item["expireTime"] ? item["expireTime"] : new Date(item["expireTime"]),
-    lastRotationTime: !item["lastRotationTime"]
-      ? item["lastRotationTime"]
-      : new Date(item["lastRotationTime"]),
-    synchronizationStatus: item["synchronizationStatus"],
-    certificateArchiveReference: !item["certificateArchiveReference"]
-      ? item["certificateArchiveReference"]
-      : certificateArchiveReferenceDeserializer(item["certificateArchiveReference"]),
-    certificateType: item["certificateType"],
-  };
-}
-
-/** A reference to a version of a certificate in a key vault. */
-export interface CertificateArchiveReference {
-  /** A Uniform Resource Identifier (URI) for the certificate in the key vault. */
-  readonly keyVaultUri?: string;
-  /** The resource ID of the key vault containing the certificate. */
-  readonly keyVaultId?: string;
-  /** The name of the certificate in the key vault. */
-  readonly certificateName?: string;
-  /** The version of the certificate in the key vault. */
-  readonly certificateVersion?: string;
-}
-
-export function certificateArchiveReferenceDeserializer(item: any): CertificateArchiveReference {
-  return {
-    keyVaultUri: item["keyVaultUri"],
-    keyVaultId: item["keyVaultId"],
-    certificateName: item["certificateName"],
-    certificateVersion: item["certificateVersion"],
-  };
-}
-
 /** The Network Device Patch Parameters defines the patch parameters of the resource. */
 export interface NetworkDevicePatchParameters extends TagsUpdate {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatch;
   /** Switch configuration description. */
   annotation?: string;
   /** The host name of the device. */
   hostName?: string;
   /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
   serialNumber?: string;
-  /** The selection of the managed identity to use with this storage account. The identity type must be either system assigned or user assigned. */
-  identitySelector?: IdentitySelectorPatch;
 }
 
 export function networkDevicePatchParametersSerializer(item: NetworkDevicePatchParameters): any {
   return {
     tags: item["tags"],
-    properties: areAllPropsUndefined(item, [
-      "annotation",
-      "hostName",
-      "serialNumber",
-      "identitySelector",
-    ])
+    properties: areAllPropsUndefined(item, ["annotation", "hostName", "serialNumber"])
       ? undefined
       : _networkDevicePatchParametersPropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityPatchSerializer(item["identity"]),
   };
 }
 
@@ -8074,8 +6751,6 @@ export interface NetworkDevicePatchParametersProperties {
   hostName?: string;
   /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
   serialNumber?: string;
-  /** The selection of the managed identity to use with this storage account. The identity type must be either system assigned or user assigned. */
-  identitySelector?: IdentitySelectorPatch;
 }
 
 export function networkDevicePatchParametersPropertiesSerializer(
@@ -8085,24 +6760,6 @@ export function networkDevicePatchParametersPropertiesSerializer(
     annotation: item["annotation"],
     hostName: item["hostName"],
     serialNumber: item["serialNumber"],
-    identitySelector: !item["identitySelector"]
-      ? item["identitySelector"]
-      : identitySelectorPatchSerializer(item["identitySelector"]),
-  };
-}
-
-/** IdentitySelector represents the selection of a managed identity for use. */
-export interface IdentitySelectorPatch {
-  /** The type of managed identity that is being selected. */
-  identityType?: ManagedServiceIdentitySelectorType;
-  /** The user assigned managed identity resource ID to use. Mutually exclusive with a system assigned identity type. */
-  userAssignedIdentityResourceId?: string;
-}
-
-export function identitySelectorPatchSerializer(item: IdentitySelectorPatch): any {
-  return {
-    identityType: item["identityType"],
-    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
   };
 }
 
@@ -8167,46 +6824,6 @@ export enum KnownRebootType {
  */
 export type RebootType = string;
 
-/** The current status of an refresh configuration async operation. */
-export interface NetworkDeviceRefreshConfigurationResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function networkDeviceRefreshConfigurationResponseDeserializer(
-  item: any,
-): NetworkDeviceRefreshConfigurationResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
-}
-
 /** Update the administrative state on list of resources. */
 export interface UpdateDeviceAdministrativeState extends EnableDisableOnResources {
   /** Administrative state. */
@@ -8265,94 +6882,14 @@ export enum KnownDeviceAdministrativeState {
  */
 export type DeviceAdministrativeState = string;
 
-/** Network Device Administrative State Update Response. */
-export interface NetworkDeviceUpdateAdministrativeStateResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
+/** Update version properties. */
+export interface UpdateVersion {
+  /** Specify the version. */
+  version?: string;
 }
 
-export function networkDeviceUpdateAdministrativeStateResponseDeserializer(
-  item: any,
-): NetworkDeviceUpdateAdministrativeStateResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
-}
-
-/** NetworkDevice Upgrade Request Properties. */
-export interface NetworkDeviceUpgradeRequest {
-  /** Version to which the device needs to be upgraded. */
-  version: string;
-  /** URL to the file containing Read-write configuration to be applied on the device during upgrade. */
-  rwDeviceConfigUrl?: string;
-}
-
-export function networkDeviceUpgradeRequestSerializer(item: NetworkDeviceUpgradeRequest): any {
-  return { version: item["version"], rwDeviceConfigUrl: item["rwDeviceConfigUrl"] };
-}
-
-/** Network Device Upgrade Response. */
-export interface NetworkDeviceUpgradeResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function networkDeviceUpgradeResponseDeserializer(item: any): NetworkDeviceUpgradeResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
+export function updateVersionSerializer(item: UpdateVersion): any {
+  return { version: item["version"] };
 }
 
 /** Provide the RO command */
@@ -8424,160 +6961,32 @@ export function commonPostActionResponseForDeviceROCommandsDeserializer(
 export interface DeviceRwCommand {
   /** Specify the command. */
   command?: string;
-  /** Specify the commands file URL. */
-  commandUrl?: string;
 }
 
 export function deviceRwCommandSerializer(item: DeviceRwCommand): any {
-  return { command: item["command"], commandUrl: item["commandUrl"] };
+  return { command: item["command"] };
 }
 
-/** Response body for a RunRwCommand request on a Network Device. */
-export interface NetworkDeviceRunRwCommandResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-  /** Network Device Run Rw Command Response properties. */
-  properties?: NetworkDeviceRwCommandResponseProperties;
-}
-
-export function networkDeviceRunRwCommandResponseDeserializer(
-  item: any,
-): NetworkDeviceRunRwCommandResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : networkDeviceRwCommandResponsePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Network Device Resource defines the properties of the resource. */
-export interface NetworkDeviceRwCommandResponseProperties {
+/** Common response for device Rw Commands. */
+export interface CommonPostActionResponseForDeviceRWCommands extends CommonErrorResponse {
   /** Gets the configuration state. */
   readonly configurationState?: ConfigurationState;
   /** Predefined link containing Device Rw Command output. */
   outputUrl?: string;
 }
 
-export function networkDeviceRwCommandResponsePropertiesDeserializer(
+export function commonPostActionResponseForDeviceRWCommandsDeserializer(
   item: any,
-): NetworkDeviceRwCommandResponseProperties {
+): CommonPostActionResponseForDeviceRWCommands {
   return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
     configurationState: item["configurationState"],
     outputUrl: item["outputUrl"],
   };
 }
 
-/** Response body for a ResyncPasswords request on a Network Device. */
-export interface NetworkDeviceResyncPasswordsResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function networkDeviceResyncPasswordsResponseDeserializer(
-  item: any,
-): NetworkDeviceResyncPasswordsResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
-}
-
-/** Response body for a ResyncCertificates request on a Network Fabric. */
-export interface NetworkFabricResyncCertificatesResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function networkFabricResyncCertificatesResponseDeserializer(
-  item: any,
-): NetworkFabricResyncCertificatesResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
-}
-
 /** Defines the NetworkInterface resource. */
 export interface NetworkInterface extends ProxyResource {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
   /** Switch configuration description. */
   annotation?: string;
   /** Physical Identifier of the network interface. */
@@ -8591,28 +7000,19 @@ export interface NetworkInterface extends ProxyResource {
   /** IPv6Address of the interface. */
   readonly ipv6Address?: string;
   /** Description of the interface. */
-  readonly description?: string;
+  description?: string;
   /** Additional description of the interface. */
   additionalDescription?: string;
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
-  /** Associated Network Fabric Resource ID */
-  readonly networkFabricId?: string;
   /** Provisioning state of the resource. */
   readonly provisioningState?: ProvisioningState;
   /** Administrative state of the resource. */
   readonly administrativeState?: AdministrativeState;
-  /** Configuration state of the resource. */
-  readonly configurationState?: ConfigurationState;
 }
 
 export function networkInterfaceSerializer(item: NetworkInterface): any {
-  return {
-    properties: _networkInterfacePropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
-  };
+  return { properties: _networkInterfacePropertiesSerializer(item) };
 }
 
 export function networkInterfaceDeserializer(item: any): NetworkInterface {
@@ -8624,9 +7024,6 @@ export function networkInterfaceDeserializer(item: any): NetworkInterface {
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     ..._networkInterfacePropertiesDeserializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -8643,23 +7040,23 @@ export interface NetworkInterfaceProperties extends AnnotationResource {
   /** IPv6Address of the interface. */
   readonly ipv6Address?: string;
   /** Description of the interface. */
-  readonly description?: string;
+  description?: string;
   /** Additional description of the interface. */
   additionalDescription?: string;
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
-  /** Associated Network Fabric Resource ID */
-  readonly networkFabricId?: string;
   /** Provisioning state of the resource. */
   readonly provisioningState?: ProvisioningState;
   /** Administrative state of the resource. */
   readonly administrativeState?: AdministrativeState;
-  /** Configuration state of the resource. */
-  readonly configurationState?: ConfigurationState;
 }
 
 export function networkInterfacePropertiesSerializer(item: NetworkInterfaceProperties): any {
-  return { annotation: item["annotation"], additionalDescription: item["additionalDescription"] };
+  return {
+    annotation: item["annotation"],
+    description: item["description"],
+    additionalDescription: item["additionalDescription"],
+  };
 }
 
 export function networkInterfacePropertiesDeserializer(item: any): NetworkInterfaceProperties {
@@ -8675,10 +7072,8 @@ export function networkInterfacePropertiesDeserializer(item: any): NetworkInterf
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
-    networkFabricId: item["networkFabricId"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
-    configurationState: item["configurationState"],
   };
 }
 
@@ -8702,27 +7097,26 @@ export type InterfaceType = string;
 
 /** The NetworkInterfacePatch resource definition. */
 export interface NetworkInterfacePatch {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatch;
   /** Switch configuration description. */
   annotation?: string;
+  /** Description of the interface. */
+  description?: string;
   /** Additional description of the interface. */
   additionalDescription?: string;
 }
 
 export function networkInterfacePatchSerializer(item: NetworkInterfacePatch): any {
   return {
-    properties: areAllPropsUndefined(item, ["annotation", "additionalDescription"])
+    properties: areAllPropsUndefined(item, ["annotation", "description", "additionalDescription"])
       ? undefined
       : _networkInterfacePatchPropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityPatchSerializer(item["identity"]),
   };
 }
 
 /** Network Interface Patch properties. */
 export interface NetworkInterfacePatchProperties extends AnnotationResource {
+  /** Description of the interface. */
+  description?: string;
   /** Additional description of the interface. */
   additionalDescription?: string;
 }
@@ -8730,7 +7124,11 @@ export interface NetworkInterfacePatchProperties extends AnnotationResource {
 export function networkInterfacePatchPropertiesSerializer(
   item: NetworkInterfacePatchProperties,
 ): any {
-  return { annotation: item["annotation"], additionalDescription: item["additionalDescription"] };
+  return {
+    annotation: item["annotation"],
+    description: item["description"],
+    additionalDescription: item["additionalDescription"],
+  };
 }
 
 /** Paged collection of NetworkInterface items */
@@ -8762,8 +7160,6 @@ export function networkInterfaceArrayDeserializer(result: Array<NetworkInterface
 
 /** The Network Fabric Controller resource definition. */
 export interface NetworkFabricController extends TrackedResource {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
   /** Switch configuration description. */
   annotation?: string;
   /** As part of an update, the Infrastructure ExpressRoute CircuitID should be provided to create and Provision a NFC. This Express route is dedicated for Infrastructure services. (This is a Mandatory attribute) */
@@ -8799,9 +7195,6 @@ export function networkFabricControllerSerializer(item: NetworkFabricController)
     tags: item["tags"],
     location: item["location"],
     properties: _networkFabricControllerPropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -8818,9 +7211,6 @@ export function networkFabricControllerDeserializer(item: any): NetworkFabricCon
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     ..._networkFabricControllerPropertiesDeserializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -9051,8 +7441,6 @@ export type NfcSku = string;
 
 /** The Network Fabric Controller Patch payload definition. */
 export interface NetworkFabricControllerPatch extends TagsUpdate {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatch;
   /** As part of an update, the Infrastructure ExpressRoute CircuitID should be provided to create and Provision a NFC. This Express route is dedicated for Infrastructure services. (This is a Mandatory attribute) */
   infrastructureExpressRouteConnections?: ExpressRouteConnectionInformation[];
   /** As part of an update, the workload ExpressRoute CircuitID should be provided to create and Provision a NFC. This Express route is dedicated for Workload services. (This is a Mandatory attribute). */
@@ -9068,9 +7456,6 @@ export function networkFabricControllerPatchSerializer(item: NetworkFabricContro
     ])
       ? undefined
       : _networkFabricControllerPatchPropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityPatchSerializer(item["identity"]),
   };
 }
 
@@ -9270,8 +7655,8 @@ export interface NetworkFabric extends TrackedResource {
   hardwareAlertThreshold?: number;
   /** Control Plane Access Control List ARM resource IDs. */
   controlPlaneAcls?: string[];
-  /** NetworkFabric feature flag configuration information */
-  featureFlags?: FeatureFlagProperties[];
+  /** Feature flag status information */
+  readonly featureFlags?: FeatureFlagProperties[];
   /** Trusted IP Prefixes ARM resource IDs. */
   trustedIpPrefixes?: string[];
   /** Unique Route Distinguisher configuration */
@@ -9280,20 +7665,14 @@ export interface NetworkFabric extends TrackedResource {
   storageArrayCount?: number;
   /** Active commit batch identifiers */
   readonly activeCommitBatches?: string[];
-  /** Overview of secret rotation for the Network Fabric. */
-  readonly secretRotationSummary?: SecretRotationSummary;
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
-  /** Authorized transciever configuration for NetworkFabric. */
-  authorizedTransceiver?: AuthorizedTransceiverProperties;
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
   /** Provides you the latest status of the NFC service, whether it is Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on the status of NFC provisioning. */
   readonly provisioningState?: ProvisioningState;
   /** Administrative state of the resource. */
   readonly administrativeState?: AdministrativeState;
-  /** NetworkFabric QoS Configuration */
-  qosConfiguration?: QosProperties;
 }
 
 export function networkFabricSerializer(item: NetworkFabric): any {
@@ -9364,8 +7743,8 @@ export interface NetworkFabricProperties extends AnnotationResource {
   hardwareAlertThreshold?: number;
   /** Control Plane Access Control List ARM resource IDs. */
   controlPlaneAcls?: string[];
-  /** NetworkFabric feature flag configuration information */
-  featureFlags?: FeatureFlagProperties[];
+  /** Feature flag status information */
+  readonly featureFlags?: FeatureFlagProperties[];
   /** Trusted IP Prefixes ARM resource IDs. */
   trustedIpPrefixes?: string[];
   /** Unique Route Distinguisher configuration */
@@ -9374,20 +7753,14 @@ export interface NetworkFabricProperties extends AnnotationResource {
   storageArrayCount?: number;
   /** Active commit batch identifiers */
   readonly activeCommitBatches?: string[];
-  /** Overview of secret rotation for the Network Fabric. */
-  readonly secretRotationSummary?: SecretRotationSummary;
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
-  /** Authorized transciever configuration for NetworkFabric. */
-  authorizedTransceiver?: AuthorizedTransceiverProperties;
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
   /** Provides you the latest status of the NFC service, whether it is Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on the status of NFC provisioning. */
   readonly provisioningState?: ProvisioningState;
   /** Administrative state of the resource. */
   readonly administrativeState?: AdministrativeState;
-  /** NetworkFabric QoS Configuration */
-  qosConfiguration?: QosProperties;
 }
 
 export function networkFabricPropertiesSerializer(item: NetworkFabricProperties): any {
@@ -9416,9 +7789,6 @@ export function networkFabricPropertiesSerializer(item: NetworkFabricProperties)
       : item["controlPlaneAcls"].map((p: any) => {
           return p;
         }),
-    featureFlags: !item["featureFlags"]
-      ? item["featureFlags"]
-      : featureFlagPropertiesArraySerializer(item["featureFlags"]),
     trustedIpPrefixes: !item["trustedIpPrefixes"]
       ? item["trustedIpPrefixes"]
       : item["trustedIpPrefixes"].map((p: any) => {
@@ -9428,12 +7798,6 @@ export function networkFabricPropertiesSerializer(item: NetworkFabricProperties)
       ? item["uniqueRdConfiguration"]
       : uniqueRouteDistinguisherPropertiesSerializer(item["uniqueRdConfiguration"]),
     storageArrayCount: item["storageArrayCount"],
-    authorizedTransceiver: !item["authorizedTransceiver"]
-      ? item["authorizedTransceiver"]
-      : authorizedTransceiverPropertiesSerializer(item["authorizedTransceiver"]),
-    qosConfiguration: !item["qosConfiguration"]
-      ? item["qosConfiguration"]
-      : qosPropertiesSerializer(item["qosConfiguration"]),
   };
 }
 
@@ -9503,21 +7867,12 @@ export function networkFabricPropertiesDeserializer(item: any): NetworkFabricPro
       : item["activeCommitBatches"].map((p: any) => {
           return p;
         }),
-    secretRotationSummary: !item["secretRotationSummary"]
-      ? item["secretRotationSummary"]
-      : secretRotationSummaryDeserializer(item["secretRotationSummary"]),
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
-    authorizedTransceiver: !item["authorizedTransceiver"]
-      ? item["authorizedTransceiver"]
-      : authorizedTransceiverPropertiesDeserializer(item["authorizedTransceiver"]),
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
-    qosConfiguration: !item["qosConfiguration"]
-      ? item["qosConfiguration"]
-      : qosPropertiesDeserializer(item["qosConfiguration"]),
   };
 }
 
@@ -9546,6 +7901,46 @@ export function storageAccountConfigurationDeserializer(item: any): StorageAccou
       : identitySelectorDeserializer(item["storageAccountIdentity"]),
   };
 }
+
+/** IdentitySelector represents the selection of a managed identity for use. */
+export interface IdentitySelector {
+  /** The type of managed identity that is being selected. */
+  identityType: ManagedServiceIdentitySelectorType;
+  /** The user assigned managed identity resource ID to use. Mutually exclusive with a system assigned identity type. */
+  userAssignedIdentityResourceId?: string;
+}
+
+export function identitySelectorSerializer(item: IdentitySelector): any {
+  return {
+    identityType: item["identityType"],
+    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
+  };
+}
+
+export function identitySelectorDeserializer(item: any): IdentitySelector {
+  return {
+    identityType: item["identityType"],
+    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
+  };
+}
+
+/** The type of managed identity. */
+export enum KnownManagedServiceIdentitySelectorType {
+  /** System Assigned Identity. */
+  SystemAssignedIdentity = "SystemAssignedIdentity",
+  /** User Assigned Identity. */
+  UserAssignedIdentity = "UserAssignedIdentity",
+}
+
+/**
+ * The type of managed identity. \
+ * {@link KnownManagedServiceIdentitySelectorType} can be used interchangeably with ManagedServiceIdentitySelectorType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssignedIdentity**: System Assigned Identity. \
+ * **UserAssignedIdentity**: User Assigned Identity.
+ */
+export type ManagedServiceIdentitySelectorType = string;
 
 export function fabricLockPropertiesArrayDeserializer(result: Array<FabricLockProperties>): any[] {
   return result.map((item) => {
@@ -9622,8 +8017,6 @@ export interface TerminalServerConfiguration {
   secondaryIpv6Prefix?: string;
   /** ARM Resource ID used for the NetworkDevice. */
   readonly networkDeviceId?: string;
-  /** Secret rotation status for the terminal server's secrets. */
-  readonly secretRotationStatus?: SecretRotationStatus[];
 }
 
 export function terminalServerConfigurationSerializer(item: TerminalServerConfiguration): any {
@@ -9648,9 +8041,6 @@ export function terminalServerConfigurationDeserializer(item: any): TerminalServ
     secondaryIpv4Prefix: item["secondaryIpv4Prefix"],
     secondaryIpv6Prefix: item["secondaryIpv6Prefix"],
     networkDeviceId: item["networkDeviceId"],
-    secretRotationStatus: !item["secretRotationStatus"]
-      ? item["secretRotationStatus"]
-      : secretRotationStatusArrayDeserializer(item["secretRotationStatus"]),
   };
 }
 
@@ -9817,12 +8207,6 @@ export function vpnOptionAPropertiesDeserializer(item: any): VpnOptionAPropertie
   };
 }
 
-export function featureFlagPropertiesArraySerializer(result: Array<FeatureFlagProperties>): any[] {
-  return result.map((item) => {
-    return featureFlagPropertiesSerializer(item);
-  });
-}
-
 export function featureFlagPropertiesArrayDeserializer(
   result: Array<FeatureFlagProperties>,
 ): any[] {
@@ -9837,10 +8221,6 @@ export interface FeatureFlagProperties {
   featureFlagName?: string;
   /** Feature flag value. */
   featureFlagValue?: string;
-}
-
-export function featureFlagPropertiesSerializer(item: FeatureFlagProperties): any {
-  return { featureFlagName: item["featureFlagName"], featureFlagValue: item["featureFlagValue"] };
 }
 
 export function featureFlagPropertiesDeserializer(item: any): FeatureFlagProperties {
@@ -9919,74 +8299,80 @@ export enum KnownNNIDerivedUniqueRouteDistinguisherConfigurationState {
  */
 export type NNIDerivedUniqueRouteDistinguisherConfigurationState = string;
 
-/** Overview of secret rotation for the Network Fabric. */
-export interface SecretRotationSummary {
-  /** The number of active password sets configured on the devices. */
-  readonly activePasswordSetCount?: number;
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly tenantId?: string;
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
-export function secretRotationSummaryDeserializer(item: any): SecretRotationSummary {
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
-    activePasswordSetCount: item["activePasswordSetCount"],
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
-/** Authorized Transceiver Properties. */
-export interface AuthorizedTransceiverProperties {
-  /** Vendor of the transceiver. */
-  vendor?: string;
-  /** Key that must be configured on the fabric. */
-  key?: string;
-}
-
-export function authorizedTransceiverPropertiesSerializer(
-  item: AuthorizedTransceiverProperties,
-): any {
-  return { vendor: item["vendor"], key: item["key"] };
-}
-
-export function authorizedTransceiverPropertiesDeserializer(
-  item: any,
-): AuthorizedTransceiverProperties {
-  return {
-    vendor: item["vendor"],
-    key: item["key"],
-  };
-}
-
-/** NetworkFabric QoS Properties. */
-export interface QosProperties {
-  /** QoS configuration state. Default is Disabled. */
-  qosConfigurationState?: QosConfigurationState;
-}
-
-export function qosPropertiesSerializer(item: QosProperties): any {
-  return { qosConfigurationState: item["qosConfigurationState"] };
-}
-
-export function qosPropertiesDeserializer(item: any): QosProperties {
-  return {
-    qosConfigurationState: item["qosConfigurationState"],
-  };
-}
-
-/** NetworkFabric QoS ConfigurationState. */
-export enum KnownQosConfigurationState {
-  /** QosConfigurationState-Disabled */
-  Disabled = "Disabled",
-  /** QosConfigurationState-Enabled */
-  Enabled = "Enabled",
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export enum KnownManagedServiceIdentityType {
+  /** No managed identity. */
+  None = "None",
+  /** System assigned managed identity. */
+  SystemAssigned = "SystemAssigned",
+  /** User assigned managed identity. */
+  UserAssigned = "UserAssigned",
+  /** System and user assigned managed identity. */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
- * NetworkFabric QoS ConfigurationState. \
- * {@link KnownQosConfigurationState} can be used interchangeably with QosConfigurationState,
+ * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Disabled**: QosConfigurationState-Disabled \
- * **Enabled**: QosConfigurationState-Enabled
+ * **None**: No managed identity. \
+ * **SystemAssigned**: System assigned managed identity. \
+ * **UserAssigned**: User assigned managed identity. \
+ * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
  */
-export type QosConfigurationState = string;
+export type ManagedServiceIdentityType = string;
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
+}
+
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
+  return item;
+}
+
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+  };
+}
 
 /** Layer 3 primary and secondary IP Address prefixes. */
 export interface Layer3IpPrefixProperties {
@@ -10048,12 +8434,6 @@ export interface NetworkFabricPatch extends TagsUpdate {
   trustedIpPrefixes?: string[];
   /** Unique Route Distinguisher configuration */
   uniqueRdConfiguration?: UniqueRouteDistinguisherPatchProperties;
-  /** NetworkFabric QoS Configuration */
-  qosConfiguration?: QosPatchProperties;
-  /** NetworkFabric feature flag configuration information */
-  featureFlags?: FeatureFlagProperties[];
-  /** Authorized transciever configuration for NetworkFabric. */
-  authorizedTransceiver?: AuthorizedTransceiverPatchProperties;
 }
 
 export function networkFabricPatchSerializer(item: NetworkFabricPatch): any {
@@ -10073,9 +8453,6 @@ export function networkFabricPatchSerializer(item: NetworkFabricPatch): any {
       "controlPlaneAcls",
       "trustedIpPrefixes",
       "uniqueRdConfiguration",
-      "qosConfiguration",
-      "featureFlags",
-      "authorizedTransceiver",
     ])
       ? undefined
       : _networkFabricPatchPropertiesSerializer(item),
@@ -10113,12 +8490,6 @@ export interface NetworkFabricPatchProperties {
   trustedIpPrefixes?: string[];
   /** Unique Route Distinguisher configuration */
   uniqueRdConfiguration?: UniqueRouteDistinguisherPatchProperties;
-  /** NetworkFabric QoS Configuration */
-  qosConfiguration?: QosPatchProperties;
-  /** NetworkFabric feature flag configuration information */
-  featureFlags?: FeatureFlagProperties[];
-  /** Authorized transciever configuration for NetworkFabric. */
-  authorizedTransceiver?: AuthorizedTransceiverPatchProperties;
 }
 
 export function networkFabricPatchPropertiesSerializer(item: NetworkFabricPatchProperties): any {
@@ -10152,15 +8523,6 @@ export function networkFabricPatchPropertiesSerializer(item: NetworkFabricPatchP
     uniqueRdConfiguration: !item["uniqueRdConfiguration"]
       ? item["uniqueRdConfiguration"]
       : uniqueRouteDistinguisherPatchPropertiesSerializer(item["uniqueRdConfiguration"]),
-    qosConfiguration: !item["qosConfiguration"]
-      ? item["qosConfiguration"]
-      : qosPatchPropertiesSerializer(item["qosConfiguration"]),
-    featureFlags: !item["featureFlags"]
-      ? item["featureFlags"]
-      : featureFlagPropertiesArraySerializer(item["featureFlags"]),
-    authorizedTransceiver: !item["authorizedTransceiver"]
-      ? item["authorizedTransceiver"]
-      : authorizedTransceiverPatchPropertiesSerializer(item["authorizedTransceiver"]),
   };
 }
 
@@ -10318,6 +8680,21 @@ export function storageAccountPatchConfigurationSerializer(
   };
 }
 
+/** IdentitySelector represents the selection of a managed identity for use. */
+export interface IdentitySelectorPatch {
+  /** The type of managed identity that is being selected. */
+  identityType?: ManagedServiceIdentitySelectorType;
+  /** The user assigned managed identity resource ID to use. Mutually exclusive with a system assigned identity type. */
+  userAssignedIdentityResourceId?: string;
+}
+
+export function identitySelectorPatchSerializer(item: IdentitySelectorPatch): any {
+  return {
+    identityType: item["identityType"],
+    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
+  };
+}
+
 /** Unique Route Distinguisher configuration properties. */
 export interface UniqueRouteDistinguisherPatchProperties {
   /** Unique Route Distinguisher configuration state. Default is Enabled. */
@@ -10335,28 +8712,16 @@ export function uniqueRouteDistinguisherPatchPropertiesSerializer(
   };
 }
 
-/** NetworkFabric QoS Patch Properties. */
-export interface QosPatchProperties {
-  /** QoS configuration state. Default is Disabled. */
-  qosConfigurationState?: QosConfigurationState;
+/** The managed service identities assigned to this resource. */
+export interface ManagedServiceIdentityPatch {
+  /** The type of managed identity assigned to this resource. */
+  type?: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
-export function qosPatchPropertiesSerializer(item: QosPatchProperties): any {
-  return { qosConfigurationState: item["qosConfigurationState"] };
-}
-
-/** Authorized Transceiver Patch Properties. */
-export interface AuthorizedTransceiverPatchProperties {
-  /** Vendor of the transceiver. */
-  vendor?: string;
-  /** Key that must be configured on the fabric. */
-  key?: string;
-}
-
-export function authorizedTransceiverPatchPropertiesSerializer(
-  item: AuthorizedTransceiverPatchProperties,
-): any {
-  return { vendor: item["vendor"], key: item["key"] };
+export function managedServiceIdentityPatchSerializer(item: ManagedServiceIdentityPatch): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 /** Layer 3 primary and secondary IP Address prefixes. */
@@ -10437,16 +8802,6 @@ export enum KnownNetworkFabricUpgradeAction {
  */
 export type NetworkFabricUpgradeAction = string;
 
-/** Update version properties. */
-export interface UpdateVersion {
-  /** Specify the version. */
-  version?: string;
-}
-
-export function updateVersionSerializer(item: UpdateVersion): any {
-  return { version: item["version"] };
-}
-
 /** Validation configuration properties. */
 export interface ValidateConfigurationProperties {
   /** Validate action that to be performed */
@@ -10480,159 +8835,6 @@ export enum KnownValidateAction {
  */
 export type ValidateAction = string;
 
-/** GetTopology Response. */
-export interface GetTopologyResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-  /** Properties of the GetTopology Response. */
-  properties?: GetTopologyResponseProperties;
-}
-
-export function getTopologyResponseDeserializer(item: any): GetTopologyResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : getTopologyResponsePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Properties of the GetTopology Response. */
-export interface GetTopologyResponseProperties {
-  /** Topology JSON string. */
-  url?: string;
-}
-
-export function getTopologyResponsePropertiesDeserializer(
-  item: any,
-): GetTopologyResponseProperties {
-  return {
-    url: item["url"],
-  };
-}
-
-/** Commit Configuration Request. */
-export interface CommitConfigurationRequest {
-  /** Commit stage Action to be performed. */
-  commitStage?: CommitStage;
-  /** Commit configuration Policy. Supported policy is StageCEConfiguration, which indicates to prepare the configuration for the CE device type. */
-  commitPolicy?: CommitConfigurationPolicy;
-  /** List of ARM resource IDs of devices to be included in the commit operation. Either CE1 or CE2 is allowed. */
-  devices?: string[];
-}
-
-export function commitConfigurationRequestSerializer(item: CommitConfigurationRequest): any {
-  return {
-    commitStage: item["commitStage"],
-    commitPolicy: item["commitPolicy"],
-    devices: !item["devices"]
-      ? item["devices"]
-      : item["devices"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** Commit stage Action to be performed. */
-export enum KnownCommitStage {
-  /** CommitStage-Start indicates to prepare the device configuration for the devices which is decided by policy type */
-  Start = "Start",
-  /** CommitStage-Continue indicates to push the configuration to the devices provided. Either CE1 or CE2 is allowed */
-  Continue = "Continue",
-  /** CommitStage-Rollback indicates to revert to the previous configuration for the devices to which configuration is pushed as part of staging. */
-  Rollback = "Rollback",
-}
-
-/**
- * Commit stage Action to be performed. \
- * {@link KnownCommitStage} can be used interchangeably with CommitStage,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Start**: CommitStage-Start indicates to prepare the device configuration for the devices which is decided by policy type \
- * **Continue**: CommitStage-Continue indicates to push the configuration to the devices provided. Either CE1 or CE2 is allowed \
- * **Rollback**: CommitStage-Rollback indicates to revert to the previous configuration for the devices to which configuration is pushed as part of staging.
- */
-export type CommitStage = string;
-
-/** Indicates Commit configuration staging policy. Supported policy is StageCEConfiguration, which indicates to prepare the configuration for the CE device type. */
-export enum KnownCommitConfigurationPolicy {
-  /** CommitConfigurationPolicy-StageCEConfiguration */
-  StageCEConfiguration = "StageCEConfiguration",
-}
-
-/**
- * Indicates Commit configuration staging policy. Supported policy is StageCEConfiguration, which indicates to prepare the configuration for the CE device type. \
- * {@link KnownCommitConfigurationPolicy} can be used interchangeably with CommitConfigurationPolicy,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **StageCEConfiguration**: CommitConfigurationPolicy-StageCEConfiguration
- */
-export type CommitConfigurationPolicy = string;
-
-/** Commit Configuration Response. */
-export interface CommitConfigurationResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function commitConfigurationResponseDeserializer(item: any): CommitConfigurationResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
-}
-
 /** Commit Batch Status Request. */
 export interface CommitBatchStatusRequest {
   /** Commit Batch Identifier. If not provided, the latest commit batch status will be returned. */
@@ -10644,52 +8846,7 @@ export function commitBatchStatusRequestSerializer(item: CommitBatchStatusReques
 }
 
 /** Commit Batch Status Response. */
-export interface CommitBatchStatusOperationResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-  /** Commit Batch Status Response Properties. */
-  properties?: CommitBatchStatusResponseProperties;
-}
-
-export function commitBatchStatusOperationResponseDeserializer(
-  item: any,
-): CommitBatchStatusOperationResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : commitBatchStatusResponsePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Commit Batch Status Response Properties. */
-export interface CommitBatchStatusResponseProperties {
+export interface CommitBatchStatusResponse extends CommonErrorResponse {
   /** Commit Batch Identifier. */
   commitBatchId?: string;
   /** Commit Batch State. */
@@ -10698,10 +8855,9 @@ export interface CommitBatchStatusResponseProperties {
   commitBatchDetails?: CommitBatchDetails;
 }
 
-export function commitBatchStatusResponsePropertiesDeserializer(
-  item: any,
-): CommitBatchStatusResponseProperties {
+export function commitBatchStatusResponseDeserializer(item: any): CommitBatchStatusResponse {
   return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
     commitBatchId: item["commitBatchId"],
     commitBatchState: item["commitBatchState"],
     commitBatchDetails: !item["commitBatchDetails"]
@@ -10758,60 +8914,14 @@ export function discardCommitBatchRequestSerializer(item: DiscardCommitBatchRequ
 }
 
 /** Discard Commit Batch Response. */
-export interface DiscardCommitBatchOperationResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-  /** Discard commit batch response properties. */
-  properties?: DiscardCommitBatchResponseProperties;
-}
-
-export function discardCommitBatchOperationResponseDeserializer(
-  item: any,
-): DiscardCommitBatchOperationResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : discardCommitBatchResponsePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Discard Commit Batch Response Properties. */
-export interface DiscardCommitBatchResponseProperties {
+export interface DiscardCommitBatchResponse extends CommonErrorResponse {
   /** Commit Batch Identifier. */
   commitBatchId?: string;
 }
 
-export function discardCommitBatchResponsePropertiesDeserializer(
-  item: any,
-): DiscardCommitBatchResponseProperties {
+export function discardCommitBatchResponseDeserializer(item: any): DiscardCommitBatchResponse {
   return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
     commitBatchId: item["commitBatchId"],
   };
 }
@@ -10846,241 +8956,31 @@ export enum KnownNetworkFabricLockAction {
  */
 export type NetworkFabricLockAction = string;
 
-/** View Device Configuration Response V2. */
-export interface ViewDeviceConfigurationOperationResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-  /** View Device Configuration Response Properties. */
-  properties?: ViewDeviceConfigurationResponseProperties;
-}
-
-export function viewDeviceConfigurationOperationResponseDeserializer(
-  item: any,
-): ViewDeviceConfigurationOperationResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : viewDeviceConfigurationResponsePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** View Device Configuration Response Properties. */
-export interface ViewDeviceConfigurationResponseProperties {
+/** View Device Configuration Response. */
+export interface ViewDeviceConfigurationResponse extends CommonErrorResponse {
   /** Storage URL to the device configuration file. */
   deviceConfigurationUrl?: string;
 }
 
-export function viewDeviceConfigurationResponsePropertiesDeserializer(
+export function viewDeviceConfigurationResponseDeserializer(
   item: any,
-): ViewDeviceConfigurationResponseProperties {
+): ViewDeviceConfigurationResponse {
   return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
     deviceConfigurationUrl: item["deviceConfigurationUrl"],
   };
 }
 
-/** Arm Configuration Diff Response V2. */
-export interface ArmConfigurationDiffOperationResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-  /** Arm Configuration Diff Response Properties. */
-  properties?: ArmConfigurationDiffResponseProperties;
-}
-
-export function armConfigurationDiffOperationResponseDeserializer(
-  item: any,
-): ArmConfigurationDiffOperationResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : armConfigurationDiffResponsePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Arm Configuration Diff Response Properties. */
-export interface ArmConfigurationDiffResponseProperties {
+/** Arm Configuration Diff Response. */
+export interface ArmConfigurationDiffResponse extends CommonErrorResponse {
   /** Storage URL to the diff file. */
   configurationDiffUrl?: string;
 }
 
-export function armConfigurationDiffResponsePropertiesDeserializer(
-  item: any,
-): ArmConfigurationDiffResponseProperties {
+export function armConfigurationDiffResponseDeserializer(item: any): ArmConfigurationDiffResponse {
   return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
     configurationDiffUrl: item["configurationDiffUrl"],
-  };
-}
-
-/** Response body for a RotatePasswords request on a Network Fabric. */
-export interface NetworkFabricRotatePasswordsResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function networkFabricRotatePasswordsResponseDeserializer(
-  item: any,
-): NetworkFabricRotatePasswordsResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
-}
-
-/** Response body for a ResyncPasswords request on a Network Fabric. */
-export interface NetworkFabricResyncPasswordsResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function networkFabricResyncPasswordsResponseDeserializer(
-  item: any,
-): NetworkFabricResyncPasswordsResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
-}
-
-/** Response body for a RotateCertificates request on a Network Fabric. */
-export interface NetworkFabricRotateCertificatesResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function networkFabricRotateCertificatesResponseDeserializer(
-  item: any,
-): NetworkFabricRotateCertificatesResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
   };
 }
 
@@ -11916,15 +9816,15 @@ export function networkToNetworkInterconnectArrayDeserializer(
 }
 
 /** NNI Bidirectional Forwarding Detection (BFD) Administrative State request. */
-export interface NniUpdateBfdAdministrativeStateRequest {
+export interface NniBfdAdministrativeStateRequest {
   /** Route Type. Choose either Static or OptionA. */
   routeType?: RouteType;
   /** State. Select either enable or disable. */
   administrativeState?: BfdAdministrativeState;
 }
 
-export function nniUpdateBfdAdministrativeStateRequestSerializer(
-  item: NniUpdateBfdAdministrativeStateRequest,
+export function nniBfdAdministrativeStateRequestSerializer(
+  item: NniBfdAdministrativeStateRequest,
 ): any {
   return { routeType: item["routeType"], administrativeState: item["administrativeState"] };
 }
@@ -11948,62 +9848,18 @@ export enum KnownRouteType {
 export type RouteType = string;
 
 /** NNI Bidirectional Forwarding Detection (BFD) Administrative State response. */
-export interface NniUpdateBfdAdministrativeStateResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-  /** Properties of the NNI BFD Administrative State response. */
-  properties?: NniUpdateBfdAdministrativeStateResponseProperties;
-}
-
-export function nniUpdateBfdAdministrativeStateResponseDeserializer(
-  item: any,
-): NniUpdateBfdAdministrativeStateResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : nniUpdateBfdAdministrativeStateResponsePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** NNI Bidirectional Forwarding Detection (BFD) Update Administrative State response. */
-export interface NniUpdateBfdAdministrativeStateResponseProperties {
+export interface NniBfdAdministrativeStateResponse extends CommonErrorResponse {
   /** Route Type. Choose either Static or OptionA. */
   routeType?: RouteType;
   /** State. Select either enable or disable. */
   administrativeState?: BfdAdministrativeState;
 }
 
-export function nniUpdateBfdAdministrativeStateResponsePropertiesDeserializer(
+export function nniBfdAdministrativeStateResponseDeserializer(
   item: any,
-): NniUpdateBfdAdministrativeStateResponseProperties {
+): NniBfdAdministrativeStateResponse {
   return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
     routeType: item["routeType"],
     administrativeState: item["administrativeState"],
   };
@@ -12011,8 +9867,6 @@ export function nniUpdateBfdAdministrativeStateResponsePropertiesDeserializer(
 
 /** The NetworkPacketBroker resource definition. */
 export interface NetworkPacketBroker extends TrackedResource {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
   /** ARM resource ID of the Network Fabric. */
   networkFabricId: string;
   /** List of ARM resource IDs of Network Devices [NPB]. */
@@ -12027,8 +9881,6 @@ export interface NetworkPacketBroker extends TrackedResource {
   readonly lastOperation?: LastOperationProperties;
   /** Provisioning state of the resource. */
   readonly provisioningState?: ProvisioningState;
-  /** Configuration state of the resource. */
-  readonly configurationState?: ConfigurationState;
 }
 
 export function networkPacketBrokerSerializer(item: NetworkPacketBroker): any {
@@ -12036,9 +9888,6 @@ export function networkPacketBrokerSerializer(item: NetworkPacketBroker): any {
     tags: item["tags"],
     location: item["location"],
     properties: _networkPacketBrokerPropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -12055,9 +9904,6 @@ export function networkPacketBrokerDeserializer(item: any): NetworkPacketBroker 
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     ..._networkPacketBrokerPropertiesDeserializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -12077,8 +9923,6 @@ export interface NetworkPacketBrokerProperties {
   readonly lastOperation?: LastOperationProperties;
   /** Provisioning state of the resource. */
   readonly provisioningState?: ProvisioningState;
-  /** Configuration state of the resource. */
-  readonly configurationState?: ConfigurationState;
 }
 
 export function networkPacketBrokerPropertiesSerializer(item: NetworkPacketBrokerProperties): any {
@@ -12114,23 +9958,14 @@ export function networkPacketBrokerPropertiesDeserializer(
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
     provisioningState: item["provisioningState"],
-    configurationState: item["configurationState"],
   };
 }
 
 /** The NetworkPacketBroker patch resource definition. */
-export interface NetworkPacketBrokerPatch extends TagsUpdate {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatch;
-}
+export interface NetworkPacketBrokerPatch extends TagsUpdate {}
 
 export function networkPacketBrokerPatchSerializer(item: NetworkPacketBrokerPatch): any {
-  return {
-    tags: item["tags"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityPatchSerializer(item["identity"]),
-  };
+  return { tags: item["tags"] };
 }
 
 /** Paged collection of NetworkPacketBroker items */
@@ -12176,8 +10011,6 @@ export interface NetworkRack extends TrackedResource {
   readonly lastOperation?: LastOperationProperties;
   /** Provisioning state of the resource. */
   readonly provisioningState?: ProvisioningState;
-  /** Configuration state of the resource. */
-  readonly configurationState?: ConfigurationState;
 }
 
 export function networkRackSerializer(item: NetworkRack): any {
@@ -12216,8 +10049,6 @@ export interface NetworkRackProperties extends AnnotationResource {
   readonly lastOperation?: LastOperationProperties;
   /** Provisioning state of the resource. */
   readonly provisioningState?: ProvisioningState;
-  /** Configuration state of the resource. */
-  readonly configurationState?: ConfigurationState;
 }
 
 export function networkRackPropertiesSerializer(item: NetworkRackProperties): any {
@@ -12242,7 +10073,6 @@ export function networkRackPropertiesDeserializer(item: any): NetworkRackPropert
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
     provisioningState: item["provisioningState"],
-    configurationState: item["configurationState"],
   };
 }
 
@@ -12306,34 +10136,26 @@ export function networkRackArrayDeserializer(result: Array<NetworkRack>): any[] 
 
 /** The NetworkTapRule resource definition. */
 export interface NetworkTapRule extends TrackedResource {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
   /** Switch configuration description. */
   annotation?: string;
   /** Input method to configure Network Tap Rule. */
   configurationType: ConfigurationType;
   /** Network Tap Rules file URL. */
   tapRulesUrl?: string;
-  /** The selection of the managed identity to use with this storage account. The identity type must be either system assigned or user assigned. */
-  identitySelector?: IdentitySelector;
   /** List of match configurations. */
   matchConfigurations?: NetworkTapRuleMatchConfiguration[];
   /** List of dynamic match configurations. */
   dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
   /** The ARM resource Id of the NetworkTap. */
   readonly networkTapId?: string;
-  /** The ARM resource Id of the NetworkTap Rules. */
-  readonly networkTapIds?: string[];
   /** Polling interval in seconds. */
-  pollingIntervalInSeconds?: number;
+  pollingIntervalInSeconds?: PollingIntervalInSeconds;
   /** The last sync timestamp. */
   readonly lastSyncedTime?: Date;
   /** Global network tap rule actions */
   globalNetworkTapRuleActions?: GlobalNetworkTapRuleActionProperties;
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
-  /** Associated Network Fabric Resource IDs */
-  readonly networkFabricIds?: string[];
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
   /** Provisioning state of the resource. */
@@ -12347,9 +10169,6 @@ export function networkTapRuleSerializer(item: NetworkTapRule): any {
     tags: item["tags"],
     location: item["location"],
     properties: _networkTapRulePropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -12366,9 +10185,6 @@ export function networkTapRuleDeserializer(item: any): NetworkTapRule {
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     ..._networkTapRulePropertiesDeserializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -12380,26 +10196,20 @@ export interface NetworkTapRuleProperties {
   configurationType: ConfigurationType;
   /** Network Tap Rules file URL. */
   tapRulesUrl?: string;
-  /** The selection of the managed identity to use with this storage account. The identity type must be either system assigned or user assigned. */
-  identitySelector?: IdentitySelector;
   /** List of match configurations. */
   matchConfigurations?: NetworkTapRuleMatchConfiguration[];
   /** List of dynamic match configurations. */
   dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
   /** The ARM resource Id of the NetworkTap. */
   readonly networkTapId?: string;
-  /** The ARM resource Id of the NetworkTap Rules. */
-  readonly networkTapIds?: string[];
   /** Polling interval in seconds. */
-  pollingIntervalInSeconds?: number;
+  pollingIntervalInSeconds?: PollingIntervalInSeconds;
   /** The last sync timestamp. */
   readonly lastSyncedTime?: Date;
   /** Global network tap rule actions */
   globalNetworkTapRuleActions?: GlobalNetworkTapRuleActionProperties;
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
-  /** Associated Network Fabric Resource IDs */
-  readonly networkFabricIds?: string[];
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
   /** Provisioning state of the resource. */
@@ -12413,9 +10223,6 @@ export function networkTapRulePropertiesSerializer(item: NetworkTapRulePropertie
     annotation: item["annotation"],
     configurationType: item["configurationType"],
     tapRulesUrl: item["tapRulesUrl"],
-    identitySelector: !item["identitySelector"]
-      ? item["identitySelector"]
-      : identitySelectorSerializer(item["identitySelector"]),
     matchConfigurations: !item["matchConfigurations"]
       ? item["matchConfigurations"]
       : networkTapRuleMatchConfigurationArraySerializer(item["matchConfigurations"]),
@@ -12434,9 +10241,6 @@ export function networkTapRulePropertiesDeserializer(item: any): NetworkTapRuleP
     annotation: item["annotation"],
     configurationType: item["configurationType"],
     tapRulesUrl: item["tapRulesUrl"],
-    identitySelector: !item["identitySelector"]
-      ? item["identitySelector"]
-      : identitySelectorDeserializer(item["identitySelector"]),
     matchConfigurations: !item["matchConfigurations"]
       ? item["matchConfigurations"]
       : networkTapRuleMatchConfigurationArrayDeserializer(item["matchConfigurations"]),
@@ -12444,11 +10248,6 @@ export function networkTapRulePropertiesDeserializer(item: any): NetworkTapRuleP
       ? item["dynamicMatchConfigurations"]
       : commonDynamicMatchConfigurationArrayDeserializer(item["dynamicMatchConfigurations"]),
     networkTapId: item["networkTapId"],
-    networkTapIds: !item["networkTapIds"]
-      ? item["networkTapIds"]
-      : item["networkTapIds"].map((p: any) => {
-          return p;
-        }),
     pollingIntervalInSeconds: item["pollingIntervalInSeconds"],
     lastSyncedTime: !item["lastSyncedTime"]
       ? item["lastSyncedTime"]
@@ -12459,11 +10258,6 @@ export function networkTapRulePropertiesDeserializer(item: any): NetworkTapRuleP
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
-    networkFabricIds: !item["networkFabricIds"]
-      ? item["networkFabricIds"]
-      : item["networkFabricIds"].map((p: any) => {
-          return p;
-        }),
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
@@ -12693,6 +10487,30 @@ export enum KnownTapRuleActionType {
  */
 export type TapRuleActionType = string;
 
+/** Polling interval in seconds. */
+export enum KnownPollingIntervalInSeconds {
+  /** 30 PollingIntervalInSeconds */
+  Thirty = 30,
+  /** 60 PollingIntervalInSeconds */
+  Sixty = 60,
+  /** 90 PollingIntervalInSeconds */
+  Ninety = 90,
+  /** 120 PollingIntervalInSeconds */
+  OneTwenty = 120,
+}
+
+/**
+ * Polling interval in seconds. \
+ * {@link KnownPollingIntervalInSeconds} can be used interchangeably with PollingIntervalInSeconds,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **30**: 30 PollingIntervalInSeconds \
+ * **60**: 60 PollingIntervalInSeconds \
+ * **90**: 90 PollingIntervalInSeconds \
+ * **120**: 120 PollingIntervalInSeconds
+ */
+export type PollingIntervalInSeconds = number;
+
 /** Global network tap rule actions properties */
 export interface GlobalNetworkTapRuleActionProperties {
   /** Configuration to enable network tap rule counter. */
@@ -12718,8 +10536,6 @@ export function globalNetworkTapRuleActionPropertiesDeserializer(
 
 /** The NetworkTapRule resource definition. */
 export interface NetworkTapRulePatch extends TagsUpdate {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatch;
   /** Switch configuration description. */
   annotation?: string;
   /** Input method to configure Network Tap Rule. */
@@ -12730,8 +10546,6 @@ export interface NetworkTapRulePatch extends TagsUpdate {
   matchConfigurations?: NetworkTapRuleMatchConfigurationPatch[];
   /** List of dynamic match configurations. */
   dynamicMatchConfigurations?: CommonDynamicMatchConfigurationPatch[];
-  /** The selection of the managed identity to use with this storage account. The identity type must be either system assigned or user assigned. */
-  identitySelector?: IdentitySelectorPatch;
   /** Global network tap rule actions */
   globalNetworkTapRuleActions?: GlobalNetworkTapRuleActionPatchProperties;
 }
@@ -12745,14 +10559,10 @@ export function networkTapRulePatchSerializer(item: NetworkTapRulePatch): any {
       "tapRulesUrl",
       "matchConfigurations",
       "dynamicMatchConfigurations",
-      "identitySelector",
       "globalNetworkTapRuleActions",
     ])
       ? undefined
       : _networkTapRulePatchPropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityPatchSerializer(item["identity"]),
   };
 }
 
@@ -12768,8 +10578,6 @@ export interface NetworkTapRulePatchProperties {
   matchConfigurations?: NetworkTapRuleMatchConfigurationPatch[];
   /** List of dynamic match configurations. */
   dynamicMatchConfigurations?: CommonDynamicMatchConfigurationPatch[];
-  /** The selection of the managed identity to use with this storage account. The identity type must be either system assigned or user assigned. */
-  identitySelector?: IdentitySelectorPatch;
   /** Global network tap rule actions */
   globalNetworkTapRuleActions?: GlobalNetworkTapRuleActionPatchProperties;
 }
@@ -12785,9 +10593,6 @@ export function networkTapRulePatchPropertiesSerializer(item: NetworkTapRulePatc
     dynamicMatchConfigurations: !item["dynamicMatchConfigurations"]
       ? item["dynamicMatchConfigurations"]
       : commonDynamicMatchConfigurationPatchArraySerializer(item["dynamicMatchConfigurations"]),
-    identitySelector: !item["identitySelector"]
-      ? item["identitySelector"]
-      : identitySelectorPatchSerializer(item["identitySelector"]),
     globalNetworkTapRuleActions: !item["globalNetworkTapRuleActions"]
       ? item["globalNetworkTapRuleActions"]
       : globalNetworkTapRuleActionPatchPropertiesSerializer(item["globalNetworkTapRuleActions"]),
@@ -12943,56 +10748,14 @@ export function networkTapRuleArrayDeserializer(result: Array<NetworkTapRule>): 
   });
 }
 
-/** Response for Network Tap Rule resync operation. */
-export interface NetworkTapRuleResyncResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function networkTapRuleResyncResponseDeserializer(item: any): NetworkTapRuleResyncResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
-}
-
 /** The Network Tap resource definition. */
 export interface NetworkTap extends TrackedResource {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
   /** Switch configuration description. */
   annotation?: string;
   /** ARM resource ID of the Network Packet Broker. */
   networkPacketBrokerId: string;
   /** Source Tap Rule Id. ARM Resource ID of the Network Tap Rule. */
   readonly sourceTapRuleId?: string;
-  /** Associated Network Fabric Resource IDs */
-  readonly networkFabricIds?: string[];
   /** List of destinations to send the filter traffic. */
   destinations: DestinationProperties[];
   /** Polling type. */
@@ -13012,9 +10775,6 @@ export function networkTapSerializer(item: NetworkTap): any {
     tags: item["tags"],
     location: item["location"],
     properties: _networkTapPropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -13031,9 +10791,6 @@ export function networkTapDeserializer(item: any): NetworkTap {
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     ..._networkTapPropertiesDeserializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -13043,8 +10800,6 @@ export interface NetworkTapProperties extends AnnotationResource {
   networkPacketBrokerId: string;
   /** Source Tap Rule Id. ARM Resource ID of the Network Tap Rule. */
   readonly sourceTapRuleId?: string;
-  /** Associated Network Fabric Resource IDs */
-  readonly networkFabricIds?: string[];
   /** List of destinations to send the filter traffic. */
   destinations: DestinationProperties[];
   /** Polling type. */
@@ -13073,11 +10828,6 @@ export function networkTapPropertiesDeserializer(item: any): NetworkTapPropertie
     annotation: item["annotation"],
     networkPacketBrokerId: item["networkPacketBrokerId"],
     sourceTapRuleId: item["sourceTapRuleId"],
-    networkFabricIds: !item["networkFabricIds"]
-      ? item["networkFabricIds"]
-      : item["networkFabricIds"].map((p: any) => {
-          return p;
-        }),
     destinations: destinationPropertiesArrayDeserializer(item["destinations"]),
     pollingType: item["pollingType"],
     lastOperation: !item["lastOperation"]
@@ -13227,8 +10977,6 @@ export type PollingType = string;
 
 /** The NetworkFabric resource definition. */
 export interface NetworkTapPatch extends TagsUpdate {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatch;
   /** Switch configuration description. */
   annotation?: string;
   /** Polling type. */
@@ -13243,9 +10991,6 @@ export function networkTapPatchSerializer(item: NetworkTapPatch): any {
     properties: areAllPropsUndefined(item, ["annotation", "pollingType", "destinations"])
       ? undefined
       : _networkTapPatchPropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityPatchSerializer(item["identity"]),
   };
 }
 
@@ -13347,44 +11092,6 @@ export function networkTapArrayDeserializer(result: Array<NetworkTap>): any[] {
   return result.map((item) => {
     return networkTapDeserializer(item);
   });
-}
-
-/** Response for NetworkTap Resync operation. */
-export interface NetworkTapResyncResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function networkTapResyncResponseDeserializer(item: any): NetworkTapResyncResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
 }
 
 /** The RoutePolicy resource definition. */
@@ -14070,8 +11777,6 @@ export interface BmpConfigurationProperties {
   monitoredNetworks?: string[];
   /** Export Policy for the BMP Configuration. */
   exportPolicy?: BmpExportPolicy;
-  /** Export Policy configuration properties for the BMP. */
-  exportPolicyConfiguration?: BmpExportPolicyProperties;
   /** Monitored Address Families for the BMP Configuration. */
   monitoredAddressFamilies?: BmpMonitoredAddressFamily[];
 }
@@ -14094,9 +11799,6 @@ export function bmpConfigurationPropertiesSerializer(item: BmpConfigurationPrope
           return p;
         }),
     exportPolicy: item["exportPolicy"],
-    exportPolicyConfiguration: !item["exportPolicyConfiguration"]
-      ? item["exportPolicyConfiguration"]
-      : bmpExportPolicyPropertiesSerializer(item["exportPolicyConfiguration"]),
     monitoredAddressFamilies: !item["monitoredAddressFamilies"]
       ? item["monitoredAddressFamilies"]
       : item["monitoredAddressFamilies"].map((p: any) => {
@@ -14123,9 +11825,6 @@ export function bmpConfigurationPropertiesDeserializer(item: any): BmpConfigurat
           return p;
         }),
     exportPolicy: item["exportPolicy"],
-    exportPolicyConfiguration: !item["exportPolicyConfiguration"]
-      ? item["exportPolicyConfiguration"]
-      : bmpExportPolicyPropertiesDeserializer(item["exportPolicyConfiguration"]),
     monitoredAddressFamilies: !item["monitoredAddressFamilies"]
       ? item["monitoredAddressFamilies"]
       : item["monitoredAddressFamilies"].map((p: any) => {
@@ -14195,6 +11894,27 @@ export function stationConnectionPropertiesDeserializer(item: any): StationConne
     probeCount: item["probeCount"],
   };
 }
+
+/** Export Policy for the BGP Monitoring Protocol (BMP) Configuration. */
+export enum KnownBmpExportPolicy {
+  /** BMP ExportPolicy Pre-Policy */
+  PrePolicy = "Pre-Policy",
+  /** BMP ExportPolicy Post-Policy */
+  PostPolicy = "Post-Policy",
+  /** BMP ExportPolicy All */
+  All = "All",
+}
+
+/**
+ * Export Policy for the BGP Monitoring Protocol (BMP) Configuration. \
+ * {@link KnownBmpExportPolicy} can be used interchangeably with BmpExportPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pre-Policy**: BMP ExportPolicy Pre-Policy \
+ * **Post-Policy**: BMP ExportPolicy Post-Policy \
+ * **All**: BMP ExportPolicy All
+ */
+export type BmpExportPolicy = string;
 
 /** Monitored Address Family. */
 export enum KnownBmpMonitoredAddressFamily {
@@ -14274,8 +11994,6 @@ export interface BmpConfigurationPatchProperties {
   monitoredNetworks?: string[];
   /** Export Policy for the BMP Configuration. */
   exportPolicy?: BmpExportPolicy;
-  /** Export Policy configuration properties for the BMP. */
-  exportPolicyConfiguration?: BmpExportPolicyPatchProperties;
   /** Monitored Address Families for the BMP Configuration. */
   monitoredAddressFamilies?: BmpMonitoredAddressFamily[];
 }
@@ -14300,9 +12018,6 @@ export function bmpConfigurationPatchPropertiesSerializer(
           return p;
         }),
     exportPolicy: item["exportPolicy"],
-    exportPolicyConfiguration: !item["exportPolicyConfiguration"]
-      ? item["exportPolicyConfiguration"]
-      : bmpExportPolicyPatchPropertiesSerializer(item["exportPolicyConfiguration"]),
     monitoredAddressFamilies: !item["monitoredAddressFamilies"]
       ? item["monitoredAddressFamilies"]
       : item["monitoredAddressFamilies"].map((p: any) => {
@@ -14358,614 +12073,12 @@ export function networkMonitorArrayDeserializer(result: Array<NetworkMonitor>): 
   });
 }
 
-/** Common response for device updates. */
-export interface CommonPostActionResponseForDeviceUpdate extends CommonErrorResponse {
-  /** Gets the configuration state. */
-  readonly configurationState?: ConfigurationState;
-  /** List of ARM Resource IDs for which the given action applied successfully. */
-  successfulDevices?: string[];
-  /** List of ARM Resource IDs for which the given action failed to apply. */
-  failedDevices?: string[];
-}
-
-export function commonPostActionResponseForDeviceUpdateDeserializer(
-  item: any,
-): CommonPostActionResponseForDeviceUpdate {
-  return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    configurationState: item["configurationState"],
-    successfulDevices: !item["successfulDevices"]
-      ? item["successfulDevices"]
-      : item["successfulDevices"].map((p: any) => {
-          return p;
-        }),
-    failedDevices: !item["failedDevices"]
-      ? item["failedDevices"]
-      : item["failedDevices"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** The Network Bootstrap Device resource definition. */
-export interface NetworkBootstrapDevice extends TrackedResource {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
-  /** Switch configuration description. */
-  annotation?: string;
-  /** The host name of the device. */
-  hostName?: string;
-  /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
-  serialNumber?: string;
-  /** Current version of the device as defined in SKU. */
-  readonly version?: string;
-  /** Network Bootstrap Device SKU name. */
-  networkDeviceSku?: string;
-  /** Associated Network Fabric Resource ID */
-  readonly networkFabricId?: string;
-  /** Secondary Management IPv4 Address. */
-  readonly secondaryManagementIpv4Address?: string;
-  /** Dhcp server IPv4 Address. */
-  readonly dhcpV4ServerIpAddress?: string;
-  /** Primary Management IPv6 Address. */
-  readonly primaryManagementIpv6Address?: string;
-  /** Secondary Management IPv6 Address. */
-  readonly secondaryManagementIpv6Address?: string;
-  /** Provisioning state of the resource. */
-  readonly provisioningState?: ProvisioningState;
-  /** Primary Management IPv4 Address. */
-  readonly primaryManagementIpv4Address?: string;
-  /** Administrative state of the resource. */
-  readonly administrativeState?: AdministrativeState;
-  /** Configuration state of the resource. */
-  readonly configurationState?: ConfigurationState;
-}
-
-export function networkBootstrapDeviceSerializer(item: NetworkBootstrapDevice): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: _networkBootstrapDevicePropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
-  };
-}
-
-export function networkBootstrapDeviceDeserializer(item: any): NetworkBootstrapDevice {
-  return {
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ..._networkBootstrapDevicePropertiesDeserializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
-  };
-}
-
-/** Network Bootstrap Device Properties defines the properties of the resource. */
-export interface NetworkBootstrapDeviceProperties {
-  /** Switch configuration description. */
-  annotation?: string;
-  /** The host name of the device. */
-  hostName?: string;
-  /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
-  serialNumber?: string;
-  /** Current version of the device as defined in SKU. */
-  readonly version?: string;
-  /** Network Bootstrap Device SKU name. */
-  networkDeviceSku?: string;
-  /** Associated Network Fabric Resource ID */
-  readonly networkFabricId?: string;
-  /** Secondary Management IPv4 Address. */
-  readonly secondaryManagementIpv4Address?: string;
-  /** Dhcp server IPv4 Address. */
-  readonly dhcpV4ServerIpAddress?: string;
-  /** Primary Management IPv6 Address. */
-  readonly primaryManagementIpv6Address?: string;
-  /** Secondary Management IPv6 Address. */
-  readonly secondaryManagementIpv6Address?: string;
-  /** Provisioning state of the resource. */
-  readonly provisioningState?: ProvisioningState;
-  /** Primary Management IPv4 Address. */
-  readonly primaryManagementIpv4Address?: string;
-  /** Administrative state of the resource. */
-  readonly administrativeState?: AdministrativeState;
-  /** Configuration state of the resource. */
-  readonly configurationState?: ConfigurationState;
-}
-
-export function networkBootstrapDevicePropertiesSerializer(
-  item: NetworkBootstrapDeviceProperties,
-): any {
-  return {
-    annotation: item["annotation"],
-    hostName: item["hostName"],
-    serialNumber: item["serialNumber"],
-    networkDeviceSku: item["networkDeviceSku"],
-  };
-}
-
-export function networkBootstrapDevicePropertiesDeserializer(
-  item: any,
-): NetworkBootstrapDeviceProperties {
-  return {
-    annotation: item["annotation"],
-    hostName: item["hostName"],
-    serialNumber: item["serialNumber"],
-    version: item["version"],
-    networkDeviceSku: item["networkDeviceSku"],
-    networkFabricId: item["networkFabricId"],
-    secondaryManagementIpv4Address: item["secondaryManagementIpv4Address"],
-    dhcpV4ServerIpAddress: item["dhcpV4ServerIpAddress"],
-    primaryManagementIpv6Address: item["primaryManagementIpv6Address"],
-    secondaryManagementIpv6Address: item["secondaryManagementIpv6Address"],
-    provisioningState: item["provisioningState"],
-    primaryManagementIpv4Address: item["primaryManagementIpv4Address"],
-    administrativeState: item["administrativeState"],
-    configurationState: item["configurationState"],
-  };
-}
-
-/** The Network Bootstrap Device Patch Parameters defines the patch parameters of the resource. */
-export interface NetworkBootstrapDevicePatch extends TagsUpdate {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatch;
-  /** Switch configuration description. */
-  annotation?: string;
-  /** The host name of the device. */
-  hostName?: string;
-  /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
-  serialNumber?: string;
-}
-
-export function networkBootstrapDevicePatchSerializer(item: NetworkBootstrapDevicePatch): any {
-  return {
-    tags: item["tags"],
-    properties: areAllPropsUndefined(item, ["annotation", "hostName", "serialNumber"])
-      ? undefined
-      : _networkBootstrapDevicePatchPropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityPatchSerializer(item["identity"]),
-  };
-}
-
-/** Network Bootstrap Device Patch properties. */
-export interface NetworkBootstrapDevicePatchProperties {
-  /** Switch configuration description. */
-  annotation?: string;
-  /** The host name of the device. */
-  hostName?: string;
-  /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
-  serialNumber?: string;
-}
-
-export function networkBootstrapDevicePatchPropertiesSerializer(
-  item: NetworkBootstrapDevicePatchProperties,
-): any {
-  return {
-    annotation: item["annotation"],
-    hostName: item["hostName"],
-    serialNumber: item["serialNumber"],
-  };
-}
-
-/** The response of a NetworkBootstrapDevice list operation. */
-export interface _NetworkBootstrapDeviceListResult {
-  /** The NetworkBootstrapDevice items on this page */
-  value: NetworkBootstrapDevice[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _networkBootstrapDeviceListResultDeserializer(
-  item: any,
-): _NetworkBootstrapDeviceListResult {
-  return {
-    value: networkBootstrapDeviceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function networkBootstrapDeviceArraySerializer(
-  result: Array<NetworkBootstrapDevice>,
-): any[] {
-  return result.map((item) => {
-    return networkBootstrapDeviceSerializer(item);
-  });
-}
-
-export function networkBootstrapDeviceArrayDeserializer(
-  result: Array<NetworkBootstrapDevice>,
-): any[] {
-  return result.map((item) => {
-    return networkBootstrapDeviceDeserializer(item);
-  });
-}
-
-/** Network Bootstrap Device reboot Response. */
-export interface NetworkBootstrapDeviceRebootResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function networkBootstrapDeviceRebootResponseDeserializer(
-  item: any,
-): NetworkBootstrapDeviceRebootResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
-}
-
-/** The current status of an refresh configuration async operation. */
-export interface NetworkBootstrapDeviceRefreshConfigurationResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function networkBootstrapDeviceRefreshConfigurationResponseDeserializer(
-  item: any,
-): NetworkBootstrapDeviceRefreshConfigurationResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
-}
-
-/** Network Bootstrap Device upgrade Response. */
-export interface NetworkBootstrapDeviceUpgradeResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function networkBootstrapDeviceUpgradeResponseDeserializer(
-  item: any,
-): NetworkBootstrapDeviceUpgradeResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
-}
-
-/** Network Bootstrap Device Administrative State Update Response. */
-export interface NetworkBootstrapDeviceUpdateAdministrativeStateResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function networkBootstrapDeviceUpdateAdministrativeStateResponseDeserializer(
-  item: any,
-): NetworkBootstrapDeviceUpdateAdministrativeStateResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
-}
-
-/** Response body for a ResyncPasswords request on a Network Bootstrap Device. */
-export interface NetworkBootstrapDeviceResyncPasswordsResponse {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function networkBootstrapDeviceResyncPasswordsResponseDeserializer(
-  item: any,
-): NetworkBootstrapDeviceResyncPasswordsResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
-}
-
-/** Defines the NetworkBootstrapInterface resource. */
-export interface NetworkBootstrapInterface extends ProxyResource {
-  /** Switch configuration description. */
-  annotation?: string;
-  /** Provisioning state of the resource. */
-  readonly provisioningState?: ProvisioningState;
-  /** Administrative state of the resource. */
-  readonly administrativeState?: AdministrativeState;
-  /** Configuration state of the resource. */
-  readonly configurationState?: ConfigurationState;
-  /** Physical identifier of the device. */
-  readonly physicalIdentifier?: string;
-  /** Connected to information of the device. */
-  readonly connectedTo?: string;
-  /** Type of the interface. */
-  readonly interfaceType?: InterfaceType;
-  /** Description of the interface. */
-  readonly description?: string;
-  /** Additional description of the interface. */
-  additionalDescription?: string;
-  /** IPv4Address of the interface. */
-  readonly ipv4Address?: string;
-  /** IPv6Address of the interface. */
-  readonly ipv6Address?: string;
-  /** Serial number of the interface. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
-  serialNumber?: string;
-}
-
-export function networkBootstrapInterfaceSerializer(item: NetworkBootstrapInterface): any {
-  return { properties: _networkBootstrapInterfacePropertiesSerializer(item) };
-}
-
-export function networkBootstrapInterfaceDeserializer(item: any): NetworkBootstrapInterface {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ..._networkBootstrapInterfacePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Network Bootstrap Interface Properties defines the properties of the resource. */
-export interface NetworkBootstrapInterfaceProperties extends AnnotationResource {
-  /** Provisioning state of the resource. */
-  readonly provisioningState?: ProvisioningState;
-  /** Administrative state of the resource. */
-  readonly administrativeState?: AdministrativeState;
-  /** Configuration state of the resource. */
-  readonly configurationState?: ConfigurationState;
-  /** Physical identifier of the device. */
-  readonly physicalIdentifier?: string;
-  /** Connected to information of the device. */
-  readonly connectedTo?: string;
-  /** Type of the interface. */
-  readonly interfaceType?: InterfaceType;
-  /** Description of the interface. */
-  readonly description?: string;
-  /** Additional description of the interface. */
-  additionalDescription?: string;
-  /** IPv4Address of the interface. */
-  readonly ipv4Address?: string;
-  /** IPv6Address of the interface. */
-  readonly ipv6Address?: string;
-  /** Serial number of the interface. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
-  serialNumber?: string;
-}
-
-export function networkBootstrapInterfacePropertiesSerializer(
-  item: NetworkBootstrapInterfaceProperties,
-): any {
-  return {
-    annotation: item["annotation"],
-    additionalDescription: item["additionalDescription"],
-    serialNumber: item["serialNumber"],
-  };
-}
-
-export function networkBootstrapInterfacePropertiesDeserializer(
-  item: any,
-): NetworkBootstrapInterfaceProperties {
-  return {
-    annotation: item["annotation"],
-    provisioningState: item["provisioningState"],
-    administrativeState: item["administrativeState"],
-    configurationState: item["configurationState"],
-    physicalIdentifier: item["physicalIdentifier"],
-    connectedTo: item["connectedTo"],
-    interfaceType: item["interfaceType"],
-    description: item["description"],
-    additionalDescription: item["additionalDescription"],
-    ipv4Address: item["ipv4Address"],
-    ipv6Address: item["ipv6Address"],
-    serialNumber: item["serialNumber"],
-  };
-}
-
-/** The NetworkBootstrapInterfacePatch resource definition. */
-export interface NetworkBootstrapInterfacePatch {
-  /** Switch configuration description. */
-  annotation?: string;
-  /** Serial number of the interface. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
-  serialNumber?: string;
-  /** Additional description of the interface. */
-  additionalDescription?: string;
-}
-
-export function networkBootstrapInterfacePatchSerializer(
-  item: NetworkBootstrapInterfacePatch,
-): any {
-  return {
-    properties: areAllPropsUndefined(item, ["annotation", "serialNumber", "additionalDescription"])
-      ? undefined
-      : _networkBootstrapInterfacePatchPropertiesSerializer(item),
-  };
-}
-
-/** Network Bootstrap Interface Patch properties. */
-export interface NetworkBootstrapInterfacePatchProperties extends AnnotationResource {
-  /** Serial number of the interface. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
-  serialNumber?: string;
-  /** Additional description of the interface. */
-  additionalDescription?: string;
-}
-
-export function networkBootstrapInterfacePatchPropertiesSerializer(
-  item: NetworkBootstrapInterfacePatchProperties,
-): any {
-  return {
-    annotation: item["annotation"],
-    serialNumber: item["serialNumber"],
-    additionalDescription: item["additionalDescription"],
-  };
-}
-
-/** The response of a NetworkBootstrapInterface list operation. */
-export interface _NetworkBootstrapInterfaceListResult {
-  /** The NetworkBootstrapInterface items on this page */
-  value: NetworkBootstrapInterface[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _networkBootstrapInterfaceListResultDeserializer(
-  item: any,
-): _NetworkBootstrapInterfaceListResult {
-  return {
-    value: networkBootstrapInterfaceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function networkBootstrapInterfaceArraySerializer(
-  result: Array<NetworkBootstrapInterface>,
-): any[] {
-  return result.map((item) => {
-    return networkBootstrapInterfaceSerializer(item);
-  });
-}
-
-export function networkBootstrapInterfaceArrayDeserializer(
-  result: Array<NetworkBootstrapInterface>,
-): any[] {
-  return result.map((item) => {
-    return networkBootstrapInterfaceDeserializer(item);
-  });
-}
-
 /** API Versions */
 export enum KnownVersions {
-  /** 2025-07-15 */
-  V20250715 = "2025-07-15",
+  /** 2024-02-15-preview */
+  V20240215Preview = "2024-02-15-preview",
+  /** 2024-06-15-preview */
+  V20240615Preview = "2024-06-15-preview",
 }
 
 export function _accessControlListPropertiesSerializer(item: AccessControlList): any {
@@ -14985,9 +12098,6 @@ export function _accessControlListPropertiesSerializer(item: AccessControlList):
     globalAccessControlListActions: !item["globalAccessControlListActions"]
       ? item["globalAccessControlListActions"]
       : globalAccessControlListActionPropertiesSerializer(item["globalAccessControlListActions"]),
-    controlPlaneAclConfiguration: !item["controlPlaneAclConfiguration"]
-      ? item["controlPlaneAclConfiguration"]
-      : controlPlaneAclPropertiesArraySerializer(item["controlPlaneAclConfiguration"]),
   };
 }
 
@@ -15014,14 +12124,6 @@ export function _accessControlListPropertiesDeserializer(item: any) {
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
-    networkFabricIds: !item["networkFabricIds"]
-      ? item["networkFabricIds"]
-      : item["networkFabricIds"].map((p: any) => {
-          return p;
-        }),
-    controlPlaneAclConfiguration: !item["controlPlaneAclConfiguration"]
-      ? item["controlPlaneAclConfiguration"]
-      : controlPlaneAclPropertiesArrayDeserializer(item["controlPlaneAclConfiguration"]),
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
@@ -15039,9 +12141,6 @@ export function _accessControlListPatchPropertiesSerializer(item: AccessControlL
     dynamicMatchConfigurations: !item["dynamicMatchConfigurations"]
       ? item["dynamicMatchConfigurations"]
       : commonDynamicMatchConfigurationPatchArraySerializer(item["dynamicMatchConfigurations"]),
-    controlPlaneAclConfiguration: !item["controlPlaneAclConfiguration"]
-      ? item["controlPlaneAclConfiguration"]
-      : controlPlaneAclPatchPropertiesArraySerializer(item["controlPlaneAclConfiguration"]),
     aclType: item["aclType"],
     deviceRole: item["deviceRole"],
     globalAccessControlListActions: !item["globalAccessControlListActions"]
@@ -15254,15 +12353,9 @@ export function _l3IsolationDomainPropertiesSerializer(item: L3IsolationDomain):
     uniqueRdConfiguration: !item["uniqueRdConfiguration"]
       ? item["uniqueRdConfiguration"]
       : l3UniqueRouteDistinguisherPropertiesSerializer(item["uniqueRdConfiguration"]),
-    v4routePrefixLimit: !item["v4RoutePrefixLimit"]
-      ? item["v4RoutePrefixLimit"]
-      : routePrefixLimitPropertiesSerializer(item["v4RoutePrefixLimit"]),
-    v6routePrefixLimit: !item["v6RoutePrefixLimit"]
-      ? item["v6RoutePrefixLimit"]
-      : routePrefixLimitPropertiesSerializer(item["v6RoutePrefixLimit"]),
-    exportPolicyConfiguration: !item["exportPolicyConfiguration"]
-      ? item["exportPolicyConfiguration"]
-      : bmpExportPolicyPropertiesSerializer(item["exportPolicyConfiguration"]),
+    routePrefixLimit: !item["routePrefixLimit"]
+      ? item["routePrefixLimit"]
+      : routePrefixLimitPropertiesSerializer(item["routePrefixLimit"]),
   };
 }
 
@@ -15284,18 +12377,12 @@ export function _l3IsolationDomainPropertiesDeserializer(item: any) {
     uniqueRdConfiguration: !item["uniqueRdConfiguration"]
       ? item["uniqueRdConfiguration"]
       : l3UniqueRouteDistinguisherPropertiesDeserializer(item["uniqueRdConfiguration"]),
-    v4RoutePrefixLimit: !item["v4routePrefixLimit"]
-      ? item["v4routePrefixLimit"]
-      : routePrefixLimitPropertiesDeserializer(item["v4routePrefixLimit"]),
-    v6RoutePrefixLimit: !item["v6routePrefixLimit"]
-      ? item["v6routePrefixLimit"]
-      : routePrefixLimitPropertiesDeserializer(item["v6routePrefixLimit"]),
+    routePrefixLimit: !item["routePrefixLimit"]
+      ? item["routePrefixLimit"]
+      : routePrefixLimitPropertiesDeserializer(item["routePrefixLimit"]),
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
-    exportPolicyConfiguration: !item["exportPolicyConfiguration"]
-      ? item["exportPolicyConfiguration"]
-      : bmpExportPolicyPropertiesDeserializer(item["exportPolicyConfiguration"]),
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
@@ -15316,15 +12403,9 @@ export function _l3IsolationDomainPatchPropertiesSerializer(item: L3IsolationDom
     staticRouteRoutePolicy: !item["staticRouteRoutePolicy"]
       ? item["staticRouteRoutePolicy"]
       : staticRouteRoutePolicyPatchSerializer(item["staticRouteRoutePolicy"]),
-    v4routePrefixLimit: !item["v4RoutePrefixLimit"]
-      ? item["v4RoutePrefixLimit"]
-      : routePrefixLimitPatchPropertiesSerializer(item["v4RoutePrefixLimit"]),
-    v6routePrefixLimit: !item["v6RoutePrefixLimit"]
-      ? item["v6RoutePrefixLimit"]
-      : routePrefixLimitPatchPropertiesSerializer(item["v6RoutePrefixLimit"]),
-    exportPolicyConfiguration: !item["exportPolicyConfiguration"]
-      ? item["exportPolicyConfiguration"]
-      : bmpExportPolicyPatchPropertiesSerializer(item["exportPolicyConfiguration"]),
+    routePrefixLimit: !item["routePrefixLimit"]
+      ? item["routePrefixLimit"]
+      : routePrefixLimitPatchPropertiesSerializer(item["routePrefixLimit"]),
   };
 }
 
@@ -15400,7 +12481,6 @@ export function _internalNetworkPropertiesDeserializer(item: any) {
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
-    networkFabricId: item["networkFabricId"],
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
@@ -15487,7 +12567,6 @@ export function _externalNetworkPropertiesDeserializer(item: any) {
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
-    networkFabricId: item["networkFabricId"],
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
@@ -15538,16 +12617,10 @@ export function _neighborGroupPropertiesDeserializer(item: any) {
       : item["networkTapRuleIds"].map((p: any) => {
           return p;
         }),
-    networkFabricIds: !item["networkFabricIds"]
-      ? item["networkFabricIds"]
-      : item["networkFabricIds"].map((p: any) => {
-          return p;
-        }),
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
     provisioningState: item["provisioningState"],
-    configurationState: item["configurationState"],
   };
 }
 
@@ -15584,9 +12657,6 @@ export function _networkDevicePropertiesSerializer(item: NetworkDevice): any {
     annotation: item["annotation"],
     hostName: item["hostName"],
     serialNumber: item["serialNumber"],
-    identitySelector: !item["identitySelector"]
-      ? item["identitySelector"]
-      : identitySelectorSerializer(item["identitySelector"]),
     networkDeviceSku: item["networkDeviceSku"],
   };
 }
@@ -15596,9 +12666,6 @@ export function _networkDevicePropertiesDeserializer(item: any) {
     annotation: item["annotation"],
     hostName: item["hostName"],
     serialNumber: item["serialNumber"],
-    identitySelector: !item["identitySelector"]
-      ? item["identitySelector"]
-      : identitySelectorDeserializer(item["identitySelector"]),
     version: item["version"],
     networkDeviceSku: item["networkDeviceSku"],
     networkDeviceRole: item["networkDeviceRole"],
@@ -15612,13 +12679,6 @@ export function _networkDevicePropertiesDeserializer(item: any) {
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
-    secretRotationStatus: !item["secretRotationStatus"]
-      ? item["secretRotationStatus"]
-      : secretRotationStatusArrayDeserializer(item["secretRotationStatus"]),
-    certificateRotationStatus: !item["certificateRotationStatus"]
-      ? item["certificateRotationStatus"]
-      : certificateRotationStatusArrayDeserializer(item["certificateRotationStatus"]),
-    networkFabricId: item["networkFabricId"],
   };
 }
 
@@ -15629,14 +12689,15 @@ export function _networkDevicePatchParametersPropertiesSerializer(
     annotation: item["annotation"],
     hostName: item["hostName"],
     serialNumber: item["serialNumber"],
-    identitySelector: !item["identitySelector"]
-      ? item["identitySelector"]
-      : identitySelectorPatchSerializer(item["identitySelector"]),
   };
 }
 
 export function _networkInterfacePropertiesSerializer(item: NetworkInterface): any {
-  return { annotation: item["annotation"], additionalDescription: item["additionalDescription"] };
+  return {
+    annotation: item["annotation"],
+    description: item["description"],
+    additionalDescription: item["additionalDescription"],
+  };
 }
 
 export function _networkInterfacePropertiesDeserializer(item: any) {
@@ -15652,15 +12713,17 @@ export function _networkInterfacePropertiesDeserializer(item: any) {
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
-    networkFabricId: item["networkFabricId"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
-    configurationState: item["configurationState"],
   };
 }
 
 export function _networkInterfacePatchPropertiesSerializer(item: NetworkInterfacePatch): any {
-  return { annotation: item["annotation"], additionalDescription: item["additionalDescription"] };
+  return {
+    annotation: item["annotation"],
+    description: item["description"],
+    additionalDescription: item["additionalDescription"],
+  };
 }
 
 export function _networkFabricControllerPropertiesSerializer(item: NetworkFabricController): any {
@@ -15781,9 +12844,6 @@ export function _networkFabricPropertiesSerializer(item: NetworkFabric): any {
       : item["controlPlaneAcls"].map((p: any) => {
           return p;
         }),
-    featureFlags: !item["featureFlags"]
-      ? item["featureFlags"]
-      : featureFlagPropertiesArraySerializer(item["featureFlags"]),
     trustedIpPrefixes: !item["trustedIpPrefixes"]
       ? item["trustedIpPrefixes"]
       : item["trustedIpPrefixes"].map((p: any) => {
@@ -15793,12 +12853,6 @@ export function _networkFabricPropertiesSerializer(item: NetworkFabric): any {
       ? item["uniqueRdConfiguration"]
       : uniqueRouteDistinguisherPropertiesSerializer(item["uniqueRdConfiguration"]),
     storageArrayCount: item["storageArrayCount"],
-    authorizedTransceiver: !item["authorizedTransceiver"]
-      ? item["authorizedTransceiver"]
-      : authorizedTransceiverPropertiesSerializer(item["authorizedTransceiver"]),
-    qosConfiguration: !item["qosConfiguration"]
-      ? item["qosConfiguration"]
-      : qosPropertiesSerializer(item["qosConfiguration"]),
   };
 }
 
@@ -15868,21 +12922,12 @@ export function _networkFabricPropertiesDeserializer(item: any) {
       : item["activeCommitBatches"].map((p: any) => {
           return p;
         }),
-    secretRotationSummary: !item["secretRotationSummary"]
-      ? item["secretRotationSummary"]
-      : secretRotationSummaryDeserializer(item["secretRotationSummary"]),
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
-    authorizedTransceiver: !item["authorizedTransceiver"]
-      ? item["authorizedTransceiver"]
-      : authorizedTransceiverPropertiesDeserializer(item["authorizedTransceiver"]),
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
-    qosConfiguration: !item["qosConfiguration"]
-      ? item["qosConfiguration"]
-      : qosPropertiesDeserializer(item["qosConfiguration"]),
   };
 }
 
@@ -15917,15 +12962,6 @@ export function _networkFabricPatchPropertiesSerializer(item: NetworkFabricPatch
     uniqueRdConfiguration: !item["uniqueRdConfiguration"]
       ? item["uniqueRdConfiguration"]
       : uniqueRouteDistinguisherPatchPropertiesSerializer(item["uniqueRdConfiguration"]),
-    qosConfiguration: !item["qosConfiguration"]
-      ? item["qosConfiguration"]
-      : qosPatchPropertiesSerializer(item["qosConfiguration"]),
-    featureFlags: !item["featureFlags"]
-      ? item["featureFlags"]
-      : featureFlagPropertiesArraySerializer(item["featureFlags"]),
-    authorizedTransceiver: !item["authorizedTransceiver"]
-      ? item["authorizedTransceiver"]
-      : authorizedTransceiverPatchPropertiesSerializer(item["authorizedTransceiver"]),
   };
 }
 
@@ -16060,7 +13096,6 @@ export function _networkPacketBrokerPropertiesDeserializer(item: any) {
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
     provisioningState: item["provisioningState"],
-    configurationState: item["configurationState"],
   };
 }
 
@@ -16086,7 +13121,6 @@ export function _networkRackPropertiesDeserializer(item: any) {
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
     provisioningState: item["provisioningState"],
-    configurationState: item["configurationState"],
   };
 }
 
@@ -16095,9 +13129,6 @@ export function _networkTapRulePropertiesSerializer(item: NetworkTapRule): any {
     annotation: item["annotation"],
     configurationType: item["configurationType"],
     tapRulesUrl: item["tapRulesUrl"],
-    identitySelector: !item["identitySelector"]
-      ? item["identitySelector"]
-      : identitySelectorSerializer(item["identitySelector"]),
     matchConfigurations: !item["matchConfigurations"]
       ? item["matchConfigurations"]
       : networkTapRuleMatchConfigurationArraySerializer(item["matchConfigurations"]),
@@ -16116,9 +13147,6 @@ export function _networkTapRulePropertiesDeserializer(item: any) {
     annotation: item["annotation"],
     configurationType: item["configurationType"],
     tapRulesUrl: item["tapRulesUrl"],
-    identitySelector: !item["identitySelector"]
-      ? item["identitySelector"]
-      : identitySelectorDeserializer(item["identitySelector"]),
     matchConfigurations: !item["matchConfigurations"]
       ? item["matchConfigurations"]
       : networkTapRuleMatchConfigurationArrayDeserializer(item["matchConfigurations"]),
@@ -16126,11 +13154,6 @@ export function _networkTapRulePropertiesDeserializer(item: any) {
       ? item["dynamicMatchConfigurations"]
       : commonDynamicMatchConfigurationArrayDeserializer(item["dynamicMatchConfigurations"]),
     networkTapId: item["networkTapId"],
-    networkTapIds: !item["networkTapIds"]
-      ? item["networkTapIds"]
-      : item["networkTapIds"].map((p: any) => {
-          return p;
-        }),
     pollingIntervalInSeconds: item["pollingIntervalInSeconds"],
     lastSyncedTime: !item["lastSyncedTime"]
       ? item["lastSyncedTime"]
@@ -16141,11 +13164,6 @@ export function _networkTapRulePropertiesDeserializer(item: any) {
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
-    networkFabricIds: !item["networkFabricIds"]
-      ? item["networkFabricIds"]
-      : item["networkFabricIds"].map((p: any) => {
-          return p;
-        }),
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
@@ -16163,9 +13181,6 @@ export function _networkTapRulePatchPropertiesSerializer(item: NetworkTapRulePat
     dynamicMatchConfigurations: !item["dynamicMatchConfigurations"]
       ? item["dynamicMatchConfigurations"]
       : commonDynamicMatchConfigurationPatchArraySerializer(item["dynamicMatchConfigurations"]),
-    identitySelector: !item["identitySelector"]
-      ? item["identitySelector"]
-      : identitySelectorPatchSerializer(item["identitySelector"]),
     globalNetworkTapRuleActions: !item["globalNetworkTapRuleActions"]
       ? item["globalNetworkTapRuleActions"]
       : globalNetworkTapRuleActionPatchPropertiesSerializer(item["globalNetworkTapRuleActions"]),
@@ -16186,11 +13201,6 @@ export function _networkTapPropertiesDeserializer(item: any) {
     annotation: item["annotation"],
     networkPacketBrokerId: item["networkPacketBrokerId"],
     sourceTapRuleId: item["sourceTapRuleId"],
-    networkFabricIds: !item["networkFabricIds"]
-      ? item["networkFabricIds"]
-      : item["networkFabricIds"].map((p: any) => {
-          return p;
-        }),
     destinations: destinationPropertiesArrayDeserializer(item["destinations"]),
     pollingType: item["pollingType"],
     lastOperation: !item["lastOperation"]
@@ -16276,80 +13286,5 @@ export function _networkMonitorPatchPropertiesSerializer(item: NetworkMonitorPat
     bmpConfiguration: !item["bmpConfiguration"]
       ? item["bmpConfiguration"]
       : bmpConfigurationPatchPropertiesSerializer(item["bmpConfiguration"]),
-  };
-}
-
-export function _networkBootstrapDevicePropertiesSerializer(item: NetworkBootstrapDevice): any {
-  return {
-    annotation: item["annotation"],
-    hostName: item["hostName"],
-    serialNumber: item["serialNumber"],
-    networkDeviceSku: item["networkDeviceSku"],
-  };
-}
-
-export function _networkBootstrapDevicePropertiesDeserializer(item: any) {
-  return {
-    annotation: item["annotation"],
-    hostName: item["hostName"],
-    serialNumber: item["serialNumber"],
-    version: item["version"],
-    networkDeviceSku: item["networkDeviceSku"],
-    networkFabricId: item["networkFabricId"],
-    secondaryManagementIpv4Address: item["secondaryManagementIpv4Address"],
-    dhcpV4ServerIpAddress: item["dhcpV4ServerIpAddress"],
-    primaryManagementIpv6Address: item["primaryManagementIpv6Address"],
-    secondaryManagementIpv6Address: item["secondaryManagementIpv6Address"],
-    provisioningState: item["provisioningState"],
-    primaryManagementIpv4Address: item["primaryManagementIpv4Address"],
-    administrativeState: item["administrativeState"],
-    configurationState: item["configurationState"],
-  };
-}
-
-export function _networkBootstrapDevicePatchPropertiesSerializer(
-  item: NetworkBootstrapDevicePatch,
-): any {
-  return {
-    annotation: item["annotation"],
-    hostName: item["hostName"],
-    serialNumber: item["serialNumber"],
-  };
-}
-
-export function _networkBootstrapInterfacePropertiesSerializer(
-  item: NetworkBootstrapInterface,
-): any {
-  return {
-    annotation: item["annotation"],
-    additionalDescription: item["additionalDescription"],
-    serialNumber: item["serialNumber"],
-  };
-}
-
-export function _networkBootstrapInterfacePropertiesDeserializer(item: any) {
-  return {
-    annotation: item["annotation"],
-    provisioningState: item["provisioningState"],
-    administrativeState: item["administrativeState"],
-    configurationState: item["configurationState"],
-    physicalIdentifier: item["physicalIdentifier"],
-    connectedTo: item["connectedTo"],
-    interfaceType: item["interfaceType"],
-    description: item["description"],
-    additionalDescription: item["additionalDescription"],
-    ipv4Address: item["ipv4Address"],
-    ipv6Address: item["ipv6Address"],
-    serialNumber: item["serialNumber"],
-  };
-}
-
-export function _networkBootstrapInterfacePatchPropertiesSerializer(
-  item: NetworkBootstrapInterfacePatch,
-): any {
-  return {
-    annotation: item["annotation"],
-    serialNumber: item["serialNumber"],
-    additionalDescription: item["additionalDescription"],
   };
 }

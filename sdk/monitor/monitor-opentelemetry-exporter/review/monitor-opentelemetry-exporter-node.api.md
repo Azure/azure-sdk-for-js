@@ -61,6 +61,7 @@ export interface AzureMonitorExporterOptions extends ApplicationInsightsClientOp
 export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements LogRecordExporter {
     constructor(options?: AzureMonitorExporterOptions);
     export(logs: ReadableLogRecord[], resultCallback: (result: ExportResult) => void): Promise<void>;
+    forceFlush(): Promise<void>;
     shutdown(): Promise<void>;
 }
 

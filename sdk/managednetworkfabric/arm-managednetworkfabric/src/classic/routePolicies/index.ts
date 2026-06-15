@@ -26,9 +26,9 @@ import type {
 } from "../../api/routePolicies/options.js";
 import type {
   UpdateAdministrativeState,
-  UpdateAdministrativeStateResponse,
   CommonPostActionResponseForStateUpdate,
   ValidateConfigurationResponse,
+  CommonPostActionResponseForDeviceUpdate,
   RoutePolicy,
   RoutePolicyPatch,
 } from "../../models/models.js";
@@ -92,8 +92,8 @@ export interface RoutePoliciesOperations {
     body: UpdateAdministrativeState,
     options?: RoutePoliciesUpdateAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
+    OperationState<CommonPostActionResponseForDeviceUpdate>,
+    CommonPostActionResponseForDeviceUpdate
   >;
   /** @deprecated use updateAdministrativeState instead */
   beginUpdateAdministrativeState: (
@@ -103,8 +103,8 @@ export interface RoutePoliciesOperations {
     options?: RoutePoliciesUpdateAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<UpdateAdministrativeStateResponse>,
-      UpdateAdministrativeStateResponse
+      OperationState<CommonPostActionResponseForDeviceUpdate>,
+      CommonPostActionResponseForDeviceUpdate
     >
   >;
   /** @deprecated use updateAdministrativeState instead */
@@ -113,7 +113,7 @@ export interface RoutePoliciesOperations {
     routePolicyName: string,
     body: UpdateAdministrativeState,
     options?: RoutePoliciesUpdateAdministrativeStateOptionalParams,
-  ) => Promise<UpdateAdministrativeStateResponse>;
+  ) => Promise<CommonPostActionResponseForDeviceUpdate>;
   /** Implements RoutePolicies list by subscription GET method. */
   listBySubscription: (
     options?: RoutePoliciesListBySubscriptionOptionalParams,

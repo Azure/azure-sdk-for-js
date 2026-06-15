@@ -1,5 +1,32 @@
 # Release History
 
+## 1.2.0-beta.2 (2026-06-11)
+
+### Bugs Fixed
+
+- Filtered service-emitted `LLMStats:` telemetry entries from the rendered `rai_warnings` front matter. [#38851](https://github.com/Azure/azure-sdk-for-js/pull/38851)
+
+### Other Changes
+
+- Updated `toLlmInput` page markers from `<!-- page N -->` to `<!-- InputPageNumber: N -->` and avoided duplicate marker injection when the service markdown already includes `InputPageNumber` markers. [#38851](https://github.com/Azure/azure-sdk-for-js/pull/38851)
+
+## 1.2.0-beta.1 (2026-04-30)
+
+### Features Added
+
+- Added `toLlmInput` helper that converts `AnalysisResult` into LLM-friendly text with YAML front matter and markdown content. Supports documents, audio/video, and classification hierarchies.
+
+## 1.1.0 (2026-04-24)
+
+### Features Added
+
+- Billing and token consumption details are now available after analysis operations complete. Access via `poller.operationState?.usage`.
+- The operation ID is now available on the operation state via `poller.operationState?.operationId`.
+
+### Deprecations
+
+- `poller.operationId` is deprecated. Use `poller.operationState?.operationId` instead.
+
 ## 1.0.0 (2026-02-28)
 
 ### Features Added

@@ -28,7 +28,7 @@ export function _triggerSend(
       fabricName: fabricName,
       containerName: containerName,
       protectedItemName: protectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

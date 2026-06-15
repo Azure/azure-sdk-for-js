@@ -4,9 +4,9 @@
 import type { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
 import type {
   UpdateAdministrativeState,
-  UpdateAdministrativeStateResponse,
   CommonPostActionResponseForStateUpdate,
   ValidateConfigurationResponse,
+  CommonPostActionResponseForDeviceUpdate,
   RoutePolicy,
   RoutePolicyPatch,
   _RoutePoliciesListResult,
@@ -14,9 +14,9 @@ import type {
 import {
   errorResponseDeserializer,
   updateAdministrativeStateSerializer,
-  updateAdministrativeStateResponseDeserializer,
   commonPostActionResponseForStateUpdateDeserializer,
   validateConfigurationResponseDeserializer,
+  commonPostActionResponseForDeviceUpdateDeserializer,
   routePolicySerializer,
   routePolicyDeserializer,
   routePolicyPatchSerializer,
@@ -53,7 +53,7 @@ export function _commitConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       routePolicyName: routePolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -95,7 +95,7 @@ export function commitConfiguration(
     getInitialResponse: () =>
       _commitConfigurationSend(context, resourceGroupName, routePolicyName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2024-06-15-preview",
   }) as PollerLike<
     OperationState<CommonPostActionResponseForStateUpdate>,
     CommonPostActionResponseForStateUpdate
@@ -114,7 +114,7 @@ export function _validateConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       routePolicyName: routePolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -153,7 +153,7 @@ export function validateConfiguration(
     getInitialResponse: () =>
       _validateConfigurationSend(context, resourceGroupName, routePolicyName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2024-06-15-preview",
   }) as PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
 }
 
@@ -170,7 +170,7 @@ export function _updateAdministrativeStateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       routePolicyName: routePolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -186,7 +186,7 @@ export function _updateAdministrativeStateSend(
 
 export async function _updateAdministrativeStateDeserialize(
   result: PathUncheckedResponse,
-): Promise<UpdateAdministrativeStateResponse> {
+): Promise<CommonPostActionResponseForDeviceUpdate> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -195,7 +195,7 @@ export async function _updateAdministrativeStateDeserialize(
     throw error;
   }
 
-  return updateAdministrativeStateResponseDeserializer(result.body);
+  return commonPostActionResponseForDeviceUpdateDeserializer(result.body);
 }
 
 /** Updated the admin state for this Route Policy. */
@@ -206,8 +206,8 @@ export function updateAdministrativeState(
   body: UpdateAdministrativeState,
   options: RoutePoliciesUpdateAdministrativeStateOptionalParams = { requestOptions: {} },
 ): PollerLike<
-  OperationState<UpdateAdministrativeStateResponse>,
-  UpdateAdministrativeStateResponse
+  OperationState<CommonPostActionResponseForDeviceUpdate>,
+  CommonPostActionResponseForDeviceUpdate
 > {
   return getLongRunningPoller(
     context,
@@ -219,11 +219,11 @@ export function updateAdministrativeState(
       getInitialResponse: () =>
         _updateAdministrativeStateSend(context, resourceGroupName, routePolicyName, body, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-07-15",
+      apiVersion: context.apiVersion ?? "2024-06-15-preview",
     },
   ) as PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
+    OperationState<CommonPostActionResponseForDeviceUpdate>,
+    CommonPostActionResponseForDeviceUpdate
   >;
 }
 
@@ -235,7 +235,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/routePolicies{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -271,7 +271,11 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    },
   );
 }
 
@@ -285,7 +289,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -322,7 +326,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    },
   );
 }
 
@@ -338,7 +346,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       routePolicyName: routePolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -376,7 +384,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, routePolicyName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2024-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -393,7 +401,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       routePolicyName: routePolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -433,7 +441,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, routePolicyName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2024-06-15-preview",
   }) as PollerLike<OperationState<RoutePolicy>, RoutePolicy>;
 }
 
@@ -450,7 +458,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       routePolicyName: routePolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -490,7 +498,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, routePolicyName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2024-06-15-preview",
   }) as PollerLike<OperationState<RoutePolicy>, RoutePolicy>;
 }
 
@@ -506,7 +514,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       routePolicyName: routePolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

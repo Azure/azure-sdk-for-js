@@ -7,10 +7,11 @@ import type {
   AzureOpenAIVectorizerParameters,
   KnowledgeBaseModelUnion,
   KnowledgeSourceKind,
+  SearchIndexFieldReference,
   IndexingSchedule,
-  KnowledgeSourceIngestionPermissionOption,
   KnowledgeSourceContentExtractionMode,
   KnowledgeSourceSynchronizationStatus,
+  KnowledgeSourceIngestionPermissionOption,
 } from "../indexes/models.js";
 import {
   searchIndexerDataIdentityUnionSerializer,
@@ -19,6 +20,7 @@ import {
   azureOpenAIVectorizerParametersDeserializer,
   knowledgeBaseModelUnionSerializer,
   knowledgeBaseModelUnionDeserializer,
+  searchIndexFieldReferenceArrayDeserializer,
   indexingScheduleSerializer,
   indexingScheduleDeserializer,
 } from "../indexes/models.js";
@@ -27,8 +29,7 @@ import {
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** Base type for reasoning effort. */
 export interface KnowledgeRetrievalReasoningEffort {
   /** The kind of reasoning effort. */
@@ -222,6 +223,10 @@ export interface KnowledgeSourceIngestionParameters {
   contentExtractionMode?: KnowledgeSourceContentExtractionMode;
   /** Optional AI Services configuration for content processing. */
   aiServices?: AIServices;
+  /** Optional asset store configuration for storing extracted assets such as images. */
+  assetStore?: AssetStore;
+  /** Optional freshness policy for biasing retrieval toward newer documents. */
+  freshnessPolicy?: FreshnessPolicy;
 }
 
 export function knowledgeSourceIngestionParametersSerializer(
@@ -248,6 +253,10 @@ export function knowledgeSourceIngestionParametersSerializer(
         }),
     contentExtractionMode: item["contentExtractionMode"],
     aiServices: !item["aiServices"] ? item["aiServices"] : aiServicesSerializer(item["aiServices"]),
+    assetStore: !item["assetStore"] ? item["assetStore"] : assetStoreSerializer(item["assetStore"]),
+    freshnessPolicy: !item["freshnessPolicy"]
+      ? item["freshnessPolicy"]
+      : freshnessPolicySerializer(item["freshnessPolicy"]),
   };
 }
 
@@ -277,6 +286,12 @@ export function knowledgeSourceIngestionParametersDeserializer(
     aiServices: !item["aiServices"]
       ? item["aiServices"]
       : aiServicesDeserializer(item["aiServices"]),
+    assetStore: !item["assetStore"]
+      ? item["assetStore"]
+      : assetStoreDeserializer(item["assetStore"]),
+    freshnessPolicy: !item["freshnessPolicy"]
+      ? item["freshnessPolicy"]
+      : freshnessPolicyDeserializer(item["freshnessPolicy"]),
   };
 }
 
@@ -379,8 +394,45 @@ export function aiServicesDeserializer(item: any): AIServices {
   };
 }
 
+/** Configuration for an asset store used to store extracted assets such as images. */
+export interface AssetStore {
+  /** The connection string for the asset store. */
+  connectionString: string;
+  /** The name of the blob container within the asset store where extracted assets (for example, images) are stored. */
+  containerName: string;
+}
+
+export function assetStoreSerializer(item: AssetStore): any {
+  return { connectionString: item["connectionString"], containerName: item["containerName"] };
+}
+
+export function assetStoreDeserializer(item: any): AssetStore {
+  return {
+    connectionString: item["connectionString"],
+    containerName: item["containerName"],
+  };
+}
+
+/** Configuration for freshness-aware retrieval. When set, newer documents receive a ranking boost during retrieval. */
+export interface FreshnessPolicy {
+  /** ISO 8601 duration for the freshness boosting window (e.g. 'P90D' for 90 days). Documents newer than this duration receive a ranking boost during retrieval. */
+  boostingDuration?: string;
+}
+
+export function freshnessPolicySerializer(item: FreshnessPolicy): any {
+  return { boostingDuration: item["boostingDuration"] };
+}
+
+export function freshnessPolicyDeserializer(item: any): FreshnessPolicy {
+  return {
+    boostingDuration: item["boostingDuration"],
+  };
+}
+
 /** Represents the status and synchronization history of a knowledge source. */
 export interface KnowledgeSourceStatus {
+  /** Identifies the Knowledge Source kind directly from the Status response. */
+  kind?: KnowledgeSourceKind;
   /** The current synchronization status. */
   synchronizationStatus: KnowledgeSourceSynchronizationStatus;
   /** The synchronization interval (e.g., '1d' for daily). Null if no schedule is configured. */
@@ -395,6 +447,7 @@ export interface KnowledgeSourceStatus {
 
 export function knowledgeSourceStatusSerializer(item: KnowledgeSourceStatus): any {
   return {
+    kind: item["kind"],
     synchronizationStatus: item["synchronizationStatus"],
     synchronizationInterval: item["synchronizationInterval"],
     currentSynchronizationState: !item["currentSynchronizationState"]
@@ -411,6 +464,7 @@ export function knowledgeSourceStatusSerializer(item: KnowledgeSourceStatus): an
 
 export function knowledgeSourceStatusDeserializer(item: any): KnowledgeSourceStatus {
   return {
+    kind: item["kind"],
     synchronizationStatus: item["synchronizationStatus"],
     synchronizationInterval: item["synchronizationInterval"],
     currentSynchronizationState: !item["currentSynchronizationState"]
@@ -435,6 +489,8 @@ export interface SynchronizationState {
   itemsUpdatesFailed: number;
   /** The number of items skipped in the current synchronization. */
   itemsSkipped: number;
+  /** Collection of document-level indexing errors encountered during the current synchronization run. Returned only when errors are present. */
+  errors?: KnowledgeSourceSynchronizationError[];
 }
 
 export function synchronizationStateSerializer(item: SynchronizationState): any {
@@ -443,6 +499,9 @@ export function synchronizationStateSerializer(item: SynchronizationState): any 
     itemsUpdatesProcessed: item["itemsUpdatesProcessed"],
     itemsUpdatesFailed: item["itemsUpdatesFailed"],
     itemsSkipped: item["itemsSkipped"],
+    errors: !item["errors"]
+      ? item["errors"]
+      : knowledgeSourceSynchronizationErrorArraySerializer(item["errors"]),
   };
 }
 
@@ -452,6 +511,67 @@ export function synchronizationStateDeserializer(item: any): SynchronizationStat
     itemsUpdatesProcessed: item["itemsUpdatesProcessed"],
     itemsUpdatesFailed: item["itemsUpdatesFailed"],
     itemsSkipped: item["itemsSkipped"],
+    errors: !item["errors"]
+      ? item["errors"]
+      : knowledgeSourceSynchronizationErrorArrayDeserializer(item["errors"]),
+  };
+}
+
+export function knowledgeSourceSynchronizationErrorArraySerializer(
+  result: Array<KnowledgeSourceSynchronizationError>,
+): any[] {
+  return result.map((item) => {
+    return knowledgeSourceSynchronizationErrorSerializer(item);
+  });
+}
+
+export function knowledgeSourceSynchronizationErrorArrayDeserializer(
+  result: Array<KnowledgeSourceSynchronizationError>,
+): any[] {
+  return result.map((item) => {
+    return knowledgeSourceSynchronizationErrorDeserializer(item);
+  });
+}
+
+/** Represents a document-level indexing error encountered during a knowledge source synchronization run. */
+export interface KnowledgeSourceSynchronizationError {
+  /** The unique identifier for the failed document or item within the synchronization run. */
+  docId?: string;
+  /** HTTP-like status code representing the failure category (e.g., 400). */
+  statusCode?: number;
+  /** Name of the ingestion or processing component reporting the error. */
+  name?: string;
+  /** Human-readable, customer-visible error message. */
+  errorMessage: string;
+  /** Additional contextual information about the failure. */
+  details?: string;
+  /** A link to relevant troubleshooting documentation. */
+  documentationLink?: string;
+}
+
+export function knowledgeSourceSynchronizationErrorSerializer(
+  item: KnowledgeSourceSynchronizationError,
+): any {
+  return {
+    docId: item["docId"],
+    statusCode: item["statusCode"],
+    name: item["name"],
+    errorMessage: item["errorMessage"],
+    details: item["details"],
+    documentationLink: item["documentationLink"],
+  };
+}
+
+export function knowledgeSourceSynchronizationErrorDeserializer(
+  item: any,
+): KnowledgeSourceSynchronizationError {
+  return {
+    docId: item["docId"],
+    statusCode: item["statusCode"],
+    name: item["name"],
+    errorMessage: item["errorMessage"],
+    details: item["details"],
+    documentationLink: item["documentationLink"],
   };
 }
 
@@ -494,7 +614,7 @@ export function completedSynchronizationStateDeserializer(
 /** Statistical information about knowledge source synchronization history. */
 export interface KnowledgeSourceStatistics {
   /** Total number of synchronizations. */
-  totalSynchronization: number;
+  totalSynchronizations: number;
   /** Average synchronization duration in HH:MM:SS format. */
   averageSynchronizationDuration: string;
   /** Average items processed per synchronization. */
@@ -503,7 +623,7 @@ export interface KnowledgeSourceStatistics {
 
 export function knowledgeSourceStatisticsSerializer(item: KnowledgeSourceStatistics): any {
   return {
-    totalSynchronization: item["totalSynchronization"],
+    totalSynchronization: item["totalSynchronizations"],
     averageSynchronizationDuration: item["averageSynchronizationDuration"],
     averageItemsProcessedPerSynchronization: item["averageItemsProcessedPerSynchronization"],
   };
@@ -511,7 +631,7 @@ export function knowledgeSourceStatisticsSerializer(item: KnowledgeSourceStatist
 
 export function knowledgeSourceStatisticsDeserializer(item: any): KnowledgeSourceStatistics {
   return {
-    totalSynchronization: item["totalSynchronization"],
+    totalSynchronizations: item["totalSynchronization"],
     averageSynchronizationDuration: item["averageSynchronizationDuration"],
     averageItemsProcessedPerSynchronization: item["averageItemsProcessedPerSynchronization"],
   };
@@ -527,6 +647,10 @@ export interface KnowledgeBaseRetrievalRequest {
   maxRuntimeInSeconds?: number;
   /** Limits the maximum size of the content in the output. */
   maxOutputSize?: number;
+  /** Limits the maximum number of documents in the output. */
+  maxOutputDocuments?: number;
+  /** Limits the maximum size of the content in the output. */
+  maxOutputSizeInTokens?: number;
   /** The retrieval reasoning effort configuration. */
   retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
   /** Indicates retrieval results should include activity information. */
@@ -547,6 +671,8 @@ export function knowledgeBaseRetrievalRequestSerializer(item: KnowledgeBaseRetri
       : knowledgeRetrievalIntentUnionArraySerializer(item["intents"]),
     maxRuntimeInSeconds: item["maxRuntimeInSeconds"],
     maxOutputSize: item["maxOutputSize"],
+    maxOutputDocuments: item["maxOutputDocuments"],
+    maxOutputSizeInTokens: item["maxOutputSizeInTokens"],
     retrievalReasoningEffort: !item["retrievalReasoningEffort"]
       ? item["retrievalReasoningEffort"]
       : knowledgeRetrievalReasoningEffortUnionSerializer(item["retrievalReasoningEffort"]),
@@ -822,11 +948,17 @@ export interface KnowledgeSourceParams {
   includeReferenceSourceData?: boolean;
   /** Indicates that this knowledge source should bypass source selection and always be queried at retrieval time. */
   alwaysQuerySource?: boolean;
+  /** Indicates that the entire retrieval request should fail if retrieval from this knowledge source encounters an error. Defaults to false. */
+  failOnError?: boolean;
   /** The reranker threshold all retrieved documents must meet to be included in the response. */
   rerankerThreshold?: number;
+  /** Limits the maximum number of documents returned from this knowledge source. */
+  maxOutputDocuments?: number;
   /** The type of the knowledge source. */
-  /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint */
+  /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint, workIQ, fabricDataAgent, fabricOntology, mcpServer, file, indexedSql */
   kind: KnowledgeSourceKind;
+  /** Indicates whether image serving should be enabled for this knowledge source at retrieval time. When true, images extracted during ingestion are delivered to downstream models. */
+  enableImageServing?: boolean;
 }
 
 export function knowledgeSourceParamsSerializer(item: KnowledgeSourceParams): any {
@@ -835,8 +967,11 @@ export function knowledgeSourceParamsSerializer(item: KnowledgeSourceParams): an
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
+    enableImageServing: item["enableImageServing"],
   };
 }
 
@@ -848,6 +983,12 @@ export type KnowledgeSourceParamsUnion =
   | IndexedOneLakeKnowledgeSourceParams
   | WebKnowledgeSourceParams
   | RemoteSharePointKnowledgeSourceParams
+  | WorkIQKnowledgeSourceParams
+  | FabricDataAgentKnowledgeSourceParams
+  | FabricOntologyKnowledgeSourceParams
+  | McpServerKnowledgeSourceParams
+  | FileKnowledgeSourceParams
+  | IndexedSqlKnowledgeSourceParams
   | KnowledgeSourceParams;
 
 export function knowledgeSourceParamsUnionSerializer(item: KnowledgeSourceParamsUnion): any {
@@ -876,6 +1017,28 @@ export function knowledgeSourceParamsUnionSerializer(item: KnowledgeSourceParams
         item as RemoteSharePointKnowledgeSourceParams,
       );
 
+    case "workIQ":
+      return workIQKnowledgeSourceParamsSerializer(item as WorkIQKnowledgeSourceParams);
+
+    case "fabricDataAgent":
+      return fabricDataAgentKnowledgeSourceParamsSerializer(
+        item as FabricDataAgentKnowledgeSourceParams,
+      );
+
+    case "fabricOntology":
+      return fabricOntologyKnowledgeSourceParamsSerializer(
+        item as FabricOntologyKnowledgeSourceParams,
+      );
+
+    case "mcpServer":
+      return mcpServerKnowledgeSourceParamsSerializer(item as McpServerKnowledgeSourceParams);
+
+    case "file":
+      return fileKnowledgeSourceParamsSerializer(item as FileKnowledgeSourceParams);
+
+    case "indexedSql":
+      return indexedSqlKnowledgeSourceParamsSerializer(item as IndexedSqlKnowledgeSourceParams);
+
     default:
       return knowledgeSourceParamsSerializer(item);
   }
@@ -897,8 +1060,11 @@ export function searchIndexKnowledgeSourceParamsSerializer(
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
+    enableImageServing: item["enableImageServing"],
     filterAddOn: item["filterAddOn"],
   };
 }
@@ -917,8 +1083,11 @@ export function azureBlobKnowledgeSourceParamsSerializer(
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
+    enableImageServing: item["enableImageServing"],
   };
 }
 
@@ -936,8 +1105,11 @@ export function indexedSharePointKnowledgeSourceParamsSerializer(
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
+    enableImageServing: item["enableImageServing"],
   };
 }
 
@@ -955,8 +1127,11 @@ export function indexedOneLakeKnowledgeSourceParamsSerializer(
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
+    enableImageServing: item["enableImageServing"],
   };
 }
 
@@ -980,8 +1155,11 @@ export function webKnowledgeSourceParamsSerializer(item: WebKnowledgeSourceParam
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
+    enableImageServing: item["enableImageServing"],
     language: item["language"],
     market: item["market"],
     count: item["count"],
@@ -1005,9 +1183,140 @@ export function remoteSharePointKnowledgeSourceParamsSerializer(
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
+    enableImageServing: item["enableImageServing"],
     filterExpressionAddOn: item["filterExpressionAddOn"],
+  };
+}
+
+/** Specifies runtime parameters for a WorkIQ knowledge source */
+export interface WorkIQKnowledgeSourceParams extends KnowledgeSourceParams {
+  /** The discriminator value. */
+  kind: "workIQ";
+}
+
+export function workIQKnowledgeSourceParamsSerializer(item: WorkIQKnowledgeSourceParams): any {
+  return {
+    knowledgeSourceName: item["knowledgeSourceName"],
+    includeReferences: item["includeReferences"],
+    includeReferenceSourceData: item["includeReferenceSourceData"],
+    alwaysQuerySource: item["alwaysQuerySource"],
+    failOnError: item["failOnError"],
+    rerankerThreshold: item["rerankerThreshold"],
+    maxOutputDocuments: item["maxOutputDocuments"],
+    kind: item["kind"],
+    enableImageServing: item["enableImageServing"],
+  };
+}
+
+/** Specifies runtime parameters for a Fabric Data Agent knowledge source */
+export interface FabricDataAgentKnowledgeSourceParams extends KnowledgeSourceParams {
+  /** The discriminator value. */
+  kind: "fabricDataAgent";
+}
+
+export function fabricDataAgentKnowledgeSourceParamsSerializer(
+  item: FabricDataAgentKnowledgeSourceParams,
+): any {
+  return {
+    knowledgeSourceName: item["knowledgeSourceName"],
+    includeReferences: item["includeReferences"],
+    includeReferenceSourceData: item["includeReferenceSourceData"],
+    alwaysQuerySource: item["alwaysQuerySource"],
+    failOnError: item["failOnError"],
+    rerankerThreshold: item["rerankerThreshold"],
+    maxOutputDocuments: item["maxOutputDocuments"],
+    kind: item["kind"],
+    enableImageServing: item["enableImageServing"],
+  };
+}
+
+/** Specifies runtime parameters for a Fabric Ontology knowledge source */
+export interface FabricOntologyKnowledgeSourceParams extends KnowledgeSourceParams {
+  /** The discriminator value. */
+  kind: "fabricOntology";
+}
+
+export function fabricOntologyKnowledgeSourceParamsSerializer(
+  item: FabricOntologyKnowledgeSourceParams,
+): any {
+  return {
+    knowledgeSourceName: item["knowledgeSourceName"],
+    includeReferences: item["includeReferences"],
+    includeReferenceSourceData: item["includeReferenceSourceData"],
+    alwaysQuerySource: item["alwaysQuerySource"],
+    failOnError: item["failOnError"],
+    rerankerThreshold: item["rerankerThreshold"],
+    maxOutputDocuments: item["maxOutputDocuments"],
+    kind: item["kind"],
+    enableImageServing: item["enableImageServing"],
+  };
+}
+
+/** Specifies runtime parameters for an MCP server knowledge source */
+export interface McpServerKnowledgeSourceParams extends KnowledgeSourceParams {
+  /** The discriminator value. */
+  kind: "mcpServer";
+}
+
+export function mcpServerKnowledgeSourceParamsSerializer(
+  item: McpServerKnowledgeSourceParams,
+): any {
+  return {
+    knowledgeSourceName: item["knowledgeSourceName"],
+    includeReferences: item["includeReferences"],
+    includeReferenceSourceData: item["includeReferenceSourceData"],
+    alwaysQuerySource: item["alwaysQuerySource"],
+    failOnError: item["failOnError"],
+    rerankerThreshold: item["rerankerThreshold"],
+    maxOutputDocuments: item["maxOutputDocuments"],
+    kind: item["kind"],
+    enableImageServing: item["enableImageServing"],
+  };
+}
+
+/** Specifies runtime parameters for a File knowledge source */
+export interface FileKnowledgeSourceParams extends KnowledgeSourceParams {
+  /** The discriminator value. */
+  kind: "file";
+}
+
+export function fileKnowledgeSourceParamsSerializer(item: FileKnowledgeSourceParams): any {
+  return {
+    knowledgeSourceName: item["knowledgeSourceName"],
+    includeReferences: item["includeReferences"],
+    includeReferenceSourceData: item["includeReferenceSourceData"],
+    alwaysQuerySource: item["alwaysQuerySource"],
+    failOnError: item["failOnError"],
+    rerankerThreshold: item["rerankerThreshold"],
+    maxOutputDocuments: item["maxOutputDocuments"],
+    kind: item["kind"],
+    enableImageServing: item["enableImageServing"],
+  };
+}
+
+/** Specifies runtime parameters for an indexed SQL knowledge source */
+export interface IndexedSqlKnowledgeSourceParams extends KnowledgeSourceParams {
+  /** The discriminator value. */
+  kind: "indexedSql";
+}
+
+export function indexedSqlKnowledgeSourceParamsSerializer(
+  item: IndexedSqlKnowledgeSourceParams,
+): any {
+  return {
+    knowledgeSourceName: item["knowledgeSourceName"],
+    includeReferences: item["includeReferences"],
+    includeReferenceSourceData: item["includeReferenceSourceData"],
+    alwaysQuerySource: item["alwaysQuerySource"],
+    failOnError: item["failOnError"],
+    rerankerThreshold: item["rerankerThreshold"],
+    maxOutputDocuments: item["maxOutputDocuments"],
+    kind: item["kind"],
+    enableImageServing: item["enableImageServing"],
   };
 }
 
@@ -1019,6 +1328,8 @@ export interface KnowledgeBaseRetrievalResponse {
   activity?: KnowledgeBaseActivityRecordUnion[];
   /** The references for the retrieval data used in the response. */
   references?: KnowledgeBaseReferenceUnion[];
+  /** The sensitivity label information for the overall response. */
+  responseSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
 }
 
 export function knowledgeBaseRetrievalResponseDeserializer(
@@ -1034,6 +1345,9 @@ export function knowledgeBaseRetrievalResponseDeserializer(
     references: !item["references"]
       ? item["references"]
       : knowledgeBaseReferenceUnionArrayDeserializer(item["references"]),
+    responseSensitivityLabelInfo: !item["responseSensitivityLabelInfo"]
+      ? item["responseSensitivityLabelInfo"]
+      : purviewSensitivityLabelInfoDeserializer(item["responseSensitivityLabelInfo"]),
   };
 }
 
@@ -1050,27 +1364,43 @@ export interface KnowledgeBaseActivityRecord {
   /** The ID of the activity record. */
   id: number;
   /** The type of the activity record. */
-  /** The discriminator possible values: modelQueryPlanning, modelAnswerSynthesis, agenticReasoning */
+  /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint, workIQ, fabricDataAgent, fabricOntology, mcpServer, file, indexedSql, modelQueryPlanning, modelAnswerSynthesis, modelWebSummarization, agenticReasoning */
   type: KnowledgeBaseActivityRecordType;
   /** The elapsed time in milliseconds for the retrieval activity. */
-  elapsedMs?: number;
+  elapsedInMs?: number;
   /** The error detail explaining why the operation failed. This property is only included when the activity does not succeed. */
   error?: KnowledgeBaseErrorDetail;
+  /** A warning message surfacing potential configuration issues observed during the activity, such as documents dropped due to score thresholding, token limit truncation, or timeout conditions. */
+  warning?: string;
 }
 
 export function knowledgeBaseActivityRecordDeserializer(item: any): KnowledgeBaseActivityRecord {
   return {
     id: item["id"],
     type: item["type"],
-    elapsedMs: item["elapsedMs"],
+    elapsedInMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
   };
 }
 
 /** Alias for KnowledgeBaseActivityRecordUnion */
 export type KnowledgeBaseActivityRecordUnion =
+  | KnowledgeBaseSearchIndexActivityRecord
+  | KnowledgeBaseAzureBlobActivityRecord
+  | KnowledgeBaseIndexedSharePointActivityRecord
+  | KnowledgeBaseIndexedOneLakeActivityRecord
+  | KnowledgeBaseWebActivityRecord
+  | KnowledgeBaseRemoteSharePointActivityRecord
+  | KnowledgeBaseWorkIQActivityRecord
+  | KnowledgeBaseFabricDataAgentActivityRecord
+  | KnowledgeBaseFabricOntologyActivityRecord
+  | KnowledgeBaseMcpServerActivityRecord
+  | KnowledgeBaseFileActivityRecord
+  | KnowledgeBaseIndexedSqlActivityRecord
   | KnowledgeBaseModelQueryPlanningActivityRecord
   | KnowledgeBaseModelAnswerSynthesisActivityRecord
+  | KnowledgeBaseModelWebSummarizationActivityRecord
   | KnowledgeBaseAgenticReasoningActivityRecord
   | KnowledgeBaseActivityRecord;
 
@@ -1078,6 +1408,62 @@ export function knowledgeBaseActivityRecordUnionDeserializer(
   item: any,
 ): KnowledgeBaseActivityRecordUnion {
   switch (item["type"]) {
+    case "searchIndex":
+      return knowledgeBaseSearchIndexActivityRecordDeserializer(
+        item as KnowledgeBaseSearchIndexActivityRecord,
+      );
+
+    case "azureBlob":
+      return knowledgeBaseAzureBlobActivityRecordDeserializer(
+        item as KnowledgeBaseAzureBlobActivityRecord,
+      );
+
+    case "indexedSharePoint":
+      return knowledgeBaseIndexedSharePointActivityRecordDeserializer(
+        item as KnowledgeBaseIndexedSharePointActivityRecord,
+      );
+
+    case "indexedOneLake":
+      return knowledgeBaseIndexedOneLakeActivityRecordDeserializer(
+        item as KnowledgeBaseIndexedOneLakeActivityRecord,
+      );
+
+    case "web":
+      return knowledgeBaseWebActivityRecordDeserializer(item as KnowledgeBaseWebActivityRecord);
+
+    case "remoteSharePoint":
+      return knowledgeBaseRemoteSharePointActivityRecordDeserializer(
+        item as KnowledgeBaseRemoteSharePointActivityRecord,
+      );
+
+    case "workIQ":
+      return knowledgeBaseWorkIQActivityRecordDeserializer(
+        item as KnowledgeBaseWorkIQActivityRecord,
+      );
+
+    case "fabricDataAgent":
+      return knowledgeBaseFabricDataAgentActivityRecordDeserializer(
+        item as KnowledgeBaseFabricDataAgentActivityRecord,
+      );
+
+    case "fabricOntology":
+      return knowledgeBaseFabricOntologyActivityRecordDeserializer(
+        item as KnowledgeBaseFabricOntologyActivityRecord,
+      );
+
+    case "mcpServer":
+      return knowledgeBaseMcpServerActivityRecordDeserializer(
+        item as KnowledgeBaseMcpServerActivityRecord,
+      );
+
+    case "file":
+      return knowledgeBaseFileActivityRecordDeserializer(item as KnowledgeBaseFileActivityRecord);
+
+    case "indexedSql":
+      return knowledgeBaseIndexedSqlActivityRecordDeserializer(
+        item as KnowledgeBaseIndexedSqlActivityRecord,
+      );
+
     case "modelQueryPlanning":
       return knowledgeBaseModelQueryPlanningActivityRecordDeserializer(
         item as KnowledgeBaseModelQueryPlanningActivityRecord,
@@ -1086,6 +1472,11 @@ export function knowledgeBaseActivityRecordUnionDeserializer(
     case "modelAnswerSynthesis":
       return knowledgeBaseModelAnswerSynthesisActivityRecordDeserializer(
         item as KnowledgeBaseModelAnswerSynthesisActivityRecord,
+      );
+
+    case "modelWebSummarization":
+      return knowledgeBaseModelWebSummarizationActivityRecordDeserializer(
+        item as KnowledgeBaseModelWebSummarizationActivityRecord,
       );
 
     case "agenticReasoning":
@@ -1112,10 +1503,24 @@ export enum KnownKnowledgeBaseActivityRecordType {
   Web = "web",
   /** Remote SharePoint retrieval activity. */
   RemoteSharePoint = "remoteSharePoint",
+  /** WorkIQ retrieval activity. */
+  WorkIQ = "workIQ",
+  /** Fabric Data Agent retrieval activity. */
+  FabricDataAgent = "fabricDataAgent",
+  /** Fabric Ontology retrieval activity. */
+  FabricOntology = "fabricOntology",
+  /** MCP server retrieval activity. */
+  McpServer = "mcpServer",
+  /** File retrieval activity. */
+  File = "file",
+  /** Indexed SQL retrieval activity. */
+  IndexedSql = "indexedSql",
   /** LLM query planning activity. */
   ModelQueryPlanning = "modelQueryPlanning",
   /** LLM answer synthesis activity. */
   ModelAnswerSynthesis = "modelAnswerSynthesis",
+  /** LLM web summarization activity. */
+  ModelWebSummarization = "modelWebSummarization",
   /** Agentic reasoning activity. */
   AgenticReasoning = "agenticReasoning",
 }
@@ -1131,8 +1536,15 @@ export enum KnownKnowledgeBaseActivityRecordType {
  * **indexedOneLake**: Indexed OneLake retrieval activity. \
  * **web**: Web retrieval activity. \
  * **remoteSharePoint**: Remote SharePoint retrieval activity. \
+ * **workIQ**: WorkIQ retrieval activity. \
+ * **fabricDataAgent**: Fabric Data Agent retrieval activity. \
+ * **fabricOntology**: Fabric Ontology retrieval activity. \
+ * **mcpServer**: MCP server retrieval activity. \
+ * **file**: File retrieval activity. \
+ * **indexedSql**: Indexed SQL retrieval activity. \
  * **modelQueryPlanning**: LLM query planning activity. \
  * **modelAnswerSynthesis**: LLM answer synthesis activity. \
+ * **modelWebSummarization**: LLM web summarization activity. \
  * **agenticReasoning**: Agentic reasoning activity.
  */
 export type KnowledgeBaseActivityRecordType = string;
@@ -1186,7 +1598,7 @@ export interface KnowledgeBaseErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: Record<string, unknown>;
 }
 
 export function knowledgeBaseErrorAdditionalInfoDeserializer(
@@ -1196,7 +1608,682 @@ export function knowledgeBaseErrorAdditionalInfoDeserializer(
     type: item["type"],
     info: !item["info"]
       ? item["info"]
-      : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, any]) => [k, p])),
+      : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, unknown]) => [k, p])),
+  };
+}
+
+/** Represents a search index retrieval activity record. */
+export interface KnowledgeBaseSearchIndexActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** Statistics about image serving for this retrieval activity */
+  imageServing?: ImageServingStatistics;
+  /** The discriminator value. */
+  type: "searchIndex";
+  /** The search index arguments for the retrieval activity. */
+  searchIndexArguments?: KnowledgeBaseSearchIndexActivityArguments;
+}
+
+export function knowledgeBaseSearchIndexActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseSearchIndexActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedInMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    imageServing: !item["imageServing"]
+      ? item["imageServing"]
+      : imageServingStatisticsDeserializer(item["imageServing"]),
+    searchIndexArguments: !item["searchIndexArguments"]
+      ? item["searchIndexArguments"]
+      : knowledgeBaseSearchIndexActivityArgumentsDeserializer(item["searchIndexArguments"]),
+  };
+}
+
+/** Statistics about image serving during a retrieval activity. */
+export interface ImageServingStatistics {
+  /** The number of images retrieved from the asset store. */
+  imagesRetrieved?: number;
+  /** The number of images sent to the downstream model. */
+  imagesSentToModel?: number;
+  /** The total size in bytes of images sent to the model. */
+  totalImageSizeBytes?: number;
+  /** Indicates whether image verbalization was used instead of direct image serving. */
+  verbalizationUsed?: boolean;
+}
+
+export function imageServingStatisticsDeserializer(item: any): ImageServingStatistics {
+  return {
+    imagesRetrieved: item["imagesRetrieved"],
+    imagesSentToModel: item["imagesSentToModel"],
+    totalImageSizeBytes: item["totalImageSizeBytes"],
+    verbalizationUsed: item["verbalizationUsed"],
+  };
+}
+
+/** Represents the arguments the search index retrieval activity was run with. */
+export interface KnowledgeBaseSearchIndexActivityArguments {
+  /** The search string used to query the search index. */
+  search?: string;
+  /** The filter string. */
+  filter?: string;
+  /** What fields were selected for search. */
+  sourceDataFields?: SearchIndexFieldReference[];
+  /** What fields were searched against. */
+  searchFields?: SearchIndexFieldReference[];
+  /** What semantic configuration was used from the search index. */
+  semanticConfigurationName?: string;
+}
+
+export function knowledgeBaseSearchIndexActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseSearchIndexActivityArguments {
+  return {
+    search: item["search"],
+    filter: item["filter"],
+    sourceDataFields: !item["sourceDataFields"]
+      ? item["sourceDataFields"]
+      : searchIndexFieldReferenceArrayDeserializer(item["sourceDataFields"]),
+    searchFields: !item["searchFields"]
+      ? item["searchFields"]
+      : searchIndexFieldReferenceArrayDeserializer(item["searchFields"]),
+    semanticConfigurationName: item["semanticConfigurationName"],
+  };
+}
+
+/** Represents a azure blob retrieval activity record. */
+export interface KnowledgeBaseAzureBlobActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** Statistics about image serving for this retrieval activity */
+  imageServing?: ImageServingStatistics;
+  /** The discriminator value. */
+  type: "azureBlob";
+  /** The azure blob arguments for the retrieval activity. */
+  azureBlobArguments?: KnowledgeBaseAzureBlobActivityArguments;
+}
+
+export function knowledgeBaseAzureBlobActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseAzureBlobActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedInMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    imageServing: !item["imageServing"]
+      ? item["imageServing"]
+      : imageServingStatisticsDeserializer(item["imageServing"]),
+    azureBlobArguments: !item["azureBlobArguments"]
+      ? item["azureBlobArguments"]
+      : knowledgeBaseAzureBlobActivityArgumentsDeserializer(item["azureBlobArguments"]),
+  };
+}
+
+/** Represents the arguments the azure blob retrieval activity was run with. */
+export interface KnowledgeBaseAzureBlobActivityArguments {
+  /** The search string used to query blob contents. */
+  search?: string;
+}
+
+export function knowledgeBaseAzureBlobActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseAzureBlobActivityArguments {
+  return {
+    search: item["search"],
+  };
+}
+
+/** Represents a indexed SharePoint retrieval activity record. */
+export interface KnowledgeBaseIndexedSharePointActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** Statistics about image serving for this retrieval activity */
+  imageServing?: ImageServingStatistics;
+  /** The discriminator value. */
+  type: "indexedSharePoint";
+  /** The indexed SharePoint arguments for the retrieval activity. */
+  indexedSharePointArguments?: KnowledgeBaseIndexedSharePointActivityArguments;
+}
+
+export function knowledgeBaseIndexedSharePointActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseIndexedSharePointActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedInMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    imageServing: !item["imageServing"]
+      ? item["imageServing"]
+      : imageServingStatisticsDeserializer(item["imageServing"]),
+    indexedSharePointArguments: !item["indexedSharePointArguments"]
+      ? item["indexedSharePointArguments"]
+      : knowledgeBaseIndexedSharePointActivityArgumentsDeserializer(
+          item["indexedSharePointArguments"],
+        ),
+  };
+}
+
+/** Represents the arguments the indexed SharePoint retrieval activity was run with. */
+export interface KnowledgeBaseIndexedSharePointActivityArguments {
+  /** The search string used to query indexed SharePoint contents. */
+  search?: string;
+}
+
+export function knowledgeBaseIndexedSharePointActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseIndexedSharePointActivityArguments {
+  return {
+    search: item["search"],
+  };
+}
+
+/** Represents a indexed OneLake retrieval activity record. */
+export interface KnowledgeBaseIndexedOneLakeActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** Statistics about image serving for this retrieval activity */
+  imageServing?: ImageServingStatistics;
+  /** The discriminator value. */
+  type: "indexedOneLake";
+  /** The indexed OneLake arguments for the retrieval activity. */
+  indexedOneLakeArguments?: KnowledgeBaseIndexedOneLakeActivityArguments;
+}
+
+export function knowledgeBaseIndexedOneLakeActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseIndexedOneLakeActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedInMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    imageServing: !item["imageServing"]
+      ? item["imageServing"]
+      : imageServingStatisticsDeserializer(item["imageServing"]),
+    indexedOneLakeArguments: !item["indexedOneLakeArguments"]
+      ? item["indexedOneLakeArguments"]
+      : knowledgeBaseIndexedOneLakeActivityArgumentsDeserializer(item["indexedOneLakeArguments"]),
+  };
+}
+
+/** Represents the arguments the indexed OneLake retrieval activity was run with. */
+export interface KnowledgeBaseIndexedOneLakeActivityArguments {
+  /** The search string used to query indexed OneLake contents. */
+  search?: string;
+}
+
+export function knowledgeBaseIndexedOneLakeActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseIndexedOneLakeActivityArguments {
+  return {
+    search: item["search"],
+  };
+}
+
+/** Represents a web retrieval activity record. */
+export interface KnowledgeBaseWebActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** Statistics about image serving for this retrieval activity */
+  imageServing?: ImageServingStatistics;
+  /** The discriminator value. */
+  type: "web";
+  /** The web arguments for the retrieval activity. */
+  webArguments?: KnowledgeBaseWebActivityArguments;
+}
+
+export function knowledgeBaseWebActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseWebActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedInMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    imageServing: !item["imageServing"]
+      ? item["imageServing"]
+      : imageServingStatisticsDeserializer(item["imageServing"]),
+    webArguments: !item["webArguments"]
+      ? item["webArguments"]
+      : knowledgeBaseWebActivityArgumentsDeserializer(item["webArguments"]),
+  };
+}
+
+/** Represents the arguments the web retrieval activity was run with. */
+export interface KnowledgeBaseWebActivityArguments {
+  /** The search string used to query the web. */
+  search?: string;
+  /** The language for the retrieval activity. */
+  language?: string;
+  /** The market for the retrieval activity. */
+  market?: string;
+  /** The number of web results returned. */
+  count?: number;
+  /** The freshness for the retrieval activity. */
+  freshness?: string;
+}
+
+export function knowledgeBaseWebActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseWebActivityArguments {
+  return {
+    search: item["search"],
+    language: item["language"],
+    market: item["market"],
+    count: item["count"],
+    freshness: item["freshness"],
+  };
+}
+
+/** Represents a remote SharePoint retrieval activity record. */
+export interface KnowledgeBaseRemoteSharePointActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** Statistics about image serving for this retrieval activity */
+  imageServing?: ImageServingStatistics;
+  /** The discriminator value. */
+  type: "remoteSharePoint";
+  /** The remote SharePoint arguments for the retrieval activity. */
+  remoteSharePointArguments?: KnowledgeBaseRemoteSharePointActivityArguments;
+}
+
+export function knowledgeBaseRemoteSharePointActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseRemoteSharePointActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedInMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    imageServing: !item["imageServing"]
+      ? item["imageServing"]
+      : imageServingStatisticsDeserializer(item["imageServing"]),
+    remoteSharePointArguments: !item["remoteSharePointArguments"]
+      ? item["remoteSharePointArguments"]
+      : knowledgeBaseRemoteSharePointActivityArgumentsDeserializer(
+          item["remoteSharePointArguments"],
+        ),
+  };
+}
+
+/** Represents the arguments the remote SharePoint retrieval activity was run with. */
+export interface KnowledgeBaseRemoteSharePointActivityArguments {
+  /** The search string used to query the remote SharePoint knowledge source. */
+  search?: string;
+  /** The filter expression add-on for the retrieval activity. */
+  filterExpressionAddOn?: string;
+}
+
+export function knowledgeBaseRemoteSharePointActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseRemoteSharePointActivityArguments {
+  return {
+    search: item["search"],
+    filterExpressionAddOn: item["filterExpressionAddOn"],
+  };
+}
+
+/** Represents a WorkIQ retrieval activity record. */
+export interface KnowledgeBaseWorkIQActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** Statistics about image serving for this retrieval activity */
+  imageServing?: ImageServingStatistics;
+  /** The discriminator value. */
+  type: "workIQ";
+  /** The WorkIQ arguments for the retrieval activity. */
+  workIQArguments?: KnowledgeBaseWorkIQActivityArguments;
+}
+
+export function knowledgeBaseWorkIQActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseWorkIQActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedInMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    imageServing: !item["imageServing"]
+      ? item["imageServing"]
+      : imageServingStatisticsDeserializer(item["imageServing"]),
+    workIQArguments: !item["workIQArguments"]
+      ? item["workIQArguments"]
+      : knowledgeBaseWorkIQActivityArgumentsDeserializer(item["workIQArguments"]),
+  };
+}
+
+/** Represents the arguments the WorkIQ retrieval activity was run with. */
+export interface KnowledgeBaseWorkIQActivityArguments {
+  /** The search string used to query the WorkIQ knowledge source. */
+  search?: string;
+}
+
+export function knowledgeBaseWorkIQActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseWorkIQActivityArguments {
+  return {
+    search: item["search"],
+  };
+}
+
+/** Represents a Fabric Data Agent retrieval activity record. */
+export interface KnowledgeBaseFabricDataAgentActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** Statistics about image serving for this retrieval activity */
+  imageServing?: ImageServingStatistics;
+  /** The discriminator value. */
+  type: "fabricDataAgent";
+  /** The Fabric Data Agent arguments for the retrieval activity. */
+  fabricDataAgentArguments?: KnowledgeBaseFabricDataAgentActivityArguments;
+}
+
+export function knowledgeBaseFabricDataAgentActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseFabricDataAgentActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedInMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    imageServing: !item["imageServing"]
+      ? item["imageServing"]
+      : imageServingStatisticsDeserializer(item["imageServing"]),
+    fabricDataAgentArguments: !item["fabricDataAgentArguments"]
+      ? item["fabricDataAgentArguments"]
+      : knowledgeBaseFabricDataAgentActivityArgumentsDeserializer(item["fabricDataAgentArguments"]),
+  };
+}
+
+/** Represents the arguments the Fabric Data Agent retrieval activity was run with. */
+export interface KnowledgeBaseFabricDataAgentActivityArguments {
+  /** The search string used to query the Fabric Data Agent knowledge source. */
+  search?: string;
+}
+
+export function knowledgeBaseFabricDataAgentActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseFabricDataAgentActivityArguments {
+  return {
+    search: item["search"],
+  };
+}
+
+/** Represents a Fabric Ontology retrieval activity record. */
+export interface KnowledgeBaseFabricOntologyActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** Statistics about image serving for this retrieval activity */
+  imageServing?: ImageServingStatistics;
+  /** The discriminator value. */
+  type: "fabricOntology";
+  /** The Fabric Ontology arguments for the retrieval activity. */
+  fabricOntologyArguments?: KnowledgeBaseFabricOntologyActivityArguments;
+}
+
+export function knowledgeBaseFabricOntologyActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseFabricOntologyActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedInMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    imageServing: !item["imageServing"]
+      ? item["imageServing"]
+      : imageServingStatisticsDeserializer(item["imageServing"]),
+    fabricOntologyArguments: !item["fabricOntologyArguments"]
+      ? item["fabricOntologyArguments"]
+      : knowledgeBaseFabricOntologyActivityArgumentsDeserializer(item["fabricOntologyArguments"]),
+  };
+}
+
+/** Represents the arguments the Fabric Ontology retrieval activity was run with. */
+export interface KnowledgeBaseFabricOntologyActivityArguments {
+  /** The search string used to query the Fabric Ontology knowledge source. */
+  search?: string;
+}
+
+export function knowledgeBaseFabricOntologyActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseFabricOntologyActivityArguments {
+  return {
+    search: item["search"],
+  };
+}
+
+/** Represents an MCP server retrieval activity record. */
+export interface KnowledgeBaseMcpServerActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** Statistics about image serving for this retrieval activity */
+  imageServing?: ImageServingStatistics;
+  /** The discriminator value. */
+  type: "mcpServer";
+  /** The MCP server arguments for the retrieval activity. */
+  mcpServerArguments?: KnowledgeBaseMcpServerActivityArguments;
+}
+
+export function knowledgeBaseMcpServerActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseMcpServerActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedInMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    imageServing: !item["imageServing"]
+      ? item["imageServing"]
+      : imageServingStatisticsDeserializer(item["imageServing"]),
+    mcpServerArguments: !item["mcpServerArguments"]
+      ? item["mcpServerArguments"]
+      : knowledgeBaseMcpServerActivityArgumentsDeserializer(item["mcpServerArguments"]),
+  };
+}
+
+/** Represents the arguments the MCP server retrieval activity was run with. */
+export interface KnowledgeBaseMcpServerActivityArguments {
+  /** The name of the MCP server tool used for the retrieval activity. */
+  toolName?: string;
+  /** The arguments passed to the MCP server tool. */
+  toolArguments?: Record<string, any>;
+}
+
+export function knowledgeBaseMcpServerActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseMcpServerActivityArguments {
+  return {
+    toolName: item["toolName"],
+    toolArguments: !item["toolArguments"]
+      ? item["toolArguments"]
+      : Object.fromEntries(
+          Object.entries(item["toolArguments"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+/** Represents a File retrieval activity record. */
+export interface KnowledgeBaseFileActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** Statistics about image serving for this retrieval activity */
+  imageServing?: ImageServingStatistics;
+  /** The discriminator value. */
+  type: "file";
+  /** The File arguments for the retrieval activity. */
+  fileArguments?: KnowledgeBaseFileActivityArguments;
+}
+
+export function knowledgeBaseFileActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseFileActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedInMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    imageServing: !item["imageServing"]
+      ? item["imageServing"]
+      : imageServingStatisticsDeserializer(item["imageServing"]),
+    fileArguments: !item["fileArguments"]
+      ? item["fileArguments"]
+      : knowledgeBaseFileActivityArgumentsDeserializer(item["fileArguments"]),
+  };
+}
+
+/** Represents the arguments the File retrieval activity was run with. */
+export interface KnowledgeBaseFileActivityArguments {
+  /** The search string used to query file contents. */
+  search?: string;
+}
+
+export function knowledgeBaseFileActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseFileActivityArguments {
+  return {
+    search: item["search"],
+  };
+}
+
+/** Represents an indexed SQL retrieval activity record. */
+export interface KnowledgeBaseIndexedSqlActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** Statistics about image serving for this retrieval activity */
+  imageServing?: ImageServingStatistics;
+  /** The discriminator value. */
+  type: "indexedSql";
+  /** The indexed SQL arguments for the retrieval activity. */
+  indexedSqlArguments?: KnowledgeBaseIndexedSqlActivityArguments;
+}
+
+export function knowledgeBaseIndexedSqlActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseIndexedSqlActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedInMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    imageServing: !item["imageServing"]
+      ? item["imageServing"]
+      : imageServingStatisticsDeserializer(item["imageServing"]),
+    indexedSqlArguments: !item["indexedSqlArguments"]
+      ? item["indexedSqlArguments"]
+      : knowledgeBaseIndexedSqlActivityArgumentsDeserializer(item["indexedSqlArguments"]),
+  };
+}
+
+/** Represents the arguments the indexed SQL retrieval activity was run with. */
+export interface KnowledgeBaseIndexedSqlActivityArguments {
+  /** The search string used to query indexed SQL contents. */
+  search?: string;
+}
+
+export function knowledgeBaseIndexedSqlActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseIndexedSqlActivityArguments {
+  return {
+    search: item["search"],
   };
 }
 
@@ -1208,6 +2295,8 @@ export interface KnowledgeBaseModelQueryPlanningActivityRecord extends Knowledge
   inputTokens?: number;
   /** The number of output tokens for the LLM query planning activity. */
   outputTokens?: number;
+  /** The name of the model used for the LLM query planning activity. */
+  modelName?: string;
 }
 
 export function knowledgeBaseModelQueryPlanningActivityRecordDeserializer(
@@ -1216,10 +2305,12 @@ export function knowledgeBaseModelQueryPlanningActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
-    elapsedMs: item["elapsedMs"],
+    elapsedInMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
     inputTokens: item["inputTokens"],
     outputTokens: item["outputTokens"],
+    modelName: item["modelName"],
   };
 }
 
@@ -1231,6 +2322,8 @@ export interface KnowledgeBaseModelAnswerSynthesisActivityRecord extends Knowled
   inputTokens?: number;
   /** The number of output tokens for the LLM answer synthesis activity. */
   outputTokens?: number;
+  /** The name of the model used for the LLM answer synthesis activity. */
+  modelName?: string;
 }
 
 export function knowledgeBaseModelAnswerSynthesisActivityRecordDeserializer(
@@ -1239,10 +2332,39 @@ export function knowledgeBaseModelAnswerSynthesisActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
-    elapsedMs: item["elapsedMs"],
+    elapsedInMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
     inputTokens: item["inputTokens"],
     outputTokens: item["outputTokens"],
+    modelName: item["modelName"],
+  };
+}
+
+/** Represents an LLM web summarization activity record. */
+export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The discriminator value. */
+  type: "modelWebSummarization";
+  /** The number of input tokens for the LLM web summarization activity. */
+  inputTokensCount?: number;
+  /** The number of output tokens for the LLM web summarization activity. */
+  outputTokensCount?: number;
+  /** The name of the model used for the LLM web summarization activity. */
+  modelName?: string;
+}
+
+export function knowledgeBaseModelWebSummarizationActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseModelWebSummarizationActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedInMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
+    inputTokensCount: item["inputTokens"],
+    outputTokensCount: item["outputTokens"],
+    modelName: item["modelName"],
   };
 }
 
@@ -1262,8 +2384,9 @@ export function knowledgeBaseAgenticReasoningActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
-    elapsedMs: item["elapsedMs"],
+    elapsedInMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
     reasoningTokens: item["reasoningTokens"],
     retrievalReasoningEffort: !item["retrievalReasoningEffort"]
       ? item["retrievalReasoningEffort"]
@@ -1282,14 +2405,14 @@ export function knowledgeBaseReferenceUnionArrayDeserializer(
 /** Base type for references. */
 export interface KnowledgeBaseReference {
   /** The type of the reference. */
-  /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint */
+  /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint, workIQ, fabricDataAgent, fabricOntology, mcpServer, file, indexedSql */
   type: KnowledgeBaseReferenceType;
   /** The ID of the reference. */
   id: string;
   /** The source activity ID for the reference. */
   activitySource: number;
   /** The source data for the reference. */
-  sourceData?: Record<string, any>;
+  sourceData?: Record<string, unknown>;
   /** The reranker score for the document reference. */
   rerankerScore?: number;
 }
@@ -1302,7 +2425,7 @@ export function knowledgeBaseReferenceDeserializer(item: any): KnowledgeBaseRefe
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
   };
@@ -1316,6 +2439,12 @@ export type KnowledgeBaseReferenceUnion =
   | KnowledgeBaseIndexedOneLakeReference
   | KnowledgeBaseWebReference
   | KnowledgeBaseRemoteSharePointReference
+  | KnowledgeBaseWorkIQReference
+  | KnowledgeBaseFabricDataAgentReference
+  | KnowledgeBaseFabricOntologyReference
+  | KnowledgeBaseMcpServerReference
+  | KnowledgeBaseFileReference
+  | KnowledgeBaseIndexedSqlReference
   | KnowledgeBaseReference;
 
 export function knowledgeBaseReferenceUnionDeserializer(item: any): KnowledgeBaseReferenceUnion {
@@ -1346,6 +2475,28 @@ export function knowledgeBaseReferenceUnionDeserializer(item: any): KnowledgeBas
         item as KnowledgeBaseRemoteSharePointReference,
       );
 
+    case "workIQ":
+      return knowledgeBaseWorkIQReferenceDeserializer(item as KnowledgeBaseWorkIQReference);
+
+    case "fabricDataAgent":
+      return knowledgeBaseFabricDataAgentReferenceDeserializer(
+        item as KnowledgeBaseFabricDataAgentReference,
+      );
+
+    case "fabricOntology":
+      return knowledgeBaseFabricOntologyReferenceDeserializer(
+        item as KnowledgeBaseFabricOntologyReference,
+      );
+
+    case "mcpServer":
+      return knowledgeBaseMcpServerReferenceDeserializer(item as KnowledgeBaseMcpServerReference);
+
+    case "file":
+      return knowledgeBaseFileReferenceDeserializer(item as KnowledgeBaseFileReference);
+
+    case "indexedSql":
+      return knowledgeBaseIndexedSqlReferenceDeserializer(item as KnowledgeBaseIndexedSqlReference);
+
     default:
       return knowledgeBaseReferenceDeserializer(item);
   }
@@ -1365,6 +2516,18 @@ export enum KnownKnowledgeBaseReferenceType {
   Web = "web",
   /** Remote SharePoint document reference. */
   RemoteSharePoint = "remoteSharePoint",
+  /** Work IQ document reference. */
+  WorkIQ = "workIQ",
+  /** Fabric Data Agent document reference. */
+  FabricDataAgent = "fabricDataAgent",
+  /** Fabric Ontology document reference. */
+  FabricOntology = "fabricOntology",
+  /** MCP server document reference. */
+  McpServer = "mcpServer",
+  /** File document reference. */
+  File = "file",
+  /** Indexed SQL document reference. */
+  IndexedSql = "indexedSql",
 }
 
 /**
@@ -1377,7 +2540,13 @@ export enum KnownKnowledgeBaseReferenceType {
  * **indexedSharePoint**: Indexed SharePoint document reference. \
  * **indexedOneLake**: Indexed OneLake document reference. \
  * **web**: Web document reference. \
- * **remoteSharePoint**: Remote SharePoint document reference.
+ * **remoteSharePoint**: Remote SharePoint document reference. \
+ * **workIQ**: Work IQ document reference. \
+ * **fabricDataAgent**: Fabric Data Agent document reference. \
+ * **fabricOntology**: Fabric Ontology document reference. \
+ * **mcpServer**: MCP server document reference. \
+ * **file**: File document reference. \
+ * **indexedSql**: Indexed SQL document reference.
  */
 export type KnowledgeBaseReferenceType = string;
 
@@ -1387,6 +2556,8 @@ export interface KnowledgeBaseSearchIndexReference extends KnowledgeBaseReferenc
   type: "searchIndex";
   /** The document key for the reference. */
   docKey?: string;
+  /** The sensitivity label information for the reference. */
+  searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
 }
 
 export function knowledgeBaseSearchIndexReferenceDeserializer(
@@ -1399,10 +2570,40 @@ export function knowledgeBaseSearchIndexReferenceDeserializer(
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
     docKey: item["docKey"],
+    searchSensitivityLabelInfo: !item["searchSensitivityLabelInfo"]
+      ? item["searchSensitivityLabelInfo"]
+      : purviewSensitivityLabelInfoDeserializer(item["searchSensitivityLabelInfo"]),
+  };
+}
+
+/** Information about the sensitivity label applied to a document */
+export interface PurviewSensitivityLabelInfo {
+  /** The display name for the sensitivity label. */
+  displayName?: string;
+  /** The ID of the sensitivity label. */
+  sensitivityLabelId?: string;
+  /** The tooltip that should be displayed for the label in a UI. */
+  toolTip?: string;
+  /** The priority in which the sensitivity label is applied. */
+  priority?: number;
+  /** The color that the UI should display for the label, if configured. */
+  color?: string;
+  /** Indicates whether the sensitivity label enforces encryption. */
+  isEncrypted?: boolean;
+}
+
+export function purviewSensitivityLabelInfoDeserializer(item: any): PurviewSensitivityLabelInfo {
+  return {
+    displayName: item["displayName"],
+    sensitivityLabelId: item["sensitivityLabelId"],
+    toolTip: item["toolTip"],
+    priority: item["priority"],
+    color: item["color"],
+    isEncrypted: item["isEncrypted"],
   };
 }
 
@@ -1412,6 +2613,8 @@ export interface KnowledgeBaseAzureBlobReference extends KnowledgeBaseReference 
   type: "azureBlob";
   /** The blob URL for the reference. */
   blobUrl?: string;
+  /** The sensitivity label information for the reference. */
+  searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
 }
 
 export function knowledgeBaseAzureBlobReferenceDeserializer(
@@ -1424,10 +2627,13 @@ export function knowledgeBaseAzureBlobReferenceDeserializer(
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
     blobUrl: item["blobUrl"],
+    searchSensitivityLabelInfo: !item["searchSensitivityLabelInfo"]
+      ? item["searchSensitivityLabelInfo"]
+      : purviewSensitivityLabelInfoDeserializer(item["searchSensitivityLabelInfo"]),
   };
 }
 
@@ -1437,6 +2643,8 @@ export interface KnowledgeBaseIndexedSharePointReference extends KnowledgeBaseRe
   type: "indexedSharePoint";
   /** The document URL for the reference. */
   docUrl?: string;
+  /** The sensitivity label information for the reference. */
+  searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
 }
 
 export function knowledgeBaseIndexedSharePointReferenceDeserializer(
@@ -1453,6 +2661,9 @@ export function knowledgeBaseIndexedSharePointReferenceDeserializer(
         ),
     rerankerScore: item["rerankerScore"],
     docUrl: item["docUrl"],
+    searchSensitivityLabelInfo: !item["searchSensitivityLabelInfo"]
+      ? item["searchSensitivityLabelInfo"]
+      : purviewSensitivityLabelInfoDeserializer(item["searchSensitivityLabelInfo"]),
   };
 }
 
@@ -1462,6 +2673,8 @@ export interface KnowledgeBaseIndexedOneLakeReference extends KnowledgeBaseRefer
   type: "indexedOneLake";
   /** The document URL for the reference. */
   docUrl?: string;
+  /** The sensitivity label information for the reference. */
+  searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
 }
 
 export function knowledgeBaseIndexedOneLakeReferenceDeserializer(
@@ -1474,10 +2687,13 @@ export function knowledgeBaseIndexedOneLakeReferenceDeserializer(
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
     docUrl: item["docUrl"],
+    searchSensitivityLabelInfo: !item["searchSensitivityLabelInfo"]
+      ? item["searchSensitivityLabelInfo"]
+      : purviewSensitivityLabelInfoDeserializer(item["searchSensitivityLabelInfo"]),
   };
 }
 
@@ -1499,7 +2715,7 @@ export function knowledgeBaseWebReferenceDeserializer(item: any): KnowledgeBaseW
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
     url: item["url"],
@@ -1513,8 +2729,8 @@ export interface KnowledgeBaseRemoteSharePointReference extends KnowledgeBaseRef
   type: "remoteSharePoint";
   /** The url the reference data originated from. */
   webUrl?: string;
-  /** Information about the sensitivity label applied to the SharePoint document. */
-  searchSensitivityLabelInfo?: SharePointSensitivityLabelInfo;
+  /** The sensitivity label information for the reference. */
+  searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
 }
 
 export function knowledgeBaseRemoteSharePointReferenceDeserializer(
@@ -1533,35 +2749,181 @@ export function knowledgeBaseRemoteSharePointReferenceDeserializer(
     webUrl: item["webUrl"],
     searchSensitivityLabelInfo: !item["searchSensitivityLabelInfo"]
       ? item["searchSensitivityLabelInfo"]
-      : sharePointSensitivityLabelInfoDeserializer(item["searchSensitivityLabelInfo"]),
+      : purviewSensitivityLabelInfoDeserializer(item["searchSensitivityLabelInfo"]),
   };
 }
 
-/** Information about the sensitivity label applied to a SharePoint document. */
-export interface SharePointSensitivityLabelInfo {
-  /** The display name for the sensitivity label. */
-  displayName?: string;
-  /** The ID of the sensitivity label. */
-  sensitivityLabelId?: string;
-  /** The tooltip that should be displayed for the label in a UI. */
-  tooltip?: string;
-  /** The priority in which the sensitivity label is applied. */
-  priority?: number;
-  /** The color that the UI should display for the label, if configured. */
-  color?: string;
-  /** Indicates whether the sensitivity label enforces encryption. */
-  isEncrypted?: boolean;
+/** Represents a WorkIQ document reference. */
+export interface KnowledgeBaseWorkIQReference extends KnowledgeBaseReference {
+  /** The discriminator value. */
+  type: "workIQ";
+  /** The attributions for the reference. */
+  attributions?: WorkIQAttribution[];
 }
 
-export function sharePointSensitivityLabelInfoDeserializer(
-  item: any,
-): SharePointSensitivityLabelInfo {
+export function knowledgeBaseWorkIQReferenceDeserializer(item: any): KnowledgeBaseWorkIQReference {
   return {
-    displayName: item["displayName"],
-    sensitivityLabelId: item["sensitivityLabelId"],
-    tooltip: item["tooltip"],
-    priority: item["priority"],
-    color: item["color"],
-    isEncrypted: item["isEncrypted"],
+    type: item["type"],
+    id: item["id"],
+    activitySource: item["activitySource"],
+    sourceData: !item["sourceData"]
+      ? item["sourceData"]
+      : Object.fromEntries(
+          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    rerankerScore: item["rerankerScore"],
+    attributions: !item["attributions"]
+      ? item["attributions"]
+      : workIQAttributionArrayDeserializer(item["attributions"]),
+  };
+}
+
+export function workIQAttributionArrayDeserializer(result: Array<WorkIQAttribution>): any[] {
+  return result.map((item) => {
+    return workIQAttributionDeserializer(item);
+  });
+}
+
+/** Attribution information for a WorkIQ reference. */
+export interface WorkIQAttribution {
+  /** The URL for the attribution. */
+  seeMoreWebUrl?: string;
+}
+
+export function workIQAttributionDeserializer(item: any): WorkIQAttribution {
+  return {
+    seeMoreWebUrl: item["seeMoreWebUrl"],
+  };
+}
+
+/** Represents a Fabric Data Agent document reference. */
+export interface KnowledgeBaseFabricDataAgentReference extends KnowledgeBaseReference {
+  /** The discriminator value. */
+  type: "fabricDataAgent";
+  /** The Fabric workspace ID. */
+  workspaceId?: string;
+  /** The Fabric Data Agent ID. */
+  dataAgentId?: string;
+}
+
+export function knowledgeBaseFabricDataAgentReferenceDeserializer(
+  item: any,
+): KnowledgeBaseFabricDataAgentReference {
+  return {
+    type: item["type"],
+    id: item["id"],
+    activitySource: item["activitySource"],
+    sourceData: !item["sourceData"]
+      ? item["sourceData"]
+      : Object.fromEntries(
+          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    rerankerScore: item["rerankerScore"],
+    workspaceId: item["workspaceId"],
+    dataAgentId: item["dataAgentId"],
+  };
+}
+
+/** Represents a Fabric Ontology document reference. */
+export interface KnowledgeBaseFabricOntologyReference extends KnowledgeBaseReference {
+  /** The discriminator value. */
+  type: "fabricOntology";
+  /** The Fabric workspace ID. */
+  workspaceId?: string;
+  /** The ontology ID within the workspace. */
+  ontologyId?: string;
+}
+
+export function knowledgeBaseFabricOntologyReferenceDeserializer(
+  item: any,
+): KnowledgeBaseFabricOntologyReference {
+  return {
+    type: item["type"],
+    id: item["id"],
+    activitySource: item["activitySource"],
+    sourceData: !item["sourceData"]
+      ? item["sourceData"]
+      : Object.fromEntries(
+          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    rerankerScore: item["rerankerScore"],
+    workspaceId: item["workspaceId"],
+    ontologyId: item["ontologyId"],
+  };
+}
+
+/** Represents an MCP server document reference. */
+export interface KnowledgeBaseMcpServerReference extends KnowledgeBaseReference {
+  /** The discriminator value. */
+  type: "mcpServer";
+  /** The name of the MCP server tool that produced the reference. */
+  toolName?: string;
+  /** The title of the MCP server tool result. */
+  title?: string;
+}
+
+export function knowledgeBaseMcpServerReferenceDeserializer(
+  item: any,
+): KnowledgeBaseMcpServerReference {
+  return {
+    type: item["type"],
+    id: item["id"],
+    activitySource: item["activitySource"],
+    sourceData: !item["sourceData"]
+      ? item["sourceData"]
+      : Object.fromEntries(
+          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
+        ),
+    rerankerScore: item["rerankerScore"],
+    toolName: item["toolName"],
+    title: item["title"],
+  };
+}
+
+/** Represents a file document reference. */
+export interface KnowledgeBaseFileReference extends KnowledgeBaseReference {
+  /** The discriminator value. */
+  type: "file";
+  /** The document name for the reference. */
+  docName?: string;
+}
+
+export function knowledgeBaseFileReferenceDeserializer(item: any): KnowledgeBaseFileReference {
+  return {
+    type: item["type"],
+    id: item["id"],
+    activitySource: item["activitySource"],
+    sourceData: !item["sourceData"]
+      ? item["sourceData"]
+      : Object.fromEntries(
+          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
+        ),
+    rerankerScore: item["rerankerScore"],
+    docName: item["docName"],
+  };
+}
+
+/** Represents an Azure SQL document reference. */
+export interface KnowledgeBaseIndexedSqlReference extends KnowledgeBaseReference {
+  /** The discriminator value. */
+  type: "indexedSql";
+  /** The document URL for the reference. */
+  docUrl?: string;
+}
+
+export function knowledgeBaseIndexedSqlReferenceDeserializer(
+  item: any,
+): KnowledgeBaseIndexedSqlReference {
+  return {
+    type: item["type"],
+    id: item["id"],
+    activitySource: item["activitySource"],
+    sourceData: !item["sourceData"]
+      ? item["sourceData"]
+      : Object.fromEntries(
+          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
+        ),
+    rerankerScore: item["rerankerScore"],
+    docUrl: item["docUrl"],
   };
 }

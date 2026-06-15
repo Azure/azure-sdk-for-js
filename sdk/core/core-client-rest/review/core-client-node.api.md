@@ -8,6 +8,7 @@ import type { AbortSignalLike } from '@azure/abort-controller';
 import type { HttpClient } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { LogPolicyOptions } from '@azure/core-rest-pipeline';
+import { NodeReadableStream } from '@azure/core-rest-pipeline';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PipelineOptions } from '@azure/core-rest-pipeline';
@@ -20,6 +21,7 @@ import type { RequestBodyType } from '@azure/core-rest-pipeline';
 import type { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
+import type { WebReadableStream } from '@typespec/ts-http-runtime';
 
 // @public
 export function addCredentialPipelinePolicy(pipeline: Pipeline, endpoint: string, options?: AddCredentialPipelinePolicyOptions): void;
@@ -56,6 +58,7 @@ export type ClientOptions = PipelineOptions & {
     additionalPolicies?: AdditionalPolicyConfig[];
     httpClient?: HttpClient;
     loggingOptions?: LogPolicyOptions;
+    pipeline?: Pipeline;
 };
 
 // @public
@@ -86,6 +89,12 @@ export interface FullOperationResponse extends PipelineResponse {
 }
 
 // @public
+export function getBinaryStreamResponse(streamableMethod: StreamableMethod): Promise<HttpResponse & {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeReadableStream;
+}>;
+
+// @public
 export function getClient(endpoint: string, options?: ClientOptions): Client;
 
 // @public
@@ -93,7 +102,7 @@ export function getClient(endpoint: string, credentials?: TokenCredential | KeyC
 
 // @public
 export type HttpBrowserStreamResponse = HttpResponse & {
-    body?: ReadableStream<Uint8Array>;
+    body?: WebReadableStream<Uint8Array>;
 };
 
 // @public
@@ -119,6 +128,8 @@ export interface InnerError {
 export interface NodeJSReadableStream extends NodeJS.ReadableStream {
     destroy(error?: Error): void;
 }
+
+export { NodeReadableStream }
 
 // @public
 export interface OperationOptions {

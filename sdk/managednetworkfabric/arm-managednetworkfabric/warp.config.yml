@@ -1,11 +1,8 @@
-# warp.config.yml — build configuration
+
+extends: ../../../warp.base.config.yml
 
 exports:
-  "./package.json": "./package.json"
-  ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
-  "./api/networkBootstrapInterfaces": "src/api/networkBootstrapInterfaces/index.ts"
-  "./api/networkBootstrapDevices": "src/api/networkBootstrapDevices/index.ts"
   "./api/networkMonitors": "src/api/networkMonitors/index.ts"
   "./api/routePolicies": "src/api/routePolicies/index.ts"
   "./api/networkTaps": "src/api/networkTaps/index.ts"
@@ -32,20 +29,15 @@ exports:
   "./api/accessControlLists": "src/api/accessControlLists/index.ts"
   "./api/operations": "src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
-
 targets:
   - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-    polyfillSuffix: "-browser"
-
-  - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
-    polyfillSuffix: "-react-native"
+    tsconfig: "./config/tsconfig.src.browser.json"
 
   - name: esm
     condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
+    tsconfig: "./config/tsconfig.src.esm.json"
 
   - name: commonjs
     condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

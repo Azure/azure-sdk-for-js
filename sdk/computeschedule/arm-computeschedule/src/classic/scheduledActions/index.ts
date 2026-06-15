@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleContext } from "../../api/computeScheduleContext.js";
+import type { ComputeScheduleContext } from "../../api/computeScheduleContext.js";
 import {
   triggerManualOccurrence,
   cancelNextOccurrence,
@@ -22,6 +22,7 @@ import {
   virtualMachinesGetOperationStatus,
   virtualMachinesExecuteDelete,
   virtualMachinesExecuteCreate,
+  virtualMachinesExecuteCreateFlex,
   virtualMachinesExecuteStart,
   virtualMachinesExecuteHibernate,
   virtualMachinesExecuteDeallocate,
@@ -29,7 +30,7 @@ import {
   virtualMachinesSubmitHibernate,
   virtualMachinesSubmitDeallocate,
 } from "../../api/scheduledActions/operations.js";
-import {
+import type {
   ScheduledActionsTriggerManualOccurrenceOptionalParams,
   ScheduledActionsCancelNextOccurrenceOptionalParams,
   ScheduledActionsEnableOptionalParams,
@@ -49,6 +50,7 @@ import {
   ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
   ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams,
   ScheduledActionsVirtualMachinesExecuteCreateOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams,
   ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
   ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
   ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
@@ -56,7 +58,7 @@ import {
   ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
   ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
 } from "../../api/scheduledActions/options.js";
-import {
+import type {
   SubmitDeallocateRequest,
   DeallocateResourceOperationResponse,
   SubmitHibernateRequest,
@@ -66,6 +68,8 @@ import {
   ExecuteDeallocateRequest,
   ExecuteHibernateRequest,
   ExecuteStartRequest,
+  ExecuteCreateFlexRequest,
+  CreateFlexResourceOperationResponse,
   ExecuteCreateRequest,
   CreateResourceOperationResponse,
   ExecuteDeleteRequest,
@@ -79,15 +83,15 @@ import {
   ScheduledAction,
   ScheduledActionUpdate,
   ScheduledActionResource,
-  ResourceAttachRequest,
+  ResourceAttachRequestInput,
   RecurringActionsResourceOperationResult,
   ResourceDetachRequest,
-  ResourcePatchRequest,
+  ResourcePatchRequestInput,
   CancelOccurrenceRequest,
   Occurrence,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ScheduledActions operations. */
 export interface ScheduledActionsOperations {
@@ -120,7 +124,7 @@ export interface ScheduledActionsOperations {
   patchResources: (
     resourceGroupName: string,
     scheduledActionName: string,
-    body: ResourcePatchRequest,
+    body: ResourcePatchRequestInput,
     options?: ScheduledActionsPatchResourcesOptionalParams,
   ) => Promise<RecurringActionsResourceOperationResult>;
   /** A synchronous resource action. */
@@ -134,7 +138,7 @@ export interface ScheduledActionsOperations {
   attachResources: (
     resourceGroupName: string,
     scheduledActionName: string,
-    body: ResourceAttachRequest,
+    body: ResourceAttachRequestInput,
     options?: ScheduledActionsAttachResourcesOptionalParams,
   ) => Promise<RecurringActionsResourceOperationResult>;
   /** List resources attached to Scheduled Actions */
@@ -153,11 +157,6 @@ export interface ScheduledActionsOperations {
     options?: ScheduledActionsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ScheduledAction>;
   /** Delete a ScheduledAction */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     scheduledActionName: string,
@@ -201,18 +200,24 @@ export interface ScheduledActionsOperations {
     requestBody: GetOperationStatusRequest,
     options?: ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
   ) => Promise<GetOperationStatusResponse>;
-  /** VirtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+  /** [PRIVATE PREVIEW]: VirtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
   virtualMachinesExecuteDelete: (
     locationparameter: string,
     requestBody: ExecuteDeleteRequest,
     options?: ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams,
   ) => Promise<DeleteResourceOperationResponse>;
-  /** VirtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+  /** [PRIVATE PREVIEW]: VirtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
   virtualMachinesExecuteCreate: (
     locationparameter: string,
     requestBody: ExecuteCreateRequest,
     options?: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams,
   ) => Promise<CreateResourceOperationResponse>;
+  /** VirtualMachinesExecuteCreateFlex: Execute create operation for a batch of virtual machines with flex properties, this operation is triggered as soon as Computeschedule receives it. */
+  virtualMachinesExecuteCreateFlex: (
+    locationparameter: string,
+    body: ExecuteCreateFlexRequest,
+    options?: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams,
+  ) => Promise<CreateFlexResourceOperationResponse>;
   /** VirtualMachinesExecuteStart: Execute start operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
   virtualMachinesExecuteStart: (
     locationparameter: string,
@@ -277,7 +282,7 @@ function _getScheduledActions(context: ComputeScheduleContext) {
     patchResources: (
       resourceGroupName: string,
       scheduledActionName: string,
-      body: ResourcePatchRequest,
+      body: ResourcePatchRequestInput,
       options?: ScheduledActionsPatchResourcesOptionalParams,
     ) => patchResources(context, resourceGroupName, scheduledActionName, body, options),
     detachResources: (
@@ -289,7 +294,7 @@ function _getScheduledActions(context: ComputeScheduleContext) {
     attachResources: (
       resourceGroupName: string,
       scheduledActionName: string,
-      body: ResourceAttachRequest,
+      body: ResourceAttachRequestInput,
       options?: ScheduledActionsAttachResourcesOptionalParams,
     ) => attachResources(context, resourceGroupName, scheduledActionName, body, options),
     listResources: (
@@ -350,6 +355,11 @@ function _getScheduledActions(context: ComputeScheduleContext) {
       requestBody: ExecuteCreateRequest,
       options?: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams,
     ) => virtualMachinesExecuteCreate(context, locationparameter, requestBody, options),
+    virtualMachinesExecuteCreateFlex: (
+      locationparameter: string,
+      body: ExecuteCreateFlexRequest,
+      options?: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams,
+    ) => virtualMachinesExecuteCreateFlex(context, locationparameter, body, options),
     virtualMachinesExecuteStart: (
       locationparameter: string,
       requestBody: ExecuteStartRequest,

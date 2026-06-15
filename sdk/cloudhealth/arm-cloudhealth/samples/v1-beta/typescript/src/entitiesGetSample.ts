@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Entity
  *
  * @summary get a Entity
- * x-ms-original-file: 2025-05-01-preview/Entities_Get.json
+ * x-ms-original-file: 2026-01-01-preview/Entities_Get.json
  */
 async function entitiesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

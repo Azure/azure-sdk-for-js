@@ -4,23 +4,23 @@
 import type { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
 import type {
   UpdateAdministrativeState,
-  UpdateAdministrativeStateResponse,
+  CommonPostActionResponseForStateUpdate,
   NetworkToNetworkInterconnect,
   NetworkToNetworkInterconnectPatch,
   _NetworkToNetworkInterconnectsList,
-  NniUpdateBfdAdministrativeStateRequest,
-  NniUpdateBfdAdministrativeStateResponse,
+  NniBfdAdministrativeStateRequest,
+  NniBfdAdministrativeStateResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   updateAdministrativeStateSerializer,
-  updateAdministrativeStateResponseDeserializer,
+  commonPostActionResponseForStateUpdateDeserializer,
   networkToNetworkInterconnectSerializer,
   networkToNetworkInterconnectDeserializer,
   networkToNetworkInterconnectPatchSerializer,
   _networkToNetworkInterconnectsListDeserializer,
-  nniUpdateBfdAdministrativeStateRequestSerializer,
-  nniUpdateBfdAdministrativeStateResponseDeserializer,
+  nniBfdAdministrativeStateRequestSerializer,
+  nniBfdAdministrativeStateResponseDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -29,7 +29,6 @@ import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams,
   NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
-  NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
   NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams,
   NetworkToNetworkInterconnectsDeleteOptionalParams,
   NetworkToNetworkInterconnectsUpdateOptionalParams,
@@ -45,7 +44,7 @@ export function _updateBfdAdministrativeStateSend(
   resourceGroupName: string,
   networkFabricName: string,
   networkToNetworkInterconnectName: string,
-  body: NniUpdateBfdAdministrativeStateRequest,
+  body: NniBfdAdministrativeStateRequest,
   options: NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams = {
     requestOptions: {},
   },
@@ -57,7 +56,7 @@ export function _updateBfdAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,13 +66,13 @@ export function _updateBfdAdministrativeStateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: nniUpdateBfdAdministrativeStateRequestSerializer(body),
+    body: nniBfdAdministrativeStateRequestSerializer(body),
   });
 }
 
 export async function _updateBfdAdministrativeStateDeserialize(
   result: PathUncheckedResponse,
-): Promise<NniUpdateBfdAdministrativeStateResponse> {
+): Promise<NniBfdAdministrativeStateResponse> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -82,7 +81,7 @@ export async function _updateBfdAdministrativeStateDeserialize(
     throw error;
   }
 
-  return nniUpdateBfdAdministrativeStateResponseDeserializer(result.body);
+  return nniBfdAdministrativeStateResponseDeserializer(result.body);
 }
 
 /** Updates the Admin State. */
@@ -91,13 +90,13 @@ export function updateBfdAdministrativeState(
   resourceGroupName: string,
   networkFabricName: string,
   networkToNetworkInterconnectName: string,
-  body: NniUpdateBfdAdministrativeStateRequest,
+  body: NniBfdAdministrativeStateRequest,
   options: NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams = {
     requestOptions: {},
   },
 ): PollerLike<
-  OperationState<NniUpdateBfdAdministrativeStateResponse>,
-  NniUpdateBfdAdministrativeStateResponse
+  OperationState<NniBfdAdministrativeStateResponse>,
+  NniBfdAdministrativeStateResponse
 > {
   return getLongRunningPoller(
     context,
@@ -116,11 +115,11 @@ export function updateBfdAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-07-15",
+      apiVersion: context.apiVersion ?? "2024-06-15-preview",
     },
   ) as PollerLike<
-    OperationState<NniUpdateBfdAdministrativeStateResponse>,
-    NniUpdateBfdAdministrativeStateResponse
+    OperationState<NniBfdAdministrativeStateResponse>,
+    NniBfdAdministrativeStateResponse
   >;
 }
 
@@ -141,7 +140,7 @@ export function _updateAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -157,7 +156,7 @@ export function _updateAdministrativeStateSend(
 
 export async function _updateAdministrativeStateDeserialize(
   result: PathUncheckedResponse,
-): Promise<UpdateAdministrativeStateResponse> {
+): Promise<CommonPostActionResponseForStateUpdate> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -166,7 +165,7 @@ export async function _updateAdministrativeStateDeserialize(
     throw error;
   }
 
-  return updateAdministrativeStateResponseDeserializer(result.body);
+  return commonPostActionResponseForStateUpdateDeserializer(result.body);
 }
 
 /** Updates the Admin State. */
@@ -180,8 +179,8 @@ export function updateAdministrativeState(
     requestOptions: {},
   },
 ): PollerLike<
-  OperationState<UpdateAdministrativeStateResponse>,
-  UpdateAdministrativeStateResponse
+  OperationState<CommonPostActionResponseForStateUpdate>,
+  CommonPostActionResponseForStateUpdate
 > {
   return getLongRunningPoller(
     context,
@@ -200,95 +199,11 @@ export function updateAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-07-15",
+      apiVersion: context.apiVersion ?? "2024-06-15-preview",
     },
   ) as PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
-  >;
-}
-
-export function _updateNpbStaticRouteBfdAdministrativeStateSend(
-  context: Client,
-  resourceGroupName: string,
-  networkFabricName: string,
-  networkToNetworkInterconnectName: string,
-  body: UpdateAdministrativeState,
-  options: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}/updateNpbStaticRouteBfdAdministrativeState{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      networkFabricName: networkFabricName,
-      networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: updateAdministrativeStateSerializer(body),
-  });
-}
-
-export async function _updateNpbStaticRouteBfdAdministrativeStateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<UpdateAdministrativeStateResponse> {
-  const expectedStatuses = ["202", "200", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return updateAdministrativeStateResponseDeserializer(result.body);
-}
-
-/** Updates the NPB Static Route BFD Administrative State. */
-export function updateNpbStaticRouteBfdAdministrativeState(
-  context: Client,
-  resourceGroupName: string,
-  networkFabricName: string,
-  networkToNetworkInterconnectName: string,
-  body: UpdateAdministrativeState,
-  options: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams = {
-    requestOptions: {},
-  },
-): PollerLike<
-  OperationState<UpdateAdministrativeStateResponse>,
-  UpdateAdministrativeStateResponse
-> {
-  return getLongRunningPoller(
-    context,
-    _updateNpbStaticRouteBfdAdministrativeStateDeserialize,
-    ["202", "200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _updateNpbStaticRouteBfdAdministrativeStateSend(
-          context,
-          resourceGroupName,
-          networkFabricName,
-          networkToNetworkInterconnectName,
-          body,
-          options,
-        ),
-      resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-07-15",
-    },
-  ) as PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
+    OperationState<CommonPostActionResponseForStateUpdate>,
+    CommonPostActionResponseForStateUpdate
   >;
 }
 
@@ -304,7 +219,7 @@ export function _listByNetworkFabricSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -342,7 +257,11 @@ export function listByNetworkFabric(
     () => _listByNetworkFabricSend(context, resourceGroupName, networkFabricName, options),
     _listByNetworkFabricDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    },
   );
 }
 
@@ -360,7 +279,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -406,7 +325,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2024-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -425,7 +344,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -475,7 +394,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2024-06-15-preview",
   }) as PollerLike<OperationState<NetworkToNetworkInterconnect>, NetworkToNetworkInterconnect>;
 }
 
@@ -494,7 +413,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -544,7 +463,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2024-06-15-preview",
   }) as PollerLike<OperationState<NetworkToNetworkInterconnect>, NetworkToNetworkInterconnect>;
 }
 
@@ -562,7 +481,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

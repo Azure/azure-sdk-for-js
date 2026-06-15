@@ -3,6 +3,7 @@
 
 import type { PipelineRequest } from "../../interfaces.js";
 import { logger } from "../../log.js";
+import { emitNodeWarning } from "#platform/env";
 
 // Ensure the warining is only emitted once
 let insecureConnectionWarningEmmitted = false;
@@ -39,9 +40,9 @@ function emitInsecureConnectionWarning(): void {
 
   logger.warning(warning);
 
-  if (typeof process?.emitWarning === "function" && !insecureConnectionWarningEmmitted) {
+  if (!insecureConnectionWarningEmmitted) {
     insecureConnectionWarningEmmitted = true;
-    process.emitWarning(warning);
+    emitNodeWarning(warning);
   }
 }
 

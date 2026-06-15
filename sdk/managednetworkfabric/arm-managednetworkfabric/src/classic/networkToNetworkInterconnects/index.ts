@@ -5,7 +5,6 @@ import type { AzureNetworkFabricManagementServiceAPIContext } from "../../api/az
 import {
   updateBfdAdministrativeState,
   updateAdministrativeState,
-  updateNpbStaticRouteBfdAdministrativeState,
   listByNetworkFabric,
   $delete,
   update,
@@ -15,7 +14,6 @@ import {
 import type {
   NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams,
   NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
-  NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
   NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams,
   NetworkToNetworkInterconnectsDeleteOptionalParams,
   NetworkToNetworkInterconnectsUpdateOptionalParams,
@@ -24,11 +22,11 @@ import type {
 } from "../../api/networkToNetworkInterconnects/options.js";
 import type {
   UpdateAdministrativeState,
-  UpdateAdministrativeStateResponse,
+  CommonPostActionResponseForStateUpdate,
   NetworkToNetworkInterconnect,
   NetworkToNetworkInterconnectPatch,
-  NniUpdateBfdAdministrativeStateRequest,
-  NniUpdateBfdAdministrativeStateResponse,
+  NniBfdAdministrativeStateRequest,
+  NniBfdAdministrativeStateResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -42,23 +40,23 @@ export interface NetworkToNetworkInterconnectsOperations {
     resourceGroupName: string,
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
-    body: NniUpdateBfdAdministrativeStateRequest,
+    body: NniBfdAdministrativeStateRequest,
     options?: NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<NniUpdateBfdAdministrativeStateResponse>,
-    NniUpdateBfdAdministrativeStateResponse
+    OperationState<NniBfdAdministrativeStateResponse>,
+    NniBfdAdministrativeStateResponse
   >;
   /** @deprecated use updateBfdAdministrativeState instead */
   beginUpdateBfdAdministrativeState: (
     resourceGroupName: string,
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
-    body: NniUpdateBfdAdministrativeStateRequest,
+    body: NniBfdAdministrativeStateRequest,
     options?: NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<NniUpdateBfdAdministrativeStateResponse>,
-      NniUpdateBfdAdministrativeStateResponse
+      OperationState<NniBfdAdministrativeStateResponse>,
+      NniBfdAdministrativeStateResponse
     >
   >;
   /** @deprecated use updateBfdAdministrativeState instead */
@@ -66,9 +64,9 @@ export interface NetworkToNetworkInterconnectsOperations {
     resourceGroupName: string,
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
-    body: NniUpdateBfdAdministrativeStateRequest,
+    body: NniBfdAdministrativeStateRequest,
     options?: NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams,
-  ) => Promise<NniUpdateBfdAdministrativeStateResponse>;
+  ) => Promise<NniBfdAdministrativeStateResponse>;
   /** Updates the Admin State. */
   updateAdministrativeState: (
     resourceGroupName: string,
@@ -77,8 +75,8 @@ export interface NetworkToNetworkInterconnectsOperations {
     body: UpdateAdministrativeState,
     options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
+    OperationState<CommonPostActionResponseForStateUpdate>,
+    CommonPostActionResponseForStateUpdate
   >;
   /** @deprecated use updateAdministrativeState instead */
   beginUpdateAdministrativeState: (
@@ -89,8 +87,8 @@ export interface NetworkToNetworkInterconnectsOperations {
     options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<UpdateAdministrativeStateResponse>,
-      UpdateAdministrativeStateResponse
+      OperationState<CommonPostActionResponseForStateUpdate>,
+      CommonPostActionResponseForStateUpdate
     >
   >;
   /** @deprecated use updateAdministrativeState instead */
@@ -100,39 +98,7 @@ export interface NetworkToNetworkInterconnectsOperations {
     networkToNetworkInterconnectName: string,
     body: UpdateAdministrativeState,
     options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
-  ) => Promise<UpdateAdministrativeStateResponse>;
-  /** Updates the NPB Static Route BFD Administrative State. */
-  updateNpbStaticRouteBfdAdministrativeState: (
-    resourceGroupName: string,
-    networkFabricName: string,
-    networkToNetworkInterconnectName: string,
-    body: UpdateAdministrativeState,
-    options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
-  ) => PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
-  >;
-  /** @deprecated use updateNpbStaticRouteBfdAdministrativeState instead */
-  beginUpdateNpbStaticRouteBfdAdministrativeState: (
-    resourceGroupName: string,
-    networkFabricName: string,
-    networkToNetworkInterconnectName: string,
-    body: UpdateAdministrativeState,
-    options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<UpdateAdministrativeStateResponse>,
-      UpdateAdministrativeStateResponse
-    >
-  >;
-  /** @deprecated use updateNpbStaticRouteBfdAdministrativeState instead */
-  beginUpdateNpbStaticRouteBfdAdministrativeStateAndWait: (
-    resourceGroupName: string,
-    networkFabricName: string,
-    networkToNetworkInterconnectName: string,
-    body: UpdateAdministrativeState,
-    options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
-  ) => Promise<UpdateAdministrativeStateResponse>;
+  ) => Promise<CommonPostActionResponseForStateUpdate>;
   /** Implements Network To Network Interconnects list by Network Fabric GET method. */
   listByNetworkFabric: (
     resourceGroupName: string,
@@ -232,7 +198,7 @@ function _getNetworkToNetworkInterconnects(context: AzureNetworkFabricManagement
       resourceGroupName: string,
       networkFabricName: string,
       networkToNetworkInterconnectName: string,
-      body: NniUpdateBfdAdministrativeStateRequest,
+      body: NniBfdAdministrativeStateRequest,
       options?: NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams,
     ) =>
       updateBfdAdministrativeState(
@@ -247,7 +213,7 @@ function _getNetworkToNetworkInterconnects(context: AzureNetworkFabricManagement
       resourceGroupName: string,
       networkFabricName: string,
       networkToNetworkInterconnectName: string,
-      body: NniUpdateBfdAdministrativeStateRequest,
+      body: NniBfdAdministrativeStateRequest,
       options?: NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams,
     ) => {
       const poller = updateBfdAdministrativeState(
@@ -265,7 +231,7 @@ function _getNetworkToNetworkInterconnects(context: AzureNetworkFabricManagement
       resourceGroupName: string,
       networkFabricName: string,
       networkToNetworkInterconnectName: string,
-      body: NniUpdateBfdAdministrativeStateRequest,
+      body: NniBfdAdministrativeStateRequest,
       options?: NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams,
     ) => {
       return await updateBfdAdministrativeState(
@@ -318,55 +284,6 @@ function _getNetworkToNetworkInterconnects(context: AzureNetworkFabricManagement
       options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
     ) => {
       return await updateAdministrativeState(
-        context,
-        resourceGroupName,
-        networkFabricName,
-        networkToNetworkInterconnectName,
-        body,
-        options,
-      );
-    },
-    updateNpbStaticRouteBfdAdministrativeState: (
-      resourceGroupName: string,
-      networkFabricName: string,
-      networkToNetworkInterconnectName: string,
-      body: UpdateAdministrativeState,
-      options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
-    ) =>
-      updateNpbStaticRouteBfdAdministrativeState(
-        context,
-        resourceGroupName,
-        networkFabricName,
-        networkToNetworkInterconnectName,
-        body,
-        options,
-      ),
-    beginUpdateNpbStaticRouteBfdAdministrativeState: async (
-      resourceGroupName: string,
-      networkFabricName: string,
-      networkToNetworkInterconnectName: string,
-      body: UpdateAdministrativeState,
-      options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
-    ) => {
-      const poller = updateNpbStaticRouteBfdAdministrativeState(
-        context,
-        resourceGroupName,
-        networkFabricName,
-        networkToNetworkInterconnectName,
-        body,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginUpdateNpbStaticRouteBfdAdministrativeStateAndWait: async (
-      resourceGroupName: string,
-      networkFabricName: string,
-      networkToNetworkInterconnectName: string,
-      body: UpdateAdministrativeState,
-      options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
-    ) => {
-      return await updateNpbStaticRouteBfdAdministrativeState(
         context,
         resourceGroupName,
         networkFabricName,

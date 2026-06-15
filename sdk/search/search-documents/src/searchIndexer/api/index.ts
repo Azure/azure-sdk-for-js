@@ -47,8 +47,8 @@ export type {
   DeleteDataSourceConnectionOptionalParams,
   CreateOrUpdateDataSourceConnectionOptionalParams,
 } from "./options.js";
-export {
-  createSearchIndexer,
-  type SearchIndexerContext,
-  type SearchIndexerClientOptionalParams,
+export type {
+  SearchIndexerContext,
+  SearchIndexerClientOptionalParams,
 } from "./searchIndexerContext.js";
+export { createSearchIndexer } from "./searchIndexerContext.js";

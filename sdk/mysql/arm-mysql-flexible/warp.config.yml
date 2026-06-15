@@ -1,15 +1,45 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/replicas": "./src/api/replicas/index.ts"
+  "./api/getPrivateDnsZoneSuffix": "./src/api/getPrivateDnsZoneSuffix/index.ts"
+  "./api/operationProgress": "./src/api/operationProgress/index.ts"
+  "./api/operationResults": "./src/api/operationResults/index.ts"
+  "./api/checkNameAvailabilityWithoutLocation": "./src/api/checkNameAvailabilityWithoutLocation/index.ts"
+  "./api/checkNameAvailability": "./src/api/checkNameAvailability/index.ts"
+  "./api/checkVirtualNetworkSubnetUsage": "./src/api/checkVirtualNetworkSubnetUsage/index.ts"
+  "./api/locationBasedCapabilities": "./src/api/locationBasedCapabilities/index.ts"
+  "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
+  "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
+  "./api/maintenances": "./src/api/maintenances/index.ts"
+  "./api/locationBasedCapabilitySet": "./src/api/locationBasedCapabilitySet/index.ts"
+  "./api/advancedThreatProtectionSettings": "./src/api/advancedThreatProtectionSettings/index.ts"
+  "./api/firewallRules": "./src/api/firewallRules/index.ts"
+  "./api/databases": "./src/api/databases/index.ts"
+  "./api/configurations": "./src/api/configurations/index.ts"
+  "./api/longRunningBackup": "./src/api/longRunningBackup/index.ts"
+  "./api/longRunningBackups": "./src/api/longRunningBackups/index.ts"
+  "./api/backups": "./src/api/backups/index.ts"
+  "./api/serversMigration": "./src/api/serversMigration/index.ts"
+  "./api/logFiles": "./src/api/logFiles/index.ts"
+  "./api/backupAndExport": "./src/api/backupAndExport/index.ts"
+  "./api/servers": "./src/api/servers/index.ts"
+  "./api/azureADAdministrators": "./src/api/azureADAdministrators/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-  - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
+    tsconfig: "./config/tsconfig.src.browser.json"
+
   - name: esm
     condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
+    tsconfig: "./config/tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

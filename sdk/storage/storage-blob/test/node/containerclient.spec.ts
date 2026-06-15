@@ -46,7 +46,7 @@ describe("ContainerClient Node.js only", () => {
     );
     configureBlobStorageClient(recorder, containerClientWithOAuthToken);
     const exists = await containerClientWithOAuthToken.exists();
-    assert.strictEqual(true, exists);
+    assert.strictEqual(exists, true);
   });
 
   it("Customized audience should work", async () => {
@@ -59,7 +59,7 @@ describe("ContainerClient Node.js only", () => {
     );
     configureBlobStorageClient(recorder, containerClientWithOAuthToken);
     const exists = await containerClientWithOAuthToken.exists();
-    assert.strictEqual(true, exists);
+    assert.strictEqual(exists, true);
   });
 
   it("Bearer token challenge should work", async () => {
@@ -127,7 +127,7 @@ describe("ContainerClient Node.js only", () => {
     );
     configureBlobStorageClient(recorder, containerClientWithOAuthToken);
     const exists = await containerClientWithOAuthToken.exists();
-    assert.strictEqual(true, exists);
+    assert.strictEqual(exists, true);
 
     const containerAcl = [
       {

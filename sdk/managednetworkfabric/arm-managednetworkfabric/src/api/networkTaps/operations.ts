@@ -4,21 +4,21 @@
 import type { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
 import type {
   UpdateAdministrativeState,
-  UpdateAdministrativeStateResponse,
+  CommonPostActionResponseForStateUpdate,
+  CommonPostActionResponseForDeviceUpdate,
   NetworkTap,
   NetworkTapPatch,
   _NetworkTapsListResult,
-  NetworkTapResyncResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   updateAdministrativeStateSerializer,
-  updateAdministrativeStateResponseDeserializer,
+  commonPostActionResponseForStateUpdateDeserializer,
+  commonPostActionResponseForDeviceUpdateDeserializer,
   networkTapSerializer,
   networkTapDeserializer,
   networkTapPatchSerializer,
   _networkTapsListResultDeserializer,
-  networkTapResyncResponseDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -50,7 +50,7 @@ export function _resyncSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkTapName: networkTapName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,7 +64,7 @@ export function _resyncSend(
 
 export async function _resyncDeserialize(
   result: PathUncheckedResponse,
-): Promise<NetworkTapResyncResponse> {
+): Promise<CommonPostActionResponseForStateUpdate> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -73,7 +73,7 @@ export async function _resyncDeserialize(
     throw error;
   }
 
-  return networkTapResyncResponseDeserializer(result.body);
+  return commonPostActionResponseForStateUpdateDeserializer(result.body);
 }
 
 /** Implements the operation to the underlying resources. */
@@ -82,14 +82,20 @@ export function resync(
   resourceGroupName: string,
   networkTapName: string,
   options: NetworkTapsResyncOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<NetworkTapResyncResponse>, NetworkTapResyncResponse> {
+): PollerLike<
+  OperationState<CommonPostActionResponseForStateUpdate>,
+  CommonPostActionResponseForStateUpdate
+> {
   return getLongRunningPoller(context, _resyncDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _resyncSend(context, resourceGroupName, networkTapName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
-  }) as PollerLike<OperationState<NetworkTapResyncResponse>, NetworkTapResyncResponse>;
+    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+  }) as PollerLike<
+    OperationState<CommonPostActionResponseForStateUpdate>,
+    CommonPostActionResponseForStateUpdate
+  >;
 }
 
 export function _updateAdministrativeStateSend(
@@ -105,7 +111,7 @@ export function _updateAdministrativeStateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkTapName: networkTapName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,7 +127,7 @@ export function _updateAdministrativeStateSend(
 
 export async function _updateAdministrativeStateDeserialize(
   result: PathUncheckedResponse,
-): Promise<UpdateAdministrativeStateResponse> {
+): Promise<CommonPostActionResponseForDeviceUpdate> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -130,7 +136,7 @@ export async function _updateAdministrativeStateDeserialize(
     throw error;
   }
 
-  return updateAdministrativeStateResponseDeserializer(result.body);
+  return commonPostActionResponseForDeviceUpdateDeserializer(result.body);
 }
 
 /** Implements the operation to the underlying resources. */
@@ -141,8 +147,8 @@ export function updateAdministrativeState(
   body: UpdateAdministrativeState,
   options: NetworkTapsUpdateAdministrativeStateOptionalParams = { requestOptions: {} },
 ): PollerLike<
-  OperationState<UpdateAdministrativeStateResponse>,
-  UpdateAdministrativeStateResponse
+  OperationState<CommonPostActionResponseForDeviceUpdate>,
+  CommonPostActionResponseForDeviceUpdate
 > {
   return getLongRunningPoller(
     context,
@@ -154,11 +160,11 @@ export function updateAdministrativeState(
       getInitialResponse: () =>
         _updateAdministrativeStateSend(context, resourceGroupName, networkTapName, body, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-07-15",
+      apiVersion: context.apiVersion ?? "2024-06-15-preview",
     },
   ) as PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
+    OperationState<CommonPostActionResponseForDeviceUpdate>,
+    CommonPostActionResponseForDeviceUpdate
   >;
 }
 
@@ -170,7 +176,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkTaps{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -206,7 +212,11 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    },
   );
 }
 
@@ -220,7 +230,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -257,7 +267,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    },
   );
 }
 
@@ -273,7 +287,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkTapName: networkTapName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -311,7 +325,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, networkTapName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2024-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -328,7 +342,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkTapName: networkTapName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -368,7 +382,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, networkTapName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2024-06-15-preview",
   }) as PollerLike<OperationState<NetworkTap>, NetworkTap>;
 }
 
@@ -385,7 +399,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkTapName: networkTapName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -425,7 +439,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, networkTapName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2024-06-15-preview",
   }) as PollerLike<OperationState<NetworkTap>, NetworkTap>;
 }
 
@@ -441,7 +455,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkTapName: networkTapName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

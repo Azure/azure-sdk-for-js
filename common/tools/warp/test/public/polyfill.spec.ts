@@ -172,6 +172,7 @@ describe("polyfill substitution build", () => {
         target: "ES2023",
         declaration: true,
         strict: true,
+        types: ["node"],
       },
       include: ["src/**/*.ts"],
     };
@@ -184,6 +185,7 @@ describe("polyfill substitution build", () => {
         target: "ES2023",
         declaration: true,
         strict: true,
+        types: ["node"],
       },
       include: ["src/**/*.ts"],
     };
@@ -266,6 +268,7 @@ describe("polyfill substitution build", () => {
         target: "ES2023",
         declaration: true,
         strict: true,
+        types: ["node"],
       },
       include: ["src/**/*.ts"],
     };
@@ -422,6 +425,7 @@ describe("polyfill substitution build", () => {
         target: "ES2023",
         declaration: true,
         strict: true,
+        ignoreDeprecations: "6.0",
       },
       include: ["src/**/*.ts"],
     };
@@ -472,6 +476,86 @@ describe("polyfill substitution build", () => {
     const cjsDts = await fs.readFile(path.join(tmpDir, "dist/commonjs/state.d.ts"), "utf-8");
     expect(cjsDts).toContain("Widget");
     expect(cjsDts).toContain("undefined");
+  });
+
+  it("preserves .cts polyfill substitution with moduleType: commonjs virtual host", async () => {
+    // Regression test: when moduleType is "commonjs", warp injects a virtual
+    // {"type":"commonjs"} package.json. This must NOT replace the polyfill
+    // host or the CJS build will compile state.ts (the ESM source) instead
+    // of state-cjs.cts (the polyfill). See core-client's state-sharing pattern.
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(
+      path.join(tmpDir, "src/index.ts"),
+      ['import { state } from "./state.js";', "export { state };"].join("\n"),
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "src/state.ts"),
+      [
+        "// ESM version — imports from CJS output (tshy module-local-state pattern)",
+        "// @ts-expect-error cross-module import",
+        'import { state as cjsState } from "../commonjs/state.js";',
+        "export const state = cjsState as { value: number };",
+      ].join("\n"),
+    );
+    // CJS polyfill — creates the state directly instead of cross-importing
+    await fs.writeFile(
+      path.join(tmpDir, "src/state-cjs.cts"),
+      "export const state = { value: 42 };",
+    );
+
+    // Both tsconfigs use Node16 — the new pattern
+    const tsconfig = {
+      compilerOptions: {
+        outDir: "./dist/esm",
+        rootDir: "./src",
+        module: "Node16",
+        moduleResolution: "Node16",
+        target: "ES2023",
+        declaration: true,
+      },
+      include: ["src/**/*.ts"],
+    };
+    const cjsTsconfig = {
+      ...tsconfig,
+      compilerOptions: { ...tsconfig.compilerOptions, outDir: "./dist/commonjs" },
+    };
+
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.cjs.json"), JSON.stringify(cjsTsconfig));
+
+    await fs.writeFile(
+      path.join(tmpDir, "warp.config.yml"),
+      stringify({
+        exports: { ".": "./src/index.ts" },
+        targets: [
+          { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+          {
+            name: "commonjs",
+            condition: "require",
+            tsconfig: "./tsconfig.cjs.json",
+            moduleType: "commonjs",
+            polyfillSuffix: "-cjs",
+          },
+        ],
+      }),
+    );
+
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      `${JSON.stringify({ name: "test-cjs-polyfill-moduleType", version: "1.0.0", type: "module" }, null, 2)}\n`,
+    );
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(true);
+
+    // CJS state.js must contain polyfill content (value: 42), NOT the
+    // cross-module import from "../commonjs/state.js" (which would be a
+    // self-referencing require that crashes at runtime).
+    const cjsState = await fs.readFile(path.join(tmpDir, "dist/commonjs/state.js"), "utf-8");
+    expect(cjsState).toContain("42");
+    expect(cjsState).not.toContain("../commonjs/state.js");
+    expect(cjsState).toContain("exports");
   });
 
   it("catches type errors in .cts polyfill files", async () => {
@@ -527,6 +611,7 @@ describe("polyfill substitution build", () => {
         target: "ES2023",
         declaration: true,
         strict: true,
+        ignoreDeprecations: "6.0",
       },
       include: ["src/**/*.ts"],
     };

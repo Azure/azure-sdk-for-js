@@ -28,7 +28,6 @@ import type {
   AccessControlList,
   AccessControlListPatch,
   UpdateAdministrativeState,
-  UpdateAdministrativeStateResponse,
   CommonPostActionResponseForStateUpdate,
   ValidateConfigurationResponse,
 } from "../../models/models.js";
@@ -92,8 +91,8 @@ export interface AccessControlListsOperations {
     body: UpdateAdministrativeState,
     options?: AccessControlListsUpdateAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
+    OperationState<CommonPostActionResponseForStateUpdate>,
+    CommonPostActionResponseForStateUpdate
   >;
   /** @deprecated use updateAdministrativeState instead */
   beginUpdateAdministrativeState: (
@@ -103,8 +102,8 @@ export interface AccessControlListsOperations {
     options?: AccessControlListsUpdateAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<UpdateAdministrativeStateResponse>,
-      UpdateAdministrativeStateResponse
+      OperationState<CommonPostActionResponseForStateUpdate>,
+      CommonPostActionResponseForStateUpdate
     >
   >;
   /** @deprecated use updateAdministrativeState instead */
@@ -113,7 +112,7 @@ export interface AccessControlListsOperations {
     accessControlListName: string,
     body: UpdateAdministrativeState,
     options?: AccessControlListsUpdateAdministrativeStateOptionalParams,
-  ) => Promise<UpdateAdministrativeStateResponse>;
+  ) => Promise<CommonPostActionResponseForStateUpdate>;
   /** Implements AccessControlLists list by subscription GET method. */
   listBySubscription: (
     options?: AccessControlListsListBySubscriptionOptionalParams,

@@ -1,15 +1,31 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/creationSupported": "./src/api/creationSupported/index.ts"
+  "./api/marketplaceAgreements": "./src/api/marketplaceAgreements/index.ts"
+  "./api/singleSignOnConfigurations": "./src/api/singleSignOnConfigurations/index.ts"
+  "./api/organizations": "./src/api/organizations/index.ts"
+  "./api/billingInfo": "./src/api/billingInfo/index.ts"
+  "./api/monitors": "./src/api/monitors/index.ts"
+  "./api/saaSOperationGroup": "./src/api/saaSOperationGroup/index.ts"
+  "./api/monitoredSubscriptions": "./src/api/monitoredSubscriptions/index.ts"
+  "./api/tagRules": "./src/api/tagRules/index.ts"
+  "./api/datadogMonitorResources": "./src/api/datadogMonitorResources/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-  - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
+    tsconfig: "./config/tsconfig.src.browser.json"
+
   - name: esm
     condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
+    tsconfig: "./config/tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

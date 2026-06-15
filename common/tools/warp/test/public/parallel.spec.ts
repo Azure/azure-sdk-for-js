@@ -199,8 +199,8 @@ describe("parallel compilation resilience", () => {
       compilerOptions: {
         outDir: "./dist/cjs",
         rootDir: "./src",
-        module: "CommonJS",
-        moduleResolution: "Node10",
+        module: "Node16",
+        moduleResolution: "Node16",
         target: "ES2023",
         declaration: true,
         strict: true,
@@ -216,7 +216,12 @@ describe("parallel compilation resilience", () => {
         exports: { ".": "./src/index.ts" },
         targets: [
           { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
-          { name: "cjs", condition: "require", tsconfig: "./tsconfig.cjs.json" },
+          {
+            name: "cjs",
+            condition: "require",
+            tsconfig: "./tsconfig.cjs.json",
+            moduleType: "commonjs",
+          },
         ],
       }),
     );
@@ -303,7 +308,8 @@ describe("parallel E2E integration", () => {
         {
           name: "cjs",
           condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
+          tsconfigOverrides: { module: "Node16", moduleResolution: "Node16" },
+          moduleType: "commonjs",
         },
         { name: "browser", condition: "browser", polyfillSuffix: "-browser" },
         { name: "react-native", condition: "react-native" },
@@ -463,7 +469,8 @@ describe("parallel E2E integration", () => {
         {
           name: "cjs",
           condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
+          tsconfigOverrides: { module: "Node16", moduleResolution: "Node16" },
+          moduleType: "commonjs",
         },
       ],
     });
@@ -500,7 +507,8 @@ describe("parallel E2E integration", () => {
         {
           name: "cjs",
           condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
+          tsconfigOverrides: { module: "Node16", moduleResolution: "Node16" },
+          moduleType: "commonjs",
         },
       ],
     });
@@ -535,7 +543,8 @@ describe("parallel E2E integration", () => {
         {
           name: "cjs",
           condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
+          tsconfigOverrides: { module: "Node16", moduleResolution: "Node16" },
+          moduleType: "commonjs",
         },
         { name: "browser", condition: "browser" },
       ],
@@ -566,7 +575,8 @@ describe("parallel E2E integration", () => {
         {
           name: "cjs",
           condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
+          tsconfigOverrides: { module: "Node16", moduleResolution: "Node16" },
+          moduleType: "commonjs",
         },
       ],
     });
@@ -652,7 +662,8 @@ describe("parallel stress tests", () => {
         {
           name: "cjs",
           condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
+          tsconfigOverrides: { module: "Node16", moduleResolution: "Node16" },
+          moduleType: "commonjs",
         },
         { name: "browser", condition: "browser" },
         { name: "workerd", condition: "workerd" },
@@ -685,7 +696,8 @@ describe("parallel stress tests", () => {
         {
           name: "cjs",
           condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
+          tsconfigOverrides: { module: "Node16", moduleResolution: "Node16" },
+          moduleType: "commonjs",
         },
         { name: "browser", condition: "browser", polyfillSuffix: "-browser" },
         { name: "react-native", condition: "react-native" },
@@ -728,7 +740,8 @@ describe("parallel stress tests", () => {
         {
           name: "cjs",
           condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
+          tsconfigOverrides: { module: "Node16", moduleResolution: "Node16" },
+          moduleType: "commonjs",
         },
       ],
     });
@@ -811,7 +824,8 @@ describe("parallel chaos tests", () => {
         {
           name: "cjs",
           condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
+          tsconfigOverrides: { module: "Node16", moduleResolution: "Node16" },
+          moduleType: "commonjs",
         },
       ],
       packageName: "proj-a",
@@ -856,7 +870,8 @@ describe("parallel chaos tests", () => {
         {
           name: "cjs",
           condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
+          tsconfigOverrides: { module: "Node16", moduleResolution: "Node16" },
+          moduleType: "commonjs",
         },
       ],
     });
@@ -912,7 +927,8 @@ describe("parallel chaos tests", () => {
         {
           name: "cjs",
           condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
+          tsconfigOverrides: { module: "Node16", moduleResolution: "Node16" },
+          moduleType: "commonjs",
         },
       ],
     });
@@ -956,7 +972,8 @@ describe("parallel chaos tests", () => {
         {
           name: "cjs",
           condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
+          tsconfigOverrides: { module: "Node16", moduleResolution: "Node16" },
+          moduleType: "commonjs",
         },
       ],
     });
@@ -995,7 +1012,8 @@ describe("parallel chaos tests", () => {
         {
           name: "cjs",
           condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
+          tsconfigOverrides: { module: "Node16", moduleResolution: "Node16" },
+          moduleType: "commonjs",
         },
       ],
     });
@@ -1027,7 +1045,8 @@ describe("parallel chaos tests", () => {
         {
           name: "cjs",
           condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
+          tsconfigOverrides: { module: "Node16", moduleResolution: "Node16" },
+          moduleType: "commonjs",
         },
         { name: "workerd", condition: "workerd" },
       ],
@@ -1065,6 +1084,7 @@ describe("parallel chaos tests", () => {
 // ---------------------------------------------------------------------------
 
 const isRoot = process.getuid?.() === 0;
+const isWindows = process.platform === "win32";
 
 describe("fault injection: filesystem errors in workers", () => {
   let tmpDir: string;
@@ -1104,7 +1124,7 @@ describe("fault injection: filesystem errors in workers", () => {
     await fs.rm(tmpDir, { recursive: true, force: true });
   });
 
-  it.skipIf(isRoot)(
+  it.skipIf(isRoot || isWindows)(
     "EACCES: read-only dist/ causes worker crash during emit, fails cleanly",
     async () => {
       await setupProject(tmpDir, {
@@ -1125,7 +1145,7 @@ describe("fault injection: filesystem errors in workers", () => {
     },
   );
 
-  it.skipIf(isRoot)(
+  it.skipIf(isRoot || isWindows)(
     "EACCES: read-only target outDir causes worker crash, other targets still report",
     async () => {
       await setupProject(tmpDir, {
@@ -1135,7 +1155,8 @@ describe("fault injection: filesystem errors in workers", () => {
           {
             name: "cjs",
             condition: "require",
-            tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
+            tsconfigOverrides: { module: "Node16", moduleResolution: "Node16" },
+            moduleType: "commonjs",
           },
         ],
       });
@@ -1144,17 +1165,12 @@ describe("fault injection: filesystem errors in workers", () => {
       await fs.mkdir(path.join(tmpDir, "dist/cjs"));
       await fs.chmod(path.join(tmpDir, "dist/cjs"), 0o555);
 
-      let threw = false;
-      try {
-        await build({ cwd: tmpDir, parallel: true, clean: false });
-      } catch {
-        threw = true;
-      }
-      expect(threw).toBe(true);
+      const result = await build({ cwd: tmpDir, parallel: true, clean: false });
+      expect(result.success).toBe(false);
     },
   );
 
-  it.skipIf(isRoot)(
+  it.skipIf(isRoot || isWindows)(
     "EACCES: unreadable source file produces diagnostic, does not hang",
     async () => {
       await setupProject(tmpDir, {
@@ -1178,28 +1194,31 @@ describe("fault injection: filesystem errors in workers", () => {
     },
   );
 
-  it("broken symlink source file produces diagnostic, does not crash workers", async () => {
-    await setupProject(tmpDir, {
-      sources: {
-        "index.ts": 'import { broken } from "./broken.js";\nexport { broken };\n',
-      },
-      targets: [{ name: "esm", condition: "import" }],
-    });
+  it.skipIf(isWindows)(
+    "broken symlink source file produces diagnostic, does not crash workers",
+    async () => {
+      await setupProject(tmpDir, {
+        sources: {
+          "index.ts": 'import { broken } from "./broken.js";\nexport { broken };\n',
+        },
+        targets: [{ name: "esm", condition: "import" }],
+      });
 
-    await fs.symlink(
-      path.join(tmpDir, "src/nonexistent-target.ts"),
-      path.join(tmpDir, "src/broken.ts"),
-    );
+      await fs.symlink(
+        path.join(tmpDir, "src/nonexistent-target.ts"),
+        path.join(tmpDir, "src/broken.ts"),
+      );
 
-    let threw = false;
-    let result: Awaited<ReturnType<typeof build>> | undefined;
-    try {
-      result = await build({ cwd: tmpDir, parallel: true });
-    } catch {
-      threw = true;
-    }
-    expect(threw || result?.success === false).toBe(true);
-  });
+      let threw = false;
+      let result: Awaited<ReturnType<typeof build>> | undefined;
+      try {
+        result = await build({ cwd: tmpDir, parallel: true });
+      } catch {
+        threw = true;
+      }
+      expect(threw || result?.success === false).toBe(true);
+    },
+  );
 
   it("output path collision: dist/esm is a file, not a directory", async () => {
     await setupProject(tmpDir, {
@@ -1231,7 +1250,8 @@ describe("fault injection: filesystem errors in workers", () => {
         {
           name: "cjs",
           condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
+          tsconfigOverrides: { module: "Node16", moduleResolution: "Node16" },
+          moduleType: "commonjs",
         },
       ],
     });

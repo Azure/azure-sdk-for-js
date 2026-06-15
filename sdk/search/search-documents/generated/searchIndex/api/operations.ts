@@ -35,6 +35,10 @@ import {
   KnowledgeSourceUnion,
   _ListKnowledgeSourcesResult,
   _listKnowledgeSourcesResultDeserializer,
+  KnowledgeSourceFile,
+  knowledgeSourceFileDeserializer,
+  _ListKnowledgeSourceFilesResult,
+  _listKnowledgeSourceFilesResultDeserializer,
   SearchServiceStatistics,
   searchServiceStatisticsDeserializer,
   _ListIndexStatsSummary,
@@ -58,6 +62,9 @@ import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
+  DeleteKnowledgeSourceFileOptionalParams,
+  ListKnowledgeSourceFilesOptionalParams,
+  UploadKnowledgeSourceFileOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
   ListKnowledgeSourcesOptionalParams,
@@ -100,9 +107,12 @@ export function _listIndexStatsSummarySend(
   options: ListIndexStatsSummaryOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexstats{?api%2Dversion}",
+    "/indexstats{?api%2Dversion,%24top,%24skip,%24count}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "%24top": options?.top,
+      "%24skip": options?.skip,
+      "%24count": options?.count,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -112,7 +122,9 @@ export function _listIndexStatsSummarySend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -146,7 +158,11 @@ export function listIndexStatsSummary(
     () => _listIndexStatsSummarySend(context, options),
     _listIndexStatsSummaryDeserialize,
     ["200"],
-    { itemName: "indexesStatistics", apiVersion: context.apiVersion ?? "2025-11-01-preview" },
+    {
+      itemName: "indexesStatistics",
+      nextLinkName: "NextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -157,7 +173,7 @@ export function _getServiceStatisticsSend(
   const path = expandUrlTemplate(
     "/servicestats{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -167,7 +183,9 @@ export function _getServiceStatisticsSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -200,16 +218,74 @@ export async function getServiceStatistics(
   return _getServiceStatisticsDeserialize(result);
 }
 
-export function _getKnowledgeSourceStatusSend(
+export function _deleteKnowledgeSourceFileSend(
   context: Client,
+  fileId: string,
   name: string,
-  options: GetKnowledgeSourceStatusOptionalParams = { requestOptions: {} },
+  options: DeleteKnowledgeSourceFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/knowledgesources('{sourceName}')/status{?api%2Dversion}",
+    "/knowledgesources('{sourceName}')/files('{fileId}'){?api%2Dversion}",
+    {
+      fileId: fileId,
+      sourceName: name,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _deleteKnowledgeSourceFileDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["204", "404"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Deletes a file from a File knowledge source and removes all indexed content derived from it. */
+export async function deleteKnowledgeSourceFile(
+  context: Client,
+  fileId: string,
+  name: string,
+  options: DeleteKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteKnowledgeSourceFileSend(context, fileId, name, options);
+  return _deleteKnowledgeSourceFileDeserialize(result);
+}
+
+export function _listKnowledgeSourceFilesSend(
+  context: Client,
+  name: string,
+  options: ListKnowledgeSourceFilesOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgesources('{sourceName}')/files{?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -219,7 +295,133 @@ export function _getKnowledgeSourceStatusSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listKnowledgeSourceFilesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_ListKnowledgeSourceFilesResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return _listKnowledgeSourceFilesResultDeserializer(result.body);
+}
+
+/** Lists all files in a File knowledge source. */
+export function listKnowledgeSourceFiles(
+  context: Client,
+  name: string,
+  options: ListKnowledgeSourceFilesOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<KnowledgeSourceFile> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listKnowledgeSourceFilesSend(context, name, options),
+    _listKnowledgeSourceFilesDeserialize,
+    ["200"],
+    { itemName: "value", apiVersion: context.apiVersion ?? "2026-05-01-preview" },
+  );
+}
+
+export function _uploadKnowledgeSourceFileSend(
+  context: Client,
+  contentDisposition: string,
+  file: Uint8Array,
+  name: string,
+  options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgesources('{sourceName}')/files{?api%2Dversion}",
+    {
+      sourceName: name,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/octet-stream",
+    headers: {
+      "content-disposition": contentDisposition,
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: file,
+  });
+}
+
+export async function _uploadKnowledgeSourceFileDeserialize(
+  result: PathUncheckedResponse,
+): Promise<KnowledgeSourceFile> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return knowledgeSourceFileDeserializer(result.body);
+}
+
+/** Uploads a file to a File knowledge source for processing and indexing. */
+export async function uploadKnowledgeSourceFile(
+  context: Client,
+  contentDisposition: string,
+  file: Uint8Array,
+  name: string,
+  options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): Promise<KnowledgeSourceFile> {
+  const result = await _uploadKnowledgeSourceFileSend(
+    context,
+    contentDisposition,
+    file,
+    name,
+    options,
+  );
+  return _uploadKnowledgeSourceFileDeserialize(result);
+}
+
+export function _getKnowledgeSourceStatusSend(
+  context: Client,
+  name: string,
+  options: GetKnowledgeSourceStatusOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgesources('{sourceName}')/status{?api%2Dversion}",
+    {
+      sourceName: name,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -261,7 +463,7 @@ export function _createKnowledgeSourceSend(
   const path = expandUrlTemplate(
     "/knowledgesources{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -272,7 +474,9 @@ export function _createKnowledgeSourceSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -314,7 +518,7 @@ export function _listKnowledgeSourcesSend(
   const path = expandUrlTemplate(
     "/knowledgesources{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -324,7 +528,9 @@ export function _listKnowledgeSourcesSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -358,7 +564,7 @@ export function listKnowledgeSources(
     () => _listKnowledgeSourcesSend(context, options),
     _listKnowledgeSourcesDeserialize,
     ["200"],
-    { itemName: "value", apiVersion: context.apiVersion ?? "2025-11-01-preview" },
+    { itemName: "value", apiVersion: context.apiVersion ?? "2026-05-01-preview" },
   );
 }
 
@@ -371,7 +577,7 @@ export function _getKnowledgeSourceSend(
     "/knowledgesources('{sourceName}'){?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -381,7 +587,9 @@ export function _getKnowledgeSourceSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -424,7 +632,7 @@ export function _deleteKnowledgeSourceSend(
     "/knowledgesources('{sourceName}'){?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -434,7 +642,9 @@ export function _deleteKnowledgeSourceSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
@@ -480,7 +690,7 @@ export function _createOrUpdateKnowledgeSourceSend(
     "/knowledgesources('{sourceName}'){?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -491,7 +701,9 @@ export function _createOrUpdateKnowledgeSourceSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
@@ -538,7 +750,7 @@ export function _createKnowledgeBaseSend(
   const path = expandUrlTemplate(
     "/knowledgebases{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -549,7 +761,9 @@ export function _createKnowledgeBaseSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -591,7 +805,7 @@ export function _listKnowledgeBasesSend(
   const path = expandUrlTemplate(
     "/knowledgebases{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -601,7 +815,9 @@ export function _listKnowledgeBasesSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -635,7 +851,7 @@ export function listKnowledgeBases(
     () => _listKnowledgeBasesSend(context, options),
     _listKnowledgeBasesDeserialize,
     ["200"],
-    { itemName: "value", apiVersion: context.apiVersion ?? "2025-11-01-preview" },
+    { itemName: "value", apiVersion: context.apiVersion ?? "2026-05-01-preview" },
   );
 }
 
@@ -648,7 +864,7 @@ export function _getKnowledgeBaseSend(
     "/knowledgebases('{knowledgeBaseName}'){?api%2Dversion}",
     {
       knowledgeBaseName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -658,7 +874,9 @@ export function _getKnowledgeBaseSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -701,7 +919,7 @@ export function _deleteKnowledgeBaseSend(
     "/knowledgebases('{knowledgeBaseName}'){?api%2Dversion}",
     {
       knowledgeBaseName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -711,7 +929,9 @@ export function _deleteKnowledgeBaseSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
@@ -757,7 +977,7 @@ export function _createOrUpdateKnowledgeBaseSend(
     "/knowledgebases('{knowledgeBaseName}'){?api%2Dversion}",
     {
       knowledgeBaseName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -768,7 +988,9 @@ export function _createOrUpdateKnowledgeBaseSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
@@ -815,7 +1037,7 @@ export function _createAliasSend(
   const path = expandUrlTemplate(
     "/aliases{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -826,7 +1048,9 @@ export function _createAliasSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -866,7 +1090,7 @@ export function _listAliasesSend(
   const path = expandUrlTemplate(
     "/aliases{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -876,7 +1100,9 @@ export function _listAliasesSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -910,7 +1136,7 @@ export function listAliases(
     () => _listAliasesSend(context, options),
     _listAliasesDeserialize,
     ["200"],
-    { itemName: "aliases", apiVersion: context.apiVersion ?? "2025-11-01-preview" },
+    { itemName: "aliases", apiVersion: context.apiVersion ?? "2026-05-01-preview" },
   );
 }
 
@@ -923,7 +1149,7 @@ export function _getAliasSend(
     "/aliases('{aliasName}'){?api%2Dversion}",
     {
       aliasName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -933,7 +1159,9 @@ export function _getAliasSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -974,7 +1202,7 @@ export function _deleteAliasSend(
     "/aliases('{aliasName}'){?api%2Dversion}",
     {
       aliasName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -984,7 +1212,9 @@ export function _deleteAliasSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
@@ -1028,7 +1258,7 @@ export function _createOrUpdateAliasSend(
     "/aliases('{aliasName}'){?api%2Dversion}",
     {
       aliasName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1039,7 +1269,9 @@ export function _createOrUpdateAliasSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
@@ -1088,7 +1320,7 @@ export function _analyzeTextSend(
     "/indexes('{indexName}')/search.analyze{?api%2Dversion}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1099,7 +1331,9 @@ export function _analyzeTextSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -1144,7 +1378,7 @@ export function _getIndexStatisticsSend(
     "/indexes('{indexName}')/search.stats{?api%2Dversion}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1154,7 +1388,9 @@ export function _getIndexStatisticsSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -1196,7 +1432,7 @@ export function _createIndexSend(
   const path = expandUrlTemplate(
     "/indexes{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1207,7 +1443,9 @@ export function _createIndexSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -1245,10 +1483,13 @@ export function _listIndexesWithSelectedPropertiesSend(
   options: ListIndexesWithSelectedPropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes{?api%2Dversion,%24select}",
+    "/indexes{?api%2Dversion,%24select,%24top,%24skip,%24count}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       "%24select": options?.select,
+      "%24top": options?.top,
+      "%24skip": options?.skip,
+      "%24count": options?.count,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1258,7 +1499,9 @@ export function _listIndexesWithSelectedPropertiesSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -1292,7 +1535,11 @@ export function listIndexesWithSelectedProperties(
     () => _listIndexesWithSelectedPropertiesSend(context, options),
     _listIndexesWithSelectedPropertiesDeserialize,
     ["200"],
-    { itemName: "value", apiVersion: context.apiVersion ?? "2025-11-01-preview" },
+    {
+      itemName: "value",
+      nextLinkName: "NextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -1301,9 +1548,12 @@ export function _listIndexesSend(
   options: ListIndexesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes{?api%2Dversion}",
+    "/indexes{?api%2Dversion,%24top,%24skip,%24count}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "%24top": options?.top,
+      "%24skip": options?.skip,
+      "%24count": options?.count,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1313,7 +1563,9 @@ export function _listIndexesSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -1347,7 +1599,11 @@ export function listIndexes(
     () => _listIndexesSend(context, options),
     _listIndexesDeserialize,
     ["200"],
-    { itemName: "indexes", apiVersion: context.apiVersion ?? "2025-11-01-preview" },
+    {
+      itemName: "indexes",
+      nextLinkName: "NextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -1360,7 +1616,7 @@ export function _getIndexSend(
     "/indexes('{indexName}'){?api%2Dversion}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1370,7 +1626,9 @@ export function _getIndexSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -1411,7 +1669,7 @@ export function _deleteIndexSend(
     "/indexes('{indexName}'){?api%2Dversion}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1421,7 +1679,9 @@ export function _deleteIndexSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
@@ -1465,7 +1725,7 @@ export function _createOrUpdateIndexSend(
     "/indexes('{indexName}'){?api%2Dversion,allowIndexDowntime}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       allowIndexDowntime: options?.allowIndexDowntime,
     },
     {
@@ -1477,7 +1737,9 @@ export function _createOrUpdateIndexSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
@@ -1524,7 +1786,7 @@ export function _createSynonymMapSend(
   const path = expandUrlTemplate(
     "/synonymmaps{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1535,7 +1797,9 @@ export function _createSynonymMapSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -1577,7 +1841,7 @@ export function _getSynonymMapsSend(
   const path = expandUrlTemplate(
     "/synonymmaps{?api%2Dversion,%24select}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       "%24select": options?.select,
     },
     {
@@ -1588,7 +1852,9 @@ export function _getSynonymMapsSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -1630,7 +1896,7 @@ export function _getSynonymMapSend(
     "/synonymmaps('{synonymMapName}'){?api%2Dversion}",
     {
       synonymMapName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1640,7 +1906,9 @@ export function _getSynonymMapSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -1683,7 +1951,7 @@ export function _deleteSynonymMapSend(
     "/synonymmaps('{synonymMapName}'){?api%2Dversion}",
     {
       synonymMapName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1693,7 +1961,9 @@ export function _deleteSynonymMapSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
@@ -1737,7 +2007,7 @@ export function _createOrUpdateSynonymMapSend(
     "/synonymmaps('{synonymMapName}'){?api%2Dversion}",
     {
       synonymMapName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1748,7 +2018,9 @@ export function _createOrUpdateSynonymMapSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),

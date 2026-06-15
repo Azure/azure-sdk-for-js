@@ -574,7 +574,7 @@ describe("#LiveMetrics", () => {
   });
 
   it("should not collect when disabled", async () => {
-    autoCollect.deactivateMetrics();
+    await autoCollect.deactivateMetrics();
     await new Promise((resolve) => setTimeout(resolve, 120));
     expect(exportStub).not.toHaveBeenCalled();
   });
@@ -603,10 +603,8 @@ describe("#LiveMetrics", () => {
       testAuto["pingSender"]["instrumentationKey"],
       "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
     );
-    assert.equal(testAuto["pingSender"]["quickpulseClientOptions"]["credential"], testCredential);
-    assert.deepEqual(testAuto["pingSender"]["quickpulseClientOptions"]["credentialScopes"], [
-      "testScope",
-    ]);
+    assert.equal(testAuto["pingSender"]["credential"], testCredential);
+    assert.deepEqual(testAuto["pingSender"]["credentialScopes"], ["testScope"]);
     assert.equal(
       testAuto["quickpulseExporter"]["sender"]["endpointUrl"],
       "https://westus2.livediagnostics.monitor.azure.com",
@@ -615,14 +613,8 @@ describe("#LiveMetrics", () => {
       testAuto["quickpulseExporter"]["sender"]["instrumentationKey"],
       "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
     );
-    assert.equal(
-      testAuto["quickpulseExporter"]["sender"]["quickpulseClientOptions"]["credential"],
-      testCredential,
-    );
-    assert.deepEqual(
-      testAuto["quickpulseExporter"]["sender"]["quickpulseClientOptions"]["credentialScopes"],
-      ["testScope"],
-    );
+    assert.equal(testAuto["quickpulseExporter"]["sender"]["credential"], testCredential);
+    assert.deepEqual(testAuto["quickpulseExporter"]["sender"]["credentialScopes"], ["testScope"]);
   });
   it("support credential scopes from connection string", () => {
     const testConfig = new InternalConfig();
@@ -647,10 +639,8 @@ describe("#LiveMetrics", () => {
       testAuto["pingSender"]["instrumentationKey"],
       "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
     );
-    assert.equal(testAuto["pingSender"]["quickpulseClientOptions"]["credential"], testCredential);
-    assert.deepEqual(testAuto["pingSender"]["quickpulseClientOptions"]["credentialScopes"], [
-      "testScope1",
-    ]);
+    assert.equal(testAuto["pingSender"]["credential"], testCredential);
+    assert.deepEqual(testAuto["pingSender"]["credentialScopes"], ["testScope1"]);
     assert.equal(
       testAuto["quickpulseExporter"]["sender"]["endpointUrl"],
       "https://westus2.livediagnostics.monitor.azure.com",
@@ -659,14 +649,8 @@ describe("#LiveMetrics", () => {
       testAuto["quickpulseExporter"]["sender"]["instrumentationKey"],
       "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
     );
-    assert.equal(
-      testAuto["quickpulseExporter"]["sender"]["quickpulseClientOptions"]["credential"],
-      testCredential,
-    );
-    assert.deepEqual(
-      testAuto["quickpulseExporter"]["sender"]["quickpulseClientOptions"]["credentialScopes"],
-      ["testScope1"],
-    );
+    assert.equal(testAuto["quickpulseExporter"]["sender"]["credential"], testCredential);
+    assert.deepEqual(testAuto["quickpulseExporter"]["sender"]["credentialScopes"], ["testScope1"]);
   });
 });
 /* eslint-enable @typescript-eslint/no-unnecessary-type-assertion */

@@ -104,18 +104,18 @@ describe("InMemoryCollectionRoutingMap Tests", () => {
     const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo);
 
     it("validate _orderedPartitionKeyRanges", () => {
-      assert.equal("0", collectionRoutingMap.getOrderedParitionKeyRanges()[0].id);
-      assert.equal("1", collectionRoutingMap.getOrderedParitionKeyRanges()[1].id);
-      assert.equal("2", collectionRoutingMap.getOrderedParitionKeyRanges()[2].id);
-      assert.equal("3", collectionRoutingMap.getOrderedParitionKeyRanges()[3].id);
+      assert.equal(collectionRoutingMap.getOrderedParitionKeyRanges()[0].id, "0");
+      assert.equal(collectionRoutingMap.getOrderedParitionKeyRanges()[1].id, "1");
+      assert.equal(collectionRoutingMap.getOrderedParitionKeyRanges()[2].id, "2");
+      assert.equal(collectionRoutingMap.getOrderedParitionKeyRanges()[3].id, "3");
     });
 
     // TODO: bad practice to test implementation details
     it("validate _orderedPartitionInfo", () => {
-      assert.equal(0, (collectionRoutingMap.orderedPartitionInfo as number[])[0]);
-      assert.equal(1, (collectionRoutingMap.orderedPartitionInfo as number[])[1]);
-      assert.equal(2, (collectionRoutingMap.orderedPartitionInfo as number[])[2]);
-      assert.equal(3, (collectionRoutingMap.orderedPartitionInfo as number[])[3]);
+      assert.equal((collectionRoutingMap.orderedPartitionInfo as number[])[0], 0);
+      assert.equal((collectionRoutingMap.orderedPartitionInfo as number[])[1], 1);
+      assert.equal((collectionRoutingMap.orderedPartitionInfo as number[])[2], 2);
+      assert.equal((collectionRoutingMap.orderedPartitionInfo as number[])[3], 3);
     });
 
     it("validate getOverlappingRanges", () => {
@@ -129,7 +129,7 @@ describe("InMemoryCollectionRoutingMap Tests", () => {
       const overlappingRanges = collectionRoutingMap
         .getOverlappingRanges([completeRange])
         .sort(compareId);
-      assert.equal(4, overlappingRanges.length);
+      assert.equal(overlappingRanges.length, 4);
 
       let onlyParitionRanges = partitionRangeWithInfo.map(function (item) {
         return item[0];
@@ -139,12 +139,12 @@ describe("InMemoryCollectionRoutingMap Tests", () => {
       assert.deepEqual(overlappingRanges, onlyParitionRanges);
 
       const noPoint = new QueryRange("", "", false, false);
-      assert.equal(0, collectionRoutingMap.getOverlappingRanges([noPoint]).length);
+      assert.equal(collectionRoutingMap.getOverlappingRanges([noPoint]).length, 0);
 
       const onePoint = new QueryRange("0000000040", "0000000040", true, true);
       let overlappingPartitionKeyRanges = collectionRoutingMap.getOverlappingRanges([onePoint]);
-      assert.equal(1, overlappingPartitionKeyRanges.length);
-      assert.equal("1", overlappingPartitionKeyRanges[0].id);
+      assert.equal(overlappingPartitionKeyRanges.length, 1);
+      assert.equal(overlappingPartitionKeyRanges[0].id, "1");
 
       const ranges = [
         new QueryRange("0000000040", "0000000045", true, true),
@@ -155,9 +155,9 @@ describe("InMemoryCollectionRoutingMap Tests", () => {
         .getOverlappingRanges(ranges)
         .sort(compareId);
 
-      assert.equal(2, overlappingPartitionKeyRanges.length);
-      assert.equal("1", overlappingPartitionKeyRanges[0].id);
-      assert.equal("2", overlappingPartitionKeyRanges[1].id);
+      assert.equal(overlappingPartitionKeyRanges.length, 2);
+      assert.equal(overlappingPartitionKeyRanges[0].id, "1");
+      assert.equal(overlappingPartitionKeyRanges[1].id, "2");
     });
   });
 

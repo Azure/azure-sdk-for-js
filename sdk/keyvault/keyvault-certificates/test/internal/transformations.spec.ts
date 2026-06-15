@@ -152,17 +152,14 @@ describe("transformations", function () {
           },
         });
         const sans = corePolicy.x509CertificateProperties!.subjectAlternativeNames!;
-        assert.deepEqual(sans.uniformResourceIdentifiers, [
-          "https://example.com",
-          "https://contoso.com",
-        ]);
+        assert.deepEqual(sans.uris, ["https://example.com", "https://contoso.com"]);
       });
 
       it("toPublicPolicy maps uniformResourceIdentifiers back from the core model", () => {
         const corePolicy: CoreCertificatePolicy = {
           x509CertificateProperties: {
             subjectAlternativeNames: {
-              uniformResourceIdentifiers: ["https://example.com"],
+              uris: ["https://example.com"],
             },
           },
         };
@@ -225,7 +222,7 @@ describe("transformations", function () {
             x509CertificateProperties: {
               subjectAlternativeNames: {
                 ipAddresses: ["10.0.0.1"],
-                uniformResourceIdentifiers: ["https://example.com"],
+                uris: ["https://example.com"],
               },
             },
           },
@@ -235,6 +232,97 @@ describe("transformations", function () {
         assert.deepEqual(san.ipAddresses, ["10.0.0.1"]);
         assert.deepEqual(san.uniformResourceIdentifiers, ["https://example.com"]);
       });
+    });
+  });
+
+  describe("platformManaged round-trip", function () {
+    it("toCorePolicy maps platformManaged to the core model", () => {
+      const corePolicy = toCorePolicy(undefined, {
+        issuerName: "Self",
+        subject: "cn=Test",
+        platformManaged: {
+          certificateUsage: "ServerAuthentication",
+          metadata: { tenantId: "abc", environment: "test" },
+        },
+      });
+      assert.isDefined(corePolicy.platformManaged);
+      assert.equal(corePolicy.platformManaged!.certificateUsage, "ServerAuthentication");
+      assert.deepEqual(corePolicy.platformManaged!.metadata, {
+        tenantId: "abc",
+        environment: "test",
+      });
+    });
+
+    it("toCorePolicy omits platformManaged when not provided", () => {
+      const corePolicy = toCorePolicy(undefined, {
+        issuerName: "Self",
+        subject: "cn=Test",
+      });
+      assert.isUndefined(corePolicy.platformManaged);
+    });
+
+    it("toCorePolicy supports platformManaged without metadata", () => {
+      const corePolicy = toCorePolicy(undefined, {
+        issuerName: "Self",
+        subject: "cn=Test",
+        platformManaged: {
+          certificateUsage: "ClientAuthentication",
+        },
+      });
+      assert.isDefined(corePolicy.platformManaged);
+      assert.equal(corePolicy.platformManaged!.certificateUsage, "ClientAuthentication");
+      assert.isUndefined(corePolicy.platformManaged!.metadata);
+    });
+
+    it("toPublicPolicy maps platformManaged back from the core model", () => {
+      const corePolicy: CoreCertificatePolicy = {
+        platformManaged: {
+          certificateUsage: "ServerAuthentication",
+          metadata: { region: "westus" },
+        },
+      };
+      const publicPolicy = toPublicPolicy(corePolicy);
+      assert.isDefined(publicPolicy.platformManaged);
+      assert.equal(publicPolicy.platformManaged!.certificateUsage, "ServerAuthentication");
+      assert.deepEqual(publicPolicy.platformManaged!.metadata, { region: "westus" });
+    });
+
+    it("toPublicPolicy omits platformManaged when absent", () => {
+      const corePolicy: CoreCertificatePolicy = {
+        x509CertificateProperties: {},
+      };
+      const publicPolicy = toPublicPolicy(corePolicy);
+      assert.isUndefined(publicPolicy.platformManaged);
+    });
+
+    it("round-trips platformManaged through toCorePolicy and toPublicPolicy", () => {
+      const platformManaged = {
+        certificateUsage: "ServerAuthentication",
+        metadata: { tenantId: "abc-123", environment: "production", nested: { x: 1 } },
+      };
+      const corePolicy = toCorePolicy(undefined, {
+        issuerName: "Self",
+        subject: "cn=Test",
+        platformManaged,
+      });
+      const publicPolicy = toPublicPolicy(corePolicy);
+      assert.deepEqual(publicPolicy.platformManaged, platformManaged);
+    });
+
+    it("getCertificateWithPolicyFromCertificateBundle preserves platformManaged", () => {
+      const bundle: CertificateBundle = {
+        id: "https://myvault.vault.azure.net/certificates/certificateName/version",
+        policy: {
+          platformManaged: {
+            certificateUsage: "ServerAuthentication",
+            metadata: { foo: "bar" },
+          },
+        },
+      };
+      const result = getCertificateWithPolicyFromCertificateBundle(bundle);
+      assert.isDefined(result.policy!.platformManaged);
+      assert.equal(result.policy!.platformManaged!.certificateUsage, "ServerAuthentication");
+      assert.deepEqual(result.policy!.platformManaged!.metadata, { foo: "bar" });
     });
   });
 });

@@ -3,10 +3,6 @@
 
 import type { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
 import {
-  resyncCertificates,
-  rotateCertificates,
-  resyncPasswords,
-  rotatePasswords,
   armConfigurationDiff,
   viewDeviceConfiguration,
   lockFabric,
@@ -29,10 +25,6 @@ import {
   get,
 } from "../../api/networkFabrics/operations.js";
 import type {
-  NetworkFabricsResyncCertificatesOptionalParams,
-  NetworkFabricsRotateCertificatesOptionalParams,
-  NetworkFabricsResyncPasswordsOptionalParams,
-  NetworkFabricsRotatePasswordsOptionalParams,
   NetworkFabricsArmConfigurationDiffOptionalParams,
   NetworkFabricsViewDeviceConfigurationOptionalParams,
   NetworkFabricsLockFabricOptionalParams,
@@ -56,26 +48,20 @@ import type {
 } from "../../api/networkFabrics/options.js";
 import type {
   UpdateAdministrativeState,
-  UpdateAdministrativeStateResponse,
-  OperationStatusResult,
+  CommonPostActionResponseForStateUpdate,
   ValidateConfigurationResponse,
-  NetworkFabricResyncCertificatesResponse,
+  CommonPostActionResponseForDeviceUpdate,
   NetworkFabric,
   NetworkFabricPatch,
   UpgradeNetworkFabricProperties,
   ValidateConfigurationProperties,
-  GetTopologyResponse,
-  CommitConfigurationResponse,
   CommitBatchStatusRequest,
-  CommitBatchStatusOperationResponse,
+  CommitBatchStatusResponse,
   DiscardCommitBatchRequest,
-  DiscardCommitBatchOperationResponse,
+  DiscardCommitBatchResponse,
   NetworkFabricLockRequest,
-  ViewDeviceConfigurationOperationResponse,
-  ArmConfigurationDiffOperationResponse,
-  NetworkFabricRotatePasswordsResponse,
-  NetworkFabricResyncPasswordsResponse,
-  NetworkFabricRotateCertificatesResponse,
+  ViewDeviceConfigurationResponse,
+  ArmConfigurationDiffResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -84,156 +70,32 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkFabrics operations. */
 export interface NetworkFabricsOperations {
-  /** Updates all Network Devices to use the latest certificates. Does not generate new certificates. Allows network devices missed during a previous certificate rotation to be brought back into sync. */
-  resyncCertificates: (
-    resourceGroupName: string,
-    networkFabricName: string,
-    options?: NetworkFabricsResyncCertificatesOptionalParams,
-  ) => PollerLike<
-    OperationState<NetworkFabricResyncCertificatesResponse>,
-    NetworkFabricResyncCertificatesResponse
-  >;
-  /** @deprecated use resyncCertificates instead */
-  beginResyncCertificates: (
-    resourceGroupName: string,
-    networkFabricName: string,
-    options?: NetworkFabricsResyncCertificatesOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<NetworkFabricResyncCertificatesResponse>,
-      NetworkFabricResyncCertificatesResponse
-    >
-  >;
-  /** @deprecated use resyncCertificates instead */
-  beginResyncCertificatesAndWait: (
-    resourceGroupName: string,
-    networkFabricName: string,
-    options?: NetworkFabricsResyncCertificatesOptionalParams,
-  ) => Promise<NetworkFabricResyncCertificatesResponse>;
-  /** Creates new certificates, then updates the Network Devices to use the new certificates. Note that disabled devices cannot be updated and must be resynchronized with the new certificates once they are enabled. */
-  rotateCertificates: (
-    resourceGroupName: string,
-    networkFabricName: string,
-    options?: NetworkFabricsRotateCertificatesOptionalParams,
-  ) => PollerLike<
-    OperationState<NetworkFabricRotateCertificatesResponse>,
-    NetworkFabricRotateCertificatesResponse
-  >;
-  /** @deprecated use rotateCertificates instead */
-  beginRotateCertificates: (
-    resourceGroupName: string,
-    networkFabricName: string,
-    options?: NetworkFabricsRotateCertificatesOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<NetworkFabricRotateCertificatesResponse>,
-      NetworkFabricRotateCertificatesResponse
-    >
-  >;
-  /** @deprecated use rotateCertificates instead */
-  beginRotateCertificatesAndWait: (
-    resourceGroupName: string,
-    networkFabricName: string,
-    options?: NetworkFabricsRotateCertificatesOptionalParams,
-  ) => Promise<NetworkFabricRotateCertificatesResponse>;
-  /**
-   * Updates the Terminal Server and all Network Devices to use the latest passwords. Does not generate new passwords.
-   *
-   * Allows devices to be brought back in sync after a partially successful password rotation.
-   */
-  resyncPasswords: (
-    resourceGroupName: string,
-    networkFabricName: string,
-    options?: NetworkFabricsResyncPasswordsOptionalParams,
-  ) => PollerLike<
-    OperationState<NetworkFabricResyncPasswordsResponse>,
-    NetworkFabricResyncPasswordsResponse
-  >;
-  /** @deprecated use resyncPasswords instead */
-  beginResyncPasswords: (
-    resourceGroupName: string,
-    networkFabricName: string,
-    options?: NetworkFabricsResyncPasswordsOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<NetworkFabricResyncPasswordsResponse>,
-      NetworkFabricResyncPasswordsResponse
-    >
-  >;
-  /** @deprecated use resyncPasswords instead */
-  beginResyncPasswordsAndWait: (
-    resourceGroupName: string,
-    networkFabricName: string,
-    options?: NetworkFabricsResyncPasswordsOptionalParams,
-  ) => Promise<NetworkFabricResyncPasswordsResponse>;
-  /**
-   * Creates new passwords, then updates the Terminal Server and Network Devices to use the new passwords.
-   *
-   * Note that disabled devices cannot be updated and must be resynchronized with the new passwords once they are enabled.
-   *
-   * Fails if any of the devices could not be updated with the new password.
-   * Failed devices should be resynchronized with the new passwords once possible.
-   */
-  rotatePasswords: (
-    resourceGroupName: string,
-    networkFabricName: string,
-    options?: NetworkFabricsRotatePasswordsOptionalParams,
-  ) => PollerLike<
-    OperationState<NetworkFabricRotatePasswordsResponse>,
-    NetworkFabricRotatePasswordsResponse
-  >;
-  /** @deprecated use rotatePasswords instead */
-  beginRotatePasswords: (
-    resourceGroupName: string,
-    networkFabricName: string,
-    options?: NetworkFabricsRotatePasswordsOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<NetworkFabricRotatePasswordsResponse>,
-      NetworkFabricRotatePasswordsResponse
-    >
-  >;
-  /** @deprecated use rotatePasswords instead */
-  beginRotatePasswordsAndWait: (
-    resourceGroupName: string,
-    networkFabricName: string,
-    options?: NetworkFabricsRotatePasswordsOptionalParams,
-  ) => Promise<NetworkFabricRotatePasswordsResponse>;
   /** Post action: Triggers diff of NetworkFabric ARM Configuration. */
   armConfigurationDiff: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsArmConfigurationDiffOptionalParams,
-  ) => PollerLike<
-    OperationState<ArmConfigurationDiffOperationResponse>,
-    ArmConfigurationDiffOperationResponse
-  >;
+  ) => PollerLike<OperationState<ArmConfigurationDiffResponse>, ArmConfigurationDiffResponse>;
   /** @deprecated use armConfigurationDiff instead */
   beginArmConfigurationDiff: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsArmConfigurationDiffOptionalParams,
   ) => Promise<
-    SimplePollerLike<
-      OperationState<ArmConfigurationDiffOperationResponse>,
-      ArmConfigurationDiffOperationResponse
-    >
+    SimplePollerLike<OperationState<ArmConfigurationDiffResponse>, ArmConfigurationDiffResponse>
   >;
   /** @deprecated use armConfigurationDiff instead */
   beginArmConfigurationDiffAndWait: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsArmConfigurationDiffOptionalParams,
-  ) => Promise<ArmConfigurationDiffOperationResponse>;
+  ) => Promise<ArmConfigurationDiffResponse>;
   /** Post action: Triggers view of network fabric configuration. */
   viewDeviceConfiguration: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsViewDeviceConfigurationOptionalParams,
-  ) => PollerLike<
-    OperationState<ViewDeviceConfigurationOperationResponse>,
-    ViewDeviceConfigurationOperationResponse
-  >;
+  ) => PollerLike<OperationState<ViewDeviceConfigurationResponse>, ViewDeviceConfigurationResponse>;
   /** @deprecated use viewDeviceConfiguration instead */
   beginViewDeviceConfiguration: (
     resourceGroupName: string,
@@ -241,8 +103,8 @@ export interface NetworkFabricsOperations {
     options?: NetworkFabricsViewDeviceConfigurationOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<ViewDeviceConfigurationOperationResponse>,
-      ViewDeviceConfigurationOperationResponse
+      OperationState<ViewDeviceConfigurationResponse>,
+      ViewDeviceConfigurationResponse
     >
   >;
   /** @deprecated use viewDeviceConfiguration instead */
@@ -250,38 +112,43 @@ export interface NetworkFabricsOperations {
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsViewDeviceConfigurationOptionalParams,
-  ) => Promise<ViewDeviceConfigurationOperationResponse>;
+  ) => Promise<ViewDeviceConfigurationResponse>;
   /** Post action: Triggers network fabric lock operation. */
   lockFabric: (
     resourceGroupName: string,
     networkFabricName: string,
     body: NetworkFabricLockRequest,
     options?: NetworkFabricsLockFabricOptionalParams,
-  ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  ) => PollerLike<
+    OperationState<CommonPostActionResponseForStateUpdate>,
+    CommonPostActionResponseForStateUpdate
+  >;
   /** @deprecated use lockFabric instead */
   beginLockFabric: (
     resourceGroupName: string,
     networkFabricName: string,
     body: NetworkFabricLockRequest,
     options?: NetworkFabricsLockFabricOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<CommonPostActionResponseForStateUpdate>,
+      CommonPostActionResponseForStateUpdate
+    >
+  >;
   /** @deprecated use lockFabric instead */
   beginLockFabricAndWait: (
     resourceGroupName: string,
     networkFabricName: string,
     body: NetworkFabricLockRequest,
     options?: NetworkFabricsLockFabricOptionalParams,
-  ) => Promise<OperationStatusResult>;
+  ) => Promise<CommonPostActionResponseForStateUpdate>;
   /** Post action: Discards a Batch operation in progress. */
   discardCommitBatch: (
     resourceGroupName: string,
     networkFabricName: string,
     body: DiscardCommitBatchRequest,
     options?: NetworkFabricsDiscardCommitBatchOptionalParams,
-  ) => PollerLike<
-    OperationState<DiscardCommitBatchOperationResponse>,
-    DiscardCommitBatchOperationResponse
-  >;
+  ) => PollerLike<OperationState<DiscardCommitBatchResponse>, DiscardCommitBatchResponse>;
   /** @deprecated use discardCommitBatch instead */
   beginDiscardCommitBatch: (
     resourceGroupName: string,
@@ -289,10 +156,7 @@ export interface NetworkFabricsOperations {
     body: DiscardCommitBatchRequest,
     options?: NetworkFabricsDiscardCommitBatchOptionalParams,
   ) => Promise<
-    SimplePollerLike<
-      OperationState<DiscardCommitBatchOperationResponse>,
-      DiscardCommitBatchOperationResponse
-    >
+    SimplePollerLike<OperationState<DiscardCommitBatchResponse>, DiscardCommitBatchResponse>
   >;
   /** @deprecated use discardCommitBatch instead */
   beginDiscardCommitBatchAndWait: (
@@ -300,17 +164,14 @@ export interface NetworkFabricsOperations {
     networkFabricName: string,
     body: DiscardCommitBatchRequest,
     options?: NetworkFabricsDiscardCommitBatchOptionalParams,
-  ) => Promise<DiscardCommitBatchOperationResponse>;
+  ) => Promise<DiscardCommitBatchResponse>;
   /** Post action: Returns a status of commit batch operation. */
   commitBatchStatus: (
     resourceGroupName: string,
     networkFabricName: string,
     body: CommitBatchStatusRequest,
     options?: NetworkFabricsCommitBatchStatusOptionalParams,
-  ) => PollerLike<
-    OperationState<CommitBatchStatusOperationResponse>,
-    CommitBatchStatusOperationResponse
-  >;
+  ) => PollerLike<OperationState<CommitBatchStatusResponse>, CommitBatchStatusResponse>;
   /** @deprecated use commitBatchStatus instead */
   beginCommitBatchStatus: (
     resourceGroupName: string,
@@ -318,10 +179,7 @@ export interface NetworkFabricsOperations {
     body: CommitBatchStatusRequest,
     options?: NetworkFabricsCommitBatchStatusOptionalParams,
   ) => Promise<
-    SimplePollerLike<
-      OperationState<CommitBatchStatusOperationResponse>,
-      CommitBatchStatusOperationResponse
-    >
+    SimplePollerLike<OperationState<CommitBatchStatusResponse>, CommitBatchStatusResponse>
   >;
   /** @deprecated use commitBatchStatus instead */
   beginCommitBatchStatusAndWait: (
@@ -329,45 +187,53 @@ export interface NetworkFabricsOperations {
     networkFabricName: string,
     body: CommitBatchStatusRequest,
     options?: NetworkFabricsCommitBatchStatusOptionalParams,
-  ) => Promise<CommitBatchStatusOperationResponse>;
+  ) => Promise<CommitBatchStatusResponse>;
   /** Atomic update of the given Network Fabric instance. Sync update of NFA resources at Fabric level. */
   commitConfiguration: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsCommitConfigurationOptionalParams,
-  ) => PollerLike<OperationState<CommitConfigurationResponse>, CommitConfigurationResponse>;
+  ) => PollerLike<
+    OperationState<CommonPostActionResponseForStateUpdate>,
+    CommonPostActionResponseForStateUpdate
+  >;
   /** @deprecated use commitConfiguration instead */
   beginCommitConfiguration: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsCommitConfigurationOptionalParams,
   ) => Promise<
-    SimplePollerLike<OperationState<CommitConfigurationResponse>, CommitConfigurationResponse>
+    SimplePollerLike<
+      OperationState<CommonPostActionResponseForStateUpdate>,
+      CommonPostActionResponseForStateUpdate
+    >
   >;
   /** @deprecated use commitConfiguration instead */
   beginCommitConfigurationAndWait: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsCommitConfigurationOptionalParams,
-  ) => Promise<CommitConfigurationResponse>;
+  ) => Promise<CommonPostActionResponseForStateUpdate>;
   /** Gets Topology of the underlying resources in the given Network Fabric instance. */
   getTopology: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsGetTopologyOptionalParams,
-  ) => PollerLike<OperationState<GetTopologyResponse>, GetTopologyResponse>;
+  ) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
   /** @deprecated use getTopology instead */
   beginGetTopology: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsGetTopologyOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<GetTopologyResponse>, GetTopologyResponse>>;
+  ) => Promise<
+    SimplePollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>
+  >;
   /** @deprecated use getTopology instead */
   beginGetTopologyAndWait: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsGetTopologyOptionalParams,
-  ) => Promise<GetTopologyResponse>;
+  ) => Promise<ValidateConfigurationResponse>;
   /** Validates the configuration of the underlying resources in the given Network Fabric instance. */
   validateConfiguration: (
     resourceGroupName: string,
@@ -398,8 +264,8 @@ export interface NetworkFabricsOperations {
     body: UpdateAdministrativeState,
     options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams,
   ) => PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
+    OperationState<CommonPostActionResponseForStateUpdate>,
+    CommonPostActionResponseForStateUpdate
   >;
   /** @deprecated use updateInfraManagementBfdConfiguration instead */
   beginUpdateInfraManagementBfdConfiguration: (
@@ -409,8 +275,8 @@ export interface NetworkFabricsOperations {
     options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<UpdateAdministrativeStateResponse>,
-      UpdateAdministrativeStateResponse
+      OperationState<CommonPostActionResponseForStateUpdate>,
+      CommonPostActionResponseForStateUpdate
     >
   >;
   /** @deprecated use updateInfraManagementBfdConfiguration instead */
@@ -419,7 +285,7 @@ export interface NetworkFabricsOperations {
     networkFabricName: string,
     body: UpdateAdministrativeState,
     options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams,
-  ) => Promise<UpdateAdministrativeStateResponse>;
+  ) => Promise<CommonPostActionResponseForStateUpdate>;
   /** Updates the Workload Management BFD Configuration of the underlying resources in the given Network Fabric instance. */
   updateWorkloadManagementBfdConfiguration: (
     resourceGroupName: string,
@@ -427,8 +293,8 @@ export interface NetworkFabricsOperations {
     body: UpdateAdministrativeState,
     options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams,
   ) => PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
+    OperationState<CommonPostActionResponseForStateUpdate>,
+    CommonPostActionResponseForStateUpdate
   >;
   /** @deprecated use updateWorkloadManagementBfdConfiguration instead */
   beginUpdateWorkloadManagementBfdConfiguration: (
@@ -438,8 +304,8 @@ export interface NetworkFabricsOperations {
     options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<UpdateAdministrativeStateResponse>,
-      UpdateAdministrativeStateResponse
+      OperationState<CommonPostActionResponseForStateUpdate>,
+      CommonPostActionResponseForStateUpdate
     >
   >;
   /** @deprecated use updateWorkloadManagementBfdConfiguration instead */
@@ -448,82 +314,114 @@ export interface NetworkFabricsOperations {
     networkFabricName: string,
     body: UpdateAdministrativeState,
     options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams,
-  ) => Promise<UpdateAdministrativeStateResponse>;
+  ) => Promise<CommonPostActionResponseForStateUpdate>;
   /** Refreshes the configuration of the underlying resources in the given Network Fabric instance. */
   refreshConfiguration: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsRefreshConfigurationOptionalParams,
-  ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  ) => PollerLike<
+    OperationState<CommonPostActionResponseForStateUpdate>,
+    CommonPostActionResponseForStateUpdate
+  >;
   /** @deprecated use refreshConfiguration instead */
   beginRefreshConfiguration: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsRefreshConfigurationOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<CommonPostActionResponseForStateUpdate>,
+      CommonPostActionResponseForStateUpdate
+    >
+  >;
   /** @deprecated use refreshConfiguration instead */
   beginRefreshConfigurationAndWait: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsRefreshConfigurationOptionalParams,
-  ) => Promise<OperationStatusResult>;
+  ) => Promise<CommonPostActionResponseForStateUpdate>;
   /** Upgrades the version of the underlying resources in the given Network Fabric instance. */
   upgrade: (
     resourceGroupName: string,
     networkFabricName: string,
     body: UpgradeNetworkFabricProperties,
     options?: NetworkFabricsUpgradeOptionalParams,
-  ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  ) => PollerLike<
+    OperationState<CommonPostActionResponseForStateUpdate>,
+    CommonPostActionResponseForStateUpdate
+  >;
   /** @deprecated use upgrade instead */
   beginUpgrade: (
     resourceGroupName: string,
     networkFabricName: string,
     body: UpgradeNetworkFabricProperties,
     options?: NetworkFabricsUpgradeOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<CommonPostActionResponseForStateUpdate>,
+      CommonPostActionResponseForStateUpdate
+    >
+  >;
   /** @deprecated use upgrade instead */
   beginUpgradeAndWait: (
     resourceGroupName: string,
     networkFabricName: string,
     body: UpgradeNetworkFabricProperties,
     options?: NetworkFabricsUpgradeOptionalParams,
-  ) => Promise<OperationStatusResult>;
+  ) => Promise<CommonPostActionResponseForStateUpdate>;
   /** Deprovisions the underlying resources in the given Network Fabric instance. */
   deprovision: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsDeprovisionOptionalParams,
-  ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  ) => PollerLike<
+    OperationState<CommonPostActionResponseForDeviceUpdate>,
+    CommonPostActionResponseForDeviceUpdate
+  >;
   /** @deprecated use deprovision instead */
   beginDeprovision: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsDeprovisionOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<CommonPostActionResponseForDeviceUpdate>,
+      CommonPostActionResponseForDeviceUpdate
+    >
+  >;
   /** @deprecated use deprovision instead */
   beginDeprovisionAndWait: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsDeprovisionOptionalParams,
-  ) => Promise<OperationStatusResult>;
+  ) => Promise<CommonPostActionResponseForDeviceUpdate>;
   /** Provisions the underlying resources in the given Network Fabric instance. */
   provision: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsProvisionOptionalParams,
-  ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  ) => PollerLike<
+    OperationState<CommonPostActionResponseForDeviceUpdate>,
+    CommonPostActionResponseForDeviceUpdate
+  >;
   /** @deprecated use provision instead */
   beginProvision: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsProvisionOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<CommonPostActionResponseForDeviceUpdate>,
+      CommonPostActionResponseForDeviceUpdate
+    >
+  >;
   /** @deprecated use provision instead */
   beginProvisionAndWait: (
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsProvisionOptionalParams,
-  ) => Promise<OperationStatusResult>;
+  ) => Promise<CommonPostActionResponseForDeviceUpdate>;
   /** List all the Network Fabric resources in the given subscription. */
   listBySubscription: (
     options?: NetworkFabricsListBySubscriptionOptionalParams,
@@ -608,90 +506,6 @@ export interface NetworkFabricsOperations {
 
 function _getNetworkFabrics(context: AzureNetworkFabricManagementServiceAPIContext) {
   return {
-    resyncCertificates: (
-      resourceGroupName: string,
-      networkFabricName: string,
-      options?: NetworkFabricsResyncCertificatesOptionalParams,
-    ) => resyncCertificates(context, resourceGroupName, networkFabricName, options),
-    beginResyncCertificates: async (
-      resourceGroupName: string,
-      networkFabricName: string,
-      options?: NetworkFabricsResyncCertificatesOptionalParams,
-    ) => {
-      const poller = resyncCertificates(context, resourceGroupName, networkFabricName, options);
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginResyncCertificatesAndWait: async (
-      resourceGroupName: string,
-      networkFabricName: string,
-      options?: NetworkFabricsResyncCertificatesOptionalParams,
-    ) => {
-      return await resyncCertificates(context, resourceGroupName, networkFabricName, options);
-    },
-    rotateCertificates: (
-      resourceGroupName: string,
-      networkFabricName: string,
-      options?: NetworkFabricsRotateCertificatesOptionalParams,
-    ) => rotateCertificates(context, resourceGroupName, networkFabricName, options),
-    beginRotateCertificates: async (
-      resourceGroupName: string,
-      networkFabricName: string,
-      options?: NetworkFabricsRotateCertificatesOptionalParams,
-    ) => {
-      const poller = rotateCertificates(context, resourceGroupName, networkFabricName, options);
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginRotateCertificatesAndWait: async (
-      resourceGroupName: string,
-      networkFabricName: string,
-      options?: NetworkFabricsRotateCertificatesOptionalParams,
-    ) => {
-      return await rotateCertificates(context, resourceGroupName, networkFabricName, options);
-    },
-    resyncPasswords: (
-      resourceGroupName: string,
-      networkFabricName: string,
-      options?: NetworkFabricsResyncPasswordsOptionalParams,
-    ) => resyncPasswords(context, resourceGroupName, networkFabricName, options),
-    beginResyncPasswords: async (
-      resourceGroupName: string,
-      networkFabricName: string,
-      options?: NetworkFabricsResyncPasswordsOptionalParams,
-    ) => {
-      const poller = resyncPasswords(context, resourceGroupName, networkFabricName, options);
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginResyncPasswordsAndWait: async (
-      resourceGroupName: string,
-      networkFabricName: string,
-      options?: NetworkFabricsResyncPasswordsOptionalParams,
-    ) => {
-      return await resyncPasswords(context, resourceGroupName, networkFabricName, options);
-    },
-    rotatePasswords: (
-      resourceGroupName: string,
-      networkFabricName: string,
-      options?: NetworkFabricsRotatePasswordsOptionalParams,
-    ) => rotatePasswords(context, resourceGroupName, networkFabricName, options),
-    beginRotatePasswords: async (
-      resourceGroupName: string,
-      networkFabricName: string,
-      options?: NetworkFabricsRotatePasswordsOptionalParams,
-    ) => {
-      const poller = rotatePasswords(context, resourceGroupName, networkFabricName, options);
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginRotatePasswordsAndWait: async (
-      resourceGroupName: string,
-      networkFabricName: string,
-      options?: NetworkFabricsRotatePasswordsOptionalParams,
-    ) => {
-      return await rotatePasswords(context, resourceGroupName, networkFabricName, options);
-    },
     armConfigurationDiff: (
       resourceGroupName: string,
       networkFabricName: string,

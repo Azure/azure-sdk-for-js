@@ -14,13 +14,19 @@ import {
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
 export interface _ListIndexesSelectedResult {
+  /** The total count of indexes in the service, or null if the count was not requested. */
+  readonly count?: number;
   /** The indexes in the Search service. */
   readonly value: SearchIndexResponse[];
+  /** The URL that can be used to fetch the next set of results. */
+  readonly nextLink?: string;
 }
 
 export function _listIndexesSelectedResultDeserializer(item: any): _ListIndexesSelectedResult {
   return {
+    count: item["@odata.count"],
     value: searchIndexResponseArrayDeserializer(item["value"]),
+    nextLink: item["@odata.nextLink"],
   };
 }
 
@@ -28,4 +34,8 @@ export function _listIndexesSelectedResultDeserializer(item: any): _ListIndexesS
 export enum KnownVersions {
   /** The 2025-11-01-preview API version. */
   V20251101Preview = "2025-11-01-preview",
+  /** The 2026-04-01 API version. */
+  V20260401 = "2026-04-01",
+  /** The 2026-05-01-preview API version. */
+  V20260501Preview = "2026-05-01-preview",
 }

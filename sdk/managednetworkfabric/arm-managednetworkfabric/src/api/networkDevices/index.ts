@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  resyncCertificates,
-  resyncPasswords,
   runRwCommand,
   runRoCommand,
   upgrade,
@@ -18,8 +16,6 @@ export {
   get,
 } from "./operations.js";
 export type {
-  NetworkDevicesResyncCertificatesOptionalParams,
-  NetworkDevicesResyncPasswordsOptionalParams,
   NetworkDevicesRunRwCommandOptionalParams,
   NetworkDevicesRunRoCommandOptionalParams,
   NetworkDevicesUpgradeOptionalParams,

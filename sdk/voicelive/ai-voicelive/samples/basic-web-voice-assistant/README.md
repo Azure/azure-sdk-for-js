@@ -30,7 +30,7 @@ Opens at: **http://localhost:3000**
 ### 3. **Configure & Connect**
 1. Enter your **Voice Live endpoint** (e.g., `wss://your-service.com/v1`)
 2. Enter your **API key**
-3. Choose a **voice** (OpenAI or Azure)
+3. Choose a **voice** (OpenAI, Azure standard, or preview Azure realtime native)
 4. Customize **instructions** (optional)
 5. Click **"Connect"**
 
@@ -47,11 +47,11 @@ Opens at: **http://localhost:3000**
 const client = new VoiceLiveClient(endpoint, credential);
 
 // Client creates sessions with model specification
-const session = await client.startSession('gpt-4o-realtime-preview', sessionOptions);
+const session = await client.startSession('gpt-realtime', sessionOptions);
 
 // Or with full session configuration
 const sessionConfig = {
-  model: 'gpt-4o-realtime-preview',
+  model: 'gpt-realtime',
   instructions: 'You are a helpful assistant',
   modalities: ['audio', 'text'],
   voice: {
@@ -82,17 +82,17 @@ The sample now provides fluid, real-time conversation updates:
 // 5. Proper timestamps and role indicators
 
 const subscription = session.subscribe({
-  processResponseCreated: async (event, context) => {
+  onResponseCreated: async (event, context) => {
     // ✅ Create empty message that will be updated as deltas arrive
     startStreamingMessage(event.response.id);
   },
   
-  processResponseTextDelta: async (event, context) => {
+  onResponseTextDelta: async (event, context) => {
     // ✅ Update the streaming message in real-time
     updateStreamingMessage(event.delta);
   },
   
-  processResponseDone: async (event, context) => {
+  onResponseDone: async (event, context) => {
     // ✅ Finalize the message (remove typing cursor)
     finalizeStreamingMessage();
   }
@@ -117,7 +117,7 @@ Natural conversation flow with interruption support:
 
 ```typescript
 // When user starts speaking during assistant response:
-processInputAudioBufferSpeechStarted: async (event, context) => {
+onInputAudioBufferSpeechStarted: async (event, context) => {
   if (this.isPlayingAudio) {
     // 🛑 Immediately stop audio playback
     this.clearAudioQueue();
@@ -150,16 +150,16 @@ processInputAudioBufferSpeechStarted: async (event, context) => {
 ```typescript
 // ✅ Azure SDK handler pattern - type-safe and robust
 const subscription = session.subscribe({
-  processConnected: async (args, context) => {
+  onConnected: async (args, context) => {
     console.log('Connected:', context.sessionId);
   },
-  processError: async (error, context) => {
+  onError: async (error, context) => {
     console.log('Session error:', error.error.message);
   },
-  processResponseDone: async (event, context) => {
+  onResponseDone: async (event, context) => {
     console.log('Assistant finished response');
   },
-  processAudioReceived: async (event, context) => {
+  onResponseAudioDelta: async (event, context) => {
     // Stream audio in real-time
     await playAudio(event.delta);
   }
@@ -199,14 +199,16 @@ events.on('erorr', handler); // Whoops! Typo not caught
 // ❌ No autoReconnect flag
 
 // ✅ Fail fast and be honest about session death
-const session = await client.startSession('gpt-4o-realtime-preview', {
+const session = await client.startSession('gpt-realtime', {
   connectionTimeoutMs: 30000 // Only configure initial connection
 });
 
 // ✅ Handle session death explicitly  
-session.events.on('error', (error) => {
-  if (error.code === 'SESSION_DEAD') {
-    console.log('Session permanently dead:', error.message);
+const subscription = session.subscribe({
+  onError: async (args) => {
+    if (args.error.code === 'SESSION_DEAD') {
+      console.log('Session permanently dead:', args.error.message);
+    }
     // App decides: show error, start new session, etc.
   }
 });
@@ -241,6 +243,15 @@ const customVoice = {
   name: 'my-custom-voice',
   endpointId: 'your-endpoint-id'
 };
+
+// Azure Realtime Native Voices (preview, requires azure-realtime)
+const realtimeNativeVoice = {
+  type: 'azure-realtime-native',
+  name: 'ava'
+};
+
+// The sample auto-selects the azure-realtime model when a realtime native
+// voice is chosen from the UI.
 
 // Usage in session configuration
 await session.updateSession({

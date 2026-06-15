@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isNodeLike } from "@azure/core-util";
+import type { NodeReadableStream, WebReadableStream } from "@typespec/ts-http-runtime";
 
-function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
-  return Boolean(x && typeof (x as NodeJS.ReadableStream)["pipe"] === "function");
+function isNodeReadableStream(x: unknown): x is NodeReadableStream {
+  return typeof x === "object" && x !== null && "pipe" in x && typeof x.pipe === "function";
 }
 
 /**
@@ -76,7 +76,7 @@ const rawContent: unique symbol = Symbol("rawContent");
  * Type signature of a blob-like object with a raw content property.
  */
 export interface RawContent extends Blob {
-  [rawContent](): Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array>;
+  [rawContent](): Uint8Array | NodeReadableStream | WebReadableStream<Uint8Array>;
 }
 
 /**
@@ -95,12 +95,41 @@ export function hasRawContent(x: unknown): x is RawContent {
  */
 export function getRawContent(
   blob: Blob,
-): Blob | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array {
+): Blob | NodeReadableStream | WebReadableStream<Uint8Array> | Uint8Array {
   if (hasRawContent(blob)) {
     return blob[rawContent]();
   } else {
     return blob;
   }
+}
+
+/**
+ * @internal
+ *
+ * Creates a File-like object tagged with rawContent for efficient streaming access.
+ * Used by the Node createFile to avoid Blob#stream() bugs.
+ */
+export function createRawFile(
+  content: Uint8Array,
+  name: string,
+  options: CreateFileOptions = {},
+): File {
+  return {
+    ...unimplementedMethods,
+    type: options.type ?? "",
+    lastModified: options.lastModified ?? new Date().getTime(),
+    webkitRelativePath: options.webkitRelativePath ?? "",
+    size: content.byteLength,
+    name,
+    arrayBuffer: async () => toArrayBuffer(content).buffer,
+    stream: () =>
+      (
+        new Blob([toArrayBuffer(content)] as unknown as (Blob | string)[]) as unknown as {
+          stream(): WebReadableStream;
+        }
+      ).stream(),
+    [rawContent]: () => content,
+  } as File & RawContent;
 }
 
 /**
@@ -121,7 +150,7 @@ export function getRawContent(
  * @param options - optional metadata about the file, e.g. file name, file size, MIME type.
  */
 export function createFileFromStream(
-  stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream,
+  stream: () => WebReadableStream<Uint8Array> | NodeReadableStream,
   name: string,
   options: CreateFileFromStreamOptions = {},
 ): File {
@@ -146,43 +175,19 @@ export function createFileFromStream(
   } as File & RawContent;
 }
 
-/**
- * Create an object that implements the File interface. This object is intended to be
- * passed into RequestBodyType.formData, and is not guaranteed to work as expected in
- * other situations.
- *
- * Use this function create a File object for use in RequestBodyType.formData in environments where the global File object is unavailable.
- *
- * @param content - the content of the file as a Uint8Array in memory.
- * @param name - the name of the file.
- * @param options - optional metadata about the file, e.g. file name, file size, MIME type.
- */
-export function createFile(
-  content: Uint8Array,
-  name: string,
-  options: CreateFileOptions = {},
-): File {
-  if (isNodeLike) {
-    return {
-      ...unimplementedMethods,
-      type: options.type ?? "",
-      lastModified: options.lastModified ?? new Date().getTime(),
-      webkitRelativePath: options.webkitRelativePath ?? "",
-      size: content.byteLength,
-      name,
-      arrayBuffer: async () => content.buffer,
-      stream: () => new Blob([toArrayBuffer(content)]).stream(),
-      [rawContent]: () => content,
-    } as File & RawContent;
-  } else {
-    return new File([toArrayBuffer(content)], name, options);
-  }
+export { createFile } from "#platform/createFile";
+
+function hasArrayBuffer(source: Uint8Array): source is Uint8Array<ArrayBuffer> {
+  return "resize" in source.buffer;
 }
 
 function toArrayBuffer(source: Uint8Array): Uint8Array<ArrayBuffer> {
-  if ("resize" in source.buffer) {
-    // ArrayBuffer
-    return source as Uint8Array<ArrayBuffer>;
+  if (hasArrayBuffer(source)) {
+    // ArrayBuffer — return a copy if the view is a subarray of a larger buffer
+    if (source.byteOffset !== 0 || source.byteLength !== source.buffer.byteLength) {
+      return new Uint8Array(source) as Uint8Array<ArrayBuffer>;
+    }
+    return source;
   }
   // SharedArrayBuffer
   return source.map((x) => x);

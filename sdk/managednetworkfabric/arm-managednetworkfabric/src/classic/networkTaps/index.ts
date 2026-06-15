@@ -24,10 +24,10 @@ import type {
 } from "../../api/networkTaps/options.js";
 import type {
   UpdateAdministrativeState,
-  UpdateAdministrativeStateResponse,
+  CommonPostActionResponseForStateUpdate,
+  CommonPostActionResponseForDeviceUpdate,
   NetworkTap,
   NetworkTapPatch,
-  NetworkTapResyncResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -41,21 +41,27 @@ export interface NetworkTapsOperations {
     resourceGroupName: string,
     networkTapName: string,
     options?: NetworkTapsResyncOptionalParams,
-  ) => PollerLike<OperationState<NetworkTapResyncResponse>, NetworkTapResyncResponse>;
+  ) => PollerLike<
+    OperationState<CommonPostActionResponseForStateUpdate>,
+    CommonPostActionResponseForStateUpdate
+  >;
   /** @deprecated use resync instead */
   beginResync: (
     resourceGroupName: string,
     networkTapName: string,
     options?: NetworkTapsResyncOptionalParams,
   ) => Promise<
-    SimplePollerLike<OperationState<NetworkTapResyncResponse>, NetworkTapResyncResponse>
+    SimplePollerLike<
+      OperationState<CommonPostActionResponseForStateUpdate>,
+      CommonPostActionResponseForStateUpdate
+    >
   >;
   /** @deprecated use resync instead */
   beginResyncAndWait: (
     resourceGroupName: string,
     networkTapName: string,
     options?: NetworkTapsResyncOptionalParams,
-  ) => Promise<NetworkTapResyncResponse>;
+  ) => Promise<CommonPostActionResponseForStateUpdate>;
   /** Implements the operation to the underlying resources. */
   updateAdministrativeState: (
     resourceGroupName: string,
@@ -63,8 +69,8 @@ export interface NetworkTapsOperations {
     body: UpdateAdministrativeState,
     options?: NetworkTapsUpdateAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
+    OperationState<CommonPostActionResponseForDeviceUpdate>,
+    CommonPostActionResponseForDeviceUpdate
   >;
   /** @deprecated use updateAdministrativeState instead */
   beginUpdateAdministrativeState: (
@@ -74,8 +80,8 @@ export interface NetworkTapsOperations {
     options?: NetworkTapsUpdateAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<UpdateAdministrativeStateResponse>,
-      UpdateAdministrativeStateResponse
+      OperationState<CommonPostActionResponseForDeviceUpdate>,
+      CommonPostActionResponseForDeviceUpdate
     >
   >;
   /** @deprecated use updateAdministrativeState instead */
@@ -84,7 +90,7 @@ export interface NetworkTapsOperations {
     networkTapName: string,
     body: UpdateAdministrativeState,
     options?: NetworkTapsUpdateAdministrativeStateOptionalParams,
-  ) => Promise<UpdateAdministrativeStateResponse>;
+  ) => Promise<CommonPostActionResponseForDeviceUpdate>;
   /** Displays Network Taps list by subscription GET method. */
   listBySubscription: (
     options?: NetworkTapsListBySubscriptionOptionalParams,

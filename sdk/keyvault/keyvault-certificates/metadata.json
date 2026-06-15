@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "KeyVault": "2025-07-01"
+    "KeyVault": "2026-03-01-preview"
   },
-  "emitterVersion": "0.50.2",
+  "emitterVersion": "0.52.3",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "KeyVault",
     "CrossLanguageDefinitionId": {
@@ -21,6 +21,7 @@
       "@azure/keyvault-certificates!Trigger:interface": "KeyVault.Trigger",
       "@azure/keyvault-certificates!Action:interface": "KeyVault.Action",
       "@azure/keyvault-certificates!IssuerParameters:interface": "KeyVault.IssuerParameters",
+      "@azure/keyvault-certificates!PlatformManaged:interface": "KeyVault.PlatformManaged",
       "@azure/keyvault-certificates!Contacts:interface": "KeyVault.Contacts",
       "@azure/keyvault-certificates!Contact:interface": "KeyVault.Contact",
       "@azure/keyvault-certificates!CertificateIssuerListResult:interface": "KeyVault.CertificateIssuerListResult",

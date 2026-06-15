@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createPlaywrightManagement,
-  type PlaywrightManagementContext,
-  type PlaywrightManagementClientOptionalParams,
+export type {
+  PlaywrightManagementContext,
+  PlaywrightManagementClientOptionalParams,
 } from "./playwrightManagementContext.js";
+export { createPlaywrightManagement } from "./playwrightManagementContext.js";

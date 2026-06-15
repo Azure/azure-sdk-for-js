@@ -4,7 +4,7 @@
 import type { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
 import type {
   UpdateAdministrativeState,
-  UpdateAdministrativeStateResponse,
+  CommonPostActionResponseForStateUpdate,
   NetworkInterface,
   NetworkInterfacePatch,
   _NetworkInterfacesList,
@@ -12,7 +12,7 @@ import type {
 import {
   errorResponseDeserializer,
   updateAdministrativeStateSerializer,
-  updateAdministrativeStateResponseDeserializer,
+  commonPostActionResponseForStateUpdateDeserializer,
   networkInterfaceSerializer,
   networkInterfaceDeserializer,
   networkInterfacePatchSerializer,
@@ -49,7 +49,7 @@ export function _updateAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,7 +65,7 @@ export function _updateAdministrativeStateSend(
 
 export async function _updateAdministrativeStateDeserialize(
   result: PathUncheckedResponse,
-): Promise<UpdateAdministrativeStateResponse> {
+): Promise<CommonPostActionResponseForStateUpdate> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -74,7 +74,7 @@ export async function _updateAdministrativeStateDeserialize(
     throw error;
   }
 
-  return updateAdministrativeStateResponseDeserializer(result.body);
+  return commonPostActionResponseForStateUpdateDeserializer(result.body);
 }
 
 /** Update the admin state of the Network Interface. */
@@ -86,8 +86,8 @@ export function updateAdministrativeState(
   body: UpdateAdministrativeState,
   options: NetworkInterfacesUpdateAdministrativeStateOptionalParams = { requestOptions: {} },
 ): PollerLike<
-  OperationState<UpdateAdministrativeStateResponse>,
-  UpdateAdministrativeStateResponse
+  OperationState<CommonPostActionResponseForStateUpdate>,
+  CommonPostActionResponseForStateUpdate
 > {
   return getLongRunningPoller(
     context,
@@ -106,11 +106,11 @@ export function updateAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-07-15",
+      apiVersion: context.apiVersion ?? "2024-06-15-preview",
     },
   ) as PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
+    OperationState<CommonPostActionResponseForStateUpdate>,
+    CommonPostActionResponseForStateUpdate
   >;
 }
 
@@ -126,7 +126,7 @@ export function _listByNetworkDeviceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -164,7 +164,11 @@ export function listByNetworkDevice(
     () => _listByNetworkDeviceSend(context, resourceGroupName, networkDeviceName, options),
     _listByNetworkDeviceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    },
   );
 }
 
@@ -182,7 +186,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -222,7 +226,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, networkDeviceName, networkInterfaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2024-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -241,7 +245,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -289,7 +293,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2024-06-15-preview",
   }) as PollerLike<OperationState<NetworkInterface>, NetworkInterface>;
 }
 
@@ -308,7 +312,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -356,7 +360,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2024-06-15-preview",
   }) as PollerLike<OperationState<NetworkInterface>, NetworkInterface>;
 }
 
@@ -374,7 +378,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

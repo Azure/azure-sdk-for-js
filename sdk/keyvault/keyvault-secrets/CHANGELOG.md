@@ -1,18 +1,24 @@
 # Release History
 
-## 4.11.0 (Unreleased)
+## 4.11.2 (2026-04-27)
+
+### Bugs Fixed
+
+- Fixed an issue where `contentType` passed to `setSecret()` and `updateSecretProperties()` was not forwarded to the service request body. [#38301](https://github.com/Azure/azure-sdk-for-js/pull/38301)
+
+## 4.11.1 (2026-04-09)
+
+### Bugs Fixed
+
+- Fix dependency issue.
+
+## 4.11.0 (2026-04-01)
 
 ### Features Added
 
 - Added support for service API version `2025-07-01` which is now the default. [#37785](https://github.com/Azure/azure-sdk-for-js/pull/37785)
 - Added `outContentType` option to `getSecret()` allowing callers to request PEM-format output for certificate-backed secrets (e.g., `outContentType: KnownContentType.PEM`). [#37785](https://github.com/Azure/azure-sdk-for-js/pull/37785)
 - Added `previousVersion` readonly property to `SecretProperties` which returns the identifier of the previous certificate version. [#37785](https://github.com/Azure/azure-sdk-for-js/pull/37785)
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 4.10.0 (2025-06-10)
 

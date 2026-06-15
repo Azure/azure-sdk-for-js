@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-postgresql-flexible",
-  "version": "10.0.0-beta.1",
+  "version": "10.0.0-beta.2",
   "description": "A generated SDK for PostgreSQLManagementFlexibleServerClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -9,7 +9,6 @@
   "autoPublish": false,
   "type": "module",
   "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js",
   "keywords": [
     "node",
     "azure",
@@ -27,7 +26,11 @@
     "LICENSE"
   ],
   "sdk-type": "mgmt",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/postgresql/arm-postgresql-flexible"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -59,14 +62,14 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
-    "cross-env": "catalog:",
-    "eslint": "catalog:",
-    "prettier": "catalog:",
-    "rimraf": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "dotenv": "catalog:testing",
+    "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -76,16 +79,15 @@
     "pack": "pnpm pack 2>&1",
     "lint": "echo skipped",
     "lint:fix": "echo skipped",
-    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "build:samples": "tsc -p config/tsconfig.samples.json && dev-tool samples publish -f",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
     "execute:samples": "dev-tool samples run samples-dev",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
     "generate:client": "echo skipped",
-    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "test:browser": "dev-tool run test:vitest --browser",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
-    "test:node:esm": "dev-tool run test:vitest --esm",
-    "test": "npm run test:node && npm run test:browser",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "update-snippets": "dev-tool run update-snippets"
   },
   "//sampleConfiguration": {
@@ -103,10 +105,6 @@
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -120,10 +118,6 @@
       "browser": {
         "types": "./dist/browser/api/index.d.ts",
         "default": "./dist/browser/api/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/index.d.ts",
-        "default": "./dist/react-native/api/index.js"
       },
       "import": {
         "types": "./dist/esm/api/index.d.ts",
@@ -139,10 +133,6 @@
         "types": "./dist/browser/api/virtualNetworkSubnetUsage/index.d.ts",
         "default": "./dist/browser/api/virtualNetworkSubnetUsage/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/virtualNetworkSubnetUsage/index.d.ts",
-        "default": "./dist/react-native/api/virtualNetworkSubnetUsage/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/virtualNetworkSubnetUsage/index.d.ts",
         "default": "./dist/esm/api/virtualNetworkSubnetUsage/index.js"
@@ -156,10 +146,6 @@
       "browser": {
         "types": "./dist/browser/api/quotaUsages/index.d.ts",
         "default": "./dist/browser/api/quotaUsages/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/quotaUsages/index.d.ts",
-        "default": "./dist/react-native/api/quotaUsages/index.js"
       },
       "import": {
         "types": "./dist/esm/api/quotaUsages/index.d.ts",
@@ -175,10 +161,6 @@
         "types": "./dist/browser/api/privateDnsZoneSuffix/index.d.ts",
         "default": "./dist/browser/api/privateDnsZoneSuffix/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/privateDnsZoneSuffix/index.d.ts",
-        "default": "./dist/react-native/api/privateDnsZoneSuffix/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/privateDnsZoneSuffix/index.d.ts",
         "default": "./dist/esm/api/privateDnsZoneSuffix/index.js"
@@ -192,10 +174,6 @@
       "browser": {
         "types": "./dist/browser/api/nameAvailability/index.d.ts",
         "default": "./dist/browser/api/nameAvailability/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/nameAvailability/index.d.ts",
-        "default": "./dist/react-native/api/nameAvailability/index.js"
       },
       "import": {
         "types": "./dist/esm/api/nameAvailability/index.d.ts",
@@ -211,10 +189,6 @@
         "types": "./dist/browser/api/capabilitiesByLocation/index.d.ts",
         "default": "./dist/browser/api/capabilitiesByLocation/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/capabilitiesByLocation/index.d.ts",
-        "default": "./dist/react-native/api/capabilitiesByLocation/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/capabilitiesByLocation/index.d.ts",
         "default": "./dist/esm/api/capabilitiesByLocation/index.js"
@@ -224,32 +198,24 @@
         "default": "./dist/commonjs/api/capabilitiesByLocation/index.js"
       }
     },
-    "./api/tuningOptions": {
+    "./api/tuningOptionsOperations": {
       "browser": {
-        "types": "./dist/browser/api/tuningOptions/index.d.ts",
-        "default": "./dist/browser/api/tuningOptions/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/tuningOptions/index.d.ts",
-        "default": "./dist/react-native/api/tuningOptions/index.js"
+        "types": "./dist/browser/api/tuningOptionsOperations/index.d.ts",
+        "default": "./dist/browser/api/tuningOptionsOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/tuningOptions/index.d.ts",
-        "default": "./dist/esm/api/tuningOptions/index.js"
+        "types": "./dist/esm/api/tuningOptionsOperations/index.d.ts",
+        "default": "./dist/esm/api/tuningOptionsOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/tuningOptions/index.d.ts",
-        "default": "./dist/commonjs/api/tuningOptions/index.js"
+        "types": "./dist/commonjs/api/tuningOptionsOperations/index.d.ts",
+        "default": "./dist/commonjs/api/tuningOptionsOperations/index.js"
       }
     },
     "./api/backupsAutomaticAndOnDemand": {
       "browser": {
         "types": "./dist/browser/api/backupsAutomaticAndOnDemand/index.d.ts",
         "default": "./dist/browser/api/backupsAutomaticAndOnDemand/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/backupsAutomaticAndOnDemand/index.d.ts",
-        "default": "./dist/react-native/api/backupsAutomaticAndOnDemand/index.js"
       },
       "import": {
         "types": "./dist/esm/api/backupsAutomaticAndOnDemand/index.d.ts",
@@ -265,10 +231,6 @@
         "types": "./dist/browser/api/serverThreatProtectionSettings/index.d.ts",
         "default": "./dist/browser/api/serverThreatProtectionSettings/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/serverThreatProtectionSettings/index.d.ts",
-        "default": "./dist/react-native/api/serverThreatProtectionSettings/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/serverThreatProtectionSettings/index.d.ts",
         "default": "./dist/esm/api/serverThreatProtectionSettings/index.js"
@@ -282,10 +244,6 @@
       "browser": {
         "types": "./dist/browser/api/advancedThreatProtectionSettings/index.d.ts",
         "default": "./dist/browser/api/advancedThreatProtectionSettings/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/advancedThreatProtectionSettings/index.d.ts",
-        "default": "./dist/react-native/api/advancedThreatProtectionSettings/index.js"
       },
       "import": {
         "types": "./dist/esm/api/advancedThreatProtectionSettings/index.d.ts",
@@ -301,10 +259,6 @@
         "types": "./dist/browser/api/replicas/index.d.ts",
         "default": "./dist/browser/api/replicas/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/replicas/index.d.ts",
-        "default": "./dist/react-native/api/replicas/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/replicas/index.d.ts",
         "default": "./dist/esm/api/replicas/index.js"
@@ -318,10 +272,6 @@
       "browser": {
         "types": "./dist/browser/api/backupsLongTermRetention/index.d.ts",
         "default": "./dist/browser/api/backupsLongTermRetention/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/backupsLongTermRetention/index.d.ts",
-        "default": "./dist/react-native/api/backupsLongTermRetention/index.js"
       },
       "import": {
         "types": "./dist/esm/api/backupsLongTermRetention/index.d.ts",
@@ -337,10 +287,6 @@
         "types": "./dist/browser/api/capturedLogs/index.d.ts",
         "default": "./dist/browser/api/capturedLogs/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/capturedLogs/index.d.ts",
-        "default": "./dist/react-native/api/capturedLogs/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/capturedLogs/index.d.ts",
         "default": "./dist/esm/api/capturedLogs/index.js"
@@ -354,10 +300,6 @@
       "browser": {
         "types": "./dist/browser/api/capabilitiesByServer/index.d.ts",
         "default": "./dist/browser/api/capabilitiesByServer/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/capabilitiesByServer/index.d.ts",
-        "default": "./dist/react-native/api/capabilitiesByServer/index.js"
       },
       "import": {
         "types": "./dist/esm/api/capabilitiesByServer/index.d.ts",
@@ -373,10 +315,6 @@
         "types": "./dist/browser/api/administratorsMicrosoftEntra/index.d.ts",
         "default": "./dist/browser/api/administratorsMicrosoftEntra/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/administratorsMicrosoftEntra/index.d.ts",
-        "default": "./dist/react-native/api/administratorsMicrosoftEntra/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/administratorsMicrosoftEntra/index.d.ts",
         "default": "./dist/esm/api/administratorsMicrosoftEntra/index.js"
@@ -386,14 +324,38 @@
         "default": "./dist/commonjs/api/administratorsMicrosoftEntra/index.js"
       }
     },
+    "./api/majorVersionUpgradePrecheck": {
+      "browser": {
+        "types": "./dist/browser/api/majorVersionUpgradePrecheck/index.d.ts",
+        "default": "./dist/browser/api/majorVersionUpgradePrecheck/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/majorVersionUpgradePrecheck/index.d.ts",
+        "default": "./dist/esm/api/majorVersionUpgradePrecheck/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/majorVersionUpgradePrecheck/index.d.ts",
+        "default": "./dist/commonjs/api/majorVersionUpgradePrecheck/index.js"
+      }
+    },
+    "./api/maintenanceEvents": {
+      "browser": {
+        "types": "./dist/browser/api/maintenanceEvents/index.d.ts",
+        "default": "./dist/browser/api/maintenanceEvents/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/maintenanceEvents/index.d.ts",
+        "default": "./dist/esm/api/maintenanceEvents/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/maintenanceEvents/index.d.ts",
+        "default": "./dist/commonjs/api/maintenanceEvents/index.js"
+      }
+    },
     "./api/virtualEndpoints": {
       "browser": {
         "types": "./dist/browser/api/virtualEndpoints/index.d.ts",
         "default": "./dist/browser/api/virtualEndpoints/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/virtualEndpoints/index.d.ts",
-        "default": "./dist/react-native/api/virtualEndpoints/index.js"
       },
       "import": {
         "types": "./dist/esm/api/virtualEndpoints/index.d.ts",
@@ -409,10 +371,6 @@
         "types": "./dist/browser/api/privateLinkResources/index.d.ts",
         "default": "./dist/browser/api/privateLinkResources/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/privateLinkResources/index.d.ts",
-        "default": "./dist/react-native/api/privateLinkResources/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/privateLinkResources/index.d.ts",
         "default": "./dist/esm/api/privateLinkResources/index.js"
@@ -426,10 +384,6 @@
       "browser": {
         "types": "./dist/browser/api/privateEndpointConnections/index.d.ts",
         "default": "./dist/browser/api/privateEndpointConnections/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/privateEndpointConnections/index.d.ts",
-        "default": "./dist/react-native/api/privateEndpointConnections/index.js"
       },
       "import": {
         "types": "./dist/esm/api/privateEndpointConnections/index.d.ts",
@@ -445,10 +399,6 @@
         "types": "./dist/browser/api/firewallRules/index.d.ts",
         "default": "./dist/browser/api/firewallRules/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/firewallRules/index.d.ts",
-        "default": "./dist/react-native/api/firewallRules/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/firewallRules/index.d.ts",
         "default": "./dist/esm/api/firewallRules/index.js"
@@ -462,10 +412,6 @@
       "browser": {
         "types": "./dist/browser/api/databases/index.d.ts",
         "default": "./dist/browser/api/databases/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/databases/index.d.ts",
-        "default": "./dist/react-native/api/databases/index.js"
       },
       "import": {
         "types": "./dist/esm/api/databases/index.d.ts",
@@ -481,10 +427,6 @@
         "types": "./dist/browser/api/configurations/index.d.ts",
         "default": "./dist/browser/api/configurations/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/configurations/index.d.ts",
-        "default": "./dist/react-native/api/configurations/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/configurations/index.d.ts",
         "default": "./dist/esm/api/configurations/index.js"
@@ -498,10 +440,6 @@
       "browser": {
         "types": "./dist/browser/api/servers/index.d.ts",
         "default": "./dist/browser/api/servers/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/servers/index.d.ts",
-        "default": "./dist/react-native/api/servers/index.js"
       },
       "import": {
         "types": "./dist/esm/api/servers/index.d.ts",
@@ -517,10 +455,6 @@
         "types": "./dist/browser/api/migrations/index.d.ts",
         "default": "./dist/browser/api/migrations/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/migrations/index.d.ts",
-        "default": "./dist/react-native/api/migrations/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/migrations/index.d.ts",
         "default": "./dist/esm/api/migrations/index.js"
@@ -534,10 +468,6 @@
       "browser": {
         "types": "./dist/browser/api/operations/index.d.ts",
         "default": "./dist/browser/api/operations/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/operations/index.d.ts",
-        "default": "./dist/react-native/api/operations/index.js"
       },
       "import": {
         "types": "./dist/esm/api/operations/index.d.ts",
@@ -553,10 +483,6 @@
         "types": "./dist/browser/models/index.d.ts",
         "default": "./dist/browser/models/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/index.d.ts",
-        "default": "./dist/react-native/models/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/index.d.ts",
         "default": "./dist/esm/models/index.js"
@@ -569,5 +495,11 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

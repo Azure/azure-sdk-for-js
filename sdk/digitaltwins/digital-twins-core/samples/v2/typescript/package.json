@@ -36,10 +36,9 @@
     "@azure/digital-twins-core": "latest",
     "dotenv": "latest",
     "@azure/identity": "^4.2.1",
-    "uuid": "^8.3.0"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
-    "@types/uuid": "^8.0.0",
     "@types/node": "^20.0.0",
     "typescript": "~5.8.2",
     "rimraf": "latest"

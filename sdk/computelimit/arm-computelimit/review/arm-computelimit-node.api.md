@@ -4,9 +4,15 @@
 
 ```ts
 
+import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -25,10 +31,12 @@ export type AzureSupportedClouds = `${AzureClouds}`;
 // @public (undocumented)
 export class ComputeLimitClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeLimitClientOptionalParams);
+    readonly features: FeaturesOperations;
     readonly guestSubscriptions: GuestSubscriptionsOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly sharedLimits: SharedLimitsOperations;
+    readonly vmFamilies: VmFamiliesOperations;
 }
 
 // @public
@@ -66,6 +74,52 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface Feature extends ProxyResource {
+    properties?: FeatureProperties;
+}
+
+// @public
+export interface FeatureEnableRequest {
+    serviceTreeId?: string;
+}
+
+// @public
+export interface FeatureProperties {
+    readonly provisioningState?: ResourceProvisioningState;
+    state?: FeatureState;
+}
+
+// @public
+export interface FeaturesDisableOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FeaturesEnableOptionalParams extends OperationOptions {
+    body?: FeatureEnableRequest;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FeaturesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FeaturesListBySubscriptionLocationResourceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FeaturesOperations {
+    disable: (location: string, featureName: string, options?: FeaturesDisableOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    enable: (location: string, featureName: string, options?: FeaturesEnableOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (location: string, featureName: string, options?: FeaturesGetOptionalParams) => Promise<Feature>;
+    listBySubscriptionLocationResource: (location: string, options?: FeaturesListBySubscriptionLocationResourceOptionalParams) => PagedAsyncIterableIterator<Feature>;
+}
+
+// @public
+export type FeatureState = string;
+
+// @public
 export interface GuestSubscription extends ProxyResource {
     properties?: GuestSubscriptionProperties;
 }
@@ -99,6 +153,8 @@ export interface GuestSubscriptionsOperations {
     listBySubscriptionLocationResource: (location: string, options?: GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams) => PagedAsyncIterableIterator<GuestSubscription>;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -110,6 +166,12 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownFeatureState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -128,7 +190,10 @@ export enum KnownResourceProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V20250815 = "2025-08-15"
+    V20250815 = "2025-08-15",
+    V20260320 = "2026-03-20",
+    V20260430 = "2026-04-30",
+    V20260601 = "2026-06-01"
 }
 
 // @public
@@ -164,6 +229,19 @@ export interface OperationsOperations {
 }
 
 // @public
+export interface OperationStatusResult {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    operations?: OperationStatusResult[];
+    percentComplete?: number;
+    readonly resourceId?: string;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
 export type Origin = string;
 
 // @public
@@ -192,6 +270,18 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
+
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ComputeLimitClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface SharedLimit extends ProxyResource {
@@ -238,6 +328,32 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface VmFamiliesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VmFamiliesListBySubscriptionLocationResourceOptionalParams extends OperationOptions {
+    filter?: string;
+}
+
+// @public
+export interface VmFamiliesOperations {
+    get: (location: string, vmFamilyName: string, options?: VmFamiliesGetOptionalParams) => Promise<VmFamily>;
+    listBySubscriptionLocationResource: (location: string, options?: VmFamiliesListBySubscriptionLocationResourceOptionalParams) => PagedAsyncIterableIterator<VmFamily>;
+}
+
+// @public
+export interface VmFamily extends ProxyResource {
+    properties?: VmFamilyProperties;
+}
+
+// @public
+export interface VmFamilyProperties {
+    category?: string;
+    readonly provisioningState?: ResourceProvisioningState;
 }
 
 // (No @packageDocumentation comment for this package)

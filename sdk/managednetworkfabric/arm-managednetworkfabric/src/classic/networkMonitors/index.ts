@@ -22,9 +22,9 @@ import type {
 } from "../../api/networkMonitors/options.js";
 import type {
   UpdateAdministrativeState,
+  CommonPostActionResponseForDeviceUpdate,
   NetworkMonitor,
   NetworkMonitorPatch,
-  CommonPostActionResponseForDeviceUpdate,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";

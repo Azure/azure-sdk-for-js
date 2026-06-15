@@ -12,8 +12,6 @@ export type { IpPrefixesOperations } from "./ipPrefixes/index.js";
 export type { L2IsolationDomainsOperations } from "./l2IsolationDomains/index.js";
 export type { L3IsolationDomainsOperations } from "./l3IsolationDomains/index.js";
 export type { NeighborGroupsOperations } from "./neighborGroups/index.js";
-export type { NetworkBootstrapDevicesOperations } from "./networkBootstrapDevices/index.js";
-export type { NetworkBootstrapInterfacesOperations } from "./networkBootstrapInterfaces/index.js";
 export type { NetworkDevicesOperations } from "./networkDevices/index.js";
 export type { NetworkDeviceSkusOperations } from "./networkDeviceSkus/index.js";
 export type { NetworkFabricControllersOperations } from "./networkFabricControllers/index.js";

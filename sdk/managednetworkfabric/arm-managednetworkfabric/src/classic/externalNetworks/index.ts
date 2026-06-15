@@ -4,7 +4,6 @@
 import type { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
 import {
   updateBfdAdministrativeState,
-  updateStaticRouteBfdAdministrativeState,
   updateAdministrativeState,
   listByL3IsolationDomain,
   $delete,
@@ -14,7 +13,6 @@ import {
 } from "../../api/externalNetworks/operations.js";
 import type {
   ExternalNetworksUpdateBfdAdministrativeStateOptionalParams,
-  ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   ExternalNetworksUpdateAdministrativeStateOptionalParams,
   ExternalNetworksListByL3IsolationDomainOptionalParams,
   ExternalNetworksDeleteOptionalParams,
@@ -24,11 +22,11 @@ import type {
 } from "../../api/externalNetworks/options.js";
 import type {
   UpdateAdministrativeState,
-  UpdateAdministrativeStateResponse,
+  CommonPostActionResponseForStateUpdate,
   ExternalNetwork,
   ExternalNetworkPatch,
-  ExternalNetworkUpdateBfdAdministrativeStateRequest,
-  ExternalNetworkUpdateBfdAdministrativeStateResponse,
+  ExternalNetworkBfdAdministrativeStateRequest,
+  ExternalNetworkBfdAdministrativeStateResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -42,23 +40,23 @@ export interface ExternalNetworksOperations {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     externalNetworkName: string,
-    body: ExternalNetworkUpdateBfdAdministrativeStateRequest,
+    body: ExternalNetworkBfdAdministrativeStateRequest,
     options?: ExternalNetworksUpdateBfdAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<ExternalNetworkUpdateBfdAdministrativeStateResponse>,
-    ExternalNetworkUpdateBfdAdministrativeStateResponse
+    OperationState<ExternalNetworkBfdAdministrativeStateResponse>,
+    ExternalNetworkBfdAdministrativeStateResponse
   >;
   /** @deprecated use updateBfdAdministrativeState instead */
   beginUpdateBfdAdministrativeState: (
     resourceGroupName: string,
     l3IsolationDomainName: string,
     externalNetworkName: string,
-    body: ExternalNetworkUpdateBfdAdministrativeStateRequest,
+    body: ExternalNetworkBfdAdministrativeStateRequest,
     options?: ExternalNetworksUpdateBfdAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<ExternalNetworkUpdateBfdAdministrativeStateResponse>,
-      ExternalNetworkUpdateBfdAdministrativeStateResponse
+      OperationState<ExternalNetworkBfdAdministrativeStateResponse>,
+      ExternalNetworkBfdAdministrativeStateResponse
     >
   >;
   /** @deprecated use updateBfdAdministrativeState instead */
@@ -66,41 +64,9 @@ export interface ExternalNetworksOperations {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     externalNetworkName: string,
-    body: ExternalNetworkUpdateBfdAdministrativeStateRequest,
+    body: ExternalNetworkBfdAdministrativeStateRequest,
     options?: ExternalNetworksUpdateBfdAdministrativeStateOptionalParams,
-  ) => Promise<ExternalNetworkUpdateBfdAdministrativeStateResponse>;
-  /** Update Static Route BFD for external Network. */
-  updateStaticRouteBfdAdministrativeState: (
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    externalNetworkName: string,
-    body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
-  ) => PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
-  >;
-  /** @deprecated use updateStaticRouteBfdAdministrativeState instead */
-  beginUpdateStaticRouteBfdAdministrativeState: (
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    externalNetworkName: string,
-    body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<UpdateAdministrativeStateResponse>,
-      UpdateAdministrativeStateResponse
-    >
-  >;
-  /** @deprecated use updateStaticRouteBfdAdministrativeState instead */
-  beginUpdateStaticRouteBfdAdministrativeStateAndWait: (
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    externalNetworkName: string,
-    body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
-  ) => Promise<UpdateAdministrativeStateResponse>;
+  ) => Promise<ExternalNetworkBfdAdministrativeStateResponse>;
   /** Executes update operation to enable or disable administrative State for externalNetwork. */
   updateAdministrativeState: (
     resourceGroupName: string,
@@ -109,8 +75,8 @@ export interface ExternalNetworksOperations {
     body: UpdateAdministrativeState,
     options?: ExternalNetworksUpdateAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
+    OperationState<CommonPostActionResponseForStateUpdate>,
+    CommonPostActionResponseForStateUpdate
   >;
   /** @deprecated use updateAdministrativeState instead */
   beginUpdateAdministrativeState: (
@@ -121,8 +87,8 @@ export interface ExternalNetworksOperations {
     options?: ExternalNetworksUpdateAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<UpdateAdministrativeStateResponse>,
-      UpdateAdministrativeStateResponse
+      OperationState<CommonPostActionResponseForStateUpdate>,
+      CommonPostActionResponseForStateUpdate
     >
   >;
   /** @deprecated use updateAdministrativeState instead */
@@ -132,7 +98,7 @@ export interface ExternalNetworksOperations {
     externalNetworkName: string,
     body: UpdateAdministrativeState,
     options?: ExternalNetworksUpdateAdministrativeStateOptionalParams,
-  ) => Promise<UpdateAdministrativeStateResponse>;
+  ) => Promise<CommonPostActionResponseForStateUpdate>;
   /** Implements External Networks list by resource group GET method. */
   listByL3IsolationDomain: (
     resourceGroupName: string,
@@ -228,7 +194,7 @@ function _getExternalNetworks(context: AzureNetworkFabricManagementServiceAPICon
       resourceGroupName: string,
       l3IsolationDomainName: string,
       externalNetworkName: string,
-      body: ExternalNetworkUpdateBfdAdministrativeStateRequest,
+      body: ExternalNetworkBfdAdministrativeStateRequest,
       options?: ExternalNetworksUpdateBfdAdministrativeStateOptionalParams,
     ) =>
       updateBfdAdministrativeState(
@@ -243,7 +209,7 @@ function _getExternalNetworks(context: AzureNetworkFabricManagementServiceAPICon
       resourceGroupName: string,
       l3IsolationDomainName: string,
       externalNetworkName: string,
-      body: ExternalNetworkUpdateBfdAdministrativeStateRequest,
+      body: ExternalNetworkBfdAdministrativeStateRequest,
       options?: ExternalNetworksUpdateBfdAdministrativeStateOptionalParams,
     ) => {
       const poller = updateBfdAdministrativeState(
@@ -261,59 +227,10 @@ function _getExternalNetworks(context: AzureNetworkFabricManagementServiceAPICon
       resourceGroupName: string,
       l3IsolationDomainName: string,
       externalNetworkName: string,
-      body: ExternalNetworkUpdateBfdAdministrativeStateRequest,
+      body: ExternalNetworkBfdAdministrativeStateRequest,
       options?: ExternalNetworksUpdateBfdAdministrativeStateOptionalParams,
     ) => {
       return await updateBfdAdministrativeState(
-        context,
-        resourceGroupName,
-        l3IsolationDomainName,
-        externalNetworkName,
-        body,
-        options,
-      );
-    },
-    updateStaticRouteBfdAdministrativeState: (
-      resourceGroupName: string,
-      l3IsolationDomainName: string,
-      externalNetworkName: string,
-      body: UpdateAdministrativeState,
-      options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
-    ) =>
-      updateStaticRouteBfdAdministrativeState(
-        context,
-        resourceGroupName,
-        l3IsolationDomainName,
-        externalNetworkName,
-        body,
-        options,
-      ),
-    beginUpdateStaticRouteBfdAdministrativeState: async (
-      resourceGroupName: string,
-      l3IsolationDomainName: string,
-      externalNetworkName: string,
-      body: UpdateAdministrativeState,
-      options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
-    ) => {
-      const poller = updateStaticRouteBfdAdministrativeState(
-        context,
-        resourceGroupName,
-        l3IsolationDomainName,
-        externalNetworkName,
-        body,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginUpdateStaticRouteBfdAdministrativeStateAndWait: async (
-      resourceGroupName: string,
-      l3IsolationDomainName: string,
-      externalNetworkName: string,
-      body: UpdateAdministrativeState,
-      options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
-    ) => {
-      return await updateStaticRouteBfdAdministrativeState(
         context,
         resourceGroupName,
         l3IsolationDomainName,

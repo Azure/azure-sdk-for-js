@@ -22,7 +22,6 @@ export interface AccessControlList extends TrackedResource {
     annotation?: string;
     readonly configurationState?: ConfigurationState;
     configurationType: ConfigurationType;
-    controlPlaneAclConfiguration?: ControlPlaneAclProperties[];
     defaultAction?: CommunityActionTypes;
     deviceRole?: DeviceRole;
     dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
@@ -98,7 +97,6 @@ export interface AccessControlListPatch extends TagsUpdate {
     aclType?: AclType;
     annotation?: string;
     configurationType?: ConfigurationType;
-    controlPlaneAclConfiguration?: ControlPlaneAclPatchProperties[];
     defaultAction?: CommunityActionTypes;
     deviceRole?: DeviceRole;
     dynamicMatchConfigurations?: CommonDynamicMatchConfigurationPatch[];
@@ -112,7 +110,6 @@ export interface AccessControlListPatchProperties {
     aclType?: AclType;
     annotation?: string;
     configurationType?: ConfigurationType;
-    controlPlaneAclConfiguration?: ControlPlaneAclPatchProperties[];
     defaultAction?: CommunityActionTypes;
     deviceRole?: DeviceRole;
     dynamicMatchConfigurations?: CommonDynamicMatchConfigurationPatch[];
@@ -138,7 +135,6 @@ export interface AccessControlListProperties {
     annotation?: string;
     readonly configurationState?: ConfigurationState;
     configurationType: ConfigurationType;
-    controlPlaneAclConfiguration?: ControlPlaneAclProperties[];
     defaultAction?: CommunityActionTypes;
     deviceRole?: DeviceRole;
     dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
@@ -146,7 +142,6 @@ export interface AccessControlListProperties {
     readonly lastOperation?: LastOperationProperties;
     readonly lastSyncedTime?: Date;
     matchConfigurations?: AccessControlListMatchConfiguration[];
-    readonly networkFabricIds?: string[];
     readonly provisioningState?: ProvisioningState;
 }
 
@@ -189,9 +184,9 @@ export interface AccessControlListsOperations {
     // @deprecated (undocumented)
     beginUpdate: (resourceGroupName: string, accessControlListName: string, body: AccessControlListPatch, options?: AccessControlListsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AccessControlList>, AccessControlList>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeState: (resourceGroupName: string, accessControlListName: string, body: UpdateAdministrativeState, options?: AccessControlListsUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>>;
+    beginUpdateAdministrativeState: (resourceGroupName: string, accessControlListName: string, body: UpdateAdministrativeState, options?: AccessControlListsUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, accessControlListName: string, body: UpdateAdministrativeState, options?: AccessControlListsUpdateAdministrativeStateOptionalParams) => Promise<UpdateAdministrativeStateResponse>;
+    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, accessControlListName: string, body: UpdateAdministrativeState, options?: AccessControlListsUpdateAdministrativeStateOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, accessControlListName: string, body: AccessControlListPatch, options?: AccessControlListsUpdateOptionalParams) => Promise<AccessControlList>;
     // @deprecated (undocumented)
@@ -205,7 +200,7 @@ export interface AccessControlListsOperations {
     listBySubscription: (options?: AccessControlListsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AccessControlList>;
     resync: (resourceGroupName: string, accessControlListName: string, options?: AccessControlListsResyncOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
     update: (resourceGroupName: string, accessControlListName: string, body: AccessControlListPatch, options?: AccessControlListsUpdateOptionalParams) => PollerLike<OperationState<AccessControlList>, AccessControlList>;
-    updateAdministrativeState: (resourceGroupName: string, accessControlListName: string, body: UpdateAdministrativeState, options?: AccessControlListsUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
+    updateAdministrativeState: (resourceGroupName: string, accessControlListName: string, body: UpdateAdministrativeState, options?: AccessControlListsUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
     validateConfiguration: (resourceGroupName: string, accessControlListName: string, options?: AccessControlListsValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
 }
 
@@ -301,23 +296,56 @@ export interface AnnotationResource {
 }
 
 // @public
-export interface ArmConfigurationDiffOperationResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    properties?: ArmConfigurationDiffResponseProperties;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
+export interface ArmConfigurationDiffResponse extends CommonErrorResponse {
+    configurationDiffUrl?: string;
 }
 
 // @public
-export interface ArmConfigurationDiffResponseProperties {
-    configurationDiffUrl?: string;
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
+
+// @public (undocumented)
+export class AzureNetworkFabricManagementServiceAPI {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: AzureNetworkFabricManagementServiceAPIOptionalParams);
+    readonly accessControlLists: AccessControlListsOperations;
+    readonly externalNetworks: ExternalNetworksOperations;
+    readonly internalNetworks: InternalNetworksOperations;
+    readonly internetGatewayRules: InternetGatewayRulesOperations;
+    readonly internetGateways: InternetGatewaysOperations;
+    readonly ipCommunities: IpCommunitiesOperations;
+    readonly ipExtendedCommunities: IpExtendedCommunitiesOperations;
+    readonly ipPrefixes: IpPrefixesOperations;
+    readonly l2IsolationDomains: L2IsolationDomainsOperations;
+    readonly l3IsolationDomains: L3IsolationDomainsOperations;
+    readonly neighborGroups: NeighborGroupsOperations;
+    readonly networkDevices: NetworkDevicesOperations;
+    readonly networkDeviceSkus: NetworkDeviceSkusOperations;
+    readonly networkFabricControllers: NetworkFabricControllersOperations;
+    readonly networkFabrics: NetworkFabricsOperations;
+    readonly networkFabricSkus: NetworkFabricSkusOperations;
+    readonly networkInterfaces: NetworkInterfacesOperations;
+    readonly networkMonitors: NetworkMonitorsOperations;
+    readonly networkPacketBrokers: NetworkPacketBrokersOperations;
+    readonly networkRacks: NetworkRacksOperations;
+    readonly networkTapRules: NetworkTapRulesOperations;
+    readonly networkTaps: NetworkTapsOperations;
+    readonly networkToNetworkInterconnects: NetworkToNetworkInterconnectsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly routePolicies: RoutePoliciesOperations;
+}
+
+// @public
+export interface AzureNetworkFabricManagementServiceAPIOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface AuthorizedTransceiverPatchProperties {
@@ -446,7 +474,6 @@ export type BitRateUnit = string;
 // @public
 export interface BmpConfigurationPatchProperties {
     exportPolicy?: BmpExportPolicy;
-    exportPolicyConfiguration?: BmpExportPolicyPatchProperties;
     monitoredAddressFamilies?: BmpMonitoredAddressFamily[];
     monitoredNetworks?: string[];
     scopeResourceId?: string;
@@ -462,7 +489,6 @@ export interface BmpConfigurationPatchProperties {
 // @public
 export interface BmpConfigurationProperties {
     exportPolicy?: BmpExportPolicy;
-    exportPolicyConfiguration?: BmpExportPolicyProperties;
     monitoredAddressFamilies?: BmpMonitoredAddressFamily[];
     monitoredNetworks?: string[];
     scopeResourceId?: string;
@@ -482,16 +508,6 @@ export type BmpConfigurationState = string;
 export type BmpExportPolicy = string;
 
 // @public
-export interface BmpExportPolicyPatchProperties {
-    exportPolicies?: BmpExportPolicy[];
-}
-
-// @public
-export interface BmpExportPolicyProperties {
-    exportPolicies?: BmpExportPolicy[];
-}
-
-// @public
 export type BmpMonitoredAddressFamily = string;
 
 // @public
@@ -507,23 +523,6 @@ export interface BurstSize {
 export type BurstSizeUnit = string;
 
 // @public
-export interface CertificateArchiveReference {
-    readonly certificateName?: string;
-    readonly certificateVersion?: string;
-    readonly keyVaultId?: string;
-    readonly keyVaultUri?: string;
-}
-
-// @public
-export interface CertificateRotationStatus {
-    readonly certificateArchiveReference?: CertificateArchiveReference;
-    readonly certificateType?: string;
-    readonly expireTime?: Date;
-    readonly lastRotationTime?: Date;
-    readonly synchronizationStatus?: SynchronizationStatus;
-}
-
-// @public
 export interface CommitBatchDetails {
     failedDevices?: string[];
 }
@@ -532,56 +531,16 @@ export interface CommitBatchDetails {
 export type CommitBatchState = string;
 
 // @public
-export interface CommitBatchStatusOperationResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    properties?: CommitBatchStatusResponseProperties;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
 export interface CommitBatchStatusRequest {
     commitBatchId?: string;
 }
 
 // @public
-export interface CommitBatchStatusResponseProperties {
+export interface CommitBatchStatusResponse extends CommonErrorResponse {
     commitBatchDetails?: CommitBatchDetails;
     commitBatchId?: string;
     commitBatchState?: CommitBatchState;
 }
-
-// @public
-export type CommitConfigurationPolicy = string;
-
-// @public
-export interface CommitConfigurationRequest {
-    commitPolicy?: CommitConfigurationPolicy;
-    commitStage?: CommitStage;
-    devices?: string[];
-}
-
-// @public
-export interface CommitConfigurationResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export type CommitStage = string;
 
 // @public
 export interface CommonDynamicMatchConfiguration {
@@ -632,6 +591,12 @@ export interface CommonPostActionResponseForDeviceROCommandsOperationStatusResul
     readonly resourceId?: string;
     readonly startTime?: Date;
     status: string;
+}
+
+// @public
+export interface CommonPostActionResponseForDeviceRWCommands extends CommonErrorResponse {
+    readonly configurationState?: ConfigurationState;
+    outputUrl?: string;
 }
 
 // @public
@@ -851,21 +816,6 @@ export type DeviceRole = string;
 // @public
 export interface DeviceRwCommand {
     command?: string;
-    commandUrl?: string;
-}
-
-// @public
-export interface DiscardCommitBatchOperationResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    properties?: DiscardCommitBatchResponseProperties;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
 }
 
 // @public
@@ -874,7 +824,7 @@ export interface DiscardCommitBatchRequest {
 }
 
 // @public
-export interface DiscardCommitBatchResponseProperties {
+export interface DiscardCommitBatchResponse extends CommonErrorResponse {
     commitBatchId?: string;
 }
 
@@ -956,13 +906,24 @@ export interface ExternalNetwork extends ProxyResource {
     exportRoutePolicy?: ExportRoutePolicy;
     importRoutePolicy?: ImportRoutePolicy;
     readonly lastOperation?: LastOperationProperties;
-    readonly networkFabricId?: string;
     networkToNetworkInterconnectId?: string;
     optionAProperties?: ExternalNetworkPropertiesOptionAProperties;
     optionBProperties?: L3OptionBProperties;
     peeringOption: PeeringOption;
     readonly provisioningState?: ProvisioningState;
     staticRouteConfiguration?: ExternalNetworkStaticRouteConfiguration;
+}
+
+// @public
+export interface ExternalNetworkBfdAdministrativeStateRequest {
+    administrativeState?: BfdAdministrativeState;
+    routeType?: ExternalNetworkRouteType;
+}
+
+// @public
+export interface ExternalNetworkBfdAdministrativeStateResponse extends CommonErrorResponse {
+    administrativeState?: BfdAdministrativeState;
+    routeType?: ExternalNetworkRouteType;
 }
 
 // @public
@@ -1027,7 +988,6 @@ export interface ExternalNetworkProperties {
     exportRoutePolicy?: ExportRoutePolicy;
     importRoutePolicy?: ImportRoutePolicy;
     readonly lastOperation?: LastOperationProperties;
-    readonly networkFabricId?: string;
     networkToNetworkInterconnectId?: string;
     optionAProperties?: ExternalNetworkPropertiesOptionAProperties;
     optionBProperties?: L3OptionBProperties;
@@ -1090,27 +1050,22 @@ export interface ExternalNetworksOperations {
     // @deprecated (undocumented)
     beginUpdate: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: ExternalNetworkPatch, options?: ExternalNetworksUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ExternalNetwork>, ExternalNetwork>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: UpdateAdministrativeState, options?: ExternalNetworksUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>>;
+    beginUpdateAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: UpdateAdministrativeState, options?: ExternalNetworksUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: UpdateAdministrativeState, options?: ExternalNetworksUpdateAdministrativeStateOptionalParams) => Promise<UpdateAdministrativeStateResponse>;
+    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: UpdateAdministrativeState, options?: ExternalNetworksUpdateAdministrativeStateOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: ExternalNetworkPatch, options?: ExternalNetworksUpdateOptionalParams) => Promise<ExternalNetwork>;
     // @deprecated (undocumented)
-    beginUpdateBfdAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: ExternalNetworkUpdateBfdAdministrativeStateRequest, options?: ExternalNetworksUpdateBfdAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<ExternalNetworkUpdateBfdAdministrativeStateResponse>, ExternalNetworkUpdateBfdAdministrativeStateResponse>>;
+    beginUpdateBfdAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: ExternalNetworkBfdAdministrativeStateRequest, options?: ExternalNetworksUpdateBfdAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<ExternalNetworkBfdAdministrativeStateResponse>, ExternalNetworkBfdAdministrativeStateResponse>>;
     // @deprecated (undocumented)
-    beginUpdateBfdAdministrativeStateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: ExternalNetworkUpdateBfdAdministrativeStateRequest, options?: ExternalNetworksUpdateBfdAdministrativeStateOptionalParams) => Promise<ExternalNetworkUpdateBfdAdministrativeStateResponse>;
-    // @deprecated (undocumented)
-    beginUpdateStaticRouteBfdAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: UpdateAdministrativeState, options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>>;
-    // @deprecated (undocumented)
-    beginUpdateStaticRouteBfdAdministrativeStateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: UpdateAdministrativeState, options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams) => Promise<UpdateAdministrativeStateResponse>;
+    beginUpdateBfdAdministrativeStateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: ExternalNetworkBfdAdministrativeStateRequest, options?: ExternalNetworksUpdateBfdAdministrativeStateOptionalParams) => Promise<ExternalNetworkBfdAdministrativeStateResponse>;
     create: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: ExternalNetwork, options?: ExternalNetworksCreateOptionalParams) => PollerLike<OperationState<ExternalNetwork>, ExternalNetwork>;
     delete: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, options?: ExternalNetworksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, options?: ExternalNetworksGetOptionalParams) => Promise<ExternalNetwork>;
     listByL3IsolationDomain: (resourceGroupName: string, l3IsolationDomainName: string, options?: ExternalNetworksListByL3IsolationDomainOptionalParams) => PagedAsyncIterableIterator<ExternalNetwork>;
     update: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: ExternalNetworkPatch, options?: ExternalNetworksUpdateOptionalParams) => PollerLike<OperationState<ExternalNetwork>, ExternalNetwork>;
-    updateAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: UpdateAdministrativeState, options?: ExternalNetworksUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
-    updateBfdAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: ExternalNetworkUpdateBfdAdministrativeStateRequest, options?: ExternalNetworksUpdateBfdAdministrativeStateOptionalParams) => PollerLike<OperationState<ExternalNetworkUpdateBfdAdministrativeStateResponse>, ExternalNetworkUpdateBfdAdministrativeStateResponse>;
-    updateStaticRouteBfdAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: UpdateAdministrativeState, options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
+    updateAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: UpdateAdministrativeState, options?: ExternalNetworksUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
+    updateBfdAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, externalNetworkName: string, body: ExternalNetworkBfdAdministrativeStateRequest, options?: ExternalNetworksUpdateBfdAdministrativeStateOptionalParams) => PollerLike<OperationState<ExternalNetworkBfdAdministrativeStateResponse>, ExternalNetworkBfdAdministrativeStateResponse>;
 }
 
 // @public
@@ -1143,37 +1098,6 @@ export interface ExternalNetworksUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ExternalNetworkUpdateBfdAdministrativeStateRequest {
-    administrativeState?: BfdAdministrativeState;
-    routeType?: ExternalNetworkRouteType;
-}
-
-// @public
-export interface ExternalNetworkUpdateBfdAdministrativeStateResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    properties?: ExternalNetworkUpdateBfdAdministrativeStateResponseProperties;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export interface ExternalNetworkUpdateBfdAdministrativeStateResponseProperties {
-    administrativeState?: BfdAdministrativeState;
-    routeType?: ExternalNetworkRouteType;
-}
-
-// @public
 export interface FabricLockProperties {
     lockState?: LockConfigurationState;
     lockType?: NetworkFabricLockType;
@@ -1190,25 +1114,6 @@ export interface FeatureFlagProperties {
 
 // @public
 export type GatewayType = string;
-
-// @public
-export interface GetTopologyResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    properties?: GetTopologyResponseProperties;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export interface GetTopologyResponseProperties {
-    url?: string;
-}
 
 // @public
 export interface GlobalAccessControlListActionPatchProperties {
@@ -1305,10 +1210,32 @@ export interface InternalNetwork extends ProxyResource {
     mtu?: number;
     nativeIpv4PrefixLimit?: NativeIpv4PrefixLimitProperties;
     nativeIpv6PrefixLimit?: NativeIpv6PrefixLimitProperties;
-    readonly networkFabricId?: string;
     readonly provisioningState?: ProvisioningState;
     staticRouteConfiguration?: StaticRouteConfiguration;
     vlanId: number;
+}
+
+// @public
+export interface InternalNetworkBfdAdministrativeStateRequest {
+    administrativeState?: BfdAdministrativeState;
+    neighborAddress?: string;
+    routeType?: InternalNetworkRouteType;
+}
+
+// @public
+export interface InternalNetworkBfdAdministrativeStateResponse extends CommonErrorResponse {
+    neighborAddressAdministrativeStatus?: NeighborAddressBfdAdministrativeStatus[];
+}
+
+// @public
+export interface InternalNetworkBgpAdministrativeStateRequest {
+    administrativeState?: BgpAdministrativeState;
+    neighborAddress?: string;
+}
+
+// @public
+export interface InternalNetworkBgpAdministrativeStateResponse extends CommonErrorResponse {
+    neighborAddressAdministrativeStatus?: NeighborAddressBgpAdministrativeStatus[];
 }
 
 // @public
@@ -1320,7 +1247,6 @@ export interface InternalNetworkBmpPatchProperties {
 // @public
 export interface InternalNetworkBmpProperties {
     bmpConfigurationState?: BmpConfigurationState;
-    exportPolicyConfiguration?: BmpExportPolicyProperties;
     neighborIpExclusions?: string[];
 }
 
@@ -1376,7 +1302,6 @@ export interface InternalNetworkProperties {
     mtu?: number;
     nativeIpv4PrefixLimit?: NativeIpv4PrefixLimitProperties;
     nativeIpv6PrefixLimit?: NativeIpv6PrefixLimitProperties;
-    readonly networkFabricId?: string;
     readonly provisioningState?: ProvisioningState;
     staticRouteConfiguration?: StaticRouteConfiguration;
     vlanId: number;
@@ -1416,32 +1341,27 @@ export interface InternalNetworksOperations {
     // @deprecated (undocumented)
     beginUpdate: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: InternalNetworkPatch, options?: InternalNetworksUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<InternalNetwork>, InternalNetwork>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: UpdateAdministrativeState, options?: InternalNetworksUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>>;
+    beginUpdateAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: UpdateAdministrativeState, options?: InternalNetworksUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: UpdateAdministrativeState, options?: InternalNetworksUpdateAdministrativeStateOptionalParams) => Promise<UpdateAdministrativeStateResponse>;
+    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: UpdateAdministrativeState, options?: InternalNetworksUpdateAdministrativeStateOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: InternalNetworkPatch, options?: InternalNetworksUpdateOptionalParams) => Promise<InternalNetwork>;
     // @deprecated (undocumented)
-    beginUpdateBfdAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: InternalNetworkUpdateBfdAdministrativeStateRequest, options?: InternalNetworksUpdateBfdAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<InternalNetworkUpdateBfdAdministrativeStateResponse>, InternalNetworkUpdateBfdAdministrativeStateResponse>>;
+    beginUpdateBfdAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: InternalNetworkBfdAdministrativeStateRequest, options?: InternalNetworksUpdateBfdAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<InternalNetworkBfdAdministrativeStateResponse>, InternalNetworkBfdAdministrativeStateResponse>>;
     // @deprecated (undocumented)
-    beginUpdateBfdAdministrativeStateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: InternalNetworkUpdateBfdAdministrativeStateRequest, options?: InternalNetworksUpdateBfdAdministrativeStateOptionalParams) => Promise<InternalNetworkUpdateBfdAdministrativeStateResponse>;
+    beginUpdateBfdAdministrativeStateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: InternalNetworkBfdAdministrativeStateRequest, options?: InternalNetworksUpdateBfdAdministrativeStateOptionalParams) => Promise<InternalNetworkBfdAdministrativeStateResponse>;
     // @deprecated (undocumented)
-    beginUpdateBgpAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: InternalNetworkUpdateBgpAdministrativeStateRequest, options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<InternalNetworkUpdateBgpAdministrativeStateResponse>, InternalNetworkUpdateBgpAdministrativeStateResponse>>;
+    beginUpdateBgpAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: InternalNetworkBgpAdministrativeStateRequest, options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<InternalNetworkBgpAdministrativeStateResponse>, InternalNetworkBgpAdministrativeStateResponse>>;
     // @deprecated (undocumented)
-    beginUpdateBgpAdministrativeStateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: InternalNetworkUpdateBgpAdministrativeStateRequest, options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams) => Promise<InternalNetworkUpdateBgpAdministrativeStateResponse>;
-    // @deprecated (undocumented)
-    beginUpdateStaticRouteBfdAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: UpdateAdministrativeState, options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>>;
-    // @deprecated (undocumented)
-    beginUpdateStaticRouteBfdAdministrativeStateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: UpdateAdministrativeState, options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams) => Promise<UpdateAdministrativeStateResponse>;
+    beginUpdateBgpAdministrativeStateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: InternalNetworkBgpAdministrativeStateRequest, options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams) => Promise<InternalNetworkBgpAdministrativeStateResponse>;
     create: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: InternalNetwork, options?: InternalNetworksCreateOptionalParams) => PollerLike<OperationState<InternalNetwork>, InternalNetwork>;
     delete: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, options?: InternalNetworksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, options?: InternalNetworksGetOptionalParams) => Promise<InternalNetwork>;
     listByL3IsolationDomain: (resourceGroupName: string, l3IsolationDomainName: string, options?: InternalNetworksListByL3IsolationDomainOptionalParams) => PagedAsyncIterableIterator<InternalNetwork>;
     update: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: InternalNetworkPatch, options?: InternalNetworksUpdateOptionalParams) => PollerLike<OperationState<InternalNetwork>, InternalNetwork>;
-    updateAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: UpdateAdministrativeState, options?: InternalNetworksUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
-    updateBfdAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: InternalNetworkUpdateBfdAdministrativeStateRequest, options?: InternalNetworksUpdateBfdAdministrativeStateOptionalParams) => PollerLike<OperationState<InternalNetworkUpdateBfdAdministrativeStateResponse>, InternalNetworkUpdateBfdAdministrativeStateResponse>;
-    updateBgpAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: InternalNetworkUpdateBgpAdministrativeStateRequest, options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams) => PollerLike<OperationState<InternalNetworkUpdateBgpAdministrativeStateResponse>, InternalNetworkUpdateBgpAdministrativeStateResponse>;
-    updateStaticRouteBfdAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: UpdateAdministrativeState, options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
+    updateAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: UpdateAdministrativeState, options?: InternalNetworksUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
+    updateBfdAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: InternalNetworkBfdAdministrativeStateRequest, options?: InternalNetworksUpdateBfdAdministrativeStateOptionalParams) => PollerLike<OperationState<InternalNetworkBfdAdministrativeStateResponse>, InternalNetworkBfdAdministrativeStateResponse>;
+    updateBgpAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, internalNetworkName: string, body: InternalNetworkBgpAdministrativeStateRequest, options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams) => PollerLike<OperationState<InternalNetworkBgpAdministrativeStateResponse>, InternalNetworkBgpAdministrativeStateResponse>;
 }
 
 // @public
@@ -1462,62 +1382,6 @@ export interface InternalNetworksUpdateBgpAdministrativeStateOptionalParams exte
 // @public
 export interface InternalNetworksUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
-}
-
-// @public
-export interface InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface InternalNetworkUpdateBfdAdministrativeStateRequest {
-    administrativeState?: BfdAdministrativeState;
-    neighborAddress?: string;
-    routeType?: InternalNetworkRouteType;
-}
-
-// @public
-export interface InternalNetworkUpdateBfdAdministrativeStateResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    properties?: InternalNetworkUpdateBfdAdministrativeStateResponseProperties;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export interface InternalNetworkUpdateBfdAdministrativeStateResponseProperties {
-    neighborAddressAdministrativeStatus?: NeighborAddressBfdAdministrativeStatus[];
-}
-
-// @public
-export interface InternalNetworkUpdateBgpAdministrativeStateRequest {
-    administrativeState?: BgpAdministrativeState;
-    neighborAddress?: string;
-}
-
-// @public
-export interface InternalNetworkUpdateBgpAdministrativeStateResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    properties?: InternalNetworkUpdateBgpAdministrativeStateResponseProperties;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export interface InternalNetworkUpdateBgpAdministrativeStateResponseProperties {
-    neighborAddressAdministrativeStatus?: NeighborAddressBgpAdministrativeStatus[];
 }
 
 // @public
@@ -2022,7 +1886,6 @@ export enum KnownAclActionType {
 
 // @public
 export enum KnownAclType {
-    ControlPlaneAcl = "ControlPlaneAcl",
     Cp = "ControlPlaneTrafficPolicy",
     Management = "Management",
     Tenant = "Tenant"
@@ -2080,8 +1943,7 @@ export enum KnownBitRateUnit {
     Bps = "bps",
     Gbps = "Gbps",
     Kbps = "Kbps",
-    Mbps = "Mbps",
-    Pps = "Pps"
+    Mbps = "Mbps"
 }
 
 // @public
@@ -2093,7 +1955,6 @@ export enum KnownBmpConfigurationState {
 // @public
 export enum KnownBmpExportPolicy {
     All = "All",
-    LocalRib = "LocalRib",
     PostPolicy = "Post-Policy",
     PrePolicy = "Pre-Policy"
 }
@@ -2118,8 +1979,7 @@ export enum KnownBurstSizeUnit {
     Bytes = "Bytes",
     GBytes = "GBytes",
     KBytes = "KBytes",
-    MBytes = "MBytes",
-    Packets = "Packets"
+    MBytes = "MBytes"
 }
 
 // @public
@@ -2127,18 +1987,6 @@ export enum KnownCommitBatchState {
     Failed = "Failed",
     Processing = "Processing",
     Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownCommitConfigurationPolicy {
-    StageCEConfiguration = "StageCEConfiguration"
-}
-
-// @public
-export enum KnownCommitStage {
-    Continue = "Continue",
-    Rollback = "Rollback",
-    Start = "Start"
 }
 
 // @public
@@ -2164,7 +2012,6 @@ export enum KnownConfigurationState {
     ErrorDeprovisioning = "ErrorDeprovisioning",
     ErrorProvisioning = "ErrorProvisioning",
     Failed = "Failed",
-    PendingAdministrativeUpdate = "PendingAdministrativeUpdate",
     PendingCommit = "PendingCommit",
     Provisioned = "Provisioned",
     Provisioning = "Provisioning",
@@ -2431,6 +2278,14 @@ export enum KnownPeeringOption {
 }
 
 // @public
+export enum KnownPollingIntervalInSeconds {
+    Ninety = 90,
+    OneTwenty = 120,
+    Sixty = 60,
+    Thirty = 30
+}
+
+// @public
 export enum KnownPollingType {
     Pull = "Pull",
     Push = "Push"
@@ -2530,13 +2385,6 @@ export enum KnownStationConnectionMode {
 }
 
 // @public
-export enum KnownSynchronizationStatus {
-    InSync = "InSync",
-    OutOfSync = "OutOfSync",
-    Synchronizing = "Synchronizing"
-}
-
-// @public
 export enum KnownTapRuleActionType {
     Count = "Count",
     Drop = "Drop",
@@ -2574,7 +2422,8 @@ export enum KnownValidateAction {
 
 // @public
 export enum KnownVersions {
-    V20250715 = "2025-07-15"
+    V20240215Preview = "2024-02-15-preview",
+    V20240615Preview = "2024-06-15-preview"
 }
 
 // @public
@@ -2592,7 +2441,6 @@ export interface L2IsolationDomain extends TrackedResource {
     annotation?: string;
     readonly configurationState?: ConfigurationState;
     extendedVlan?: ExtendedVlan;
-    identity?: ManagedServiceIdentity;
     readonly lastOperation?: LastOperationProperties;
     mtu?: number;
     networkFabricId: string;
@@ -2605,7 +2453,6 @@ export interface L2IsolationDomain extends TrackedResource {
 export interface L2IsolationDomainPatch extends TagsUpdate {
     annotation?: string;
     extendedVlan?: ExtendedVlan;
-    identity?: ManagedServiceIdentityPatch;
     mtu?: number;
     networkToNetworkInterconnectId?: string;
 }
@@ -2674,9 +2521,9 @@ export interface L2IsolationDomainsOperations {
     // @deprecated (undocumented)
     beginUpdate: (resourceGroupName: string, l2IsolationDomainName: string, body: L2IsolationDomainPatch, options?: L2IsolationDomainsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<L2IsolationDomain>, L2IsolationDomain>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeState: (resourceGroupName: string, l2IsolationDomainName: string, body: UpdateAdministrativeState, options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>>;
+    beginUpdateAdministrativeState: (resourceGroupName: string, l2IsolationDomainName: string, body: UpdateAdministrativeState, options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForDeviceUpdate>, CommonPostActionResponseForDeviceUpdate>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, l2IsolationDomainName: string, body: UpdateAdministrativeState, options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams) => Promise<UpdateAdministrativeStateResponse>;
+    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, l2IsolationDomainName: string, body: UpdateAdministrativeState, options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams) => Promise<CommonPostActionResponseForDeviceUpdate>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, l2IsolationDomainName: string, body: L2IsolationDomainPatch, options?: L2IsolationDomainsUpdateOptionalParams) => Promise<L2IsolationDomain>;
     // @deprecated (undocumented)
@@ -2690,7 +2537,7 @@ export interface L2IsolationDomainsOperations {
     listByResourceGroup: (resourceGroupName: string, options?: L2IsolationDomainsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<L2IsolationDomain>;
     listBySubscription: (options?: L2IsolationDomainsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<L2IsolationDomain>;
     update: (resourceGroupName: string, l2IsolationDomainName: string, body: L2IsolationDomainPatch, options?: L2IsolationDomainsUpdateOptionalParams) => PollerLike<OperationState<L2IsolationDomain>, L2IsolationDomain>;
-    updateAdministrativeState: (resourceGroupName: string, l2IsolationDomainName: string, body: UpdateAdministrativeState, options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
+    updateAdministrativeState: (resourceGroupName: string, l2IsolationDomainName: string, body: UpdateAdministrativeState, options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForDeviceUpdate>, CommonPostActionResponseForDeviceUpdate>;
     validateConfiguration: (resourceGroupName: string, l2IsolationDomainName: string, options?: L2IsolationDomainsValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
 }
 
@@ -2728,17 +2575,14 @@ export interface L3IsolationDomain extends TrackedResource {
     annotation?: string;
     readonly configurationState?: ConfigurationState;
     connectedSubnetRoutePolicy?: ConnectedSubnetRoutePolicy;
-    exportPolicyConfiguration?: BmpExportPolicyProperties;
-    identity?: ManagedServiceIdentity;
     readonly lastOperation?: LastOperationProperties;
     networkFabricId: string;
     readonly provisioningState?: ProvisioningState;
     redistributeConnectedSubnets?: RedistributeConnectedSubnets;
     redistributeStaticRoutes?: RedistributeStaticRoutes;
+    routePrefixLimit?: RoutePrefixLimitProperties;
     staticRouteRoutePolicy?: StaticRouteRoutePolicy;
     uniqueRdConfiguration?: L3UniqueRouteDistinguisherProperties;
-    v4RoutePrefixLimit?: RoutePrefixLimitProperties;
-    v6RoutePrefixLimit?: RoutePrefixLimitProperties;
 }
 
 // @public
@@ -2746,13 +2590,10 @@ export interface L3IsolationDomainPatch extends TagsUpdate {
     aggregateRouteConfiguration?: AggregateRoutePatchConfiguration;
     annotation?: string;
     connectedSubnetRoutePolicy?: ConnectedSubnetRoutePolicyPatch;
-    exportPolicyConfiguration?: BmpExportPolicyPatchProperties;
-    identity?: ManagedServiceIdentityPatch;
     redistributeConnectedSubnets?: RedistributeConnectedSubnets;
     redistributeStaticRoutes?: RedistributeStaticRoutes;
+    routePrefixLimit?: RoutePrefixLimitPatchProperties;
     staticRouteRoutePolicy?: StaticRouteRoutePolicyPatch;
-    v4RoutePrefixLimit?: RoutePrefixLimitPatchProperties;
-    v6RoutePrefixLimit?: RoutePrefixLimitPatchProperties;
 }
 
 // @public
@@ -2760,12 +2601,10 @@ export interface L3IsolationDomainPatchProperties {
     aggregateRouteConfiguration?: AggregateRoutePatchConfiguration;
     annotation?: string;
     connectedSubnetRoutePolicy?: ConnectedSubnetRoutePolicyPatch;
-    exportPolicyConfiguration?: BmpExportPolicyPatchProperties;
     redistributeConnectedSubnets?: RedistributeConnectedSubnets;
     redistributeStaticRoutes?: RedistributeStaticRoutes;
+    routePrefixLimit?: RoutePrefixLimitPatchProperties;
     staticRouteRoutePolicy?: StaticRouteRoutePolicyPatch;
-    v4RoutePrefixLimit?: RoutePrefixLimitPatchProperties;
-    v6RoutePrefixLimit?: RoutePrefixLimitPatchProperties;
 }
 
 // @public
@@ -2775,16 +2614,14 @@ export interface L3IsolationDomainProperties {
     annotation?: string;
     readonly configurationState?: ConfigurationState;
     connectedSubnetRoutePolicy?: ConnectedSubnetRoutePolicy;
-    exportPolicyConfiguration?: BmpExportPolicyProperties;
     readonly lastOperation?: LastOperationProperties;
     networkFabricId: string;
     readonly provisioningState?: ProvisioningState;
     redistributeConnectedSubnets?: RedistributeConnectedSubnets;
     redistributeStaticRoutes?: RedistributeStaticRoutes;
+    routePrefixLimit?: RoutePrefixLimitProperties;
     staticRouteRoutePolicy?: StaticRouteRoutePolicy;
     uniqueRdConfiguration?: L3UniqueRouteDistinguisherProperties;
-    v4RoutePrefixLimit?: RoutePrefixLimitProperties;
-    v6RoutePrefixLimit?: RoutePrefixLimitProperties;
 }
 
 // @public
@@ -2831,9 +2668,9 @@ export interface L3IsolationDomainsOperations {
     // @deprecated (undocumented)
     beginUpdate: (resourceGroupName: string, l3IsolationDomainName: string, body: L3IsolationDomainPatch, options?: L3IsolationDomainsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<L3IsolationDomain>, L3IsolationDomain>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, body: UpdateAdministrativeState, options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>>;
+    beginUpdateAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, body: UpdateAdministrativeState, options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForDeviceUpdate>, CommonPostActionResponseForDeviceUpdate>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, body: UpdateAdministrativeState, options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams) => Promise<UpdateAdministrativeStateResponse>;
+    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, body: UpdateAdministrativeState, options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams) => Promise<CommonPostActionResponseForDeviceUpdate>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, body: L3IsolationDomainPatch, options?: L3IsolationDomainsUpdateOptionalParams) => Promise<L3IsolationDomain>;
     // @deprecated (undocumented)
@@ -2847,7 +2684,7 @@ export interface L3IsolationDomainsOperations {
     listByResourceGroup: (resourceGroupName: string, options?: L3IsolationDomainsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<L3IsolationDomain>;
     listBySubscription: (options?: L3IsolationDomainsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<L3IsolationDomain>;
     update: (resourceGroupName: string, l3IsolationDomainName: string, body: L3IsolationDomainPatch, options?: L3IsolationDomainsUpdateOptionalParams) => PollerLike<OperationState<L3IsolationDomain>, L3IsolationDomain>;
-    updateAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, body: UpdateAdministrativeState, options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
+    updateAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, body: UpdateAdministrativeState, options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForDeviceUpdate>, CommonPostActionResponseForDeviceUpdate>;
     validateConfiguration: (resourceGroupName: string, l3IsolationDomainName: string, options?: L3IsolationDomainsValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
 }
 
@@ -3018,11 +2855,8 @@ export interface NeighborAddressPatch {
 // @public
 export interface NeighborGroup extends TrackedResource {
     annotation?: string;
-    readonly configurationState?: ConfigurationState;
     destination: NeighborGroupDestination;
-    identity?: ManagedServiceIdentity;
     readonly lastOperation?: LastOperationProperties;
-    readonly networkFabricIds?: string[];
     readonly networkTapIds?: string[];
     readonly networkTapRuleIds?: string[];
     readonly provisioningState?: ProvisioningState;
@@ -3044,7 +2878,6 @@ export interface NeighborGroupDestinationPatch {
 export interface NeighborGroupPatch extends TagsUpdate {
     annotation?: string;
     destination?: NeighborGroupDestinationPatch;
-    identity?: ManagedServiceIdentityPatch;
 }
 
 // @public
@@ -3056,26 +2889,11 @@ export interface NeighborGroupPatchProperties {
 // @public
 export interface NeighborGroupProperties {
     annotation?: string;
-    readonly configurationState?: ConfigurationState;
     destination: NeighborGroupDestination;
     readonly lastOperation?: LastOperationProperties;
-    readonly networkFabricIds?: string[];
     readonly networkTapIds?: string[];
     readonly networkTapRuleIds?: string[];
     readonly provisioningState?: ProvisioningState;
-}
-
-// @public
-export interface NeighborGroupResyncResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
 }
 
 // @public
@@ -3111,10 +2929,6 @@ export interface NeighborGroupsOperations {
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, neighborGroupName: string, options?: NeighborGroupsDeleteOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginResync: (resourceGroupName: string, neighborGroupName: string, options?: NeighborGroupsResyncOptionalParams) => Promise<SimplePollerLike<OperationState<NeighborGroupResyncResponse>, NeighborGroupResyncResponse>>;
-    // @deprecated (undocumented)
-    beginResyncAndWait: (resourceGroupName: string, neighborGroupName: string, options?: NeighborGroupsResyncOptionalParams) => Promise<NeighborGroupResyncResponse>;
-    // @deprecated (undocumented)
     beginUpdate: (resourceGroupName: string, neighborGroupName: string, body: NeighborGroupPatch, options?: NeighborGroupsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NeighborGroup>, NeighborGroup>>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, neighborGroupName: string, body: NeighborGroupPatch, options?: NeighborGroupsUpdateOptionalParams) => Promise<NeighborGroup>;
@@ -3123,13 +2937,7 @@ export interface NeighborGroupsOperations {
     get: (resourceGroupName: string, neighborGroupName: string, options?: NeighborGroupsGetOptionalParams) => Promise<NeighborGroup>;
     listByResourceGroup: (resourceGroupName: string, options?: NeighborGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NeighborGroup>;
     listBySubscription: (options?: NeighborGroupsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<NeighborGroup>;
-    resync: (resourceGroupName: string, neighborGroupName: string, options?: NeighborGroupsResyncOptionalParams) => PollerLike<OperationState<NeighborGroupResyncResponse>, NeighborGroupResyncResponse>;
     update: (resourceGroupName: string, neighborGroupName: string, body: NeighborGroupPatch, options?: NeighborGroupsUpdateOptionalParams) => PollerLike<OperationState<NeighborGroup>, NeighborGroup>;
-}
-
-// @public
-export interface NeighborGroupsResyncOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -3138,338 +2946,22 @@ export interface NeighborGroupsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NetworkBootstrapDevice extends TrackedResource {
-    readonly administrativeState?: AdministrativeState;
-    annotation?: string;
-    readonly configurationState?: ConfigurationState;
-    readonly dhcpV4ServerIpAddress?: string;
-    hostName?: string;
-    identity?: ManagedServiceIdentity;
-    networkDeviceSku?: string;
-    readonly networkFabricId?: string;
-    readonly primaryManagementIpv4Address?: string;
-    readonly primaryManagementIpv6Address?: string;
-    readonly provisioningState?: ProvisioningState;
-    readonly secondaryManagementIpv4Address?: string;
-    readonly secondaryManagementIpv6Address?: string;
-    serialNumber?: string;
-    readonly version?: string;
-}
-
-// @public
-export interface NetworkBootstrapDevicePatch extends TagsUpdate {
-    annotation?: string;
-    hostName?: string;
-    identity?: ManagedServiceIdentityPatch;
-    serialNumber?: string;
-}
-
-// @public
-export interface NetworkBootstrapDevicePatchProperties {
-    annotation?: string;
-    hostName?: string;
-    serialNumber?: string;
-}
-
-// @public
-export interface NetworkBootstrapDeviceProperties {
-    readonly administrativeState?: AdministrativeState;
-    annotation?: string;
-    readonly configurationState?: ConfigurationState;
-    readonly dhcpV4ServerIpAddress?: string;
-    hostName?: string;
-    networkDeviceSku?: string;
-    readonly networkFabricId?: string;
-    readonly primaryManagementIpv4Address?: string;
-    readonly primaryManagementIpv6Address?: string;
-    readonly provisioningState?: ProvisioningState;
-    readonly secondaryManagementIpv4Address?: string;
-    readonly secondaryManagementIpv6Address?: string;
-    serialNumber?: string;
-    readonly version?: string;
-}
-
-// @public
-export interface NetworkBootstrapDeviceRebootResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export interface NetworkBootstrapDeviceRefreshConfigurationResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export interface NetworkBootstrapDeviceResyncPasswordsResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export interface NetworkBootstrapDevicesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkBootstrapDevicesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkBootstrapDevicesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface NetworkBootstrapDevicesListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface NetworkBootstrapDevicesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface NetworkBootstrapDevicesOperations {
-    // @deprecated (undocumented)
-    beginCreate: (resourceGroupName: string, networkBootstrapDeviceName: string, body: NetworkBootstrapDevice, options?: NetworkBootstrapDevicesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkBootstrapDevice>, NetworkBootstrapDevice>>;
-    // @deprecated (undocumented)
-    beginCreateAndWait: (resourceGroupName: string, networkBootstrapDeviceName: string, body: NetworkBootstrapDevice, options?: NetworkBootstrapDevicesCreateOptionalParams) => Promise<NetworkBootstrapDevice>;
-    // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, networkBootstrapDeviceName: string, options?: NetworkBootstrapDevicesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, networkBootstrapDeviceName: string, options?: NetworkBootstrapDevicesDeleteOptionalParams) => Promise<void>;
-    // @deprecated (undocumented)
-    beginReboot: (resourceGroupName: string, networkBootstrapDeviceName: string, options?: NetworkBootstrapDevicesRebootOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkBootstrapDeviceRebootResponse>, NetworkBootstrapDeviceRebootResponse>>;
-    // @deprecated (undocumented)
-    beginRebootAndWait: (resourceGroupName: string, networkBootstrapDeviceName: string, options?: NetworkBootstrapDevicesRebootOptionalParams) => Promise<NetworkBootstrapDeviceRebootResponse>;
-    // @deprecated (undocumented)
-    beginRefreshConfiguration: (resourceGroupName: string, networkBootstrapDeviceName: string, options?: NetworkBootstrapDevicesRefreshConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkBootstrapDeviceRefreshConfigurationResponse>, NetworkBootstrapDeviceRefreshConfigurationResponse>>;
-    // @deprecated (undocumented)
-    beginRefreshConfigurationAndWait: (resourceGroupName: string, networkBootstrapDeviceName: string, options?: NetworkBootstrapDevicesRefreshConfigurationOptionalParams) => Promise<NetworkBootstrapDeviceRefreshConfigurationResponse>;
-    // @deprecated (undocumented)
-    beginResyncPasswords: (resourceGroupName: string, networkBootstrapDeviceName: string, options?: NetworkBootstrapDevicesResyncPasswordsOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkBootstrapDeviceResyncPasswordsResponse>, NetworkBootstrapDeviceResyncPasswordsResponse>>;
-    // @deprecated (undocumented)
-    beginResyncPasswordsAndWait: (resourceGroupName: string, networkBootstrapDeviceName: string, options?: NetworkBootstrapDevicesResyncPasswordsOptionalParams) => Promise<NetworkBootstrapDeviceResyncPasswordsResponse>;
-    // @deprecated (undocumented)
-    beginUpdate: (resourceGroupName: string, networkBootstrapDeviceName: string, body: NetworkBootstrapDevicePatch, options?: NetworkBootstrapDevicesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkBootstrapDevice>, NetworkBootstrapDevice>>;
-    // @deprecated (undocumented)
-    beginUpdateAdministrativeState: (resourceGroupName: string, networkBootstrapDeviceName: string, body: UpdateDeviceAdministrativeState, options?: NetworkBootstrapDevicesUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkBootstrapDeviceUpdateAdministrativeStateResponse>, NetworkBootstrapDeviceUpdateAdministrativeStateResponse>>;
-    // @deprecated (undocumented)
-    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, networkBootstrapDeviceName: string, body: UpdateDeviceAdministrativeState, options?: NetworkBootstrapDevicesUpdateAdministrativeStateOptionalParams) => Promise<NetworkBootstrapDeviceUpdateAdministrativeStateResponse>;
-    // @deprecated (undocumented)
-    beginUpdateAndWait: (resourceGroupName: string, networkBootstrapDeviceName: string, body: NetworkBootstrapDevicePatch, options?: NetworkBootstrapDevicesUpdateOptionalParams) => Promise<NetworkBootstrapDevice>;
-    // @deprecated (undocumented)
-    beginUpgrade: (resourceGroupName: string, networkBootstrapDeviceName: string, body: UpdateVersion, options?: NetworkBootstrapDevicesUpgradeOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkBootstrapDeviceUpgradeResponse>, NetworkBootstrapDeviceUpgradeResponse>>;
-    // @deprecated (undocumented)
-    beginUpgradeAndWait: (resourceGroupName: string, networkBootstrapDeviceName: string, body: UpdateVersion, options?: NetworkBootstrapDevicesUpgradeOptionalParams) => Promise<NetworkBootstrapDeviceUpgradeResponse>;
-    create: (resourceGroupName: string, networkBootstrapDeviceName: string, body: NetworkBootstrapDevice, options?: NetworkBootstrapDevicesCreateOptionalParams) => PollerLike<OperationState<NetworkBootstrapDevice>, NetworkBootstrapDevice>;
-    delete: (resourceGroupName: string, networkBootstrapDeviceName: string, options?: NetworkBootstrapDevicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, networkBootstrapDeviceName: string, options?: NetworkBootstrapDevicesGetOptionalParams) => Promise<NetworkBootstrapDevice>;
-    listByResourceGroup: (resourceGroupName: string, options?: NetworkBootstrapDevicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NetworkBootstrapDevice>;
-    listBySubscription: (options?: NetworkBootstrapDevicesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<NetworkBootstrapDevice>;
-    reboot: (resourceGroupName: string, networkBootstrapDeviceName: string, options?: NetworkBootstrapDevicesRebootOptionalParams) => PollerLike<OperationState<NetworkBootstrapDeviceRebootResponse>, NetworkBootstrapDeviceRebootResponse>;
-    refreshConfiguration: (resourceGroupName: string, networkBootstrapDeviceName: string, options?: NetworkBootstrapDevicesRefreshConfigurationOptionalParams) => PollerLike<OperationState<NetworkBootstrapDeviceRefreshConfigurationResponse>, NetworkBootstrapDeviceRefreshConfigurationResponse>;
-    resyncPasswords: (resourceGroupName: string, networkBootstrapDeviceName: string, options?: NetworkBootstrapDevicesResyncPasswordsOptionalParams) => PollerLike<OperationState<NetworkBootstrapDeviceResyncPasswordsResponse>, NetworkBootstrapDeviceResyncPasswordsResponse>;
-    update: (resourceGroupName: string, networkBootstrapDeviceName: string, body: NetworkBootstrapDevicePatch, options?: NetworkBootstrapDevicesUpdateOptionalParams) => PollerLike<OperationState<NetworkBootstrapDevice>, NetworkBootstrapDevice>;
-    updateAdministrativeState: (resourceGroupName: string, networkBootstrapDeviceName: string, body: UpdateDeviceAdministrativeState, options?: NetworkBootstrapDevicesUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<NetworkBootstrapDeviceUpdateAdministrativeStateResponse>, NetworkBootstrapDeviceUpdateAdministrativeStateResponse>;
-    upgrade: (resourceGroupName: string, networkBootstrapDeviceName: string, body: UpdateVersion, options?: NetworkBootstrapDevicesUpgradeOptionalParams) => PollerLike<OperationState<NetworkBootstrapDeviceUpgradeResponse>, NetworkBootstrapDeviceUpgradeResponse>;
-}
-
-// @public
-export interface NetworkBootstrapDevicesRebootOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkBootstrapDevicesRefreshConfigurationOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkBootstrapDevicesResyncPasswordsOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkBootstrapDevicesUpdateAdministrativeStateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkBootstrapDevicesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkBootstrapDevicesUpgradeOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkBootstrapDeviceUpdateAdministrativeStateResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export interface NetworkBootstrapDeviceUpgradeResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export interface NetworkBootstrapInterface extends ProxyResource {
-    additionalDescription?: string;
-    readonly administrativeState?: AdministrativeState;
-    annotation?: string;
-    readonly configurationState?: ConfigurationState;
-    readonly connectedTo?: string;
-    readonly description?: string;
-    readonly interfaceType?: InterfaceType;
-    readonly ipv4Address?: string;
-    readonly ipv6Address?: string;
-    readonly physicalIdentifier?: string;
-    readonly provisioningState?: ProvisioningState;
-    serialNumber?: string;
-}
-
-// @public
-export interface NetworkBootstrapInterfacePatch {
-    additionalDescription?: string;
-    annotation?: string;
-    serialNumber?: string;
-}
-
-// @public
-export interface NetworkBootstrapInterfacePatchProperties extends AnnotationResource {
-    additionalDescription?: string;
-    serialNumber?: string;
-}
-
-// @public
-export interface NetworkBootstrapInterfaceProperties extends AnnotationResource {
-    additionalDescription?: string;
-    readonly administrativeState?: AdministrativeState;
-    readonly configurationState?: ConfigurationState;
-    readonly connectedTo?: string;
-    readonly description?: string;
-    readonly interfaceType?: InterfaceType;
-    readonly ipv4Address?: string;
-    readonly ipv6Address?: string;
-    readonly physicalIdentifier?: string;
-    readonly provisioningState?: ProvisioningState;
-    serialNumber?: string;
-}
-
-// @public
-export interface NetworkBootstrapInterfacesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkBootstrapInterfacesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkBootstrapInterfacesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface NetworkBootstrapInterfacesListByNetworkBootstrapDeviceOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface NetworkBootstrapInterfacesOperations {
-    // @deprecated (undocumented)
-    beginCreate: (resourceGroupName: string, networkBootstrapDeviceName: string, networkBootstrapInterfaceName: string, body: NetworkBootstrapInterface, options?: NetworkBootstrapInterfacesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkBootstrapInterface>, NetworkBootstrapInterface>>;
-    // @deprecated (undocumented)
-    beginCreateAndWait: (resourceGroupName: string, networkBootstrapDeviceName: string, networkBootstrapInterfaceName: string, body: NetworkBootstrapInterface, options?: NetworkBootstrapInterfacesCreateOptionalParams) => Promise<NetworkBootstrapInterface>;
-    // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, networkBootstrapDeviceName: string, networkBootstrapInterfaceName: string, options?: NetworkBootstrapInterfacesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, networkBootstrapDeviceName: string, networkBootstrapInterfaceName: string, options?: NetworkBootstrapInterfacesDeleteOptionalParams) => Promise<void>;
-    // @deprecated (undocumented)
-    beginUpdate: (resourceGroupName: string, networkBootstrapDeviceName: string, networkBootstrapInterfaceName: string, body: NetworkBootstrapInterfacePatch, options?: NetworkBootstrapInterfacesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkBootstrapInterface>, NetworkBootstrapInterface>>;
-    // @deprecated (undocumented)
-    beginUpdateAdministrativeState: (resourceGroupName: string, networkBootstrapDeviceName: string, networkBootstrapInterfaceName: string, body: UpdateAdministrativeState, options?: NetworkBootstrapInterfacesUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
-    // @deprecated (undocumented)
-    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, networkBootstrapDeviceName: string, networkBootstrapInterfaceName: string, body: UpdateAdministrativeState, options?: NetworkBootstrapInterfacesUpdateAdministrativeStateOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
-    // @deprecated (undocumented)
-    beginUpdateAndWait: (resourceGroupName: string, networkBootstrapDeviceName: string, networkBootstrapInterfaceName: string, body: NetworkBootstrapInterfacePatch, options?: NetworkBootstrapInterfacesUpdateOptionalParams) => Promise<NetworkBootstrapInterface>;
-    create: (resourceGroupName: string, networkBootstrapDeviceName: string, networkBootstrapInterfaceName: string, body: NetworkBootstrapInterface, options?: NetworkBootstrapInterfacesCreateOptionalParams) => PollerLike<OperationState<NetworkBootstrapInterface>, NetworkBootstrapInterface>;
-    delete: (resourceGroupName: string, networkBootstrapDeviceName: string, networkBootstrapInterfaceName: string, options?: NetworkBootstrapInterfacesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, networkBootstrapDeviceName: string, networkBootstrapInterfaceName: string, options?: NetworkBootstrapInterfacesGetOptionalParams) => Promise<NetworkBootstrapInterface>;
-    listByNetworkBootstrapDevice: (resourceGroupName: string, networkBootstrapDeviceName: string, options?: NetworkBootstrapInterfacesListByNetworkBootstrapDeviceOptionalParams) => PagedAsyncIterableIterator<NetworkBootstrapInterface>;
-    update: (resourceGroupName: string, networkBootstrapDeviceName: string, networkBootstrapInterfaceName: string, body: NetworkBootstrapInterfacePatch, options?: NetworkBootstrapInterfacesUpdateOptionalParams) => PollerLike<OperationState<NetworkBootstrapInterface>, NetworkBootstrapInterface>;
-    updateAdministrativeState: (resourceGroupName: string, networkBootstrapDeviceName: string, networkBootstrapInterfaceName: string, body: UpdateAdministrativeState, options?: NetworkBootstrapInterfacesUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
-}
-
-// @public
-export interface NetworkBootstrapInterfacesUpdateAdministrativeStateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkBootstrapInterfacesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface NetworkDevice extends TrackedResource {
     readonly administrativeState?: AdministrativeState;
     annotation?: string;
-    readonly certificateRotationStatus?: CertificateRotationStatus[];
     readonly configurationState?: ConfigurationState;
+    readonly dhcpV4ServerIpAddress?: string;
     hostName?: string;
-    identity?: ManagedServiceIdentity;
-    identitySelector?: IdentitySelector;
     readonly lastOperation?: LastOperationProperties;
     readonly managementIpv4Address?: string;
     readonly managementIpv6Address?: string;
     readonly networkDeviceRole?: NetworkDeviceRole;
     networkDeviceSku?: string;
     readonly networkFabricId?: string;
-    readonly networkRackId?: string;
+    readonly primaryManagementIpv4Address?: string;
+    readonly primaryManagementIpv6Address?: string;
     readonly provisioningState?: ProvisioningState;
     readonly rwDeviceConfig?: string;
-    readonly secretRotationStatus?: SecretRotationStatus[];
     serialNumber: string;
     readonly version?: string;
 }
@@ -3487,7 +2979,6 @@ export interface NetworkDevicePatchParameters extends TagsUpdate {
 export interface NetworkDevicePatchParametersProperties {
     annotation?: string;
     hostName?: string;
-    identitySelector?: IdentitySelectorPatch;
     serialNumber?: string;
 }
 
@@ -3495,10 +2986,8 @@ export interface NetworkDevicePatchParametersProperties {
 export interface NetworkDeviceProperties {
     readonly administrativeState?: AdministrativeState;
     annotation?: string;
-    readonly certificateRotationStatus?: CertificateRotationStatus[];
     readonly configurationState?: ConfigurationState;
     hostName?: string;
-    identitySelector?: IdentitySelector;
     readonly lastOperation?: LastOperationProperties;
     readonly managementIpv4Address?: string;
     readonly managementIpv6Address?: string;
@@ -3508,7 +2997,6 @@ export interface NetworkDeviceProperties {
     readonly networkRackId?: string;
     readonly provisioningState?: ProvisioningState;
     readonly rwDeviceConfig?: string;
-    readonly secretRotationStatus?: SecretRotationStatus[];
     serialNumber: string;
     readonly version?: string;
 }
@@ -3544,26 +3032,6 @@ export type NetworkDeviceRole = string;
 
 // @public
 export type NetworkDeviceRoleName = string;
-
-// @public
-export interface NetworkDeviceRunRwCommandResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    properties?: NetworkDeviceRwCommandResponseProperties;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export interface NetworkDeviceRwCommandResponseProperties {
-    readonly configurationState?: ConfigurationState;
-    outputUrl?: string;
-}
 
 // @public
 export interface NetworkDevicesCreateOptionalParams extends OperationOptions {
@@ -3632,55 +3100,45 @@ export interface NetworkDevicesOperations {
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, networkDeviceName: string, options?: NetworkDevicesDeleteOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginReboot: (resourceGroupName: string, networkDeviceName: string, body: RebootProperties, options?: NetworkDevicesRebootOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    beginReboot: (resourceGroupName: string, networkDeviceName: string, body: RebootProperties, options?: NetworkDevicesRebootOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginRebootAndWait: (resourceGroupName: string, networkDeviceName: string, body: RebootProperties, options?: NetworkDevicesRebootOptionalParams) => Promise<OperationStatusResult>;
+    beginRebootAndWait: (resourceGroupName: string, networkDeviceName: string, body: RebootProperties, options?: NetworkDevicesRebootOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     // @deprecated (undocumented)
-    beginRefreshConfiguration: (resourceGroupName: string, networkDeviceName: string, options?: NetworkDevicesRefreshConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkDeviceRefreshConfigurationResponse>, NetworkDeviceRefreshConfigurationResponse>>;
+    beginRefreshConfiguration: (resourceGroupName: string, networkDeviceName: string, options?: NetworkDevicesRefreshConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginRefreshConfigurationAndWait: (resourceGroupName: string, networkDeviceName: string, options?: NetworkDevicesRefreshConfigurationOptionalParams) => Promise<NetworkDeviceRefreshConfigurationResponse>;
-    // @deprecated (undocumented)
-    beginResyncCertificates: (resourceGroupName: string, networkDeviceName: string, options?: NetworkDevicesResyncCertificatesOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkFabricResyncCertificatesResponse>, NetworkFabricResyncCertificatesResponse>>;
-    // @deprecated (undocumented)
-    beginResyncCertificatesAndWait: (resourceGroupName: string, networkDeviceName: string, options?: NetworkDevicesResyncCertificatesOptionalParams) => Promise<NetworkFabricResyncCertificatesResponse>;
-    // @deprecated (undocumented)
-    beginResyncPasswords: (resourceGroupName: string, networkDeviceName: string, options?: NetworkDevicesResyncPasswordsOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkDeviceResyncPasswordsResponse>, NetworkDeviceResyncPasswordsResponse>>;
-    // @deprecated (undocumented)
-    beginResyncPasswordsAndWait: (resourceGroupName: string, networkDeviceName: string, options?: NetworkDevicesResyncPasswordsOptionalParams) => Promise<NetworkDeviceResyncPasswordsResponse>;
+    beginRefreshConfigurationAndWait: (resourceGroupName: string, networkDeviceName: string, options?: NetworkDevicesRefreshConfigurationOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     // @deprecated (undocumented)
     beginRunRoCommand: (resourceGroupName: string, networkDeviceName: string, body: DeviceRoCommand, options?: NetworkDevicesRunRoCommandOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForDeviceROCommandsOperationStatusResult>, CommonPostActionResponseForDeviceROCommandsOperationStatusResult>>;
     // @deprecated (undocumented)
     beginRunRoCommandAndWait: (resourceGroupName: string, networkDeviceName: string, body: DeviceRoCommand, options?: NetworkDevicesRunRoCommandOptionalParams) => Promise<CommonPostActionResponseForDeviceROCommandsOperationStatusResult>;
     // @deprecated (undocumented)
-    beginRunRwCommand: (resourceGroupName: string, networkDeviceName: string, body: DeviceRwCommand, options?: NetworkDevicesRunRwCommandOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkDeviceRunRwCommandResponse>, NetworkDeviceRunRwCommandResponse>>;
+    beginRunRwCommand: (resourceGroupName: string, networkDeviceName: string, body: DeviceRwCommand, options?: NetworkDevicesRunRwCommandOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForDeviceRWCommands>, CommonPostActionResponseForDeviceRWCommands>>;
     // @deprecated (undocumented)
-    beginRunRwCommandAndWait: (resourceGroupName: string, networkDeviceName: string, body: DeviceRwCommand, options?: NetworkDevicesRunRwCommandOptionalParams) => Promise<NetworkDeviceRunRwCommandResponse>;
+    beginRunRwCommandAndWait: (resourceGroupName: string, networkDeviceName: string, body: DeviceRwCommand, options?: NetworkDevicesRunRwCommandOptionalParams) => Promise<CommonPostActionResponseForDeviceRWCommands>;
     // @deprecated (undocumented)
     beginUpdate: (resourceGroupName: string, networkDeviceName: string, body: NetworkDevicePatchParameters, options?: NetworkDevicesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkDevice>, NetworkDevice>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeState: (resourceGroupName: string, networkDeviceName: string, body: UpdateDeviceAdministrativeState, options?: NetworkDevicesUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkDeviceUpdateAdministrativeStateResponse>, NetworkDeviceUpdateAdministrativeStateResponse>>;
+    beginUpdateAdministrativeState: (resourceGroupName: string, networkDeviceName: string, body: UpdateDeviceAdministrativeState, options?: NetworkDevicesUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, networkDeviceName: string, body: UpdateDeviceAdministrativeState, options?: NetworkDevicesUpdateAdministrativeStateOptionalParams) => Promise<NetworkDeviceUpdateAdministrativeStateResponse>;
+    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, networkDeviceName: string, body: UpdateDeviceAdministrativeState, options?: NetworkDevicesUpdateAdministrativeStateOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, networkDeviceName: string, body: NetworkDevicePatchParameters, options?: NetworkDevicesUpdateOptionalParams) => Promise<NetworkDevice>;
     // @deprecated (undocumented)
-    beginUpgrade: (resourceGroupName: string, networkDeviceName: string, body: NetworkDeviceUpgradeRequest, options?: NetworkDevicesUpgradeOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkDeviceUpgradeResponse>, NetworkDeviceUpgradeResponse>>;
+    beginUpgrade: (resourceGroupName: string, networkDeviceName: string, body: UpdateVersion, options?: NetworkDevicesUpgradeOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginUpgradeAndWait: (resourceGroupName: string, networkDeviceName: string, body: NetworkDeviceUpgradeRequest, options?: NetworkDevicesUpgradeOptionalParams) => Promise<NetworkDeviceUpgradeResponse>;
+    beginUpgradeAndWait: (resourceGroupName: string, networkDeviceName: string, body: UpdateVersion, options?: NetworkDevicesUpgradeOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     create: (resourceGroupName: string, networkDeviceName: string, body: NetworkDevice, options?: NetworkDevicesCreateOptionalParams) => PollerLike<OperationState<NetworkDevice>, NetworkDevice>;
     delete: (resourceGroupName: string, networkDeviceName: string, options?: NetworkDevicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, networkDeviceName: string, options?: NetworkDevicesGetOptionalParams) => Promise<NetworkDevice>;
     listByResourceGroup: (resourceGroupName: string, options?: NetworkDevicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NetworkDevice>;
     listBySubscription: (options?: NetworkDevicesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<NetworkDevice>;
-    reboot: (resourceGroupName: string, networkDeviceName: string, body: RebootProperties, options?: NetworkDevicesRebootOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    refreshConfiguration: (resourceGroupName: string, networkDeviceName: string, options?: NetworkDevicesRefreshConfigurationOptionalParams) => PollerLike<OperationState<NetworkDeviceRefreshConfigurationResponse>, NetworkDeviceRefreshConfigurationResponse>;
-    resyncCertificates: (resourceGroupName: string, networkDeviceName: string, options?: NetworkDevicesResyncCertificatesOptionalParams) => PollerLike<OperationState<NetworkFabricResyncCertificatesResponse>, NetworkFabricResyncCertificatesResponse>;
-    resyncPasswords: (resourceGroupName: string, networkDeviceName: string, options?: NetworkDevicesResyncPasswordsOptionalParams) => PollerLike<OperationState<NetworkDeviceResyncPasswordsResponse>, NetworkDeviceResyncPasswordsResponse>;
+    reboot: (resourceGroupName: string, networkDeviceName: string, body: RebootProperties, options?: NetworkDevicesRebootOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
+    refreshConfiguration: (resourceGroupName: string, networkDeviceName: string, options?: NetworkDevicesRefreshConfigurationOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
     runRoCommand: (resourceGroupName: string, networkDeviceName: string, body: DeviceRoCommand, options?: NetworkDevicesRunRoCommandOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForDeviceROCommandsOperationStatusResult>, CommonPostActionResponseForDeviceROCommandsOperationStatusResult>;
-    runRwCommand: (resourceGroupName: string, networkDeviceName: string, body: DeviceRwCommand, options?: NetworkDevicesRunRwCommandOptionalParams) => PollerLike<OperationState<NetworkDeviceRunRwCommandResponse>, NetworkDeviceRunRwCommandResponse>;
+    runRwCommand: (resourceGroupName: string, networkDeviceName: string, body: DeviceRwCommand, options?: NetworkDevicesRunRwCommandOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForDeviceRWCommands>, CommonPostActionResponseForDeviceRWCommands>;
     update: (resourceGroupName: string, networkDeviceName: string, body: NetworkDevicePatchParameters, options?: NetworkDevicesUpdateOptionalParams) => PollerLike<OperationState<NetworkDevice>, NetworkDevice>;
-    updateAdministrativeState: (resourceGroupName: string, networkDeviceName: string, body: UpdateDeviceAdministrativeState, options?: NetworkDevicesUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<NetworkDeviceUpdateAdministrativeStateResponse>, NetworkDeviceUpdateAdministrativeStateResponse>;
-    upgrade: (resourceGroupName: string, networkDeviceName: string, body: NetworkDeviceUpgradeRequest, options?: NetworkDevicesUpgradeOptionalParams) => PollerLike<OperationState<NetworkDeviceUpgradeResponse>, NetworkDeviceUpgradeResponse>;
+    updateAdministrativeState: (resourceGroupName: string, networkDeviceName: string, body: UpdateDeviceAdministrativeState, options?: NetworkDevicesUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
+    upgrade: (resourceGroupName: string, networkDeviceName: string, body: UpdateVersion, options?: NetworkDevicesUpgradeOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
 }
 
 // @public
@@ -3690,16 +3148,6 @@ export interface NetworkDevicesRebootOptionalParams extends OperationOptions {
 
 // @public
 export interface NetworkDevicesRefreshConfigurationOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkDevicesResyncCertificatesOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkDevicesResyncPasswordsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -3729,38 +3177,6 @@ export interface NetworkDevicesUpgradeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NetworkDeviceUpdateAdministrativeStateResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export interface NetworkDeviceUpgradeRequest {
-    rwDeviceConfigUrl?: string;
-    version: string;
-}
-
-// @public
-export interface NetworkDeviceUpgradeResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
 export interface NetworkFabric extends TrackedResource {
     readonly activeCommitBatches?: string[];
     readonly administrativeState?: AdministrativeState;
@@ -3771,7 +3187,7 @@ export interface NetworkFabric extends TrackedResource {
     fabricASN: number;
     readonly fabricLocks?: FabricLockProperties[];
     fabricVersion?: string;
-    featureFlags?: FeatureFlagProperties[];
+    readonly featureFlags?: FeatureFlagProperties[];
     hardwareAlertThreshold?: number;
     identity?: ManagedServiceIdentity;
     ipv4Prefix: string;
@@ -3910,16 +3326,13 @@ export type NetworkFabricLockType = string;
 // @public
 export interface NetworkFabricPatch extends TagsUpdate {
     annotation?: string;
-    authorizedTransceiver?: AuthorizedTransceiverPatchProperties;
     controlPlaneAcls?: string[];
     fabricASN?: number;
-    featureFlags?: FeatureFlagProperties[];
     hardwareAlertThreshold?: number;
     identity?: ManagedServiceIdentityPatch;
     ipv4Prefix?: string;
     ipv6Prefix?: string;
     managementNetworkConfiguration?: ManagementNetworkPatchConfiguration;
-    qosConfiguration?: QosPatchProperties;
     rackCount?: number;
     serverCountPerRack?: number;
     storageAccountConfiguration?: StorageAccountPatchConfiguration;
@@ -3931,15 +3344,12 @@ export interface NetworkFabricPatch extends TagsUpdate {
 // @public
 export interface NetworkFabricPatchProperties {
     annotation?: string;
-    authorizedTransceiver?: AuthorizedTransceiverPatchProperties;
     controlPlaneAcls?: string[];
     fabricASN?: number;
-    featureFlags?: FeatureFlagProperties[];
     hardwareAlertThreshold?: number;
     ipv4Prefix?: string;
     ipv6Prefix?: string;
     managementNetworkConfiguration?: ManagementNetworkPatchConfiguration;
-    qosConfiguration?: QosPatchProperties;
     rackCount?: number;
     serverCountPerRack?: number;
     storageAccountConfiguration?: StorageAccountPatchConfiguration;
@@ -3958,7 +3368,7 @@ export interface NetworkFabricProperties extends AnnotationResource {
     fabricASN: number;
     readonly fabricLocks?: FabricLockProperties[];
     fabricVersion?: string;
-    featureFlags?: FeatureFlagProperties[];
+    readonly featureFlags?: FeatureFlagProperties[];
     hardwareAlertThreshold?: number;
     ipv4Prefix: string;
     ipv6Prefix?: string;
@@ -3983,58 +3393,6 @@ export interface NetworkFabricProperties extends AnnotationResource {
 }
 
 // @public
-export interface NetworkFabricResyncCertificatesResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export interface NetworkFabricResyncPasswordsResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export interface NetworkFabricRotateCertificatesResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export interface NetworkFabricRotatePasswordsResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
 export interface NetworkFabricsArmConfigurationDiffOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -4046,7 +3404,6 @@ export interface NetworkFabricsCommitBatchStatusOptionalParams extends Operation
 
 // @public
 export interface NetworkFabricsCommitConfigurationOptionalParams extends OperationOptions {
-    body?: CommitConfigurationRequest;
     updateIntervalInMs?: number;
 }
 
@@ -4128,19 +3485,19 @@ export interface NetworkFabricsLockFabricOptionalParams extends OperationOptions
 
 // @public
 export interface NetworkFabricsOperations {
-    armConfigurationDiff: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsArmConfigurationDiffOptionalParams) => PollerLike<OperationState<ArmConfigurationDiffOperationResponse>, ArmConfigurationDiffOperationResponse>;
+    armConfigurationDiff: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsArmConfigurationDiffOptionalParams) => PollerLike<OperationState<ArmConfigurationDiffResponse>, ArmConfigurationDiffResponse>;
     // @deprecated (undocumented)
-    beginArmConfigurationDiff: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsArmConfigurationDiffOptionalParams) => Promise<SimplePollerLike<OperationState<ArmConfigurationDiffOperationResponse>, ArmConfigurationDiffOperationResponse>>;
+    beginArmConfigurationDiff: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsArmConfigurationDiffOptionalParams) => Promise<SimplePollerLike<OperationState<ArmConfigurationDiffResponse>, ArmConfigurationDiffResponse>>;
     // @deprecated (undocumented)
-    beginArmConfigurationDiffAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsArmConfigurationDiffOptionalParams) => Promise<ArmConfigurationDiffOperationResponse>;
+    beginArmConfigurationDiffAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsArmConfigurationDiffOptionalParams) => Promise<ArmConfigurationDiffResponse>;
     // @deprecated (undocumented)
-    beginCommitBatchStatus: (resourceGroupName: string, networkFabricName: string, body: CommitBatchStatusRequest, options?: NetworkFabricsCommitBatchStatusOptionalParams) => Promise<SimplePollerLike<OperationState<CommitBatchStatusOperationResponse>, CommitBatchStatusOperationResponse>>;
+    beginCommitBatchStatus: (resourceGroupName: string, networkFabricName: string, body: CommitBatchStatusRequest, options?: NetworkFabricsCommitBatchStatusOptionalParams) => Promise<SimplePollerLike<OperationState<CommitBatchStatusResponse>, CommitBatchStatusResponse>>;
     // @deprecated (undocumented)
-    beginCommitBatchStatusAndWait: (resourceGroupName: string, networkFabricName: string, body: CommitBatchStatusRequest, options?: NetworkFabricsCommitBatchStatusOptionalParams) => Promise<CommitBatchStatusOperationResponse>;
+    beginCommitBatchStatusAndWait: (resourceGroupName: string, networkFabricName: string, body: CommitBatchStatusRequest, options?: NetworkFabricsCommitBatchStatusOptionalParams) => Promise<CommitBatchStatusResponse>;
     // @deprecated (undocumented)
-    beginCommitConfiguration: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsCommitConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<CommitConfigurationResponse>, CommitConfigurationResponse>>;
+    beginCommitConfiguration: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsCommitConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginCommitConfigurationAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsCommitConfigurationOptionalParams) => Promise<CommitConfigurationResponse>;
+    beginCommitConfigurationAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsCommitConfigurationOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     // @deprecated (undocumented)
     beginCreate: (resourceGroupName: string, networkFabricName: string, body: NetworkFabric, options?: NetworkFabricsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkFabric>, NetworkFabric>>;
     // @deprecated (undocumented)
@@ -4150,92 +3507,72 @@ export interface NetworkFabricsOperations {
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsDeleteOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginDeprovision: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsDeprovisionOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    beginDeprovision: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsDeprovisionOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForDeviceUpdate>, CommonPostActionResponseForDeviceUpdate>>;
     // @deprecated (undocumented)
-    beginDeprovisionAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsDeprovisionOptionalParams) => Promise<OperationStatusResult>;
+    beginDeprovisionAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsDeprovisionOptionalParams) => Promise<CommonPostActionResponseForDeviceUpdate>;
     // @deprecated (undocumented)
-    beginDiscardCommitBatch: (resourceGroupName: string, networkFabricName: string, body: DiscardCommitBatchRequest, options?: NetworkFabricsDiscardCommitBatchOptionalParams) => Promise<SimplePollerLike<OperationState<DiscardCommitBatchOperationResponse>, DiscardCommitBatchOperationResponse>>;
+    beginDiscardCommitBatch: (resourceGroupName: string, networkFabricName: string, body: DiscardCommitBatchRequest, options?: NetworkFabricsDiscardCommitBatchOptionalParams) => Promise<SimplePollerLike<OperationState<DiscardCommitBatchResponse>, DiscardCommitBatchResponse>>;
     // @deprecated (undocumented)
-    beginDiscardCommitBatchAndWait: (resourceGroupName: string, networkFabricName: string, body: DiscardCommitBatchRequest, options?: NetworkFabricsDiscardCommitBatchOptionalParams) => Promise<DiscardCommitBatchOperationResponse>;
+    beginDiscardCommitBatchAndWait: (resourceGroupName: string, networkFabricName: string, body: DiscardCommitBatchRequest, options?: NetworkFabricsDiscardCommitBatchOptionalParams) => Promise<DiscardCommitBatchResponse>;
     // @deprecated (undocumented)
-    beginGetTopology: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsGetTopologyOptionalParams) => Promise<SimplePollerLike<OperationState<GetTopologyResponse>, GetTopologyResponse>>;
+    beginGetTopology: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsGetTopologyOptionalParams) => Promise<SimplePollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>>;
     // @deprecated (undocumented)
-    beginGetTopologyAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsGetTopologyOptionalParams) => Promise<GetTopologyResponse>;
+    beginGetTopologyAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsGetTopologyOptionalParams) => Promise<ValidateConfigurationResponse>;
     // @deprecated (undocumented)
-    beginLockFabric: (resourceGroupName: string, networkFabricName: string, body: NetworkFabricLockRequest, options?: NetworkFabricsLockFabricOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    beginLockFabric: (resourceGroupName: string, networkFabricName: string, body: NetworkFabricLockRequest, options?: NetworkFabricsLockFabricOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginLockFabricAndWait: (resourceGroupName: string, networkFabricName: string, body: NetworkFabricLockRequest, options?: NetworkFabricsLockFabricOptionalParams) => Promise<OperationStatusResult>;
+    beginLockFabricAndWait: (resourceGroupName: string, networkFabricName: string, body: NetworkFabricLockRequest, options?: NetworkFabricsLockFabricOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     // @deprecated (undocumented)
-    beginProvision: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsProvisionOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    beginProvision: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsProvisionOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForDeviceUpdate>, CommonPostActionResponseForDeviceUpdate>>;
     // @deprecated (undocumented)
-    beginProvisionAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsProvisionOptionalParams) => Promise<OperationStatusResult>;
+    beginProvisionAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsProvisionOptionalParams) => Promise<CommonPostActionResponseForDeviceUpdate>;
     // @deprecated (undocumented)
-    beginRefreshConfiguration: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsRefreshConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    beginRefreshConfiguration: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsRefreshConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginRefreshConfigurationAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsRefreshConfigurationOptionalParams) => Promise<OperationStatusResult>;
-    // @deprecated (undocumented)
-    beginResyncCertificates: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsResyncCertificatesOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkFabricResyncCertificatesResponse>, NetworkFabricResyncCertificatesResponse>>;
-    // @deprecated (undocumented)
-    beginResyncCertificatesAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsResyncCertificatesOptionalParams) => Promise<NetworkFabricResyncCertificatesResponse>;
-    // @deprecated (undocumented)
-    beginResyncPasswords: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsResyncPasswordsOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkFabricResyncPasswordsResponse>, NetworkFabricResyncPasswordsResponse>>;
-    // @deprecated (undocumented)
-    beginResyncPasswordsAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsResyncPasswordsOptionalParams) => Promise<NetworkFabricResyncPasswordsResponse>;
-    // @deprecated (undocumented)
-    beginRotateCertificates: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsRotateCertificatesOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkFabricRotateCertificatesResponse>, NetworkFabricRotateCertificatesResponse>>;
-    // @deprecated (undocumented)
-    beginRotateCertificatesAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsRotateCertificatesOptionalParams) => Promise<NetworkFabricRotateCertificatesResponse>;
-    // @deprecated (undocumented)
-    beginRotatePasswords: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsRotatePasswordsOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkFabricRotatePasswordsResponse>, NetworkFabricRotatePasswordsResponse>>;
-    // @deprecated (undocumented)
-    beginRotatePasswordsAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsRotatePasswordsOptionalParams) => Promise<NetworkFabricRotatePasswordsResponse>;
+    beginRefreshConfigurationAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsRefreshConfigurationOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     // @deprecated (undocumented)
     beginUpdate: (resourceGroupName: string, networkFabricName: string, body: NetworkFabricPatch, options?: NetworkFabricsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkFabric>, NetworkFabric>>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, networkFabricName: string, body: NetworkFabricPatch, options?: NetworkFabricsUpdateOptionalParams) => Promise<NetworkFabric>;
     // @deprecated (undocumented)
-    beginUpdateInfraManagementBfdConfiguration: (resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>>;
+    beginUpdateInfraManagementBfdConfiguration: (resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginUpdateInfraManagementBfdConfigurationAndWait: (resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams) => Promise<UpdateAdministrativeStateResponse>;
+    beginUpdateInfraManagementBfdConfigurationAndWait: (resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     // @deprecated (undocumented)
-    beginUpdateWorkloadManagementBfdConfiguration: (resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>>;
+    beginUpdateWorkloadManagementBfdConfiguration: (resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginUpdateWorkloadManagementBfdConfigurationAndWait: (resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams) => Promise<UpdateAdministrativeStateResponse>;
+    beginUpdateWorkloadManagementBfdConfigurationAndWait: (resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     // @deprecated (undocumented)
-    beginUpgrade: (resourceGroupName: string, networkFabricName: string, body: UpgradeNetworkFabricProperties, options?: NetworkFabricsUpgradeOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    beginUpgrade: (resourceGroupName: string, networkFabricName: string, body: UpgradeNetworkFabricProperties, options?: NetworkFabricsUpgradeOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginUpgradeAndWait: (resourceGroupName: string, networkFabricName: string, body: UpgradeNetworkFabricProperties, options?: NetworkFabricsUpgradeOptionalParams) => Promise<OperationStatusResult>;
+    beginUpgradeAndWait: (resourceGroupName: string, networkFabricName: string, body: UpgradeNetworkFabricProperties, options?: NetworkFabricsUpgradeOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     // @deprecated (undocumented)
     beginValidateConfiguration: (resourceGroupName: string, networkFabricName: string, body: ValidateConfigurationProperties, options?: NetworkFabricsValidateConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>>;
     // @deprecated (undocumented)
     beginValidateConfigurationAndWait: (resourceGroupName: string, networkFabricName: string, body: ValidateConfigurationProperties, options?: NetworkFabricsValidateConfigurationOptionalParams) => Promise<ValidateConfigurationResponse>;
     // @deprecated (undocumented)
-    beginViewDeviceConfiguration: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsViewDeviceConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<ViewDeviceConfigurationOperationResponse>, ViewDeviceConfigurationOperationResponse>>;
+    beginViewDeviceConfiguration: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsViewDeviceConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<ViewDeviceConfigurationResponse>, ViewDeviceConfigurationResponse>>;
     // @deprecated (undocumented)
-    beginViewDeviceConfigurationAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsViewDeviceConfigurationOptionalParams) => Promise<ViewDeviceConfigurationOperationResponse>;
-    commitBatchStatus: (resourceGroupName: string, networkFabricName: string, body: CommitBatchStatusRequest, options?: NetworkFabricsCommitBatchStatusOptionalParams) => PollerLike<OperationState<CommitBatchStatusOperationResponse>, CommitBatchStatusOperationResponse>;
-    commitConfiguration: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsCommitConfigurationOptionalParams) => PollerLike<OperationState<CommitConfigurationResponse>, CommitConfigurationResponse>;
+    beginViewDeviceConfigurationAndWait: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsViewDeviceConfigurationOptionalParams) => Promise<ViewDeviceConfigurationResponse>;
+    commitBatchStatus: (resourceGroupName: string, networkFabricName: string, body: CommitBatchStatusRequest, options?: NetworkFabricsCommitBatchStatusOptionalParams) => PollerLike<OperationState<CommitBatchStatusResponse>, CommitBatchStatusResponse>;
+    commitConfiguration: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsCommitConfigurationOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
     create: (resourceGroupName: string, networkFabricName: string, body: NetworkFabric, options?: NetworkFabricsCreateOptionalParams) => PollerLike<OperationState<NetworkFabric>, NetworkFabric>;
     delete: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    deprovision: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsDeprovisionOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    discardCommitBatch: (resourceGroupName: string, networkFabricName: string, body: DiscardCommitBatchRequest, options?: NetworkFabricsDiscardCommitBatchOptionalParams) => PollerLike<OperationState<DiscardCommitBatchOperationResponse>, DiscardCommitBatchOperationResponse>;
+    deprovision: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsDeprovisionOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForDeviceUpdate>, CommonPostActionResponseForDeviceUpdate>;
+    discardCommitBatch: (resourceGroupName: string, networkFabricName: string, body: DiscardCommitBatchRequest, options?: NetworkFabricsDiscardCommitBatchOptionalParams) => PollerLike<OperationState<DiscardCommitBatchResponse>, DiscardCommitBatchResponse>;
     get: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsGetOptionalParams) => Promise<NetworkFabric>;
-    getTopology: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsGetTopologyOptionalParams) => PollerLike<OperationState<GetTopologyResponse>, GetTopologyResponse>;
+    getTopology: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsGetTopologyOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
     listByResourceGroup: (resourceGroupName: string, options?: NetworkFabricsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NetworkFabric>;
     listBySubscription: (options?: NetworkFabricsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<NetworkFabric>;
-    lockFabric: (resourceGroupName: string, networkFabricName: string, body: NetworkFabricLockRequest, options?: NetworkFabricsLockFabricOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    provision: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsProvisionOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    refreshConfiguration: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsRefreshConfigurationOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    resyncCertificates: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsResyncCertificatesOptionalParams) => PollerLike<OperationState<NetworkFabricResyncCertificatesResponse>, NetworkFabricResyncCertificatesResponse>;
-    resyncPasswords: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsResyncPasswordsOptionalParams) => PollerLike<OperationState<NetworkFabricResyncPasswordsResponse>, NetworkFabricResyncPasswordsResponse>;
-    rotateCertificates: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsRotateCertificatesOptionalParams) => PollerLike<OperationState<NetworkFabricRotateCertificatesResponse>, NetworkFabricRotateCertificatesResponse>;
-    rotatePasswords: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsRotatePasswordsOptionalParams) => PollerLike<OperationState<NetworkFabricRotatePasswordsResponse>, NetworkFabricRotatePasswordsResponse>;
+    lockFabric: (resourceGroupName: string, networkFabricName: string, body: NetworkFabricLockRequest, options?: NetworkFabricsLockFabricOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
+    provision: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsProvisionOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForDeviceUpdate>, CommonPostActionResponseForDeviceUpdate>;
+    refreshConfiguration: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsRefreshConfigurationOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
     update: (resourceGroupName: string, networkFabricName: string, body: NetworkFabricPatch, options?: NetworkFabricsUpdateOptionalParams) => PollerLike<OperationState<NetworkFabric>, NetworkFabric>;
-    updateInfraManagementBfdConfiguration: (resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
-    updateWorkloadManagementBfdConfiguration: (resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
-    upgrade: (resourceGroupName: string, networkFabricName: string, body: UpgradeNetworkFabricProperties, options?: NetworkFabricsUpgradeOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    updateInfraManagementBfdConfiguration: (resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
+    updateWorkloadManagementBfdConfiguration: (resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
+    upgrade: (resourceGroupName: string, networkFabricName: string, body: UpgradeNetworkFabricProperties, options?: NetworkFabricsUpgradeOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
     validateConfiguration: (resourceGroupName: string, networkFabricName: string, body: ValidateConfigurationProperties, options?: NetworkFabricsValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
-    viewDeviceConfiguration: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsViewDeviceConfigurationOptionalParams) => PollerLike<OperationState<ViewDeviceConfigurationOperationResponse>, ViewDeviceConfigurationOperationResponse>;
+    viewDeviceConfiguration: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsViewDeviceConfigurationOptionalParams) => PollerLike<OperationState<ViewDeviceConfigurationResponse>, ViewDeviceConfigurationResponse>;
 }
 
 // @public
@@ -4245,26 +3582,6 @@ export interface NetworkFabricsProvisionOptionalParams extends OperationOptions 
 
 // @public
 export interface NetworkFabricsRefreshConfigurationOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkFabricsResyncCertificatesOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkFabricsResyncPasswordsOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkFabricsRotateCertificatesOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkFabricsRotatePasswordsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -4308,13 +3625,11 @@ export interface NetworkInterface extends ProxyResource {
     annotation?: string;
     readonly configurationState?: ConfigurationState;
     readonly connectedTo?: string;
-    readonly description?: string;
-    identity?: ManagedServiceIdentity;
+    description?: string;
     readonly interfaceType?: InterfaceType;
     readonly ipv4Address?: string;
     readonly ipv6Address?: string;
     readonly lastOperation?: LastOperationProperties;
-    readonly networkFabricId?: string;
     readonly physicalIdentifier?: string;
     readonly provisioningState?: ProvisioningState;
 }
@@ -4323,12 +3638,13 @@ export interface NetworkInterface extends ProxyResource {
 export interface NetworkInterfacePatch {
     additionalDescription?: string;
     annotation?: string;
-    identity?: ManagedServiceIdentityPatch;
+    description?: string;
 }
 
 // @public
 export interface NetworkInterfacePatchProperties extends AnnotationResource {
     additionalDescription?: string;
+    description?: string;
 }
 
 // @public
@@ -4337,12 +3653,11 @@ export interface NetworkInterfaceProperties extends AnnotationResource {
     readonly administrativeState?: AdministrativeState;
     readonly configurationState?: ConfigurationState;
     readonly connectedTo?: string;
-    readonly description?: string;
+    description?: string;
     readonly interfaceType?: InterfaceType;
     readonly ipv4Address?: string;
     readonly ipv6Address?: string;
     readonly lastOperation?: LastOperationProperties;
-    readonly networkFabricId?: string;
     readonly physicalIdentifier?: string;
     readonly provisioningState?: ProvisioningState;
 }
@@ -4378,9 +3693,9 @@ export interface NetworkInterfacesOperations {
     // @deprecated (undocumented)
     beginUpdate: (resourceGroupName: string, networkDeviceName: string, networkInterfaceName: string, body: NetworkInterfacePatch, options?: NetworkInterfacesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkInterface>, NetworkInterface>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeState: (resourceGroupName: string, networkDeviceName: string, networkInterfaceName: string, body: UpdateAdministrativeState, options?: NetworkInterfacesUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>>;
+    beginUpdateAdministrativeState: (resourceGroupName: string, networkDeviceName: string, networkInterfaceName: string, body: UpdateAdministrativeState, options?: NetworkInterfacesUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, networkDeviceName: string, networkInterfaceName: string, body: UpdateAdministrativeState, options?: NetworkInterfacesUpdateAdministrativeStateOptionalParams) => Promise<UpdateAdministrativeStateResponse>;
+    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, networkDeviceName: string, networkInterfaceName: string, body: UpdateAdministrativeState, options?: NetworkInterfacesUpdateAdministrativeStateOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, networkDeviceName: string, networkInterfaceName: string, body: NetworkInterfacePatch, options?: NetworkInterfacesUpdateOptionalParams) => Promise<NetworkInterface>;
     create: (resourceGroupName: string, networkDeviceName: string, networkInterfaceName: string, body: NetworkInterface, options?: NetworkInterfacesCreateOptionalParams) => PollerLike<OperationState<NetworkInterface>, NetworkInterface>;
@@ -4388,7 +3703,7 @@ export interface NetworkInterfacesOperations {
     get: (resourceGroupName: string, networkDeviceName: string, networkInterfaceName: string, options?: NetworkInterfacesGetOptionalParams) => Promise<NetworkInterface>;
     listByNetworkDevice: (resourceGroupName: string, networkDeviceName: string, options?: NetworkInterfacesListByNetworkDeviceOptionalParams) => PagedAsyncIterableIterator<NetworkInterface>;
     update: (resourceGroupName: string, networkDeviceName: string, networkInterfaceName: string, body: NetworkInterfacePatch, options?: NetworkInterfacesUpdateOptionalParams) => PollerLike<OperationState<NetworkInterface>, NetworkInterface>;
-    updateAdministrativeState: (resourceGroupName: string, networkDeviceName: string, networkInterfaceName: string, body: UpdateAdministrativeState, options?: NetworkInterfacesUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
+    updateAdministrativeState: (resourceGroupName: string, networkDeviceName: string, networkInterfaceName: string, body: UpdateAdministrativeState, options?: NetworkInterfacesUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
 }
 
 // @public
@@ -4491,8 +3806,6 @@ export interface NetworkMonitorsUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface NetworkPacketBroker extends TrackedResource {
-    readonly configurationState?: ConfigurationState;
-    identity?: ManagedServiceIdentity;
     readonly lastOperation?: LastOperationProperties;
     readonly neighborGroupIds?: string[];
     readonly networkDeviceIds?: string[];
@@ -4509,7 +3822,6 @@ export interface NetworkPacketBrokerPatch extends TagsUpdate {
 
 // @public
 export interface NetworkPacketBrokerProperties {
-    readonly configurationState?: ConfigurationState;
     readonly lastOperation?: LastOperationProperties;
     readonly neighborGroupIds?: string[];
     readonly networkDeviceIds?: string[];
@@ -4571,7 +3883,6 @@ export interface NetworkPacketBrokersUpdateOptionalParams extends OperationOptio
 // @public
 export interface NetworkRack extends TrackedResource {
     annotation?: string;
-    readonly configurationState?: ConfigurationState;
     readonly lastOperation?: LastOperationProperties;
     readonly networkDevices?: string[];
     networkFabricId: string;
@@ -4586,7 +3897,6 @@ export interface NetworkRackPatch {
 
 // @public
 export interface NetworkRackProperties extends AnnotationResource {
-    readonly configurationState?: ConfigurationState;
     readonly lastOperation?: LastOperationProperties;
     readonly networkDevices?: string[];
     networkFabricId: string;
@@ -4652,9 +3962,7 @@ export interface NetworkTap extends TrackedResource {
     annotation?: string;
     readonly configurationState?: ConfigurationState;
     destinations: DestinationProperties[];
-    identity?: ManagedServiceIdentity;
     readonly lastOperation?: LastOperationProperties;
-    readonly networkFabricIds?: string[];
     networkPacketBrokerId: string;
     pollingType?: PollingType;
     readonly provisioningState?: ProvisioningState;
@@ -4665,7 +3973,6 @@ export interface NetworkTap extends TrackedResource {
 export interface NetworkTapPatch extends TagsUpdate {
     annotation?: string;
     destinations?: DestinationPatchProperties[];
-    identity?: ManagedServiceIdentityPatch;
     pollingType?: PollingType;
 }
 
@@ -4681,24 +3988,10 @@ export interface NetworkTapProperties extends AnnotationResource {
     readonly configurationState?: ConfigurationState;
     destinations: DestinationProperties[];
     readonly lastOperation?: LastOperationProperties;
-    readonly networkFabricIds?: string[];
     networkPacketBrokerId: string;
     pollingType?: PollingType;
     readonly provisioningState?: ProvisioningState;
     readonly sourceTapRuleId?: string;
-}
-
-// @public
-export interface NetworkTapResyncResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
 }
 
 // @public
@@ -4709,8 +4002,6 @@ export interface NetworkTapRule extends TrackedResource {
     configurationType: ConfigurationType;
     dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
     globalNetworkTapRuleActions?: GlobalNetworkTapRuleActionProperties;
-    identity?: ManagedServiceIdentity;
-    identitySelector?: IdentitySelector;
     readonly lastOperation?: LastOperationProperties;
     readonly lastSyncedTime?: Date;
     matchConfigurations?: NetworkTapRuleMatchConfiguration[];
@@ -4776,8 +4067,6 @@ export interface NetworkTapRulePatch extends TagsUpdate {
     configurationType?: ConfigurationType;
     dynamicMatchConfigurations?: CommonDynamicMatchConfigurationPatch[];
     globalNetworkTapRuleActions?: GlobalNetworkTapRuleActionPatchProperties;
-    identity?: ManagedServiceIdentityPatch;
-    identitySelector?: IdentitySelectorPatch;
     matchConfigurations?: NetworkTapRuleMatchConfigurationPatch[];
     tapRulesUrl?: string;
 }
@@ -4788,7 +4077,6 @@ export interface NetworkTapRulePatchProperties {
     configurationType?: ConfigurationType;
     dynamicMatchConfigurations?: CommonDynamicMatchConfigurationPatch[];
     globalNetworkTapRuleActions?: GlobalNetworkTapRuleActionPatchProperties;
-    identitySelector?: IdentitySelectorPatch;
     matchConfigurations?: NetworkTapRuleMatchConfigurationPatch[];
     tapRulesUrl?: string;
 }
@@ -4801,29 +4089,14 @@ export interface NetworkTapRuleProperties {
     configurationType: ConfigurationType;
     dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
     globalNetworkTapRuleActions?: GlobalNetworkTapRuleActionProperties;
-    identitySelector?: IdentitySelector;
     readonly lastOperation?: LastOperationProperties;
     readonly lastSyncedTime?: Date;
     matchConfigurations?: NetworkTapRuleMatchConfiguration[];
-    readonly networkFabricIds?: string[];
     readonly networkTapId?: string;
     readonly networkTapIds?: string[];
     pollingIntervalInSeconds?: number;
     readonly provisioningState?: ProvisioningState;
     tapRulesUrl?: string;
-}
-
-// @public
-export interface NetworkTapRuleResyncResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
 }
 
 // @public
@@ -4859,9 +4132,9 @@ export interface NetworkTapRulesOperations {
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesDeleteOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginResync: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesResyncOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkTapRuleResyncResponse>, NetworkTapRuleResyncResponse>>;
+    beginResync: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesResyncOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginResyncAndWait: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesResyncOptionalParams) => Promise<NetworkTapRuleResyncResponse>;
+    beginResyncAndWait: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesResyncOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     // @deprecated (undocumented)
     beginUpdate: (resourceGroupName: string, networkTapRuleName: string, body: NetworkTapRulePatch, options?: NetworkTapRulesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkTapRule>, NetworkTapRule>>;
     // @deprecated (undocumented)
@@ -4879,7 +4152,7 @@ export interface NetworkTapRulesOperations {
     get: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesGetOptionalParams) => Promise<NetworkTapRule>;
     listByResourceGroup: (resourceGroupName: string, options?: NetworkTapRulesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NetworkTapRule>;
     listBySubscription: (options?: NetworkTapRulesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<NetworkTapRule>;
-    resync: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesResyncOptionalParams) => PollerLike<OperationState<NetworkTapRuleResyncResponse>, NetworkTapRuleResyncResponse>;
+    resync: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesResyncOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
     update: (resourceGroupName: string, networkTapRuleName: string, body: NetworkTapRulePatch, options?: NetworkTapRulesUpdateOptionalParams) => PollerLike<OperationState<NetworkTapRule>, NetworkTapRule>;
     updateAdministrativeState: (resourceGroupName: string, networkTapRuleName: string, body: UpdateAdministrativeState, options?: NetworkTapRulesUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
     validateConfiguration: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
@@ -4938,15 +4211,15 @@ export interface NetworkTapsOperations {
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, networkTapName: string, options?: NetworkTapsDeleteOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginResync: (resourceGroupName: string, networkTapName: string, options?: NetworkTapsResyncOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkTapResyncResponse>, NetworkTapResyncResponse>>;
+    beginResync: (resourceGroupName: string, networkTapName: string, options?: NetworkTapsResyncOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginResyncAndWait: (resourceGroupName: string, networkTapName: string, options?: NetworkTapsResyncOptionalParams) => Promise<NetworkTapResyncResponse>;
+    beginResyncAndWait: (resourceGroupName: string, networkTapName: string, options?: NetworkTapsResyncOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     // @deprecated (undocumented)
     beginUpdate: (resourceGroupName: string, networkTapName: string, body: NetworkTapPatch, options?: NetworkTapsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkTap>, NetworkTap>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeState: (resourceGroupName: string, networkTapName: string, body: UpdateAdministrativeState, options?: NetworkTapsUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>>;
+    beginUpdateAdministrativeState: (resourceGroupName: string, networkTapName: string, body: UpdateAdministrativeState, options?: NetworkTapsUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForDeviceUpdate>, CommonPostActionResponseForDeviceUpdate>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, networkTapName: string, body: UpdateAdministrativeState, options?: NetworkTapsUpdateAdministrativeStateOptionalParams) => Promise<UpdateAdministrativeStateResponse>;
+    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, networkTapName: string, body: UpdateAdministrativeState, options?: NetworkTapsUpdateAdministrativeStateOptionalParams) => Promise<CommonPostActionResponseForDeviceUpdate>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, networkTapName: string, body: NetworkTapPatch, options?: NetworkTapsUpdateOptionalParams) => Promise<NetworkTap>;
     create: (resourceGroupName: string, networkTapName: string, body: NetworkTap, options?: NetworkTapsCreateOptionalParams) => PollerLike<OperationState<NetworkTap>, NetworkTap>;
@@ -4954,9 +4227,9 @@ export interface NetworkTapsOperations {
     get: (resourceGroupName: string, networkTapName: string, options?: NetworkTapsGetOptionalParams) => Promise<NetworkTap>;
     listByResourceGroup: (resourceGroupName: string, options?: NetworkTapsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NetworkTap>;
     listBySubscription: (options?: NetworkTapsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<NetworkTap>;
-    resync: (resourceGroupName: string, networkTapName: string, options?: NetworkTapsResyncOptionalParams) => PollerLike<OperationState<NetworkTapResyncResponse>, NetworkTapResyncResponse>;
+    resync: (resourceGroupName: string, networkTapName: string, options?: NetworkTapsResyncOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
     update: (resourceGroupName: string, networkTapName: string, body: NetworkTapPatch, options?: NetworkTapsUpdateOptionalParams) => PollerLike<OperationState<NetworkTap>, NetworkTap>;
-    updateAdministrativeState: (resourceGroupName: string, networkTapName: string, body: UpdateAdministrativeState, options?: NetworkTapsUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
+    updateAdministrativeState: (resourceGroupName: string, networkTapName: string, body: UpdateAdministrativeState, options?: NetworkTapsUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForDeviceUpdate>, CommonPostActionResponseForDeviceUpdate>;
 }
 
 // @public
@@ -5073,27 +4346,22 @@ export interface NetworkToNetworkInterconnectsOperations {
     // @deprecated (undocumented)
     beginUpdate: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: NetworkToNetworkInterconnectPatch, options?: NetworkToNetworkInterconnectsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkToNetworkInterconnect>, NetworkToNetworkInterconnect>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeState: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: UpdateAdministrativeState, options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>>;
+    beginUpdateAdministrativeState: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: UpdateAdministrativeState, options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: UpdateAdministrativeState, options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams) => Promise<UpdateAdministrativeStateResponse>;
+    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: UpdateAdministrativeState, options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams) => Promise<CommonPostActionResponseForStateUpdate>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: NetworkToNetworkInterconnectPatch, options?: NetworkToNetworkInterconnectsUpdateOptionalParams) => Promise<NetworkToNetworkInterconnect>;
     // @deprecated (undocumented)
-    beginUpdateBfdAdministrativeState: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: NniUpdateBfdAdministrativeStateRequest, options?: NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<NniUpdateBfdAdministrativeStateResponse>, NniUpdateBfdAdministrativeStateResponse>>;
+    beginUpdateBfdAdministrativeState: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: NniBfdAdministrativeStateRequest, options?: NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<NniBfdAdministrativeStateResponse>, NniBfdAdministrativeStateResponse>>;
     // @deprecated (undocumented)
-    beginUpdateBfdAdministrativeStateAndWait: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: NniUpdateBfdAdministrativeStateRequest, options?: NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams) => Promise<NniUpdateBfdAdministrativeStateResponse>;
-    // @deprecated (undocumented)
-    beginUpdateNpbStaticRouteBfdAdministrativeState: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: UpdateAdministrativeState, options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>>;
-    // @deprecated (undocumented)
-    beginUpdateNpbStaticRouteBfdAdministrativeStateAndWait: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: UpdateAdministrativeState, options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams) => Promise<UpdateAdministrativeStateResponse>;
+    beginUpdateBfdAdministrativeStateAndWait: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: NniBfdAdministrativeStateRequest, options?: NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams) => Promise<NniBfdAdministrativeStateResponse>;
     create: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: NetworkToNetworkInterconnect, options?: NetworkToNetworkInterconnectsCreateOptionalParams) => PollerLike<OperationState<NetworkToNetworkInterconnect>, NetworkToNetworkInterconnect>;
     delete: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, options?: NetworkToNetworkInterconnectsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, options?: NetworkToNetworkInterconnectsGetOptionalParams) => Promise<NetworkToNetworkInterconnect>;
     listByNetworkFabric: (resourceGroupName: string, networkFabricName: string, options?: NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams) => PagedAsyncIterableIterator<NetworkToNetworkInterconnect>;
     update: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: NetworkToNetworkInterconnectPatch, options?: NetworkToNetworkInterconnectsUpdateOptionalParams) => PollerLike<OperationState<NetworkToNetworkInterconnect>, NetworkToNetworkInterconnect>;
-    updateAdministrativeState: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: UpdateAdministrativeState, options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
-    updateBfdAdministrativeState: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: NniUpdateBfdAdministrativeStateRequest, options?: NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams) => PollerLike<OperationState<NniUpdateBfdAdministrativeStateResponse>, NniUpdateBfdAdministrativeStateResponse>;
-    updateNpbStaticRouteBfdAdministrativeState: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: UpdateAdministrativeState, options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
+    updateAdministrativeState: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: UpdateAdministrativeState, options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
+    updateBfdAdministrativeState: (resourceGroupName: string, networkFabricName: string, networkToNetworkInterconnectName: string, body: NniBfdAdministrativeStateRequest, options?: NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams) => PollerLike<OperationState<NniBfdAdministrativeStateResponse>, NniBfdAdministrativeStateResponse>;
 }
 
 // @public
@@ -5107,17 +4375,24 @@ export interface NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOption
 }
 
 // @public
-export interface NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface NetworkToNetworkInterconnectsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
 export type NfcSku = string;
+
+// @public
+export interface NniBfdAdministrativeStateRequest {
+    administrativeState?: BfdAdministrativeState;
+    routeType?: RouteType;
+}
+
+// @public
+export interface NniBfdAdministrativeStateResponse extends CommonErrorResponse {
+    administrativeState?: BfdAdministrativeState;
+    routeType?: RouteType;
+}
 
 // @public
 export interface NniBmpPatchProperties {
@@ -5216,19 +4491,6 @@ export interface OperationsOperations {
 }
 
 // @public
-export interface OperationStatusResult {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
 export interface OptionBLayer3Configuration extends Layer3IpPrefixProperties {
     bmpConfiguration?: NniBmpProperties;
     readonly fabricASN?: number;
@@ -5281,6 +4543,9 @@ export interface PoliceRateConfigurationProperties {
     bitRate?: BitRate;
     burstSize?: BurstSize;
 }
+
+// @public
+export type PollingIntervalInSeconds = number;
 
 // @public
 export type PollingType = string;
@@ -5345,19 +4610,6 @@ export interface ProxyResourceBase {
     readonly id?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
-}
-
-// @public
-export type QosConfigurationState = string;
-
-// @public
-export interface QosPatchProperties {
-    qosConfigurationState?: QosConfigurationState;
-}
-
-// @public
-export interface QosProperties {
-    qosConfigurationState?: QosConfigurationState;
 }
 
 // @public
@@ -5436,9 +4688,9 @@ export interface RoutePoliciesOperations {
     // @deprecated (undocumented)
     beginUpdate: (resourceGroupName: string, routePolicyName: string, body: RoutePolicyPatch, options?: RoutePoliciesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<RoutePolicy>, RoutePolicy>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeState: (resourceGroupName: string, routePolicyName: string, body: UpdateAdministrativeState, options?: RoutePoliciesUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>>;
+    beginUpdateAdministrativeState: (resourceGroupName: string, routePolicyName: string, body: UpdateAdministrativeState, options?: RoutePoliciesUpdateAdministrativeStateOptionalParams) => Promise<SimplePollerLike<OperationState<CommonPostActionResponseForDeviceUpdate>, CommonPostActionResponseForDeviceUpdate>>;
     // @deprecated (undocumented)
-    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, routePolicyName: string, body: UpdateAdministrativeState, options?: RoutePoliciesUpdateAdministrativeStateOptionalParams) => Promise<UpdateAdministrativeStateResponse>;
+    beginUpdateAdministrativeStateAndWait: (resourceGroupName: string, routePolicyName: string, body: UpdateAdministrativeState, options?: RoutePoliciesUpdateAdministrativeStateOptionalParams) => Promise<CommonPostActionResponseForDeviceUpdate>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, routePolicyName: string, body: RoutePolicyPatch, options?: RoutePoliciesUpdateOptionalParams) => Promise<RoutePolicy>;
     // @deprecated (undocumented)
@@ -5452,7 +4704,7 @@ export interface RoutePoliciesOperations {
     listByResourceGroup: (resourceGroupName: string, options?: RoutePoliciesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<RoutePolicy>;
     listBySubscription: (options?: RoutePoliciesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<RoutePolicy>;
     update: (resourceGroupName: string, routePolicyName: string, body: RoutePolicyPatch, options?: RoutePoliciesUpdateOptionalParams) => PollerLike<OperationState<RoutePolicy>, RoutePolicy>;
-    updateAdministrativeState: (resourceGroupName: string, routePolicyName: string, body: UpdateAdministrativeState, options?: RoutePoliciesUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
+    updateAdministrativeState: (resourceGroupName: string, routePolicyName: string, body: UpdateAdministrativeState, options?: RoutePoliciesUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForDeviceUpdate>, CommonPostActionResponseForDeviceUpdate>;
     validateConfiguration: (resourceGroupName: string, routePolicyName: string, options?: RoutePoliciesValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
 }
 
@@ -5571,27 +4823,6 @@ export interface RuleProperties {
     destinationAddressList?: string[];
     headerAddressList?: HeaderAddressProperties[];
     sourceAddressList?: string[];
-}
-
-// @public
-export interface SecretArchiveReference {
-    readonly keyVaultId?: string;
-    readonly keyVaultUri?: string;
-    readonly secretName?: string;
-    readonly secretVersion?: string;
-}
-
-// @public
-export interface SecretRotationStatus {
-    readonly lastRotationTime?: Date;
-    readonly secretArchiveReference?: SecretArchiveReference;
-    readonly secretType?: string;
-    readonly synchronizationStatus?: SynchronizationStatus;
-}
-
-// @public
-export interface SecretRotationSummary {
-    readonly activePasswordSetCount?: number;
 }
 
 // @public
@@ -5763,7 +4994,6 @@ export interface TerminalServerConfiguration {
     primaryIpv6Prefix?: string;
     secondaryIpv4Prefix: string;
     secondaryIpv6Prefix?: string;
-    readonly secretRotationStatus?: SecretRotationStatus[];
     serialNumber?: string;
     username: string;
 }
@@ -5868,21 +5098,7 @@ export interface ValidateConfigurationResponse extends CommonErrorResponse {
 }
 
 // @public
-export interface ViewDeviceConfigurationOperationResponse {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    properties?: ViewDeviceConfigurationResponseProperties;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export interface ViewDeviceConfigurationResponseProperties {
+export interface ViewDeviceConfigurationResponse extends CommonErrorResponse {
     deviceConfigurationUrl?: string;
 }
 

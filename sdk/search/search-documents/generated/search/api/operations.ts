@@ -49,7 +49,7 @@ export function _autocompletePostSend(
     "/indexes('{indexName}')/docs/search.post.autocomplete{?api%2Dversion}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,7 +59,9 @@ export function _autocompletePostSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -121,7 +123,7 @@ export function _autocompleteGetSend(
     "/indexes('{indexName}')/docs/search.autocomplete{?api%2Dversion,search,suggesterName,autocompleteMode,%24filter,fuzzy,highlightPostTag,highlightPreTag,minimumCoverage,searchFields,%24top}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       search: searchText,
       suggesterName: suggesterName,
       autocompleteMode: options?.autocompleteMode,
@@ -144,7 +146,9 @@ export function _autocompleteGetSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -187,7 +191,7 @@ export function _indexSend(
     "/indexes('{indexName}')/docs/search.index{?api%2Dversion}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -197,7 +201,9 @@ export function _indexSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -241,7 +247,7 @@ export function _suggestPostSend(
     "/indexes('{indexName}')/docs/search.post.suggest{?api%2Dversion}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -251,7 +257,9 @@ export function _suggestPostSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -308,7 +316,7 @@ export function _suggestGetSend(
     "/indexes('{indexName}')/docs/search.suggest{?api%2Dversion,search,suggesterName,%24filter,fuzzy,highlightPostTag,highlightPreTag,minimumCoverage,%24orderby,searchFields,%24select,%24top}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       search: searchText,
       suggesterName: suggesterName,
       "%24filter": options?.filter,
@@ -328,7 +336,9 @@ export function _suggestGetSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -372,7 +382,7 @@ export function _getDocumentSend(
     {
       key: key,
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       "%24select": options?.selectedFields,
     },
     {
@@ -382,7 +392,9 @@ export function _getDocumentSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.querySourceAuthorization !== undefined
         ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
         : {}),
@@ -429,7 +441,7 @@ export function _searchPostSend(
     "/indexes('{indexName}')/docs/search.post.search{?api%2Dversion}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -439,7 +451,9 @@ export function _searchPostSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.querySourceAuthorization !== undefined
         ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
         : {}),
@@ -544,7 +558,7 @@ export function _searchGetSend(
     "/indexes('{indexName}')/docs{?api%2Dversion,search,%24count,facet*,%24filter,highlight,highlightPostTag,highlightPreTag,minimumCoverage,%24orderby,queryType,scoringParameter*,scoringProfile,searchFields,searchMode,scoringStatistics,sessionId,%24select,%24skip,%24top,semanticConfiguration,semanticErrorHandling,semanticMaxWaitInMilliseconds,answers,captions,semanticQuery,queryRewrites,debug,queryLanguage,speller,semanticFields}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       search: options?.searchText,
       "%24count": options?.includeTotalResultCount,
       facet: !options?.facets
@@ -599,7 +613,9 @@ export function _searchGetSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.querySourceAuthorization !== undefined
         ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
         : {}),
@@ -645,7 +661,7 @@ export function _getDocumentCountSend(
     "/indexes('{indexName}')/docs/$count{?api%2Dversion}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -654,7 +670,9 @@ export function _getDocumentCountSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),

@@ -1,15 +1,67 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/managedEnvironmentUsages": "./src/api/managedEnvironmentUsages/index.ts"
+  "./api/usages": "./src/api/usages/index.ts"
+  "./api/billingMeters": "./src/api/billingMeters/index.ts"
+  "./api/availableWorkloadProfiles": "./src/api/availableWorkloadProfiles/index.ts"
+  "./api/managedEnvironmentDiagnostics": "./src/api/managedEnvironmentDiagnostics/index.ts"
+  "./api/jobsExecutions": "./src/api/jobsExecutions/index.ts"
+  "./api/httpRouteConfig": "./src/api/httpRouteConfig/index.ts"
+  "./api/managedEnvironmentPrivateEndpointConnections": "./src/api/managedEnvironmentPrivateEndpointConnections/index.ts"
+  "./api/managedEnvironmentPrivateLinkResources": "./src/api/managedEnvironmentPrivateLinkResources/index.ts"
+  "./api/namespaces": "./src/api/namespaces/index.ts"
+  "./api/connectedEnvironmentsCertificates": "./src/api/connectedEnvironmentsCertificates/index.ts"
+  "./api/buildAuthToken": "./src/api/buildAuthToken/index.ts"
+  "./api/buildsByBuilderResource": "./src/api/buildsByBuilderResource/index.ts"
+  "./api/appResiliency": "./src/api/appResiliency/index.ts"
+  "./api/containerAppsRevisionFunctions": "./src/api/containerAppsRevisionFunctions/index.ts"
+  "./api/containerAppsBuildsByContainerApp": "./src/api/containerAppsBuildsByContainerApp/index.ts"
+  "./api/managedEnvironmentsDiagnostics": "./src/api/managedEnvironmentsDiagnostics/index.ts"
+  "./api/containerAppsDiagnostics": "./src/api/containerAppsDiagnostics/index.ts"
+  "./api/jobs": "./src/api/jobs/index.ts"
+  "./api/managedEnvironmentsStorages": "./src/api/managedEnvironmentsStorages/index.ts"
+  "./api/maintenanceConfigurations": "./src/api/maintenanceConfigurations/index.ts"
+  "./api/daprSubscriptions": "./src/api/daprSubscriptions/index.ts"
+  "./api/daprComponentResiliencyPolicies": "./src/api/daprComponentResiliencyPolicies/index.ts"
+  "./api/managedCertificates": "./src/api/managedCertificates/index.ts"
+  "./api/connectedEnvironmentsStorages": "./src/api/connectedEnvironmentsStorages/index.ts"
+  "./api/daprComponents": "./src/api/daprComponents/index.ts"
+  "./api/connectedEnvironmentsDaprComponents": "./src/api/connectedEnvironmentsDaprComponents/index.ts"
+  "./api/managedEnvironments": "./src/api/managedEnvironments/index.ts"
+  "./api/certificates": "./src/api/certificates/index.ts"
+  "./api/connectedEnvironments": "./src/api/connectedEnvironments/index.ts"
+  "./api/builds": "./src/api/builds/index.ts"
+  "./api/builders": "./src/api/builders/index.ts"
+  "./api/containerAppsAuthConfigs": "./src/api/containerAppsAuthConfigs/index.ts"
+  "./api/logicApps": "./src/api/logicApps/index.ts"
+  "./api/javaComponents": "./src/api/javaComponents/index.ts"
+  "./api/dotNetComponents": "./src/api/dotNetComponents/index.ts"
+  "./api/containerAppsRevisionReplicas": "./src/api/containerAppsRevisionReplicas/index.ts"
+  "./api/containerAppsPatches": "./src/api/containerAppsPatches/index.ts"
+  "./api/containerAppsLabelHistory": "./src/api/containerAppsLabelHistory/index.ts"
+  "./api/functionsExtension": "./src/api/functionsExtension/index.ts"
+  "./api/containerAppsRevisions": "./src/api/containerAppsRevisions/index.ts"
+  "./api/containerAppsFunctions": "./src/api/containerAppsFunctions/index.ts"
+  "./api/containerAppsBuilds": "./src/api/containerAppsBuilds/index.ts"
+  "./api/containerApps": "./src/api/containerApps/index.ts"
+  "./api/containerAppsSourceControls": "./src/api/containerAppsSourceControls/index.ts"
+  "./api/containerAppsSessionPools": "./src/api/containerAppsSessionPools/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-  - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
+    tsconfig: "./config/tsconfig.src.browser.json"
+
   - name: esm
     condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
+    tsconfig: "./config/tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

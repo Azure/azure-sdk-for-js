@@ -75,6 +75,8 @@ export interface SearchResourceEncryptionKey {
   vaultUri: string;
   /** An explicit managed identity to use for this encryption key. If not specified and the access credentials property is null, the system-assigned managed identity is used. On update to the resource, if the explicit identity is unspecified, it remains unchanged. If "none" is specified, the value of this property is cleared. */
   identity?: SearchIndexerDataIdentityUnion;
+  /** An optional value indicating whether this key is a service-level key. Default is false. */
+  isServiceLevelKey?: boolean;
   /** An AAD Application ID that was granted the required access permissions to the Azure Key Vault that is to be used when encrypting your data at rest. The Application ID should not be confused with the Object ID for your AAD Application. */
   applicationId?: string;
   /** The authentication key of the specified AAD application. */
@@ -92,6 +94,7 @@ export function searchResourceEncryptionKeySerializer(item: SearchResourceEncryp
     identity: !item["identity"]
       ? item["identity"]
       : searchIndexerDataIdentityUnionSerializer(item["identity"]),
+    isServiceLevelKey: item["isServiceLevelKey"],
   };
 }
 
@@ -106,6 +109,7 @@ export function searchResourceEncryptionKeyDeserializer(item: any): SearchResour
     identity: !item["identity"]
       ? item["identity"]
       : searchIndexerDataIdentityUnionDeserializer(item["identity"]),
+    isServiceLevelKey: item["isServiceLevelKey"],
   };
 }
 
@@ -213,12 +217,18 @@ export interface SearchIndexerDataUserAssignedIdentity extends SearchIndexerData
   resourceId: string;
   /** A URI fragment specifying the type of identity. */
   odatatype: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
+  /** Multi-tenant User-Assigned Managed Identity Support: The client id of the multi-tentant App that has been configured to federate with the user-assigned managed identity. */
+  federatedIdentityClientId?: string;
 }
 
 export function searchIndexerDataUserAssignedIdentitySerializer(
   item: SearchIndexerDataUserAssignedIdentity,
 ): any {
-  return { "@odata.type": item["odatatype"], userAssignedIdentity: item["resourceId"] };
+  return {
+    "@odata.type": item["odatatype"],
+    userAssignedIdentity: item["resourceId"],
+    federatedIdentityClientId: item["federatedIdentityClientId"],
+  };
 }
 
 export function searchIndexerDataUserAssignedIdentityDeserializer(
@@ -227,6 +237,7 @@ export function searchIndexerDataUserAssignedIdentityDeserializer(
   return {
     odatatype: item["@odata.type"],
     resourceId: item["userAssignedIdentity"],
+    federatedIdentityClientId: item["federatedIdentityClientId"],
   };
 }
 
@@ -292,6 +303,8 @@ export interface SearchIndex {
   permissionFilterOption?: SearchIndexPermissionFilterOption;
   /** A value indicating whether Purview is enabled for the index. */
   purviewEnabled?: boolean;
+  /** Configures a SharePoint connector app registration for the index, enabling document-level permissions from SharePoint. If provided, the applicationId and federatedCredentialId properties are required. */
+  sharePointConnectorAppRegistration?: SharePointConnectorAppRegistration;
   /** The ETag of the index. */
   eTag?: string;
 }
@@ -340,6 +353,9 @@ export function searchIndexSerializer(item: SearchIndex): any {
       : vectorSearchSerializer(item["vectorSearch"]),
     permissionFilterOption: item["permissionFilterOption"],
     purviewEnabled: item["purviewEnabled"],
+    sharePointConnectorAppRegistration: !item["sharePointConnectorAppRegistration"]
+      ? item["sharePointConnectorAppRegistration"]
+      : sharePointConnectorAppRegistrationSerializer(item["sharePointConnectorAppRegistration"]),
     "@odata.etag": item["eTag"],
   };
 }
@@ -388,6 +404,9 @@ export function searchIndexDeserializer(item: any): SearchIndex {
       : vectorSearchDeserializer(item["vectorSearch"]),
     permissionFilterOption: item["permissionFilterOption"],
     purviewEnabled: item["purviewEnabled"],
+    sharePointConnectorAppRegistration: !item["sharePointConnectorAppRegistration"]
+      ? item["sharePointConnectorAppRegistration"]
+      : sharePointConnectorAppRegistrationDeserializer(item["sharePointConnectorAppRegistration"]),
     eTag: item["@odata.etag"],
   };
 }
@@ -426,8 +445,14 @@ export interface SearchField {
   facetable?: boolean;
   /** A value indicating whether the field should be used as a permission filter. */
   permissionFilter?: PermissionFilter;
-  /** A value indicating whether the field contains sensitivity label information. */
-  sensitivityLabel?: boolean;
+  /** A value indicating whether the field should be used for sensitivity label ID filtering. This enables document-level filtering based on Microsoft Purview sensitivity label IDs. */
+  sensitivityLabelId?: boolean;
+  /** A value indicating whether the field contains the name of a Microsoft Purview sensitivity label applied to the document. */
+  sensitivityLabelName?: boolean;
+  /** A value indicating whether the field contains the source document identifier used for Purview audit tracking. */
+  sourceDocumentId?: boolean;
+  /** A value indicating whether the field contains a SharePoint site URL used for SharePoint group-based filtering. */
+  sharepointSiteUrl?: boolean;
   /** The name of the analyzer to use for the field. This option can be used only with searchable fields and it can't be set together with either searchAnalyzer or indexAnalyzer. Once the analyzer is chosen, it cannot be changed for the field. Must be null for complex fields. */
   analyzerName?: LexicalAnalyzerName;
   /** The name of the analyzer used at search time for the field. This option can be used only with searchable fields. It must be set together with indexAnalyzer and it cannot be set together with the analyzer option. This property cannot be set to the name of a language analyzer; use the analyzer property instead if you need a language analyzer. This analyzer can be updated on an existing field. Must be null for complex fields. */
@@ -460,7 +485,10 @@ export function searchFieldSerializer(item: SearchField): any {
     sortable: item["sortable"],
     facetable: item["facetable"],
     permissionFilter: item["permissionFilter"],
-    sensitivityLabel: item["sensitivityLabel"],
+    sensitivityLabelId: item["sensitivityLabelId"],
+    sensitivityLabelName: item["sensitivityLabelName"],
+    sourceDocumentId: item["sourceDocumentId"],
+    sharepointSiteUrl: item["sharepointSiteUrl"],
     analyzer: item["analyzerName"],
     searchAnalyzer: item["searchAnalyzerName"],
     indexAnalyzer: item["indexAnalyzerName"],
@@ -489,7 +517,10 @@ export function searchFieldDeserializer(item: any): SearchField {
     sortable: item["sortable"],
     facetable: item["facetable"],
     permissionFilter: item["permissionFilter"],
-    sensitivityLabel: item["sensitivityLabel"],
+    sensitivityLabelId: item["sensitivityLabelId"],
+    sensitivityLabelName: item["sensitivityLabelName"],
+    sourceDocumentId: item["sourceDocumentId"],
+    sharepointSiteUrl: item["sharepointSiteUrl"],
     analyzerName: item["analyzer"],
     searchAnalyzerName: item["searchAnalyzer"],
     indexAnalyzerName: item["indexAnalyzer"],
@@ -4020,7 +4051,7 @@ export enum KnownRankingOrder {
   /** Sets sort order as BoostedRerankerScore */
   BoostedRerankerScore = "BoostedRerankerScore",
   /** Sets sort order as ReRankerScore */
-  ReRankerScore = "RerankerScore",
+  RerankerScore = "RerankerScore",
 }
 
 /**
@@ -4549,6 +4580,16 @@ export enum KnownAzureOpenAIModelName {
   Gpt5Mini = "gpt-5-mini",
   /** Gpt5Nano model. */
   Gpt5Nano = "gpt-5-nano",
+  /** Gpt51 model. */
+  Gpt51 = "gpt-5.1",
+  /** Gpt52 model. */
+  Gpt52 = "gpt-5.2",
+  /** Gpt54 model. */
+  Gpt54 = "gpt-5.4",
+  /** Gpt54Mini model. */
+  Gpt54Mini = "gpt-5.4-mini",
+  /** Gpt54Nano model. */
+  Gpt54Nano = "gpt-5.4-nano",
 }
 
 /**
@@ -4566,7 +4607,12 @@ export enum KnownAzureOpenAIModelName {
  * **gpt-4.1-nano**: Gpt41Nano model. \
  * **gpt-5**: Gpt5 model. \
  * **gpt-5-mini**: Gpt5Mini model. \
- * **gpt-5-nano**: Gpt5Nano model.
+ * **gpt-5-nano**: Gpt5Nano model. \
+ * **gpt-5.1**: Gpt51 model. \
+ * **gpt-5.2**: Gpt52 model. \
+ * **gpt-5.4**: Gpt54 model. \
+ * **gpt-5.4-mini**: Gpt54Mini model. \
+ * **gpt-5.4-nano**: Gpt54Nano model.
  */
 export type AzureOpenAIModelName = string;
 
@@ -5059,9 +5105,9 @@ export function binaryQuantizationCompressionDeserializer(
 
 /** A value indicating whether permission filtering is enabled for the index. */
 export enum KnownSearchIndexPermissionFilterOption {
-  /** enabled. */
+  /** Permission filtering is enabled for the index. */
   Enabled = "enabled",
-  /** disabled. */
+  /** Permission filtering is disabled for the index. */
   Disabled = "disabled",
 }
 
@@ -5070,20 +5116,56 @@ export enum KnownSearchIndexPermissionFilterOption {
  * {@link KnownSearchIndexPermissionFilterOption} can be used interchangeably with SearchIndexPermissionFilterOption,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **enabled**: enabled. \
- * **disabled**: disabled.
+ * **enabled**: Permission filtering is enabled for the index. \
+ * **disabled**: Permission filtering is disabled for the index.
  */
 export type SearchIndexPermissionFilterOption = string;
 
+/** Configures a SharePoint connector app registration for the index, enabling document-level permissions from SharePoint. */
+export interface SharePointConnectorAppRegistration {
+  /** The application (client) ID of the app registration used to connect to SharePoint. */
+  applicationId: string;
+  /** The federated credential ID configured on the app registration. */
+  federatedCredentialId: string;
+  /** The tenant ID of the app registration. If not specified, the tenant of the search service is used. */
+  tenantId?: string;
+}
+
+export function sharePointConnectorAppRegistrationSerializer(
+  item: SharePointConnectorAppRegistration,
+): any {
+  return {
+    applicationId: item["applicationId"],
+    federatedCredentialId: item["federatedCredentialId"],
+    tenantId: item["tenantId"],
+  };
+}
+
+export function sharePointConnectorAppRegistrationDeserializer(
+  item: any,
+): SharePointConnectorAppRegistration {
+  return {
+    applicationId: item["applicationId"],
+    federatedCredentialId: item["federatedCredentialId"],
+    tenantId: item["tenantId"],
+  };
+}
+
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
 export interface _ListIndexesResult {
+  /** The total count of indexes in the service, or null if the count was not requested. */
+  readonly count?: number;
   /** The indexes in the Search service. */
   readonly indexes: SearchIndex[];
+  /** The URL that can be used to fetch the next set of results. */
+  readonly nextLink?: string;
 }
 
 export function _listIndexesResultDeserializer(item: any): _ListIndexesResult {
   return {
+    count: item["@odata.count"],
     indexes: searchIndexArrayDeserializer(item["value"]),
+    nextLink: item["@odata.nextLink"],
   };
 }
 
@@ -5136,7 +5218,7 @@ export interface SearchIndexResponse {
   /** The type of similarity algorithm to be used when scoring and ranking the documents matching a search query. The similarity algorithm can only be defined at index creation time and cannot be modified on existing indexes. If null, the ClassicSimilarity algorithm is used. */
   similarity?: SimilarityAlgorithmUnion;
   /** Defines parameters for a search index that influence semantic capabilities. */
-  semantic?: SemanticSearch;
+  semanticSearch?: SemanticSearch;
   /** Contains configuration options related to vector search. */
   vectorSearch?: VectorSearch;
   /** A value indicating whether permission filtering is enabled for the index. */
@@ -5183,7 +5265,9 @@ export function searchIndexResponseDeserializer(item: any): SearchIndexResponse 
     similarity: !item["similarity"]
       ? item["similarity"]
       : similarityAlgorithmUnionDeserializer(item["similarity"]),
-    semantic: !item["semantic"] ? item["semantic"] : semanticSearchDeserializer(item["semantic"]),
+    semanticSearch: !item["semantic"]
+      ? item["semantic"]
+      : semanticSearchDeserializer(item["semantic"]),
     vectorSearch: !item["vectorSearch"]
       ? item["vectorSearch"]
       : vectorSearchDeserializer(item["vectorSearch"]),
@@ -5203,8 +5287,8 @@ export interface GetIndexStatisticsResult {
   readonly vectorIndexSize: number;
 }
 
-export function getIndexStatisticsResultSerializer(item: GetIndexStatisticsResult): any {
-  return item;
+export function getIndexStatisticsResultSerializer(_item: GetIndexStatisticsResult): any {
+  return {};
 }
 
 export function getIndexStatisticsResultDeserializer(item: any): GetIndexStatisticsResult {
@@ -5290,8 +5374,8 @@ export interface AnalyzedTokenInfo {
   readonly position: number;
 }
 
-export function analyzedTokenInfoSerializer(item: AnalyzedTokenInfo): any {
-  return item;
+export function analyzedTokenInfoSerializer(_item: AnalyzedTokenInfo): any {
+  return {};
 }
 
 export function analyzedTokenInfoDeserializer(item: any): AnalyzedTokenInfo {
@@ -5370,7 +5454,7 @@ export interface KnowledgeBase {
   /** The output mode for the knowledge base. */
   outputMode?: KnowledgeRetrievalOutputMode;
   /** The ETag of the knowledge base. */
-  eTag?: string;
+  etag?: string;
   /** A description of an encryption key that you create in Azure Key Vault. */
   encryptionKey?: SearchResourceEncryptionKey;
   /** The description of the knowledge base. */
@@ -5379,6 +5463,8 @@ export interface KnowledgeBase {
   retrievalInstructions?: string;
   /** Instructions considered by the knowledge base when generating answers. */
   answerInstructions?: string;
+  /** Options to control Cross-Origin Resource Sharing (CORS) for the knowledge base. */
+  corsOptions?: CorsOptions;
 }
 
 export function knowledgeBaseSerializer(item: KnowledgeBase): any {
@@ -5392,13 +5478,16 @@ export function knowledgeBaseSerializer(item: KnowledgeBase): any {
       ? item["retrievalReasoningEffort"]
       : knowledgeRetrievalReasoningEffortUnionSerializer(item["retrievalReasoningEffort"]),
     outputMode: item["outputMode"],
-    "@odata.etag": item["eTag"],
+    "@odata.etag": item["etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
     description: item["description"],
     retrievalInstructions: item["retrievalInstructions"],
     answerInstructions: item["answerInstructions"],
+    corsOptions: !item["corsOptions"]
+      ? item["corsOptions"]
+      : corsOptionsSerializer(item["corsOptions"]),
   };
 }
 
@@ -5413,13 +5502,16 @@ export function knowledgeBaseDeserializer(item: any): KnowledgeBase {
       ? item["retrievalReasoningEffort"]
       : knowledgeRetrievalReasoningEffortUnionDeserializer(item["retrievalReasoningEffort"]),
     outputMode: item["outputMode"],
-    eTag: item["@odata.etag"],
+    etag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
     description: item["description"],
     retrievalInstructions: item["retrievalInstructions"],
     answerInstructions: item["answerInstructions"],
+    corsOptions: !item["corsOptions"]
+      ? item["corsOptions"]
+      : corsOptionsDeserializer(item["corsOptions"]),
   };
 }
 
@@ -5443,15 +5535,25 @@ export function knowledgeSourceReferenceArrayDeserializer(
 export interface KnowledgeSourceReference {
   /** The name of the knowledge source. */
   name: string;
+  /** Indicates whether image serving should be enabled for this knowledge source. When true, images extracted during ingestion are delivered to downstream models at query time. */
+  enableImageServing?: boolean;
+  /** Indicates whether freshness-aware retrieval should be enabled for this knowledge source. When true, a freshness scoring profile is applied during retrieval to bias results toward newer documents. */
+  enableFreshness?: boolean;
 }
 
 export function knowledgeSourceReferenceSerializer(item: KnowledgeSourceReference): any {
-  return { name: item["name"] };
+  return {
+    name: item["name"],
+    enableImageServing: item["enableImageServing"],
+    enableFreshness: item["enableFreshness"],
+  };
 }
 
 export function knowledgeSourceReferenceDeserializer(item: any): KnowledgeSourceReference {
   return {
     name: item["name"],
+    enableImageServing: item["enableImageServing"],
+    enableFreshness: item["enableFreshness"],
   };
 }
 
@@ -5582,7 +5684,7 @@ export interface KnowledgeSource {
   /** Optional user-defined description. */
   description?: string;
   /** The type of the knowledge source. */
-  /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint */
+  /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, indexedSql, file, web, remoteSharePoint, workIQ, mcpServer, fabricDataAgent, fabricOntology */
   kind: KnowledgeSourceKind;
   /** The ETag of the knowledge source. */
   eTag?: string;
@@ -5620,8 +5722,14 @@ export type KnowledgeSourceUnion =
   | AzureBlobKnowledgeSource
   | IndexedSharePointKnowledgeSource
   | IndexedOneLakeKnowledgeSource
+  | IndexedSqlKnowledgeSource
+  | FileKnowledgeSource
   | WebKnowledgeSource
   | RemoteSharePointKnowledgeSource
+  | WorkIQKnowledgeSource
+  | McpServerKnowledgeSource
+  | FabricDataAgentKnowledgeSource
+  | FabricOntologyKnowledgeSource
   | KnowledgeSource;
 
 export function knowledgeSourceUnionSerializer(item: KnowledgeSourceUnion): any {
@@ -5638,11 +5746,29 @@ export function knowledgeSourceUnionSerializer(item: KnowledgeSourceUnion): any 
     case "indexedOneLake":
       return indexedOneLakeKnowledgeSourceSerializer(item as IndexedOneLakeKnowledgeSource);
 
+    case "indexedSql":
+      return indexedSqlKnowledgeSourceSerializer(item as IndexedSqlKnowledgeSource);
+
+    case "file":
+      return fileKnowledgeSourceSerializer(item as FileKnowledgeSource);
+
     case "web":
       return webKnowledgeSourceSerializer(item as WebKnowledgeSource);
 
     case "remoteSharePoint":
       return remoteSharePointKnowledgeSourceSerializer(item as RemoteSharePointKnowledgeSource);
+
+    case "workIQ":
+      return workIQKnowledgeSourceSerializer(item as WorkIQKnowledgeSource);
+
+    case "mcpServer":
+      return mcpServerKnowledgeSourceSerializer(item as McpServerKnowledgeSource);
+
+    case "fabricDataAgent":
+      return fabricDataAgentKnowledgeSourceSerializer(item as FabricDataAgentKnowledgeSource);
+
+    case "fabricOntology":
+      return fabricOntologyKnowledgeSourceSerializer(item as FabricOntologyKnowledgeSource);
 
     default:
       return knowledgeSourceSerializer(item);
@@ -5663,11 +5789,29 @@ export function knowledgeSourceUnionDeserializer(item: any): KnowledgeSourceUnio
     case "indexedOneLake":
       return indexedOneLakeKnowledgeSourceDeserializer(item as IndexedOneLakeKnowledgeSource);
 
+    case "indexedSql":
+      return indexedSqlKnowledgeSourceDeserializer(item as IndexedSqlKnowledgeSource);
+
+    case "file":
+      return fileKnowledgeSourceDeserializer(item as FileKnowledgeSource);
+
     case "web":
       return webKnowledgeSourceDeserializer(item as WebKnowledgeSource);
 
     case "remoteSharePoint":
       return remoteSharePointKnowledgeSourceDeserializer(item as RemoteSharePointKnowledgeSource);
+
+    case "workIQ":
+      return workIQKnowledgeSourceDeserializer(item as WorkIQKnowledgeSource);
+
+    case "mcpServer":
+      return mcpServerKnowledgeSourceDeserializer(item as McpServerKnowledgeSource);
+
+    case "fabricDataAgent":
+      return fabricDataAgentKnowledgeSourceDeserializer(item as FabricDataAgentKnowledgeSource);
+
+    case "fabricOntology":
+      return fabricOntologyKnowledgeSourceDeserializer(item as FabricOntologyKnowledgeSource);
 
     default:
       return knowledgeSourceDeserializer(item);
@@ -5684,10 +5828,22 @@ export enum KnownKnowledgeSourceKind {
   IndexedSharePoint = "indexedSharePoint",
   /** A knowledge source that reads data from indexed OneLake. */
   IndexedOneLake = "indexedOneLake",
+  /** A knowledge source that retrieves and ingests data from Azure SQL Database or SQL Managed Instance to a Search Index. */
+  IndexedSql = "indexedSql",
   /** A knowledge source that reads data from the web. */
   Web = "web",
   /** A knowledge source that reads data from remote SharePoint. */
   RemoteSharePoint = "remoteSharePoint",
+  /** A knowledge source that reads data from work IQ */
+  WorkIQ = "workIQ",
+  /** A knowledge source that supports direct file upload and indexing. */
+  File = "file",
+  /** A knowledge source backed by an MCP (Model Context Protocol) server. */
+  McpServer = "mcpServer",
+  /** A knowledge source that retrieves data from a Fabric Data Agent. */
+  FabricDataAgent = "fabricDataAgent",
+  /** A knowledge source that retrieves data from Microsoft Fabric Ontology ontologies. */
+  FabricOntology = "fabricOntology",
 }
 
 /**
@@ -5699,8 +5855,14 @@ export enum KnownKnowledgeSourceKind {
  * **azureBlob**: A knowledge source that read and ingest data from Azure Blob Storage to a Search Index. \
  * **indexedSharePoint**: A knowledge source that reads data from indexed SharePoint. \
  * **indexedOneLake**: A knowledge source that reads data from indexed OneLake. \
+ * **indexedSql**: A knowledge source that retrieves and ingests data from Azure SQL Database or SQL Managed Instance to a Search Index. \
  * **web**: A knowledge source that reads data from the web. \
- * **remoteSharePoint**: A knowledge source that reads data from remote SharePoint.
+ * **remoteSharePoint**: A knowledge source that reads data from remote SharePoint. \
+ * **workIQ**: A knowledge source that reads data from work IQ \
+ * **file**: A knowledge source that supports direct file upload and indexing. \
+ * **mcpServer**: A knowledge source backed by an MCP (Model Context Protocol) server. \
+ * **fabricDataAgent**: A knowledge source that retrieves data from a Fabric Data Agent. \
+ * **fabricOntology**: A knowledge source that retrieves data from Microsoft Fabric Ontology ontologies.
  */
 export type KnowledgeSourceKind = string;
 
@@ -5751,6 +5913,8 @@ export interface SearchIndexKnowledgeSourceParameters {
   searchFields?: SearchIndexFieldReference[];
   /** Used to specify a different semantic configuration on the target search index other than the default one. */
   semanticConfigurationName?: string;
+  /** A default filter condition applied to the index at retrieval time (e.g., 'State eq VA'). Can be overridden at query time via knowledge source runtime parameters. */
+  baseFilter?: string;
 }
 
 export function searchIndexKnowledgeSourceParametersSerializer(
@@ -5765,6 +5929,7 @@ export function searchIndexKnowledgeSourceParametersSerializer(
       ? item["searchFields"]
       : searchIndexFieldReferenceArraySerializer(item["searchFields"]),
     semanticConfigurationName: item["semanticConfigurationName"],
+    baseFilter: item["baseFilter"],
   };
 }
 
@@ -5780,6 +5945,7 @@ export function searchIndexKnowledgeSourceParametersDeserializer(
       ? item["searchFields"]
       : searchIndexFieldReferenceArrayDeserializer(item["searchFields"]),
     semanticConfigurationName: item["semanticConfigurationName"],
+    baseFilter: item["baseFilter"],
   };
 }
 
@@ -5927,6 +6093,8 @@ export enum KnownKnowledgeSourceIngestionPermissionOption {
   GroupIds = "groupIds",
   /** Ingest RBAC scope information alongside document content. */
   RbacScope = "rbacScope",
+  /** Ingest Microsoft Purview sensitivity labels alongside document content. */
+  SensitivityLabels = "sensitivityLabels",
 }
 
 /**
@@ -5936,7 +6104,8 @@ export enum KnownKnowledgeSourceIngestionPermissionOption {
  * ### Known values supported by the service
  * **userIds**: Ingest explicit user identifiers alongside document content. \
  * **groupIds**: Ingest group identifiers alongside document content. \
- * **rbacScope**: Ingest RBAC scope information alongside document content.
+ * **rbacScope**: Ingest RBAC scope information alongside document content. \
+ * **sensitivityLabels**: Ingest Microsoft Purview sensitivity labels alongside document content.
  */
 export type KnowledgeSourceIngestionPermissionOption = string;
 
@@ -6157,6 +6326,239 @@ export function indexedOneLakeKnowledgeSourceParametersDeserializer(
   };
 }
 
+/** Configuration for indexed SQL knowledge source. */
+export interface IndexedSqlKnowledgeSource extends KnowledgeSource {
+  /** The discriminator value. */
+  kind: "indexedSql";
+  /** The parameters for the SQL knowledge source. */
+  indexedSqlParameters: IndexedSqlKnowledgeSourceParameters;
+}
+
+export function indexedSqlKnowledgeSourceSerializer(item: IndexedSqlKnowledgeSource): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    kind: item["kind"],
+    "@odata.etag": item["eTag"],
+    encryptionKey: !item["encryptionKey"]
+      ? item["encryptionKey"]
+      : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
+    indexedSqlParameters: indexedSqlKnowledgeSourceParametersSerializer(
+      item["indexedSqlParameters"],
+    ),
+  };
+}
+
+export function indexedSqlKnowledgeSourceDeserializer(item: any): IndexedSqlKnowledgeSource {
+  return {
+    name: item["name"],
+    description: item["description"],
+    kind: item["kind"],
+    eTag: item["@odata.etag"],
+    encryptionKey: !item["encryptionKey"]
+      ? item["encryptionKey"]
+      : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
+    indexedSqlParameters: indexedSqlKnowledgeSourceParametersDeserializer(
+      item["indexedSqlParameters"],
+    ),
+  };
+}
+
+/** Parameters for indexed SQL knowledge source. */
+export interface IndexedSqlKnowledgeSourceParameters {
+  /** The connection string for the Azure SQL Database or SQL Managed Instance. */
+  connectionString: string;
+  /** The name of the table or view to index. Can be schema-qualified (e.g., 'dbo.MyTable'). */
+  tableOrView: string;
+  /** Optional column name for high water mark change detection. If provided, uses HighWaterMarkChangeDetectionPolicy. */
+  highWaterMarkColumnName?: string;
+  /** Optional column mappings for content fields. If omitted, all columns are auto-discovered. */
+  contentColumns?: ContentColumnMapping[];
+  /** Optional column mappings for embedding vector fields. If omitted, no vector fields are created. */
+  embeddingColumns?: EmbeddingColumnMapping[];
+  /** Consolidates all general ingestion settings including embedding model, schedule, and identity. */
+  ingestionParameters?: KnowledgeSourceIngestionParameters;
+  /** Resources created by the knowledge source. */
+  readonly createdResources?: CreatedResources;
+}
+
+export function indexedSqlKnowledgeSourceParametersSerializer(
+  item: IndexedSqlKnowledgeSourceParameters,
+): any {
+  return {
+    connectionString: item["connectionString"],
+    tableOrView: item["tableOrView"],
+    highWaterMarkColumnName: item["highWaterMarkColumnName"],
+    contentColumns: !item["contentColumns"]
+      ? item["contentColumns"]
+      : contentColumnMappingArraySerializer(item["contentColumns"]),
+    embeddingColumns: !item["embeddingColumns"]
+      ? item["embeddingColumns"]
+      : embeddingColumnMappingArraySerializer(item["embeddingColumns"]),
+    ingestionParameters: !item["ingestionParameters"]
+      ? item["ingestionParameters"]
+      : knowledgeSourceIngestionParametersSerializer(item["ingestionParameters"]),
+  };
+}
+
+export function indexedSqlKnowledgeSourceParametersDeserializer(
+  item: any,
+): IndexedSqlKnowledgeSourceParameters {
+  return {
+    connectionString: item["connectionString"],
+    tableOrView: item["tableOrView"],
+    highWaterMarkColumnName: item["highWaterMarkColumnName"],
+    contentColumns: !item["contentColumns"]
+      ? item["contentColumns"]
+      : contentColumnMappingArrayDeserializer(item["contentColumns"]),
+    embeddingColumns: !item["embeddingColumns"]
+      ? item["embeddingColumns"]
+      : embeddingColumnMappingArrayDeserializer(item["embeddingColumns"]),
+    ingestionParameters: !item["ingestionParameters"]
+      ? item["ingestionParameters"]
+      : knowledgeSourceIngestionParametersDeserializer(item["ingestionParameters"]),
+    createdResources: !item["createdResources"]
+      ? item["createdResources"]
+      : createdResourcesDeserializer(item["createdResources"]),
+  };
+}
+
+export function contentColumnMappingArraySerializer(result: Array<ContentColumnMapping>): any[] {
+  return result.map((item) => {
+    return contentColumnMappingSerializer(item);
+  });
+}
+
+export function contentColumnMappingArrayDeserializer(result: Array<ContentColumnMapping>): any[] {
+  return result.map((item) => {
+    return contentColumnMappingDeserializer(item);
+  });
+}
+
+/** Maps a SQL column to a search index field. */
+export interface ContentColumnMapping {
+  /** Target index field name. */
+  name: string;
+  /** SQL column name. */
+  sourceField: string;
+  /** Azure AI Search field type (e.g., Edm.String, Edm.Int32). */
+  searchFieldType: string;
+}
+
+export function contentColumnMappingSerializer(item: ContentColumnMapping): any {
+  return {
+    name: item["name"],
+    sourceField: item["sourceField"],
+    searchFieldType: item["searchFieldType"],
+  };
+}
+
+export function contentColumnMappingDeserializer(item: any): ContentColumnMapping {
+  return {
+    name: item["name"],
+    sourceField: item["sourceField"],
+    searchFieldType: item["searchFieldType"],
+  };
+}
+
+export function embeddingColumnMappingArraySerializer(
+  result: Array<EmbeddingColumnMapping>,
+): any[] {
+  return result.map((item) => {
+    return embeddingColumnMappingSerializer(item);
+  });
+}
+
+export function embeddingColumnMappingArrayDeserializer(
+  result: Array<EmbeddingColumnMapping>,
+): any[] {
+  return result.map((item) => {
+    return embeddingColumnMappingDeserializer(item);
+  });
+}
+
+/** Maps a SQL column to a vector field for embedding. */
+export interface EmbeddingColumnMapping {
+  /** Target vector field name in the search index. */
+  name: string;
+  /** SQL column used as input for embedding generation. */
+  sourceField: string;
+}
+
+export function embeddingColumnMappingSerializer(item: EmbeddingColumnMapping): any {
+  return { name: item["name"], sourceField: item["sourceField"] };
+}
+
+export function embeddingColumnMappingDeserializer(item: any): EmbeddingColumnMapping {
+  return {
+    name: item["name"],
+    sourceField: item["sourceField"],
+  };
+}
+
+/** Configuration for File knowledge source that supports direct file upload and indexing. */
+export interface FileKnowledgeSource extends KnowledgeSource {
+  /** The discriminator value. */
+  kind: "file";
+  /** The parameters for the File knowledge source. */
+  fileParameters: FileKnowledgeSourceParameters;
+}
+
+export function fileKnowledgeSourceSerializer(item: FileKnowledgeSource): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    kind: item["kind"],
+    "@odata.etag": item["eTag"],
+    encryptionKey: !item["encryptionKey"]
+      ? item["encryptionKey"]
+      : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
+    fileParameters: fileKnowledgeSourceParametersSerializer(item["fileParameters"]),
+  };
+}
+
+export function fileKnowledgeSourceDeserializer(item: any): FileKnowledgeSource {
+  return {
+    name: item["name"],
+    description: item["description"],
+    kind: item["kind"],
+    eTag: item["@odata.etag"],
+    encryptionKey: !item["encryptionKey"]
+      ? item["encryptionKey"]
+      : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
+    fileParameters: fileKnowledgeSourceParametersDeserializer(item["fileParameters"]),
+  };
+}
+
+/** Parameters for File knowledge source. */
+export interface FileKnowledgeSourceParameters {
+  /** Consolidates all general ingestion settings. Only 'minimal' content extraction mode and embeddingModel are supported for file knowledge sources. */
+  ingestionParameters?: KnowledgeSourceIngestionParameters;
+  /** Resources created by the file knowledge source. */
+  readonly createdResources?: CreatedResources;
+}
+
+export function fileKnowledgeSourceParametersSerializer(item: FileKnowledgeSourceParameters): any {
+  return {
+    ingestionParameters: !item["ingestionParameters"]
+      ? item["ingestionParameters"]
+      : knowledgeSourceIngestionParametersSerializer(item["ingestionParameters"]),
+  };
+}
+
+export function fileKnowledgeSourceParametersDeserializer(
+  item: any,
+): FileKnowledgeSourceParameters {
+  return {
+    ingestionParameters: !item["ingestionParameters"]
+      ? item["ingestionParameters"]
+      : knowledgeSourceIngestionParametersDeserializer(item["ingestionParameters"]),
+    createdResources: !item["createdResources"]
+      ? item["createdResources"]
+      : createdResourcesDeserializer(item["createdResources"]),
+  };
+}
+
 /** Knowledge Source targeting web results. */
 export interface WebKnowledgeSource extends KnowledgeSource {
   kind: "web";
@@ -6198,6 +6600,14 @@ export function webKnowledgeSourceDeserializer(item: any): WebKnowledgeSource {
 export interface WebKnowledgeSourceParameters {
   /** Domain allow/block configuration for web results. */
   domains?: WebKnowledgeSourceDomains;
+  /** The default language for web results. Can be overridden at query time via knowledge source runtime parameters. */
+  language?: string;
+  /** The default market for web results. Can be overridden at query time via knowledge source runtime parameters. */
+  market?: string;
+  /** The default number of web results to return. Can be overridden at query time via knowledge source runtime parameters. */
+  count?: number;
+  /** The default freshness filter for web results. Can be overridden at query time via knowledge source runtime parameters. */
+  freshness?: string;
 }
 
 export function webKnowledgeSourceParametersSerializer(item: WebKnowledgeSourceParameters): any {
@@ -6205,6 +6615,10 @@ export function webKnowledgeSourceParametersSerializer(item: WebKnowledgeSourceP
     domains: !item["domains"]
       ? item["domains"]
       : webKnowledgeSourceDomainsSerializer(item["domains"]),
+    language: item["language"],
+    market: item["market"],
+    count: item["count"],
+    freshness: item["freshness"],
   };
 }
 
@@ -6213,6 +6627,10 @@ export function webKnowledgeSourceParametersDeserializer(item: any): WebKnowledg
     domains: !item["domains"]
       ? item["domains"]
       : webKnowledgeSourceDomainsDeserializer(item["domains"]),
+    language: item["language"],
+    market: item["market"],
+    count: item["count"],
+    freshness: item["freshness"],
   };
 }
 
@@ -6360,6 +6778,848 @@ export function remoteSharePointKnowledgeSourceParametersDeserializer(
   };
 }
 
+/** Configuration for WorkIQ knowledge source. */
+export interface WorkIQKnowledgeSource extends KnowledgeSource {
+  /** The discriminator value. */
+  kind: "workIQ";
+}
+
+export function workIQKnowledgeSourceSerializer(item: WorkIQKnowledgeSource): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    kind: item["kind"],
+    "@odata.etag": item["eTag"],
+    encryptionKey: !item["encryptionKey"]
+      ? item["encryptionKey"]
+      : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
+  };
+}
+
+export function workIQKnowledgeSourceDeserializer(item: any): WorkIQKnowledgeSource {
+  return {
+    name: item["name"],
+    description: item["description"],
+    kind: item["kind"],
+    eTag: item["@odata.etag"],
+    encryptionKey: !item["encryptionKey"]
+      ? item["encryptionKey"]
+      : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
+  };
+}
+
+/** Configuration for a knowledge source backed by an MCP (Model Context Protocol) server. */
+export interface McpServerKnowledgeSource extends KnowledgeSource {
+  /** The discriminator value. */
+  kind: "mcpServer";
+  /** The parameters for the MCP server knowledge source. */
+  mcpServerParameters: McpServerKnowledgeSourceParameters;
+}
+
+export function mcpServerKnowledgeSourceSerializer(item: McpServerKnowledgeSource): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    kind: item["kind"],
+    "@odata.etag": item["eTag"],
+    encryptionKey: !item["encryptionKey"]
+      ? item["encryptionKey"]
+      : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
+    mcpServerParameters: mcpServerKnowledgeSourceParametersSerializer(item["mcpServerParameters"]),
+  };
+}
+
+export function mcpServerKnowledgeSourceDeserializer(item: any): McpServerKnowledgeSource {
+  return {
+    name: item["name"],
+    description: item["description"],
+    kind: item["kind"],
+    eTag: item["@odata.etag"],
+    encryptionKey: !item["encryptionKey"]
+      ? item["encryptionKey"]
+      : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
+    mcpServerParameters: mcpServerKnowledgeSourceParametersDeserializer(
+      item["mcpServerParameters"],
+    ),
+  };
+}
+
+/** Parameters for an MCP server knowledge source. */
+export interface McpServerKnowledgeSourceParameters {
+  /** The URL of the MCP server endpoint. */
+  serverURL: string;
+  /** The authentication configuration for the MCP server. */
+  authentication?: McpServerAuthenticationUnion;
+  /** The list of tools to invoke on the MCP server. */
+  tools: McpServerTool[];
+}
+
+export function mcpServerKnowledgeSourceParametersSerializer(
+  item: McpServerKnowledgeSourceParameters,
+): any {
+  return {
+    serverURL: item["serverURL"],
+    authentication: !item["authentication"]
+      ? item["authentication"]
+      : mcpServerAuthenticationUnionSerializer(item["authentication"]),
+    tools: mcpServerToolArraySerializer(item["tools"]),
+  };
+}
+
+export function mcpServerKnowledgeSourceParametersDeserializer(
+  item: any,
+): McpServerKnowledgeSourceParameters {
+  return {
+    serverURL: item["serverURL"],
+    authentication: !item["authentication"]
+      ? item["authentication"]
+      : mcpServerAuthenticationUnionDeserializer(item["authentication"]),
+    tools: mcpServerToolArrayDeserializer(item["tools"]),
+  };
+}
+
+/** Authentication configuration for an MCP server knowledge source. */
+export interface McpServerAuthentication {
+  /** The kind of authentication to use. */
+  /** The discriminator possible values: foundryConnection, storedHeaders */
+  kind: McpServerAuthenticationKind;
+}
+
+export function mcpServerAuthenticationSerializer(item: McpServerAuthentication): any {
+  return { kind: item["kind"] };
+}
+
+export function mcpServerAuthenticationDeserializer(item: any): McpServerAuthentication {
+  return {
+    kind: item["kind"],
+  };
+}
+
+/** Alias for McpServerAuthenticationUnion */
+export type McpServerAuthenticationUnion =
+  | McpServerFoundryConnectionAuthentication
+  | McpServerStoredHeadersAuthentication
+  | McpServerAuthentication;
+
+export function mcpServerAuthenticationUnionSerializer(item: McpServerAuthenticationUnion): any {
+  switch (item.kind) {
+    case "foundryConnection":
+      return mcpServerFoundryConnectionAuthenticationSerializer(
+        item as McpServerFoundryConnectionAuthentication,
+      );
+
+    case "storedHeaders":
+      return mcpServerStoredHeadersAuthenticationSerializer(
+        item as McpServerStoredHeadersAuthentication,
+      );
+
+    default:
+      return mcpServerAuthenticationSerializer(item);
+  }
+}
+
+export function mcpServerAuthenticationUnionDeserializer(item: any): McpServerAuthenticationUnion {
+  switch (item["kind"]) {
+    case "foundryConnection":
+      return mcpServerFoundryConnectionAuthenticationDeserializer(
+        item as McpServerFoundryConnectionAuthentication,
+      );
+
+    case "storedHeaders":
+      return mcpServerStoredHeadersAuthenticationDeserializer(
+        item as McpServerStoredHeadersAuthentication,
+      );
+
+    default:
+      return mcpServerAuthenticationDeserializer(item);
+  }
+}
+
+/** The kind of authentication for an MCP server. */
+export enum KnownMcpServerAuthenticationKind {
+  /** Authenticate using an Azure AI Foundry connection. */
+  FoundryConnection = "foundryConnection",
+  /** Authenticate using stored HTTP headers. */
+  StoredHeaders = "storedHeaders",
+}
+
+/**
+ * The kind of authentication for an MCP server. \
+ * {@link KnownMcpServerAuthenticationKind} can be used interchangeably with McpServerAuthenticationKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **foundryConnection**: Authenticate using an Azure AI Foundry connection. \
+ * **storedHeaders**: Authenticate using stored HTTP headers.
+ */
+export type McpServerAuthenticationKind = string;
+
+/** Authentication using an Azure AI Foundry connection. */
+export interface McpServerFoundryConnectionAuthentication extends McpServerAuthentication {
+  /** The discriminator value. */
+  kind: "foundryConnection";
+  /** Parameters for Foundry connection authentication. */
+  foundryConnectionParameters: McpServerFoundryConnectionParameters;
+}
+
+export function mcpServerFoundryConnectionAuthenticationSerializer(
+  item: McpServerFoundryConnectionAuthentication,
+): any {
+  return {
+    kind: item["kind"],
+    foundryConnectionParameters: mcpServerFoundryConnectionParametersSerializer(
+      item["foundryConnectionParameters"],
+    ),
+  };
+}
+
+export function mcpServerFoundryConnectionAuthenticationDeserializer(
+  item: any,
+): McpServerFoundryConnectionAuthentication {
+  return {
+    kind: item["kind"],
+    foundryConnectionParameters: mcpServerFoundryConnectionParametersDeserializer(
+      item["foundryConnectionParameters"],
+    ),
+  };
+}
+
+/** Parameters for Foundry connection authentication. */
+export interface McpServerFoundryConnectionParameters {
+  /** The Azure AI Foundry connection identifier. */
+  connectionId?: string;
+}
+
+export function mcpServerFoundryConnectionParametersSerializer(
+  item: McpServerFoundryConnectionParameters,
+): any {
+  return { connectionId: item["connectionId"] };
+}
+
+export function mcpServerFoundryConnectionParametersDeserializer(
+  item: any,
+): McpServerFoundryConnectionParameters {
+  return {
+    connectionId: item["connectionId"],
+  };
+}
+
+/** Authentication using stored HTTP headers. */
+export interface McpServerStoredHeadersAuthentication extends McpServerAuthentication {
+  /** The discriminator value. */
+  kind: "storedHeaders";
+  /** Parameters for stored headers authentication. */
+  storedHeadersParameters: McpServerStoredHeadersParameters;
+}
+
+export function mcpServerStoredHeadersAuthenticationSerializer(
+  item: McpServerStoredHeadersAuthentication,
+): any {
+  return {
+    kind: item["kind"],
+    storedHeadersParameters: mcpServerStoredHeadersParametersSerializer(
+      item["storedHeadersParameters"],
+    ),
+  };
+}
+
+export function mcpServerStoredHeadersAuthenticationDeserializer(
+  item: any,
+): McpServerStoredHeadersAuthentication {
+  return {
+    kind: item["kind"],
+    storedHeadersParameters: mcpServerStoredHeadersParametersDeserializer(
+      item["storedHeadersParameters"],
+    ),
+  };
+}
+
+/** Parameters for stored headers authentication. */
+export interface McpServerStoredHeadersParameters {
+  /** The stored HTTP headers to include in MCP server requests. */
+  headers?: McpServerHeaders;
+}
+
+export function mcpServerStoredHeadersParametersSerializer(
+  item: McpServerStoredHeadersParameters,
+): any {
+  return {
+    headers: !item["headers"] ? item["headers"] : mcpServerHeadersSerializer(item["headers"]),
+  };
+}
+
+export function mcpServerStoredHeadersParametersDeserializer(
+  item: any,
+): McpServerStoredHeadersParameters {
+  return {
+    headers: !item["headers"] ? item["headers"] : mcpServerHeadersDeserializer(item["headers"]),
+  };
+}
+
+/** A dictionary of HTTP header names and values. */
+export interface McpServerHeaders {
+  /** Additional properties */
+  additionalProperties?: Record<string, string>;
+}
+
+export function mcpServerHeadersSerializer(item: McpServerHeaders): any {
+  return { ...serializeRecord(item.additionalProperties ?? {}) };
+}
+
+export function mcpServerHeadersDeserializer(item: any): McpServerHeaders {
+  return {
+    additionalProperties: serializeRecord(item, []),
+  };
+}
+
+export function mcpServerToolArraySerializer(result: Array<McpServerTool>): any[] {
+  return result.map((item) => {
+    return mcpServerToolSerializer(item);
+  });
+}
+
+export function mcpServerToolArrayDeserializer(result: Array<McpServerTool>): any[] {
+  return result.map((item) => {
+    return mcpServerToolDeserializer(item);
+  });
+}
+
+/** Represents a single tool within an MCP server knowledge source. */
+export interface McpServerTool {
+  /** The name of the MCP tool to invoke. */
+  name?: string;
+  /** Optional configuration for parsing the tool's output. */
+  outputParsing?: McpServerOutputParsingUnion;
+  /** Controls how the parsed results from this tool are integrated into the final result set. Defaults to 'reranked' when not specified. */
+  inclusionMode?: McpServerToolInclusionMode;
+  /** Optional post-parsing token cap for this tool's output. Must be greater than 0 when specified. */
+  maxOutputTokens?: number;
+}
+
+export function mcpServerToolSerializer(item: McpServerTool): any {
+  return {
+    name: item["name"],
+    outputParsing: !item["outputParsing"]
+      ? item["outputParsing"]
+      : mcpServerOutputParsingUnionSerializer(item["outputParsing"]),
+    inclusionMode: item["inclusionMode"],
+    maxOutputTokens: item["maxOutputTokens"],
+  };
+}
+
+export function mcpServerToolDeserializer(item: any): McpServerTool {
+  return {
+    name: item["name"],
+    outputParsing: !item["outputParsing"]
+      ? item["outputParsing"]
+      : mcpServerOutputParsingUnionDeserializer(item["outputParsing"]),
+    inclusionMode: item["inclusionMode"],
+    maxOutputTokens: item["maxOutputTokens"],
+  };
+}
+
+/** Output parsing configuration for an MCP server tool. */
+export interface McpServerOutputParsing {
+  /** The kind of output parsing to apply. */
+  /** The discriminator possible values: auto, json, split, none */
+  kind: McpServerOutputParsingKind;
+}
+
+export function mcpServerOutputParsingSerializer(item: McpServerOutputParsing): any {
+  return { kind: item["kind"] };
+}
+
+export function mcpServerOutputParsingDeserializer(item: any): McpServerOutputParsing {
+  return {
+    kind: item["kind"],
+  };
+}
+
+/** Alias for McpServerOutputParsingUnion */
+export type McpServerOutputParsingUnion =
+  | McpServerAutoOutputParsing
+  | McpServerJsonOutputParsing
+  | McpServerSplitOutputParsing
+  | McpServerNoneOutputParsing
+  | McpServerOutputParsing;
+
+export function mcpServerOutputParsingUnionSerializer(item: McpServerOutputParsingUnion): any {
+  switch (item.kind) {
+    case "auto":
+      return mcpServerAutoOutputParsingSerializer(item as McpServerAutoOutputParsing);
+
+    case "json":
+      return mcpServerJsonOutputParsingSerializer(item as McpServerJsonOutputParsing);
+
+    case "split":
+      return mcpServerSplitOutputParsingSerializer(item as McpServerSplitOutputParsing);
+
+    case "none":
+      return mcpServerNoneOutputParsingSerializer(item as McpServerNoneOutputParsing);
+
+    default:
+      return mcpServerOutputParsingSerializer(item);
+  }
+}
+
+export function mcpServerOutputParsingUnionDeserializer(item: any): McpServerOutputParsingUnion {
+  switch (item["kind"]) {
+    case "auto":
+      return mcpServerAutoOutputParsingDeserializer(item as McpServerAutoOutputParsing);
+
+    case "json":
+      return mcpServerJsonOutputParsingDeserializer(item as McpServerJsonOutputParsing);
+
+    case "split":
+      return mcpServerSplitOutputParsingDeserializer(item as McpServerSplitOutputParsing);
+
+    case "none":
+      return mcpServerNoneOutputParsingDeserializer(item as McpServerNoneOutputParsing);
+
+    default:
+      return mcpServerOutputParsingDeserializer(item);
+  }
+}
+
+/** The kind of output parsing for an MCP server tool. */
+export enum KnownMcpServerOutputParsingKind {
+  /** Automatically detect the output format and parse accordingly. */
+  Auto = "auto",
+  /** Parse the output as a JSON document using the configured JSON parameters. */
+  Json = "json",
+  /** Split the output into pages using the configured split parameters. */
+  Split = "split",
+  /** Treat the output as a single block without any parsing. */
+  None = "none",
+}
+
+/**
+ * The kind of output parsing for an MCP server tool. \
+ * {@link KnownMcpServerOutputParsingKind} can be used interchangeably with McpServerOutputParsingKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **auto**: Automatically detect the output format and parse accordingly. \
+ * **json**: Parse the output as a JSON document using the configured JSON parameters. \
+ * **split**: Split the output into pages using the configured split parameters. \
+ * **none**: Treat the output as a single block without any parsing.
+ */
+export type McpServerOutputParsingKind = string;
+
+/** Automatically detect the output format and parse accordingly. */
+export interface McpServerAutoOutputParsing extends McpServerOutputParsing {
+  /** The discriminator value. */
+  kind: "auto";
+}
+
+export function mcpServerAutoOutputParsingSerializer(item: McpServerAutoOutputParsing): any {
+  return { kind: item["kind"] };
+}
+
+export function mcpServerAutoOutputParsingDeserializer(item: any): McpServerAutoOutputParsing {
+  return {
+    kind: item["kind"],
+  };
+}
+
+/** Parse the output as a JSON document using the configured JSON parameters. */
+export interface McpServerJsonOutputParsing extends McpServerOutputParsing {
+  /** The discriminator value. */
+  kind: "json";
+  /** Parameters for JSON output parsing. Required when kind is 'json'. */
+  jsonParameters: McpServerOutputParsingJsonParameters;
+}
+
+export function mcpServerJsonOutputParsingSerializer(item: McpServerJsonOutputParsing): any {
+  return {
+    kind: item["kind"],
+    jsonParameters: mcpServerOutputParsingJsonParametersSerializer(item["jsonParameters"]),
+  };
+}
+
+export function mcpServerJsonOutputParsingDeserializer(item: any): McpServerJsonOutputParsing {
+  return {
+    kind: item["kind"],
+    jsonParameters: mcpServerOutputParsingJsonParametersDeserializer(item["jsonParameters"]),
+  };
+}
+
+/** Parameters for JSON output parsing. */
+export interface McpServerOutputParsingJsonParameters {
+  /** The JSON path to the array of documents in the tool output. */
+  documentsPath: string;
+  /** Whether to include surrounding context from the JSON output alongside extracted documents. */
+  includeContext?: boolean;
+}
+
+export function mcpServerOutputParsingJsonParametersSerializer(
+  item: McpServerOutputParsingJsonParameters,
+): any {
+  return { documentsPath: item["documentsPath"], includeContext: item["includeContext"] };
+}
+
+export function mcpServerOutputParsingJsonParametersDeserializer(
+  item: any,
+): McpServerOutputParsingJsonParameters {
+  return {
+    documentsPath: item["documentsPath"],
+    includeContext: item["includeContext"],
+  };
+}
+
+/** Split the output into pages using the configured split parameters. */
+export interface McpServerSplitOutputParsing extends McpServerOutputParsing {
+  /** The discriminator value. */
+  kind: "split";
+  /** Parameters for split output parsing. */
+  splitParameters?: McpServerOutputParsingSplitParameters;
+}
+
+export function mcpServerSplitOutputParsingSerializer(item: McpServerSplitOutputParsing): any {
+  return {
+    kind: item["kind"],
+    splitParameters: !item["splitParameters"]
+      ? item["splitParameters"]
+      : mcpServerOutputParsingSplitParametersSerializer(item["splitParameters"]),
+  };
+}
+
+export function mcpServerSplitOutputParsingDeserializer(item: any): McpServerSplitOutputParsing {
+  return {
+    kind: item["kind"],
+    splitParameters: !item["splitParameters"]
+      ? item["splitParameters"]
+      : mcpServerOutputParsingSplitParametersDeserializer(item["splitParameters"]),
+  };
+}
+
+/** Parameters for split output parsing. */
+export interface McpServerOutputParsingSplitParameters {
+  /** The text split mode to use. */
+  textSplitMode?: TextSplitMode;
+  /** The maximum number of characters per page. */
+  maximumPageLength?: number;
+  /** The number of characters to overlap between pages. */
+  pageOverlapLength?: number;
+  /** The maximum number of pages to take from the output. */
+  maximumPagesToTake?: number;
+  /** A value indicating which language code to use. Default is `en`. */
+  defaultLanguageCode?: SplitSkillLanguage;
+}
+
+export function mcpServerOutputParsingSplitParametersSerializer(
+  item: McpServerOutputParsingSplitParameters,
+): any {
+  return {
+    textSplitMode: item["textSplitMode"],
+    maximumPageLength: item["maximumPageLength"],
+    pageOverlapLength: item["pageOverlapLength"],
+    maximumPagesToTake: item["maximumPagesToTake"],
+    defaultLanguageCode: item["defaultLanguageCode"],
+  };
+}
+
+export function mcpServerOutputParsingSplitParametersDeserializer(
+  item: any,
+): McpServerOutputParsingSplitParameters {
+  return {
+    textSplitMode: item["textSplitMode"],
+    maximumPageLength: item["maximumPageLength"],
+    pageOverlapLength: item["pageOverlapLength"],
+    maximumPagesToTake: item["maximumPagesToTake"],
+    defaultLanguageCode: item["defaultLanguageCode"],
+  };
+}
+
+/** A value indicating which split mode to perform. */
+export enum KnownTextSplitMode {
+  /** Split the text into individual pages. */
+  Pages = "pages",
+  /** Split the text into individual sentences. */
+  Sentences = "sentences",
+}
+
+/**
+ * A value indicating which split mode to perform. \
+ * {@link KnownTextSplitMode} can be used interchangeably with TextSplitMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **pages**: Split the text into individual pages. \
+ * **sentences**: Split the text into individual sentences.
+ */
+export type TextSplitMode = string;
+
+/** The language codes supported for input text by SplitSkill. */
+export enum KnownSplitSkillLanguage {
+  /** Amharic */
+  Am = "am",
+  /** Bosnian */
+  Bs = "bs",
+  /** Czech */
+  Cs = "cs",
+  /** Danish */
+  Da = "da",
+  /** German */
+  De = "de",
+  /** English */
+  En = "en",
+  /** Spanish */
+  Es = "es",
+  /** Estonian */
+  Et = "et",
+  /** Finnish */
+  Fi = "fi",
+  /** French */
+  Fr = "fr",
+  /** Hebrew */
+  He = "he",
+  /** Hindi */
+  Hi = "hi",
+  /** Croatian */
+  Hr = "hr",
+  /** Hungarian */
+  Hu = "hu",
+  /** Indonesian */
+  Id = "id",
+  /** Icelandic */
+  Is = "is",
+  /** Italian */
+  It = "it",
+  /** Japanese */
+  Ja = "ja",
+  /** Korean */
+  Ko = "ko",
+  /** Latvian */
+  Lv = "lv",
+  /** Norwegian */
+  Nb = "nb",
+  /** Dutch */
+  Nl = "nl",
+  /** Polish */
+  Pl = "pl",
+  /** Portuguese (Portugal) */
+  Pt = "pt",
+  /** Portuguese (Brazil) */
+  PtBr = "pt-br",
+  /** Russian */
+  Ru = "ru",
+  /** Slovak */
+  Sk = "sk",
+  /** Slovenian */
+  Sl = "sl",
+  /** Serbian */
+  Sr = "sr",
+  /** Swedish */
+  Sv = "sv",
+  /** Turkish */
+  Tr = "tr",
+  /** Urdu */
+  Ur = "ur",
+  /** Chinese (Simplified) */
+  Zh = "zh",
+}
+
+/**
+ * The language codes supported for input text by SplitSkill. \
+ * {@link KnownSplitSkillLanguage} can be used interchangeably with SplitSkillLanguage,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **am**: Amharic \
+ * **bs**: Bosnian \
+ * **cs**: Czech \
+ * **da**: Danish \
+ * **de**: German \
+ * **en**: English \
+ * **es**: Spanish \
+ * **et**: Estonian \
+ * **fi**: Finnish \
+ * **fr**: French \
+ * **he**: Hebrew \
+ * **hi**: Hindi \
+ * **hr**: Croatian \
+ * **hu**: Hungarian \
+ * **id**: Indonesian \
+ * **is**: Icelandic \
+ * **it**: Italian \
+ * **ja**: Japanese \
+ * **ko**: Korean \
+ * **lv**: Latvian \
+ * **nb**: Norwegian \
+ * **nl**: Dutch \
+ * **pl**: Polish \
+ * **pt**: Portuguese (Portugal) \
+ * **pt-br**: Portuguese (Brazil) \
+ * **ru**: Russian \
+ * **sk**: Slovak \
+ * **sl**: Slovenian \
+ * **sr**: Serbian \
+ * **sv**: Swedish \
+ * **tr**: Turkish \
+ * **ur**: Urdu \
+ * **zh**: Chinese (Simplified)
+ */
+export type SplitSkillLanguage = string;
+
+/** Treat the output as a single block without any parsing. */
+export interface McpServerNoneOutputParsing extends McpServerOutputParsing {
+  /** The discriminator value. */
+  kind: "none";
+}
+
+export function mcpServerNoneOutputParsingSerializer(item: McpServerNoneOutputParsing): any {
+  return { kind: item["kind"] };
+}
+
+export function mcpServerNoneOutputParsingDeserializer(item: any): McpServerNoneOutputParsing {
+  return {
+    kind: item["kind"],
+  };
+}
+
+/** Controls how parsed MCP tool results are integrated into the final result set. */
+export enum KnownMcpServerToolInclusionMode {
+  /** Tool results go through the reranking and aggregation pipeline alongside results from other knowledge sources. This is the default behavior. */
+  Reranked = "reranked",
+  /** Tool results bypass reranking and are always included in the agent context. */
+  Always = "always",
+}
+
+/**
+ * Controls how parsed MCP tool results are integrated into the final result set. \
+ * {@link KnownMcpServerToolInclusionMode} can be used interchangeably with McpServerToolInclusionMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **reranked**: Tool results go through the reranking and aggregation pipeline alongside results from other knowledge sources. This is the default behavior. \
+ * **always**: Tool results bypass reranking and are always included in the agent context.
+ */
+export type McpServerToolInclusionMode = string;
+
+/** Configuration for Fabric Data Agent knowledge source. */
+export interface FabricDataAgentKnowledgeSource extends KnowledgeSource {
+  /** The discriminator value. */
+  kind: "fabricDataAgent";
+  /** The parameters for the Fabric Data Agent knowledge source. */
+  fabricDataAgentParameters: FabricDataAgentKnowledgeSourceParameters;
+}
+
+export function fabricDataAgentKnowledgeSourceSerializer(
+  item: FabricDataAgentKnowledgeSource,
+): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    kind: item["kind"],
+    "@odata.etag": item["eTag"],
+    encryptionKey: !item["encryptionKey"]
+      ? item["encryptionKey"]
+      : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
+    fabricDataAgentParameters: fabricDataAgentKnowledgeSourceParametersSerializer(
+      item["fabricDataAgentParameters"],
+    ),
+  };
+}
+
+export function fabricDataAgentKnowledgeSourceDeserializer(
+  item: any,
+): FabricDataAgentKnowledgeSource {
+  return {
+    name: item["name"],
+    description: item["description"],
+    kind: item["kind"],
+    eTag: item["@odata.etag"],
+    encryptionKey: !item["encryptionKey"]
+      ? item["encryptionKey"]
+      : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
+    fabricDataAgentParameters: fabricDataAgentKnowledgeSourceParametersDeserializer(
+      item["fabricDataAgentParameters"],
+    ),
+  };
+}
+
+/** Parameters for Fabric Data Agent knowledge source. */
+export interface FabricDataAgentKnowledgeSourceParameters {
+  /** Fabric workspace ID. */
+  workspaceId: string;
+  /** Specifies which Fabric Data Agent to access. */
+  dataAgentId: string;
+}
+
+export function fabricDataAgentKnowledgeSourceParametersSerializer(
+  item: FabricDataAgentKnowledgeSourceParameters,
+): any {
+  return { workspaceId: item["workspaceId"], dataAgentId: item["dataAgentId"] };
+}
+
+export function fabricDataAgentKnowledgeSourceParametersDeserializer(
+  item: any,
+): FabricDataAgentKnowledgeSourceParameters {
+  return {
+    workspaceId: item["workspaceId"],
+    dataAgentId: item["dataAgentId"],
+  };
+}
+
+/** Configuration for Fabric Ontology knowledge source. */
+export interface FabricOntologyKnowledgeSource extends KnowledgeSource {
+  /** The discriminator value. */
+  kind: "fabricOntology";
+  /** The parameters for the Fabric Ontology knowledge source. */
+  fabricOntologyParameters: FabricOntologyKnowledgeSourceParameters;
+}
+
+export function fabricOntologyKnowledgeSourceSerializer(item: FabricOntologyKnowledgeSource): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    kind: item["kind"],
+    "@odata.etag": item["eTag"],
+    encryptionKey: !item["encryptionKey"]
+      ? item["encryptionKey"]
+      : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
+    fabricOntologyParameters: fabricOntologyKnowledgeSourceParametersSerializer(
+      item["fabricOntologyParameters"],
+    ),
+  };
+}
+
+export function fabricOntologyKnowledgeSourceDeserializer(
+  item: any,
+): FabricOntologyKnowledgeSource {
+  return {
+    name: item["name"],
+    description: item["description"],
+    kind: item["kind"],
+    eTag: item["@odata.etag"],
+    encryptionKey: !item["encryptionKey"]
+      ? item["encryptionKey"]
+      : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
+    fabricOntologyParameters: fabricOntologyKnowledgeSourceParametersDeserializer(
+      item["fabricOntologyParameters"],
+    ),
+  };
+}
+
+/** Parameters for Fabric Ontology knowledge source. */
+export interface FabricOntologyKnowledgeSourceParameters {
+  /** The Fabric workspace ID containing the ontology. */
+  workspaceId: string;
+  /** The ID of the ontology to use from the Fabric workspace. */
+  ontologyId: string;
+}
+
+export function fabricOntologyKnowledgeSourceParametersSerializer(
+  item: FabricOntologyKnowledgeSourceParameters,
+): any {
+  return { workspaceId: item["workspaceId"], ontologyId: item["ontologyId"] };
+}
+
+export function fabricOntologyKnowledgeSourceParametersDeserializer(
+  item: any,
+): FabricOntologyKnowledgeSourceParameters {
+  return {
+    workspaceId: item["workspaceId"],
+    ontologyId: item["ontologyId"],
+  };
+}
+
 /** Result from listing knowledge sources. */
 export interface _ListKnowledgeSourcesResult {
   /** The knowledge sources in the service. */
@@ -6405,6 +7665,53 @@ export enum KnownKnowledgeSourceSynchronizationStatus {
  */
 export type KnowledgeSourceSynchronizationStatus = string;
 
+/** Metadata for a file uploaded to a File knowledge source. */
+export interface KnowledgeSourceFile {
+  /** The unique identifier for the file. */
+  readonly fileId?: string;
+  /** The original file name. */
+  readonly fileName?: string;
+  /** The file size in bytes. */
+  readonly fileSizeBytes?: number;
+  /** The timestamp when the file was created. */
+  readonly createdAt?: Date;
+  /** The timestamp when the file was last updated. */
+  readonly lastUpdatedAt?: Date;
+  /** The error message if file processing failed, null otherwise. */
+  readonly errorMessage?: string;
+}
+
+export function knowledgeSourceFileDeserializer(item: any): KnowledgeSourceFile {
+  return {
+    fileId: item["fileId"],
+    fileName: item["fileName"],
+    fileSizeBytes: item["fileSizeBytes"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastUpdatedAt: !item["lastUpdatedAt"] ? item["lastUpdatedAt"] : new Date(item["lastUpdatedAt"]),
+    errorMessage: item["errorMessage"],
+  };
+}
+
+/** Response from a List Files request. */
+export interface _ListKnowledgeSourceFilesResult {
+  /** The list of files. */
+  value: KnowledgeSourceFile[];
+}
+
+export function _listKnowledgeSourceFilesResultDeserializer(
+  item: any,
+): _ListKnowledgeSourceFilesResult {
+  return {
+    value: knowledgeSourceFileArrayDeserializer(item["value"]),
+  };
+}
+
+export function knowledgeSourceFileArrayDeserializer(result: Array<KnowledgeSourceFile>): any[] {
+  return result.map((item) => {
+    return knowledgeSourceFileDeserializer(item);
+  });
+}
+
 /** Response from a get service statistics request. If successful, it includes service level counters and limits. */
 export interface SearchServiceStatistics {
   /** Service level resource counters. */
@@ -6443,6 +7750,10 @@ export interface ServiceCounters {
   skillsetCounter: ResourceCounter;
   /** Total memory consumption of all vector indexes within the service, in bytes. */
   vectorIndexSizeCounter: ResourceCounter;
+  /** Total number of knowledge bases. */
+  knowledgeBaseCounter: ResourceCounter;
+  /** Total number of knowledge sources. */
+  knowledgeSourceCounter: ResourceCounter;
 }
 
 export function serviceCountersDeserializer(item: any): ServiceCounters {
@@ -6456,6 +7767,8 @@ export function serviceCountersDeserializer(item: any): ServiceCounters {
     synonymMapCounter: resourceCounterDeserializer(item["synonymMaps"]),
     skillsetCounter: resourceCounterDeserializer(item["skillsetCount"]),
     vectorIndexSizeCounter: resourceCounterDeserializer(item["vectorIndexSize"]),
+    knowledgeBaseCounter: resourceCounterDeserializer(item["knowledgeBasesCount"]),
+    knowledgeSourceCounter: resourceCounterDeserializer(item["knowledgeSourcesCount"]),
   };
 }
 
@@ -6524,13 +7837,19 @@ export function serviceIndexersRuntimeDeserializer(item: any): ServiceIndexersRu
 
 /** Response from a request to retrieve stats summary of all indexes. If successful, it includes the stats of each index in the service. */
 export interface _ListIndexStatsSummary {
+  /** The total count of index statistics in the service, or null if the count was not requested. */
+  readonly count?: number;
   /** The Statistics summary of all indexes in the Search service. */
   readonly indexesStatistics: IndexStatisticsSummary[];
+  /** The URL that can be used to fetch the next set of results. */
+  readonly nextLink?: string;
 }
 
 export function _listIndexStatsSummaryDeserializer(item: any): _ListIndexStatsSummary {
   return {
+    count: item["@odata.count"],
     indexesStatistics: indexStatisticsSummaryArrayDeserializer(item["value"]),
+    nextLink: item["@odata.nextLink"],
   };
 }
 
@@ -9741,135 +11060,6 @@ export function splitSkillDeserializer(item: any): SplitSkill {
   };
 }
 
-/** The language codes supported for input text by SplitSkill. */
-export enum KnownSplitSkillLanguage {
-  /** Amharic */
-  Am = "am",
-  /** Bosnian */
-  Bs = "bs",
-  /** Czech */
-  Cs = "cs",
-  /** Danish */
-  Da = "da",
-  /** German */
-  De = "de",
-  /** English */
-  En = "en",
-  /** Spanish */
-  Es = "es",
-  /** Estonian */
-  Et = "et",
-  /** Finnish */
-  Fi = "fi",
-  /** French */
-  Fr = "fr",
-  /** Hebrew */
-  He = "he",
-  /** Hindi */
-  Hi = "hi",
-  /** Croatian */
-  Hr = "hr",
-  /** Hungarian */
-  Hu = "hu",
-  /** Indonesian */
-  Id = "id",
-  /** Icelandic */
-  Is = "is",
-  /** Italian */
-  It = "it",
-  /** Japanese */
-  Ja = "ja",
-  /** Korean */
-  Ko = "ko",
-  /** Latvian */
-  Lv = "lv",
-  /** Norwegian */
-  Nb = "nb",
-  /** Dutch */
-  Nl = "nl",
-  /** Polish */
-  Pl = "pl",
-  /** Portuguese (Portugal) */
-  Pt = "pt",
-  /** Portuguese (Brazil) */
-  PtBr = "pt-br",
-  /** Russian */
-  Ru = "ru",
-  /** Slovak */
-  Sk = "sk",
-  /** Slovenian */
-  Sl = "sl",
-  /** Serbian */
-  Sr = "sr",
-  /** Swedish */
-  Sv = "sv",
-  /** Turkish */
-  Tr = "tr",
-  /** Urdu */
-  Ur = "ur",
-  /** Chinese (Simplified) */
-  Zh = "zh",
-}
-
-/**
- * The language codes supported for input text by SplitSkill. \
- * {@link KnownSplitSkillLanguage} can be used interchangeably with SplitSkillLanguage,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **am**: Amharic \
- * **bs**: Bosnian \
- * **cs**: Czech \
- * **da**: Danish \
- * **de**: German \
- * **en**: English \
- * **es**: Spanish \
- * **et**: Estonian \
- * **fi**: Finnish \
- * **fr**: French \
- * **he**: Hebrew \
- * **hi**: Hindi \
- * **hr**: Croatian \
- * **hu**: Hungarian \
- * **id**: Indonesian \
- * **is**: Icelandic \
- * **it**: Italian \
- * **ja**: Japanese \
- * **ko**: Korean \
- * **lv**: Latvian \
- * **nb**: Norwegian \
- * **nl**: Dutch \
- * **pl**: Polish \
- * **pt**: Portuguese (Portugal) \
- * **pt-br**: Portuguese (Brazil) \
- * **ru**: Russian \
- * **sk**: Slovak \
- * **sl**: Slovenian \
- * **sr**: Serbian \
- * **sv**: Swedish \
- * **tr**: Turkish \
- * **ur**: Urdu \
- * **zh**: Chinese (Simplified)
- */
-export type SplitSkillLanguage = string;
-
-/** A value indicating which split mode to perform. */
-export enum KnownTextSplitMode {
-  /** Split the text into individual pages. */
-  Pages = "pages",
-  /** Split the text into individual sentences. */
-  Sentences = "sentences",
-}
-
-/**
- * A value indicating which split mode to perform. \
- * {@link KnownTextSplitMode} can be used interchangeably with TextSplitMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **pages**: Split the text into individual pages. \
- * **sentences**: Split the text into individual sentences.
- */
-export type TextSplitMode = string;
-
 /** A value indicating which unit to use. */
 export enum KnownSplitSkillUnit {
   /** The length will be measured by character. */
@@ -10953,6 +12143,8 @@ export type ContentUnderstandingSkillExtractionOptions = string;
 
 /** Controls the cardinality for chunking the content. */
 export interface ContentUnderstandingSkillChunkingProperties {
+  /** The chunking strategy. 'fixedSize' (default) or 'semantic'. */
+  method?: ContentUnderstandingSkillChunkingMethod;
   /** The unit of the chunk. */
   unit?: ContentUnderstandingSkillChunkingUnit;
   /** The maximum chunk length in characters. Default is 500. */
@@ -10965,6 +12157,7 @@ export function contentUnderstandingSkillChunkingPropertiesSerializer(
   item: ContentUnderstandingSkillChunkingProperties,
 ): any {
   return {
+    method: item["method"],
     unit: item["unit"],
     maximumLength: item["maximumLength"],
     overlapLength: item["overlapLength"],
@@ -10975,16 +12168,37 @@ export function contentUnderstandingSkillChunkingPropertiesDeserializer(
   item: any,
 ): ContentUnderstandingSkillChunkingProperties {
   return {
+    method: item["method"],
     unit: item["unit"],
     maximumLength: item["maximumLength"],
     overlapLength: item["overlapLength"],
   };
 }
 
+/** The chunking strategy used by the Content Understanding skill. Default is 'fixedSize'. */
+export enum KnownContentUnderstandingSkillChunkingMethod {
+  /** Fixed-size character-based windowed chunking. */
+  FixedSize = "fixedSize",
+  /** Layout-aware, paragraph-boundary-respecting chunking. */
+  Semantic = "semantic",
+}
+
+/**
+ * The chunking strategy used by the Content Understanding skill. Default is 'fixedSize'. \
+ * {@link KnownContentUnderstandingSkillChunkingMethod} can be used interchangeably with ContentUnderstandingSkillChunkingMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **fixedSize**: Fixed-size character-based windowed chunking. \
+ * **semantic**: Layout-aware, paragraph-boundary-respecting chunking.
+ */
+export type ContentUnderstandingSkillChunkingMethod = string;
+
 /** Controls the cardinality of the chunk unit. Default is 'characters' */
 export enum KnownContentUnderstandingSkillChunkingUnit {
   /** Specifies chunk by characters. */
   Characters = "characters",
+  /** Specifies chunk by tokens. */
+  Tokens = "tokens",
 }
 
 /**
@@ -10992,7 +12206,8 @@ export enum KnownContentUnderstandingSkillChunkingUnit {
  * {@link KnownContentUnderstandingSkillChunkingUnit} can be used interchangeably with ContentUnderstandingSkillChunkingUnit,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **characters**: Specifies chunk by characters.
+ * **characters**: Specifies chunk by characters. \
+ * **tokens**: Specifies chunk by tokens.
  */
 export type ContentUnderstandingSkillChunkingUnit = string;
 
@@ -11000,18 +12215,6 @@ export type ContentUnderstandingSkillChunkingUnit = string;
 export interface ChatCompletionSkill extends SearchIndexerSkill {
   /** The url for the Web API. */
   uri: string;
-  /** The headers required to make the http request. */
-  httpHeaders?: WebApiHttpHeaders;
-  /** The method for the http request. */
-  httpMethod?: string;
-  /** The desired timeout for the request. Default is 30 seconds. */
-  timeout?: string;
-  /** The desired batch size which indicates number of documents. */
-  batchSize?: number;
-  /** If set, the number of parallel calls that can be made to the Web API. */
-  degreeOfParallelism?: number;
-  /** Applies to custom skills that connect to external code in an Azure function or some other application that provides the transformations. This value should be the application ID created for the function or app when it was registered with Azure Active Directory. When specified, the custom skill connects to the function or app using a managed ID (either system or user-assigned) of the search service and the access token of the function or app, using this value as the resource id for creating the scope of the access token. */
-  authResourceId?: string;
   /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
   authIdentity?: SearchIndexerDataIdentityUnion;
   /** API key for authenticating to the model. Both apiKey and authIdentity cannot be specified at the same time. */
@@ -11037,14 +12240,6 @@ export function chatCompletionSkillSerializer(item: ChatCompletionSkill): any {
     inputs: inputFieldMappingEntryArraySerializer(item["inputs"]),
     outputs: outputFieldMappingEntryArraySerializer(item["outputs"]),
     uri: item["uri"],
-    httpHeaders: !item["httpHeaders"]
-      ? item["httpHeaders"]
-      : webApiHttpHeadersSerializer(item["httpHeaders"]),
-    httpMethod: item["httpMethod"],
-    timeout: item["timeout"],
-    batchSize: item["batchSize"],
-    degreeOfParallelism: item["degreeOfParallelism"],
-    authResourceId: item["authResourceId"],
     authIdentity: !item["authIdentity"]
       ? item["authIdentity"]
       : searchIndexerDataIdentityUnionSerializer(item["authIdentity"]),
@@ -11069,14 +12264,6 @@ export function chatCompletionSkillDeserializer(item: any): ChatCompletionSkill 
     inputs: inputFieldMappingEntryArrayDeserializer(item["inputs"]),
     outputs: outputFieldMappingEntryArrayDeserializer(item["outputs"]),
     uri: item["uri"],
-    httpHeaders: !item["httpHeaders"]
-      ? item["httpHeaders"]
-      : webApiHttpHeadersDeserializer(item["httpHeaders"]),
-    httpMethod: item["httpMethod"],
-    timeout: item["timeout"],
-    batchSize: item["batchSize"],
-    degreeOfParallelism: item["degreeOfParallelism"],
-    authResourceId: item["authResourceId"],
     authIdentity: !item["authIdentity"]
       ? item["authIdentity"]
       : searchIndexerDataIdentityUnionDeserializer(item["authIdentity"]),
@@ -11399,7 +12586,7 @@ export function cognitiveServicesAccountKeyDeserializer(item: any): CognitiveSer
 export interface AIServicesAccountKey extends CognitiveServicesAccount {
   /** The key used to provision the Azure AI service resource attached to a skillset. */
   key: string;
-  /** The subdomain url for the corresponding AI Service. */
+  /** The subdomain/Azure AI Services endpoint url for the corresponding AI Service. */
   subdomainUrl: string;
   /** A URI fragment specifying the type of Azure AI service resource attached to a skillset. */
   odatatype: "#Microsoft.Azure.Search.AIServicesByKey";
@@ -11427,7 +12614,7 @@ export function aiServicesAccountKeyDeserializer(item: any): AIServicesAccountKe
 export interface AIServicesAccountIdentity extends CognitiveServicesAccount {
   /** The user-assigned managed identity used for connections to AI Service. If not specified, the system-assigned managed identity is used. On updates to the skillset, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
   identity?: SearchIndexerDataIdentityUnion;
-  /** The subdomain url for the corresponding AI Service. */
+  /** The subdomain/Azure AI Services endpoint url for the corresponding AI Service. */
   subdomainUrl: string;
   /** A URI fragment specifying the type of Azure AI service resource attached to a skillset. */
   odatatype: "#Microsoft.Azure.Search.AIServicesByIdentity";

@@ -26,11 +26,11 @@ import type {
 } from "../../api/l2IsolationDomains/options.js";
 import type {
   UpdateAdministrativeState,
-  UpdateAdministrativeStateResponse,
   CommonPostActionResponseForStateUpdate,
   ValidateConfigurationResponse,
   L2IsolationDomain,
   L2IsolationDomainPatch,
+  CommonPostActionResponseForDeviceUpdate,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -92,8 +92,8 @@ export interface L2IsolationDomainsOperations {
     body: UpdateAdministrativeState,
     options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
+    OperationState<CommonPostActionResponseForDeviceUpdate>,
+    CommonPostActionResponseForDeviceUpdate
   >;
   /** @deprecated use updateAdministrativeState instead */
   beginUpdateAdministrativeState: (
@@ -103,8 +103,8 @@ export interface L2IsolationDomainsOperations {
     options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<UpdateAdministrativeStateResponse>,
-      UpdateAdministrativeStateResponse
+      OperationState<CommonPostActionResponseForDeviceUpdate>,
+      CommonPostActionResponseForDeviceUpdate
     >
   >;
   /** @deprecated use updateAdministrativeState instead */
@@ -113,7 +113,7 @@ export interface L2IsolationDomainsOperations {
     l2IsolationDomainName: string,
     body: UpdateAdministrativeState,
     options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams,
-  ) => Promise<UpdateAdministrativeStateResponse>;
+  ) => Promise<CommonPostActionResponseForDeviceUpdate>;
   /** Displays L2IsolationDomains list by subscription GET method. */
   listBySubscription: (
     options?: L2IsolationDomainsListBySubscriptionOptionalParams,

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for grantCopyAuth.ts - Grant copy authorization for cross-resource copy.
+ * Sample test for grantCopyAuth.ts - Grant copy authorization for cross-resource copy.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";

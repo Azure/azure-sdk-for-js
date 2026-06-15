@@ -30,7 +30,6 @@ import type {
   ValidateConfigurationResponse,
   NetworkTapRule,
   NetworkTapRulePatch,
-  NetworkTapRuleResyncResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -64,21 +63,27 @@ export interface NetworkTapRulesOperations {
     resourceGroupName: string,
     networkTapRuleName: string,
     options?: NetworkTapRulesResyncOptionalParams,
-  ) => PollerLike<OperationState<NetworkTapRuleResyncResponse>, NetworkTapRuleResyncResponse>;
+  ) => PollerLike<
+    OperationState<CommonPostActionResponseForStateUpdate>,
+    CommonPostActionResponseForStateUpdate
+  >;
   /** @deprecated use resync instead */
   beginResync: (
     resourceGroupName: string,
     networkTapRuleName: string,
     options?: NetworkTapRulesResyncOptionalParams,
   ) => Promise<
-    SimplePollerLike<OperationState<NetworkTapRuleResyncResponse>, NetworkTapRuleResyncResponse>
+    SimplePollerLike<
+      OperationState<CommonPostActionResponseForStateUpdate>,
+      CommonPostActionResponseForStateUpdate
+    >
   >;
   /** @deprecated use resync instead */
   beginResyncAndWait: (
     resourceGroupName: string,
     networkTapRuleName: string,
     options?: NetworkTapRulesResyncOptionalParams,
-  ) => Promise<NetworkTapRuleResyncResponse>;
+  ) => Promise<CommonPostActionResponseForStateUpdate>;
   /** Implements the operation to the underlying resources. */
   updateAdministrativeState: (
     resourceGroupName: string,

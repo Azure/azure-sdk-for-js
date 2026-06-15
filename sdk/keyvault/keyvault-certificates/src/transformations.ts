@@ -56,7 +56,7 @@ export function toCorePolicy(
       emails: policy.subjectAlternativeNames.emails,
       dnsNames: policy.subjectAlternativeNames.dnsNames,
       upns: policy.subjectAlternativeNames.userPrincipalNames,
-      uniformResourceIdentifiers: policy.subjectAlternativeNames.uniformResourceIdentifiers,
+      uris: policy.subjectAlternativeNames.uniformResourceIdentifiers,
       ipAddresses: policy.subjectAlternativeNames.ipAddresses,
     };
   }
@@ -94,6 +94,7 @@ export function toCorePolicy(
       certificateType: policy.certificateType,
       certificateTransparency: policy.certificateTransparency,
     },
+    platformManaged: policy.platformManaged,
     attributes,
   };
 }
@@ -123,10 +124,10 @@ export function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificateP
           userPrincipalNames: names.upns as ArrayOneOrMore<string>,
         };
       }
-      if (names.uniformResourceIdentifiers && names.uniformResourceIdentifiers.length) {
+      if (names.uris && names.uris.length) {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
-          uniformResourceIdentifiers: names.uniformResourceIdentifiers as ArrayOneOrMore<string>,
+          uniformResourceIdentifiers: names.uris as ArrayOneOrMore<string>,
         };
       }
       if (names.ipAddresses && names.ipAddresses.length) {
@@ -173,6 +174,10 @@ export function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificateP
     certificatePolicy.certificateType = policy.issuerParameters
       .certificateType as CertificateContentType;
     certificatePolicy.certificateTransparency = policy.issuerParameters.certificateTransparency;
+  }
+
+  if (policy.platformManaged) {
+    certificatePolicy.platformManaged = policy.platformManaged;
   }
 
   return certificatePolicy;

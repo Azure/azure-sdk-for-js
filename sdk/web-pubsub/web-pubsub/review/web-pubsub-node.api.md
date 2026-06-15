@@ -5,9 +5,8 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import type { CommonClientOptions } from '@azure/core-client';
-import type { OperationOptions } from '@azure/core-client';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { RequestBodyType } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -19,6 +18,11 @@ export interface ClientTokenResponse {
     token: string;
     url: string;
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export interface GenerateClientTokenOptions extends OperationOptions {
@@ -38,7 +42,7 @@ export interface GroupAddUserOptions extends OperationOptions {
 }
 
 // @public
-export interface GroupAdminClientOptions extends CommonClientOptions {
+export interface GroupAdminClientOptions extends ClientOptions {
 }
 
 // @public
@@ -130,7 +134,6 @@ export interface HubSendTextToAllOptions extends HubSendToAllOptions {
 
 // @public
 export interface HubSendTextToConnectionOptions extends HubSendToConnectionOptions {
-    // (undocumented)
     contentType: "text/plain";
 }
 
@@ -163,13 +166,25 @@ export type JSONTypes = string | number | boolean | object;
 // @public
 export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
 
-// @public (undocumented)
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export type Permission = "joinLeaveGroup" | "sendToGroup";
 
 // @public
 export type WebPubSubClientProtocol = "default" | "mqtt" | "socketio";
 
-// @public (undocumented)
+// @public
 export interface WebPubSubGroup {
     addConnection(connectionId: string, options?: GroupAddConnectionOptions): Promise<void>;
     addUser(username: string, options?: GroupAddUserOptions): Promise<void>;
@@ -232,7 +247,7 @@ export interface WebPubSubServiceClientLogOptions {
 }
 
 // @public
-export interface WebPubSubServiceClientOptions extends CommonClientOptions {
+export interface WebPubSubServiceClientOptions extends ClientOptions {
     loggingOptions?: WebPubSubServiceClientLogOptions;
     reverseProxyEndpoint?: string;
 }

@@ -100,7 +100,7 @@ Replace your AutoRest generation script with TypeSpec generation and customizati
 ```json
 {
   "scripts": {
-    "generate:client": "tsp-client update -d && npm run format && dev-tool run customization apply-v2 --skip index.ts",
+    "generate:client": "tsp-client update -d && npm run format && dev-tool customization apply --skip index.ts",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test": "npm run test:node && npm run test:browser",
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest"
@@ -148,7 +148,7 @@ npm run generate:client
 Use the dev-tool customization command to copy generated files to `src/` and merge with existing customizations:
 
 ```bash
-npx dev-tool customization apply-v2 --skip index.ts
+npx dev-tool customization apply --skip index.ts
 ```
 
 This command:
@@ -243,13 +243,13 @@ Delete the following files that are no longer needed:
 2. **Build the package:**
 
    ```bash
-   npm run build
+   pnpm turbo build
    ```
 
 3. **Run tests:**
 
    ```bash
-   npm run test
+   pnpm test
    ```
 
 4. **Validate the API surface:** Use API Extractor to ensure your public API hasn't changed unexpectedly.
@@ -269,7 +269,7 @@ After migration, your development workflow becomes:
 
 1. **Update TypeSpec definitions** in azure-rest-api-specs
 2. **Generate new code:** `npm run generate:client`
-3. **Build and test:** `npm run build && npm run test`
+3. **Build and test:** `pnpm turbo build && pnpm test`
 
 ### Version Management
 

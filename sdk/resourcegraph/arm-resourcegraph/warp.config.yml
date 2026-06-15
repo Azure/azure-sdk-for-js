@@ -1,15 +1,25 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./models": "./src/models/index.ts"
+  "./models/graphQueryApi": "./src/models/graphQueryApi/index.ts"
+  "./models/resourceChanges": "./src/models/resourceChanges/index.ts"
+  "./models/resourceGraphApi": "./src/models/resourceGraphApi/index.ts"
+  "./models/resourceGraphCommon": "./src/models/resourceGraphCommon/index.ts"
+  "./models/resourceHistory": "./src/models/resourceHistory/index.ts"
 
 targets:
   - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-  - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
+    tsconfig: "./config/tsconfig.src.browser.json"
+
   - name: esm
     condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
+    tsconfig: "./config/tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

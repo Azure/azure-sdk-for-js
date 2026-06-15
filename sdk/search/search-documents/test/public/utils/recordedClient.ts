@@ -35,6 +35,8 @@ function appendTrailingSlashesToEnvironment(envSetupForPlayback: Env): void {
 function createRecorderStartOptions(): RecorderStartOptions {
   const envSetupForPlayback = {
     ENDPOINT: "https://subdomain.search.windows.net/",
+    AZURE_OPENAI_ENDPOINT: "https://subdomain.openai.azure.com/",
+    AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME: "deployment-name",
   };
 
   appendTrailingSlashesToEnvironment(envSetupForPlayback);

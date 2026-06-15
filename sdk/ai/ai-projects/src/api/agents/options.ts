@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AgentKind, AgentDefinitionOptInKeys, PageOrder } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import {
+  AgentKind,
+  AgentBlueprintReferenceUnion,
+  AgentEndpointConfig,
+  AgentCard,
+  AgentDefinitionOptInKeys,
+  PageOrder,
+} from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AgentsListVersionsOptionalParams extends OperationOptions {
@@ -31,7 +38,10 @@ export interface AgentsListVersionsOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AgentsDeleteVersionOptionalParams extends OperationOptions {}
+export interface AgentsDeleteVersionOptionalParams extends OperationOptions {
+  /** For Hosted Agents, if true, force-deletes the version even if it has active sessions, cascading deletion to all associated sessions. Defaults to `false`. This value is not relevant for other Agent types. */
+  force?: boolean;
+}
 
 /** Optional parameters. */
 export interface AgentsGetVersionOptionalParams extends OperationOptions {}
@@ -66,6 +76,8 @@ export interface AgentsCreateVersionOptionalParams extends OperationOptions {
   metadata?: Record<string, string>;
   /** A human-readable description of the agent. */
   description?: string;
+  /** The blueprint reference for the agent. */
+  blueprintReference?: AgentBlueprintReferenceUnion;
 }
 
 /** Optional parameters. */
@@ -97,7 +109,10 @@ export interface AgentsListOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AgentsDeleteOptionalParams extends OperationOptions {}
+export interface AgentsDeleteOptionalParams extends OperationOptions {
+  /** For Hosted Agents, if true, force-deletes the agent even if its versions have active sessions, cascading deletion to all associated sessions. Defaults to `false`. This value is not relevant for other Agent types. */
+  force?: boolean;
+}
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
@@ -144,6 +159,8 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
   metadata?: Record<string, string>;
   /** A human-readable description of the agent. */
   description?: string;
+  /** The blueprint reference for the agent. */
+  blueprintReference?: AgentBlueprintReferenceUnion;
 }
 
 /** Optional parameters. */
@@ -161,6 +178,12 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
   metadata?: Record<string, string>;
   /** A human-readable description of the agent. */
   description?: string;
+  /** The blueprint reference for the agent. */
+  blueprintReference?: AgentBlueprintReferenceUnion;
+  /** An optional endpoint configuration. If not specified, a default endpoint configuration will be set for the agent */
+  agentEndpoint?: AgentEndpointConfig;
+  /** Optional agent card for the agent */
+  agentCard?: AgentCard;
 }
 
 /** Optional parameters. */

@@ -245,7 +245,7 @@ describe(
       const changeFeedEvent = rawEventToBlobChangeFeedEvent(eventObject);
 
       // Assert
-      assert.equal(1, changeFeedEvent.schemaVersion);
+      assert.equal(changeFeedEvent.schemaVersion, 1);
       assert.equal(
         "/subscriptions/dd40261b-437d-43d0-86cf-ef222b78fd15/resourceGroups/haambaga/providers/Microsoft.Storage/storageAccounts/HAAMBAGA-DEV",
         changeFeedEvent.topic,
@@ -254,20 +254,20 @@ describe(
         "/blobServices/default/containers/apitestcontainerver/blobs/20220217_125928329_Blob_oaG6iu7ImEB1cX8M",
         changeFeedEvent.subject,
       );
-      assert.equal("BlobCreated", changeFeedEvent.eventType);
+      assert.equal(changeFeedEvent.eventType, "BlobCreated");
       assert.equal(
         new Date("2022-02-17T12:59:41.4003102Z").valueOf(),
         changeFeedEvent.eventTime.valueOf(),
       );
-      assert.equal("322343e3-8020-0000-00fe-233467066726", changeFeedEvent.id);
-      assert.equal("PutBlob", changeFeedEvent.data.api);
-      assert.equal("f0270546-168e-4398-8fa8-107a1ac214d2", changeFeedEvent.data.clientRequestId);
-      assert.equal("322343e3-8020-0000-00fe-233467000000", changeFeedEvent.data.requestId);
-      assert.equal("0x8D9F2155CBF7928", changeFeedEvent.data.etag);
-      assert.equal("application/octet-stream", changeFeedEvent.data.contentType);
-      assert.equal(128, changeFeedEvent.data.contentLength);
-      assert.equal("BlockBlob", changeFeedEvent.data.blobType);
-      assert.equal("https://www.myurl.com", changeFeedEvent.data.url);
+      assert.equal(changeFeedEvent.id, "322343e3-8020-0000-00fe-233467066726");
+      assert.equal(changeFeedEvent.data.api, "PutBlob");
+      assert.equal(changeFeedEvent.data.clientRequestId, "f0270546-168e-4398-8fa8-107a1ac214d2");
+      assert.equal(changeFeedEvent.data.requestId, "322343e3-8020-0000-00fe-233467000000");
+      assert.equal(changeFeedEvent.data.etag, "0x8D9F2155CBF7928");
+      assert.equal(changeFeedEvent.data.contentType, "application/octet-stream");
+      assert.equal(changeFeedEvent.data.contentLength, 128);
+      assert.equal(changeFeedEvent.data.blobType, "BlockBlob");
+      assert.equal(changeFeedEvent.data.url, "https://www.myurl.com");
       assert.equal(
         "00000000000000010000000000000002000000000000001d",
         changeFeedEvent.data.sequencer,
@@ -280,7 +280,7 @@ describe(
       const eventObject = JSON.parse(eventData);
       const changeFeedEvent = rawEventToBlobChangeFeedEvent(eventObject);
 
-      assert.equal(3, changeFeedEvent.schemaVersion);
+      assert.equal(changeFeedEvent.schemaVersion, 3);
       assert.equal(
         "/subscriptions/dd40261b-437d-43d0-86cf-ef222b78fd15/resourceGroups/haambaga/providers/Microsoft.Storage/storageAccounts/HAAMBAGA-DEV",
         changeFeedEvent.topic,
@@ -289,20 +289,20 @@ describe(
         "/blobServices/default/containers/apitestcontainerver/blobs/20220217_130510699_Blob_oaG6iu7ImEB1cX8M",
         changeFeedEvent.subject,
       );
-      assert.equal("BlobCreated", changeFeedEvent.eventType);
+      assert.equal(changeFeedEvent.eventType, "BlobCreated");
       assert.equal(
         new Date("2022-02-17T13:05:19.6798242Z").valueOf(),
         changeFeedEvent.eventTime.valueOf(),
       );
-      assert.equal("eefe8fc8-8020-0000-00fe-23346706daaa", changeFeedEvent.id);
-      assert.equal("PutBlob", changeFeedEvent.data.api);
-      assert.equal("00c0b6b7-bb67-4748-a3dc-86464863d267", changeFeedEvent.data.clientRequestId);
-      assert.equal("eefe8fc8-8020-0000-00fe-233467000000", changeFeedEvent.data.requestId);
-      assert.equal("0x8D9F216266170DC", changeFeedEvent.data.etag);
-      assert.equal("application/octet-stream", changeFeedEvent.data.contentType);
-      assert.equal(128, changeFeedEvent.data.contentLength);
-      assert.equal("BlockBlob", changeFeedEvent.data.blobType);
-      assert.equal("https://www.myurl.com", changeFeedEvent.data.url);
+      assert.equal(changeFeedEvent.id, "eefe8fc8-8020-0000-00fe-23346706daaa");
+      assert.equal(changeFeedEvent.data.api, "PutBlob");
+      assert.equal(changeFeedEvent.data.clientRequestId, "00c0b6b7-bb67-4748-a3dc-86464863d267");
+      assert.equal(changeFeedEvent.data.requestId, "eefe8fc8-8020-0000-00fe-233467000000");
+      assert.equal(changeFeedEvent.data.etag, "0x8D9F216266170DC");
+      assert.equal(changeFeedEvent.data.contentType, "application/octet-stream");
+      assert.equal(changeFeedEvent.data.contentLength, 128);
+      assert.equal(changeFeedEvent.data.blobType, "BlockBlob");
+      assert.equal(changeFeedEvent.data.url, "https://www.myurl.com");
       assert.equal(
         "00000000000000010000000000000002000000000000001d",
         changeFeedEvent.data.sequencer,
@@ -321,9 +321,9 @@ describe(
         "2022-02-17T16:11:52.0781797Z",
         changeFeedEvent.data.previousInfo?.oldBlobVersion,
       );
-      assert.equal("Hot", changeFeedEvent.data.previousInfo?.previousTier);
+      assert.equal(changeFeedEvent.data.previousInfo?.previousTier, "Hot");
 
-      assert.equal("2022-02-17T16:09:16.7261278Z", changeFeedEvent.data.snapshot);
+      assert.equal(changeFeedEvent.data.snapshot, "2022-02-17T16:09:16.7261278Z");
 
       assert.equal(
         "ContentLanguage",
@@ -359,7 +359,7 @@ describe(
         "gzip, identity",
         changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].newValue,
       );
-      assert.equal("gzip", changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].oldValue);
+      assert.equal(changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].oldValue, "gzip");
 
       assert.equal(
         "ContentMD5",
@@ -382,7 +382,7 @@ describe(
         "attachment",
         changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].newValue,
       );
-      assert.equal("", changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].oldValue);
+      assert.equal(changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].oldValue, "");
 
       assert.equal(
         "ContentType",
@@ -404,7 +404,7 @@ describe(
       const eventObject = JSON.parse(eventData);
       const changeFeedEvent = rawEventToBlobChangeFeedEvent(eventObject);
 
-      assert.equal(4, changeFeedEvent.schemaVersion);
+      assert.equal(changeFeedEvent.schemaVersion, 4);
       assert.equal(
         "/subscriptions/dd40261b-437d-43d0-86cf-ef222b78fd15/resourceGroups/haambaga/providers/Microsoft.Storage/storageAccounts/HAAMBAGA-DEV",
         changeFeedEvent.topic,
@@ -413,23 +413,23 @@ describe(
         "/blobServices/default/containers/apitestcontainerver/blobs/20220217_130833395_Blob_oaG6iu7ImEB1cX8M",
         changeFeedEvent.subject,
       );
-      assert.equal("BlobCreated", changeFeedEvent.eventType);
+      assert.equal(changeFeedEvent.eventType, "BlobCreated");
       assert.equal(
         new Date("2022-02-17T13:08:42.4835902Z").valueOf(),
         changeFeedEvent.eventTime.valueOf(),
       );
-      assert.equal("ca76bce1-8020-0000-00ff-23346706e769", changeFeedEvent.id);
-      assert.equal("PutBlob", changeFeedEvent.data.api);
-      assert.equal("58fbfee9-6cf5-4096-9666-c42980beee65", changeFeedEvent.data.clientRequestId);
-      assert.equal("ca76bce1-8020-0000-00ff-233467000000", changeFeedEvent.data.requestId);
-      assert.equal("0x8D9F2169F42D701", changeFeedEvent.data.etag);
-      assert.equal("application/octet-stream", changeFeedEvent.data.contentType);
-      assert.equal(128, changeFeedEvent.data.contentLength);
-      assert.equal("BlockBlob", changeFeedEvent.data.blobType);
-      assert.equal("2022-02-17T16:11:52.5901564Z", changeFeedEvent.data.blobVersion);
-      assert.equal("0000000000000001", changeFeedEvent.data.containerVersion);
-      assert.equal("Archive", changeFeedEvent.data.blobAccessTier);
-      assert.equal("https://www.myurl.com", changeFeedEvent.data.url);
+      assert.equal(changeFeedEvent.id, "ca76bce1-8020-0000-00ff-23346706e769");
+      assert.equal(changeFeedEvent.data.api, "PutBlob");
+      assert.equal(changeFeedEvent.data.clientRequestId, "58fbfee9-6cf5-4096-9666-c42980beee65");
+      assert.equal(changeFeedEvent.data.requestId, "ca76bce1-8020-0000-00ff-233467000000");
+      assert.equal(changeFeedEvent.data.etag, "0x8D9F2169F42D701");
+      assert.equal(changeFeedEvent.data.contentType, "application/octet-stream");
+      assert.equal(changeFeedEvent.data.contentLength, 128);
+      assert.equal(changeFeedEvent.data.blobType, "BlockBlob");
+      assert.equal(changeFeedEvent.data.blobVersion, "2022-02-17T16:11:52.5901564Z");
+      assert.equal(changeFeedEvent.data.containerVersion, "0000000000000001");
+      assert.equal(changeFeedEvent.data.blobAccessTier, "Archive");
+      assert.equal(changeFeedEvent.data.url, "https://www.myurl.com");
       assert.equal(
         "00000000000000010000000000000002000000000000001d",
         changeFeedEvent.data.sequencer,
@@ -448,9 +448,9 @@ describe(
         "2022-02-17T16:11:52.0781797Z",
         changeFeedEvent.data.previousInfo?.oldBlobVersion,
       );
-      assert.equal("Hot", changeFeedEvent.data.previousInfo?.previousTier);
+      assert.equal(changeFeedEvent.data.previousInfo?.previousTier, "Hot");
 
-      assert.equal("2022-02-17T16:09:16.7261278Z", changeFeedEvent.data.snapshot);
+      assert.equal(changeFeedEvent.data.snapshot, "2022-02-17T16:09:16.7261278Z");
 
       assert.equal(
         "ContentLanguage",
@@ -486,7 +486,7 @@ describe(
         "gzip, identity",
         changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].newValue,
       );
-      assert.equal("gzip", changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].oldValue);
+      assert.equal(changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].oldValue, "gzip");
 
       assert.equal(
         "ContentMD5",
@@ -509,7 +509,7 @@ describe(
         "attachment",
         changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].newValue,
       );
-      assert.equal("", changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].oldValue);
+      assert.equal(changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].oldValue, "");
 
       assert.equal(
         "ContentType",
@@ -524,9 +524,9 @@ describe(
         changeFeedEvent.data.updatedBlobProperties!["ContentType"].oldValue,
       );
 
-      assert.equal("Hot", changeFeedEvent.data.longRunningOperationInfo?.destinationAccessTier);
+      assert.equal(changeFeedEvent.data.longRunningOperationInfo?.destinationAccessTier, "Hot");
       assert.isTrue(changeFeedEvent.data.longRunningOperationInfo?.isAsync);
-      assert.equal("copyId", changeFeedEvent.data.longRunningOperationInfo?.copyId);
+      assert.equal(changeFeedEvent.data.longRunningOperationInfo?.copyId, "copyId");
     });
 
     it("Event schema v5 test", async () => {
@@ -534,7 +534,7 @@ describe(
       const eventData = await streamToString(fs.createReadStream(eventSchemaV5));
       const eventObject = JSON.parse(eventData);
       const changeFeedEvent = rawEventToBlobChangeFeedEvent(eventObject);
-      assert.equal(5, changeFeedEvent.schemaVersion);
+      assert.equal(changeFeedEvent.schemaVersion, 5);
       assert.equal(
         "/subscriptions/dd40261b-437d-43d0-86cf-ef222b78fd15/resourceGroups/haambaga/providers/Microsoft.Storage/storageAccounts/HAAMBAGA-DEV",
         changeFeedEvent.topic,
@@ -543,23 +543,23 @@ describe(
         "/blobServices/default/containers/apitestcontainerver/blobs/20220217_131202494_Blob_oaG6iu7ImEB1cX8M",
         changeFeedEvent.subject,
       );
-      assert.equal("BlobCreated", changeFeedEvent.eventType);
+      assert.equal(changeFeedEvent.eventType, "BlobCreated");
       assert.equal(
         new Date("2022-02-17T13:12:11.5746587Z").valueOf(),
         changeFeedEvent.eventTime.valueOf(),
       );
-      assert.equal("62616073-8020-0000-00ff-233467060cc0", changeFeedEvent.id);
-      assert.equal("PutBlob", changeFeedEvent.data.api);
-      assert.equal("b3f9b39a-ae5a-45ac-afad-95ac9e9f2791", changeFeedEvent.data.clientRequestId);
-      assert.equal("62616073-8020-0000-00ff-233467000000", changeFeedEvent.data.requestId);
-      assert.equal("0x8D9F2171BE32588", changeFeedEvent.data.etag);
-      assert.equal("application/octet-stream", changeFeedEvent.data.contentType);
-      assert.equal(128, changeFeedEvent.data.contentLength);
-      assert.equal("BlockBlob", changeFeedEvent.data.blobType);
-      assert.equal("2022-02-17T16:11:52.5901564Z", changeFeedEvent.data.blobVersion);
-      assert.equal("0000000000000001", changeFeedEvent.data.containerVersion);
-      assert.equal("Archive", changeFeedEvent.data.blobAccessTier);
-      assert.equal("https://www.myurl.com", changeFeedEvent.data.url);
+      assert.equal(changeFeedEvent.id, "62616073-8020-0000-00ff-233467060cc0");
+      assert.equal(changeFeedEvent.data.api, "PutBlob");
+      assert.equal(changeFeedEvent.data.clientRequestId, "b3f9b39a-ae5a-45ac-afad-95ac9e9f2791");
+      assert.equal(changeFeedEvent.data.requestId, "62616073-8020-0000-00ff-233467000000");
+      assert.equal(changeFeedEvent.data.etag, "0x8D9F2171BE32588");
+      assert.equal(changeFeedEvent.data.contentType, "application/octet-stream");
+      assert.equal(changeFeedEvent.data.contentLength, 128);
+      assert.equal(changeFeedEvent.data.blobType, "BlockBlob");
+      assert.equal(changeFeedEvent.data.blobVersion, "2022-02-17T16:11:52.5901564Z");
+      assert.equal(changeFeedEvent.data.containerVersion, "0000000000000001");
+      assert.equal(changeFeedEvent.data.blobAccessTier, "Archive");
+      assert.equal(changeFeedEvent.data.url, "https://www.myurl.com");
       assert.equal(
         "00000000000000010000000000000002000000000000001d",
         changeFeedEvent.data.sequencer,
@@ -578,9 +578,9 @@ describe(
         "2022-02-17T16:11:52.0781797Z",
         changeFeedEvent.data.previousInfo?.oldBlobVersion,
       );
-      assert.equal("Hot", changeFeedEvent.data.previousInfo?.previousTier);
+      assert.equal(changeFeedEvent.data.previousInfo?.previousTier, "Hot");
 
-      assert.equal("2022-02-17T16:09:16.7261278Z", changeFeedEvent.data.snapshot);
+      assert.equal(changeFeedEvent.data.snapshot, "2022-02-17T16:09:16.7261278Z");
 
       assert.equal(
         "ContentLanguage",
@@ -616,7 +616,7 @@ describe(
         "gzip, identity",
         changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].newValue,
       );
-      assert.equal("gzip", changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].oldValue);
+      assert.equal(changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].oldValue, "gzip");
 
       assert.equal(
         "ContentMD5",
@@ -639,7 +639,7 @@ describe(
         "attachment",
         changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].newValue,
       );
-      assert.equal("", changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].oldValue);
+      assert.equal(changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].oldValue, "");
 
       assert.equal(
         "ContentType",
@@ -654,15 +654,15 @@ describe(
         changeFeedEvent.data.updatedBlobProperties!["ContentType"].oldValue,
       );
 
-      assert.equal("Hot", changeFeedEvent.data.longRunningOperationInfo?.destinationAccessTier);
+      assert.equal(changeFeedEvent.data.longRunningOperationInfo?.destinationAccessTier, "Hot");
       assert.isTrue(changeFeedEvent.data.longRunningOperationInfo?.isAsync);
-      assert.equal("copyId", changeFeedEvent.data.longRunningOperationInfo?.copyId);
+      assert.equal(changeFeedEvent.data.longRunningOperationInfo?.copyId, "copyId");
 
-      assert.equal("Value1_3", changeFeedEvent.data.updatedBlobTags?.oldTags["Tag1"]);
-      assert.equal("Value2_3", changeFeedEvent.data.updatedBlobTags?.oldTags["Tag2"]);
+      assert.equal(changeFeedEvent.data.updatedBlobTags?.oldTags["Tag1"], "Value1_3");
+      assert.equal(changeFeedEvent.data.updatedBlobTags?.oldTags["Tag2"], "Value2_3");
 
-      assert.equal("Value1_4", changeFeedEvent.data.updatedBlobTags?.newTags["Tag1"]);
-      assert.equal("Value2_4", changeFeedEvent.data.updatedBlobTags?.newTags["Tag2"]);
+      assert.equal(changeFeedEvent.data.updatedBlobTags?.newTags["Tag1"], "Value1_4");
+      assert.equal(changeFeedEvent.data.updatedBlobTags?.newTags["Tag2"], "Value2_4");
     });
   },
 );

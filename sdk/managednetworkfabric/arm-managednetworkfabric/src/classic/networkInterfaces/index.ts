@@ -20,7 +20,7 @@ import type {
 } from "../../api/networkInterfaces/options.js";
 import type {
   UpdateAdministrativeState,
-  UpdateAdministrativeStateResponse,
+  CommonPostActionResponseForStateUpdate,
   NetworkInterface,
   NetworkInterfacePatch,
 } from "../../models/models.js";
@@ -39,8 +39,8 @@ export interface NetworkInterfacesOperations {
     body: UpdateAdministrativeState,
     options?: NetworkInterfacesUpdateAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
+    OperationState<CommonPostActionResponseForStateUpdate>,
+    CommonPostActionResponseForStateUpdate
   >;
   /** @deprecated use updateAdministrativeState instead */
   beginUpdateAdministrativeState: (
@@ -51,8 +51,8 @@ export interface NetworkInterfacesOperations {
     options?: NetworkInterfacesUpdateAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<UpdateAdministrativeStateResponse>,
-      UpdateAdministrativeStateResponse
+      OperationState<CommonPostActionResponseForStateUpdate>,
+      CommonPostActionResponseForStateUpdate
     >
   >;
   /** @deprecated use updateAdministrativeState instead */
@@ -62,7 +62,7 @@ export interface NetworkInterfacesOperations {
     networkInterfaceName: string,
     body: UpdateAdministrativeState,
     options?: NetworkInterfacesUpdateAdministrativeStateOptionalParams,
-  ) => Promise<UpdateAdministrativeStateResponse>;
+  ) => Promise<CommonPostActionResponseForStateUpdate>;
   /** List all the Network Interface resources in a given resource group. */
   listByNetworkDevice: (
     resourceGroupName: string,

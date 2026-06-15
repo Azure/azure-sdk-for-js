@@ -148,12 +148,12 @@ export async function main(): Promise<void> {
         },
       },
     });
-    console.log(`Started insight generation (id: ${clusterInsight.id})`);
+    console.log(`Started insight generation (id: ${clusterInsight.insight_id})`);
 
     // Poll for insight completion
     while (!["Succeeded", "Failed"].includes(clusterInsight.state ?? "")) {
       console.log("Waiting for insight to be generated...");
-      clusterInsight = await project.beta.insights.get(clusterInsight.id ?? "");
+      clusterInsight = await project.beta.insights.get(clusterInsight.insight_id ?? "");
       console.log(`Insight status: ${clusterInsight.state}`);
       await new Promise((resolve) => setTimeout(resolve, 5000));
     }

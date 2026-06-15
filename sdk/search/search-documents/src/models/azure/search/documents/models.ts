@@ -8,8 +8,7 @@ import { serializeRecord } from "../../../../static-helpers/serialization/serial
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponse {
   /** The error object. */
@@ -65,7 +64,7 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: Record<string, unknown>;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
@@ -73,7 +72,7 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
     type: item["type"],
     info: !item["info"]
       ? item["info"]
-      : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, any]) => [k, p])),
+      : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, unknown]) => [k, p])),
   };
 }
 
@@ -103,8 +102,8 @@ export interface SearchDocumentsResult {
   readonly semanticQueryRewritesResultType?: SemanticQueryRewritesResultType;
 }
 
-export function searchDocumentsResultSerializer(item: SearchDocumentsResult): any {
-  return item;
+export function searchDocumentsResultSerializer(_item: SearchDocumentsResult): any {
+  return {};
 }
 
 export function searchDocumentsResultDeserializer(item: any): SearchDocumentsResult {
@@ -256,8 +255,8 @@ export interface DebugInfo {
   readonly queryRewrites?: QueryRewritesDebugInfo;
 }
 
-export function debugInfoSerializer(item: DebugInfo): any {
-  return item;
+export function debugInfoSerializer(_item: DebugInfo): any {
+  return {};
 }
 
 export function debugInfoDeserializer(item: any): DebugInfo {
@@ -1148,7 +1147,7 @@ export function vectorizableTextQueryDeserializer(item: any): VectorizableTextQu
 /** The query parameters to use for vector search when an url that represents an image value that needs to be vectorized is provided. */
 export interface VectorizableImageUrlQuery extends VectorQuery {
   /** The URL of an image to be vectorized to perform a vector search query. */
-  url?: string;
+  url: string;
   /** The kind of vector query being performed. */
   kind: "imageUrl";
 }
@@ -1250,7 +1249,7 @@ export enum KnownVectorFilterMode {
  */
 export type VectorFilterMode = string;
 
-/** TThe query parameters to configure hybrid search behaviors. */
+/** The query parameters to configure hybrid search behaviors. */
 export interface HybridSearch {
   /** Determines the maximum number of documents to be retrieved by the text query portion of a hybrid search request. Those documents will be combined with the documents matching the vector queries to produce a single final list of results. Choosing a larger maxTextRecallSize value will allow retrieving and paging through more documents (using the top and skip parameters), at the cost of higher resource utilization and higher latency. The value needs to be between 1 and 10,000. Default is 1000. */
   maxTextRecallSize?: number;
@@ -1793,8 +1792,8 @@ export interface IndexingResult {
   readonly statusCode: number;
 }
 
-export function indexingResultSerializer(item: IndexingResult): any {
-  return item;
+export function indexingResultSerializer(_item: IndexingResult): any {
+  return {};
 }
 
 export function indexingResultDeserializer(item: any): IndexingResult {
@@ -1841,8 +1840,8 @@ export interface AutocompleteItem {
   readonly queryPlusText: string;
 }
 
-export function autocompleteItemSerializer(item: AutocompleteItem): any {
-  return item;
+export function autocompleteItemSerializer(_item: AutocompleteItem): any {
+  return {};
 }
 
 export function autocompleteItemDeserializer(item: any): AutocompleteItem {

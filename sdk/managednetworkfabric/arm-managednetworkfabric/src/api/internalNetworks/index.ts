@@ -3,7 +3,6 @@
 
 export {
   updateBfdAdministrativeState,
-  updateStaticRouteBfdAdministrativeState,
   updateBgpAdministrativeState,
   updateAdministrativeState,
   listByL3IsolationDomain,
@@ -14,7 +13,6 @@ export {
 } from "./operations.js";
 export type {
   InternalNetworksUpdateBfdAdministrativeStateOptionalParams,
-  InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   InternalNetworksUpdateBgpAdministrativeStateOptionalParams,
   InternalNetworksUpdateAdministrativeStateOptionalParams,
   InternalNetworksListByL3IsolationDomainOptionalParams,

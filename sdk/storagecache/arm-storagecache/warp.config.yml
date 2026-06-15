@@ -3,20 +3,31 @@
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/ascUsages": "./src/api/ascUsages/index.ts"
+  "./api/ascOperations": "./src/api/ascOperations/index.ts"
+  "./api/usageModels": "./src/api/usageModels/index.ts"
+  "./api/skus": "./src/api/skus/index.ts"
+  "./api/storageTargetOperations": "./src/api/storageTargetOperations/index.ts"
+  "./api/expansionJobs": "./src/api/expansionJobs/index.ts"
+  "./api/autoImportJobs": "./src/api/autoImportJobs/index.ts"
+  "./api/importJobs": "./src/api/importJobs/index.ts"
+  "./api/autoExportJobs": "./src/api/autoExportJobs/index.ts"
+  "./api/amlFilesystems": "./src/api/amlFilesystems/index.ts"
+  "./api/storageTargets": "./src/api/storageTargets/index.ts"
+  "./api/caches": "./src/api/caches/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-    polyfillSuffix: "-browser"
-
-  - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
-    polyfillSuffix: "-react-native"
+    tsconfig: "./config/tsconfig.src.browser.json"
 
   - name: esm
     condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
+    tsconfig: "./config/tsconfig.src.esm.json"
 
   - name: commonjs
     condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

@@ -3,7 +3,6 @@
 
 export {
   updateBfdAdministrativeState,
-  updateStaticRouteBfdAdministrativeState,
   updateAdministrativeState,
   listByL3IsolationDomain,
   $delete,
@@ -13,7 +12,6 @@ export {
 } from "./operations.js";
 export type {
   ExternalNetworksUpdateBfdAdministrativeStateOptionalParams,
-  ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   ExternalNetworksUpdateAdministrativeStateOptionalParams,
   ExternalNetworksListByL3IsolationDomainOptionalParams,
   ExternalNetworksDeleteOptionalParams,

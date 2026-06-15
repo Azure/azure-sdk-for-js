@@ -1,15 +1,32 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/operationResults": "./src/api/operationResults/index.ts"
+  "./api/hostSettings": "./src/api/hostSettings/index.ts"
+  "./api/qnAMakerEndpointKeys": "./src/api/qnAMakerEndpointKeys/index.ts"
+  "./api/botConnection": "./src/api/botConnection/index.ts"
+  "./api/directLine": "./src/api/directLine/index.ts"
+  "./api/channels": "./src/api/channels/index.ts"
+  "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
+  "./api/email": "./src/api/email/index.ts"
+  "./api/networkSecurityPerimeterConfigurations": "./src/api/networkSecurityPerimeterConfigurations/index.ts"
+  "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
+  "./api/bots": "./src/api/bots/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-  - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
+    tsconfig: "./config/tsconfig.src.browser.json"
+
   - name: esm
     condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
+    tsconfig: "./config/tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

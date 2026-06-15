@@ -4,7 +4,6 @@
 export {
   updateBfdAdministrativeState,
   updateAdministrativeState,
-  updateNpbStaticRouteBfdAdministrativeState,
   listByNetworkFabric,
   $delete,
   update,
@@ -14,7 +13,6 @@ export {
 export type {
   NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams,
   NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
-  NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
   NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams,
   NetworkToNetworkInterconnectsDeleteOptionalParams,
   NetworkToNetworkInterconnectsUpdateOptionalParams,

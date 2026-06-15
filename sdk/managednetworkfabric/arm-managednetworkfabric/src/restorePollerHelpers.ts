@@ -7,22 +7,6 @@ import {
   _$deleteDeserialize,
   _updateDeserialize,
   _createDeserialize,
-} from "./api/networkBootstrapInterfaces/operations.js";
-import {
-  _resyncPasswordsDeserialize,
-  _updateAdministrativeStateDeserialize as _updateAdministrativeStateDeserializeNetworkBootstrapDevices,
-  _upgradeDeserialize,
-  _refreshConfigurationDeserialize,
-  _rebootDeserialize,
-  _$deleteDeserialize as _$deleteDeserializeNetworkBootstrapDevices,
-  _updateDeserialize as _updateDeserializeNetworkBootstrapDevices,
-  _createDeserialize as _createDeserializeNetworkBootstrapDevices,
-} from "./api/networkBootstrapDevices/operations.js";
-import {
-  _updateAdministrativeStateDeserialize as _updateAdministrativeStateDeserializeNetworkMonitors,
-  _$deleteDeserialize as _$deleteDeserializeNetworkMonitors,
-  _updateDeserialize as _updateDeserializeNetworkMonitors,
-  _createDeserialize as _createDeserializeNetworkMonitors,
 } from "./api/networkMonitors/operations.js";
 import {
   _commitConfigurationDeserialize,
@@ -60,16 +44,11 @@ import {
 import {
   _updateBfdAdministrativeStateDeserialize,
   _updateAdministrativeStateDeserialize as _updateAdministrativeStateDeserializeNetworkToNetworkInterconnects,
-  _updateNpbStaticRouteBfdAdministrativeStateDeserialize,
   _$deleteDeserialize as _$deleteDeserializeNetworkToNetworkInterconnects,
   _updateDeserialize as _updateDeserializeNetworkToNetworkInterconnects,
   _createDeserialize as _createDeserializeNetworkToNetworkInterconnects,
 } from "./api/networkToNetworkInterconnects/operations.js";
 import {
-  _resyncCertificatesDeserialize,
-  _rotateCertificatesDeserialize,
-  _resyncPasswordsDeserialize as _resyncPasswordsDeserializeNetworkFabrics,
-  _rotatePasswordsDeserialize,
   _armConfigurationDiffDeserialize,
   _viewDeviceConfigurationDeserialize,
   _lockFabricDeserialize,
@@ -80,8 +59,8 @@ import {
   _validateConfigurationDeserialize as _validateConfigurationDeserializeNetworkFabrics,
   _updateInfraManagementBfdConfigurationDeserialize,
   _updateWorkloadManagementBfdConfigurationDeserialize,
-  _refreshConfigurationDeserialize as _refreshConfigurationDeserializeNetworkFabrics,
-  _upgradeDeserialize as _upgradeDeserializeNetworkFabrics,
+  _refreshConfigurationDeserialize,
+  _upgradeDeserialize,
   _deprovisionDeserialize,
   _provisionDeserialize,
   _$deleteDeserialize as _$deleteDeserializeNetworkFabrics,
@@ -100,27 +79,23 @@ import {
   _createDeserialize as _createDeserializeNetworkInterfaces,
 } from "./api/networkInterfaces/operations.js";
 import {
-  _resyncCertificatesDeserialize as _resyncCertificatesDeserializeNetworkDevices,
-  _resyncPasswordsDeserialize as _resyncPasswordsDeserializeNetworkDevices,
   _runRwCommandDeserialize,
   _runRoCommandDeserialize,
   _upgradeDeserialize as _upgradeDeserializeNetworkDevices,
   _updateAdministrativeStateDeserialize as _updateAdministrativeStateDeserializeNetworkDevices,
   _refreshConfigurationDeserialize as _refreshConfigurationDeserializeNetworkDevices,
-  _rebootDeserialize as _rebootDeserializeNetworkDevices,
+  _rebootDeserialize,
   _$deleteDeserialize as _$deleteDeserializeNetworkDevices,
   _updateDeserialize as _updateDeserializeNetworkDevices,
   _createDeserialize as _createDeserializeNetworkDevices,
 } from "./api/networkDevices/operations.js";
 import {
-  _resyncDeserialize as _resyncDeserializeNeighborGroups,
   _$deleteDeserialize as _$deleteDeserializeNeighborGroups,
   _updateDeserialize as _updateDeserializeNeighborGroups,
   _createDeserialize as _createDeserializeNeighborGroups,
 } from "./api/neighborGroups/operations.js";
 import {
   _updateBfdAdministrativeStateDeserialize as _updateBfdAdministrativeStateDeserializeExternalNetworks,
-  _updateStaticRouteBfdAdministrativeStateDeserialize,
   _updateAdministrativeStateDeserialize as _updateAdministrativeStateDeserializeExternalNetworks,
   _$deleteDeserialize as _$deleteDeserializeExternalNetworks,
   _updateDeserialize as _updateDeserializeExternalNetworks,
@@ -128,7 +103,6 @@ import {
 } from "./api/externalNetworks/operations.js";
 import {
   _updateBfdAdministrativeStateDeserialize as _updateBfdAdministrativeStateDeserializeInternalNetworks,
-  _updateStaticRouteBfdAdministrativeStateDeserialize as _updateStaticRouteBfdAdministrativeStateDeserializeInternalNetworks,
   _updateBgpAdministrativeStateDeserialize,
   _updateAdministrativeStateDeserialize as _updateAdministrativeStateDeserializeInternalNetworks,
   _$deleteDeserialize as _$deleteDeserializeInternalNetworks,
@@ -255,56 +229,17 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}/networkBootstrapInterfaces/{networkBootstrapInterfaceName}/updateAdministrativeState":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkMonitors/{networkMonitorName}/updateAdministrativeState":
     {
       deserializer: _updateAdministrativeStateDeserialize,
       expectedStatuses: ["202", "200", "201"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}/networkBootstrapInterfaces/{networkBootstrapInterfaceName}":
-    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}/networkBootstrapInterfaces/{networkBootstrapInterfaceName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}/networkBootstrapInterfaces/{networkBootstrapInterfaceName}":
-    { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}/resyncPasswords":
-    { deserializer: _resyncPasswordsDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}/updateAdministrativeState":
-    {
-      deserializer: _updateAdministrativeStateDeserializeNetworkBootstrapDevices,
-      expectedStatuses: ["202", "200", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}/upgrade":
-    { deserializer: _upgradeDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}/refreshConfiguration":
-    { deserializer: _refreshConfigurationDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}/reboot":
-    { deserializer: _rebootDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}":
-    {
-      deserializer: _$deleteDeserializeNetworkBootstrapDevices,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}":
-    {
-      deserializer: _updateDeserializeNetworkBootstrapDevices,
-      expectedStatuses: ["200", "202", "201"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkBootstrapDevices/{networkBootstrapDeviceName}":
-    {
-      deserializer: _createDeserializeNetworkBootstrapDevices,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkMonitors/{networkMonitorName}/updateAdministrativeState":
-    {
-      deserializer: _updateAdministrativeStateDeserializeNetworkMonitors,
-      expectedStatuses: ["202", "200", "201"],
-    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkMonitors/{networkMonitorName}":
-    { deserializer: _$deleteDeserializeNetworkMonitors, expectedStatuses: ["202", "204", "200"] },
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkMonitors/{networkMonitorName}":
-    { deserializer: _updateDeserializeNetworkMonitors, expectedStatuses: ["200", "202", "201"] },
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkMonitors/{networkMonitorName}":
-    { deserializer: _createDeserializeNetworkMonitors, expectedStatuses: ["200", "201", "202"] },
+    { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}/commitConfiguration":
     { deserializer: _commitConfigurationDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}/validateConfiguration":
@@ -382,11 +317,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _updateAdministrativeStateDeserializeNetworkToNetworkInterconnects,
       expectedStatuses: ["202", "200", "201"],
     },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}/updateNpbStaticRouteBfdAdministrativeState":
-    {
-      deserializer: _updateNpbStaticRouteBfdAdministrativeStateDeserialize,
-      expectedStatuses: ["202", "200", "201"],
-    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}":
     {
       deserializer: _$deleteDeserializeNetworkToNetworkInterconnects,
@@ -402,17 +332,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createDeserializeNetworkToNetworkInterconnects,
       expectedStatuses: ["200", "201", "202"],
     },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/resyncCertificates":
-    { deserializer: _resyncCertificatesDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/rotateCertificates":
-    { deserializer: _rotateCertificatesDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/resyncPasswords":
-    {
-      deserializer: _resyncPasswordsDeserializeNetworkFabrics,
-      expectedStatuses: ["202", "200", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/rotatePasswords":
-    { deserializer: _rotatePasswordsDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/armConfigurationDiff":
     { deserializer: _armConfigurationDiffDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/viewDeviceConfiguration":
@@ -446,12 +365,9 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["202", "200", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/refreshConfiguration":
-    {
-      deserializer: _refreshConfigurationDeserializeNetworkFabrics,
-      expectedStatuses: ["202", "200", "201"],
-    },
+    { deserializer: _refreshConfigurationDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/upgrade":
-    { deserializer: _upgradeDeserializeNetworkFabrics, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _upgradeDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/deprovision":
     { deserializer: _deprovisionDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/provision":
@@ -488,16 +404,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserializeNetworkInterfaces, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/networkInterfaces/{networkInterfaceName}":
     { deserializer: _createDeserializeNetworkInterfaces, expectedStatuses: ["200", "201", "202"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/resyncCertificates":
-    {
-      deserializer: _resyncCertificatesDeserializeNetworkDevices,
-      expectedStatuses: ["202", "200", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/resyncPasswords":
-    {
-      deserializer: _resyncPasswordsDeserializeNetworkDevices,
-      expectedStatuses: ["202", "200", "201"],
-    },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/runRwCommand":
     { deserializer: _runRwCommandDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/runRoCommand":
@@ -515,15 +421,13 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["202", "200", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/reboot":
-    { deserializer: _rebootDeserializeNetworkDevices, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _rebootDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}":
     { deserializer: _$deleteDeserializeNetworkDevices, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}":
     { deserializer: _updateDeserializeNetworkDevices, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}":
     { deserializer: _createDeserializeNetworkDevices, expectedStatuses: ["200", "201", "202"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/neighborGroups/{neighborGroupName}/resync":
-    { deserializer: _resyncDeserializeNeighborGroups, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/neighborGroups/{neighborGroupName}":
     { deserializer: _$deleteDeserializeNeighborGroups, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/neighborGroups/{neighborGroupName}":
@@ -533,11 +437,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}/updateBfdAdministrativeState":
     {
       deserializer: _updateBfdAdministrativeStateDeserializeExternalNetworks,
-      expectedStatuses: ["202", "200", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}/updateStaticRouteBfdAdministrativeState":
-    {
-      deserializer: _updateStaticRouteBfdAdministrativeStateDeserialize,
       expectedStatuses: ["202", "200", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}/updateAdministrativeState":
@@ -554,11 +453,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}/updateBfdAdministrativeState":
     {
       deserializer: _updateBfdAdministrativeStateDeserializeInternalNetworks,
-      expectedStatuses: ["202", "200", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}/updateStaticRouteBfdAdministrativeState":
-    {
-      deserializer: _updateStaticRouteBfdAdministrativeStateDeserializeInternalNetworks,
       expectedStatuses: ["202", "200", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}/updateBgpAdministrativeState":

@@ -1,16 +1,64 @@
 # Release History
 
-## 12.3.0-beta.2 (Unreleased)
+## 13.1.0-beta.1 (2026-06-01)
 
 ### Features Added
 
+- Regenerated from the `2026-05-01-preview` Search service API.
+- Added `resetSkills` method to `SearchIndexerClient` to selectively re-execute specified skills in a skillset.
+- Added `resetDocuments` method to `SearchIndexerClient` to selectively re-ingest specific documents in the data source.
+- Added `resyncIndexer` method to `SearchIndexerClient` to re-sync pre-defined options (e.g., permissions) from the data source.
+- Added `listIndexStatsSummary` method to `SearchIndexClient` to retrieve paged statistics summaries for all indexes in the service.
+- Added new knowledge source kinds: `IndexedSharePoint`, `RemoteSharePoint`, `WorkIQ`, `FabricDataAgent`, and `FabricOntology`, along with corresponding `KnowledgeBaseReference` types.
+- Added `KnowledgeBaseModelQueryPlanningActivityRecord` and `KnowledgeBaseModelAnswerSynthesisActivityRecord` activity record types.
+- Added `KnowledgeRetrievalLowReasoningEffort` and `KnowledgeRetrievalMediumReasoningEffort` reasoning effort variants for knowledge retrieval, along with `KnowledgeRetrievalOutputMode`.
+- Added `PurviewSensitivityLabelInfo` on knowledge base reference and response types for Purview sensitivity labeling.
+- Added `messages`, `maxOutputDocuments`, `maxOutputSize`, `outputMode`, and `retrievalReasoningEffort` properties to `KnowledgeBaseRetrievalRequest`.
+- Added `alwaysQuerySource`, `enableImageServing`, `failOnError`, and `maxOutputDocuments` properties to `BaseKnowledgeSourceParams`.
+- Added `ContentUnderstandingSkillChunkingMethod` and corresponding `method` property on `ContentUnderstandingSkillChunkingProperties`.
+- Added `mode` (`IndexingMode`), `statusDetail` (`IndexerExecutionStatusDetail`), `IndexerCurrentState`, and `IndexerRuntime` properties surfaced on indexer execution results.
+- Added `warning` to `BaseKnowledgeBaseActivityRecord`.
+- Added `hybridSearch` option on `BaseSearchRequestOptions` to configure hybrid search behaviors.
+- Added `querySourceAuthorization` and `enableElevatedRead` options on `BaseSearchRequestOptions` and `GetDocumentOptions` to issue queries with a query-source token and to bypass document-level permission checks.
+- Added `querySourceAuthorization` option on `RetrieveOptions` for knowledge base retrieval.
+- Added preview-only configuration properties on `KnowledgeBase`: `outputMode`, `retrievalReasoningEffort`, `retrievalInstructions`, `answerInstructions`, and `corsOptions`.
+- Added new public knowledge source kinds: `IndexedSharePointKnowledgeSource`, `RemoteSharePointKnowledgeSource`, `WorkIQKnowledgeSource`, `FabricDataAgentKnowledgeSource`, and `FabricOntologyKnowledgeSource` (and their `*Parameters` companions).
+- Exported `KnownKnowledgeRetrievalOutputMode`, `KnownKnowledgeRetrievalReasoningEffortKind`, `KnownIndexedSharePointContainerName`, and `IndexedSharePointContainerName` enums.
+
 ### Breaking Changes
+
+- `queryRewrites` on `SemanticSearchOptions` is now serialized to the new wire string format (e.g., `generative|count-3`); the public `GenerativeQueryRewrites` shape is unchanged but consumers reading raw request bodies should expect the new format.
 
 ### Bugs Fixed
 
+- Fixed argument order in `SearchIndexClient.deleteKnowledgeSourceFile` so the underlying request now targets the correct file (previously the `name` and `fileId` arguments were swapped on the wire, causing deletes to silently no-op).
+
+## 13.0.0 (2026-05-01)
+
+### Features Added
+
+- Added `debug` property to `BaseSearchRequestOptions` to enable debug mode for non-semantic search queries.
+- Added `oversampling` property to `BaseVectorQuery` for vector search oversampling configuration.
+- Added `KnowledgeRetrievalClient` for agentic retrieval operations on knowledge bases.
+- Added support for knowledge sources with multiple kinds: `searchIndex`, `azureBlob`, `indexedOneLake`, and `web`.
+- Added `ContentUnderstandingSkill` for enhanced content extraction and understanding in indexer pipelines.
+- Added `KnowledgeBase` management APIs to `SearchIndexClient` for creating, updating, and deleting knowledge bases.
+- Added knowledge source status tracking via `getKnowledgeSourceStatus` method.
+
+### Breaking Changes
+
+- Upgraded from beta to stable release with API refinements.
+- Removed preview-only properties from `KnowledgeBase` interface: `retrievalReasoningEffort`, `outputMode`, `retrievalInstructions`, `answerInstructions`.
+
+### Bugs Fixed
+
+- Fixed `VectorizableImageBinaryQuery` to properly map `binaryImage` property to the service's `base64Image` field.
+
 ### Other Changes
 
-- Code is now generated from TypeSpec to align with the latest service definitions and code generation pipeline. [#37200](https://github.com/Azure/azure-sdk-for-js/pull/37200)
+- Removed empty `DebugInfo` interface that provided no value.
+- Regenerated from latest TypeSpec spec with `KnowledgeBaseModelWebSummarizationActivityRecord` moved to correct location.
+- Code is now generated from TypeSpec to align with the latest service definitions and code generation pipeline.
 
 ## 12.3.0-beta.1 (2025-11-17)
 
@@ -37,6 +85,7 @@
 - Added new method `getKnowledgeSourceStatus` to search index client. [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
 
 ### Breaking Changes
+
 - Renamed KnowledgeAgent* -> KnowledgeBase* [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
 - Renamed Knowledge Agent to Knowledge Base across all APIs and models:[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
   - All `KnowledgeAgent*` classes renamed to `KnowledgeBase*` equivalents
@@ -385,7 +434,6 @@
 ### Other Changes
 
 - Add `object` type constraint to `IndexDocumentsClient` and its dependencies [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
-
   - Affects these types:
     - `IndexDocumentsClient`
     - `SearchClient`
@@ -512,7 +560,6 @@
 - Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
 - Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 - Regenerated the search SDK with the latest swaggers that includes the following changes:
-
   - Support for `TokenCredential` has been added. With this addition, the Search SDK supports authentication via AAD.
   - Identity types - `SearchIndexerDataNoneIdentity` & `SearchIndexerDataUserAssignedIdentity` have been added.
   - The following new skills have been added:

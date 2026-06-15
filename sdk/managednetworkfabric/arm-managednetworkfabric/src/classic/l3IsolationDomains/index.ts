@@ -26,9 +26,9 @@ import type {
 } from "../../api/l3IsolationDomains/options.js";
 import type {
   UpdateAdministrativeState,
-  UpdateAdministrativeStateResponse,
   CommonPostActionResponseForStateUpdate,
   ValidateConfigurationResponse,
+  CommonPostActionResponseForDeviceUpdate,
   L3IsolationDomain,
   L3IsolationDomainPatch,
 } from "../../models/models.js";
@@ -85,15 +85,15 @@ export interface L3IsolationDomainsOperations {
     l3IsolationDomainName: string,
     options?: L3IsolationDomainsValidateConfigurationOptionalParams,
   ) => Promise<ValidateConfigurationResponse>;
-  /** Updates the administrative state of the L3 Isolation Domain resource. */
+  /** Enables racks for this Isolation Domain. */
   updateAdministrativeState: (
     resourceGroupName: string,
     l3IsolationDomainName: string,
     body: UpdateAdministrativeState,
     options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<UpdateAdministrativeStateResponse>,
-    UpdateAdministrativeStateResponse
+    OperationState<CommonPostActionResponseForDeviceUpdate>,
+    CommonPostActionResponseForDeviceUpdate
   >;
   /** @deprecated use updateAdministrativeState instead */
   beginUpdateAdministrativeState: (
@@ -103,8 +103,8 @@ export interface L3IsolationDomainsOperations {
     options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<UpdateAdministrativeStateResponse>,
-      UpdateAdministrativeStateResponse
+      OperationState<CommonPostActionResponseForDeviceUpdate>,
+      CommonPostActionResponseForDeviceUpdate
     >
   >;
   /** @deprecated use updateAdministrativeState instead */
@@ -113,7 +113,7 @@ export interface L3IsolationDomainsOperations {
     l3IsolationDomainName: string,
     body: UpdateAdministrativeState,
     options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams,
-  ) => Promise<UpdateAdministrativeStateResponse>;
+  ) => Promise<CommonPostActionResponseForDeviceUpdate>;
   /** Displays L3IsolationDomains list by subscription GET method. */
   listBySubscription: (
     options?: L3IsolationDomainsListBySubscriptionOptionalParams,

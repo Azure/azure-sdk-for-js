@@ -4,7 +4,8 @@
 import type { AIProjectContext as Client } from "../../index.js";
 import type { Insight, _PagedInsight } from "../../../models/models.js";
 import {
-  insightSerializer,
+  apiErrorResponseDeserializer,
+  insightRequestUnionSerializer,
   insightDeserializer,
   _pagedInsightDeserializer,
 } from "../../../models/models.js";
@@ -15,6 +16,7 @@ import type {
   BetaInsightsListOptionalParams,
   BetaInsightsGetOptionalParams,
   BetaInsightsGenerateOptionalParams,
+  InsightGenerationRequest,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -54,7 +56,10 @@ export function _listSend(
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_PagedInsight> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
   }
 
   return _pagedInsightDeserializer(result.body);
@@ -85,16 +90,16 @@ export function list(
 
 export function _getSend(
   context: Client,
-  id: string,
+  insightId: string,
   options: BetaInsightsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Insights=V1Preview";
   const path = expandUrlTemplate(
     "/insights/{id}{?api-version,includeCoordinates}",
     {
-      id: id,
-      "api-version": context.apiVersion,
+      id: insightId,
       includeCoordinates: options?.includeCoordinates,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,7 +121,10 @@ export function _getSend(
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Insight> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
   }
 
   return insightDeserializer(result.body);
@@ -125,16 +133,16 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<In
 /** Get a specific insight by Id. */
 export async function get(
   context: Client,
-  id: string,
+  insightId: string,
   options: BetaInsightsGetOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {
-  const result = await _getSend(context, id, options);
+  const result = await _getSend(context, insightId, options);
   return _getDeserialize(result);
 }
 
 export function _generateSend(
   context: Client,
-  insight: Insight,
+  insight: InsightGenerationRequest,
   options: BetaInsightsGenerateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Insights=V1Preview";
@@ -165,14 +173,20 @@ export function _generateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: insightSerializer(insight),
+    body: {
+      displayName: insight.displayName,
+      request: insightRequestUnionSerializer(insight.request),
+    },
   });
 }
 
 export async function _generateDeserialize(result: PathUncheckedResponse): Promise<Insight> {
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
   }
 
   return insightDeserializer(result.body);
@@ -181,7 +195,7 @@ export async function _generateDeserialize(result: PathUncheckedResponse): Promi
 /** Generate Insights */
 export async function generate(
   context: Client,
-  insight: Insight,
+  insight: InsightGenerationRequest,
   options: BetaInsightsGenerateOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {
   const result = await _generateSend(context, insight, options);

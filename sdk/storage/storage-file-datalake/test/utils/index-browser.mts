@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import { DataLakeClientOptions, DataLakeServiceClient, newPipeline } from "../../src/index.js";
-import { AnonymousCredential } from "@azure/storage-blob";
+import { DataLakeServiceClient, type DataLakeServiceClientOptions, newPipeline } from "../../src/index.js";
+import { AnonymousCredential } from "@azure/storage-common";
 import { configureStorageClient, SimpleTokenCredential } from "./testutils.common.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
@@ -29,7 +29,7 @@ export function getGenericDataLakeServiceClient(
   recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = "",
-  pipelineOptions: DataLakeClientOptions = {},
+  pipelineOptions: DataLakeServiceClientOptions = {},
 ): DataLakeServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
@@ -72,7 +72,7 @@ export function getTokenDataLakeServiceClient(recorder: Recorder): DataLakeServi
 }
 
 export function getDataLakeServiceClient(recorder: Recorder,
-    pipelineOptions: DataLakeClientOptions = {},
+    pipelineOptions: DataLakeServiceClientOptions = {},
 ): DataLakeServiceClient {
   return getGenericDataLakeServiceClient(recorder, "DFS_", "", pipelineOptions);
 }

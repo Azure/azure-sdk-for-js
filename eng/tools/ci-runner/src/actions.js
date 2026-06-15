@@ -51,8 +51,9 @@ export function executeActions(
     switch (actionComponents[0]) {
       case "build":
       case "test":
-      case "unit-test":
-      case "integration-test":
+        if (actionComponents[0] === "test") {
+          extraParams.push("--continue");
+        }
         if (actionComponents[1] === "browser") {
           // test:browser will clean and build package so we cannot have it running concurrently.
           // Otherwise, a package may fail to build when its dependency hasn't finish building yet.

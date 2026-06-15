@@ -1,15 +1,33 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./models": "./src/models/index.ts"
+  "./models/analyticsItems": "./src/models/analyticsItems/index.ts"
+  "./models/applicationInsightsCommonTypes": "./src/models/applicationInsightsCommonTypes/index.ts"
+  "./models/componentAPIs": "./src/models/componentAPIs/index.ts"
+  "./models/componentLinkedStorageAccountApi": "./src/models/componentLinkedStorageAccountApi/index.ts"
+  "./models/components": "./src/models/components/index.ts"
+  "./models/deletedWorkbookApi": "./src/models/deletedWorkbookApi/index.ts"
+  "./models/favorites": "./src/models/favorites/index.ts"
+  "./models/liveTokenApi": "./src/models/liveTokenApi/index.ts"
+  "./models/webTestLocation": "./src/models/webTestLocation/index.ts"
+  "./models/webTestsApi": "./src/models/webTestsApi/index.ts"
+  "./models/workBookOperations": "./src/models/workBookOperations/index.ts"
+  "./models/workbooksApi": "./src/models/workbooksApi/index.ts"
+  "./models/workbookTemplatesApi": "./src/models/workbookTemplatesApi/index.ts"
 
 targets:
   - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-  - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
+    tsconfig: "./config/tsconfig.src.browser.json"
+
   - name: esm
     condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
+    tsconfig: "./config/tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs
