@@ -2028,8 +2028,8 @@ export interface RoleAssignmentsListForSubscriptionOptionalParams extends Operat
 export interface RoleAssignmentsOperations {
     create: (scope: string, roleAssignmentName: string, parameters: RoleAssignmentCreateParameters, options?: RoleAssignmentsCreateOptionalParams) => Promise<RoleAssignment>;
     createById: (roleAssignmentId: string, parameters: RoleAssignmentCreateParameters, options?: RoleAssignmentsCreateByIdOptionalParams) => Promise<RoleAssignment>;
-    delete: (scope: string, roleAssignmentName: string, options?: RoleAssignmentsDeleteOptionalParams) => Promise<RoleAssignment>;
-    deleteById: (roleAssignmentId: string, options?: RoleAssignmentsDeleteByIdOptionalParams) => Promise<RoleAssignment>;
+    delete: (scope: string, roleAssignmentName: string, options?: RoleAssignmentsDeleteOptionalParams) => Promise<RoleAssignment | undefined>;
+    deleteById: (roleAssignmentId: string, options?: RoleAssignmentsDeleteByIdOptionalParams) => Promise<RoleAssignment | undefined>;
     get: (scope: string, roleAssignmentName: string, options?: RoleAssignmentsGetOptionalParams) => Promise<RoleAssignment>;
     getById: (roleAssignmentId: string, options?: RoleAssignmentsGetByIdOptionalParams) => Promise<RoleAssignment>;
     listForResource: (resourceGroupName: string, resourceProviderNamespace: string, resourceType: string, resourceName: string, options?: RoleAssignmentsListForResourceOptionalParams) => PagedAsyncIterableIterator<RoleAssignment>;
@@ -2088,7 +2088,7 @@ export interface RoleDefinitionsListOptionalParams extends OperationOptions {
 // @public
 export interface RoleDefinitionsOperations {
     createOrUpdate: (scope: string, roleDefinitionId: string, roleDefinition: RoleDefinition, options?: RoleDefinitionsCreateOrUpdateOptionalParams) => Promise<RoleDefinition>;
-    delete: (scope: string, roleDefinitionId: string, options?: RoleDefinitionsDeleteOptionalParams) => Promise<RoleDefinition>;
+    delete: (scope: string, roleDefinitionId: string, options?: RoleDefinitionsDeleteOptionalParams) => Promise<RoleDefinition | undefined>;
     get: (scope: string, roleDefinitionId: string, options?: RoleDefinitionsGetOptionalParams) => Promise<RoleDefinition>;
     getById: (roleId: string, options?: RoleDefinitionsGetByIdOptionalParams) => Promise<RoleDefinition>;
     list: (scope: string, options?: RoleDefinitionsListOptionalParams) => PagedAsyncIterableIterator<RoleDefinition>;

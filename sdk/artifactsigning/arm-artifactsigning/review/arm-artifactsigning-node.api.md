@@ -4,14 +4,16 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccountSku {
@@ -63,6 +65,7 @@ export interface CertificateProfileProperties {
     includeState?: boolean;
     includeStreetAddress?: boolean;
     profileType: ProfileType;
+    programType?: string;
     readonly provisioningState?: ProvisioningState;
     readonly status?: CertificateProfileStatus;
 }
@@ -91,11 +94,11 @@ export interface CertificateProfilesOperations {
     delete: (resourceGroupName: string, accountName: string, profileName: string, options?: CertificateProfilesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, profileName: string, options?: CertificateProfilesGetOptionalParams) => Promise<CertificateProfile>;
     listByCodeSigningAccount: (resourceGroupName: string, accountName: string, options?: CertificateProfilesListByCodeSigningAccountOptionalParams) => PagedAsyncIterableIterator<CertificateProfile>;
-    revokeCertificate: (resourceGroupName: string, accountName: string, profileName: string, body: RevokeCertificate, options?: CertificateProfilesRevokeCertificateOptionalParams) => Promise<void>;
+    revokeCertificates: (resourceGroupName: string, accountName: string, profileName: string, body: RevokeCertificateList, options?: CertificateProfilesRevokeCertificatesOptionalParams) => Promise<void>;
 }
 
 // @public
-export interface CertificateProfilesRevokeCertificateOptionalParams extends OperationOptions {
+export interface CertificateProfilesRevokeCertificatesOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -225,6 +228,8 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -299,7 +304,10 @@ export enum KnownSkuName {
 
 // @public
 export enum KnownVersions {
-    V20251013 = "2025-10-13"
+    V20240205Preview = "2024-02-05-preview",
+    V20240930Preview = "2024-09-30-preview",
+    V20251013 = "2025-10-13",
+    V20260515Preview = "2026-05-15-preview"
 }
 
 // @public
@@ -364,6 +372,8 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: CodeSigningClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -394,6 +404,11 @@ export interface RevokeCertificate {
     remarks?: string;
     serialNumber: string;
     thumbprint: string;
+}
+
+// @public
+export interface RevokeCertificateList {
+    revokeCertificates: RevokeCertificate[];
 }
 
 // @public
