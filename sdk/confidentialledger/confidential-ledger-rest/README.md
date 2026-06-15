@@ -40,6 +40,48 @@ After setup, you can choose which type of [credential](https://github.com/Azure/
 As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
 can be used to authenticate the client.
 
+
+## Key Concepts
+
+### Confidential Ledger
+
+Azure Confidential Ledger provides a tamper-proof, cryptographically verifiable data store. It runs on hardware-backed secure enclaves, ensuring data integrity.
+
+### Client
+
+The ConfidentialLedger client is a REST client that provides access to the Confidential Ledger API. It supports Azure Active Directory authentication and TLS certificate verification.
+
+## Examples
+
+### Create a client
+
+```ts
+import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const ledgerIdentity = await getLedgerIdentity("<ledger-name>");
+const client = ConfidentialLedger(
+  "https://<ledger-name>.confidentialledger.azure.com",
+  ledgerIdentity.ledgerIdentityCertificate,
+  new DefaultAzureCredential(),
+);
+```
+
+### Create a ledger entry
+
+```ts
+const entry = await client.path("/app/transactions").post({
+  body: {
+    contents: "Hello, Confidential Ledger!",
+  },
+});
+```
+
+### Get a ledger entry
+
+```ts
+const entry = await client.path("/app/transactions/{transactionId}", transactionId).get();
+```
 ## Troubleshooting
 
 ### Logging
@@ -53,3 +95,7 @@ setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
+## Contributing
+
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
