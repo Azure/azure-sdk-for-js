@@ -333,8 +333,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -561,6 +561,8 @@ export interface CertificateProfileProperties {
   includePostalCode?: boolean;
   /** Identity validation id used for the certificate subject name. */
   identityValidationId: string;
+  /** Indicates whether the resource is intended for a specific usage scenario. */
+  programType?: string;
   /** Status of the current operation on certificate profile. */
   readonly provisioningState?: ProvisioningState;
   /** Status of the certificate profile. */
@@ -578,6 +580,7 @@ export function certificateProfilePropertiesSerializer(item: CertificateProfileP
     includeCountry: item["includeCountry"],
     includePostalCode: item["includePostalCode"],
     identityValidationId: item["identityValidationId"],
+    programType: item["programType"],
   };
 }
 
@@ -590,6 +593,7 @@ export function certificateProfilePropertiesDeserializer(item: any): Certificate
     includeCountry: item["includeCountry"],
     includePostalCode: item["includePostalCode"],
     identityValidationId: item["identityValidationId"],
+    programType: item["programType"],
     provisioningState: item["provisioningState"],
     status: item["status"],
     certificates: !item["certificates"]
@@ -759,8 +763,8 @@ export type RevocationStatus = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -803,6 +807,22 @@ export function certificateProfileArrayDeserializer(result: Array<CertificatePro
   });
 }
 
+/** Defines the list of certificates for revocation in certificate profile. */
+export interface RevokeCertificateList {
+  /** List of certificates to be revoked in a certificate profile. */
+  revokeCertificates: RevokeCertificate[];
+}
+
+export function revokeCertificateListSerializer(item: RevokeCertificateList): any {
+  return { revokeCertificates: revokeCertificateArraySerializer(item["revokeCertificates"]) };
+}
+
+export function revokeCertificateArraySerializer(result: Array<RevokeCertificate>): any[] {
+  return result.map((item) => {
+    return revokeCertificateSerializer(item);
+  });
+}
+
 /** Defines the certificate revocation properties. */
 export interface RevokeCertificate {
   /** Serial number of the certificate. */
@@ -829,6 +849,12 @@ export function revokeCertificateSerializer(item: RevokeCertificate): any {
 
 /** The available API versions. */
 export enum KnownVersions {
+  /** The 2024-02-05-preview API version. */
+  V20240205Preview = "2024-02-05-preview",
+  /** 2024-09-30-preview */
+  V20240930Preview = "2024-09-30-preview",
   /** 2025-10-13 */
   V20251013 = "2025-10-13",
+  /** 2026-05-15-preview */
+  V20260515Preview = "2026-05-15-preview",
 }

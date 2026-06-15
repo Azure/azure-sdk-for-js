@@ -255,7 +255,7 @@ resource azureFunction 'Microsoft.Web/sites@2022-09-01' = {
         }
         {
           name: 'DOCKER_CUSTOM_IMAGE_NAME'
-          value: 'mcr.microsoft.com/azure-functions/node:4-node18-appservice-stage3'
+          value: 'mcr.microsoft.com/azure-functions/node:4-node24-appservice'
         }
       ]
     }
