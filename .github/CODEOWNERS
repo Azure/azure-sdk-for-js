@@ -626,7 +626,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/newrelicobservability/arm-newrelicobservability/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
