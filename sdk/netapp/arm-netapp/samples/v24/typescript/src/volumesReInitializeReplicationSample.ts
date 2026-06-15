@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to re-Initializes the replication connection on the destination volume
  *
  * @summary re-Initializes the replication connection on the destination volume
- * x-ms-original-file: 2026-01-01/Volumes_ReInitializeReplication.json
+ * x-ms-original-file: 2026-04-01/Volumes_ReInitializeReplication.json
  */
 async function volumesReInitializeReplication(): Promise<void> {
   const credential = new DefaultAzureCredential();
