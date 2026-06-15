@@ -1,7 +1,17 @@
 
 extends: ../../../warp.base.config.yml
 
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/certificateRegistrationProvider": "./src/api/certificateRegistrationProvider/index.ts"
+  "./api/certificateOrdersDiagnostics": "./src/api/certificateOrdersDiagnostics/index.ts"
+  "./api/appServiceCertificateOrders": "./src/api/appServiceCertificateOrders/index.ts"
+  "./models": "./src/models/index.ts"
+  
 targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
   - name: esm
     condition: import
     tsconfig: "./config/tsconfig.src.esm.json"
@@ -10,6 +20,3 @@ targets:
     condition: require
     tsconfig: "./config/tsconfig.src.cjs.json"
     moduleType: commonjs
-
-  - name: browser
-    tsconfig: "./config/tsconfig.src.browser.json"

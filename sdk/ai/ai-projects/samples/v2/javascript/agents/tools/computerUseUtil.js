@@ -8,6 +8,7 @@
 
 const fs = require("node:fs");
 const path = require("path");
+
 /**
  * Enum for tracking the state of the simulated web search workflow.
  */
@@ -149,11 +150,11 @@ function printFinalOutput(response) {
 }
 
 module.exports = {
+  ComputerAction,
   SearchState,
   ScreenshotInfo,
   Screenshots,
   loadScreenshotAssets,
-  ComputerAction,
   handleComputerActionAndTakeScreenshot,
   ResponseItem,
   AgentResponse,

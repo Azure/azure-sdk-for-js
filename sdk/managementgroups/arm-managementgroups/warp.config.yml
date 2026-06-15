@@ -1,7 +1,20 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/entities": "./src/api/entities/index.ts"
+  "./api/managementGroupSubscriptions": "./src/api/managementGroupSubscriptions/index.ts"
+  "./api/hierarchySettings": "./src/api/hierarchySettings/index.ts"
+  "./api/managementGroups": "./src/api/managementGroups/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
   - name: esm
     condition: import
     tsconfig: "./config/tsconfig.src.esm.json"
@@ -10,6 +23,3 @@ targets:
     condition: require
     tsconfig: "./config/tsconfig.src.cjs.json"
     moduleType: commonjs
-
-  - name: browser
-    tsconfig: "./config/tsconfig.src.browser.json"

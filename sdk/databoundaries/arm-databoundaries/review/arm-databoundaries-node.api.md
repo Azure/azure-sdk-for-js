@@ -4,57 +4,66 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export type ActionType = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
 
 // @public
-export interface DataBoundaries {
-    getScope(scope: string, defaultParam: DefaultName, options?: DataBoundariesGetScopeOptionalParams): Promise<DataBoundariesGetScopeResponse>;
-    getTenant(defaultParam: DefaultName, options?: DataBoundariesGetTenantOptionalParams): Promise<DataBoundariesGetTenantResponse>;
-    put(defaultParam: DefaultName, dataBoundaryDefinition: DataBoundaryDefinition, options?: DataBoundariesPutOptionalParams): Promise<DataBoundariesPutResponse>;
+export interface DataBoundariesGetScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DataBoundariesGetScopeOptionalParams extends coreClient.OperationOptions {
+export interface DataBoundariesGetTenantOptionalParams extends OperationOptions {
 }
-
-// @public
-export type DataBoundariesGetScopeResponse = DataBoundaryDefinition;
-
-// @public
-export interface DataBoundariesGetTenantOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DataBoundariesGetTenantResponse = DataBoundaryDefinition;
 
 // @public (undocumented)
-export class DataboundariesManegementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, options?: DataboundariesManegementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    dataBoundaries: DataBoundaries;
+export class DataboundariesManegementClient {
+    constructor(credential: TokenCredential, options?: DataboundariesManegementClientOptionalParams);
+    readonly dataBoundaries: DataBoundariesOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
 }
 
 // @public
-export interface DataboundariesManegementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface DataboundariesManegementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface DataBoundariesPutOptionalParams extends coreClient.OperationOptions {
+export interface DataBoundariesOperations {
+    getScope: (scope: string, defaultParam: DefaultName, options?: DataBoundariesGetScopeOptionalParams) => Promise<DataBoundaryDefinition>;
+    getTenant: (defaultParam: DefaultName, options?: DataBoundariesGetTenantOptionalParams) => Promise<DataBoundaryDefinition>;
+    put: (defaultParam: DefaultName, dataBoundaryDefinition: DataBoundaryDefinition, options?: DataBoundariesPutOptionalParams) => Promise<DataBoundaryDefinition>;
 }
 
 // @public
-export type DataBoundariesPutResponse = DataBoundaryDefinition;
+export interface DataBoundariesPutOptionalParams extends OperationOptions {
+}
 
 // @public
 export type DataBoundary = string;
@@ -75,7 +84,7 @@ export type DefaultName = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -91,6 +100,13 @@ export interface ErrorDetail {
 // @public
 export interface ErrorResponse {
     error?: ErrorDetail;
+}
+
+export { isRestError }
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
 }
 
 // @public
@@ -114,6 +130,13 @@ export enum KnownDefaultName {
 }
 
 // @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
+}
+
+// @public
 export enum KnownProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
@@ -122,6 +145,52 @@ export enum KnownProvisioningState {
     Running = "Running",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownVersions {
+    V20240801 = "2024-08-01"
+}
+
+// @public
+export interface Operation {
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
+}
+
+// @public
+export interface OperationDisplay {
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
+}
+
+// @public
+export interface OperationsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+}
+
+// @public
+export type Origin = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
@@ -138,6 +207,8 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export interface SystemData {

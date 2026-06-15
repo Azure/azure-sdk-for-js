@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-storageactions",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A generated SDK for StorageActionsManagementClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -104,6 +104,10 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -111,10 +115,6 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
-      },
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
       }
     },
     "./api": {

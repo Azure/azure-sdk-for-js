@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to reverts the volume relocation process, cleans up the new volume and starts using the former-existing volume.
  *
  * @summary reverts the volume relocation process, cleans up the new volume and starts using the former-existing volume.
- * x-ms-original-file: 2026-01-01/Volumes_RevertRelocation.json
+ * x-ms-original-file: 2026-04-01/Volumes_RevertRelocation.json
  */
 async function volumesRevertRelocation() {
   const credential = new DefaultAzureCredential();

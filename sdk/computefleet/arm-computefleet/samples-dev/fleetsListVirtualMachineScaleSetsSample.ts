@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list VirtualMachineScaleSet resources by Fleet
  *
  * @summary list VirtualMachineScaleSet resources by Fleet
- * x-ms-original-file: 2025-07-01-preview/Fleets_ListVirtualMachineScaleSets.json
+ * x-ms-original-file: 2026-04-01-preview/Fleets_ListVirtualMachineScaleSets_MaximumSet_Gen.json
  */
-async function fleetsListVirtualMachineScaleSets(): Promise<void> {
+async function fleetsListVirtualMachineScaleSetsMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function fleetsListVirtualMachineScaleSets(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await fleetsListVirtualMachineScaleSets();
+  await fleetsListVirtualMachineScaleSetsMaximumSetGen();
 }
 
 main().catch(console.error);

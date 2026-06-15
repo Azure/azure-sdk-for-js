@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update Cognitive Services account connection under the specified account.
  *
  * @summary create or update Cognitive Services account connection under the specified account.
- * x-ms-original-file: 2026-01-15-preview/AccountConnection/create.json
+ * x-ms-original-file: 2026-03-15-preview/AccountConnection/create.json
  */
 async function createAccountConnection() {
   const credential = new DefaultAzureCredential();

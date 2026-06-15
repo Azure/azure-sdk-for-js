@@ -1,7 +1,22 @@
 
 extends: ../../../warp.base.config.yml
 
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/clusterVersions": "./src/api/clusterVersions/index.ts"
+  "./api/services": "./src/api/services/index.ts"
+  "./api/applications": "./src/api/applications/index.ts"
+  "./api/applicationTypeVersions": "./src/api/applicationTypeVersions/index.ts"
+  "./api/applicationTypes": "./src/api/applicationTypes/index.ts"
+  "./api/unsupportedVmSizes": "./src/api/unsupportedVmSizes/index.ts"
+  "./api/clusters": "./src/api/clusters/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
 targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
   - name: esm
     condition: import
     tsconfig: "./config/tsconfig.src.esm.json"
@@ -10,6 +25,3 @@ targets:
     condition: require
     tsconfig: "./config/tsconfig.src.cjs.json"
     moduleType: commonjs
-
-  - name: browser
-    tsconfig: "./config/tsconfig.src.browser.json"

@@ -21,7 +21,12 @@ exports:
   "./api/raiExternalSafetyProvider": "./src/api/raiExternalSafetyProvider/index.ts"
   "./api/testRaiExternalSafetyProvider": "./src/api/testRaiExternalSafetyProvider/index.ts"
   "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
+  "./api/managedComputeCapacities": "./src/api/managedComputeCapacities/index.ts"
+  "./api/workbenches": "./src/api/workbenches/index.ts"
+  "./api/computes": "./src/api/computes/index.ts"
+  "./api/managedComputeUsagesOperationGroup": "./src/api/managedComputeUsagesOperationGroup/index.ts"
   "./api/computeOperations": "./src/api/computeOperations/index.ts"
+  "./api/managedComputeDeployments": "./src/api/managedComputeDeployments/index.ts"
   "./api/agentApplications": "./src/api/agentApplications/index.ts"
   "./api/quotaTiers": "./src/api/quotaTiers/index.ts"
   "./api/projectCapabilityHosts": "./src/api/projectCapabilityHosts/index.ts"
@@ -47,17 +52,13 @@ exports:
 
 targets:
   - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-    polyfillSuffix: "-browser"
-
-  - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
-    polyfillSuffix: "-react-native"
+    tsconfig: "./config/tsconfig.src.browser.json"
 
   - name: esm
     condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
+    tsconfig: "./config/tsconfig.src.esm.json"
 
   - name: commonjs
     condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

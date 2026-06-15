@@ -1,7 +1,28 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/ascUsages": "./src/api/ascUsages/index.ts"
+  "./api/ascOperations": "./src/api/ascOperations/index.ts"
+  "./api/usageModels": "./src/api/usageModels/index.ts"
+  "./api/skus": "./src/api/skus/index.ts"
+  "./api/storageTargetOperations": "./src/api/storageTargetOperations/index.ts"
+  "./api/expansionJobs": "./src/api/expansionJobs/index.ts"
+  "./api/autoImportJobs": "./src/api/autoImportJobs/index.ts"
+  "./api/importJobs": "./src/api/importJobs/index.ts"
+  "./api/autoExportJobs": "./src/api/autoExportJobs/index.ts"
+  "./api/amlFilesystems": "./src/api/amlFilesystems/index.ts"
+  "./api/storageTargets": "./src/api/storageTargets/index.ts"
+  "./api/caches": "./src/api/caches/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
   - name: esm
     condition: import
     tsconfig: "./config/tsconfig.src.esm.json"
@@ -10,6 +31,3 @@ targets:
     condition: require
     tsconfig: "./config/tsconfig.src.cjs.json"
     moduleType: commonjs
-
-  - name: browser
-    tsconfig: "./config/tsconfig.src.browser.json"

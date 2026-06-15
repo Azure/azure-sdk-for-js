@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
  *
  * @summary skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
- * x-ms-original-file: 2026-02-01-preview/UpdateRuns_Skip.json
+ * x-ms-original-file: 2026-03-02-preview/UpdateRuns_Skip.json
  */
 async function skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun(): Promise<void> {
   const credential = new DefaultAzureCredential();

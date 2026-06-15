@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the POST API for updating the outbound rules of the managed network associated with the cognitive services account.
  *
  * @summary the POST API for updating the outbound rules of the managed network associated with the cognitive services account.
- * x-ms-original-file: 2026-01-15-preview/ManagedNetwork/postOutboundRulesV2.json
+ * x-ms-original-file: 2026-03-15-preview/ManagedNetwork/postOutboundRulesV2.json
  */
 async function postOutboundRules() {
   const credential = new DefaultAzureCredential();

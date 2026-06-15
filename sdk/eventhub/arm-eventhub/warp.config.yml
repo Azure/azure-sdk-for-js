@@ -1,7 +1,28 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/applicationGroupOperations": "./src/api/applicationGroupOperations/index.ts"
+  "./api/schemaRegistry": "./src/api/schemaRegistry/index.ts"
+  "./api/networkSecurityPerimeterConfigurationOperations": "./src/api/networkSecurityPerimeterConfigurationOperations/index.ts"
+  "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
+  "./api/namespaces": "./src/api/namespaces/index.ts"
+  "./api/configuration": "./src/api/configuration/index.ts"
+  "./api/consumerGroups": "./src/api/consumerGroups/index.ts"
+  "./api/networkSecurityPerimeterConfigurations": "./src/api/networkSecurityPerimeterConfigurations/index.ts"
+  "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
+  "./api/eventHubs": "./src/api/eventHubs/index.ts"
+  "./api/disasterRecoveryConfigs": "./src/api/disasterRecoveryConfigs/index.ts"
+  "./api/clusters": "./src/api/clusters/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
   - name: esm
     condition: import
     tsconfig: "./config/tsconfig.src.esm.json"
@@ -10,6 +31,3 @@ targets:
     condition: require
     tsconfig: "./config/tsconfig.src.cjs.json"
     moduleType: commonjs
-
-  - name: browser
-    tsconfig: "./config/tsconfig.src.browser.json"

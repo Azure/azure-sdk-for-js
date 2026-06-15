@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the status of the replication
  *
  * @summary get the status of the replication
- * x-ms-original-file: 2026-01-01/Volumes_ReplicationStatus.json
+ * x-ms-original-file: 2026-04-01/Volumes_ReplicationStatus.json
  */
 async function volumesReplicationStatus() {
   const credential = new DefaultAzureCredential();
