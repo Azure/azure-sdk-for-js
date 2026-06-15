@@ -1,51 +1,76 @@
 # Release History
 
-## 9.0.0-beta.1 (2026-05-07)
-Compared with version 8.1.0
+## 8.2.0 (2026-06-15)
 
 ### Features Added
+  - Added operation group AccountCapabilityHostsOperations
+  - Added operation group AccountConnectionsOperations
+  - Added operation group AccountsOperations
   - Added operation group AgentApplicationsOperations
   - Added operation group AgentDeploymentsOperations
-  - Added operation group ComputeOperationsOperations
+  - Added operation group CommitmentPlansOperations
+  - Added operation group CommitmentTiersOperations
+  - Added operation group DefenderForAISettingsOperations
+  - Added operation group DeletedAccountsOperations
+  - Added operation group DeploymentsOperations
+  - Added operation group EncryptionScopesOperations
+  - Added operation group LocationBasedModelCapacitiesOperations
   - Added operation group ManagedNetworkProvisionsOperations
   - Added operation group ManagedNetworkSettingsOperations
+  - Added operation group ModelCapacitiesOperations
+  - Added operation group ModelsOperations
+  - Added operation group NetworkSecurityPerimeterConfigurationsOperations
+  - Added operation group OperationsOperations
   - Added operation group OutboundRuleOperations
   - Added operation group OutboundRulesOperations
+  - Added operation group PrivateEndpointConnectionsOperations
+  - Added operation group PrivateLinkResourcesOperations
+  - Added operation group ProjectCapabilityHostsOperations
+  - Added operation group ProjectConnectionsOperations
+  - Added operation group ProjectsOperations
+  - Added operation group QuotaTiersOperations
+  - Added operation group RaiBlocklistItemsOperations
+  - Added operation group RaiBlocklistsOperations
+  - Added operation group RaiContentFiltersOperations
   - Added operation group RaiExternalSafetyProviderOperations
   - Added operation group RaiExternalSafetyProvidersOperations
+  - Added operation group RaiPoliciesOperations
   - Added operation group RaiToolLabelsOperations
+  - Added operation group RaiTopicsOperations
+  - Added operation group ResourceSkusOperations
   - Added operation group SubscriptionRaiPolicyOperations
   - Added operation group TestRaiExternalSafetyProviderOperations
-  - Added operation AccountCapabilityHostsOperations.createOrUpdate
-  - Added operation AccountCapabilityHostsOperations.delete
-  - Added operation AccountsOperations.create
-  - Added operation AccountsOperations.delete
-  - Added operation AccountsOperations.update
-  - Added operation CommitmentPlansOperations.createOrUpdateAssociation
-  - Added operation CommitmentPlansOperations.createOrUpdatePlan
-  - Added operation CommitmentPlansOperations.delete
-  - Added operation CommitmentPlansOperations.deleteAssociation
-  - Added operation CommitmentPlansOperations.deletePlan
-  - Added operation CommitmentPlansOperations.updatePlan
-  - Added operation DeletedAccountsOperations.purge
-  - Added operation DeploymentsOperations.createOrUpdate
-  - Added operation DeploymentsOperations.delete
-  - Added operation DeploymentsOperations.pause
-  - Added operation DeploymentsOperations.resume
-  - Added operation DeploymentsOperations.update
-  - Added operation EncryptionScopesOperations.delete
-  - Added operation NetworkSecurityPerimeterConfigurationsOperations.reconcile
-  - Added operation PrivateEndpointConnectionsOperations.createOrUpdate
-  - Added operation PrivateEndpointConnectionsOperations.delete
-  - Added operation ProjectCapabilityHostsOperations.createOrUpdate
-  - Added operation ProjectCapabilityHostsOperations.delete
-  - Added operation ProjectsOperations.create
-  - Added operation ProjectsOperations.delete
-  - Added operation ProjectsOperations.update
-  - Added operation RaiBlocklistItemsOperations.delete
-  - Added operation RaiBlocklistsOperations.delete
-  - Added operation RaiPoliciesOperations.delete
-  - Added operation RaiTopicsOperations.delete
+  - Added operation group UsagesOperations
+  - Added Class CognitiveServicesManagementClient
+  - Added Interface AADAuthTypeConnectionProperties
+  - Added Interface AbusePenalty
+  - Added Interface AccessKeyAuthTypeConnectionProperties
+  - Added Interface Account
+  - Added Interface AccountCapabilityHostsCreateOrUpdateOptionalParams
+  - Added Interface AccountCapabilityHostsDeleteOptionalParams
+  - Added Interface AccountCapabilityHostsGetOptionalParams
+  - Added Interface AccountCapabilityHostsListOptionalParams
+  - Added Interface AccountConnectionsCreateOptionalParams
+  - Added Interface AccountConnectionsDeleteOptionalParams
+  - Added Interface AccountConnectionsGetOptionalParams
+  - Added Interface AccountConnectionsListOptionalParams
+  - Added Interface AccountConnectionsUpdateOptionalParams
+  - Added Interface AccountKeyAuthTypeConnectionProperties
+  - Added Interface AccountModel
+  - Added Interface AccountProperties
+  - Added Interface AccountsCreateOptionalParams
+  - Added Interface AccountsDeleteOptionalParams
+  - Added Interface AccountsGetOptionalParams
+  - Added Interface AccountSku
+  - Added Interface AccountSkuListResult
+  - Added Interface AccountsListByResourceGroupOptionalParams
+  - Added Interface AccountsListKeysOptionalParams
+  - Added Interface AccountsListModelsOptionalParams
+  - Added Interface AccountsListOptionalParams
+  - Added Interface AccountsListSkusOptionalParams
+  - Added Interface AccountsListUsagesOptionalParams
+  - Added Interface AccountsRegenerateKeyOptionalParams
+  - Added Interface AccountsUpdateOptionalParams
   - Added Interface AgentApplication
   - Added Interface AgentApplicationsCreateOrUpdateOptionalParams
   - Added Interface AgentApplicationsDeleteOptionalParams
@@ -67,22 +92,108 @@ Compared with version 8.1.0
   - Added Interface AgentReference
   - Added Interface AgentReferenceProperties
   - Added Interface AgentReferenceResourceArmPaginatedResult
+  - Added Interface ApiKeyAuthConnectionProperties
+  - Added Interface ApiKeys
+  - Added Interface ApiProperties
   - Added Interface ApplicationAuthorizationPolicy
   - Added Interface ApplicationTrafficRoutingPolicy
   - Added Interface AssignedIdentity
+  - Added Interface BillingMeterInfo
+  - Added Interface CalculateModelCapacityOptionalParams
+  - Added Interface CalculateModelCapacityParameter
+  - Added Interface CalculateModelCapacityResult
+  - Added Interface CalculateModelCapacityResultEstimatedCapacity
+  - Added Interface CallRateLimit
+  - Added Interface CapabilityHost
+  - Added Interface CapabilityHostProperties
+  - Added Interface CapacityConfig
   - Added Interface ChannelsBuiltInAuthorizationPolicy
+  - Added Interface CheckDomainAvailabilityOptionalParams
+  - Added Interface CheckDomainAvailabilityParameter
+  - Added Interface CheckSkuAvailabilityOptionalParams
+  - Added Interface CheckSkuAvailabilityParameter
+  - Added Interface CognitiveServicesManagementClientOptionalParams
+  - Added Interface CommitmentCost
+  - Added Interface CommitmentPeriod
+  - Added Interface CommitmentPlan
+  - Added Interface CommitmentPlanAccountAssociation
   - Added Interface CommitmentPlanAccountAssociationProperties
-  - Added Interface ComputeOperationsGetOptionalParams
-  - Added Interface ComputeOperationStatus
-  - Added Interface ComputeOperationStatusProperties
+  - Added Interface CommitmentPlanAssociation
+  - Added Interface CommitmentPlanProperties
+  - Added Interface CommitmentPlansCreateOrUpdateAssociationOptionalParams
+  - Added Interface CommitmentPlansCreateOrUpdateOptionalParams
+  - Added Interface CommitmentPlansCreateOrUpdatePlanOptionalParams
+  - Added Interface CommitmentPlansDeleteAssociationOptionalParams
+  - Added Interface CommitmentPlansDeleteOptionalParams
+  - Added Interface CommitmentPlansDeletePlanOptionalParams
+  - Added Interface CommitmentPlansGetAssociationOptionalParams
+  - Added Interface CommitmentPlansGetOptionalParams
+  - Added Interface CommitmentPlansGetPlanOptionalParams
+  - Added Interface CommitmentPlansListAssociationsOptionalParams
+  - Added Interface CommitmentPlansListOptionalParams
+  - Added Interface CommitmentPlansListPlansByResourceGroupOptionalParams
+  - Added Interface CommitmentPlansListPlansBySubscriptionOptionalParams
+  - Added Interface CommitmentPlansUpdatePlanOptionalParams
+  - Added Interface CommitmentQuota
+  - Added Interface CommitmentTier
+  - Added Interface CommitmentTiersListOptionalParams
+  - Added Interface ConnectionAccessKey
+  - Added Interface ConnectionAccountKey
+  - Added Interface ConnectionApiKey
+  - Added Interface ConnectionManagedIdentity
+  - Added Interface ConnectionOAuth2
+  - Added Interface ConnectionPersonalAccessToken
+  - Added Interface ConnectionPropertiesV2
+  - Added Interface ConnectionPropertiesV2BasicResource
+  - Added Interface ConnectionServicePrincipal
+  - Added Interface ConnectionSharedAccessSignature
+  - Added Interface ConnectionUpdateContent
+  - Added Interface ConnectionUsernamePassword
+  - Added Interface CustomBlocklistConfig
+  - Added Interface CustomKeys
+  - Added Interface CustomKeysConnectionProperties
+  - Added Interface DefenderForAISetting
   - Added Interface DefenderForAISettingProperties
+  - Added Interface DefenderForAISettingsCreateOrUpdateOptionalParams
+  - Added Interface DefenderForAISettingsGetOptionalParams
+  - Added Interface DefenderForAISettingsListOptionalParams
+  - Added Interface DefenderForAISettingsUpdateOptionalParams
+  - Added Interface DeletedAccountsGetOptionalParams
+  - Added Interface DeletedAccountsListOptionalParams
+  - Added Interface DeletedAccountsPurgeOptionalParams
+  - Added Interface Deployment
+  - Added Interface DeploymentCapacitySettings
+  - Added Interface DeploymentModel
+  - Added Interface DeploymentProperties
   - Added Interface DeploymentRouting
+  - Added Interface DeploymentScaleSettings
+  - Added Interface DeploymentsCreateOrUpdateOptionalParams
+  - Added Interface DeploymentsDeleteOptionalParams
+  - Added Interface DeploymentsGetOptionalParams
+  - Added Interface DeploymentsListOptionalParams
+  - Added Interface DeploymentsListSkusOptionalParams
   - Added Interface DeploymentsPauseOptionalParams
   - Added Interface DeploymentsResumeOptionalParams
-  - Added Interface FoundryAutoUpgrade
+  - Added Interface DeploymentsUpdateOptionalParams
+  - Added Interface DomainAvailability
+  - Added Interface Encryption
+  - Added Interface EncryptionScope
+  - Added Interface EncryptionScopeProperties
+  - Added Interface EncryptionScopesCreateOrUpdateOptionalParams
+  - Added Interface EncryptionScopesDeleteOptionalParams
+  - Added Interface EncryptionScopesGetOptionalParams
+  - Added Interface EncryptionScopesListOptionalParams
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
   - Added Interface FqdnOutboundRule
   - Added Interface HostedAgentDeployment
+  - Added Interface Identity
+  - Added Interface IpRule
+  - Added Interface KeyVaultProperties
+  - Added Interface LocationBasedModelCapacitiesListOptionalParams
   - Added Interface ManagedAgentDeployment
+  - Added Interface ManagedIdentityAuthTypeConnectionProperties
   - Added Interface ManagedNetworkProvisionOptions
   - Added Interface ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams
   - Added Interface ManagedNetworkProvisionStatus
@@ -96,6 +207,35 @@ Compared with version 8.1.0
   - Added Interface ManagedNetworkSettingsProperties
   - Added Interface ManagedNetworkSettingsPropertiesBasicResource
   - Added Interface ManagedNetworkSettingsPutOptionalParams
+  - Added Interface MetricName
+  - Added Interface Model
+  - Added Interface ModelCapacitiesListOptionalParams
+  - Added Interface ModelCapacityCalculatorWorkload
+  - Added Interface ModelCapacityCalculatorWorkloadRequestParam
+  - Added Interface ModelCapacityListResultValueItem
+  - Added Interface ModelDeprecationInfo
+  - Added Interface ModelSku
+  - Added Interface ModelSkuCapacityProperties
+  - Added Interface ModelsListOptionalParams
+  - Added Interface MultiRegionSettings
+  - Added Interface NetworkInjection
+  - Added Interface NetworkRuleSet
+  - Added Interface NetworkSecurityPerimeter
+  - Added Interface NetworkSecurityPerimeterAccessRule
+  - Added Interface NetworkSecurityPerimeterAccessRuleProperties
+  - Added Interface NetworkSecurityPerimeterAccessRulePropertiesSubscriptionsItem
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationAssociationInfo
+  - Added Interface NetworkSecurityPerimeterConfigurationProperties
+  - Added Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  - Added Interface NetworkSecurityPerimeterProfileInfo
+  - Added Interface NoneAuthTypeConnectionProperties
+  - Added Interface OAuth2AuthTypeConnectionProperties
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
   - Added Interface OrganizationSharedBuiltInAuthorizationPolicy
   - Added Interface OutboundRule
   - Added Interface OutboundRuleBasicResource
@@ -106,14 +246,87 @@ Compared with version 8.1.0
   - Added Interface OutboundRulesPostOptionalParams
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
+  - Added Interface PATAuthTypeConnectionProperties
+  - Added Interface PatchResourceTags
+  - Added Interface PatchResourceTagsAndSku
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionListResult
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  - Added Interface PrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionsGetOptionalParams
+  - Added Interface PrivateEndpointConnectionsListOptionalParams
   - Added Interface PrivateEndpointOutboundRule
   - Added Interface PrivateEndpointOutboundRuleDestination
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceListResult
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface PrivateLinkResourcesListOptionalParams
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface Project
+  - Added Interface ProjectCapabilityHost
+  - Added Interface ProjectCapabilityHostProperties
+  - Added Interface ProjectCapabilityHostsCreateOrUpdateOptionalParams
+  - Added Interface ProjectCapabilityHostsDeleteOptionalParams
+  - Added Interface ProjectCapabilityHostsGetOptionalParams
+  - Added Interface ProjectCapabilityHostsListOptionalParams
+  - Added Interface ProjectConnectionsCreateOptionalParams
+  - Added Interface ProjectConnectionsDeleteOptionalParams
+  - Added Interface ProjectConnectionsGetOptionalParams
+  - Added Interface ProjectConnectionsListOptionalParams
+  - Added Interface ProjectConnectionsUpdateOptionalParams
+  - Added Interface ProjectProperties
+  - Added Interface ProjectsCreateOptionalParams
+  - Added Interface ProjectsDeleteOptionalParams
+  - Added Interface ProjectsGetOptionalParams
+  - Added Interface ProjectsListOptionalParams
+  - Added Interface ProjectsUpdateOptionalParams
+  - Added Interface ProvisioningIssue
+  - Added Interface ProvisioningIssueProperties
+  - Added Interface ProxyResource
+  - Added Interface QuotaLimit
+  - Added Interface QuotaTier
+  - Added Interface QuotaTierProperties
+  - Added Interface QuotaTiersCreateOrUpdateOptionalParams
+  - Added Interface QuotaTiersGetOptionalParams
+  - Added Interface QuotaTiersListBySubscriptionOptionalParams
+  - Added Interface QuotaTiersUpdateOptionalParams
+  - Added Interface QuotaTierUpgradeEligibilityInfo
+  - Added Interface RaiBlocklist
+  - Added Interface RaiBlocklistConfig
+  - Added Interface RaiBlocklistItem
+  - Added Interface RaiBlocklistItemBulkRequest
+  - Added Interface RaiBlocklistItemProperties
+  - Added Interface RaiBlocklistItemsBatchAddOptionalParams
+  - Added Interface RaiBlocklistItemsBatchDeleteOptionalParams
+  - Added Interface RaiBlocklistItemsCreateOrUpdateOptionalParams
+  - Added Interface RaiBlocklistItemsDeleteOptionalParams
+  - Added Interface RaiBlocklistItemsGetOptionalParams
+  - Added Interface RaiBlocklistItemsListOptionalParams
+  - Added Interface RaiBlocklistProperties
+  - Added Interface RaiBlocklistsCreateOrUpdateOptionalParams
+  - Added Interface RaiBlocklistsDeleteOptionalParams
+  - Added Interface RaiBlocklistsGetOptionalParams
+  - Added Interface RaiBlocklistsListOptionalParams
+  - Added Interface RaiContentFilter
+  - Added Interface RaiContentFilterProperties
+  - Added Interface RaiContentFiltersGetOptionalParams
+  - Added Interface RaiContentFiltersListOptionalParams
   - Added Interface RaiExternalSafetyProviderCreateOrUpdateOptionalParams
   - Added Interface RaiExternalSafetyProviderDeleteOptionalParams
   - Added Interface RaiExternalSafetyProviderGetOptionalParams
   - Added Interface RaiExternalSafetyProviderSchema
   - Added Interface RaiExternalSafetyProviderSchemaProperties
   - Added Interface RaiExternalSafetyProvidersListOptionalParams
+  - Added Interface RaiMonitorConfig
+  - Added Interface RaiPoliciesCreateOrUpdateOptionalParams
+  - Added Interface RaiPoliciesDeleteOptionalParams
+  - Added Interface RaiPoliciesGetOptionalParams
+  - Added Interface RaiPoliciesListOptionalParams
+  - Added Interface RaiPolicy
+  - Added Interface RaiPolicyContentFilter
+  - Added Interface RaiPolicyProperties
   - Added Interface RaiSafetyProviderConfig
   - Added Interface RaiToolLabel
   - Added Interface RaiToolLabelProperties
@@ -123,30 +336,54 @@ Compared with version 8.1.0
   - Added Interface RaiToolLabelsDeleteOptionalParams
   - Added Interface RaiToolLabelsGetOptionalParams
   - Added Interface RaiToolLabelsListOptionalParams
+  - Added Interface RaiTopic
+  - Added Interface RaiTopicProperties
+  - Added Interface RaiTopicsCreateOrUpdateOptionalParams
+  - Added Interface RaiTopicsDeleteOptionalParams
+  - Added Interface RaiTopicsGetOptionalParams
+  - Added Interface RaiTopicsListOptionalParams
+  - Added Interface RegenerateKeyParameters
+  - Added Interface RegionSetting
+  - Added Interface ReplacementConfig
+  - Added Interface RequestMatchPattern
+  - Added Interface Resource
+  - Added Interface ResourceBase
+  - Added Interface ResourceSku
+  - Added Interface ResourceSkuRestrictionInfo
+  - Added Interface ResourceSkuRestrictions
+  - Added Interface ResourceSkusListOptionalParams
   - Added Interface RestorePollerOptions
   - Added Interface RoleBasedBuiltInAuthorizationPolicy
   - Added Interface SafetyProviderConfig
+  - Added Interface SASAuthTypeConnectionProperties
+  - Added Interface ServicePrincipalAuthTypeConnectionProperties
   - Added Interface ServiceTagOutboundRule
   - Added Interface ServiceTagOutboundRuleDestination
   - Added Interface SimplePollerLike
+  - Added Interface Sku
+  - Added Interface SkuAvailability
+  - Added Interface SkuAvailabilityListResult
+  - Added Interface SkuCapability
+  - Added Interface SkuChangeInfo
+  - Added Interface SkuResource
   - Added Interface SubscriptionRaiPolicyCreateOrUpdateOptionalParams
   - Added Interface SubscriptionRaiPolicyDeleteOptionalParams
   - Added Interface SubscriptionRaiPolicyGetOptionalParams
+  - Added Interface SystemData
   - Added Interface TestRaiExternalSafetyProviderCreateOrUpdateOptionalParams
+  - Added Interface ThrottlingRule
   - Added Interface TrafficRoutingRule
+  - Added Interface Usage
+  - Added Interface UsageListResult
+  - Added Interface UsagesListOptionalParams
+  - Added Interface UserAssignedIdentity
+  - Added Interface UsernamePasswordAuthTypeConnectionProperties
+  - Added Interface UserOwnedAmlWorkspace
+  - Added Interface UserOwnedStorage
   - Added Interface VersionedAgentReference
-  - Interface AccountProperties has a new optional parameter foundryAutoUpgrade
-  - Interface ApiProperties has a new optional parameter additionalProperties
-  - Interface CapabilityHostProperties has a new optional parameter enablePublicHostingEnvironment
-  - Interface DeploymentProperties has a new optional parameter deploymentState
-  - Interface DeploymentProperties has a new optional parameter routing
-  - Interface DeploymentProperties has a new optional parameter serviceTier
-  - Interface ModelSkuCapacityProperties has a new optional parameter scopeId
-  - Interface ModelSkuCapacityProperties has a new optional parameter scopeType
-  - Interface RaiPolicyContentFilter has a new optional parameter action
-  - Interface RaiPolicyProperties has a new optional parameter safetyProviders
-  - Interface Usage has a new optional parameter scopeId
-  - Interface Usage has a new optional parameter scopeType
+  - Added Interface VirtualNetworkRule
+  - Added Type Alias AbusePenaltyAction
+  - Added Type Alias ActionType
   - Added Type Alias AgentDeploymentPropertiesUnion
   - Added Type Alias AgentDeploymentProvisioningState
   - Added Type Alias AgentDeploymentState
@@ -156,773 +393,131 @@ Compared with version 8.1.0
   - Added Type Alias ApplicationAuthorizationPolicyUnion
   - Added Type Alias AzureSupportedClouds
   - Added Type Alias BuiltInAuthorizationScheme
-  - Added Type Alias ComputeOperationStatusType
+  - Added Type Alias ByPassSelection
+  - Added Type Alias CapabilityHostKind
+  - Added Type Alias CapabilityHostProvisioningState
+  - Added Type Alias CommitmentPlanProvisioningState
+  - Added Type Alias ConnectionAuthType
+  - Added Type Alias ConnectionCategory
+  - Added Type Alias ConnectionGroup
+  - Added Type Alias ConnectionPropertiesV2Union
+  - Added Type Alias ContentLevel
+  - Added Type Alias CreatedByType
+  - Added Type Alias DefenderForAISettingState
+  - Added Type Alias DeploymentModelVersionUpgradeOption
+  - Added Type Alias DeploymentProvisioningState
+  - Added Type Alias DeploymentScaleType
   - Added Type Alias DeploymentState
+  - Added Type Alias DeprecationStatus
+  - Added Type Alias EncryptionScopeProvisioningState
+  - Added Type Alias EncryptionScopeState
   - Added Type Alias FirewallSku
-  - Added Type Alias FoundryAutoUpgradeMode
+  - Added Type Alias HostingModel
   - Added Type Alias IdentityKind
   - Added Type Alias IdentityManagementType
   - Added Type Alias IdentityProvisioningState
   - Added Type Alias IsolationMode
+  - Added Type Alias KeyName
+  - Added Type Alias KeySource
   - Added Type Alias ManagedNetworkKind
   - Added Type Alias ManagedNetworkProvisioningState
   - Added Type Alias ManagedNetworkStatus
+  - Added Type Alias ManagedPERequirement
+  - Added Type Alias ManagedPEStatus
+  - Added Type Alias ModelLifecycleStatus
+  - Added Type Alias NetworkRuleAction
+  - Added Type Alias NspAccessRuleDirection
+  - Added Type Alias Origin
   - Added Type Alias OutboundRuleUnion
-  - Added Type Alias QuotaScopeType
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias ProvisioningState
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias QuotaUsageStatus
   - Added Type Alias RaiActionType
+  - Added Type Alias RaiPolicyContentSource
+  - Added Type Alias RaiPolicyMode
+  - Added Type Alias RaiPolicyType
+  - Added Type Alias ResourceIdentityType
+  - Added Type Alias ResourceSkuRestrictionsReasonCode
+  - Added Type Alias ResourceSkuRestrictionsType
+  - Added Type Alias RoutingMethods
   - Added Type Alias RoutingMode
   - Added Type Alias RuleAction
   - Added Type Alias RuleCategory
   - Added Type Alias RuleStatus
   - Added Type Alias RuleType
+  - Added Type Alias ScenarioType
   - Added Type Alias ServiceTier
+  - Added Type Alias SkuTier
+  - Added Type Alias TierUpgradePolicy
   - Added Type Alias TrafficRoutingProtocol
+  - Added Type Alias UnitType
+  - Added Type Alias UpgradeAvailabilityStatus
   - Added Enum AzureClouds
+  - Added Enum KnownAbusePenaltyAction
+  - Added Enum KnownActionType
   - Added Enum KnownAgentDeploymentProvisioningState
   - Added Enum KnownAgentDeploymentState
   - Added Enum KnownAgentDeploymentType
   - Added Enum KnownAgenticApplicationProvisioningState
   - Added Enum KnownAgentProtocol
   - Added Enum KnownBuiltInAuthorizationScheme
-  - Added Enum KnownComputeOperationStatusType
+  - Added Enum KnownByPassSelection
+  - Added Enum KnownCapabilityHostKind
+  - Added Enum KnownCapabilityHostProvisioningState
+  - Added Enum KnownCommitmentPlanProvisioningState
+  - Added Enum KnownConnectionAuthType
+  - Added Enum KnownConnectionCategory
+  - Added Enum KnownConnectionGroup
+  - Added Enum KnownContentLevel
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDefenderForAISettingState
+  - Added Enum KnownDeploymentModelVersionUpgradeOption
+  - Added Enum KnownDeploymentProvisioningState
+  - Added Enum KnownDeploymentScaleType
   - Added Enum KnownDeploymentState
+  - Added Enum KnownDeprecationStatus
+  - Added Enum KnownEncryptionScopeProvisioningState
+  - Added Enum KnownEncryptionScopeState
   - Added Enum KnownFirewallSku
-  - Added Enum KnownFoundryAutoUpgradeMode
+  - Added Enum KnownHostingModel
   - Added Enum KnownIdentityKind
   - Added Enum KnownIdentityManagementType
   - Added Enum KnownIdentityProvisioningState
   - Added Enum KnownIsolationMode
+  - Added Enum KnownKeySource
   - Added Enum KnownManagedNetworkKind
   - Added Enum KnownManagedNetworkProvisioningState
   - Added Enum KnownManagedNetworkStatus
-  - Added Enum KnownQuotaScopeType
+  - Added Enum KnownManagedPERequirement
+  - Added Enum KnownManagedPEStatus
+  - Added Enum KnownModelLifecycleStatus
+  - Added Enum KnownNetworkRuleAction
+  - Added Enum KnownNspAccessRuleDirection
+  - Added Enum KnownOrigin
+  - Added Enum KnownPrivateEndpointConnectionProvisioningState
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownQuotaUsageStatus
   - Added Enum KnownRaiActionType
+  - Added Enum KnownRaiPolicyContentSource
+  - Added Enum KnownRaiPolicyMode
+  - Added Enum KnownRaiPolicyType
+  - Added Enum KnownResourceSkuRestrictionsReasonCode
+  - Added Enum KnownRoutingMethods
   - Added Enum KnownRoutingMode
   - Added Enum KnownRuleAction
   - Added Enum KnownRuleCategory
   - Added Enum KnownRuleStatus
   - Added Enum KnownRuleType
+  - Added Enum KnownScenarioType
   - Added Enum KnownServiceTier
-  - Added Enum KnownTrafficRoutingProtocol
-  - Added Enum KnownVersions
-  - Enum KnownConnectionAuthType has a new value AccountManagedIdentity
-  - Enum KnownConnectionAuthType has a new value AgenticIdentityToken
-  - Enum KnownConnectionAuthType has a new value AgenticUser
-  - Enum KnownConnectionAuthType has a new value AgentUserImpersonation
-  - Enum KnownConnectionAuthType has a new value DelegatedSAS
-  - Enum KnownConnectionAuthType has a new value ProjectManagedIdentity
-  - Enum KnownConnectionAuthType has a new value UserEntraToken
-  - Enum KnownConnectionCategory has a new value ApiManagement
-  - Enum KnownConnectionCategory has a new value AppConfig
-  - Enum KnownConnectionCategory has a new value AppInsights
-  - Enum KnownConnectionCategory has a new value AzureContainerAppEnvironment
-  - Enum KnownConnectionCategory has a new value AzureKeyVault
-  - Enum KnownConnectionCategory has a new value Databricks
-  - Enum KnownConnectionCategory has a new value GroundingWithBingSearch
-  - Enum KnownConnectionCategory has a new value GroundingWithCustomSearch
-  - Enum KnownConnectionCategory has a new value MicrosoftFabric
-  - Enum KnownConnectionCategory has a new value ModelGateway
-  - Enum KnownConnectionCategory has a new value PowerPlatformEnvironment
-  - Enum KnownConnectionCategory has a new value RemoteA2A
-  - Enum KnownConnectionCategory has a new value RemoteTool
-  - Enum KnownConnectionCategory has a new value Sharepoint
-  - Enum KnownRaiPolicyContentSource has a new value PostRun
-  - Enum KnownRaiPolicyContentSource has a new value PostToolCall
-  - Enum KnownRaiPolicyContentSource has a new value PreRun
-  - Enum KnownRaiPolicyContentSource has a new value PreToolCall
-
-### Breaking Changes
-  - Operation AccountCapabilityHosts.beginDeleteAndWait has a new signature
-  - Operation AccountConnections.create has a new signature
-  - Operation AccountConnections.get has a new signature
-  - Operation AccountConnections.update has a new signature
-  - Operation EncryptionScopes.beginDeleteAndWait has a new signature
-  - Operation ProjectCapabilityHosts.beginDeleteAndWait has a new signature
-  - Operation ProjectConnections.create has a new signature
-  - Operation ProjectConnections.get has a new signature
-  - Operation ProjectConnections.update has a new signature
-  - Operation RaiBlocklistItems.beginDeleteAndWait has a new signature
-  - Operation RaiBlocklists.beginDeleteAndWait has a new signature
-  - Operation RaiPolicies.beginDeleteAndWait has a new signature
-  - Operation RaiTopics.beginDeleteAndWait has a new signature
-  - Removed Interface AzureEntityResource
-  - Removed Interface CustomTopicConfig
-  - Removed Interface NetworkSecurityPerimeterConfigurationList
-  - Removed Interface RaiTopicConfig
-  - Type of parameter authType of interface ConnectionPropertiesV2 is changed from "PAT" | "ManagedIdentity" | "UsernamePassword" | "None" | "SAS" | "AccountKey" | "ServicePrincipal" | "AccessKey" | "ApiKey" | "CustomKeys" | "OAuth2" | "AAD" to ConnectionAuthType
-  - Interface RaiPolicyProperties no longer has parameter customTopics
-  - Type alias "ConnectionPropertiesV2Union" has been changed
-
-## 8.1.0 (2025-11-13)
-
-### Features Added
-  - Added operation group QuotaTiers
-  - Added operation group RaiTopics
-  - Added operation AccountCapabilityHosts.list
-  - Added operation ProjectCapabilityHosts.list
-  - Added Interface AccountCapabilityHostsListOptionalParams
-  - Added Interface CapabilityHostResourceArmPaginatedResult
-  - Added Interface CustomTopicConfig
-  - Added Interface ProjectCapabilityHost
-  - Added Interface ProjectCapabilityHostProperties
-  - Added Interface ProjectCapabilityHostResourceArmPaginatedResult
-  - Added Interface ProjectCapabilityHostsListOptionalParams
-  - Added Interface QuotaTier
-  - Added Interface QuotaTierListResult
-  - Added Interface QuotaTierProperties
-  - Added Interface QuotaTiersCreateOrUpdateOptionalParams
-  - Added Interface QuotaTiersGetOptionalParams
-  - Added Interface QuotaTiersListBySubscriptionOptionalParams
-  - Added Interface QuotaTiersUpdateOptionalParams
-  - Added Interface QuotaTierUpgradeEligibilityInfo
-  - Added Interface RaiTopic
-  - Added Interface RaiTopicConfig
-  - Added Interface RaiTopicProperties
-  - Added Interface RaiTopicResult
-  - Added Interface RaiTopicsCreateOrUpdateOptionalParams
-  - Added Interface RaiTopicsDeleteHeaders
-  - Added Interface RaiTopicsDeleteOptionalParams
-  - Added Interface RaiTopicsGetOptionalParams
-  - Added Interface RaiTopicsListOptionalParams
-  - Added Interface ReplacementConfig
-  - Interface AccountModel has a new optional parameter modelCatalogAssetId
-  - Interface AccountModel has a new optional parameter replacementConfig
-  - Interface AccountProperties has a new optional parameter storedCompletionsDisabled
-  - Interface AzureEntityResource has a new optional parameter systemData
-  - Interface CapabilityHost has a new optional parameter systemData
-  - Interface ConnectionPropertiesV2BasicResource has a new optional parameter systemData
-  - Interface ModelCapacityListResultValueItem has a new optional parameter systemData
-  - Interface ModelDeprecationInfo has a new optional parameter deprecationStatus
-  - Interface NetworkSecurityPerimeterConfiguration has a new optional parameter systemData
-  - Interface PrivateLinkResource has a new optional parameter systemData
-  - Interface ProxyResource has a new optional parameter systemData
-  - Interface RaiContentFilter has a new optional parameter systemData
-  - Interface RaiPolicyProperties has a new optional parameter customTopics
-  - Interface Resource has a new optional parameter systemData
-  - Added Type Alias AccountCapabilityHostsListNextResponse
-  - Added Type Alias AccountCapabilityHostsListResponse
-  - Added Type Alias DeprecationStatus
-  - Added Type Alias ProjectCapabilityHostsListNextResponse
-  - Added Type Alias ProjectCapabilityHostsListResponse
-  - Added Type Alias QuotaTiersCreateOrUpdateResponse
-  - Added Type Alias QuotaTiersGetResponse
-  - Added Type Alias QuotaTiersListBySubscriptionNextResponse
-  - Added Type Alias QuotaTiersListBySubscriptionResponse
-  - Added Type Alias QuotaTiersUpdateResponse
-  - Added Type Alias RaiTopicsCreateOrUpdateResponse
-  - Added Type Alias RaiTopicsDeleteResponse
-  - Added Type Alias RaiTopicsGetResponse
-  - Added Type Alias RaiTopicsListNextResponse
-  - Added Type Alias RaiTopicsListResponse
-  - Added Type Alias TierUpgradePolicy
-  - Added Type Alias UpgradeAvailabilityStatus
-  - Added Enum KnownDeprecationStatus
+  - Added Enum KnownSkuTier
   - Added Enum KnownTierUpgradePolicy
+  - Added Enum KnownTrafficRoutingProtocol
+  - Added Enum KnownUnitType
   - Added Enum KnownUpgradeAvailabilityStatus
-  - Enum KnownConnectionCategory has a new value AzureStorageAccount
-  - Enum KnownModelLifecycleStatus has a new value Legacy
+  - Added Enum KnownVersions
 
-## 8.0.0 (2025-09-17)
-
-### Features Added
-  - Added Interface NetworkInjection
-
-### Breaking Changes
-  - Operation Accounts.beginCreate has a new signature
-  - Operation Accounts.beginCreateAndWait has a new signature
-  - Operation Accounts.beginUpdate has a new signature
-  - Operation Accounts.beginUpdateAndWait has a new signature
-  - Operation Accounts.get has a new signature
-  - Operation DeletedAccounts.get has a new signature
-  - Removed Interface NetworkInjections
-  - Type of parameter networkInjections of interface AccountProperties is changed from NetworkInjections to NetworkInjection[]
-
-    
-## 7.7.0 (2025-07-08)
-    
-### Features Added
-  - Added operation group AccountCapabilityHosts
-  - Added operation group AccountConnections
-  - Added operation group ProjectCapabilityHosts
-  - Added operation group ProjectConnections
-  - Added operation group Projects
-  - Added Interface AADAuthTypeConnectionProperties
-  - Added Interface AccessKeyAuthTypeConnectionProperties
-  - Added Interface AccountCapabilityHostsCreateOrUpdateHeaders
-  - Added Interface AccountCapabilityHostsCreateOrUpdateOptionalParams
-  - Added Interface AccountCapabilityHostsDeleteHeaders
-  - Added Interface AccountCapabilityHostsDeleteOptionalParams
-  - Added Interface AccountCapabilityHostsGetOptionalParams
-  - Added Interface AccountConnectionsCreateOptionalParams
-  - Added Interface AccountConnectionsDeleteOptionalParams
-  - Added Interface AccountConnectionsGetOptionalParams
-  - Added Interface AccountConnectionsListOptionalParams
-  - Added Interface AccountConnectionsUpdateOptionalParams
-  - Added Interface AccountKeyAuthTypeConnectionProperties
-  - Added Interface ApiKeyAuthConnectionProperties
-  - Added Interface CapabilityHost
-  - Added Interface CapabilityHostProperties
-  - Added Interface ConnectionAccessKey
-  - Added Interface ConnectionAccountKey
-  - Added Interface ConnectionApiKey
-  - Added Interface ConnectionManagedIdentity
-  - Added Interface ConnectionOAuth2
-  - Added Interface ConnectionPersonalAccessToken
-  - Added Interface ConnectionPropertiesV2
-  - Added Interface ConnectionPropertiesV2BasicResource
-  - Added Interface ConnectionPropertiesV2BasicResourceArmPaginatedResult
-  - Added Interface ConnectionServicePrincipal
-  - Added Interface ConnectionSharedAccessSignature
-  - Added Interface ConnectionUpdateContent
-  - Added Interface ConnectionUsernamePassword
-  - Added Interface CustomKeys
-  - Added Interface CustomKeysConnectionProperties
-  - Added Interface ManagedIdentityAuthTypeConnectionProperties
-  - Added Interface NetworkInjections
-  - Added Interface NoneAuthTypeConnectionProperties
-  - Added Interface OAuth2AuthTypeConnectionProperties
-  - Added Interface PATAuthTypeConnectionProperties
-  - Added Interface Project
-  - Added Interface ProjectCapabilityHostsCreateOrUpdateHeaders
-  - Added Interface ProjectCapabilityHostsCreateOrUpdateOptionalParams
-  - Added Interface ProjectCapabilityHostsDeleteHeaders
-  - Added Interface ProjectCapabilityHostsDeleteOptionalParams
-  - Added Interface ProjectCapabilityHostsGetOptionalParams
-  - Added Interface ProjectConnectionsCreateOptionalParams
-  - Added Interface ProjectConnectionsDeleteOptionalParams
-  - Added Interface ProjectConnectionsGetOptionalParams
-  - Added Interface ProjectConnectionsListOptionalParams
-  - Added Interface ProjectConnectionsUpdateOptionalParams
-  - Added Interface ProjectListResult
-  - Added Interface ProjectProperties
-  - Added Interface ProjectsCreateOptionalParams
-  - Added Interface ProjectsDeleteOptionalParams
-  - Added Interface ProjectsGetOptionalParams
-  - Added Interface ProjectsListOptionalParams
-  - Added Interface ProjectsUpdateOptionalParams
-  - Added Interface ResourceBase
-  - Added Interface SASAuthTypeConnectionProperties
-  - Added Interface ServicePrincipalAuthTypeConnectionProperties
-  - Added Interface UsernamePasswordAuthTypeConnectionProperties
-  - Interface AccountProperties has a new optional parameter allowProjectManagement
-  - Interface AccountProperties has a new optional parameter associatedProjects
-  - Interface AccountProperties has a new optional parameter defaultProject
-  - Interface AccountProperties has a new optional parameter networkInjections
-  - Interface DeploymentProperties has a new optional parameter spilloverDeploymentName
-  - Added Type Alias AccountCapabilityHostsCreateOrUpdateResponse
-  - Added Type Alias AccountCapabilityHostsDeleteResponse
-  - Added Type Alias AccountCapabilityHostsGetResponse
-  - Added Type Alias AccountConnectionsCreateResponse
-  - Added Type Alias AccountConnectionsGetResponse
-  - Added Type Alias AccountConnectionsListNextResponse
-  - Added Type Alias AccountConnectionsListResponse
-  - Added Type Alias AccountConnectionsUpdateResponse
-  - Added Type Alias CapabilityHostKind
-  - Added Type Alias CapabilityHostProvisioningState
-  - Added Type Alias ConnectionAuthType
-  - Added Type Alias ConnectionCategory
-  - Added Type Alias ConnectionGroup
-  - Added Type Alias ConnectionPropertiesV2Union
-  - Added Type Alias ManagedPERequirement
-  - Added Type Alias ManagedPEStatus
-  - Added Type Alias ProjectCapabilityHostsCreateOrUpdateResponse
-  - Added Type Alias ProjectCapabilityHostsDeleteResponse
-  - Added Type Alias ProjectCapabilityHostsGetResponse
-  - Added Type Alias ProjectConnectionsCreateResponse
-  - Added Type Alias ProjectConnectionsGetResponse
-  - Added Type Alias ProjectConnectionsListNextResponse
-  - Added Type Alias ProjectConnectionsListResponse
-  - Added Type Alias ProjectConnectionsUpdateResponse
-  - Added Type Alias ProjectsCreateResponse
-  - Added Type Alias ProjectsGetResponse
-  - Added Type Alias ProjectsListNextResponse
-  - Added Type Alias ProjectsListResponse
-  - Added Type Alias ProjectsUpdateResponse
-  - Added Type Alias ScenarioType
-  - Added Enum KnownCapabilityHostKind
-  - Added Enum KnownCapabilityHostProvisioningState
-  - Added Enum KnownConnectionAuthType
-  - Added Enum KnownConnectionCategory
-  - Added Enum KnownConnectionGroup
-  - Added Enum KnownManagedPERequirement
-  - Added Enum KnownManagedPEStatus
-  - Added Enum KnownScenarioType
-  - Enum KnownProvisioningState has a new value Canceled
-
-    
-    
-## 7.7.0-beta.1 (2025-05-19)
-Compared with version 7.6.0
-    
-### Features Added
-
-  - Added operation group AccountCapabilityHosts
-  - Added operation group AccountConnection
-  - Added operation group ProjectCapabilityHosts
-  - Added operation group ProjectConnection
-  - Added operation group Projects
-  - Added Interface AADAuthTypeConnectionProperties
-  - Added Interface AccessKeyAuthTypeConnectionProperties
-  - Added Interface AccountCapabilityHostsCreateOrUpdateHeaders
-  - Added Interface AccountCapabilityHostsCreateOrUpdateOptionalParams
-  - Added Interface AccountCapabilityHostsDeleteHeaders
-  - Added Interface AccountCapabilityHostsDeleteOptionalParams
-  - Added Interface AccountCapabilityHostsGetOptionalParams
-  - Added Interface AccountConnectionCreateOptionalParams
-  - Added Interface AccountConnectionDeleteOptionalParams
-  - Added Interface AccountConnectionGetOptionalParams
-  - Added Interface AccountConnectionListNextOptionalParams
-  - Added Interface AccountConnectionListOptionalParams
-  - Added Interface AccountConnectionUpdateOptionalParams
-  - Added Interface AccountKeyAuthTypeConnectionProperties
-  - Added Interface ApiKeyAuthConnectionProperties
-  - Added Interface CapabilityHost
-  - Added Interface CapabilityHostProperties
-  - Added Interface ConnectionAccessKey
-  - Added Interface ConnectionAccountKey
-  - Added Interface ConnectionApiKey
-  - Added Interface ConnectionManagedIdentity
-  - Added Interface ConnectionOAuth2
-  - Added Interface ConnectionPersonalAccessToken
-  - Added Interface ConnectionPropertiesV2
-  - Added Interface ConnectionPropertiesV2BasicResource
-  - Added Interface ConnectionPropertiesV2BasicResourceArmPaginatedResult
-  - Added Interface ConnectionServicePrincipal
-  - Added Interface ConnectionSharedAccessSignature
-  - Added Interface ConnectionUpdateContent
-  - Added Interface ConnectionUsernamePassword
-  - Added Interface CustomKeys
-  - Added Interface CustomKeysConnectionProperties
-  - Added Interface ManagedIdentityAuthTypeConnectionProperties
-  - Added Interface NetworkInjections
-  - Added Interface NoneAuthTypeConnectionProperties
-  - Added Interface OAuth2AuthTypeConnectionProperties
-  - Added Interface PATAuthTypeConnectionProperties
-  - Added Interface Project
-  - Added Interface ProjectCapabilityHostsCreateOrUpdateHeaders
-  - Added Interface ProjectCapabilityHostsCreateOrUpdateOptionalParams
-  - Added Interface ProjectCapabilityHostsDeleteHeaders
-  - Added Interface ProjectCapabilityHostsDeleteOptionalParams
-  - Added Interface ProjectCapabilityHostsGetOptionalParams
-  - Added Interface ProjectConnectionCreateOptionalParams
-  - Added Interface ProjectConnectionDeleteOptionalParams
-  - Added Interface ProjectConnectionGetOptionalParams
-  - Added Interface ProjectConnectionListNextOptionalParams
-  - Added Interface ProjectConnectionListOptionalParams
-  - Added Interface ProjectConnectionUpdateOptionalParams
-  - Added Interface ProjectListResult
-  - Added Interface ProjectProperties
-  - Added Interface ProjectsCreateOptionalParams
-  - Added Interface ProjectsDeleteOptionalParams
-  - Added Interface ProjectsGetOptionalParams
-  - Added Interface ProjectsListNextOptionalParams
-  - Added Interface ProjectsListOptionalParams
-  - Added Interface ProjectsUpdateOptionalParams
-  - Added Interface ResourceBase
-  - Added Interface SASAuthTypeConnectionProperties
-  - Added Interface ServicePrincipalAuthTypeConnectionProperties
-  - Added Interface UsernamePasswordAuthTypeConnectionProperties
-  - Added Type Alias AccountCapabilityHostsCreateOrUpdateResponse
-  - Added Type Alias AccountCapabilityHostsDeleteResponse
-  - Added Type Alias AccountCapabilityHostsGetResponse
-  - Added Type Alias AccountConnectionCreateResponse
-  - Added Type Alias AccountConnectionGetResponse
-  - Added Type Alias AccountConnectionListNextResponse
-  - Added Type Alias AccountConnectionListResponse
-  - Added Type Alias AccountConnectionUpdateResponse
-  - Added Type Alias CapabilityHostKind
-  - Added Type Alias CapabilityHostProvisioningState
-  - Added Type Alias ConnectionAuthType
-  - Added Type Alias ConnectionCategory
-  - Added Type Alias ConnectionGroup
-  - Added Type Alias ConnectionPropertiesV2Union
-  - Added Type Alias ManagedPERequirement
-  - Added Type Alias ManagedPEStatus
-  - Added Type Alias ProjectCapabilityHostsCreateOrUpdateResponse
-  - Added Type Alias ProjectCapabilityHostsDeleteResponse
-  - Added Type Alias ProjectCapabilityHostsGetResponse
-  - Added Type Alias ProjectConnectionCreateResponse
-  - Added Type Alias ProjectConnectionGetResponse
-  - Added Type Alias ProjectConnectionListNextResponse
-  - Added Type Alias ProjectConnectionListResponse
-  - Added Type Alias ProjectConnectionUpdateResponse
-  - Added Type Alias ProjectsCreateResponse
-  - Added Type Alias ProjectsGetResponse
-  - Added Type Alias ProjectsListNextResponse
-  - Added Type Alias ProjectsListResponse
-  - Added Type Alias ProjectsUpdateResponse
-  - Added Type Alias ScenarioType
-  - Interface AccountProperties has a new optional parameter allowProjectManagement
-  - Interface AccountProperties has a new optional parameter associatedProjects
-  - Interface AccountProperties has a new optional parameter defaultProject
-  - Interface AccountProperties has a new optional parameter networkInjections
-  - Interface DeploymentProperties has a new optional parameter spilloverDeploymentName
-  - Added Enum KnownCapabilityHostKind
-  - Added Enum KnownCapabilityHostProvisioningState
-  - Added Enum KnownConnectionAuthType
-  - Added Enum KnownConnectionCategory
-  - Added Enum KnownConnectionGroup
-  - Added Enum KnownManagedPERequirement
-  - Added Enum KnownManagedPEStatus
-  - Added Enum KnownScenarioType
-  - Enum KnownProvisioningState has a new value Canceled
-    
-    
-## 7.6.0 (2024-12-20)
-    
-### Features Added
-
-  - Added operation group DefenderForAISettings
-  - Added operation group EncryptionScopes
-  - Added operation group LocationBasedModelCapacities
-  - Added operation group ModelCapacities
-  - Added operation group NetworkSecurityPerimeterConfigurations
-  - Added operation group RaiBlocklistItems
-  - Added operation group RaiBlocklists
-  - Added operation group RaiContentFilters
-  - Added operation group RaiPolicies
-  - Added operation Deployments.beginUpdate
-  - Added operation Deployments.beginUpdateAndWait
-  - Added operation Deployments.listSkus
-  - Added Interface BillingMeterInfo
-  - Added Interface CalculateModelCapacityOptionalParams
-  - Added Interface CalculateModelCapacityParameter
-  - Added Interface CalculateModelCapacityResult
-  - Added Interface CalculateModelCapacityResultEstimatedCapacity
-  - Added Interface CustomBlocklistConfig
-  - Added Interface DefenderForAISetting
-  - Added Interface DefenderForAISettingResult
-  - Added Interface DefenderForAISettingsCreateOrUpdateOptionalParams
-  - Added Interface DefenderForAISettingsGetOptionalParams
-  - Added Interface DefenderForAISettingsListNextOptionalParams
-  - Added Interface DefenderForAISettingsListOptionalParams
-  - Added Interface DefenderForAISettingsUpdateOptionalParams
-  - Added Interface DeploymentCapacitySettings
-  - Added Interface DeploymentSkuListResult
-  - Added Interface DeploymentsListSkusNextOptionalParams
-  - Added Interface DeploymentsListSkusOptionalParams
-  - Added Interface DeploymentsUpdateHeaders
-  - Added Interface DeploymentsUpdateOptionalParams
-  - Added Interface EncryptionScope
-  - Added Interface EncryptionScopeListResult
-  - Added Interface EncryptionScopeProperties
-  - Added Interface EncryptionScopesCreateOrUpdateOptionalParams
-  - Added Interface EncryptionScopesDeleteHeaders
-  - Added Interface EncryptionScopesDeleteOptionalParams
-  - Added Interface EncryptionScopesGetOptionalParams
-  - Added Interface EncryptionScopesListNextOptionalParams
-  - Added Interface EncryptionScopesListOptionalParams
-  - Added Interface LocationBasedModelCapacitiesListNextOptionalParams
-  - Added Interface LocationBasedModelCapacitiesListOptionalParams
-  - Added Interface ModelCapacitiesListNextOptionalParams
-  - Added Interface ModelCapacitiesListOptionalParams
-  - Added Interface ModelCapacityCalculatorWorkload
-  - Added Interface ModelCapacityCalculatorWorkloadRequestParam
-  - Added Interface ModelCapacityListResult
-  - Added Interface ModelCapacityListResultValueItem
-  - Added Interface ModelSkuCapacityProperties
-  - Added Interface NetworkSecurityPerimeter
-  - Added Interface NetworkSecurityPerimeterAccessRule
-  - Added Interface NetworkSecurityPerimeterAccessRuleProperties
-  - Added Interface NetworkSecurityPerimeterAccessRulePropertiesSubscriptionsItem
-  - Added Interface NetworkSecurityPerimeterConfiguration
-  - Added Interface NetworkSecurityPerimeterConfigurationAssociationInfo
-  - Added Interface NetworkSecurityPerimeterConfigurationList
-  - Added Interface NetworkSecurityPerimeterConfigurationProperties
-  - Added Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
-  - Added Interface NetworkSecurityPerimeterConfigurationsListNextOptionalParams
-  - Added Interface NetworkSecurityPerimeterConfigurationsListOptionalParams
-  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileHeaders
-  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
-  - Added Interface NetworkSecurityPerimeterProfileInfo
-  - Added Interface ProvisioningIssue
-  - Added Interface ProvisioningIssueProperties
-  - Added Interface RaiBlocklist
-  - Added Interface RaiBlocklistConfig
-  - Added Interface RaiBlocklistItem
-  - Added Interface RaiBlocklistItemBulkRequest
-  - Added Interface RaiBlocklistItemProperties
-  - Added Interface RaiBlocklistItemsBatchAddOptionalParams
-  - Added Interface RaiBlocklistItemsBatchDeleteOptionalParams
-  - Added Interface RaiBlocklistItemsCreateOrUpdateOptionalParams
-  - Added Interface RaiBlocklistItemsDeleteHeaders
-  - Added Interface RaiBlocklistItemsDeleteOptionalParams
-  - Added Interface RaiBlocklistItemsGetOptionalParams
-  - Added Interface RaiBlocklistItemsListNextOptionalParams
-  - Added Interface RaiBlocklistItemsListOptionalParams
-  - Added Interface RaiBlockListItemsResult
-  - Added Interface RaiBlocklistProperties
-  - Added Interface RaiBlockListResult
-  - Added Interface RaiBlocklistsCreateOrUpdateOptionalParams
-  - Added Interface RaiBlocklistsDeleteHeaders
-  - Added Interface RaiBlocklistsDeleteOptionalParams
-  - Added Interface RaiBlocklistsGetOptionalParams
-  - Added Interface RaiBlocklistsListNextOptionalParams
-  - Added Interface RaiBlocklistsListOptionalParams
-  - Added Interface RaiContentFilter
-  - Added Interface RaiContentFilterListResult
-  - Added Interface RaiContentFilterProperties
-  - Added Interface RaiContentFiltersGetOptionalParams
-  - Added Interface RaiContentFiltersListNextOptionalParams
-  - Added Interface RaiContentFiltersListOptionalParams
-  - Added Interface RaiMonitorConfig
-  - Added Interface RaiPoliciesCreateOrUpdateOptionalParams
-  - Added Interface RaiPoliciesDeleteHeaders
-  - Added Interface RaiPoliciesDeleteOptionalParams
-  - Added Interface RaiPoliciesGetOptionalParams
-  - Added Interface RaiPoliciesListNextOptionalParams
-  - Added Interface RaiPoliciesListOptionalParams
-  - Added Interface RaiPolicy
-  - Added Interface RaiPolicyContentFilter
-  - Added Interface RaiPolicyListResult
-  - Added Interface RaiPolicyProperties
-  - Added Interface SkuResource
-  - Added Interface UserOwnedAmlWorkspace
-  - Added Type Alias ByPassSelection
-  - Added Type Alias CalculateModelCapacityResponse
-  - Added Type Alias ContentLevel
-  - Added Type Alias DefenderForAISettingsCreateOrUpdateResponse
-  - Added Type Alias DefenderForAISettingsGetResponse
-  - Added Type Alias DefenderForAISettingsListNextResponse
-  - Added Type Alias DefenderForAISettingsListResponse
-  - Added Type Alias DefenderForAISettingState
-  - Added Type Alias DefenderForAISettingsUpdateResponse
-  - Added Type Alias DeploymentsListSkusNextResponse
-  - Added Type Alias DeploymentsListSkusResponse
-  - Added Type Alias DeploymentsUpdateResponse
-  - Added Type Alias EncryptionScopeProvisioningState
-  - Added Type Alias EncryptionScopesCreateOrUpdateResponse
-  - Added Type Alias EncryptionScopesDeleteResponse
-  - Added Type Alias EncryptionScopesGetResponse
-  - Added Type Alias EncryptionScopesListNextResponse
-  - Added Type Alias EncryptionScopesListResponse
-  - Added Type Alias EncryptionScopeState
-  - Added Type Alias LocationBasedModelCapacitiesListNextResponse
-  - Added Type Alias LocationBasedModelCapacitiesListResponse
-  - Added Type Alias ModelCapacitiesListNextResponse
-  - Added Type Alias ModelCapacitiesListResponse
-  - Added Type Alias NetworkSecurityPerimeterConfigurationsGetResponse
-  - Added Type Alias NetworkSecurityPerimeterConfigurationsListNextResponse
-  - Added Type Alias NetworkSecurityPerimeterConfigurationsListResponse
-  - Added Type Alias NetworkSecurityPerimeterConfigurationsReconcileResponse
-  - Added Type Alias NspAccessRuleDirection
-  - Added Type Alias RaiBlocklistItemsBatchAddResponse
-  - Added Type Alias RaiBlocklistItemsCreateOrUpdateResponse
-  - Added Type Alias RaiBlocklistItemsDeleteResponse
-  - Added Type Alias RaiBlocklistItemsGetResponse
-  - Added Type Alias RaiBlocklistItemsListNextResponse
-  - Added Type Alias RaiBlocklistItemsListResponse
-  - Added Type Alias RaiBlocklistsCreateOrUpdateResponse
-  - Added Type Alias RaiBlocklistsDeleteResponse
-  - Added Type Alias RaiBlocklistsGetResponse
-  - Added Type Alias RaiBlocklistsListNextResponse
-  - Added Type Alias RaiBlocklistsListResponse
-  - Added Type Alias RaiContentFiltersGetResponse
-  - Added Type Alias RaiContentFiltersListNextResponse
-  - Added Type Alias RaiContentFiltersListResponse
-  - Added Type Alias RaiPoliciesCreateOrUpdateResponse
-  - Added Type Alias RaiPoliciesDeleteResponse
-  - Added Type Alias RaiPoliciesGetResponse
-  - Added Type Alias RaiPoliciesListNextResponse
-  - Added Type Alias RaiPoliciesListResponse
-  - Added Type Alias RaiPolicyContentSource
-  - Added Type Alias RaiPolicyMode
-  - Added Type Alias RaiPolicyType
-  - Interface AccountProperties has a new optional parameter amlWorkspace
-  - Interface AccountProperties has a new optional parameter raiMonitorConfig
-  - Interface CapacityConfig has a new optional parameter allowedValues
-  - Interface CommitmentPlanAccountAssociation has a new optional parameter tags
-  - Interface Deployment has a new optional parameter tags
-  - Interface DeploymentModel has a new optional parameter publisher
-  - Interface DeploymentModel has a new optional parameter sourceAccount
-  - Interface DeploymentProperties has a new optional parameter capacitySettings
-  - Interface DeploymentProperties has a new optional parameter currentCapacity
-  - Interface DeploymentProperties has a new optional parameter dynamicThrottlingEnabled
-  - Interface DeploymentProperties has a new optional parameter parentDeploymentName
-  - Interface Model has a new optional parameter description
-  - Interface ModelSku has a new optional parameter cost
-  - Interface NetworkRuleSet has a new optional parameter bypass
-  - Added Enum KnownByPassSelection
-  - Added Enum KnownContentLevel
-  - Added Enum KnownDefenderForAISettingState
-  - Added Enum KnownEncryptionScopeProvisioningState
-  - Added Enum KnownEncryptionScopeState
-  - Added Enum KnownNspAccessRuleDirection
-  - Added Enum KnownRaiPolicyContentSource
-  - Added Enum KnownRaiPolicyMode
-  - Added Enum KnownRaiPolicyType
-  - Enum KnownModelLifecycleStatus has a new value Deprecated
-  - Enum KnownModelLifecycleStatus has a new value Deprecating
-  - Enum KnownModelLifecycleStatus has a new value Stable
-    
-    
-## 7.5.0 (2023-07-06)
-    
-### Features Added
-
-  - Added operation group Models
-  - Added operation group Usages
-  - Added Interface AbusePenalty
-  - Added Interface CapacityConfig
-  - Added Interface Model
-  - Added Interface ModelListResult
-  - Added Interface ModelSku
-  - Added Interface ModelsListNextOptionalParams
-  - Added Interface ModelsListOptionalParams
-  - Added Interface UsagesListNextOptionalParams
-  - Added Interface UsagesListOptionalParams
-  - Added Type Alias AbusePenaltyAction
-  - Added Type Alias DeploymentModelVersionUpgradeOption
-  - Added Type Alias ModelsListNextResponse
-  - Added Type Alias ModelsListResponse
-  - Added Type Alias UsagesListNextResponse
-  - Added Type Alias UsagesListResponse
-  - Interface AccountModel has a new optional parameter isDefaultVersion
-  - Interface AccountModel has a new optional parameter skus
-  - Interface AccountProperties has a new optional parameter abusePenalty
-  - Interface CommitmentPlanProperties has a new optional parameter provisioningIssues
-  - Interface Deployment has a new optional parameter sku
-  - Interface DeploymentModel has a new optional parameter source
-  - Interface DeploymentProperties has a new optional parameter rateLimits
-  - Interface DeploymentProperties has a new optional parameter versionUpgradeOption
-  - Interface UsageListResult has a new optional parameter nextLink
-  - Added Enum KnownAbusePenaltyAction
-  - Added Enum KnownDeploymentModelVersionUpgradeOption
-  - Enum KnownDeploymentProvisioningState has a new value Canceled
-  - Enum KnownDeploymentProvisioningState has a new value Disabled
-  - Enum KnownHostingModel has a new value ProvisionedWeb
-    
-    
-## 7.4.0 (2023-02-06)
-    
-### Features Added
-
-  - Added operation CommitmentPlans.beginCreateOrUpdateAssociation
-  - Added operation CommitmentPlans.beginCreateOrUpdateAssociationAndWait
-  - Added operation CommitmentPlans.beginCreateOrUpdatePlan
-  - Added operation CommitmentPlans.beginCreateOrUpdatePlanAndWait
-  - Added operation CommitmentPlans.beginDeleteAssociation
-  - Added operation CommitmentPlans.beginDeleteAssociationAndWait
-  - Added operation CommitmentPlans.beginDeletePlan
-  - Added operation CommitmentPlans.beginDeletePlanAndWait
-  - Added operation CommitmentPlans.beginUpdatePlan
-  - Added operation CommitmentPlans.beginUpdatePlanAndWait
-  - Added operation CommitmentPlans.getAssociation
-  - Added operation CommitmentPlans.getPlan
-  - Added operation CommitmentPlans.listAssociations
-  - Added operation CommitmentPlans.listPlansByResourceGroup
-  - Added operation CommitmentPlans.listPlansBySubscription
-  - Added Interface CommitmentPlanAccountAssociation
-  - Added Interface CommitmentPlanAccountAssociationListResult
-  - Added Interface CommitmentPlanAssociation
-  - Added Interface CommitmentPlansCreateOrUpdateAssociationOptionalParams
-  - Added Interface CommitmentPlansCreateOrUpdatePlanOptionalParams
-  - Added Interface CommitmentPlansDeleteAssociationHeaders
-  - Added Interface CommitmentPlansDeleteAssociationOptionalParams
-  - Added Interface CommitmentPlansDeletePlanHeaders
-  - Added Interface CommitmentPlansDeletePlanOptionalParams
-  - Added Interface CommitmentPlansGetAssociationOptionalParams
-  - Added Interface CommitmentPlansGetPlanOptionalParams
-  - Added Interface CommitmentPlansListAssociationsNextOptionalParams
-  - Added Interface CommitmentPlansListAssociationsOptionalParams
-  - Added Interface CommitmentPlansListPlansByResourceGroupNextOptionalParams
-  - Added Interface CommitmentPlansListPlansByResourceGroupOptionalParams
-  - Added Interface CommitmentPlansListPlansBySubscriptionNextOptionalParams
-  - Added Interface CommitmentPlansListPlansBySubscriptionOptionalParams
-  - Added Interface CommitmentPlansUpdatePlanHeaders
-  - Added Interface CommitmentPlansUpdatePlanOptionalParams
-  - Added Interface MultiRegionSettings
-  - Added Interface PatchResourceTags
-  - Added Interface PatchResourceTagsAndSku
-  - Added Interface RegionSetting
-  - Added Type Alias CommitmentPlanProvisioningState
-  - Added Type Alias CommitmentPlansCreateOrUpdateAssociationResponse
-  - Added Type Alias CommitmentPlansCreateOrUpdatePlanResponse
-  - Added Type Alias CommitmentPlansGetAssociationResponse
-  - Added Type Alias CommitmentPlansGetPlanResponse
-  - Added Type Alias CommitmentPlansListAssociationsNextResponse
-  - Added Type Alias CommitmentPlansListAssociationsResponse
-  - Added Type Alias CommitmentPlansListPlansByResourceGroupNextResponse
-  - Added Type Alias CommitmentPlansListPlansByResourceGroupResponse
-  - Added Type Alias CommitmentPlansListPlansBySubscriptionNextResponse
-  - Added Type Alias CommitmentPlansListPlansBySubscriptionResponse
-  - Added Type Alias CommitmentPlansUpdatePlanResponse
-  - Added Type Alias ModelLifecycleStatus
-  - Added Type Alias RoutingMethods
-  - Interface AccountModel has a new optional parameter finetuneCapabilities
-  - Interface AccountModel has a new optional parameter lifecycleStatus
-  - Interface AccountProperties has a new optional parameter commitmentPlanAssociations
-  - Interface AccountProperties has a new optional parameter locations
-  - Interface CommitmentPlan has a new optional parameter kind
-  - Interface CommitmentPlan has a new optional parameter location
-  - Interface CommitmentPlan has a new optional parameter sku
-  - Interface CommitmentPlan has a new optional parameter tags
-  - Interface CommitmentPlanProperties has a new optional parameter commitmentPlanGuid
-  - Interface CommitmentPlanProperties has a new optional parameter provisioningState
-  - Added Enum KnownCommitmentPlanProvisioningState
-  - Added Enum KnownModelLifecycleStatus
-  - Added Enum KnownRoutingMethods
-    
-    
-## 7.3.1 (2022-11-21)
-
-### Features Added
-
- -  Exposes `getContinuationToken` helper function to extract continuation token
-
-### Bugs Fixed
-
-  - A series of small bug fixs relevant to authentication and apiVersion policy
-
-## 7.3.0 (2022-10-31)
-    
-### Features Added
-
-  - Added Interface Account
-  - Added Interface AccountModel
-  - Added Interface AzureEntityResource
-  - Added Interface CommitmentPlan
-  - Added Interface Deployment
-  - Added Interface PrivateEndpointConnection
-  - Added Interface PrivateLinkResource
-  - Added Interface ProxyResource
-  - Interface DeploymentModel has a new optional parameter callRateLimit
-  - Interface DeploymentProperties has a new optional parameter callRateLimit
-  - Interface DeploymentProperties has a new optional parameter capabilities
-  - Interface DeploymentProperties has a new optional parameter raiPolicyName
-    
-    
-## 7.2.0 (2022-06-10)
-    
-### Features Added
-
-  - Enum KnownDeploymentScaleType has a new value Standard
-    
-    
-## 7.1.0 (2022-04-06)
-    
-### Features Added
-
-  - Added operation Accounts.listModels
-  - Added Interface AccountModelListResult
-  - Added Interface AccountsListModelsNextOptionalParams
-  - Added Interface AccountsListModelsOptionalParams
-  - Added Interface ModelDeprecationInfo
-  - Added Type Alias AccountModel
-  - Added Type Alias AccountsListModelsNextResponse
-  - Added Type Alias AccountsListModelsResponse
-  - Interface AccountProperties has a new optional parameter deletionDate
-  - Interface AccountProperties has a new optional parameter dynamicThrottlingEnabled
-  - Interface AccountProperties has a new optional parameter scheduledPurgeDate
-  - Interface DeploymentScaleSettings has a new optional parameter activeCapacity
-    
-    
-## 7.0.0 (2021-12-20)
-
-The package of @azure/arm-cognitiveservices is using our next generation design principles since version 7.0.0, which contains breaking changes.
-
-To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
-
-To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
-
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
