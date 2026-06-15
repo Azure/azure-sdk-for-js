@@ -12,6 +12,12 @@
 
 - Migrated to TypeSpec-based code generation [PR #38224](https://github.com/Azure/azure-sdk-for-js/pull/38224)
 
+## 12.31.0 (2026-06-15)
+
+### Features Added
+
+- Added support for service version 2026-06-06.
+
 ## 12.30.0 (2026-05-22)
 
 ### Features Added
