@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update the specified Cache within the Capacity Pool
  *
  * @summary create or update the specified Cache within the Capacity Pool
- * x-ms-original-file: 2026-01-01/Caches_CreateOrUpdate.json
+ * x-ms-original-file: 2026-04-01/Caches_CreateOrUpdate.json
  */
 async function cachesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

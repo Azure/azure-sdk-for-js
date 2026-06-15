@@ -1,10 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { listByHealthModel, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  type EntitiesListByHealthModelOptionalParams,
-  type EntitiesDeleteOptionalParams,
-  type EntitiesCreateOrUpdateOptionalParams,
-  type EntitiesGetOptionalParams,
+  ingestHealthReport,
+  getSignalHistory,
+  getHistory,
+  listByHealthModel,
+  $delete,
+  createOrUpdate,
+  get,
+} from "./operations.js";
+export type {
+  EntitiesIngestHealthReportOptionalParams,
+  EntitiesGetSignalHistoryOptionalParams,
+  EntitiesGetHistoryOptionalParams,
+  EntitiesListByHealthModelOptionalParams,
+  EntitiesDeleteOptionalParams,
+  EntitiesCreateOrUpdateOptionalParams,
+  EntitiesGetOptionalParams,
 } from "./options.js";

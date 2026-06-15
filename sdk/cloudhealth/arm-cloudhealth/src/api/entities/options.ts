@@ -1,7 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
+
+/** Optional parameters. */
+export interface EntitiesIngestHealthReportOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface EntitiesGetSignalHistoryOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface EntitiesGetHistoryOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface EntitiesListByHealthModelOptionalParams extends OperationOptions {
@@ -10,10 +19,16 @@ export interface EntitiesListByHealthModelOptionalParams extends OperationOption
 }
 
 /** Optional parameters. */
-export interface EntitiesDeleteOptionalParams extends OperationOptions {}
+export interface EntitiesDeleteOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
-export interface EntitiesCreateOrUpdateOptionalParams extends OperationOptions {}
+export interface EntitiesCreateOrUpdateOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface EntitiesGetOptionalParams extends OperationOptions {}

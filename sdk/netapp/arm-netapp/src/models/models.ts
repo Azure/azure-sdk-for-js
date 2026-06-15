@@ -4321,6 +4321,8 @@ export interface CacheProperties {
   globalFileLocking?: GlobalFileLockingState;
   /** Flag indicating whether writeback is enabled for the cache. */
   writeBack?: EnableWriteBackState;
+  /** Flag indicating whether file access logs are enabled for the Cache, based on active diagnostic settings present on the Cache. */
+  readonly fileAccessLogs?: CacheFileAccessLogs;
 }
 
 export function cachePropertiesSerializer(item: CacheProperties): any {
@@ -4391,6 +4393,7 @@ export function cachePropertiesDeserializer(item: any): CacheProperties {
     cifsChangeNotifications: item["cifsChangeNotifications"],
     globalFileLocking: item["globalFileLocking"],
     writeBack: item["writeBack"],
+    fileAccessLogs: item["fileAccessLogs"],
   };
 }
 
@@ -4936,6 +4939,24 @@ export enum KnownEnableWriteBackState {
  * **Enabled**: Writeback cache is enabled
  */
 export type EnableWriteBackState = string;
+
+/** Flag indicating whether file access logs are enabled for the Cache, based on active diagnostic settings present on the Cache. */
+export enum KnownCacheFileAccessLogs {
+  /** fileAccessLogs are enabled */
+  Enabled = "Enabled",
+  /** fileAccessLogs are not enabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Flag indicating whether file access logs are enabled for the Cache, based on active diagnostic settings present on the Cache. \
+ * {@link KnownCacheFileAccessLogs} can be used interchangeably with CacheFileAccessLogs,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: fileAccessLogs are enabled \
+ * **Disabled**: fileAccessLogs are not enabled
+ */
+export type CacheFileAccessLogs = string;
 
 /** The type used for update operations of the Cache. */
 export interface CacheUpdate {
@@ -6589,4 +6610,8 @@ export enum KnownVersions {
   V20251201 = "2025-12-01",
   /** The 2026-01-01 API version. */
   V20260101 = "2026-01-01",
+  /** The 2026-03-01 API version. */
+  V20260301 = "2026-03-01",
+  /** The 2026-04-01 API version. */
+  V20260401 = "2026-04-01",
 }

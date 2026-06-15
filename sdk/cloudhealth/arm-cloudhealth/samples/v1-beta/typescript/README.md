@@ -2,35 +2,38 @@
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-cloudhealth in some common scenarios.
 
-| **File Name**                                                                                     | **Description**                                                                                                                          |
-| ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| [authenticationSettingsCreateOrUpdateSample.ts][authenticationsettingscreateorupdatesample]       | create a AuthenticationSetting x-ms-original-file: 2025-05-01-preview/AuthenticationSettings_CreateOrUpdate.json                         |
-| [authenticationSettingsDeleteSample.ts][authenticationsettingsdeletesample]                       | delete a AuthenticationSetting x-ms-original-file: 2025-05-01-preview/AuthenticationSettings_Delete.json                                 |
-| [authenticationSettingsGetSample.ts][authenticationsettingsgetsample]                             | get a AuthenticationSetting x-ms-original-file: 2025-05-01-preview/AuthenticationSettings_Get.json                                       |
-| [authenticationSettingsListByHealthModelSample.ts][authenticationsettingslistbyhealthmodelsample] | list AuthenticationSetting resources by HealthModel x-ms-original-file: 2025-05-01-preview/AuthenticationSettings_ListByHealthModel.json |
-| [discoveryRulesCreateOrUpdateSample.ts][discoveryrulescreateorupdatesample]                       | create a DiscoveryRule x-ms-original-file: 2025-05-01-preview/DiscoveryRules_CreateOrUpdate.json                                         |
-| [discoveryRulesDeleteSample.ts][discoveryrulesdeletesample]                                       | delete a DiscoveryRule x-ms-original-file: 2025-05-01-preview/DiscoveryRules_Delete.json                                                 |
-| [discoveryRulesGetSample.ts][discoveryrulesgetsample]                                             | get a DiscoveryRule x-ms-original-file: 2025-05-01-preview/DiscoveryRules_Get.json                                                       |
-| [discoveryRulesListByHealthModelSample.ts][discoveryruleslistbyhealthmodelsample]                 | list DiscoveryRule resources by HealthModel x-ms-original-file: 2025-05-01-preview/DiscoveryRules_ListByHealthModel.json                 |
-| [entitiesCreateOrUpdateSample.ts][entitiescreateorupdatesample]                                   | create a Entity x-ms-original-file: 2025-05-01-preview/Entities_CreateOrUpdate.json                                                      |
-| [entitiesDeleteSample.ts][entitiesdeletesample]                                                   | delete a Entity x-ms-original-file: 2025-05-01-preview/Entities_Delete.json                                                              |
-| [entitiesGetSample.ts][entitiesgetsample]                                                         | get a Entity x-ms-original-file: 2025-05-01-preview/Entities_Get.json                                                                    |
-| [entitiesListByHealthModelSample.ts][entitieslistbyhealthmodelsample]                             | list Entity resources by HealthModel x-ms-original-file: 2025-05-01-preview/Entities_ListByHealthModel.json                              |
-| [healthModelsCreateSample.ts][healthmodelscreatesample]                                           | create a HealthModel x-ms-original-file: 2025-05-01-preview/HealthModels_Create.json                                                     |
-| [healthModelsDeleteSample.ts][healthmodelsdeletesample]                                           | delete a HealthModel x-ms-original-file: 2025-05-01-preview/HealthModels_Delete.json                                                     |
-| [healthModelsGetSample.ts][healthmodelsgetsample]                                                 | get a HealthModel x-ms-original-file: 2025-05-01-preview/HealthModels_Get.json                                                           |
-| [healthModelsListByResourceGroupSample.ts][healthmodelslistbyresourcegroupsample]                 | list HealthModel resources by resource group x-ms-original-file: 2025-05-01-preview/HealthModels_ListByResourceGroup.json                |
-| [healthModelsListBySubscriptionSample.ts][healthmodelslistbysubscriptionsample]                   | list HealthModel resources by subscription ID x-ms-original-file: 2025-05-01-preview/HealthModels_ListBySubscription.json                |
-| [healthModelsUpdateSample.ts][healthmodelsupdatesample]                                           | update a HealthModel x-ms-original-file: 2025-05-01-preview/HealthModels_Update.json                                                     |
-| [operationsListSample.ts][operationslistsample]                                                   | list the operations for the provider x-ms-original-file: 2025-05-01-preview/Operations_List.json                                         |
-| [relationshipsCreateOrUpdateSample.ts][relationshipscreateorupdatesample]                         | create a Relationship x-ms-original-file: 2025-05-01-preview/Relationships_CreateOrUpdate.json                                           |
-| [relationshipsDeleteSample.ts][relationshipsdeletesample]                                         | delete a Relationship x-ms-original-file: 2025-05-01-preview/Relationships_Delete.json                                                   |
-| [relationshipsGetSample.ts][relationshipsgetsample]                                               | get a Relationship x-ms-original-file: 2025-05-01-preview/Relationships_Get.json                                                         |
-| [relationshipsListByHealthModelSample.ts][relationshipslistbyhealthmodelsample]                   | list Relationship resources by HealthModel x-ms-original-file: 2025-05-01-preview/Relationships_ListByHealthModel.json                   |
-| [signalDefinitionsCreateOrUpdateSample.ts][signaldefinitionscreateorupdatesample]                 | create a SignalDefinition x-ms-original-file: 2025-05-01-preview/SignalDefinitions_CreateOrUpdate.json                                   |
-| [signalDefinitionsDeleteSample.ts][signaldefinitionsdeletesample]                                 | delete a SignalDefinition x-ms-original-file: 2025-05-01-preview/SignalDefinitions_Delete.json                                           |
-| [signalDefinitionsGetSample.ts][signaldefinitionsgetsample]                                       | get a SignalDefinition x-ms-original-file: 2025-05-01-preview/SignalDefinitions_Get.json                                                 |
-| [signalDefinitionsListByHealthModelSample.ts][signaldefinitionslistbyhealthmodelsample]           | list SignalDefinition resources by HealthModel x-ms-original-file: 2025-05-01-preview/SignalDefinitions_ListByHealthModel.json           |
+| **File Name**                                                                                     | **Description**                                                                                                                                                   |
+| ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [authenticationSettingsCreateOrUpdateSample.ts][authenticationsettingscreateorupdatesample]       | create a AuthenticationSetting x-ms-original-file: 2026-01-01-preview/AuthenticationSettings_CreateOrUpdate.json                                                  |
+| [authenticationSettingsDeleteSample.ts][authenticationsettingsdeletesample]                       | delete a AuthenticationSetting x-ms-original-file: 2026-01-01-preview/AuthenticationSettings_Delete.json                                                          |
+| [authenticationSettingsGetSample.ts][authenticationsettingsgetsample]                             | get a AuthenticationSetting x-ms-original-file: 2026-01-01-preview/AuthenticationSettings_Get.json                                                                |
+| [authenticationSettingsListByHealthModelSample.ts][authenticationsettingslistbyhealthmodelsample] | list AuthenticationSetting resources by HealthModel x-ms-original-file: 2026-01-01-preview/AuthenticationSettings_ListByHealthModel.json                          |
+| [discoveryRulesCreateOrUpdateSample.ts][discoveryrulescreateorupdatesample]                       | create a DiscoveryRule x-ms-original-file: 2026-01-01-preview/DiscoveryRules_CreateOrUpdate.json                                                                  |
+| [discoveryRulesDeleteSample.ts][discoveryrulesdeletesample]                                       | delete a DiscoveryRule x-ms-original-file: 2026-01-01-preview/DiscoveryRules_Delete.json                                                                          |
+| [discoveryRulesGetSample.ts][discoveryrulesgetsample]                                             | get a DiscoveryRule x-ms-original-file: 2026-01-01-preview/DiscoveryRules_Get.json                                                                                |
+| [discoveryRulesListByHealthModelSample.ts][discoveryruleslistbyhealthmodelsample]                 | list DiscoveryRule resources by HealthModel x-ms-original-file: 2026-01-01-preview/DiscoveryRules_ListByHealthModel.json                                          |
+| [entitiesCreateOrUpdateSample.ts][entitiescreateorupdatesample]                                   | create a Entity x-ms-original-file: 2026-01-01-preview/Entities_CreateOrUpdate.json                                                                               |
+| [entitiesDeleteSample.ts][entitiesdeletesample]                                                   | delete a Entity x-ms-original-file: 2026-01-01-preview/Entities_Delete.json                                                                                       |
+| [entitiesGetHistorySample.ts][entitiesgethistorysample]                                           | retrieve the health state transition history for an entity x-ms-original-file: 2026-01-01-preview/Entities_GetHistory.json                                        |
+| [entitiesGetSample.ts][entitiesgetsample]                                                         | get a Entity x-ms-original-file: 2026-01-01-preview/Entities_Get.json                                                                                             |
+| [entitiesGetSignalHistorySample.ts][entitiesgetsignalhistorysample]                               | retrieve the time series history for a signal on an entity x-ms-original-file: 2026-01-01-preview/Entities_GetSignalHistory.json                                  |
+| [entitiesIngestHealthReportSample.ts][entitiesingesthealthreportsample]                           | ingest a health report for a specific signal on an entity (the entity must already exist) x-ms-original-file: 2026-01-01-preview/Entities_IngestHealthReport.json |
+| [entitiesListByHealthModelSample.ts][entitieslistbyhealthmodelsample]                             | list Entity resources by HealthModel x-ms-original-file: 2026-01-01-preview/Entities_ListByHealthModel.json                                                       |
+| [healthModelsCreateSample.ts][healthmodelscreatesample]                                           | create a HealthModel x-ms-original-file: 2026-01-01-preview/HealthModels_Create.json                                                                              |
+| [healthModelsDeleteSample.ts][healthmodelsdeletesample]                                           | delete a HealthModel x-ms-original-file: 2026-01-01-preview/HealthModels_Delete.json                                                                              |
+| [healthModelsGetSample.ts][healthmodelsgetsample]                                                 | get a HealthModel x-ms-original-file: 2026-01-01-preview/HealthModels_Get.json                                                                                    |
+| [healthModelsListByResourceGroupSample.ts][healthmodelslistbyresourcegroupsample]                 | list HealthModel resources by resource group x-ms-original-file: 2026-01-01-preview/HealthModels_ListByResourceGroup.json                                         |
+| [healthModelsListBySubscriptionSample.ts][healthmodelslistbysubscriptionsample]                   | list HealthModel resources by subscription ID x-ms-original-file: 2026-01-01-preview/HealthModels_ListBySubscription.json                                         |
+| [healthModelsUpdateSample.ts][healthmodelsupdatesample]                                           | update a HealthModel x-ms-original-file: 2026-01-01-preview/HealthModels_Update.json                                                                              |
+| [operationsListSample.ts][operationslistsample]                                                   | list the operations for the provider x-ms-original-file: 2026-01-01-preview/Operations_List.json                                                                  |
+| [relationshipsCreateOrUpdateSample.ts][relationshipscreateorupdatesample]                         | create a Relationship x-ms-original-file: 2026-01-01-preview/Relationships_CreateOrUpdate.json                                                                    |
+| [relationshipsDeleteSample.ts][relationshipsdeletesample]                                         | delete a Relationship x-ms-original-file: 2026-01-01-preview/Relationships_Delete.json                                                                            |
+| [relationshipsGetSample.ts][relationshipsgetsample]                                               | get a Relationship x-ms-original-file: 2026-01-01-preview/Relationships_Get.json                                                                                  |
+| [relationshipsListByHealthModelSample.ts][relationshipslistbyhealthmodelsample]                   | list Relationship resources by HealthModel x-ms-original-file: 2026-01-01-preview/Relationships_ListByHealthModel.json                                            |
+| [signalDefinitionsCreateOrUpdateSample.ts][signaldefinitionscreateorupdatesample]                 | create a SignalDefinition x-ms-original-file: 2026-01-01-preview/SignalDefinitions_CreateOrUpdate.json                                                            |
+| [signalDefinitionsDeleteSample.ts][signaldefinitionsdeletesample]                                 | delete a SignalDefinition x-ms-original-file: 2026-01-01-preview/SignalDefinitions_Delete.json                                                                    |
+| [signalDefinitionsGetSample.ts][signaldefinitionsgetsample]                                       | get a SignalDefinition x-ms-original-file: 2026-01-01-preview/SignalDefinitions_Get.json                                                                          |
+| [signalDefinitionsListByHealthModelSample.ts][signaldefinitionslistbyhealthmodelsample]           | list SignalDefinition resources by HealthModel x-ms-original-file: 2026-01-01-preview/SignalDefinitions_ListByHealthModel.json                                    |
 
 ## Prerequisites
 
@@ -72,10 +75,10 @@ npm run build
 node dist/authenticationSettingsCreateOrUpdateSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env node dist/authenticationSettingsCreateOrUpdateSample.js
+node dist/authenticationSettingsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -92,7 +95,10 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [discoveryruleslistbyhealthmodelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cloudhealth/arm-cloudhealth/samples/v1-beta/typescript/src/discoveryRulesListByHealthModelSample.ts
 [entitiescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cloudhealth/arm-cloudhealth/samples/v1-beta/typescript/src/entitiesCreateOrUpdateSample.ts
 [entitiesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cloudhealth/arm-cloudhealth/samples/v1-beta/typescript/src/entitiesDeleteSample.ts
+[entitiesgethistorysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cloudhealth/arm-cloudhealth/samples/v1-beta/typescript/src/entitiesGetHistorySample.ts
 [entitiesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cloudhealth/arm-cloudhealth/samples/v1-beta/typescript/src/entitiesGetSample.ts
+[entitiesgetsignalhistorysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cloudhealth/arm-cloudhealth/samples/v1-beta/typescript/src/entitiesGetSignalHistorySample.ts
+[entitiesingesthealthreportsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cloudhealth/arm-cloudhealth/samples/v1-beta/typescript/src/entitiesIngestHealthReportSample.ts
 [entitieslistbyhealthmodelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cloudhealth/arm-cloudhealth/samples/v1-beta/typescript/src/entitiesListByHealthModelSample.ts
 [healthmodelscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cloudhealth/arm-cloudhealth/samples/v1-beta/typescript/src/healthModelsCreateSample.ts
 [healthmodelsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cloudhealth/arm-cloudhealth/samples/v1-beta/typescript/src/healthModelsDeleteSample.ts
