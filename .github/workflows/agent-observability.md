@@ -194,3 +194,9 @@ section entirely if everything was collected.>
 2. Derive the few computed values above.
 3. Write the comment in the exact structure shown.
 4. Emit it via `safe-outputs.add-comment` exactly once. That is your only output.
+
+**Important — do not set a target on the comment.** Provide **only** the
+`body`. Do **not** include an `item_number`, issue number, or any target
+field in the `add-comment` call. The comment is automatically routed to
+the preconfigured tracking issue. If you supply your own number you will
+misroute the report to the wrong issue.
