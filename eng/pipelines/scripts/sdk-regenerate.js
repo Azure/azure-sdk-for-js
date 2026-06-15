@@ -128,8 +128,8 @@ function logPipelineIssue(severity, message) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Subcommand: resolve-emitter
-// Resolve --input to a concrete npm version. "dev" means: scan all published
-// @azure-tools/typespec-ts versions and choose the highest `-dev` prerelease.
+// Resolve --input to a concrete npm version. "dev" means: use the npm `next`
+// dist-tag, which points to the dev emitter build selected by the publisher.
 // Anything else is used verbatim.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -138,102 +138,56 @@ async function runResolveEmitter() {
   const normalizedInput = rawInputVersion.trim().toLowerCase();
 
   let resolvedEmitterVersion;
+  let isNewDevVersion = true;
   if (normalizedInput === DEV_VERSION_SENTINEL) {
-    resolvedEmitterVersion = await resolveLatestDevEmitterVersion();
+    resolvedEmitterVersion = await resolveNextEmitterVersion();
+    isNewDevVersion = await isDevVersionFresh(resolvedEmitterVersion);
   } else {
     resolvedEmitterVersion = rawInputVersion.trim();
   }
 
   console.log(`Emitter version: ${resolvedEmitterVersion}`);
   setPipelineVariable("emitterVersion", resolvedEmitterVersion, { isOutput: true });
+  setPipelineVariable("isNewDevVersion", String(isNewDevVersion), { isOutput: true });
 }
 
-async function resolveLatestDevEmitterVersion() {
+async function isDevVersionFresh(version) {
   const { exitCode, output } = await runCommandCapturing(
     "npm",
-    ["view", EMITTER_PACKAGE_NAME, "versions", "--json"],
+    ["view", EMITTER_PACKAGE_NAME, "time", "--json"],
     process.cwd(),
   );
+  let publishedAt;
+  if (exitCode === 0) {
+    try { publishedAt = JSON.parse(output)?.[version]; } catch { /* ignore */ }
+  }
+  const ageMs = publishedAt ? Date.now() - new Date(publishedAt).getTime() : Infinity;
+  const isFresh = ageMs <= 24 * 60 * 60 * 1000;
+  console.log(
+    `Next dev version age: ${Number.isFinite(ageMs) ? (ageMs / 3_600_000).toFixed(1) + "h" : "unknown"}; fresh=${isFresh}`,
+  );
+  return isFresh;
+}
+
+async function resolveNextEmitterVersion() {
+  const { exitCode, output } = await runCommandCapturing(
+    "npm",
+    ["view", EMITTER_PACKAGE_NAME, "dist-tags.next"],
+    process.cwd(),
+  );
+  const nextVersion = output.trim();
   if (exitCode !== 0) {
-    console.error(`##[error]npm view failed while listing ${EMITTER_PACKAGE_NAME} versions`);
+    console.error(`##[error]npm view failed while resolving ${EMITTER_PACKAGE_NAME} next tag`);
     console.error(extractLastNonEmptyLines(output, 20));
     process.exit(1);
   }
-
-  let publishedVersions;
-  try {
-    publishedVersions = JSON.parse(output);
-  } catch (err) {
-    console.error(`##[error]npm view returned invalid JSON: ${err.message}`);
+  if (!nextVersion) {
+    console.error(`##[error]npm next tag is empty for ${EMITTER_PACKAGE_NAME}`);
     process.exit(1);
   }
 
-  if (!Array.isArray(publishedVersions)) {
-    console.error("##[error]npm view did not return a version array");
-    process.exit(1);
-  }
-
-  const devVersions = publishedVersions.filter(isDevPrereleaseVersion).sort(compareSemverVersions);
-  const latestDevVersion = devVersions.at(-1);
-  if (!latestDevVersion) {
-    console.error(`##[error]No -dev versions found for ${EMITTER_PACKAGE_NAME}`);
-    process.exit(1);
-  }
-
-  console.log(`Latest -dev emitter version from npm versions: ${latestDevVersion}`);
-  return latestDevVersion;
-}
-
-function isDevPrereleaseVersion(version) {
-  const parsed = parseSemver(version);
-  return parsed?.prerelease.some((identifier) => identifier === "dev" || identifier.startsWith("dev."));
-}
-
-function compareSemverVersions(left, right) {
-  const parsedLeft = parseSemver(left);
-  const parsedRight = parseSemver(right);
-  if (!parsedLeft || !parsedRight) return left.localeCompare(right);
-
-  for (const key of ["major", "minor", "patch"]) {
-    const comparison = parsedLeft[key] - parsedRight[key];
-    if (comparison !== 0) return comparison;
-  }
-
-  return comparePrereleaseIdentifiers(parsedLeft.prerelease, parsedRight.prerelease);
-}
-
-function parseSemver(version) {
-  const match = version.match(/^(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?(?:\+.+)?$/);
-  if (!match) return null;
-  return {
-    major: Number(match[1]),
-    minor: Number(match[2]),
-    patch: Number(match[3]),
-    prerelease: match[4] ? match[4].split(".") : [],
-  };
-}
-
-function comparePrereleaseIdentifiers(leftIdentifiers, rightIdentifiers) {
-  if (leftIdentifiers.length === 0 && rightIdentifiers.length === 0) return 0;
-  if (leftIdentifiers.length === 0) return 1;
-  if (rightIdentifiers.length === 0) return -1;
-
-  const length = Math.max(leftIdentifiers.length, rightIdentifiers.length);
-  for (let i = 0; i < length; i++) {
-    const left = leftIdentifiers[i];
-    const right = rightIdentifiers[i];
-    if (left === undefined) return -1;
-    if (right === undefined) return 1;
-    if (left === right) continue;
-
-    const leftNumeric = /^\d+$/.test(left);
-    const rightNumeric = /^\d+$/.test(right);
-    if (leftNumeric && rightNumeric) return Number(left) - Number(right);
-    if (leftNumeric) return -1;
-    if (rightNumeric) return 1;
-    return left.localeCompare(right);
-  }
-  return 0;
+  console.log(`Emitter version from npm next tag: ${nextVersion}`);
+  return nextVersion;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -36,13 +36,13 @@ pr:
       - eng/pipelines/scripts/sdk-regenerate.js
 
 schedules:
-  - cron: "0 2 * * 1"
-    displayName: Weekly TypeSpec break check (Monday 2AM UTC)
+  - cron: "0 2 * * *"
+    displayName: Daily TypeSpec break check (2AM UTC)
     branches: { include: [main] }
 
 parameters:
   - name: EmitterVersion
-    displayName: "Emitter version ('dev' = latest -dev version from npm)"
+    displayName: "Emitter version ('dev' = npm next tag)"
     type: string
     default: 'dev'
 
@@ -138,6 +138,7 @@ stages:
   - job: RegenerateAndBuild
     displayName: 'Regenerate + build shards'
     dependsOn: Setup
+    condition: and(succeeded(), or(ne(variables['Build.Reason'], 'Schedule'), eq(dependencies.Setup.outputs['resolveVersion.isNewDevVersion'], 'True')))
     timeoutInMinutes: 180
     strategy:
       matrix: $[ dependencies.Setup.outputs['generateMatrix.matrix'] ]
