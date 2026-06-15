@@ -464,6 +464,24 @@ describe("JsonProtocol", function () {
         },
       },
       {
+        testName: "event-stream-metadata-ignored",
+        message: {
+          type: "message",
+          from: "server",
+          dataType: "text",
+          data: "xyz",
+          stream: {
+            streamId: "stream1",
+            streamSequenceId: 1,
+          },
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "serverData");
+          const typedMessage = msg as ServerDataMessage;
+          assert.notProperty(typedMessage, "stream");
+        },
+      },
+      {
         testName: "event3",
         message: { type: "message", from: "server", dataType: "binary", data: "eHl6" },
         assertFunc: (msg: WebPubSubMessage) => {

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified maintenance configuration of a managed cluster.
  *
  * @summary gets the specified maintenance configuration of a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/MaintenanceConfigurationsGet_MaintenanceWindow.json
+ * x-ms-original-file: 2026-04-02-preview/MaintenanceConfigurationsGet_MaintenanceWindow.json
  */
 async function getMaintenanceConfigurationConfiguredWithMaintenanceWindow() {
   const credential = new DefaultAzureCredential();

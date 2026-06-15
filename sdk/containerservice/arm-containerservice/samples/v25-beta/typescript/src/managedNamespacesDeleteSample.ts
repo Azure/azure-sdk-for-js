@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a namespace.
  *
  * @summary deletes a namespace.
- * x-ms-original-file: 2026-03-02-preview/ManagedNamespacesDelete.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedNamespacesDelete.json
  */
 async function deleteManagedNamespace(): Promise<void> {
   const credential = new DefaultAzureCredential();

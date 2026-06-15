@@ -21,6 +21,7 @@ export type {
   Action,
   CertificatePolicyAction,
   IssuerParameters,
+  PlatformManaged,
   Contacts,
   Contact,
   CertificateIssuerItem,

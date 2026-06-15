@@ -28,14 +28,14 @@ export interface BetaEvaluationTaxonomiesOperations {
     taxonomy: EvaluationTaxonomy,
     options?: BetaEvaluationTaxonomiesUpdateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
-  /** Create an evaluation taxonomy. */
+  /** Creates or replaces the specified evaluation taxonomy with the provided definition. */
   create: (
     foundryFeatures: "Evaluations=V1Preview",
     name: string,
     taxonomy: EvaluationTaxonomy,
     options?: BetaEvaluationTaxonomiesCreateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
-  /** Delete an evaluation taxonomy by name. */
+  /** Removes the specified evaluation taxonomy from the project. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -46,12 +46,12 @@ export interface BetaEvaluationTaxonomiesOperations {
     foundryFeatures: "Evaluations=V1Preview",
     options?: BetaEvaluationTaxonomiesDeleteOptionalParams,
   ) => Promise<void>;
-  /** List evaluation taxonomies */
+  /** Returns the evaluation taxonomies available in the project, optionally filtered by input name or input type. */
   list: (
     foundryFeatures: "Evaluations=V1Preview",
     options?: BetaEvaluationTaxonomiesListOptionalParams,
   ) => PagedAsyncIterableIterator<EvaluationTaxonomy>;
-  /** Get an evaluation run by name. */
+  /** Retrieves the specified evaluation taxonomy. */
   get: (
     name: string,
     foundryFeatures: "Evaluations=V1Preview",

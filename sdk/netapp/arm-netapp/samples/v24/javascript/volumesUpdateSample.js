@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to patch the specified volume
  *
  * @summary patch the specified volume
- * x-ms-original-file: 2026-01-01/Volumes_Update.json
+ * x-ms-original-file: 2026-04-01/Volumes_Update.json
  */
 async function volumesUpdate() {
   const credential = new DefaultAzureCredential();

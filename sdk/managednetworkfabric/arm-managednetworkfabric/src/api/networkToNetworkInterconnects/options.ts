@@ -16,6 +16,12 @@ export interface NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalP
 }
 
 /** Optional parameters. */
+export interface NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
 export interface NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
