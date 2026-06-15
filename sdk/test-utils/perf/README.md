@@ -6,8 +6,6 @@
 
 To start a new perf test project for the your SDK in the js repository, follow the steps in the [GettingStarted.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/perf/GettingStarted.md).
 
-Link to the docs - [Writing-Performance-Tests](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/writing-performance-tests.md) (has the same contents as the GettingStarted docs)
-
 ## KeyConcepts
 
 - A **PerfTest** test is a test that will be executed repeatedly to show both the performance of the program, and how it behaves under stress.
