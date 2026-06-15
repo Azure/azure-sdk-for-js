@@ -670,7 +670,7 @@ const SUBCOMMANDS = {
 const subcommandName = process.argv[2];
 const subcommandHandler = SUBCOMMANDS[subcommandName];
 if (!subcommandHandler) {
-  console.error(`Usage: regenerate-shard.js <${Object.keys(SUBCOMMANDS).join("|")}> [...args]`);
+  console.error(`Usage: sdk-regenerate.js <${Object.keys(SUBCOMMANDS).join("|")}> [...args]`);
   process.exit(2);
 }
 Promise.resolve()
