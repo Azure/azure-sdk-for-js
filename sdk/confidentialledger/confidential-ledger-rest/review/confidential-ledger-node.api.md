@@ -52,6 +52,9 @@ export interface CollectionOutput {
 }
 
 // @public (undocumented)
+function ConfidentialLedger(ledgerEndpoint: string, credentials: TokenCredential, options?: ClientOptions): ConfidentialLedgerClient;
+
+// @public (undocumented)
 function ConfidentialLedger(ledgerEndpoint: string, ledgerIdentityCertificate: string, options?: ClientOptions): ConfidentialLedgerClient;
 
 // @public (undocumented)
