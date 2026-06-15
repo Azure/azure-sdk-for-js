@@ -4,14 +4,16 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -51,9 +53,45 @@ export type CreatedByType = string;
 // @public
 export type CreatorCanAdmin = string;
 
+// @public
+export interface DashboardDefinition extends ProxyResource {
+    properties?: DashboardDefinitionProperties;
+}
+
+// @public
+export interface DashboardDefinitionProperties {
+    readonly provisioningState?: ProvisioningState;
+    serializedData?: string;
+}
+
+// @public
+export interface DashboardDefinitionsCreateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DashboardDefinitionsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DashboardDefinitionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DashboardDefinitionsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DashboardDefinitionsOperations {
+    create: (resourceGroupName: string, dashboardName: string, definitionName: string, requestBodyParameters: DashboardDefinition, options?: DashboardDefinitionsCreateOptionalParams) => Promise<DashboardDefinition>;
+    delete: (resourceGroupName: string, dashboardName: string, definitionName: string, options?: DashboardDefinitionsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, dashboardName: string, definitionName: string, options?: DashboardDefinitionsGetOptionalParams) => Promise<DashboardDefinition>;
+    list: (resourceGroupName: string, dashboardName: string, options?: DashboardDefinitionsListOptionalParams) => PagedAsyncIterableIterator<DashboardDefinition>;
+}
+
 // @public (undocumented)
 export class DashboardManagementClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: DashboardManagementClientOptionalParams);
+    readonly dashboardDefinitions: DashboardDefinitionsOperations;
     readonly grafana: GrafanaOperations;
     readonly integrationFabrics: IntegrationFabricsOperations;
     readonly managedDashboards: ManagedDashboardsOperations;
@@ -245,6 +283,8 @@ export interface IntegrationFabricUpdateParameters {
     tags?: Record<string, string>;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -365,7 +405,9 @@ export enum KnownStartTLSPolicy {
 
 // @public
 export enum KnownVersions {
-    V20250801 = "2025-08-01"
+    V20241101Preview = "2024-11-01-preview",
+    V20250801 = "2025-08-01",
+    V20250901Preview = "2025-09-01-preview"
 }
 
 // @public
@@ -717,6 +759,8 @@ export interface ResourceSku {
     name: string;
     size?: Size;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DashboardManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
