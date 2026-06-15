@@ -494,7 +494,7 @@
 # PRLabel: %Mgmt
 /sdk/dashboard/arm-dashboard/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/databoxedge/arm-databoxedge/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
