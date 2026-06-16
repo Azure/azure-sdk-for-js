@@ -20,5 +20,5 @@
 
 ### Checklists
 - [ ] Added impacted package name to the issue description.
-- [ ] Does this PR need any fixes in the SDK Generator?** _(If so, create an Issue in the [typespec-ts](https://github.com/Azure/typespec-azure) repository and link it here.)_
+- [ ] Does this PR need any fixes in the SDK Generator? _(If so, create an Issue in the [typespec-ts](https://github.com/Azure/typespec-azure) repository and link it here.)_
 - [ ] Added a changelog (if necessary).
