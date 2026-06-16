@@ -24,7 +24,7 @@
       "@azure/arm-servicebus!ArmDisasterRecovery:interface": "Microsoft.ServiceBus.ArmDisasterRecovery",
       "@azure/arm-servicebus!ArmDisasterRecoveryProperties:interface": "Microsoft.ServiceBus.ArmDisasterRecoveryProperties",
       "@azure/arm-servicebus!ArmDisasterRecoveryListResult:interface": "Azure.ResourceManager.ResourceListResult",
-      "@azure/arm-servicebus!NamespaceFailoverProperties:interface": "Microsoft.ServiceBus.NamespaceFailoverProperties",
+      "@azure/arm-servicebus!FailoverProperties:interface": "Microsoft.ServiceBus.NamespaceFailoverProperties",
       "@azure/arm-servicebus!FailoverPropertiesProperties:interface": "Microsoft.ServiceBus.FailoverPropertiesProperties",
       "@azure/arm-servicebus!RegenerateAccessKeyParameters:interface": "Microsoft.ServiceBus.RegenerateAccessKeyParameters",
       "@azure/arm-servicebus!SBQueue:interface": "Microsoft.ServiceBus.SBQueue",

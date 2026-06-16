@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -241,9 +241,10 @@
+@@ -246,9 +246,10 @@
  
  export { isRestError }
  

@@ -496,16 +496,16 @@ export function armDisasterRecoveryArrayDeserializer(result: Array<ArmDisasterRe
 }
 
 /** Safe failover is to indicate the service should wait for pending replication to finish before switching to the secondary. */
-export interface NamespaceFailoverProperties {
+export interface FailoverProperties {
   /** Safe failover is to indicate the service should wait for pending replication to finish before switching to the secondary. */
   isSafeFailover?: boolean;
 }
 
-export function namespaceFailoverPropertiesSerializer(item: NamespaceFailoverProperties): any {
+export function failoverPropertiesSerializer(item: FailoverProperties): any {
   return {
     properties: areAllPropsUndefined(item, ["IsSafeFailover"])
       ? undefined
-      : _namespaceFailoverPropertiesPropertiesSerializer(item),
+      : _failoverPropertiesPropertiesSerializer(item),
   };
 }
 
@@ -3243,9 +3243,7 @@ export function _armDisasterRecoveryPropertiesDeserializer(item: any) {
   };
 }
 
-export function _namespaceFailoverPropertiesPropertiesSerializer(
-  item: NamespaceFailoverProperties,
-): any {
+export function _failoverPropertiesPropertiesSerializer(item: FailoverProperties): any {
   return { IsSafeFailover: item["isSafeFailover"] };
 }
 

@@ -21,7 +21,7 @@ import {
   armDisasterRecoverySerializer,
   armDisasterRecoveryDeserializer,
   _armDisasterRecoveryListResultDeserializer,
-  namespaceFailoverPropertiesSerializer,
+  failoverPropertiesSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -66,7 +66,7 @@ export function _failOverSend(
     contentType: "application/json",
     body: !options?.parameters
       ? options?.parameters
-      : namespaceFailoverPropertiesSerializer(options?.parameters),
+      : failoverPropertiesSerializer(options?.parameters),
   });
 }
 

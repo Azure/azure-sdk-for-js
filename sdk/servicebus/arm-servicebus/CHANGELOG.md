@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.0-beta.1 (2026-06-15)
+## 7.0.0-beta.1 (2026-06-16)
 Compared with version 6.1.0
 
 ### Features Added
@@ -21,7 +21,6 @@ Compared with version 6.1.0
   - Added Interface FailoverPropertiesProperties
   - Added Interface GeoDataReplicationProperties
   - Added Interface MigrationConfigPropertiesProperties
-  - Added Interface NamespaceFailoverProperties
   - Added Interface NamespaceReplicaLocation
   - Added Interface NamespacesFailoverOptionalParams
   - Added Interface NetworkRuleSetProperties
@@ -86,7 +85,8 @@ Compared with version 6.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed Interface FailoverProperties
+  - Class ServiceBusManagementClient no longer has parameter apiVersion
+  - Class ServiceBusManagementClient no longer has parameter subscriptionId
   - Removed Interface SqlRuleAction
   - Interface ProxyResource no longer has parameter location
   - Parameter value of interface PrivateLinkResourcesListResult is now required

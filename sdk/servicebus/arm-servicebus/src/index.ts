@@ -34,7 +34,7 @@ export type {
   ArmDisasterRecoveryProperties,
   ProvisioningStateDR,
   RoleDisasterRecovery,
-  NamespaceFailoverProperties,
+  FailoverProperties,
   FailoverPropertiesProperties,
   RegenerateAccessKeyParameters,
   KeyType,

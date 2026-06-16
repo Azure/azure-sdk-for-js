@@ -132,7 +132,7 @@ export interface DisasterRecoveryConfigsDeleteOptionalParams extends OperationOp
 
 // @public
 export interface DisasterRecoveryConfigsFailOverOptionalParams extends OperationOptions {
-    parameters?: NamespaceFailoverProperties;
+    parameters?: FailoverProperties;
 }
 
 // @public
@@ -212,6 +212,11 @@ export interface FailOver {
 export interface FailOverProperties {
     force?: boolean;
     primaryLocation?: string;
+}
+
+// @public
+export interface FailoverProperties {
+    isSafeFailover?: boolean;
 }
 
 // @public
@@ -438,11 +443,6 @@ export type MigrationConfigurationName = string;
 
 // @public
 export type Mode = string;
-
-// @public
-export interface NamespaceFailoverProperties {
-    isSafeFailover?: boolean;
-}
 
 // @public
 export interface NamespaceReplicaLocation {

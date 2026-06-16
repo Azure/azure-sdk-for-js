@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NamespaceFailoverProperties } from "../../models/models.js";
+import type { FailoverProperties } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface DisasterRecoveryConfigsFailOverOptionalParams extends OperationOptions {
   /** Parameters required to create an Alias(Disaster Recovery configuration) */
-  parameters?: NamespaceFailoverProperties;
+  parameters?: FailoverProperties;
 }
 
 /** Optional parameters. */
