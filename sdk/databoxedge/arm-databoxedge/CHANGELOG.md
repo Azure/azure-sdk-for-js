@@ -175,7 +175,7 @@ Compared with version 2.1.0
     
 ## 2.0.1 (2022-04-15)
 
-**features**
+### Features Added
 
   - Bug fix
 
