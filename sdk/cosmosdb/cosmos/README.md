@@ -632,6 +632,10 @@ try {
 
 It's important to properly handle these errors to ensure that your application can gracefully recover from any failures and continue functioning as expected. More details about some of these errors and their possible solutions can be found [here](https://learn.microsoft.com/azure/cosmos-db/nosql/conceptual-resilient-sdk-applications#should-my-application-retry-on-errors).
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for JavaScript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 ### General

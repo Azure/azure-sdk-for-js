@@ -220,6 +220,10 @@ try {
 
 Logs uploaded using the Monitor Ingestion client library can be retrieved using the [Monitor Query client library][monitor_query].
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for JavaScript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 For details on diagnosing various failure scenarios, see our [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/TROUBLESHOOTING.md).

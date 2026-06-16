@@ -626,6 +626,10 @@ await client.deleteDocumentModel(modelIdToDelete);
 
 Similar methods `listDocumentClassifiers` and `getDocumentClassifier` are available for listing and getting information about custom classifiers in addition to `deleteDocumentClassifier` for deleting custom classifiers.
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for JavaScript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 For assistance with troubleshooting, see the [troubleshooting guide][trouble-shooting].

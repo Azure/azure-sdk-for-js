@@ -29,6 +29,10 @@ For examples, please see our [Key Vault client libraries](#key-vault-client-libr
 
 For information on next steps, please see our [Key Vault client libraries](#key-vault-client-libraries).
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for JavaScript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 If you run into issues while using this library, directly or indirectly, please feel free to [file an issue](https://github.com/Azure/azure-sdk-for-js/issues/new).

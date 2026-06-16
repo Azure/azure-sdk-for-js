@@ -172,6 +172,10 @@ console.log(fullyQualifiedModelPath);
 
 ---
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for JavaScript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 - If you run into an error, first make sure the model you are access exists at the location you are attempting to get it from.
