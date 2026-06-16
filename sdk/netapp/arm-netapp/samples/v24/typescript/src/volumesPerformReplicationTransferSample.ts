@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to performs an adhoc replication transfer on a volume with volumeType Migration
  *
  * @summary performs an adhoc replication transfer on a volume with volumeType Migration
- * x-ms-original-file: 2026-01-01/Volumes_PerformReplicationTransfer.json
+ * x-ms-original-file: 2026-04-01/Volumes_PerformReplicationTransfer.json
  */
 async function volumesPerformReplicationTransfer(): Promise<void> {
   const credential = new DefaultAzureCredential();

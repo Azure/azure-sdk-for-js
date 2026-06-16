@@ -1,19 +1,62 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CloudHealthContext } from "../../api/cloudHealthContext.js";
-import { Entity } from "../../models/models.js";
+import type { CloudHealthContext } from "../../api/cloudHealthContext.js";
 import {
+  ingestHealthReport,
+  getSignalHistory,
+  getHistory,
+  listByHealthModel,
+  $delete,
+  createOrUpdate,
+  get,
+} from "../../api/entities/operations.js";
+import type {
+  EntitiesIngestHealthReportOptionalParams,
+  EntitiesGetSignalHistoryOptionalParams,
+  EntitiesGetHistoryOptionalParams,
   EntitiesListByHealthModelOptionalParams,
   EntitiesDeleteOptionalParams,
   EntitiesCreateOrUpdateOptionalParams,
   EntitiesGetOptionalParams,
 } from "../../api/entities/options.js";
-import { listByHealthModel, $delete, createOrUpdate, get } from "../../api/entities/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type {
+  Entity,
+  EntityHistoryRequest,
+  EntityHistoryResponse,
+  SignalHistoryRequest,
+  SignalHistoryResponse,
+  HealthReportRequest,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Entities operations. */
 export interface EntitiesOperations {
+  /** Ingest a health report for a specific signal on an entity (the entity must already exist) */
+  ingestHealthReport: (
+    resourceGroupName: string,
+    healthModelName: string,
+    entityName: string,
+    body: HealthReportRequest,
+    options?: EntitiesIngestHealthReportOptionalParams,
+  ) => Promise<void>;
+  /** Retrieve the time series history for a signal on an entity */
+  getSignalHistory: (
+    resourceGroupName: string,
+    healthModelName: string,
+    entityName: string,
+    body: SignalHistoryRequest,
+    options?: EntitiesGetSignalHistoryOptionalParams,
+  ) => Promise<SignalHistoryResponse>;
+  /** Retrieve the health state transition history for an entity */
+  getHistory: (
+    resourceGroupName: string,
+    healthModelName: string,
+    entityName: string,
+    body: EntityHistoryRequest,
+    options?: EntitiesGetHistoryOptionalParams,
+  ) => Promise<EntityHistoryResponse>;
   /** List Entity resources by HealthModel */
   listByHealthModel: (
     resourceGroupName: string,
@@ -21,17 +64,12 @@ export interface EntitiesOperations {
     options?: EntitiesListByHealthModelOptionalParams,
   ) => PagedAsyncIterableIterator<Entity>;
   /** Delete a Entity */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     healthModelName: string,
     entityName: string,
     options?: EntitiesDeleteOptionalParams,
-  ) => Promise<void>;
+  ) => PollerLike<OperationState<void>, void>;
   /** Create a Entity */
   createOrUpdate: (
     resourceGroupName: string,
@@ -39,7 +77,7 @@ export interface EntitiesOperations {
     entityName: string,
     resource: Entity,
     options?: EntitiesCreateOrUpdateOptionalParams,
-  ) => Promise<Entity>;
+  ) => PollerLike<OperationState<Entity>, Entity>;
   /** Get a Entity */
   get: (
     resourceGroupName: string,
@@ -51,6 +89,27 @@ export interface EntitiesOperations {
 
 function _getEntities(context: CloudHealthContext) {
   return {
+    ingestHealthReport: (
+      resourceGroupName: string,
+      healthModelName: string,
+      entityName: string,
+      body: HealthReportRequest,
+      options?: EntitiesIngestHealthReportOptionalParams,
+    ) => ingestHealthReport(context, resourceGroupName, healthModelName, entityName, body, options),
+    getSignalHistory: (
+      resourceGroupName: string,
+      healthModelName: string,
+      entityName: string,
+      body: SignalHistoryRequest,
+      options?: EntitiesGetSignalHistoryOptionalParams,
+    ) => getSignalHistory(context, resourceGroupName, healthModelName, entityName, body, options),
+    getHistory: (
+      resourceGroupName: string,
+      healthModelName: string,
+      entityName: string,
+      body: EntityHistoryRequest,
+      options?: EntitiesGetHistoryOptionalParams,
+    ) => getHistory(context, resourceGroupName, healthModelName, entityName, body, options),
     listByHealthModel: (
       resourceGroupName: string,
       healthModelName: string,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of operations in the specified managedCluster
  *
  * @summary gets a list of operations in the specified managedCluster
- * x-ms-original-file: 2026-03-02-preview/OperationStatusResultList.json
+ * x-ms-original-file: 2026-04-02-preview/OperationStatusResultList.json
  */
 async function listOfOperationStatusResult(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete the specified cache
  *
  * @summary delete the specified cache
- * x-ms-original-file: 2026-01-01/Caches_Delete.json
+ * x-ms-original-file: 2026-04-01/Caches_Delete.json
  */
 async function cachesDelete() {
   const credential = new DefaultAzureCredential();
