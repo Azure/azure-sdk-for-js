@@ -75,7 +75,6 @@ Compared with version 5.3.0
   - Operation RulesEngines.beginCreateOrUpdateAndWait has a new signature
   - Operation RulesEngines.get has a new signature
   - Class FrontDoorManagementClient has a new signature
-  - Class FrontDoorManagementClient no longer has parameter subscriptionId
   - Removed Interface ErrorDetails
   - Removed Interface ErrorModel
   - Removed Interface ExperimentList
