@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the properties of a VM family.
  *
  * @summary gets the properties of a VM family.
- * x-ms-original-file: 2026-04-30/VmFamilies_Get.json
+ * x-ms-original-file: 2026-06-01/VmFamilies_Get.json
  */
 async function getAVMFamily(): Promise<void> {
   const credential = new DefaultAzureCredential();

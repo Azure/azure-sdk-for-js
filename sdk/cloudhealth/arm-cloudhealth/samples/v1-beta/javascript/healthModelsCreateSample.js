@@ -8,20 +8,14 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a HealthModel
  *
  * @summary create a HealthModel
- * x-ms-original-file: 2025-05-01-preview/HealthModels_Create.json
+ * x-ms-original-file: 2026-01-01-preview/HealthModels_Create.json
  */
 async function healthModelsCreate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "4980D7D5-4E07-47AD-AD34-E76C6BC9F061";
   const client = new CloudHealthClient(credential, subscriptionId);
   const result = await client.healthModels.create("rgopenapi", "model1", {
-    properties: {
-      discovery: {
-        scope: "/providers/Microsoft.Management/serviceGroups/myServiceGroup",
-        identity: "SystemAssigned",
-        addRecommendedSignals: "Enabled",
-      },
-    },
+    properties: {},
     identity: {
       type: "SystemAssigned, UserAssigned",
       userAssignedIdentities: {

@@ -14,16 +14,16 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type ExperimentsExecutionDetailsOptionalParams,
-  type ExperimentsListAllExecutionsOptionalParams,
-  type ExperimentsGetExecutionOptionalParams,
-  type ExperimentsStartOptionalParams,
-  type ExperimentsCancelOptionalParams,
-  type ExperimentsListAllOptionalParams,
-  type ExperimentsListOptionalParams,
-  type ExperimentsDeleteOptionalParams,
-  type ExperimentsUpdateOptionalParams,
-  type ExperimentsCreateOrUpdateOptionalParams,
-  type ExperimentsGetOptionalParams,
+export type {
+  ExperimentsExecutionDetailsOptionalParams,
+  ExperimentsListAllExecutionsOptionalParams,
+  ExperimentsGetExecutionOptionalParams,
+  ExperimentsStartOptionalParams,
+  ExperimentsCancelOptionalParams,
+  ExperimentsListAllOptionalParams,
+  ExperimentsListOptionalParams,
+  ExperimentsDeleteOptionalParams,
+  ExperimentsUpdateOptionalParams,
+  ExperimentsCreateOrUpdateOptionalParams,
+  ExperimentsGetOptionalParams,
 } from "./options.js";

@@ -5,12 +5,22 @@ import type {
   ConnectedMessage,
   DisconnectedMessage,
   GroupDataMessage,
+  GroupStateSnapshotMessage,
+  GroupStateUpdateMessage,
   JoinGroupMessage,
   LeaveGroupMessage,
   SendEventMessage,
   SendToGroupMessage,
   SequenceAckMessage,
   ServerDataMessage,
+  SetGroupStateMessage,
+  StreamAckMessage,
+  StreamClosedMessage,
+  StreamDataMessage,
+  StreamEndMessage,
+  StreamNackMessage,
+  SubscribeGroupStateMessage,
+  UnsubscribeGroupStateMessage,
   WebPubSubMessage,
 } from "../src/models/index.js";
 import { WebPubSubJsonReliableProtocol } from "../src/protocols/index.js";
@@ -168,6 +178,116 @@ describe("JsonProtocol", function () {
         message: { kind: "sequenceAck", sequenceId: 123456 } as SequenceAckMessage,
         payload: { type: "sequenceAck", sequenceId: 123456 },
       },
+      {
+        testName: "sendToGroupStreamStart1",
+        message: {
+          kind: "sendToGroup",
+          group: "group",
+          noEcho: true,
+          stream: {
+            streamId: "stream1",
+            idleTimeoutMs: 15000,
+          },
+        } as SendToGroupMessage,
+        payload: {
+          type: "sendToGroup",
+          group: "group",
+          noEcho: true,
+          stream: {
+            streamId: "stream1",
+            idleTimeoutMs: 15000,
+          },
+        },
+      },
+      {
+        testName: "streamData1",
+        message: {
+          kind: "streamData",
+          streamId: "stream1",
+          streamSequenceId: 1,
+          dataType: "text",
+          data: "hello",
+        } as StreamDataMessage,
+        payload: {
+          type: "streamData",
+          streamId: "stream1",
+          streamSequenceId: 1,
+          dataType: "text",
+          data: "hello",
+        },
+      },
+      {
+        testName: "streamKeepalive1",
+        message: { kind: "streamData", streamId: "stream1" } as StreamDataMessage,
+        payload: { type: "streamData", streamId: "stream1" },
+      },
+      {
+        testName: "streamEnd1",
+        message: {
+          kind: "streamEnd",
+          streamId: "stream1",
+          error: { message: "detail", userErrorCode: "app" },
+        } as StreamEndMessage,
+        payload: {
+          type: "streamEnd",
+          streamId: "stream1",
+          error: { message: "detail", userErrorCode: "app" },
+        },
+      },
+      {
+        testName: "setGroupState with state",
+        message: {
+          kind: "setGroupState",
+          group: "chat-room",
+          state: { activity: "typing" },
+          ackId: 1,
+        } as SetGroupStateMessage,
+        payload: {
+          type: "setGroupState",
+          group: "chat-room",
+          state: { activity: "typing" },
+          ackId: 1,
+        },
+      },
+      {
+        testName: "setGroupState clear (no state)",
+        message: {
+          kind: "setGroupState",
+          group: "chat-room",
+          ackId: 2,
+        } as SetGroupStateMessage,
+        payload: {
+          type: "setGroupState",
+          group: "chat-room",
+          ackId: 2,
+        },
+      },
+      {
+        testName: "subscribeGroupState",
+        message: {
+          kind: "subscribeGroupState",
+          group: "chat-room",
+          ackId: 3,
+        } as SubscribeGroupStateMessage,
+        payload: {
+          type: "subscribeGroupState",
+          group: "chat-room",
+          ackId: 3,
+        },
+      },
+      {
+        testName: "unsubscribeGroupState",
+        message: {
+          kind: "unsubscribeGroupState",
+          group: "chat-room",
+          ackId: 4,
+        } as UnsubscribeGroupStateMessage,
+        payload: {
+          type: "unsubscribeGroupState",
+          group: "chat-room",
+          ackId: 4,
+        },
+      },
     ];
 
     tests.forEach(({ testName, message, payload }) => {
@@ -185,10 +305,10 @@ describe("JsonProtocol", function () {
         message: { type: "ack", ackId: 123, success: true },
         assertFunc: (msg: WebPubSubMessage) => {
           assert.equal(msg.kind, "ack");
-          msg = msg as AckMessage;
-          assert.equal(msg.ackId, 123);
-          assert.equal(msg.success, true);
-          assert.isUndefined(msg.error);
+          const typedMessage = msg as AckMessage;
+          assert.equal(typedMessage.ackId, 123);
+          assert.equal(typedMessage.success, true);
+          assert.isUndefined(typedMessage.error);
         },
       },
       {
@@ -201,11 +321,11 @@ describe("JsonProtocol", function () {
         },
         assertFunc: (msg: WebPubSubMessage) => {
           assert.equal(msg.kind, "ack");
-          msg = msg as AckMessage;
-          assert.equal(msg.ackId, 123);
-          assert.equal(msg.success, false);
-          assert.equal(msg.error!.name, "Forbidden");
-          assert.equal(msg.error!.message, "message");
+          const typedMessage = msg as AckMessage;
+          assert.equal(typedMessage.ackId, 123);
+          assert.equal(typedMessage.success, false);
+          assert.equal(typedMessage.error!.name, "Forbidden");
+          assert.equal(typedMessage.error!.message, "message");
         },
       },
       {
@@ -221,12 +341,38 @@ describe("JsonProtocol", function () {
         },
         assertFunc: (msg: WebPubSubMessage) => {
           assert.equal(msg.kind, "groupData");
-          msg = msg as GroupDataMessage;
-          assert.equal(msg.group, "groupName");
-          assert.equal(msg.sequenceId, 12345);
-          assert.equal(msg.dataType, "text");
-          assert.equal(msg.data, "xyz");
-          assert.equal(msg.fromUserId, "user");
+          const typedMessage = msg as GroupDataMessage;
+          assert.equal(typedMessage.group, "groupName");
+          assert.equal(typedMessage.sequenceId, 12345);
+          assert.equal(typedMessage.dataType, "text");
+          assert.equal(typedMessage.data, "xyz");
+          assert.equal(typedMessage.fromUserId, "user");
+        },
+      },
+      {
+        testName: "group-stream1",
+        message: {
+          type: "message",
+          from: "group",
+          group: "groupName",
+          dataType: "text",
+          data: "xyz",
+          fromUserId: "user",
+          stream: {
+            streamId: "stream1",
+            streamSequenceId: 1,
+            endOfStream: false,
+          },
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "groupData");
+          const typedMessage = msg as GroupDataMessage;
+          assert.deepEqual(typedMessage.stream, {
+            streamId: "stream1",
+            streamSequenceId: 1,
+            endOfStream: false,
+            error: undefined,
+          });
         },
       },
       {
@@ -241,12 +387,12 @@ describe("JsonProtocol", function () {
         },
         assertFunc: (msg: WebPubSubMessage) => {
           assert.equal(msg.kind, "groupData");
-          msg = msg as GroupDataMessage;
-          assert.equal(msg.group, "groupName");
-          assert.isUndefined(msg.sequenceId);
-          assert.equal(msg.dataType, "json");
-          assert.deepEqual(msg.data, { value: "xyz" });
-          assert.equal(msg.fromUserId, "user");
+          const typedMessage = msg as GroupDataMessage;
+          assert.equal(typedMessage.group, "groupName");
+          assert.isUndefined(typedMessage.sequenceId);
+          assert.equal(typedMessage.dataType, "json");
+          assert.deepEqual(typedMessage.data, { value: "xyz" });
+          assert.equal(typedMessage.fromUserId, "user");
         },
       },
       {
@@ -261,12 +407,12 @@ describe("JsonProtocol", function () {
         },
         assertFunc: (msg: WebPubSubMessage) => {
           assert.equal(msg.kind, "groupData");
-          msg = msg as GroupDataMessage;
-          assert.equal(msg.group, "groupName");
-          assert.isUndefined(msg.sequenceId);
-          assert.equal(msg.dataType, "binary");
-          assert.equal(new TextDecoder().decode(msg.data as ArrayBuffer), "xyz");
-          assert.equal(msg.fromUserId, "user");
+          const typedMessage = msg as GroupDataMessage;
+          assert.equal(typedMessage.group, "groupName");
+          assert.isUndefined(typedMessage.sequenceId);
+          assert.equal(typedMessage.dataType, "binary");
+          assert.equal(new TextDecoder().decode(typedMessage.data as ArrayBuffer), "xyz");
+          assert.equal(typedMessage.fromUserId, "user");
         },
       },
       {
@@ -281,12 +427,12 @@ describe("JsonProtocol", function () {
         },
         assertFunc: (msg: WebPubSubMessage) => {
           assert.equal(msg.kind, "groupData");
-          msg = msg as GroupDataMessage;
-          assert.equal(msg.group, "groupName");
-          assert.isUndefined(msg.sequenceId);
-          assert.equal(msg.dataType, "protobuf");
-          assert.equal(new TextDecoder().decode(msg.data as ArrayBuffer), "xyz");
-          assert.equal(msg.fromUserId, "user");
+          const typedMessage = msg as GroupDataMessage;
+          assert.equal(typedMessage.group, "groupName");
+          assert.isUndefined(typedMessage.sequenceId);
+          assert.equal(typedMessage.dataType, "protobuf");
+          assert.equal(new TextDecoder().decode(typedMessage.data as ArrayBuffer), "xyz");
+          assert.equal(typedMessage.fromUserId, "user");
         },
       },
       {
@@ -300,10 +446,10 @@ describe("JsonProtocol", function () {
         },
         assertFunc: (msg: WebPubSubMessage) => {
           assert.equal(msg.kind, "serverData");
-          msg = msg as ServerDataMessage;
-          assert.equal(msg.sequenceId, 12345);
-          assert.equal(msg.dataType, "text");
-          assert.equal(msg.data, "xyz");
+          const typedMessage = msg as ServerDataMessage;
+          assert.equal(typedMessage.sequenceId, 12345);
+          assert.equal(typedMessage.dataType, "text");
+          assert.equal(typedMessage.data, "xyz");
         },
       },
       {
@@ -311,10 +457,28 @@ describe("JsonProtocol", function () {
         message: { type: "message", from: "server", dataType: "json", data: { value: "xyz" } },
         assertFunc: (msg: WebPubSubMessage) => {
           assert.equal(msg.kind, "serverData");
-          msg = msg as ServerDataMessage;
-          assert.isUndefined(msg.sequenceId);
-          assert.equal(msg.dataType, "json");
-          assert.deepEqual(msg.data, { value: "xyz" });
+          const typedMessage = msg as ServerDataMessage;
+          assert.isUndefined(typedMessage.sequenceId);
+          assert.equal(typedMessage.dataType, "json");
+          assert.deepEqual(typedMessage.data, { value: "xyz" });
+        },
+      },
+      {
+        testName: "event-stream-metadata-ignored",
+        message: {
+          type: "message",
+          from: "server",
+          dataType: "text",
+          data: "xyz",
+          stream: {
+            streamId: "stream1",
+            streamSequenceId: 1,
+          },
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "serverData");
+          const typedMessage = msg as ServerDataMessage;
+          assert.notProperty(typedMessage, "stream");
         },
       },
       {
@@ -322,10 +486,10 @@ describe("JsonProtocol", function () {
         message: { type: "message", from: "server", dataType: "binary", data: "eHl6" },
         assertFunc: (msg: WebPubSubMessage) => {
           assert.equal(msg.kind, "serverData");
-          msg = msg as ServerDataMessage;
-          assert.isUndefined(msg.sequenceId);
-          assert.equal(msg.dataType, "binary");
-          assert.equal(new TextDecoder().decode(msg.data as ArrayBuffer), "xyz");
+          const typedMessage = msg as ServerDataMessage;
+          assert.isUndefined(typedMessage.sequenceId);
+          assert.equal(typedMessage.dataType, "binary");
+          assert.equal(new TextDecoder().decode(typedMessage.data as ArrayBuffer), "xyz");
         },
       },
       {
@@ -333,10 +497,10 @@ describe("JsonProtocol", function () {
         message: { type: "message", from: "server", dataType: "protobuf", data: "eHl6" },
         assertFunc: (msg: WebPubSubMessage) => {
           assert.equal(msg.kind, "serverData");
-          msg = msg as ServerDataMessage;
-          assert.isUndefined(msg.sequenceId);
-          assert.equal(msg.dataType, "protobuf");
-          assert.equal(new TextDecoder().decode(msg.data as ArrayBuffer), "xyz");
+          const typedMessage = msg as ServerDataMessage;
+          assert.isUndefined(typedMessage.sequenceId);
+          assert.equal(typedMessage.dataType, "protobuf");
+          assert.equal(new TextDecoder().decode(typedMessage.data as ArrayBuffer), "xyz");
         },
       },
       {
@@ -344,10 +508,10 @@ describe("JsonProtocol", function () {
         message: { type: "system", event: "connected", userId: "user", connectionId: "connection" },
         assertFunc: (msg: WebPubSubMessage) => {
           assert.equal(msg.kind, "connected");
-          msg = msg as ConnectedMessage;
-          assert.equal(msg.userId, "user");
-          assert.equal(msg.connectionId, "connection");
-          assert.isUndefined(msg.reconnectionToken);
+          const typedMessage = msg as ConnectedMessage;
+          assert.equal(typedMessage.userId, "user");
+          assert.equal(typedMessage.connectionId, "connection");
+          assert.isUndefined(typedMessage.reconnectionToken);
         },
       },
       {
@@ -361,10 +525,10 @@ describe("JsonProtocol", function () {
         },
         assertFunc: (msg: WebPubSubMessage) => {
           assert.equal(msg.kind, "connected");
-          msg = msg as ConnectedMessage;
-          assert.equal(msg.userId, "user");
-          assert.equal(msg.connectionId, "connection");
-          assert.equal(msg.reconnectionToken, "rec");
+          const typedMessage = msg as ConnectedMessage;
+          assert.equal(typedMessage.userId, "user");
+          assert.equal(typedMessage.connectionId, "connection");
+          assert.equal(typedMessage.reconnectionToken, "rec");
         },
       },
       {
@@ -372,8 +536,148 @@ describe("JsonProtocol", function () {
         message: { type: "system", event: "disconnected", message: "msg" },
         assertFunc: (msg: WebPubSubMessage) => {
           assert.equal(msg.kind, "disconnected");
-          msg = msg as DisconnectedMessage;
-          assert.equal(msg.message, "msg");
+          const typedMessage = msg as DisconnectedMessage;
+          assert.equal(typedMessage.message, "msg");
+        },
+      },
+      {
+        testName: "streamAck1",
+        message: { type: "streamAck", streamId: "stream1", expectedSequenceId: 2 },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "streamAck");
+          const typedMessage = msg as StreamAckMessage;
+          assert.equal(typedMessage.streamId, "stream1");
+          assert.equal(typedMessage.expectedSequenceId, 2);
+        },
+      },
+      {
+        testName: "streamNack1",
+        message: {
+          type: "streamNack",
+          streamId: "stream1",
+          expectedSequenceId: 2,
+          name: "ProtocolViolation",
+          message: "out of order",
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "streamNack");
+          const typedMessage = msg as StreamNackMessage;
+          assert.equal(typedMessage.streamId, "stream1");
+          assert.equal(typedMessage.expectedSequenceId, 2);
+          assert.equal(typedMessage.name, "ProtocolViolation");
+          assert.equal(typedMessage.message, "out of order");
+        },
+      },
+      {
+        testName: "streamClosed1",
+        message: {
+          type: "streamClosed",
+          streamId: "stream1",
+          error: { name: "IdleTimeout", message: "Stream idle timeout." },
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "streamClosed");
+          const typedMessage = msg as StreamClosedMessage;
+          assert.equal(typedMessage.streamId, "stream1");
+          assert.deepEqual(typedMessage.error, {
+            name: "IdleTimeout",
+            message: "Stream idle timeout.",
+          });
+        },
+      },
+      {
+        testName: "groupStateSnapshot",
+        message: {
+          type: "groupStateSnapshot",
+          group: "chat-room",
+          items: [
+            {
+              connectionId: "conn-a1",
+              userId: "alice",
+              state: { activity: "typing" },
+              updatedAt: 1741652400000,
+            },
+            {
+              connectionId: "conn-b1",
+              userId: "bob",
+              state: { hand: "raised" },
+              updatedAt: 1741652380000,
+            },
+          ],
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "groupStateSnapshot");
+          const typedMessage = msg as GroupStateSnapshotMessage;
+          assert.equal(typedMessage.group, "chat-room");
+          assert.equal(typedMessage.items.length, 2);
+          assert.equal(typedMessage.items[0].connectionId, "conn-a1");
+          assert.equal(typedMessage.items[0].userId, "alice");
+          assert.deepEqual(typedMessage.items[0].state, { activity: "typing" });
+          assert.equal(typedMessage.items[0].updatedAt, 1741652400000);
+          assert.equal(typedMessage.items[1].connectionId, "conn-b1");
+          assert.equal(typedMessage.items[1].userId, "bob");
+          assert.deepEqual(typedMessage.items[1].state, { hand: "raised" });
+          assert.equal(typedMessage.items[1].updatedAt, 1741652380000);
+        },
+      },
+      {
+        testName: "groupStateSnapshot empty",
+        message: {
+          type: "groupStateSnapshot",
+          group: "empty-room",
+          items: [],
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "groupStateSnapshot");
+          const typedMessage = msg as GroupStateSnapshotMessage;
+          assert.equal(typedMessage.group, "empty-room");
+          assert.equal(typedMessage.items.length, 0);
+        },
+      },
+      {
+        testName: "groupStateUpdate with state",
+        message: {
+          type: "groupStateUpdate",
+          group: "chat-room",
+          items: [
+            {
+              connectionId: "conn-a1",
+              userId: "alice",
+              state: { activity: "typing" },
+              updatedAt: 1741652400000,
+            },
+          ],
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "groupStateUpdate");
+          const typedMessage = msg as GroupStateUpdateMessage;
+          assert.equal(typedMessage.group, "chat-room");
+          assert.equal(typedMessage.items.length, 1);
+          assert.equal(typedMessage.items[0].connectionId, "conn-a1");
+          assert.equal(typedMessage.items[0].userId, "alice");
+          assert.deepEqual(typedMessage.items[0].state, { activity: "typing" });
+          assert.equal(typedMessage.items[0].updatedAt, 1741652400000);
+        },
+      },
+      {
+        testName: "groupStateUpdate with state cleared",
+        message: {
+          type: "groupStateUpdate",
+          group: "chat-room",
+          items: [
+            {
+              connectionId: "conn-a1",
+              userId: "alice",
+              updatedAt: 1741652405000,
+            },
+          ],
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "groupStateUpdate");
+          const typedMessage = msg as GroupStateUpdateMessage;
+          assert.equal(typedMessage.items[0].connectionId, "conn-a1");
+          assert.isUndefined(typedMessage.items[0].state);
+          assert.equal(typedMessage.items[0].updatedAt, 1741652405000);
         },
       },
     ];

@@ -200,7 +200,12 @@ export function handleMsalError(
     );
     return error;
   }
-  return new AuthenticationRequiredError({ scopes, getTokenOptions, message: error.message });
+  return new AuthenticationRequiredError({
+    scopes,
+    getTokenOptions,
+    message: error.message,
+    cause: error,
+  });
 }
 
 // transformations

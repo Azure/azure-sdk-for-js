@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation will list the cluster peering command, cluster peering passphrase and the vserver peering command
  *
  * @summary this operation will list the cluster peering command, cluster peering passphrase and the vserver peering command
- * x-ms-original-file: 2026-01-01/Caches_ListPeeringPassphrases.json
+ * x-ms-original-file: 2026-04-01/Caches_ListPeeringPassphrases.json
  */
 async function cachesListPeeringPassphrases() {
   const credential = new DefaultAzureCredential();

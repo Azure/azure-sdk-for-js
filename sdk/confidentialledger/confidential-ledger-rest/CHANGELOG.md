@@ -1,11 +1,19 @@
 # Release History
 
-## 1.1.2-beta.5 (Unreleased)
+## 1.1.2-beta.6 (2026-06-05)
+
+### Bugs Fixed
+
+- Fixed incorrect `Content-Type` header for user management PATCH operations. The SDK now automatically sets `Content-Type: application/merge-patch+json` for PATCH requests to `/app/users/{userId}` and `/app/ledgerUsers/{userId}`, which the service requires for API versions after `2022-04-20-preview`. Previously, omitting the `contentType` parameter caused the SDK to default to `application/json`, resulting in an `UnsupportedContentType` error from the service.
 
 ### Features Added
 
 - Added redirect URL caching for write operations. When the Confidential Ledger load balancer issues a 307/308 redirect, the target (primary node) URL is cached so subsequent write requests skip the load balancer, reducing latency. Read requests (GET/HEAD) continue to always go through the load balancer. The cache is automatically invalidated on server errors (5xx) or transport failures.
 - Added support for HTTP 308 (Permanent Redirect) status code in the redirect policy.
+
+### Other Changes
+
+- Hardened redirect handling in the Confidential Ledger client. Credentials and request bodies are now only forwarded on HTTPS redirects whose target hostname matches the configured ledger endpoint or one of its subdomains, with the same port. Redirects to any other target are refused.
 
 ## 1.1.2-beta.4 (2026-02-18)
 

@@ -1,6 +1,6 @@
 # Release History
 
-## 14.0.0-beta.1 (2026-03-11)
+## 14.0.0-beta.1 (2026-05-07)
 Compared with version 13.2.0
 
 ### Features Added
@@ -19,11 +19,11 @@ Compared with version 13.2.0
   - Added Interface AzureVmWorkloadSQLInstanceProtectedItem
   - Added Interface DatabaseInRP
   - Added Interface ErrorResponse
-  - Added Interface OkResponse
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface PatchRecoveryPointInput
   - Added Interface PatchRecoveryPointPropertiesInput
+  - Added Interface ProxyResource
   - Added Interface RecoveryPointsUpdateOptionalParams
   - Added Interface ResourceGuardProxiesListOptionalParams
   - Added Interface RestorePollerOptions

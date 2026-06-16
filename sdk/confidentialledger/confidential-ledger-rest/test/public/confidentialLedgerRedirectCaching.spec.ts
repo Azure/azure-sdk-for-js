@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi } from "vitest";
-import type { PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import type { PipelinePolicy, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import createClient from "../../src/confidentialLedger.js";
 
 /**
  * Helper to extract the custom redirect policy from a client's pipeline.
  */
-function getRedirectPolicy(ledgerEndpoint: string) {
+function getRedirectPolicy(ledgerEndpoint: string): PipelinePolicy {
   const fakeCredential = {
     getToken: vi
       .fn()
@@ -960,6 +960,106 @@ describe("Confidential Ledger Redirect Caching", () => {
       assert.ok(
         next.mock.calls[3][0].url.startsWith(primaryEndpoint),
         "Read transport error should not invalidate write cache",
+      );
+    });
+
+    it("should NOT commit the staged cache when the chain terminates on a 3xx (max-retries exhausted)", async () => {
+      // Regression test for a bug surfaced in PR review: the staged cache
+      // would commit whenever the final response status was < 500, including
+      // when the redirect chain bottomed out on a 3xx because the maxRetries
+      // limit was reached. That would cause the next write to be rewritten
+      // to a node whose redirect chain had not successfully terminated.
+      // Use maxRetries=1 (via repeated 307 to same trusted subdomain) is not
+      // configurable, so instead we exhaust the default 20 retries by having
+      // every redirect return another 307 to a trusted subdomain.
+      const policy = getRedirectPolicy(ledgerEndpoint);
+      const next = vi.fn<SendRequest>();
+
+      const req1 = createPipelineRequest({
+        url: `${ledgerEndpoint}/app/transactions`,
+        method: "POST",
+        headers: createHttpHeaders({ Authorization: "Bearer fake-token" }),
+      });
+      // 21 calls all return 307 to the same trusted subdomain. After 20
+      // follows the chain stops and returns the 307 response unchanged.
+      for (let i = 0; i < 21; i++) {
+        next.mockResolvedValueOnce({
+          headers: createHttpHeaders({ location: `${primaryEndpoint}/app/transactions` }),
+          request: req1,
+          status: 307,
+        });
+      }
+      const result = await policy.sendRequest(req1, next);
+      assert.equal(result.status, 307, "Chain should bottom out on the 307 response");
+
+      // Next write must still go to the load balancer URL — the staged cache
+      // must NOT have been committed because the chain didn't reach a
+      // terminal non-redirect response.
+      const req2 = createPipelineRequest({
+        url: `${ledgerEndpoint}/app/transactions`,
+        method: "POST",
+        headers: createHttpHeaders({ Authorization: "Bearer fake-token" }),
+      });
+      next.mockResolvedValueOnce({
+        headers: createHttpHeaders(),
+        request: req2,
+        status: 200,
+      });
+      await policy.sendRequest(req2, next);
+
+      // The 22nd call (index 21) is the follow-up write; it must target the LB.
+      assert.ok(
+        next.mock.calls[21][0].url.startsWith(ledgerEndpoint),
+        "Staged cache must NOT be committed when the redirect chain terminates on a 3xx",
+      );
+    });
+
+    it("should NOT commit the staged cache when the chain terminates on a 3xx with a malformed Location", async () => {
+      // Regression test for the same review bug, different trigger: the first
+      // hop is a trusted 307 (stages the cache); the second hop has a Location
+      // that `new URL()` cannot parse even with a base URL (truncated IPv6
+      // host). The redirect-follow loop catches the parse error and returns
+      // the 307 unchanged. The chain's final status is 307, so the staged
+      // cache must be discarded.
+      const policy = getRedirectPolicy(ledgerEndpoint);
+      const next = vi.fn<SendRequest>();
+
+      const req1 = createPipelineRequest({
+        url: `${ledgerEndpoint}/app/transactions`,
+        method: "POST",
+        headers: createHttpHeaders({ Authorization: "Bearer fake-token" }),
+      });
+      next.mockResolvedValueOnce({
+        headers: createHttpHeaders({ location: `${primaryEndpoint}/app/transactions` }),
+        request: req1,
+        status: 307,
+      });
+      // Hop 2: Location with a truncated IPv6 host. `new URL(loc, base)`
+      // throws "Invalid URL" → the redirect-follow loop returns this 307.
+      next.mockResolvedValueOnce({
+        headers: createHttpHeaders({ location: "http://[::1" }),
+        request: req1,
+        status: 307,
+      });
+      const result = await policy.sendRequest(req1, next);
+      assert.equal(result.status, 307);
+
+      // Subsequent write must still go to the load balancer URL.
+      const req2 = createPipelineRequest({
+        url: `${ledgerEndpoint}/app/transactions`,
+        method: "POST",
+        headers: createHttpHeaders({ Authorization: "Bearer fake-token" }),
+      });
+      next.mockResolvedValueOnce({
+        headers: createHttpHeaders(),
+        request: req2,
+        status: 200,
+      });
+      await policy.sendRequest(req2, next);
+
+      assert.ok(
+        next.mock.calls[2][0].url.startsWith(ledgerEndpoint),
+        "Staged cache must NOT be committed when the chain ends on a 3xx with a malformed Location",
       );
     });
   });

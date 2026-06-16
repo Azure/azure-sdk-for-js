@@ -4,16 +4,22 @@
 import type {
   AckMessage,
   CancelInvocationMessage,
+  JSONTypes,
+  StreamAckMessage,
+  StreamClosedMessage,
+  StreamInfo,
+  StreamNackMessage,
   PongMessage,
   ConnectedMessage,
   DisconnectedMessage,
   GroupDataMessage,
+  GroupStateSnapshotMessage,
+  GroupStateUpdateMessage,
   InvokeResponseMessage,
   ServerDataMessage,
   WebPubSubDataType,
   WebPubSubMessage,
 } from "../models/messages.js";
-import type { JSONTypes } from "../webPubSubClient.js";
 import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 
 export function parseMessages(input: string): WebPubSubMessage | null {
@@ -41,19 +47,21 @@ export function parseMessages(input: string): WebPubSubMessage | null {
     }
   } else if (typedMessage.type === "message") {
     if (typedMessage.from === "group") {
+      const stream = parseStreamInfo(parsedMessage.stream);
       const data = parsePayload(parsedMessage.data, parsedMessage.dataType as WebPubSubDataType);
       if (data === null) {
         return null;
       }
-      returnMessage = { ...parsedMessage, data: data, kind: "groupData" } as GroupDataMessage;
+      returnMessage = { ...parsedMessage, data, stream, kind: "groupData" } as GroupDataMessage;
     } else if (typedMessage.from === "server") {
       const data = parsePayload(parsedMessage.data, parsedMessage.dataType as WebPubSubDataType);
       if (data === null) {
         return null;
       }
+      const { stream: _stream, ...serverMessage } = parsedMessage;
       returnMessage = {
-        ...parsedMessage,
-        data: data,
+        ...serverMessage,
+        data,
         kind: "serverData",
       } as ServerDataMessage;
     } else {
@@ -87,6 +95,30 @@ export function parseMessages(input: string): WebPubSubMessage | null {
     } as CancelInvocationMessage;
   } else if (typedMessage.type === "pong") {
     returnMessage = { ...parsedMessage, kind: "pong" } as PongMessage;
+  } else if (typedMessage.type === "streamAck") {
+    returnMessage = {
+      kind: "streamAck",
+      streamId: parsedMessage.streamId,
+      expectedSequenceId: parsedMessage.expectedSequenceId,
+    } as StreamAckMessage;
+  } else if (typedMessage.type === "streamNack") {
+    returnMessage = {
+      kind: "streamNack",
+      streamId: parsedMessage.streamId,
+      name: parsedMessage.name,
+      message: parsedMessage.message,
+      expectedSequenceId: parsedMessage.expectedSequenceId,
+    } as StreamNackMessage;
+  } else if (typedMessage.type === "streamClosed") {
+    returnMessage = {
+      kind: "streamClosed",
+      streamId: parsedMessage.streamId,
+      error: parsedMessage.error,
+    } as StreamClosedMessage;
+  } else if (typedMessage.type === "groupStateSnapshot") {
+    returnMessage = { ...parsedMessage, kind: "groupStateSnapshot" } as GroupStateSnapshotMessage;
+  } else if (typedMessage.type === "groupStateUpdate") {
+    returnMessage = { ...parsedMessage, kind: "groupStateUpdate" } as GroupStateUpdateMessage;
   } else {
     // Forward compatible
     return null;
@@ -116,14 +148,27 @@ export function writeMessage(message: WebPubSubMessage): string {
       break;
     }
     case "sendToGroup": {
-      data = {
+      const sendToGroupPayload: SendToGroupData = {
         type: "sendToGroup",
         group: message.group,
         ackId: message.ackId,
-        dataType: message.dataType,
-        data: getPayload(message.data, message.dataType),
         noEcho: message.noEcho,
-      } as SendToGroupData;
+      };
+      const hasPayload = message.dataType != null || message.data != null;
+      if (hasPayload) {
+        if (message.dataType == null || message.data == null) {
+          throw new TypeError("sendToGroup payload requires both dataType and data.");
+        }
+        sendToGroupPayload.dataType = message.dataType;
+        sendToGroupPayload.data = getPayload(message.data, message.dataType);
+      }
+      if (message.stream != null) {
+        sendToGroupPayload.stream = {
+          streamId: message.stream.streamId,
+          idleTimeoutMs: message.stream.idleTimeoutMs,
+        };
+      }
+      data = sendToGroupPayload;
       break;
     }
     case "sequenceAck": {
@@ -173,6 +218,58 @@ export function writeMessage(message: WebPubSubMessage): string {
       data = { type: "ping" } as PingData;
       break;
     }
+    case "streamData": {
+      const streamDataPayload: StreamDataData = {
+        type: "streamData",
+        streamId: message.streamId,
+      };
+      if (message.streamSequenceId != null && message.data != null && message.dataType != null) {
+        streamDataPayload.streamSequenceId = message.streamSequenceId;
+        streamDataPayload.dataType = message.dataType;
+        streamDataPayload.data = getPayload(message.data, message.dataType);
+      }
+      data = streamDataPayload;
+      break;
+    }
+    case "streamEnd": {
+      data = {
+        type: "streamEnd",
+        streamId: message.streamId,
+        error:
+          message.error == null
+            ? undefined
+            : { message: message.error.message, userErrorCode: message.error.userErrorCode },
+      } as StreamEndData;
+      break;
+    }
+    case "setGroupState": {
+      const setGroupStateData: SetGroupStateData = {
+        type: "setGroupState",
+        group: message.group,
+        ackId: message.ackId,
+      };
+      if (message.state !== undefined) {
+        setGroupStateData.state = message.state;
+      }
+      data = setGroupStateData;
+      break;
+    }
+    case "subscribeGroupState": {
+      data = {
+        type: "subscribeGroupState",
+        group: message.group,
+        ackId: message.ackId,
+      } as SubscribeGroupStateData;
+      break;
+    }
+    case "unsubscribeGroupState": {
+      data = {
+        type: "unsubscribeGroupState",
+        group: message.group,
+        ackId: message.ackId,
+      } as UnsubscribeGroupStateData;
+      break;
+    }
     default: {
       throw new Error(`Unsupported type: ${message.kind}`);
     }
@@ -197,9 +294,13 @@ interface SendToGroupData {
   readonly type: "sendToGroup";
   group: string;
   ackId?: number;
-  dataType: WebPubSubDataType;
-  data: any;
+  dataType?: WebPubSubDataType;
+  data?: any;
   noEcho: boolean;
+  stream?: {
+    streamId: string;
+    idleTimeoutMs?: number;
+  };
 }
 
 interface SendEventData {
@@ -242,6 +343,39 @@ interface PingData {
   readonly type: "ping";
 }
 
+interface StreamDataData {
+  readonly type: "streamData";
+  streamId: string;
+  streamSequenceId?: number;
+  dataType?: WebPubSubDataType;
+  data?: any;
+}
+
+interface StreamEndData {
+  readonly type: "streamEnd";
+  streamId: string;
+  error?: { message?: string; userErrorCode?: string };
+}
+
+interface SetGroupStateData {
+  readonly type: "setGroupState";
+  group: string;
+  ackId?: number;
+  state?: Record<string, string>;
+}
+
+interface SubscribeGroupStateData {
+  readonly type: "subscribeGroupState";
+  group: string;
+  ackId?: number;
+}
+
+interface UnsubscribeGroupStateData {
+  readonly type: "unsubscribeGroupState";
+  group: string;
+  ackId?: number;
+}
+
 function getPayload(data: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType): any {
   switch (dataType) {
     case "text": {
@@ -278,4 +412,21 @@ function parsePayload(data: any, dataType: string): JSONTypes | ArrayBuffer | nu
     // Forward compatible
     return null;
   }
+}
+
+function parseStreamInfo(stream: any): StreamInfo | undefined {
+  if (stream == null || typeof stream !== "object") {
+    return undefined;
+  }
+
+  if (typeof stream.streamId !== "string" || typeof stream.streamSequenceId !== "number") {
+    return undefined;
+  }
+
+  return {
+    streamId: stream.streamId,
+    streamSequenceId: stream.streamSequenceId,
+    endOfStream: stream.endOfStream,
+    error: stream.error,
+  };
 }

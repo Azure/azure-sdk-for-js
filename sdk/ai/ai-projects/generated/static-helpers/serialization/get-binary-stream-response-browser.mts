@@ -1,4 +1,5 @@
 import { HttpResponse, StreamableMethod } from "@azure-rest/core-client";
+import { NodeReadableStream } from "../platform-types-browser.mjs";
 
 /**
  * Resolves a StreamableMethod into a binary stream response using browser streaming.
@@ -6,12 +7,10 @@ import { HttpResponse, StreamableMethod } from "@azure-rest/core-client";
  * Error handling is left to the caller so that generated deserializers can apply
  * operation-specific error deserialization (per-status-code details, exception headers, etc.).
  */
-export async function getBinaryStreamResponse(
-  streamableMethod: StreamableMethod
-): Promise<
+export async function getBinaryStreamResponse(streamableMethod: StreamableMethod): Promise<
   HttpResponse & {
     blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeReadableStream;
   }
 > {
   const response = await streamableMethod.asBrowserStream();

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-hanaonazure": ["../src/index.ts"],
+      "@azure/arm-hanaonazure/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

@@ -1,16 +1,16 @@
 # Release History
 
-## 2.6.1 (Unreleased)
+## 2.7.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
+- Added `getBinaryStreamResponse` helper that resolves a `StreamableMethod` into a binary stream response. It can be imported and shared by generated SDK packages. [PR #38909](https://github.com/Azure/azure-sdk-for-js/pull/38909)
+
+## 2.6.1 (2026-06-04)
 
 ### Bugs Fixed
 
 - Fix `operationOptionsToRequestParameters` to correctly preserve `tracingOptions` in the returned `RequestParameters`. [PR #38285](https://github.com/Azure/azure-sdk-for-js/pull/38285)
-
-### Other Changes
 
 ## 2.6.0 (2026-04-07)
 
