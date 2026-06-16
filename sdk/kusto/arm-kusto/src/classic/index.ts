@@ -4,7 +4,7 @@
 export type { AttachedDatabaseConfigurationsOperations } from "./attachedDatabaseConfigurations/index.js";
 export type { ClusterPrincipalAssignmentsOperations } from "./clusterPrincipalAssignments/index.js";
 export type { ClustersOperations } from "./clusters/index.js";
-export type { DatabaseOperations } from "./database/index.js";
+export type { DatabaseOperationsOperations } from "./databaseOperations/index.js";
 export type { DatabasePrincipalAssignmentsOperations } from "./databasePrincipalAssignments/index.js";
 export type { DatabasesOperations } from "./databases/index.js";
 export type { DataConnectionsOperations } from "./dataConnections/index.js";

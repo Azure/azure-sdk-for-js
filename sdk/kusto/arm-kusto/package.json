@@ -90,18 +90,18 @@
         "default": "./dist/commonjs/api/skus/index.js"
       }
     },
-    "./api/database": {
+    "./api/databaseOperations": {
       "browser": {
-        "types": "./dist/browser/api/database/index.d.ts",
-        "default": "./dist/browser/api/database/index.js"
+        "types": "./dist/browser/api/databaseOperations/index.d.ts",
+        "default": "./dist/browser/api/databaseOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/database/index.d.ts",
-        "default": "./dist/esm/api/database/index.js"
+        "types": "./dist/esm/api/databaseOperations/index.d.ts",
+        "default": "./dist/esm/api/databaseOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/database/index.d.ts",
-        "default": "./dist/commonjs/api/database/index.js"
+        "types": "./dist/commonjs/api/databaseOperations/index.d.ts",
+        "default": "./dist/commonjs/api/databaseOperations/index.js"
       }
     },
     "./api/privateLinkResources": {

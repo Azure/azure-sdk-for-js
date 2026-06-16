@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { inviteFollower } from "./operations.js";
-export type { DatabaseInviteFollowerOptionalParams } from "./options.js";
+export type { DatabaseOperationsInviteFollowerOptionalParams } from "./options.js";

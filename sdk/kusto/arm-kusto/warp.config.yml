@@ -7,7 +7,7 @@ exports:
   "./api/operationsResultsLocation": "./src/api/operationsResultsLocation/index.ts"
   "./api/operationsResults": "./src/api/operationsResults/index.ts"
   "./api/skus": "./src/api/skus/index.ts"
-  "./api/database": "./src/api/database/index.ts"
+  "./api/databaseOperations": "./src/api/databaseOperations/index.ts"
   "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
   "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
   "./api/clusters": "./src/api/clusters/index.ts"

@@ -11,8 +11,8 @@ import type { ClustersOperations } from "./classic/clusters/index.js";
 import { _getClustersOperations } from "./classic/clusters/index.js";
 import type { DataConnectionsOperations } from "./classic/dataConnections/index.js";
 import { _getDataConnectionsOperations } from "./classic/dataConnections/index.js";
-import type { DatabaseOperations } from "./classic/database/index.js";
-import { _getDatabaseOperations } from "./classic/database/index.js";
+import type { DatabaseOperationsOperations } from "./classic/databaseOperations/index.js";
+import { _getDatabaseOperationsOperations } from "./classic/databaseOperations/index.js";
 import type { DatabasePrincipalAssignmentsOperations } from "./classic/databasePrincipalAssignments/index.js";
 import { _getDatabasePrincipalAssignmentsOperations } from "./classic/databasePrincipalAssignments/index.js";
 import type { DatabasesOperations } from "./classic/databases/index.js";
@@ -78,7 +78,7 @@ export class KustoManagementClient {
     this.operationsResultsLocation = _getOperationsResultsLocationOperations(this._client);
     this.operationsResults = _getOperationsResultsOperations(this._client);
     this.skus = _getSkusOperations(this._client);
-    this.database = _getDatabaseOperations(this._client);
+    this.databaseOperations = _getDatabaseOperationsOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.clusters = _getClustersOperations(this._client);
@@ -101,8 +101,8 @@ export class KustoManagementClient {
   public readonly operationsResults: OperationsResultsOperations;
   /** The operation groups for skus */
   public readonly skus: SkusOperations;
-  /** The operation groups for database */
-  public readonly database: DatabaseOperations;
+  /** The operation groups for databaseOperations */
+  public readonly databaseOperations: DatabaseOperationsOperations;
   /** The operation groups for privateLinkResources */
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for privateEndpointConnections */

@@ -591,10 +591,6 @@ export interface Database extends ProxyResource {
 }
 
 // @public
-export interface DatabaseInviteFollowerOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface DatabaseInviteFollowerRequest {
     inviteeEmail: string;
     tableLevelSharingProperties?: TableLevelSharingProperties;
@@ -606,8 +602,12 @@ export interface DatabaseInviteFollowerResult {
 }
 
 // @public
-export interface DatabaseOperations {
-    inviteFollower: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseInviteFollowerRequest, options?: DatabaseInviteFollowerOptionalParams) => Promise<DatabaseInviteFollowerResult>;
+export interface DatabaseOperationsInviteFollowerOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DatabaseOperationsOperations {
+    inviteFollower: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseInviteFollowerRequest, options?: DatabaseOperationsInviteFollowerOptionalParams) => Promise<DatabaseInviteFollowerResult>;
 }
 
 // @public
@@ -1555,7 +1555,7 @@ export class KustoManagementClient {
     readonly attachedDatabaseConfigurations: AttachedDatabaseConfigurationsOperations;
     readonly clusterPrincipalAssignments: ClusterPrincipalAssignmentsOperations;
     readonly clusters: ClustersOperations;
-    readonly database: DatabaseOperations;
+    readonly databaseOperations: DatabaseOperationsOperations;
     readonly databasePrincipalAssignments: DatabasePrincipalAssignmentsOperations;
     readonly databases: DatabasesOperations;
     readonly dataConnections: DataConnectionsOperations;

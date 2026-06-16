@@ -4,4 +4,4 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface DatabaseInviteFollowerOptionalParams extends OperationOptions {}
+export interface DatabaseOperationsInviteFollowerOptionalParams extends OperationOptions {}

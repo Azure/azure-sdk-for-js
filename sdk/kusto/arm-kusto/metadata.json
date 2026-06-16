@@ -170,7 +170,7 @@
       "@azure/arm-kusto!OperationsResultsLocationOperations#Get:member": "Microsoft.Kusto.OperationsResultsOperationGroup.getLocation",
       "@azure/arm-kusto!OperationsResultsOperations#get:member": "Microsoft.Kusto.OperationsResultsOperationGroup.get",
       "@azure/arm-kusto!SkusOperations#list:member": "Microsoft.Kusto.SkusOperationGroup.list",
-      "@azure/arm-kusto!DatabaseOperations#inviteFollower:member": "Microsoft.Kusto.Databases.inviteFollower",
+      "@azure/arm-kusto!DatabaseOperationsOperations#inviteFollower:member": "Microsoft.Kusto.Databases.inviteFollower",
       "@azure/arm-kusto!PrivateLinkResourcesOperations#list:member": "Microsoft.Kusto.PrivateLinkResources.list",
       "@azure/arm-kusto!PrivateLinkResourcesOperations#get:member": "Microsoft.Kusto.PrivateLinkResources.get",
       "@azure/arm-kusto!PrivateEndpointConnectionsOperations#list:member": "Microsoft.Kusto.PrivateEndpointConnections.list",

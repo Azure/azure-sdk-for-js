@@ -45,6 +45,7 @@ Compared with version 8.2.0
   - Added Interface ClusterPrincipalProperties
   - Added Interface ClusterProperties
   - Added Interface CosmosDbDataConnectionProperties
+  - Added Interface DatabaseOperationsInviteFollowerOptionalParams
   - Added Interface DatabasePrincipalProperties
   - Added Interface EventGridConnectionProperties
   - Added Interface EventGridConnectionWithManagedIdentityProperties
@@ -101,9 +102,9 @@ Compared with version 8.2.0
 ### Breaking Changes
   - Operation OperationsResultsLocation.get has a new signature
   - Class KustoManagementClient no longer has parameter apiVersion
-  - Class KustoManagementClient no longer has parameter databaseOperations
   - Class KustoManagementClient no longer has parameter subscriptionId
   - Removed Interface CalloutPoliciesList
+  - Removed Interface DatabaseInviteFollowerOptionalParams
   - Removed Interface FollowerDatabaseListResultGet
   - Removed Interface LanguageExtensionsList
   - Removed Interface SkuDescriptionList

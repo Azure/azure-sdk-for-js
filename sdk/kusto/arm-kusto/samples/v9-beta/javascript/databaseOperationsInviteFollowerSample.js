@@ -14,19 +14,24 @@ async function kustoDatabaseInviteFollower() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.database.inviteFollower("kustorptest", "kustoCluster", "database", {
-    inviteeEmail: "invitee@contoso.com",
-    tableLevelSharingProperties: {
-      externalTablesToExclude: [],
-      externalTablesToInclude: ["ExternalTable*"],
-      functionsToExclude: ["functionsToExclude2"],
-      functionsToInclude: ["functionsToInclude1"],
-      materializedViewsToExclude: ["MaterializedViewTable2"],
-      materializedViewsToInclude: ["MaterializedViewTable1"],
-      tablesToExclude: ["Table2"],
-      tablesToInclude: ["Table1"],
+  const result = await client.databaseOperations.inviteFollower(
+    "kustorptest",
+    "kustoCluster",
+    "database",
+    {
+      inviteeEmail: "invitee@contoso.com",
+      tableLevelSharingProperties: {
+        externalTablesToExclude: [],
+        externalTablesToInclude: ["ExternalTable*"],
+        functionsToExclude: ["functionsToExclude2"],
+        functionsToInclude: ["functionsToInclude1"],
+        materializedViewsToExclude: ["MaterializedViewTable2"],
+        materializedViewsToInclude: ["MaterializedViewTable1"],
+        tablesToExclude: ["Table2"],
+        tablesToInclude: ["Table1"],
+      },
     },
-  });
+  );
   console.log(result);
 }
 

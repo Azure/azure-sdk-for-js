@@ -238,7 +238,7 @@ export type {
   ClustersCreateOrUpdateOptionalParams,
   ClustersGetOptionalParams,
 } from "./api/clusters/index.js";
-export type { DatabaseInviteFollowerOptionalParams } from "./api/database/index.js";
+export type { DatabaseOperationsInviteFollowerOptionalParams } from "./api/databaseOperations/index.js";
 export type {
   DatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams,
   DatabasePrincipalAssignmentsListOptionalParams,
@@ -308,7 +308,7 @@ export type {
   AttachedDatabaseConfigurationsOperations,
   ClusterPrincipalAssignmentsOperations,
   ClustersOperations,
-  DatabaseOperations,
+  DatabaseOperationsOperations,
   DatabasePrincipalAssignmentsOperations,
   DatabasesOperations,
   DataConnectionsOperations,
