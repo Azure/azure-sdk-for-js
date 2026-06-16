@@ -101,8 +101,6 @@ Compared with version 8.2.0
 
 ### Breaking Changes
   - Operation OperationsResultsLocation.get has a new signature
-  - Class KustoManagementClient no longer has parameter apiVersion
-  - Class KustoManagementClient no longer has parameter subscriptionId
   - Removed Interface CalloutPoliciesList
   - Removed Interface DatabaseInviteFollowerOptionalParams
   - Removed Interface FollowerDatabaseListResultGet
