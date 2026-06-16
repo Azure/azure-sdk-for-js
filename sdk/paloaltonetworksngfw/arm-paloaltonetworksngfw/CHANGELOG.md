@@ -65,8 +65,6 @@ Compared with version 1.2.0
 
 ### Breaking Changes
   - Operation MetricsObjectFirewall.beginDeleteAndWait has a new signature
-  - Class PaloAltoNetworksCloudngfw no longer has parameter apiVersion
-  - Class PaloAltoNetworksCloudngfw no longer has parameter subscriptionId
 
 ## 1.2.0 (2025-11-11)
 
