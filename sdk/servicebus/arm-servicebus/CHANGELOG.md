@@ -85,8 +85,6 @@ Compared with version 6.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Class ServiceBusManagementClient no longer has parameter apiVersion
-  - Class ServiceBusManagementClient no longer has parameter subscriptionId
   - Removed Interface SqlRuleAction
   - Interface ProxyResource no longer has parameter location
   - Parameter value of interface PrivateLinkResourcesListResult is now required
