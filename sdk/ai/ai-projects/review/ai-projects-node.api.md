@@ -6,6 +6,7 @@
 
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ClientOptions as ClientOptions_2 } from 'openai';
+import { isRestError } from '@azure/core-rest-pipeline';
 import OpenAI from 'openai';
 import { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
@@ -142,12 +143,6 @@ export interface AgenticIdentityPreviewCredentials extends BaseCredentials {
 }
 
 // @public
-export interface AgentIdentifier {
-    agent_name: string;
-    agent_version?: string;
-}
-
-// @public
 export interface AgentIdentity {
     client_id: string;
     principal_id: string;
@@ -251,14 +246,6 @@ export interface AgentsOperations {
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersion>;
     update(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsUpdateAgentFromManifestOptionalParams): Promise<Agent>;
     update(agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateOptionalParams): Promise<Agent>;
-}
-
-// @public
-export interface AgentsPagedResultOptimizationCandidate {
-    data: OptimizationCandidate[];
-    first_id?: string;
-    has_more: boolean;
-    last_id?: string;
 }
 
 // @public
@@ -471,17 +458,12 @@ export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | Cust
 
 // @public
 export interface BetaAgentsCancelOptimizationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentsOptimization=V1Preview";
-}
-
-// @public
-export interface BetaAgentsCreateAgentVersionFromCodeOptionalParams extends OperationOptions {
-    foundryFeatures?: AgentDefinitionOptInKeys;
+    foundryFeatures?: "AgentsOptimization=V2Preview";
 }
 
 // @public
 export interface BetaAgentsCreateOptimizationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentsOptimization=V1Preview";
+    foundryFeatures?: "AgentsOptimization=V2Preview";
     operationId?: string;
 }
 
@@ -493,9 +475,13 @@ export interface BetaAgentsCreateSessionOptionalParams extends OperationOptions 
 }
 
 // @public
+export interface BetaAgentsCreateVersionFromCodeOptionalParams extends OperationOptions {
+    foundryFeatures?: AgentDefinitionOptInKeys;
+}
+
+// @public
 export interface BetaAgentsDeleteOptimizationJobOptionalParams extends OperationOptions {
-    force?: boolean;
-    foundryFeatures?: "AgentsOptimization=V1Preview";
+    foundryFeatures?: "AgentsOptimization=V2Preview";
 }
 
 // @public
@@ -520,7 +506,7 @@ export interface BetaAgentsDownloadAgentCodeOptionalParams extends OperationOpti
 // @public (undocumented)
 export type BetaAgentsDownloadAgentCodeResponse = {
     blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeReadableStream;
 };
 
 // @public
@@ -532,38 +518,12 @@ export interface BetaAgentsDownloadSessionFileOptionalParams extends OperationOp
 // @public (undocumented)
 export type BetaAgentsDownloadSessionFileResponse = {
     blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeReadableStream;
 };
-
-// @public
-export interface BetaAgentsGetCandidateFileOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentsOptimization=V1Preview";
-}
-
-// @public (undocumented)
-export type BetaAgentsGetCandidateFileResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
-
-// @public
-export interface BetaAgentsGetOptimizationCandidateConfigOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentsOptimization=V1Preview";
-}
-
-// @public
-export interface BetaAgentsGetOptimizationCandidateOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentsOptimization=V1Preview";
-}
-
-// @public
-export interface BetaAgentsGetOptimizationCandidateResultsOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentsOptimization=V1Preview";
-}
 
 // @public
 export interface BetaAgentsGetOptimizationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentsOptimization=V1Preview";
+    foundryFeatures?: "AgentsOptimization=V2Preview";
 }
 
 // @public
@@ -578,20 +538,11 @@ export interface BetaAgentsGetSessionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BetaAgentsListOptimizationCandidatesOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    foundryFeatures?: "AgentsOptimization=V1Preview";
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
 export interface BetaAgentsListOptimizationJobsOptionalParams extends OperationOptions {
     after?: string;
     agentName?: string;
     before?: string;
-    foundryFeatures?: "AgentsOptimization=V1Preview";
+    foundryFeatures?: "AgentsOptimization=V2Preview";
     limit?: number;
     order?: PageOrder;
     status?: JobStatus;
@@ -621,26 +572,20 @@ export interface BetaAgentsListSessionsOptionalParams extends OperationOptions {
 // @public
 export interface BetaAgentsOperations {
     cancelOptimizationJob: (jobId: string, options?: BetaAgentsCancelOptimizationJobOptionalParams) => Promise<OptimizationJob>;
-    createOptimizationJob: (inputs: OptimizationJobInputs, options?: BetaAgentsCreateOptimizationJobOptionalParams) => Promise<OptimizationJob>;
+    createOptimizationJob: (job: OptimizationJob, options?: BetaAgentsCreateOptimizationJobOptionalParams) => Promise<OptimizationJob>;
     createSession: (agentName: string, versionIndicator: VersionIndicatorUnion, options?: BetaAgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
-    createVersionFromCode: (agentName: string, codeZipSha256: string, content: CreateAgentVersionFromCodeContent, options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams) => Promise<AgentVersion>;
+    createVersionFromCode: (agentName: string, codeZipSha256: string, content: CreateAgentVersionFromCodeContent, options?: BetaAgentsCreateVersionFromCodeOptionalParams) => Promise<AgentVersion>;
     deleteOptimizationJob: (jobId: string, options?: BetaAgentsDeleteOptimizationJobOptionalParams) => Promise<void>;
     deleteSession: (agentName: string, sessionId: string, options?: BetaAgentsDeleteSessionOptionalParams) => Promise<void>;
     deleteSessionFile: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsDeleteSessionFileOptionalParams) => Promise<void>;
     downloadAgentCode: (agentName: string, options?: BetaAgentsDownloadAgentCodeOptionalParams) => Promise<BetaAgentsDownloadAgentCodeResponse>;
     downloadSessionFile: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsDownloadSessionFileOptionalParams) => Promise<BetaAgentsDownloadSessionFileResponse>;
-    getCandidateFile: (jobId: string, candidateId: string, path: string, options?: BetaAgentsGetCandidateFileOptionalParams) => Promise<BetaAgentsGetCandidateFileResponse>;
-    getOptimizationCandidate: (jobId: string, candidateId: string, options?: BetaAgentsGetOptimizationCandidateOptionalParams) => Promise<CandidateMetadata>;
-    getOptimizationCandidateConfig: (jobId: string, candidateId: string, options?: BetaAgentsGetOptimizationCandidateConfigOptionalParams) => Promise<CandidateDeployConfig>;
-    getOptimizationCandidateResults: (jobId: string, candidateId: string, options?: BetaAgentsGetOptimizationCandidateResultsOptionalParams) => Promise<CandidateResults>;
     getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) => Promise<OptimizationJob>;
     getSession: (agentName: string, sessionId: string, options?: BetaAgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
     getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: BetaAgentsGetSessionLogStreamOptionalParams) => Promise<BetaAgentsDownloadSessionFileResponse>;
-    listOptimizationCandidates: (jobId: string, options?: BetaAgentsListOptimizationCandidatesOptionalParams) => Promise<AgentsPagedResultOptimizationCandidate>;
-    listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<OptimizationJob>;
+    listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<OptimizationJobListItem>;
     listSessionFiles: (agentName: string, agentSessionId: string, options?: BetaAgentsListSessionFilesOptionalParams) => PagedAsyncIterableIterator<SessionDirectoryEntry>;
     listSessions: (agentName: string, options?: BetaAgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
-    promoteCandidate: (jobId: string, candidateId: string, candidateRequest: PromoteCandidateRequest, options?: BetaAgentsPromoteCandidateOptionalParams) => Promise<PromoteCandidateResponse>;
     stopSession: (agentName: string, sessionId: string, options?: BetaAgentsStopSessionOptionalParams) => Promise<void>;
     updateAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
     uploadSessionFile: (agentName: string, agentSessionId: string, path: string, content: Uint8Array, options?: BetaAgentsUploadSessionFileOptionalParams) => Promise<SessionFileWriteResponse>;
@@ -651,11 +596,6 @@ export interface BetaAgentsPatchAgentObjectOptionalParams extends OperationOptio
     agentCard?: AgentCard;
     agentEndpoint?: AgentEndpoint;
     foundryFeatures?: "AgentEndpoints=V1Preview";
-}
-
-// @public
-export interface BetaAgentsPromoteCandidateOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentsOptimization=V1Preview";
 }
 
 // @public
@@ -1173,7 +1113,7 @@ export interface BetaSkillsDownloadOptionalParams extends OperationOptions {
 // @public (undocumented)
 export type BetaSkillsDownloadResponse = {
     blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeReadableStream;
 };
 
 // @public
@@ -1322,42 +1262,6 @@ export interface BrowserAutomationToolConnectionParameters {
 // @public
 export interface BrowserAutomationToolParameters {
     connection: BrowserAutomationToolConnectionParameters;
-}
-
-// @public
-export interface CandidateDeployConfig {
-    instructions?: string;
-    model?: string;
-    skills?: Record<string, any>[];
-    temperature?: number;
-    tools?: Record<string, any>[];
-}
-
-// @public
-export interface CandidateFileInfo {
-    path: string;
-    size_bytes: number;
-    type: string;
-}
-
-// @public
-export interface CandidateMetadata {
-    candidate_id: string;
-    candidate_name: string;
-    created_at: Date;
-    files: CandidateFileInfo[];
-    has_results: boolean;
-    job_id: string;
-    promotion?: PromotionInfo;
-    score?: number;
-    status: string;
-    updated_at: Date;
-}
-
-// @public
-export interface CandidateResults {
-    candidate_id: string;
-    results: OptimizationTaskResult[];
 }
 
 // @public
@@ -1789,20 +1693,6 @@ export interface DatasetEvaluatorGenerationJobSource extends EvaluatorGeneration
 }
 
 // @public
-export interface DatasetInfo {
-    is_inline: boolean;
-    name?: string;
-    task_count: number;
-    version?: string;
-}
-
-// @public
-export interface DatasetRef {
-    name: string;
-    version?: string;
-}
-
-// @public
 export interface DatasetReference {
     name: string;
     version: string;
@@ -1976,7 +1866,7 @@ export interface DownloadVersionOptionalParams extends OperationOptions {
 // @public (undocumented)
 export type DownloadVersionResponse = {
     blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeReadableStream;
 };
 
 // @public
@@ -2334,7 +2224,7 @@ export interface FieldMapping {
 }
 
 // @public
-export type FileContents = string | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array | Blob;
+export type FileContents = string | NodeReadableStream | ReadableStream<Uint8Array> | Uint8Array | Blob;
 
 // @public
 export interface FileDataGenerationJobOutput extends DataGenerationJobOutput {
@@ -2382,7 +2272,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
 }
 
 // @public
-export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview" | "Routines=V1Preview" | "Toolboxes=V1Preview" | "Skills=V1Preview" | "DataGenerationJobs=V1Preview" | "Models=V1Preview" | "AgentsOptimization=V1Preview";
+export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview" | "Routines=V1Preview" | "Toolboxes=V1Preview" | "Skills=V1Preview" | "DataGenerationJobs=V1Preview" | "Models=V1Preview" | "AgentsOptimization=V2Preview";
 
 // @public
 export type FoundryModelArtifactProfileCategory = "DataOnly" | "RuntimeDependent" | "Unknown";
@@ -2743,6 +2633,8 @@ export type IsolationKeySourceKind = "Entra" | "Header";
 // @public
 export type IsolationKeySourceUnion = EntraIsolationKeySource | HeaderIsolationKeySource | IsolationKeySource;
 
+export { isRestError }
+
 // @public
 export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
 
@@ -3057,6 +2949,9 @@ export interface NoAuthenticationCredentials extends BaseCredentials {
 }
 
 // @public
+export type NodeReadableStream = NodeJS.ReadableStream;
+
+// @public
 export interface OneTimeTrigger extends Trigger {
     timeZone?: string;
     triggerAt: string;
@@ -3131,13 +3026,9 @@ export interface OpenApiTool extends Tool {
 export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
 // @public
-export interface OptimizationAgentDefinition {
-    agent_name?: string;
+export interface OptimizationAgentIdentifier {
+    agent_name: string;
     agent_version?: string;
-    model?: string;
-    skills?: Record<string, any>[];
-    system_prompt?: string;
-    tools?: Record<string, any>[];
 }
 
 // @public
@@ -3145,78 +3036,111 @@ export interface OptimizationCandidate {
     avg_score: number;
     avg_tokens: number;
     candidate_id?: string;
-    config: OptimizationAgentDefinition;
     eval_id?: string;
     eval_run_id?: string;
-    is_pareto_optimal: boolean;
-    mutations: Record<string, any>;
+    mutations?: Record<string, any>;
     name: string;
-    pass_rate: number;
     promotion?: PromotionInfo;
-    task_scores: OptimizationTaskResult[];
+}
+
+// @public
+export interface OptimizationDatasetCriterion {
+    instruction: string;
+    name: string;
+}
+
+// @public
+export interface OptimizationDatasetInput {
+    type: OptimizationDatasetInputType;
+}
+
+// @public
+export type OptimizationDatasetInputType = "inline" | "reference";
+
+// @public
+export type OptimizationDatasetInputUnion = OptimizationInlineDatasetInput | OptimizationReferenceDatasetInput | OptimizationDatasetInput;
+
+// @public
+export interface OptimizationDatasetItem {
+    criteria?: OptimizationDatasetCriterion[];
+    desired_num_turns?: number;
+    ground_truth?: string;
+    query?: string;
+}
+
+// @public
+export interface OptimizationEvaluatorRef {
+    name: string;
+    version?: string;
+}
+
+// @public
+export interface OptimizationInlineDatasetInput extends OptimizationDatasetInput {
+    items: OptimizationDatasetItem[];
+    type: "inline";
 }
 
 // @public
 export interface OptimizationJob {
     readonly created_at: Date;
-    readonly dataset?: DatasetInfo;
     readonly error?: ErrorModel;
     readonly id: string;
     inputs?: OptimizationJobInputs;
     readonly progress?: OptimizationJobProgress;
     readonly result?: OptimizationJobResult;
     readonly status: JobStatus;
-    readonly updated_at?: Date;
+    readonly updated_at: Date;
+    readonly warnings?: string[];
 }
 
 // @public
 export interface OptimizationJobInputs {
-    agent: AgentIdentifier;
-    evaluators?: string[];
+    agent: OptimizationAgentIdentifier;
+    evaluators: OptimizationEvaluatorRef[];
     options?: OptimizationOptions;
-    train_dataset_reference: DatasetRef;
-    validation_dataset_reference?: DatasetRef;
+    train_dataset: OptimizationDatasetInputUnion;
+    validation_dataset?: OptimizationDatasetInputUnion;
+}
+
+// @public
+export interface OptimizationJobListItem {
+    readonly agent?: OptimizationAgentIdentifier;
+    readonly created_at: Date;
+    readonly error?: ErrorModel;
+    readonly id: string;
+    readonly progress?: OptimizationJobProgress;
+    readonly status: JobStatus;
+    readonly updated_at: Date;
 }
 
 // @public
 export interface OptimizationJobProgress {
     best_score: number;
-    current_iteration: number;
+    candidates_completed: number;
     elapsed_seconds: number;
 }
 
 // @public
 export interface OptimizationJobResult {
-    all_target_attributes_failed?: boolean;
-    baseline?: OptimizationCandidate;
-    best?: OptimizationCandidate;
+    baseline?: string;
+    best?: string;
     candidates?: OptimizationCandidate[];
-    options?: OptimizationOptions;
-    warnings?: string[];
 }
 
 // @public
 export interface OptimizationOptions {
     eval_model?: string;
     evaluation_level?: EvaluationLevel;
-    max_iterations?: number;
+    max_candidates?: number;
     optimization_config?: Record<string, any>;
     optimization_model?: string;
 }
 
 // @public
-export interface OptimizationTaskResult {
-    composite_score: number;
-    duration_seconds: number;
-    error_message?: string;
-    passed: boolean;
-    query?: string;
-    rationales?: Record<string, string>;
-    response?: string;
-    run_id?: string;
-    scores: Record<string, number>;
-    task_name: string;
-    tokens: number;
+export interface OptimizationReferenceDatasetInput extends OptimizationDatasetInput {
+    name: string;
+    type: "reference";
+    version?: string;
 }
 
 // @public
@@ -3254,21 +3178,6 @@ export type PendingUploadType = "None" | "BlobReference" | "TemporaryBlobReferen
 // @public
 export interface ProceduralMemoryItem extends MemoryItem {
     kind: "procedural";
-}
-
-// @public
-export interface PromoteCandidateRequest {
-    agent_name: string;
-    agent_version: string;
-}
-
-// @public
-export interface PromoteCandidateResponse {
-    agent_name: string;
-    agent_version: string;
-    candidate_id: string;
-    promoted_at: Date;
-    status: string;
 }
 
 // @public
@@ -3468,7 +3377,6 @@ export interface RoutineRun {
     scheduled_fire_at?: Date;
     session_id?: string;
     started_at?: Date;
-    // Warning: (ae-forgotten-export) The symbol "RoutineRunStatus" needs to be exported by the entry point index.d.ts
     status?: RoutineRunStatus;
     task_id?: string;
     trigger_name?: string;
@@ -3478,6 +3386,9 @@ export interface RoutineRun {
 
 // @public
 export type RoutineRunPhase = "queued" | "dispatching" | "completed" | "failed";
+
+// @public
+export type RoutineRunStatus = string;
 
 // @public
 export interface RoutineTrigger {
