@@ -73,6 +73,10 @@ Dev Boxes refer to managed developer machines running in Azure. Dev Boxes are pr
 
 Environments refer to templated developer environments, which combine a template (Catalog Item) and parameters, as well as an Environment Type which defines permissions and where the resources are deployed.
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for Javascript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 ### Logging

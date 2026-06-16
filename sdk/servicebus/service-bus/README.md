@@ -513,6 +513,10 @@ await serviceBusAdministrationClient.deleteQueue(queueName);
 
 - Sample for reference - [administrationClient.ts](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/administrationClient.ts)
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for Javascript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 Here's some initial steps to start diagnosing issues. For more information please refer to the [Service Bus Troubleshooting Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/TROUBLESHOOTING.md).

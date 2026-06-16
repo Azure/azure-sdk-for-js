@@ -75,6 +75,10 @@ Create a section for each top-level service concept you want to explain.
 
 Create several code examples for how someone would use your library to accomplish a common task with the service.
 
+## Use with AI tools
+
+AI coding tools such as VS Code and GitHub Copilot can help you write and debug code that uses this library. See [Using the Azure SDK for Javascript with AI tools](https://aka.ms/azsdk/js/ai) for available integrations.
+
 ## Troubleshooting
 
 ### Logging
