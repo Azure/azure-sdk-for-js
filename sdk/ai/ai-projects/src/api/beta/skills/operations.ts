@@ -26,7 +26,7 @@ import {
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
-import { getBinaryStreamResponse } from "../../../static-helpers/serialization/get-binary-stream-response.js";
+import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   DeleteVersionOptionalParams,
