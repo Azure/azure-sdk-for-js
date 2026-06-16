@@ -18,7 +18,7 @@ const TYPESPEC_GENERATE_SCRIPT = path.join(
   "eng/common/scripts/TypeSpec-Project-Generate.ps1",
 );
 const RELEASE_TOOLS_DIR = "eng/tools/js-sdk-release-tools";
-const DEV_VERSION_SENTINEL = "dev";
+const DEV_VERSION_SENTINEL = "dev"; // Special --input value meaning "resolve the npm next tag" (dev emitter builds).
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Tiny helpers
@@ -36,11 +36,7 @@ function getFlag(flagName, defaultValue = "") {
 function runCommandCapturing(command, commandArgs, workingDirectory) {
   return new Promise((resolve) => {
     let combinedOutput = "";
-    const useShell = shouldUseShellForSpawn(command);
-    const child = spawn(useShell ? buildShellCommandLine(command, commandArgs) : command, useShell ? [] : commandArgs, {
-      cwd: workingDirectory,
-      shell: useShell,
-    });
+    const child = spawn(command, commandArgs, { cwd: workingDirectory });
     child.stdout.on("data", (chunk) => (combinedOutput += chunk));
     child.stderr.on("data", (chunk) => (combinedOutput += chunk));
     child.on("close", (exitCode) => resolve({ exitCode, output: combinedOutput }));
@@ -48,20 +44,6 @@ function runCommandCapturing(command, commandArgs, workingDirectory) {
       resolve({ exitCode: 1, output: combinedOutput + `\nspawn error: ${err.message}` }),
     );
   });
-}
-
-function shouldUseShellForSpawn(command) {
-  const windowsCommandShims = new Set(["npm", "npx", "pnpm"]);
-  return process.platform === "win32" && windowsCommandShims.has(command);
-}
-
-function buildShellCommandLine(command, commandArgs) {
-  return [command, ...commandArgs.map(quoteShellArg)].join(" ");
-}
-
-function quoteShellArg(arg) {
-  const text = String(arg);
-  return /^[^\s"&|<>^]+$/.test(text) ? text : `"${text.replace(/(["^])/g, "^$1")}"`;
 }
 
 /** Run a shell command line; stream to agent log; abort on non-zero exit. */
@@ -130,28 +112,25 @@ function logPipelineIssue(severity, message) {
 // Subcommand: resolve-emitter
 // Resolve --input to a concrete npm version. "dev" means: use the npm `next`
 // dist-tag, which points to the dev emitter build selected by the publisher.
-// Anything else is used verbatim.
 // ─────────────────────────────────────────────────────────────────────────────
 
 async function runResolveEmitter() {
-  const rawInputVersion = getFlag("--input", "");
-  const normalizedInput = rawInputVersion.trim().toLowerCase();
-  const forceRun = getFlag("--force", "false").toLowerCase() === "true";
+  const input = getFlag("--input", "").trim().toLowerCase();
   const isScheduled = (process.env.BUILD_REASON || "").toLowerCase() === "schedule";
 
   let resolvedEmitterVersion;
   let shouldRun = true;
-  if (normalizedInput === DEV_VERSION_SENTINEL) {
+  if (input === DEV_VERSION_SENTINEL) {
     resolvedEmitterVersion = await resolveNextEmitterVersion();
-    if (isScheduled && !forceRun) {
-      const lastBuilt = await getLastBuiltEmitterVersion();
+    if (isScheduled) {
+      const lastBuilt = await getLastBuiltEmitterVersionFromTag();
       if (resolvedEmitterVersion === lastBuilt) {
         console.log(`Version ${resolvedEmitterVersion} already built – skipping.`);
         shouldRun = false;
       }
     }
   } else {
-    resolvedEmitterVersion = rawInputVersion.trim();
+    resolvedEmitterVersion = input;
   }
 
   console.log(`Emitter version: ${resolvedEmitterVersion}; shouldRun=${shouldRun}`);
@@ -159,7 +138,7 @@ async function runResolveEmitter() {
   setPipelineVariable("shouldRun", String(shouldRun), { isOutput: true });
 }
 
-async function getLastBuiltEmitterVersion() {
+async function getLastBuiltEmitterVersionFromTag() {
   const definitionId = (process.env.SYSTEM_DEFINITIONID || "").trim();
   const org = (process.env.SYSTEM_COLLECTIONURI || "").trim();
   const project = (process.env.SYSTEM_TEAMPROJECT || "").trim();
