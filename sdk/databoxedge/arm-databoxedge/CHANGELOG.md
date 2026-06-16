@@ -116,8 +116,6 @@ Compared with version 2.1.0
   - Enum KnownSkuName has a new value EP264Mx1W
 
 ### Breaking Changes
-  - Class DataBoxEdgeManagementClient no longer has parameter apiVersion
-  - Class DataBoxEdgeManagementClient no longer has parameter subscriptionId
   - Removed Interface AddonList
   - Removed Interface AlertList
   - Removed Interface BandwidthSchedulesList
