@@ -195,8 +195,8 @@ async function getLastBuiltEmitterVersion() {
   );
   if (tagExit !== 0) return "";
 
-  const emitterTag = tagOutput.split(/\r?\n/).find((t) => t.startsWith("emitter:"));
-  return emitterTag ? emitterTag.replace("emitter:", "") : "";
+  const emitterTag = tagOutput.split(/\r?\n/).find((t) => t.startsWith("emitter_"));
+  return emitterTag ? emitterTag.replace("emitter_", "") : "";
 }
 
 async function resolveNextEmitterVersion() {

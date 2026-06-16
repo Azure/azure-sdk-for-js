@@ -244,7 +244,7 @@ stages:
       - bash: |
           az pipelines build tag add \
             --build-id $(Build.BuildId) \
-            --tags "emitter:$(emitterVersion)" \
+            --tags "emitter_$(emitterVersion)" \
             --org $(System.CollectionUri) \
             --project "$(System.TeamProject)"
         displayName: 'Tag build with emitter version'
