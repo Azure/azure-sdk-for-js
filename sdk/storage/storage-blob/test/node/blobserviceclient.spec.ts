@@ -25,6 +25,34 @@ describe("BlobServiceClient Node.js only", () => {
     await recorder.stop();
   });
 
+   it("IPv6 Test", async () => {
+    const accountName = "storageaccount";
+
+    let blobServiceURL = `https://${accountName}-ipv6.blob.core.windows.net/`;
+    let blobServiceClient = new BlobServiceClient(blobServiceURL);
+    assert.deepEqual(blobServiceClient.accountName, accountName);
+
+    blobServiceURL = `https://${accountName}-secondary-ipv6.blob.core.windows.net/`;
+    blobServiceClient = new BlobServiceClient(blobServiceURL);
+    assert.deepEqual(blobServiceClient.accountName, accountName);
+
+    blobServiceURL = `https://${accountName}-secondary-dualstack.blob.core.windows.net/`;
+    blobServiceClient = new BlobServiceClient(blobServiceURL);
+    assert.deepEqual(blobServiceClient.accountName, accountName);
+
+    blobServiceURL = `https://${accountName}-dualstack.blob.core.windows.net/`;
+    blobServiceClient = new BlobServiceClient(blobServiceURL);
+    assert.deepEqual(blobServiceClient.accountName, accountName);
+
+    blobServiceURL = `https://${accountName}-secondary.blob.core.windows.net/`;
+    blobServiceClient = new BlobServiceClient(blobServiceURL);
+    assert.deepEqual(blobServiceClient.accountName, accountName);
+
+    blobServiceURL = `https://${accountName}-something.blob.core.windows.net/`;
+    blobServiceClient = new BlobServiceClient(blobServiceURL);
+    assert.deepEqual(blobServiceClient.accountName, accountName + "-something");
+  });
+
   it("Default audience should work", async () => {
     const serviceClient = getBSU(recorder);
     const blobServiceClientWithOAuthToken = new BlobServiceClient(

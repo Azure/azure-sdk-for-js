@@ -676,6 +676,7 @@ export interface BlobFlatListSegmentModel {
 
 // @public
 export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+    isDirectory?: boolean;
     permissions?: BlobSASPermissions;
 }
 
@@ -1148,6 +1149,7 @@ export interface BlobSASSignatureValues {
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
+    isDirectory?: boolean;
     permissions?: BlobSASPermissions | ContainerSASPermissions;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
@@ -2970,7 +2972,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string, requestHeaderKeys?: string, requestQueryParameterKeys?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string, requestHeaderKeys?: string, requestQueryParameterKeys?: string, directoryDepth?: number);
     constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
@@ -2979,6 +2981,7 @@ export class SASQueryParameters {
     readonly contentType?: string;
     readonly correlationId?: string;
     readonly delegatedUserObjectId?: string;
+    readonly directoryDepth?: number;
     readonly encryptionScope?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
@@ -3006,6 +3009,7 @@ export interface SASQueryParametersOptions {
     contentType?: string;
     correlationId?: string;
     delegatedUserObjectId?: string;
+    directoryDepth?: number;
     encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;

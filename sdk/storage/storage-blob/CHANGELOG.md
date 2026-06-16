@@ -1,8 +1,14 @@
 # Release History
 
-## 12.33.0-beta.1 (Unreleased)
+## 12.34.0-beta.1 (Unreleased)
 
 - Migrate to Typespec-based code generation [PR #37543](https://github.com/Azure/azure-sdk-for-js/pull/37543)
+
+## 12.33.0 (2026-06-15)
+
+### Features Added
+
+- Includes all features released in 12.33.0-beta.1.
 
 ## 12.32.0-beta.1 (2026-03-05)
 
