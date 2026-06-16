@@ -106,6 +106,7 @@ stages:
       - task: NodeTool@0
         inputs: { versionSpec: $(nodeVersion) }
 
+      # run runResolveEmitter()
       - bash: node $(shardScript) resolve-emitter --input '${{ parameters.EmitterVersion }}'
         name: resolveVersion
         displayName: 'Resolve emitter version'
@@ -140,7 +141,7 @@ stages:
   - job: RegenerateAndBuild
     displayName: 'Regenerate + build shards'
     dependsOn: Setup
-    condition: and(succeeded(), eq(dependencies.Setup.outputs['resolveVersion.shouldRun'], 'True'))
+    condition: and(succeeded(), eq(dependencies.Setup.outputs['resolveVersion.shouldRun'], 'true'))
     timeoutInMinutes: 180
     strategy:
       matrix: $[ dependencies.Setup.outputs['generateMatrix.matrix'] ]
