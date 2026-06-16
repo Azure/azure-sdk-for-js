@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check if a file path is available.
  *
  * @summary check if a file path is available.
- * x-ms-original-file: 2026-01-01/CheckFilePathAvailability.json
+ * x-ms-original-file: 2026-04-01/CheckFilePathAvailability.json
  */
 async function checkFilePathAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();

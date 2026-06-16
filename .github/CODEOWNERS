@@ -298,7 +298,7 @@
 
 # ServiceLabel: %Storage
 # PRLabel: %Storage
-/sdk/storage/    @blueww @EmmaZhu @jiacfan @ljian3377 @vinjiang @XiaoningLiu
+/sdk/storage/    @blueww @EmmaZhu @jiacfan @ljian3377 @vinjiang @XiaoningLiu @jainakanksha-msft @aanubhav-msft
 
 # AzureSdkOwners: @wanyang7
 # ServiceLabel: %Synapse
@@ -626,7 +626,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/newrelicobservability/arm-newrelicobservability/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -731,7 +731,7 @@
 # PRLabel: %Mgmt
 /sdk/managedapplications/arm-managedapplications/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/managednetworkfabric/arm-managednetworkfabric/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1740,6 +1740,9 @@ sdk/postgresqlhsc/arm-postgresqlhsc/ @qiaozha @MaryGao @JialinHuang803
 /.github/workflows/mgmt-review.lock.yml  @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.github/workflows/archie.md             @maorleger @Azure/azure-sdk-for-js-core
 /.github/workflows/archie.lock.yml       @maorleger @Azure/azure-sdk-for-js-core
+/.github/workflows/agent-observability.md             @maorleger @Azure/azure-sdk-for-js-core
+/.github/workflows/agent-observability.lock.yml       @maorleger @Azure/azure-sdk-for-js-core
+/.github/workflows/agent-observability-collect.sh     @maorleger @Azure/azure-sdk-for-js-core
 /.github/workflows/dash.md               @Azure/azure-sdk-for-js-core
 /.github/workflows/dash.lock.yml         @Azure/azure-sdk-for-js-core
 /.github/workflows/dexter.md             @Azure/azure-sdk-for-js-core
