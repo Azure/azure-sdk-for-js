@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { BlobContext as Client } from "../index.js";
+import { getBinaryStreamResponse } from "#platform/generated/static-helpers/serialization/get-binary-stream-response";
 import {
   errorXmlDeserializer,
   LeaseStatus,
@@ -19,9 +20,8 @@ import {
   SkuName,
   AccountKind,
   BlobExpiryOptions,
-} from "../../models/azure/storage/blobs/models.js";
-import { BlobDownloadResponse } from "../../models/models.js";
-import { getBinaryStreamResponse } from "../../static-helpers/serialization/get-binary-stream-response.js";
+  BlobDownloadResponse,
+} from "../../models/models.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -130,7 +130,9 @@ export async function _setTagsDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._setTagsDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -187,7 +189,7 @@ export function _setTagsDeserializeExceptionHeaders(result: PathUncheckedRespons
   };
 }
 
-/** The Set Tags operation enables users to set tags on a blob. */
+/** Sets the tags of the specified blob. */
 export async function setTags(
   context: Client,
   tags: BlobTags,
@@ -267,7 +269,9 @@ export async function _getTagsDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._getTagsDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -326,7 +330,7 @@ export function _getTagsDeserializeExceptionHeaders(result: PathUncheckedRespons
   };
 }
 
-/** The Get Blob Tags operation enables users to get tags on a blob. */
+/** Gets the tags of the specified blob. */
 export async function getTags(
   context: Client,
   options: BlobGetTagsOptionalParams = { requestOptions: {} },
@@ -387,7 +391,9 @@ export async function _getAccountInfoDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getAccountInfoDeserializeExceptionHeaders(result),
@@ -457,7 +463,7 @@ export function _getAccountInfoDeserializeExceptionHeaders(result: PathUnchecked
   };
 }
 
-/** Returns the sku name and account kind */
+/** Returns information about the storage account. */
 export async function getAccountInfo(
   context: Client,
   options: BlobGetAccountInfoOptionalParams = { requestOptions: {} },
@@ -533,7 +539,9 @@ export async function _setTierDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._setTierDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -590,7 +598,7 @@ export function _setTierDeserializeExceptionHeaders(result: PathUncheckedRespons
   };
 }
 
-/** The Set Tier operation sets the tier on a block blob. The operation is allowed on a page blob or block blob, but not on an append blob. A block blob's tier determines Hot/Cool/Archive storage type. This operation does not update the blob's ETag. */
+/** Sets the tier of the specified blob. */
 export async function setTier(
   context: Client,
   tier: AccessTier,
@@ -651,7 +659,9 @@ export async function _abortCopyFromUrlDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._abortCopyFromUrlDeserializeExceptionHeaders(result),
@@ -711,7 +721,7 @@ export function _abortCopyFromUrlDeserializeExceptionHeaders(result: PathUncheck
   };
 }
 
-/** The Abort Copy From URL operation aborts a pending Copy From URL operation, and leaves a destination blob with zero length and full metadata. */
+/** Aborts a pending asynchronous copy operation and leaves a destination blob with zero length and full metadata. */
 export async function abortCopyFromUrl(
   context: Client,
   copyId: string,
@@ -841,7 +851,9 @@ export async function _copyFromUrlDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._copyFromUrlDeserializeExceptionHeaders(result),
@@ -933,7 +945,7 @@ export function _copyFromUrlDeserializeExceptionHeaders(result: PathUncheckedRes
   };
 }
 
-/** The Copy From URL operation copies a blob or an internet resource to a new blob. It will not return a response until the copy is complete. */
+/** Synchronously copies a blob from a source URL to the destination blob. */
 export async function copyFromUrl(
   context: Client,
   copySource: string,
@@ -1071,7 +1083,9 @@ export async function _startCopyFromUrlDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._startCopyFromUrlDeserializeExceptionHeaders(result),
@@ -1144,7 +1158,7 @@ export function _startCopyFromUrlDeserializeExceptionHeaders(result: PathUncheck
   };
 }
 
-/** The Start Copy From URL operation copies a blob or an internet resource to a new blob. */
+/** Starts an asynchronous copy from a source URL to a destination blob. */
 export async function startCopyFromUrl(
   context: Client,
   copySource: string,
@@ -1246,7 +1260,9 @@ export async function _createSnapshotDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._createSnapshotDeserializeExceptionHeaders(result),
@@ -1323,7 +1339,7 @@ export function _createSnapshotDeserializeExceptionHeaders(result: PathUnchecked
   };
 }
 
-/** The Create Snapshot operation creates a read-only snapshot of a blob */
+/** Creates a read-only snapshot of the specified blob. */
 export async function createSnapshot(
   context: Client,
   options: BlobCreateSnapshotOptionalParams = { requestOptions: {} },
@@ -1415,7 +1431,9 @@ export async function _breakLeaseDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._breakLeaseDeserializeExceptionHeaders(result),
@@ -1484,7 +1502,7 @@ export function _breakLeaseDeserializeExceptionHeaders(result: PathUncheckedResp
   };
 }
 
-/** The Break Lease operation ends a lease and ensures that another client can't acquire a new lease until the current lease period has expired. */
+/** Ends a lease and ensures that another client can't acquire a new lease until the current lease period has expired. */
 export async function breakLease(
   context: Client,
   options: BlobBreakLeaseOptionalParams = { requestOptions: {} },
@@ -1573,7 +1591,9 @@ export async function _changeLeaseDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._changeLeaseDeserializeExceptionHeaders(result),
@@ -1642,7 +1662,7 @@ export function _changeLeaseDeserializeExceptionHeaders(result: PathUncheckedRes
   };
 }
 
-/** The Change Lease operation is used to change the ID of an existing lease. */
+/** Change the ID of an existing lease. */
 export async function changeLease(
   context: Client,
   leaseId: string,
@@ -1731,7 +1751,9 @@ export async function _renewLeaseDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._renewLeaseDeserializeExceptionHeaders(result),
@@ -1800,7 +1822,7 @@ export function _renewLeaseDeserializeExceptionHeaders(result: PathUncheckedResp
   };
 }
 
-/** The Renew Lease operation renews an existing lease. */
+/** Renews an existing lease. */
 export async function renewLease(
   context: Client,
   leaseId: string,
@@ -1888,7 +1910,9 @@ export async function _releaseLeaseDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._releaseLeaseDeserializeExceptionHeaders(result),
@@ -1952,7 +1976,7 @@ export function _releaseLeaseDeserializeExceptionHeaders(result: PathUncheckedRe
   };
 }
 
-/** The Release Lease operation frees the lease if it's no longer needed, so that another client can immediately acquire a lease against the blob. */
+/** Frees the lease if it's no longer needed, so that another client can immediately acquire a lease against the blob. */
 export async function releaseLease(
   context: Client,
   leaseId: string,
@@ -2041,7 +2065,9 @@ export async function _acquireLeaseDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._acquireLeaseDeserializeExceptionHeaders(result),
@@ -2110,7 +2136,7 @@ export function _acquireLeaseDeserializeExceptionHeaders(result: PathUncheckedRe
   };
 }
 
-/** The Acquire Lease operation requests a new lease on a blob. The lease lock duration can be 15 to 60 seconds, or can be infinite. */
+/** Requests a new lease on the specified blob. */
 export async function acquireLease(
   context: Client,
   duration: number,
@@ -2208,7 +2234,9 @@ export async function _setMetadataDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._setMetadataDeserializeExceptionHeaders(result),
@@ -2292,7 +2320,7 @@ export function _setMetadataDeserializeExceptionHeaders(result: PathUncheckedRes
   };
 }
 
-/** The Set Metadata operation sets user-defined metadata for the specified blob as one or more name-value pairs. */
+/** Sets user-defined metadata for the specified blob. */
 export async function setMetadata(
   context: Client,
   options: BlobSetMetadataOptionalParams = { requestOptions: {} },
@@ -2369,7 +2397,9 @@ export async function _setLegalHoldDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._setLegalHoldDeserializeExceptionHeaders(result),
@@ -2431,7 +2461,7 @@ export function _setLegalHoldDeserializeExceptionHeaders(result: PathUncheckedRe
   };
 }
 
-/** The Set Legal Hold operation sets a legal hold on the blob. */
+/** Sets a legal hold on the specified blob. */
 export async function setLegalHold(
   context: Client,
   legalHold: boolean,
@@ -2499,7 +2529,9 @@ export async function _deleteImmutabilityPolicyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._deleteImmutabilityPolicyDeserializeExceptionHeaders(result),
@@ -2557,7 +2589,7 @@ export function _deleteImmutabilityPolicyDeserializeExceptionHeaders(
   };
 }
 
-/** The Delete Immutability Policy operation deletes the immutability policy on the blob. */
+/** Deletes the immutability policy on the specified blob. */
 export async function deleteImmutabilityPolicy(
   context: Client,
   options: BlobDeleteImmutabilityPolicyOptionalParams = { requestOptions: {} },
@@ -2634,7 +2666,9 @@ export async function _setImmutabilityPolicyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._setImmutabilityPolicyDeserializeExceptionHeaders(result),
@@ -2702,7 +2736,7 @@ export function _setImmutabilityPolicyDeserializeExceptionHeaders(result: PathUn
   };
 }
 
-/** Set the immutability policy of a blob */
+/** Set the immutability policy on the specified blob. */
 export async function setImmutabilityPolicy(
   context: Client,
   options: BlobSetImmutabilityPolicyOptionalParams = { requestOptions: {} },
@@ -2807,7 +2841,9 @@ export async function _setPropertiesDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._setPropertiesDeserializeExceptionHeaders(result),
@@ -2873,7 +2909,7 @@ export function _setPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
   };
 }
 
-/** The Set HTTP Headers operation sets system properties on the blob. */
+/** Sets system properties on the specified blob. */
 export async function setProperties(
   context: Client,
   options: BlobSetPropertiesOptionalParams = { requestOptions: {} },
@@ -2949,7 +2985,9 @@ export async function _setExpiryDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._setExpiryDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -3010,7 +3048,7 @@ export function _setExpiryDeserializeExceptionHeaders(result: PathUncheckedRespo
   };
 }
 
-/** Set the expiration time of a blob */
+/** Set the expiration time of the specified blob. */
 export async function setExpiry(
   context: Client,
   expiryOptions: BlobExpiryOptions,
@@ -3076,7 +3114,9 @@ export async function _undeleteDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._undeleteDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -3133,7 +3173,7 @@ export function _undeleteDeserializeExceptionHeaders(result: PathUncheckedRespon
   };
 }
 
-/** Undelete a blob that was previously soft deleted */
+/** Undelete the specified previously soft deleted blob. */
 export async function undelete(
   context: Client,
   options: BlobUndeleteOptionalParams = { requestOptions: {} },
@@ -3227,7 +3267,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._$deleteDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -3284,7 +3326,7 @@ export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedRespons
   };
 }
 
-/** If the storage account's soft delete feature is disabled then, when a blob is deleted, it is permanently removed from the storage account. If the storage account's soft delete feature is enabled, then, when a blob is deleted, it is marked for deletion and becomes inaccessible immediately. However, the blob service retains the blob or snapshot for the number of days specified by the DeleteRetentionPolicy section of [Storage service properties] (Set-Blob-Service-Properties.md). After the specified number of days has passed, the blob's data is permanently removed from the storage account. Note that you continue to be charged for the soft-deleted blob's storage until it is permanently removed. Use the List Blobs API and specify the \"include=deleted\" query parameter to discover which blobs and snapshots have been soft deleted. You can then use the Undelete Blob API to restore a soft-deleted blob. All other operations on a soft-deleted blob or snapshot causes the service to return an HTTP status code of 404 (ResourceNotFound). */
+/** Deletes the specified blob. If blob soft delete is enabled, the blob is marked for deletion and can be recovered until the retention period expires. */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.
  *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -3371,7 +3413,9 @@ export async function _getPropertiesDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getPropertiesDeserializeExceptionHeaders(result),
@@ -3624,7 +3668,7 @@ export function _getPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
   };
 }
 
-/** The Get Properties operation returns all user-defined metadata, standard HTTP properties, and system properties for the blob. It does not return the content of the blob. */
+/** Returns all user-defined metadata, standard HTTP properties, and system properties for the specified blob. It does not return the content of the blob. */
 export async function getProperties(
   context: Client,
   options: BlobGetPropertiesOptionalParams = { requestOptions: {} },
@@ -3789,15 +3833,6 @@ export function _downloadSend(
           ? { "x-ms-encryption-algorithm": options?.encryptionAlgorithm }
           : {}),
         ...(options?.ifTags !== undefined ? { "x-ms-if-tags": options?.ifTags } : {}),
-        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-        ...(options?.ifUnmodifiedSince !== undefined
-          ? {
-              "if-unmodified-since": !options?.ifUnmodifiedSince
-                ? options?.ifUnmodifiedSince
-                : options?.ifUnmodifiedSince.toUTCString(),
-            }
-          : {}),
         ...(options?.ifModifiedSince !== undefined
           ? {
               "if-modified-since": !options?.ifModifiedSince
@@ -3805,6 +3840,15 @@ export function _downloadSend(
                 : options?.ifModifiedSince.toUTCString(),
             }
           : {}),
+        ...(options?.ifUnmodifiedSince !== undefined
+          ? {
+              "if-unmodified-since": !options?.ifUnmodifiedSince
+                ? options?.ifUnmodifiedSince
+                : options?.ifUnmodifiedSince.toUTCString(),
+            }
+          : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
         accept: "application/octet-stream",
         ...options.requestOptions?.headers,
       },
@@ -3817,7 +3861,9 @@ export async function _downloadDeserialize(
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._downloadDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -4048,7 +4094,7 @@ export function _downloadDeserializeExceptionHeaders(result: PathUncheckedRespon
   };
 }
 
-/** The Download operation reads or downloads a blob from the system, including its metadata and properties. You can also call Download to read a snapshot. */
+/** Downloads the specified blob. */
 export async function download(
   context: Client,
   options: BlobDownloadOptionalParams = { requestOptions: {} },

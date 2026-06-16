@@ -1,20 +1,50 @@
 # Release History
 
-## 4.0.3 (Unreleased)
+## 5.0.0-beta.1 (2026-05-29)
+Compared with version 4.0.1
 
 ### Features Added
+  - Added operation CapacitiesOperations.create
+  - Added operation CapacitiesOperations.delete
+  - Added operation CapacitiesOperations.resume
+  - Added operation CapacitiesOperations.suspend
+  - Added operation CapacitiesOperations.update
+  - Added Interface LogSpecification
+  - Added Interface MetricSpecification
+  - Added Interface MetricSpecificationDimensionsItem
+  - Added Interface OperationProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface RestorePollerOptions
+  - Added Interface ServiceSpecification
+  - Added Interface SimplePollerLike
+  - Added Interface TrackedResource
+  - Interface CapacitySku has a new optional parameter capacity
+  - Interface DedicatedCapacity has a new optional parameter friendlyName
+  - Interface DedicatedCapacity has a new optional parameter tenantId
+  - Interface DedicatedCapacityMutableProperties has a new optional parameter friendlyName
+  - Interface DedicatedCapacityMutableProperties has a new optional parameter tenantId
+  - Interface DedicatedCapacityProperties has a new optional parameter friendlyName
+  - Interface DedicatedCapacityProperties has a new optional parameter tenantId
+  - Interface DedicatedCapacityUpdateParameters has a new optional parameter friendlyName
+  - Interface DedicatedCapacityUpdateParameters has a new optional parameter tenantId
+  - Interface Operation has a new optional parameter origin
+  - Interface Operation has a new optional parameter properties
+  - Interface SkuDetailsForExistingResource has a new optional parameter resourceType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Enum AzureClouds
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownVersions
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 4.0.2 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
+  - Removed Interface DedicatedCapacities
+  - Removed Interface ErrorResponseError
+  - Removed Interface OperationDisplay
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Removed Type Alias IdentityType
+  - Removed Enum KnownIdentityType
 
 ## 4.0.1 (2023-01-31)
 
@@ -61,4 +91,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

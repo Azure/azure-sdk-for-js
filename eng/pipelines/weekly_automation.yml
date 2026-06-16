@@ -16,9 +16,7 @@ jobs:
   - template: /eng/pipelines/templates/steps/common.yml
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
-  - script: |
-      npm install -g pnpm
-    displayName: "Install Pnpm"
+  - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
   - script: |
       pnpm update --recursive --no-save
@@ -42,6 +40,7 @@ jobs:
       PRTitle: "[EngSys] automatic pnpm update"
       PRBody: "This is an automatic PR generated weekly with changes from running the command pnpm update"
       PushArgs: "-f"
+      AuthToken: ''
 
 
 - job: 'CheckDependency'
@@ -57,9 +56,7 @@ jobs:
   - template: /eng/pipelines/templates/steps/common.yml
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
-  - script: |
-      npm install -g pnpm
-    displayName: "Install Pnpm"
+  - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
   - script: |
       pnpm purge
@@ -67,9 +64,6 @@ jobs:
     displayName: "Reset workspace"
 
   - template: /eng/common/pipelines/templates/steps/login-to-github.yml
-    parameters:
-      TokenOwners:
-        - Azure
 
   - task: PowerShell@2
     displayName: 'Check Dependency Warnings and File GitHub Issues'

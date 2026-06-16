@@ -66,13 +66,13 @@ import {
   SkuName,
   AccountKind,
   BlobExpiryOptions,
-} from "../../models/azure/storage/blobs/models.js";
-import { BlobDownloadResponse } from "../../models/models.js";
+  BlobDownloadResponse,
+} from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a Blob operations. */
 export interface BlobOperations {
-  /** The Set Tags operation enables users to set tags on a blob. */
+  /** Sets the tags of the specified blob. */
   setTags: (
     tags: BlobTags,
     options?: BlobSetTagsOptionalParams,
@@ -87,7 +87,7 @@ export interface BlobOperations {
       { date: Date; version: string; requestId?: string; clientRequestId?: string }
     >
   >;
-  /** The Get Blob Tags operation enables users to get tags on a blob. */
+  /** Gets the tags of the specified blob. */
   getTags: (
     options?: BlobGetTagsOptionalParams,
   ) => Promise<
@@ -109,7 +109,7 @@ export interface BlobOperations {
         }
       >
   >;
-  /** Returns the sku name and account kind */
+  /** Returns information about the storage account. */
   getAccountInfo: (
     options?: BlobGetAccountInfoOptionalParams,
   ) => Promise<
@@ -134,7 +134,7 @@ export interface BlobOperations {
       }
     >
   >;
-  /** The Set Tier operation sets the tier on a block blob. The operation is allowed on a page blob or block blob, but not on an append blob. A block blob's tier determines Hot/Cool/Archive storage type. This operation does not update the blob's ETag. */
+  /** Sets the tier of the specified blob. */
   setTier: (
     tier: AccessTier,
     options?: BlobSetTierOptionalParams,
@@ -149,7 +149,7 @@ export interface BlobOperations {
       { date: Date; version: string; requestId?: string; clientRequestId?: string }
     >
   >;
-  /** The Abort Copy From URL operation aborts a pending Copy From URL operation, and leaves a destination blob with zero length and full metadata. */
+  /** Aborts a pending asynchronous copy operation and leaves a destination blob with zero length and full metadata. */
   abortCopyFromUrl: (
     copyId: string,
     options?: BlobAbortCopyFromUrlOptionalParams,
@@ -164,7 +164,7 @@ export interface BlobOperations {
       { date: Date; version: string; requestId?: string; clientRequestId?: string }
     >
   >;
-  /** The Copy From URL operation copies a blob or an internet resource to a new blob. It will not return a response until the copy is complete. */
+  /** Synchronously copies a blob from a source URL to the destination blob. */
   copyFromUrl: (
     copySource: string,
     options?: BlobCopyFromUrlOptionalParams,
@@ -200,7 +200,7 @@ export interface BlobOperations {
       }
     >
   >;
-  /** The Start Copy From URL operation copies a blob or an internet resource to a new blob. */
+  /** Starts an asynchronous copy from a source URL to a destination blob. */
   startCopyFromUrl: (
     copySource: string,
     options?: BlobStartCopyFromUrlOptionalParams,
@@ -230,7 +230,7 @@ export interface BlobOperations {
       }
     >
   >;
-  /** The Create Snapshot operation creates a read-only snapshot of a blob */
+  /** Creates a read-only snapshot of the specified blob. */
   createSnapshot: (
     options?: BlobCreateSnapshotOptionalParams,
   ) => Promise<
@@ -259,7 +259,7 @@ export interface BlobOperations {
       }
     >
   >;
-  /** The Break Lease operation ends a lease and ensures that another client can't acquire a new lease until the current lease period has expired. */
+  /** Ends a lease and ensures that another client can't acquire a new lease until the current lease period has expired. */
   breakLease: (
     options?: BlobBreakLeaseOptionalParams,
   ) => Promise<
@@ -284,7 +284,7 @@ export interface BlobOperations {
       }
     >
   >;
-  /** The Change Lease operation is used to change the ID of an existing lease. */
+  /** Change the ID of an existing lease. */
   changeLease: (
     leaseId: string,
     proposedLeaseId: string,
@@ -311,7 +311,7 @@ export interface BlobOperations {
       }
     >
   >;
-  /** The Renew Lease operation renews an existing lease. */
+  /** Renews an existing lease. */
   renewLease: (
     leaseId: string,
     options?: BlobRenewLeaseOptionalParams,
@@ -337,7 +337,7 @@ export interface BlobOperations {
       }
     >
   >;
-  /** The Release Lease operation frees the lease if it's no longer needed, so that another client can immediately acquire a lease against the blob. */
+  /** Frees the lease if it's no longer needed, so that another client can immediately acquire a lease against the blob. */
   releaseLease: (
     leaseId: string,
     options?: BlobReleaseLeaseOptionalParams,
@@ -361,7 +361,7 @@ export interface BlobOperations {
       }
     >
   >;
-  /** The Acquire Lease operation requests a new lease on a blob. The lease lock duration can be 15 to 60 seconds, or can be infinite. */
+  /** Requests a new lease on the specified blob. */
   acquireLease: (
     duration: number,
     options?: BlobAcquireLeaseOptionalParams,
@@ -387,7 +387,7 @@ export interface BlobOperations {
       }
     >
   >;
-  /** The Set Metadata operation sets user-defined metadata for the specified blob as one or more name-value pairs. */
+  /** Sets user-defined metadata for the specified blob. */
   setMetadata: (
     options?: BlobSetMetadataOptionalParams,
   ) => Promise<
@@ -418,7 +418,7 @@ export interface BlobOperations {
       }
     >
   >;
-  /** The Set Legal Hold operation sets a legal hold on the blob. */
+  /** Sets a legal hold on the specified blob. */
   setLegalHold: (
     legalHold: boolean,
     options?: BlobSetLegalHoldOptionalParams,
@@ -440,7 +440,7 @@ export interface BlobOperations {
       }
     >
   >;
-  /** The Delete Immutability Policy operation deletes the immutability policy on the blob. */
+  /** Deletes the immutability policy on the specified blob. */
   deleteImmutabilityPolicy: (
     options?: BlobDeleteImmutabilityPolicyOptionalParams,
   ) => Promise<
@@ -454,7 +454,7 @@ export interface BlobOperations {
       { date: Date; version: string; requestId?: string; clientRequestId?: string }
     >
   >;
-  /** Set the immutability policy of a blob */
+  /** Set the immutability policy on the specified blob. */
   setImmutabilityPolicy: (
     options?: BlobSetImmutabilityPolicyOptionalParams,
   ) => Promise<
@@ -477,7 +477,7 @@ export interface BlobOperations {
       }
     >
   >;
-  /** The Set HTTP Headers operation sets system properties on the blob. */
+  /** Sets system properties on the specified blob. */
   setProperties: (
     options?: BlobSetPropertiesOptionalParams,
   ) => Promise<
@@ -502,7 +502,7 @@ export interface BlobOperations {
       }
     >
   >;
-  /** Set the expiration time of a blob */
+  /** Set the expiration time of the specified blob. */
   setExpiry: (
     expiryOptions: BlobExpiryOptions,
     options?: BlobSetExpiryOptionalParams,
@@ -526,7 +526,7 @@ export interface BlobOperations {
       }
     >
   >;
-  /** Undelete a blob that was previously soft deleted */
+  /** Undelete the specified previously soft deleted blob. */
   undelete: (
     options?: BlobUndeleteOptionalParams,
   ) => Promise<
@@ -540,7 +540,7 @@ export interface BlobOperations {
       { date: Date; version: string; requestId?: string; clientRequestId?: string }
     >
   >;
-  /** If the storage account's soft delete feature is disabled then, when a blob is deleted, it is permanently removed from the storage account. If the storage account's soft delete feature is enabled, then, when a blob is deleted, it is marked for deletion and becomes inaccessible immediately. However, the blob service retains the blob or snapshot for the number of days specified by the DeleteRetentionPolicy section of [Storage service properties] (Set-Blob-Service-Properties.md). After the specified number of days has passed, the blob's data is permanently removed from the storage account. Note that you continue to be charged for the soft-deleted blob's storage until it is permanently removed. Use the List Blobs API and specify the \"include=deleted\" query parameter to discover which blobs and snapshots have been soft deleted. You can then use the Undelete Blob API to restore a soft-deleted blob. All other operations on a soft-deleted blob or snapshot causes the service to return an HTTP status code of 404 (ResourceNotFound). */
+  /** Deletes the specified blob. If blob soft delete is enabled, the blob is marked for deletion and can be recovered until the retention period expires. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -559,7 +559,7 @@ export interface BlobOperations {
       { date: Date; version: string; requestId?: string; clientRequestId?: string }
     >
   >;
-  /** The Get Properties operation returns all user-defined metadata, standard HTTP properties, and system properties for the blob. It does not return the content of the blob. */
+  /** Returns all user-defined metadata, standard HTTP properties, and system properties for the specified blob. It does not return the content of the blob. */
   getProperties: (
     options?: BlobGetPropertiesOptionalParams,
   ) => Promise<
@@ -668,7 +668,7 @@ export interface BlobOperations {
       }
     >
   >;
-  /** The Download operation reads or downloads a blob from the system, including its metadata and properties. You can also call Download to read a snapshot. */
+  /** Downloads the specified blob. */
   download: (
     options?: BlobDownloadOptionalParams,
   ) => Promise<

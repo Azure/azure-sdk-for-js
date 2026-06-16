@@ -1,10 +1,16 @@
 # Release History
 
-## 12.33.0-beta.99 (Unreleased)
+## 12.34.0-beta.1 (Unreleased)
+
+- Migrate to Typespec-based code generation [PR #37543](https://github.com/Azure/azure-sdk-for-js/pull/37543)
+
+## 12.33.0 (2026-06-15)
 
 ### Features Added
 
-- Migrate to Typespec-based code generation [PR #37543](https://github.com/Azure/azure-sdk-for-js/pull/37543)
+- Added support for service version 2026-06-06.
+- Added support for Blob Smart Tier.
+- Added support for Directory-level SAS and User Delegation SAS.
 
 ## 12.32.0 (2026-05-22)
 

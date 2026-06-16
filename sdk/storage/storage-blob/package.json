@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-blob",
   "sdk-type": "client",
-  "version": "12.33.0-beta.99",
+  "version": "12.34.0-beta.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -21,8 +21,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript ./swagger/README.md",
-    "regenerate": "tsp-client update && npm run format",
+    "generate:client": "tsp-client update && npm run format",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix",
     "pack": "pnpm pack 2>&1",

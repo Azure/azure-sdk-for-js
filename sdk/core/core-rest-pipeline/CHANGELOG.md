@@ -1,14 +1,9 @@
 # Release History
 
-## 1.23.1 (Unreleased)
-
+## 1.24.0 (2026-06-05)
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Use and export type aliases on public API surface [PR #38205](https://github.com/Azure/azure-sdk-for-js/pull/38205)
 
 ## 1.23.0 (2026-03-05)
 

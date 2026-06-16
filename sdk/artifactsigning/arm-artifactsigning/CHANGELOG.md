@@ -1,14 +1,21 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 2.0.0-beta.1 (2026-06-09)
+Compared with version 1.0.0
 
 ### Features Added
+  - Added operation CertificateProfilesOperations.revokeCertificates
+  - Added Interface CertificateProfilesRevokeCertificatesOptionalParams
+  - Added Interface RevokeCertificateList
+  - Interface CertificateProfileProperties has a new optional parameter programType
+  - Enum KnownVersions has a new value V20240205Preview
+  - Enum KnownVersions has a new value V20240930Preview
+  - Enum KnownVersions has a new value V20260515Preview
 
 ### Breaking Changes
+  - Removed operation CertificateProfilesOperations.revokeCertificate
+  - Removed Interface CertificateProfilesRevokeCertificateOptionalParams
 
-### Bugs Fixed
-
-### Other Changes
     
 ## 1.0.0 (2026-02-11)
 

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to contains data from encryption.keyVaultProperties as well as information about which private endpoint is used by each encryption sibling set. Response from this endpoint can be modified and used as request body for POST request.
  *
  * @summary contains data from encryption.keyVaultProperties as well as information about which private endpoint is used by each encryption sibling set. Response from this endpoint can be modified and used as request body for POST request.
- * x-ms-original-file: 2026-01-01/Accounts_GetChangeKeyVaultInformation.json
+ * x-ms-original-file: 2026-04-01/Accounts_GetChangeKeyVaultInformation.json
  */
 async function accountsGetChangeKeyVaultInformation() {
   const credential = new DefaultAzureCredential();

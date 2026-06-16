@@ -72,7 +72,7 @@ For operational Azure tasks (managing resources, querying services), see the
 - [Azure SDK for JavaScript documentation](https://learn.microsoft.com/javascript/api/overview/azure/)
 - [Azure SDK design guidelines for TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html)
 - [Azure MCP Server](https://learn.microsoft.com/azure/developer/azure-mcp-server/get-started)
-- [GitHub Copilot instructions for this repo](https://github.com/Azure/azure-sdk-for-js/blob/main/.github/copilot-instructions.md)
+- [Agent guidance for this repo (`AGENTS.md`)](https://github.com/Azure/azure-sdk-for-js/blob/main/AGENTS.md)
 
 ## Feedback
 

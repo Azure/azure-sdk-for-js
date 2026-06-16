@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the DELETE API for deleting a single outbound rule of the managed network associated with the cognitive services account.
  *
  * @summary the DELETE API for deleting a single outbound rule of the managed network associated with the cognitive services account.
- * x-ms-original-file: 2026-01-15-preview/ManagedNetwork/deleteRuleV2.json
+ * x-ms-original-file: 2026-03-15-preview/ManagedNetwork/deleteRuleV2.json
  */
 async function deleteOutboundRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

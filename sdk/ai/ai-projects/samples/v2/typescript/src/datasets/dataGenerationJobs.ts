@@ -36,7 +36,7 @@ export async function main(): Promise<void> {
         ],
         options: {
           type: "simple_qna",
-          max_samples: 5,
+          max_samples: 15,
           model_options: {
             model: deploymentName,
           },

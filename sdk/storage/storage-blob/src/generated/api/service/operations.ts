@@ -15,12 +15,12 @@ import {
   keyInfoXmlSerializer,
   UserDelegationKey,
   userDelegationKeyXmlDeserializer,
-  _submitBatchRequestDeserializer,
+  _submitBatchResponseDeserializer,
   FilterBlobSegment,
   filterBlobSegmentXmlDeserializer,
   SkuName,
   AccountKind,
-} from "../../models/azure/storage/blobs/models.js";
+} from "../../models/models.js";
 import { FileContents } from "../../static-helpers/multipartHelpers.js";
 import {
   StorageCompatResponseInfo,
@@ -88,7 +88,9 @@ export async function _findBlobsByTagsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._findBlobsByTagsDeserializeExceptionHeaders(result),
@@ -150,7 +152,7 @@ export function _findBlobsByTagsDeserializeExceptionHeaders(result: PathUnchecke
   };
 }
 
-/** The Filter Blobs operation enables callers to list blobs across all containers whose tags match a given search expression. */
+/** Lists blobs across all containers whose tags match a given search expression. */
 export async function findBlobsByTags(
   context: Client,
   filterExpression: string,
@@ -224,7 +226,9 @@ export async function _submitBatchDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._submitBatchDeserializeExceptionHeaders(result),
@@ -237,7 +241,7 @@ export async function _submitBatchDeserialize(result: PathUncheckedResponse): Pr
     throw error;
   }
 
-  return _submitBatchRequestDeserializer(result.body) as any;
+  return _submitBatchResponseDeserializer(result.body) as any;
 }
 
 export function _submitBatchDeserializeHeaders(result: PathUncheckedResponse): {
@@ -284,7 +288,7 @@ export function _submitBatchDeserializeExceptionHeaders(result: PathUncheckedRes
   };
 }
 
-/** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
+/** Allows multiple API calls to be embedded into a single HTTP request. */
 export async function submitBatch(
   context: Client,
   contentType: string,
@@ -352,7 +356,9 @@ export async function _getAccountInfoDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getAccountInfoDeserializeExceptionHeaders(result),
@@ -422,7 +428,7 @@ export function _getAccountInfoDeserializeExceptionHeaders(result: PathUnchecked
   };
 }
 
-/** Returns the sku name and account kind. */
+/** Returns information about the storage account. */
 export async function getAccountInfo(
   context: Client,
   options: ServiceGetAccountInfoOptionalParams = { requestOptions: {} },
@@ -495,7 +501,9 @@ export async function _getUserDelegationKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getUserDelegationKeyDeserializeExceptionHeaders(result),
@@ -633,7 +641,9 @@ export async function _listContainersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._listContainersDeserializeExceptionHeaders(result),
@@ -695,7 +705,7 @@ export function _listContainersDeserializeExceptionHeaders(result: PathUnchecked
   };
 }
 
-/** The List Containers Segment operation returns a list of the containers under the specified account */
+/** Returns a list of the containers in the specified account. */
 export async function listContainers(
   context: Client,
   options: ServiceListContainersOptionalParams = { requestOptions: {} },
@@ -762,7 +772,9 @@ export async function _getStatisticsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getStatisticsDeserializeExceptionHeaders(result),
@@ -891,7 +903,9 @@ export async function _getPropertiesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getPropertiesDeserializeExceptionHeaders(result),
@@ -1020,7 +1034,9 @@ export async function _setPropertiesDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._setPropertiesDeserializeExceptionHeaders(result),
@@ -1080,7 +1096,7 @@ export function _setPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
   };
 }
 
-/** Sets properties for a storage account's Blob service endpoint, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules */
+/** Sets properties for a storage account's Blob service endpoint, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules. */
 export async function setProperties(
   context: Client,
   storageServiceProperties: BlobServiceProperties,

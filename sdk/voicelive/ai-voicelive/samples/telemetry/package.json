@@ -11,7 +11,7 @@
     "dev": "tsc && node dist/index.js"
   },
   "dependencies": {
-    "@azure/ai-voicelive": "file:../../azure-ai-voicelive-1.0.0.tgz",
+    "@azure/ai-voicelive": "file:../../azure-ai-voicelive-1.1.0-beta.1.tgz",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-tracing": "^1.2.0",
     "@azure/identity": "^4.0.0",

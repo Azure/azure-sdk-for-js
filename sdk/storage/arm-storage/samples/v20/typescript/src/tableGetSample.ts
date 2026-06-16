@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the table with the specified table name, under the specified account if it exists.
  *
  * @summary gets the table with the specified table name, under the specified account if it exists.
- * x-ms-original-file: 2025-08-01/TableOperationGet.json
+ * x-ms-original-file: 2026-04-01/TableOperationGet.json
  */
 async function tableOperationGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

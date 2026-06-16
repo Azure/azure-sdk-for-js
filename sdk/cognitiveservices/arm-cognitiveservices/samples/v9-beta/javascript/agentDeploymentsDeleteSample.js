@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete Agent Deployment.
  *
  * @summary delete Agent Deployment.
- * x-ms-original-file: 2026-01-15-preview/AgentDeployment/delete.json
+ * x-ms-original-file: 2026-03-15-preview/AgentDeployment/delete.json
  */
 async function deleteAgentDeployment() {
   const credential = new DefaultAzureCredential();

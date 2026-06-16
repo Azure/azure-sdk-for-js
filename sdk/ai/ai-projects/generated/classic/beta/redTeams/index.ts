@@ -13,18 +13,18 @@ import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelper
 
 /** Interface representing a BetaRedTeams operations. */
 export interface BetaRedTeamsOperations {
-  /** Creates a redteam run. */
+  /** Submits a new redteam run for execution with the provided configuration. */
   create: (
     foundryFeatures: "RedTeams=V1Preview",
     redTeam: RedTeam,
     options?: BetaRedTeamsCreateOptionalParams,
   ) => Promise<RedTeam>;
-  /** List a redteam by name. */
+  /** Returns the redteams available in the current project. */
   list: (
     foundryFeatures: "RedTeams=V1Preview",
     options?: BetaRedTeamsListOptionalParams,
   ) => PagedAsyncIterableIterator<RedTeam>;
-  /** Get a redteam by name. */
+  /** Retrieves the specified redteam and its configuration. */
   get: (
     name: string,
     foundryFeatures: "RedTeams=V1Preview",

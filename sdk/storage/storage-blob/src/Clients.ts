@@ -149,6 +149,9 @@ import type {
   BlobClientOptions,
   BlobClientConfig,
   AccessTierModifiedConditions,
+  BlockBlobClientOptions,
+  AppendBlobClientOptions,
+  PageBlobClientOptions,
   StorageChecksumAlgorithm,
 } from "./models.js";
 import {
@@ -905,6 +908,12 @@ export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
    * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
    */
   permissions?: BlobSASPermissions;
+ /**
+   *
+   * Beginning in version 2020-02-10, this value defines whether or
+   * not the instance is a virtual directory.
+   */
+  isDirectory?: boolean;  
 }
 
 /**
@@ -1568,6 +1577,7 @@ export class BlobClient extends StorageClient {
         if (e.details?.errorCode === "BlobNotFound") {
           return {
             succeeded: false,
+            ...e.response?.parsedHeaders,
             errorCode: e.details?.errorCode,
             _response: e.response,
           };
@@ -2457,9 +2467,6 @@ export class BlobClient extends StorageClient {
       "BlobClient-setImmutabilityPolicy",
       options,
       async (updatedOptions) => {
-        if (immutabilityPolicy.expiriesOn === undefined) {
-          throw new Error("immutabilityPolicy.expiriesOn must be a valid Date object");
-        }
         const result = adjustResponse(
           await this.blobContext.setImmutabilityPolicy({
             immutabilityPolicyExpiry: immutabilityPolicy.expiriesOn,
@@ -2785,7 +2792,7 @@ export class AppendBlobClient extends BlobClient {
     blobName: string,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: AppendBlobClientOptions,
   );
   /**
    * Creates an instance of AppendBlobClient.
@@ -2809,7 +2816,7 @@ export class AppendBlobClient extends BlobClient {
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: AppendBlobClientOptions,
   );
   /**
    * Creates an instance of AppendBlobClient.
@@ -2837,10 +2844,10 @@ export class AppendBlobClient extends BlobClient {
       | AnonymousCredential
       | TokenCredential
       | PipelineLike,
-    blobNameOrOptions?: string | BlobClientOptions,
+    blobNameOrOptions?: string | AppendBlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: AppendBlobClientOptions,
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
@@ -3034,6 +3041,7 @@ export class AppendBlobClient extends BlobClient {
           if (e.details?.errorCode === "BlobAlreadyExists") {
             return {
               succeeded: false,
+              ...e.response?.parsedHeaders,
               errorCode: e.details?.errorCode,
               _response: e.response,
             };
@@ -3881,7 +3889,7 @@ export class BlockBlobClient extends BlobClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: BlockBlobClientOptions,
   );
   /**
    * Creates an instance of BlockBlobClient.
@@ -3909,10 +3917,10 @@ export class BlockBlobClient extends BlobClient {
       | AnonymousCredential
       | TokenCredential
       | PipelineLike,
-    blobNameOrOptions?: string | BlobClientOptions,
+    blobNameOrOptions?: string | BlockBlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: BlockBlobClientOptions,
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
@@ -5271,7 +5279,7 @@ export class PageBlobClient extends BlobClient {
     blobName: string,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: PageBlobClientOptions,
   );
   /**
    * Creates an instance of PageBlobClient.
@@ -5290,7 +5298,7 @@ export class PageBlobClient extends BlobClient {
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: PageBlobClientOptions,
   );
   /**
    * Creates an instance of PageBlobClient.
@@ -5315,10 +5323,10 @@ export class PageBlobClient extends BlobClient {
       | AnonymousCredential
       | TokenCredential
       | PipelineLike,
-    blobNameOrOptions?: string | BlobClientOptions,
+    blobNameOrOptions?: string | PageBlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: PageBlobClientOptions,
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
@@ -5503,6 +5511,7 @@ export class PageBlobClient extends BlobClient {
           if (e.details?.errorCode === "BlobAlreadyExists") {
             return {
               succeeded: false,
+              ...e.response?.parsedHeaders,
               errorCode: e.details?.errorCode,
               _response: e.response,
             };

@@ -35,9 +35,7 @@ describe("agents - fabric IQ tool", () => {
       tools: [
         {
           type: "fabric_iq_preview",
-          fabric_iq_preview: {
-            project_connection_id: assertEnvironmentVariable("FABRIC_IQ_PROJECT_CONNECTION_ID"),
-          },
+          project_connection_id: assertEnvironmentVariable("FABRIC_IQ_PROJECT_CONNECTION_ID"),
         },
       ],
     });

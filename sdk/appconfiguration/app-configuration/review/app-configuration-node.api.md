@@ -77,6 +77,7 @@ export type ConfigurationSettingParam<T extends string | FeatureFlagValue | Secr
     tags?: {
         [propertyName: string]: string;
     };
+    description?: string;
 } & (T extends string ? {
     value?: string;
 } : {
@@ -97,6 +98,7 @@ export interface ConfigurationSettingsFilter {
 export interface ConfigurationSnapshot {
     compositionType?: SnapshotComposition;
     readonly createdOn?: Date;
+    description?: string;
     readonly etag?: string;
     readonly expiresOn?: Date;
     filters: ConfigurationSettingsFilter[];
@@ -214,6 +216,13 @@ export enum KnownAppConfigAudience {
     AzureChina = "https://appconfig.azure.cn",
     AzureGovernment = "https://appconfig.azure.us",
     AzurePublicCloud = "https://appconfig.azure.com"
+}
+
+// @public
+export enum KnownAppConfigurationApiVersion {
+    V20231101 = "2023-11-01",
+    V20240901 = "2024-09-01",
+    V20260401 = "2026-04-01"
 }
 
 // @public
@@ -377,6 +386,7 @@ export type SnapshotComposition = string;
 // @public
 export interface SnapshotInfo {
     compositionType?: SnapshotComposition;
+    description?: string;
     filters: ConfigurationSettingsFilter[];
     name: string;
     retentionPeriodInSeconds?: number;

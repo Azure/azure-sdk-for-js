@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -1879,9 +1879,9 @@
+@@ -2054,9 +2054,9 @@
      replicationRole?: ReplicationRole;
      sku?: Sku;
      sourceServerResourceId?: string;
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -1908,9 +1908,9 @@
+@@ -2083,9 +2083,9 @@
      network?: Network;
      replica?: Replica;
      replicationRole?: ReplicationRole;
@@ -29,7 +29,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      version?: PostgresMajorVersion;
  }
  
-@@ -1935,9 +1935,9 @@
+@@ -2110,9 +2110,9 @@
      readonly replicaCapacity?: number;
      replicationRole?: ReplicationRole;
      sourceServerResourceId?: string;
@@ -40,7 +40,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -1954,9 +1954,9 @@
+@@ -2129,9 +2129,9 @@
      maintenanceWindow?: MaintenanceWindowForPatch;
      network?: Network;
      replica?: Replica;
@@ -51,9 +51,9 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -2146,16 +2146,17 @@
- // @public
- export type StartDataMigration = string;
+@@ -2343,16 +2343,17 @@
+     status?: MajorVersionUpgradePrecheckStatus;
+ }
  
  // @public
 -export interface Storage {

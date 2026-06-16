@@ -7,34 +7,34 @@ import {
   EncryptionAlgorithmType,
   BlobCopySourceTags,
   FileShareTokenIntent,
-} from "../../models/azure/storage/blobs/models.js";
+} from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface BlockBlobQueryOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  /** Specifies the snapshot of the blob. */
   snapshot?: string;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the encryption key to use to encrypt the data provided in the request. If not specified, the request will be encrypted with the root account key. */
+  /** Specifies the encryption key to use to encrypt the data provided in the request. */
   encryptionKey?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the SHA256 hash of the encryption key used to encrypt the data provided in the request. This header is only used for encryption with a customer-provided key. If the request is authenticated with a client token, this header should be specified using the SHA256 hash of the encryption key. */
+  /** The SHA-256 hash of the provided encryption key. Must be provided if the encryption key is provided. */
   encryptionKeySha256?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the algorithm to use for encryption. If not specified, the default is AES256. */
+  /** The algorithm used to produce the encryption key hash. Must be provided if the encryption key is provided. */
   encryptionAlgorithm?: EncryptionAlgorithmType;
-  /** A date-time value. A request is made under the condition that the resource has been modified since the specified date-time. */
+  /** Specify this value to operate only on a blob if it has been modified since the specified date-time. */
   ifModifiedSince?: Date;
-  /** A date-time value. A request is made under the condition that the resource has not been modified since the specified date-time. */
+  /** Specify this value to operate only on a blob if it has not been modified since the specified date-time. */
   ifUnmodifiedSince?: Date;
-  /** A condition that must be met in order for the request to be processed. */
+  /** Specify this value to operate only on a blob with a non-matching Etag value. */
   ifNoneMatch?: string;
-  /** A condition that must be met in order for the request to be processed. */
+  /** Specify this value to operate only on a blob with a matching Etag value. */
   ifMatch?: string;
-  /** Specify a SQL where clause on blob tags to operate only on blobs with a matching value. */
+  /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
 }
 
@@ -42,13 +42,13 @@ export interface BlockBlobQueryOptionalParams extends OperationOptions {
 export interface BlockBlobGetBlockListOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  /** Specifies the snapshot of the blob. */
   snapshot?: string;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
-  /** Specify a SQL where clause on blob tags to operate only on blobs with a matching value. */
+  /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
 }
 
@@ -56,55 +56,55 @@ export interface BlockBlobGetBlockListOptionalParams extends OperationOptions {
 export interface BlockBlobCommitBlockListOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
-  /** Optional. Sets the blob's cache control. If specified, this property is stored with the blob and returned with a read request. */
+  /** Specifies the blob's Cache-Control. If specified, this property is stored with the blob and returned with a read request. */
   blobCacheControl?: string;
-  /** Optional. Sets the blob's content type. If specified, this property is stored with the blob and returned with a read request. */
+  /** Specifies the blob's Content-Type. If specified, this property is stored with the blob and returned with a read request. */
   blobContentType?: string;
-  /** Optional. Sets the blob's content encoding. If specified, this property is stored with the blob and returned with a read request. */
+  /** Specifies the blob's Content-Encoding. If specified, this property is stored with the blob and returned with a read request. */
   blobContentEncoding?: string;
-  /** Optional. Set the blob's content language. If specified, this property is stored with the blob and returned with a read request. */
+  /** Specifies the blob's Content-Language. If specified, this property is stored with the blob and returned with a read request. */
   blobContentLanguage?: string;
-  /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */
+  /** The MD5 hash of the blob content that is stored as a property on the blob. Note: This hash is not validated. */
   blobContentMD5?: Uint8Array;
-  /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */
+  /** Specifies the transactional MD5 hash for the body. */
   transactionalContentMD5?: Uint8Array;
-  /** Specify the transactional crc64 for the body, to be validated by the service. */
+  /** Specifies the transactional CRC64 hash for the body. */
   transactionalContentCrc64?: Uint8Array;
   /** The metadata headers. */
   metadata?: Record<string, string>;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
-  /** Optional. Sets the blob's content disposition. If specified, this property is stored with the blob and returned with a read request. */
+  /** Specifies the blob's Content-Disposition. If specified, this property is stored with the blob and returned with a read request. */
   blobContentDisposition?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the encryption key to use to encrypt the data provided in the request. If not specified, the request will be encrypted with the root account key. */
+  /** Specifies the encryption key to use to encrypt the data provided in the request. */
   encryptionKey?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the SHA256 hash of the encryption key used to encrypt the data provided in the request. This header is only used for encryption with a customer-provided key. If the request is authenticated with a client token, this header should be specified using the SHA256 hash of the encryption key. */
+  /** The SHA-256 hash of the provided encryption key. Must be provided if the encryption key is provided. */
   encryptionKeySha256?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the algorithm to use for encryption. If not specified, the default is AES256. */
+  /** The algorithm used to produce the encryption key hash. Must be provided if the encryption key is provided. */
   encryptionAlgorithm?: EncryptionAlgorithmType;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the encryption scope to use to encrypt the data provided in the request. If not specified, the request will be encrypted with the root account key. */
+  /** Specifies the encryption scope used to encrypt the data. */
   encryptionScope?: string;
   /** The tier to be set on the blob. */
   tier?: AccessTier;
-  /** A date-time value. A request is made under the condition that the resource has been modified since the specified date-time. */
+  /** Specify this value to operate only on a blob if it has been modified since the specified date-time. */
   ifModifiedSince?: Date;
-  /** A date-time value. A request is made under the condition that the resource has not been modified since the specified date-time. */
+  /** Specify this value to operate only on a blob if it has not been modified since the specified date-time. */
   ifUnmodifiedSince?: Date;
-  /** A condition that must be met in order for the request to be processed. */
+  /** Specify this value to operate only on a blob with a non-matching Etag value. */
   ifNoneMatch?: string;
-  /** A condition that must be met in order for the request to be processed. */
+  /** Specify this value to operate only on a blob with a matching Etag value. */
   ifMatch?: string;
-  /** Specify a SQL where clause on blob tags to operate only on blobs with a matching value. */
+  /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
-  /** Optional.  Used to set blob tags in various blob operations. */
+  /** The blob tags. */
   blobTagsString?: string;
-  /** Specifies the date time when the blobs immutability policy is set to expire. */
+  /** The date-time that indicates the time at which the blob immutability policy will expire. */
   immutabilityPolicyExpiry?: Date;
-  /** Specifies the immutability policy mode to set on the blob. */
+  /** Indicates the immutability policy mode of the blob. */
   immutabilityPolicyMode?: ImmutabilityPolicyMode;
-  /** Specified if a legal hold should be set on the blob. */
+  /** Indicates whether the blob has a legal hold. */
   legalHold?: boolean;
 }
 
@@ -112,41 +112,41 @@ export interface BlockBlobCommitBlockListOptionalParams extends OperationOptions
 export interface BlockBlobStageBlockFromUrlOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
-  /** Bytes of source data in the specified range. */
+  /** Specifies the bytes of the source. */
   sourceRange?: string;
-  /** Specify the md5 calculated for the range of bytes that must be read from the copy source. */
+  /** Specifies the MD5 hash calculated for the range of bytes that must be read from the copy source. */
   sourceContentMD5?: Uint8Array;
-  /** Specify the crc64 calculated for the range of bytes that must be read from the copy source. */
+  /** Specifies the CRC64 calculated for the range of bytes that must be read from the source. */
   sourceContentCrc64?: Uint8Array;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the encryption key to use to encrypt the data provided in the request. If not specified, the request will be encrypted with the root account key. */
+  /** Specifies the encryption key to use to encrypt the data provided in the request. */
   encryptionKey?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the SHA256 hash of the encryption key used to encrypt the data provided in the request. This header is only used for encryption with a customer-provided key. If the request is authenticated with a client token, this header should be specified using the SHA256 hash of the encryption key. */
+  /** The SHA-256 hash of the provided encryption key. Must be provided if the encryption key is provided. */
   encryptionKeySha256?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the algorithm to use for encryption. If not specified, the default is AES256. */
+  /** The algorithm used to produce the encryption key hash. Must be provided if the encryption key is provided. */
   encryptionAlgorithm?: EncryptionAlgorithmType;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the encryption scope to use to encrypt the data provided in the request. If not specified, the request will be encrypted with the root account key. */
+  /** Specifies the encryption scope used to encrypt the data. */
   encryptionScope?: string;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
-  /** Specify this header value to operate only on a blob if it has been modified since the specified date/time. */
+  /** Specify this value to operate only on a source blob if it has been modified since the specified date-time. */
   sourceIfModifiedSince?: Date;
-  /** Specify this header value to operate only on a blob if it has not been modified since the specified date/time. */
+  /** Specify this header value to operate only on a blob if it has not been modified since the specified date-time. */
   sourceIfUnmodifiedSince?: Date;
-  /** Specify an ETag value to operate only on blobs with a matching value. */
+  /** Specify this value to operate only on a source blob with a matching Etag value. */
   sourceIfMatch?: string;
-  /** Specify this header value to operate only on a blob if it has been modified since the specified date/time. */
+  /** Specify this value to operate only on a source blob with a non-matching Etag value. */
   sourceIfNoneMatch?: string;
-  /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
+  /** Only the Bearer authorization scheme is supported, and the value must be a valid OAuth access token for the copy source. */
   copySourceAuthorization?: string;
-  /** Valid value is backup */
+  /** Specifies the file request token intent. */
   fileRequestIntent?: FileShareTokenIntent;
-  /** Optional. Specifies the source encryption key to use to encrypt the source data provided in the request. */
+  /** Specifies the encryption key to use to decrypt the source data provided in the request. */
   sourceEncryptionKey?: string;
-  /** The SHA-256 hash of the provided source encryption key. Must be provided if the x-ms-source-encryption-key header is provided. */
+  /** The SHA-256 hash of the provided source encryption key. Must be provided if the source encryption key is provided. */
   sourceEncryptionKeySha256?: string;
-  /** The algorithm used to produce the source encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-source-encryption-key is provided. */
+  /** The algorithm used to produce the source encryption key hash. Must be provided if the source encryption key is provided. */
   sourceEncryptionAlgorithm?: EncryptionAlgorithmType;
 }
 
@@ -154,21 +154,21 @@ export interface BlockBlobStageBlockFromUrlOptionalParams extends OperationOptio
 export interface BlockBlobStageBlockOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
-  /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */
+  /** Specifies the transactional MD5 hash for the body. */
   transactionalContentMD5?: Uint8Array;
-  /** Specify the transactional crc64 for the body, to be validated by the service. */
+  /** Specifies the transactional CRC64 hash for the body. */
   transactionalContentCrc64?: Uint8Array;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the encryption key to use to encrypt the data provided in the request. If not specified, the request will be encrypted with the root account key. */
+  /** Specifies the encryption key to use to encrypt the data provided in the request. */
   encryptionKey?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the SHA256 hash of the encryption key used to encrypt the data provided in the request. This header is only used for encryption with a customer-provided key. If the request is authenticated with a client token, this header should be specified using the SHA256 hash of the encryption key. */
+  /** The SHA-256 hash of the provided encryption key. Must be provided if the encryption key is provided. */
   encryptionKeySha256?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the algorithm to use for encryption. If not specified, the default is AES256. */
+  /** The algorithm used to produce the encryption key hash. Must be provided if the encryption key is provided. */
   encryptionAlgorithm?: EncryptionAlgorithmType;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the encryption scope to use to encrypt the data provided in the request. If not specified, the request will be encrypted with the root account key. */
+  /** Specifies the encryption scope used to encrypt the data. */
   encryptionScope?: string;
   /** Required if the request body is a structured message. Specifies the message schema version and properties. */
   structuredBodyType?: string;
@@ -182,71 +182,71 @@ export interface BlockBlobUploadBlobFromUrlOptionalParams extends OperationOptio
   clientRequestId?: string;
   /** The metadata headers. */
   metadata?: Record<string, string>;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
-  /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */
+  /** Specifies the transactional MD5 hash for the body. */
   transactionalContentMD5?: Uint8Array;
-  /** Optional. Sets the blob's content type. If specified, this property is stored with the blob and returned with a read request. */
+  /** Specifies the blob's Content-Type. If specified, this property is stored with the blob and returned with a read request. */
   blobContentType?: string;
-  /** Optional. Sets the blob's content encoding. If specified, this property is stored with the blob and returned with a read request. */
+  /** Specifies the blob's Content-Encoding. If specified, this property is stored with the blob and returned with a read request. */
   blobContentEncoding?: string;
-  /** Optional. Set the blob's content language. If specified, this property is stored with the blob and returned with a read request. */
+  /** Specifies the blob's Content-Language. If specified, this property is stored with the blob and returned with a read request. */
   blobContentLanguage?: string;
-  /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */
+  /** The MD5 hash of the blob content that is stored as a property on the blob. Note: This hash is not validated. */
   blobContentMD5?: Uint8Array;
-  /** Optional. Sets the blob's cache control. If specified, this property is stored with the blob and returned with a read request. */
+  /** Specifies the blob's Cache-Control. If specified, this property is stored with the blob and returned with a read request. */
   blobCacheControl?: string;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
-  /** Optional. Sets the blob's content disposition. If specified, this property is stored with the blob and returned with a read request. */
+  /** Specifies the blob's Content-Disposition. If specified, this property is stored with the blob and returned with a read request. */
   blobContentDisposition?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the encryption key to use to encrypt the data provided in the request. If not specified, the request will be encrypted with the root account key. */
+  /** Specifies the encryption key to use to encrypt the data provided in the request. */
   encryptionKey?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the SHA256 hash of the encryption key used to encrypt the data provided in the request. This header is only used for encryption with a customer-provided key. If the request is authenticated with a client token, this header should be specified using the SHA256 hash of the encryption key. */
+  /** The SHA-256 hash of the provided encryption key. Must be provided if the encryption key is provided. */
   encryptionKeySha256?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the algorithm to use for encryption. If not specified, the default is AES256. */
+  /** The algorithm used to produce the encryption key hash. Must be provided if the encryption key is provided. */
   encryptionAlgorithm?: EncryptionAlgorithmType;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the encryption scope to use to encrypt the data provided in the request. If not specified, the request will be encrypted with the root account key. */
+  /** Specifies the encryption scope used to encrypt the data. */
   encryptionScope?: string;
   /** The tier to be set on the blob. */
   tier?: AccessTier;
-  /** A date-time value. A request is made under the condition that the resource has been modified since the specified date-time. */
+  /** Specify this value to operate only on a blob if it has been modified since the specified date-time. */
   ifModifiedSince?: Date;
-  /** A date-time value. A request is made under the condition that the resource has not been modified since the specified date-time. */
+  /** Specify this value to operate only on a blob if it has not been modified since the specified date-time. */
   ifUnmodifiedSince?: Date;
-  /** A condition that must be met in order for the request to be processed. */
+  /** Specify this value to operate only on a blob with a non-matching Etag value. */
   ifNoneMatch?: string;
-  /** A condition that must be met in order for the request to be processed. */
+  /** Specify this value to operate only on a blob with a matching Etag value. */
   ifMatch?: string;
-  /** Specify a SQL where clause on blob tags to operate only on blobs with a matching value. */
+  /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
-  /** Specify this header value to operate only on a blob if it has been modified since the specified date/time. */
+  /** Specify this value to operate only on a source blob if it has been modified since the specified date-time. */
   sourceIfModifiedSince?: Date;
-  /** Specify this header value to operate only on a blob if it has not been modified since the specified date/time. */
+  /** Specify this header value to operate only on a blob if it has not been modified since the specified date-time. */
   sourceIfUnmodifiedSince?: Date;
-  /** Specify an ETag value to operate only on blobs with a matching value. */
+  /** Specify this value to operate only on a source blob with a matching Etag value. */
   sourceIfMatch?: string;
-  /** Specify this header value to operate only on a blob if it has been modified since the specified date/time. */
+  /** Specify this value to operate only on a source blob with a non-matching Etag value. */
   sourceIfNoneMatch?: string;
-  /** Specify a SQL where clause on blob tags to operate only on blobs with a matching value. */
+  /** Specifies a SQL-like where clause on blob tags to operate only on a source blob with matching tags. */
   sourceIfTags?: string;
-  /** Specify the md5 calculated for the range of bytes that must be read from the copy source. */
+  /** Specifies the MD5 hash calculated for the range of bytes that must be read from the copy source. */
   sourceContentMD5?: Uint8Array;
-  /** Optional.  Used to set blob tags in various blob operations. */
+  /** The blob tags. */
   blobTagsString?: string;
-  /** Optional, default is true.  Indicates if properties from the source blob should be copied. */
+  /** Indicates if properties from the source blob should be copied. Default is true. */
   copySourceBlobProperties?: boolean;
-  /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
+  /** Only the Bearer authorization scheme is supported, and the value must be a valid OAuth access token for the copy source. */
   copySourceAuthorization?: string;
-  /** Optional, default 'replace'.  Indicates if source tags should be copied or replaced with the tags specified by x-ms-tags. */
+  /** Indicates if source tags should be copied or replaced with the tags specified. Default is 'Replace'. */
   copySourceTags?: BlobCopySourceTags;
-  /** Valid value is backup */
+  /** Specifies the file request token intent. */
   fileRequestIntent?: FileShareTokenIntent;
-  /** Optional. Specifies the source encryption key to use to encrypt the source data provided in the request. */
+  /** Specifies the encryption key to use to decrypt the source data provided in the request. */
   sourceEncryptionKey?: string;
-  /** The SHA-256 hash of the provided source encryption key. Must be provided if the x-ms-source-encryption-key header is provided. */
+  /** The SHA-256 hash of the provided source encryption key. Must be provided if the source encryption key is provided. */
   sourceEncryptionKeySha256?: string;
-  /** The algorithm used to produce the source encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-source-encryption-key is provided. */
+  /** The algorithm used to produce the source encryption key hash. Must be provided if the source encryption key is provided. */
   sourceEncryptionAlgorithm?: EncryptionAlgorithmType;
 }
 
@@ -256,53 +256,53 @@ export interface BlockBlobUploadOptionalParams extends OperationOptions {
   clientRequestId?: string;
   /** The metadata headers. */
   metadata?: Record<string, string>;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
-  /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */
+  /** Specifies the transactional MD5 hash for the body. */
   transactionalContentMD5?: Uint8Array;
-  /** Optional. Sets the blob's content type. If specified, this property is stored with the blob and returned with a read request. */
+  /** Specifies the blob's Content-Type. If specified, this property is stored with the blob and returned with a read request. */
   blobContentType?: string;
-  /** Optional. Sets the blob's content encoding. If specified, this property is stored with the blob and returned with a read request. */
+  /** Specifies the blob's Content-Encoding. If specified, this property is stored with the blob and returned with a read request. */
   blobContentEncoding?: string;
-  /** Optional. Set the blob's content language. If specified, this property is stored with the blob and returned with a read request. */
+  /** Specifies the blob's Content-Language. If specified, this property is stored with the blob and returned with a read request. */
   blobContentLanguage?: string;
-  /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */
+  /** The MD5 hash of the blob content that is stored as a property on the blob. Note: This hash is not validated. */
   blobContentMD5?: Uint8Array;
-  /** Optional. Sets the blob's cache control. If specified, this property is stored with the blob and returned with a read request. */
+  /** Specifies the blob's Cache-Control. If specified, this property is stored with the blob and returned with a read request. */
   blobCacheControl?: string;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
-  /** Optional. Sets the blob's content disposition. If specified, this property is stored with the blob and returned with a read request. */
+  /** Specifies the blob's Content-Disposition. If specified, this property is stored with the blob and returned with a read request. */
   blobContentDisposition?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the encryption key to use to encrypt the data provided in the request. If not specified, the request will be encrypted with the root account key. */
+  /** Specifies the encryption key to use to encrypt the data provided in the request. */
   encryptionKey?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the SHA256 hash of the encryption key used to encrypt the data provided in the request. This header is only used for encryption with a customer-provided key. If the request is authenticated with a client token, this header should be specified using the SHA256 hash of the encryption key. */
+  /** The SHA-256 hash of the provided encryption key. Must be provided if the encryption key is provided. */
   encryptionKeySha256?: string;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the algorithm to use for encryption. If not specified, the default is AES256. */
+  /** The algorithm used to produce the encryption key hash. Must be provided if the encryption key is provided. */
   encryptionAlgorithm?: EncryptionAlgorithmType;
-  /** Optional.  Version 2019-07-07 and later.  Specifies the encryption scope to use to encrypt the data provided in the request. If not specified, the request will be encrypted with the root account key. */
+  /** Specifies the encryption scope used to encrypt the data. */
   encryptionScope?: string;
   /** The tier to be set on the blob. */
   tier?: AccessTier;
-  /** A date-time value. A request is made under the condition that the resource has been modified since the specified date-time. */
+  /** Specify this value to operate only on a blob if it has been modified since the specified date-time. */
   ifModifiedSince?: Date;
-  /** A date-time value. A request is made under the condition that the resource has not been modified since the specified date-time. */
+  /** Specify this value to operate only on a blob if it has not been modified since the specified date-time. */
   ifUnmodifiedSince?: Date;
-  /** A condition that must be met in order for the request to be processed. */
+  /** Specify this value to operate only on a blob with a non-matching Etag value. */
   ifNoneMatch?: string;
-  /** A condition that must be met in order for the request to be processed. */
+  /** Specify this value to operate only on a blob with a matching Etag value. */
   ifMatch?: string;
-  /** Specify a SQL where clause on blob tags to operate only on blobs with a matching value. */
+  /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
-  /** Optional.  Used to set blob tags in various blob operations. */
+  /** The blob tags. */
   blobTagsString?: string;
-  /** Specifies the date time when the blobs immutability policy is set to expire. */
+  /** The date-time that indicates the time at which the blob immutability policy will expire. */
   immutabilityPolicyExpiry?: Date;
-  /** Specifies the immutability policy mode to set on the blob. */
+  /** Indicates the immutability policy mode of the blob. */
   immutabilityPolicyMode?: ImmutabilityPolicyMode;
-  /** Specified if a legal hold should be set on the blob. */
+  /** Indicates whether the blob has a legal hold. */
   legalHold?: boolean;
-  /** Specify the transactional crc64 for the body, to be validated by the service. */
+  /** Specifies the transactional CRC64 hash for the body. */
   transactionalContentCrc64?: Uint8Array;
   /** Required if the request body is a structured message. Specifies the message schema version and properties. */
   structuredBodyType?: string;

@@ -42,8 +42,8 @@ import type {
   Tags,
   ContainerRequestConditions,
   ModifiedAccessConditions,
-  BlobClientOptions,
   BlobClientConfig,
+  ContainerClientOptions,
 } from "./models.js";
 import {
   fromTspImmutabilityPolicyMode,
@@ -649,7 +649,7 @@ export class ContainerClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: ContainerClientOptions,
   );
   /**
    * Creates an instance of ContainerClient.
@@ -675,7 +675,7 @@ export class ContainerClient extends StorageClient {
       | PipelineLike,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: ContainerClientOptions,
   ) {
     let pipeline: PipelineLike;
     let url: string;
@@ -815,6 +815,7 @@ export class ContainerClient extends StorageClient {
           if (e.details?.errorCode === "ContainerAlreadyExists") {
             return {
               succeeded: false,
+              ...e.response?.parsedHeaders,
               errorCode: e.details?.errorCode,
               _response: e.response,
             };
@@ -1017,6 +1018,7 @@ export class ContainerClient extends StorageClient {
           if (e.details?.errorCode === "ContainerNotFound") {
             return {
               succeeded: false,
+              ...e.response?.parsedHeaders,
               errorCode: e.details?.errorCode,
               _response: e.response,
             };
@@ -1318,7 +1320,7 @@ export class ContainerClient extends StorageClient {
           _response: original._response, // non-enumerable
           segment: {
             // ...original.segment,
-            blobItems: original.segment.blobItems.map((blobItemInternal) => {
+            blobItems: original.blobItems.map((blobItemInternal) => {
               const blobItem: BlobItem = {
                 ...blobItemInternal,
                 properties: {
@@ -1382,8 +1384,8 @@ export class ContainerClient extends StorageClient {
           ...original,
           _response: original._response,
           segment: {
-            ...original.segment,
-            blobItems: original.segment.blobItems.map((blobItemInternal) => {
+            ...original.hierarchicalList,
+            blobItems: original.hierarchicalList.blobItems.map((blobItemInternal) => {
               const blobItem: BlobItem = {
                 ...blobItemInternal,
                 properties: {
@@ -1401,7 +1403,7 @@ export class ContainerClient extends StorageClient {
               };
               return blobItem;
             }),
-            blobPrefixes: original.segment.blobPrefixes?.map((blobPrefixInternal) => {
+            blobPrefixes: original.hierarchicalList.blobPrefixes?.map((blobPrefixInternal) => {
               const blobPrefix: BlobPrefix = {
                 ...blobPrefixInternal,
                 name: BlobNameToString(blobPrefixInternal.name),

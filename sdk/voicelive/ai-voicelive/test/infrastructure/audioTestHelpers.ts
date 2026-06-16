@@ -44,8 +44,11 @@ export function generateTestAudio(text: string): Promise<ArrayBuffer> {
       const apiKey = process.env.VOICELIVE_API_KEY || process.env.AI_SERVICES_KEY;
 
       if (!endpoint || !apiKey) {
-        // Fallback to mock audio if credentials not available
-        reject(new Error("Speech synthesis credentials are not set in environment variables."));
+        // Speech synthesis needs both an endpoint and a key. When the key is
+        // absent (e.g. token-credential-only live runs), fall back to
+        // deterministic mock PCM audio so audio-dependent tests still exercise
+        // the audio send path instead of failing with a synthesis error.
+        resolve(generateMockAudio(text));
         return;
       }
 

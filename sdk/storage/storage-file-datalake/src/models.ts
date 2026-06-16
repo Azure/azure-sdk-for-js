@@ -1673,9 +1673,21 @@ export interface DataLakeClientConfig {
 }
 
 /**
- * Options for creating blob client instances
+ * Options for creating DataLakeFileSystemClient instances
  */
-export type DataLakeClientOptions = StoragePipelineOptions & DataLakeClientConfig;
+export type DataLakeFileSystemClientOptions = StoragePipelineOptions & DataLakeClientConfig;
+/**
+ * Options for creating DataLakeServiceClient instances
+ */
+export type DataLakeServiceClientOptions = StoragePipelineOptions & DataLakeClientConfig;
+/**
+ * Options for creating DataLakePathClient instances
+ */
+export type DataLakePathClientOptions = StoragePipelineOptions & DataLakeClientConfig;
+/**
+ * Options for creating DataLakeFileClient instances
+ */
+export type DataLakeFileClientOptions = StoragePipelineOptions & DataLakeClientConfig;
 
 /**
  * Request headers used in generating a SAS token

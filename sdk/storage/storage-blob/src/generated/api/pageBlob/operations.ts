@@ -8,7 +8,7 @@ import {
   PageList,
   pageListXmlDeserializer,
   SequenceNumberActionType,
-} from "../../models/azure/storage/blobs/models.js";
+} from "../../models/models.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -84,7 +84,9 @@ export async function _copyIncrementalDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._copyIncrementalDeserializeExceptionHeaders(result),
@@ -155,7 +157,7 @@ export function _copyIncrementalDeserializeExceptionHeaders(result: PathUnchecke
   };
 }
 
-/** The Copy Incremental operation copies a snapshot of the source page blob to a destination page blob. The snapshot is copied such that only the differential changes between the previously copied snapshot are transferred to the destination. The copied snapshots are complete copies of the original snapshot and can be read or copied from as usual. This API is supported since REST version 2016-05-31. */
+/** Copies a snapshot of the source page blob to a destination page blob. The snapshot is copied such that only the differential changes between the previously copied snapshot are transferred to the destination. */
 export async function copyIncremental(
   context: Client,
   copySource: string,
@@ -248,7 +250,9 @@ export async function _setSequenceNumberDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._setSequenceNumberDeserializeExceptionHeaders(result),
@@ -314,7 +318,7 @@ export function _setSequenceNumberDeserializeExceptionHeaders(result: PathUnchec
   };
 }
 
-/** The Update Sequence Number operation sets the blob's sequence number. The operation will fail if the specified sequence number is less than the current sequence number of the blob. */
+/** Updates the sequence number of the specified page blob. The operation will fail if the specified sequence number is less than the current sequence number of the blob. */
 export async function setSequenceNumber(
   context: Client,
   sequenceNumberAction: SequenceNumberActionType,
@@ -414,7 +418,9 @@ export async function _resizeDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._resizeDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -477,7 +483,7 @@ export function _resizeDeserializeExceptionHeaders(result: PathUncheckedResponse
   };
 }
 
-/** The Resize operation increases the size of the page blob to the specified size. */
+/** Changes the size of the specified page blob. */
 export async function resize(
   context: Client,
   size: number,
@@ -574,7 +580,9 @@ export async function _getPageRangesDiffDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getPageRangesDiffDeserializeExceptionHeaders(result),
@@ -646,7 +654,7 @@ export function _getPageRangesDiffDeserializeExceptionHeaders(result: PathUnchec
   };
 }
 
-/** The Get Page Ranges Diff operation returns the list of valid page ranges for a page blob or snapshot of a page blob. */
+/** Returns the list of page ranges in the diff between the specified page blob and the specified previous snapshot. */
 export async function getPageRangesDiff(
   context: Client,
   options: PageBlobGetPageRangesDiffOptionalParams = { requestOptions: {} },
@@ -739,7 +747,9 @@ export async function _getPageRangesDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getPageRangesDeserializeExceptionHeaders(result),
@@ -811,7 +821,7 @@ export function _getPageRangesDeserializeExceptionHeaders(result: PathUncheckedR
   };
 }
 
-/** The Get Page Ranges operation returns the list of valid page ranges for a page blob or snapshot of a page blob. */
+/** Returns the list of valid page ranges for the specified page blob. */
 export async function getPageRanges(
   context: Client,
   options: PageBlobGetPageRangesOptionalParams = { requestOptions: {} },
@@ -893,7 +903,7 @@ export function _uploadPagesFromUrlSend(
             }
           : {}),
         "content-length": contentLength,
-        "x-ms-range": range,
+        range: range,
         ...(options?.encryptionKey !== undefined
           ? { "x-ms-encryption-key": options?.encryptionKey }
           : {}),
@@ -978,7 +988,9 @@ export async function _uploadPagesFromUrlDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._uploadPagesFromUrlDeserializeExceptionHeaders(result),
@@ -1075,7 +1087,7 @@ export function _uploadPagesFromUrlDeserializeExceptionHeaders(result: PathUnche
   };
 }
 
-/** The Upload Pages operation writes a range of pages to a page blob where the contents are read from a URL. */
+/** Writes a range of pages to the specified page blob where the contents are read from a URL. */
 export async function uploadPagesFromUrl(
   context: Client,
   sourceUrl: string,
@@ -1203,7 +1215,9 @@ export async function _clearPagesDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._clearPagesDeserializeExceptionHeaders(result),
@@ -1282,7 +1296,7 @@ export function _clearPagesDeserializeExceptionHeaders(result: PathUncheckedResp
   };
 }
 
-/** The Clear Pages operation clears a range of pages from a page blob */
+/** Clears a range of pages from the specified page blob. */
 export async function clearPages(
   context: Client,
   range: string,
@@ -1421,7 +1435,9 @@ export async function _uploadPagesDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._uploadPagesDeserializeExceptionHeaders(result),
@@ -1524,7 +1540,7 @@ export function _uploadPagesDeserializeExceptionHeaders(result: PathUncheckedRes
   };
 }
 
-/** The Upload Pages operation writes a range of pages to a page blob */
+/** Writes a range of pages to the specified page blob. */
 export async function uploadPages(
   context: Client,
   body: Uint8Array,
@@ -1678,7 +1694,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._createDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -1764,7 +1782,7 @@ export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse
   };
 }
 
-/** The Create operation creates a new page blob. */
+/** Creates a new page blob. */
 export async function create(
   context: Client,
   size: number,

@@ -31,13 +31,13 @@ import {
   FilterBlobSegment,
   SkuName,
   AccountKind,
-} from "../../models/azure/storage/blobs/models.js";
+} from "../../models/models.js";
 import { FileContents } from "../../static-helpers/multipartHelpers.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a Service operations. */
 export interface ServiceOperations {
-  /** The Filter Blobs operation enables callers to list blobs across all containers whose tags match a given search expression. */
+  /** Lists blobs across all containers whose tags match a given search expression. */
   findBlobsByTags: (
     filterExpression: string,
     options?: ServiceFindBlobsByTagsOptionalParams,
@@ -60,7 +60,7 @@ export interface ServiceOperations {
         }
       >
   >;
-  /** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
+  /** Allows multiple API calls to be embedded into a single HTTP request. */
   submitBatch: (
     contentType: string,
     contentLength: number,
@@ -86,7 +86,7 @@ export interface ServiceOperations {
         }
       >
   >;
-  /** Returns the sku name and account kind. */
+  /** Returns information about the storage account. */
   getAccountInfo: (
     options?: ServiceGetAccountInfoOptionalParams,
   ) => Promise<
@@ -134,7 +134,7 @@ export interface ServiceOperations {
         }
       >
   >;
-  /** The List Containers Segment operation returns a list of the containers under the specified account */
+  /** Returns a list of the containers in the specified account. */
   listContainers: (
     options?: ServiceListContainersOptionalParams,
   ) => Promise<
@@ -200,7 +200,7 @@ export interface ServiceOperations {
         }
       >
   >;
-  /** Sets properties for a storage account's Blob service endpoint, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules */
+  /** Sets properties for a storage account's Blob service endpoint, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules. */
   setProperties: (
     storageServiceProperties: BlobServiceProperties,
     options?: ServiceSetPropertiesOptionalParams,

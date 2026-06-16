@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets list of effective NetworkSecurityPerimeterConfiguration for storage account
  *
  * @summary gets list of effective NetworkSecurityPerimeterConfiguration for storage account
- * x-ms-original-file: 2025-08-01/NetworkSecurityPerimeterConfigurationList.json
+ * x-ms-original-file: 2026-04-01/NetworkSecurityPerimeterConfigurationList.json
  */
 async function networkSecurityPerimeterConfigurationList(): Promise<void> {
   const credential = new DefaultAzureCredential();

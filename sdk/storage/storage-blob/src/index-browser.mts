@@ -14,6 +14,11 @@ export type { SasIPRange } from "./sas/SasIPRange.js";
 export type { Range } from "./Range.js";
 export {
   type BlobClientOptions,
+  type AppendBlobClientOptions,
+  type BlockBlobClientOptions,
+  type PageBlobClientOptions,
+  type ContainerClientOptions,
+  type BlobServiceClientOptions,
   type BlobClientConfig,
   BlockBlobTier,
   type BlobImmutabilityPolicy,
@@ -47,6 +52,7 @@ export {
   StorageOAuthScopes,
   type ServiceClientOptions,
 } from "./Pipeline.js";
+export * from "./sas/BlobSASPermissions.js";
 export type { CommonOptions } from "./StorageClient.js";
 export * from "./generatedModels.js";
 export { RestError };

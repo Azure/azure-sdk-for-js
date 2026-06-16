@@ -1,6 +1,6 @@
 # Release History
 
-## 13.1.0-beta.1 (Unreleased)
+## 13.1.0-beta.1 (2026-06-01)
 
 ### Features Added
 
@@ -32,8 +32,6 @@
 ### Bugs Fixed
 
 - Fixed argument order in `SearchIndexClient.deleteKnowledgeSourceFile` so the underlying request now targets the correct file (previously the `name` and `fileId` arguments were swapped on the wire, causing deletes to silently no-op).
-
-### Other Changes
 
 ## 13.0.0 (2026-05-01)
 

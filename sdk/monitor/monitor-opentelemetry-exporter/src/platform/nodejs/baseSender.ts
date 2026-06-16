@@ -119,7 +119,7 @@ export abstract class BaseSender {
 
   abstract send(payload: unknown[]): Promise<SenderResult>;
   abstract shutdown(): Promise<void>;
-  abstract handlePermanentRedirect(location: string | undefined): void;
+  abstract handlePermanentRedirect(location: string | undefined): boolean;
 
   /**
    * Export envelopes
@@ -243,10 +243,29 @@ export abstract class BaseSender {
         if (this.numConsecutiveRedirects < 10) {
           const location = this.getLocationFromHeaders(restError.response?.headers);
           if (location) {
-            // Update sender URL
-            this.handlePermanentRedirect(location);
-            // Send to redirect endpoint as HTTPs library doesn't handle redirect automatically
-            return this.exportEnvelopes(envelopes);
+            // Update sender URL. handlePermanentRedirect returns false when the redirect target
+            // is outside the configured ingestion host's trust boundary (e.g., attacker-controlled
+            // Location header). In that case we MUST NOT retry, otherwise the bearer auth policy
+            // would attach a freshly-signed AAD token (and the telemetry body) to the foreign host.
+            const accepted = this.handlePermanentRedirect(location);
+            if (accepted) {
+              // Send to redirect endpoint as HTTPs library doesn't handle redirect automatically
+              return this.exportEnvelopes(envelopes);
+            }
+            const refusalError = new Error("Refused cross-origin redirect");
+            if (!this.isStatsbeatSender) {
+              this.networkStatsbeatMetrics?.countException(refusalError);
+              this.customerSDKStatsMetrics?.countDroppedItems(
+                envelopes,
+                DropCode.CLIENT_EXCEPTION,
+                refusalError.message,
+                ExceptionType.CLIENT_EXCEPTION,
+              );
+            }
+            return this.buildExportResult({
+              code: ExportResultCode.FAILED,
+              error: refusalError,
+            });
           }
         } else {
           const redirectError = new Error("Circular redirect");

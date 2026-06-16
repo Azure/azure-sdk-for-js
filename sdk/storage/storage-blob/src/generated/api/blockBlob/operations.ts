@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { BlobContext as Client } from "../index.js";
+import { getBinaryStreamResponse } from "#platform/generated/static-helpers/serialization/get-binary-stream-response";
 import {
   errorXmlDeserializer,
   LeaseStatus,
@@ -16,9 +17,8 @@ import {
   QueryRequest,
   queryRequestXmlSerializer,
   BlockListType,
-} from "../../models/azure/storage/blobs/models.js";
-import { BlockBlobQueryResponse } from "../../models/models.js";
-import { getBinaryStreamResponse } from "../../static-helpers/serialization/get-binary-stream-response.js";
+  BlockBlobQueryResponse,
+} from "../../models/models.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -107,7 +107,9 @@ export async function _queryDeserialize(
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._queryDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -273,7 +275,7 @@ export function _queryDeserializeExceptionHeaders(result: PathUncheckedResponse)
   };
 }
 
-/** The Query operation enables users to select/project on blob data by providing simple query expressions. */
+/** Queries the data of the specified blob with the provided query expressions. */
 export async function query(
   context: Client,
   queryRequest: QueryRequest,
@@ -399,7 +401,9 @@ export async function _getBlockListDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getBlockListDeserializeExceptionHeaders(result),
@@ -471,7 +475,7 @@ export function _getBlockListDeserializeExceptionHeaders(result: PathUncheckedRe
   };
 }
 
-/** The Get Block List operation retrieves the list of blocks that have been uploaded as part of a block blob. */
+/** Retrieves the list of blocks that have been uploaded as part of the block blob. */
 export async function getBlockList(
   context: Client,
   listType: BlockListType,
@@ -624,7 +628,9 @@ export async function _commitBlockListDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._commitBlockListDeserializeExceptionHeaders(result),
@@ -721,7 +727,7 @@ export function _commitBlockListDeserializeExceptionHeaders(result: PathUnchecke
   };
 }
 
-/** The Commit Block List operation writes a blob by specifying the list of block IDs that make up the blob. In order to be written as part of a blob, a block must have been successfully written to the server in a prior Put Block operation. You can call Put Block List to update a blob by uploading only those blocks that have changed, then committing the new and existing blocks together. You can do this by specifying whether to commit a block from the committed block list or from the uncommitted block list, or to commit the most recently uploaded version of the block, whichever list it may belong to. */
+/** Writes to the block blob by specifying the list of block IDs that make up the blob. */
 export async function commitBlockList(
   context: Client,
   blocks: BlockLookupList,
@@ -870,7 +876,9 @@ export async function _stageBlockFromUrlDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._stageBlockFromUrlDeserializeExceptionHeaders(result),
@@ -961,7 +969,7 @@ export function _stageBlockFromUrlDeserializeExceptionHeaders(result: PathUnchec
   };
 }
 
-/** The Stage Block From URL operation creates a new block to be committed as part of a blob where the contents are read from a URL. */
+/** Creates a new block of data from the specified URL to be committed as part of a blob. */
 export async function stageBlockFromUrl(
   context: Client,
   blockId: Uint8Array,
@@ -1075,7 +1083,9 @@ export async function _stageBlockDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._stageBlockDeserializeExceptionHeaders(result),
@@ -1172,7 +1182,7 @@ export function _stageBlockDeserializeExceptionHeaders(result: PathUncheckedResp
   };
 }
 
-/** The Stage Block operation creates a new block to be committed as part of a blob */
+/** Creates a new block of data to be committed as part of a blob. */
 export async function stageBlock(
   context: Client,
   blockId: Uint8Array,
@@ -1364,7 +1374,9 @@ export async function _uploadBlobFromUrlDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._uploadBlobFromUrlDeserializeExceptionHeaders(result),
@@ -1453,7 +1465,7 @@ export function _uploadBlobFromUrlDeserializeExceptionHeaders(result: PathUnchec
   };
 }
 
-/** The Put Blob from URL operation creates a new Block Blob where the contents of the blob are read from a given URL.  This API is supported beginning with the 2020-04-08 version. Partial updates are not supported with Put Blob from URL; the content of an existing blob is overwritten with the content of the new blob.  To perform partial updates to a block blob’s contents using a source URL, use the Put Block from URL API in conjunction with Put Block List. */
+/** Uploads the content from the specified URL to the block blob. If the blob already exists, the data and any existing metadata will be overwritten. */
 export async function uploadBlobFromUrl(
   context: Client,
   copySource: string,
@@ -1620,7 +1632,9 @@ export async function _uploadDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._uploadDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -1720,7 +1734,7 @@ export function _uploadDeserializeExceptionHeaders(result: PathUncheckedResponse
   };
 }
 
-/** The Upload Block Blob operation updates the content of an existing block blob. Updating an existing block blob overwrites any existing metadata on the blob. Partial updates are not supported with Put Blob; the content of the existing blob is overwritten with the content of the new blob. To perform a partial update of the content of a block blob, use the Put Block List operation. */
+/** Uploads the content to the specified block blob. If the blob already exists, the data and any existing metadata will be overwritten. */
 export async function upload(
   context: Client,
   body: Uint8Array,

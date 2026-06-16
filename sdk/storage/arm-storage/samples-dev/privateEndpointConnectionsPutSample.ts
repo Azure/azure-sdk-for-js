@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the state of specified private endpoint connection associated with the storage account.
  *
  * @summary update the state of specified private endpoint connection associated with the storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountPutPrivateEndpointConnection.json
+ * x-ms-original-file: 2026-04-01/StorageAccountPutPrivateEndpointConnection.json
  */
 async function storageAccountPutPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
