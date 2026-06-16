@@ -15,7 +15,7 @@ async function main(): Promise<void> {
   const collectionId = process.env.PLANETARYCOMPUTER_COLLECTION_ID || "naip";
   const client = new PlanetaryComputerProClient(endpoint, credential);
 
-  await client.ingestion.delete(collectionId, "00000000-0000-0000-0000-000000000000");
+  await client.ingestion.deleteIngestion(collectionId, "00000000-0000-0000-0000-000000000000");
   console.log("Ingestion deleted.");
 }
 
