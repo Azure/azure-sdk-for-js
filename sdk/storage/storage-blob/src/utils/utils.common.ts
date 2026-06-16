@@ -625,6 +625,7 @@ export function getAccountNameFromUrl(url: string): string {
         const suffix = accountNameSuffixes[i];
         if (accountName.endsWith(suffix)) {
           accountName = accountName.substring(0, accountName.length - suffix.length);
+          break;
         }
       }
     } else if (isIpEndpointStyle(parsedUrl)) {

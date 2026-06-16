@@ -635,8 +635,8 @@ export class SASQueryParameters {
         case "srq": // Request headers
           this.tryAppendQueryParameter(queries, param, this.requestQueryParameterKeys);
           break;
-        case "sdd": // Request headers
-          this.tryAppendQueryParameter(queries, param, "" + this.directoryDepth);
+        case "sdd": // Directory depth
+          this.tryAppendQueryParameter(queries, param, this.directoryDepth?.toString());
           break;
       }
     }

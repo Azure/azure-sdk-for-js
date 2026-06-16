@@ -98,6 +98,7 @@ describe("Highlevel Node.js only", () => {
         content: createContent,
         contentLength: createContent.length,
       });
+      assert.fail("Expected create to throw for content larger than 4MiB");
     } catch (ex) {
       assert.equal((ex as any).statusCode, 413);
       assert.equal((ex as any).code, "RequestBodyTooLarge");

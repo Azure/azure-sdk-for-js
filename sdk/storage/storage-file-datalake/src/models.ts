@@ -1199,7 +1199,7 @@ export type PathGetTagsResponse = WithResponse<
 >;
 
 /**
- * Options to configure the {@link BlobClient.setTags} operation.
+ * Options to configure the {@link DataLakePathClient.setTags} operation.
  */
 export interface PathSetTagsOptions extends CommonOptions {
   /**
@@ -1228,7 +1228,7 @@ export interface PathSetTagsHeaders {
 }
 
 /**
- * Contains response data for the {@link DataLakePathClient.getTags} operation.
+ * Contains response data for the {@link DataLakePathClient.setTags} operation.
  */
 export type PathSetTagsResponse = WithResponse<PathSetTagsHeaders, PathSetTagsHeaders>;
 
