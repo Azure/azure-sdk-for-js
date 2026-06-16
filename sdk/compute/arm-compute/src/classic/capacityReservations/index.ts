@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listByCapacityReservationGroup,
   $delete,
@@ -9,21 +9,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/capacityReservations/operations.js";
-import type {
+import {
   CapacityReservationsListByCapacityReservationGroupOptionalParams,
   CapacityReservationsDeleteOptionalParams,
   CapacityReservationsUpdateOptionalParams,
   CapacityReservationsCreateOrUpdateOptionalParams,
   CapacityReservationsGetOptionalParams,
 } from "../../api/capacityReservations/options.js";
-import type {
-  CapacityReservation,
-  CapacityReservationUpdate,
-} from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { CapacityReservation, CapacityReservationUpdate } from "../../models/compute/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CapacityReservations operations. */
 export interface CapacityReservationsOperations {
@@ -34,11 +30,6 @@ export interface CapacityReservationsOperations {
     options?: CapacityReservationsListByCapacityReservationGroupOptionalParams,
   ) => PagedAsyncIterableIterator<CapacityReservation>;
   /** The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. Note: Block capacity reservations cannot be deleted after it has been successfully allocated until the schedule end time. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     capacityReservationGroupName: string,

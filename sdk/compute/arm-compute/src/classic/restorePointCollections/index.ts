@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listAll,
   list,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/restorePointCollections/operations.js";
-import type {
+import {
   RestorePointCollectionsListAllOptionalParams,
   RestorePointCollectionsListOptionalParams,
   RestorePointCollectionsDeleteOptionalParams,
@@ -18,14 +18,13 @@ import type {
   RestorePointCollectionsCreateOrUpdateOptionalParams,
   RestorePointCollectionsGetOptionalParams,
 } from "../../api/restorePointCollections/options.js";
-import type {
+import {
   RestorePointCollection,
   RestorePointCollectionUpdate,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RestorePointCollections operations. */
 export interface RestorePointCollectionsOperations {
@@ -39,11 +38,6 @@ export interface RestorePointCollectionsOperations {
     options?: RestorePointCollectionsListOptionalParams,
   ) => PagedAsyncIterableIterator<RestorePointCollection>;
   /** The operation to delete the restore point collection. This operation will also delete all the contained restore points. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     restorePointCollectionName: string,

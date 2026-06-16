@@ -1,27 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  RequestRateByIntervalInput,
-  LogAnalyticsOperationResult,
-  ThrottledRequestsInput,
-} from "../../models/compute/models.js";
 import {
+  RequestRateByIntervalInput,
   requestRateByIntervalInputSerializer,
+  LogAnalyticsOperationResult,
   logAnalyticsOperationResultDeserializer,
+  ThrottledRequestsInput,
   throttledRequestsInputSerializer,
 } from "../../models/compute/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   LogAnalyticsExportThrottledRequestsOptionalParams,
   LogAnalyticsExportRequestRateByIntervalOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _exportThrottledRequestsSend(
   context: Client,
@@ -51,7 +53,7 @@ export function _exportThrottledRequestsSend(
 export async function _exportThrottledRequestsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<LogAnalyticsOperationResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
@@ -69,7 +71,7 @@ export function exportThrottledRequests(
   parameters: ThrottledRequestsInput,
   options: LogAnalyticsExportThrottledRequestsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<LogAnalyticsOperationResult>, LogAnalyticsOperationResult> {
-  return getLongRunningPoller(context, _exportThrottledRequestsDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _exportThrottledRequestsDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _exportThrottledRequestsSend(context, location, parameters, options),
@@ -106,7 +108,7 @@ export function _exportRequestRateByIntervalSend(
 export async function _exportRequestRateByIntervalDeserialize(
   result: PathUncheckedResponse,
 ): Promise<LogAnalyticsOperationResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
@@ -127,7 +129,7 @@ export function exportRequestRateByInterval(
   return getLongRunningPoller(
     context,
     _exportRequestRateByIntervalDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,

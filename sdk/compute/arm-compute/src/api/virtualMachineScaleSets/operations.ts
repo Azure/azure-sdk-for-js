@@ -1,46 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  VirtualMachineScaleSet,
-  VirtualMachineScaleSetUpdate,
-  _VirtualMachineScaleSetListResult,
-  _VirtualMachineScaleSetListWithLinkResult,
-  VMScaleSetConvertToSinglePlacementGroupInput,
-  VirtualMachineScaleSetVMInstanceRequiredIDs,
-  RecoveryWalkResponse,
-  VirtualMachineScaleSetInstanceView,
-  _VirtualMachineScaleSetListOSUpgradeHistory,
-  UpgradeOperationHistoricalStatusInfo,
-  OrchestrationServiceStateInput,
-  _VirtualMachineScaleSetListSkusResult,
-  VirtualMachineScaleSetSku,
-  VMScaleSetScaleOutInput,
-} from "../../models/compute/models.js";
 import {
+  VirtualMachineScaleSet,
   virtualMachineScaleSetSerializer,
   virtualMachineScaleSetDeserializer,
+  VirtualMachineScaleSetUpdate,
   virtualMachineScaleSetUpdateSerializer,
+  _VirtualMachineScaleSetListResult,
   _virtualMachineScaleSetListResultDeserializer,
+  _VirtualMachineScaleSetListWithLinkResult,
   _virtualMachineScaleSetListWithLinkResultDeserializer,
   virtualMachineScaleSetVMInstanceIDsSerializer,
+  VMScaleSetConvertToSinglePlacementGroupInput,
   vmScaleSetConvertToSinglePlacementGroupInputSerializer,
+  VirtualMachineScaleSetVMInstanceRequiredIDs,
   virtualMachineScaleSetVMInstanceRequiredIDsSerializer,
+  RecoveryWalkResponse,
   recoveryWalkResponseDeserializer,
+  VirtualMachineScaleSetInstanceView,
   virtualMachineScaleSetInstanceViewDeserializer,
+  _VirtualMachineScaleSetListOSUpgradeHistory,
   _virtualMachineScaleSetListOSUpgradeHistoryDeserializer,
+  UpgradeOperationHistoricalStatusInfo,
   virtualMachineScaleSetReimageParametersSerializer,
+  OrchestrationServiceStateInput,
   orchestrationServiceStateInputSerializer,
+  _VirtualMachineScaleSetListSkusResult,
   _virtualMachineScaleSetListSkusResultDeserializer,
+  VirtualMachineScaleSetSku,
+  VMScaleSetScaleOutInput,
   vmScaleSetScaleOutInputSerializer,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   VirtualMachineScaleSetsListByLocationOptionalParams,
   VirtualMachineScaleSetsScaleOutOptionalParams,
   VirtualMachineScaleSetsStartOptionalParams,
@@ -68,9 +68,13 @@ import type {
   VirtualMachineScaleSetsCreateOrUpdateOptionalParams,
   VirtualMachineScaleSetsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByLocationSend(
   context: Client,
@@ -200,9 +204,9 @@ export function _startSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["vmInstanceIDs"]
-      ? options["vmInstanceIDs"]
-      : virtualMachineScaleSetVMInstanceIDsSerializer(options["vmInstanceIDs"]),
+    body: !options?.vmInstanceIDs
+      ? options?.vmInstanceIDs
+      : virtualMachineScaleSetVMInstanceIDsSerializer(options?.vmInstanceIDs),
   });
 }
 
@@ -382,9 +386,9 @@ export function _restartSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["vmInstanceIDs"]
-      ? options["vmInstanceIDs"]
-      : virtualMachineScaleSetVMInstanceIDsSerializer(options["vmInstanceIDs"]),
+    body: !options?.vmInstanceIDs
+      ? options?.vmInstanceIDs
+      : virtualMachineScaleSetVMInstanceIDsSerializer(options?.vmInstanceIDs),
   });
 }
 
@@ -437,9 +441,9 @@ export function _reimageAllSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["vmInstanceIDs"]
-      ? options["vmInstanceIDs"]
-      : virtualMachineScaleSetVMInstanceIDsSerializer(options["vmInstanceIDs"]),
+    body: !options?.vmInstanceIDs
+      ? options?.vmInstanceIDs
+      : virtualMachineScaleSetVMInstanceIDsSerializer(options?.vmInstanceIDs),
   });
 }
 
@@ -492,9 +496,9 @@ export function _reimageSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["vmScaleSetReimageInput"]
-      ? options["vmScaleSetReimageInput"]
-      : virtualMachineScaleSetReimageParametersSerializer(options["vmScaleSetReimageInput"]),
+    body: !options?.vmScaleSetReimageInput
+      ? options?.vmScaleSetReimageInput
+      : virtualMachineScaleSetReimageParametersSerializer(options?.vmScaleSetReimageInput),
   });
 }
 
@@ -547,9 +551,9 @@ export function _redeploySend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["vmInstanceIDs"]
-      ? options["vmInstanceIDs"]
-      : virtualMachineScaleSetVMInstanceIDsSerializer(options["vmInstanceIDs"]),
+    body: !options?.vmInstanceIDs
+      ? options?.vmInstanceIDs
+      : virtualMachineScaleSetVMInstanceIDsSerializer(options?.vmInstanceIDs),
   });
 }
 
@@ -652,9 +656,9 @@ export function _powerOffSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["vmInstanceIDs"]
-      ? options["vmInstanceIDs"]
-      : virtualMachineScaleSetVMInstanceIDsSerializer(options["vmInstanceIDs"]),
+    body: !options?.vmInstanceIDs
+      ? options?.vmInstanceIDs
+      : virtualMachineScaleSetVMInstanceIDsSerializer(options?.vmInstanceIDs),
   });
 }
 
@@ -707,9 +711,9 @@ export function _performMaintenanceSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["vmInstanceIDs"]
-      ? options["vmInstanceIDs"]
-      : virtualMachineScaleSetVMInstanceIDsSerializer(options["vmInstanceIDs"]),
+    body: !options?.vmInstanceIDs
+      ? options?.vmInstanceIDs
+      : virtualMachineScaleSetVMInstanceIDsSerializer(options?.vmInstanceIDs),
   });
 }
 
@@ -1044,9 +1048,9 @@ export function _deallocateSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["vmInstanceIDs"]
-      ? options["vmInstanceIDs"]
-      : virtualMachineScaleSetVMInstanceIDsSerializer(options["vmInstanceIDs"]),
+    body: !options?.vmInstanceIDs
+      ? options?.vmInstanceIDs
+      : virtualMachineScaleSetVMInstanceIDsSerializer(options?.vmInstanceIDs),
   });
 }
 
@@ -1161,9 +1165,9 @@ export function _approveRollingUpgradeSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["vmInstanceIDs"]
-      ? options["vmInstanceIDs"]
-      : virtualMachineScaleSetVMInstanceIDsSerializer(options["vmInstanceIDs"]),
+    body: !options?.vmInstanceIDs
+      ? options?.vmInstanceIDs
+      : virtualMachineScaleSetVMInstanceIDsSerializer(options?.vmInstanceIDs),
   });
 }
 
@@ -1332,11 +1336,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes a VM scale set. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,

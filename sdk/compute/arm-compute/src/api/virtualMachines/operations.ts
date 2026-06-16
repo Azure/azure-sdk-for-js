@@ -1,51 +1,51 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  VirtualMachine,
-  StorageProfile,
-  VirtualMachineInstanceView,
-  VirtualMachineUpdate,
-  _VirtualMachineListResult,
-  VirtualMachineAssessPatchesResult,
-  AttachDetachDataDisksRequest,
-  VirtualMachineCaptureParameters,
-  VirtualMachineCaptureResult,
-  VirtualMachineInstallPatchesParameters,
-  VirtualMachineInstallPatchesResult,
-  RetrieveBootDiagnosticsDataResult,
-  _VirtualMachineSizeListResult,
-  VirtualMachineSize,
-  RunCommandInput,
-  RunCommandResult,
-} from "../../models/compute/models.js";
 import {
   virtualMachineReimageParametersSerializer,
+  VirtualMachine,
   virtualMachineSerializer,
   virtualMachineDeserializer,
+  StorageProfile,
   storageProfileDeserializer,
+  VirtualMachineInstanceView,
   virtualMachineInstanceViewDeserializer,
+  VirtualMachineUpdate,
   virtualMachineUpdateSerializer,
+  _VirtualMachineListResult,
   _virtualMachineListResultDeserializer,
+  VirtualMachineAssessPatchesResult,
   virtualMachineAssessPatchesResultDeserializer,
+  AttachDetachDataDisksRequest,
   attachDetachDataDisksRequestSerializer,
+  VirtualMachineCaptureParameters,
   virtualMachineCaptureParametersSerializer,
+  VirtualMachineCaptureResult,
   virtualMachineCaptureResultDeserializer,
+  VirtualMachineInstallPatchesParameters,
   virtualMachineInstallPatchesParametersSerializer,
+  VirtualMachineInstallPatchesResult,
   virtualMachineInstallPatchesResultDeserializer,
+  RetrieveBootDiagnosticsDataResult,
   retrieveBootDiagnosticsDataResultDeserializer,
+  _VirtualMachineSizeListResult,
   _virtualMachineSizeListResultDeserializer,
+  VirtualMachineSize,
+  RunCommandInput,
   runCommandInputSerializer,
+  RunCommandResult,
   runCommandResultDeserializer,
   migrateVMToVirtualMachineScaleSetInputSerializer,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   VirtualMachinesListByLocationOptionalParams,
   VirtualMachinesMigrateToVMScaleSetOptionalParams,
   VirtualMachinesRunCommandOptionalParams,
@@ -74,9 +74,13 @@ import type {
   VirtualMachinesCreateOrUpdateOptionalParams,
   VirtualMachinesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByLocationSend(
   context: Client,
@@ -150,9 +154,9 @@ export function _migrateToVMScaleSetSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["parameters"]
-      ? options["parameters"]
-      : migrateVMToVirtualMachineScaleSetInputSerializer(options["parameters"]),
+    body: !options?.parameters
+      ? options?.parameters
+      : migrateVMToVirtualMachineScaleSetInputSerializer(options?.parameters),
   });
 }
 
@@ -216,7 +220,7 @@ export function _runCommandSend(
 export async function _runCommandDeserialize(
   result: PathUncheckedResponse,
 ): Promise<RunCommandResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
@@ -235,7 +239,7 @@ export function runCommand(
   parameters: RunCommandInput,
   options: VirtualMachinesRunCommandOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<RunCommandResult>, RunCommandResult> {
-  return getLongRunningPoller(context, _runCommandDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _runCommandDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -517,9 +521,9 @@ export function _reimageSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["parameters"]
-      ? options["parameters"]
-      : virtualMachineReimageParametersSerializer(options["parameters"]),
+    body: !options?.parameters
+      ? options?.parameters
+      : virtualMachineReimageParametersSerializer(options?.parameters),
   });
 }
 
@@ -827,7 +831,7 @@ export function _installPatchesSend(
 export async function _installPatchesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<VirtualMachineInstallPatchesResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
@@ -849,7 +853,7 @@ export function installPatches(
   OperationState<VirtualMachineInstallPatchesResult>,
   VirtualMachineInstallPatchesResult
 > {
-  return getLongRunningPoller(context, _installPatchesDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _installPatchesDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -1039,7 +1043,7 @@ export function _captureSend(
 export async function _captureDeserialize(
   result: PathUncheckedResponse,
 ): Promise<VirtualMachineCaptureResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
@@ -1058,7 +1062,7 @@ export function capture(
   parameters: VirtualMachineCaptureParameters,
   options: VirtualMachinesCaptureOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<VirtualMachineCaptureResult>, VirtualMachineCaptureResult> {
-  return getLongRunningPoller(context, _captureDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _captureDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _captureSend(context, resourceGroupName, vmName, parameters, options),
@@ -1097,7 +1101,7 @@ export function _attachDetachDataDisksSend(
 export async function _attachDetachDataDisksDeserialize(
   result: PathUncheckedResponse,
 ): Promise<StorageProfile> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
@@ -1116,7 +1120,7 @@ export function attachDetachDataDisks(
   parameters: AttachDetachDataDisksRequest,
   options: VirtualMachinesAttachDetachDataDisksOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<StorageProfile>, StorageProfile> {
-  return getLongRunningPoller(context, _attachDetachDataDisksDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _attachDetachDataDisksDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -1153,7 +1157,7 @@ export function _assessPatchesSend(
 export async function _assessPatchesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<VirtualMachineAssessPatchesResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
@@ -1174,7 +1178,7 @@ export function assessPatches(
   OperationState<VirtualMachineAssessPatchesResult>,
   VirtualMachineAssessPatchesResult
 > {
-  return getLongRunningPoller(context, _assessPatchesDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _assessPatchesDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _assessPatchesSend(context, resourceGroupName, vmName, options),
@@ -1325,11 +1329,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** The operation to delete a virtual machine. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
