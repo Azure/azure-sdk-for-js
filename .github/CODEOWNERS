@@ -587,7 +587,7 @@
 # PRLabel: %Mgmt
 /sdk/fabric/arm-fabric/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/frontdoor/arm-frontdoor/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
