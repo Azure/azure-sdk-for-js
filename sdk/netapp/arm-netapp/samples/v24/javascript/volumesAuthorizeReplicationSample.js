@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to authorize the replication connection on the source volume
  *
  * @summary authorize the replication connection on the source volume
- * x-ms-original-file: 2026-01-01/Volumes_AuthorizeReplication.json
+ * x-ms-original-file: 2026-04-01/Volumes_AuthorizeReplication.json
  */
 async function volumesAuthorizeReplication() {
   const credential = new DefaultAzureCredential();

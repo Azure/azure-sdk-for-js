@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Relationship resources by HealthModel
  *
  * @summary list Relationship resources by HealthModel
- * x-ms-original-file: 2025-05-01-preview/Relationships_ListByHealthModel.json
+ * x-ms-original-file: 2026-01-01-preview/Relationships_ListByHealthModel.json
  */
 async function relationshipsListByHealthModel() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the encryption scopes available under the specified storage account.
  *
  * @summary lists all the encryption scopes available under the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountEncryptionScopeList.json
+ * x-ms-original-file: 2026-04-01/StorageAccountEncryptionScopeList.json
  */
 async function storageAccountEncryptionScopeList() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the local user of the storage account by username.
  *
  * @summary get the local user of the storage account by username.
- * x-ms-original-file: 2025-08-01/LocalUserGet.json
+ * x-ms-original-file: 2026-04-01/LocalUserGet.json
  */
 async function getLocalUser() {
   const credential = new DefaultAzureCredential();

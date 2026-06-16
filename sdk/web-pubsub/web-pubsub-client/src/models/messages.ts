@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { JSONTypes } from "../webPubSubClient.js";
+/**
+ * Types which can be serialized and sent as JSON.
+ */
+export type JSONTypes = string | number | boolean | object;
 
 /**
  * The web pubsub message
@@ -286,10 +289,6 @@ export interface ServerDataMessage extends WebPubSubMessageBase {
    * The sequence id of the data. Only available in reliable protocols
    */
   sequenceId?: number;
-  /**
-   * Streaming metadata when the payload belongs to a stream.
-   */
-  stream?: StreamInfo;
 }
 
 /**
