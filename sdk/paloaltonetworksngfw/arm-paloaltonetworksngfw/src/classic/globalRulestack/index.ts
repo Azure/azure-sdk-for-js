@@ -48,6 +48,8 @@ import type {
   SecurityServicesTypeEnum,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GlobalRulestack operations. */
@@ -99,6 +101,16 @@ export interface GlobalRulestackOperations {
     globalRulestackName: string,
     options?: GlobalRulestackCommitOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use commit instead */
+  beginCommit: (
+    globalRulestackName: string,
+    options?: GlobalRulestackCommitOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use commit instead */
+  beginCommitAndWait: (
+    globalRulestackName: string,
+    options?: GlobalRulestackCommitOptionalParams,
+  ) => Promise<void>;
   /** List GlobalRulestackResource resources by Tenant */
   list: (
     options?: GlobalRulestackListOptionalParams,
@@ -108,6 +120,16 @@ export interface GlobalRulestackOperations {
     globalRulestackName: string,
     options?: GlobalRulestackDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    globalRulestackName: string,
+    options?: GlobalRulestackDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    globalRulestackName: string,
+    options?: GlobalRulestackDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update a GlobalRulestackResource */
   update: (
     globalRulestackName: string,
@@ -120,6 +142,18 @@ export interface GlobalRulestackOperations {
     resource: GlobalRulestackResource,
     options?: GlobalRulestackCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<GlobalRulestackResource>, GlobalRulestackResource>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    globalRulestackName: string,
+    resource: GlobalRulestackResource,
+    options?: GlobalRulestackCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<GlobalRulestackResource>, GlobalRulestackResource>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    globalRulestackName: string,
+    resource: GlobalRulestackResource,
+    options?: GlobalRulestackCreateOrUpdateOptionalParams,
+  ) => Promise<GlobalRulestackResource>;
   /** Get a GlobalRulestackResource */
   get: (
     globalRulestackName: string,
@@ -161,9 +195,37 @@ function _getGlobalRulestack(context: PaloAltoNetworksCloudngfwContext) {
     ) => getChangeLog(context, globalRulestackName, options),
     commit: (globalRulestackName: string, options?: GlobalRulestackCommitOptionalParams) =>
       commit(context, globalRulestackName, options),
+    beginCommit: async (
+      globalRulestackName: string,
+      options?: GlobalRulestackCommitOptionalParams,
+    ) => {
+      const poller = commit(context, globalRulestackName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCommitAndWait: async (
+      globalRulestackName: string,
+      options?: GlobalRulestackCommitOptionalParams,
+    ) => {
+      return await commit(context, globalRulestackName, options);
+    },
     list: (options?: GlobalRulestackListOptionalParams) => list(context, options),
     delete: (globalRulestackName: string, options?: GlobalRulestackDeleteOptionalParams) =>
       $delete(context, globalRulestackName, options),
+    beginDelete: async (
+      globalRulestackName: string,
+      options?: GlobalRulestackDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, globalRulestackName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      globalRulestackName: string,
+      options?: GlobalRulestackDeleteOptionalParams,
+    ) => {
+      return await $delete(context, globalRulestackName, options);
+    },
     update: (
       globalRulestackName: string,
       properties: GlobalRulestackResourceUpdate,
@@ -174,6 +236,22 @@ function _getGlobalRulestack(context: PaloAltoNetworksCloudngfwContext) {
       resource: GlobalRulestackResource,
       options?: GlobalRulestackCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, globalRulestackName, resource, options),
+    beginCreateOrUpdate: async (
+      globalRulestackName: string,
+      resource: GlobalRulestackResource,
+      options?: GlobalRulestackCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(context, globalRulestackName, resource, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      globalRulestackName: string,
+      resource: GlobalRulestackResource,
+      options?: GlobalRulestackCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, globalRulestackName, resource, options);
+    },
     get: (globalRulestackName: string, options?: GlobalRulestackGetOptionalParams) =>
       get(context, globalRulestackName, options),
   };

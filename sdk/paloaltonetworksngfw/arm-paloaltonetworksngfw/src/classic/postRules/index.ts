@@ -22,6 +22,8 @@ import type {
 } from "../../api/postRules/options.js";
 import type { PostRulesResource, RuleCounter, RuleCounterReset } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PostRules operations. */
@@ -55,6 +57,18 @@ export interface PostRulesOperations {
     priority: string,
     options?: PostRulesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    globalRulestackName: string,
+    priority: string,
+    options?: PostRulesDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    globalRulestackName: string,
+    priority: string,
+    options?: PostRulesDeleteOptionalParams,
+  ) => Promise<void>;
   /** Create a PostRulesResource */
   createOrUpdate: (
     globalRulestackName: string,
@@ -62,6 +76,20 @@ export interface PostRulesOperations {
     resource: PostRulesResource,
     options?: PostRulesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<PostRulesResource>, PostRulesResource>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    globalRulestackName: string,
+    priority: string,
+    resource: PostRulesResource,
+    options?: PostRulesCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<PostRulesResource>, PostRulesResource>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    globalRulestackName: string,
+    priority: string,
+    resource: PostRulesResource,
+    options?: PostRulesCreateOrUpdateOptionalParams,
+  ) => Promise<PostRulesResource>;
   /** Get a PostRulesResource */
   get: (
     globalRulestackName: string,
@@ -94,12 +122,46 @@ function _getPostRules(context: PaloAltoNetworksCloudngfwContext) {
       priority: string,
       options?: PostRulesDeleteOptionalParams,
     ) => $delete(context, globalRulestackName, priority, options),
+    beginDelete: async (
+      globalRulestackName: string,
+      priority: string,
+      options?: PostRulesDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, globalRulestackName, priority, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      globalRulestackName: string,
+      priority: string,
+      options?: PostRulesDeleteOptionalParams,
+    ) => {
+      return await $delete(context, globalRulestackName, priority, options);
+    },
     createOrUpdate: (
       globalRulestackName: string,
       priority: string,
       resource: PostRulesResource,
       options?: PostRulesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, globalRulestackName, priority, resource, options),
+    beginCreateOrUpdate: async (
+      globalRulestackName: string,
+      priority: string,
+      resource: PostRulesResource,
+      options?: PostRulesCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(context, globalRulestackName, priority, resource, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      globalRulestackName: string,
+      priority: string,
+      resource: PostRulesResource,
+      options?: PostRulesCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, globalRulestackName, priority, resource, options);
+    },
     get: (globalRulestackName: string, priority: string, options?: PostRulesGetOptionalParams) =>
       get(context, globalRulestackName, priority, options),
   };

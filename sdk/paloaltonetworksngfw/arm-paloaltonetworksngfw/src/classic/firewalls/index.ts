@@ -34,6 +34,8 @@ import type {
   SupportInfo,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Firewalls operations. */
@@ -77,6 +79,18 @@ export interface FirewallsOperations {
     firewallName: string,
     options?: FirewallsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    firewallName: string,
+    options?: FirewallsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    firewallName: string,
+    options?: FirewallsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update a FirewallResource */
   update: (
     resourceGroupName: string,
@@ -91,6 +105,20 @@ export interface FirewallsOperations {
     resource: FirewallResource,
     options?: FirewallsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<FirewallResource>, FirewallResource>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    firewallName: string,
+    resource: FirewallResource,
+    options?: FirewallsCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<FirewallResource>, FirewallResource>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    firewallName: string,
+    resource: FirewallResource,
+    options?: FirewallsCreateOrUpdateOptionalParams,
+  ) => Promise<FirewallResource>;
   /** Get a FirewallResource */
   get: (
     resourceGroupName: string,
@@ -132,6 +160,22 @@ function _getFirewalls(context: PaloAltoNetworksCloudngfwContext) {
       firewallName: string,
       options?: FirewallsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, firewallName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      firewallName: string,
+      options?: FirewallsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, firewallName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      firewallName: string,
+      options?: FirewallsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, firewallName, options);
+    },
     update: (
       resourceGroupName: string,
       firewallName: string,
@@ -144,6 +188,24 @@ function _getFirewalls(context: PaloAltoNetworksCloudngfwContext) {
       resource: FirewallResource,
       options?: FirewallsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, firewallName, resource, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      firewallName: string,
+      resource: FirewallResource,
+      options?: FirewallsCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(context, resourceGroupName, firewallName, resource, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      firewallName: string,
+      resource: FirewallResource,
+      options?: FirewallsCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, resourceGroupName, firewallName, resource, options);
+    },
     get: (resourceGroupName: string, firewallName: string, options?: FirewallsGetOptionalParams) =>
       get(context, resourceGroupName, firewallName, options),
   };

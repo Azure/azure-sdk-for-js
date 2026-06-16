@@ -52,6 +52,8 @@ import type {
   SecurityServicesTypeEnum,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a LocalRulestacks operations. */
@@ -118,6 +120,18 @@ export interface LocalRulestacksOperations {
     localRulestackName: string,
     options?: LocalRulestacksCommitOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use commit instead */
+  beginCommit: (
+    resourceGroupName: string,
+    localRulestackName: string,
+    options?: LocalRulestacksCommitOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use commit instead */
+  beginCommitAndWait: (
+    resourceGroupName: string,
+    localRulestackName: string,
+    options?: LocalRulestacksCommitOptionalParams,
+  ) => Promise<void>;
   /** List LocalRulestackResource resources by subscription ID */
   listBySubscription: (
     options?: LocalRulestacksListBySubscriptionOptionalParams,
@@ -133,6 +147,18 @@ export interface LocalRulestacksOperations {
     localRulestackName: string,
     options?: LocalRulestacksDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    localRulestackName: string,
+    options?: LocalRulestacksDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    localRulestackName: string,
+    options?: LocalRulestacksDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update a LocalRulestackResource */
   update: (
     resourceGroupName: string,
@@ -147,6 +173,20 @@ export interface LocalRulestacksOperations {
     resource: LocalRulestackResource,
     options?: LocalRulestacksCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<LocalRulestackResource>, LocalRulestackResource>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    localRulestackName: string,
+    resource: LocalRulestackResource,
+    options?: LocalRulestacksCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<LocalRulestackResource>, LocalRulestackResource>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    localRulestackName: string,
+    resource: LocalRulestackResource,
+    options?: LocalRulestacksCreateOrUpdateOptionalParams,
+  ) => Promise<LocalRulestackResource>;
   /** Get a LocalRulestackResource */
   get: (
     resourceGroupName: string,
@@ -216,6 +256,22 @@ function _getLocalRulestacks(context: PaloAltoNetworksCloudngfwContext) {
       localRulestackName: string,
       options?: LocalRulestacksCommitOptionalParams,
     ) => commit(context, resourceGroupName, localRulestackName, options),
+    beginCommit: async (
+      resourceGroupName: string,
+      localRulestackName: string,
+      options?: LocalRulestacksCommitOptionalParams,
+    ) => {
+      const poller = commit(context, resourceGroupName, localRulestackName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCommitAndWait: async (
+      resourceGroupName: string,
+      localRulestackName: string,
+      options?: LocalRulestacksCommitOptionalParams,
+    ) => {
+      return await commit(context, resourceGroupName, localRulestackName, options);
+    },
     listBySubscription: (options?: LocalRulestacksListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
     listByResourceGroup: (
@@ -227,6 +283,22 @@ function _getLocalRulestacks(context: PaloAltoNetworksCloudngfwContext) {
       localRulestackName: string,
       options?: LocalRulestacksDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, localRulestackName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      localRulestackName: string,
+      options?: LocalRulestacksDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, localRulestackName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      localRulestackName: string,
+      options?: LocalRulestacksDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, localRulestackName, options);
+    },
     update: (
       resourceGroupName: string,
       localRulestackName: string,
@@ -239,6 +311,36 @@ function _getLocalRulestacks(context: PaloAltoNetworksCloudngfwContext) {
       resource: LocalRulestackResource,
       options?: LocalRulestacksCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, localRulestackName, resource, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      localRulestackName: string,
+      resource: LocalRulestackResource,
+      options?: LocalRulestacksCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        localRulestackName,
+        resource,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      localRulestackName: string,
+      resource: LocalRulestackResource,
+      options?: LocalRulestacksCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        localRulestackName,
+        resource,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       localRulestackName: string,

@@ -22,6 +22,8 @@ import type {
 } from "../../api/preRules/options.js";
 import type { RuleCounter, RuleCounterReset, PreRulesResource } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PreRules operations. */
@@ -55,6 +57,18 @@ export interface PreRulesOperations {
     priority: string,
     options?: PreRulesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    globalRulestackName: string,
+    priority: string,
+    options?: PreRulesDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    globalRulestackName: string,
+    priority: string,
+    options?: PreRulesDeleteOptionalParams,
+  ) => Promise<void>;
   /** Create a PreRulesResource */
   createOrUpdate: (
     globalRulestackName: string,
@@ -62,6 +76,20 @@ export interface PreRulesOperations {
     resource: PreRulesResource,
     options?: PreRulesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<PreRulesResource>, PreRulesResource>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    globalRulestackName: string,
+    priority: string,
+    resource: PreRulesResource,
+    options?: PreRulesCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<PreRulesResource>, PreRulesResource>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    globalRulestackName: string,
+    priority: string,
+    resource: PreRulesResource,
+    options?: PreRulesCreateOrUpdateOptionalParams,
+  ) => Promise<PreRulesResource>;
   /** Get a PreRulesResource */
   get: (
     globalRulestackName: string,
@@ -94,12 +122,46 @@ function _getPreRules(context: PaloAltoNetworksCloudngfwContext) {
       priority: string,
       options?: PreRulesDeleteOptionalParams,
     ) => $delete(context, globalRulestackName, priority, options),
+    beginDelete: async (
+      globalRulestackName: string,
+      priority: string,
+      options?: PreRulesDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, globalRulestackName, priority, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      globalRulestackName: string,
+      priority: string,
+      options?: PreRulesDeleteOptionalParams,
+    ) => {
+      return await $delete(context, globalRulestackName, priority, options);
+    },
     createOrUpdate: (
       globalRulestackName: string,
       priority: string,
       resource: PreRulesResource,
       options?: PreRulesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, globalRulestackName, priority, resource, options),
+    beginCreateOrUpdate: async (
+      globalRulestackName: string,
+      priority: string,
+      resource: PreRulesResource,
+      options?: PreRulesCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(context, globalRulestackName, priority, resource, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      globalRulestackName: string,
+      priority: string,
+      resource: PreRulesResource,
+      options?: PreRulesCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, globalRulestackName, priority, resource, options);
+    },
     get: (globalRulestackName: string, priority: string, options?: PreRulesGetOptionalParams) =>
       get(context, globalRulestackName, priority, options),
   };

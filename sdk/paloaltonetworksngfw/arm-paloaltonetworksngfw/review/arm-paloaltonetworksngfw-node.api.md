@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
@@ -125,6 +126,14 @@ export interface CertificateObjectGlobalRulestackListOptionalParams extends Oper
 
 // @public
 export interface CertificateObjectGlobalRulestackOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (globalRulestackName: string, name: string, resource: CertificateObjectGlobalRulestackResource, options?: CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CertificateObjectGlobalRulestackResource>, CertificateObjectGlobalRulestackResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (globalRulestackName: string, name: string, resource: CertificateObjectGlobalRulestackResource, options?: CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams) => Promise<CertificateObjectGlobalRulestackResource>;
+    // @deprecated (undocumented)
+    beginDelete: (globalRulestackName: string, name: string, options?: CertificateObjectGlobalRulestackDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (globalRulestackName: string, name: string, options?: CertificateObjectGlobalRulestackDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (globalRulestackName: string, name: string, resource: CertificateObjectGlobalRulestackResource, options?: CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams) => PollerLike<OperationState<CertificateObjectGlobalRulestackResource>, CertificateObjectGlobalRulestackResource>;
     delete: (globalRulestackName: string, name: string, options?: CertificateObjectGlobalRulestackDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (globalRulestackName: string, name: string, options?: CertificateObjectGlobalRulestackGetOptionalParams) => Promise<CertificateObjectGlobalRulestackResource>;
@@ -161,6 +170,14 @@ export interface CertificateObjectLocalRulestackListByLocalRulestacksOptionalPar
 
 // @public
 export interface CertificateObjectLocalRulestackOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, localRulestackName: string, name: string, resource: CertificateObjectLocalRulestackResource, options?: CertificateObjectLocalRulestackCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CertificateObjectLocalRulestackResource>, CertificateObjectLocalRulestackResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, localRulestackName: string, name: string, resource: CertificateObjectLocalRulestackResource, options?: CertificateObjectLocalRulestackCreateOrUpdateOptionalParams) => Promise<CertificateObjectLocalRulestackResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, localRulestackName: string, name: string, options?: CertificateObjectLocalRulestackDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, localRulestackName: string, name: string, options?: CertificateObjectLocalRulestackDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, localRulestackName: string, name: string, resource: CertificateObjectLocalRulestackResource, options?: CertificateObjectLocalRulestackCreateOrUpdateOptionalParams) => PollerLike<OperationState<CertificateObjectLocalRulestackResource>, CertificateObjectLocalRulestackResource>;
     delete: (resourceGroupName: string, localRulestackName: string, name: string, options?: CertificateObjectLocalRulestackDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, localRulestackName: string, name: string, options?: CertificateObjectLocalRulestackGetOptionalParams) => Promise<CertificateObjectLocalRulestackResource>;
@@ -431,6 +448,14 @@ export interface FirewallsListBySubscriptionOptionalParams extends OperationOpti
 
 // @public
 export interface FirewallsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, firewallName: string, resource: FirewallResource, options?: FirewallsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<FirewallResource>, FirewallResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, firewallName: string, resource: FirewallResource, options?: FirewallsCreateOrUpdateOptionalParams) => Promise<FirewallResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, firewallName: string, options?: FirewallsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, firewallName: string, options?: FirewallsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, firewallName: string, resource: FirewallResource, options?: FirewallsCreateOrUpdateOptionalParams) => PollerLike<OperationState<FirewallResource>, FirewallResource>;
     delete: (resourceGroupName: string, firewallName: string, options?: FirewallsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, firewallName: string, options?: FirewallsGetOptionalParams) => Promise<FirewallResource>;
@@ -509,6 +534,14 @@ export interface FqdnListGlobalRulestackListOptionalParams extends OperationOpti
 
 // @public
 export interface FqdnListGlobalRulestackOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (globalRulestackName: string, name: string, resource: FqdnListGlobalRulestackResource, options?: FqdnListGlobalRulestackCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<FqdnListGlobalRulestackResource>, FqdnListGlobalRulestackResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (globalRulestackName: string, name: string, resource: FqdnListGlobalRulestackResource, options?: FqdnListGlobalRulestackCreateOrUpdateOptionalParams) => Promise<FqdnListGlobalRulestackResource>;
+    // @deprecated (undocumented)
+    beginDelete: (globalRulestackName: string, name: string, options?: FqdnListGlobalRulestackDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (globalRulestackName: string, name: string, options?: FqdnListGlobalRulestackDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (globalRulestackName: string, name: string, resource: FqdnListGlobalRulestackResource, options?: FqdnListGlobalRulestackCreateOrUpdateOptionalParams) => PollerLike<OperationState<FqdnListGlobalRulestackResource>, FqdnListGlobalRulestackResource>;
     delete: (globalRulestackName: string, name: string, options?: FqdnListGlobalRulestackDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (globalRulestackName: string, name: string, options?: FqdnListGlobalRulestackGetOptionalParams) => Promise<FqdnListGlobalRulestackResource>;
@@ -544,6 +577,14 @@ export interface FqdnListLocalRulestackListByLocalRulestacksOptionalParams exten
 
 // @public
 export interface FqdnListLocalRulestackOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, localRulestackName: string, name: string, resource: FqdnListLocalRulestackResource, options?: FqdnListLocalRulestackCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<FqdnListLocalRulestackResource>, FqdnListLocalRulestackResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, localRulestackName: string, name: string, resource: FqdnListLocalRulestackResource, options?: FqdnListLocalRulestackCreateOrUpdateOptionalParams) => Promise<FqdnListLocalRulestackResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, localRulestackName: string, name: string, options?: FqdnListLocalRulestackDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, localRulestackName: string, name: string, options?: FqdnListLocalRulestackDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, localRulestackName: string, name: string, resource: FqdnListLocalRulestackResource, options?: FqdnListLocalRulestackCreateOrUpdateOptionalParams) => PollerLike<OperationState<FqdnListLocalRulestackResource>, FqdnListLocalRulestackResource>;
     delete: (resourceGroupName: string, localRulestackName: string, name: string, options?: FqdnListLocalRulestackDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, localRulestackName: string, name: string, options?: FqdnListLocalRulestackGetOptionalParams) => Promise<FqdnListLocalRulestackResource>;
@@ -658,6 +699,18 @@ export interface GlobalRulestackListSecurityServicesOptionalParams extends Opera
 
 // @public
 export interface GlobalRulestackOperations {
+    // @deprecated (undocumented)
+    beginCommit: (globalRulestackName: string, options?: GlobalRulestackCommitOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCommitAndWait: (globalRulestackName: string, options?: GlobalRulestackCommitOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (globalRulestackName: string, resource: GlobalRulestackResource, options?: GlobalRulestackCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GlobalRulestackResource>, GlobalRulestackResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (globalRulestackName: string, resource: GlobalRulestackResource, options?: GlobalRulestackCreateOrUpdateOptionalParams) => Promise<GlobalRulestackResource>;
+    // @deprecated (undocumented)
+    beginDelete: (globalRulestackName: string, options?: GlobalRulestackDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (globalRulestackName: string, options?: GlobalRulestackDeleteOptionalParams) => Promise<void>;
     commit: (globalRulestackName: string, options?: GlobalRulestackCommitOptionalParams) => PollerLike<OperationState<void>, void>;
     createOrUpdate: (globalRulestackName: string, resource: GlobalRulestackResource, options?: GlobalRulestackCreateOrUpdateOptionalParams) => PollerLike<OperationState<GlobalRulestackResource>, GlobalRulestackResource>;
     delete: (globalRulestackName: string, options?: GlobalRulestackDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -999,6 +1052,14 @@ export interface LocalRulesListByLocalRulestacksOptionalParams extends Operation
 
 // @public
 export interface LocalRulesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, localRulestackName: string, priority: string, resource: LocalRulesResource, options?: LocalRulesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<LocalRulesResource>, LocalRulesResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, localRulestackName: string, priority: string, resource: LocalRulesResource, options?: LocalRulesCreateOrUpdateOptionalParams) => Promise<LocalRulesResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, localRulestackName: string, priority: string, options?: LocalRulesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, localRulestackName: string, priority: string, options?: LocalRulesDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, localRulestackName: string, priority: string, resource: LocalRulesResource, options?: LocalRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<LocalRulesResource>, LocalRulesResource>;
     delete: (resourceGroupName: string, localRulestackName: string, priority: string, options?: LocalRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, localRulestackName: string, priority: string, options?: LocalRulesGetOptionalParams) => Promise<LocalRulesResource>;
@@ -1164,6 +1225,18 @@ export interface LocalRulestacksListSecurityServicesOptionalParams extends Opera
 
 // @public
 export interface LocalRulestacksOperations {
+    // @deprecated (undocumented)
+    beginCommit: (resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksCommitOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCommitAndWait: (resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksCommitOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, localRulestackName: string, resource: LocalRulestackResource, options?: LocalRulestacksCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<LocalRulestackResource>, LocalRulestackResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, localRulestackName: string, resource: LocalRulestackResource, options?: LocalRulestacksCreateOrUpdateOptionalParams) => Promise<LocalRulestackResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksDeleteOptionalParams) => Promise<void>;
     commit: (resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksCommitOptionalParams) => PollerLike<OperationState<void>, void>;
     createOrUpdate: (resourceGroupName: string, localRulestackName: string, resource: LocalRulestackResource, options?: LocalRulestacksCreateOrUpdateOptionalParams) => PollerLike<OperationState<LocalRulestackResource>, LocalRulestackResource>;
     delete: (resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -1256,6 +1329,14 @@ export interface MetricsObjectFirewallListByFirewallsOptionalParams extends Oper
 
 // @public
 export interface MetricsObjectFirewallOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, firewallName: string, resource: MetricsObjectFirewallResource, options?: MetricsObjectFirewallCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MetricsObjectFirewallResource>, MetricsObjectFirewallResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, firewallName: string, resource: MetricsObjectFirewallResource, options?: MetricsObjectFirewallCreateOrUpdateOptionalParams) => Promise<MetricsObjectFirewallResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, firewallName: string, options?: MetricsObjectFirewallDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, firewallName: string, options?: MetricsObjectFirewallDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, firewallName: string, resource: MetricsObjectFirewallResource, options?: MetricsObjectFirewallCreateOrUpdateOptionalParams) => PollerLike<OperationState<MetricsObjectFirewallResource>, MetricsObjectFirewallResource>;
     delete: (resourceGroupName: string, firewallName: string, options?: MetricsObjectFirewallDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, firewallName: string, options?: MetricsObjectFirewallGetOptionalParams) => Promise<MetricsObjectFirewallResource>;
@@ -1451,6 +1532,14 @@ export interface PostRulesListOptionalParams extends OperationOptions {
 
 // @public
 export interface PostRulesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (globalRulestackName: string, priority: string, resource: PostRulesResource, options?: PostRulesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PostRulesResource>, PostRulesResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (globalRulestackName: string, priority: string, resource: PostRulesResource, options?: PostRulesCreateOrUpdateOptionalParams) => Promise<PostRulesResource>;
+    // @deprecated (undocumented)
+    beginDelete: (globalRulestackName: string, priority: string, options?: PostRulesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (globalRulestackName: string, priority: string, options?: PostRulesDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (globalRulestackName: string, priority: string, resource: PostRulesResource, options?: PostRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PostRulesResource>, PostRulesResource>;
     delete: (globalRulestackName: string, priority: string, options?: PostRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (globalRulestackName: string, priority: string, options?: PostRulesGetOptionalParams) => Promise<PostRulesResource>;
@@ -1531,6 +1620,14 @@ export interface PrefixListGlobalRulestackListOptionalParams extends OperationOp
 
 // @public
 export interface PrefixListGlobalRulestackOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (globalRulestackName: string, name: string, resource: PrefixListGlobalRulestackResource, options?: PrefixListGlobalRulestackCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrefixListGlobalRulestackResource>, PrefixListGlobalRulestackResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (globalRulestackName: string, name: string, resource: PrefixListGlobalRulestackResource, options?: PrefixListGlobalRulestackCreateOrUpdateOptionalParams) => Promise<PrefixListGlobalRulestackResource>;
+    // @deprecated (undocumented)
+    beginDelete: (globalRulestackName: string, name: string, options?: PrefixListGlobalRulestackDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (globalRulestackName: string, name: string, options?: PrefixListGlobalRulestackDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (globalRulestackName: string, name: string, resource: PrefixListGlobalRulestackResource, options?: PrefixListGlobalRulestackCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrefixListGlobalRulestackResource>, PrefixListGlobalRulestackResource>;
     delete: (globalRulestackName: string, name: string, options?: PrefixListGlobalRulestackDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (globalRulestackName: string, name: string, options?: PrefixListGlobalRulestackGetOptionalParams) => Promise<PrefixListGlobalRulestackResource>;
@@ -1566,6 +1663,14 @@ export interface PrefixListLocalRulestackListByLocalRulestacksOptionalParams ext
 
 // @public
 export interface PrefixListLocalRulestackOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, localRulestackName: string, name: string, resource: PrefixListResource, options?: PrefixListLocalRulestackCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrefixListResource>, PrefixListResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, localRulestackName: string, name: string, resource: PrefixListResource, options?: PrefixListLocalRulestackCreateOrUpdateOptionalParams) => Promise<PrefixListResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, localRulestackName: string, name: string, options?: PrefixListLocalRulestackDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, localRulestackName: string, name: string, options?: PrefixListLocalRulestackDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, localRulestackName: string, name: string, resource: PrefixListResource, options?: PrefixListLocalRulestackCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrefixListResource>, PrefixListResource>;
     delete: (resourceGroupName: string, localRulestackName: string, name: string, options?: PrefixListLocalRulestackDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, localRulestackName: string, name: string, options?: PrefixListLocalRulestackGetOptionalParams) => Promise<PrefixListResource>;
@@ -1616,6 +1721,14 @@ export interface PreRulesListOptionalParams extends OperationOptions {
 
 // @public
 export interface PreRulesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (globalRulestackName: string, priority: string, resource: PreRulesResource, options?: PreRulesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PreRulesResource>, PreRulesResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (globalRulestackName: string, priority: string, resource: PreRulesResource, options?: PreRulesCreateOrUpdateOptionalParams) => Promise<PreRulesResource>;
+    // @deprecated (undocumented)
+    beginDelete: (globalRulestackName: string, priority: string, options?: PreRulesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (globalRulestackName: string, priority: string, options?: PreRulesDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (globalRulestackName: string, priority: string, resource: PreRulesResource, options?: PreRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PreRulesResource>, PreRulesResource>;
     delete: (globalRulestackName: string, priority: string, options?: PreRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (globalRulestackName: string, priority: string, options?: PreRulesGetOptionalParams) => Promise<PreRulesResource>;
@@ -1812,6 +1925,28 @@ export interface SecurityServicesTypeList {
 
 // @public
 export type ServerStatus = string;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export interface SourceAddr {
