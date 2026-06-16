@@ -8,7 +8,11 @@ import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
-    const client = new DeviceUpdateClient("<endpoint>", new DefaultAzureCredential(), "<instanceId>");
+    const client = new DeviceUpdateClient(
+      "<endpoint>",
+      new DefaultAzureCredential(),
+      "<instanceId>",
+    );
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
