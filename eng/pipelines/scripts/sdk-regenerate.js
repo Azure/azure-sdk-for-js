@@ -103,11 +103,6 @@ function setPipelineVariable(name, value, { isOutput = false, isSecret = false }
   console.log(`##vso[task.setvariable variable=${name}${prefix}]${value}`);
 }
 
-/** Emit an ADO log issue (warning/error) without failing the step. */
-function logPipelineIssue(severity, message) {
-  console.log(`##vso[task.logissue type=${severity}]${message}`);
-}
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Subcommand: resolve-emitter
 // Resolve --input to a concrete npm version. "dev" means: use the npm `next`
