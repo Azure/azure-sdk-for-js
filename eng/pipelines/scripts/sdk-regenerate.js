@@ -143,7 +143,7 @@ async function runResolveEmitter() {
   let shouldRun = true;
   if (normalizedInput === DEV_VERSION_SENTINEL) {
     resolvedEmitterVersion = await resolveNextEmitterVersion();
-    if (isScheduled && !forceRun) {
+    if (/* isScheduled && */ !forceRun) {
       const lastBuilt = await getLastBuiltEmitterVersion();
       if (resolvedEmitterVersion === lastBuilt) {
         console.log(`Version ${resolvedEmitterVersion} already built – skipping.`);
