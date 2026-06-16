@@ -20,18 +20,14 @@ trigger:
   paths:
     include:
       - eng/emitter-package.json
-      - eng/common/scripts/TypeSpec-*
-      - eng/common/scripts/New-RegenerateMatrix.ps1
       - eng/pipelines/sdk-regenerate.yml
       - eng/pipelines/scripts/sdk-regenerate.js
 
 pr:
-  branches: { include: [main, feature/*, hotfix/*] }
+  branches: { include: [main] }
   paths:
     include:
       - eng/emitter-package.json
-      - eng/common/scripts/TypeSpec-*
-      - eng/common/scripts/New-RegenerateMatrix.ps1
       - eng/pipelines/sdk-regenerate.yml
       - eng/pipelines/scripts/sdk-regenerate.js
 

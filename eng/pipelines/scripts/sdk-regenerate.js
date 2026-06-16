@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 // Sole script for sdk-regenerate.yml. The YAML dispatches to one of the
 // subcommands at the bottom of this file.
-// Per-emitter-bug workarounds do NOT live here; see UPSTREAM-ISSUES.md.
 
 const { spawn, spawnSync } = require("child_process");
 const fs = require("fs");
@@ -142,14 +141,23 @@ async function getLastBuiltEmitterVersionFromTag() {
   const { exitCode: runExit, output: runOutput } = await runCommandCapturing(
     "az",
     [
-      "pipelines", "runs", "list",
-      "--pipeline-id", definitionId,
-      "--result", "succeeded",
-      "--top", "1",
-      "--query", "[0].id",
-      "--output", "tsv",
-      "--org", org,
-      "--project", project,
+      "pipelines",
+      "runs",
+      "list",
+      "--pipeline-id",
+      definitionId,
+      "--result",
+      "succeeded",
+      "--top",
+      "1",
+      "--query",
+      "[0].id",
+      "--output",
+      "tsv",
+      "--org",
+      org,
+      "--project",
+      project,
     ],
     process.cwd(),
   );
@@ -159,11 +167,18 @@ async function getLastBuiltEmitterVersionFromTag() {
   const { exitCode: tagExit, output: tagOutput } = await runCommandCapturing(
     "az",
     [
-      "pipelines", "build", "tag", "list",
-      "--build-id", lastBuildId,
-      "--org", org,
-      "--project", project,
-      "--output", "tsv",
+      "pipelines",
+      "build",
+      "tag",
+      "list",
+      "--build-id",
+      lastBuildId,
+      "--org",
+      org,
+      "--project",
+      project,
+      "--output",
+      "tsv",
     ],
     process.cwd(),
   );
@@ -449,8 +464,7 @@ async function buildRegeneratedPackages(allPackages, successfullyRegenerated, tu
   console.log(`\n===== Build (pnpm turbo, concurrency=${turboConcurrency}) =====`);
 
   // Stale TempTypeSpecFiles/<svc>/package.json pin unpublished dev emitter
-  // versions, causing pnpm install to 401 from the internal feed. See
-  // UPSTREAM-ISSUES.md §9.
+  // versions, causing pnpm install to 401 from the internal feed.
   removeStaleTempTypespecDirs(allPackages);
 
   const installResult = await runCommandCapturing(
@@ -507,8 +521,8 @@ async function generateChangelogsForBuilt(successfullyRegenerated, builtSdkPaths
 }
 
 async function generateChangelogForOnePackage(pkg) {
-  // Bypass eng/scripts/update-changelog-content.ps1 (Windows backslash bug,
-  // UPSTREAM-ISSUES.md §3) by invoking the bin directly.
+  // Invoke update-changelog bin directly (avoids backslash issues in the
+  // PowerShell wrapper script on Linux agents).
   const result = await runCommandCapturing(
     "npm",
     [
