@@ -78,8 +78,6 @@ Compared with version 3.0.0
   - Operation Tasks.createOrUpdate has a new signature
   - Operation Tasks.get has a new signature
   - Operation Tasks.update has a new signature
-  - Class DataMigrationManagementClient no longer has parameter apiVersion
-  - Class DataMigrationManagementClient no longer has parameter subscriptionId
   - Removed Interface ConnectToTargetSqlDbSyncTaskInput
   - Removed Interface ConnectToTargetSqlDbSyncTaskProperties
   - Removed Interface Database
