@@ -109,6 +109,8 @@ stages:
       - bash: node $(shardScript) resolve-emitter --input '${{ parameters.EmitterVersion }}'
         name: resolveVersion
         displayName: 'Resolve emitter version'
+        env:
+          AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
 
       - bash: |
           node $(shardScript) build-matrix \
@@ -230,3 +232,21 @@ stages:
           displayName: 'Open pull request'
           env:
             AUTH_TOKEN: $(azuresdk-github-pat)
+
+  - job: RecordEmitterVersion
+    displayName: 'Tag build with emitter version'
+    dependsOn: [Setup, RegenerateAndBuild]
+    condition: succeeded('RegenerateAndBuild')
+    variables:
+      emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
+    steps:
+      - checkout: none
+      - bash: |
+          az pipelines build tag add \
+            --build-id $(Build.BuildId) \
+            --tags "emitter:$(emitterVersion)" \
+            --org $(System.CollectionUri) \
+            --project "$(System.TeamProject)"
+        displayName: 'Tag build with emitter version'
+        env:
+          AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)

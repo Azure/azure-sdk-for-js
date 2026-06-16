@@ -144,7 +144,11 @@ async function runResolveEmitter() {
   if (normalizedInput === DEV_VERSION_SENTINEL) {
     resolvedEmitterVersion = await resolveNextEmitterVersion();
     if (isScheduled && !forceRun) {
-      shouldRun = await isDevVersionFresh(resolvedEmitterVersion);
+      const lastBuilt = await getLastBuiltEmitterVersion();
+      if (resolvedEmitterVersion === lastBuilt) {
+        console.log(`Version ${resolvedEmitterVersion} already built – skipping.`);
+        shouldRun = false;
+      }
     }
   } else {
     resolvedEmitterVersion = rawInputVersion.trim();
@@ -155,22 +159,44 @@ async function runResolveEmitter() {
   setPipelineVariable("shouldRun", String(shouldRun), { isOutput: true });
 }
 
-async function isDevVersionFresh(version) {
-  const { exitCode, output } = await runCommandCapturing(
-    "npm",
-    ["view", EMITTER_PACKAGE_NAME, "time", "--json"],
+async function getLastBuiltEmitterVersion() {
+  const definitionId = (process.env.SYSTEM_DEFINITIONID || "").trim();
+  const org = (process.env.SYSTEM_COLLECTIONURI || "").trim();
+  const project = (process.env.SYSTEM_TEAMPROJECT || "").trim();
+  if (!definitionId || !org || !project) return "";
+
+  const { exitCode: runExit, output: runOutput } = await runCommandCapturing(
+    "az",
+    [
+      "pipelines", "runs", "list",
+      "--pipeline-id", definitionId,
+      "--result", "succeeded",
+      "--top", "1",
+      "--query", "[0].id",
+      "--output", "tsv",
+      "--org", org,
+      "--project", project,
+    ],
     process.cwd(),
   );
-  let publishedAt;
-  if (exitCode === 0) {
-    try { publishedAt = JSON.parse(output)?.[version]; } catch { /* ignore */ }
-  }
-  const ageMs = publishedAt ? Date.now() - new Date(publishedAt).getTime() : Infinity;
-  const isFresh = ageMs <= 24 * 60 * 60 * 1000;
-  console.log(
-    `Next dev version age: ${Number.isFinite(ageMs) ? (ageMs / 3_600_000).toFixed(1) + "h" : "unknown"}; fresh=${isFresh}`,
+  const lastBuildId = runExit === 0 ? runOutput.trim() : "";
+  if (!lastBuildId) return "";
+
+  const { exitCode: tagExit, output: tagOutput } = await runCommandCapturing(
+    "az",
+    [
+      "pipelines", "build", "tag", "list",
+      "--build-id", lastBuildId,
+      "--org", org,
+      "--project", project,
+      "--output", "tsv",
+    ],
+    process.cwd(),
   );
-  return isFresh;
+  if (tagExit !== 0) return "";
+
+  const emitterTag = tagOutput.split(/\r?\n/).find((t) => t.startsWith("emitter:"));
+  return emitterTag ? emitterTag.replace("emitter:", "") : "";
 }
 
 async function resolveNextEmitterVersion() {
