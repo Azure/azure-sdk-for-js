@@ -194,7 +194,7 @@ export class AppConfigurationClient {
   deleteKeyValue(
     key: string,
     options: DeleteKeyValueOptionalParams = { requestOptions: {} },
-  ): Promise<KeyValue> {
+  ): Promise<KeyValue | undefined> {
     return deleteKeyValue(this._client, key, options);
   }
 
