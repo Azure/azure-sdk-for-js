@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function serializeRecord(
   item: any,
   excludes?: string[],

@@ -54,7 +54,11 @@ Using Node.js and Node-like environments, you can use the `DefaultAzureCredentia
 import { DeviceUpdateClient } from "@azure/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const client = new DeviceUpdateClient("<endpoint>", new DefaultAzureCredential());
+const client = new DeviceUpdateClient(
+  "<endpoint>",
+  new DefaultAzureCredential(),
+  "<instanceId>",
+);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
@@ -67,7 +71,7 @@ const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
-const client = new DeviceUpdateClient("<endpoint>", credential);
+const client = new DeviceUpdateClient("<endpoint>", credential, "<instanceId>");
 ```
 
 
