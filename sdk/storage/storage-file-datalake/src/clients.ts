@@ -4,10 +4,10 @@
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
-import { isNodeLike } from "@azure/core-util";
+import { isNodeLike, uint8ArrayToString } from "@azure/core-util";
 import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
-import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
+import { BlobClient, BlockBlobClient, type Tags } from "@azure/storage-blob";
 import { AnonymousCredential } from "@azure/storage-common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import type { Readable } from "node:stream";
@@ -59,6 +59,10 @@ import type {
   PathGetAccessControlResponse,
   PathGetPropertiesOptions,
   PathGetPropertiesResponse,
+  PathGetSystemPropertiesOptions,
+  PathGetSystemPropertiesResponse,
+  PathGetTagsOptions,
+  PathGetTagsResponse,
   PathHttpHeaders,
   PathMoveOptions,
   PathMoveResponse,
@@ -72,6 +76,8 @@ import type {
   PathSetMetadataResponse,
   PathSetPermissionsOptions,
   PathSetPermissionsResponse,
+  PathSetTagsOptions,
+  PathSetTagsResponse,
   RemovePathAccessControlItem,
 } from "./models.js";
 import type { PathSetAccessControlRecursiveMode } from "./models.internal.js";
@@ -692,6 +698,49 @@ export class DataLakePathClient extends StorageClient {
   }
 
   /**
+   * Returns all standard HTTP properties, and system properties
+   * for the path (directory or file).
+   *
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/get-properties?view=rest-storageservices-datalakestoragegen2-2019-12-12
+   *
+   * @param options - Optional. Options when getting path properties.
+   */
+  public async getSystemProperties(
+    options: PathGetSystemPropertiesOptions = {},
+  ): Promise<PathGetSystemPropertiesResponse> {
+    return tracingClient.withSpan(
+      "DataLakePathClient-getSystemProperties",
+      options,
+      async (updatedOptions) => {
+        const restResponse = await this.pathContext.getProperties({
+          ...updatedOptions,
+          action: "getStatus",
+          upn: options.userPrincipalName,
+          leaseId: options.conditions?.leaseId,
+          ifMatch: options.conditions?.ifMatch,
+          ifNoneMatch: options.conditions?.ifNoneMatch,
+          ifModifiedSince: options.conditions?.ifModifiedSince,
+          ifUnmodifiedSince: options.conditions?.ifUnmodifiedSince,
+          abortSignal: options.abortSignal,
+        });
+
+        const response = adjustResponse({
+          ...restResponse,
+          isDirectory: restResponse.resourceType === "directory",
+          permissions: toPermissions(restResponse.permissions),
+          contentMD5: restResponse.contentMD5
+            ? uint8ArrayToString(restResponse.contentMD5, "base64")
+            : undefined,
+        }) as unknown as PathGetSystemPropertiesResponse;
+        return {
+          ...response,
+          _response: response._response,
+        };
+      },
+    );
+  }
+
+  /**
    * Returns all user-defined metadata, standard HTTP properties, and system properties
    * for the path (directory or file).
    *
@@ -781,6 +830,37 @@ export class DataLakePathClient extends StorageClient {
         });
       },
     );
+  }
+
+  /**
+   * Gets the tags associated with the underlying path.
+   *
+   * @param options -
+   */
+  public async getTags(options: PathGetTagsOptions = {}): Promise<PathGetTagsResponse> {
+    return tracingClient.withSpan("DataLakePathClient-getTags", options, async (updatedOptions) => {
+      return this.blobClient.getTags({
+        ...options,
+        tracingOptions: updatedOptions.tracingOptions,
+      });
+    });
+  }
+  /**
+   * Sets tags on the underlying path.
+   * A path can have up to 10 tags. Tag keys must be between 1 and 128 characters.  Tag values must be between 0 and 256 characters.
+   * Valid tag key and value characters include lower and upper case letters, digits (0-9),
+   * space (' '), plus ('+'), minus ('-'), period ('.'), forward slash ('/'), colon (':'), equals ('='), and underscore ('_').
+   *
+   * @param tags -
+   * @param options -
+   */
+  public async setTags(tags: Tags, options: PathSetTagsOptions = {}): Promise<PathSetTagsResponse> {
+    return tracingClient.withSpan("DataLakePathClient-setTags", options, async (updatedOptions) => {
+      return this.blobClient.setTags(tags, {
+        ...options,
+        tracingOptions: updatedOptions.tracingOptions,
+      });
+    });
   }
 
   /**

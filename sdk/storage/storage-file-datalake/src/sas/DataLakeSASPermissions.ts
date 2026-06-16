@@ -25,6 +25,9 @@ export class DataLakeSASPermissions {
         case "r":
           blobSASPermissions.read = true;
           break;
+        case "t":
+          blobSASPermissions.tag = true;
+          break;
         case "a":
           blobSASPermissions.add = true;
           break;
@@ -93,6 +96,11 @@ export class DataLakeSASPermissions {
   public execute: boolean = false;
 
   /**
+   * Specifies Tag access granted.
+   */
+  public tag: boolean = false;
+
+  /**
    * Specifies Ownership access granted, which allows the caller to set owner, owning group,
    * or act as the owner when renaming or deleting a blob (file or directory) within a folder
    * that has the sticky bit set.
@@ -115,6 +123,9 @@ export class DataLakeSASPermissions {
     const permissions: string[] = [];
     if (this.read) {
       permissions.push("r");
+    }
+    if (this.tag) {
+      permissions.push("t");
     }
     if (this.add) {
       permissions.push("a");

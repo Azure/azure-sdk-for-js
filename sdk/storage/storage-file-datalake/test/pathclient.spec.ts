@@ -50,6 +50,68 @@ describe("DataLakePathClient", () => {
     await recorder.stop();
   });
 
+  it("DataLakeFileClient getSystemProperties", async () => {
+    const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+
+    await testFileClient.create();
+    const systemProperties = await testFileClient.getSystemProperties();
+    const properties = await testFileClient.getProperties();
+    assert.deepEqual(systemProperties.permissions, properties.permissions);
+    assert.deepEqual(systemProperties.owner, properties.owner);
+    assert.deepEqual(systemProperties.group, properties.group);
+    assert.deepEqual(systemProperties.etag, properties.etag);
+    assert.deepEqual(systemProperties.contentLength, properties.contentLength);
+    assert.deepEqual(systemProperties.isDirectory, false);
+
+    const pathClient = fileSystemClient.getDirectoryClient(testFileName);
+    const fileProperties = await pathClient.getSystemProperties();
+    assert.deepEqual(fileProperties.permissions, properties.permissions);
+    assert.deepEqual(fileProperties.owner, properties.owner);
+    assert.deepEqual(fileProperties.group, properties.group);
+    assert.deepEqual(fileProperties.etag, properties.etag);
+    assert.deepEqual(fileProperties.contentLength, properties.contentLength);
+    assert.deepEqual(fileProperties.isDirectory, false);
+  });
+
+  it("DataLakeDirectoryClient getSystemProperties", async () => {
+    const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+
+    await testDirClient.create();
+    const systemProperties = await testDirClient.getSystemProperties();
+    const properties = await testDirClient.getProperties();
+    assert.deepEqual(systemProperties.permissions, properties.permissions);
+    assert.deepEqual(systemProperties.owner, properties.owner);
+    assert.deepEqual(systemProperties.group, properties.group);
+    assert.deepEqual(systemProperties.etag, properties.etag);
+    assert.deepEqual(systemProperties.contentLength, properties.contentLength);
+    assert.deepEqual(systemProperties.isDirectory, true);
+
+    const pathClient = fileSystemClient.getDirectoryClient(testDirName);
+    const pathProperties = await pathClient.getSystemProperties();
+    assert.deepEqual(pathProperties.permissions, properties.permissions);
+    assert.deepEqual(pathProperties.owner, properties.owner);
+    assert.deepEqual(pathProperties.group, properties.group);
+    assert.deepEqual(pathProperties.etag, properties.etag);
+    assert.deepEqual(pathProperties.contentLength, properties.contentLength);
+    assert.deepEqual(pathProperties.isDirectory, true);
+  });
+
+  // Skip the case util the feature is enabled in service
+  it.skip("DataLakeFileClient setTags & getTags", async () => {
+    const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const tags = {
+      tag1: "val1",
+      tag2: "val2",
+    };
+    await testFileClient.create();
+    await testFileClient.setTags(tags);
+    const getTagsResponse = await testFileClient.getTags();
+    assert.deepStrictEqual(getTagsResponse.tags, tags);
+  });
+
   it("DataLakeFileClient create file path with directory dots", async () => {
     const fileBaseName = recorder.variable("filename", getUniqueName("filename"));
     const fileNameWithDots = "./adir/../anotherdir/.././" + fileBaseName;
