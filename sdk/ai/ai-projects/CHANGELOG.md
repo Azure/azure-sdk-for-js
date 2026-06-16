@@ -5,10 +5,25 @@
 ### Features Added
 
 - Added experimental GenAI tracing support via `enableGenAITracing()`. When enabled, OpenTelemetry spans are emitted for Responses API calls with GenAI semantic convention attributes, token usage metrics, and optional content recording.
+- Added `"a2a"` as a supported `AgentProtocol` value.
+- Added `supported_evaluation_levels` to `EvaluatorVersion`.
+- Added `RoutineRunStatus` and updated `RoutineRun.status` to use it.
+- Added `isRestError` and `NodeReadableStream` exports.
 
 ### Breaking Changes
 
+- Removed beta agent optimization candidate operations, including `listOptimizationCandidates`, `getOptimizationCandidate`, `getOptimizationCandidateConfig`, `getOptimizationCandidateResults`, `getCandidateFile`, and `promoteCandidate`.
+- Removed related beta agent optimization candidate response and metadata types, including `AgentsPagedResultOptimizationCandidate`, `CandidateMetadata`, `CandidateFileInfo`, `CandidateDeployConfig`, `CandidateResults`, `PromoteCandidateRequest`, `PromoteCandidateResponse`, and `BetaAgentsGetCandidateFileResponse`.
+- Changed `project.beta.agents.createOptimizationJob` to accept an `OptimizationJob` request body instead of `OptimizationJobInputs`.
+- Changed `project.beta.agents.listOptimizationJobs` to return `OptimizationJobListItem` values.
+- Renamed optimization model types from `AgentIdentifier` and `DatasetRef` to the new `Optimization*` model names.
+- Renamed `BetaAgentsCreateAgentVersionFromCodeOptionalParams` to `BetaAgentsCreateVersionFromCodeOptionalParams`.
+- Renamed the `project.beta.models.update` request parameter from `body` to `modelVersionUpdate`.
+
 ### Bugs Fixed
+
+- Fixed routine run status exports so `RoutineRun.status` can reference the exported `RoutineRunStatus` type.
+- Fixed package import mappings for browser and React Native platform-specific helpers.
 
 ### Other Changes
 
