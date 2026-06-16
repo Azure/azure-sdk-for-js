@@ -25,8 +25,8 @@
  */
 import { AttestationClient } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
-import { writeBanner } from "./utils/helpers.js";
-import { decodeString } from "./utils/base64url.js";
+import { writeBanner } from "./utils/helpers.ts";
+import { decodeString } from "./utils/base64url.ts";
 // Load environment from a .env file if it exists.
 import "dotenv/config";
 

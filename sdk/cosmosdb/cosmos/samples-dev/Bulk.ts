@@ -6,7 +6,7 @@
  */
 
 import "dotenv/config";
-import { handleError, finish, logStep } from "./Shared/handleError.js";
+import { handleError, finish, logStep } from "./Shared/handleError.ts";
 import type { OperationInput } from "@azure/cosmos";
 import { BulkOperationType, CosmosClient, PatchOperationType } from "@azure/cosmos";
 

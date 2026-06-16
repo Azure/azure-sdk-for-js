@@ -6,7 +6,7 @@
  */
 
 import "dotenv/config";
-import { finish, handleError, logSampleHeader } from "./../Shared/handleError.js";
+import { finish, handleError, logSampleHeader } from "./../Shared/handleError.ts";
 import type { IndexingPolicy } from "@azure/cosmos";
 import { CosmosClient } from "@azure/cosmos";
 

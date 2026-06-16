@@ -15,7 +15,7 @@
 
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 import { DefaultAzureCredential } from "@azure/identity";
-import { PrebuiltTaxUsW2Model } from "./prebuilt/prebuilt-tax.us.w2.js";
+import { PrebuiltTaxUsW2Model } from "./prebuilt/prebuilt-tax.us.w2.ts";
 import fs from "node:fs";
 import path from "node:path";
 import "dotenv/config";

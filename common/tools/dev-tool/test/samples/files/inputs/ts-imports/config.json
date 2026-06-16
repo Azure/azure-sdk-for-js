@@ -1,0 +1,10 @@
+{
+  "skipFolder": false,
+  "disableDocsMs": true,
+  "productName": "Azure Template",
+  "productSlugs": [],
+  "apiRefLink": "https://learn.microsoft.com/javascript/api/",
+  "requiredResources": {
+    "Azure App Configuration": "https://learn.microsoft.com/azure/azure-app-configuration/"
+  }
+}

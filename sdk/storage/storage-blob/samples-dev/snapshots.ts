@@ -23,7 +23,7 @@
 
 import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 
-import { streamToBuffer } from "./utils/stream.js";
+import { streamToBuffer } from "./utils/stream.ts";
 
 // Load the .env file if it exists
 import "dotenv/config";

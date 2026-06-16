@@ -368,6 +368,11 @@ export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> 
   delete tsconfig.compilerOptions.inlineSources;
   delete tsconfig.compilerOptions.sourceMap;
   delete tsconfig.compilerOptions.verbatimModuleSyntax;
+  // `allowImportingTsExtensions` is enabled in `samples-dev` so that local samples
+  // can `import "./foo.ts"` and be executed directly with Node's TypeScript loader.
+  // Published samples are compiled with `tsc` and emit `.js` files, so the `.ts`
+  // specifiers are rewritten back to `.js` during publishing — strip this flag.
+  delete tsconfig.compilerOptions.allowImportingTsExtensions;
   tsconfig.include = ["./src"];
   tsconfig.compilerOptions.outDir = "./dist";
   tsconfig.compilerOptions.rootDir = "./src";
@@ -439,6 +444,12 @@ export async function makeSamplesFactory(
         .replace(/\/\*\*(\s+\*)*/s, `/**\n *`)
         // Finally remove empty doc comments.
         .replace(/\s*\/\*\*(\s+\*)*\/\s*/s, "\n\n")
+        // Rewrite relative imports/requires that reference `.ts` files to `.js`,
+        // since published samples are consumed as JavaScript (or compiled with tsc
+        // using `nodenext` resolution, which also expects `.js` specifiers).
+        // The `.ts` form is used in samples-dev sources so that `dev-tool samples run`
+        // can load them directly via Node's TypeScript loader.
+        .replace(/(["'])(\.\.?\/[^"']*?)\.ts\1/g, "$1$2.js$1")
     );
   }
 
