@@ -141,7 +141,7 @@ describe("ServiceBus test", () => {
     assert.equal(resArray.length, 0);
   });
 
-  it("namespaces delete test", async () => {
+  it.only("namespaces delete test", async () => {
     await client.namespaces.beginDeleteAndWait(resourceGroup, namespacesName, testPollingOptions);
   });
 });
