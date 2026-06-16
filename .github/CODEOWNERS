@@ -1769,7 +1769,7 @@ sdk/postgresqlhsc/arm-postgresqlhsc/ @qiaozha @MaryGao @JialinHuang803
 /.github/prompts/security-review-guidelines.md     @Azure/azure-sdk-for-js-core
 /.github/prompts/test-recording.prompt.md          @Azure/azure-sdk-for-js-core
 /.github/prompts/test-review-guidelines.md         @Azure/azure-sdk-for-js-core
-/.github/skills/                         @Azure/azsdk-cli
+/.github/skills/                         @Azure/azsdk-cli @Azure/azure-sdk-for-js-core
 
 /.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng
 /.github/copilot-instructions.md         @praveenkuttappan
