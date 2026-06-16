@@ -236,7 +236,7 @@ stages:
   - job: RecordEmitterVersion
     displayName: 'Tag build with emitter version'
     dependsOn: [Setup, RegenerateAndBuild]
-    condition: succeeded('RegenerateAndBuild')
+    condition: and(succeeded('RegenerateAndBuild'), eq(variables['Build.Reason'], 'Schedule'))
     variables:
       emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
     steps:
