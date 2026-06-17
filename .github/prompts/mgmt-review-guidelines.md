@@ -26,6 +26,10 @@ Besides public API surfaces, we also need to pay attention to generated files li
 - Package versions should align with API versions. The first package version can only be a preview version, regardless of API versions. For later cases, preview API versions can only be released in preview package versions.
 - The first `CHANGELOG.md` entry is hard-coded. Ignore its content for review and only review its versions.
 - Do not allow alpha versions in `CHANGELOG.md`, context file(s) under `src/api/`, or `package.json`.
+- **CHANGELOG comparison baseline.** The `Compared with version X.Y.Z` line compares against the last **stable (GA)** release — **NOT** the immediately preceding entry in this repo. This is intentional: a `CHANGELOG.md` entry is a **cumulative** diff against the last GA release, so every preview in a release generation re-lists *all* changes since that baseline rather than just the delta from the previous preview. That is why both `6.0.0-beta.1` and `6.0.0-beta.2` show `Compared with version 5.0.0`, with `beta.2` listing strictly more than `beta.1`. Concretely:
+  - For a package that has a stable (GA) release, the baseline is the **last stable (GA)** release; any preview versions published after that GA are intentionally skipped. Example: `6.0.0-beta.2` correctly compares with `5.0.0` even though `6.0.0-beta.1` shipped in between — **do not flag this.**
+  - If the package has never GA'd, the baseline is the latest published preview, so a preview comparing against an earlier preview (e.g. `1.0.0-beta.3` → `1.0.0-beta.1`) is also expected.
+  - The **only** changelog-comparison case to flag as a tool issue is a baseline that is an **alpha** version (e.g., `1.0.0-alpha.20260311.1`).
 
 ### 2. Samples and tests
 - Do not comment on style, formatting, documentation, or whitespace.
@@ -107,7 +111,9 @@ If the API surface and tool validation look good, say so explicitly in one sente
 > 🔴 **Tool Issue** — `CHANGELOG.md:42`
 > `Compared with 1.0.0-alpha.20260311.1:`.
 > We should not compare with alpha versions in `CHANGELOG.md`; this suggests a tooling bug.
-> **Fix:** Update the changelog to compare with the latest preview or stable version, and report the issue in the [generation tool repository](https://github.com/Azure/autorest.typescript/issues).
+> **Fix:** Update the changelog to compare with the last stable (GA) release (or the last published preview if the package has never GA'd), and report the issue in the [generation tool repository](https://github.com/Azure/autorest.typescript/issues).
+>
+> Note: comparing against the last **stable** release while skipping intervening **beta** versions is correct (e.g., `6.0.0-beta.2` → `5.0.0`); only an **alpha** baseline is a tool bug.
 
 ### Bad finding (too noisy — do NOT flag these)
 

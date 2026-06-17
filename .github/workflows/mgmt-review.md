@@ -113,6 +113,7 @@ Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guid
 - Do **not** flag undocumented APIs.
 - Do **not** flag issues in submodules.
 - Do **not** flag `AzureClouds` relevant enums. Its inconsistency is by design.
+- Do **not** flag a `CHANGELOG.md` `Compared with version X.Y.Z` line when `X.Y.Z` is the last **stable (GA)** release, even if a newer beta shipped between it and the current entry — comparing against the last stable while skipping intervening betas is by design (e.g., `6.0.0-beta.2` → `5.0.0`). For a package that has never GA'd, the baseline is the last published beta (e.g., `1.0.0-beta.3` → `1.0.0-beta.1`). Only an `alpha` baseline is a tool bug.
 - **Do** flag if the `api-version` introduced in this PR is not strictly newer than the one already present in the package (i.e., it is the same as or older than the existing version).
 
 ### Step 1 — Context Gathering
@@ -154,7 +155,9 @@ line using `create-pull-request-review-comment`:
 > 🔴 **Tool Issue** — `CHANGELOG.md:42`
 > `Compared with 1.0.0-alpha.20260311.1:`.
 > We should not compare with alpha versions in `CHANGELOG.md`; this suggests a tooling bug.
-> **Fix:** Update `CHANGELOG.md` to compare with the latest preview or stable version, and report the issue in the [generation tool repository](https://github.com/Azure/autorest.typescript/issues).
+> **Fix:** Update `CHANGELOG.md` to compare with the last stable (GA) release (or the last published preview if the package has never GA'd), and report the issue in the [generation tool repository](https://github.com/Azure/autorest.typescript/issues).
+
+> **Do NOT flag** a `Compared with version X.Y.Z` line just because a newer preview was released after `X.Y.Z`. The changelog compares against the **last stable (GA) release**, skipping intervening betas — e.g., `6.0.0-beta.2` comparing with `5.0.0` (not `6.0.0-beta.1`) is correct and expected; for a never-GA'd package it is the last published beta. Only an **alpha** baseline is a tool bug.
 
 After all inline comments, **submit the review** using
 `submit-pull-request-review` with:
