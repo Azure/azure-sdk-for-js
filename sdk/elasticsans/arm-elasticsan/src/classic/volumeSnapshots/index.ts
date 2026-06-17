@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ElasticSanManagementContext } from "../../api/elasticSanManagementContext.js";
+import { ElasticSanManagementContext } from "../../api/elasticSanManagementContext.js";
 import { listByVolumeGroup, $delete, create, get } from "../../api/volumeSnapshots/operations.js";
-import type {
+import {
   VolumeSnapshotsListByVolumeGroupOptionalParams,
   VolumeSnapshotsDeleteOptionalParams,
   VolumeSnapshotsCreateOptionalParams,
   VolumeSnapshotsGetOptionalParams,
 } from "../../api/volumeSnapshots/options.js";
-import type { Snapshot } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Snapshot } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VolumeSnapshots operations. */
 export interface VolumeSnapshotsOperations {
@@ -25,11 +24,6 @@ export interface VolumeSnapshotsOperations {
     options?: VolumeSnapshotsListByVolumeGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Snapshot>;
   /** Delete a Volume Snapshot. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     elasticSanName: string,

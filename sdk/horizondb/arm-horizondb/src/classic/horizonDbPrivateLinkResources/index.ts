@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HorizonDbContext } from "../../api/horizonDbContext.js";
+import { HorizonDbContext } from "../../api/horizonDbContext.js";
 import { list, get } from "../../api/horizonDbPrivateLinkResources/operations.js";
-import type {
+import {
   HorizonDbPrivateLinkResourcesListOptionalParams,
   HorizonDbPrivateLinkResourcesGetOptionalParams,
 } from "../../api/horizonDbPrivateLinkResources/options.js";
-import type { HorizonDbPrivateLinkResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { HorizonDbPrivateLinkResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a HorizonDbPrivateLinkResources operations. */
 export interface HorizonDbPrivateLinkResourcesOperations {

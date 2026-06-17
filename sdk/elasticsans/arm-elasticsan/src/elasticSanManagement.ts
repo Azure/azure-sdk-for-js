@@ -1,31 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   ElasticSanManagementContext,
   ElasticSanManagementOptionalParams,
+  createElasticSanManagement,
 } from "./api/index.js";
-import { createElasticSanManagement } from "./api/index.js";
-import type { ElasticSansOperations } from "./classic/elasticSans/index.js";
-import { _getElasticSansOperations } from "./classic/elasticSans/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { SkusOperations } from "./classic/skus/index.js";
-import { _getSkusOperations } from "./classic/skus/index.js";
-import type { VolumeGroupsOperations } from "./classic/volumeGroups/index.js";
-import { _getVolumeGroupsOperations } from "./classic/volumeGroups/index.js";
-import type { VolumeSnapshotsOperations } from "./classic/volumeSnapshots/index.js";
-import { _getVolumeSnapshotsOperations } from "./classic/volumeSnapshots/index.js";
-import type { VolumesOperations } from "./classic/volumes/index.js";
-import { _getVolumesOperations } from "./classic/volumes/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { ElasticSansOperations, _getElasticSansOperations } from "./classic/elasticSans/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import { SkusOperations, _getSkusOperations } from "./classic/skus/index.js";
+import {
+  VolumeGroupsOperations,
+  _getVolumeGroupsOperations,
+} from "./classic/volumeGroups/index.js";
+import {
+  VolumeSnapshotsOperations,
+  _getVolumeSnapshotsOperations,
+} from "./classic/volumeSnapshots/index.js";
+import { VolumesOperations, _getVolumesOperations } from "./classic/volumes/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type ElasticSanManagementOptionalParams } from "./api/elasticSanManagementContext.js";
+export type { ElasticSanManagementOptionalParams } from "./api/elasticSanManagementContext.js";
 
 export class ElasticSanManagement {
   private _client: ElasticSanManagementContext;
