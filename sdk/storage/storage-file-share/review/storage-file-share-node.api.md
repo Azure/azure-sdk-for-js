@@ -21,7 +21,6 @@ import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeli
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import type { NodeJSReadableStream } from '@azure/storage-common';
 import { OperationOptions } from '@azure-rest/core-client';
-import type { OperationOptions as OperationOptions_2 } from '@azure/core-client';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline as Pipeline_2 } from '@azure/core-rest-pipeline';
@@ -648,17 +647,6 @@ export interface FileDownloadHeaders {
 }
 
 // @public
-export interface FileDownloadOptionalParams extends OperationOptions_2 {
-    allowTrailingDot?: boolean;
-    fileRequestIntent?: ShareTokenIntent;
-    leaseAccessConditions?: LeaseAccessConditions;
-    range?: string;
-    rangeGetContentMD5?: boolean;
-    structuredBodyType?: string;
-    timeoutInSeconds?: number;
-}
-
-// @public
 export interface FileDownloadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
@@ -1098,20 +1086,6 @@ export interface FileUploadRangeFromURLHeaders {
     requestId?: string;
     version?: string;
     xMsContentCrc64?: Uint8Array;
-}
-
-// @public
-export interface FileUploadRangeFromURLOptionalParams extends OperationOptions_2 {
-    allowSourceTrailingDot?: boolean;
-    allowTrailingDot?: boolean;
-    copySourceAuthorization?: string;
-    fileLastWrittenMode?: FileLastWrittenMode;
-    fileRequestIntent?: ShareTokenIntent;
-    leaseAccessConditions?: LeaseAccessConditions;
-    sourceContentCrc64?: Uint8Array;
-    sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
-    sourceRange?: string;
-    timeoutInSeconds?: number;
 }
 
 // @public

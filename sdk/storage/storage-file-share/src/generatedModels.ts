@@ -581,11 +581,9 @@ export type FileRenameResponse = WithResponse<FileRenameHeaders, FileRenameHeade
 export type {
   CopyStatusType,
   DeleteSnapshotsOptionType,
-  FileDownloadOptionalParams,
   FileGetRangeListHeaders,
   FileLastWrittenMode,
   FileServiceProperties,
-  FileUploadRangeFromURLOptionalParams,
   PermissionCopyModeType,
   ListSharesIncludeType,
   FileRange as RangeModel,
