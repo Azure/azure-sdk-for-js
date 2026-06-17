@@ -1680,7 +1680,7 @@ sdk/edgeorder/arm-edgeorder/ @qiaozha @MaryGao @JialinHuang803
 sdk/postgresqlhsc/arm-postgresqlhsc/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
-sdk/programenrollment/arm-programenrollment/ @qiaozha @MaryGao @JialinHuang803
+/sdk/programenrollment/arm-programenrollment/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config
