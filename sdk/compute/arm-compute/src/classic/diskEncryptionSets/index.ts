@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listAssociatedResources,
   list,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/diskEncryptionSets/operations.js";
-import type {
+import {
   DiskEncryptionSetsListAssociatedResourcesOptionalParams,
   DiskEncryptionSetsListOptionalParams,
   DiskEncryptionSetsListByResourceGroupOptionalParams,
@@ -20,14 +20,10 @@ import type {
   DiskEncryptionSetsCreateOrUpdateOptionalParams,
   DiskEncryptionSetsGetOptionalParams,
 } from "../../api/diskEncryptionSets/options.js";
-import type {
-  DiskEncryptionSet,
-  DiskEncryptionSetUpdate,
-} from "../../models/computeDisk/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { DiskEncryptionSet, DiskEncryptionSetUpdate } from "../../models/computeDisk/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DiskEncryptionSets operations. */
 export interface DiskEncryptionSetsOperations {
@@ -47,11 +43,6 @@ export interface DiskEncryptionSetsOperations {
     options?: DiskEncryptionSetsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<DiskEncryptionSet>;
   /** Deletes a disk encryption set. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     diskEncryptionSetName: string,

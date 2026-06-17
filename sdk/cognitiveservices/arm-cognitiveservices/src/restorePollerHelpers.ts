@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementClient } from "./cognitiveServicesManagementClient.js";
+import { CognitiveServicesManagementClient } from "./cognitiveServicesManagementClient.js";
 import {
   _$deleteDeserialize,
   _createOrUpdateDeserialize,
@@ -66,10 +66,14 @@ import {
   _createDeserialize as _createDeserializeAccounts,
 } from "./api/accounts/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
-import { deserializeState } from "@azure/core-lro";
+import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  PollerLike,
+  OperationState,
+  deserializeState,
+  ResourceLocationConfig,
+} from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -197,7 +201,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}":
     { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/networkSecurityPerimeterConfigurations/{nspConfigurationName}/reconcile":
-    { deserializer: _reconcileDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _reconcileDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiToolLabels/{raiToolConnectionName}":
     { deserializer: _$deleteDeserializeRaiToolLabels, expectedStatuses: ["202", "204", "200"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raitopics/{raiTopicName}":

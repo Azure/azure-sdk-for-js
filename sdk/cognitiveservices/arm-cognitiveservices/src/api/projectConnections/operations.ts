@@ -1,30 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext as Client } from "../index.js";
-import type {
-  ConnectionPropertiesV2BasicResource,
-  _ConnectionPropertiesV2BasicResourceArmPaginatedResult,
-} from "../../models/models.js";
+import { CognitiveServicesManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ConnectionPropertiesV2BasicResource,
   connectionPropertiesV2BasicResourceSerializer,
   connectionPropertiesV2BasicResourceDeserializer,
   connectionUpdateContentSerializer,
+  _ConnectionPropertiesV2BasicResourceArmPaginatedResult,
   _connectionPropertiesV2BasicResourceArmPaginatedResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ProjectConnectionsListOptionalParams,
   ProjectConnectionsDeleteOptionalParams,
   ProjectConnectionsUpdateOptionalParams,
   ProjectConnectionsCreateOptionalParams,
   ProjectConnectionsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -40,7 +44,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       projectName: projectName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       target: options?.target,
       category: options?.category,
       includeAll: options?.includeAll,
@@ -49,10 +53,12 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -61,7 +67,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -82,11 +90,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, projectName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -106,7 +110,7 @@ export function _$deleteSend(
       accountName: accountName,
       projectName: projectName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -119,7 +123,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -163,20 +169,22 @@ export function _updateSend(
       accountName: accountName,
       projectName: projectName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["connection"]
-      ? options["connection"]
-      : connectionUpdateContentSerializer(options["connection"]),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.connection
+        ? options?.connection
+        : connectionUpdateContentSerializer(options?.connection),
+    });
 }
 
 export async function _updateDeserialize(
@@ -185,7 +193,9 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -229,20 +239,22 @@ export function _createSend(
       accountName: accountName,
       projectName: projectName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["connection"]
-      ? options["connection"]
-      : connectionPropertiesV2BasicResourceSerializer(options["connection"]),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.connection
+        ? options?.connection
+        : connectionPropertiesV2BasicResourceSerializer(options?.connection),
+    });
 }
 
 export async function _createDeserialize(
@@ -251,7 +263,9 @@ export async function _createDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -295,16 +309,18 @@ export function _getSend(
       accountName: accountName,
       projectName: projectName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -313,7 +329,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

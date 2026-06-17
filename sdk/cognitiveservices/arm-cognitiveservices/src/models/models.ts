@@ -603,8 +603,6 @@ export interface AccountProperties {
   /** Cognitive Services Rai Monitor Config. */
   raiMonitorConfig?: RaiMonitorConfig;
   networkInjections?: NetworkInjection[];
-  /** Represents the foundry auto-upgrade configuration for a Cognitive Services account. */
-  foundryAutoUpgrade?: FoundryAutoUpgrade;
   /** Specifies whether this resource support project management as child resources, used as containers for access management, data isolation and cost in AI Foundry. */
   allowProjectManagement?: boolean;
   /** Specifies the project, by project name, that is targeted when data plane endpoints are called without a project parameter. */
@@ -650,9 +648,6 @@ export function accountPropertiesSerializer(item: AccountProperties): any {
     networkInjections: !item["networkInjections"]
       ? item["networkInjections"]
       : networkInjectionArraySerializer(item["networkInjections"]),
-    foundryAutoUpgrade: !item["foundryAutoUpgrade"]
-      ? item["foundryAutoUpgrade"]
-      : foundryAutoUpgradeSerializer(item["foundryAutoUpgrade"]),
     allowProjectManagement: item["allowProjectManagement"],
     defaultProject: item["defaultProject"],
     associatedProjects: !item["associatedProjects"]
@@ -735,9 +730,6 @@ export function accountPropertiesDeserializer(item: any): AccountProperties {
     networkInjections: !item["networkInjections"]
       ? item["networkInjections"]
       : networkInjectionArrayDeserializer(item["networkInjections"]),
-    foundryAutoUpgrade: !item["foundryAutoUpgrade"]
-      ? item["foundryAutoUpgrade"]
-      : foundryAutoUpgradeDeserializer(item["foundryAutoUpgrade"]),
     allowProjectManagement: item["allowProjectManagement"],
     defaultProject: item["defaultProject"],
     associatedProjects: !item["associatedProjects"]
@@ -1587,57 +1579,6 @@ export enum KnownScenarioType {
  */
 export type ScenarioType = string;
 
-/**
- * Represents the foundry auto-upgrade configuration for a Cognitive Services account.
- * Customers can opt out of auto-upgrade by setting mode to Disabled.
- */
-export interface FoundryAutoUpgrade {
-  /** Gets or sets the auto-upgrade mode. */
-  mode?: FoundryAutoUpgradeMode;
-  /** Gets or sets a value indicating whether the auto-upgrade is planned by Microsoft. */
-  plannedByMicrosoft?: boolean;
-  /** Gets or sets the status reason for the auto-upgrade configuration. */
-  statusReason?: string;
-  /** Gets or sets the scheduled time for the auto-upgrade. */
-  scheduledAt?: Date;
-}
-
-export function foundryAutoUpgradeSerializer(item: FoundryAutoUpgrade): any {
-  return {
-    mode: item["mode"],
-    plannedByMicrosoft: item["plannedByMicrosoft"],
-    statusReason: item["statusReason"],
-    scheduledAt: !item["scheduledAt"] ? item["scheduledAt"] : item["scheduledAt"].toISOString(),
-  };
-}
-
-export function foundryAutoUpgradeDeserializer(item: any): FoundryAutoUpgrade {
-  return {
-    mode: item["mode"],
-    plannedByMicrosoft: item["plannedByMicrosoft"],
-    statusReason: item["statusReason"],
-    scheduledAt: !item["scheduledAt"] ? item["scheduledAt"] : new Date(item["scheduledAt"]),
-  };
-}
-
-/** Represents the mode for foundry auto-upgrade configuration. */
-export enum KnownFoundryAutoUpgradeMode {
-  /** Auto-upgrade is enabled. */
-  Enabled = "Enabled",
-  /** Auto-upgrade is disabled (opted out). */
-  Disabled = "Disabled",
-}
-
-/**
- * Represents the mode for foundry auto-upgrade configuration. \
- * {@link KnownFoundryAutoUpgradeMode} can be used interchangeably with FoundryAutoUpgradeMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled**: Auto-upgrade is enabled. \
- * **Disabled**: Auto-upgrade is disabled (opted out).
- */
-export type FoundryAutoUpgradeMode = string;
-
 /** The resource model definition representing SKU */
 export interface Sku {
   /** The name of the SKU. Ex - P3. It is typically a letter+number code */
@@ -2000,10 +1941,6 @@ export interface Usage {
   nextResetTime?: string;
   /** Cognitive Services account quota usage status. */
   status?: QuotaUsageStatus;
-  /** The scope type of the quota usage. */
-  scopeType?: QuotaScopeType;
-  /** The scope identifier of the quota usage. */
-  scopeId?: string;
 }
 
 export function usageDeserializer(item: any): Usage {
@@ -2015,8 +1952,6 @@ export function usageDeserializer(item: any): Usage {
     currentValue: item["currentValue"],
     nextResetTime: item["nextResetTime"],
     status: item["status"],
-    scopeType: item["scopeType"],
-    scopeId: item["scopeId"],
   };
 }
 
@@ -2091,30 +2026,6 @@ export enum KnownQuotaUsageStatus {
  * **Unknown**
  */
 export type QuotaUsageStatus = string;
-
-/** The quota scope that determines the level at which the quota is applied. */
-export enum KnownQuotaScopeType {
-  /** Regional */
-  Regional = "Regional",
-  /** Global */
-  Global = "Global",
-  /** DataZone */
-  DataZone = "DataZone",
-  /** Classic */
-  Classic = "Classic",
-}
-
-/**
- * The quota scope that determines the level at which the quota is applied. \
- * {@link KnownQuotaScopeType} can be used interchangeably with QuotaScopeType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Regional** \
- * **Global** \
- * **DataZone** \
- * **Classic**
- */
-export type QuotaScopeType = string;
 
 /** The list of cognitive services accounts operation response. */
 export interface _AccountModelListResult {
@@ -7375,73 +7286,6 @@ export function agentReferenceDeserializer(item: any): AgentReference {
   };
 }
 
-/** The status of an async compute operation. */
-export interface ComputeOperationStatus extends ProxyResource {
-  /** The properties of the compute operation status. */
-  properties?: ComputeOperationStatusProperties;
-}
-
-export function computeOperationStatusDeserializer(item: any): ComputeOperationStatus {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : computeOperationStatusPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** The properties of a compute operation status. */
-export interface ComputeOperationStatusProperties {
-  /** The start time of the operation. */
-  readonly startTime?: Date;
-  /** The end time of the operation. */
-  readonly endTime?: Date;
-  /** The status of the operation. */
-  status?: ComputeOperationStatusType;
-  /** Error details if the operation failed. */
-  error?: ErrorDetail;
-}
-
-export function computeOperationStatusPropertiesDeserializer(
-  item: any,
-): ComputeOperationStatusProperties {
-  return {
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    status: item["status"],
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-  };
-}
-
-/** The status type of a compute operation. */
-export enum KnownComputeOperationStatusType {
-  /** The operation is in progress. */
-  InProgress = "InProgress",
-  /** The operation has succeeded. */
-  Succeeded = "Succeeded",
-  /** The operation has failed. */
-  Failed = "Failed",
-  /** The operation has been canceled. */
-  Canceled = "Canceled",
-}
-
-/**
- * The status type of a compute operation. \
- * {@link KnownComputeOperationStatusType} can be used interchangeably with ComputeOperationStatusType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **InProgress**: The operation is in progress. \
- * **Succeeded**: The operation has succeeded. \
- * **Failed**: The operation has failed. \
- * **Canceled**: The operation has been canceled.
- */
-export type ComputeOperationStatusType = string;
-
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
@@ -9247,10 +9091,6 @@ export interface ModelSkuCapacityProperties {
   availableCapacity?: number;
   /** The available capacity for deployment with a fine-tune version of this model and sku. */
   availableFinetuneCapacity?: number;
-  /** The scope identifier for model SKU capacity. */
-  scopeId?: string;
-  /** The scope type for model SKU capacity. */
-  scopeType?: QuotaScopeType;
 }
 
 export function modelSkuCapacityPropertiesDeserializer(item: any): ModelSkuCapacityProperties {
@@ -9259,19 +9099,15 @@ export function modelSkuCapacityPropertiesDeserializer(item: any): ModelSkuCapac
     skuName: item["skuName"],
     availableCapacity: item["availableCapacity"],
     availableFinetuneCapacity: item["availableFinetuneCapacity"],
-    scopeId: item["scopeId"],
-    scopeType: item["scopeType"],
   };
 }
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2025-10-01-preview API version. */
-  V20251001Preview = "2025-10-01-preview",
   /** The 2025-12-01 API version. */
   V20251201 = "2025-12-01",
-  /** The 2026-01-15-preview API version. */
-  V20260115Preview = "2026-01-15-preview",
+  /** The 2026-03-01 API version. */
+  V20260301 = "2026-03-01",
 }
 
 export function raiBlocklistItemBulkRequestArraySerializer(

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Content Filters types.
  *
  * @summary list Content Filters types.
- * x-ms-original-file: 2026-01-15-preview/ListRaiContentFilters.json
+ * x-ms-original-file: 2026-03-01/ListRaiContentFilters.json
  */
 async function listRaiContentFilters(): Promise<void> {
   const credential = new DefaultAzureCredential();

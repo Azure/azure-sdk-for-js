@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a Cognitive Services account
  *
  * @summary updates a Cognitive Services account
- * x-ms-original-file: 2026-01-15-preview/UpdateAccount.json
+ * x-ms-original-file: 2026-03-01/UpdateAccount.json
  */
 async function updateAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();

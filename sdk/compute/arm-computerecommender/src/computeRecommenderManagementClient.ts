@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   ComputeRecommenderManagementContext,
   ComputeRecommenderManagementClientOptionalParams,
+  createComputeRecommenderManagement,
 } from "./api/index.js";
-import { createComputeRecommenderManagement } from "./api/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { SpotPlacementScoresOperations } from "./classic/spotPlacementScores/index.js";
-import { _getSpotPlacementScoresOperations } from "./classic/spotPlacementScores/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  SpotPlacementScoresOperations,
+  _getSpotPlacementScoresOperations,
+} from "./classic/spotPlacementScores/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type ComputeRecommenderManagementClientOptionalParams } from "./api/computeRecommenderManagementContext.js";
+export type { ComputeRecommenderManagementClientOptionalParams } from "./api/computeRecommenderManagementContext.js";
 
 export class ComputeRecommenderManagementClient {
   private _client: ComputeRecommenderManagementContext;

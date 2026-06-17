@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the PUT API for creating or updating a single outbound rule of the managed network associated with the cognitive services account.
  *
  * @summary the PUT API for creating or updating a single outbound rule of the managed network associated with the cognitive services account.
- * x-ms-original-file: 2026-01-15-preview/ManagedNetwork/createOrUpdateRuleV2.json
+ * x-ms-original-file: 2026-03-01/ManagedNetwork/createOrUpdateRuleV2.json
  */
 async function createOrUpdateOutboundRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

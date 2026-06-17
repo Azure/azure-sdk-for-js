@@ -1,29 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext as Client } from "../index.js";
-import type {
-  PatchResourceTagsAndSku,
-  CommitmentPlan,
-  _CommitmentPlanListResult,
-  CommitmentPlanAccountAssociation,
-  _CommitmentPlanAccountAssociationListResult,
-} from "../../models/models.js";
+import { CognitiveServicesManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  PatchResourceTagsAndSku,
   patchResourceTagsAndSkuSerializer,
+  CommitmentPlan,
   commitmentPlanSerializer,
   commitmentPlanDeserializer,
+  _CommitmentPlanListResult,
   _commitmentPlanListResultDeserializer,
+  CommitmentPlanAccountAssociation,
   commitmentPlanAccountAssociationSerializer,
   commitmentPlanAccountAssociationDeserializer,
+  _CommitmentPlanAccountAssociationListResult,
   _commitmentPlanAccountAssociationListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   CommitmentPlansListAssociationsOptionalParams,
   CommitmentPlansDeleteAssociationOptionalParams,
   CommitmentPlansCreateOrUpdateAssociationOptionalParams,
@@ -39,9 +39,13 @@ import type {
   CommitmentPlansCreateOrUpdateOptionalParams,
   CommitmentPlansGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listAssociationsSend(
   context: Client,
@@ -55,16 +59,18 @@ export function _listAssociationsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAssociationsDeserialize(
@@ -73,7 +79,9 @@ export async function _listAssociationsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -93,11 +101,7 @@ export function listAssociations(
     () => _listAssociationsSend(context, resourceGroupName, commitmentPlanName, options),
     _listAssociationsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -115,7 +119,7 @@ export function _deleteAssociationSend(
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
       commitmentPlanAssociationName: commitmentPlanAssociationName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,7 +132,9 @@ export async function _deleteAssociationDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -156,7 +162,7 @@ export function deleteAssociation(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -175,18 +181,20 @@ export function _createOrUpdateAssociationSend(
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
       commitmentPlanAssociationName: commitmentPlanAssociationName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: commitmentPlanAccountAssociationSerializer(association),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: commitmentPlanAccountAssociationSerializer(association),
+    });
 }
 
 export async function _createOrUpdateAssociationDeserialize(
@@ -195,7 +203,9 @@ export async function _createOrUpdateAssociationDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -229,7 +239,7 @@ export function createOrUpdateAssociation(
           options,
         ),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+      apiVersion: context.apiVersion ?? "2026-03-01",
     },
   ) as PollerLike<
     OperationState<CommitmentPlanAccountAssociation>,
@@ -251,16 +261,18 @@ export function _getAssociationSend(
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
       commitmentPlanAssociationName: commitmentPlanAssociationName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getAssociationDeserialize(
@@ -269,7 +281,9 @@ export async function _getAssociationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -303,16 +317,18 @@ export function _listPlansBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/commitmentPlans{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listPlansBySubscriptionDeserialize(
@@ -321,7 +337,9 @@ export async function _listPlansBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -339,11 +357,7 @@ export function listPlansBySubscription(
     () => _listPlansBySubscriptionSend(context, options),
     _listPlansBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -357,16 +371,18 @@ export function _listPlansByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listPlansByResourceGroupDeserialize(
@@ -375,7 +391,9 @@ export async function _listPlansByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -394,11 +412,7 @@ export function listPlansByResourceGroup(
     () => _listPlansByResourceGroupSend(context, resourceGroupName, options),
     _listPlansByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -414,7 +428,7 @@ export function _deletePlanSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -427,7 +441,9 @@ export async function _deletePlanDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -448,7 +464,7 @@ export function deletePlan(
     getInitialResponse: () =>
       _deletePlanSend(context, resourceGroupName, commitmentPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -465,18 +481,20 @@ export function _updatePlanSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: patchResourceTagsAndSkuSerializer(commitmentPlan),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: patchResourceTagsAndSkuSerializer(commitmentPlan),
+    });
 }
 
 export async function _updatePlanDeserialize(
@@ -485,7 +503,9 @@ export async function _updatePlanDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -507,7 +527,7 @@ export function updatePlan(
     getInitialResponse: () =>
       _updatePlanSend(context, resourceGroupName, commitmentPlanName, commitmentPlan, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<CommitmentPlan>, CommitmentPlan>;
 }
 
@@ -524,18 +544,20 @@ export function _createOrUpdatePlanSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: commitmentPlanSerializer(commitmentPlan),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: commitmentPlanSerializer(commitmentPlan),
+    });
 }
 
 export async function _createOrUpdatePlanDeserialize(
@@ -544,7 +566,9 @@ export async function _createOrUpdatePlanDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -572,7 +596,7 @@ export function createOrUpdatePlan(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<CommitmentPlan>, CommitmentPlan>;
 }
 
@@ -588,23 +612,27 @@ export function _getPlanSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getPlanDeserialize(result: PathUncheckedResponse): Promise<CommitmentPlan> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -635,16 +663,18 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -653,7 +683,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -673,11 +705,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -695,7 +723,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -708,7 +736,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -730,7 +760,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, commitmentPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -749,18 +779,20 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: commitmentPlanSerializer(commitmentPlan),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: commitmentPlanSerializer(commitmentPlan),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -769,7 +801,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -811,23 +845,27 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<CommitmentPlan> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

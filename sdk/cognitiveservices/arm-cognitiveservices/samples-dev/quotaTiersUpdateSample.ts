@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the Quota Tier information for the given subscription. QuotaTiers is a subscription wide resource type. It holds current tier information.
  *
  * @summary update the Quota Tier information for the given subscription. QuotaTiers is a subscription wide resource type. It holds current tier information.
- * x-ms-original-file: 2026-01-15-preview/UpdateQuotaTier.json
+ * x-ms-original-file: 2026-03-01/UpdateQuotaTier.json
  */
 async function updateTheQuotaTierResourceForASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

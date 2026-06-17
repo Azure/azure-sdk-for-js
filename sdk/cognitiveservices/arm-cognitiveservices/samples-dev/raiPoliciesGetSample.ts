@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary gets the specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-01-15-preview/GetRaiPolicy.json
+ * x-ms-original-file: 2026-03-01/GetRaiPolicy.json
  */
 async function getRaiPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

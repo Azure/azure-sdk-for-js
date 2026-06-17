@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   restart,
   redeploy,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/dedicatedHosts/operations.js";
-import type {
+import {
   DedicatedHostsRestartOptionalParams,
   DedicatedHostsRedeployOptionalParams,
   DedicatedHostsListAvailableSizesOptionalParams,
@@ -22,11 +22,10 @@ import type {
   DedicatedHostsCreateOrUpdateOptionalParams,
   DedicatedHostsGetOptionalParams,
 } from "../../api/dedicatedHosts/options.js";
-import type { DedicatedHost, DedicatedHostUpdate } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { DedicatedHost, DedicatedHostUpdate } from "../../models/compute/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DedicatedHosts operations. */
 export interface DedicatedHostsOperations {
@@ -86,11 +85,6 @@ export interface DedicatedHostsOperations {
     options?: DedicatedHostsListByHostGroupOptionalParams,
   ) => PagedAsyncIterableIterator<DedicatedHost>;
   /** Delete a dedicated host. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     hostGroupName: string,

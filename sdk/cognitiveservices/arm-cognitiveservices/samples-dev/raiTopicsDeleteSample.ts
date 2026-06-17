@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified custom topic associated with the Azure OpenAI account.
  *
  * @summary deletes the specified custom topic associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-01-15-preview/DeleteRaiTopic.json
+ * x-ms-original-file: 2026-03-01/DeleteRaiTopic.json
  */
 async function deleteRaiTopic(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,28 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext as Client } from "./index.js";
-import type {
-  SkuAvailabilityListResult,
-  DomainAvailability,
-  CalculateModelCapacityResult,
-} from "../models/models.js";
+import { CognitiveServicesManagementContext as Client } from "./index.js";
 import {
+  SkuAvailabilityListResult,
   skuAvailabilityListResultDeserializer,
   errorResponseDeserializer,
+  DomainAvailability,
   domainAvailabilityDeserializer,
   deploymentModelSerializer,
   modelCapacityCalculatorWorkloadArraySerializer,
+  CalculateModelCapacityResult,
   calculateModelCapacityResultDeserializer,
 } from "../models/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import type {
+import {
   CalculateModelCapacityOptionalParams,
   CheckDomainAvailabilityOptionalParams,
   CheckSkuAvailabilityOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _calculateModelCapacitySend(
   context: Client,
@@ -32,24 +34,26 @@ export function _calculateModelCapacitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/calculateModelCapacity{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: {
-      model: !options?.model ? options?.model : deploymentModelSerializer(options?.model),
-      skuName: options?.skuName,
-      workloads: !options?.workloads
-        ? options?.workloads
-        : modelCapacityCalculatorWorkloadArraySerializer(options?.workloads),
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        model: !options?.model ? options?.model : deploymentModelSerializer(options?.model),
+        skuName: options?.skuName,
+        workloads: !options?.workloads
+          ? options?.workloads
+          : modelCapacityCalculatorWorkloadArraySerializer(options?.workloads),
+      },
+    });
 }
 
 export async function _calculateModelCapacityDeserialize(
@@ -58,7 +62,9 @@ export async function _calculateModelCapacityDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -85,18 +91,20 @@ export function _checkDomainAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/checkDomainAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: { subdomainName: subdomainName, type: typeParam, kind: options?.kind },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: { subdomainName: subdomainName, type: typeParam, kind: options?.kind },
+    });
 }
 
 export async function _checkDomainAvailabilityDeserialize(
@@ -105,7 +113,9 @@ export async function _checkDomainAvailabilityDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -137,7 +147,7 @@ export function _checkSkuAvailabilitySend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,7 +173,9 @@ export async function _checkSkuAvailabilityDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

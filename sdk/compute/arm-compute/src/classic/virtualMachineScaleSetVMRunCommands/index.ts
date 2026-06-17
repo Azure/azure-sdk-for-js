@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   list,
   $delete,
@@ -9,21 +9,20 @@ import {
   createOrUpdate,
   get,
 } from "../../api/virtualMachineScaleSetVMRunCommands/operations.js";
-import type {
+import {
   VirtualMachineScaleSetVMRunCommandsListOptionalParams,
   VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams,
   VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams,
   VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams,
   VirtualMachineScaleSetVMRunCommandsGetOptionalParams,
 } from "../../api/virtualMachineScaleSetVMRunCommands/options.js";
-import type {
+import {
   VirtualMachineRunCommand,
   VirtualMachineRunCommandUpdate,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualMachineScaleSetVMRunCommands operations. */
 export interface VirtualMachineScaleSetVMRunCommandsOperations {
@@ -35,11 +34,6 @@ export interface VirtualMachineScaleSetVMRunCommandsOperations {
     options?: VirtualMachineScaleSetVMRunCommandsListOptionalParams,
   ) => PagedAsyncIterableIterator<VirtualMachineRunCommand>;
   /** The operation to delete the VMSS VM run command. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vmScaleSetName: string,

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeRecommenderManagementContext } from "../../api/computeRecommenderManagementContext.js";
+import { ComputeRecommenderManagementContext } from "../../api/computeRecommenderManagementContext.js";
 import { post, get } from "../../api/spotPlacementScores/operations.js";
-import type {
+import {
   SpotPlacementScoresPostOptionalParams,
   SpotPlacementScoresGetOptionalParams,
 } from "../../api/spotPlacementScores/options.js";
-import type {
+import {
   ComputeDiagnosticBase,
   SpotPlacementScoresInput,
   SpotPlacementScoresResponse,

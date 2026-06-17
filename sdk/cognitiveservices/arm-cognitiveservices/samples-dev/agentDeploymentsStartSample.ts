@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to starts an Agent Deployment.
  *
  * @summary starts an Agent Deployment.
- * x-ms-original-file: 2026-01-15-preview/AgentDeployment/start.json
+ * x-ms-original-file: 2026-03-01/AgentDeployment/start.json
  */
 async function startAgentDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to model capacity calculator.
  *
  * @summary model capacity calculator.
- * x-ms-original-file: 2026-01-15-preview/CalculateModelCapacity.json
+ * x-ms-original-file: 2026-03-01/CalculateModelCapacity.json
  */
 async function calculateModelCapacity(): Promise<void> {
   const credential = new DefaultAzureCredential();

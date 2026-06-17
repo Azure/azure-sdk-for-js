@@ -1,4 +1,33 @@
 {
-  "apiVersion": "2025-06-05",
-  "emitterVersion": "0.44.0"
+  "apiVersions": {
+    "Microsoft.Compute": "2025-06-05"
+  },
+  "emitterVersion": "0.55.0-dev.4",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Compute",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-computerecommender!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-computerecommender!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-computerecommender!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-computerecommender!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-computerecommender!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-computerecommender!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-computerecommender!ComputeDiagnosticBase:interface": "Microsoft.Compute.ComputeDiagnosticBase",
+      "@azure/arm-computerecommender!DiagnosticProperties:interface": "Microsoft.Compute.DiagnosticProperties",
+      "@azure/arm-computerecommender!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-computerecommender!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-computerecommender!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-computerecommender!SpotPlacementScoresInput:interface": "Microsoft.Compute.SpotPlacementScoresInput",
+      "@azure/arm-computerecommender!ResourceSize:interface": "Microsoft.Compute.ResourceSize",
+      "@azure/arm-computerecommender!SpotPlacementScoresResponse:interface": "Microsoft.Compute.SpotPlacementScoresResponse",
+      "@azure/arm-computerecommender!PlacementScore:interface": "Microsoft.Compute.PlacementScore",
+      "@azure/arm-computerecommender!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-computerecommender!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-computerecommender!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-computerecommender!KnownVersions:enum": "Microsoft.Compute.Versions",
+      "@azure/arm-computerecommender!SpotPlacementScoresOperations#post:member": "Microsoft.Compute.ComputeDiagnosticBases.post",
+      "@azure/arm-computerecommender!SpotPlacementScoresOperations#get:member": "Microsoft.Compute.ComputeDiagnosticBases.get",
+      "@azure/arm-computerecommender!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
 }

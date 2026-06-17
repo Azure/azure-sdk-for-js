@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Commerce": "2015-06-01-preview"
   },
-  "emitterVersion": "0.52.1",
+  "emitterVersion": "0.55.0-dev.4",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Commerce",
     "CrossLanguageDefinitionId": {
