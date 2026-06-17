@@ -64,6 +64,14 @@ parameters:
     type: string
     default: 'auto'
 
+  - name: PRPushMode
+    displayName: "PR contents ('api.md and changelog' = break-check; 'all' = full SDK refresh)"
+    type: string
+    default: 'api.md and changelog'
+    values:
+      - api.md and changelog
+      - all
+
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -175,23 +183,17 @@ stages:
             --specRepoBranch "${{ parameters.SpecRepoBranch }}" \
             --specRepoRoot   "$(specRepoRoot)" \
             --directoryList  "$(Pipeline.Workspace)/matrix_artifacts/$(DirectoryList)" \
-            --skipBuild      "${{ parameters.SkipBuild }}"
+            --skipBuild      "${{ parameters.SkipBuild }}" \
+            --prPushMode     "${{ parameters.PRPushMode }}"
         displayName: 'Regenerate + build shard'
         workingDirectory: $(sdkRoot)
 
       - ${{ if parameters.CreatePullRequest }}:
-        # Restrict the PR to api.md + CHANGELOG.md (break-check semantics).
-        # `git add -A` covers modifications, additions and deletions of those
-        # files; `git stash --keep-index --include-untracked` then drops all
-        # other working-tree and untracked changes so the subsequent push
-        # commits only the staged api.md + CHANGELOG.md set.
-        - bash: |
-            set +e
-            git add -A 'sdk/*/*/review/*.api.md' 'sdk/*/*/CHANGELOG.md'
-            set -e
-            git stash --keep-index --include-untracked || true
-            git stash drop || true
-          displayName: 'Filter shard output to api.md + CHANGELOG only'
+        # Stage only the files this PR should contain so git-push-changes.yml's
+        # `git commit -am` pushes nothing else. Logic lives in the stage-pr
+        # subcommand (keyed by PRPushMode).
+        - bash: node $(shardScript) stage-pr --prPushMode "${{ parameters.PRPushMode }}"
+          displayName: 'Stage PR changes (${{ parameters.PRPushMode }})'
           workingDirectory: $(sdkRoot)
 
         - template: /eng/common/pipelines/templates/steps/git-push-changes.yml

@@ -30,6 +30,7 @@ const options = {
   skipBuild:      { type: "string", default: "false" },
   filter:         { type: "string", default: "arm-*" },
   specRepoBranch: { type: "string", default: "main" },
+  prPushMode:     { type: "string", default: "api.md and changelog" },
   branch:         { type: "string", default: "" },
   // ADO built-in variables and job outputs passed in by the YAML
   emitterVersion: { type: "string", default: "" },
@@ -317,18 +318,24 @@ async function runShard() {
   const perPackageConcurrency = 4;
   const turboBuildConcurrency = 4;
   const skipBuild = values.skipBuild.toLowerCase() === "true";
+  // "all" (refresh) mode regenerates against each package's pinned spec commit
+  // so the api-version stays identical to the existing SDK and the diff reflects
+  // only emitter changes. Giving Sync no local spec makes it honor
+  // tsp-location.yaml's commit instead of the spec repo's branch HEAD.
+  const refreshMode = values.prPushMode === "all";
+  const localSpecRepoDir = refreshMode ? null : specRepoCloneDir;
 
-  if (!specRepoCloneDir) {
+  if (!refreshMode && !specRepoCloneDir) {
     console.error("ERROR: --specRepoRoot is required");
     process.exit(2);
   }
   requireReadablePath("--directoryList", directoryListFile);
 
-  // shallowCloneSpecRepo creates --specRepoRoot, so it must run before any
-  // path check on that directory.
   installGlobalCliTools();
   preinstallReleaseTools();
-  shallowCloneSpecRepo(specRepoBranch, specRepoCloneDir);
+  // shallowCloneSpecRepo creates --specRepoRoot; skip it in refresh mode where
+  // Sync sparse-clones each package's pinned commit on its own.
+  if (!refreshMode) shallowCloneSpecRepo(specRepoBranch, specRepoCloneDir);
 
   const shardPackages = loadShardPackages(directoryListFile);
   console.log(`Shard packages: ${shardPackages.length}`);
@@ -336,7 +343,7 @@ async function runShard() {
   const regenerationOutcomes = await regenerateAll(
     shardPackages,
     perPackageConcurrency,
-    specRepoCloneDir,
+    localSpecRepoDir,
   );
   const successfullyRegenerated = regenerationOutcomes.filter((p) => p.success);
 
@@ -364,32 +371,12 @@ async function runShard() {
     changelogOutcomes,
   });
 
-  // Reset files outside sdk/ that may have been touched by tool installs so
-  // git-push-changes.yml commits only the regenerated SDK output. The PR
-  // branch already has the resolved emitter-package* from the Setup commit.
-  discardNonSdkChanges();
-
   console.log("\n========== SHARD SUMMARY ==========\n" + JSON.stringify(shardSummary, null, 2));
 
   // DO NOT exit 1 on per-package regen/build failures — that would skip the
   // push step in git-push-changes.yml (gated on succeeded()), losing the
   // successful packages' changes. Failures are visible in the SHARD SUMMARY
   // log above and in the ADO build view.
-}
-
-function discardNonSdkChanges() {
-  const filesToReset = [
-    "eng/emitter-package.json",
-    "eng/emitter-package-lock.json",
-    "pnpm-lock.yaml",
-  ];
-  for (const file of filesToReset) {
-    spawnSync("git", ["checkout", "HEAD", "--", file], { cwd: SDK_ROOT });
-  }
-  // No `git add -A` here — the YAML filter step ("Filter shard output to
-  // api.md + CHANGELOG only") needs an unstaged working tree so its
-  // `git stash --keep-index` can drop everything except the staged api.md
-  // and CHANGELOG.md files.
 }
 
 function requireReadablePath(flagName, value) {
@@ -419,19 +406,19 @@ function buildPackageDescriptor(sdkRelativePath) {
 
 // ── Phase 1: regenerate ─────────────────────────────────────────────────────
 
-async function regenerateAll(packages, concurrency, specRepoCloneDir) {
+async function regenerateAll(packages, concurrency, localSpecRepoDir) {
   console.log(`\n===== Regenerate (concurrency=${concurrency}) =====`);
   const outcomes = [];
   const completedCount = { value: 0 };
   await runWithConcurrency(packages, concurrency, async (pkg) => {
     outcomes.push(
-      await regenerateOnePackage(pkg, specRepoCloneDir, completedCount, packages.length),
+      await regenerateOnePackage(pkg, localSpecRepoDir, completedCount, packages.length),
     );
   });
   return outcomes;
 }
 
-async function regenerateOnePackage(pkg, specRepoCloneDir, completedCount, totalPackageCount) {
+async function regenerateOnePackage(pkg, localSpecRepoDir, completedCount, totalPackageCount) {
   const startedAtMs = Date.now();
 
   // typespec-ts emitter rewrites CHANGELOG.md from a template, wiping years of
@@ -444,7 +431,7 @@ async function regenerateOnePackage(pkg, specRepoCloneDir, completedCount, total
 
   const syncResult = await runCommandCapturing(
     "pwsh",
-    ["-File", TYPESPEC_SYNC_SCRIPT, pkg.packageDir, specRepoCloneDir],
+    ["-File", TYPESPEC_SYNC_SCRIPT, pkg.packageDir, ...(localSpecRepoDir ? [localSpecRepoDir] : [])],
     SDK_ROOT,
   );
   let combinedLog = `===== TypeSpec-Project-Sync =====\n${syncResult.output}\nExit: ${syncResult.exitCode}\n`;
@@ -750,6 +737,39 @@ function runBuildMatrix() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// stage-pr: prepare the working tree for the PR push
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Files staged before the PR push, keyed by --prPushMode:
+//   api.md and changelog → break-check deltas only (*.api.md + CHANGELOG.md).
+//   all            → the whole regenerated sdk/ tree (full SDK refresh),
+//                    minus transient TempTypeSpecFiles output.
+const PR_STAGE_PATHSPECS = {
+  "api.md and changelog": ["sdk/*/*/review/*.api.md", "sdk/*/*/CHANGELOG.md"],
+  all: ["sdk/", ":(exclude)sdk/**/TempTypeSpecFiles/**"],
+};
+
+// `git stash` away everything that wasn't explicitly staged: git-push-changes.yml
+// commits with `git commit -am`, whose `-a` would otherwise sweep in untracked
+// output and workspace churn.
+async function runStagePr() {
+  const mode = values.prPushMode || "api.md and changelog";
+  const pathspecs = PR_STAGE_PATHSPECS[mode] ?? PR_STAGE_PATHSPECS["api.md and changelog"];
+  console.log(`Staging PR changes (mode: ${mode}): ${pathspecs.join(" ")}`);
+
+  // Tolerate non-zero exits (e.g. `git stash` when there is nothing to stash)
+  // so a partially-successful shard still pushes its successful packages.
+  for (const gitArgs of [
+    ["add", "-A", ...pathspecs],
+    ["stash", "--keep-index", "--include-untracked"],
+    ["stash", "drop"],
+  ]) {
+    const { exitCode, output } = await runCommandCapturing("git", gitArgs, SDK_ROOT);
+    console.log(`+ git ${gitArgs.join(" ")}\n${output}exit: ${exitCode}`);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Dispatcher
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -758,6 +778,7 @@ const SUBCOMMANDS = {
   "regenerate-emitter": runRegenerateEmitter,
   "build-matrix": runBuildMatrix,
   shard: runShard,
+  "stage-pr": runStagePr,
   "create-pr": runCreatePr,
 };
 
