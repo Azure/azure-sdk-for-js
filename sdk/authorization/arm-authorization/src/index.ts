@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
-import type {
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -24,10 +23,6 @@ export type {
   ErrorAdditionalInfo,
 } from "./models/index.js";
 export { KnownCreatedByType } from "./models/index.js";
-export type {
-  AttributeNamespace,
-  AttributeNamespaceCreateRequest,
-} from "./models/microsoft/accessReview/index.js";
 export type {
   Operation,
   OperationDisplay,
@@ -85,7 +80,7 @@ export type {
   AccessReviewContactedReviewerProperties,
   RecordAllDecisionsProperties,
   RecordAllDecisionsResult,
-} from "./models/microsoft/attributeNamespaces/index.js";
+} from "./models/microsoft/accessReview/index.js";
 export {
   KnownAccessReviewResult,
   KnownAccessReviewHistoryDefinitionStatus,
@@ -107,6 +102,10 @@ export {
   KnownAccessReviewDecisionInsightType,
   KnownAccessReviewDecisionPrincipalResourceMembershipType,
   KnownRecordAllDecisionsResult,
+} from "./models/microsoft/accessReview/index.js";
+export type {
+  AttributeNamespace,
+  AttributeNamespaceCreateRequest,
 } from "./models/microsoft/attributeNamespaces/index.js";
 export type {
   RoleAssignmentSchedule,

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AuthorizationManagementContext as Client } from "../index.js";
-import { errorDefinitionDeserializer } from "../../models/microsoft/attributeNamespaces/models.js";
+import { errorDefinitionDeserializer } from "../../models/microsoft/accessReview/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   AccessReviewInstanceAcceptRecommendationsOptionalParams,
@@ -44,7 +44,9 @@ export async function _acceptRecommendationsDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -88,7 +90,9 @@ export async function _sendRemindersDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -132,7 +136,9 @@ export async function _applyDecisionsDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -176,7 +182,9 @@ export async function _resetDecisionsDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -220,7 +228,9 @@ export async function _stopDeserialize(result: PathUncheckedResponse): Promise<v
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }

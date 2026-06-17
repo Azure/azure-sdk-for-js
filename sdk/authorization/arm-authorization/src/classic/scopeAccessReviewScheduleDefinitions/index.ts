@@ -19,7 +19,7 @@ import {
 import {
   AccessReviewScheduleDefinition,
   AccessReviewScheduleDefinitionProperties,
-} from "../../models/microsoft/attributeNamespaces/models.js";
+} from "../../models/microsoft/accessReview/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ScopeAccessReviewScheduleDefinitions operations. */

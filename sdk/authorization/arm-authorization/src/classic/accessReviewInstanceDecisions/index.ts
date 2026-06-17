@@ -4,7 +4,7 @@
 import { AuthorizationManagementContext } from "../../api/authorizationManagementContext.js";
 import { list } from "../../api/accessReviewInstanceDecisions/operations.js";
 import { AccessReviewInstanceDecisionsListOptionalParams } from "../../api/accessReviewInstanceDecisions/options.js";
-import { AccessReviewDecision } from "../../models/microsoft/attributeNamespaces/models.js";
+import { AccessReviewDecision } from "../../models/microsoft/accessReview/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AccessReviewInstanceDecisions operations. */

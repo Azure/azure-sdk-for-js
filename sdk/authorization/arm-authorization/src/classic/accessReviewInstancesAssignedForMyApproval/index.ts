@@ -7,7 +7,7 @@ import {
   AccessReviewInstancesAssignedForMyApprovalListOptionalParams,
   AccessReviewInstancesAssignedForMyApprovalGetByIdOptionalParams,
 } from "../../api/accessReviewInstancesAssignedForMyApproval/options.js";
-import { AccessReviewInstance } from "../../models/microsoft/attributeNamespaces/models.js";
+import { AccessReviewInstance } from "../../models/microsoft/accessReview/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AccessReviewInstancesAssignedForMyApproval operations. */

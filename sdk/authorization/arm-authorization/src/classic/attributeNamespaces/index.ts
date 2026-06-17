@@ -11,7 +11,7 @@ import {
 import {
   AttributeNamespace,
   AttributeNamespaceCreateRequest,
-} from "../../models/microsoft/accessReview/models.js";
+} from "../../models/microsoft/attributeNamespaces/models.js";
 
 /** Interface representing a AttributeNamespaces operations. */
 export interface AttributeNamespacesOperations {

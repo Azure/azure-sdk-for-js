@@ -6,7 +6,7 @@ import {
   errorDefinitionDeserializer,
   AccessReviewHistoryInstance,
   accessReviewHistoryInstanceDeserializer,
-} from "../../models/microsoft/attributeNamespaces/models.js";
+} from "../../models/microsoft/accessReview/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import { ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams } from "./options.js";
 import {
@@ -49,7 +49,9 @@ export async function _generateDownloadUriDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }

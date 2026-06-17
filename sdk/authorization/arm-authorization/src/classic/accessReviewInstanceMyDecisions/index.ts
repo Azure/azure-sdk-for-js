@@ -11,7 +11,7 @@ import {
 import {
   AccessReviewDecision,
   AccessReviewDecisionProperties,
-} from "../../models/microsoft/attributeNamespaces/models.js";
+} from "../../models/microsoft/accessReview/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AccessReviewInstanceMyDecisions operations. */

@@ -59,16 +59,18 @@ export function _deleteByIdSend(
 
 export async function _deleteByIdDeserialize(
   result: PathUncheckedResponse,
-): Promise<RoleAssignment> {
+): Promise<RoleAssignment | undefined> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return roleAssignmentDeserializer(result.body);
+  return result.body ? roleAssignmentDeserializer(result.body) : undefined;
 }
 
 /** Delete a role assignment by ID. */
@@ -76,7 +78,7 @@ export async function deleteById(
   context: Client,
   roleAssignmentId: string,
   options: RoleAssignmentsDeleteByIdOptionalParams = { requestOptions: {} },
-): Promise<RoleAssignment> {
+): Promise<RoleAssignment | undefined> {
   const result = await _deleteByIdSend(context, roleAssignmentId, options);
   return _deleteByIdDeserialize(result);
 }
@@ -111,7 +113,9 @@ export async function _createByIdDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -156,7 +160,9 @@ export async function _getByIdDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -210,7 +216,9 @@ export async function _listForResourceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -274,7 +282,9 @@ export async function _listForResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -325,7 +335,9 @@ export async function _listForSubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -377,7 +389,9 @@ export async function _listForScopeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -424,16 +438,20 @@ export function _$deleteSend(
   });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<RoleAssignment> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<RoleAssignment | undefined> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return roleAssignmentDeserializer(result.body);
+  return result.body ? roleAssignmentDeserializer(result.body) : undefined;
 }
 
 /** Delete a role assignment by scope and name. */
@@ -442,7 +460,7 @@ export async function $delete(
   scope: string,
   roleAssignmentName: string,
   options: RoleAssignmentsDeleteOptionalParams = { requestOptions: {} },
-): Promise<RoleAssignment> {
+): Promise<RoleAssignment | undefined> {
   const result = await _$deleteSend(context, scope, roleAssignmentName, options);
   return _$deleteDeserialize(result);
 }
@@ -477,7 +495,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -525,7 +545,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

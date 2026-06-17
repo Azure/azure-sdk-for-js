@@ -4,7 +4,7 @@
 import { AuthorizationManagementContext } from "../../api/authorizationManagementContext.js";
 import { generateDownloadUri } from "../../api/scopeAccessReviewHistoryDefinitionInstance/operations.js";
 import { ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams } from "../../api/scopeAccessReviewHistoryDefinitionInstance/options.js";
-import { AccessReviewHistoryInstance } from "../../models/microsoft/attributeNamespaces/models.js";
+import { AccessReviewHistoryInstance } from "../../models/microsoft/accessReview/models.js";
 
 /** Interface representing a ScopeAccessReviewHistoryDefinitionInstance operations. */
 export interface ScopeAccessReviewHistoryDefinitionInstanceOperations {

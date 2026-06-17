@@ -4,7 +4,7 @@
 import { AuthorizationManagementContext } from "../../api/authorizationManagementContext.js";
 import { list } from "../../api/tenantLevelAccessReviewInstanceContactedReviewers/operations.js";
 import { TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams } from "../../api/tenantLevelAccessReviewInstanceContactedReviewers/options.js";
-import { AccessReviewContactedReviewer } from "../../models/microsoft/attributeNamespaces/models.js";
+import { AccessReviewContactedReviewer } from "../../models/microsoft/accessReview/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a TenantLevelAccessReviewInstanceContactedReviewers operations. */
