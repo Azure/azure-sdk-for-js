@@ -1,5 +1,18 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/configurations": "./src/api/configurations/index.ts"
+  "./api/certificates": "./src/api/certificates/index.ts"
+  "./api/defaultWafPolicy": "./src/api/defaultWafPolicy/index.ts"
+  "./api/wafPolicy": "./src/api/wafPolicy/index.ts"
+  "./api/deployments": "./src/api/deployments/index.ts"
+  "./api/apiKeys": "./src/api/apiKeys/index.ts"
+  "./api/nginxDeploymentWafPolicies": "./src/api/nginxDeploymentWafPolicies/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

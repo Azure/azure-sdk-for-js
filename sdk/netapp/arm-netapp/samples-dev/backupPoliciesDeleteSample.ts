@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete backup policy
  *
  * @summary delete backup policy
- * x-ms-original-file: 2026-01-01/BackupPolicies_Delete.json
+ * x-ms-original-file: 2026-01-15-preview/BackupPolicies_Delete.json
  */
 async function backupPoliciesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

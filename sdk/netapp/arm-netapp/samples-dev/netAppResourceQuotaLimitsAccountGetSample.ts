@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the default, current and usages account quota limit
  *
  * @summary get the default, current and usages account quota limit
- * x-ms-original-file: 2026-01-01/NetAppResourceQuotaLimitsAccount_Get.json
+ * x-ms-original-file: 2026-01-15-preview/NetAppResourceQuotaLimitsAccount_Get.json
  */
 async function quotaLimits(): Promise<void> {
   const credential = new DefaultAzureCredential();

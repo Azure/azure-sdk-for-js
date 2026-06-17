@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the specified Backup Vault
  *
  * @summary delete the specified Backup Vault
- * x-ms-original-file: 2026-01-01/BackupVaults_Delete.json
+ * x-ms-original-file: 2026-01-15-preview/BackupVaults_Delete.json
  */
 async function backupVaultsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

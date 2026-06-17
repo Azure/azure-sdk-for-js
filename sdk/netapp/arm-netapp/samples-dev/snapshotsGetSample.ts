@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get details of the specified snapshot
  *
  * @summary get details of the specified snapshot
- * x-ms-original-file: 2026-01-01/Snapshots_Get.json
+ * x-ms-original-file: 2026-01-15-preview/Snapshots_Get.json
  */
 async function snapshotsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

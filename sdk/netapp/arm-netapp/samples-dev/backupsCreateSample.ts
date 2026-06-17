@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a backup under the Backup Vault
  *
  * @summary create a backup under the Backup Vault
- * x-ms-original-file: 2026-01-01/BackupsUnderBackupVault_Create.json
+ * x-ms-original-file: 2026-01-15-preview/BackupsUnderBackupVault_Create.json
  */
 async function backupsUnderBackupVaultCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

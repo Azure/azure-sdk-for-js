@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list and describe all Backup Vaults in the NetApp account.
  *
  * @summary list and describe all Backup Vaults in the NetApp account.
- * x-ms-original-file: 2026-01-01/BackupVaults_List.json
+ * x-ms-original-file: 2026-01-15-preview/BackupVaults_List.json
  */
 async function backupVaultsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

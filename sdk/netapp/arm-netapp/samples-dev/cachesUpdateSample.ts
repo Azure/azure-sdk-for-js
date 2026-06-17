@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch the specified Cache
  *
  * @summary patch the specified Cache
- * x-ms-original-file: 2026-01-01/Caches_Update.json
+ * x-ms-original-file: 2026-01-15-preview/Caches_Update.json
  */
 async function cachesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

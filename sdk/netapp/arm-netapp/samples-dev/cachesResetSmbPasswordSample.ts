@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to resets the SMB password for the cache
  *
  * @summary resets the SMB password for the cache
- * x-ms-original-file: 2026-01-01/Caches_ResetSmbPassword.json
+ * x-ms-original-file: 2026-01-15-preview/Caches_ResetSmbPassword.json
  */
 async function cachesResetSmbPassword(): Promise<void> {
   const credential = new DefaultAzureCredential();

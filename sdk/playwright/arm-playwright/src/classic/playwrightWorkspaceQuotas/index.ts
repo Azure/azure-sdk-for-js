@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlaywrightManagementContext } from "../../api/playwrightManagementContext.js";
+import { PlaywrightManagementContext } from "../../api/playwrightManagementContext.js";
 import { listByPlaywrightWorkspace, get } from "../../api/playwrightWorkspaceQuotas/operations.js";
-import type {
+import {
   PlaywrightWorkspaceQuotasListByPlaywrightWorkspaceOptionalParams,
   PlaywrightWorkspaceQuotasGetOptionalParams,
 } from "../../api/playwrightWorkspaceQuotas/options.js";
-import type { QuotaName, PlaywrightWorkspaceQuota } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { QuotaName, PlaywrightWorkspaceQuota } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PlaywrightWorkspaceQuotas operations. */
 export interface PlaywrightWorkspaceQuotasOperations {
