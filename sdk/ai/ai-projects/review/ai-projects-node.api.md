@@ -1165,7 +1165,7 @@ export interface BetaToolboxesListOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaToolboxesOperations {
-    createVersion: (name: string, tools: ToolUnion[], options?: CreateVersionOptionalParams) => Promise<ToolboxVersionObject>;
+    createVersion: (name: string, tools: ToolUnion[], options?: ToolboxCreateVersionOptionalParams) => Promise<ToolboxVersionObject>;
     delete: (name: string, options?: BetaToolboxesDeleteOptionalParams) => Promise<void>;
     deleteVersion: (name: string, version: string, options?: ToolboxDeleteVersionOptionalParams) => Promise<void>;
     get: (name: string, options?: BetaToolboxesGetOptionalParams) => Promise<ToolboxObject>;
@@ -1509,14 +1509,6 @@ export interface CreateSkillVersionFromFilesBody {
         contentType?: string;
         filename?: string;
     }>;
-}
-
-// @public
-export interface CreateVersionOptionalParams extends OperationOptions {
-    description?: string;
-    metadata?: Record<string, string>;
-    policies?: ToolboxPolicies;
-    skills?: ToolboxSkillUnion[];
 }
 
 // @public
@@ -3718,6 +3710,14 @@ export interface TimerRoutineTrigger extends RoutineTrigger {
 // @public
 export interface Tool {
     type: ToolType;
+}
+
+// @public
+export interface ToolboxCreateVersionOptionalParams extends OperationOptions {
+    description?: string;
+    metadata?: Record<string, string>;
+    policies?: ToolboxPolicies;
+    skills?: ToolboxSkillUnion[];
 }
 
 // @public
