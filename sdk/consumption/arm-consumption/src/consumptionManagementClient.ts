@@ -16,10 +16,10 @@ import type { ChargesOperations } from "./classic/charges/index.js";
 import { _getChargesOperations } from "./classic/charges/index.js";
 import type { CreditsOperations } from "./classic/credits/index.js";
 import { _getCreditsOperations } from "./classic/credits/index.js";
-import type { EventsOperations } from "./classic/events/index.js";
-import { _getEventsOperations } from "./classic/events/index.js";
-import type { LotsOperations } from "./classic/lots/index.js";
-import { _getLotsOperations } from "./classic/lots/index.js";
+import type { EventsOperationsOperations } from "./classic/eventsOperations/index.js";
+import { _getEventsOperationsOperations } from "./classic/eventsOperations/index.js";
+import type { LotsOperationsOperations } from "./classic/lotsOperations/index.js";
+import { _getLotsOperationsOperations } from "./classic/lotsOperations/index.js";
 import type { MarketplacesOperations } from "./classic/marketplaces/index.js";
 import { _getMarketplacesOperations } from "./classic/marketplaces/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
@@ -80,8 +80,8 @@ export class ConsumptionManagementClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.lots = _getLotsOperations(this._client);
-    this.events = _getEventsOperations(this._client);
+    this.lotsOperations = _getLotsOperationsOperations(this._client);
+    this.eventsOperations = _getEventsOperationsOperations(this._client);
     this.aggregatedCost = _getAggregatedCostOperations(this._client);
     this.reservationTransactions = _getReservationTransactionsOperations(this._client);
     this.reservationRecommendationDetails = _getReservationRecommendationDetailsOperations(
@@ -101,10 +101,10 @@ export class ConsumptionManagementClient {
     this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for lots */
-  public readonly lots: LotsOperations;
-  /** The operation groups for events */
-  public readonly events: EventsOperations;
+  /** The operation groups for lotsOperations */
+  public readonly lotsOperations: LotsOperationsOperations;
+  /** The operation groups for eventsOperations */
+  public readonly eventsOperations: EventsOperationsOperations;
   /** The operation groups for aggregatedCost */
   public readonly aggregatedCost: AggregatedCostOperations;
   /** The operation groups for reservationTransactions */

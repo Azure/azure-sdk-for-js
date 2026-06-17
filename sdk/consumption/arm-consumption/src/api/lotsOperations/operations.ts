@@ -8,9 +8,9 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  LotsListByCustomerOptionalParams,
-  LotsListByBillingAccountOptionalParams,
-  LotsListByBillingProfileOptionalParams,
+  LotsOperationsListByCustomerOptionalParams,
+  LotsOperationsListByBillingAccountOptionalParams,
+  LotsOperationsListByBillingProfileOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -19,7 +19,7 @@ export function _listByCustomerSend(
   context: Client,
   billingAccountId: string,
   customerId: string,
-  options: LotsListByCustomerOptionalParams = { requestOptions: {} },
+  options: LotsOperationsListByCustomerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}/providers/Microsoft.Consumption/lots{?api%2Dversion,%24filter}",
@@ -58,7 +58,7 @@ export function listByCustomer(
   context: Client,
   billingAccountId: string,
   customerId: string,
-  options: LotsListByCustomerOptionalParams = { requestOptions: {} },
+  options: LotsOperationsListByCustomerOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<LotSummary> {
   return buildPagedAsyncIterator(
     context,
@@ -72,7 +72,7 @@ export function listByCustomer(
 export function _listByBillingAccountSend(
   context: Client,
   billingAccountId: string,
-  options: LotsListByBillingAccountOptionalParams = { requestOptions: {} },
+  options: LotsOperationsListByBillingAccountOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/lots{?api%2Dversion,%24filter}",
@@ -111,7 +111,7 @@ export async function _listByBillingAccountDeserialize(
 export function listByBillingAccount(
   context: Client,
   billingAccountId: string,
-  options: LotsListByBillingAccountOptionalParams = { requestOptions: {} },
+  options: LotsOperationsListByBillingAccountOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<LotSummary> {
   return buildPagedAsyncIterator(
     context,
@@ -126,7 +126,7 @@ export function _listByBillingProfileSend(
   context: Client,
   billingAccountId: string,
   billingProfileId: string,
-  options: LotsListByBillingProfileOptionalParams = { requestOptions: {} },
+  options: LotsOperationsListByBillingProfileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/lots{?api%2Dversion}",
@@ -166,7 +166,7 @@ export function listByBillingProfile(
   context: Client,
   billingAccountId: string,
   billingProfileId: string,
-  options: LotsListByBillingProfileOptionalParams = { requestOptions: {} },
+  options: LotsOperationsListByBillingProfileOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<LotSummary> {
   return buildPagedAsyncIterator(
     context,

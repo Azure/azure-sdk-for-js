@@ -3,6 +3,6 @@
 
 export { listByBillingAccount, listByBillingProfile } from "./operations.js";
 export type {
-  EventsListByBillingAccountOptionalParams,
-  EventsListByBillingProfileOptionalParams,
+  EventsOperationsListByBillingAccountOptionalParams,
+  EventsOperationsListByBillingProfileOptionalParams,
 } from "./options.js";

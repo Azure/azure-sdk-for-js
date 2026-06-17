@@ -1,10 +1,10 @@
 # Release History
 
-## 10.0.0-beta.1 (2026-06-03)
+## 10.0.0-beta.1 (2026-06-17)
 Compared with version 9.2.0
 
 ### Features Added
-  - Added operation LotsOperations.listByCustomer
+  - Added operation LotsOperationsOperations.listByCustomer
   - Added operation PriceSheetOperations.downloadByBillingAccountPeriod
   - Class ConsumptionManagementClient has a new constructor "constructor(credential: TokenCredential, options?: ConsumptionManagementClientOptionalParams);"
   - Added Interface BalanceProperties
@@ -13,12 +13,16 @@ Compared with version 9.2.0
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
   - Added Interface EventProperties
+  - Added Interface EventsOperationsListByBillingAccountOptionalParams
+  - Added Interface EventsOperationsListByBillingProfileOptionalParams
   - Added Interface ExtensionResource
   - Added Interface LegacyChargeSummaryProperties
   - Added Interface LegacyReservationTransactionProperties
   - Added Interface LegacyUsageDetailProperties
   - Added Interface LotProperties
-  - Added Interface LotsListByCustomerOptionalParams
+  - Added Interface LotsOperationsListByBillingAccountOptionalParams
+  - Added Interface LotsOperationsListByBillingProfileOptionalParams
+  - Added Interface LotsOperationsListByCustomerOptionalParams
   - Added Interface ManagementGroupAggregatedCostProperties
   - Added Interface MarketplaceProperties
   - Added Interface ModernChargeSummaryProperties
@@ -105,14 +109,16 @@ Compared with version 9.2.0
 ### Breaking Changes
   - Operation ReservationRecommendationDetails.get has a new signature
   - Class ConsumptionManagementClient no longer has parameter apiVersion
-  - Class ConsumptionManagementClient no longer has parameter eventsOperations
-  - Class ConsumptionManagementClient no longer has parameter lotsOperations
   - Class ConsumptionManagementClient no longer has parameter subscriptionId
   - Removed Interface DownloadProperties
   - Removed Interface ErrorDetails
   - Removed Interface Events
+  - Removed Interface EventsListByBillingAccountOptionalParams
+  - Removed Interface EventsListByBillingProfileOptionalParams
   - Removed Interface LegacyReservationTransaction
   - Removed Interface Lots
+  - Removed Interface LotsListByBillingAccountOptionalParams
+  - Removed Interface LotsListByBillingProfileOptionalParams
   - Removed Interface Notification_2
   - Removed Interface ReservationTransactionResource
   - Removed Interface ResourceAttributes

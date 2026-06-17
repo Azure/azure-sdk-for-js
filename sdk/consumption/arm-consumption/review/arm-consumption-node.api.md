@@ -243,8 +243,8 @@ export class ConsumptionManagementClient {
     readonly budgets: BudgetsOperations;
     readonly charges: ChargesOperations;
     readonly credits: CreditsOperations;
-    readonly events: EventsOperations;
-    readonly lots: LotsOperations;
+    readonly eventsOperations: EventsOperationsOperations;
+    readonly lotsOperations: LotsOperationsOperations;
     readonly marketplaces: MarketplacesOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
@@ -379,18 +379,18 @@ export interface EventProperties {
 }
 
 // @public
-export interface EventsListByBillingAccountOptionalParams extends OperationOptions {
+export interface EventsOperationsListByBillingAccountOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export interface EventsListByBillingProfileOptionalParams extends OperationOptions {
+export interface EventsOperationsListByBillingProfileOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface EventsOperations {
-    listByBillingAccount: (billingAccountId: string, options?: EventsListByBillingAccountOptionalParams) => PagedAsyncIterableIterator<EventSummary>;
-    listByBillingProfile: (billingAccountId: string, billingProfileId: string, startDate: string, endDate: string, options?: EventsListByBillingProfileOptionalParams) => PagedAsyncIterableIterator<EventSummary>;
+export interface EventsOperationsOperations {
+    listByBillingAccount: (billingAccountId: string, options?: EventsOperationsListByBillingAccountOptionalParams) => PagedAsyncIterableIterator<EventSummary>;
+    listByBillingProfile: (billingAccountId: string, billingProfileId: string, startDate: string, endDate: string, options?: EventsOperationsListByBillingProfileOptionalParams) => PagedAsyncIterableIterator<EventSummary>;
 }
 
 // @public
@@ -845,24 +845,24 @@ export interface LotProperties {
 }
 
 // @public
-export interface LotsListByBillingAccountOptionalParams extends OperationOptions {
+export interface LotsOperationsListByBillingAccountOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export interface LotsListByBillingProfileOptionalParams extends OperationOptions {
+export interface LotsOperationsListByBillingProfileOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface LotsListByCustomerOptionalParams extends OperationOptions {
+export interface LotsOperationsListByCustomerOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export interface LotsOperations {
-    listByBillingAccount: (billingAccountId: string, options?: LotsListByBillingAccountOptionalParams) => PagedAsyncIterableIterator<LotSummary>;
-    listByBillingProfile: (billingAccountId: string, billingProfileId: string, options?: LotsListByBillingProfileOptionalParams) => PagedAsyncIterableIterator<LotSummary>;
-    listByCustomer: (billingAccountId: string, customerId: string, options?: LotsListByCustomerOptionalParams) => PagedAsyncIterableIterator<LotSummary>;
+export interface LotsOperationsOperations {
+    listByBillingAccount: (billingAccountId: string, options?: LotsOperationsListByBillingAccountOptionalParams) => PagedAsyncIterableIterator<LotSummary>;
+    listByBillingProfile: (billingAccountId: string, billingProfileId: string, options?: LotsOperationsListByBillingProfileOptionalParams) => PagedAsyncIterableIterator<LotSummary>;
+    listByCustomer: (billingAccountId: string, customerId: string, options?: LotsOperationsListByCustomerOptionalParams) => PagedAsyncIterableIterator<LotSummary>;
 }
 
 // @public

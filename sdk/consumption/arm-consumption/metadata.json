@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Consumption": "2024-08-01"
   },
-  "emitterVersion": "0.54.0",
+  "emitterVersion": "0.54.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Consumption",
     "CrossLanguageDefinitionId": {
@@ -126,11 +126,11 @@
       "@azure/arm-consumption!KnownStatus:enum": "Microsoft.Consumption.Status",
       "@azure/arm-consumption!KnownOrganizationType:enum": "Microsoft.Consumption.OrganizationType",
       "@azure/arm-consumption!KnownVersions:enum": "Microsoft.Consumption.Versions",
-      "@azure/arm-consumption!LotsOperations#listByCustomer:member": "Microsoft.Consumption.LotsOperationGroup.listByCustomer",
-      "@azure/arm-consumption!LotsOperations#listByBillingAccount:member": "Microsoft.Consumption.LotsOperationGroup.listByBillingAccount",
-      "@azure/arm-consumption!LotsOperations#listByBillingProfile:member": "Microsoft.Consumption.LotsOperationGroup.listByBillingProfile",
-      "@azure/arm-consumption!EventsOperations#listByBillingAccount:member": "Microsoft.Consumption.EventsOperationGroup.listByBillingAccount",
-      "@azure/arm-consumption!EventsOperations#listByBillingProfile:member": "Microsoft.Consumption.EventsOperationGroup.listByBillingProfile",
+      "@azure/arm-consumption!LotsOperationsOperations#listByCustomer:member": "Microsoft.Consumption.LotsOperationGroup.listByCustomer",
+      "@azure/arm-consumption!LotsOperationsOperations#listByBillingAccount:member": "Microsoft.Consumption.LotsOperationGroup.listByBillingAccount",
+      "@azure/arm-consumption!LotsOperationsOperations#listByBillingProfile:member": "Microsoft.Consumption.LotsOperationGroup.listByBillingProfile",
+      "@azure/arm-consumption!EventsOperationsOperations#listByBillingAccount:member": "Microsoft.Consumption.EventsOperationGroup.listByBillingAccount",
+      "@azure/arm-consumption!EventsOperationsOperations#listByBillingProfile:member": "Microsoft.Consumption.EventsOperationGroup.listByBillingProfile",
       "@azure/arm-consumption!AggregatedCostOperations#getForBillingPeriodByManagementGroup:member": "Microsoft.Consumption.AggregatedCostOperationGroup.getForBillingPeriodByManagementGroup",
       "@azure/arm-consumption!AggregatedCostOperations#getByManagementGroup:member": "Microsoft.Consumption.AggregatedCostOperationGroup.getByManagementGroup",
       "@azure/arm-consumption!ReservationTransactionsOperations#listByBillingProfile:member": "Microsoft.Consumption.ReservationTransactionsOperationGroup.listByBillingProfile",

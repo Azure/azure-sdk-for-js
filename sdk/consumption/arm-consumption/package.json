@@ -48,32 +48,32 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
-    "./api/lots": {
+    "./api/lotsOperations": {
       "browser": {
-        "types": "./dist/browser/api/lots/index.d.ts",
-        "default": "./dist/browser/api/lots/index.js"
+        "types": "./dist/browser/api/lotsOperations/index.d.ts",
+        "default": "./dist/browser/api/lotsOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/lots/index.d.ts",
-        "default": "./dist/esm/api/lots/index.js"
+        "types": "./dist/esm/api/lotsOperations/index.d.ts",
+        "default": "./dist/esm/api/lotsOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/lots/index.d.ts",
-        "default": "./dist/commonjs/api/lots/index.js"
+        "types": "./dist/commonjs/api/lotsOperations/index.d.ts",
+        "default": "./dist/commonjs/api/lotsOperations/index.js"
       }
     },
-    "./api/events": {
+    "./api/eventsOperations": {
       "browser": {
-        "types": "./dist/browser/api/events/index.d.ts",
-        "default": "./dist/browser/api/events/index.js"
+        "types": "./dist/browser/api/eventsOperations/index.d.ts",
+        "default": "./dist/browser/api/eventsOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/events/index.d.ts",
-        "default": "./dist/esm/api/events/index.js"
+        "types": "./dist/esm/api/eventsOperations/index.d.ts",
+        "default": "./dist/esm/api/eventsOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/events/index.d.ts",
-        "default": "./dist/commonjs/api/events/index.js"
+        "types": "./dist/commonjs/api/eventsOperations/index.d.ts",
+        "default": "./dist/commonjs/api/eventsOperations/index.js"
       }
     },
     "./api/aggregatedCost": {

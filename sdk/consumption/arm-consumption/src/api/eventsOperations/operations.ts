@@ -8,8 +8,8 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  EventsListByBillingAccountOptionalParams,
-  EventsListByBillingProfileOptionalParams,
+  EventsOperationsListByBillingAccountOptionalParams,
+  EventsOperationsListByBillingProfileOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -17,7 +17,7 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 export function _listByBillingAccountSend(
   context: Client,
   billingAccountId: string,
-  options: EventsListByBillingAccountOptionalParams = { requestOptions: {} },
+  options: EventsOperationsListByBillingAccountOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/events{?api%2Dversion,%24filter}",
@@ -56,7 +56,7 @@ export async function _listByBillingAccountDeserialize(
 export function listByBillingAccount(
   context: Client,
   billingAccountId: string,
-  options: EventsListByBillingAccountOptionalParams = { requestOptions: {} },
+  options: EventsOperationsListByBillingAccountOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EventSummary> {
   return buildPagedAsyncIterator(
     context,
@@ -73,7 +73,7 @@ export function _listByBillingProfileSend(
   billingProfileId: string,
   startDate: string,
   endDate: string,
-  options: EventsListByBillingProfileOptionalParams = { requestOptions: {} },
+  options: EventsOperationsListByBillingProfileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/events{?api%2Dversion,startDate,endDate}",
@@ -117,7 +117,7 @@ export function listByBillingProfile(
   billingProfileId: string,
   startDate: string,
   endDate: string,
-  options: EventsListByBillingProfileOptionalParams = { requestOptions: {} },
+  options: EventsOperationsListByBillingProfileOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EventSummary> {
   return buildPagedAsyncIterator(
     context,

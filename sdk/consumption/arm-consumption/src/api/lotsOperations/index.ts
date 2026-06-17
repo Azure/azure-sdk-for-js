@@ -3,7 +3,7 @@
 
 export { listByCustomer, listByBillingAccount, listByBillingProfile } from "./operations.js";
 export type {
-  LotsListByCustomerOptionalParams,
-  LotsListByBillingAccountOptionalParams,
-  LotsListByBillingProfileOptionalParams,
+  LotsOperationsListByCustomerOptionalParams,
+  LotsOperationsListByBillingAccountOptionalParams,
+  LotsOperationsListByBillingProfileOptionalParams,
 } from "./options.js";

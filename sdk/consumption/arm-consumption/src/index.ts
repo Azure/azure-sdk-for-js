@@ -168,14 +168,14 @@ export type {
 export type { ChargesListOptionalParams } from "./api/charges/index.js";
 export type { CreditsGetOptionalParams } from "./api/credits/index.js";
 export type {
-  EventsListByBillingAccountOptionalParams,
-  EventsListByBillingProfileOptionalParams,
-} from "./api/events/index.js";
+  EventsOperationsListByBillingAccountOptionalParams,
+  EventsOperationsListByBillingProfileOptionalParams,
+} from "./api/eventsOperations/index.js";
 export type {
-  LotsListByCustomerOptionalParams,
-  LotsListByBillingAccountOptionalParams,
-  LotsListByBillingProfileOptionalParams,
-} from "./api/lots/index.js";
+  LotsOperationsListByCustomerOptionalParams,
+  LotsOperationsListByBillingAccountOptionalParams,
+  LotsOperationsListByBillingProfileOptionalParams,
+} from "./api/lotsOperations/index.js";
 export type { MarketplacesListOptionalParams } from "./api/marketplaces/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
 export type {
@@ -207,8 +207,8 @@ export type {
   BudgetsOperations,
   ChargesOperations,
   CreditsOperations,
-  EventsOperations,
-  LotsOperations,
+  EventsOperationsOperations,
+  LotsOperationsOperations,
   MarketplacesOperations,
   OperationsOperations,
   PriceSheetOperations,

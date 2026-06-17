@@ -2,20 +2,23 @@
 // Licensed under the MIT License.
 
 import type { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
-import { listByBillingAccount, listByBillingProfile } from "../../api/events/operations.js";
+import {
+  listByBillingAccount,
+  listByBillingProfile,
+} from "../../api/eventsOperations/operations.js";
 import type {
-  EventsListByBillingAccountOptionalParams,
-  EventsListByBillingProfileOptionalParams,
-} from "../../api/events/options.js";
+  EventsOperationsListByBillingAccountOptionalParams,
+  EventsOperationsListByBillingProfileOptionalParams,
+} from "../../api/eventsOperations/options.js";
 import type { EventSummary } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
-/** Interface representing a Events operations. */
-export interface EventsOperations {
+/** Interface representing a EventsOperations operations. */
+export interface EventsOperationsOperations {
   /** Lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date. */
   listByBillingAccount: (
     billingAccountId: string,
-    options?: EventsListByBillingAccountOptionalParams,
+    options?: EventsOperationsListByBillingAccountOptionalParams,
   ) => PagedAsyncIterableIterator<EventSummary>;
   /** Lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date. */
   listByBillingProfile: (
@@ -23,22 +26,22 @@ export interface EventsOperations {
     billingProfileId: string,
     startDate: string,
     endDate: string,
-    options?: EventsListByBillingProfileOptionalParams,
+    options?: EventsOperationsListByBillingProfileOptionalParams,
   ) => PagedAsyncIterableIterator<EventSummary>;
 }
 
-function _getEvents(context: ConsumptionManagementContext) {
+function _getEventsOperations(context: ConsumptionManagementContext) {
   return {
     listByBillingAccount: (
       billingAccountId: string,
-      options?: EventsListByBillingAccountOptionalParams,
+      options?: EventsOperationsListByBillingAccountOptionalParams,
     ) => listByBillingAccount(context, billingAccountId, options),
     listByBillingProfile: (
       billingAccountId: string,
       billingProfileId: string,
       startDate: string,
       endDate: string,
-      options?: EventsListByBillingProfileOptionalParams,
+      options?: EventsOperationsListByBillingProfileOptionalParams,
     ) =>
       listByBillingProfile(
         context,
@@ -51,8 +54,10 @@ function _getEvents(context: ConsumptionManagementContext) {
   };
 }
 
-export function _getEventsOperations(context: ConsumptionManagementContext): EventsOperations {
+export function _getEventsOperationsOperations(
+  context: ConsumptionManagementContext,
+): EventsOperationsOperations {
   return {
-    ..._getEvents(context),
+    ..._getEventsOperations(context),
   };
 }
