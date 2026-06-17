@@ -1382,8 +1382,6 @@ export interface RestResultInformation {
     message?: string;
     // (undocumented)
     q850Details?: SipDiagnosticInfo;
-    // Warning: (ae-forgotten-export) The symbol "SipDiagnosticInfo" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     sipDetails?: SipDiagnosticInfo;
     subCode?: number;
@@ -1517,6 +1515,12 @@ export interface SendDtmfTonesResult {
 export interface SipCustomHeader extends CustomCallingContextHeader {
     kind: "sipx";
     sipHeaderPrefix?: SipHeaderPrefix;
+}
+
+// @public (undocumented)
+export interface SipDiagnosticInfo {
+    code?: number;
+    message?: string;
 }
 
 // @public
