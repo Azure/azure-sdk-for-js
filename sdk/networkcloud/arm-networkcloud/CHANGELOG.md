@@ -1,7 +1,7 @@
 # Release History
 
 ## 2.0.0-beta.2 (2026-05-07)
-Compared with version 1.3.0
+Compared with version 2.0.0-beta.1
 
 ### Features Added
   - Added operation group AccessBridgesOperations
