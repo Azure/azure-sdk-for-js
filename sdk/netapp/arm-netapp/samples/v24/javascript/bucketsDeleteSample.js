@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a volume's bucket.
  *
  * @summary delete a volume's bucket.
- * x-ms-original-file: 2026-01-01/Buckets_Delete.json
+ * x-ms-original-file: 2026-04-01/Buckets_Delete.json
  */
 async function bucketsDelete() {
   const credential = new DefaultAzureCredential();
