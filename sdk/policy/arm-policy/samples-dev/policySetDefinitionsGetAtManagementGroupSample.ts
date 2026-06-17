@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation retrieves the policy set definition in the given management group with the given name.
  *
  * @summary this operation retrieves the policy set definition in the given management group with the given name.
- * x-ms-original-file: 2025-03-01/getPolicySetDefinitionAtManagementGroup.json
+ * x-ms-original-file: 2025-11-01/getPolicySetDefinitionAtManagementGroup.json
  */
 async function retrieveAPolicySetDefinitionAtManagementGroupLevel(): Promise<void> {
   const credential = new DefaultAzureCredential();

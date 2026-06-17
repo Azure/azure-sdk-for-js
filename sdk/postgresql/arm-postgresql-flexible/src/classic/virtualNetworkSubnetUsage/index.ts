@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
+import { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
 import { list } from "../../api/virtualNetworkSubnetUsage/operations.js";
-import type { VirtualNetworkSubnetUsageListOptionalParams } from "../../api/virtualNetworkSubnetUsage/options.js";
-import type {
+import { VirtualNetworkSubnetUsageListOptionalParams } from "../../api/virtualNetworkSubnetUsage/options.js";
+import {
   VirtualNetworkSubnetUsageParameter,
   VirtualNetworkSubnetUsageModel,
 } from "../../models/models.js";

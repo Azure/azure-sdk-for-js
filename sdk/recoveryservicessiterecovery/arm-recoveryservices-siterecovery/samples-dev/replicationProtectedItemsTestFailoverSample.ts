@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to operation to perform a test failover of the replication protected item.
  *
  * @summary operation to perform a test failover of the replication protected item.
- * x-ms-original-file: 2025-08-01/ReplicationProtectedItems_TestFailover.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectedItems_TestFailover.json
  */
 async function executeTestFailover(): Promise<void> {
   const credential = new DefaultAzureCredential();

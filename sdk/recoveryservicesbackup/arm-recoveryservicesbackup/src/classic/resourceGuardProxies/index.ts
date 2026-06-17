@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { list } from "../../api/resourceGuardProxies/operations.js";
-import type { ResourceGuardProxiesListOptionalParams } from "../../api/resourceGuardProxies/options.js";
-import type { ResourceGuardProxyBaseResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ResourceGuardProxiesListOptionalParams } from "../../api/resourceGuardProxies/options.js";
+import { ResourceGuardProxyBaseResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ResourceGuardProxies operations. */
 export interface ResourceGuardProxiesOperations {

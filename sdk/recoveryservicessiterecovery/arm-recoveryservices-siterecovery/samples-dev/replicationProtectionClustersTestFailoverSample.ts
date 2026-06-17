@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to operation to initiate a failover of the replication protection cluster.
  *
  * @summary operation to initiate a failover of the replication protection cluster.
- * x-ms-original-file: 2025-08-01/ReplicationProtectionClusters_TestFailover.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectionClusters_TestFailover.json
  */
 async function executeTestFailoverForCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

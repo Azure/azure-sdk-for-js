@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the storage classifications available in the specified fabric.
  *
  * @summary lists the storage classifications available in the specified fabric.
- * x-ms-original-file: 2025-08-01/ReplicationStorageClassifications_ListByReplicationFabrics.json
+ * x-ms-original-file: 2026-01-01/ReplicationStorageClassifications_ListByReplicationFabrics.json
  */
 async function getsTheListOfStorageClassificationObjectsUnderAFabric(): Promise<void> {
   const credential = new DefaultAzureCredential();

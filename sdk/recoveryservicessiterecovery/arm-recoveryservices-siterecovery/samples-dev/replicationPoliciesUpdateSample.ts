@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to update a replication policy.
  *
  * @summary the operation to update a replication policy.
- * x-ms-original-file: 2025-08-01/ReplicationPolicies_Update.json
+ * x-ms-original-file: 2026-01-01/ReplicationPolicies_Update.json
  */
 async function updatesThePolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

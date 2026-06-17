@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MigrationListFilter } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { MigrationListFilter } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface MigrationsCheckNameAvailabilityOptionalParams extends OperationOptions {}

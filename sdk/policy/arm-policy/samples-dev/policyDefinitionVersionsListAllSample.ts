@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation lists all the policy definition versions for all policy definitions within a subscription.
  *
  * @summary this operation lists all the policy definition versions for all policy definitions within a subscription.
- * x-ms-original-file: 2025-03-01/listAllPolicyDefinitionVersions.json
+ * x-ms-original-file: 2025-11-01/listAllPolicyDefinitionVersions.json
  */
 async function listAllPolicyDefinitionVersionsAtSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

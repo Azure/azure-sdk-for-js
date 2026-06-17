@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to initiate test migration of the item.
  *
  * @summary the operation to initiate test migration of the item.
- * x-ms-original-file: 2025-08-01/ReplicationMigrationItems_TestMigrate.json
+ * x-ms-original-file: 2026-01-01/ReplicationMigrationItems_TestMigrate.json
  */
 async function testMigrateItem(): Promise<void> {
   const credential = new DefaultAzureCredential();

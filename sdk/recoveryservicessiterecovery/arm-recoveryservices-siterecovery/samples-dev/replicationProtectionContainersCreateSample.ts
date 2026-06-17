@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to operation to create a protection container.
  *
  * @summary operation to create a protection container.
- * x-ms-original-file: 2025-08-01/ReplicationProtectionContainers_Create.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectionContainers_Create.json
  */
 async function createAProtectionContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

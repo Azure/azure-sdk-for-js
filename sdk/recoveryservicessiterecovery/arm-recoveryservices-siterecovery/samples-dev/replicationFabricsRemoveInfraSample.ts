@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to removes the appliance's infrastructure under the fabric.
  *
  * @summary removes the appliance's infrastructure under the fabric.
- * x-ms-original-file: 2025-08-01/ReplicationInfrastructure_Delete.json
+ * x-ms-original-file: 2026-01-01/ReplicationInfrastructure_Delete.json
  */
 async function removesTheApplianceInfrastructureUnderTheFabric(): Promise<void> {
   const credential = new DefaultAzureCredential();

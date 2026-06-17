@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PolicyContext as Client } from "../index.js";
-import type {
-  PolicyDefinitionVersion,
-  _PolicyDefinitionVersionListResult,
-} from "../../models/models.js";
+import { PolicyContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  PolicyDefinitionVersion,
   policyDefinitionVersionSerializer,
   policyDefinitionVersionDeserializer,
-  _policyDefinitionVersionListResultDeserializer,
+  PolicyDefinitionVersionListResult,
+  policyDefinitionVersionListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   PolicyDefinitionVersionsListAllOptionalParams,
   PolicyDefinitionVersionsListAllAtManagementGroupOptionalParams,
   PolicyDefinitionVersionsListAllBuiltinsOptionalParams,
@@ -30,8 +30,12 @@ import type {
   PolicyDefinitionVersionsCreateOrUpdateOptionalParams,
   PolicyDefinitionVersionsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listAllSend(
   context: Client,
@@ -41,36 +45,41 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/listPolicyDefinitionVersions{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAllDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PolicyDefinitionVersionListResult> {
+): Promise<PolicyDefinitionVersionListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return _policyDefinitionVersionListResultDeserializer(result.body);
+  return policyDefinitionVersionListResultDeserializer(result.body);
 }
 
 /** This operation lists all the policy definition versions for all policy definitions within a subscription. */
 export async function listAll(
   context: Client,
   options: PolicyDefinitionVersionsListAllOptionalParams = { requestOptions: {} },
-): Promise<_PolicyDefinitionVersionListResult> {
+): Promise<PolicyDefinitionVersionListResult> {
   const result = await _listAllSend(context, options);
   return _listAllDeserialize(result);
 }
@@ -84,29 +93,34 @@ export function _listAllAtManagementGroupSend(
     "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/listPolicyDefinitionVersions{?api%2Dversion}",
     {
       managementGroupName: managementGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAllAtManagementGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PolicyDefinitionVersionListResult> {
+): Promise<PolicyDefinitionVersionListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return _policyDefinitionVersionListResultDeserializer(result.body);
+  return policyDefinitionVersionListResultDeserializer(result.body);
 }
 
 /** This operation lists all the policy definition versions for all policy definitions at the management group scope. */
@@ -114,7 +128,7 @@ export async function listAllAtManagementGroup(
   context: Client,
   managementGroupName: string,
   options: PolicyDefinitionVersionsListAllAtManagementGroupOptionalParams = { requestOptions: {} },
-): Promise<_PolicyDefinitionVersionListResult> {
+): Promise<PolicyDefinitionVersionListResult> {
   const result = await _listAllAtManagementGroupSend(context, managementGroupName, options);
   return _listAllAtManagementGroupDeserialize(result);
 }
@@ -126,36 +140,41 @@ export function _listAllBuiltinsSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Authorization/listPolicyDefinitionVersions{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAllBuiltinsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PolicyDefinitionVersionListResult> {
+): Promise<PolicyDefinitionVersionListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return _policyDefinitionVersionListResultDeserializer(result.body);
+  return policyDefinitionVersionListResultDeserializer(result.body);
 }
 
 /** This operation lists all the built-in policy definition versions for all built-in policy definitions. */
 export async function listAllBuiltins(
   context: Client,
   options: PolicyDefinitionVersionsListAllBuiltinsOptionalParams = { requestOptions: {} },
-): Promise<_PolicyDefinitionVersionListResult> {
+): Promise<PolicyDefinitionVersionListResult> {
   const result = await _listAllBuiltinsSend(context, options);
   return _listAllBuiltinsDeserialize(result);
 }
@@ -171,30 +190,35 @@ export function _listByManagementGroupSend(
     {
       managementGroupName: managementGroupName,
       policyDefinitionName: policyDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
       "%24top": options?.top,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByManagementGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PolicyDefinitionVersionListResult> {
+): Promise<PolicyDefinitionVersionListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return _policyDefinitionVersionListResultDeserializer(result.body);
+  return policyDefinitionVersionListResultDeserializer(result.body);
 }
 
 /** This operation retrieves a list of all the policy definition versions for the given policy definition in the given management group. */
@@ -209,7 +233,7 @@ export function listByManagementGroup(
     () => _listByManagementGroupSend(context, managementGroupName, policyDefinitionName, options),
     _listByManagementGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-11-01" },
   );
 }
 
@@ -226,7 +250,7 @@ export function _deleteAtManagementGroupSend(
       managementGroupName: managementGroupName,
       policyDefinitionName: policyDefinitionName,
       policyDefinitionVersion: policyDefinitionVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -241,7 +265,10 @@ export async function _deleteAtManagementGroupDeserialize(
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -282,18 +309,20 @@ export function _createOrUpdateAtManagementGroupSend(
       managementGroupName: managementGroupName,
       policyDefinitionName: policyDefinitionName,
       policyDefinitionVersion: policyDefinitionVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: policyDefinitionVersionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: policyDefinitionVersionSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateAtManagementGroupDeserialize(
@@ -302,7 +331,10 @@ export async function _createOrUpdateAtManagementGroupDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -344,16 +376,18 @@ export function _getAtManagementGroupSend(
       managementGroupName: managementGroupName,
       policyDefinitionName: policyDefinitionName,
       policyDefinitionVersion: policyDefinitionVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getAtManagementGroupDeserialize(
@@ -362,7 +396,10 @@ export async function _getAtManagementGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -396,30 +433,35 @@ export function _listBuiltInSend(
     "/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions{?api%2Dversion,%24top}",
     {
       policyDefinitionName: policyDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
       "%24top": options?.top,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBuiltInDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PolicyDefinitionVersionListResult> {
+): Promise<PolicyDefinitionVersionListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return _policyDefinitionVersionListResultDeserializer(result.body);
+  return policyDefinitionVersionListResultDeserializer(result.body);
 }
 
 /** This operation retrieves a list of all the built-in policy definition versions for the given policy definition. */
@@ -433,7 +475,7 @@ export function listBuiltIn(
     () => _listBuiltInSend(context, policyDefinitionName, options),
     _listBuiltInDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-11-01" },
   );
 }
 
@@ -448,16 +490,18 @@ export function _getBuiltInSend(
     {
       policyDefinitionName: policyDefinitionName,
       policyDefinitionVersion: policyDefinitionVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getBuiltInDeserialize(
@@ -466,7 +510,10 @@ export async function _getBuiltInDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -499,30 +546,35 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       policyDefinitionName: policyDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
       "%24top": options?.top,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PolicyDefinitionVersionListResult> {
+): Promise<PolicyDefinitionVersionListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return _policyDefinitionVersionListResultDeserializer(result.body);
+  return policyDefinitionVersionListResultDeserializer(result.body);
 }
 
 /** This operation retrieves a list of all the policy definition versions for the given policy definition. */
@@ -536,7 +588,7 @@ export function list(
     () => _listSend(context, policyDefinitionName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-11-01" },
   );
 }
 
@@ -552,7 +604,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       policyDefinitionName: policyDefinitionName,
       policyDefinitionVersion: policyDefinitionVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -565,7 +617,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -573,11 +628,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** This operation deletes the policy definition version in the given subscription with the given name. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   policyDefinitionName: string,
@@ -606,18 +656,20 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       policyDefinitionName: policyDefinitionName,
       policyDefinitionVersion: policyDefinitionVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: policyDefinitionVersionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: policyDefinitionVersionSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -626,7 +678,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -663,16 +718,18 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       policyDefinitionName: policyDefinitionName,
       policyDefinitionVersion: policyDefinitionVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -681,7 +738,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

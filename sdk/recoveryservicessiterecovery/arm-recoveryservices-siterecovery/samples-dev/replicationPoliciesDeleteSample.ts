@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to delete a replication policy.
  *
  * @summary the operation to delete a replication policy.
- * x-ms-original-file: 2025-08-01/ReplicationPolicies_Delete.json
+ * x-ms-original-file: 2026-01-01/ReplicationPolicies_Delete.json
  */
 async function deleteThePolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,52 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureQuotaExtensionAPIContext as Client } from "../index.js";
-import type {
-  GroupQuotaSubscriptionRequestStatus,
-  _GroupQuotaSubscriptionRequestStatusList,
-} from "../../models/models.js";
+import { AzureQuotaExtensionAPIContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  GroupQuotaSubscriptionRequestStatus,
   groupQuotaSubscriptionRequestStatusDeserializer,
+  _GroupQuotaSubscriptionRequestStatusList,
   _groupQuotaSubscriptionRequestStatusListDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   GroupQuotaSubscriptionRequestsListOptionalParams,
   GroupQuotaSubscriptionRequestsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
   managementGroupId: string,
   groupQuotaName: string,
-  options: GroupQuotaSubscriptionRequestsListOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaSubscriptionRequestsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/subscriptionRequests{?api%2Dversion}",
     {
       managementGroupId: managementGroupId,
       groupQuotaName: groupQuotaName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -55,7 +56,10 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -67,16 +71,14 @@ export function list(
   context: Client,
   managementGroupId: string,
   groupQuotaName: string,
-  options: GroupQuotaSubscriptionRequestsListOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaSubscriptionRequestsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<GroupQuotaSubscriptionRequestStatus> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, managementGroupId, groupQuotaName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-09-01" },
   );
 }
 
@@ -85,9 +87,7 @@ export function _getSend(
   managementGroupId: string,
   groupQuotaName: string,
   requestId: string,
-  options: GroupQuotaSubscriptionRequestsGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaSubscriptionRequestsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/subscriptionRequests/{requestId}{?api%2Dversion}",
@@ -95,19 +95,18 @@ export function _getSend(
       managementGroupId: managementGroupId,
       groupQuotaName: groupQuotaName,
       requestId: requestId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -116,7 +115,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -129,9 +131,7 @@ export async function get(
   managementGroupId: string,
   groupQuotaName: string,
   requestId: string,
-  options: GroupQuotaSubscriptionRequestsGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaSubscriptionRequestsGetOptionalParams = { requestOptions: {} },
 ): Promise<GroupQuotaSubscriptionRequestStatus> {
   const result = await _getSend(context, managementGroupId, groupQuotaName, requestId, options);
   return _getDeserialize(result);

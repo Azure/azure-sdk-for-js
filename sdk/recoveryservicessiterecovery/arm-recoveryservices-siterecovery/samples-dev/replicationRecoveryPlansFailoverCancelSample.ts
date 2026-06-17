@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to cancel the failover of a recovery plan.
  *
  * @summary the operation to cancel the failover of a recovery plan.
- * x-ms-original-file: 2025-08-01/ReplicationRecoveryPlans_FailoverCancel.json
+ * x-ms-original-file: 2026-01-01/ReplicationRecoveryPlans_FailoverCancel.json
  */
 async function executeCancelFailoverOfTheRecoveryPlan(): Promise<void> {
   const credential = new DefaultAzureCredential();

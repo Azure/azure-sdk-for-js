@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to operation to add disks(s) to the replication protected item.
  *
  * @summary operation to add disks(s) to the replication protected item.
- * x-ms-original-file: 2025-08-01/ReplicationProtectedItems_AddDisks.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectedItems_AddDisks.json
  */
 async function addDiskSForProtection(): Promise<void> {
   const credential = new DefaultAzureCredential();

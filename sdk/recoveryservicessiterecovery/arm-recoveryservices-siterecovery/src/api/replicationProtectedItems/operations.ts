@@ -92,7 +92,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
       skipToken: options?.skipToken,
       "%24filter": options?.filter,
     },
@@ -100,10 +100,12 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -129,7 +131,7 @@ export function list(
     () => _listSend(context, resourceGroupName, resourceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -152,27 +154,31 @@ export function _reinstallMobilityServiceSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: reinstallMobilityServiceRequestSerializer(updateMobilityServiceRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: reinstallMobilityServiceRequestSerializer(updateMobilityServiceRequest),
+    });
 }
 
 export async function _reinstallMobilityServiceDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ReplicationProtectedItem> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -194,7 +200,7 @@ export function reinstallMobilityService(
   return getLongRunningPoller(
     context,
     _reinstallMobilityServiceDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -210,7 +216,7 @@ export function reinstallMobilityService(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-08-01",
+      apiVersion: context.apiVersion ?? "2026-01-01",
     },
   ) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
@@ -234,18 +240,20 @@ export function _updateMobilityServiceSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: updateMobilityServiceRequestSerializer(updateMobilityServiceRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: updateMobilityServiceRequestSerializer(updateMobilityServiceRequest),
+    });
 }
 
 export async function _updateMobilityServiceDeserialize(
@@ -285,7 +293,7 @@ export function updateMobilityService(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -308,18 +316,20 @@ export function _updateApplianceSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: updateApplianceForReplicationProtectedItemInputSerializer(applianceUpdateInput),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: updateApplianceForReplicationProtectedItemInputSerializer(applianceUpdateInput),
+    });
 }
 
 export async function _updateApplianceDeserialize(
@@ -359,7 +369,7 @@ export function updateAppliance(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -382,18 +392,20 @@ export function _unplannedFailoverSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: unplannedFailoverInputSerializer(failoverInput),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: unplannedFailoverInputSerializer(failoverInput),
+    });
 }
 
 export async function _unplannedFailoverDeserialize(
@@ -433,7 +445,7 @@ export function unplannedFailover(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -456,18 +468,20 @@ export function _testFailoverCleanupSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: testFailoverCleanupInputSerializer(cleanupInput),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: testFailoverCleanupInputSerializer(cleanupInput),
+    });
 }
 
 export async function _testFailoverCleanupDeserialize(
@@ -507,7 +521,7 @@ export function testFailoverCleanup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -530,18 +544,20 @@ export function _testFailoverSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: testFailoverInputSerializer(testfailoverInput),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: testFailoverInputSerializer(testfailoverInput),
+    });
 }
 
 export async function _testFailoverDeserialize(
@@ -581,7 +597,7 @@ export function testFailover(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -604,18 +620,20 @@ export function _switchProviderSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: switchProviderInputSerializer(switchProviderInput),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: switchProviderInputSerializer(switchProviderInput),
+    });
 }
 
 export async function _switchProviderDeserialize(
@@ -655,7 +673,7 @@ export function switchProvider(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -678,18 +696,20 @@ export function _resolveHealthErrorsSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: resolveHealthInputSerializer(resolveHealthInput),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: resolveHealthInputSerializer(resolveHealthInput),
+    });
 }
 
 export async function _resolveHealthErrorsDeserialize(
@@ -729,7 +749,7 @@ export function resolveHealthErrors(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -752,18 +772,20 @@ export function _reprotectSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: reverseReplicationInputSerializer(reprotectInput),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: reverseReplicationInputSerializer(reprotectInput),
+    });
 }
 
 export async function _reprotectDeserialize(
@@ -803,7 +825,7 @@ export function reprotect(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -825,16 +847,18 @@ export function _repairReplicationSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _repairReplicationDeserialize(
@@ -872,7 +896,7 @@ export function repairReplication(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -895,18 +919,20 @@ export function _removeDisksSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: removeDisksInputSerializer(removeDisksInput),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: removeDisksInputSerializer(removeDisksInput),
+    });
 }
 
 export async function _removeDisksDeserialize(
@@ -946,7 +972,7 @@ export function removeDisks(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -969,17 +995,19 @@ export function _$deleteSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: disableProtectionInputSerializer(disableProtectionInput),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: disableProtectionInputSerializer(disableProtectionInput),
+    });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -1017,7 +1045,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1040,18 +1068,20 @@ export function _plannedFailoverSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: plannedFailoverInputSerializer(failoverInput),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: plannedFailoverInputSerializer(failoverInput),
+    });
 }
 
 export async function _plannedFailoverDeserialize(
@@ -1091,7 +1121,7 @@ export function plannedFailover(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -1113,16 +1143,18 @@ export function _failoverCommitSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _failoverCommitDeserialize(
@@ -1160,7 +1192,7 @@ export function failoverCommit(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -1182,16 +1214,18 @@ export function _failoverCancelSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _failoverCancelDeserialize(
@@ -1229,7 +1263,7 @@ export function failoverCancel(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -1252,18 +1286,20 @@ export function _applyRecoveryPointSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: applyRecoveryPointInputSerializer(applyRecoveryPointInput),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: applyRecoveryPointInputSerializer(applyRecoveryPointInput),
+    });
 }
 
 export async function _applyRecoveryPointDeserialize(
@@ -1303,7 +1339,7 @@ export function applyRecoveryPoint(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -1326,18 +1362,20 @@ export function _addDisksSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: addDisksInputSerializer(addDisksInput),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: addDisksInputSerializer(addDisksInput),
+    });
 }
 
 export async function _addDisksDeserialize(
@@ -1377,7 +1415,7 @@ export function addDisks(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -1399,16 +1437,18 @@ export function _listByReplicationProtectionContainersSend(
       resourceName: resourceName,
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByReplicationProtectionContainersDeserialize(
@@ -1446,7 +1486,7 @@ export function listByReplicationProtectionContainers(
       ),
     _listByReplicationProtectionContainersDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -1468,7 +1508,7 @@ export function _purgeSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1510,7 +1550,7 @@ export function purge(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1533,18 +1573,20 @@ export function _updateSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: updateReplicationProtectedItemInputSerializer(updateProtectionInput),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: updateReplicationProtectedItemInputSerializer(updateProtectionInput),
+    });
 }
 
 export async function _updateDeserialize(
@@ -1584,7 +1626,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -1607,18 +1649,20 @@ export function _createSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: enableProtectionInputSerializer(input),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: enableProtectionInputSerializer(input),
+    });
 }
 
 export async function _createDeserialize(
@@ -1658,7 +1702,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -1680,16 +1724,18 @@ export function _getSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(

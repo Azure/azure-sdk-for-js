@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { revoke, provision } from "../../api/itemLevelRecoveryConnections/operations.js";
-import type {
+import {
   ItemLevelRecoveryConnectionsRevokeOptionalParams,
   ItemLevelRecoveryConnectionsProvisionOptionalParams,
 } from "../../api/itemLevelRecoveryConnections/options.js";
-import type { ILRRequestResource } from "../../models/models.js";
+import { ILRRequestResource } from "../../models/models.js";
 
 /** Interface representing a ItemLevelRecoveryConnections operations. */
 export interface ItemLevelRecoveryConnectionsOperations {

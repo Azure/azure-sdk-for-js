@@ -46,16 +46,18 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_VCenterCollection> {
@@ -79,7 +81,7 @@ export function list(
     () => _listSend(context, resourceGroupName, resourceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -97,16 +99,18 @@ export function _listByReplicationFabricsSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       fabricName: fabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByReplicationFabricsDeserialize(
@@ -134,7 +138,7 @@ export function listByReplicationFabrics(
       _listByReplicationFabricsSend(context, resourceGroupName, resourceName, fabricName, options),
     _listByReplicationFabricsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -154,7 +158,7 @@ export function _$deleteSend(
       resourceName: resourceName,
       fabricName: fabricName,
       vcenterName: vcenterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -187,7 +191,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, resourceName, fabricName, vcenterName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -208,18 +212,20 @@ export function _updateSend(
       resourceName: resourceName,
       fabricName: fabricName,
       vcenterName: vcenterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: updateVCenterRequestSerializer(updateVCenterRequest),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: updateVCenterRequestSerializer(updateVCenterRequest),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<VCenter> {
@@ -255,7 +261,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<VCenter>, VCenter>;
 }
 
@@ -276,18 +282,20 @@ export function _createSend(
       resourceName: resourceName,
       fabricName: fabricName,
       vcenterName: vcenterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: addVCenterRequestSerializer(addVCenterRequest),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: addVCenterRequestSerializer(addVCenterRequest),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<VCenter> {
@@ -323,7 +331,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<VCenter>, VCenter>;
 }
 
@@ -343,16 +351,18 @@ export function _getSend(
       resourceName: resourceName,
       fabricName: fabricName,
       vcenterName: vcenterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<VCenter> {

@@ -45,16 +45,18 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_PolicyCollection> {
@@ -78,7 +80,7 @@ export function list(
     () => _listSend(context, resourceGroupName, resourceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -96,7 +98,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,7 +130,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, resourceName, policyName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -147,18 +149,20 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: updatePolicyInputSerializer(input),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: updatePolicyInputSerializer(input),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Policy> {
@@ -185,7 +189,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, resourceName, policyName, input, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<Policy>, Policy>;
 }
 
@@ -204,18 +208,20 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: createPolicyInputSerializer(input),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: createPolicyInputSerializer(input),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<Policy> {
@@ -242,7 +248,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, resourceName, policyName, input, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<Policy>, Policy>;
 }
 
@@ -260,16 +266,18 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Policy> {

@@ -47,22 +47,24 @@ export function _$exportSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: jobQueryParameterSerializer(jobQueryParameter),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: jobQueryParameterSerializer(jobQueryParameter),
+    });
 }
 
 export async function _$exportDeserialize(result: PathUncheckedResponse): Promise<Job> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -78,13 +80,13 @@ export function $export(
   jobQueryParameter: JobQueryParameter,
   options: ReplicationJobsExportOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Job>, Job> {
-  return getLongRunningPoller(context, _$exportDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _$exportDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$exportSend(context, resourceGroupName, resourceName, jobQueryParameter, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<Job>, Job>;
 }
 
@@ -103,18 +105,20 @@ export function _resumeSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       jobName: jobName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: resumeJobParamsSerializer(resumeJobParams),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: resumeJobParamsSerializer(resumeJobParams),
+    });
 }
 
 export async function _resumeDeserialize(result: PathUncheckedResponse): Promise<Job> {
@@ -141,7 +145,7 @@ export function resume(
     getInitialResponse: () =>
       _resumeSend(context, resourceGroupName, resourceName, jobName, resumeJobParams, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<Job>, Job>;
 }
 
@@ -159,16 +163,18 @@ export function _restartSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       jobName: jobName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _restartDeserialize(result: PathUncheckedResponse): Promise<Job> {
@@ -194,7 +200,7 @@ export function restart(
     getInitialResponse: () =>
       _restartSend(context, resourceGroupName, resourceName, jobName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<Job>, Job>;
 }
 
@@ -212,16 +218,18 @@ export function _cancelSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       jobName: jobName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _cancelDeserialize(result: PathUncheckedResponse): Promise<Job> {
@@ -247,7 +255,7 @@ export function cancel(
     getInitialResponse: () =>
       _cancelSend(context, resourceGroupName, resourceName, jobName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<Job>, Job>;
 }
 
@@ -263,17 +271,19 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
       "%24filter": options?.filter,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_JobCollection> {
@@ -297,7 +307,7 @@ export function list(
     () => _listSend(context, resourceGroupName, resourceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -315,16 +325,18 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       jobName: jobName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Job> {

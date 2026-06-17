@@ -4,15 +4,17 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AcquireStorageAccountLock = string;
@@ -1191,7 +1193,7 @@ export interface BMSPrepareDataMoveOperationResultGetOptionalParams extends Oper
 
 // @public
 export interface BMSPrepareDataMoveOperationResultOperations {
-    get: (vaultName: string, resourceGroupName: string, operationId: string, options?: BMSPrepareDataMoveOperationResultGetOptionalParams) => Promise<VaultStorageConfigOperationResultResponseUnion>;
+    get: (vaultName: string, resourceGroupName: string, operationId: string, options?: BMSPrepareDataMoveOperationResultGetOptionalParams) => Promise<VaultStorageConfigOperationResultResponseUnion | undefined>;
 }
 
 // @public
@@ -1799,6 +1801,8 @@ export interface InstantRPAdditionalDetails {
     // (undocumented)
     azureBackupRGNameSuffix?: string;
 }
+
+export { isRestError }
 
 // @public
 export interface ItemLevelRecoveryConnectionsOperations {
@@ -2946,7 +2950,7 @@ export interface ProtectedItemOperationResultsGetOptionalParams extends Operatio
 
 // @public
 export interface ProtectedItemOperationResultsOperations {
-    get: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, operationId: string, options?: ProtectedItemOperationResultsGetOptionalParams) => Promise<ProtectedItemResource>;
+    get: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, operationId: string, options?: ProtectedItemOperationResultsGetOptionalParams) => Promise<ProtectedItemResource | undefined>;
 }
 
 // @public
@@ -3016,7 +3020,7 @@ export interface ProtectionContainerOperationResultsGetOptionalParams extends Op
 
 // @public
 export interface ProtectionContainerOperationResultsOperations {
-    get: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, operationId: string, options?: ProtectionContainerOperationResultsGetOptionalParams) => Promise<ProtectionContainerResource>;
+    get: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, operationId: string, options?: ProtectionContainerOperationResultsGetOptionalParams) => Promise<ProtectionContainerResource | undefined>;
 }
 
 // @public
@@ -3148,7 +3152,7 @@ export interface ProtectionPoliciesOperations {
     beginDelete: (vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginDeleteAndWait: (vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesDeleteOptionalParams) => Promise<void>;
-    createOrUpdate: (vaultName: string, resourceGroupName: string, policyName: string, parameters: ProtectionPolicyResource, options?: ProtectionPoliciesCreateOrUpdateOptionalParams) => Promise<ProtectionPolicyResource>;
+    createOrUpdate: (vaultName: string, resourceGroupName: string, policyName: string, parameters: ProtectionPolicyResource, options?: ProtectionPoliciesCreateOrUpdateOptionalParams) => Promise<ProtectionPolicyResource | undefined>;
     delete: (vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesGetOptionalParams) => Promise<ProtectionPolicyResource>;
 }
@@ -3472,6 +3476,8 @@ export type ResourceHealthStatus = string;
 export interface ResourceList {
     nextLink?: string;
 }
+
+export { RestError }
 
 // @public
 export interface RestoreFileSpecs {
@@ -3891,7 +3897,7 @@ export interface ValidateOperationResultsGetOptionalParams extends OperationOpti
 
 // @public
 export interface ValidateOperationResultsOperations {
-    get: (vaultName: string, resourceGroupName: string, operationId: string, options?: ValidateOperationResultsGetOptionalParams) => Promise<ValidateOperationsResponse>;
+    get: (vaultName: string, resourceGroupName: string, operationId: string, options?: ValidateOperationResultsGetOptionalParams) => Promise<ValidateOperationsResponse | undefined>;
 }
 
 // @public

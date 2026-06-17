@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the details of registered recovery services provider.
  *
  * @summary gets the details of registered recovery services provider.
- * x-ms-original-file: 2025-08-01/ReplicationRecoveryServicesProviders_Get.json
+ * x-ms-original-file: 2026-01-01/ReplicationRecoveryServicesProviders_Get.json
  */
 async function getsTheDetailsOfARecoveryServicesProvider(): Promise<void> {
   const credential = new DefaultAzureCredential();

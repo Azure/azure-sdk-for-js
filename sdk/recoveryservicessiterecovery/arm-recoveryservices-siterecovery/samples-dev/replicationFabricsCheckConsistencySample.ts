@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to perform a consistency check on the fabric.
  *
  * @summary the operation to perform a consistency check on the fabric.
- * x-ms-original-file: 2025-08-01/ReplicationFabrics_CheckConsistency.json
+ * x-ms-original-file: 2026-01-01/ReplicationFabrics_CheckConsistency.json
  */
 async function checksTheConsistencyOfTheASRFabric(): Promise<void> {
   const credential = new DefaultAzureCredential();

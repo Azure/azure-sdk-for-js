@@ -1,23 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureQuotaExtensionAPIContext as Client } from "../index.js";
-import type { GroupQuotasEnforcementStatus } from "../../models/models.js";
+import { AzureQuotaExtensionAPIContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  GroupQuotasEnforcementStatus,
   groupQuotasEnforcementStatusSerializer,
   groupQuotasEnforcementStatusDeserializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   GroupQuotaLocationSettingsUpdateOptionalParams,
   GroupQuotaLocationSettingsCreateOrUpdateOptionalParams,
   GroupQuotaLocationSettingsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _updateSend(
   context: Client,
@@ -25,9 +29,7 @@ export function _updateSend(
   groupQuotaName: string,
   resourceProviderName: string,
   location: string,
-  options: GroupQuotaLocationSettingsUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaLocationSettingsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/locationSettings/{location}{?api%2Dversion}",
@@ -36,32 +38,34 @@ export function _updateSend(
       groupQuotaName: groupQuotaName,
       resourceProviderName: resourceProviderName,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["locationSettings"]
-      ? options["locationSettings"]
-      : groupQuotasEnforcementStatusSerializer(options["locationSettings"]),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.locationSettings
+        ? options?.locationSettings
+        : groupQuotasEnforcementStatusSerializer(options?.locationSettings),
+    });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<GroupQuotasEnforcementStatus> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -81,11 +85,9 @@ export function update(
   groupQuotaName: string,
   resourceProviderName: string,
   location: string,
-  options: GroupQuotaLocationSettingsUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaLocationSettingsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<GroupQuotasEnforcementStatus>, GroupQuotasEnforcementStatus> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -98,6 +100,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-09-01",
   }) as PollerLike<OperationState<GroupQuotasEnforcementStatus>, GroupQuotasEnforcementStatus>;
 }
 
@@ -107,9 +110,7 @@ export function _createOrUpdateSend(
   groupQuotaName: string,
   resourceProviderName: string,
   location: string,
-  options: GroupQuotaLocationSettingsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaLocationSettingsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/locationSettings/{location}{?api%2Dversion}",
@@ -118,23 +119,22 @@ export function _createOrUpdateSend(
       groupQuotaName: groupQuotaName,
       resourceProviderName: resourceProviderName,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["locationSettings"]
-      ? options["locationSettings"]
-      : groupQuotasEnforcementStatusSerializer(options["locationSettings"]),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.locationSettings
+        ? options?.locationSettings
+        : groupQuotasEnforcementStatusSerializer(options?.locationSettings),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -143,7 +143,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -163,9 +166,7 @@ export function createOrUpdate(
   groupQuotaName: string,
   resourceProviderName: string,
   location: string,
-  options: GroupQuotaLocationSettingsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaLocationSettingsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<GroupQuotasEnforcementStatus>, GroupQuotasEnforcementStatus> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -180,6 +181,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-09-01",
   }) as PollerLike<OperationState<GroupQuotasEnforcementStatus>, GroupQuotasEnforcementStatus>;
 }
 
@@ -198,19 +200,18 @@ export function _getSend(
       groupQuotaName: groupQuotaName,
       resourceProviderName: resourceProviderName,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -219,7 +220,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

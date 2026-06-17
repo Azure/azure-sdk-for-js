@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to resynchronize replication of an ASR migration item.
  *
  * @summary the operation to resynchronize replication of an ASR migration item.
- * x-ms-original-file: 2025-08-01/ReplicationMigrationItems_Resync.json
+ * x-ms-original-file: 2026-01-01/ReplicationMigrationItems_Resync.json
  */
 async function resynchronizesReplication(): Promise<void> {
   const credential = new DefaultAzureCredential();

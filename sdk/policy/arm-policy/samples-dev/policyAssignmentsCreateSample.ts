@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
  * @summary this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
- * x-ms-original-file: 2025-03-01/createPolicyAssignment.json
+ * x-ms-original-file: 2025-11-01/createPolicyAssignment.json
  */
 async function createOrUpdateAPolicyAssignment(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -35,7 +35,7 @@ async function createOrUpdateAPolicyAssignment(): Promise<void> {
  * This sample demonstrates how to this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
  * @summary this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
- * x-ms-original-file: 2025-03-01/createPolicyAssignmentNonComplianceMessages.json
+ * x-ms-original-file: 2025-11-01/createPolicyAssignmentNonComplianceMessages.json
  */
 async function createOrUpdateAPolicyAssignmentWithMultipleNonComplianceMessages(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -70,7 +70,7 @@ async function createOrUpdateAPolicyAssignmentWithMultipleNonComplianceMessages(
  * This sample demonstrates how to this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
  * @summary this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
- * x-ms-original-file: 2025-03-01/createPolicyAssignmentWithEnrollEnforcement.json
+ * x-ms-original-file: 2025-11-01/createPolicyAssignmentWithEnrollEnforcement.json
  */
 async function createOrUpdateAPolicyAssignmentToEnforcePolicyEffectOnlyOnEnrolledResourcesDuringResourceCreationOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -95,7 +95,7 @@ async function createOrUpdateAPolicyAssignmentToEnforcePolicyEffectOnlyOnEnrolle
  * This sample demonstrates how to this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
  * @summary this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
- * x-ms-original-file: 2025-03-01/createPolicyAssignmentWithIdentity.json
+ * x-ms-original-file: 2025-11-01/createPolicyAssignmentWithIdentity.json
  */
 async function createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -122,7 +122,7 @@ async function createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity(): Pro
  * This sample demonstrates how to this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
  * @summary this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
- * x-ms-original-file: 2025-03-01/createPolicyAssignmentWithOverrides.json
+ * x-ms-original-file: 2025-11-01/createPolicyAssignmentWithOverrides.json
  */
 async function createOrUpdateAPolicyAssignmentWithOverrides(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -160,7 +160,7 @@ async function createOrUpdateAPolicyAssignmentWithOverrides(): Promise<void> {
  * This sample demonstrates how to this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
  * @summary this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
- * x-ms-original-file: 2025-03-01/createPolicyAssignmentWithResourceSelectors.json
+ * x-ms-original-file: 2025-11-01/createPolicyAssignmentWithResourceSelectors.json
  */
 async function createOrUpdateAPolicyAssignmentWithResourceSelectors(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -189,7 +189,34 @@ async function createOrUpdateAPolicyAssignmentWithResourceSelectors(): Promise<v
  * This sample demonstrates how to this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
  * @summary this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
- * x-ms-original-file: 2025-03-01/createPolicyAssignmentWithUserAssignedIdentity.json
+ * x-ms-original-file: 2025-11-01/createPolicyAssignmentWithSelfserveExemptionSettings.json
+ */
+async function createOrUpdateAPolicyAssignmentWithSelfServeExemptionSettings(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new PolicyClient(credential);
+  const result = await client.policyAssignments.create(
+    "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+    "CostManagement",
+    {
+      location: "eastus",
+      description: "Limit the resource location and resource SKU",
+      definitionVersion: "1.*.*",
+      displayName: "Limit the resource location and resource SKU",
+      enforcementMode: "Default",
+      metadata: { assignedBy: "Foo Bar" },
+      policyDefinitionId:
+        "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policySetDefinitions/CostManagement",
+      selfServeExemptionSettings: { enabled: true, policyDefinitionReferenceIds: ["Limit_Skus"] },
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
+ *
+ * @summary this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
+ * x-ms-original-file: 2025-11-01/createPolicyAssignmentWithUserAssignedIdentity.json
  */
 async function createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -222,7 +249,7 @@ async function createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity(): Promi
  * This sample demonstrates how to this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
  * @summary this operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
- * x-ms-original-file: 2025-03-01/createPolicyAssignmentWithoutEnforcement.json
+ * x-ms-original-file: 2025-11-01/createPolicyAssignmentWithoutEnforcement.json
  */
 async function createOrUpdateAPolicyAssignmentWithoutEnforcingPolicyEffectDuringResourceCreationOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -250,6 +277,7 @@ async function main(): Promise<void> {
   await createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity();
   await createOrUpdateAPolicyAssignmentWithOverrides();
   await createOrUpdateAPolicyAssignmentWithResourceSelectors();
+  await createOrUpdateAPolicyAssignmentWithSelfServeExemptionSettings();
   await createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity();
   await createOrUpdateAPolicyAssignmentWithoutEnforcingPolicyEffectDuringResourceCreationOrUpdate();
 }

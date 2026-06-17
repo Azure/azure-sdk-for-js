@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to reprotect(reverse replicate) a recovery plan. This api is for deprecated scenarios and no longer works.
  *
  * @summary the operation to reprotect(reverse replicate) a recovery plan. This api is for deprecated scenarios and no longer works.
- * x-ms-original-file: 2025-08-01/ReplicationRecoveryPlans_Reprotect.json
+ * x-ms-original-file: 2026-01-01/ReplicationRecoveryPlans_Reprotect.json
  */
 async function executeReprotectOfTheRecoveryPlan(): Promise<void> {
   const credential = new DefaultAzureCredential();

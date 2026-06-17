@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type VaultsListByResourceGroupOptionalParams,
-  type VaultsListBySubscriptionIdOptionalParams,
-  type VaultsDeleteOptionalParams,
-  type VaultsUpdateOptionalParams,
-  type VaultsCreateOrUpdateOptionalParams,
-  type VaultsGetOptionalParams,
+export type {
+  VaultsListByResourceGroupOptionalParams,
+  VaultsListBySubscriptionIdOptionalParams,
+  VaultsDeleteOptionalParams,
+  VaultsUpdateOptionalParams,
+  VaultsCreateOrUpdateOptionalParams,
+  VaultsGetOptionalParams,
 } from "./options.js";

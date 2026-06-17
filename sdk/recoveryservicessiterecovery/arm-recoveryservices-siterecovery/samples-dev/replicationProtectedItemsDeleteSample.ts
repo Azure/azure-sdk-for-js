@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to disable replication on a replication protected item. This will also remove the item.
  *
  * @summary the operation to disable replication on a replication protected item. This will also remove the item.
- * x-ms-original-file: 2025-08-01/ReplicationProtectedItems_Delete.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectedItems_Delete.json
  */
 async function disablesProtection(): Promise<void> {
   const credential = new DefaultAzureCredential();

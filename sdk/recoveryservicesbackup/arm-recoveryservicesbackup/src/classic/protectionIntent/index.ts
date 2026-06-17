@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { validate, $delete, createOrUpdate, get } from "../../api/protectionIntent/operations.js";
-import type {
+import {
   ProtectionIntentValidateOptionalParams,
   ProtectionIntentDeleteOptionalParams,
   ProtectionIntentCreateOrUpdateOptionalParams,
   ProtectionIntentGetOptionalParams,
 } from "../../api/protectionIntent/options.js";
-import type {
+import {
   ProtectionIntentResource,
   PreValidateEnableBackupRequest,
   PreValidateEnableBackupResponse,

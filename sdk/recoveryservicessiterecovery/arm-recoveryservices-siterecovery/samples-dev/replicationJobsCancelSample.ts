@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to cancel an Azure Site Recovery job.
  *
  * @summary the operation to cancel an Azure Site Recovery job.
- * x-ms-original-file: 2025-08-01/ReplicationJobs_Cancel.json
+ * x-ms-original-file: 2026-01-01/ReplicationJobs_Cancel.json
  */
 async function cancelsTheSpecifiedJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the available recovery points for a replication protected item.
  *
  * @summary lists the available recovery points for a replication protected item.
- * x-ms-original-file: 2025-08-01/RecoveryPoints_ListByReplicationProtectedItems.json
+ * x-ms-original-file: 2026-01-01/RecoveryPoints_ListByReplicationProtectedItems.json
  */
 async function getsTheListOfRecoveryPointsForAReplicationProtectedItem(): Promise<void> {
   const credential = new DefaultAzureCredential();

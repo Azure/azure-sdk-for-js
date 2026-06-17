@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the details of a registered vCenter server(Add vCenter server).
  *
  * @summary gets the details of a registered vCenter server(Add vCenter server).
- * x-ms-original-file: 2025-08-01/ReplicationvCenters_Get.json
+ * x-ms-original-file: 2026-01-01/ReplicationvCenters_Get.json
  */
 async function getsTheDetailsOfAVCenter(): Promise<void> {
   const credential = new DefaultAzureCredential();

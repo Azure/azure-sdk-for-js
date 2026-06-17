@@ -20193,4 +20193,6 @@ export type Severity = string;
 export enum KnownVersions {
   /** The 2025-08-01 API version. */
   V20250801 = "2025-08-01",
+  /** The 2026-01-01 API version. */
+  V20260101 = "2026-01-01",
 }

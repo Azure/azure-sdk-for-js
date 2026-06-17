@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the registered recovery services providers for the specified fabric.
  *
  * @summary lists the registered recovery services providers for the specified fabric.
- * x-ms-original-file: 2025-08-01/ReplicationRecoveryServicesProviders_ListByReplicationFabrics.json
+ * x-ms-original-file: 2026-01-01/ReplicationRecoveryServicesProviders_ListByReplicationFabrics.json
  */
 async function getsTheListOfRegisteredRecoveryServicesProvidersForTheFabric(): Promise<void> {
   const credential = new DefaultAzureCredential();

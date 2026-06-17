@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the networks available in a vault.
  *
  * @summary lists the networks available in a vault.
- * x-ms-original-file: 2025-08-01/ReplicationNetworks_List.json
+ * x-ms-original-file: 2026-01-01/ReplicationNetworks_List.json
  */
 async function getsTheListOfNetworksViewOnlyAPI(): Promise<void> {
   const credential = new DefaultAzureCredential();

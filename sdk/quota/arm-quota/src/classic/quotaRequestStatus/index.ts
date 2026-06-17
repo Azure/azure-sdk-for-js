@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import { list, get } from "../../api/quotaRequestStatus/operations.js";
-import type {
+import {
   QuotaRequestStatusListOptionalParams,
   QuotaRequestStatusGetOptionalParams,
 } from "../../api/quotaRequestStatus/options.js";
-import type { QuotaRequestDetails } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { QuotaRequestDetails } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a QuotaRequestStatus operations. */
 export interface QuotaRequestStatusOperations {
@@ -19,6 +19,7 @@ export interface QuotaRequestStatusOperations {
   ) => PagedAsyncIterableIterator<QuotaRequestDetails>;
   /** Get the quota request details and status by quota request ID for the resources of the resource provider at a specific location. The quota request ID **id** is returned in the response of the PUT operation. */
   get: (
+    apiVersion: string,
     id: string,
     scope: string,
     options?: QuotaRequestStatusGetOptionalParams,
@@ -29,8 +30,12 @@ function _getQuotaRequestStatus(context: AzureQuotaExtensionAPIContext) {
   return {
     list: (scope: string, options?: QuotaRequestStatusListOptionalParams) =>
       list(context, scope, options),
-    get: (id: string, scope: string, options?: QuotaRequestStatusGetOptionalParams) =>
-      get(context, id, scope, options),
+    get: (
+      apiVersion: string,
+      id: string,
+      scope: string,
+      options?: QuotaRequestStatusGetOptionalParams,
+    ) => get(context, apiVersion, id, scope, options),
   };
 }
 

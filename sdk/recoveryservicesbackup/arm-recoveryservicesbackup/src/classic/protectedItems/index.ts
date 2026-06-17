@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { $delete, createOrUpdate, get } from "../../api/protectedItems/operations.js";
-import type {
+import {
   ProtectedItemsDeleteOptionalParams,
   ProtectedItemsCreateOrUpdateOptionalParams,
   ProtectedItemsGetOptionalParams,
 } from "../../api/protectedItems/options.js";
-import type { ProtectedItemResource } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ProtectedItemResource } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ProtectedItems operations. */
 export interface ProtectedItemsOperations {

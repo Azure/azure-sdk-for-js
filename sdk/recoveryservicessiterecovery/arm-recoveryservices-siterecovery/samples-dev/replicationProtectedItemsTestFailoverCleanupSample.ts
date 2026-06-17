@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to operation to clean up the test failover of a replication protected item.
  *
  * @summary operation to clean up the test failover of a replication protected item.
- * x-ms-original-file: 2025-08-01/ReplicationProtectedItems_TestFailoverCleanup.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectedItems_TestFailoverCleanup.json
  */
 async function executeTestFailoverCleanup(): Promise<void> {
   const credential = new DefaultAzureCredential();

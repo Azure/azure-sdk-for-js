@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the details of an ASR replication protection intent.
  *
  * @summary gets the details of an ASR replication protection intent.
- * x-ms-original-file: 2025-08-01/ReplicationProtectionIntents_Get.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectionIntents_Get.json
  */
 async function getsTheDetailsOfAReplicationProtectionIntentItem(): Promise<void> {
   const credential = new DefaultAzureCredential();

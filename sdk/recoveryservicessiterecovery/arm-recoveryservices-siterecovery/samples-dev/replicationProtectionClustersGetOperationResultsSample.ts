@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to track the results of an asynchronous operation on the replication protection cluster.
  *
  * @summary track the results of an asynchronous operation on the replication protection cluster.
- * x-ms-original-file: 2025-08-01/ReplicationProtectionClusters_GetOperationResults.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectionClusters_GetOperationResults.json
  */
 async function tracksTheReplicationProtectionClusterAsyncOperation(): Promise<void> {
   const credential = new DefaultAzureCredential();

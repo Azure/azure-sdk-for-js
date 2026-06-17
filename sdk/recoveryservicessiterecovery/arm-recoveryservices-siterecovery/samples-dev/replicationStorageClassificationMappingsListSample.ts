@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the storage classification mappings in the vault.
  *
  * @summary lists the storage classification mappings in the vault.
- * x-ms-original-file: 2025-08-01/ReplicationStorageClassificationMappings_List.json
+ * x-ms-original-file: 2026-01-01/ReplicationStorageClassificationMappings_List.json
  */
 async function getsTheListOfStorageClassificationMappingsObjectsUnderAVault(): Promise<void> {
   const credential = new DefaultAzureCredential();

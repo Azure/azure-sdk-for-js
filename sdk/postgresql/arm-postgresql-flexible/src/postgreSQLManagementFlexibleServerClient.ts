@@ -1,59 +1,87 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   PostgreSQLManagementFlexibleServerContext,
   PostgreSQLManagementFlexibleServerClientOptionalParams,
+  createPostgreSQLManagementFlexibleServer,
 } from "./api/index.js";
-import { createPostgreSQLManagementFlexibleServer } from "./api/index.js";
-import type { AdministratorsMicrosoftEntraOperations } from "./classic/administratorsMicrosoftEntra/index.js";
-import { _getAdministratorsMicrosoftEntraOperations } from "./classic/administratorsMicrosoftEntra/index.js";
-import type { AdvancedThreatProtectionSettingsOperations } from "./classic/advancedThreatProtectionSettings/index.js";
-import { _getAdvancedThreatProtectionSettingsOperations } from "./classic/advancedThreatProtectionSettings/index.js";
-import type { BackupsAutomaticAndOnDemandOperations } from "./classic/backupsAutomaticAndOnDemand/index.js";
-import { _getBackupsAutomaticAndOnDemandOperations } from "./classic/backupsAutomaticAndOnDemand/index.js";
-import type { BackupsLongTermRetentionOperations } from "./classic/backupsLongTermRetention/index.js";
-import { _getBackupsLongTermRetentionOperations } from "./classic/backupsLongTermRetention/index.js";
-import type { CapabilitiesByLocationOperations } from "./classic/capabilitiesByLocation/index.js";
-import { _getCapabilitiesByLocationOperations } from "./classic/capabilitiesByLocation/index.js";
-import type { CapabilitiesByServerOperations } from "./classic/capabilitiesByServer/index.js";
-import { _getCapabilitiesByServerOperations } from "./classic/capabilitiesByServer/index.js";
-import type { CapturedLogsOperations } from "./classic/capturedLogs/index.js";
-import { _getCapturedLogsOperations } from "./classic/capturedLogs/index.js";
-import type { ConfigurationsOperations } from "./classic/configurations/index.js";
-import { _getConfigurationsOperations } from "./classic/configurations/index.js";
-import type { DatabasesOperations } from "./classic/databases/index.js";
-import { _getDatabasesOperations } from "./classic/databases/index.js";
-import type { FirewallRulesOperations } from "./classic/firewallRules/index.js";
-import { _getFirewallRulesOperations } from "./classic/firewallRules/index.js";
-import type { MigrationsOperations } from "./classic/migrations/index.js";
-import { _getMigrationsOperations } from "./classic/migrations/index.js";
-import type { NameAvailabilityOperations } from "./classic/nameAvailability/index.js";
-import { _getNameAvailabilityOperations } from "./classic/nameAvailability/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateDnsZoneSuffixOperations } from "./classic/privateDnsZoneSuffix/index.js";
-import { _getPrivateDnsZoneSuffixOperations } from "./classic/privateDnsZoneSuffix/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { QuotaUsagesOperations } from "./classic/quotaUsages/index.js";
-import { _getQuotaUsagesOperations } from "./classic/quotaUsages/index.js";
-import type { ReplicasOperations } from "./classic/replicas/index.js";
-import { _getReplicasOperations } from "./classic/replicas/index.js";
-import type { ServerThreatProtectionSettingsOperations } from "./classic/serverThreatProtectionSettings/index.js";
-import { _getServerThreatProtectionSettingsOperations } from "./classic/serverThreatProtectionSettings/index.js";
-import type { ServersOperations } from "./classic/servers/index.js";
-import { _getServersOperations } from "./classic/servers/index.js";
-import type { TuningOptionsOperations } from "./classic/tuningOptions/index.js";
-import { _getTuningOptionsOperations } from "./classic/tuningOptions/index.js";
-import type { VirtualEndpointsOperations } from "./classic/virtualEndpoints/index.js";
-import { _getVirtualEndpointsOperations } from "./classic/virtualEndpoints/index.js";
-import type { VirtualNetworkSubnetUsageOperations } from "./classic/virtualNetworkSubnetUsage/index.js";
-import { _getVirtualNetworkSubnetUsageOperations } from "./classic/virtualNetworkSubnetUsage/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  AdministratorsMicrosoftEntraOperations,
+  _getAdministratorsMicrosoftEntraOperations,
+} from "./classic/administratorsMicrosoftEntra/index.js";
+import {
+  AdvancedThreatProtectionSettingsOperations,
+  _getAdvancedThreatProtectionSettingsOperations,
+} from "./classic/advancedThreatProtectionSettings/index.js";
+import {
+  BackupsAutomaticAndOnDemandOperations,
+  _getBackupsAutomaticAndOnDemandOperations,
+} from "./classic/backupsAutomaticAndOnDemand/index.js";
+import {
+  BackupsLongTermRetentionOperations,
+  _getBackupsLongTermRetentionOperations,
+} from "./classic/backupsLongTermRetention/index.js";
+import {
+  CapabilitiesByLocationOperations,
+  _getCapabilitiesByLocationOperations,
+} from "./classic/capabilitiesByLocation/index.js";
+import {
+  CapabilitiesByServerOperations,
+  _getCapabilitiesByServerOperations,
+} from "./classic/capabilitiesByServer/index.js";
+import {
+  CapturedLogsOperations,
+  _getCapturedLogsOperations,
+} from "./classic/capturedLogs/index.js";
+import {
+  ConfigurationsOperations,
+  _getConfigurationsOperations,
+} from "./classic/configurations/index.js";
+import { DatabasesOperations, _getDatabasesOperations } from "./classic/databases/index.js";
+import {
+  FirewallRulesOperations,
+  _getFirewallRulesOperations,
+} from "./classic/firewallRules/index.js";
+import { MigrationsOperations, _getMigrationsOperations } from "./classic/migrations/index.js";
+import {
+  NameAvailabilityOperations,
+  _getNameAvailabilityOperations,
+} from "./classic/nameAvailability/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateDnsZoneSuffixOperations,
+  _getPrivateDnsZoneSuffixOperations,
+} from "./classic/privateDnsZoneSuffix/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import { QuotaUsagesOperations, _getQuotaUsagesOperations } from "./classic/quotaUsages/index.js";
+import { ReplicasOperations, _getReplicasOperations } from "./classic/replicas/index.js";
+import {
+  ServerThreatProtectionSettingsOperations,
+  _getServerThreatProtectionSettingsOperations,
+} from "./classic/serverThreatProtectionSettings/index.js";
+import { ServersOperations, _getServersOperations } from "./classic/servers/index.js";
+import {
+  TuningOptionsOperations,
+  _getTuningOptionsOperations,
+} from "./classic/tuningOptions/index.js";
+import {
+  VirtualEndpointsOperations,
+  _getVirtualEndpointsOperations,
+} from "./classic/virtualEndpoints/index.js";
+import {
+  VirtualNetworkSubnetUsageOperations,
+  _getVirtualNetworkSubnetUsageOperations,
+} from "./classic/virtualNetworkSubnetUsage/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { PostgreSQLManagementFlexibleServerClientOptionalParams } from "./api/postgreSQLManagementFlexibleServerContext.js";
 

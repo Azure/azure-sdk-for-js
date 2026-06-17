@@ -1,20 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PolicyContext as Client } from "../index.js";
-import type { PolicyTokenRequest, PolicyTokenResponse } from "../../models/models.js";
+import { PolicyContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  PolicyTokenRequest,
   policyTokenRequestSerializer,
+  PolicyTokenResponse,
   policyTokenResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   PolicyTokensAcquireAtManagementGroupOptionalParams,
   PolicyTokensAcquireOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _acquireAtManagementGroupSend(
   context: Client,
@@ -26,18 +31,20 @@ export function _acquireAtManagementGroupSend(
     "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/acquirePolicyToken{?api%2Dversion}",
     {
       managementGroupName: managementGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: policyTokenRequestSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: policyTokenRequestSerializer(parameters),
+    });
 }
 
 export async function _acquireAtManagementGroupDeserialize(
@@ -46,7 +53,10 @@ export async function _acquireAtManagementGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -78,18 +88,20 @@ export function _acquireSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/acquirePolicyToken{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: policyTokenRequestSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: policyTokenRequestSerializer(parameters),
+    });
 }
 
 export async function _acquireDeserialize(
@@ -98,7 +110,10 @@ export async function _acquireDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

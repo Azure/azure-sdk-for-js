@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the details of the recovery plan.
  *
  * @summary gets the details of the recovery plan.
- * x-ms-original-file: 2025-08-01/ReplicationRecoveryPlans_Get.json
+ * x-ms-original-file: 2026-01-01/ReplicationRecoveryPlans_Get.json
  */
 async function getsTheRequestedRecoveryPlan(): Promise<void> {
   const credential = new DefaultAzureCredential();

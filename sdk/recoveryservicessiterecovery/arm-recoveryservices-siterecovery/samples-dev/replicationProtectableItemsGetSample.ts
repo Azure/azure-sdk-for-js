@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to get the details of a protectable item.
  *
  * @summary the operation to get the details of a protectable item.
- * x-ms-original-file: 2025-08-01/ReplicationProtectableItems_Get.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectableItems_Get.json
  */
 async function getsTheDetailsOfAProtectableItem(): Promise<void> {
   const credential = new DefaultAzureCredential();

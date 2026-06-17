@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to operation to apply a new cluster recovery point on the Protection cluster.
  *
  * @summary operation to apply a new cluster recovery point on the Protection cluster.
- * x-ms-original-file: 2025-08-01/ReplicationProtectionClusters_ApplyRecoveryPoint.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectionClusters_ApplyRecoveryPoint.json
  */
 async function executeTheChangeRecoveryPointOperationForCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

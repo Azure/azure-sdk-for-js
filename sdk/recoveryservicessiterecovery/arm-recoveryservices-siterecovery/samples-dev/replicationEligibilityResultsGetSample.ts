@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to validates whether a given VM can be protected or not in which case returns list of errors.
  *
  * @summary validates whether a given VM can be protected or not in which case returns list of errors.
- * x-ms-original-file: 2025-08-01/ReplicationEligibilityResults_Get.json
+ * x-ms-original-file: 2026-01-01/ReplicationEligibilityResults_Get.json
  */
 async function getsTheValidationErrorsInCaseTheVMIsUnsuitableForProtection(): Promise<void> {
   const credential = new DefaultAzureCredential();

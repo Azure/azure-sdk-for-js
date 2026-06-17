@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to refresh the information from the recovery services provider.
  *
  * @summary the operation to refresh the information from the recovery services provider.
- * x-ms-original-file: 2025-08-01/ReplicationRecoveryServicesProviders_RefreshProvider.json
+ * x-ms-original-file: 2026-01-01/ReplicationRecoveryServicesProviders_RefreshProvider.json
  */
 async function refreshDetailsFromTheRecoveryServicesProvider(): Promise<void> {
   const credential = new DefaultAzureCredential();

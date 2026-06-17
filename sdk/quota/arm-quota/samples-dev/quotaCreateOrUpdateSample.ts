@@ -18,8 +18,8 @@ async function quotasPutRequestForCompute(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.quota.createOrUpdate(
-    "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Compute/locations/eastus",
     "standardFSv2Family",
+    "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Compute/locations/eastus",
     {
       properties: {
         name: { value: "standardFSv2Family" },
@@ -42,11 +42,10 @@ async function quotasPutRequestForCompute(): Promise<void> {
  */
 async function quotasRequestForMachineLearningServicesLowPriorityResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
+  const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.quota.createOrUpdate(
-    "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.MachineLearningServices/locations/eastus",
     "TotalLowPriorityCores",
+    "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.MachineLearningServices/locations/eastus",
     {
       properties: {
         name: { value: "TotalLowPriorityCores" },
@@ -70,11 +69,10 @@ async function quotasRequestForMachineLearningServicesLowPriorityResource(): Pro
  */
 async function quotasPutRequestForNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
+  const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.quota.createOrUpdate(
-    "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Network/locations/eastus",
     "MinPublicIpInterNetworkPrefixLength",
+    "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Network/locations/eastus",
     {
       properties: {
         name: { value: "MinPublicIpInterNetworkPrefixLength" },
@@ -98,11 +96,10 @@ async function quotasPutRequestForNetwork(): Promise<void> {
  */
 async function quotasPutRequestForNetworkStandardSkuPublicIpAddressesResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
+  const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.quota.createOrUpdate(
-    "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Network/locations/eastus",
     "StandardSkuPublicIpAddresses",
+    "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Network/locations/eastus",
     {
       properties: {
         name: { value: "StandardSkuPublicIpAddresses" },

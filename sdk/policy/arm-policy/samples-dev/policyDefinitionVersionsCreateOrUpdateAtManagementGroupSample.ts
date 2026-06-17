@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation creates or updates a policy definition version in the given management group with the given name.
  *
  * @summary this operation creates or updates a policy definition version in the given management group with the given name.
- * x-ms-original-file: 2025-03-01/createOrUpdatePolicyDefinitionVersionAtManagementGroup.json
+ * x-ms-original-file: 2025-11-01/createOrUpdatePolicyDefinitionVersionAtManagementGroup.json
  */
 async function createOrUpdateAPolicyDefinitionVersionAtManagementGroupLevel(): Promise<void> {
   const credential = new DefaultAzureCredential();

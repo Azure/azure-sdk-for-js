@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the networks available for a fabric.
  *
  * @summary lists the networks available for a fabric.
- * x-ms-original-file: 2025-08-01/ReplicationNetworks_ListByReplicationFabrics.json
+ * x-ms-original-file: 2026-01-01/ReplicationNetworks_ListByReplicationFabrics.json
  */
 async function getsTheListOfNetworksUnderAFabric(): Promise<void> {
   const credential = new DefaultAzureCredential();

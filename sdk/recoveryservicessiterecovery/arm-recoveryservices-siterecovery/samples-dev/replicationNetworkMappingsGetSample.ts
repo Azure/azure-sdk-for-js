@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the details of an ASR network mapping.
  *
  * @summary gets the details of an ASR network mapping.
- * x-ms-original-file: 2025-08-01/ReplicationNetworkMappings_Get.json
+ * x-ms-original-file: 2026-01-01/ReplicationNetworkMappings_Get.json
  */
 async function getsNetworkMappingByName(): Promise<void> {
   const credential = new DefaultAzureCredential();

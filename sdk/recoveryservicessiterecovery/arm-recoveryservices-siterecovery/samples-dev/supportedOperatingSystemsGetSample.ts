@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the data of supported operating systems by SRS.
  *
  * @summary gets the data of supported operating systems by SRS.
- * x-ms-original-file: 2025-08-01/SupportedOperatingSystems_Get.json
+ * x-ms-original-file: 2026-01-01/SupportedOperatingSystems_Get.json
  */
 async function getsTheDataOfSupportedOperatingSystemsBySRS(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,22 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PolicyContext, PolicyClientOptionalParams } from "./api/index.js";
-import { createPolicy } from "./api/index.js";
-import type { PolicyAssignmentsOperations } from "./classic/policyAssignments/index.js";
-import { _getPolicyAssignmentsOperations } from "./classic/policyAssignments/index.js";
-import type { PolicyDefinitionVersionsOperations } from "./classic/policyDefinitionVersions/index.js";
-import { _getPolicyDefinitionVersionsOperations } from "./classic/policyDefinitionVersions/index.js";
-import type { PolicyDefinitionsOperations } from "./classic/policyDefinitions/index.js";
-import { _getPolicyDefinitionsOperations } from "./classic/policyDefinitions/index.js";
-import type { PolicySetDefinitionVersionsOperations } from "./classic/policySetDefinitionVersions/index.js";
-import { _getPolicySetDefinitionVersionsOperations } from "./classic/policySetDefinitionVersions/index.js";
-import type { PolicySetDefinitionsOperations } from "./classic/policySetDefinitions/index.js";
-import { _getPolicySetDefinitionsOperations } from "./classic/policySetDefinitions/index.js";
-import type { PolicyTokensOperations } from "./classic/policyTokens/index.js";
-import { _getPolicyTokensOperations } from "./classic/policyTokens/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { PolicyContext, PolicyClientOptionalParams, createPolicy } from "./api/index.js";
+import {
+  PolicyAssignmentsOperations,
+  _getPolicyAssignmentsOperations,
+} from "./classic/policyAssignments/index.js";
+import {
+  PolicyDefinitionVersionsOperations,
+  _getPolicyDefinitionVersionsOperations,
+} from "./classic/policyDefinitionVersions/index.js";
+import {
+  PolicyDefinitionsOperations,
+  _getPolicyDefinitionsOperations,
+} from "./classic/policyDefinitions/index.js";
+import {
+  PolicySetDefinitionVersionsOperations,
+  _getPolicySetDefinitionVersionsOperations,
+} from "./classic/policySetDefinitionVersions/index.js";
+import {
+  PolicySetDefinitionsOperations,
+  _getPolicySetDefinitionsOperations,
+} from "./classic/policySetDefinitions/index.js";
+import {
+  PolicyTokensOperations,
+  _getPolicyTokensOperations,
+} from "./classic/policyTokens/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { PolicyClientOptionalParams } from "./api/policyContext.js";
 

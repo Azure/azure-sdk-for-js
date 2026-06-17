@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to operation to remove disk(s) from the replication protected item.
  *
  * @summary operation to remove disk(s) from the replication protected item.
- * x-ms-original-file: 2025-08-01/ReplicationProtectedItems_RemoveDisks.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectedItems_RemoveDisks.json
  */
 async function removesDiskS(): Promise<void> {
   const credential = new DefaultAzureCredential();

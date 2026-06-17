@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { patch, update, get } from "../../api/backupResourceStorageConfigsNonCRR/operations.js";
-import type {
+import {
   BackupResourceStorageConfigsNonCRRPatchOptionalParams,
   BackupResourceStorageConfigsNonCRRUpdateOptionalParams,
   BackupResourceStorageConfigsNonCRRGetOptionalParams,
 } from "../../api/backupResourceStorageConfigsNonCRR/options.js";
-import type { BackupResourceConfigResource } from "../../models/models.js";
+import { BackupResourceConfigResource } from "../../models/models.js";
 
 /** Interface representing a BackupResourceStorageConfigsNonCRR operations. */
 export interface BackupResourceStorageConfigsNonCRROperations {

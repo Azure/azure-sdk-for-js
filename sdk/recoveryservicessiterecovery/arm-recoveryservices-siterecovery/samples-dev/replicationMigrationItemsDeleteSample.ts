@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to delete an ASR migration item.
  *
  * @summary the operation to delete an ASR migration item.
- * x-ms-original-file: 2025-08-01/ReplicationMigrationItems_Delete.json
+ * x-ms-original-file: 2026-01-01/ReplicationMigrationItems_Delete.json
  */
 async function deleteTheMigrationItem(): Promise<void> {
   const credential = new DefaultAzureCredential();

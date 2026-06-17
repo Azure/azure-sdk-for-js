@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to purge the replication protection cluster. This operation will force delete the replication protection cluster. Use the remove operation on replication protection cluster to perform a clean disable replication protection cluster.
  *
  * @summary the operation to purge the replication protection cluster. This operation will force delete the replication protection cluster. Use the remove operation on replication protection cluster to perform a clean disable replication protection cluster.
- * x-ms-original-file: 2025-08-01/ReplicationProtectionClusters_Purge.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectionClusters_Purge.json
  */
 async function purgeTheReplicationProtectionCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

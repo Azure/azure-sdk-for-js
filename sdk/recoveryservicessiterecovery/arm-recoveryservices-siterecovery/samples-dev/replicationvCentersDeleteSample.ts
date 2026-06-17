@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to remove(unregister) a registered vCenter server from the vault.
  *
  * @summary the operation to remove(unregister) a registered vCenter server from the vault.
- * x-ms-original-file: 2025-08-01/ReplicationvCenters_Delete.json
+ * x-ms-original-file: 2026-01-01/ReplicationvCenters_Delete.json
  */
 async function removeVCenterOperation(): Promise<void> {
   const credential = new DefaultAzureCredential();

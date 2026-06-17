@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to update an ASR network mapping.
  *
  * @summary the operation to update an ASR network mapping.
- * x-ms-original-file: 2025-08-01/ReplicationNetworkMappings_Update.json
+ * x-ms-original-file: 2026-01-01/ReplicationNetworkMappings_Update.json
  */
 async function updatesNetworkMapping(): Promise<void> {
   const credential = new DefaultAzureCredential();
