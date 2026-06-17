@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementClient } from "./cosmosDBManagementClient.js";
+import { CosmosDBManagementClient } from "./cosmosDBManagementClient.js";
 import { _$deleteDeserialize, _createDeserialize } from "./api/fleetspaceAccount/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeFleetspace,
@@ -177,10 +177,14 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeDatabaseAccounts,
 } from "./api/databaseAccounts/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
-import { deserializeState } from "@azure/core-lro";
+import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  PollerLike,
+  OperationState,
+  deserializeState,
+  ResourceLocationConfig,
+} from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -390,7 +394,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/retrieveContinuousBackupInformation":
     {
       deserializer: _retrieveContinuousBackupInformationDeserialize,
-      expectedStatuses: ["202", "200", "201"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}":
     { deserializer: _deleteGremlinGraphDeserialize, expectedStatuses: ["202", "204", "200"] },
@@ -542,7 +546,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/retrieveContinuousBackupInformation":
     {
       deserializer: _retrieveContinuousBackupInformationDeserializeTableResources,
-      expectedStatuses: ["202", "200", "201"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}":
     { deserializer: _deleteTableDeserialize, expectedStatuses: ["204", "202", "200"] },
@@ -580,7 +584,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/retrieveContinuousBackupInformation":
     {
       deserializer: _retrieveContinuousBackupInformationDeserializeMongoDBResources,
-      expectedStatuses: ["202", "200", "201"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/partitionMerge":
     {
@@ -694,7 +698,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/retrieveContinuousBackupInformation":
     {
       deserializer: _retrieveContinuousBackupInformationDeserializeSqlResources,
-      expectedStatuses: ["202", "200", "201"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/partitionMerge":
     {

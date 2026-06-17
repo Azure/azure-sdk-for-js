@@ -1,48 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext as Client } from "../index.js";
-import type {
-  ThroughputSettingsGetResults,
-  ThroughputSettingsUpdateParameters,
-  ContinuousBackupRestoreLocation,
-  BackupInformation,
-  GremlinDatabaseGetResults,
-  GremlinDatabaseCreateUpdateParameters,
-  _GremlinDatabaseListResult,
-  GremlinGraphGetResults,
-  GremlinGraphCreateUpdateParameters,
-  _GremlinGraphListResult,
-  GremlinRoleDefinitionResource,
-  _GremlinRoleDefinitionListResult,
-  GremlinRoleAssignmentResource,
-  _GremlinRoleAssignmentListResult,
-} from "../../models/models.js";
+import { CosmosDBManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
   cloudErrorDeserializer,
+  ThroughputSettingsGetResults,
   throughputSettingsGetResultsDeserializer,
+  ThroughputSettingsUpdateParameters,
   throughputSettingsUpdateParametersSerializer,
+  ContinuousBackupRestoreLocation,
   continuousBackupRestoreLocationSerializer,
+  BackupInformation,
   backupInformationDeserializer,
+  GremlinDatabaseGetResults,
   gremlinDatabaseGetResultsDeserializer,
+  GremlinDatabaseCreateUpdateParameters,
   gremlinDatabaseCreateUpdateParametersSerializer,
+  _GremlinDatabaseListResult,
   _gremlinDatabaseListResultDeserializer,
+  GremlinGraphGetResults,
   gremlinGraphGetResultsDeserializer,
+  GremlinGraphCreateUpdateParameters,
   gremlinGraphCreateUpdateParametersSerializer,
+  _GremlinGraphListResult,
   _gremlinGraphListResultDeserializer,
+  GremlinRoleDefinitionResource,
   gremlinRoleDefinitionResourceSerializer,
   gremlinRoleDefinitionResourceDeserializer,
+  _GremlinRoleDefinitionListResult,
   _gremlinRoleDefinitionListResultDeserializer,
+  GremlinRoleAssignmentResource,
   gremlinRoleAssignmentResourceSerializer,
   gremlinRoleAssignmentResourceDeserializer,
+  _GremlinRoleAssignmentListResult,
   _gremlinRoleAssignmentListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   GremlinResourcesListGremlinRoleAssignmentsOptionalParams,
   GremlinResourcesDeleteGremlinRoleAssignmentOptionalParams,
   GremlinResourcesCreateUpdateGremlinRoleAssignmentOptionalParams,
@@ -69,9 +69,13 @@ import type {
   GremlinResourcesUpdateGremlinDatabaseThroughputOptionalParams,
   GremlinResourcesGetGremlinDatabaseThroughputOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listGremlinRoleAssignmentsSend(
   context: Client,
@@ -91,10 +95,12 @@ export function _listGremlinRoleAssignmentsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listGremlinRoleAssignmentsDeserialize(
@@ -103,7 +109,9 @@ export async function _listGremlinRoleAssignmentsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -160,7 +168,9 @@ export async function _deleteGremlinRoleAssignmentDeserialize(
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -218,12 +228,14 @@ export function _createUpdateGremlinRoleAssignmentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: gremlinRoleAssignmentResourceSerializer(createUpdateGremlinRoleAssignmentParameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: gremlinRoleAssignmentResourceSerializer(createUpdateGremlinRoleAssignmentParameters),
+    });
 }
 
 export async function _createUpdateGremlinRoleAssignmentDeserialize(
@@ -232,7 +244,9 @@ export async function _createUpdateGremlinRoleAssignmentDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -291,10 +305,12 @@ export function _getGremlinRoleAssignmentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getGremlinRoleAssignmentDeserialize(
@@ -303,7 +319,9 @@ export async function _getGremlinRoleAssignmentDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -347,10 +365,12 @@ export function _listGremlinRoleDefinitionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listGremlinRoleDefinitionsDeserialize(
@@ -359,7 +379,9 @@ export async function _listGremlinRoleDefinitionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -416,7 +438,9 @@ export async function _deleteGremlinRoleDefinitionDeserialize(
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -474,12 +498,14 @@ export function _createUpdateGremlinRoleDefinitionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: gremlinRoleDefinitionResourceSerializer(createUpdateGremlinRoleDefinitionParameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: gremlinRoleDefinitionResourceSerializer(createUpdateGremlinRoleDefinitionParameters),
+    });
 }
 
 export async function _createUpdateGremlinRoleDefinitionDeserialize(
@@ -488,7 +514,9 @@ export async function _createUpdateGremlinRoleDefinitionDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -547,10 +575,12 @@ export function _getGremlinRoleDefinitionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getGremlinRoleDefinitionDeserialize(
@@ -559,7 +589,9 @@ export async function _getGremlinRoleDefinitionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -610,21 +642,25 @@ export function _retrieveContinuousBackupInformationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: continuousBackupRestoreLocationSerializer(location),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: continuousBackupRestoreLocationSerializer(location),
+    });
 }
 
 export async function _retrieveContinuousBackupInformationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<BackupInformation> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -647,7 +683,7 @@ export function retrieveContinuousBackupInformation(
   return getLongRunningPoller(
     context,
     _retrieveContinuousBackupInformationDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -687,10 +723,12 @@ export function _listGremlinGraphsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listGremlinGraphsDeserialize(
@@ -699,7 +737,9 @@ export async function _listGremlinGraphsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -757,7 +797,9 @@ export async function _deleteGremlinGraphDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -814,12 +856,14 @@ export function _createUpdateGremlinGraphSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: gremlinGraphCreateUpdateParametersSerializer(createUpdateGremlinGraphParameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: gremlinGraphCreateUpdateParametersSerializer(createUpdateGremlinGraphParameters),
+    });
 }
 
 export async function _createUpdateGremlinGraphDeserialize(
@@ -828,7 +872,9 @@ export async function _createUpdateGremlinGraphDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -891,10 +937,12 @@ export function _getGremlinGraphSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getGremlinGraphDeserialize(
@@ -903,7 +951,9 @@ export async function _getGremlinGraphDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -949,10 +999,12 @@ export function _listGremlinDatabasesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listGremlinDatabasesDeserialize(
@@ -961,7 +1013,9 @@ export async function _listGremlinDatabasesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1018,7 +1072,9 @@ export async function _deleteGremlinDatabaseDeserialize(
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1065,12 +1121,14 @@ export function _createUpdateGremlinDatabaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: gremlinDatabaseCreateUpdateParametersSerializer(createUpdateGremlinDatabaseParameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: gremlinDatabaseCreateUpdateParametersSerializer(createUpdateGremlinDatabaseParameters),
+    });
 }
 
 export async function _createUpdateGremlinDatabaseDeserialize(
@@ -1079,7 +1137,9 @@ export async function _createUpdateGremlinDatabaseDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1138,10 +1198,12 @@ export function _getGremlinDatabaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getGremlinDatabaseDeserialize(
@@ -1150,7 +1212,9 @@ export async function _getGremlinDatabaseDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1200,10 +1264,12 @@ export function _migrateGremlinGraphToManualThroughputSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _migrateGremlinGraphToManualThroughputDeserialize(
@@ -1212,7 +1278,9 @@ export async function _migrateGremlinGraphToManualThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1275,10 +1343,12 @@ export function _migrateGremlinGraphToAutoscaleSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _migrateGremlinGraphToAutoscaleDeserialize(
@@ -1287,7 +1357,9 @@ export async function _migrateGremlinGraphToAutoscaleDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1349,12 +1421,14 @@ export function _updateGremlinGraphThroughputSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: throughputSettingsUpdateParametersSerializer(updateThroughputParameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: throughputSettingsUpdateParametersSerializer(updateThroughputParameters),
+    });
 }
 
 export async function _updateGremlinGraphThroughputDeserialize(
@@ -1363,7 +1437,9 @@ export async function _updateGremlinGraphThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1426,10 +1502,12 @@ export function _getGremlinGraphThroughputSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getGremlinGraphThroughputDeserialize(
@@ -1438,7 +1516,9 @@ export async function _getGremlinGraphThroughputDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1488,10 +1568,12 @@ export function _migrateGremlinDatabaseToManualThroughputSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _migrateGremlinDatabaseToManualThroughputDeserialize(
@@ -1500,7 +1582,9 @@ export async function _migrateGremlinDatabaseToManualThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1559,10 +1643,12 @@ export function _migrateGremlinDatabaseToAutoscaleSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _migrateGremlinDatabaseToAutoscaleDeserialize(
@@ -1571,7 +1657,9 @@ export async function _migrateGremlinDatabaseToAutoscaleDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1629,12 +1717,14 @@ export function _updateGremlinDatabaseThroughputSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: throughputSettingsUpdateParametersSerializer(updateThroughputParameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: throughputSettingsUpdateParametersSerializer(updateThroughputParameters),
+    });
 }
 
 export async function _updateGremlinDatabaseThroughputDeserialize(
@@ -1643,7 +1733,9 @@ export async function _updateGremlinDatabaseThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1702,10 +1794,12 @@ export function _getGremlinDatabaseThroughputSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getGremlinDatabaseThroughputDeserialize(
@@ -1714,7 +1808,9 @@ export async function _getGremlinDatabaseThroughputDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

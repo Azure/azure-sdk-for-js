@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import { listMetrics } from "../../api/percentile/operations.js";
-import type { PercentileListMetricsOptionalParams } from "../../api/percentile/options.js";
-import type { PercentileMetric } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PercentileListMetricsOptionalParams } from "../../api/percentile/options.js";
+import { PercentileMetric } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Percentile operations. */
 export interface PercentileOperations {

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceContext } from "../../api/containerServiceContext.js";
+import { ContainerServiceContext } from "../../api/containerServiceContext.js";
 import { listNodeImageVersions } from "../../api/containerService/operations.js";
-import type { ContainerServiceListNodeImageVersionsOptionalParams } from "../../api/containerService/options.js";
-import type { NodeImageVersion } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ContainerServiceListNodeImageVersionsOptionalParams } from "../../api/containerService/options.js";
+import { NodeImageVersion } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ContainerService operations. */
 export interface ContainerServiceOperations {

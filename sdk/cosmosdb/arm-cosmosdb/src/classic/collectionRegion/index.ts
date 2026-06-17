@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import { listMetrics } from "../../api/collectionRegion/operations.js";
-import type { CollectionRegionListMetricsOptionalParams } from "../../api/collectionRegion/options.js";
-import type { Metric } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { CollectionRegionListMetricsOptionalParams } from "../../api/collectionRegion/options.js";
+import { Metric } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CollectionRegion operations. */
 export interface CollectionRegionOperations {

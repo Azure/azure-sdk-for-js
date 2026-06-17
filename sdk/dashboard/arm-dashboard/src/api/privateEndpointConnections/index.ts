@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 export { list, $delete, approve, get } from "./operations.js";
-export {
-  type PrivateEndpointConnectionsListOptionalParams,
-  type PrivateEndpointConnectionsDeleteOptionalParams,
-  type PrivateEndpointConnectionsApproveOptionalParams,
-  type PrivateEndpointConnectionsGetOptionalParams,
+export type {
+  PrivateEndpointConnectionsListOptionalParams,
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsApproveOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
 } from "./options.js";

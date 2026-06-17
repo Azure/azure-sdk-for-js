@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceContext } from "../../api/containerServiceContext.js";
+import { ContainerServiceContext } from "../../api/containerServiceContext.js";
 import { list } from "../../api/privateLinkResources/operations.js";
-import type { PrivateLinkResourcesListOptionalParams } from "../../api/privateLinkResources/options.js";
-import type { PrivateLinkResourcesListResult } from "../../models/models.js";
+import { PrivateLinkResourcesListOptionalParams } from "../../api/privateLinkResources/options.js";
+import { PrivateLinkResourcesListResult } from "../../models/models.js";
 
 /** Interface representing a PrivateLinkResources operations. */
 export interface PrivateLinkResourcesOperations {

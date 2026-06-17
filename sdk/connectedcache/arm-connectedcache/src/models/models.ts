@@ -52,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -135,8 +135,8 @@ export interface ErrorDetail {
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-export function errorDetailSerializer(item: ErrorDetail): any {
-  return item;
+export function errorDetailSerializer(_item: ErrorDetail): any {
+  return {};
 }
 
 export function errorDetailDeserializer(item: any): ErrorDetail {
@@ -572,8 +572,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {

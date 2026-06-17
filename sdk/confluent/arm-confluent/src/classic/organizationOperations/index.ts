@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConfluentManagementContext } from "../../api/confluentManagementContext.js";
+import { ConfluentManagementContext } from "../../api/confluentManagementContext.js";
 import { list } from "../../api/organizationOperations/operations.js";
-import type { OrganizationOperationsListOptionalParams } from "../../api/organizationOperations/options.js";
-import type { OperationResult } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { OrganizationOperationsListOptionalParams } from "../../api/organizationOperations/options.js";
+import { OperationResult } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a OrganizationOperations operations. */
 export interface OrganizationOperationsOperations {

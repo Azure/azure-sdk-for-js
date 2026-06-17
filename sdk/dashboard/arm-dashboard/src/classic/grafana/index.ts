@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DashboardManagementContext } from "../../api/dashboardManagementContext.js";
+import { DashboardManagementContext } from "../../api/dashboardManagementContext.js";
 import {
   fetchAvailablePlugins,
   checkEnterpriseDetails,
@@ -12,7 +12,7 @@ import {
   create,
   get,
 } from "../../api/grafana/operations.js";
-import type {
+import {
   GrafanaFetchAvailablePluginsOptionalParams,
   GrafanaCheckEnterpriseDetailsOptionalParams,
   GrafanaListOptionalParams,
@@ -22,14 +22,14 @@ import type {
   GrafanaCreateOptionalParams,
   GrafanaGetOptionalParams,
 } from "../../api/grafana/options.js";
-import type {
+import {
   ManagedGrafana,
   ManagedGrafanaUpdateParameters,
   EnterpriseDetails,
   GrafanaAvailablePluginListResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Grafana operations. */
 export interface GrafanaOperations {
@@ -53,11 +53,6 @@ export interface GrafanaOperations {
     options?: GrafanaListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ManagedGrafana>;
   /** Delete a workspace for Grafana resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     workspaceName: string,

@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerRegistryManagementContext } from "../../api/containerRegistryManagementContext.js";
+import { ContainerRegistryManagementContext } from "../../api/containerRegistryManagementContext.js";
 import { list, $delete, create, get } from "../../api/archiveVersions/operations.js";
-import type {
+import {
   ArchiveVersionsListOptionalParams,
   ArchiveVersionsDeleteOptionalParams,
   ArchiveVersionsCreateOptionalParams,
   ArchiveVersionsGetOptionalParams,
 } from "../../api/archiveVersions/options.js";
-import type { ArchiveVersion } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ArchiveVersion } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ArchiveVersions operations. */
 export interface ArchiveVersionsOperations {
@@ -26,11 +25,6 @@ export interface ArchiveVersionsOperations {
     options?: ArchiveVersionsListOptionalParams,
   ) => PagedAsyncIterableIterator<ArchiveVersion>;
   /** Deletes a archive version from a container registry. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     registryName: string,

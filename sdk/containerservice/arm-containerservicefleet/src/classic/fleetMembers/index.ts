@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
+import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
 import {
   listByFleet,
   $delete,
@@ -9,16 +9,16 @@ import {
   create,
   get,
 } from "../../api/fleetMembers/operations.js";
-import type {
+import {
   FleetMembersListByFleetOptionalParams,
   FleetMembersDeleteOptionalParams,
   FleetMembersUpdateAsyncOptionalParams,
   FleetMembersCreateOptionalParams,
   FleetMembersGetOptionalParams,
 } from "../../api/fleetMembers/options.js";
-import type { FleetMember, FleetMemberUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { FleetMember, FleetMemberUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FleetMembers operations. */
 export interface FleetMembersOperations {
@@ -29,11 +29,6 @@ export interface FleetMembersOperations {
     options?: FleetMembersListByFleetOptionalParams,
   ) => PagedAsyncIterableIterator<FleetMember>;
   /** Delete a FleetMember */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     fleetName: string,

@@ -1,21 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerRegistryTasksManagementContext as Client } from "../index.js";
-import type { Run, RunRequestUnion, SourceUploadDefinition } from "../../models/models.js";
+import { ContainerRegistryTasksManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  Run,
   runDeserializer,
   runRequestUnionSerializer,
+  RunRequestUnion,
+  SourceUploadDefinition,
   sourceUploadDefinitionDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   RegistriesGetBuildSourceUploadUrlOptionalParams,
   RegistriesScheduleRunOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _getBuildSourceUploadUrlSend(
   context: Client,
@@ -29,16 +35,18 @@ export function _getBuildSourceUploadUrlSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getBuildSourceUploadUrlDeserialize(
@@ -47,7 +55,10 @@ export async function _getBuildSourceUploadUrlDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -83,25 +94,30 @@ export function _scheduleRunSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: runRequestUnionSerializer(runRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: runRequestUnionSerializer(runRequest),
+    });
 }
 
 export async function _scheduleRunDeserialize(result: PathUncheckedResponse): Promise<Run> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
