@@ -387,8 +387,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1303,9 +1303,9 @@ export function standbyContainerGroupPoolRuntimeViewResourceArrayDeserializer(
 /** Supported API Versions for Microsoft.StandbyPool */
 export enum KnownVersions {
   /** API Version 2024-03-01. */
-  _20240301 = "2024-03-01",
+  V20240301 = "2024-03-01",
   /** API Version 2025-03-01. */
-  _20250301 = "2025-03-01",
+  V20250301 = "2025-03-01",
   /** API Version 2025-10-01. */
-  _20251001 = "2025-10-01",
+  V20251001 = "2025-10-01",
 }
