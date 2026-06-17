@@ -44,10 +44,12 @@ export function _enableConsoleSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _enableConsoleDeserialize(
@@ -58,9 +60,13 @@ export async function _enableConsoleDeserialize(
     const error = createRestError(result);
     const statusCode = Number.parseInt(result.status);
     if (statusCode === 404) {
-      error.details = getSerialConsoleSubscriptionNotFoundDeserializer(result.body);
+      if (result.body) {
+        error.details = getSerialConsoleSubscriptionNotFoundDeserializer(result.body);
+      }
     } else {
-      error.details = cloudErrorDeserializer(result.body);
+      if (result.body) {
+        error.details = cloudErrorDeserializer(result.body);
+      }
     }
     throw error;
   }
@@ -94,10 +100,12 @@ export function _disableConsoleSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _disableConsoleDeserialize(
@@ -108,9 +116,13 @@ export async function _disableConsoleDeserialize(
     const error = createRestError(result);
     const statusCode = Number.parseInt(result.status);
     if (statusCode === 404) {
-      error.details = getSerialConsoleSubscriptionNotFoundDeserializer(result.body);
+      if (result.body) {
+        error.details = getSerialConsoleSubscriptionNotFoundDeserializer(result.body);
+      }
     } else {
-      error.details = cloudErrorDeserializer(result.body);
+      if (result.body) {
+        error.details = cloudErrorDeserializer(result.body);
+      }
     }
     throw error;
   }
@@ -141,10 +153,12 @@ export function _listOperationsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listOperationsDeserialize(
@@ -153,7 +167,9 @@ export async function _listOperationsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -186,10 +202,12 @@ export function _getConsoleStatusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getConsoleStatusDeserialize(
@@ -200,9 +218,13 @@ export async function _getConsoleStatusDeserialize(
     const error = createRestError(result);
     const statusCode = Number.parseInt(result.status);
     if (statusCode === 404) {
-      error.details = getSerialConsoleSubscriptionNotFoundDeserializer(result.body);
+      if (result.body) {
+        error.details = getSerialConsoleSubscriptionNotFoundDeserializer(result.body);
+      }
     } else {
-      error.details = cloudErrorDeserializer(result.body);
+      if (result.body) {
+        error.details = cloudErrorDeserializer(result.body);
+      }
     }
     throw error;
   }

@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 
 export { ServiceGroupsManagementClient } from "./serviceGroupsManagementClient.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
@@ -35,3 +34,4 @@ export type {
 export type { ServiceGroupsOperations } from "./classic/index.js";
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

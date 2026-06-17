@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SearchManagementContext } from "../../api/searchManagementContext.js";
+import { SearchManagementContext } from "../../api/searchManagementContext.js";
 import { $delete, listBySearchService, create } from "../../api/queryKeys/operations.js";
-import type {
+import {
   QueryKeysDeleteOptionalParams,
   QueryKeysListBySearchServiceOptionalParams,
   QueryKeysCreateOptionalParams,
 } from "../../api/queryKeys/options.js";
-import type { QueryKey } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { QueryKey } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a QueryKeys operations. */
 export interface QueryKeysOperations {
@@ -17,11 +17,6 @@ export interface QueryKeysOperations {
    * Deletes the specified query key. Unlike admin keys, query keys are not regenerated. The process for regenerating a query key is to delete and then recreate it.
    * Returns 200 (OK) on successful deletion, 204 (No Content) if the service exists but the query keys not found, or 404 (Not Found) if the service is not found.
    * NOTE: The behavior of returning 404 is inconsistent with ARM guidelines. Clients should expect a 204 response in future versions and avoid new dependencies on the 404 response.
-   */
-  /**
-   *  @fixme Delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
    */
   delete: (
     resourceGroupName: string,
