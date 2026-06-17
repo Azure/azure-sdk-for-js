@@ -6,9 +6,11 @@
 #                      publish them as artifacts.
 #
 #   RegenerateAndBuild Matrix shards. Each downloads its slice, regenerates +
-#                      builds, generates changelogs. In PR mode, pushes only
-#                      api.md + CHANGELOG.md deltas to the PR branch
-#                      (break-check semantics — see sdk-regenerate.mjs).
+#                      builds, generates changelogs. Regeneration always uses
+#                      each package's tsp-location.yaml commit, so the
+#                      api-version matches the existing SDK. In PR mode, pushes
+#                      the files selected by PRPushMode (api.md + CHANGELOG.md
+#                      deltas, or the whole SDK refresh) to the PR branch.
 #
 #   CreatePR           Opens the GitHub PR. Body is minimal; per-package
 #                      outcomes are in the build log.
@@ -51,10 +53,6 @@ parameters:
     type: string
     default: 'arm-*'
 
-  - name: SpecRepoBranch
-    type: string
-    default: 'main'
-
   - name: CreatePullRequest
     type: boolean
     default: false
@@ -81,8 +79,6 @@ variables:
   - group: Release Secrets for GitHub
   - name: sdkRoot
     value: $(Build.SourcesDirectory)
-  - name: specRepoRoot
-    value: $(Agent.BuildDirectory)/azure-rest-api-specs
   - name: nodeVersion
     value: '22.x'
   - name: shardScript
@@ -180,11 +176,8 @@ stages:
 
       - bash: |
           node $(shardScript) shard \
-            --specRepoBranch "${{ parameters.SpecRepoBranch }}" \
-            --specRepoRoot   "$(specRepoRoot)" \
             --directoryList  "$(Pipeline.Workspace)/matrix_artifacts/$(DirectoryList)" \
-            --skipBuild      "${{ parameters.SkipBuild }}" \
-            --prPushMode     "${{ parameters.PRPushMode }}"
+            --skipBuild      "${{ parameters.SkipBuild }}"
         displayName: 'Regenerate + build shard'
         workingDirectory: $(sdkRoot)
 

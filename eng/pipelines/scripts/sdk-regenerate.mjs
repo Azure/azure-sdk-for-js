@@ -29,12 +29,10 @@ const options = {
   input:          { type: "string", default: "" },
   skipBuild:      { type: "string", default: "false" },
   filter:         { type: "string", default: "arm-*" },
-  specRepoBranch: { type: "string", default: "main" },
   prPushMode:     { type: "string", default: "api.md and changelog" },
   branch:         { type: "string", default: "" },
   // ADO built-in variables and job outputs passed in by the YAML
   emitterVersion: { type: "string", default: "" },
-  specRepoRoot:   { type: "string", default: "" },
   directoryList:  { type: "string", default: "" },
   sourceRepo:     { type: "string", default: "" },
   targetBranch:   { type: "string", default: "main" },
@@ -292,18 +290,6 @@ function preinstallReleaseTools() {
   runShell(`npm --prefix ${RELEASE_TOOLS_DIR} ci`, SDK_ROOT);
 }
 
-function shallowCloneSpecRepo(branch, cloneDir) {
-  runShellNoEcho("git", [
-    "clone",
-    "--depth",
-    "1",
-    "--branch",
-    branch,
-    "https://github.com/Azure/azure-rest-api-specs.git",
-    cloneDir,
-  ]);
-}
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Subcommand: shard
 // Runs once per matrix shard. Phases:
@@ -312,30 +298,15 @@ function shallowCloneSpecRepo(branch, cloneDir) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 async function runShard() {
-  const specRepoBranch = values.specRepoBranch;
-  const specRepoCloneDir = values.specRepoRoot;
   const directoryListFile = values.directoryList;
   const perPackageConcurrency = 4;
   const turboBuildConcurrency = 4;
   const skipBuild = values.skipBuild.toLowerCase() === "true";
-  // "all" (refresh) mode regenerates against each package's pinned spec commit
-  // so the api-version stays identical to the existing SDK and the diff reflects
-  // only emitter changes. Giving Sync no local spec makes it honor
-  // tsp-location.yaml's commit instead of the spec repo's branch HEAD.
-  const refreshMode = values.prPushMode === "all";
-  const localSpecRepoDir = refreshMode ? null : specRepoCloneDir;
 
-  if (!refreshMode && !specRepoCloneDir) {
-    console.error("ERROR: --specRepoRoot is required");
-    process.exit(2);
-  }
   requireReadablePath("--directoryList", directoryListFile);
 
   installGlobalCliTools();
   preinstallReleaseTools();
-  // shallowCloneSpecRepo creates --specRepoRoot; skip it in refresh mode where
-  // Sync sparse-clones each package's pinned commit on its own.
-  if (!refreshMode) shallowCloneSpecRepo(specRepoBranch, specRepoCloneDir);
 
   const shardPackages = loadShardPackages(directoryListFile);
   console.log(`Shard packages: ${shardPackages.length}`);
@@ -343,7 +314,6 @@ async function runShard() {
   const regenerationOutcomes = await regenerateAll(
     shardPackages,
     perPackageConcurrency,
-    localSpecRepoDir,
   );
   const successfullyRegenerated = regenerationOutcomes.filter((p) => p.success);
 
@@ -406,19 +376,19 @@ function buildPackageDescriptor(sdkRelativePath) {
 
 // ── Phase 1: regenerate ─────────────────────────────────────────────────────
 
-async function regenerateAll(packages, concurrency, localSpecRepoDir) {
+async function regenerateAll(packages, concurrency) {
   console.log(`\n===== Regenerate (concurrency=${concurrency}) =====`);
   const outcomes = [];
   const completedCount = { value: 0 };
   await runWithConcurrency(packages, concurrency, async (pkg) => {
     outcomes.push(
-      await regenerateOnePackage(pkg, localSpecRepoDir, completedCount, packages.length),
+      await regenerateOnePackage(pkg, completedCount, packages.length),
     );
   });
   return outcomes;
 }
 
-async function regenerateOnePackage(pkg, localSpecRepoDir, completedCount, totalPackageCount) {
+async function regenerateOnePackage(pkg, completedCount, totalPackageCount) {
   const startedAtMs = Date.now();
 
   // typespec-ts emitter rewrites CHANGELOG.md from a template, wiping years of
@@ -429,9 +399,12 @@ async function regenerateOnePackage(pkg, localSpecRepoDir, completedCount, total
     ? fs.readFileSync(changelogPath, "utf8")
     : null;
 
+  // Pass no local spec so TypeSpec-Project-Sync regenerates against the commit
+  // pinned in tsp-location.yaml. The api-version then stays identical to the
+  // existing SDK and the diff reflects only emitter changes.
   const syncResult = await runCommandCapturing(
     "pwsh",
-    ["-File", TYPESPEC_SYNC_SCRIPT, pkg.packageDir, ...(localSpecRepoDir ? [localSpecRepoDir] : [])],
+    ["-File", TYPESPEC_SYNC_SCRIPT, pkg.packageDir],
     SDK_ROOT,
   );
   let combinedLog = `===== TypeSpec-Project-Sync =====\n${syncResult.output}\nExit: ${syncResult.exitCode}\n`;
