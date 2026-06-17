@@ -67,16 +67,18 @@ export function _testFailoverCleanupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "operation-id": operationId,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: testFailoverCleanupRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "operation-id": operationId,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: testFailoverCleanupRequestSerializer(body),
+    });
 }
 
 export async function _testFailoverCleanupDeserialize(
@@ -85,7 +87,9 @@ export async function _testFailoverCleanupDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -138,16 +142,18 @@ export function _testFailoverSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "operation-id": operationId,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: failoverRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "operation-id": operationId,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: failoverRequestSerializer(body),
+    });
 }
 
 export async function _testFailoverDeserialize(
@@ -156,7 +162,9 @@ export async function _testFailoverDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -201,16 +209,18 @@ export function _reprotectSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "operation-id": operationId,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options?.body ? options?.body : reprotectRequestSerializer(options?.body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "operation-id": operationId,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: !options?.body ? options?.body : reprotectRequestSerializer(options?.body),
+    });
 }
 
 export async function _reprotectDeserialize(
@@ -219,7 +229,9 @@ export async function _reprotectDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -263,14 +275,16 @@ export function _failoverCommitSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "operation-id": operationId,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "operation-id": operationId,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _failoverCommitDeserialize(
@@ -279,7 +293,9 @@ export async function _failoverCommitDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -324,16 +340,18 @@ export function _failoverSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "operation-id": operationId,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: failoverRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "operation-id": operationId,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: failoverRequestSerializer(body),
+    });
 }
 
 export async function _failoverDeserialize(
@@ -342,7 +360,9 @@ export async function _failoverDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -387,21 +407,25 @@ export function _checkReadinessSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "operation-id": operationId,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "operation-id": operationId,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _checkReadinessDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -445,16 +469,18 @@ export function _validateForReprotectSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "operation-id": operationId,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options?.body ? options?.body : reprotectRequestSerializer(options?.body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "operation-id": operationId,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: !options?.body ? options?.body : reprotectRequestSerializer(options?.body),
+    });
 }
 
 export async function _validateForReprotectDeserialize(
@@ -463,7 +489,9 @@ export async function _validateForReprotectDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -513,14 +541,16 @@ export function _validateForTestFailoverCleanupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "operation-id": operationId,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "operation-id": operationId,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _validateForTestFailoverCleanupDeserialize(
@@ -529,7 +559,9 @@ export async function _validateForTestFailoverCleanupDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -591,16 +623,18 @@ export function _validateForTestFailoverSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "operation-id": operationId,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: failoverRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "operation-id": operationId,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: failoverRequestSerializer(body),
+    });
 }
 
 export async function _validateForTestFailoverDeserialize(
@@ -609,7 +643,9 @@ export async function _validateForTestFailoverDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -667,14 +703,16 @@ export function _validateForFailoverCommitSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "operation-id": operationId,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "operation-id": operationId,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _validateForFailoverCommitDeserialize(
@@ -683,7 +721,9 @@ export async function _validateForFailoverCommitDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -745,16 +785,18 @@ export function _validateForFailoverSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "operation-id": operationId,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: failoverRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "operation-id": operationId,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: failoverRequestSerializer(body),
+    });
 }
 
 export async function _validateForFailoverDeserialize(
@@ -763,7 +805,9 @@ export async function _validateForFailoverDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -822,12 +866,14 @@ export function _validateForOperationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { "operation-id": operationId, ...options.requestOptions?.headers },
-    body: validateForOperationRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { "operation-id": operationId, ...options.requestOptions?.headers },
+      body: validateForOperationRequestSerializer(body),
+    });
 }
 
 export async function _validateForOperationDeserialize(
@@ -838,9 +884,13 @@ export async function _validateForOperationDeserialize(
     const error = createRestError(result);
     const statusCode = Number.parseInt(result.status);
     if (statusCode === 200) {
-      error.details = errorResponseDeserializer(result.body);
+      if (result.body) {
+        error.details = errorResponseDeserializer(result.body);
+      }
     } else {
-      error.details = errorResponseDeserializer(result.body);
+      if (result.body) {
+        error.details = errorResponseDeserializer(result.body);
+      }
     }
     throw error;
   }
@@ -893,16 +943,18 @@ export function _updateResourcesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "operation-id": operationId,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: updateRecoveryResourcesRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "operation-id": operationId,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: updateRecoveryResourcesRequestSerializer(body),
+    });
 }
 
 export async function _updateResourcesDeserialize(
@@ -911,7 +963,9 @@ export async function _updateResourcesDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -959,10 +1013,12 @@ export function _finalizeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { "operation-id": operationId, ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { "operation-id": operationId, ...options.requestOptions?.headers },
+    });
 }
 
 export async function _finalizeDeserialize(
@@ -973,9 +1029,13 @@ export async function _finalizeDeserialize(
     const error = createRestError(result);
     const statusCode = Number.parseInt(result.status);
     if (statusCode === 200) {
-      error.details = errorResponseDeserializer(result.body);
+      if (result.body) {
+        error.details = errorResponseDeserializer(result.body);
+      }
     } else {
-      error.details = errorResponseDeserializer(result.body);
+      if (result.body) {
+        error.details = errorResponseDeserializer(result.body);
+      }
     }
     throw error;
   }
