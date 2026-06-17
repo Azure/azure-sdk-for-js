@@ -1,44 +1,89 @@
 # Release History
 
-## 1.1.0 (2026-03-09)
+## 1.2.0 (2026-06-17)
 
 ### Features Added
-  - Added operation SchedulersOperations.createOrUpdatePrivateEndpointConnection
-  - Added operation SchedulersOperations.deletePrivateEndpointConnection
-  - Added operation SchedulersOperations.getPrivateEndpointConnection
-  - Added operation SchedulersOperations.getPrivateLink
-  - Added operation SchedulersOperations.listPrivateEndpointConnections
-  - Added operation SchedulersOperations.listPrivateLinks
-  - Added operation SchedulersOperations.updatePrivateEndpointConnection
+  - Added operation group OperationsOperations
+  - Added operation group RetentionPoliciesOperations
+  - Added operation group SchedulersOperations
+  - Added operation group TaskHubsOperations
+  - Added Class DurableTaskClient
+  - Added Interface DurableTaskClientOptionalParams
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
   - Added Interface OptionalPropertiesUpdateableProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
   - Added Interface PrivateEndpoint
   - Added Interface PrivateEndpointConnection
   - Added Interface PrivateEndpointConnectionProperties
   - Added Interface PrivateEndpointConnectionUpdate
   - Added Interface PrivateLinkResourceProperties
   - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface RetentionPoliciesCreateOrReplaceOptionalParams
+  - Added Interface RetentionPoliciesDeleteOptionalParams
+  - Added Interface RetentionPoliciesGetOptionalParams
+  - Added Interface RetentionPoliciesListBySchedulerOptionalParams
+  - Added Interface RetentionPoliciesUpdateOptionalParams
+  - Added Interface RetentionPolicy
+  - Added Interface RetentionPolicyDetails
+  - Added Interface RetentionPolicyProperties
+  - Added Interface Scheduler
   - Added Interface SchedulerPrivateLinkResource
+  - Added Interface SchedulerProperties
+  - Added Interface SchedulerPropertiesUpdate
+  - Added Interface SchedulersCreateOrUpdateOptionalParams
   - Added Interface SchedulersCreateOrUpdatePrivateEndpointConnectionOptionalParams
+  - Added Interface SchedulersDeleteOptionalParams
   - Added Interface SchedulersDeletePrivateEndpointConnectionOptionalParams
+  - Added Interface SchedulersGetOptionalParams
   - Added Interface SchedulersGetPrivateEndpointConnectionOptionalParams
   - Added Interface SchedulersGetPrivateLinkOptionalParams
+  - Added Interface SchedulerSku
+  - Added Interface SchedulerSkuUpdate
+  - Added Interface SchedulersListByResourceGroupOptionalParams
+  - Added Interface SchedulersListBySubscriptionOptionalParams
   - Added Interface SchedulersListPrivateEndpointConnectionsOptionalParams
   - Added Interface SchedulersListPrivateLinksOptionalParams
+  - Added Interface SchedulersUpdateOptionalParams
   - Added Interface SchedulersUpdatePrivateEndpointConnectionOptionalParams
-  - Interface SchedulerProperties has a new optional parameter privateEndpointConnections
-  - Interface SchedulerProperties has a new optional parameter publicNetworkAccess
-  - Interface SchedulerPropertiesUpdate has a new optional parameter publicNetworkAccess
+  - Added Interface SchedulerUpdate
+  - Added Interface SystemData
+  - Added Interface TaskHub
+  - Added Interface TaskHubProperties
+  - Added Interface TaskHubsCreateOrUpdateOptionalParams
+  - Added Interface TaskHubsDeleteOptionalParams
+  - Added Interface TaskHubsGetOptionalParams
+  - Added Interface TaskHubsListBySchedulerOptionalParams
+  - Added Interface TrackedResource
+  - Added Type Alias ActionType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Type Alias Origin
   - Added Type Alias PrivateEndpointConnectionProvisioningState
   - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias ProvisioningState
   - Added Type Alias PublicNetworkAccess
+  - Added Type Alias PurgeableOrchestrationState
+  - Added Type Alias RedundancyState
+  - Added Type Alias SchedulerSkuName
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownOrigin
   - Added Enum KnownPrivateEndpointConnectionProvisioningState
   - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownProvisioningState
   - Added Enum KnownPublicNetworkAccess
-  - Enum KnownVersions has a new value V20260201
+  - Added Enum KnownPurgeableOrchestrationState
+  - Added Enum KnownRedundancyState
+  - Added Enum KnownSchedulerSkuName
+  - Added Enum KnownVersions
 
-    
-## 1.0.0 (2025-09-25)
-
-### Features Added
-
-This is the first stable version with the package of @azure/arm-durabletask
