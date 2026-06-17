@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to create or update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified. Please refer to https://aka.ms/CapacityReservation for more details.
  *
  * @summary the operation to create or update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified. Please refer to https://aka.ms/CapacityReservation for more details.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/BlockCapacityReservationGroup_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/BlockCapacityReservationGroup_CreateOrUpdate.json
  */
 async function createOrUpdateABlockCapacityReservationGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function createOrUpdateABlockCapacityReservationGroup(): Promise<void> {
  * This sample demonstrates how to the operation to create or update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified. Please refer to https://aka.ms/CapacityReservation for more details.
  *
  * @summary the operation to create or update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified. Please refer to https://aka.ms/CapacityReservation for more details.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/CapacityReservationGroup_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/CapacityReservationGroup_CreateOrUpdate.json
  */
 async function createOrUpdateACapacityReservationGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -59,7 +59,7 @@ async function createOrUpdateACapacityReservationGroup(): Promise<void> {
  * This sample demonstrates how to the operation to create or update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified. Please refer to https://aka.ms/CapacityReservation for more details.
  *
  * @summary the operation to create or update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified. Please refer to https://aka.ms/CapacityReservation for more details.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/TargetedCapacityReservationGroup_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/TargetedCapacityReservationGroup_CreateOrUpdate.json
  */
 async function createOrUpdateATargetedCapacityReservationGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to start a virtual machine.
  *
  * @summary the operation to start a virtual machine.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_Start_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_Start_MaximumSet_Gen.json
  */
 async function virtualMachineStartMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function virtualMachineStartMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to the operation to start a virtual machine.
  *
  * @summary the operation to start a virtual machine.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_Start_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_Start_MinimumSet_Gen.json
  */
 async function virtualMachineStartMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

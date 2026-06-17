@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all of the virtual machines in the specified subscription. Use the nextLink property in the response to get the next page of virtual machines.
  *
  * @summary lists all of the virtual machines in the specified subscription. Use the nextLink property in the response to get the next page of virtual machines.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_ListAll_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_ListAll_MaximumSet_Gen.json
  */
 async function virtualMachineListAllMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function virtualMachineListAllMaximumSetGen() {
  * This sample demonstrates how to lists all of the virtual machines in the specified subscription. Use the nextLink property in the response to get the next page of virtual machines.
  *
  * @summary lists all of the virtual machines in the specified subscription. Use the nextLink property in the response to get the next page of virtual machines.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_ListAll_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_ListAll_MinimumSet_Gen.json
  */
 async function virtualMachineListAllMinimumSetGen() {
   const credential = new DefaultAzureCredential();

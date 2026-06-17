@@ -42,7 +42,7 @@ export function _getSend(
       skus: skus,
       version: version,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -58,7 +58,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vi
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -108,7 +110,7 @@ export function _listSend(
       publisherName: publisherName,
       offer: offer,
       skus: skus,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
       "%24expand": options?.expand,
       "%24top": options?.top,
       "%24orderby": options?.orderby,
@@ -129,7 +131,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -167,7 +171,7 @@ export function _listSkusSend(
       edgeZone: edgeZone,
       publisherName: publisherName,
       offer: offer,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -185,7 +189,9 @@ export async function _listSkusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -220,7 +226,7 @@ export function _listOffersSend(
       location: location,
       edgeZone: edgeZone,
       publisherName: publisherName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -238,7 +244,9 @@ export async function _listOffersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -270,7 +278,7 @@ export function _listPublishersSend(
       subscriptionId: context.subscriptionId,
       location: location,
       edgeZone: edgeZone,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -288,7 +296,9 @@ export async function _listPublishersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to attach and detach data disks to/from the virtual machine.
  *
  * @summary attach and detach data disks to/from the virtual machine.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MaximumSet_Gen.json
  */
 async function virtualMachineAttachDetachDataDisksMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -63,7 +63,7 @@ async function virtualMachineAttachDetachDataDisksMaximumSetGen() {
  * This sample demonstrates how to attach and detach data disks to/from the virtual machine.
  *
  * @summary attach and detach data disks to/from the virtual machine.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MinimumSet_Gen.json
  */
 async function virtualMachineAttachDetachDataDisksMinimumSetGen() {
   const credential = new DefaultAzureCredential();
