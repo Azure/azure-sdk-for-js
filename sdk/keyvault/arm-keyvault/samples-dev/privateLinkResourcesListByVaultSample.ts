@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the private link resources supported for the key vault.
  *
  * @summary gets the private link resources supported for the key vault.
- * x-ms-original-file: 2026-02-01/listPrivateLinkResources.json
+ * x-ms-original-file: 2026-03-01-preview/listPrivateLinkResources.json
  */
 async function keyVaultListPrivateLinkResources(): Promise<void> {
   const credential = new DefaultAzureCredential();

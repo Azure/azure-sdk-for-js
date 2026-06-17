@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the List operation gets information about the secrets in a vault.  NOTE: This API is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets.
  *
  * @summary the List operation gets information about the secrets in a vault.  NOTE: This API is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets.
- * x-ms-original-file: 2026-02-01/listSecrets.json
+ * x-ms-original-file: 2026-03-01-preview/listSecrets.json
  */
 async function listSecretsInTheVault(): Promise<void> {
   const credential = new DefaultAzureCredential();

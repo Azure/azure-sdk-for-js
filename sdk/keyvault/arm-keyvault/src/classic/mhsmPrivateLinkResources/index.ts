@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KeyVaultManagementContext } from "../../api/keyVaultManagementContext.js";
+import { KeyVaultManagementContext } from "../../api/keyVaultManagementContext.js";
 import { listByMhsmResource } from "../../api/mhsmPrivateLinkResources/operations.js";
-import type { MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams } from "../../api/mhsmPrivateLinkResources/options.js";
-import type { MhsmPrivateLinkResourceListResult } from "../../models/models.js";
+import { MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams } from "../../api/mhsmPrivateLinkResources/options.js";
+import { MhsmPrivateLinkResourceListResult } from "../../models/models.js";
 
 /** Interface representing a MhsmPrivateLinkResources operations. */
 export interface MhsmPrivateLinkResourcesOperations {

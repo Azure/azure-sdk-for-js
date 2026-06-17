@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a managed HSM Pool in the specified subscription.
  *
  * @summary create or update a managed HSM Pool in the specified subscription.
- * x-ms-original-file: 2026-02-01/ManagedHsm_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01-preview/ManagedHsm_CreateOrUpdate.json
  */
 async function createANewManagedHSMPoolOrUpdateAnExistingManagedHSMPool(): Promise<void> {
   const credential = new DefaultAzureCredential();

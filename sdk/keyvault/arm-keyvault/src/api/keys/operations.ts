@@ -1,26 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KeyVaultManagementContext as Client } from "../index.js";
-import type { Key, KeyCreateParameters, _KeyListResult } from "../../models/models.js";
+import { KeyVaultManagementContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  Key,
   keyDeserializer,
+  KeyCreateParameters,
   keyCreateParametersSerializer,
+  _KeyListResult,
   _keyListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   KeysListVersionsOptionalParams,
   KeysGetVersionOptionalParams,
   KeysListOptionalParams,
   KeysCreateIfNotExistOptionalParams,
   KeysGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listVersionsSend(
   context: Client,
@@ -36,16 +44,18 @@ export function _listVersionsSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       keyName: keyName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listVersionsDeserialize(
@@ -54,7 +64,9 @@ export async function _listVersionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -75,7 +87,11 @@ export function listVersions(
     () => _listVersionsSend(context, resourceGroupName, vaultName, keyName, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -95,23 +111,27 @@ export function _getVersionSend(
       vaultName: vaultName,
       keyName: keyName,
       keyVersion: keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getVersionDeserialize(result: PathUncheckedResponse): Promise<Key> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -151,23 +171,27 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_KeyListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -187,7 +211,11 @@ export function list(
     () => _listSend(context, resourceGroupName, vaultName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -206,25 +234,29 @@ export function _createIfNotExistSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       keyName: keyName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: keyCreateParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: keyCreateParametersSerializer(parameters),
+    });
 }
 
 export async function _createIfNotExistDeserialize(result: PathUncheckedResponse): Promise<Key> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -266,23 +298,27 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       keyName: keyName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Key> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

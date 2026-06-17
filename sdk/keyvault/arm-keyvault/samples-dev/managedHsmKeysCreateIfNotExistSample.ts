@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates the first version of a new key if it does not exist. If it already exists, then the existing key is returned without any write operations being performed. This API does not create subsequent versions, and does not update existing keys.
  *
  * @summary creates the first version of a new key if it does not exist. If it already exists, then the existing key is returned without any write operations being performed. This API does not create subsequent versions, and does not update existing keys.
- * x-ms-original-file: 2026-02-01/managedHsmCreateKey.json
+ * x-ms-original-file: 2026-03-01-preview/managedHsmCreateKey.json
  */
 async function createAKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

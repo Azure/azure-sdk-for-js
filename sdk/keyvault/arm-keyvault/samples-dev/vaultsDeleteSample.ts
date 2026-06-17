@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified Azure key vault.
  *
  * @summary deletes the specified Azure key vault.
- * x-ms-original-file: 2026-02-01/deleteVault.json
+ * x-ms-original-file: 2026-03-01-preview/deleteVault.json
  */
 async function deleteAVault(): Promise<void> {
   const credential = new DefaultAzureCredential();

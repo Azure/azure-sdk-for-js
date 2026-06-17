@@ -1,27 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ManagedOpsContext } from "../../api/managedOpsContext.js";
+import { ManagedOpsContext } from "../../api/managedOpsContext.js";
 import { $delete, update, list, createOrUpdate, get } from "../../api/managedOps/operations.js";
-import type {
+import {
   ManagedOpsDeleteOptionalParams,
   ManagedOpsUpdateOptionalParams,
   ManagedOpsListOptionalParams,
   ManagedOpsCreateOrUpdateOptionalParams,
   ManagedOpsGetOptionalParams,
 } from "../../api/managedOps/options.js";
-import type { ManagedOp, ManagedOpUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ManagedOp, ManagedOpUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedOps operations. */
 export interface ManagedOpsOperations {
   /** Deletes the ManagedOps instance. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     managedOpsName: string,
     options?: ManagedOpsDeleteOptionalParams,

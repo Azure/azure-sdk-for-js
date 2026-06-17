@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified version of the specified key in the specified key vault.
  *
  * @summary gets the specified version of the specified key in the specified key vault.
- * x-ms-original-file: 2026-02-01/getKeyVersion.json
+ * x-ms-original-file: 2026-03-01-preview/getKeyVersion.json
  */
 async function getAKeyVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

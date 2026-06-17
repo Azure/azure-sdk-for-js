@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks that the managed hsm name is valid and is not already in use.
  *
  * @summary checks that the managed hsm name is valid and is not already in use.
- * x-ms-original-file: 2026-02-01/ManagedHsm_checkMhsmNameAvailability.json
+ * x-ms-original-file: 2026-03-01-preview/ManagedHsm_checkMhsmNameAvailability.json
  */
 async function validateAManagedHsmName(): Promise<void> {
   const credential = new DefaultAzureCredential();

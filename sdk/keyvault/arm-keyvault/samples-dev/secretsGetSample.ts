@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified secret.  NOTE: This API is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets.
  *
  * @summary gets the specified secret.  NOTE: This API is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets.
- * x-ms-original-file: 2026-02-01/getSecret.json
+ * x-ms-original-file: 2026-03-01-preview/getSecret.json
  */
 async function getASecret(): Promise<void> {
   const credential = new DefaultAzureCredential();

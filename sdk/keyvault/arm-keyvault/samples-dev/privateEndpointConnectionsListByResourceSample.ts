@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the List operation gets information about the private endpoint connections associated with the vault.
  *
  * @summary the List operation gets information about the private endpoint connections associated with the vault.
- * x-ms-original-file: 2026-02-01/listPrivateEndpointConnection.json
+ * x-ms-original-file: 2026-03-01-preview/listPrivateEndpointConnection.json
  */
 async function keyVaultListPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

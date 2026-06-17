@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks that the vault name is valid and is not already in use.
  *
  * @summary checks that the vault name is valid and is not already in use.
- * x-ms-original-file: 2026-02-01/checkVaultNameAvailability.json
+ * x-ms-original-file: 2026-03-01-preview/checkVaultNameAvailability.json
  */
 async function validateAVaultName(): Promise<void> {
   const credential = new DefaultAzureCredential();

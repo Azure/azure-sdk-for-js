@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified managed HSM Pool.
  *
  * @summary deletes the specified managed HSM Pool.
- * x-ms-original-file: 2026-02-01/ManagedHsm_Delete.json
+ * x-ms-original-file: 2026-03-01-preview/ManagedHsm_Delete.json
  */
 async function deleteAManagedHSMPool(): Promise<void> {
   const credential = new DefaultAzureCredential();

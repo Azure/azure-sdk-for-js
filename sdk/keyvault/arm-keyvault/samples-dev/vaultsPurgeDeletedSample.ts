@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to permanently deletes the specified vault. aka Purges the deleted Azure key vault.
  *
  * @summary permanently deletes the specified vault. aka Purges the deleted Azure key vault.
- * x-ms-original-file: 2026-02-01/purgeDeletedVault.json
+ * x-ms-original-file: 2026-03-01-preview/purgeDeletedVault.json
  */
 async function purgeADeletedVault(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -202,6 +202,7 @@
   },
   "imports": {
     "#platform/*": {
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }

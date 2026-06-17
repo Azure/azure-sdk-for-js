@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update access policies in a key vault in the specified subscription.
  *
  * @summary update access policies in a key vault in the specified subscription.
- * x-ms-original-file: 2026-02-01/updateAccessPoliciesAdd.json
+ * x-ms-original-file: 2026-03-01-preview/updateAccessPoliciesAdd.json
  */
 async function addAnAccessPolicyOrUpdateAnAccessPolicyWithNewPermissions(): Promise<void> {
   const credential = new DefaultAzureCredential();

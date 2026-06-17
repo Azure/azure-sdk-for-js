@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the specified private endpoint connection associated with the managed hsm pool.
  *
  * @summary updates the specified private endpoint connection associated with the managed hsm pool.
- * x-ms-original-file: 2026-02-01/ManagedHsm_putPrivateEndpointConnection.json
+ * x-ms-original-file: 2026-03-01-preview/ManagedHsm_putPrivateEndpointConnection.json
  */
 async function managedHsmPutPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

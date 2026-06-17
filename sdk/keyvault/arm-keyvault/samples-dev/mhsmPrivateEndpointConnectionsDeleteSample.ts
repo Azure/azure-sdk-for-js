@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified private endpoint connection associated with the managed hsm pool.
  *
  * @summary deletes the specified private endpoint connection associated with the managed hsm pool.
- * x-ms-original-file: 2026-02-01/ManagedHsm_deletePrivateEndpointConnection.json
+ * x-ms-original-file: 2026-03-01-preview/ManagedHsm_deletePrivateEndpointConnection.json
  */
 async function managedHsmDeletePrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

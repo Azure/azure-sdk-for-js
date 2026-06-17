@@ -1,40 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KeyVaultManagementContext as Client } from "../index.js";
-import type {
+import { KeyVaultManagementContext as Client } from "../index.js";
+import {
+  cloudErrorDeserializer,
   Vault,
+  vaultDeserializer,
   VaultCreateOrUpdateParameters,
+  vaultCreateOrUpdateParametersSerializer,
   VaultPatchParameters,
+  vaultPatchParametersSerializer,
   _VaultListResult,
+  _vaultListResultDeserializer,
   VaultAccessPolicyParameters,
+  vaultAccessPolicyParametersSerializer,
+  vaultAccessPolicyParametersDeserializer,
   DeletedVault,
+  deletedVaultDeserializer,
   _DeletedVaultListResult,
+  _deletedVaultListResultDeserializer,
   _ResourceListResult,
+  _resourceListResultDeserializer,
   TrackedResource,
   VaultCheckNameAvailabilityParameters,
+  vaultCheckNameAvailabilityParametersSerializer,
   CheckNameAvailabilityResult,
+  checkNameAvailabilityResultDeserializer,
   AccessPolicyUpdateKind,
 } from "../../models/models.js";
 import {
-  cloudErrorDeserializer,
-  vaultDeserializer,
-  vaultCreateOrUpdateParametersSerializer,
-  vaultPatchParametersSerializer,
-  _vaultListResultDeserializer,
-  vaultAccessPolicyParametersSerializer,
-  vaultAccessPolicyParametersDeserializer,
-  deletedVaultDeserializer,
-  _deletedVaultListResultDeserializer,
-  _resourceListResultDeserializer,
-  vaultCheckNameAvailabilityParametersSerializer,
-  checkNameAvailabilityResultDeserializer,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   VaultsCheckNameAvailabilityOptionalParams,
   VaultsListOptionalParams,
   VaultsListDeletedOptionalParams,
@@ -48,9 +48,13 @@ import type {
   VaultsCreateOrUpdateOptionalParams,
   VaultsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _checkNameAvailabilitySend(
   context: Client,
@@ -61,18 +65,20 @@ export function _checkNameAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/checkNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: vaultCheckNameAvailabilityParametersSerializer(vaultName),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: vaultCheckNameAvailabilityParametersSerializer(vaultName),
+    });
 }
 
 export async function _checkNameAvailabilityDeserialize(
@@ -81,7 +87,9 @@ export async function _checkNameAvailabilityDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -115,10 +123,12 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -127,7 +137,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -157,16 +169,18 @@ export function _listDeletedSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedVaults{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeletedDeserialize(
@@ -175,7 +189,9 @@ export async function _listDeletedDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -193,7 +209,11 @@ export function listDeleted(
     () => _listDeletedSend(context, options),
     _listDeletedDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -209,7 +229,7 @@ export function _purgeDeletedSend(
       subscriptionId: context.subscriptionId,
       location: location,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -222,7 +242,9 @@ export async function _purgeDeletedDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -242,7 +264,7 @@ export function purgeDeleted(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _purgeDeletedSend(context, vaultName, location, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -258,23 +280,27 @@ export function _getDeletedSend(
       subscriptionId: context.subscriptionId,
       location: location,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeletedDeserialize(result: PathUncheckedResponse): Promise<DeletedVault> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -308,18 +334,20 @@ export function _updateAccessPolicySend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       operationKind: operationKind,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: vaultAccessPolicyParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: vaultAccessPolicyParametersSerializer(parameters),
+    });
 }
 
 export async function _updateAccessPolicyDeserialize(
@@ -328,7 +356,9 @@ export async function _updateAccessPolicyDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -364,17 +394,19 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/vaults{?api%2Dversion,%24top}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
       "%24top": options?.top,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -383,7 +415,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -401,7 +435,11 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -415,17 +453,19 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
       "%24top": options?.top,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -434,7 +474,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -453,7 +495,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -469,7 +515,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -482,7 +528,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -491,11 +539,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the specified Azure key vault. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   resourceGroupName: string,
@@ -519,25 +562,29 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: vaultPatchParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: vaultPatchParametersSerializer(parameters),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Vault> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -570,25 +617,29 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: vaultCreateOrUpdateParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: vaultCreateOrUpdateParametersSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Vault> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -610,7 +661,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, vaultName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<Vault>, Vault>;
 }
 
@@ -626,23 +677,27 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vault> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

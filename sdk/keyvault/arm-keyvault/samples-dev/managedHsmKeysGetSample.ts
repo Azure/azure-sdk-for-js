@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the current version of the specified key from the specified managed HSM.
  *
  * @summary gets the current version of the specified key from the specified managed HSM.
- * x-ms-original-file: 2026-02-01/managedHsmGetKey.json
+ * x-ms-original-file: 2026-03-01-preview/managedHsmGetKey.json
  */
 async function getAKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

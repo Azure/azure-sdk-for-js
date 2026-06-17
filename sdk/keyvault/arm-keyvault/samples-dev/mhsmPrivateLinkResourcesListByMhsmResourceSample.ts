@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the private link resources supported for the managed hsm pool.
  *
  * @summary gets the private link resources supported for the managed hsm pool.
- * x-ms-original-file: 2026-02-01/ManagedHsm_listPrivateLinkResources.json
+ * x-ms-original-file: 2026-03-01-preview/ManagedHsm_listPrivateLinkResources.json
  */
 async function keyVaultListPrivateLinkResources(): Promise<void> {
   const credential = new DefaultAzureCredential();

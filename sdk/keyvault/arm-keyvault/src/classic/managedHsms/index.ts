@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KeyVaultManagementContext } from "../../api/keyVaultManagementContext.js";
+import { KeyVaultManagementContext } from "../../api/keyVaultManagementContext.js";
 import {
   checkMhsmNameAvailability,
   listDeleted,
@@ -14,7 +14,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/managedHsms/operations.js";
-import type {
+import {
   ManagedHsmsCheckMhsmNameAvailabilityOptionalParams,
   ManagedHsmsListDeletedOptionalParams,
   ManagedHsmsPurgeDeletedOptionalParams,
@@ -26,16 +26,15 @@ import type {
   ManagedHsmsCreateOrUpdateOptionalParams,
   ManagedHsmsGetOptionalParams,
 } from "../../api/managedHsms/options.js";
-import type {
+import {
   ManagedHsm,
   DeletedManagedHsm,
   CheckMhsmNameAvailabilityParameters,
   CheckMhsmNameAvailabilityResult,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedHsms operations. */
 export interface ManagedHsmsOperations {
@@ -82,11 +81,6 @@ export interface ManagedHsmsOperations {
     options?: ManagedHsmsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ManagedHsm>;
   /** Deletes the specified managed HSM Pool. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     name: string,
@@ -151,7 +145,7 @@ export interface ManagedHsmsOperations {
     resourceGroupName: string,
     name: string,
     options?: ManagedHsmsGetOptionalParams,
-  ) => Promise<ManagedHsm>;
+  ) => Promise<ManagedHsm | undefined>;
 }
 
 function _getManagedHsms(context: KeyVaultManagementContext) {

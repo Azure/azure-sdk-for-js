@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PrivateLinkScopesContext } from "../../api/privateLinkScopesContext.js";
+import { PrivateLinkScopesContext } from "../../api/privateLinkScopesContext.js";
 import {
   list,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/privateLinkScopes/operations.js";
-import type {
+import {
   PrivateLinkScopesListOptionalParams,
   PrivateLinkScopesListByResourceGroupOptionalParams,
   PrivateLinkScopesDeleteOptionalParams,
@@ -18,8 +18,8 @@ import type {
   PrivateLinkScopesCreateOrUpdateOptionalParams,
   PrivateLinkScopesGetOptionalParams,
 } from "../../api/privateLinkScopes/options.js";
-import type { KubernetesConfigurationPrivateLinkScope, TagsResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { KubernetesConfigurationPrivateLinkScope, TagsResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PrivateLinkScopes operations. */
 export interface PrivateLinkScopesOperations {
@@ -33,11 +33,6 @@ export interface PrivateLinkScopesOperations {
     options?: PrivateLinkScopesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<KubernetesConfigurationPrivateLinkScope>;
   /** Deletes a Azure Arc PrivateLinkScope. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     scopeName: string,
