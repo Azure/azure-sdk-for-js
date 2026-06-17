@@ -1,7 +1,118 @@
 # Release History
-    
-## 1.0.0-beta.1 (2026-04-22)
+
+## 1.0.0-beta.2 (2026-06-17)
+Compared with version 1.0.0-beta.1
 
 ### Features Added
+  - Added operation group HorizonDbClustersOperations
+  - Added operation group HorizonDbFirewallRulesOperations
+  - Added operation group HorizonDbParameterGroupsOperations
+  - Added operation group HorizonDbPoolsOperations
+  - Added operation group HorizonDbPrivateEndpointConnectionsOperations
+  - Added operation group HorizonDbPrivateLinkResourcesOperations
+  - Added operation group HorizonDbReplicasOperations
+  - Added operation group OperationsOperations
+  - Added Class HorizonDbClient
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface HorizonDbClientOptionalParams
+  - Added Interface HorizonDbCluster
+  - Added Interface HorizonDbClusterForPatchUpdate
+  - Added Interface HorizonDbClusterParameterGroupConnectionProperties
+  - Added Interface HorizonDbClusterProperties
+  - Added Interface HorizonDbClusterPropertiesForPatchUpdate
+  - Added Interface HorizonDbClustersCreateOrUpdateOptionalParams
+  - Added Interface HorizonDbClustersDeleteOptionalParams
+  - Added Interface HorizonDbClustersGetOptionalParams
+  - Added Interface HorizonDbClustersListByResourceGroupOptionalParams
+  - Added Interface HorizonDbClustersListBySubscriptionOptionalParams
+  - Added Interface HorizonDbClustersUpdateOptionalParams
+  - Added Interface HorizonDbFirewallRule
+  - Added Interface HorizonDbFirewallRuleProperties
+  - Added Interface HorizonDbFirewallRulesCreateOrUpdateOptionalParams
+  - Added Interface HorizonDbFirewallRulesDeleteOptionalParams
+  - Added Interface HorizonDbFirewallRulesGetOptionalParams
+  - Added Interface HorizonDbFirewallRulesListOptionalParams
+  - Added Interface HorizonDbParameterGroup
+  - Added Interface HorizonDbParameterGroupConnectionProperties
+  - Added Interface HorizonDbParameterGroupForPatchUpdate
+  - Added Interface HorizonDbParameterGroupProperties
+  - Added Interface HorizonDbParameterGroupPropertiesForPatchUpdate
+  - Added Interface HorizonDbParameterGroupsCreateOrUpdateOptionalParams
+  - Added Interface HorizonDbParameterGroupsDeleteOptionalParams
+  - Added Interface HorizonDbParameterGroupsGetOptionalParams
+  - Added Interface HorizonDbParameterGroupsListByResourceGroupOptionalParams
+  - Added Interface HorizonDbParameterGroupsListBySubscriptionOptionalParams
+  - Added Interface HorizonDbParameterGroupsListConnectionsOptionalParams
+  - Added Interface HorizonDbParameterGroupsListVersionsOptionalParams
+  - Added Interface HorizonDbParameterGroupsUpdateOptionalParams
+  - Added Interface HorizonDbPool
+  - Added Interface HorizonDbPoolProperties
+  - Added Interface HorizonDbPoolsGetOptionalParams
+  - Added Interface HorizonDbPoolsListOptionalParams
+  - Added Interface HorizonDbPrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface HorizonDbPrivateEndpointConnectionsGetOptionalParams
+  - Added Interface HorizonDbPrivateEndpointConnectionsListOptionalParams
+  - Added Interface HorizonDbPrivateEndpointConnectionsUpdateOptionalParams
+  - Added Interface HorizonDbPrivateLinkResource
+  - Added Interface HorizonDbPrivateLinkResourcesGetOptionalParams
+  - Added Interface HorizonDbPrivateLinkResourcesListOptionalParams
+  - Added Interface HorizonDbReplica
+  - Added Interface HorizonDbReplicaForPatchUpdate
+  - Added Interface HorizonDbReplicaProperties
+  - Added Interface HorizonDbReplicaPropertiesForPatchUpdate
+  - Added Interface HorizonDbReplicasCreateOrUpdateOptionalParams
+  - Added Interface HorizonDbReplicasDeleteOptionalParams
+  - Added Interface HorizonDbReplicasGetOptionalParams
+  - Added Interface HorizonDbReplicasListOptionalParams
+  - Added Interface HorizonDbReplicasUpdateOptionalParams
+  - Added Interface Network
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface OptionalPropertiesUpdateableProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ParameterProperties
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionResource
+  - Added Interface PrivateEndpointConnectionUpdate
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Added Type Alias ActionType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Type Alias CreateModeCluster
+  - Added Type Alias CreateModePool
+  - Added Type Alias Origin
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias ProvisioningState
+  - Added Type Alias PublicNetworkAccessState
+  - Added Type Alias ReplicaRole
+  - Added Type Alias State
+  - Added Type Alias ZonePlacementPolicy
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownCreateModeCluster
+  - Added Enum KnownCreateModePool
+  - Added Enum KnownOrigin
+  - Added Enum KnownPrivateEndpointConnectionProvisioningState
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownPublicNetworkAccessState
+  - Added Enum KnownReplicaRole
+  - Added Enum KnownState
+  - Added Enum KnownVersions
+  - Added Enum KnownZonePlacementPolicy
 
-Initial release of the @azure/arm-horizondb package

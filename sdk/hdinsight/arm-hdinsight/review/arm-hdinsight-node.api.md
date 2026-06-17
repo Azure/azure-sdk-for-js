@@ -7,11 +7,13 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { CancelOnProgress } from '@azure/core-lro';
 import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -786,6 +788,8 @@ export interface IpTag {
     tag: string;
 }
 
+export { isRestError }
+
 // @public
 export type JsonWebKeyEncryptionAlgorithm = string;
 
@@ -1245,6 +1249,8 @@ export type ResourceIdentityType = string;
 
 // @public
 export type ResourceProviderConnection = string;
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: HDInsightManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

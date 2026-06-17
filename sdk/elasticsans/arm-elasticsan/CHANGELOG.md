@@ -1,134 +1,136 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.1.0 (2026-06-17)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.0.0 (2026-02-25)
-
-### Features Added
-  - Added operation ElasticSansOperations.create
-  - Added operation ElasticSansOperations.delete
-  - Added operation ElasticSansOperations.update
-  - Added operation PrivateEndpointConnectionsOperations.create
-  - Added operation PrivateEndpointConnectionsOperations.delete
-  - Added operation VolumeGroupsOperations.create
-  - Added operation VolumeGroupsOperations.delete
-  - Added operation VolumeGroupsOperations.update
-  - Added operation VolumesOperations.beginPreBackup
-  - Added operation VolumesOperations.beginPreBackupAndWait
-  - Added operation VolumesOperations.beginPreRestore
-  - Added operation VolumesOperations.beginPreRestoreAndWait
-  - Added operation VolumesOperations.create
-  - Added operation VolumesOperations.delete
-  - Added operation VolumesOperations.preBackup
-  - Added operation VolumesOperations.preRestore
-  - Added operation VolumesOperations.update
-  - Added operation VolumeSnapshotsOperations.create
-  - Added operation VolumeSnapshotsOperations.delete
+  - Added operation group ElasticSansOperations
+  - Added operation group OperationsOperations
+  - Added operation group PrivateEndpointConnectionsOperations
+  - Added operation group PrivateLinkResourcesOperations
+  - Added operation group SkusOperations
+  - Added operation group VolumeGroupsOperations
+  - Added operation group VolumeSnapshotsOperations
+  - Added operation group VolumesOperations
+  - Added Class ElasticSanManagement
   - Added Interface AutoScaleProperties
   - Added Interface DiskSnapshotList
+  - Added Interface ElasticSan
+  - Added Interface ElasticSanManagementOptionalParams
+  - Added Interface ElasticSanProperties
+  - Added Interface ElasticSansCreateOptionalParams
+  - Added Interface ElasticSansDeleteOptionalParams
+  - Added Interface ElasticSansGetOptionalParams
+  - Added Interface ElasticSansListByResourceGroupOptionalParams
+  - Added Interface ElasticSansListBySubscriptionOptionalParams
+  - Added Interface ElasticSansUpdateOptionalParams
+  - Added Interface ElasticSanUpdate
+  - Added Interface ElasticSanUpdateProperties
+  - Added Interface EncryptionIdentity
+  - Added Interface EncryptionProperties
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface Identity
+  - Added Interface IscsiTargetInfo
+  - Added Interface KeyVaultProperties
+  - Added Interface ManagedByInfo
+  - Added Interface NetworkRuleSet
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface PreValidationResponse
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionsCreateOptionalParams
+  - Added Interface PrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionsGetOptionalParams
+  - Added Interface PrivateEndpointConnectionsListOptionalParams
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceListResult
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface PrivateLinkResourcesListByElasticSanOptionalParams
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface ProxyResource
+  - Added Interface Resource
   - Added Interface RestorePollerOptions
   - Added Interface ScaleUpProperties
   - Added Interface SimplePollerLike
+  - Added Interface Sku
+  - Added Interface SKUCapability
+  - Added Interface SkuInformation
+  - Added Interface SkuLocationInfo
+  - Added Interface SkusListOptionalParams
+  - Added Interface Snapshot
+  - Added Interface SnapshotCreationData
+  - Added Interface SnapshotProperties
+  - Added Interface SourceCreationData
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Added Interface UserAssignedIdentity
+  - Added Interface VirtualNetworkRule
+  - Added Interface Volume
+  - Added Interface VolumeGroup
+  - Added Interface VolumeGroupProperties
+  - Added Interface VolumeGroupsCreateOptionalParams
+  - Added Interface VolumeGroupsDeleteOptionalParams
+  - Added Interface VolumeGroupsGetOptionalParams
+  - Added Interface VolumeGroupsListByElasticSanOptionalParams
+  - Added Interface VolumeGroupsUpdateOptionalParams
+  - Added Interface VolumeGroupUpdate
+  - Added Interface VolumeGroupUpdateProperties
   - Added Interface VolumeNameList
+  - Added Interface VolumeProperties
+  - Added Interface VolumesCreateOptionalParams
+  - Added Interface VolumesDeleteOptionalParams
+  - Added Interface VolumesGetOptionalParams
+  - Added Interface VolumesListByVolumeGroupOptionalParams
+  - Added Interface VolumeSnapshotsCreateOptionalParams
+  - Added Interface VolumeSnapshotsDeleteOptionalParams
+  - Added Interface VolumeSnapshotsGetOptionalParams
+  - Added Interface VolumeSnapshotsListByVolumeGroupOptionalParams
   - Added Interface VolumesPreBackupOptionalParams
   - Added Interface VolumesPreRestoreOptionalParams
-  - Interface ElasticSanProperties has a new optional parameter autoScaleProperties
-  - Interface ElasticSanUpdateProperties has a new optional parameter autoScaleProperties
+  - Added Interface VolumesUpdateOptionalParams
+  - Added Interface VolumeUpdate
+  - Added Interface VolumeUpdateProperties
+  - Added Type Alias Action
+  - Added Type Alias ActionType
   - Added Type Alias AutoScalePolicyEnforcement
   - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Type Alias EncryptionType
+  - Added Type Alias IdentityType
+  - Added Type Alias OperationalStatus
+  - Added Type Alias Origin
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias ProvisioningStates
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias SkuName
+  - Added Type Alias SkuTier
+  - Added Type Alias StorageTargetType
+  - Added Type Alias VolumeCreateOption
+  - Added Type Alias XMsDeleteSnapshots
+  - Added Type Alias XMsForceDelete
   - Added Enum AzureClouds
+  - Added Enum KnownAction
+  - Added Enum KnownActionType
   - Added Enum KnownAutoScalePolicyEnforcement
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownEncryptionType
+  - Added Enum KnownIdentityType
+  - Added Enum KnownOperationalStatus
+  - Added Enum KnownOrigin
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownProvisioningStates
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownSkuName
+  - Added Enum KnownSkuTier
+  - Added Enum KnownStorageTargetType
   - Added Enum KnownVersions
-  - Enum KnownProvisioningStates has a new value Deleted
-  - Enum KnownProvisioningStates has a new value Restoring
+  - Added Enum KnownVolumeCreateOption
+  - Added Enum KnownXMsDeleteSnapshots
+  - Added Enum KnownXMsForceDelete
 
-### Breaking Changes
-  - Removed Interface ElasticSanList
-  - Removed Interface SkuInformationList
-  - Removed Interface SnapshotList
-  - Removed Interface VolumeGroupList
-  - Removed Interface VolumeList
-  - Parameter value of interface PrivateLinkResourceListResult is now required
-
-    
-## 1.2.0-beta.2 (2025-04-18)
-Compared with version 1.1.0
-    
-### Features Added
-
-  - Added operation Volumes.beginPreBackup
-  - Added operation Volumes.beginPreBackupAndWait
-  - Added operation Volumes.beginPreRestore
-  - Added operation Volumes.beginPreRestoreAndWait
-  - Added Interface AutoScaleProperties
-  - Added Interface DeleteRetentionPolicy
-  - Added Interface DiskSnapshotList
-  - Added Interface ElasticSanManagementRestoreVolumeHeaders
-  - Added Interface PreValidationResponse
-  - Added Interface RestoreVolumeOptionalParams
-  - Added Interface ScaleUpProperties
-  - Added Interface VolumeNameList
-  - Added Interface VolumesPreBackupHeaders
-  - Added Interface VolumesPreBackupOptionalParams
-  - Added Interface VolumesPreRestoreHeaders
-  - Added Interface VolumesPreRestoreOptionalParams
-  - Added Type Alias AutoScalePolicyEnforcement
-  - Added Type Alias DeleteType
-  - Added Type Alias PolicyState
-  - Added Type Alias RestoreVolumeResponse
-  - Added Type Alias VolumesPreBackupResponse
-  - Added Type Alias VolumesPreRestoreResponse
-  - Added Type Alias XMsAccessSoftDeletedResources
-  - Interface ElasticSanProperties has a new optional parameter autoScaleProperties
-  - Interface ElasticSanUpdateProperties has a new optional parameter autoScaleProperties
-  - Interface VolumeGroupProperties has a new optional parameter deleteRetentionPolicy
-  - Interface VolumeGroupsListByElasticSanNextOptionalParams has a new optional parameter xMsAccessSoftDeletedResources
-  - Interface VolumeGroupsListByElasticSanOptionalParams has a new optional parameter xMsAccessSoftDeletedResources
-  - Interface VolumeGroupUpdateProperties has a new optional parameter deleteRetentionPolicy
-  - Interface VolumesDeleteOptionalParams has a new optional parameter deleteType
-  - Interface VolumesListByVolumeGroupNextOptionalParams has a new optional parameter xMsAccessSoftDeletedResources
-  - Interface VolumesListByVolumeGroupOptionalParams has a new optional parameter xMsAccessSoftDeletedResources
-  - Added Enum KnownAutoScalePolicyEnforcement
-  - Added Enum KnownDeleteType
-  - Added Enum KnownPolicyState
-  - Added Enum KnownXMsAccessSoftDeletedResources
-  - Enum KnownProvisioningStates has a new value Deleted
-  - Enum KnownProvisioningStates has a new value Restoring
-  - Enum KnownProvisioningStates has a new value SoftDeleting
-    
-    
-## 1.2.0-beta.1 (2024-10-18)
-Compared with version 1.1.0
-    
-### Features Added
-
-  - Added Interface AutoScaleProperties
-  - Added Interface ScaleUpProperties
-  - Added Type Alias AutoScalePolicyEnforcement
-  - Interface ElasticSanProperties has a new optional parameter autoScaleProperties
-  - Interface ElasticSanUpdateProperties has a new optional parameter autoScaleProperties
-  - Added Enum KnownAutoScalePolicyEnforcement
-    
-    
-## 1.1.0 (2024-08-12)
-    
-### Features Added
-
-  - Interface VolumeGroupProperties has a new optional parameter enforceDataIntegrityCheckForIscsi
-  - Interface VolumeGroupUpdateProperties has a new optional parameter enforceDataIntegrityCheckForIscsi
-    
-    
-## 1.0.0 (2024-01-19)
-
-The package of @azure/arm-elasticsan is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
