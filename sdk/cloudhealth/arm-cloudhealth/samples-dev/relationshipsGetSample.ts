@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { CloudHealthClient } from "@azure/arm-cloudhealth";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to get a Relationship
  *
  * @summary get a Relationship
- * x-ms-original-file: 2025-05-01-preview/Relationships_Get.json
+ * x-ms-original-file: 2026-01-01-preview/Relationships_Get.json
  */
-
-import { CloudHealthClient } from "@azure/arm-cloudhealth";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function relationshipsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "4980D7D5-4E07-47AD-AD34-E76C6BC9F061";

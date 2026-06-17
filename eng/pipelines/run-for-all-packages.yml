@@ -28,11 +28,7 @@ stages:
             parameters:
               ServiceDirectory: core
 
-          - script: |
-              npm install -g pnpm
-            displayName: "Install Pnpm"
-            env:
-              npm_config_userconfig: $(CommonNpmrcPath)
+          - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
           - script: |
               pnpm install

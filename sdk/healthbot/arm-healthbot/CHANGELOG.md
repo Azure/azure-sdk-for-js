@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0 (2026-01-22)
+## 3.0.0 (2026-06-12)
 
 ### Features Added
   - Added operation BotsOperations.beginUpdate

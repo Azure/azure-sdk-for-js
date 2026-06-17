@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Relationship
  *
  * @summary get a Relationship
- * x-ms-original-file: 2025-05-01-preview/Relationships_Get.json
+ * x-ms-original-file: 2026-01-01-preview/Relationships_Get.json
  */
 async function relationshipsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

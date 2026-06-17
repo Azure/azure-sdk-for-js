@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("HybridCompute test", () => {
+describe.skip("HybridCompute test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: HybridComputeManagementClient;

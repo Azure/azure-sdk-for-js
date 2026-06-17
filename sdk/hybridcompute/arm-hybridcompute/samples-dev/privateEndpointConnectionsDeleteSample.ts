@@ -1,33 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes a private endpoint connection with a given name.
- *
- * @summary Deletes a private endpoint connection with a given name.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2025-02-19-preview/examples/privateEndpoint/PrivateEndpointConnection_Delete.json
- */
-
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes a private endpoint connection with a given name.
+ *
+ * @summary deletes a private endpoint connection with a given name.
+ * x-ms-original-file: 2025-09-16-preview/privateEndpoint/PrivateEndpointConnection_Delete.json
+ */
 async function deletesAPrivateEndpointConnectionWithAGivenName(): Promise<void> {
-  const subscriptionId =
-    process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["HYBRIDCOMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const scopeName = "myPrivateLinkScope";
-  const privateEndpointConnectionName = "private-endpoint-connection-name";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new HybridComputeManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpointConnections.beginDeleteAndWait(
-    resourceGroupName,
-    scopeName,
-    privateEndpointConnectionName,
+  await client.privateEndpointConnections.delete(
+    "myResourceGroup",
+    "myPrivateLinkScope",
+    "private-endpoint-connection-name",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {
