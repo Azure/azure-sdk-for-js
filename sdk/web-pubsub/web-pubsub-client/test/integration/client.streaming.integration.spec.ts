@@ -366,7 +366,9 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
 
     await startSenderReceiverInGroup(sender, receiver, group);
 
-    const stream = await sender.openGroupStream(group, { streamId: `s-receiver-expire-start-${ts}` });
+    const stream = await sender.openGroupStream(group, {
+      streamId: `s-receiver-expire-start-${ts}`,
+    });
     await stream.write("chunk-1", "text");
     await withTimeout(firstMessage.promise, 10000, "Timed out waiting for first stream message.");
 
