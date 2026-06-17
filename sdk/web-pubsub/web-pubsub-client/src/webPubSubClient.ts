@@ -25,14 +25,14 @@ import type {
   GetClientAccessUrlOptions,
   InvokeEventOptions,
   InvokeEventResult,
-  StreamToGroupOptions,
-  SendStreamDataOptions,
-  SendStreamKeepAliveOptions,
-  CompleteStreamOptions,
+  OpenGroupStreamOptions,
+  GroupStreamWriteOptions,
+  EndGroupStreamOptions,
+  AbortGroupStreamOptions,
   OnGroupStreamArgs,
   GroupStreamHandler,
   OnGroupStreamOptions,
-  GroupStreamPublisher,
+  GroupStream,
 } from "./models/index.js";
 import type {
   ConnectedMessage,
@@ -58,6 +58,7 @@ import type {
   StreamDataMessage,
   StreamEndMessage,
   StreamDataError,
+  StreamEndError,
 } from "./models/messages.js";
 import type { WebPubSubClientProtocol } from "./protocols/index.js";
 import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
@@ -684,14 +685,14 @@ export class WebPubSubClient {
   }
 
   /**
-   * Create an outbound stream publisher to a group.
+   * Open an outbound stream to a group.
    * @param groupName - Target group name.
-   * @param options - Stream start options.
+   * @param options - Stream open options.
    */
-  public async streamToGroup(
+  public async openGroupStream(
     groupName: string,
-    options?: StreamToGroupOptions,
-  ): Promise<GroupStreamPublisher> {
+    options?: OpenGroupStreamOptions,
+  ): Promise<GroupStream> {
     const streamId = options?.streamId ?? this._generateOutboundStreamId();
     if (this._outboundStreams.has(streamId)) {
       throw new Error(`Stream '${streamId}' already exists.`);
@@ -725,18 +726,21 @@ export class WebPubSubClient {
 
     return {
       streamId,
-      publish: async (
+      write: async (
         content: JSONTypes | ArrayBuffer,
         dataType: WebPubSubDataType,
-        sendOptions?: SendStreamDataOptions,
+        writeOptions?: GroupStreamWriteOptions,
       ): Promise<void> => {
-        await session.publish(content, dataType, sendOptions?.abortSignal);
+        await session.write(content, dataType, writeOptions?.abortSignal);
       },
-      keepAlive: async (keepAliveOptions?: SendStreamKeepAliveOptions): Promise<void> => {
-        await session.keepAlive(keepAliveOptions);
+      end: async (endOptions?: EndGroupStreamOptions): Promise<void> => {
+        await session.end(endOptions);
       },
-      complete: async (endOptions?: CompleteStreamOptions): Promise<void> => {
-        await session.complete(endOptions);
+      abort: async (
+        error: StreamEndError,
+        abortOptions?: AbortGroupStreamOptions,
+      ): Promise<void> => {
+        await session.abort(error, abortOptions);
       },
       onError: (listener: (error: StreamDataError) => void): (() => void) => {
         return session.onError(listener);
@@ -1373,7 +1377,7 @@ export class WebPubSubClient {
   private async _sendStreamStart(
     streamId: string,
     groupName: string,
-    options?: StreamToGroupOptions,
+    options?: OpenGroupStreamOptions,
   ): Promise<void> {
     const message: SendToGroupMessage = {
       kind: "sendToGroup",
@@ -1405,7 +1409,7 @@ export class WebPubSubClient {
 
   private async _sendStreamKeepAlive(
     streamId: string,
-    options?: SendStreamKeepAliveOptions,
+    options?: { abortSignal?: AbortSignalLike },
   ): Promise<void> {
     const message: StreamDataMessage = {
       kind: "streamData",
@@ -1414,7 +1418,10 @@ export class WebPubSubClient {
     await this._sendMessage(message, options?.abortSignal);
   }
 
-  private async _sendStreamEnd(streamId: string, options?: CompleteStreamOptions): Promise<void> {
+  private async _sendStreamEnd(
+    streamId: string,
+    options?: { error?: StreamEndError; abortSignal?: AbortSignalLike },
+  ): Promise<void> {
     const message: StreamEndMessage = {
       kind: "streamEnd",
       streamId,

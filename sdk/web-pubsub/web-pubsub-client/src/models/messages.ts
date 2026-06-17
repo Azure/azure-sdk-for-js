@@ -332,7 +332,7 @@ export interface StreamDataError {
 }
 
 /**
- * Stream end error that a publisher can send to the service.
+ * Stream end error that an outbound stream can send to the service.
  * The service decides the high-level error name classification.
  */
 export interface StreamEndError {

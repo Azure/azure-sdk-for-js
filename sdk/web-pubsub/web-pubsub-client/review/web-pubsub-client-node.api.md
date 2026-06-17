@@ -7,6 +7,11 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 
 // @public
+export interface AbortGroupStreamOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
 export interface AckMessage extends WebPubSubMessageBase {
     ackId: number;
     error?: AckMessageError;
@@ -24,12 +29,6 @@ export interface AckMessageError {
 export interface CancelInvocationMessage extends WebPubSubMessageBase {
     invocationId: string;
     readonly kind: "cancelInvocation";
-}
-
-// @public
-export interface CompleteStreamOptions {
-    abortSignal?: AbortSignalLike;
-    error?: StreamEndError;
 }
 
 // @public
@@ -98,6 +97,11 @@ export type DownstreamMessageType =
 | "groupStateUpdate";
 
 // @public
+export interface EndGroupStreamOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
 export interface GetClientAccessUrlOptions {
     abortSignal?: AbortSignalLike;
 }
@@ -136,6 +140,15 @@ export interface GroupStateUpdateMessage extends WebPubSubMessageBase {
 }
 
 // @public
+export interface GroupStream {
+    abort(error: StreamEndError, options?: AbortGroupStreamOptions): Promise<void>;
+    end(options?: EndGroupStreamOptions): Promise<void>;
+    onError(listener: (error: StreamDataError) => void): () => void;
+    readonly streamId: string;
+    write(content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: GroupStreamWriteOptions): Promise<void>;
+}
+
+// @public
 export interface GroupStreamHandler {
     onComplete?: (args: OnGroupStreamEndArgs) => void;
     onError?: (args: OnGroupStreamEndArgs) => void;
@@ -143,12 +156,8 @@ export interface GroupStreamHandler {
 }
 
 // @public
-export interface GroupStreamPublisher {
-    complete(options?: CompleteStreamOptions): Promise<void>;
-    keepAlive(options?: SendStreamKeepAliveOptions): Promise<void>;
-    onError(listener: (error: StreamDataError) => void): () => void;
-    publish(content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendStreamDataOptions): Promise<void>;
-    readonly streamId: string;
+export interface GroupStreamWriteOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -294,6 +303,13 @@ export interface OnStoppedArgs {
 }
 
 // @public
+export interface OpenGroupStreamOptions {
+    idleTimeoutInMs?: number;
+    noEcho?: boolean;
+    streamId?: string;
+}
+
+// @public
 export interface PingMessage extends WebPubSubMessageBase {
     readonly kind: "ping";
 }
@@ -334,16 +350,6 @@ export class SendMessageError extends Error {
 export interface SendMessageErrorOptions {
     ackId?: number;
     errorDetail?: AckMessageError;
-}
-
-// @public
-export interface SendStreamDataOptions {
-    abortSignal?: AbortSignalLike;
-}
-
-// @public
-export interface SendStreamKeepAliveOptions {
-    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -462,13 +468,6 @@ export interface StreamNackMessage extends WebPubSubMessageBase {
 }
 
 // @public
-export interface StreamToGroupOptions {
-    idleTimeoutInMs?: number;
-    noEcho?: boolean;
-    streamId?: string;
-}
-
-// @public
 export interface SubscribeGroupStateMessage extends WebPubSubMessageBase {
     ackId?: number;
     group: string;
@@ -558,11 +557,11 @@ export class WebPubSubClient {
     on(event: "group-message", listener: (e: OnGroupDataMessageArgs) => void): void;
     on(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
     onGroupStream(factory: (args: OnGroupStreamArgs) => GroupStreamHandler, options?: OnGroupStreamOptions): void;
+    openGroupStream(groupName: string, options?: OpenGroupStreamOptions): Promise<GroupStream>;
     sendEvent(eventName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendEventOptions): Promise<WebPubSubResult>;
     sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendToGroupOptions): Promise<WebPubSubResult>;
     start(options?: StartOptions): Promise<void>;
     stop(): void;
-    streamToGroup(groupName: string, options?: StreamToGroupOptions): Promise<GroupStreamPublisher>;
 }
 
 // @public

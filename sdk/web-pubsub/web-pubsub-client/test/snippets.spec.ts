@@ -78,11 +78,11 @@ describe("snippets", () => {
     const groupName = "group1";
     await client.joinGroup(groupName);
     // @ts-preserve-whitespace
-    // Sending side: publish a logical stream in ordered fragments, then complete it.
-    const publisher = await client.streamToGroup(groupName, { streamId: "stream-1" });
-    await publisher.publish("hello ", "text");
-    await publisher.publish("world", "text");
-    await publisher.complete();
+    // Sending side: write a logical stream in ordered fragments, then end it.
+    const stream = await client.openGroupStream(groupName);
+    await stream.write("hello ", "text");
+    await stream.write("world", "text");
+    await stream.end();
   });
 
   it("ReadmeSampleNegotiateServer", async () => {

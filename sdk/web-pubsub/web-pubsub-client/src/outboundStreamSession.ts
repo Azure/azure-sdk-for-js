@@ -5,11 +5,11 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
 import { logger } from "./logger.js";
 import type {
-  CompleteStreamOptions,
-  SendStreamKeepAliveOptions,
+  AbortGroupStreamOptions,
+  EndGroupStreamOptions,
   StreamDataError,
 } from "./models/index.js";
-import type { JSONTypes, WebPubSubDataType } from "./models/messages.js";
+import type { JSONTypes, StreamEndError, WebPubSubDataType } from "./models/messages.js";
 import { AsyncSeqQueue } from "./asyncSeqQueue.js";
 import { abortablePromise } from "./utils/abortablePromise.js";
 import type { Deferred } from "./utils/deferred.js";
@@ -26,8 +26,17 @@ interface OutboundStreamDataAction {
 
 interface OutboundStreamEndAction {
   type: "end";
-  options?: CompleteStreamOptions;
+  options?: SendStreamEndOptions;
   completion: Deferred<void>;
+}
+
+interface SendStreamEndOptions {
+  abortSignal?: AbortSignalLike;
+  error?: StreamEndError;
+}
+
+interface SendStreamKeepAliveOptions {
+  abortSignal?: AbortSignalLike;
 }
 
 const SEND_RETRY_INITIAL_DELAY_MS = 10;
@@ -44,7 +53,7 @@ export interface OutboundStreamSessionOptions {
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
   ): Promise<void>;
-  sendEnd(options?: CompleteStreamOptions): Promise<void>;
+  sendEnd(options?: SendStreamEndOptions): Promise<void>;
   sendKeepAlive(options?: SendStreamKeepAliveOptions): Promise<void>;
 }
 
@@ -64,7 +73,7 @@ export class OutboundStreamSession {
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
   ) => Promise<void>;
-  private readonly _sendEnd: (options?: CompleteStreamOptions) => Promise<void>;
+  private readonly _sendEnd: (options?: SendStreamEndOptions) => Promise<void>;
   private readonly _sendKeepAlive: (options?: SendStreamKeepAliveOptions) => Promise<void>;
 
   private _started = false;
@@ -120,7 +129,7 @@ export class OutboundStreamSession {
     };
   }
 
-  public async publish(
+  public async write(
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
     abortSignal?: AbortSignalLike,
@@ -141,13 +150,19 @@ export class OutboundStreamSession {
     await this._sendKeepAlive(options);
   }
 
-  public async complete(options?: CompleteStreamOptions): Promise<void> {
+  public async end(options?: EndGroupStreamOptions): Promise<void> {
     this._throwIfClosed();
     this._writeClosed = true;
 
-    const endCompletion = await this._enqueueEndAction(
-      options?.error == null ? undefined : { error: options.error },
-    );
+    const endCompletion = await this._enqueueEndAction();
+    await this._waitForActionCompletion(endCompletion.promise, options?.abortSignal);
+  }
+
+  public async abort(error: StreamEndError, options?: AbortGroupStreamOptions): Promise<void> {
+    this._throwIfClosed();
+    this._writeClosed = true;
+
+    const endCompletion = await this._enqueueEndAction({ error });
     await this._waitForActionCompletion(endCompletion.promise, options?.abortSignal);
   }
 
@@ -242,7 +257,7 @@ export class OutboundStreamSession {
     return completion;
   }
 
-  private async _enqueueEndAction(options?: CompleteStreamOptions): Promise<Deferred<void>> {
+  private async _enqueueEndAction(options?: SendStreamEndOptions): Promise<Deferred<void>> {
     const completion = createDeferred<void>();
     const sequenceId = await this._queue.enqueue({
       type: "end",

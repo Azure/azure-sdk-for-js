@@ -180,9 +180,9 @@ export interface InvokeEventOptions {
 }
 
 /**
- * streamToGroup operation options.
+ * openGroupStream operation options.
  */
-export interface StreamToGroupOptions {
+export interface OpenGroupStreamOptions {
   /**
    * Optional stream identifier. If not specified, client will generate one.
    */
@@ -199,9 +199,9 @@ export interface StreamToGroupOptions {
 }
 
 /**
- * Send stream data options.
+ * Group stream write options.
  */
-export interface SendStreamDataOptions {
+export interface GroupStreamWriteOptions {
   /**
    * Optional abort signal.
    */
@@ -209,9 +209,9 @@ export interface SendStreamDataOptions {
 }
 
 /**
- * Send stream keepAlive options.
+ * End group stream options.
  */
-export interface SendStreamKeepAliveOptions {
+export interface EndGroupStreamOptions {
   /**
    * Optional abort signal.
    */
@@ -219,13 +219,9 @@ export interface SendStreamKeepAliveOptions {
 }
 
 /**
- * Complete stream options.
+ * Abort group stream options.
  */
-export interface CompleteStreamOptions {
-  /**
-   * Optional stream end error.
-   */
-  error?: StreamEndError;
+export interface AbortGroupStreamOptions {
   /**
    * Optional abort signal.
    */
@@ -233,29 +229,29 @@ export interface CompleteStreamOptions {
 }
 
 /**
- * Group stream publisher abstraction for sending one logical stream to a group.
+ * Group stream abstraction for sending one logical stream to a group.
  */
-export interface GroupStreamPublisher {
+export interface GroupStream {
   /**
    * Stream identifier.
    */
   readonly streamId: string;
   /**
-   * Publish a stream fragment.
+   * Write a stream fragment.
    */
-  publish(
+  write(
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
-    options?: SendStreamDataOptions,
+    options?: GroupStreamWriteOptions,
   ): Promise<void>;
   /**
-   * Send stream keepAlive.
+   * End the stream successfully.
    */
-  keepAlive(options?: SendStreamKeepAliveOptions): Promise<void>;
+  end(options?: EndGroupStreamOptions): Promise<void>;
   /**
-   * Complete the stream.
+   * Abort the stream with an error.
    */
-  complete(options?: CompleteStreamOptions): Promise<void>;
+  abort(error: StreamEndError, options?: AbortGroupStreamOptions): Promise<void>;
   /**
    * Register outbound stream error callback.
    * Returns a function to unregister this callback.
@@ -380,8 +376,8 @@ export interface OnGroupStreamEndArgs {
 
 /**
  * Per-stream value object passed to a factory registered via
- * `client.onGroupStream(...)`. * `GroupStream` instance is created per observed stream lifecycle. The factory returns a `GroupStreamHandler`
- * whose callbacks consume that single stream.
+ * `client.onGroupStream(...)`. A fresh `GroupStreamHandler` is created per
+ * observed stream lifecycle, and its callbacks consume only that single stream.
  */
 export interface OnGroupStreamArgs {
   /**
@@ -389,7 +385,7 @@ export interface OnGroupStreamArgs {
    */
   readonly group: string;
   /**
-   * The stream identifier assigned by the publisher.
+   * The stream identifier assigned when the outbound stream is opened.
    */
   readonly streamId: string;
 }
