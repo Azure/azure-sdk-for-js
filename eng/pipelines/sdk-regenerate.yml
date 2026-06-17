@@ -8,12 +8,12 @@
 #   RegenerateAndBuild Matrix shards. Each downloads its slice, regenerates +
 #                      builds, generates changelogs. In PR mode, pushes only
 #                      api.md + CHANGELOG.md deltas to the PR branch
-#                      (break-check semantics — see sdk-regenerate.js).
+#                      (break-check semantics — see sdk-regenerate.mjs).
 #
 #   CreatePR           Opens the GitHub PR. Body is minimal; per-package
 #                      outcomes are in the build log.
 #
-# All shard logic lives in eng/pipelines/scripts/sdk-regenerate.js.
+# All shard logic lives in eng/pipelines/scripts/sdk-regenerate.mjs.
 
 trigger:
   branches: { include: [main] }
