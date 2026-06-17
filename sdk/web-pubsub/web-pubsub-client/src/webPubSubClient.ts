@@ -25,13 +25,14 @@ import type {
   GetClientAccessUrlOptions,
   InvokeEventOptions,
   InvokeEventResult,
-  StreamToGroupOptions,
-  SendStreamDataOptions,
-  SendStreamKeepaliveOptions,
-  EndStreamOptions,
+  OpenGroupStreamOptions,
+  GroupStreamWriteOptions,
+  EndGroupStreamOptions,
+  AbortGroupStreamOptions,
   OnGroupStreamArgs,
   GroupStreamHandler,
-  StreamPublisher,
+  OnGroupStreamOptions,
+  GroupStream,
 } from "./models/index.js";
 import type {
   ConnectedMessage,
@@ -40,6 +41,7 @@ import type {
   GroupDataMessage,
   InvokeMessage,
   InvokeResponseMessage,
+  JSONTypes,
   ServerDataMessage,
   WebPubSubDataType,
   WebPubSubMessage,
@@ -56,6 +58,7 @@ import type {
   StreamDataMessage,
   StreamEndMessage,
   StreamDataError,
+  StreamEndError,
 } from "./models/messages.js";
 import type { WebPubSubClientProtocol } from "./protocols/index.js";
 import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
@@ -66,7 +69,7 @@ import type {
   WebSocketClientLike,
 } from "./websocket/websocketClientLike.js";
 import { AckManager } from "./ackManager.js";
-import { InboundStreamSession } from "./inboundStreamSession.js";
+import { InboundStreamDispatcher } from "./inboundStreamDispatcher.js";
 import { InvocationManager } from "./invocationManager.js";
 import { OutboundStreamSession } from "./outboundStreamSession.js";
 
@@ -81,11 +84,6 @@ enum WebPubSubClientState {
 const STREAM_PROTOCOL_VIOLATION = "ProtocolViolation";
 
 /**
- * Types which can be serialized and sent as JSON.
- */
-export type JSONTypes = string | number | boolean | object;
-
-/**
  * The WebPubSub client
  */
 export class WebPubSubClient {
@@ -93,7 +91,7 @@ export class WebPubSubClient {
   private readonly _credential: WebPubSubClientCredential;
   private readonly _options: WebPubSubClientOptions;
   private readonly _groupMap: Map<string, WebPubSubGroup>;
-  private readonly _inboundStreams: InboundStreamSession;
+  private readonly _inboundStreams: InboundStreamDispatcher;
   private readonly _outboundStreams: Map<string, OutboundStreamSession>;
   private readonly _ackManager: AckManager;
   private readonly _invocationManager: InvocationManager;
@@ -107,8 +105,6 @@ export class WebPubSubClient {
   private readonly _keepAliveIntervalInMs: number;
 
   private readonly _emitter: EventEmitter = new EventEmitter();
-  private readonly _groupStreamFactories: Array<(args: OnGroupStreamArgs) => GroupStreamHandler> =
-    [];
   private _state: WebPubSubClientState;
   private _isStopping: boolean = false;
   private _pingKeepaliveTask: AbortableTask | undefined;
@@ -154,10 +150,7 @@ export class WebPubSubClient {
 
     this._protocol = this._options.protocol!;
     this._groupMap = new Map<string, WebPubSubGroup>();
-    this._inboundStreams = new InboundStreamSession(
-      () => this._groupStreamFactories,
-      this._options.groupStreamOptions,
-    );
+    this._inboundStreams = new InboundStreamDispatcher();
     this._outboundStreams = new Map<string, OutboundStreamSession>();
     this._ackManager = new AckManager();
     this._invocationManager = new InvocationManager();
@@ -333,10 +326,17 @@ export class WebPubSubClient {
    * value (`{ group, streamId }`) and must return a `GroupStreamHandler` whose
    * callbacks consume that single stream. Returning a fresh closure per call
    * gives every stream its own independent state.
+   *
+   * The optional `options` apply only to this registration, so different
+   * handlers may use different `idleTimeoutInMs` / `handleFromStart` values.
    * @param factory - Per-stream factory returning a `GroupStreamHandler`.
+   * @param options - Per-handler options controlling how this handler's streams are tracked.
    */
-  public onGroupStream(factory: (args: OnGroupStreamArgs) => GroupStreamHandler): void {
-    this._groupStreamFactories.push(factory);
+  public onGroupStream(
+    factory: (args: OnGroupStreamArgs) => GroupStreamHandler,
+    options?: OnGroupStreamOptions,
+  ): void {
+    this._inboundStreams.register(factory, options);
   }
 
   /**
@@ -394,10 +394,7 @@ export class WebPubSubClient {
    * @param factory - The factory reference originally registered via {@link onGroupStream}.
    */
   public offGroupStream(factory: (args: OnGroupStreamArgs) => GroupStreamHandler): void {
-    const index = this._groupStreamFactories.indexOf(factory);
-    if (index >= 0) {
-      this._groupStreamFactories.splice(index, 1);
-    }
+    this._inboundStreams.unregister(factory);
   }
 
   private _emitEvent(event: "connected", args: OnConnectedArgs): void;
@@ -688,14 +685,14 @@ export class WebPubSubClient {
   }
 
   /**
-   * Create an outbound stream publisher to a group.
+   * Open an outbound stream to a group.
    * @param groupName - Target group name.
-   * @param options - Stream start options.
+   * @param options - Stream open options.
    */
-  public async streamToGroup(
+  public async openGroupStream(
     groupName: string,
-    options?: StreamToGroupOptions,
-  ): Promise<StreamPublisher> {
+    options?: OpenGroupStreamOptions,
+  ): Promise<GroupStream> {
     const streamId = options?.streamId ?? this._generateOutboundStreamId();
     if (this._outboundStreams.has(streamId)) {
       throw new Error(`Stream '${streamId}' already exists.`);
@@ -704,18 +701,18 @@ export class WebPubSubClient {
     const session = new OutboundStreamSession({
       streamId,
       groupName,
-      idleTimeoutMs: options?.idleTimeoutMs,
+      idleTimeoutInMs: options?.idleTimeoutInMs,
       canSend: () => this._canSendStreamTraffic(),
       sendStart: async () =>
         this._sendStreamStart(streamId, groupName, {
           noEcho: options?.noEcho,
-          idleTimeoutMs: options?.idleTimeoutMs,
+          idleTimeoutInMs: options?.idleTimeoutInMs,
         }),
       sendData: async (sequenceId, content, dataType) =>
         this._sendStreamData(streamId, sequenceId, content, dataType),
       sendEnd: async (endOptions) => this._sendStreamEnd(streamId, endOptions),
-      sendKeepalive: async (keepaliveOptions) =>
-        this._sendStreamKeepalive(streamId, keepaliveOptions),
+      sendKeepAlive: async (keepAliveOptions) =>
+        this._sendStreamKeepAlive(streamId, keepAliveOptions),
     });
     this._outboundStreams.set(streamId, session);
 
@@ -729,22 +726,21 @@ export class WebPubSubClient {
 
     return {
       streamId,
-      publish: async (
+      write: async (
         content: JSONTypes | ArrayBuffer,
-        dataType?: WebPubSubDataType,
-        sendOptions?: SendStreamDataOptions,
+        dataType: WebPubSubDataType,
+        writeOptions?: GroupStreamWriteOptions,
       ): Promise<void> => {
-        await session.publish(
-          content,
-          dataType ?? this._resolveStreamDataType(content),
-          sendOptions?.abortSignal,
-        );
+        await session.write(content, dataType, writeOptions?.abortSignal);
       },
-      keepalive: async (keepaliveOptions?: SendStreamKeepaliveOptions): Promise<void> => {
-        await session.keepalive(keepaliveOptions);
+      end: async (endOptions?: EndGroupStreamOptions): Promise<void> => {
+        await session.end(endOptions);
       },
-      complete: async (endOptions?: EndStreamOptions): Promise<void> => {
-        await session.complete(endOptions);
+      abort: async (
+        error: StreamEndError,
+        abortOptions?: AbortGroupStreamOptions,
+      ): Promise<void> => {
+        await session.abort(error, abortOptions);
       },
       onError: (listener: (error: StreamDataError) => void): (() => void) => {
         return session.onError(listener);
@@ -1381,7 +1377,7 @@ export class WebPubSubClient {
   private async _sendStreamStart(
     streamId: string,
     groupName: string,
-    options?: StreamToGroupOptions,
+    options?: OpenGroupStreamOptions,
   ): Promise<void> {
     const message: SendToGroupMessage = {
       kind: "sendToGroup",
@@ -1389,7 +1385,7 @@ export class WebPubSubClient {
       noEcho: options?.noEcho ?? false,
       stream: {
         streamId,
-        idleTimeoutMs: options?.idleTimeoutMs,
+        idleTimeoutInMs: options?.idleTimeoutInMs,
       },
     };
     await this._sendMessage(message);
@@ -1411,9 +1407,9 @@ export class WebPubSubClient {
     await this._sendMessage(message);
   }
 
-  private async _sendStreamKeepalive(
+  private async _sendStreamKeepAlive(
     streamId: string,
-    options?: SendStreamKeepaliveOptions,
+    options?: { abortSignal?: AbortSignalLike },
   ): Promise<void> {
     const message: StreamDataMessage = {
       kind: "streamData",
@@ -1422,7 +1418,10 @@ export class WebPubSubClient {
     await this._sendMessage(message, options?.abortSignal);
   }
 
-  private async _sendStreamEnd(streamId: string, options?: EndStreamOptions): Promise<void> {
+  private async _sendStreamEnd(
+    streamId: string,
+    options?: { error?: StreamEndError; abortSignal?: AbortSignalLike },
+  ): Promise<void> {
     const message: StreamEndMessage = {
       kind: "streamEnd",
       streamId,
@@ -1433,18 +1432,6 @@ export class WebPubSubClient {
 
   private _generateOutboundStreamId(): string {
     return randomUUID();
-  }
-
-  private _resolveStreamDataType(content: JSONTypes | ArrayBuffer): WebPubSubDataType {
-    if (content instanceof ArrayBuffer) {
-      return "binary";
-    }
-
-    if (typeof content === "string") {
-      return "text";
-    }
-
-    return "json";
   }
 
   private _mapInvokeResponse(message: InvokeResponseMessage): InvokeEventResult {

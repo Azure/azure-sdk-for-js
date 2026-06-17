@@ -1,5 +1,8 @@
-extends: ../../../warp.base.config.yml
+# warp.config.yml — build configuration
+
 exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
   "./api/vmSkus": "./src/api/vmSkus/index.ts"
   "./api/containerService": "./src/api/containerService/index.ts"
@@ -18,6 +21,7 @@ exports:
   "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
   "./api/machines": "./src/api/machines/index.ts"
   "./api/managedNamespaces": "./src/api/managedNamespaces/index.ts"
+  "./api/maintenanceWindows": "./src/api/maintenanceWindows/index.ts"
   "./api/maintenanceConfigurations": "./src/api/maintenanceConfigurations/index.ts"
   "./api/managedClusters": "./src/api/managedClusters/index.ts"
   "./api/agentPools": "./src/api/agentPools/index.ts"

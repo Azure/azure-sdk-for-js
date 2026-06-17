@@ -1,0 +1,24 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { SqlManagementClient } = require("@azure/arm-sql");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to failovers an elastic pool.
+ *
+ * @summary failovers an elastic pool.
+ * x-ms-original-file: 2025-01-01/FailoverElasticPool.json
+ */
+async function failoverAnElasticPool() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlManagementClient(credential, subscriptionId);
+  await client.elasticPools.failover("group1", "testServer", "testElasticPool");
+}
+
+async function main() {
+  await failoverAnElasticPool();
+}
+
+main().catch(console.error);

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  resync,
   listBySubscription,
   listByResourceGroup,
   $delete,
@@ -10,6 +11,7 @@ export {
   get,
 } from "./operations.js";
 export type {
+  NeighborGroupsResyncOptionalParams,
   NeighborGroupsListBySubscriptionOptionalParams,
   NeighborGroupsListByResourceGroupOptionalParams,
   NeighborGroupsDeleteOptionalParams,

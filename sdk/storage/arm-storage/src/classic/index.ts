@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+export type { AdvancedPlatformMetricsOperations } from "./advancedPlatformMetrics/index.js";
 export type { BlobContainersOperations } from "./blobContainers/index.js";
 export type { BlobInventoryPoliciesOperations } from "./blobInventoryPolicies/index.js";
 export type { BlobServicesOperations } from "./blobServices/index.js";

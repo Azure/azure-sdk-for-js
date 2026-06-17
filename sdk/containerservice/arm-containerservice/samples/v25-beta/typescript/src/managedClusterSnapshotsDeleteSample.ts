@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a managed cluster snapshot.
  *
  * @summary deletes a managed cluster snapshot.
- * x-ms-original-file: 2026-03-02-preview/ManagedClusterSnapshotsDelete.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClusterSnapshotsDelete.json
  */
 async function deleteManagedClusterSnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all file services in storage accounts
  *
  * @summary list all file services in storage accounts
- * x-ms-original-file: 2025-08-01/FileServicesList.json
+ * x-ms-original-file: 2026-04-01/FileServicesList.json
  */
 async function listFileServices() {
   const credential = new DefaultAzureCredential();

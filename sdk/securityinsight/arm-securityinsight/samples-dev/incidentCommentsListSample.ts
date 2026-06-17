@@ -1,38 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets all incident comments.
- *
- * @summary Gets all incident comments.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/incidents/comments/GetAllIncidentComments.json
- */
-
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getAllIncidentComments(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const incidentId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
+/**
+ * This sample demonstrates how to gets all comments for a given incident.
+ *
+ * @summary gets all comments for a given incident.
+ * x-ms-original-file: 2025-07-01-preview/incidents/IncidentComments/IncidentComments_List.json
+ */
+async function incidentCommentsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.incidentComments.list(
-    resourceGroupName,
-    workspaceName,
-    incidentId,
+    "myRg",
+    "myWorkspace",
+    "73e01a99-5cd7-4139-a149-9f2736ff2ab5",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await getAllIncidentComments();
+  await incidentCommentsList();
 }
 
 main().catch(console.error);

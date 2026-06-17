@@ -109,9 +109,7 @@ jobs:
                 Pool: $(Pool)
                 ${{ insert }}: ${{ parameters.EnvVars }}
 
-      - script: |
-          npm install -g pnpm
-        displayName: "Install Pnpm"
+      - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
       - script: |
           pnpm install

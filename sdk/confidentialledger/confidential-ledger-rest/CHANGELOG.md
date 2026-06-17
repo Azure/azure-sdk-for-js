@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.2-beta.6 (Unreleased)
+## 1.1.2-beta.6 (2026-06-05)
 
 ### Bugs Fixed
 
@@ -14,12 +14,6 @@
 ### Other Changes
 
 - Hardened redirect handling in the Confidential Ledger client. Credentials and request bodies are now only forwarded on HTTPS redirects whose target hostname matches the configured ledger endpoint or one of its subdomains, with the same port. Redirects to any other target are refused.
-
-## 1.1.2-beta.5 (Unreleased)
-
-### Features Added
-
-- This pre-release was not published; its contents are included in 1.1.2-beta.6.
 
 ## 1.1.2-beta.4 (2026-02-18)
 
