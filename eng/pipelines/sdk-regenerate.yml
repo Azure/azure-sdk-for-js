@@ -21,7 +21,7 @@ trigger:
     include:
       - eng/emitter-package.json
       - eng/pipelines/sdk-regenerate.yml
-      - eng/pipelines/scripts/sdk-regenerate.js
+      - eng/pipelines/scripts/sdk-regenerate.mjs
 
 pr:
   branches: { include: [main] }
@@ -29,7 +29,7 @@ pr:
     include:
       - eng/emitter-package.json
       - eng/pipelines/sdk-regenerate.yml
-      - eng/pipelines/scripts/sdk-regenerate.js
+      - eng/pipelines/scripts/sdk-regenerate.mjs
 
 schedules:
   - cron: "0 2 * * *"
@@ -78,7 +78,7 @@ variables:
   - name: nodeVersion
     value: '22.x'
   - name: shardScript
-    value: $(Build.SourcesDirectory)/eng/pipelines/scripts/sdk-regenerate.js
+    value: $(Build.SourcesDirectory)/eng/pipelines/scripts/sdk-regenerate.mjs
   - ${{ if eq(parameters.PullRequestBranch, 'auto') }}:
     - name: prBranchName
       value: sdk-regenerate-$(Build.BuildId)

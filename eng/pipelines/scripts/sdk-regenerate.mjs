@@ -2,10 +2,11 @@
 // Sole script for sdk-regenerate.yml. The YAML dispatches to one of the
 // subcommands at the bottom of this file.
 
-const { spawn, spawnSync } = require("child_process");
-const fs = require("fs");
-const os = require("os");
-const path = require("path");
+import { spawn, spawnSync } from "node:child_process";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { parseArgs } from "node:util";
 
 const SDK_ROOT = process.cwd();
 const EMITTER_PACKAGE_NAME = "@azure-tools/typespec-ts";
@@ -20,16 +21,39 @@ const RELEASE_TOOLS_DIR = "eng/tools/js-sdk-release-tools";
 const DEV_VERSION_SENTINEL = "dev"; // Special --input value meaning "resolve the npm next tag" (dev emitter builds).
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Tiny helpers
+// Command-line argument parsing
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** Read a --name value from process.argv (returns defaultValue if absent). */
-function getFlag(flagName, defaultValue = "") {
-  const flagIndex = process.argv.indexOf(flagName);
-  return flagIndex >= 0 && flagIndex + 1 < process.argv.length
-    ? process.argv[flagIndex + 1]
-    : defaultValue;
-}
+const options = {
+  // Parameters configurable when running the pipeline manually
+  input:          { type: "string", default: "" },
+  skipBuild:      { type: "string", default: "false" },
+  filter:         { type: "string", default: "arm-*" },
+  specRepoBranch: { type: "string", default: "main" },
+  branch:         { type: "string", default: "" },
+  // ADO built-in variables and job outputs passed in by the YAML
+  emitterVersion: { type: "string", default: "" },
+  specRepoRoot:   { type: "string", default: "" },
+  directoryList:  { type: "string", default: "" },
+  sourceRepo:     { type: "string", default: "" },
+  targetBranch:   { type: "string", default: "main" },
+  buildId:        { type: "string", default: "" },
+  buildNumber:    { type: "string", default: "" },
+  buildUrl:       { type: "string", default: "" },
+  definitionName: { type: "string", default: "" },
+  outDir:         { type: "string", default: "" },
+};
+
+const {
+  values,
+  positionals,
+} = parseArgs({ options, allowPositionals: true });
+
+const subcommandName = positionals[0];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Tiny helpers
+// ─────────────────────────────────────────────────────────────────────────────
 
 /** Run a command and capture stdout+stderr into one string. Never rejects. */
 function runCommandCapturing(command, commandArgs, workingDirectory) {
@@ -109,7 +133,7 @@ function setPipelineVariable(name, value, { isOutput = false, isSecret = false }
 // ─────────────────────────────────────────────────────────────────────────────
 
 async function runResolveEmitter() {
-  const input = getFlag("--input", "").trim().toLowerCase();
+  const input = values.input.trim().toLowerCase();
   const isScheduled = (process.env.BUILD_REASON || "").toLowerCase() === "schedule";
 
   let resolvedEmitterVersion;
@@ -216,7 +240,7 @@ async function resolveNextEmitterVersion() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function runRegenerateEmitter() {
-  const emitterVersion = getFlag("--emitterVersion");
+  const emitterVersion = values.emitterVersion;
   if (!emitterVersion) {
     console.error("ERROR: --emitterVersion is required");
     process.exit(2);
@@ -287,12 +311,12 @@ function shallowCloneSpecRepo(branch, cloneDir) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 async function runShard() {
-  const specRepoBranch = getFlag("--specRepoBranch", "main");
-  const specRepoCloneDir = getFlag("--specRepoRoot");
-  const directoryListFile = getFlag("--directoryList");
+  const specRepoBranch = values.specRepoBranch;
+  const specRepoCloneDir = values.specRepoRoot;
+  const directoryListFile = values.directoryList;
   const perPackageConcurrency = 4;
   const turboBuildConcurrency = 4;
-  const skipBuild = getFlag("--skipBuild", "false").toLowerCase() === "true";
+  const skipBuild = values.skipBuild.toLowerCase() === "true";
 
   if (!specRepoCloneDir) {
     console.error("ERROR: --specRepoRoot is required");
@@ -638,7 +662,7 @@ function composeShardSummary({
 // ─────────────────────────────────────────────────────────────────────────────
 
 function runCreatePr() {
-  const [repoOwner, repoName] = (getFlag("--sourceRepo") || "").split("/");
+  const [repoOwner, repoName] = (values.sourceRepo || "").split("/");
   if (!repoOwner || !repoName) {
     console.error("ERROR: --sourceRepo must be 'owner/name'");
     process.exit(2);
@@ -646,15 +670,15 @@ function runCreatePr() {
   // $(Build.SourceBranch) comes through as 'refs/heads/<branch>'; strip the
   // prefix. (We can't use $(Build.SourceBranchName) — it loses slashes in
   // branch names like 'feature/break-check'.)
-  const baseBranch = getFlag("--targetBranch", "main").replace(/^refs\/heads\//, "");
+  const baseBranch = values.targetBranch.replace(/^refs\/heads\//, "");
   const headBranchName = resolveHeadBranchName(
-    getFlag("--branch", "").trim(),
-    getFlag("--buildId", ""),
+    values.branch.trim(),
+    values.buildId,
   );
-  const emitterVersion = getFlag("--emitterVersion", "");
-  const buildNumber = getFlag("--buildNumber", "");
-  const buildUrl = getFlag("--buildUrl", "");
-  const pipelineName = getFlag("--definitionName", "");
+  const emitterVersion = values.emitterVersion;
+  const buildNumber = values.buildNumber;
+  const buildUrl = values.buildUrl;
+  const pipelineName = values.definitionName;
 
   const authToken = process.env.AUTH_TOKEN || "";
   if (!authToken) {
@@ -704,7 +728,7 @@ function resolveHeadBranchName(headBranchOverride, buildId) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function runBuildMatrix() {
-  const outDir = getFlag("--outDir");
+  const outDir = values.outDir;
   if (!outDir) {
     console.error("ERROR: --outDir is required");
     process.exit(2);
@@ -721,7 +745,7 @@ function runBuildMatrix() {
     "-OnlyTypeSpec",
     "true",
     "-DirectoryFilterPattern",
-    getFlag("--filter", "arm-*"),
+    values.filter,
   ]);
 }
 
@@ -737,10 +761,9 @@ const SUBCOMMANDS = {
   "create-pr": runCreatePr,
 };
 
-const subcommandName = process.argv[2];
 const subcommandHandler = SUBCOMMANDS[subcommandName];
 if (!subcommandHandler) {
-  console.error(`Usage: sdk-regenerate.js <${Object.keys(SUBCOMMANDS).join("|")}> [...args]`);
+  console.error(`Usage: sdk-regenerate.mjs <${Object.keys(SUBCOMMANDS).join("|")}> [...args]`);
   process.exit(2);
 }
 Promise.resolve()
