@@ -141,7 +141,10 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
   const accessToken = await getAccessToken(scopes, getTokenOptions);
 
   if (accessToken) {
-    options.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
+    options.request.headers.set(
+      "Authorization",
+      `${accessToken.tokenType ?? "Bearer"} ${accessToken.token}`,
+    );
   }
 }
 
