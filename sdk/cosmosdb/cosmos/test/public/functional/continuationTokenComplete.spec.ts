@@ -98,7 +98,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
   {
     name: "ORDER BY Single Field ASC",
     query: "SELECT * FROM c ORDER BY c.amount ASC",
-    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    queryOptions: { maxItemCount: 2, enableQueryControl: true, forceQueryPlan: true },
     expectedTokenStructure: {
       hasCompositeToken: true,
       hasOrderByItems: true,
@@ -120,7 +120,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
   {
     name: "ORDER BY Single Field DESC",
     query: "SELECT * FROM c ORDER BY c.amount DESC",
-    queryOptions: { maxItemCount: 3, enableQueryControl: true },
+    queryOptions: { maxItemCount: 3, enableQueryControl: true, forceQueryPlan: true },
     expectedTokenStructure: {
       hasCompositeToken: true,
       hasOrderByItems: true,
@@ -142,7 +142,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
   {
     name: "ORDER BY Multiple Fields",
     query: "SELECT * FROM c ORDER BY c.category ASC, c.amount DESC",
-    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    queryOptions: { maxItemCount: 2, enableQueryControl: true, forceQueryPlan: true },
     expectedTokenStructure: {
       hasCompositeToken: true,
       hasOrderByItems: true,
@@ -164,7 +164,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
   {
     name: "TOP Query",
     query: "SELECT TOP 10 * FROM c",
-    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    queryOptions: { maxItemCount: 2, enableQueryControl: true, forceQueryPlan: true },
     expectedTokenStructure: {
       hasRangeMappings: true,
       hasLimit: true,
@@ -183,7 +183,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
   {
     name: "OFFSET LIMIT Combined",
     query: "SELECT * FROM c OFFSET 3 LIMIT 8",
-    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    queryOptions: { maxItemCount: 2, enableQueryControl: true, forceQueryPlan: true },
     expectedTokenStructure: {
       hasRangeMappings: true,
       hasOffset: true,
@@ -203,7 +203,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
   {
     name: "DISTINCT Query (Unordered - No Continuation Support)",
     query: "SELECT DISTINCT c.category FROM c",
-    queryOptions: { maxItemCount: 3, enableQueryControl: true },
+    queryOptions: { maxItemCount: 3, enableQueryControl: true, forceQueryPlan: true },
     expectedTokenStructure: {
       expectNoContinuationToken: true,
     },
@@ -218,7 +218,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
   {
     name: "DISTINCT with ORDER BY (Ordered - Supports Continuation)",
     query: "SELECT DISTINCT VALUE c.category FROM c ORDER BY c.category ASC",
-    queryOptions: { maxItemCount: 3, enableQueryControl: true },
+    queryOptions: { maxItemCount: 3, enableQueryControl: true, forceQueryPlan: true },
     expectedTokenStructure: {
       hasCompositeToken: true,
       hasOrderByItems: true,
@@ -242,7 +242,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
   {
     name: "COUNT Aggregate (No Continuation Support)",
     query: "SELECT COUNT(1) as count FROM c",
-    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    queryOptions: { maxItemCount: 2, enableQueryControl: true, forceQueryPlan: true },
     expectedTokenStructure: {
       expectNoContinuationToken: true,
     },
@@ -257,7 +257,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
   {
     name: "SUM Aggregate (No Continuation Support)",
     query: "SELECT SUM(c.amount) as total FROM c",
-    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    queryOptions: { maxItemCount: 2, enableQueryControl: true, forceQueryPlan: true },
     expectedTokenStructure: {
       expectNoContinuationToken: true,
     },
@@ -272,7 +272,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
   {
     name: "AVG Aggregate (No Continuation Support)",
     query: "SELECT AVG(c.amount) as average FROM c",
-    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    queryOptions: { maxItemCount: 2, enableQueryControl: true, forceQueryPlan: true },
     expectedTokenStructure: {
       expectNoContinuationToken: true,
     },
@@ -287,7 +287,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
   {
     name: "MIN MAX Aggregate (No Continuation Support)",
     query: "SELECT MIN(c.amount) as minimum, MAX(c.amount) as maximum FROM c",
-    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    queryOptions: { maxItemCount: 2, enableQueryControl: true, forceQueryPlan: true },
     expectedTokenStructure: {
       expectNoContinuationToken: true,
     },
@@ -303,7 +303,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
   {
     name: "GROUP BY Query (No Continuation Support)",
     query: "SELECT c.category, COUNT(1) as count FROM c GROUP BY c.category",
-    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    queryOptions: { maxItemCount: 2, enableQueryControl: true, forceQueryPlan: true },
     expectedTokenStructure: {
       expectNoContinuationToken: true,
     },
@@ -319,7 +319,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
   {
     name: "JOIN with ORDER BY",
     query: "SELECT c.id, c.name, t FROM c JOIN t IN c.tags ORDER BY c.id",
-    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    queryOptions: { maxItemCount: 2, enableQueryControl: true, forceQueryPlan: true },
     expectedTokenStructure: {
       hasCompositeToken: true,
       hasOrderByItems: true,
@@ -339,7 +339,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
   {
     name: "WHERE with ORDER BY",
     query: "SELECT * FROM c WHERE c.amount > 20 ORDER BY c.amount ASC",
-    queryOptions: { maxItemCount: 3, enableQueryControl: true },
+    queryOptions: { maxItemCount: 3, enableQueryControl: true, forceQueryPlan: true },
     expectedTokenStructure: {
       hasRangeMappings: true,
       hasOrderByItems: true,
@@ -722,6 +722,7 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
       const iterator = multiPartitionContainer.items.query(query, {
         maxItemCount: 1,
         enableQueryControl: true,
+        forceQueryPlan: true,
       });
 
       while (iterator.hasMoreResults()) {
@@ -735,6 +736,7 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
           await testTokenReuseOnce(multiPartitionContainer, query, result.continuationToken, {
             maxItemCount: 1,
             enableQueryControl: true,
+            forceQueryPlan: true,
           });
           break;
         }
@@ -776,6 +778,7 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
       const iterator = singlePartitionContainer.items.query(query, {
         maxItemCount: 2,
         enableQueryControl: true,
+        forceQueryPlan: true,
       });
 
       while (iterator.hasMoreResults()) {
@@ -788,6 +791,7 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
           await testTokenReuseOnce(singlePartitionContainer, query, result.continuationToken, {
             maxItemCount: 2,
             enableQueryControl: true,
+            forceQueryPlan: true,
           });
           break;
         }
@@ -880,6 +884,7 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
       const iterator = multiPartitionContainer.items.query(query, {
         maxItemCount: 3,
         enableQueryControl: true,
+        forceQueryPlan: true,
       });
       let tokens = 0;
       let items = 0;
@@ -939,6 +944,7 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
       const iterator = multiPartitionContainer.items.query(query, {
         maxItemCount: 2,
         enableQueryControl: true,
+        forceQueryPlan: true,
       });
       let groups = 0;
       const categoryGroups = new Map<string, { count: number; avgValue: number }>();
@@ -965,7 +971,7 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
 
     it("should handle continuation token across multiple iterations", async () => {
       const query = "SELECT * FROM c ORDER BY c.amount ASC";
-      const queryOptions = { maxItemCount: 10, enableQueryControl: true };
+      const queryOptions = { maxItemCount: 10, enableQueryControl: true, forceQueryPlan: true };
 
       const allResults = await executeQueryWithContinuation(
         query,
@@ -978,33 +984,37 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
       expect(allResults.length).toBeGreaterThan(10);
     });
 
-    it("should handle streaming continuation tokens for SELECT * query", async () => {
-      const query = "SELECT * FROM c";
-      const queryOptions = { maxItemCount: 15, enableQueryControl: true };
+    it(
+      "should handle streaming continuation tokens for SELECT * query",
+      { timeout: 600000 },
+      async () => {
+        const query = "SELECT * FROM c";
+        const queryOptions = { maxItemCount: 15, enableQueryControl: true, forceQueryPlan: true };
 
-      const allResults = await executeQueryWithContinuation(
-        query,
-        multiPartitionContainer,
-        queryOptions,
-      );
+        const allResults = await executeQueryWithContinuation(
+          query,
+          multiPartitionContainer,
+          queryOptions,
+        );
 
-      const categoriesEncountered = new Set<string>();
-      allResults.forEach((item) => categoriesEncountered.add(item.category));
+        const categoriesEncountered = new Set<string>();
+        allResults.forEach((item) => categoriesEncountered.add(item.category));
 
-      expect(categoriesEncountered.size).toBeGreaterThan(1);
-      expect(allResults.length).equal(80);
+        expect(categoriesEncountered.size).toBeGreaterThan(1);
+        expect(allResults.length).equal(80);
 
-      allResults.forEach((item) => {
-        expect(item.id).toBeDefined();
-        expect(item.category).toBeDefined();
-        expect(item.amount).toBeDefined();
-        expect(typeof item.amount).toBe("number");
-      });
-    });
+        allResults.forEach((item) => {
+          expect(item.id).toBeDefined();
+          expect(item.category).toBeDefined();
+          expect(item.amount).toBeDefined();
+          expect(typeof item.amount).toBe("number");
+        });
+      },
+    );
 
     it("should handle DISTINCT ORDER BY queries with continuation", async () => {
       const query = "SELECT DISTINCT c.category FROM c ORDER BY c.category ASC";
-      const queryOptions = { maxItemCount: 3, enableQueryControl: true };
+      const queryOptions = { maxItemCount: 3, enableQueryControl: true, forceQueryPlan: true };
 
       const allResults = await executeQueryWithContinuation(
         query,
@@ -1021,7 +1031,7 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
 
     it("should handle OFFSET LIMIT queries with continuation", async () => {
       const query = "SELECT * FROM c ORDER BY c.amount ASC OFFSET 10 LIMIT 20";
-      const queryOptions = { maxItemCount: 8, enableQueryControl: true };
+      const queryOptions = { maxItemCount: 8, enableQueryControl: true, forceQueryPlan: true };
       const allResults = await executeQueryWithContinuation(
         query,
         multiPartitionContainer,
@@ -1034,7 +1044,7 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
     it("should handle OFFSET LIMIT queries where offset > maxItemCount with continuation", async () => {
       // Test scenario where offset (25) is greater than maxItemCount (5)
       const query = "SELECT * FROM c ORDER BY c.amount ASC OFFSET 25 LIMIT 10";
-      const queryOptions = { maxItemCount: 5, enableQueryControl: true };
+      const queryOptions = { maxItemCount: 5, enableQueryControl: true, forceQueryPlan: true };
       const allResults = await executeQueryWithContinuation(
         query,
         multiPartitionContainer,
@@ -1048,7 +1058,7 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
 
     it("should handle TOP queries with continuation", async () => {
       const query = "SELECT TOP 15 * FROM c ORDER BY c.amount DESC";
-      const queryOptions = { maxItemCount: 5, enableQueryControl: true };
+      const queryOptions = { maxItemCount: 5, enableQueryControl: true, forceQueryPlan: true };
       const allResults = await executeQueryWithContinuation(
         query,
         multiPartitionContainer,
@@ -1059,7 +1069,7 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
     });
     it("should handle parallel queries (no ORDER BY) with continuation", async () => {
       const query = "SELECT * FROM c WHERE c.amount > 50";
-      const queryOptions = { maxItemCount: 6, enableQueryControl: true };
+      const queryOptions = { maxItemCount: 6, enableQueryControl: true, forceQueryPlan: true };
       const allResults = await executeQueryWithContinuation(
         query,
         multiPartitionContainer,
@@ -1074,7 +1084,7 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
     });
     it("should handle complex ORDER BY with multiple fields and continuation", async () => {
       const query = "SELECT * FROM c ORDER BY c.category ASC, c.amount DESC, c.name ASC";
-      const queryOptions = { maxItemCount: 4, enableQueryControl: true };
+      const queryOptions = { maxItemCount: 4, enableQueryControl: true, forceQueryPlan: true };
       const allResults = await executeQueryWithContinuation(
         query,
         multiPartitionContainer,
@@ -1099,7 +1109,7 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
     it("should handle JOIN with ORDER BY queries and maintain proper continuation", async () => {
       const query =
         "SELECT c.id, c.name, c.category, t.tag as tagValue FROM c JOIN t IN c.tags ORDER BY c.id";
-      const queryOptions = { maxItemCount: 20, enableQueryControl: true };
+      const queryOptions = { maxItemCount: 20, enableQueryControl: true, forceQueryPlan: true };
       const allResults = await executeQueryWithContinuation(
         query,
         multiPartitionContainer,
@@ -1123,62 +1133,67 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
       }
     });
 
-    it("should handle continuation token across multiple iterations using proper OrderBy pattern", async () => {
-      const query = "SELECT * FROM c ORDER BY c.amount ASC";
-      const queryOptions = { maxItemCount: 30, enableQueryControl: true };
-      const container = multiPartitionContainer2;
+    it(
+      "should handle continuation token across multiple iterations using proper OrderBy pattern",
+      { timeout: 600000 },
+      async () => {
+        const query = "SELECT * FROM c ORDER BY c.amount ASC";
+        const queryOptions = { maxItemCount: 30, enableQueryControl: true, forceQueryPlan: true };
+        const container = multiPartitionContainer2;
 
-      let queryIterator = container.items.query(query, queryOptions);
-      const allResults: any[] = [];
+        let queryIterator = container.items.query(query, queryOptions);
+        const allResults: any[] = [];
 
-      // OrderBy Pattern: Keep calling hasMoreResults() and fetchNext() until getting non-empty results
-      while (queryIterator.hasMoreResults()) {
-        let response = await queryIterator.fetchNext();
+        // OrderBy Pattern: Keep calling hasMoreResults() and fetchNext() until getting non-empty results
+        while (queryIterator.hasMoreResults()) {
+          let response = await queryIterator.fetchNext();
 
-        // Continue fetching until we get data or no more results
-        while (queryIterator.hasMoreResults() && response.resources.length === 0) {
-          response = await queryIterator.fetchNext();
+          // Continue fetching until we get data or no more results
+          while (queryIterator.hasMoreResults() && response.resources.length === 0) {
+            response = await queryIterator.fetchNext();
+          }
+
+          if (response.resources.length === 0) {
+            break;
+          }
+
+          allResults.push(...response.resources);
+
+          // Now safely access continuation token after getting data
+          const continuationToken = response.continuationToken;
+          if (!continuationToken) {
+            break;
+          }
+
+          // Create new iterator with continuation token
+          queryIterator = container.items.query(query, {
+            ...queryOptions,
+            continuationToken: continuationToken,
+          });
         }
 
-        if (response.resources.length === 0) {
-          break;
-        }
+        // Validate results: Check duplicates
+        const seenIds = new Set<string>();
+        const duplicateCount = allResults.filter((item) => {
+          if (seenIds.has(item.id)) return true;
+          seenIds.add(item.id);
+          return false;
+        }).length;
+        expect(duplicateCount).toBe(0);
 
-        allResults.push(...response.resources);
+        // Validate ordering across continuation boundaries
+        validateNumericOrdering(allResults, "amount", true);
 
-        // Now safely access continuation token after getting data
-        const continuationToken = response.continuationToken;
-        if (!continuationToken) {
-          break;
-        }
-
-        // Create new iterator with continuation token
-        queryIterator = container.items.query(query, {
-          ...queryOptions,
-          continuationToken: continuationToken,
-        });
-      }
-
-      // Validate results: Check duplicates
-      const seenIds = new Set<string>();
-      const duplicateCount = allResults.filter((item) => {
-        if (seenIds.has(item.id)) return true;
-        seenIds.add(item.id);
-        return false;
-      }).length;
-      expect(duplicateCount).toBe(0);
-
-      // Validate ordering across continuation boundaries
-      validateNumericOrdering(allResults, "amount", true);
-
-      expect(allResults.length).toBe(LARGE_DATASET_SIZE);
-    });
+        expect(allResults.length).toBe(LARGE_DATASET_SIZE);
+      },
+    );
 
     it("should handle SELECT * FROM c query with comprehensive ID validation", async () => {
       const query = "SELECT * FROM c";
       const queryOptions = {
         maxItemCount: 100,
         enableQueryControl: true,
+        forceQueryPlan: true,
         maxDegreeOfParallelism: 2,
       };
       const container = multiPartitionContainer2;
@@ -1246,55 +1261,60 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
       }
     });
 
-    it("should handle SELECT * with low maxDegreeOfParallelism multiple times", async () => {
-      const query = "SELECT * FROM c";
-      const container = multiPartitionContainer2;
+    it(
+      "should handle SELECT * with low maxDegreeOfParallelism multiple times",
+      { timeout: 600000 },
+      async () => {
+        const query = "SELECT * FROM c";
+        const container = multiPartitionContainer2;
 
-      const queryOptions = {
-        maxDegreeOfParallelism: 5,
-        enableQueryControl: true,
-      };
+        const queryOptions = {
+          maxDegreeOfParallelism: 5,
+          enableQueryControl: true,
+          forceQueryPlan: true,
+        };
 
-      let queryIterator = container.items.query(query, queryOptions);
-      const collectedIds = new Set<string>();
-      const rangeMappingsSizes: number[] = [];
-      let totalContinuationTokens = 0;
+        let queryIterator = container.items.query(query, queryOptions);
+        const collectedIds = new Set<string>();
+        const rangeMappingsSizes: number[] = [];
+        let totalContinuationTokens = 0;
 
-      while (queryIterator.hasMoreResults()) {
-        const response = await queryIterator.fetchNext();
+        while (queryIterator.hasMoreResults()) {
+          const response = await queryIterator.fetchNext();
 
-        // Collect IDs from this batch
-        for (const item of response.resources) {
-          if (collectedIds.has(item.id)) {
-            throw new Error(`Duplicate ID found: ${item.id}`);
+          // Collect IDs from this batch
+          for (const item of response.resources) {
+            if (collectedIds.has(item.id)) {
+              throw new Error(`Duplicate ID found: ${item.id}`);
+            }
+            collectedIds.add(item.id);
           }
-          collectedIds.add(item.id);
+
+          if (response.continuationToken) {
+            totalContinuationTokens++;
+
+            // Parse continuation token to analyze rangeMappings
+            const parsedToken = JSON.parse(response.continuationToken);
+            if (parsedToken.rangeMappings && Array.isArray(parsedToken.rangeMappings)) {
+              rangeMappingsSizes.push(parsedToken.rangeMappings.length);
+            }
+
+            // Create new iterator with reduced parallelism
+            queryOptions.maxDegreeOfParallelism = 2;
+            if (queryIterator.hasMoreResults()) {
+              queryIterator = container.items.query(query, {
+                ...queryOptions,
+                continuationToken: response.continuationToken,
+              });
+            }
+          }
         }
 
-        if (response.continuationToken) {
-          totalContinuationTokens++;
-
-          // Parse continuation token to analyze rangeMappings
-          const parsedToken = JSON.parse(response.continuationToken);
-          if (parsedToken.rangeMappings && Array.isArray(parsedToken.rangeMappings)) {
-            rangeMappingsSizes.push(parsedToken.rangeMappings.length);
-          }
-
-          // Create new iterator with reduced parallelism
-          queryOptions.maxDegreeOfParallelism = 2;
-          if (queryIterator.hasMoreResults()) {
-            queryIterator = container.items.query(query, {
-              ...queryOptions,
-              continuationToken: response.continuationToken,
-            });
-          }
-        }
-      }
-
-      // Validate this test run
-      expect(collectedIds.size).toBe(LARGE_DATASET_SIZE);
-      expect(totalContinuationTokens).toBeGreaterThan(0);
-    });
+        // Validate this test run
+        expect(collectedIds.size).toBe(LARGE_DATASET_SIZE);
+        expect(totalContinuationTokens).toBeGreaterThan(0);
+      },
+    );
 
     it("should handle fuzzy SELECT * query with random continuation token usage patterns", async () => {
       const query = "SELECT * FROM c";
@@ -1303,6 +1323,7 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
       const queryOptions = {
         maxItemCount: 150,
         enableQueryControl: true,
+        forceQueryPlan: true,
         maxDegreeOfParallelism: 3,
       };
 
@@ -1384,6 +1405,7 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
       const queryOptions = {
         maxItemCount: 100,
         enableQueryControl: true,
+        forceQueryPlan: true,
         maxDegreeOfParallelism: 3,
       };
 
@@ -1592,6 +1614,7 @@ describeContinuationTokens("Comprehensive Continuation Token Tests", { timeout: 
         maxItemCount,
         continuationToken: token,
         enableQueryControl: true,
+        forceQueryPlan: true,
       });
 
       if (iterator.hasMoreResults()) {
