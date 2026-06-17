@@ -658,7 +658,7 @@ export type {
   ListVersionsOptionalParams as ToolboxListVersionsOptionalParams,
   BetaToolboxesListOptionalParams,
   BetaToolboxesGetOptionalParams,
-  CreateVersionOptionalParams,
+  CreateVersionOptionalParams as ToolboxCreateVersionOptionalParams,
 } from "./api/beta/toolboxes/index.js";
 export type {
   AgentsOperations,
@@ -684,7 +684,6 @@ export type {
   BetaToolboxesOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-
 export type {
   AzureAgentConfig,
   OpenAIClientOptionsWithAzureAgent,
@@ -695,6 +694,5 @@ export type {
   TextResponseFormatConfigurationResponseFormatJsonObject,
   TextResponseFormatConfigurationUnion,
 } from "./deprecate.interface.js";
-
 export type { NodeReadableStream };
 export { isRestError } from "@azure/core-rest-pipeline";
