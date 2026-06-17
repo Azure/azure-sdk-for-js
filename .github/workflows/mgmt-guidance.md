@@ -17,7 +17,7 @@ on:
   # env: vars in steps use the full GitHub Actions expression context —
   # gh-aw's expression allowlist only restricts frontmatter YAML field values.
   steps:
-    - name: Gate — extract PR number and verify all CI checks are complete
+    - name: Gate — verify CI complete and PR has mgmt-review-added label
       id: gate
       uses: actions/github-script@v8
       env:
@@ -36,7 +36,8 @@ on:
             return;
           }
 
-          // check_suite completed = entire ADO pipeline finished (one event, not N)
+          // Only care about Azure Pipelines (ADO) check suites — filters out GitHub Actions
+          // and other CI systems, and exits immediately for all non-mgmt PRs that lack ADO.
           if (!appName.includes('Azure Pipelines')) {
             core.setOutput('ready', 'false');
             return;
@@ -49,6 +50,8 @@ on:
             return;
           }
 
+          // Filter to mgmt PRs only: must have 'mgmt-review-added' label,
+          // which is set exclusively by the mgmt-review agent after it completes.
           const { data: pr } = await github.rest.pulls.get({
             owner: context.repo.owner,
             repo:  context.repo.repo,
@@ -56,12 +59,12 @@ on:
           });
           const labels = (pr.labels || []).map(l => l.name);
           if (!labels.includes('mgmt-review-added')) {
-            core.info(`PR #${prNum} does not have 'mgmt-review-added' label (${labels.join(', ') || 'none'}) — skipping until review completes.`);
+            core.info(`PR #${prNum} does not have 'mgmt-review-added' label (${labels.join(', ') || 'none'}) — not a mgmt PR or review not yet complete.`);
             core.setOutput('ready', 'false');
             return;
           }
 
-          core.info(`check_suite completed on ${headSha} — activating for PR #${prNum}`);
+          core.info(`ADO check suite completed on ${headSha} — activating for mgmt PR #${prNum}`);
           core.setOutput('pr_number', String(prNum));
           core.setOutput('ready', 'true');
 

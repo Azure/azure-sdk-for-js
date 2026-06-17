@@ -1738,6 +1738,8 @@ sdk/postgresqlhsc/arm-postgresqlhsc/ @qiaozha @MaryGao @JialinHuang803
 /.github/workflows/                      @Azure/azure-sdk-eng
 /.github/workflows/mgmt-review.md        @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.github/workflows/mgmt-review.lock.yml  @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.github/workflows/mgmt-guidance.md      @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.github/workflows/mgmt-guidance.lock.yml @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.github/workflows/archie.md             @maorleger @Azure/azure-sdk-for-js-core
 /.github/workflows/archie.lock.yml       @maorleger @Azure/azure-sdk-for-js-core
 /.github/workflows/agent-observability.md             @maorleger @Azure/azure-sdk-for-js-core
