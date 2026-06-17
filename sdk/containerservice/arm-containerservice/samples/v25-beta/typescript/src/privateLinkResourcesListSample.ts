@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to to learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
  *
  * @summary to learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
- * x-ms-original-file: 2026-03-02-preview/PrivateLinkResourcesList.json
+ * x-ms-original-file: 2026-04-02-preview/PrivateLinkResourcesList.json
  */
 async function listPrivateLinkResourcesByManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

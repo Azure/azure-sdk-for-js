@@ -1,5 +1,23 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/operationResults": "./src/api/operationResults/index.ts"
+  "./api/fhirDestinations": "./src/api/fhirDestinations/index.ts"
+  "./api/iotConnectorFhirDestination": "./src/api/iotConnectorFhirDestination/index.ts"
+  "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
+  "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
+  "./api/services": "./src/api/services/index.ts"
+  "./api/fhirServices": "./src/api/fhirServices/index.ts"
+  "./api/iotConnectors": "./src/api/iotConnectors/index.ts"
+  "./api/dicomServices": "./src/api/dicomServices/index.ts"
+  "./api/workspaces": "./src/api/workspaces/index.ts"
+  "./api/workspacePrivateLinkResources": "./src/api/workspacePrivateLinkResources/index.ts"
+  "./api/workspacePrivateEndpointConnections": "./src/api/workspacePrivateEndpointConnections/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

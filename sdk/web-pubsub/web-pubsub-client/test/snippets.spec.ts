@@ -57,6 +57,34 @@ describe("snippets", () => {
     console.log(`Invocation result: ${JSON.stringify(result.data)}`);
   });
 
+  it("ReadmeSampleStreaming", async () => {
+    const client = new WebPubSubClient("<client-access-url>");
+    // @ts-preserve-whitespace
+    // Receiving side: register a factory invoked once per inbound stream. The returned
+    // handler consumes that single stream. Option effects apply independently per stream.
+    client.onGroupStream(
+      (stream) => {
+        const parts: string[] = [];
+        return {
+          onMessage: (e) => parts.push(e.data as string),
+          onComplete: () => console.log(`Stream ${stream.streamId} completed: ${parts.join("")}`),
+          onError: (e) => console.log(`Stream ${stream.streamId} failed: ${e.error?.name}`),
+        };
+      },
+      { handleFromStart: true },
+    );
+    // @ts-preserve-whitespace
+    await client.start();
+    const groupName = "group1";
+    await client.joinGroup(groupName);
+    // @ts-preserve-whitespace
+    // Sending side: write a logical stream in ordered fragments, then end it.
+    const stream = await client.openGroupStream(groupName);
+    await stream.write("hello ", "text");
+    await stream.write("world", "text");
+    await stream.end();
+  });
+
   it("ReadmeSampleNegotiateServer", async () => {
     const app = express();
     const port = 8080;

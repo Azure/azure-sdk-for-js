@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added group streaming support
+
 ### Breaking Changes
 
 ### Bugs Fixed
