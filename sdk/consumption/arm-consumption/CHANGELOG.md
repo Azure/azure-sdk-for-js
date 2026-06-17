@@ -108,8 +108,6 @@ Compared with version 9.2.0
 
 ### Breaking Changes
   - Operation ReservationRecommendationDetails.get has a new signature
-  - Class ConsumptionManagementClient no longer has parameter apiVersion
-  - Class ConsumptionManagementClient no longer has parameter subscriptionId
   - Removed Interface DownloadProperties
   - Removed Interface ErrorDetails
   - Removed Interface Events
@@ -230,7 +228,7 @@ Compared with version 9.2.0
     
 ## 9.0.1 (2022-04-11)
 
-**features**
+### Features Added
 
   - bug fix
 
