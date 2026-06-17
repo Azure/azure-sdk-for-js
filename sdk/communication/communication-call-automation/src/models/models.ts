@@ -237,17 +237,21 @@ interface CustomCallingContextHeader {
 
 /** VOIP header. */
 export interface VoipHeader extends CustomCallingContextHeader {
+  /** Discriminator for VOIP header entries. */
   kind: "voip";
 }
 
 /** SIP User To User header. */
 export interface SipUserToUserHeader extends CustomCallingContextHeader {
+  /** Discriminator for SIP User-To-User header entries. */
   kind: "sipuui";
 }
 
 /** SIP Custom header. */
 export interface SipCustomHeader extends CustomCallingContextHeader {
+  /** Discriminator for SIP custom header entries. */
   kind: "sipx";
+  /** Optional prefix for custom SIP headers. */
   sipHeaderPrefix?: SipHeaderPrefix;
 }
 

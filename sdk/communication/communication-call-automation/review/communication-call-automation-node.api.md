@@ -1515,9 +1515,7 @@ export interface SendDtmfTonesResult {
 //
 // @public
 export interface SipCustomHeader extends CustomCallingContextHeader {
-    // (undocumented)
     kind: "sipx";
-    // (undocumented)
     sipHeaderPrefix?: SipHeaderPrefix;
 }
 
@@ -1526,7 +1524,6 @@ export type SipHeaderPrefix = "X-" | "X-MS-Custom-";
 
 // @public
 export interface SipUserToUserHeader extends CustomCallingContextHeader {
-    // (undocumented)
     kind: "sipuui";
 }
 
@@ -1805,7 +1802,6 @@ export enum VoiceKind {
 
 // @public
 export interface VoipHeader extends CustomCallingContextHeader {
-    // (undocumented)
     kind: "voip";
 }
 
