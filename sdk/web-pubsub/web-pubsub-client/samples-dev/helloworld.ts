@@ -90,7 +90,9 @@ async function main(): Promise<void> {
       },
     };
   };
-  streamReceiver.onGroupStream(groupStreamFactory);
+  // Options are scoped to this registration (per handler); their effects (idle
+  // timeout, handleFromStart gate) apply independently to each observed stream.
+  streamReceiver.onGroupStream(groupStreamFactory, { handleFromStart: true });
 
   await client.start();
   await streamReceiver.start();
@@ -113,27 +115,21 @@ async function main(): Promise<void> {
     fireAndForget: true,
   });
 
-  const firstStream = await client.streamToGroup(groupName, {
-    noEcho: true,
-    streamId: "sample-stream-1",
-  });
-  const secondStream = await client.streamToGroup(groupName, {
-    noEcho: true,
-    streamId: "sample-stream-2",
-  });
-  for (const publisher of [firstStream, secondStream]) {
-    publisher.onError((error) => {
+  const firstStream = await client.openGroupStream(groupName, { noEcho: true });
+  const secondStream = await client.openGroupStream(groupName, { noEcho: true });
+  for (const stream of [firstStream, secondStream]) {
+    stream.onError((error) => {
       console.log(
-        `[publisher:${publisher.streamId}] failed: ${error.name}${error.message ? ` - ${error.message}` : ""}`,
+        `[stream:${stream.streamId}] failed: ${error.name}${error.message ? ` - ${error.message}` : ""}`,
       );
     });
   }
-  await firstStream.publish("first stream part 1; ", "text");
-  await secondStream.publish("second stream part 1; ", "text");
-  await firstStream.publish("first stream part 2", "text");
-  await secondStream.publish("second stream part 2", "text");
-  await secondStream.complete();
-  await firstStream.complete();
+  await firstStream.write("first stream part 1; ", "text");
+  await secondStream.write("second stream part 1; ", "text");
+  await firstStream.write("first stream part 2", "text");
+  await secondStream.write("second stream part 2", "text");
+  await secondStream.end();
+  await firstStream.end();
 
   await delay(1000);
   streamReceiver.offGroupStream(groupStreamFactory);
