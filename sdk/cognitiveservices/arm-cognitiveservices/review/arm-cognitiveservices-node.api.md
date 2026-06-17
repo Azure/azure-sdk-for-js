@@ -4,15 +4,17 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AADAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
@@ -158,7 +160,6 @@ export interface AccountProperties {
     encryption?: Encryption;
     readonly endpoint?: string;
     readonly endpoints?: Record<string, string>;
-    foundryAutoUpgrade?: FoundryAutoUpgrade;
     readonly internalId?: string;
     readonly isMigrated?: boolean;
     locations?: MultiRegionSettings;
@@ -644,7 +645,6 @@ export class CognitiveServicesManagementClient {
     checkSkuAvailability(location: string, skus: string[], typeParam: string, kind: string, options?: CheckSkuAvailabilityOptionalParams): Promise<SkuAvailabilityListResult>;
     readonly commitmentPlans: CommitmentPlansOperations;
     readonly commitmentTiers: CommitmentTiersOperations;
-    readonly computeOperations: ComputeOperationsOperations;
     readonly defenderForAISettings: DefenderForAISettingsOperations;
     readonly deletedAccounts: DeletedAccountsOperations;
     readonly deployments: DeploymentsOperations;
@@ -874,31 +874,6 @@ export interface CommitmentTiersListOptionalParams extends OperationOptions {
 export interface CommitmentTiersOperations {
     list: (location: string, options?: CommitmentTiersListOptionalParams) => PagedAsyncIterableIterator<CommitmentTier>;
 }
-
-// @public
-export interface ComputeOperationsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ComputeOperationsOperations {
-    get: (location: string, operationId: string, options?: ComputeOperationsGetOptionalParams) => Promise<ComputeOperationStatus>;
-}
-
-// @public
-export interface ComputeOperationStatus extends ProxyResource {
-    properties?: ComputeOperationStatusProperties;
-}
-
-// @public
-export interface ComputeOperationStatusProperties {
-    readonly endTime?: Date;
-    error?: ErrorDetail;
-    readonly startTime?: Date;
-    status?: ComputeOperationStatusType;
-}
-
-// @public
-export type ComputeOperationStatusType = string;
 
 // @public
 export interface ConnectionAccessKey {
@@ -1327,17 +1302,6 @@ export interface ErrorResponse {
 export type FirewallSku = string;
 
 // @public
-export interface FoundryAutoUpgrade {
-    mode?: FoundryAutoUpgradeMode;
-    plannedByMicrosoft?: boolean;
-    scheduledAt?: Date;
-    statusReason?: string;
-}
-
-// @public
-export type FoundryAutoUpgradeMode = string;
-
-// @public
 export interface FqdnOutboundRule extends OutboundRule {
     // (undocumented)
     destination?: string;
@@ -1378,6 +1342,8 @@ export interface IpRule {
 
 // @public
 export type IsolationMode = string;
+
+export { isRestError }
 
 // @public
 export type KeyName = "Key1" | "Key2";
@@ -1488,14 +1454,6 @@ export enum KnownCommitmentPlanProvisioningState {
     Deleting = "Deleting",
     Failed = "Failed",
     Moving = "Moving",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownComputeOperationStatusType {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    InProgress = "InProgress",
     Succeeded = "Succeeded"
 }
 
@@ -1739,12 +1697,6 @@ export enum KnownFirewallSku {
 }
 
 // @public
-export enum KnownFoundryAutoUpgradeMode {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
 export enum KnownHostingModel {
     ConnectedContainer = "ConnectedContainer",
     DisconnectedContainer = "DisconnectedContainer",
@@ -1890,14 +1842,6 @@ export enum KnownPublicNetworkAccess {
 }
 
 // @public
-export enum KnownQuotaScopeType {
-    Classic = "Classic",
-    DataZone = "DataZone",
-    Global = "Global",
-    Regional = "Regional"
-}
-
-// @public
 export enum KnownQuotaUsageStatus {
     Blocked = "Blocked",
     Included = "Included",
@@ -2039,9 +1983,8 @@ export enum KnownUpgradeAvailabilityStatus {
 
 // @public
 export enum KnownVersions {
-    V20251001Preview = "2025-10-01-preview",
     V20251201 = "2025-12-01",
-    V20260115Preview = "2026-01-15-preview"
+    V20260301 = "2026-03-01"
 }
 
 // @public
@@ -2250,8 +2193,6 @@ export interface ModelSkuCapacityProperties {
     availableCapacity?: number;
     availableFinetuneCapacity?: number;
     model?: DeploymentModel;
-    scopeId?: string;
-    scopeType?: QuotaScopeType;
     // (undocumented)
     skuName?: string;
 }
@@ -2804,9 +2745,6 @@ export interface QuotaLimit {
 }
 
 // @public
-export type QuotaScopeType = string;
-
-// @public
 export interface QuotaTier extends ProxyResource {
     properties?: QuotaTierProperties;
 }
@@ -3305,6 +3243,8 @@ export interface ResourceSkusOperations {
     list: (options?: ResourceSkusListOptionalParams) => PagedAsyncIterableIterator<ResourceSku>;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: CognitiveServicesManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -3533,8 +3473,6 @@ export interface Usage {
     name?: MetricName;
     nextResetTime?: string;
     quotaPeriod?: string;
-    scopeId?: string;
-    scopeType?: QuotaScopeType;
     status?: QuotaUsageStatus;
     unit?: UnitType;
 }
