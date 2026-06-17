@@ -29,8 +29,7 @@
   "dependencies": {
     "@azure/notification-hubs": "latest",
     "dotenv": "latest",
-    "@azure/core-util": "latest",
-    "@azure/core-rest-pipeline": "latest"
+    "@azure/core-util": "latest"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

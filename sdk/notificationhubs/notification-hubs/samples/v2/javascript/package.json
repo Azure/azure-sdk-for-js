@@ -25,8 +25,7 @@
   "dependencies": {
     "@azure/notification-hubs": "latest",
     "dotenv": "latest",
-    "@azure/core-util": "latest",
-    "@azure/core-rest-pipeline": "latest"
+    "@azure/core-util": "latest"
   },
   "devDependencies": {
     "cross-env": "latest"
