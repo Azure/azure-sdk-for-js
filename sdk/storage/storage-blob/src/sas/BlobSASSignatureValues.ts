@@ -645,7 +645,7 @@ function generateBlobSASQueryParameters20181109(
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
- * IMPLEMENTATION FOR API VERSION FROM 2018-11-09.
+ * IMPLEMENTATION FOR API VERSION FROM 2020-02-10.
  *
  * Creates an instance of SASQueryParameters.
  *
