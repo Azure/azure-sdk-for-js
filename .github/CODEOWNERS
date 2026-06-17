@@ -518,7 +518,7 @@
 # PRLabel: %Mgmt
 /sdk/datalake-analytics/arm-datalake-analytics/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/datamigration/arm-datamigration/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
