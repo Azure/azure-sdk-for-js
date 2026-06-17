@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import { list } from "../../api/backupInstancesExtensionRouting/operations.js";
-import type { BackupInstancesExtensionRoutingListOptionalParams } from "../../api/backupInstancesExtensionRouting/options.js";
-import type { BackupInstanceResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { BackupInstancesExtensionRoutingListOptionalParams } from "../../api/backupInstancesExtensionRouting/options.js";
+import { BackupInstanceResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BackupInstancesExtensionRouting operations. */
 export interface BackupInstancesExtensionRoutingOperations {

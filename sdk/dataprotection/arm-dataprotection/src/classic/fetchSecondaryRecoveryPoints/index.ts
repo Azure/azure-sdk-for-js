@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import { list } from "../../api/fetchSecondaryRecoveryPoints/operations.js";
-import type { FetchSecondaryRecoveryPointsListOptionalParams } from "../../api/fetchSecondaryRecoveryPoints/options.js";
-import type {
+import { FetchSecondaryRecoveryPointsListOptionalParams } from "../../api/fetchSecondaryRecoveryPoints/options.js";
+import {
   AzureBackupRecoveryPointResource,
   FetchSecondaryRPsRequestParameters,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a FetchSecondaryRecoveryPoints operations. */
 export interface FetchSecondaryRecoveryPointsOperations {

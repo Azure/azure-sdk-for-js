@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
+import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
 import {
   migrate,
   listBySubscription,
@@ -11,7 +11,7 @@ import {
   createOrReplace,
   get,
 } from "../../api/namespaces/operations.js";
-import type {
+import {
   NamespacesMigrateOptionalParams,
   NamespacesListBySubscriptionOptionalParams,
   NamespacesListByResourceGroupOptionalParams,
@@ -20,9 +20,9 @@ import type {
   NamespacesCreateOrReplaceOptionalParams,
   NamespacesGetOptionalParams,
 } from "../../api/namespaces/options.js";
-import type { Namespace, NamespaceUpdate, NamespaceMigrateRequest } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Namespace, NamespaceUpdate, NamespaceMigrateRequest } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Namespaces operations. */
 export interface NamespacesOperations {
@@ -43,11 +43,6 @@ export interface NamespacesOperations {
     options?: NamespacesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Namespace>;
   /** Delete a Namespace */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     namespaceName: string,

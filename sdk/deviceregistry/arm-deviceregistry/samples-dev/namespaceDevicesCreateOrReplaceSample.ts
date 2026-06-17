@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a NamespaceDevice
  *
  * @summary create a NamespaceDevice
- * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_NamespaceDevice.json
+ * x-ms-original-file: 2026-11-01-preview/CreateOrReplace_NamespaceDevice.json
  */
 async function createOrReplaceNamespaceDevices(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -43,7 +43,7 @@ async function createOrReplaceNamespaceDevices(): Promise<void> {
  * This sample demonstrates how to create a NamespaceDevice
  *
  * @summary create a NamespaceDevice
- * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_NamespaceDevice_Edge_Anonymous.json
+ * x-ms-original-file: 2026-11-01-preview/CreateOrReplace_NamespaceDevice_Edge_Anonymous.json
  */
 async function createEdgeEnabledDeviceWithAnonymousHostAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -83,7 +83,7 @@ async function createEdgeEnabledDeviceWithAnonymousHostAuthentication(): Promise
  * This sample demonstrates how to create a NamespaceDevice
  *
  * @summary create a NamespaceDevice
- * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_NamespaceDevice_Edge_UsernamePass.json
+ * x-ms-original-file: 2026-11-01-preview/CreateOrReplace_NamespaceDevice_Edge_UsernamePass.json
  */
 async function createEdgeEnabledDeviceWithUsernamesPasswordInboundAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -129,7 +129,7 @@ async function createEdgeEnabledDeviceWithUsernamesPasswordInboundAuthentication
  * This sample demonstrates how to create a NamespaceDevice
  *
  * @summary create a NamespaceDevice
- * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_NamespaceDevice_Edge_x509.json
+ * x-ms-original-file: 2026-11-01-preview/CreateOrReplace_NamespaceDevice_Edge_x509.json
  */
 async function createEdgeEnabledDeviceWithX509InboundAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();

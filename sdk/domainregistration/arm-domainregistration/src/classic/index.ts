@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { DomainRegistrationProviderOperations } from "./domainRegistrationProvider/index.js";
-export { DomainsOperations } from "./domains/index.js";
-export { TopLevelDomainsOperations } from "./topLevelDomains/index.js";
+export type { DomainRegistrationProviderOperations } from "./domainRegistrationProvider/index.js";
+export type { DomainsOperations } from "./domains/index.js";
+export type { TopLevelDomainsOperations } from "./topLevelDomains/index.js";

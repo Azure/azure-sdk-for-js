@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DomainRegistrationManagementContext } from "../../api/domainRegistrationManagementContext.js";
+import { DomainRegistrationManagementContext } from "../../api/domainRegistrationManagementContext.js";
 import {
   listRecommendations,
   getControlCenterSsoRequest,
@@ -20,7 +20,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/domains/operations.js";
-import type {
+import {
   DomainsListRecommendationsOptionalParams,
   DomainsGetControlCenterSsoRequestOptionalParams,
   DomainsCheckAvailabilityOptionalParams,
@@ -38,7 +38,7 @@ import type {
   DomainsCreateOrUpdateOptionalParams,
   DomainsGetOptionalParams,
 } from "../../api/domains/options.js";
-import type {
+import {
   Domain,
   DomainPatchResource,
   DomainOwnershipIdentifier,
@@ -47,8 +47,8 @@ import type {
   DomainControlCenterSsoRequest,
   DomainRecommendationSearchParameters,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Domains operations. */
 export interface DomainsOperations {
@@ -122,11 +122,6 @@ export interface DomainsOperations {
     options?: DomainsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Domain>;
   /** Description for Delete a domain. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     domainName: string,

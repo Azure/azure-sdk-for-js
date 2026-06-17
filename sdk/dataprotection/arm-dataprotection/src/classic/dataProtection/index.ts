@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import { checkFeatureSupport } from "../../api/dataProtection/operations.js";
-import type { DataProtectionCheckFeatureSupportOptionalParams } from "../../api/dataProtection/options.js";
-import type {
+import { DataProtectionCheckFeatureSupportOptionalParams } from "../../api/dataProtection/options.js";
+import {
   FeatureValidationRequestBaseUnion,
   FeatureValidationResponseBaseUnion,
 } from "../../models/models.js";

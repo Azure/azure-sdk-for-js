@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeviceRegistryManagementClient } from "./deviceRegistryManagementClient.js";
+import { DeviceRegistryManagementClient } from "./deviceRegistryManagementClient.js";
 import { _$deleteDeserialize } from "./api/schemaVersions/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeSchemas } from "./api/schemas/operations.js";
 import {
@@ -20,29 +20,16 @@ import {
   _createOrReplaceDeserialize as _createOrReplaceDeserializeNamespaceDiscoveredAssets,
 } from "./api/namespaceDiscoveredAssets/operations.js";
 import {
-  _revokeDeserialize,
   _$deleteDeserialize as _$deleteDeserializeNamespaceDevices,
   _updateDeserialize as _updateDeserializeNamespaceDevices,
   _createOrReplaceDeserialize as _createOrReplaceDeserializeNamespaceDevices,
 } from "./api/namespaceDevices/operations.js";
 import {
+  _executeActionDeserialize,
   _$deleteDeserialize as _$deleteDeserializeNamespaceAssets,
   _updateDeserialize as _updateDeserializeNamespaceAssets,
   _createOrReplaceDeserialize as _createOrReplaceDeserializeNamespaceAssets,
 } from "./api/namespaceAssets/operations.js";
-import {
-  _activateBringYourOwnRootDeserialize,
-  _revokeIssuerDeserialize,
-  _updateDeserialize as _updateDeserializePolicies,
-  _$deleteDeserialize as _$deleteDeserializePolicies,
-  _createOrUpdateDeserialize,
-} from "./api/policies/operations.js";
-import {
-  _synchronizeDeserialize,
-  _updateDeserialize as _updateDeserializeCredentials,
-  _$deleteDeserialize as _$deleteDeserializeCredentials,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeCredentials,
-} from "./api/credentials/operations.js";
 import {
   _migrateDeserialize,
   _$deleteDeserialize as _$deleteDeserializeNamespaces,
@@ -60,10 +47,14 @@ import {
   _createOrReplaceDeserialize as _createOrReplaceDeserializeAssets,
 } from "./api/assets/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
-import { deserializeState } from "@azure/core-lro";
+import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  PollerLike,
+  OperationState,
+  deserializeState,
+  ResourceLocationConfig,
+} from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -170,8 +161,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrReplaceDeserializeNamespaceDiscoveredAssets,
       expectedStatuses: ["200", "201", "202"],
     },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/devices/{deviceName}/revoke":
-    { deserializer: _revokeDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/devices/{deviceName}":
     { deserializer: _$deleteDeserializeNamespaceDevices, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/devices/{deviceName}":
@@ -181,6 +170,8 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrReplaceDeserializeNamespaceDevices,
       expectedStatuses: ["200", "201", "202"],
     },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/assets/{assetName}/executeAction":
+    { deserializer: _executeActionDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/assets/{assetName}":
     { deserializer: _$deleteDeserializeNamespaceAssets, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/assets/{assetName}":
@@ -190,32 +181,8 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrReplaceDeserializeNamespaceAssets,
       expectedStatuses: ["200", "201", "202"],
     },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/credentials/default/policies/{policyName}/activateBringYourOwnRoot":
-    {
-      deserializer: _activateBringYourOwnRootDeserialize,
-      expectedStatuses: ["202", "204", "200", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/credentials/default/policies/{policyName}/revokeIssuer":
-    { deserializer: _revokeIssuerDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/credentials/default/policies/{policyName}":
-    { deserializer: _updateDeserializePolicies, expectedStatuses: ["200", "202", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/credentials/default/policies/{policyName}":
-    { deserializer: _$deleteDeserializePolicies, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/credentials/default/policies/{policyName}":
-    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/credentials/default/synchronize":
-    { deserializer: _synchronizeDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/credentials/default":
-    { deserializer: _updateDeserializeCredentials, expectedStatuses: ["200", "202", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/credentials/default":
-    { deserializer: _$deleteDeserializeCredentials, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/credentials/default":
-    {
-      deserializer: _createOrUpdateDeserializeCredentials,
-      expectedStatuses: ["200", "201", "202"],
-    },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/migrate":
-    { deserializer: _migrateDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _migrateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}":
     { deserializer: _$deleteDeserializeNamespaces, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}":

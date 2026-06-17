@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Asset resources by resource group
  *
  * @summary list Asset resources by resource group
- * x-ms-original-file: 2026-03-01-preview/List_Assets_ByResourceGroup.json
+ * x-ms-original-file: 2026-11-01-preview/List_Assets_ByResourceGroup.json
  */
 async function listAssetsByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

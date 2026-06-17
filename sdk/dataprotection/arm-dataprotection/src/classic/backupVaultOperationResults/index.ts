@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import { get } from "../../api/backupVaultOperationResults/operations.js";
-import type { BackupVaultOperationResultsGetOptionalParams } from "../../api/backupVaultOperationResults/options.js";
-import type { BackupVaultResource } from "../../models/models.js";
+import { BackupVaultOperationResultsGetOptionalParams } from "../../api/backupVaultOperationResults/options.js";
+import { BackupVaultResource } from "../../models/models.js";
 
 /** Interface representing a BackupVaultOperationResults operations. */
 export interface BackupVaultOperationResultsOperations {
@@ -14,7 +14,7 @@ export interface BackupVaultOperationResultsOperations {
     vaultName: string,
     operationId: string,
     options?: BackupVaultOperationResultsGetOptionalParams,
-  ) => Promise<BackupVaultResource>;
+  ) => Promise<BackupVaultResource | undefined>;
 }
 
 function _getBackupVaultOperationResults(context: DataProtectionContext) {

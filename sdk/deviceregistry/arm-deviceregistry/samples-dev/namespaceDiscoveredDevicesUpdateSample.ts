@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a NamespaceDiscoveredDevice
  *
  * @summary update a NamespaceDiscoveredDevice
- * x-ms-original-file: 2026-03-01-preview/Update_NamespaceDiscoveredDevice.json
+ * x-ms-original-file: 2026-11-01-preview/Update_NamespaceDiscoveredDevice.json
  */
 async function updateNamespaceDiscoveredDevice(): Promise<void> {
   const credential = new DefaultAzureCredential();

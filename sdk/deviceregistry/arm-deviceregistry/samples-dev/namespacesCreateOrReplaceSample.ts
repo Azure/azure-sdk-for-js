@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Namespace
  *
  * @summary create a Namespace
- * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_Namespace_With_Endpoints.json
+ * x-ms-original-file: 2026-11-01-preview/CreateOrReplace_Namespace_With_Endpoints.json
  */
 async function createOrReplaceNamespaceWithEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
