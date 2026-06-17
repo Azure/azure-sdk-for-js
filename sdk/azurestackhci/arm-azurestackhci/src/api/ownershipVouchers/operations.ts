@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureStackHCIContext as Client } from "../index.js";
-import type {
-  ValidateOwnershipVouchersRequest,
-  ValidateOwnershipVouchersResponse,
-} from "../../models/models.js";
+import { AzureStackHCIContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ValidateOwnershipVouchersRequest,
   validateOwnershipVouchersRequestSerializer,
+  ValidateOwnershipVouchersResponse,
   validateOwnershipVouchersResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { OwnershipVouchersValidateOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { OwnershipVouchersValidateOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _validateSend(
   context: Client,
@@ -35,12 +37,14 @@ export function _validateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: validateOwnershipVouchersRequestSerializer(validationRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: validateOwnershipVouchersRequestSerializer(validationRequest),
+    });
 }
 
 export async function _validateDeserialize(
@@ -49,7 +53,9 @@ export async function _validateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

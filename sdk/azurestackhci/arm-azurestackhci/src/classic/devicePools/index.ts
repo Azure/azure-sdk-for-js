@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import {
   releaseDevices,
   claimDevices,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/devicePools/operations.js";
-import type {
+import {
   DevicePoolsReleaseDevicesOptionalParams,
   DevicePoolsClaimDevicesOptionalParams,
   DevicePoolsListBySubscriptionOptionalParams,
@@ -22,16 +22,15 @@ import type {
   DevicePoolsCreateOrUpdateOptionalParams,
   DevicePoolsGetOptionalParams,
 } from "../../api/devicePools/options.js";
-import type {
+import {
   DevicePool,
   DevicePoolPatch,
   ClaimDeviceRequest,
   ReleaseDeviceRequest,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DevicePools operations. */
 export interface DevicePoolsOperations {
@@ -108,11 +107,6 @@ export interface DevicePoolsOperations {
     options?: DevicePoolsUpdateOptionalParams,
   ) => Promise<DevicePool>;
   /** Delete a DevicePool */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     devicePoolName: string,

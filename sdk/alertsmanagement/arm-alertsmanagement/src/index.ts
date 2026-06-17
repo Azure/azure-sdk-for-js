@@ -114,3 +114,4 @@ export type { AlertsOperations, OperationsOperations } from "./classic/index.js"
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -1,26 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import { $delete, createOrUpdate, get, list } from "../../api/pureStoragePolicies/operations.js";
-import type {
+import {
   PureStoragePoliciesDeleteOptionalParams,
   PureStoragePoliciesCreateOrUpdateOptionalParams,
   PureStoragePoliciesGetOptionalParams,
   PureStoragePoliciesListOptionalParams,
 } from "../../api/pureStoragePolicies/options.js";
-import type { PureStoragePolicy } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PureStoragePolicy } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PureStoragePolicies operations. */
 export interface PureStoragePoliciesOperations {
   /** Delete a PureStoragePolicy */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     privateCloudName: string,

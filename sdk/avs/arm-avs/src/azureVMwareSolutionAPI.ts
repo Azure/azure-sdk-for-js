@@ -1,61 +1,77 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   AzureVMwareSolutionAPIContext,
   AzureVMwareSolutionAPIOptionalParams,
+  createAzureVMwareSolutionAPI,
 } from "./api/index.js";
-import { createAzureVMwareSolutionAPI } from "./api/index.js";
-import type { AddonsOperations } from "./classic/addons/index.js";
-import { _getAddonsOperations } from "./classic/addons/index.js";
-import type { AuthorizationsOperations } from "./classic/authorizations/index.js";
-import { _getAuthorizationsOperations } from "./classic/authorizations/index.js";
-import type { CloudLinksOperations } from "./classic/cloudLinks/index.js";
-import { _getCloudLinksOperations } from "./classic/cloudLinks/index.js";
-import type { ClustersOperations } from "./classic/clusters/index.js";
-import { _getClustersOperations } from "./classic/clusters/index.js";
-import type { DatastoresOperations } from "./classic/datastores/index.js";
-import { _getDatastoresOperations } from "./classic/datastores/index.js";
-import type { GlobalReachConnectionsOperations } from "./classic/globalReachConnections/index.js";
-import { _getGlobalReachConnectionsOperations } from "./classic/globalReachConnections/index.js";
-import type { HcxEnterpriseSitesOperations } from "./classic/hcxEnterpriseSites/index.js";
-import { _getHcxEnterpriseSitesOperations } from "./classic/hcxEnterpriseSites/index.js";
-import type { HostsOperations } from "./classic/hosts/index.js";
-import { _getHostsOperations } from "./classic/hosts/index.js";
-import type { IscsiPathsOperations } from "./classic/iscsiPaths/index.js";
-import { _getIscsiPathsOperations } from "./classic/iscsiPaths/index.js";
-import type { LicensesOperations } from "./classic/licenses/index.js";
-import { _getLicensesOperations } from "./classic/licenses/index.js";
-import type { LocationsOperations } from "./classic/locations/index.js";
-import { _getLocationsOperations } from "./classic/locations/index.js";
-import type { MaintenancesOperations } from "./classic/maintenances/index.js";
-import { _getMaintenancesOperations } from "./classic/maintenances/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PlacementPoliciesOperations } from "./classic/placementPolicies/index.js";
-import { _getPlacementPoliciesOperations } from "./classic/placementPolicies/index.js";
-import type { PrivateCloudsOperations } from "./classic/privateClouds/index.js";
-import { _getPrivateCloudsOperations } from "./classic/privateClouds/index.js";
-import type { ProvisionedNetworksOperations } from "./classic/provisionedNetworks/index.js";
-import { _getProvisionedNetworksOperations } from "./classic/provisionedNetworks/index.js";
-import type { PureStoragePoliciesOperations } from "./classic/pureStoragePolicies/index.js";
-import { _getPureStoragePoliciesOperations } from "./classic/pureStoragePolicies/index.js";
-import type { ScriptCmdletsOperations } from "./classic/scriptCmdlets/index.js";
-import { _getScriptCmdletsOperations } from "./classic/scriptCmdlets/index.js";
-import type { ScriptExecutionsOperations } from "./classic/scriptExecutions/index.js";
-import { _getScriptExecutionsOperations } from "./classic/scriptExecutions/index.js";
-import type { ScriptPackagesOperations } from "./classic/scriptPackages/index.js";
-import { _getScriptPackagesOperations } from "./classic/scriptPackages/index.js";
-import type { SkusOperations } from "./classic/skus/index.js";
-import { _getSkusOperations } from "./classic/skus/index.js";
-import type { VirtualMachinesOperations } from "./classic/virtualMachines/index.js";
-import { _getVirtualMachinesOperations } from "./classic/virtualMachines/index.js";
-import type { WorkloadNetworksOperations } from "./classic/workloadNetworks/index.js";
-import { _getWorkloadNetworksOperations } from "./classic/workloadNetworks/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { AddonsOperations, _getAddonsOperations } from "./classic/addons/index.js";
+import {
+  AuthorizationsOperations,
+  _getAuthorizationsOperations,
+} from "./classic/authorizations/index.js";
+import { CloudLinksOperations, _getCloudLinksOperations } from "./classic/cloudLinks/index.js";
+import { ClustersOperations, _getClustersOperations } from "./classic/clusters/index.js";
+import { DatastoresOperations, _getDatastoresOperations } from "./classic/datastores/index.js";
+import {
+  GlobalReachConnectionsOperations,
+  _getGlobalReachConnectionsOperations,
+} from "./classic/globalReachConnections/index.js";
+import {
+  HcxEnterpriseSitesOperations,
+  _getHcxEnterpriseSitesOperations,
+} from "./classic/hcxEnterpriseSites/index.js";
+import { HostsOperations, _getHostsOperations } from "./classic/hosts/index.js";
+import { IscsiPathsOperations, _getIscsiPathsOperations } from "./classic/iscsiPaths/index.js";
+import { LicensesOperations, _getLicensesOperations } from "./classic/licenses/index.js";
+import { LocationsOperations, _getLocationsOperations } from "./classic/locations/index.js";
+import {
+  MaintenancesOperations,
+  _getMaintenancesOperations,
+} from "./classic/maintenances/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PlacementPoliciesOperations,
+  _getPlacementPoliciesOperations,
+} from "./classic/placementPolicies/index.js";
+import {
+  PrivateCloudsOperations,
+  _getPrivateCloudsOperations,
+} from "./classic/privateClouds/index.js";
+import {
+  ProvisionedNetworksOperations,
+  _getProvisionedNetworksOperations,
+} from "./classic/provisionedNetworks/index.js";
+import {
+  PureStoragePoliciesOperations,
+  _getPureStoragePoliciesOperations,
+} from "./classic/pureStoragePolicies/index.js";
+import {
+  ScriptCmdletsOperations,
+  _getScriptCmdletsOperations,
+} from "./classic/scriptCmdlets/index.js";
+import {
+  ScriptExecutionsOperations,
+  _getScriptExecutionsOperations,
+} from "./classic/scriptExecutions/index.js";
+import {
+  ScriptPackagesOperations,
+  _getScriptPackagesOperations,
+} from "./classic/scriptPackages/index.js";
+import { SkusOperations, _getSkusOperations } from "./classic/skus/index.js";
+import {
+  VirtualMachinesOperations,
+  _getVirtualMachinesOperations,
+} from "./classic/virtualMachines/index.js";
+import {
+  WorkloadNetworksOperations,
+  _getWorkloadNetworksOperations,
+} from "./classic/workloadNetworks/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type AzureVMwareSolutionAPIOptionalParams } from "./api/azureVMwareSolutionAPIContext.js";
+export type { AzureVMwareSolutionAPIOptionalParams } from "./api/azureVMwareSolutionAPIContext.js";
 
 export class AzureVMwareSolutionAPI {
   private _client: AzureVMwareSolutionAPIContext;
