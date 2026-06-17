@@ -636,7 +636,11 @@ export class SASQueryParameters {
           this.tryAppendQueryParameter(queries, param, this.requestQueryParameterKeys);
           break;
         case "sdd": // Directory depth
-          this.tryAppendQueryParameter(queries, param, this.directoryDepth !== undefined ? this.directoryDepth.toString() : "");
+          this.tryAppendQueryParameter(
+            queries,
+            param,
+            this.directoryDepth !== undefined ? this.directoryDepth.toString() : "",
+          );
           break;
       }
     }
