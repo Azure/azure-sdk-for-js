@@ -41,7 +41,7 @@ export function edgeActionDeserializer(item: any): EdgeAction {
     properties: !item["properties"]
       ? item["properties"]
       : edgeActionPropertiesDeserializer(item["properties"]),
-    sku: !item["sku"] ? item["sku"] : skuTypeDeserializer(item["sku"]),
+    sku: skuTypeDeserializer(item["sku"]),
   };
 }
 
@@ -53,16 +53,14 @@ export interface EdgeActionProperties {
   readonly attachments: EdgeActionAttachment[];
 }
 
-export function edgeActionPropertiesSerializer(item: EdgeActionProperties): any {
-  return item;
+export function edgeActionPropertiesSerializer(_item: EdgeActionProperties): any {
+  return {};
 }
 
 export function edgeActionPropertiesDeserializer(item: any): EdgeActionProperties {
   return {
     provisioningState: item["provisioningState"],
-    attachments: !item["attachments"]
-      ? item["attachments"]
-      : edgeActionAttachmentArrayDeserializer(item["attachments"]),
+    attachments: edgeActionAttachmentArrayDeserializer(item["attachments"]),
   };
 }
 
@@ -172,8 +170,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -328,8 +326,8 @@ export function edgeActionUpdateSerializer(item: EdgeActionUpdate): any {
 /** Represents an edge action properties */
 export interface EdgeActionPropertiesUpdate {}
 
-export function edgeActionPropertiesUpdateSerializer(item: EdgeActionPropertiesUpdate): any {
-  return item;
+export function edgeActionPropertiesUpdateSerializer(_item: EdgeActionPropertiesUpdate): any {
+  return {};
 }
 
 /** The SKU type for update operations */
@@ -716,7 +714,7 @@ export function edgeActionExecutionFilterArrayDeserializer(
 /** Known values of {@link Versions} that the service accepts. */
 export enum KnownVersions {
   /** 2025-09-01-preview */
-  _20250901Preview = "2025-09-01-preview",
+  V20250901Preview = "2025-09-01-preview",
   /** 2025-12-01-preview */
-  _20251201Preview = "2025-12-01-preview",
+  V20251201Preview = "2025-12-01-preview",
 }

@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DurableTaskContext } from "../../api/durableTaskContext.js";
+import { DurableTaskContext } from "../../api/durableTaskContext.js";
 import { listByScheduler, $delete, createOrUpdate, get } from "../../api/taskHubs/operations.js";
-import type {
+import {
   TaskHubsListBySchedulerOptionalParams,
   TaskHubsDeleteOptionalParams,
   TaskHubsCreateOrUpdateOptionalParams,
   TaskHubsGetOptionalParams,
 } from "../../api/taskHubs/options.js";
-import type { TaskHub } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { TaskHub } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a TaskHubs operations. */
 export interface TaskHubsOperations {
@@ -22,11 +22,6 @@ export interface TaskHubsOperations {
     options?: TaskHubsListBySchedulerOptionalParams,
   ) => PagedAsyncIterableIterator<TaskHub>;
   /** Delete a Task Hub */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     schedulerName: string,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
+import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
 import {
   synchronize,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/credentials/operations.js";
-import type {
+import {
   CredentialsSynchronizeOptionalParams,
   CredentialsListByResourceGroupOptionalParams,
   CredentialsUpdateOptionalParams,
@@ -18,9 +18,9 @@ import type {
   CredentialsCreateOrUpdateOptionalParams,
   CredentialsGetOptionalParams,
 } from "../../api/credentials/options.js";
-import type { Credential, CredentialUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Credential, CredentialUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Credentials operations. */
 export interface CredentialsOperations {
@@ -44,11 +44,6 @@ export interface CredentialsOperations {
     options?: CredentialsUpdateOptionalParams,
   ) => PollerLike<OperationState<Credential>, Credential>;
   /** Delete a Credential */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     namespaceName: string,

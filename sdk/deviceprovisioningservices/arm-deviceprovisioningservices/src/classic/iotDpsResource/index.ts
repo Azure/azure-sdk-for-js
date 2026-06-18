@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IotDpsContext } from "../../api/iotDpsContext.js";
+import { IotDpsContext } from "../../api/iotDpsContext.js";
 import {
   checkProvisioningServiceNameAvailability,
   listPrivateEndpointConnections,
@@ -21,7 +21,7 @@ import {
   get,
   getOperationResult,
 } from "../../api/iotDpsResource/operations.js";
-import type {
+import {
   IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams,
   IotDpsResourceListPrivateEndpointConnectionsOptionalParams,
   IotDpsResourceDeletePrivateEndpointConnectionOptionalParams,
@@ -40,7 +40,7 @@ import type {
   IotDpsResourceGetOptionalParams,
   IotDpsResourceGetOperationResultOptionalParams,
 } from "../../api/iotDpsResource/options.js";
-import type {
+import {
   AsyncOperationResult,
   ProvisioningServiceDescription,
   PrivateEndpointConnection,
@@ -51,8 +51,8 @@ import type {
   OperationInputs,
   NameAvailabilityInfo,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a IotDpsResource operations. */
 export interface IotDpsResourceOperations {
@@ -104,21 +104,21 @@ export interface IotDpsResourceOperations {
   ) => Promise<GroupIdInformation>;
   /** List primary and secondary keys for a specific key name */
   listKeysForKeyName: (
+    resourceGroupName: string,
     provisioningServiceName: string,
     keyName: string,
-    resourceGroupName: string,
     options?: IotDpsResourceListKeysForKeyNameOptionalParams,
   ) => Promise<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>;
   /** List the primary and secondary keys for a provisioning service. */
   listKeys: (
-    provisioningServiceName: string,
     resourceGroupName: string,
+    provisioningServiceName: string,
     options?: IotDpsResourceListKeysOptionalParams,
   ) => PagedAsyncIterableIterator<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>;
   /** Gets the list of valid SKUs and tiers for a provisioning service. */
   listValidSkus: (
-    provisioningServiceName: string,
     resourceGroupName: string,
+    provisioningServiceName: string,
     options?: IotDpsResourceListValidSkusOptionalParams,
   ) => PagedAsyncIterableIterator<IotDpsSkuDefinition>;
   /** List all the provisioning services for a given subscription id. */
@@ -131,11 +131,6 @@ export interface IotDpsResourceOperations {
     options?: IotDpsResourceListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ProvisioningServiceDescription>;
   /** Deletes the Provisioning Service. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     provisioningServiceName: string,
@@ -163,9 +158,9 @@ export interface IotDpsResourceOperations {
   ) => Promise<ProvisioningServiceDescription>;
   /** Gets the status of a long running operation, such as create, update or delete a provisioning service. */
   getOperationResult: (
-    operationId: string,
     resourceGroupName: string,
     provisioningServiceName: string,
+    operationId: string,
     asyncinfo: string,
     options?: IotDpsResourceGetOperationResultOptionalParams,
   ) => Promise<AsyncOperationResult>;
@@ -235,21 +230,21 @@ function _getIotDpsResource(context: IotDpsContext) {
       options?: IotDpsResourceGetPrivateLinkResourcesOptionalParams,
     ) => getPrivateLinkResources(context, resourceGroupName, resourceName, groupId, options),
     listKeysForKeyName: (
+      resourceGroupName: string,
       provisioningServiceName: string,
       keyName: string,
-      resourceGroupName: string,
       options?: IotDpsResourceListKeysForKeyNameOptionalParams,
-    ) => listKeysForKeyName(context, provisioningServiceName, keyName, resourceGroupName, options),
+    ) => listKeysForKeyName(context, resourceGroupName, provisioningServiceName, keyName, options),
     listKeys: (
-      provisioningServiceName: string,
       resourceGroupName: string,
+      provisioningServiceName: string,
       options?: IotDpsResourceListKeysOptionalParams,
-    ) => listKeys(context, provisioningServiceName, resourceGroupName, options),
+    ) => listKeys(context, resourceGroupName, provisioningServiceName, options),
     listValidSkus: (
-      provisioningServiceName: string,
       resourceGroupName: string,
+      provisioningServiceName: string,
       options?: IotDpsResourceListValidSkusOptionalParams,
-    ) => listValidSkus(context, provisioningServiceName, resourceGroupName, options),
+    ) => listValidSkus(context, resourceGroupName, provisioningServiceName, options),
     listBySubscription: (options?: IotDpsResourceListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
     listByResourceGroup: (
@@ -287,17 +282,17 @@ function _getIotDpsResource(context: IotDpsContext) {
       options?: IotDpsResourceGetOptionalParams,
     ) => get(context, resourceGroupName, provisioningServiceName, options),
     getOperationResult: (
-      operationId: string,
       resourceGroupName: string,
       provisioningServiceName: string,
+      operationId: string,
       asyncinfo: string,
       options?: IotDpsResourceGetOperationResultOptionalParams,
     ) =>
       getOperationResult(
         context,
-        operationId,
         resourceGroupName,
         provisioningServiceName,
+        operationId,
         asyncinfo,
         options,
       ),

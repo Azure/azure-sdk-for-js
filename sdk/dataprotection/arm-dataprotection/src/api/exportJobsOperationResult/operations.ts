@@ -1,13 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext as Client } from "../index.js";
-import type { ExportJobsResult } from "../../models/models.js";
-import { cloudErrorDeserializer, exportJobsResultDeserializer } from "../../models/models.js";
+import { DataProtectionContext as Client } from "../index.js";
+import {
+  cloudErrorDeserializer,
+  ExportJobsResult,
+  exportJobsResultDeserializer,
+} from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { ExportJobsOperationResultGetOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { ExportJobsOperationResultGetOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _getSend(
   context: Client,
@@ -29,22 +36,28 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<ExportJobsResult> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ExportJobsResult | undefined> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return exportJobsResultDeserializer(result.body);
+  return result.body ? exportJobsResultDeserializer(result.body) : undefined;
 }
 
 /** Gets the operation result of operation triggered by Export Jobs API. If the operation is successful, then it also contains URL of a Blob and a SAS key to access the same. The blob contains exported jobs in JSON serialized format. */
@@ -54,7 +67,7 @@ export async function get(
   vaultName: string,
   operationId: string,
   options: ExportJobsOperationResultGetOptionalParams = { requestOptions: {} },
-): Promise<ExportJobsResult> {
+): Promise<ExportJobsResult | undefined> {
   const result = await _getSend(context, resourceGroupName, vaultName, operationId, options);
   return _getDeserialize(result);
 }
