@@ -334,46 +334,21 @@ export interface DeploymentsCancelOptionalParams extends OperationOptions {
 export interface DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
-export type DeploymentsCheckExistenceAtManagementGroupScopeResponse = {
-    body: boolean;
-};
-
 // @public
 export interface DeploymentsCheckExistenceAtScopeOptionalParams extends OperationOptions {
 }
-
-// @public (undocumented)
-export type DeploymentsCheckExistenceAtScopeResponse = {
-    body: boolean;
-};
 
 // @public
 export interface DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
-export type DeploymentsCheckExistenceAtSubscriptionScopeResponse = {
-    body: boolean;
-};
-
 // @public
 export interface DeploymentsCheckExistenceAtTenantScopeOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
-export type DeploymentsCheckExistenceAtTenantScopeResponse = {
-    body: boolean;
-};
-
 // @public
 export interface DeploymentsCheckExistenceOptionalParams extends OperationOptions {
 }
-
-// @public (undocumented)
-export type DeploymentsCheckExistenceResponse = {
-    body: boolean;
-};
 
 // @public (undocumented)
 export class DeploymentsClient {
@@ -594,11 +569,11 @@ export interface DeploymentsOperations {
     cancelAtScope: (scope: string, deploymentName: string, options?: DeploymentsCancelAtScopeOptionalParams) => Promise<void>;
     cancelAtSubscriptionScope: (deploymentName: string, options?: DeploymentsCancelAtSubscriptionScopeOptionalParams) => Promise<void>;
     cancelAtTenantScope: (deploymentName: string, options?: DeploymentsCancelAtTenantScopeOptionalParams) => Promise<void>;
-    checkExistence: (resourceGroupName: string, deploymentName: string, options?: DeploymentsCheckExistenceOptionalParams) => Promise<DeploymentsCheckExistenceResponse>;
-    checkExistenceAtManagementGroupScope: (groupId: string, deploymentName: string, options?: DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams) => Promise<DeploymentsCheckExistenceAtManagementGroupScopeResponse>;
-    checkExistenceAtScope: (scope: string, deploymentName: string, options?: DeploymentsCheckExistenceAtScopeOptionalParams) => Promise<DeploymentsCheckExistenceAtScopeResponse>;
-    checkExistenceAtSubscriptionScope: (deploymentName: string, options?: DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams) => Promise<DeploymentsCheckExistenceAtSubscriptionScopeResponse>;
-    checkExistenceAtTenantScope: (deploymentName: string, options?: DeploymentsCheckExistenceAtTenantScopeOptionalParams) => Promise<DeploymentsCheckExistenceAtTenantScopeResponse>;
+    checkExistence: (resourceGroupName: string, deploymentName: string, options?: DeploymentsCheckExistenceOptionalParams) => Promise<void>;
+    checkExistenceAtManagementGroupScope: (groupId: string, deploymentName: string, options?: DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams) => Promise<void>;
+    checkExistenceAtScope: (scope: string, deploymentName: string, options?: DeploymentsCheckExistenceAtScopeOptionalParams) => Promise<void>;
+    checkExistenceAtSubscriptionScope: (deploymentName: string, options?: DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams) => Promise<void>;
+    checkExistenceAtTenantScope: (deploymentName: string, options?: DeploymentsCheckExistenceAtTenantScopeOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
     createOrUpdateAtManagementGroupScope: (groupId: string, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams) => PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
     createOrUpdateAtScope: (scope: string, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateAtScopeOptionalParams) => PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;

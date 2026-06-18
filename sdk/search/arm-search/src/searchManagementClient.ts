@@ -1,33 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SearchManagementContext, SearchManagementClientOptionalParams } from "./api/index.js";
-import { createSearchManagement } from "./api/index.js";
+import {
+  SearchManagementContext,
+  SearchManagementClientOptionalParams,
+  createSearchManagement,
+} from "./api/index.js";
 import { usageBySubscriptionSku } from "./api/operations.js";
-import type { UsageBySubscriptionSkuOptionalParams } from "./api/options.js";
-import type { AdminKeysOperations } from "./classic/adminKeys/index.js";
-import { _getAdminKeysOperations } from "./classic/adminKeys/index.js";
-import type { NetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import { _getNetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import type { OfferingsOperations } from "./classic/offerings/index.js";
-import { _getOfferingsOperations } from "./classic/offerings/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { QueryKeysOperations } from "./classic/queryKeys/index.js";
-import { _getQueryKeysOperations } from "./classic/queryKeys/index.js";
-import type { ServicesOperations } from "./classic/services/index.js";
-import { _getServicesOperations } from "./classic/services/index.js";
-import type { SharedPrivateLinkResourcesOperations } from "./classic/sharedPrivateLinkResources/index.js";
-import { _getSharedPrivateLinkResourcesOperations } from "./classic/sharedPrivateLinkResources/index.js";
-import type { UsagesOperations } from "./classic/usages/index.js";
-import { _getUsagesOperations } from "./classic/usages/index.js";
-import type { QuotaUsageResult } from "./models/models.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { UsageBySubscriptionSkuOptionalParams } from "./api/options.js";
+import { AdminKeysOperations, _getAdminKeysOperations } from "./classic/adminKeys/index.js";
+import {
+  NetworkSecurityPerimeterConfigurationsOperations,
+  _getNetworkSecurityPerimeterConfigurationsOperations,
+} from "./classic/networkSecurityPerimeterConfigurations/index.js";
+import { OfferingsOperations, _getOfferingsOperations } from "./classic/offerings/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import { QueryKeysOperations, _getQueryKeysOperations } from "./classic/queryKeys/index.js";
+import { ServicesOperations, _getServicesOperations } from "./classic/services/index.js";
+import {
+  SharedPrivateLinkResourcesOperations,
+  _getSharedPrivateLinkResourcesOperations,
+} from "./classic/sharedPrivateLinkResources/index.js";
+import { UsagesOperations, _getUsagesOperations } from "./classic/usages/index.js";
+import { QuotaUsageResult } from "./models/models.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { SearchManagementClientOptionalParams } from "./api/searchManagementContext.js";
 

@@ -75,11 +75,6 @@ export type {
   StatusMessage,
   TargetResource,
   HttpMessage,
-  DeploymentsCheckExistenceResponse,
-  DeploymentsCheckExistenceAtSubscriptionScopeResponse,
-  DeploymentsCheckExistenceAtManagementGroupScopeResponse,
-  DeploymentsCheckExistenceAtTenantScopeResponse,
-  DeploymentsCheckExistenceAtScopeResponse,
 } from "./models.js";
 export {
   KnownProvisioningState,

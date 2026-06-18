@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
   list,
   $delete,
@@ -9,19 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/applicationTypes/operations.js";
-import type {
+import {
   ApplicationTypesListOptionalParams,
   ApplicationTypesDeleteOptionalParams,
   ApplicationTypesUpdateOptionalParams,
   ApplicationTypesCreateOrUpdateOptionalParams,
   ApplicationTypesGetOptionalParams,
 } from "../../api/applicationTypes/options.js";
-import type {
-  ApplicationTypeResource,
-  ApplicationTypeUpdateParameters,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ApplicationTypeResource, ApplicationTypeUpdateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ApplicationTypes operations. */
 export interface ApplicationTypesOperations {
@@ -32,11 +29,6 @@ export interface ApplicationTypesOperations {
     options?: ApplicationTypesListOptionalParams,
   ) => PagedAsyncIterableIterator<ApplicationTypeResource>;
   /** Delete a Service Fabric managed application type name resource with the specified name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,
