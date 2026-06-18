@@ -1,55 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/**
- * This sample demonstrates how to Queries policy events for the resources under the management group.
- *
- * @summary Queries policy events for the resources under the management group.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QueryManagementGroupScope.json
- */
 
-import type { PolicyEventsListQueryResultsForManagementGroupOptionalParams } from "@azure/arm-policyinsights";
 import { PolicyInsightsClient } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to queries policy events for the resources under the management group.
+ *
+ * @summary queries policy events for the resources under the management group.
+ * x-ms-original-file: 2024-10-01/PolicyEvents_QueryManagementGroupScope.json
+ */
 async function queryAtManagementGroupScope(): Promise<void> {
-  const policyEventsResource = "default";
-  const managementGroupName = "myManagementGroup";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (const item of client.policyEvents.listQueryResultsForManagementGroup(
-    policyEventsResource,
-    managementGroupName,
+    "default",
+    "myManagementGroup",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Queries policy events for the resources under the management group.
+ * This sample demonstrates how to queries policy events for the resources under the management group.
  *
- * @summary Queries policy events for the resources under the management group.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QueryManagementGroupScopeNextLink.json
+ * @summary queries policy events for the resources under the management group.
+ * x-ms-original-file: 2024-10-01/PolicyEvents_QueryManagementGroupScopeNextLink.json
  */
 async function queryAtManagementGroupScopeWithNextLink(): Promise<void> {
-  const policyEventsResource = "default";
-  const managementGroupName = "myManagementGroup";
-  const skipToken = "WpmWfBSvPhkAK6QD";
-  const options: PolicyEventsListQueryResultsForManagementGroupOptionalParams = {
-    queryOptions: { skipToken },
-  };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (const item of client.policyEvents.listQueryResultsForManagementGroup(
-    policyEventsResource,
-    managementGroupName,
-    options,
+    "default",
+    "myManagementGroup",
+    { skipToken: "WpmWfBSvPhkAK6QD" },
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

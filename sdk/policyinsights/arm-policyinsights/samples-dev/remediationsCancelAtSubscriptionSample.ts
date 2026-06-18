@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Cancels a remediation at subscription scope.
- *
- * @summary Cancels a remediation at subscription scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_CancelSubscriptionScope.json
- */
-
 import { PolicyInsightsClient } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to cancels a remediation at subscription scope.
+ *
+ * @summary cancels a remediation at subscription scope.
+ * x-ms-original-file: 2024-10-01/Remediations_CancelSubscriptionScope.json
+ */
 async function cancelARemediationAtSubscriptionScope(): Promise<void> {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
-  const remediationName = "myRemediation";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
   const client = new PolicyInsightsClient(credential, subscriptionId);
-  const result = await client.remediations.cancelAtSubscription(remediationName);
+  const result = await client.remediations.cancelAtSubscription("myRemediation");
   console.log(result);
 }
 
