@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HorizonDbContext } from "../../api/horizonDbContext.js";
+import { HorizonDbContext } from "../../api/horizonDbContext.js";
 import { list, get } from "../../api/horizonDbPools/operations.js";
-import type {
+import {
   HorizonDbPoolsListOptionalParams,
   HorizonDbPoolsGetOptionalParams,
 } from "../../api/horizonDbPools/options.js";
-import type { HorizonDbPool } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { HorizonDbPool } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a HorizonDbPools operations. */
 export interface HorizonDbPoolsOperations {

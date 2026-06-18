@@ -1,9 +1,7 @@
 # Release History
-
-## 1.0.0-beta.1 (2026-05-07)
+    
+## 1.0.0 (2026-06-18)
 
 ### Features Added
 
-- Initial release of the Azure FileShares management SDK for JavaScript/TypeScript.
-- Support for managing File Share resources, snapshots, and operations.
-- Support for Private Endpoint Connections and Private Link Resources.
+This is the first stable release of the @azure/arm-fileshares package. It introduces a new SDK generation with layered APIs, smaller bundles, and improved ergonomics. For more details, see the https://aka.ms/azsdk/js/sdk/quickstart.
