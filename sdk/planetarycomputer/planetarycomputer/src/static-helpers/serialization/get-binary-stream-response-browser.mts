@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { HttpResponse, StreamableMethod } from "@azure-rest/core-client";
-import { NodeReadableStream } from "../platform-types-browser.mjs";
+import { NodeReadableStream } from "#platform/static-helpers/platform-types";
 
 /**
  * Resolves a StreamableMethod into a binary stream response using browser streaming.
