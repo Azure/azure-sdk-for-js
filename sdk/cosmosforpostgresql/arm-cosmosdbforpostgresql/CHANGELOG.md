@@ -83,8 +83,6 @@ Compared with version 1.0.0
   - Operation Roles.beginCreateAndWait has a new signature
   - Operation Roles.beginDeleteAndWait has a new signature
   - Operation Roles.get has a new signature
-  - Class CosmosDBForPostgreSQL no longer has parameter apiVersion
-  - Class CosmosDBForPostgreSQL no longer has parameter subscriptionId
   - Interface Operation no longer has parameter properties
   - Parameter password of interface Role is now optional
   - Removed Type Alias OperationOrigin

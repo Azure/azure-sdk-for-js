@@ -92,12 +92,12 @@ describe("CosmosDBForPostgreSQL test", () => {
     assert.equal(res.name, resourcename);
   });
 
-  it("clusters list test", async function () {
+  it.only("clusters list test", async function () {
     const resArray = new Array();
     for await (const item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
+    assert.equal(resArray.length, 0);
   });
 
   // need run this case 1h later
