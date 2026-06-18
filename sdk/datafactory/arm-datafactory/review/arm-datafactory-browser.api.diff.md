@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -2444,14 +2444,15 @@
+@@ -2446,14 +2446,15 @@
      runId: string;
  }
  
@@ -24,7 +24,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface CredentialOperationsCreateOrUpdateOptionalParams extends OperationOptions {
      ifMatch?: string;
-@@ -2494,9 +2495,9 @@
+@@ -2496,9 +2497,9 @@
      properties: CredentialUnion;
  }
  
@@ -35,7 +35,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface CustomActivity extends ExecutionActivity {
      autoUserSpecification?: any;
-@@ -6675,9 +6676,9 @@
+@@ -6679,9 +6680,9 @@
      type: "MagentoSource";
  }
  
@@ -46,7 +46,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      type: "ManagedIdentity";
  }
  
-@@ -9598,9 +9599,9 @@
+@@ -9604,9 +9605,9 @@
      type: "ServiceNowV2Source";
  }
  

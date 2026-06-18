@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceContext } from "../../api/containerServiceContext.js";
+import { ContainerServiceContext } from "../../api/containerServiceContext.js";
 import {
   listByManagedCluster,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/maintenanceConfigurations/operations.js";
-import type {
+import {
   MaintenanceConfigurationsListByManagedClusterOptionalParams,
   MaintenanceConfigurationsDeleteOptionalParams,
   MaintenanceConfigurationsCreateOrUpdateOptionalParams,
   MaintenanceConfigurationsGetOptionalParams,
 } from "../../api/maintenanceConfigurations/options.js";
-import type { MaintenanceConfiguration } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { MaintenanceConfiguration } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a MaintenanceConfigurations operations. */
 export interface MaintenanceConfigurationsOperations {

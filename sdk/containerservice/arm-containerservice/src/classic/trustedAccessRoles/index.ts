@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceContext } from "../../api/containerServiceContext.js";
+import { ContainerServiceContext } from "../../api/containerServiceContext.js";
 import { list } from "../../api/trustedAccessRoles/operations.js";
-import type { TrustedAccessRolesListOptionalParams } from "../../api/trustedAccessRoles/options.js";
-import type { TrustedAccessRole } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { TrustedAccessRolesListOptionalParams } from "../../api/trustedAccessRoles/options.js";
+import { TrustedAccessRole } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a TrustedAccessRoles operations. */
 export interface TrustedAccessRolesOperations {

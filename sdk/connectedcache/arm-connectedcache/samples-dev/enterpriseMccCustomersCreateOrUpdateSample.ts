@@ -49,7 +49,6 @@ async function enterpriseMccCustomersCreateOrUpdate(): Promise<void> {
           optionalProperty4: "vzuek",
           optionalProperty5: "fzjodscdfcdr",
         },
-        error: {},
       },
       tags: { key3379: "dpyqeaqhcnutzezom" },
       location: "westus",

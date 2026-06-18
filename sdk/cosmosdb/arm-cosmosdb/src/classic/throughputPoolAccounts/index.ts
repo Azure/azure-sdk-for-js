@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import { list } from "../../api/throughputPoolAccounts/operations.js";
-import type { ThroughputPoolAccountsListOptionalParams } from "../../api/throughputPoolAccounts/options.js";
-import type { ThroughputPoolAccountResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ThroughputPoolAccountsListOptionalParams } from "../../api/throughputPoolAccounts/options.js";
+import { ThroughputPoolAccountResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ThroughputPoolAccounts operations. */
 export interface ThroughputPoolAccountsOperations {

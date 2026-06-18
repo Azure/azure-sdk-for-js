@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Client, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError } from "@azure-rest/core-client";
+import { Client, createRestError, PathUncheckedResponse } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 
 /**
@@ -262,9 +261,7 @@ function addApiVersionToUrl(url: string, apiVersion: string): string {
   const urlObj = new URL(url, "https://microsoft.com");
   if (!urlObj.searchParams.get("api-version")) {
     // Append one if there is no apiVersion
-    return `${url}${
-      Array.from(urlObj.searchParams.keys()).length > 0 ? "&" : "?"
-    }api-version=${apiVersion}`;
+    return `${url}${urlObj.search ? "&" : "?"}api-version=${apiVersion}`;
   }
   return url;
 }

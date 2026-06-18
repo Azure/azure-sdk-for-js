@@ -47,7 +47,6 @@ async function ispCustomerCreateOrUpdateGeneratedByMaximumSetRule(): Promise<voi
         optionalProperty4: "vzuek",
         optionalProperty5: "fzjodscdfcdr",
       },
-      error: {},
     },
     tags: { key1878: "warz" },
   });

@@ -1,27 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext as Client } from "../index.js";
-import type {
-  MongoMIRoleDefinitionResource,
-  _MongoMIRoleDefinitionListResult,
-  MongoMIRoleAssignmentResource,
-  _MongoMIRoleAssignmentListResult,
-} from "../../models/models.js";
+import { CosmosDBManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  MongoMIRoleDefinitionResource,
   mongoMIRoleDefinitionResourceSerializer,
   mongoMIRoleDefinitionResourceDeserializer,
+  _MongoMIRoleDefinitionListResult,
   _mongoMIRoleDefinitionListResultDeserializer,
+  MongoMIRoleAssignmentResource,
   mongoMIRoleAssignmentResourceSerializer,
   mongoMIRoleAssignmentResourceDeserializer,
+  _MongoMIRoleAssignmentListResult,
   _mongoMIRoleAssignmentListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   MongoMIResourcesListMongoMIRoleAssignmentsOptionalParams,
   MongoMIResourcesDeleteMongoMIRoleAssignmentOptionalParams,
   MongoMIResourcesCreateUpdateMongoMIRoleAssignmentOptionalParams,
@@ -31,9 +31,13 @@ import type {
   MongoMIResourcesCreateUpdateMongoMIRoleDefinitionOptionalParams,
   MongoMIResourcesGetMongoMIRoleDefinitionOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listMongoMIRoleAssignmentsSend(
   context: Client,
@@ -53,10 +57,12 @@ export function _listMongoMIRoleAssignmentsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listMongoMIRoleAssignmentsDeserialize(
@@ -65,7 +71,9 @@ export async function _listMongoMIRoleAssignmentsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -122,7 +130,9 @@ export async function _deleteMongoMIRoleAssignmentDeserialize(
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -180,12 +190,14 @@ export function _createUpdateMongoMIRoleAssignmentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: mongoMIRoleAssignmentResourceSerializer(createUpdateMongoMIRoleAssignmentParameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: mongoMIRoleAssignmentResourceSerializer(createUpdateMongoMIRoleAssignmentParameters),
+    });
 }
 
 export async function _createUpdateMongoMIRoleAssignmentDeserialize(
@@ -194,7 +206,9 @@ export async function _createUpdateMongoMIRoleAssignmentDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -253,10 +267,12 @@ export function _getMongoMIRoleAssignmentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMongoMIRoleAssignmentDeserialize(
@@ -265,7 +281,9 @@ export async function _getMongoMIRoleAssignmentDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -309,10 +327,12 @@ export function _listMongoMIRoleDefinitionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listMongoMIRoleDefinitionsDeserialize(
@@ -321,7 +341,9 @@ export async function _listMongoMIRoleDefinitionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -378,7 +400,9 @@ export async function _deleteMongoMIRoleDefinitionDeserialize(
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -436,12 +460,14 @@ export function _createUpdateMongoMIRoleDefinitionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: mongoMIRoleDefinitionResourceSerializer(createUpdateMongoMIRoleDefinitionParameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: mongoMIRoleDefinitionResourceSerializer(createUpdateMongoMIRoleDefinitionParameters),
+    });
 }
 
 export async function _createUpdateMongoMIRoleDefinitionDeserialize(
@@ -450,7 +476,9 @@ export async function _createUpdateMongoMIRoleDefinitionDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -509,10 +537,12 @@ export function _getMongoMIRoleDefinitionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMongoMIRoleDefinitionDeserialize(
@@ -521,7 +551,9 @@ export async function _getMongoMIRoleDefinitionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

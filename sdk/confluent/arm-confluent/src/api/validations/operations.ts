@@ -1,21 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConfluentManagementContext as Client } from "../index.js";
-import type { OrganizationResource, ValidationResponse } from "../../models/models.js";
+import { ConfluentManagementContext as Client } from "../index.js";
 import {
   resourceProviderDefaultErrorResponseDeserializer,
+  OrganizationResource,
   organizationResourceSerializer,
   organizationResourceDeserializer,
+  ValidationResponse,
   validationResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ValidationsValidateOrganizationV2OptionalParams,
   ValidationsValidateOrganizationOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _validateOrganizationV2Send(
   context: Client,
@@ -36,12 +41,14 @@ export function _validateOrganizationV2Send(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: organizationResourceSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: organizationResourceSerializer(body),
+    });
 }
 
 export async function _validateOrganizationV2Deserialize(
@@ -50,7 +57,9 @@ export async function _validateOrganizationV2Deserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -95,12 +104,14 @@ export function _validateOrganizationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: organizationResourceSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: organizationResourceSerializer(body),
+    });
 }
 
 export async function _validateOrganizationDeserialize(
@@ -109,7 +120,9 @@ export async function _validateOrganizationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

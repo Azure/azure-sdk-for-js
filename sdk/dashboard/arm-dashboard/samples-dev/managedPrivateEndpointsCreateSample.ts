@@ -20,14 +20,12 @@ async function managedPrivateEndpointCreate(): Promise<void> {
     "myMPEName",
     {
       location: "West US",
-      properties: {
-        groupIds: ["grafana"],
-        privateLinkResourceId:
-          "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-000000000000/resourceGroups/xx-rg/providers/Microsoft.Kusto/Clusters/sampleKustoResource",
-        privateLinkResourceRegion: "West US",
-        privateLinkServiceUrl: "my-self-hosted-influxdb.westus.mydomain.com",
-        requestMessage: "Example Request Message",
-      },
+      groupIds: ["grafana"],
+      privateLinkResourceId:
+        "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-000000000000/resourceGroups/xx-rg/providers/Microsoft.Kusto/Clusters/sampleKustoResource",
+      privateLinkResourceRegion: "West US",
+      privateLinkServiceUrl: "my-self-hosted-influxdb.westus.mydomain.com",
+      requestMessage: "Example Request Message",
     },
   );
   console.log(result);

@@ -1,84 +1,84 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext as Client } from "../index.js";
-import type {
-  SqlDatabaseGetResults,
-  SqlDatabaseCreateUpdateParameters,
-  _SqlDatabaseListResult,
-  MergeParameters,
-  PhysicalPartitionStorageInfoCollection,
-  ThroughputSettingsGetResults,
-  ThroughputSettingsUpdateParameters,
-  RetrieveThroughputParameters,
-  PhysicalPartitionThroughputInfoResult,
-  RedistributeThroughputParameters,
-  ClientEncryptionKeyGetResults,
-  ClientEncryptionKeyCreateUpdateParameters,
-  _ClientEncryptionKeysListResult,
-  SqlContainerGetResults,
-  SqlContainerCreateUpdateParameters,
-  _SqlContainerListResult,
-  ContinuousBackupRestoreLocation,
-  BackupInformation,
-  SqlStoredProcedureGetResults,
-  SqlStoredProcedureCreateUpdateParameters,
-  _SqlStoredProcedureListResult,
-  SqlUserDefinedFunctionGetResults,
-  SqlUserDefinedFunctionCreateUpdateParameters,
-  _SqlUserDefinedFunctionListResult,
-  SqlTriggerGetResults,
-  SqlTriggerCreateUpdateParameters,
-  _SqlTriggerListResult,
-  SqlRoleDefinitionGetResults,
-  SqlRoleDefinitionCreateUpdateParameters,
-  _SqlRoleDefinitionListResult,
-  SqlRoleAssignmentGetResults,
-  SqlRoleAssignmentCreateUpdateParameters,
-  _SqlRoleAssignmentListResult,
-} from "../../models/models.js";
+import { CosmosDBManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
   cloudErrorDeserializer,
+  SqlDatabaseGetResults,
   sqlDatabaseGetResultsDeserializer,
+  SqlDatabaseCreateUpdateParameters,
   sqlDatabaseCreateUpdateParametersSerializer,
+  _SqlDatabaseListResult,
   _sqlDatabaseListResultDeserializer,
+  MergeParameters,
   mergeParametersSerializer,
+  PhysicalPartitionStorageInfoCollection,
   physicalPartitionStorageInfoCollectionDeserializer,
+  ThroughputSettingsGetResults,
   throughputSettingsGetResultsDeserializer,
+  ThroughputSettingsUpdateParameters,
   throughputSettingsUpdateParametersSerializer,
+  RetrieveThroughputParameters,
   retrieveThroughputParametersSerializer,
+  PhysicalPartitionThroughputInfoResult,
   physicalPartitionThroughputInfoResultDeserializer,
+  RedistributeThroughputParameters,
   redistributeThroughputParametersSerializer,
+  ClientEncryptionKeyGetResults,
   clientEncryptionKeyGetResultsDeserializer,
+  ClientEncryptionKeyCreateUpdateParameters,
   clientEncryptionKeyCreateUpdateParametersSerializer,
+  _ClientEncryptionKeysListResult,
   _clientEncryptionKeysListResultDeserializer,
+  SqlContainerGetResults,
   sqlContainerGetResultsDeserializer,
+  SqlContainerCreateUpdateParameters,
   sqlContainerCreateUpdateParametersSerializer,
+  _SqlContainerListResult,
   _sqlContainerListResultDeserializer,
+  ContinuousBackupRestoreLocation,
   continuousBackupRestoreLocationSerializer,
+  BackupInformation,
   backupInformationDeserializer,
+  SqlStoredProcedureGetResults,
   sqlStoredProcedureGetResultsDeserializer,
+  SqlStoredProcedureCreateUpdateParameters,
   sqlStoredProcedureCreateUpdateParametersSerializer,
+  _SqlStoredProcedureListResult,
   _sqlStoredProcedureListResultDeserializer,
+  SqlUserDefinedFunctionGetResults,
   sqlUserDefinedFunctionGetResultsDeserializer,
+  SqlUserDefinedFunctionCreateUpdateParameters,
   sqlUserDefinedFunctionCreateUpdateParametersSerializer,
+  _SqlUserDefinedFunctionListResult,
   _sqlUserDefinedFunctionListResultDeserializer,
+  SqlTriggerGetResults,
   sqlTriggerGetResultsDeserializer,
+  SqlTriggerCreateUpdateParameters,
   sqlTriggerCreateUpdateParametersSerializer,
+  _SqlTriggerListResult,
   _sqlTriggerListResultDeserializer,
+  SqlRoleDefinitionGetResults,
   sqlRoleDefinitionGetResultsDeserializer,
+  SqlRoleDefinitionCreateUpdateParameters,
   sqlRoleDefinitionCreateUpdateParametersSerializer,
+  _SqlRoleDefinitionListResult,
   _sqlRoleDefinitionListResultDeserializer,
+  SqlRoleAssignmentGetResults,
   sqlRoleAssignmentGetResultsDeserializer,
+  SqlRoleAssignmentCreateUpdateParameters,
   sqlRoleAssignmentCreateUpdateParametersSerializer,
+  _SqlRoleAssignmentListResult,
   _sqlRoleAssignmentListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   SqlResourcesListSqlRoleAssignmentsOptionalParams,
   SqlResourcesDeleteSqlRoleAssignmentOptionalParams,
   SqlResourcesCreateUpdateSqlRoleAssignmentOptionalParams,
@@ -126,9 +126,13 @@ import type {
   SqlResourcesCreateUpdateSqlDatabaseOptionalParams,
   SqlResourcesGetSqlDatabaseOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listSqlRoleAssignmentsSend(
   context: Client,
@@ -148,10 +152,12 @@ export function _listSqlRoleAssignmentsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listSqlRoleAssignmentsDeserialize(
@@ -160,7 +166,9 @@ export async function _listSqlRoleAssignmentsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -217,7 +225,9 @@ export async function _deleteSqlRoleAssignmentDeserialize(
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -270,14 +280,16 @@ export function _createUpdateSqlRoleAssignmentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: sqlRoleAssignmentCreateUpdateParametersSerializer(
-      createUpdateSqlRoleAssignmentParameters,
-    ),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: sqlRoleAssignmentCreateUpdateParametersSerializer(
+        createUpdateSqlRoleAssignmentParameters,
+      ),
+    });
 }
 
 export async function _createUpdateSqlRoleAssignmentDeserialize(
@@ -286,7 +298,9 @@ export async function _createUpdateSqlRoleAssignmentDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -345,10 +359,12 @@ export function _getSqlRoleAssignmentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSqlRoleAssignmentDeserialize(
@@ -357,7 +373,9 @@ export async function _getSqlRoleAssignmentDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -401,10 +419,12 @@ export function _listSqlRoleDefinitionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listSqlRoleDefinitionsDeserialize(
@@ -413,7 +433,9 @@ export async function _listSqlRoleDefinitionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -470,7 +492,9 @@ export async function _deleteSqlRoleDefinitionDeserialize(
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -523,14 +547,16 @@ export function _createUpdateSqlRoleDefinitionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: sqlRoleDefinitionCreateUpdateParametersSerializer(
-      createUpdateSqlRoleDefinitionParameters,
-    ),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: sqlRoleDefinitionCreateUpdateParametersSerializer(
+        createUpdateSqlRoleDefinitionParameters,
+      ),
+    });
 }
 
 export async function _createUpdateSqlRoleDefinitionDeserialize(
@@ -539,7 +565,9 @@ export async function _createUpdateSqlRoleDefinitionDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -598,10 +626,12 @@ export function _getSqlRoleDefinitionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSqlRoleDefinitionDeserialize(
@@ -610,7 +640,9 @@ export async function _getSqlRoleDefinitionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -658,10 +690,12 @@ export function _listSqlTriggersSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listSqlTriggersDeserialize(
@@ -670,7 +704,9 @@ export async function _listSqlTriggersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -739,7 +775,9 @@ export async function _deleteSqlTriggerDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["204", "202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -800,12 +838,14 @@ export function _createUpdateSqlTriggerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: sqlTriggerCreateUpdateParametersSerializer(createUpdateSqlTriggerParameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: sqlTriggerCreateUpdateParametersSerializer(createUpdateSqlTriggerParameters),
+    });
 }
 
 export async function _createUpdateSqlTriggerDeserialize(
@@ -814,7 +854,9 @@ export async function _createUpdateSqlTriggerDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -876,10 +918,12 @@ export function _getSqlTriggerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSqlTriggerDeserialize(
@@ -888,7 +932,9 @@ export async function _getSqlTriggerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -940,10 +986,12 @@ export function _listSqlUserDefinedFunctionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listSqlUserDefinedFunctionsDeserialize(
@@ -952,7 +1000,9 @@ export async function _listSqlUserDefinedFunctionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1023,7 +1073,9 @@ export async function _deleteSqlUserDefinedFunctionDeserialize(
   const expectedStatuses = ["204", "202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1089,14 +1141,16 @@ export function _createUpdateSqlUserDefinedFunctionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: sqlUserDefinedFunctionCreateUpdateParametersSerializer(
-      createUpdateSqlUserDefinedFunctionParameters,
-    ),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: sqlUserDefinedFunctionCreateUpdateParametersSerializer(
+        createUpdateSqlUserDefinedFunctionParameters,
+      ),
+    });
 }
 
 export async function _createUpdateSqlUserDefinedFunctionDeserialize(
@@ -1105,7 +1159,9 @@ export async function _createUpdateSqlUserDefinedFunctionDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1175,10 +1231,12 @@ export function _getSqlUserDefinedFunctionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSqlUserDefinedFunctionDeserialize(
@@ -1187,7 +1245,9 @@ export async function _getSqlUserDefinedFunctionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1239,10 +1299,12 @@ export function _listSqlStoredProceduresSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listSqlStoredProceduresDeserialize(
@@ -1251,7 +1313,9 @@ export async function _listSqlStoredProceduresDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1322,7 +1386,9 @@ export async function _deleteSqlStoredProcedureDeserialize(
   const expectedStatuses = ["204", "202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1388,14 +1454,16 @@ export function _createUpdateSqlStoredProcedureSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: sqlStoredProcedureCreateUpdateParametersSerializer(
-      createUpdateSqlStoredProcedureParameters,
-    ),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: sqlStoredProcedureCreateUpdateParametersSerializer(
+        createUpdateSqlStoredProcedureParameters,
+      ),
+    });
 }
 
 export async function _createUpdateSqlStoredProcedureDeserialize(
@@ -1404,7 +1472,9 @@ export async function _createUpdateSqlStoredProcedureDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1471,10 +1541,12 @@ export function _getSqlStoredProcedureSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSqlStoredProcedureDeserialize(
@@ -1483,7 +1555,9 @@ export async function _getSqlStoredProcedureDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1536,21 +1610,25 @@ export function _retrieveContinuousBackupInformationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: continuousBackupRestoreLocationSerializer(location),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: continuousBackupRestoreLocationSerializer(location),
+    });
 }
 
 export async function _retrieveContinuousBackupInformationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<BackupInformation> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1571,7 +1649,7 @@ export function retrieveContinuousBackupInformation(
   return getLongRunningPoller(
     context,
     _retrieveContinuousBackupInformationDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -1614,12 +1692,14 @@ export function _listSqlContainerPartitionMergeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: mergeParametersSerializer(mergeParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: mergeParametersSerializer(mergeParameters),
+    });
 }
 
 export async function _listSqlContainerPartitionMergeDeserialize(
@@ -1628,7 +1708,9 @@ export async function _listSqlContainerPartitionMergeDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1695,10 +1777,12 @@ export function _listSqlContainersSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listSqlContainersDeserialize(
@@ -1707,7 +1791,9 @@ export async function _listSqlContainersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1765,7 +1851,9 @@ export async function _deleteSqlContainerDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["204", "202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1822,12 +1910,14 @@ export function _createUpdateSqlContainerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: sqlContainerCreateUpdateParametersSerializer(createUpdateSqlContainerParameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: sqlContainerCreateUpdateParametersSerializer(createUpdateSqlContainerParameters),
+    });
 }
 
 export async function _createUpdateSqlContainerDeserialize(
@@ -1836,7 +1926,9 @@ export async function _createUpdateSqlContainerDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1899,10 +1991,12 @@ export function _getSqlContainerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSqlContainerDeserialize(
@@ -1911,7 +2005,9 @@ export async function _getSqlContainerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1959,10 +2055,12 @@ export function _listClientEncryptionKeysSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listClientEncryptionKeysDeserialize(
@@ -1971,7 +2069,9 @@ export async function _listClientEncryptionKeysDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2024,14 +2124,16 @@ export function _createUpdateClientEncryptionKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: clientEncryptionKeyCreateUpdateParametersSerializer(
-      createUpdateClientEncryptionKeyParameters,
-    ),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: clientEncryptionKeyCreateUpdateParametersSerializer(
+        createUpdateClientEncryptionKeyParameters,
+      ),
+    });
 }
 
 export async function _createUpdateClientEncryptionKeyDeserialize(
@@ -2040,7 +2142,9 @@ export async function _createUpdateClientEncryptionKeyDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2103,10 +2207,12 @@ export function _getClientEncryptionKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getClientEncryptionKeyDeserialize(
@@ -2115,7 +2221,9 @@ export async function _getClientEncryptionKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2166,12 +2274,14 @@ export function _sqlContainerRedistributeThroughputSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: redistributeThroughputParametersSerializer(redistributeThroughputParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: redistributeThroughputParametersSerializer(redistributeThroughputParameters),
+    });
 }
 
 export async function _sqlContainerRedistributeThroughputDeserialize(
@@ -2180,7 +2290,9 @@ export async function _sqlContainerRedistributeThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2252,12 +2364,14 @@ export function _sqlContainerRetrieveThroughputDistributionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: retrieveThroughputParametersSerializer(retrieveThroughputParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: retrieveThroughputParametersSerializer(retrieveThroughputParameters),
+    });
 }
 
 export async function _sqlContainerRetrieveThroughputDistributionDeserialize(
@@ -2266,7 +2380,9 @@ export async function _sqlContainerRetrieveThroughputDistributionDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2337,10 +2453,12 @@ export function _migrateSqlContainerToManualThroughputSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _migrateSqlContainerToManualThroughputDeserialize(
@@ -2349,7 +2467,9 @@ export async function _migrateSqlContainerToManualThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2410,10 +2530,12 @@ export function _migrateSqlContainerToAutoscaleSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _migrateSqlContainerToAutoscaleDeserialize(
@@ -2422,7 +2544,9 @@ export async function _migrateSqlContainerToAutoscaleDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2484,12 +2608,14 @@ export function _updateSqlContainerThroughputSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: throughputSettingsUpdateParametersSerializer(updateThroughputParameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: throughputSettingsUpdateParametersSerializer(updateThroughputParameters),
+    });
 }
 
 export async function _updateSqlContainerThroughputDeserialize(
@@ -2498,7 +2624,9 @@ export async function _updateSqlContainerThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2561,10 +2689,12 @@ export function _getSqlContainerThroughputSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSqlContainerThroughputDeserialize(
@@ -2573,7 +2703,9 @@ export async function _getSqlContainerThroughputDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2622,12 +2754,14 @@ export function _sqlDatabaseRedistributeThroughputSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: redistributeThroughputParametersSerializer(redistributeThroughputParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: redistributeThroughputParametersSerializer(redistributeThroughputParameters),
+    });
 }
 
 export async function _sqlDatabaseRedistributeThroughputDeserialize(
@@ -2636,7 +2770,9 @@ export async function _sqlDatabaseRedistributeThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2704,12 +2840,14 @@ export function _sqlDatabaseRetrieveThroughputDistributionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: retrieveThroughputParametersSerializer(retrieveThroughputParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: retrieveThroughputParametersSerializer(retrieveThroughputParameters),
+    });
 }
 
 export async function _sqlDatabaseRetrieveThroughputDistributionDeserialize(
@@ -2718,7 +2856,9 @@ export async function _sqlDatabaseRetrieveThroughputDistributionDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2785,10 +2925,12 @@ export function _migrateSqlDatabaseToManualThroughputSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _migrateSqlDatabaseToManualThroughputDeserialize(
@@ -2797,7 +2939,9 @@ export async function _migrateSqlDatabaseToManualThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2854,10 +2998,12 @@ export function _migrateSqlDatabaseToAutoscaleSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _migrateSqlDatabaseToAutoscaleDeserialize(
@@ -2866,7 +3012,9 @@ export async function _migrateSqlDatabaseToAutoscaleDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2924,12 +3072,14 @@ export function _updateSqlDatabaseThroughputSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: throughputSettingsUpdateParametersSerializer(updateThroughputParameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: throughputSettingsUpdateParametersSerializer(updateThroughputParameters),
+    });
 }
 
 export async function _updateSqlDatabaseThroughputDeserialize(
@@ -2938,7 +3088,9 @@ export async function _updateSqlDatabaseThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2997,10 +3149,12 @@ export function _getSqlDatabaseThroughputSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSqlDatabaseThroughputDeserialize(
@@ -3009,7 +3163,9 @@ export async function _getSqlDatabaseThroughputDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3056,12 +3212,14 @@ export function _sqlDatabasePartitionMergeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: mergeParametersSerializer(mergeParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: mergeParametersSerializer(mergeParameters),
+    });
 }
 
 export async function _sqlDatabasePartitionMergeDeserialize(
@@ -3070,7 +3228,9 @@ export async function _sqlDatabasePartitionMergeDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3133,10 +3293,12 @@ export function _listSqlDatabasesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listSqlDatabasesDeserialize(
@@ -3145,7 +3307,9 @@ export async function _listSqlDatabasesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3200,7 +3364,9 @@ export async function _deleteSqlDatabaseDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["204", "202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3247,12 +3413,14 @@ export function _createUpdateSqlDatabaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: sqlDatabaseCreateUpdateParametersSerializer(createUpdateSqlDatabaseParameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: sqlDatabaseCreateUpdateParametersSerializer(createUpdateSqlDatabaseParameters),
+    });
 }
 
 export async function _createUpdateSqlDatabaseDeserialize(
@@ -3261,7 +3429,9 @@ export async function _createUpdateSqlDatabaseDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3315,10 +3485,12 @@ export function _getSqlDatabaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSqlDatabaseDeserialize(
@@ -3327,7 +3499,9 @@ export async function _getSqlDatabaseDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

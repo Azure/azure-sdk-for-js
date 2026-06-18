@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DashboardManagementContext } from "../../api/dashboardManagementContext.js";
+import { DashboardManagementContext } from "../../api/dashboardManagementContext.js";
 import {
   list,
   $delete,
@@ -10,7 +10,7 @@ import {
   get,
   refresh,
 } from "../../api/managedPrivateEndpoints/operations.js";
-import type {
+import {
   ManagedPrivateEndpointsListOptionalParams,
   ManagedPrivateEndpointsDeleteOptionalParams,
   ManagedPrivateEndpointsUpdateOptionalParams,
@@ -18,12 +18,12 @@ import type {
   ManagedPrivateEndpointsGetOptionalParams,
   ManagedPrivateEndpointsRefreshOptionalParams,
 } from "../../api/managedPrivateEndpoints/options.js";
-import type {
+import {
   ManagedPrivateEndpointModel,
   ManagedPrivateEndpointUpdateParameters,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedPrivateEndpoints operations. */
 export interface ManagedPrivateEndpointsOperations {
@@ -34,11 +34,6 @@ export interface ManagedPrivateEndpointsOperations {
     options?: ManagedPrivateEndpointsListOptionalParams,
   ) => PagedAsyncIterableIterator<ManagedPrivateEndpointModel>;
   /** Delete a managed private endpoint for a grafana resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     workspaceName: string,

@@ -98,23 +98,23 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/enableInteractiveQuery":
     { deserializer: _enableInteractiveQueryDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/refreshObjectMetadata":
-    { deserializer: _refreshDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _refreshDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/stop":
     { deserializer: _stopDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/start":
-    { deserializer: _startDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _startDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/executeDataFlowDebugCommand":
-    { deserializer: _executeCommandDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _executeCommandDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/createDataFlowDebugSession":
-    { deserializer: _createDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _createDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/stop":
     { deserializer: _stopDeserializeTriggers, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/start":
     { deserializer: _startDeserializeTriggers, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/unsubscribeFromEvents":
-    { deserializer: _unsubscribeFromEventsDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _unsubscribeFromEventsDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/subscribeToEvents":
-    { deserializer: _subscribeToEventsDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _subscribeToEventsDeserialize, expectedStatuses: ["200", "202", "201"] },
 };
 
 function getDeserializationHelper(

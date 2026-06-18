@@ -10142,7 +10142,6 @@ export function dataTransferDataSourceSinkDeserializer(item: any): DataTransferD
 export type DataTransferDataSourceSinkUnion =
   | BaseCosmosDataTransferDataSourceSinkUnion
   | CosmosMongoVCoreDataTransferDataSourceSink
-  | AzureBlobDataTransferDataSourceSink
   | DataTransferDataSourceSink;
 
 export function dataTransferDataSourceSinkUnionSerializer(
@@ -10153,6 +10152,7 @@ export function dataTransferDataSourceSinkUnionSerializer(
     case "CosmosDBCassandra":
     case "CosmosDBMongo":
     case "CosmosDBSql":
+    case "AzureBlobStorage":
       return baseCosmosDataTransferDataSourceSinkUnionSerializer(
         item as BaseCosmosDataTransferDataSourceSinkUnion,
       );
@@ -10160,11 +10160,6 @@ export function dataTransferDataSourceSinkUnionSerializer(
     case "CosmosDBMongoVCore":
       return cosmosMongoVCoreDataTransferDataSourceSinkSerializer(
         item as CosmosMongoVCoreDataTransferDataSourceSink,
-      );
-
-    case "AzureBlobStorage":
-      return azureBlobDataTransferDataSourceSinkSerializer(
-        item as AzureBlobDataTransferDataSourceSink,
       );
 
     default:
@@ -10180,6 +10175,7 @@ export function dataTransferDataSourceSinkUnionDeserializer(
     case "CosmosDBCassandra":
     case "CosmosDBMongo":
     case "CosmosDBSql":
+    case "AzureBlobStorage":
       return baseCosmosDataTransferDataSourceSinkUnionDeserializer(
         item as BaseCosmosDataTransferDataSourceSinkUnion,
       );
@@ -10187,11 +10183,6 @@ export function dataTransferDataSourceSinkUnionDeserializer(
     case "CosmosDBMongoVCore":
       return cosmosMongoVCoreDataTransferDataSourceSinkDeserializer(
         item as CosmosMongoVCoreDataTransferDataSourceSink,
-      );
-
-    case "AzureBlobStorage":
-      return azureBlobDataTransferDataSourceSinkDeserializer(
-        item as AzureBlobDataTransferDataSourceSink,
       );
 
     default:
@@ -10225,7 +10216,8 @@ export interface BaseCosmosDataTransferDataSourceSink extends DataTransferDataSo
     | "BaseCosmosDataTransferDataSourceSink"
     | "CosmosDBCassandra"
     | "CosmosDBMongo"
-    | "CosmosDBSql";
+    | "CosmosDBSql"
+    | "AzureBlobStorage";
 }
 
 export function baseCosmosDataTransferDataSourceSinkSerializer(
@@ -10248,6 +10240,7 @@ export type BaseCosmosDataTransferDataSourceSinkUnion =
   | CosmosCassandraDataTransferDataSourceSink
   | CosmosMongoDataTransferDataSourceSink
   | CosmosSqlDataTransferDataSourceSink
+  | AzureBlobDataTransferDataSourceSink
   | BaseCosmosDataTransferDataSourceSink;
 
 export function baseCosmosDataTransferDataSourceSinkUnionSerializer(
@@ -10267,6 +10260,11 @@ export function baseCosmosDataTransferDataSourceSinkUnionSerializer(
     case "CosmosDBSql":
       return cosmosSqlDataTransferDataSourceSinkSerializer(
         item as CosmosSqlDataTransferDataSourceSink,
+      );
+
+    case "AzureBlobStorage":
+      return azureBlobDataTransferDataSourceSinkSerializer(
+        item as AzureBlobDataTransferDataSourceSink,
       );
 
     default:
@@ -10291,6 +10289,11 @@ export function baseCosmosDataTransferDataSourceSinkUnionDeserializer(
     case "CosmosDBSql":
       return cosmosSqlDataTransferDataSourceSinkDeserializer(
         item as CosmosSqlDataTransferDataSourceSink,
+      );
+
+    case "AzureBlobStorage":
+      return azureBlobDataTransferDataSourceSinkDeserializer(
+        item as AzureBlobDataTransferDataSourceSink,
       );
 
     default:
@@ -10385,6 +10388,35 @@ export function cosmosSqlDataTransferDataSourceSinkDeserializer(
   };
 }
 
+/** An Azure Blob Storage data source/sink */
+export interface AzureBlobDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
+  containerName: string;
+  endpointUrl?: string;
+  component: "AzureBlobStorage";
+}
+
+export function azureBlobDataTransferDataSourceSinkSerializer(
+  item: AzureBlobDataTransferDataSourceSink,
+): any {
+  return {
+    remoteAccountName: item["remoteAccountName"],
+    component: item["component"],
+    containerName: item["containerName"],
+    endpointUrl: item["endpointUrl"],
+  };
+}
+
+export function azureBlobDataTransferDataSourceSinkDeserializer(
+  item: any,
+): AzureBlobDataTransferDataSourceSink {
+  return {
+    remoteAccountName: item["remoteAccountName"],
+    component: item["component"],
+    containerName: item["containerName"],
+    endpointUrl: item["endpointUrl"],
+  };
+}
+
 /** A CosmosDB Mongo vCore API data source/sink */
 export interface CosmosMongoVCoreDataTransferDataSourceSink extends DataTransferDataSourceSink {
   databaseName: string;
@@ -10415,33 +10447,6 @@ export function cosmosMongoVCoreDataTransferDataSourceSinkDeserializer(
     collectionName: item["collectionName"],
     hostName: item["hostName"],
     connectionStringKeyVaultUri: item["connectionStringKeyVaultUri"],
-  };
-}
-
-/** An Azure Blob Storage data source/sink */
-export interface AzureBlobDataTransferDataSourceSink extends DataTransferDataSourceSink {
-  containerName: string;
-  endpointUrl?: string;
-  component: "AzureBlobStorage";
-}
-
-export function azureBlobDataTransferDataSourceSinkSerializer(
-  item: AzureBlobDataTransferDataSourceSink,
-): any {
-  return {
-    component: item["component"],
-    containerName: item["containerName"],
-    endpointUrl: item["endpointUrl"],
-  };
-}
-
-export function azureBlobDataTransferDataSourceSinkDeserializer(
-  item: any,
-): AzureBlobDataTransferDataSourceSink {
-  return {
-    component: item["component"],
-    containerName: item["containerName"],
-    endpointUrl: item["endpointUrl"],
   };
 }
 
@@ -17019,5 +17024,3 @@ export function _fleetspaceAccountResourcePropertiesDeserializer(item: any) {
         ),
   };
 }
-
-export type DatabaseAccountsCheckNameExistsResponse = { body: boolean };
