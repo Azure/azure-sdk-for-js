@@ -5,8 +5,10 @@
 ```ts
 
 import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -14,6 +16,16 @@ export type AccessDecisionEnum = string;
 
 // @public
 export type ActionType = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CarbonEmissionData {
@@ -85,6 +97,7 @@ export class CarbonOptimizationManagementClient {
 // @public
 export interface CarbonOptimizationManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -111,8 +124,8 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 
 // @public
 export interface DateRange {
-    end: string;
-    start: string;
+    end: Date;
+    start: Date;
 }
 
 // @public
@@ -137,6 +150,8 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
+
+export { isRestError }
 
 // @public
 export interface ItemDetailsQueryFilter extends QueryFilter {
@@ -361,6 +376,8 @@ export interface ResourceGroupCarbonEmissionTopItemsSummaryData extends CarbonEm
 
 // @public
 export type ResponseDataTypeEnum = string;
+
+export { RestError }
 
 // @public
 export type SortDirectionEnum = string;

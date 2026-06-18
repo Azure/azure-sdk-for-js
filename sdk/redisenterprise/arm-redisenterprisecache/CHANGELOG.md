@@ -1,33 +1,69 @@
 # Release History
 
-## 5.0.0-beta.1 (2026-05-25)
+## 4.1.0-beta.1 (2026-06-10)
 Compared with version 4.0.0
 
 ### Features Added
+  - Added operation group AccessPolicyAssignmentOperations
+  - Added operation group DatabasesOperations
   - Added operation group MigrationOperations
   - Added operation group MigrationsOperations
-  - Added operation AccessPolicyAssignmentOperations.createUpdate
-  - Added operation AccessPolicyAssignmentOperations.delete
-  - Added operation DatabasesOperations.create
-  - Added operation DatabasesOperations.delete
-  - Added operation DatabasesOperations.export
-  - Added operation DatabasesOperations.flush
-  - Added operation DatabasesOperations.forceLinkToReplicationGroup
-  - Added operation DatabasesOperations.forceUnlink
-  - Added operation DatabasesOperations.import
-  - Added operation DatabasesOperations.regenerateKey
-  - Added operation DatabasesOperations.update
-  - Added operation DatabasesOperations.upgradeDBRedisVersion
-  - Added operation PrivateEndpointConnectionsOperations.delete
-  - Added operation PrivateEndpointConnectionsOperations.put
-  - Added operation RedisEnterpriseOperations.create
-  - Added operation RedisEnterpriseOperations.delete
-  - Added operation RedisEnterpriseOperations.update
+  - Added operation group OperationsOperations
+  - Added operation group OperationsStatusOperations
+  - Added operation group PrivateEndpointConnectionsOperations
+  - Added operation group PrivateLinkResourcesOperations
+  - Added operation group RedisEnterpriseOperations
+  - Added Class RedisEnterpriseManagementClient
+  - Added Interface AccessKeys
+  - Added Interface AccessPolicyAssignment
+  - Added Interface AccessPolicyAssignmentCreateUpdateOptionalParams
+  - Added Interface AccessPolicyAssignmentDeleteOptionalParams
+  - Added Interface AccessPolicyAssignmentGetOptionalParams
+  - Added Interface AccessPolicyAssignmentListOptionalParams
   - Added Interface AccessPolicyAssignmentProperties
+  - Added Interface AccessPolicyAssignmentPropertiesUser
   - Added Interface AzureCacheForRedisMigrationProperties
+  - Added Interface Cluster
+  - Added Interface ClusterCommonProperties
+  - Added Interface ClusterCommonPropertiesEncryption
+  - Added Interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryption
+  - Added Interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity
+  - Added Interface ClusterCreateProperties
+  - Added Interface ClusterUpdate
+  - Added Interface ClusterUpdateProperties
+  - Added Interface Database
+  - Added Interface DatabaseCommonProperties
+  - Added Interface DatabaseCommonPropertiesGeoReplication
+  - Added Interface DatabaseCreateProperties
+  - Added Interface DatabasesCreateOptionalParams
+  - Added Interface DatabasesDeleteOptionalParams
+  - Added Interface DatabasesExportOptionalParams
+  - Added Interface DatabasesFlushOptionalParams
+  - Added Interface DatabasesForceLinkToReplicationGroupOptionalParams
+  - Added Interface DatabasesForceUnlinkOptionalParams
+  - Added Interface DatabasesGetOptionalParams
+  - Added Interface DatabasesImportOptionalParams
+  - Added Interface DatabasesListByClusterOptionalParams
+  - Added Interface DatabasesListKeysOptionalParams
+  - Added Interface DatabasesRegenerateKeyOptionalParams
+  - Added Interface DatabasesUpdateOptionalParams
+  - Added Interface DatabasesUpgradeDBRedisVersionOptionalParams
+  - Added Interface DatabaseUpdate
+  - Added Interface DatabaseUpdateProperties
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface ExportClusterParameters
+  - Added Interface FlushParameters
+  - Added Interface ForceLinkParameters
+  - Added Interface ForceLinkParametersGeoReplication
+  - Added Interface ForceUnlinkParameters
+  - Added Interface ImportClusterParameters
+  - Added Interface LinkedDatabase
   - Added Interface MaintenanceConfiguration
   - Added Interface MaintenanceWindow
   - Added Interface MaintenanceWindowSchedule
+  - Added Interface ManagedServiceIdentity
   - Added Interface Migration
   - Added Interface MigrationCancelOptionalParams
   - Added Interface MigrationGetOptionalParams
@@ -40,543 +76,102 @@ Compared with version 4.0.0
   - Added Interface MigrationValidationRequest
   - Added Interface MigrationValidationResponse
   - Added Interface MigrationValidationWarning
+  - Added Interface Module
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface OperationsStatusGetOptionalParams
+  - Added Interface OperationStatus
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
+  - Added Interface Persistence
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
   - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionsGetOptionalParams
+  - Added Interface PrivateEndpointConnectionsListOptionalParams
+  - Added Interface PrivateEndpointConnectionsPutOptionalParams
+  - Added Interface PrivateLinkResource
   - Added Interface PrivateLinkResourceProperties
+  - Added Interface PrivateLinkResourcesListByClusterOptionalParams
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface ProxyResource
+  - Added Interface RedisEnterpriseCreateOptionalParams
+  - Added Interface RedisEnterpriseDeleteOptionalParams
+  - Added Interface RedisEnterpriseGetOptionalParams
+  - Added Interface RedisEnterpriseListByResourceGroupOptionalParams
+  - Added Interface RedisEnterpriseListOptionalParams
+  - Added Interface RedisEnterpriseListSkusForScalingOptionalParams
+  - Added Interface RedisEnterpriseManagementClientOptionalParams
+  - Added Interface RedisEnterpriseUpdateOptionalParams
+  - Added Interface RegenerateKeyParameters
+  - Added Interface Resource
   - Added Interface RestorePollerOptions
   - Added Interface SimplePollerLike
-  - Interface AccessPolicyAssignment has a new optional parameter systemData
-  - Interface Cluster has a new optional parameter maintenanceConfiguration
-  - Interface Cluster has a new optional parameter migratedEndpoint
-  - Interface Cluster has a new optional parameter systemData
-  - Interface ClusterCommonProperties has a new optional parameter maintenanceConfiguration
-  - Interface ClusterCommonProperties has a new optional parameter migratedEndpoint
-  - Interface ClusterCreateProperties has a new optional parameter maintenanceConfiguration
-  - Interface ClusterCreateProperties has a new optional parameter migratedEndpoint
-  - Interface ClusterUpdate has a new optional parameter maintenanceConfiguration
-  - Interface ClusterUpdate has a new optional parameter migratedEndpoint
-  - Interface ClusterUpdateProperties has a new optional parameter maintenanceConfiguration
-  - Interface ClusterUpdateProperties has a new optional parameter migratedEndpoint
-  - Interface Database has a new optional parameter notifyKeyspaceEvents
-  - Interface DatabaseCommonProperties has a new optional parameter notifyKeyspaceEvents
-  - Interface DatabaseCreateProperties has a new optional parameter notifyKeyspaceEvents
-  - Interface DatabaseUpdate has a new optional parameter notifyKeyspaceEvents
-  - Interface DatabaseUpdateProperties has a new optional parameter notifyKeyspaceEvents
-  - Interface PrivateEndpointConnection has a new optional parameter groupIds
-  - Interface PrivateEndpointConnection has a new optional parameter systemData
-  - Interface PrivateLinkResource has a new optional parameter systemData
-  - Interface Resource has a new optional parameter systemData
-  - Interface TrackedResource has a new optional parameter systemData
+  - Added Interface Sku
+  - Added Interface SkuDetails
+  - Added Interface SkuDetailsList
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias AccessKeysAuthentication
+  - Added Type Alias AccessKeyType
+  - Added Type Alias ActionType
+  - Added Type Alias AofFrequency
   - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ClusteringPolicy
+  - Added Type Alias CmkIdentityType
+  - Added Type Alias CreatedByType
+  - Added Type Alias DeferUpgradeSetting
+  - Added Type Alias EvictionPolicy
+  - Added Type Alias HighAvailability
+  - Added Type Alias Kind
+  - Added Type Alias LinkState
   - Added Type Alias MaintenanceDayOfWeek
   - Added Type Alias MaintenanceWindowType
+  - Added Type Alias ManagedServiceIdentityType
   - Added Type Alias MigrationPropertiesUnion
   - Added Type Alias MigrationProvisioningState
+  - Added Type Alias Origin
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias Protocol
+  - Added Type Alias ProvisioningState
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias RdbFrequency
+  - Added Type Alias RedundancyMode
+  - Added Type Alias ResourceState
+  - Added Type Alias SkuName
   - Added Type Alias SourceType
+  - Added Type Alias TlsVersion
   - Added Enum AzureClouds
+  - Added Enum KnownAccessKeysAuthentication
+  - Added Enum KnownActionType
+  - Added Enum KnownAofFrequency
+  - Added Enum KnownClusteringPolicy
+  - Added Enum KnownCmkIdentityType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDeferUpgradeSetting
+  - Added Enum KnownEvictionPolicy
+  - Added Enum KnownHighAvailability
+  - Added Enum KnownKind
+  - Added Enum KnownLinkState
   - Added Enum KnownMaintenanceDayOfWeek
   - Added Enum KnownMaintenanceWindowType
+  - Added Enum KnownManagedServiceIdentityType
   - Added Enum KnownMigrationProvisioningState
+  - Added Enum KnownOrigin
+  - Added Enum KnownPrivateEndpointConnectionProvisioningState
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownProtocol
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownRdbFrequency
+  - Added Enum KnownRedundancyMode
+  - Added Enum KnownResourceState
+  - Added Enum KnownSkuName
   - Added Enum KnownSourceType
+  - Added Enum KnownTlsVersion
   - Added Enum KnownVersions
 
-### Breaking Changes
-  - Operation AccessPolicyAssignment.beginDeleteAndWait has a new signature
-  - Operation Databases.beginForceLinkToReplicationGroupAndWait has a new signature
-  - Operation Databases.beginUpgradeDBRedisVersionAndWait has a new signature
-  - Removed Interface AccessPolicyAssignmentList
-  - Removed Interface ClusterList
-  - Removed Interface DatabaseList
-  - Removed Interface ErrorDetailAutoGenerated
-  - Removed Interface ErrorResponseAutoGenerated
-  - Removed Interface ProxyResourceAutoGenerated
-  - Removed Interface ResourceAutoGenerated
-
-## 4.0.0 (2025-10-22)
-
-### Features Added
-  - Added operation group AccessPolicyAssignmentOperations
-  - Added operation Databases.beginForceLinkToReplicationGroup
-  - Added operation Databases.beginForceLinkToReplicationGroupAndWait
-  - Added operation Databases.beginUpgradeDBRedisVersion
-  - Added operation Databases.beginUpgradeDBRedisVersionAndWait
-  - Added operation RedisEnterprise.listSkusForScaling
-  - Added Interface AccessPolicyAssignment
-  - Added Interface AccessPolicyAssignmentCreateUpdateOptionalParams
-  - Added Interface AccessPolicyAssignmentDeleteHeaders
-  - Added Interface AccessPolicyAssignmentDeleteOptionalParams
-  - Added Interface AccessPolicyAssignmentGetOptionalParams
-  - Added Interface AccessPolicyAssignmentList
-  - Added Interface AccessPolicyAssignmentListOptionalParams
-  - Added Interface AccessPolicyAssignmentPropertiesUser
-  - Added Interface ClusterCommonProperties
-  - Added Interface ClusterCommonPropertiesEncryption
-  - Added Interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryption
-  - Added Interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity
-  - Added Interface ClusterCreateProperties
-  - Added Interface ClusterUpdateProperties
-  - Added Interface DatabaseCommonProperties
-  - Added Interface DatabaseCommonPropertiesGeoReplication
-  - Added Interface DatabaseCreateProperties
-  - Added Interface DatabasesDeleteHeaders
-  - Added Interface DatabasesExportHeaders
-  - Added Interface DatabasesForceLinkToReplicationGroupHeaders
-  - Added Interface DatabasesForceLinkToReplicationGroupOptionalParams
-  - Added Interface DatabasesForceUnlinkHeaders
-  - Added Interface DatabasesImportHeaders
-  - Added Interface DatabasesRegenerateKeyHeaders
-  - Added Interface DatabasesUpdateHeaders
-  - Added Interface DatabasesUpgradeDBRedisVersionHeaders
-  - Added Interface DatabasesUpgradeDBRedisVersionOptionalParams
-  - Added Interface DatabaseUpdateProperties
-  - Added Interface ErrorDetailAutoGenerated
-  - Added Interface ErrorResponseAutoGenerated
-  - Added Interface ForceLinkParameters
-  - Added Interface ForceLinkParametersGeoReplication
-  - Added Interface ProxyResourceAutoGenerated
-  - Added Interface RedisEnterpriseDeleteHeaders
-  - Added Interface RedisEnterpriseListSkusForScalingOptionalParams
-  - Added Interface RedisEnterpriseUpdateHeaders
-  - Added Interface ResourceAutoGenerated
-  - Added Interface SkuDetails
-  - Added Interface SkuDetailsList
-  - Added Interface SystemData
-  - Interface Cluster has a new optional parameter highAvailability
-  - Interface Cluster has a new optional parameter kind
-  - Interface Cluster has a new optional parameter publicNetworkAccess
-  - Interface Cluster has a new optional parameter redundancyMode
-  - Interface ClusterUpdate has a new optional parameter highAvailability
-  - Interface ClusterUpdate has a new optional parameter publicNetworkAccess
-  - Interface ClusterUpdate has a new optional parameter redundancyMode
-  - Interface Database has a new optional parameter accessKeysAuthentication
-  - Interface Database has a new optional parameter deferUpgrade
-  - Interface Database has a new optional parameter redisVersion
-  - Interface Database has a new optional parameter systemData
-  - Interface DatabasesFlushOptionalParams has a new optional parameter parameters
-  - Interface DatabaseUpdate has a new optional parameter accessKeysAuthentication
-  - Interface DatabaseUpdate has a new optional parameter deferUpgrade
-  - Interface DatabaseUpdate has a new optional parameter redisVersion
-  - Interface ProxyResource has a new optional parameter systemData
-  - Added Type Alias AccessKeysAuthentication
-  - Added Type Alias AccessPolicyAssignmentCreateUpdateResponse
-  - Added Type Alias AccessPolicyAssignmentDeleteResponse
-  - Added Type Alias AccessPolicyAssignmentGetResponse
-  - Added Type Alias AccessPolicyAssignmentListNextResponse
-  - Added Type Alias AccessPolicyAssignmentListResponse
-  - Added Type Alias CreatedByType
-  - Added Type Alias DatabasesForceLinkToReplicationGroupResponse
-  - Added Type Alias DatabasesUpgradeDBRedisVersionResponse
-  - Added Type Alias DeferUpgradeSetting
-  - Added Type Alias HighAvailability
-  - Added Type Alias Kind
-  - Added Type Alias PublicNetworkAccess
-  - Added Type Alias RedisEnterpriseListSkusForScalingResponse
-  - Added Type Alias RedundancyMode
-  - Added Enum KnownAccessKeysAuthentication
-  - Added Enum KnownCreatedByType
-  - Added Enum KnownDeferUpgradeSetting
-  - Added Enum KnownHighAvailability
-  - Added Enum KnownKind
-  - Added Enum KnownPublicNetworkAccess
-  - Added Enum KnownRedundancyMode
-  - Enum KnownClusteringPolicy has a new value NoCluster
-  - Enum KnownResourceState has a new value Moving
-  - Enum KnownSkuName has a new value BalancedB0
-  - Enum KnownSkuName has a new value BalancedB1
-  - Enum KnownSkuName has a new value BalancedB10
-  - Enum KnownSkuName has a new value BalancedB100
-  - Enum KnownSkuName has a new value BalancedB1000
-  - Enum KnownSkuName has a new value BalancedB150
-  - Enum KnownSkuName has a new value BalancedB20
-  - Enum KnownSkuName has a new value BalancedB250
-  - Enum KnownSkuName has a new value BalancedB3
-  - Enum KnownSkuName has a new value BalancedB350
-  - Enum KnownSkuName has a new value BalancedB5
-  - Enum KnownSkuName has a new value BalancedB50
-  - Enum KnownSkuName has a new value BalancedB500
-  - Enum KnownSkuName has a new value BalancedB700
-  - Enum KnownSkuName has a new value ComputeOptimizedX10
-  - Enum KnownSkuName has a new value ComputeOptimizedX100
-  - Enum KnownSkuName has a new value ComputeOptimizedX150
-  - Enum KnownSkuName has a new value ComputeOptimizedX20
-  - Enum KnownSkuName has a new value ComputeOptimizedX250
-  - Enum KnownSkuName has a new value ComputeOptimizedX3
-  - Enum KnownSkuName has a new value ComputeOptimizedX350
-  - Enum KnownSkuName has a new value ComputeOptimizedX5
-  - Enum KnownSkuName has a new value ComputeOptimizedX50
-  - Enum KnownSkuName has a new value ComputeOptimizedX500
-  - Enum KnownSkuName has a new value ComputeOptimizedX700
-  - Enum KnownSkuName has a new value EnterpriseE1
-  - Enum KnownSkuName has a new value EnterpriseE200
-  - Enum KnownSkuName has a new value EnterpriseE400
-  - Enum KnownSkuName has a new value EnterpriseE5
-  - Enum KnownSkuName has a new value FlashOptimizedA1000
-  - Enum KnownSkuName has a new value FlashOptimizedA1500
-  - Enum KnownSkuName has a new value FlashOptimizedA2000
-  - Enum KnownSkuName has a new value FlashOptimizedA250
-  - Enum KnownSkuName has a new value FlashOptimizedA4500
-  - Enum KnownSkuName has a new value FlashOptimizedA500
-  - Enum KnownSkuName has a new value FlashOptimizedA700
-  - Enum KnownSkuName has a new value MemoryOptimizedM10
-  - Enum KnownSkuName has a new value MemoryOptimizedM100
-  - Enum KnownSkuName has a new value MemoryOptimizedM1000
-  - Enum KnownSkuName has a new value MemoryOptimizedM150
-  - Enum KnownSkuName has a new value MemoryOptimizedM1500
-  - Enum KnownSkuName has a new value MemoryOptimizedM20
-  - Enum KnownSkuName has a new value MemoryOptimizedM2000
-  - Enum KnownSkuName has a new value MemoryOptimizedM250
-  - Enum KnownSkuName has a new value MemoryOptimizedM350
-  - Enum KnownSkuName has a new value MemoryOptimizedM50
-  - Enum KnownSkuName has a new value MemoryOptimizedM500
-  - Enum KnownSkuName has a new value MemoryOptimizedM700
-
-### Breaking Changes
-  - Operation Databases.beginFlush has a new signature
-  - Operation Databases.beginFlushAndWait has a new signature
-  - Removed Interface ClusterPropertiesEncryption
-  - Removed Interface ClusterPropertiesEncryptionCustomerManagedKeyEncryption
-  - Removed Interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity
-  - Removed Interface DatabasePropertiesGeoReplication
-
-    
-## 4.0.0-beta.1 (2025-04-24)
-Compared with version 3.0.0
-    
-### Features Added
-
-  - Added operation group AccessPolicyAssignmentOperations
-  - Added operation Databases.beginForceLinkToReplicationGroup
-  - Added operation Databases.beginForceLinkToReplicationGroupAndWait
-  - Added operation Databases.beginUpgradeDBRedisVersion
-  - Added operation Databases.beginUpgradeDBRedisVersionAndWait
-  - Added operation RedisEnterprise.listSkusForScaling
-  - Added Interface AccessPolicyAssignment
-  - Added Interface AccessPolicyAssignmentCreateUpdateOptionalParams
-  - Added Interface AccessPolicyAssignmentDeleteHeaders
-  - Added Interface AccessPolicyAssignmentDeleteOptionalParams
-  - Added Interface AccessPolicyAssignmentGetOptionalParams
-  - Added Interface AccessPolicyAssignmentList
-  - Added Interface AccessPolicyAssignmentListNextOptionalParams
-  - Added Interface AccessPolicyAssignmentListOptionalParams
-  - Added Interface AccessPolicyAssignmentPropertiesUser
-  - Added Interface DatabasesDeleteHeaders
-  - Added Interface DatabasesExportHeaders
-  - Added Interface DatabasesForceLinkToReplicationGroupHeaders
-  - Added Interface DatabasesForceLinkToReplicationGroupOptionalParams
-  - Added Interface DatabasesForceUnlinkHeaders
-  - Added Interface DatabasesImportHeaders
-  - Added Interface DatabasesRegenerateKeyHeaders
-  - Added Interface DatabasesUpdateHeaders
-  - Added Interface DatabasesUpgradeDBRedisVersionHeaders
-  - Added Interface DatabasesUpgradeDBRedisVersionOptionalParams
-  - Added Interface ErrorDetailAutoGenerated
-  - Added Interface ErrorResponseAutoGenerated
-  - Added Interface ForceLinkParameters
-  - Added Interface ForceLinkParametersGeoReplication
-  - Added Interface ProxyResourceAutoGenerated
-  - Added Interface RedisEnterpriseDeleteHeaders
-  - Added Interface RedisEnterpriseListSkusForScalingOptionalParams
-  - Added Interface RedisEnterpriseUpdateHeaders
-  - Added Interface ResourceAutoGenerated
-  - Added Interface SkuDetails
-  - Added Interface SkuDetailsList
-  - Added Interface SystemData
-  - Added Type Alias AccessKeysAuthentication
-  - Added Type Alias AccessPolicyAssignmentCreateUpdateResponse
-  - Added Type Alias AccessPolicyAssignmentDeleteResponse
-  - Added Type Alias AccessPolicyAssignmentGetResponse
-  - Added Type Alias AccessPolicyAssignmentListNextResponse
-  - Added Type Alias AccessPolicyAssignmentListResponse
-  - Added Type Alias CreatedByType
-  - Added Type Alias DatabasesForceLinkToReplicationGroupResponse
-  - Added Type Alias DatabasesUpgradeDBRedisVersionResponse
-  - Added Type Alias DeferUpgradeSetting
-  - Added Type Alias HighAvailability
-  - Added Type Alias Kind
-  - Added Type Alias RedisEnterpriseListSkusForScalingResponse
-  - Added Type Alias RedundancyMode
-  - Interface Cluster has a new optional parameter highAvailability
-  - Interface Cluster has a new optional parameter kind
-  - Interface Cluster has a new optional parameter redundancyMode
-  - Interface ClusterUpdate has a new optional parameter highAvailability
-  - Interface ClusterUpdate has a new optional parameter redundancyMode
-  - Interface Database has a new optional parameter accessKeysAuthentication
-  - Interface Database has a new optional parameter deferUpgrade
-  - Interface Database has a new optional parameter redisVersion
-  - Interface DatabasesFlushOptionalParams has a new optional parameter parameters
-  - Interface DatabaseUpdate has a new optional parameter accessKeysAuthentication
-  - Interface DatabaseUpdate has a new optional parameter deferUpgrade
-  - Interface DatabaseUpdate has a new optional parameter redisVersion
-  - Added Enum KnownAccessKeysAuthentication
-  - Added Enum KnownCreatedByType
-  - Added Enum KnownDeferUpgradeSetting
-  - Added Enum KnownHighAvailability
-  - Added Enum KnownKind
-  - Added Enum KnownRedundancyMode
-  - Enum KnownClusteringPolicy has a new value NoCluster
-  - Enum KnownResourceState has a new value Moving
-  - Enum KnownSkuName has a new value BalancedB0
-  - Enum KnownSkuName has a new value BalancedB1
-  - Enum KnownSkuName has a new value BalancedB10
-  - Enum KnownSkuName has a new value BalancedB100
-  - Enum KnownSkuName has a new value BalancedB1000
-  - Enum KnownSkuName has a new value BalancedB150
-  - Enum KnownSkuName has a new value BalancedB20
-  - Enum KnownSkuName has a new value BalancedB250
-  - Enum KnownSkuName has a new value BalancedB3
-  - Enum KnownSkuName has a new value BalancedB350
-  - Enum KnownSkuName has a new value BalancedB5
-  - Enum KnownSkuName has a new value BalancedB50
-  - Enum KnownSkuName has a new value BalancedB500
-  - Enum KnownSkuName has a new value BalancedB700
-  - Enum KnownSkuName has a new value ComputeOptimizedX10
-  - Enum KnownSkuName has a new value ComputeOptimizedX100
-  - Enum KnownSkuName has a new value ComputeOptimizedX150
-  - Enum KnownSkuName has a new value ComputeOptimizedX20
-  - Enum KnownSkuName has a new value ComputeOptimizedX250
-  - Enum KnownSkuName has a new value ComputeOptimizedX3
-  - Enum KnownSkuName has a new value ComputeOptimizedX350
-  - Enum KnownSkuName has a new value ComputeOptimizedX5
-  - Enum KnownSkuName has a new value ComputeOptimizedX50
-  - Enum KnownSkuName has a new value ComputeOptimizedX500
-  - Enum KnownSkuName has a new value ComputeOptimizedX700
-  - Enum KnownSkuName has a new value EnterpriseE1
-  - Enum KnownSkuName has a new value EnterpriseE200
-  - Enum KnownSkuName has a new value EnterpriseE400
-  - Enum KnownSkuName has a new value EnterpriseE5
-  - Enum KnownSkuName has a new value FlashOptimizedA1000
-  - Enum KnownSkuName has a new value FlashOptimizedA1500
-  - Enum KnownSkuName has a new value FlashOptimizedA2000
-  - Enum KnownSkuName has a new value FlashOptimizedA250
-  - Enum KnownSkuName has a new value FlashOptimizedA4500
-  - Enum KnownSkuName has a new value FlashOptimizedA500
-  - Enum KnownSkuName has a new value FlashOptimizedA700
-  - Enum KnownSkuName has a new value MemoryOptimizedM10
-  - Enum KnownSkuName has a new value MemoryOptimizedM100
-  - Enum KnownSkuName has a new value MemoryOptimizedM1000
-  - Enum KnownSkuName has a new value MemoryOptimizedM150
-  - Enum KnownSkuName has a new value MemoryOptimizedM1500
-  - Enum KnownSkuName has a new value MemoryOptimizedM20
-  - Enum KnownSkuName has a new value MemoryOptimizedM2000
-  - Enum KnownSkuName has a new value MemoryOptimizedM250
-  - Enum KnownSkuName has a new value MemoryOptimizedM350
-  - Enum KnownSkuName has a new value MemoryOptimizedM50
-  - Enum KnownSkuName has a new value MemoryOptimizedM500
-  - Enum KnownSkuName has a new value MemoryOptimizedM700
-
-### Breaking Changes
-
-  - Operation Databases.beginFlush has a new signature
-  - Operation Databases.beginFlushAndWait has a new signature
-    
-    
-## 3.1.0-beta.2 (2024-10-16)
-Compared with version 3.0.0
-    
-### Features Added
-
-  - Added operation group AccessPolicyAssignmentOperations
-  - Added operation Databases.beginForceLinkToReplicationGroup
-  - Added operation Databases.beginForceLinkToReplicationGroupAndWait
-  - Added operation Databases.beginUpgradeDBRedisVersion
-  - Added operation Databases.beginUpgradeDBRedisVersionAndWait
-  - Added Interface AccessPolicyAssignment
-  - Added Interface AccessPolicyAssignmentCreateUpdateOptionalParams
-  - Added Interface AccessPolicyAssignmentDeleteHeaders
-  - Added Interface AccessPolicyAssignmentDeleteOptionalParams
-  - Added Interface AccessPolicyAssignmentGetOptionalParams
-  - Added Interface AccessPolicyAssignmentList
-  - Added Interface AccessPolicyAssignmentListNextOptionalParams
-  - Added Interface AccessPolicyAssignmentListOptionalParams
-  - Added Interface AccessPolicyAssignmentPropertiesUser
-  - Added Interface DatabasesDeleteHeaders
-  - Added Interface DatabasesExportHeaders
-  - Added Interface DatabasesForceLinkToReplicationGroupHeaders
-  - Added Interface DatabasesForceLinkToReplicationGroupOptionalParams
-  - Added Interface DatabasesForceUnlinkHeaders
-  - Added Interface DatabasesImportHeaders
-  - Added Interface DatabasesRegenerateKeyHeaders
-  - Added Interface DatabasesUpdateHeaders
-  - Added Interface DatabasesUpgradeDBRedisVersionHeaders
-  - Added Interface DatabasesUpgradeDBRedisVersionOptionalParams
-  - Added Interface ForceLinkParameters
-  - Added Interface ProxyResourceAutoGenerated
-  - Added Interface RedisEnterpriseDeleteHeaders
-  - Added Interface RedisEnterpriseUpdateHeaders
-  - Added Interface ResourceAutoGenerated
-  - Added Interface SystemData
-  - Added Type Alias AccessKeysAuthentication
-  - Added Type Alias AccessPolicyAssignmentCreateUpdateResponse
-  - Added Type Alias AccessPolicyAssignmentDeleteResponse
-  - Added Type Alias AccessPolicyAssignmentGetResponse
-  - Added Type Alias AccessPolicyAssignmentListNextResponse
-  - Added Type Alias AccessPolicyAssignmentListResponse
-  - Added Type Alias CreatedByType
-  - Added Type Alias DatabasesForceLinkToReplicationGroupResponse
-  - Added Type Alias DatabasesUpgradeDBRedisVersionResponse
-  - Added Type Alias DeferUpgradeSetting
-  - Added Type Alias HighAvailability
-  - Added Type Alias RedundancyMode
-  - Interface Cluster has a new optional parameter highAvailability
-  - Interface Cluster has a new optional parameter redundancyMode
-  - Interface ClusterUpdate has a new optional parameter highAvailability
-  - Interface ClusterUpdate has a new optional parameter redundancyMode
-  - Interface Database has a new optional parameter accessKeysAuthentication
-  - Interface Database has a new optional parameter deferUpgrade
-  - Interface Database has a new optional parameter redisVersion
-  - Interface DatabaseUpdate has a new optional parameter accessKeysAuthentication
-  - Interface DatabaseUpdate has a new optional parameter deferUpgrade
-  - Interface DatabaseUpdate has a new optional parameter redisVersion
-  - Added Enum KnownAccessKeysAuthentication
-  - Added Enum KnownCreatedByType
-  - Added Enum KnownDeferUpgradeSetting
-  - Added Enum KnownHighAvailability
-  - Added Enum KnownRedundancyMode
-  - Enum KnownSkuName has a new value BalancedB0
-  - Enum KnownSkuName has a new value BalancedB1
-  - Enum KnownSkuName has a new value BalancedB10
-  - Enum KnownSkuName has a new value BalancedB100
-  - Enum KnownSkuName has a new value BalancedB1000
-  - Enum KnownSkuName has a new value BalancedB150
-  - Enum KnownSkuName has a new value BalancedB20
-  - Enum KnownSkuName has a new value BalancedB250
-  - Enum KnownSkuName has a new value BalancedB3
-  - Enum KnownSkuName has a new value BalancedB350
-  - Enum KnownSkuName has a new value BalancedB5
-  - Enum KnownSkuName has a new value BalancedB50
-  - Enum KnownSkuName has a new value BalancedB500
-  - Enum KnownSkuName has a new value BalancedB700
-  - Enum KnownSkuName has a new value ComputeOptimizedX10
-  - Enum KnownSkuName has a new value ComputeOptimizedX100
-  - Enum KnownSkuName has a new value ComputeOptimizedX150
-  - Enum KnownSkuName has a new value ComputeOptimizedX20
-  - Enum KnownSkuName has a new value ComputeOptimizedX250
-  - Enum KnownSkuName has a new value ComputeOptimizedX3
-  - Enum KnownSkuName has a new value ComputeOptimizedX350
-  - Enum KnownSkuName has a new value ComputeOptimizedX5
-  - Enum KnownSkuName has a new value ComputeOptimizedX50
-  - Enum KnownSkuName has a new value ComputeOptimizedX500
-  - Enum KnownSkuName has a new value ComputeOptimizedX700
-  - Enum KnownSkuName has a new value EnterpriseE1
-  - Enum KnownSkuName has a new value EnterpriseE200
-  - Enum KnownSkuName has a new value EnterpriseE400
-  - Enum KnownSkuName has a new value EnterpriseE5
-  - Enum KnownSkuName has a new value FlashOptimizedA1000
-  - Enum KnownSkuName has a new value FlashOptimizedA1500
-  - Enum KnownSkuName has a new value FlashOptimizedA2000
-  - Enum KnownSkuName has a new value FlashOptimizedA250
-  - Enum KnownSkuName has a new value FlashOptimizedA4500
-  - Enum KnownSkuName has a new value FlashOptimizedA500
-  - Enum KnownSkuName has a new value FlashOptimizedA700
-  - Enum KnownSkuName has a new value MemoryOptimizedM10
-  - Enum KnownSkuName has a new value MemoryOptimizedM100
-  - Enum KnownSkuName has a new value MemoryOptimizedM1000
-  - Enum KnownSkuName has a new value MemoryOptimizedM150
-  - Enum KnownSkuName has a new value MemoryOptimizedM1500
-  - Enum KnownSkuName has a new value MemoryOptimizedM20
-  - Enum KnownSkuName has a new value MemoryOptimizedM2000
-  - Enum KnownSkuName has a new value MemoryOptimizedM250
-  - Enum KnownSkuName has a new value MemoryOptimizedM350
-  - Enum KnownSkuName has a new value MemoryOptimizedM50
-  - Enum KnownSkuName has a new value MemoryOptimizedM500
-  - Enum KnownSkuName has a new value MemoryOptimizedM700
-    
-    
-## 3.1.0-beta.1 (2024-05-13)
-Compared with version 3.0.0
-    
-### Features Added
-
-  - Added operation Databases.beginForceLinkToReplicationGroup
-  - Added operation Databases.beginForceLinkToReplicationGroupAndWait
-  - Added operation Databases.beginUpgradeDBRedisVersion
-  - Added operation Databases.beginUpgradeDBRedisVersionAndWait
-  - Added Interface DatabasesForceLinkToReplicationGroupHeaders
-  - Added Interface DatabasesForceLinkToReplicationGroupOptionalParams
-  - Added Interface DatabasesUpgradeDBRedisVersionHeaders
-  - Added Interface DatabasesUpgradeDBRedisVersionOptionalParams
-  - Added Interface ForceLinkParameters
-  - Added Type Alias DatabasesForceLinkToReplicationGroupResponse
-  - Added Type Alias DatabasesUpgradeDBRedisVersionResponse
-  - Added Type Alias DeferUpgradeSetting
-  - Interface Database has a new optional parameter deferUpgrade
-  - Interface Database has a new optional parameter redisVersion
-  - Interface DatabaseUpdate has a new optional parameter deferUpgrade
-  - Interface DatabaseUpdate has a new optional parameter redisVersion
-  - Added Enum KnownDeferUpgradeSetting
-  - Enum KnownSkuName has a new value EnterpriseE5
-    
-    
-## 3.0.0 (2024-01-31)
-    
-### Features Added
-
-  - Added operation Databases.beginFlush
-  - Added operation Databases.beginFlushAndWait
-  - Added operation PrivateEndpointConnections.beginDelete
-  - Added operation PrivateEndpointConnections.beginDeleteAndWait
-  - Added Interface ClusterPropertiesEncryption
-  - Added Interface ClusterPropertiesEncryptionCustomerManagedKeyEncryption
-  - Added Interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity
-  - Added Interface DatabasesFlushHeaders
-  - Added Interface DatabasesFlushOptionalParams
-  - Added Interface FlushParameters
-  - Added Interface ManagedServiceIdentity
-  - Added Interface PrivateEndpointConnectionsDeleteHeaders
-  - Added Interface UserAssignedIdentity
-  - Added Type Alias CmkIdentityType
-  - Added Type Alias ManagedServiceIdentityType
-  - Interface Cluster has a new optional parameter encryption
-  - Interface Cluster has a new optional parameter identity
-  - Interface ClusterUpdate has a new optional parameter encryption
-  - Interface ClusterUpdate has a new optional parameter identity
-  - Interface PrivateEndpointConnectionsDeleteOptionalParams has a new optional parameter resumeFrom
-  - Interface PrivateEndpointConnectionsDeleteOptionalParams has a new optional parameter updateIntervalInMs
-  - Added Enum KnownCmkIdentityType
-  - Added Enum KnownManagedServiceIdentityType
-  - Enum KnownResourceState has a new value Scaling
-  - Enum KnownResourceState has a new value ScalingFailed
-
-### Breaking Changes
-
-  - Removed operation PrivateEndpointConnections.delete
-    
-    
-## 2.2.0 (2022-12-07)
-    
-### Features Added
-
-  - Added Interface Cluster
-  - Added Interface Database
-  - Added Interface PrivateEndpointConnection
-  - Added Interface PrivateLinkResource
-  - Added Interface ProxyResource
-  - Added Interface TrackedResource
-    
-    
-## 2.1.0 (2022-04-11)
-    
-### Features Added
-
-  - Added operation Databases.beginForceUnlink
-  - Added operation Databases.beginForceUnlinkAndWait
-  - Added Interface DatabasePropertiesGeoReplication
-  - Added Interface DatabasesForceUnlinkOptionalParams
-  - Added Interface ForceUnlinkParameters
-  - Added Interface LinkedDatabase
-  - Added Type Alias LinkState
-  - Interface DatabaseUpdate has a new optional parameter geoReplication
-  - Type Alias Database has a new parameter geoReplication
-  - Added Enum KnownLinkState
-    
-    
-## 2.0.0 (2022-01-20)
-
-The package of @azure/arm-redisenterprisecache is using our next generation design principles since version 2.0.0, which contains breaking changes.
-
-To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
-
-To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
-
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

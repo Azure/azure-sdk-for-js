@@ -1,23 +1,7 @@
 # Release History
-
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0-beta.2 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
-## 1.0.0-beta.1 (2024-10-25)
+    
+## 1.0.0 (2026-06-10)
 
 ### Features Added
 
-Initial release of the Azure Containerorchestratorruntime package
+This is the first stable release of the @azure/arm-containerorchestratorruntime package. It introduces a new SDK generation with layered APIs, smaller bundles, and improved ergonomics. For more details, see the https://aka.ms/azsdk/js/sdk/quickstart.

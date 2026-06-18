@@ -4,15 +4,17 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessCreateRoleBindingOptionalParams extends OperationOptions {
@@ -129,6 +131,56 @@ export interface AccessOperations {
     listRoleBindings: (resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListRoleBindingsOptionalParams) => Promise<AccessListRoleBindingsSuccessResponse>;
     listServiceAccounts: (resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListServiceAccountsOptionalParams) => Promise<AccessListServiceAccountsSuccessResponse>;
     listUsers: (resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListUsersOptionalParams) => Promise<AccessListUsersSuccessResponse>;
+}
+
+// @public
+export interface AccessPointProperties {
+    accessPointName: string;
+    dictionary?: KeyValuePair[];
+    egressRoutes?: string[];
+    metadata?: SCMetadataEntity;
+    readonly provisioningState?: ProvisionState;
+    region: string;
+    vnetInjection: VnetInjectionDetails;
+}
+
+// @public
+export interface AccessPointResource extends ProxyResource {
+    properties?: AccessPointProperties;
+}
+
+// @public
+export interface AccessPointResourcesCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AccessPointResourcesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AccessPointResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AccessPointResourcesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AccessPointResourcesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrReplace: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, accessPointId: string, resource: AccessPointResource, options?: AccessPointResourcesCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<AccessPointResource>, AccessPointResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, accessPointId: string, resource: AccessPointResource, options?: AccessPointResourcesCreateOrReplaceOptionalParams) => Promise<AccessPointResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, accessPointId: string, options?: AccessPointResourcesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, accessPointId: string, options?: AccessPointResourcesDeleteOptionalParams) => Promise<void>;
+    createOrReplace: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, accessPointId: string, resource: AccessPointResource, options?: AccessPointResourcesCreateOrReplaceOptionalParams) => PollerLike<OperationState<AccessPointResource>, AccessPointResource>;
+    delete: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, accessPointId: string, options?: AccessPointResourcesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, accessPointId: string, options?: AccessPointResourcesGetOptionalParams) => Promise<AccessPointResource>;
+    list: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, options?: AccessPointResourcesListOptionalParams) => PagedAsyncIterableIterator<AccessPointResource>;
 }
 
 // @public
@@ -368,10 +420,12 @@ export class ConfluentManagementClient {
     constructor(credential: TokenCredential, options?: ConfluentManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: ConfluentManagementClientOptionalParams);
     readonly access: AccessOperations;
+    readonly accessPointResources: AccessPointResourcesOperations;
     readonly cluster: ClusterOperations;
     readonly connector: ConnectorOperations;
     readonly environment: EnvironmentOperations;
     readonly marketplaceAgreements: MarketplaceAgreementsOperations;
+    readonly networkGatewayResources: NetworkGatewayResourcesOperations;
     readonly organization: OrganizationOperations;
     readonly organizationOperations: OrganizationOperationsOperations;
     readonly pipeline: Pipeline;
@@ -551,6 +605,8 @@ export interface InvitationRecord {
     status?: string;
 }
 
+export { isRestError }
+
 // @public
 export interface KafkaAzureBlobStorageSinkConnectorInfo extends PartnerInfoBase {
     apiKey?: string;
@@ -630,6 +686,12 @@ export interface KafkaAzureSynapseAnalyticsSinkConnectorInfo extends PartnerInfo
     timeInterval?: string;
     topics?: string[];
     topicsDir?: string;
+}
+
+// @public
+export interface KeyValuePair {
+    key: string;
+    value: string;
 }
 
 // @public
@@ -732,7 +794,8 @@ export enum KnownSaaSOfferStatus {
 export enum KnownVersions {
     V20240701 = "2024-07-01",
     V20250717Preview = "2025-07-17-preview",
-    V20250818Preview = "2025-08-18-preview"
+    V20250818Preview = "2025-08-18-preview",
+    V20260501Preview = "2026-05-01-preview"
 }
 
 // @public
@@ -772,6 +835,54 @@ export interface MetadataEntity {
     resourceName?: string;
     self?: string;
     updatedAt?: string;
+}
+
+// @public
+export interface NetworkGatewayProperties {
+    dictionary?: KeyValuePair[];
+    metadata?: SCMetadataEntity;
+    networkGatewayName: string;
+    readonly provisioningState?: ProvisionState;
+    region: string;
+}
+
+// @public
+export interface NetworkGatewayResource extends ProxyResource {
+    properties?: NetworkGatewayProperties;
+}
+
+// @public
+export interface NetworkGatewayResourcesCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NetworkGatewayResourcesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NetworkGatewayResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NetworkGatewayResourcesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NetworkGatewayResourcesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrReplace: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, resource: NetworkGatewayResource, options?: NetworkGatewayResourcesCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkGatewayResource>, NetworkGatewayResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, resource: NetworkGatewayResource, options?: NetworkGatewayResourcesCreateOrReplaceOptionalParams) => Promise<NetworkGatewayResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, options?: NetworkGatewayResourcesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, options?: NetworkGatewayResourcesDeleteOptionalParams) => Promise<void>;
+    createOrReplace: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, resource: NetworkGatewayResource, options?: NetworkGatewayResourcesCreateOrReplaceOptionalParams) => PollerLike<OperationState<NetworkGatewayResource>, NetworkGatewayResource>;
+    delete: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, options?: NetworkGatewayResourcesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, options?: NetworkGatewayResourcesGetOptionalParams) => Promise<NetworkGatewayResource>;
+    list: (resourceGroupName: string, organizationName: string, environmentId: string, options?: NetworkGatewayResourcesListOptionalParams) => PagedAsyncIterableIterator<NetworkGatewayResource>;
 }
 
 // @public
@@ -1008,6 +1119,8 @@ export interface Resource {
 export interface ResourceProviderDefaultErrorResponse {
     readonly error?: ErrorResponseBody;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ConfluentManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -1289,6 +1402,12 @@ export interface ValidationsValidateOrganizationOptionalParams extends Operation
 
 // @public
 export interface ValidationsValidateOrganizationV2OptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VnetInjectionDetails {
+    subnetResourceId: string;
+    virtualNetworkResourceId: string;
 }
 
 // (No @packageDocumentation comment for this package)

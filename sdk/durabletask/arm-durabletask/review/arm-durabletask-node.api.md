@@ -4,14 +4,16 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -42,6 +44,7 @@ export class DurableTaskClient {
     readonly retentionPolicies: RetentionPoliciesOperations;
     readonly schedulers: SchedulersOperations;
     readonly taskHubs: TaskHubsOperations;
+    readonly transparentDataEncryptions: TransparentDataEncryptionsOperations;
 }
 
 // @public
@@ -70,6 +73,8 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -81,6 +86,14 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -143,10 +156,30 @@ export enum KnownSchedulerSkuName {
 }
 
 // @public
-export enum KnownVersions {
-    V20251101 = "2025-11-01",
-    V20260201 = "2026-02-01"
+export enum KnownTransparentDataEncryptionKeySource {
+    CustomerManaged = "CustomerManaged",
+    MicrosoftManaged = "MicrosoftManaged"
 }
+
+// @public
+export enum KnownVersions {
+    V20241001Preview = "2024-10-01-preview",
+    V20250401Preview = "2025-04-01-preview",
+    V20251101 = "2025-11-01",
+    V20260201 = "2026-02-01",
+    V20260501Preview = "2026-05-01-preview"
+}
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface Operation {
@@ -262,6 +295,8 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DurableTaskClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -323,6 +358,7 @@ export interface RetentionPolicyProperties {
 
 // @public
 export interface Scheduler extends TrackedResource {
+    identity?: ManagedServiceIdentity;
     properties?: SchedulerProperties;
 }
 
@@ -428,8 +464,13 @@ export interface SchedulersOperations {
     listBySubscription: (options?: SchedulersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Scheduler>;
     listPrivateEndpointConnections: (resourceGroupName: string, schedulerName: string, options?: SchedulersListPrivateEndpointConnectionsOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
     listPrivateLinks: (resourceGroupName: string, schedulerName: string, options?: SchedulersListPrivateLinksOptionalParams) => PagedAsyncIterableIterator<SchedulerPrivateLinkResource>;
+    restart: (resourceGroupName: string, schedulerName: string, options?: SchedulersRestartOptionalParams) => Promise<void>;
     update: (resourceGroupName: string, schedulerName: string, properties: SchedulerUpdate, options?: SchedulersUpdateOptionalParams) => PollerLike<OperationState<Scheduler>, Scheduler>;
     updatePrivateEndpointConnection: (resourceGroupName: string, schedulerName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnectionUpdate, options?: SchedulersUpdatePrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+}
+
+// @public
+export interface SchedulersRestartOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -444,6 +485,7 @@ export interface SchedulersUpdatePrivateEndpointConnectionOptionalParams extends
 
 // @public
 export interface SchedulerUpdate {
+    identity?: ManagedServiceIdentity;
     properties?: SchedulerPropertiesUpdate;
     tags?: Record<string, string>;
 }
@@ -465,6 +507,7 @@ export interface TaskHub extends ProxyResource {
 
 // @public
 export interface TaskHubProperties {
+    capabilities?: string[];
     readonly dashboardUrl?: string;
     readonly provisioningState?: ProvisioningState;
 }
@@ -499,6 +542,53 @@ export interface TaskHubsOperations {
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface TransparentDataEncryption extends ProxyResource {
+    properties?: TransparentDataEncryptionProperties;
+}
+
+// @public
+export type TransparentDataEncryptionKeySource = string;
+
+// @public
+export interface TransparentDataEncryptionProperties {
+    keySource: TransparentDataEncryptionKeySource;
+    keyVaultKeyUri?: string;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface TransparentDataEncryptionsCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface TransparentDataEncryptionsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface TransparentDataEncryptionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TransparentDataEncryptionsListBySchedulerOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TransparentDataEncryptionsOperations {
+    createOrReplace: (resourceGroupName: string, schedulerName: string, resource: TransparentDataEncryption, options?: TransparentDataEncryptionsCreateOrReplaceOptionalParams) => PollerLike<OperationState<TransparentDataEncryption>, TransparentDataEncryption>;
+    delete: (resourceGroupName: string, schedulerName: string, options?: TransparentDataEncryptionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, schedulerName: string, options?: TransparentDataEncryptionsGetOptionalParams) => Promise<TransparentDataEncryption>;
+    listByScheduler: (resourceGroupName: string, schedulerName: string, options?: TransparentDataEncryptionsListBySchedulerOptionalParams) => PagedAsyncIterableIterator<TransparentDataEncryption>;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // (No @packageDocumentation comment for this package)

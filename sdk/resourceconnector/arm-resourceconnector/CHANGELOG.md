@@ -1,16 +1,6 @@
 # Release History
 
-## 2.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.0.0-beta.1 (2026-01-12)
+## 2.0.0-beta.2 (2026-06-10)
 Compared with version 1.0.0
 
 ### Features Added
@@ -60,7 +50,3 @@ Compared with version 1.0.0
   - Enum KnownProvider no longer has value KubeVirt
   - Enum KnownProvider no longer has value OpenStack
 
-    
-## 1.0.0 (2023-08-14)
-
-The package of @azure/arm-resourceconnector is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

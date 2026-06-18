@@ -6,11 +6,13 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -33,6 +35,7 @@ export type CreatedByType = string;
 
 // @public (undocumented)
 export class EdgeClient {
+    constructor(credential: TokenCredential, options?: EdgeClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: EdgeClientOptionalParams);
     readonly pipeline: Pipeline;
     readonly sites: SitesOperations;
@@ -67,6 +70,12 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface ExtensionResource extends Resource {
+}
+
+export { isRestError }
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -99,10 +108,6 @@ export interface PageSettings {
 }
 
 // @public
-export interface ProxyResource extends Resource {
-}
-
-// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -112,6 +117,8 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: EdgeClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -124,7 +131,7 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 }
 
 // @public
-export interface Site extends ProxyResource {
+export interface Site extends ExtensionResource {
     properties?: SiteProperties;
 }
 

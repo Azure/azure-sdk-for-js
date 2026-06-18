@@ -1,311 +1,169 @@
 # Release History
 
-## 3.1.0 (2026-04-06)
+## 3.1.0 (2026-06-10)
 
 ### Features Added
+  - Added operation group AgentsOperations
   - Added operation group ConnectionsOperations
+  - Added operation group EndpointsOperations
+  - Added operation group JobDefinitionsOperations
+  - Added operation group JobRunsOperations
+  - Added operation group OperationsOperations
+  - Added operation group ProjectsOperations
+  - Added operation group StorageMoversOperations
+  - Added Class StorageMoverClient
+  - Added Interface Agent
+  - Added Interface AgentProperties
+  - Added Interface AgentPropertiesErrorDetails
+  - Added Interface AgentsCreateOrUpdateOptionalParams
+  - Added Interface AgentsDeleteOptionalParams
+  - Added Interface AgentsGetOptionalParams
+  - Added Interface AgentsListOptionalParams
+  - Added Interface AgentsUpdateOptionalParams
+  - Added Interface AgentUpdateParameters
+  - Added Interface AgentUpdateProperties
   - Added Interface AzureKeyVaultS3WithHmacCredentials
+  - Added Interface AzureKeyVaultSmbCredentials
+  - Added Interface AzureMultiCloudConnectorEndpointProperties
+  - Added Interface AzureMultiCloudConnectorEndpointUpdateProperties
+  - Added Interface AzureStorageBlobContainerEndpointProperties
+  - Added Interface AzureStorageBlobContainerEndpointUpdateProperties
+  - Added Interface AzureStorageNfsFileShareEndpointProperties
+  - Added Interface AzureStorageNfsFileShareEndpointUpdateProperties
+  - Added Interface AzureStorageSmbFileShareEndpointProperties
+  - Added Interface AzureStorageSmbFileShareEndpointUpdateProperties
   - Added Interface Connection
   - Added Interface ConnectionProperties
   - Added Interface ConnectionsCreateOrUpdateOptionalParams
   - Added Interface ConnectionsDeleteOptionalParams
   - Added Interface ConnectionsGetOptionalParams
   - Added Interface ConnectionsListOptionalParams
+  - Added Interface Credentials
+  - Added Interface Endpoint
+  - Added Interface EndpointBaseProperties
+  - Added Interface EndpointBaseUpdateParameters
+  - Added Interface EndpointBaseUpdateProperties
+  - Added Interface EndpointsCreateOrUpdateOptionalParams
+  - Added Interface EndpointsDeleteOptionalParams
+  - Added Interface EndpointsGetOptionalParams
+  - Added Interface EndpointsListOptionalParams
+  - Added Interface EndpointsUpdateOptionalParams
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface JobDefinition
+  - Added Interface JobDefinitionProperties
+  - Added Interface JobDefinitionsCreateOrUpdateOptionalParams
+  - Added Interface JobDefinitionsDeleteOptionalParams
+  - Added Interface JobDefinitionsGetOptionalParams
+  - Added Interface JobDefinitionsListOptionalParams
+  - Added Interface JobDefinitionsStartJobOptionalParams
+  - Added Interface JobDefinitionsStopJobOptionalParams
+  - Added Interface JobDefinitionsUpdateOptionalParams
+  - Added Interface JobDefinitionUpdateParameters
+  - Added Interface JobDefinitionUpdateProperties
+  - Added Interface JobRun
+  - Added Interface JobRunError
+  - Added Interface JobRunProperties
+  - Added Interface JobRunResourceId
+  - Added Interface JobRunsGetOptionalParams
+  - Added Interface JobRunsListOptionalParams
   - Added Interface JobRunWarning
+  - Added Interface ManagedServiceIdentity
+  - Added Interface NfsMountEndpointProperties
+  - Added Interface NfsMountEndpointUpdateProperties
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface Project
+  - Added Interface ProjectProperties
+  - Added Interface ProjectsCreateOrUpdateOptionalParams
+  - Added Interface ProjectsDeleteOptionalParams
+  - Added Interface ProjectsGetOptionalParams
+  - Added Interface ProjectsListOptionalParams
+  - Added Interface ProjectsUpdateOptionalParams
+  - Added Interface ProjectUpdateParameters
+  - Added Interface ProjectUpdateProperties
+  - Added Interface ProxyResource
+  - Added Interface Recurrence
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
   - Added Interface S3WithHmacEndpointProperties
   - Added Interface S3WithHmacEndpointUpdateProperties
   - Added Interface ScheduleInfo
   - Added Interface SchedulerTime
-  - Interface AzureMultiCloudConnectorEndpointProperties has a new optional parameter endpointKind
-  - Interface AzureStorageBlobContainerEndpointProperties has a new optional parameter endpointKind
-  - Interface AzureStorageNfsFileShareEndpointProperties has a new optional parameter endpointKind
-  - Interface AzureStorageSmbFileShareEndpointProperties has a new optional parameter endpointKind
-  - Interface EndpointBaseProperties has a new optional parameter endpointKind
-  - Interface JobDefinitionProperties has a new optional parameter connections
-  - Interface JobDefinitionProperties has a new optional parameter dataIntegrityValidation
-  - Interface JobDefinitionProperties has a new optional parameter preservePermissions
-  - Interface JobDefinitionProperties has a new optional parameter schedule
-  - Interface JobDefinitionUpdateProperties has a new optional parameter connections
-  - Interface JobDefinitionUpdateProperties has a new optional parameter dataIntegrityValidation
-  - Interface JobDefinitionUpdateProperties has a new optional parameter schedule
-  - Interface JobRunProperties has a new optional parameter scheduledExecutionTime
-  - Interface JobRunProperties has a new optional parameter triggerType
-  - Interface JobRunProperties has a new optional parameter warnings
-  - Interface NfsMountEndpointProperties has a new optional parameter endpointKind
-  - Interface SmbMountEndpointProperties has a new optional parameter endpointKind
-  - Added Type Alias ConnectionStatus
-  - Added Type Alias DataIntegrityValidation
-  - Added Type Alias EndpointKind
-  - Added Type Alias Frequency
-  - Added Type Alias S3WithHmacSourceType
-  - Added Type Alias TriggerType
-  - Added Enum KnownConnectionStatus
-  - Added Enum KnownDataIntegrityValidation
-  - Added Enum KnownEndpointKind
-  - Added Enum KnownFrequency
-  - Added Enum KnownS3WithHmacSourceType
-  - Added Enum KnownTriggerType
-  - Enum KnownCredentialType has a new value AzureKeyVaultS3WithHmac
-  - Enum KnownEndpointType has a new value S3WithHmac
-  - Enum KnownVersions has a new value V20250801
-  - Enum KnownVersions has a new value V20251201
-
-## 3.0.1 (2025-10-15)
-
-### Features Added
-  - NFS V4 Support added
-
-### Other Changes
-- API version upgraded to 2025-07-01
-
-## 3.0.0 (2025-09-04)
-
-### Features Added
-  - Added operation AgentsOperations.delete
-  - Added operation EndpointsOperations.delete
-  - Added operation JobDefinitionsOperations.delete
-  - Added operation ProjectsOperations.delete
-  - Added operation StorageMoversOperations.delete
-  - Added Interface AgentProperties
-  - Added Interface AgentUpdateProperties
-  - Added Interface AzureMultiCloudConnectorEndpointProperties
-  - Added Interface AzureMultiCloudConnectorEndpointUpdateProperties
-  - Added Interface AzureStorageNfsFileShareEndpointProperties
-  - Added Interface AzureStorageNfsFileShareEndpointUpdateProperties
-  - Added Interface JobDefinitionProperties
-  - Added Interface JobDefinitionUpdateProperties
-  - Added Interface JobRunProperties
-  - Added Interface ManagedServiceIdentity
-  - Added Interface PagedAsyncIterableIterator
-  - Added Interface PageSettings
-  - Added Interface ProjectProperties
-  - Added Interface ProjectUpdateProperties
-  - Added Interface RestorePollerOptions
+  - Added Interface SmbMountEndpointProperties
+  - Added Interface SmbMountEndpointUpdateProperties
   - Added Interface SourceEndpoint
   - Added Interface SourceEndpointProperties
   - Added Interface SourceTargetMap
+  - Added Interface StorageMover
+  - Added Interface StorageMoverClientOptionalParams
   - Added Interface StorageMoverProperties
+  - Added Interface StorageMoversCreateOrUpdateOptionalParams
+  - Added Interface StorageMoversDeleteOptionalParams
+  - Added Interface StorageMoversGetOptionalParams
+  - Added Interface StorageMoversListBySubscriptionOptionalParams
+  - Added Interface StorageMoversListOptionalParams
+  - Added Interface StorageMoversUpdateOptionalParams
+  - Added Interface StorageMoverUpdateParameters
   - Added Interface StorageMoverUpdateProperties
+  - Added Interface SystemData
   - Added Interface TargetEndpoint
   - Added Interface TargetEndpointProperties
-  - Added Interface UserAssignedIdentity
-  - Interface AgentUpdateParameters has a new optional parameter properties
-  - Interface Endpoint has a new optional parameter identity
-  - Interface EndpointBaseUpdateParameters has a new optional parameter identity
-  - Interface JobDefinitionUpdateParameters has a new optional parameter properties
-  - Interface JobRun has a new optional parameter properties
-  - Interface Project has a new optional parameter properties
-  - Interface ProjectUpdateParameters has a new optional parameter properties
-  - Interface StorageMover has a new optional parameter properties
-  - Interface StorageMoverUpdateParameters has a new optional parameter properties
-  - Added Type Alias AzureSupportedClouds
-  - Added Type Alias JobType
-  - Added Type Alias ManagedServiceIdentityType
-  - Added Enum AzureClouds
-  - Added Enum KnownJobType
-  - Added Enum KnownManagedServiceIdentityType
-  - Added Enum KnownVersions
-  - Enum KnownEndpointType has a new value AzureMultiCloudConnector
-  - Enum KnownEndpointType has a new value AzureStorageNfsFileShare
-
-### Breaking Changes
-  - Removed operation Agents.beginDelete
-  - Removed operation Agents.beginDeleteAndWait
-  - Removed operation Endpoints.beginDelete
-  - Removed operation Endpoints.beginDeleteAndWait
-  - Removed operation JobDefinitions.beginDelete
-  - Removed operation JobDefinitions.beginDeleteAndWait
-  - Removed operation Projects.beginDelete
-  - Removed operation Projects.beginDeleteAndWait
-  - Removed operation StorageMovers.beginDelete
-  - Removed operation StorageMovers.beginDeleteAndWait
-  - Operation Agents.createOrUpdate has a new signature
-  - Operation Agents.get has a new signature
-  - Operation Agents.update has a new signature
-  - Operation Endpoints.createOrUpdate has a new signature
-  - Operation Endpoints.get has a new signature
-  - Operation Endpoints.update has a new signature
-  - Operation JobDefinitions.createOrUpdate has a new signature
-  - Operation JobDefinitions.get has a new signature
-  - Operation JobDefinitions.update has a new signature
-  - Operation Projects.update has a new signature
-  - Removed Interface AgentList
-  - Removed Interface EndpointList
-  - Removed Interface JobDefinitionList
-  - Removed Interface JobRunList
-  - Removed Interface ProjectList
-  - Removed Interface StorageMoverList
-  - Removed Interface UploadLimit
-  - Interface Agent has a new required parameter properties
-  - Interface JobDefinition has a new required parameter properties
-  - Type of parameter type of interface Credentials is changed from "AzureKeyVaultSmb" to CredentialType
-  - Type of parameter endpointType of interface EndpointBaseProperties is changed from "AzureStorageBlobContainer" | "NfsMount" | "AzureStorageSmbFileShare" | "SmbMount" to EndpointType
-  - Type of parameter endpointType of interface EndpointBaseUpdateProperties is changed from "AzureStorageBlobContainer" | "NfsMount" | "AzureStorageSmbFileShare" | "SmbMount" to EndpointType
-  - Interface Agent no longer has parameter agentStatus
-  - Interface Agent no longer has parameter agentVersion
-  - Interface Agent no longer has parameter arcResourceId
-  - Interface Agent no longer has parameter arcVmUuid
-  - Interface Agent no longer has parameter description
-  - Interface Agent no longer has parameter errorDetails
-  - Interface Agent no longer has parameter lastStatusUpdate
-  - Interface Agent no longer has parameter localIPAddress
-  - Interface Agent no longer has parameter memoryInMB
-  - Interface Agent no longer has parameter numberOfCores
-  - Interface Agent no longer has parameter provisioningState
-  - Interface Agent no longer has parameter timeZone
-  - Interface Agent no longer has parameter uploadLimitSchedule
-  - Interface Agent no longer has parameter uptimeInSeconds
-  - Interface AgentUpdateParameters no longer has parameter description
-  - Interface AgentUpdateParameters no longer has parameter uploadLimitSchedule
-  - Interface JobDefinition no longer has parameter agentName
-  - Interface JobDefinition no longer has parameter agentResourceId
-  - Interface JobDefinition no longer has parameter copyMode
-  - Interface JobDefinition no longer has parameter description
-  - Interface JobDefinition no longer has parameter latestJobRunName
-  - Interface JobDefinition no longer has parameter latestJobRunResourceId
-  - Interface JobDefinition no longer has parameter latestJobRunStatus
-  - Interface JobDefinition no longer has parameter provisioningState
-  - Interface JobDefinition no longer has parameter sourceName
-  - Interface JobDefinition no longer has parameter sourceResourceId
-  - Interface JobDefinition no longer has parameter sourceSubpath
-  - Interface JobDefinition no longer has parameter targetName
-  - Interface JobDefinition no longer has parameter targetResourceId
-  - Interface JobDefinition no longer has parameter targetSubpath
-  - Interface JobDefinitionUpdateParameters no longer has parameter agentName
-  - Interface JobDefinitionUpdateParameters no longer has parameter copyMode
-  - Interface JobDefinitionUpdateParameters no longer has parameter description
-  - Interface JobRun no longer has parameter agentName
-  - Interface JobRun no longer has parameter agentResourceId
-  - Interface JobRun no longer has parameter bytesExcluded
-  - Interface JobRun no longer has parameter bytesFailed
-  - Interface JobRun no longer has parameter bytesNoTransferNeeded
-  - Interface JobRun no longer has parameter bytesScanned
-  - Interface JobRun no longer has parameter bytesTransferred
-  - Interface JobRun no longer has parameter bytesUnsupported
-  - Interface JobRun no longer has parameter error
-  - Interface JobRun no longer has parameter executionEndTime
-  - Interface JobRun no longer has parameter executionStartTime
-  - Interface JobRun no longer has parameter itemsExcluded
-  - Interface JobRun no longer has parameter itemsFailed
-  - Interface JobRun no longer has parameter itemsNoTransferNeeded
-  - Interface JobRun no longer has parameter itemsScanned
-  - Interface JobRun no longer has parameter itemsTransferred
-  - Interface JobRun no longer has parameter itemsUnsupported
-  - Interface JobRun no longer has parameter jobDefinitionProperties
-  - Interface JobRun no longer has parameter lastStatusUpdate
-  - Interface JobRun no longer has parameter provisioningState
-  - Interface JobRun no longer has parameter scanStatus
-  - Interface JobRun no longer has parameter sourceName
-  - Interface JobRun no longer has parameter sourceProperties
-  - Interface JobRun no longer has parameter sourceResourceId
-  - Interface JobRun no longer has parameter status
-  - Interface JobRun no longer has parameter targetName
-  - Interface JobRun no longer has parameter targetProperties
-  - Interface JobRun no longer has parameter targetResourceId
-  - Interface Project no longer has parameter description
-  - Interface Project no longer has parameter provisioningState
-  - Interface ProjectUpdateParameters no longer has parameter description
-  - Interface StorageMover no longer has parameter description
-  - Interface StorageMover no longer has parameter provisioningState
-  - Interface StorageMoverUpdateParameters no longer has parameter description
-  - Type alias "CredentialsUnion" has been changed
-  - Type alias "EndpointBasePropertiesUnion" has been changed
-  - Type alias "EndpointBaseUpdatePropertiesUnion" has been changed
-
-## 2.1.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-    
-## 2.1.0 (2024-06-13)
-    
-### Features Added
-
-  - Added Interface Recurrence
   - Added Interface Time
-  - Added Interface UploadLimit
+  - Added Interface TrackedResource
   - Added Interface UploadLimitSchedule
   - Added Interface UploadLimitWeeklyRecurrence
+  - Added Interface UserAssignedIdentity
   - Added Interface WeeklyRecurrence
+  - Added Type Alias ActionType
+  - Added Type Alias AgentStatus
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ConnectionStatus
+  - Added Type Alias CopyMode
+  - Added Type Alias CreatedByType
+  - Added Type Alias CredentialsUnion
+  - Added Type Alias CredentialType
+  - Added Type Alias DataIntegrityValidation
   - Added Type Alias DayOfWeek
+  - Added Type Alias EndpointBasePropertiesUnion
+  - Added Type Alias EndpointBaseUpdatePropertiesUnion
+  - Added Type Alias EndpointKind
+  - Added Type Alias EndpointType
+  - Added Type Alias Frequency
+  - Added Type Alias JobRunScanStatus
+  - Added Type Alias JobRunStatus
+  - Added Type Alias JobType
+  - Added Type Alias ManagedServiceIdentityType
   - Added Type Alias Minute
-  - Interface Agent has a new optional parameter timeZone
-  - Interface Agent has a new optional parameter uploadLimitSchedule
-  - Interface AgentUpdateParameters has a new optional parameter uploadLimitSchedule
+  - Added Type Alias NfsVersion
+  - Added Type Alias Origin
+  - Added Type Alias ProvisioningState
+  - Added Type Alias S3WithHmacSourceType
+  - Added Type Alias TriggerType
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownAgentStatus
+  - Added Enum KnownConnectionStatus
+  - Added Enum KnownCopyMode
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownCredentialType
+  - Added Enum KnownDataIntegrityValidation
+  - Added Enum KnownEndpointKind
+  - Added Enum KnownEndpointType
+  - Added Enum KnownFrequency
+  - Added Enum KnownJobRunScanStatus
+  - Added Enum KnownJobRunStatus
+  - Added Enum KnownJobType
+  - Added Enum KnownManagedServiceIdentityType
   - Added Enum KnownMinute
-  - Enum KnownJobRunStatus has a new value PausedByBandwidthManagement
-  - Enum KnownProvisioningState has a new value Canceled
-  - Enum KnownProvisioningState has a new value Deleting
-  - Enum KnownProvisioningState has a new value Failed
-    
-    
-## 2.0.0 (2023-10-07)
-    
-### Features Added
+  - Added Enum KnownNfsVersion
+  - Added Enum KnownOrigin
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownS3WithHmacSourceType
+  - Added Enum KnownTriggerType
+  - Added Enum KnownVersions
 
-  - Added Interface AzureKeyVaultSmbCredentials
-  - Added Interface AzureStorageSmbFileShareEndpointProperties
-  - Added Interface AzureStorageSmbFileShareEndpointUpdateProperties
-  - Added Interface Credentials
-  - Added Interface SmbMountEndpointProperties
-  - Added Interface SmbMountEndpointUpdateProperties
-  - Added Type Alias CredentialsUnion
-  - Added Type Alias CredentialType
-  - Added Type Alias EndpointBaseUpdatePropertiesUnion
-  - Interface Resource has a new optional parameter systemData
-  - Type of parameter endpointType of interface EndpointBaseProperties is changed from "AzureStorageBlobContainer" | "NfsMount" to "AzureStorageBlobContainer" | "NfsMount" | "AzureStorageSmbFileShare" | "SmbMount"
-  - Added Enum KnownCredentialType
-  - Enum KnownEndpointType has a new value AzureStorageSmbFileShare
-  - Enum KnownEndpointType has a new value SmbMount
-  - Interface Agent no longer has parameter systemData
-  - Interface Endpoint no longer has parameter systemData
-  - Interface JobDefinition no longer has parameter systemData
-  - Interface JobRun no longer has parameter systemData
-  - Interface Project no longer has parameter systemData
-  - Interface StorageMover no longer has parameter systemData
-  
-### Breaking Changes
-
-  - Interface AzureStorageBlobContainerEndpointUpdateProperties has a new required parameter endpointType
-  - Interface EndpointBaseUpdateProperties has a new required parameter endpointType
-  - Interface NfsMountEndpointUpdateProperties has a new required parameter endpointType
-  - Type of parameter properties of interface EndpointBaseUpdateParameters is changed from EndpointBaseUpdateProperties to EndpointBaseUpdatePropertiesUnion
-    
-    
-## 2.0.0-beta.1 (2023-07-12)
-    
-### Features Added
-
-  - Added Interface AzureKeyVaultSmbCredentials
-  - Added Interface AzureStorageSmbFileShareEndpointProperties
-  - Added Interface AzureStorageSmbFileShareEndpointUpdateProperties
-  - Added Interface Credentials
-  - Added Interface SmbMountEndpointProperties
-  - Added Interface SmbMountEndpointUpdateProperties
-  - Added Type Alias CredentialsUnion
-  - Added Type Alias CredentialType
-  - Added Type Alias EndpointBaseUpdatePropertiesUnion
-  - Interface Resource has a new optional parameter systemData
-  - Type of parameter endpointType of interface EndpointBaseProperties is changed from "AzureStorageBlobContainer" | "NfsMount" to "AzureStorageBlobContainer" | "NfsMount" | "AzureStorageSmbFileShare" | "SmbMount"
-  - Added Enum KnownCredentialType
-  - Enum KnownEndpointType has a new value AzureStorageSmbFileShare
-  - Enum KnownEndpointType has a new value SmbMount
-  - Interface Agent no longer has parameter systemData
-  - Interface Endpoint no longer has parameter systemData
-  - Interface JobDefinition no longer has parameter systemData
-  - Interface JobRun no longer has parameter systemData
-  - Interface Project no longer has parameter systemData
-  - Interface StorageMover no longer has parameter systemData
-  
-### Breaking Changes
-
-  - Interface AzureStorageBlobContainerEndpointUpdateProperties has a new required parameter endpointType
-  - Interface EndpointBaseUpdateProperties has a new required parameter endpointType
-  - Interface NfsMountEndpointUpdateProperties has a new required parameter endpointType
-  - Type of parameter properties of interface EndpointBaseUpdateParameters is changed from EndpointBaseUpdateProperties to EndpointBaseUpdatePropertiesUnion
-    
-    
-## 1.0.0 (2023-03-07)
-
-The package of @azure/arm-storagemover is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

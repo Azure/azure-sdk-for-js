@@ -2629,7 +2629,7 @@ export interface GovernanceRulesOperations {
     execute: (scope: string, ruleId: string, options?: GovernanceRulesExecuteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (scope: string, ruleId: string, options?: GovernanceRulesGetOptionalParams) => Promise<GovernanceRule>;
     list: (scope: string, options?: GovernanceRulesListOptionalParams) => PagedAsyncIterableIterator<GovernanceRule>;
-    operationResults: (scope: string, ruleId: string, operationId: string, options?: GovernanceRulesOperationResultsOptionalParams) => Promise<OperationResult>;
+    operationResults: (scope: string, ruleId: string, operationId: string, options?: GovernanceRulesOperationResultsOptionalParams) => Promise<OperationResult | undefined>;
 }
 
 // @public

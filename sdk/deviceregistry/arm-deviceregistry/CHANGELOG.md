@@ -1,97 +1,99 @@
 # Release History
 
-## 1.2.0-beta.1 (2026-04-09)
-Compared with version 1.1.0
+## 1.2.0 (2026-06-10)
 
 ### Features Added
-  - Added operation group CredentialsOperations
-  - Added operation group PoliciesOperations
-  - Added operation NamespaceDevicesOperations.revoke
-  - Added Interface ActivateBringYourOwnRootRequest
-  - Added Interface BringYourOwnRoot
-  - Added Interface BringYourOwnRootUpdate
-  - Added Interface CertificateAuthorityConfiguration
-  - Added Interface CertificateAuthorityConfigurationUpdate
-  - Added Interface CertificateConfiguration
-  - Added Interface CertificateConfigurationUpdate
-  - Added Interface Credential
-  - Added Interface CredentialProperties
-  - Added Interface CredentialsCreateOrUpdateOptionalParams
-  - Added Interface CredentialsDeleteOptionalParams
-  - Added Interface CredentialsGetOptionalParams
-  - Added Interface CredentialsListByResourceGroupOptionalParams
-  - Added Interface CredentialsSynchronizeOptionalParams
-  - Added Interface CredentialsUpdateOptionalParams
-  - Added Interface CredentialUpdate
-  - Added Interface DeviceCredentialPolicy
-  - Added Interface DeviceCredentialsRevokeRequest
-  - Added Interface LeafCertificateConfiguration
-  - Added Interface LeafCertificateConfigurationUpdate
-  - Added Interface NamespaceDevicesRevokeOptionalParams
-  - Added Interface PoliciesActivateBringYourOwnRootOptionalParams
-  - Added Interface PoliciesCreateOrUpdateOptionalParams
-  - Added Interface PoliciesDeleteOptionalParams
-  - Added Interface PoliciesGetOptionalParams
-  - Added Interface PoliciesListByResourceGroupOptionalParams
-  - Added Interface PoliciesRevokeIssuerOptionalParams
-  - Added Interface PoliciesUpdateOptionalParams
-  - Added Interface Policy
-  - Added Interface PolicyProperties
-  - Added Interface PolicyUpdate
-  - Added Interface PolicyUpdateProperties
-  - Interface NamespaceDeviceProperties has a new optional parameter policy
-  - Interface NamespaceDeviceUpdateProperties has a new optional parameter policy
-  - Added Type Alias BringYourOwnRootStatus
-  - Added Type Alias SupportedKeyType
-  - Added Enum KnownBringYourOwnRootStatus
-  - Added Enum KnownSupportedKeyType
-  - Enum KnownVersions has a new value V20231101Preview
-  - Enum KnownVersions has a new value V20240901Preview
-  - Enum KnownVersions has a new value V20250701Preview
-  - Enum KnownVersions has a new value V20251101Preview
-  - Enum KnownVersions has a new value V20260301Preview
-
-## 1.1.0 (2025-11-10)
-
-### Features Added
+  - Added operation group AssetEndpointProfilesOperations
+  - Added operation group AssetsOperations
+  - Added operation group BillingContainersOperations
   - Added operation group NamespaceAssetsOperations
   - Added operation group NamespaceDevicesOperations
   - Added operation group NamespaceDiscoveredAssetsOperations
   - Added operation group NamespaceDiscoveredDevicesOperations
   - Added operation group NamespacesOperations
+  - Added operation group OperationsOperations
+  - Added operation group OperationStatusOperations
   - Added operation group SchemaRegistriesOperations
   - Added operation group SchemasOperations
   - Added operation group SchemaVersionsOperations
+  - Added Class DeviceRegistryManagementClient
+  - Added Interface Asset
+  - Added Interface AssetEndpointProfile
+  - Added Interface AssetEndpointProfileProperties
+  - Added Interface AssetEndpointProfilesCreateOrReplaceOptionalParams
+  - Added Interface AssetEndpointProfilesDeleteOptionalParams
+  - Added Interface AssetEndpointProfilesGetOptionalParams
+  - Added Interface AssetEndpointProfilesListByResourceGroupOptionalParams
+  - Added Interface AssetEndpointProfilesListBySubscriptionOptionalParams
+  - Added Interface AssetEndpointProfileStatus
+  - Added Interface AssetEndpointProfileStatusError
+  - Added Interface AssetEndpointProfilesUpdateOptionalParams
+  - Added Interface AssetEndpointProfileUpdate
+  - Added Interface AssetEndpointProfileUpdateProperties
+  - Added Interface AssetProperties
+  - Added Interface AssetsCreateOrReplaceOptionalParams
+  - Added Interface AssetsDeleteOptionalParams
+  - Added Interface AssetsGetOptionalParams
+  - Added Interface AssetsListByResourceGroupOptionalParams
+  - Added Interface AssetsListBySubscriptionOptionalParams
+  - Added Interface AssetStatus
+  - Added Interface AssetStatusDataset
+  - Added Interface AssetStatusError
+  - Added Interface AssetStatusEvent
+  - Added Interface AssetsUpdateOptionalParams
+  - Added Interface AssetUpdate
+  - Added Interface AssetUpdateProperties
+  - Added Interface Authentication
+  - Added Interface BillingContainer
+  - Added Interface BillingContainerProperties
+  - Added Interface BillingContainersGetOptionalParams
+  - Added Interface BillingContainersListBySubscriptionOptionalParams
   - Added Interface BrokerStateStoreDestinationConfiguration
+  - Added Interface DataPoint
+  - Added Interface DataPointBase
+  - Added Interface Dataset
   - Added Interface DatasetBrokerStateStoreDestination
   - Added Interface DatasetDestination
   - Added Interface DatasetMqttDestination
   - Added Interface DatasetStorageDestination
   - Added Interface DeviceMessagingEndpoint
   - Added Interface DeviceRef
+  - Added Interface DeviceRegistryManagementClientOptionalParams
   - Added Interface DeviceStatus
   - Added Interface DeviceStatusEndpoint
   - Added Interface DeviceStatusEndpoints
   - Added Interface DiscoveredInboundEndpoints
   - Added Interface DiscoveredMessagingEndpoints
   - Added Interface DiscoveredOutboundEndpoints
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
   - Added Interface ErrorDetails
+  - Added Interface ErrorResponse
+  - Added Interface Event_2
+  - Added Interface EventBase
   - Added Interface EventDestination
   - Added Interface EventMqttDestination
   - Added Interface EventStorageDestination
+  - Added Interface ExtendedLocation
+  - Added Interface HealthState
   - Added Interface HostAuthentication
   - Added Interface InboundEndpoints
+  - Added Interface Management
   - Added Interface ManagementAction
+  - Added Interface ManagementEndpoint
   - Added Interface ManagementGroup
+  - Added Interface MessageSchemaReference
   - Added Interface Messaging
   - Added Interface MessagingEndpoint
   - Added Interface MessagingEndpoints
   - Added Interface MqttDestinationConfiguration
   - Added Interface Namespace
   - Added Interface NamespaceAsset
+  - Added Interface NamespaceAssetExecuteActionRequest
   - Added Interface NamespaceAssetProperties
   - Added Interface NamespaceAssetsCreateOrReplaceOptionalParams
   - Added Interface NamespaceAssetsDeleteOptionalParams
+  - Added Interface NamespaceAssetsExecuteActionOptionalParams
   - Added Interface NamespaceAssetsGetOptionalParams
   - Added Interface NamespaceAssetsListByResourceGroupOptionalParams
   - Added Interface NamespaceAssetStatus
@@ -155,7 +157,17 @@ Compared with version 1.1.0
   - Added Interface NamespacesUpdateOptionalParams
   - Added Interface NamespaceUpdate
   - Added Interface NamespaceUpdateProperties
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface OperationStatusGetOptionalParams
+  - Added Interface OperationStatusResult
   - Added Interface OutboundEndpoints
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
   - Added Interface Schema
   - Added Interface SchemaProperties
   - Added Interface SchemaRegistriesCreateOrReplaceOptionalParams
@@ -185,39 +197,55 @@ Compared with version 1.1.0
   - Added Interface StreamMqttDestination
   - Added Interface StreamStorageDestination
   - Added Interface SystemAssignedServiceIdentity
+  - Added Interface SystemData
+  - Added Interface Topic
+  - Added Interface TrackedResource
   - Added Interface TrustSettings
+  - Added Interface UsernamePasswordCredentials
   - Added Interface X509CertificateCredentials
-  - Interface DeviceRegistryManagementClientOptionalParams has a new optional parameter cloudSetting
+  - Added Interface X509Credentials
+  - Added Type Alias ActionType
+  - Added Type Alias AuthenticationMethod
   - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Type Alias DataPointObservabilityMode
   - Added Type Alias DatasetDestinationTarget
   - Added Type Alias DatasetDestinationUnion
   - Added Type Alias EventDestinationTarget
   - Added Type Alias EventDestinationUnion
+  - Added Type Alias EventObservabilityMode
   - Added Type Alias Format
+  - Added Type Alias HealthStatus
   - Added Type Alias ManagementActionType
   - Added Type Alias MqttDestinationQos
   - Added Type Alias NamespaceDiscoveredManagementActionType
+  - Added Type Alias Origin
+  - Added Type Alias ProvisioningState
   - Added Type Alias SchemaType
   - Added Type Alias Scope
   - Added Type Alias StreamDestinationTarget
   - Added Type Alias StreamDestinationUnion
   - Added Type Alias SystemAssignedServiceIdentityType
+  - Added Type Alias TopicRetainType
   - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownAuthenticationMethod
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDataPointObservabilityMode
   - Added Enum KnownDatasetDestinationTarget
   - Added Enum KnownEventDestinationTarget
+  - Added Enum KnownEventObservabilityMode
   - Added Enum KnownFormat
+  - Added Enum KnownHealthStatus
   - Added Enum KnownManagementActionType
   - Added Enum KnownMqttDestinationQos
   - Added Enum KnownNamespaceDiscoveredManagementActionType
+  - Added Enum KnownOrigin
+  - Added Enum KnownProvisioningState
   - Added Enum KnownSchemaType
   - Added Enum KnownScope
   - Added Enum KnownStreamDestinationTarget
   - Added Enum KnownSystemAssignedServiceIdentityType
-  - Enum KnownVersions has a new value V20251001
+  - Added Enum KnownTopicRetainType
+  - Added Enum KnownVersions
 
-    
-## 1.0.0 (2025-02-27)
-
-### Features Added
-
-This is the first stable version with the package of @azure/arm-deviceregistry.

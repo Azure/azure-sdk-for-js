@@ -7,11 +7,13 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { CancelOnProgress } from '@azure/core-lro';
 import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { Pipeline as Pipeline_2 } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -2474,7 +2476,7 @@ export interface CredentialOperationsListByFactoryOptionalParams extends Operati
 export interface CredentialOperationsOperations {
     createOrUpdate: (resourceGroupName: string, factoryName: string, credentialName: string, credential: CredentialResource, options?: CredentialOperationsCreateOrUpdateOptionalParams) => Promise<CredentialResource>;
     delete: (resourceGroupName: string, factoryName: string, credentialName: string, options?: CredentialOperationsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, factoryName: string, credentialName: string, options?: CredentialOperationsGetOptionalParams) => Promise<CredentialResource>;
+    get: (resourceGroupName: string, factoryName: string, credentialName: string, options?: CredentialOperationsGetOptionalParams) => Promise<CredentialResource | undefined>;
     listByFactory: (resourceGroupName: string, factoryName: string, options?: CredentialOperationsListByFactoryOptionalParams) => PagedAsyncIterableIterator<CredentialResource>;
 }
 
@@ -2957,7 +2959,7 @@ export interface DatasetsListByFactoryOptionalParams extends OperationOptions {
 export interface DatasetsOperations {
     createOrUpdate: (resourceGroupName: string, factoryName: string, datasetName: string, dataset: DatasetResource, options?: DatasetsCreateOrUpdateOptionalParams) => Promise<DatasetResource>;
     delete: (resourceGroupName: string, factoryName: string, datasetName: string, options?: DatasetsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, factoryName: string, datasetName: string, options?: DatasetsGetOptionalParams) => Promise<DatasetResource>;
+    get: (resourceGroupName: string, factoryName: string, datasetName: string, options?: DatasetsGetOptionalParams) => Promise<DatasetResource | undefined>;
     listByFactory: (resourceGroupName: string, factoryName: string, options?: DatasetsListByFactoryOptionalParams) => PagedAsyncIterableIterator<DatasetResource>;
 }
 
@@ -3747,7 +3749,7 @@ export interface FactoriesOperations {
     configureFactoryRepo: (locationId: string, factoryRepoUpdate: FactoryRepoUpdate, options?: FactoriesConfigureFactoryRepoOptionalParams) => Promise<Factory>;
     createOrUpdate: (resourceGroupName: string, factoryName: string, factory: Factory, options?: FactoriesCreateOrUpdateOptionalParams) => Promise<Factory>;
     delete: (resourceGroupName: string, factoryName: string, options?: FactoriesDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, factoryName: string, options?: FactoriesGetOptionalParams) => Promise<Factory>;
+    get: (resourceGroupName: string, factoryName: string, options?: FactoriesGetOptionalParams) => Promise<Factory | undefined>;
     getDataPlaneAccess: (resourceGroupName: string, factoryName: string, policy: UserAccessPolicy, options?: FactoriesGetDataPlaneAccessOptionalParams) => Promise<AccessPolicyResponse>;
     getGitHubAccessToken: (resourceGroupName: string, factoryName: string, gitHubAccessTokenRequest: GitHubAccessTokenRequest, options?: FactoriesGetGitHubAccessTokenOptionalParams) => Promise<GitHubAccessTokenResponse>;
     list: (options?: FactoriesListOptionalParams) => PagedAsyncIterableIterator<Factory>;
@@ -3760,7 +3762,7 @@ export interface FactoriesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Factory extends Resource {
+export interface Factory extends ProxyResource {
     additionalProperties?: Record<string, any>;
     readonly createTime?: Date;
     encryption?: EncryptionConfiguration;
@@ -5364,7 +5366,7 @@ export interface IntegrationRuntimesOperations {
     createLinkedIntegrationRuntime: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, createLinkedIntegrationRuntimeRequest: CreateLinkedIntegrationRuntimeRequest, options?: IntegrationRuntimesCreateLinkedIntegrationRuntimeOptionalParams) => Promise<IntegrationRuntimeStatusResponse>;
     createOrUpdate: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, integrationRuntime: IntegrationRuntimeResource, options?: IntegrationRuntimesCreateOrUpdateOptionalParams) => Promise<IntegrationRuntimeResource>;
     delete: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesGetOptionalParams) => Promise<IntegrationRuntimeResource>;
+    get: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesGetOptionalParams) => Promise<IntegrationRuntimeResource | undefined>;
     getConnectionInfo: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesGetConnectionInfoOptionalParams) => Promise<IntegrationRuntimeConnectionInfo>;
     getMonitoringData: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesGetMonitoringDataOptionalParams) => Promise<IntegrationRuntimeMonitoringData>;
     getStatus: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesGetStatusOptionalParams) => Promise<IntegrationRuntimeStatusResponse>;
@@ -5482,6 +5484,8 @@ export interface InteractiveQueryProperties {
     readonly autoTerminationMinutes?: number;
     readonly status?: InteractiveCapabilityStatus;
 }
+
+export { isRestError }
 
 // @public
 export interface JiraLinkedService extends LinkedService {
@@ -6596,7 +6600,7 @@ export interface LinkedServicesListByFactoryOptionalParams extends OperationOpti
 export interface LinkedServicesOperations {
     createOrUpdate: (resourceGroupName: string, factoryName: string, linkedServiceName: string, linkedService: LinkedServiceResource, options?: LinkedServicesCreateOrUpdateOptionalParams) => Promise<LinkedServiceResource>;
     delete: (resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: LinkedServicesDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: LinkedServicesGetOptionalParams) => Promise<LinkedServiceResource>;
+    get: (resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: LinkedServicesGetOptionalParams) => Promise<LinkedServiceResource | undefined>;
     listByFactory: (resourceGroupName: string, factoryName: string, options?: LinkedServicesListByFactoryOptionalParams) => PagedAsyncIterableIterator<LinkedServiceResource>;
 }
 
@@ -8093,7 +8097,7 @@ export interface PipelinesOperations {
     createOrUpdate: (resourceGroupName: string, factoryName: string, pipelineName: string, pipeline: PipelineResource, options?: PipelinesCreateOrUpdateOptionalParams) => Promise<PipelineResource>;
     createRun: (resourceGroupName: string, factoryName: string, pipelineName: string, options?: PipelinesCreateRunOptionalParams) => Promise<CreateRunResponse>;
     delete: (resourceGroupName: string, factoryName: string, pipelineName: string, options?: PipelinesDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, factoryName: string, pipelineName: string, options?: PipelinesGetOptionalParams) => Promise<PipelineResource>;
+    get: (resourceGroupName: string, factoryName: string, pipelineName: string, options?: PipelinesGetOptionalParams) => Promise<PipelineResource | undefined>;
     listByFactory: (resourceGroupName: string, factoryName: string, options?: PipelinesListByFactoryOptionalParams) => PagedAsyncIterableIterator<PipelineResource>;
 }
 
@@ -8571,6 +8575,8 @@ export interface ResponsysSource extends TabularSource {
     query?: any;
     type: "ResponsysSource";
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DataFactoryManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -10940,7 +10946,7 @@ export interface TriggersOperations {
     beginUnsubscribeFromEventsAndWait: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersUnsubscribeFromEventsOptionalParams) => Promise<TriggerSubscriptionOperationStatus>;
     createOrUpdate: (resourceGroupName: string, factoryName: string, triggerName: string, trigger: TriggerResource, options?: TriggersCreateOrUpdateOptionalParams) => Promise<TriggerResource>;
     delete: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersGetOptionalParams) => Promise<TriggerResource>;
+    get: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersGetOptionalParams) => Promise<TriggerResource | undefined>;
     getEventSubscriptionStatus: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersGetEventSubscriptionStatusOptionalParams) => Promise<TriggerSubscriptionOperationStatus>;
     listByFactory: (resourceGroupName: string, factoryName: string, options?: TriggersListByFactoryOptionalParams) => PagedAsyncIterableIterator<TriggerResource>;
     queryByFactory: (resourceGroupName: string, factoryName: string, filterParameters: TriggerFilterParameters, options?: TriggersQueryByFactoryOptionalParams) => Promise<TriggerQueryResponse>;
