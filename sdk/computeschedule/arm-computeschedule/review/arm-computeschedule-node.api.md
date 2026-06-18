@@ -4,15 +4,17 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { ErrorModel } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState as OperationState_2 } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { ErrorModel } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState as OperationState_2 } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -438,6 +440,8 @@ export interface ImageReference extends SubResource {
 // @public
 export type IPVersions = string;
 
+export { isRestError }
+
 // @public
 export interface KeyVaultKeyReference {
     keyUrl: string;
@@ -795,12 +799,12 @@ export enum KnownStorageAccountTypes {
 // @public
 export enum KnownVersions {
     "V2024-10-01" = "2024-10-01",
+    V20240815Preview = "2024-08-15-preview",
+    V20250415Preview = "2025-04-15-preview",
     V20250501 = "2025-05-01",
-    Versions20240815Preview = "2024-08-15-preview",
-    Versions20250415Preview = "2025-04-15-preview",
-    Versions20260101Preview = "2026-01-01-preview",
-    Versions20260301Preview = "2026-03-01-preview",
-    Versions20260415Preview = "2026-04-15-preview"
+    V20260101Preview = "2026-01-01-preview",
+    V20260301Preview = "2026-03-01-preview",
+    V20260415Preview = "2026-04-15-preview"
 }
 
 // @public
@@ -1304,6 +1308,8 @@ export interface ResourceStatus {
 
 // @public
 export type ResourceType = string;
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ComputeScheduleClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
