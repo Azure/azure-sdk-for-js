@@ -120,7 +120,8 @@ Fetch the PR using the GitHub API. If `mergeable_state == "clean"` and no check 
 
 Post this comment and stop:
 ```markdown
-## PR is ready to merge
+## Next Steps to Merge
+No further action is required from the service team. The SDK PR reviewer will handle the review and merge of this PR.
 ```
 
 ## Step 2. Diagnose blocking items
