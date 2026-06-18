@@ -204,3 +204,6 @@ sdk/**/sshKey.pub
 
 # agentic workflow logs
 .github/aw/logs/
+
+# gh-aw trial run artifacts (local only)
+trials/
