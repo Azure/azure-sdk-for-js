@@ -416,3 +416,4 @@ export function isSystemEvent<T extends KnownSystemEventTypes>(
     return event.eventType === eventType;
   }
 }
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

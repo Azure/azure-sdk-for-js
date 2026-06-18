@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RestError } from "@azure/core-rest-pipeline";
+import { RestError, isRestError } from "@azure/core-rest-pipeline";
 
 export * from "./AccountSASPermissions.js";
 export * from "./AccountSASResourceTypes.js";
@@ -93,5 +93,5 @@ export type {
   ResponseWithHeaders,
   HttpResponse,
 } from "./utils/utils.common.js";
-export { RestError };
+export { RestError, isRestError };
 export { logger } from "./log.js";

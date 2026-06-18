@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -92,9 +92,9 @@
+@@ -94,9 +94,9 @@
  
  // @public
  export class CryptographyClient {
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      // @deprecated
      decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
      encrypt(encryptParameters: EncryptParameters, options?: EncryptOptions): Promise<EncryptResult>;
-@@ -134,11 +134,11 @@
+@@ -136,11 +136,11 @@
  
  // @public
  export interface DeletedKey {
@@ -32,9 +32,9 @@ For the complete API surface, see the corresponding -node.api.md file.
      properties: KeyProperties & {
          readonly recoveryId?: string;
          readonly scheduledPurgeDate?: Date;
-@@ -209,26 +209,27 @@
-     };
- }
+@@ -213,26 +213,27 @@
+ 
+ export { isRestError }
  
  // @public
 -export interface JsonWebKey {
@@ -62,7 +62,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface KeyAttestation {
      certificatePemFile?: Uint8Array;
-@@ -243,18 +244,18 @@
+@@ -247,18 +248,18 @@
      backupKey(name: string, options?: BackupKeyOptions): Promise<Uint8Array | undefined>;
      beginDeleteKey(name: string, options?: BeginDeleteKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
      beginRecoverDeletedKey(name: string, options?: BeginRecoverDeletedKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
@@ -83,7 +83,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
      listPropertiesOfKeyVersions(name: string, options?: ListPropertiesOfKeyVersionsOptions): PagedAsyncIterableIterator<KeyProperties>;
      purgeDeletedKey(name: string, options?: PurgeDeletedKeyOptions): Promise<void>;
-@@ -341,16 +342,17 @@
+@@ -345,16 +346,17 @@
      lifetimeActions?: KeyRotationLifetimeAction[];
  }
  
