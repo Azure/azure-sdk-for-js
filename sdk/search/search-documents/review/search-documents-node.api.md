@@ -670,10 +670,6 @@ export type DataChangeDetectionPolicy = HighWaterMarkChangeDetectionPolicy | Sql
 export type DataDeletionDetectionPolicy = SoftDeleteColumnDeletionDetectionPolicy | NativeBlobSoftDeleteDeletionDetectionPolicy;
 
 // @public
-export interface DebugInfo {
-}
-
-// @public
 export const DEFAULT_BATCH_SIZE: number;
 
 // @public

@@ -28,7 +28,6 @@ export {
   type SingleVectorFieldResult,
   type TextResult,
   type VectorsDebugInfo,
-  type DebugInfo,
   type SemanticSearchResultsType,
 } from "./models/azure/search/documents/index.js";
 

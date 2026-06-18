@@ -20,10 +20,6 @@ export interface AutocompleteResult {
 }
 
 // @public
-export interface DebugInfo {
-}
-
-// @public
 export interface DocumentDebugInfo {
     readonly vectors?: VectorsDebugInfo;
 }
