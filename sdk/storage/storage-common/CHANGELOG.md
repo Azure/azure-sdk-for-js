@@ -1,5 +1,11 @@
 # Release History
 
+## 12.5.0-beta.99 (Unreleased)
+
+### Other Changes
+
+- add `storageRedirectRangeHeaderPolicy`
+
 ## 12.4.1 (Unreleased)
 
 ### Bugs Fixed
