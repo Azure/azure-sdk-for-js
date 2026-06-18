@@ -45,8 +45,8 @@ import type { PoliciesOperations } from "./classic/policies/index.js";
 import { _getPoliciesOperations } from "./classic/policies/index.js";
 import type { ProfilesOperations } from "./classic/profiles/index.js";
 import { _getProfilesOperations } from "./classic/profiles/index.js";
-import type { ResourceUsageOperations } from "./classic/resourceUsage/index.js";
-import { _getResourceUsageOperations } from "./classic/resourceUsage/index.js";
+import type { ResourceUsageOperationsOperations } from "./classic/resourceUsageOperations/index.js";
+import { _getResourceUsageOperationsOperations } from "./classic/resourceUsageOperations/index.js";
 import type { RoutesOperations } from "./classic/routes/index.js";
 import { _getRoutesOperations } from "./classic/routes/index.js";
 import type { RuleSetsOperations } from "./classic/ruleSets/index.js";
@@ -107,7 +107,7 @@ export class CdnManagementClient {
     this.pipeline = this._client.pipeline;
     this.managedRuleSets = _getManagedRuleSetsOperations(this._client);
     this.edgeNodes = _getEdgeNodesOperations(this._client);
-    this.resourceUsage = _getResourceUsageOperations(this._client);
+    this.resourceUsageOperations = _getResourceUsageOperationsOperations(this._client);
     this.policies = _getPoliciesOperations(this._client);
     this.logAnalytics = _getLogAnalyticsOperations(this._client);
     this.afdProfiles = _getAFDProfilesOperations(this._client);
@@ -170,8 +170,8 @@ export class CdnManagementClient {
   public readonly managedRuleSets: ManagedRuleSetsOperations;
   /** The operation groups for edgeNodes */
   public readonly edgeNodes: EdgeNodesOperations;
-  /** The operation groups for resourceUsage */
-  public readonly resourceUsage: ResourceUsageOperations;
+  /** The operation groups for resourceUsageOperations */
+  public readonly resourceUsageOperations: ResourceUsageOperationsOperations;
   /** The operation groups for policies */
   public readonly policies: PoliciesOperations;
   /** The operation groups for logAnalytics */

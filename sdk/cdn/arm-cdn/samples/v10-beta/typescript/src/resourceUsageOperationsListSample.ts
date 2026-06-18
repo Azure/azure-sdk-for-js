@@ -15,7 +15,7 @@ async function resourceUsageList(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CdnManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.resourceUsage.list()) {
+  for await (const item of client.resourceUsageOperations.list()) {
     resArray.push(item);
   }
 

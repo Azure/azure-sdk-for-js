@@ -3470,7 +3470,7 @@ export interface RequestMethodMatchConditionParameters extends DeliveryRuleCondi
   /** List of transforms */
   transforms?: Transform[];
   /** The match value for the condition of the delivery rule */
-  matchValues?: RequestMethodMatchValue[];
+  matchValues?: RequestMethodMatchConditionParametersMatchValuesItem[];
   typeName: "DeliveryRuleRequestMethodConditionParameters";
 }
 
@@ -3529,8 +3529,8 @@ export enum KnownRequestMethodOperator {
  */
 export type RequestMethodOperator = string;
 
-/** Known values of {@link RequestMethodMatchValue} that the service accepts. */
-export enum KnownRequestMethodMatchValue {
+/** Known values of {@link RequestMethodMatchConditionParametersMatchValuesItem} that the service accepts. */
+export enum KnownRequestMethodMatchConditionParametersMatchValuesItem {
   /** GET */
   GET = "GET",
   /** HEAD */
@@ -3547,8 +3547,8 @@ export enum KnownRequestMethodMatchValue {
   Trace = "TRACE",
 }
 
-/** Type of RequestMethodMatchValue */
-export type RequestMethodMatchValue = string;
+/** Type of RequestMethodMatchConditionParametersMatchValuesItem */
+export type RequestMethodMatchConditionParametersMatchValuesItem = string;
 
 /** Defines the QueryString condition for the delivery rule. */
 export interface DeliveryRuleQueryStringCondition extends DeliveryRuleCondition {
@@ -4196,7 +4196,7 @@ export interface RequestSchemeMatchConditionParameters extends DeliveryRuleCondi
   /** List of transforms */
   transforms?: Transform[];
   /** The match value for the condition of the delivery rule */
-  matchValues?: RequestSchemeMatchValue[];
+  matchValues?: RequestSchemeMatchConditionParametersMatchValuesItem[];
   typeName: "DeliveryRuleRequestSchemeConditionParameters";
 }
 
@@ -4255,16 +4255,16 @@ export enum KnownRequestSchemeMatchConditionParametersOperator {
  */
 export type RequestSchemeMatchConditionParametersOperator = string;
 
-/** Known values of {@link RequestSchemeMatchValue} that the service accepts. */
-export enum KnownRequestSchemeMatchValue {
+/** Known values of {@link RequestSchemeMatchConditionParametersMatchValuesItem} that the service accepts. */
+export enum KnownRequestSchemeMatchConditionParametersMatchValuesItem {
   /** HTTP */
   Http = "HTTP",
   /** HTTPS */
   Https = "HTTPS",
 }
 
-/** Type of RequestSchemeMatchValue */
-export type RequestSchemeMatchValue = string;
+/** Type of RequestSchemeMatchConditionParametersMatchValuesItem */
+export type RequestSchemeMatchConditionParametersMatchValuesItem = string;
 
 /** Defines the UrlPath condition for the delivery rule. */
 export interface DeliveryRuleUrlPathCondition extends DeliveryRuleCondition {
@@ -4874,7 +4874,7 @@ export interface IsDeviceMatchConditionParameters extends DeliveryRuleConditionP
   /** Describes if this is negate condition or not */
   negateCondition?: boolean;
   /** The match value for the condition of the delivery rule */
-  matchValues?: IsDeviceMatchValue[];
+  matchValues?: IsDeviceMatchConditionParametersMatchValuesItem[];
   /** List of transforms */
   transforms?: Transform[];
   typeName: "DeliveryRuleIsDeviceConditionParameters";
@@ -4935,16 +4935,16 @@ export enum KnownIsDeviceOperator {
  */
 export type IsDeviceOperator = string;
 
-/** Known values of {@link IsDeviceMatchValue} that the service accepts. */
-export enum KnownIsDeviceMatchValue {
+/** Known values of {@link IsDeviceMatchConditionParametersMatchValuesItem} that the service accepts. */
+export enum KnownIsDeviceMatchConditionParametersMatchValuesItem {
   /** Mobile */
   Mobile = "Mobile",
   /** Desktop */
   Desktop = "Desktop",
 }
 
-/** Type of IsDeviceMatchValue */
-export type IsDeviceMatchValue = string;
+/** Type of IsDeviceMatchConditionParametersMatchValuesItem */
+export type IsDeviceMatchConditionParametersMatchValuesItem = string;
 
 /** Defines the SocketAddress condition for the delivery rule. */
 export interface DeliveryRuleSocketAddrCondition extends DeliveryRuleCondition {

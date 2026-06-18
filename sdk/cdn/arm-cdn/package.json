@@ -76,18 +76,18 @@
         "default": "./dist/commonjs/api/edgeNodes/index.js"
       }
     },
-    "./api/resourceUsage": {
+    "./api/resourceUsageOperations": {
       "browser": {
-        "types": "./dist/browser/api/resourceUsage/index.d.ts",
-        "default": "./dist/browser/api/resourceUsage/index.js"
+        "types": "./dist/browser/api/resourceUsageOperations/index.d.ts",
+        "default": "./dist/browser/api/resourceUsageOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/resourceUsage/index.d.ts",
-        "default": "./dist/esm/api/resourceUsage/index.js"
+        "types": "./dist/esm/api/resourceUsageOperations/index.d.ts",
+        "default": "./dist/esm/api/resourceUsageOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/resourceUsage/index.d.ts",
-        "default": "./dist/commonjs/api/resourceUsage/index.js"
+        "types": "./dist/commonjs/api/resourceUsageOperations/index.d.ts",
+        "default": "./dist/commonjs/api/resourceUsageOperations/index.js"
       }
     },
     "./api/policies": {

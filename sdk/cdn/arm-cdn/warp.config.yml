@@ -6,7 +6,7 @@ exports:
   "./api": "./src/api/index.ts"
   "./api/managedRuleSets": "./src/api/managedRuleSets/index.ts"
   "./api/edgeNodes": "./src/api/edgeNodes/index.ts"
-  "./api/resourceUsage": "./src/api/resourceUsage/index.ts"
+  "./api/resourceUsageOperations": "./src/api/resourceUsageOperations/index.ts"
   "./api/policies": "./src/api/policies/index.ts"
   "./api/logAnalytics": "./src/api/logAnalytics/index.ts"
   "./api/afdProfiles": "./src/api/afdProfiles/index.ts"

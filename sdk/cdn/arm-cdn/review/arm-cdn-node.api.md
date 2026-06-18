@@ -658,7 +658,7 @@ export class CdnManagementClient {
     readonly pipeline: Pipeline;
     readonly policies: PoliciesOperations;
     readonly profiles: ProfilesOperations;
-    readonly resourceUsage: ResourceUsageOperations;
+    readonly resourceUsageOperations: ResourceUsageOperationsOperations;
     readonly routes: RoutesOperations;
     readonly rules: RulesOperations;
     readonly ruleSets: RuleSetsOperations;
@@ -1591,7 +1591,7 @@ export interface IpAddressGroup {
 
 // @public
 export interface IsDeviceMatchConditionParameters extends DeliveryRuleConditionParameters {
-    matchValues?: IsDeviceMatchValue[];
+    matchValues?: IsDeviceMatchConditionParametersMatchValuesItem[];
     negateCondition?: boolean;
     operator: IsDeviceOperator;
     transforms?: Transform[];
@@ -1600,7 +1600,7 @@ export interface IsDeviceMatchConditionParameters extends DeliveryRuleConditionP
 }
 
 // @public
-export type IsDeviceMatchValue = string;
+export type IsDeviceMatchConditionParametersMatchValuesItem = string;
 
 // @public
 export type IsDeviceOperator = string;
@@ -1963,7 +1963,7 @@ export enum KnownHttpVersionOperator {
 }
 
 // @public
-export enum KnownIsDeviceMatchValue {
+export enum KnownIsDeviceMatchConditionParametersMatchValuesItem {
     Desktop = "Desktop",
     Mobile = "Mobile"
 }
@@ -2318,7 +2318,7 @@ export enum KnownRequestHeaderOperator {
 }
 
 // @public
-export enum KnownRequestMethodMatchValue {
+export enum KnownRequestMethodMatchConditionParametersMatchValuesItem {
     Delete = "DELETE",
     GET = "GET",
     Head = "HEAD",
@@ -2334,14 +2334,14 @@ export enum KnownRequestMethodOperator {
 }
 
 // @public
-export enum KnownRequestSchemeMatchConditionParametersOperator {
-    Equal = "Equal"
+export enum KnownRequestSchemeMatchConditionParametersMatchValuesItem {
+    Http = "HTTP",
+    Https = "HTTPS"
 }
 
 // @public
-export enum KnownRequestSchemeMatchValue {
-    Http = "HTTP",
-    Https = "HTTPS"
+export enum KnownRequestSchemeMatchConditionParametersOperator {
+    Equal = "Equal"
 }
 
 // @public
@@ -3593,7 +3593,7 @@ export type RequestHeaderOperator = string;
 
 // @public
 export interface RequestMethodMatchConditionParameters extends DeliveryRuleConditionParameters {
-    matchValues?: RequestMethodMatchValue[];
+    matchValues?: RequestMethodMatchConditionParametersMatchValuesItem[];
     negateCondition?: boolean;
     operator: RequestMethodOperator;
     transforms?: Transform[];
@@ -3602,14 +3602,14 @@ export interface RequestMethodMatchConditionParameters extends DeliveryRuleCondi
 }
 
 // @public
-export type RequestMethodMatchValue = string;
+export type RequestMethodMatchConditionParametersMatchValuesItem = string;
 
 // @public
 export type RequestMethodOperator = string;
 
 // @public
 export interface RequestSchemeMatchConditionParameters extends DeliveryRuleConditionParameters {
-    matchValues?: RequestSchemeMatchValue[];
+    matchValues?: RequestSchemeMatchConditionParametersMatchValuesItem[];
     negateCondition?: boolean;
     operator: RequestSchemeMatchConditionParametersOperator;
     transforms?: Transform[];
@@ -3618,10 +3618,10 @@ export interface RequestSchemeMatchConditionParameters extends DeliveryRuleCondi
 }
 
 // @public
-export type RequestSchemeMatchConditionParametersOperator = string;
+export type RequestSchemeMatchConditionParametersMatchValuesItem = string;
 
 // @public
-export type RequestSchemeMatchValue = string;
+export type RequestSchemeMatchConditionParametersOperator = string;
 
 // @public
 export interface RequestUriMatchConditionParameters extends DeliveryRuleConditionParameters {
@@ -3705,12 +3705,12 @@ export interface ResourceUsage {
 }
 
 // @public
-export interface ResourceUsageListOptionalParams extends OperationOptions {
+export interface ResourceUsageOperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ResourceUsageOperations {
-    list: (options?: ResourceUsageListOptionalParams) => PagedAsyncIterableIterator<ResourceUsage>;
+export interface ResourceUsageOperationsOperations {
+    list: (options?: ResourceUsageOperationsListOptionalParams) => PagedAsyncIterableIterator<ResourceUsage>;
 }
 
 // @public

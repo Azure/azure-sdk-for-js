@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { list } from "./operations.js";
-export type { ResourceUsageListOptionalParams } from "./options.js";
+export type { ResourceUsageOperationsListOptionalParams } from "./options.js";

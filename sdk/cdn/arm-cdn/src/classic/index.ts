@@ -16,7 +16,7 @@ export type { OriginGroupsOperations } from "./originGroups/index.js";
 export type { OriginsOperations } from "./origins/index.js";
 export type { PoliciesOperations } from "./policies/index.js";
 export type { ProfilesOperations } from "./profiles/index.js";
-export type { ResourceUsageOperations } from "./resourceUsage/index.js";
+export type { ResourceUsageOperationsOperations } from "./resourceUsageOperations/index.js";
 export type { RoutesOperations } from "./routes/index.js";
 export type { RulesOperations } from "./rules/index.js";
 export type { RuleSetsOperations } from "./ruleSets/index.js";
