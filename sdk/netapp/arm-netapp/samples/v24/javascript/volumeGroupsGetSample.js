@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get details of the specified volume group
  *
  * @summary get details of the specified volume group
- * x-ms-original-file: 2026-01-01/VolumeGroups_Get_Oracle.json
+ * x-ms-original-file: 2026-04-01/VolumeGroups_Get_Oracle.json
  */
 async function volumeGroupsGetOracle() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function volumeGroupsGetOracle() {
  * This sample demonstrates how to get details of the specified volume group
  *
  * @summary get details of the specified volume group
- * x-ms-original-file: 2026-01-01/VolumeGroups_Get_SapHana.json
+ * x-ms-original-file: 2026-04-01/VolumeGroups_Get_SapHana.json
  */
 async function volumeGroupsGetSapHana() {
   const credential = new DefaultAzureCredential();

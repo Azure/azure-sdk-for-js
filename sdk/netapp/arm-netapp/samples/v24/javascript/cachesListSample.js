@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all Caches within the Capacity Pool
  *
  * @summary list all Caches within the Capacity Pool
- * x-ms-original-file: 2026-01-01/Caches_List.json
+ * x-ms-original-file: 2026-04-01/Caches_List.json
  */
 async function cachesList() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to restore the specified files from the specified backup to the active filesystem
  *
  * @summary restore the specified files from the specified backup to the active filesystem
- * x-ms-original-file: 2026-01-01/BackupsUnderBackupVault_SingleFileRestore.json
+ * x-ms-original-file: 2026-04-01/BackupsUnderBackupVault_SingleFileRestore.json
  */
 async function backupsSingleFileRestore() {
   const credential = new DefaultAzureCredential();
