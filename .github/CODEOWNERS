@@ -1677,9 +1677,6 @@ sdk/monitor/arm-monitorworkspaces/ @qiaozha @MaryGao @JialinHuang803
 sdk/edgeorder/arm-edgeorder/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
-sdk/postgresqlhsc/arm-postgresqlhsc/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt %mgmt-review-needed
 sdk/powerplatform/arm-powerplatform/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
