@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AppConfigurationManagementContext } from "../../api/appConfigurationManagementContext.js";
+import { AppConfigurationManagementContext } from "../../api/appConfigurationManagementContext.js";
 import {
   regionalCheckNameAvailability,
   checkNameAvailability,
   list,
 } from "../../api/operations/operations.js";
-import type {
+import {
   OperationsRegionalCheckNameAvailabilityOptionalParams,
   OperationsCheckNameAvailabilityOptionalParams,
   OperationsListOptionalParams,
 } from "../../api/operations/options.js";
-import type {
+import {
   OperationDefinition,
   CheckNameAvailabilityParameters,
   NameAvailabilityStatus,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {

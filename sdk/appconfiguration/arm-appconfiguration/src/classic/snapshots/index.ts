@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AppConfigurationManagementContext } from "../../api/appConfigurationManagementContext.js";
+import { AppConfigurationManagementContext } from "../../api/appConfigurationManagementContext.js";
 import { create, get } from "../../api/snapshots/operations.js";
-import type {
+import {
   SnapshotsCreateOptionalParams,
   SnapshotsGetOptionalParams,
 } from "../../api/snapshots/options.js";
-import type { Snapshot } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Snapshot } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Snapshots operations. */
 export interface SnapshotsOperations {

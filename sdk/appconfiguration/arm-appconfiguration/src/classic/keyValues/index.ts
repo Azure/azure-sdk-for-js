@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AppConfigurationManagementContext } from "../../api/appConfigurationManagementContext.js";
+import { AppConfigurationManagementContext } from "../../api/appConfigurationManagementContext.js";
 import { $delete, createOrUpdate, get } from "../../api/keyValues/operations.js";
-import type {
+import {
   KeyValuesDeleteOptionalParams,
   KeyValuesCreateOrUpdateOptionalParams,
   KeyValuesGetOptionalParams,
 } from "../../api/keyValues/options.js";
-import type { KeyValue } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { KeyValue } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a KeyValues operations. */
 export interface KeyValuesOperations {
