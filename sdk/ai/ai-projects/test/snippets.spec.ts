@@ -1010,14 +1010,14 @@ Be direct and efficient. When you reach the search results page, read and descri
     ];
 
     // Create a new toolbox version
-    const created = await project.beta.toolboxes.createVersion(toolboxName, tools, {
+    const created = await project.toolboxes.createVersion(toolboxName, tools, {
       description: "Example toolbox created by the @azure/ai-projects sample.",
       metadata: { status: "created" },
     });
     console.log(`Toolbox: ${created.name} (tools: ${created.tools.length})`);
 
     // Retrieve the toolbox
-    const fetched = await project.beta.toolboxes.get(toolboxName);
+    const fetched = await project.toolboxes.get(toolboxName);
     console.log(`Retrieved toolbox: ${fetched.name} (${fetched.id})`);
   });
 
