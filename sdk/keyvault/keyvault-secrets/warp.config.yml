@@ -1,11 +1,14 @@
-extends: ../../../warp.base.config.yml
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./generated/index.ts"
+  "./api": "./generated/api/index.ts"
+  "./models": "./generated/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "./config/tsconfig.src.browser.json"
-
-  - name: react-native
-    tsconfig: "./config/tsconfig.src.react-native.json"
 
   - name: esm
     condition: import

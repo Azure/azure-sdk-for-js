@@ -1,4 +1,10 @@
-extends: ../../../warp.base.config.yml
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./generated/index.ts"
+  "./api": "./generated/api/index.ts"
+  "./models": "./generated/models/index.ts"
 
 targets:
   - name: browser

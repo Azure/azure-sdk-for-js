@@ -11,7 +11,6 @@ import type {
   OperationState,
 } from "@azure/core-lro";
 import { createHttpPoller } from "@azure/core-lro";
-import type { AzureLoadTestingClient } from "./clientDefinitions.js";
 import type {
   LoadTestAdministrationCloneTest202Response,
   LoadTestAdministrationCloneTestDefaultResponse,
@@ -23,18 +22,6 @@ import type {
   LoadTestRunGenerateInsightsDefaultResponse,
   LoadTestRunGenerateInsightsLogicalResponse,
 } from "./responses.js";
-import { getFileValidationPoller } from "./getFileValidationPoller.js";
-import { getTestRunCompletionPoller } from "./getTestRunCompletionPoller.js";
-import { getTestProfileRunCompletionPoller } from "./getTestProfileRunCompletionPoller.js";
-import type {
-  FileUploadAndValidatePoller,
-  TestUploadFileSuccessResponse,
-  TestRunCompletionPoller,
-  TestRunCreateOrUpdateSuccessResponse,
-  TestProfileRunCreateOrUpdateSuccessResponse,
-  TestProfileRunCompletionPoller,
-  PolledOperationOptions,
-} from "./models.js";
 
 /**
  * A simple poller that can be used to poll a long running operation.
@@ -102,30 +89,6 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
   isStopped(): boolean;
 }
 
-// Helper for custom pollers
-function isFileUpload(response: HttpResponse): response is TestUploadFileSuccessResponse {
-  const url = response.request?.url ?? "";
-  // Match: /tests/{testId}/files/{fileName} but NOT /test-runs/
-  return url.includes("/files/") && url.includes("/tests/") && !url.includes("/test-runs/");
-}
-
-function isTestRunCreation(
-  response: HttpResponse,
-): response is TestRunCreateOrUpdateSuccessResponse {
-  const url = response.request?.url ?? "";
-  const method = response.request?.method.toUpperCase() ?? "";
-  // Match: /test-runs/{testRunId}
-  return url.includes("/test-runs/") && !url.includes("/test-profile-runs/") && method === "PATCH";
-}
-
-function isTestProfileRunCreation(
-  response: HttpResponse,
-): response is TestProfileRunCreateOrUpdateSuccessResponse {
-  const url = response.request?.url ?? "";
-  // Match: /test-profile-runs/{testProfileRunId}
-  return url.includes("/test-profile-runs/");
-}
-
 /**
  * Helper function that builds a Poller object to help polling a long running operation.
  * @param client - Client to use for sending the request to get additional pages.
@@ -133,22 +96,6 @@ function isTestProfileRunCreation(
  * @param options - Options to set a resume state or custom polling interval.
  * @returns - A poller object to poll for operation state updates and eventually get the final response.
  */
-// Custom overload signatures
-export async function getLongRunningPoller(
-  client: AzureLoadTestingClient,
-  initialResponse: TestUploadFileSuccessResponse,
-  polledOperationOptions?: PolledOperationOptions,
-): Promise<FileUploadAndValidatePoller>;
-export async function getLongRunningPoller(
-  client: AzureLoadTestingClient,
-  initialResponse: TestRunCreateOrUpdateSuccessResponse,
-  polledOperationOptions?: PolledOperationOptions,
-): Promise<TestRunCompletionPoller>;
-export async function getLongRunningPoller(
-  client: AzureLoadTestingClient,
-  initialResponse: TestProfileRunCreateOrUpdateSuccessResponse,
-  polledOperationOptions?: PolledOperationOptions,
-): Promise<TestProfileRunCompletionPoller>;
 export async function getLongRunningPoller<
   TResult extends
     | LoadTestAdministrationCloneTestLogicalResponse
@@ -182,39 +129,11 @@ export async function getLongRunningPoller<
     | LoadTestRunGenerateInsightsDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
-
 export async function getLongRunningPoller<TResult extends HttpResponse>(
   client: Client,
   initialResponse: TResult,
-  options: CreateHttpPollerOptions<TResult, OperationState<TResult>> | PolledOperationOptions = {},
+  options: CreateHttpPollerOptions<TResult, OperationState<TResult>> = {},
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>> {
-  // Route to custom pollers based on response type
-  if (isFileUpload(initialResponse)) {
-    return getFileValidationPoller(
-      client as AzureLoadTestingClient,
-      initialResponse as unknown as TestUploadFileSuccessResponse,
-      options as PolledOperationOptions,
-    ) as unknown as SimplePollerLike<OperationState<TResult>, TResult>;
-  }
-
-  if (isTestRunCreation(initialResponse)) {
-    return getTestRunCompletionPoller(
-      client as AzureLoadTestingClient,
-      initialResponse as unknown as TestRunCreateOrUpdateSuccessResponse,
-      options as PolledOperationOptions,
-    ) as unknown as SimplePollerLike<OperationState<TResult>, TResult>;
-  }
-
-  if (isTestProfileRunCreation(initialResponse)) {
-    return getTestProfileRunCompletionPoller(
-      client as AzureLoadTestingClient,
-      initialResponse as unknown as TestProfileRunCreateOrUpdateSuccessResponse,
-      options as PolledOperationOptions,
-    ) as unknown as SimplePollerLike<OperationState<TResult>, TResult>;
-  }
-
-  const httpPollerOptions = options as CreateHttpPollerOptions<TResult, OperationState<TResult>>;
-
   const abortController = new AbortController();
   const poller: RunningOperation<TResult> = {
     sendInitialRequest: async () => {
@@ -254,8 +173,8 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
     },
   };
 
-  httpPollerOptions.resolveOnUnsuccessful = httpPollerOptions.resolveOnUnsuccessful ?? true;
-  const httpPoller = createHttpPoller(poller, httpPollerOptions);
+  options.resolveOnUnsuccessful = options.resolveOnUnsuccessful ?? true;
+  const httpPoller = createHttpPoller(poller, options);
   const simplePoller: SimplePollerLike<OperationState<TResult>, TResult> = {
     isDone() {
       return httpPoller.isDone;

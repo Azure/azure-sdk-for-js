@@ -20,6 +20,7 @@ import type {
   TestRunServerMetricsConfiguration,
   TestProfileRun,
 } from "./models.js";
+import type { NodeReadableStream } from "#platform/platform-types";
 
 export type OperationsGetStatusParameters = RequestParameters;
 /** The resource instance. */
@@ -83,7 +84,7 @@ export interface LoadTestAdministrationUploadTestFileBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeReadableStream;
 }
 
 export interface LoadTestAdministrationUploadTestFileQueryParamProperties {

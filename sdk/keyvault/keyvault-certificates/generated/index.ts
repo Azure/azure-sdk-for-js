@@ -87,3 +87,4 @@ export type {
   GetCertificatesOptionalParams,
 } from "./api/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
