@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -523,13 +523,14 @@
+@@ -525,13 +525,14 @@
      updateIntervalInMs?: number;
  }
  
@@ -23,7 +23,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export type CacheLifeCycleState = string;
  
-@@ -599,16 +600,16 @@
+@@ -601,16 +602,16 @@
  }
  
  // @public

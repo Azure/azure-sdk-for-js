@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
   resetSmbPassword,
   poolChange,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/caches/operations.js";
-import type {
+import {
   CachesResetSmbPasswordOptionalParams,
   CachesPoolChangeOptionalParams,
   CachesListPeeringPassphrasesOptionalParams,
@@ -22,14 +22,9 @@ import type {
   CachesCreateOrUpdateOptionalParams,
   CachesGetOptionalParams,
 } from "../../api/caches/options.js";
-import type {
-  PoolChangeRequest,
-  Cache,
-  CacheUpdate,
-  PeeringPassphrases,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PoolChangeRequest, Cache, CacheUpdate, PeeringPassphrases } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Caches operations. */
 export interface CachesOperations {
@@ -66,11 +61,6 @@ export interface CachesOperations {
     options?: CachesListOptionalParams,
   ) => PagedAsyncIterableIterator<Cache>;
   /** Delete the specified cache */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

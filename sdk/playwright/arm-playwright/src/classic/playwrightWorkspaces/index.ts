@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlaywrightManagementContext } from "../../api/playwrightManagementContext.js";
+import { PlaywrightManagementContext } from "../../api/playwrightManagementContext.js";
 import {
   checkNameAvailability,
   listBySubscription,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/playwrightWorkspaces/operations.js";
-import type {
+import {
   PlaywrightWorkspacesCheckNameAvailabilityOptionalParams,
   PlaywrightWorkspacesListBySubscriptionOptionalParams,
   PlaywrightWorkspacesListByResourceGroupOptionalParams,
@@ -20,14 +20,14 @@ import type {
   PlaywrightWorkspacesCreateOrUpdateOptionalParams,
   PlaywrightWorkspacesGetOptionalParams,
 } from "../../api/playwrightWorkspaces/options.js";
-import type {
+import {
   PlaywrightWorkspace,
   PlaywrightWorkspaceUpdate,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PlaywrightWorkspaces operations. */
 export interface PlaywrightWorkspacesOperations {
@@ -46,11 +46,6 @@ export interface PlaywrightWorkspacesOperations {
     options?: PlaywrightWorkspacesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<PlaywrightWorkspace>;
   /** Deletes a Playwright workspace resource asynchronously. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     playwrightWorkspaceName: string,

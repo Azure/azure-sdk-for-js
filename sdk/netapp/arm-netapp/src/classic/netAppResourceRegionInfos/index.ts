@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import { list, get } from "../../api/netAppResourceRegionInfos/operations.js";
-import type {
+import {
   NetAppResourceRegionInfosListOptionalParams,
   NetAppResourceRegionInfosGetOptionalParams,
 } from "../../api/netAppResourceRegionInfos/options.js";
-import type { RegionInfoResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { RegionInfoResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NetAppResourceRegionInfos operations. */
 export interface NetAppResourceRegionInfosOperations {

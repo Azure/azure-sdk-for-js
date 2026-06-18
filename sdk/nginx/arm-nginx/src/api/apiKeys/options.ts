@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NginxDeploymentApiKeyRequest } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { NginxDeploymentApiKeyRequest } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ApiKeysListOptionalParams extends OperationOptions {}

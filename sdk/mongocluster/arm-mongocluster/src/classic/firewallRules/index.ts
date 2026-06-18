@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
+import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
 import {
   listByMongoCluster,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/firewallRules/operations.js";
-import type {
+import {
   FirewallRulesListByMongoClusterOptionalParams,
   FirewallRulesDeleteOptionalParams,
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesGetOptionalParams,
 } from "../../api/firewallRules/options.js";
-import type { FirewallRule } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { FirewallRule } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FirewallRules operations. */
 export interface FirewallRulesOperations {
