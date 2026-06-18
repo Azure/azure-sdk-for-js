@@ -31,24 +31,28 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<SubscriptionCreationResult> {
+): Promise<SubscriptionCreationResult | undefined> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return subscriptionCreationResultDeserializer(result.body);
+  return result.body ? subscriptionCreationResultDeserializer(result.body) : undefined;
 }
 
 /** Get the status of the pending Microsoft.Subscription API operations. */
@@ -56,7 +60,7 @@ export async function get(
   context: Client,
   operationId: string,
   options: SubscriptionOperationGetOptionalParams = { requestOptions: {} },
-): Promise<SubscriptionCreationResult> {
+): Promise<SubscriptionCreationResult | undefined> {
   const result = await _getSend(context, operationId, options);
   return _getDeserialize(result);
 }

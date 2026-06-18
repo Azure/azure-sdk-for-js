@@ -1,26 +1,83 @@
 # Release History
 
-## 20.0.0 (2026-05-20)
+## 20.1.0 (2026-06-18)
 
 ### Features Added
+  - Added operation group BlobContainersOperations
+  - Added operation group BlobInventoryPoliciesOperations
+  - Added operation group BlobServicesOperations
   - Added operation group ConnectorsOperations
   - Added operation group DataSharesOperations
-  - Added operation BlobContainersOperations.objectLevelWorm
-  - Added operation NetworkSecurityPerimeterConfigurationsOperations.reconcile
-  - Added operation StorageAccountsOperations.abortHierarchicalNamespaceMigration
-  - Added operation StorageAccountsOperations.create
-  - Added operation StorageAccountsOperations.customerInitiatedMigration
-  - Added operation StorageAccountsOperations.failover
-  - Added operation StorageAccountsOperations.hierarchicalNamespaceMigration
-  - Added operation StorageAccountsOperations.restoreBlobRanges
-  - Added operation StorageTaskAssignmentsOperations.beginStopAssignment
-  - Added operation StorageTaskAssignmentsOperations.beginStopAssignmentAndWait
-  - Added operation StorageTaskAssignmentsOperations.create
-  - Added operation StorageTaskAssignmentsOperations.delete
-  - Added operation StorageTaskAssignmentsOperations.stopAssignment
-  - Added operation StorageTaskAssignmentsOperations.update
+  - Added operation group DeletedAccountsOperations
+  - Added operation group EncryptionScopesOperations
+  - Added operation group FileServicesOperations
+  - Added operation group FileSharesOperations
+  - Added operation group LocalUsersOperations
+  - Added operation group ManagementPoliciesOperations
+  - Added operation group NetworkSecurityPerimeterConfigurationsOperations
+  - Added operation group ObjectReplicationPoliciesOperations
+  - Added operation group OperationsOperations
+  - Added operation group PrivateEndpointConnectionsOperations
+  - Added operation group PrivateLinkResourcesOperations
+  - Added operation group QueueOperations
+  - Added operation group QueueServicesOperations
+  - Added operation group SkusOperations
+  - Added operation group StorageAccountsOperations
+  - Added operation group StorageTaskAssignmentInstancesReportOperations
+  - Added operation group StorageTaskAssignmentsInstancesReportOperations
+  - Added operation group StorageTaskAssignmentsOperations
+  - Added operation group TableOperations
+  - Added operation group TableServicesOperations
+  - Added operation group UsagesOperations
+  - Added Class StorageManagementClient
+  - Added Interface AccessPolicy
+  - Added Interface AccountImmutabilityPolicyProperties
+  - Added Interface AccountLimits
+  - Added Interface AccountSasParameters
+  - Added Interface AccountUsage
+  - Added Interface AccountUsageElements
+  - Added Interface ActiveDirectoryProperties
+  - Added Interface AzureEntityResource
+  - Added Interface AzureFilesIdentityBasedAuthentication
+  - Added Interface BlobContainer
+  - Added Interface BlobContainersClearLegalHoldOptionalParams
+  - Added Interface BlobContainersCreateOptionalParams
+  - Added Interface BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams
+  - Added Interface BlobContainersDeleteImmutabilityPolicyOptionalParams
+  - Added Interface BlobContainersDeleteOptionalParams
+  - Added Interface BlobContainersExtendImmutabilityPolicyOptionalParams
+  - Added Interface BlobContainersGetImmutabilityPolicyOptionalParams
+  - Added Interface BlobContainersGetOptionalParams
+  - Added Interface BlobContainersLeaseOptionalParams
+  - Added Interface BlobContainersListOptionalParams
+  - Added Interface BlobContainersLockImmutabilityPolicyOptionalParams
+  - Added Interface BlobContainersObjectLevelWormOptionalParams
+  - Added Interface BlobContainersSetLegalHoldOptionalParams
+  - Added Interface BlobContainersUpdateOptionalParams
+  - Added Interface BlobInventoryCreationTime
+  - Added Interface BlobInventoryPoliciesCreateOrUpdateOptionalParams
+  - Added Interface BlobInventoryPoliciesDeleteOptionalParams
+  - Added Interface BlobInventoryPoliciesGetOptionalParams
+  - Added Interface BlobInventoryPoliciesListOptionalParams
+  - Added Interface BlobInventoryPolicy
+  - Added Interface BlobInventoryPolicyDefinition
+  - Added Interface BlobInventoryPolicyFilter
   - Added Interface BlobInventoryPolicyProperties
+  - Added Interface BlobInventoryPolicyRule
+  - Added Interface BlobInventoryPolicySchema
+  - Added Interface BlobRestoreParameters
+  - Added Interface BlobRestoreRange
+  - Added Interface BlobRestoreStatus
+  - Added Interface BlobServiceProperties
   - Added Interface BlobServicePropertiesProperties
+  - Added Interface BlobServicesGetServicePropertiesOptionalParams
+  - Added Interface BlobServicesListOptionalParams
+  - Added Interface BlobServicesSetServicePropertiesOptionalParams
+  - Added Interface BurstingConstants
+  - Added Interface ChangeFeed
+  - Added Interface CheckNameAvailabilityResult
+  - Added Interface CloudError
+  - Added Interface CloudErrorBody
   - Added Interface Connector
   - Added Interface ConnectorsCreateOptionalParams
   - Added Interface ConnectorsDeleteOptionalParams
@@ -30,6 +87,9 @@
   - Added Interface ConnectorsUpdateOptionalParams
   - Added Interface ConnectorUpdate
   - Added Interface ContainerProperties
+  - Added Interface CorsRule
+  - Added Interface CorsRules
+  - Added Interface CustomDomain
   - Added Interface DataShare
   - Added Interface DataShareConnection
   - Added Interface DataSharesCreateOptionalParams
@@ -40,36 +100,230 @@
   - Added Interface DataShareSourceUpdate
   - Added Interface DataSharesUpdateOptionalParams
   - Added Interface DataShareUpdate
+  - Added Interface DateAfterCreation
+  - Added Interface DateAfterModification
+  - Added Interface DeletedAccount
   - Added Interface DeletedAccountProperties
+  - Added Interface DeletedAccountsGetOptionalParams
+  - Added Interface DeletedAccountsListOptionalParams
+  - Added Interface DeletedShare
+  - Added Interface DeleteRetentionPolicy
+  - Added Interface Dimension
+  - Added Interface DualStackEndpointPreference
+  - Added Interface Encryption
+  - Added Interface EncryptionIdentity
+  - Added Interface EncryptionInTransit
+  - Added Interface EncryptionScope
+  - Added Interface EncryptionScopeKeyVaultProperties
   - Added Interface EncryptionScopeProperties
+  - Added Interface EncryptionScopesGetOptionalParams
+  - Added Interface EncryptionScopesListOptionalParams
+  - Added Interface EncryptionScopesPatchOptionalParams
+  - Added Interface EncryptionScopesPutOptionalParams
+  - Added Interface EncryptionService
+  - Added Interface EncryptionServices
+  - Added Interface Endpoints
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
   - Added Interface ErrorResponse_1
+  - Added Interface ErrorResponseBody
+  - Added Interface ExecutionTarget
+  - Added Interface ExecutionTrigger
+  - Added Interface ExecutionTriggerUpdate
+  - Added Interface ExtendedLocation
+  - Added Interface FileServiceItems
+  - Added Interface FileServiceProperties
   - Added Interface FileServicePropertiesProperties
+  - Added Interface FileServicesGetServicePropertiesOptionalParams
+  - Added Interface FileServicesGetServiceUsageOptionalParams
+  - Added Interface FileServicesListOptionalParams
+  - Added Interface FileServicesListServiceUsagesOptionalParams
+  - Added Interface FileServicesSetServicePropertiesOptionalParams
+  - Added Interface FileServiceUsage
+  - Added Interface FileServiceUsageProperties
+  - Added Interface FileShare
+  - Added Interface FileShareItem
+  - Added Interface FileShareLimits
   - Added Interface FileShareProperties
+  - Added Interface FileSharePropertiesFileSharePaidBursting
+  - Added Interface FileShareRecommendations
+  - Added Interface FileSharesCreateOptionalParams
+  - Added Interface FileSharesDeleteOptionalParams
+  - Added Interface FileSharesGetOptionalParams
+  - Added Interface FileSharesLeaseOptionalParams
+  - Added Interface FileSharesListOptionalParams
+  - Added Interface FileSharesRestoreOptionalParams
+  - Added Interface FileSharesUpdateOptionalParams
+  - Added Interface GeoPriorityReplicationStatus
+  - Added Interface GeoReplicationStats
+  - Added Interface Identity
+  - Added Interface ImmutabilityPolicy
+  - Added Interface ImmutabilityPolicyProperties
   - Added Interface ImmutabilityPolicyProperty
+  - Added Interface ImmutableStorageAccount
+  - Added Interface ImmutableStorageWithVersioning
+  - Added Interface IPRule
+  - Added Interface KeyCreationTime
+  - Added Interface KeyPolicy
+  - Added Interface KeyVaultProperties
+  - Added Interface LastAccessTimeTrackingPolicy
+  - Added Interface LeaseContainerRequest
+  - Added Interface LeaseContainerResponse
+  - Added Interface LeaseShareRequest
+  - Added Interface LeaseShareResponse
+  - Added Interface LegalHold
+  - Added Interface LegalHoldProperties
+  - Added Interface ListAccountSasResponse
+  - Added Interface ListContainerItem
+  - Added Interface ListQueue
   - Added Interface ListQueueProperties
+  - Added Interface ListQueueServices
+  - Added Interface ListServiceSasResponse
+  - Added Interface ListTableServices
+  - Added Interface LocalUser
+  - Added Interface LocalUserKeys
   - Added Interface LocalUserProperties
+  - Added Interface LocalUserRegeneratePasswordResult
+  - Added Interface LocalUsersCreateOrUpdateOptionalParams
+  - Added Interface LocalUsersDeleteOptionalParams
+  - Added Interface LocalUsersGetOptionalParams
+  - Added Interface LocalUsersListKeysOptionalParams
+  - Added Interface LocalUsersListOptionalParams
+  - Added Interface LocalUsersRegeneratePasswordOptionalParams
   - Added Interface ManagedIdentityAuthProperties
   - Added Interface ManagedIdentityAuthPropertiesUpdate
+  - Added Interface ManagementPoliciesCreateOrUpdateOptionalParams
+  - Added Interface ManagementPoliciesDeleteOptionalParams
+  - Added Interface ManagementPoliciesGetOptionalParams
+  - Added Interface ManagementPolicy
+  - Added Interface ManagementPolicyAction
+  - Added Interface ManagementPolicyBaseBlob
+  - Added Interface ManagementPolicyDefinition
+  - Added Interface ManagementPolicyFilter
   - Added Interface ManagementPolicyProperties
+  - Added Interface ManagementPolicyRule
+  - Added Interface ManagementPolicySchema
+  - Added Interface ManagementPolicySnapShot
+  - Added Interface ManagementPolicyVersion
+  - Added Interface MetricSpecification
+  - Added Interface Multichannel
+  - Added Interface NetworkRuleSet
+  - Added Interface NetworkSecurityPerimeter
+  - Added Interface NetworkSecurityPerimeterConfiguration
   - Added Interface NetworkSecurityPerimeterConfigurationProperties
+  - Added Interface NetworkSecurityPerimeterConfigurationPropertiesProfile
+  - Added Interface NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation
+  - Added Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  - Added Interface NfsSetting
+  - Added Interface NspAccessRule
+  - Added Interface NspAccessRuleProperties
+  - Added Interface NspAccessRulePropertiesSubscriptionsItem
+  - Added Interface ObjectReplicationPoliciesCreateOrUpdateOptionalParams
+  - Added Interface ObjectReplicationPoliciesDeleteOptionalParams
+  - Added Interface ObjectReplicationPoliciesGetOptionalParams
+  - Added Interface ObjectReplicationPoliciesListOptionalParams
+  - Added Interface ObjectReplicationPolicy
+  - Added Interface ObjectReplicationPolicyFilter
   - Added Interface ObjectReplicationPolicyProperties
+  - Added Interface ObjectReplicationPolicyPropertiesMetrics
+  - Added Interface ObjectReplicationPolicyPropertiesPriorityReplication
   - Added Interface ObjectReplicationPolicyPropertiesTagsReplication
+  - Added Interface ObjectReplicationPolicyRule
+  - Added Interface Operation
+  - Added Interface OperationDisplay
   - Added Interface OperationProperties
+  - Added Interface OperationsListOptionalParams
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
+  - Added Interface PermissionScope
+  - Added Interface Placement
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
   - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionsGetOptionalParams
+  - Added Interface PrivateEndpointConnectionsListOptionalParams
+  - Added Interface PrivateEndpointConnectionsPutOptionalParams
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceListResult
   - Added Interface PrivateLinkResourceProperties
+  - Added Interface PrivateLinkResourcesListByStorageAccountOptionalParams
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface ProtectedAppendWritesHistory
+  - Added Interface ProtocolSettings
+  - Added Interface ProvisioningIssue
+  - Added Interface ProvisioningIssueProperties
+  - Added Interface ProxyResource
+  - Added Interface QueueCreateOptionalParams
+  - Added Interface QueueDeleteOptionalParams
+  - Added Interface QueueGetOptionalParams
+  - Added Interface QueueListOptionalParams
   - Added Interface QueueProperties
+  - Added Interface QueueServiceProperties
   - Added Interface QueueServicePropertiesProperties
+  - Added Interface QueueServicesGetServicePropertiesOptionalParams
+  - Added Interface QueueServicesListOptionalParams
+  - Added Interface QueueServicesSetServicePropertiesOptionalParams
+  - Added Interface QueueUpdateOptionalParams
+  - Added Interface Resource
+  - Added Interface ResourceAccessRule
+  - Added Interface RestorePolicyProperties
   - Added Interface RestorePollerOptions
+  - Added Interface Restriction
+  - Added Interface RoutingPreference
+  - Added Interface SasPolicy
+  - Added Interface ServiceSasParameters
   - Added Interface ServiceSharedKeyAccessProperties
+  - Added Interface ServiceSpecification
+  - Added Interface SignedIdentifier
   - Added Interface SimplePollerLike
+  - Added Interface Sku
+  - Added Interface SKUCapability
+  - Added Interface SkuInformation
+  - Added Interface SkuInformationLocationInfoItem
+  - Added Interface SkusListOptionalParams
+  - Added Interface SmbOAuthSettings
+  - Added Interface SmbSetting
+  - Added Interface SshPublicKey
   - Added Interface StaticWebsite
+  - Added Interface StorageAccount
+  - Added Interface StorageAccountCheckNameAvailabilityParameters
+  - Added Interface StorageAccountCreateParameters
+  - Added Interface StorageAccountInternetEndpoints
+  - Added Interface StorageAccountIpv6Endpoints
+  - Added Interface StorageAccountKey
+  - Added Interface StorageAccountListKeysResult
+  - Added Interface StorageAccountMicrosoftEndpoints
+  - Added Interface StorageAccountMigration
   - Added Interface StorageAccountMigrationProperties
   - Added Interface StorageAccountProperties
   - Added Interface StorageAccountPropertiesCreateParameters
   - Added Interface StorageAccountPropertiesUpdateParameters
+  - Added Interface StorageAccountRegenerateKeyParameters
+  - Added Interface StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams
+  - Added Interface StorageAccountsCheckNameAvailabilityOptionalParams
+  - Added Interface StorageAccountsCreateOptionalParams
+  - Added Interface StorageAccountsCustomerInitiatedMigrationOptionalParams
+  - Added Interface StorageAccountsDeleteOptionalParams
+  - Added Interface StorageAccountsFailoverOptionalParams
+  - Added Interface StorageAccountsGetCustomerInitiatedMigrationOptionalParams
+  - Added Interface StorageAccountsGetPropertiesOptionalParams
   - Added Interface StorageAccountSharedKeyAccessProperties
+  - Added Interface StorageAccountsHierarchicalNamespaceMigrationOptionalParams
+  - Added Interface StorageAccountSkuConversionStatus
+  - Added Interface StorageAccountsListAccountSASOptionalParams
+  - Added Interface StorageAccountsListByResourceGroupOptionalParams
+  - Added Interface StorageAccountsListKeysOptionalParams
+  - Added Interface StorageAccountsListOptionalParams
+  - Added Interface StorageAccountsListServiceSASOptionalParams
+  - Added Interface StorageAccountsRegenerateKeyOptionalParams
+  - Added Interface StorageAccountsRestoreBlobRangesOptionalParams
+  - Added Interface StorageAccountsRevokeUserDelegationKeysOptionalParams
+  - Added Interface StorageAccountsUpdateOptionalParams
+  - Added Interface StorageAccountUpdateParameters
   - Added Interface StorageConnectorAuthProperties
   - Added Interface StorageConnectorAuthPropertiesUpdate
   - Added Interface StorageConnectorConnection
@@ -82,50 +336,134 @@
   - Added Interface StorageDataShareAsset
   - Added Interface StorageDataShareProperties
   - Added Interface StorageDataSharePropertiesUpdate
+  - Added Interface StorageManagementClientOptionalParams
+  - Added Interface StorageQueue
+  - Added Interface StorageTaskAssignment
+  - Added Interface StorageTaskAssignmentExecutionContext
+  - Added Interface StorageTaskAssignmentInstancesReportListOptionalParams
+  - Added Interface StorageTaskAssignmentProperties
+  - Added Interface StorageTaskAssignmentReport
+  - Added Interface StorageTaskAssignmentsCreateOptionalParams
+  - Added Interface StorageTaskAssignmentsDeleteOptionalParams
+  - Added Interface StorageTaskAssignmentsGetOptionalParams
+  - Added Interface StorageTaskAssignmentsInstancesReportListOptionalParams
+  - Added Interface StorageTaskAssignmentsListOptionalParams
   - Added Interface StorageTaskAssignmentsStopAssignmentOptionalParams
+  - Added Interface StorageTaskAssignmentsUpdateOptionalParams
+  - Added Interface StorageTaskAssignmentUpdateExecutionContext
+  - Added Interface StorageTaskAssignmentUpdateParameters
+  - Added Interface StorageTaskAssignmentUpdateProperties
+  - Added Interface StorageTaskAssignmentUpdateReport
+  - Added Interface StorageTaskReportInstance
+  - Added Interface StorageTaskReportProperties
+  - Added Interface SystemData
+  - Added Interface Table
+  - Added Interface TableAccessPolicy
+  - Added Interface TableCreateOptionalParams
+  - Added Interface TableDeleteOptionalParams
+  - Added Interface TableGetOptionalParams
+  - Added Interface TableListOptionalParams
   - Added Interface TableProperties
+  - Added Interface TableServiceProperties
   - Added Interface TableServicePropertiesProperties
+  - Added Interface TableServicesGetServicePropertiesOptionalParams
+  - Added Interface TableServicesListOptionalParams
+  - Added Interface TableServicesSetServicePropertiesOptionalParams
+  - Added Interface TableSignedIdentifier
+  - Added Interface TableUpdateOptionalParams
+  - Added Interface TagFilter
+  - Added Interface TagProperty
   - Added Interface TestConnectionResponse
   - Added Interface TestExistingConnectionRequest
+  - Added Interface TrackedResource
   - Added Interface TrackedResourceUpdate
-  - Interface AzureEntityResource has a new optional parameter systemData
-  - Interface BlobContainer has a new optional parameter systemData
-  - Interface BlobServiceProperties has a new optional parameter staticWebsite
-  - Interface BlobServiceProperties has a new optional parameter systemData
-  - Interface DeletedAccount has a new optional parameter systemData
-  - Interface EncryptionScope has a new optional parameter systemData
-  - Interface FileServiceProperties has a new optional parameter systemData
-  - Interface FileServiceUsage has a new optional parameter systemData
-  - Interface FileShare has a new optional parameter systemData
-  - Interface FileShareItem has a new optional parameter systemData
-  - Interface ImmutabilityPolicy has a new optional parameter systemData
-  - Interface ListContainerItem has a new optional parameter systemData
-  - Interface ListQueue has a new optional parameter systemData
-  - Interface ManagementPolicy has a new optional parameter systemData
-  - Interface ObjectReplicationPolicy has a new optional parameter tagsReplication
-  - Interface ObjectReplicationPolicy has a new optional parameter systemData
-  - Interface PrivateEndpointConnection has a new optional parameter systemData
-  - Interface PrivateLinkResource has a new optional parameter systemData
-  - Interface ProxyResource has a new optional parameter systemData
-  - Interface QueueServiceProperties has a new optional parameter systemData
-  - Interface Resource has a new optional parameter systemData
-  - Interface StorageAccount has a new optional parameter allowSharedKeyAccessForServices
-  - Interface StorageAccount has a new optional parameter dataCollaborationPolicyProperties
-  - Interface StorageAccount has a new optional parameter systemData
-  - Interface StorageAccountCreateParameters has a new optional parameter allowSharedKeyAccessForServices
-  - Interface StorageAccountCreateParameters has a new optional parameter dataCollaborationPolicyProperties
-  - Interface StorageAccountMigration has a new optional parameter systemData
-  - Interface StorageAccountsListKeysOptionalParams has a new optional parameter expand
-  - Interface StorageAccountUpdateParameters has a new optional parameter allowSharedKeyAccessForServices
-  - Interface StorageAccountUpdateParameters has a new optional parameter dataCollaborationPolicyProperties
-  - Interface StorageQueue has a new optional parameter systemData
-  - Interface StorageTaskAssignment has a new optional parameter systemData
-  - Interface StorageTaskReportInstance has a new optional parameter systemData
-  - Interface Table has a new optional parameter systemData
-  - Interface TableServiceProperties has a new optional parameter systemData
-  - Interface TrackedResource has a new optional parameter systemData
+  - Added Interface TriggerParameters
+  - Added Interface TriggerParametersUpdate
+  - Added Interface UpdateHistoryProperty
+  - Added Interface Usage
+  - Added Interface UsageName
+  - Added Interface UsagesListByLocationOptionalParams
+  - Added Interface UserAssignedIdentity
+  - Added Interface VirtualNetworkRule
+  - Added Type Alias AccessTier
+  - Added Type Alias AccountImmutabilityPolicyState
+  - Added Type Alias AccountStatus
+  - Added Type Alias AccountType
+  - Added Type Alias AllowedCopyScope
+  - Added Type Alias AllowedMethods
   - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BlobInventoryPolicyName
+  - Added Type Alias BlobRestoreProgressStatus
+  - Added Type Alias Bypass
+  - Added Type Alias CreatedByType
+  - Added Type Alias DefaultAction
+  - Added Type Alias DefaultSharePermission
+  - Added Type Alias DirectoryServiceOptions
+  - Added Type Alias DnsEndpointType
+  - Added Type Alias EnabledProtocols
+  - Added Type Alias EncryptionScopeSource
+  - Added Type Alias EncryptionScopeState
+  - Added Type Alias ExpirationAction
+  - Added Type Alias ExtendedLocationTypes
+  - Added Type Alias Format
+  - Added Type Alias GeoReplicationStatus
+  - Added Type Alias HttpProtocol
+  - Added Type Alias IdentityType
+  - Added Type Alias ImmutabilityPolicyState
+  - Added Type Alias ImmutabilityPolicyUpdateType
+  - Added Type Alias IntervalUnit
+  - Added Type Alias InventoryRuleType
+  - Added Type Alias IssueType
+  - Added Type Alias KeyPermission
+  - Added Type Alias KeySource
+  - Added Type Alias KeyType
+  - Added Type Alias Kind
+  - Added Type Alias LargeFileSharesState
+  - Added Type Alias LeaseContainerRequestAction
+  - Added Type Alias LeaseDuration
+  - Added Type Alias LeaseShareAction
+  - Added Type Alias LeaseState
+  - Added Type Alias LeaseStatus
+  - Added Type Alias ListContainersInclude
+  - Added Type Alias ListEncryptionScopesInclude
+  - Added Type Alias ListLocalUserIncludeParam
+  - Added Type Alias ManagementPolicyName
+  - Added Type Alias MigrationName
+  - Added Type Alias MigrationState
+  - Added Type Alias MigrationStatus
+  - Added Type Alias MinimumTlsVersion
+  - Added Type Alias Name
   - Added Type Alias NativeDataSharingProvisioningState
+  - Added Type Alias NetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Type Alias NspAccessRuleDirection
+  - Added Type Alias ObjectType
+  - Added Type Alias Permissions
+  - Added Type Alias PostFailoverRedundancy
+  - Added Type Alias PostPlannedFailoverRedundancy
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias ProvisioningState
+  - Added Type Alias PublicAccess
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias Reason
+  - Added Type Alias ReasonCode
+  - Added Type Alias ResourceAssociationAccessMode
+  - Added Type Alias RootSquashType
+  - Added Type Alias RoutingChoice
+  - Added Type Alias RuleType
+  - Added Type Alias RunResult
+  - Added Type Alias RunStatusEnum
+  - Added Type Alias Schedule
+  - Added Type Alias Services
+  - Added Type Alias Severity
+  - Added Type Alias ShareAccessTier
+  - Added Type Alias SignedResource
+  - Added Type Alias SignedResourceTypes
+  - Added Type Alias SkuConversionStatus
+  - Added Type Alias SkuName
+  - Added Type Alias SkuTier
+  - Added Type Alias State
+  - Added Type Alias StorageAccountExpand
   - Added Type Alias StorageConnectorAuthPropertiesUnion
   - Added Type Alias StorageConnectorAuthPropertiesUpdateUnion
   - Added Type Alias StorageConnectorAuthType
@@ -138,8 +476,78 @@
   - Added Type Alias StorageConnectorState
   - Added Type Alias StorageDataShareAccessPolicyPermission
   - Added Type Alias StorageTaskAssignmentProvisioningState
+  - Added Type Alias TriggerType
+  - Added Type Alias UsageUnit
+  - Added Type Alias ZonePlacementPolicy
   - Added Enum AzureClouds
+  - Added Enum KnownAccountImmutabilityPolicyState
+  - Added Enum KnownAccountType
+  - Added Enum KnownAllowedCopyScope
+  - Added Enum KnownAllowedMethods
+  - Added Enum KnownBlobInventoryPolicyName
+  - Added Enum KnownBlobRestoreProgressStatus
+  - Added Enum KnownBypass
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDefaultSharePermission
+  - Added Enum KnownDirectoryServiceOptions
+  - Added Enum KnownDnsEndpointType
+  - Added Enum KnownEnabledProtocols
+  - Added Enum KnownEncryptionScopeSource
+  - Added Enum KnownEncryptionScopeState
+  - Added Enum KnownExpirationAction
+  - Added Enum KnownExtendedLocationTypes
+  - Added Enum KnownFormat
+  - Added Enum KnownGeoReplicationStatus
+  - Added Enum KnownIdentityType
+  - Added Enum KnownImmutabilityPolicyState
+  - Added Enum KnownImmutabilityPolicyUpdateType
+  - Added Enum KnownIntervalUnit
+  - Added Enum KnownInventoryRuleType
+  - Added Enum KnownIssueType
+  - Added Enum KnownKeySource
+  - Added Enum KnownKeyType
+  - Added Enum KnownKind
+  - Added Enum KnownLargeFileSharesState
+  - Added Enum KnownLeaseContainerRequestAction
+  - Added Enum KnownLeaseDuration
+  - Added Enum KnownLeaseShareAction
+  - Added Enum KnownLeaseState
+  - Added Enum KnownLeaseStatus
+  - Added Enum KnownListContainersInclude
+  - Added Enum KnownListEncryptionScopesInclude
+  - Added Enum KnownListLocalUserIncludeParam
+  - Added Enum KnownManagementPolicyName
+  - Added Enum KnownMigrationName
+  - Added Enum KnownMigrationState
+  - Added Enum KnownMigrationStatus
+  - Added Enum KnownMinimumTlsVersion
+  - Added Enum KnownName
   - Added Enum KnownNativeDataSharingProvisioningState
+  - Added Enum KnownNetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Enum KnownNspAccessRuleDirection
+  - Added Enum KnownObjectType
+  - Added Enum KnownPermissions
+  - Added Enum KnownPostFailoverRedundancy
+  - Added Enum KnownPostPlannedFailoverRedundancy
+  - Added Enum KnownPrivateEndpointConnectionProvisioningState
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownReasonCode
+  - Added Enum KnownResourceAssociationAccessMode
+  - Added Enum KnownRootSquashType
+  - Added Enum KnownRoutingChoice
+  - Added Enum KnownRuleType
+  - Added Enum KnownRunResult
+  - Added Enum KnownRunStatusEnum
+  - Added Enum KnownSchedule
+  - Added Enum KnownServices
+  - Added Enum KnownSeverity
+  - Added Enum KnownShareAccessTier
+  - Added Enum KnownSignedResource
+  - Added Enum KnownSignedResourceTypes
+  - Added Enum KnownSkuConversionStatus
+  - Added Enum KnownSkuName
+  - Added Enum KnownState
   - Added Enum KnownStorageConnectorAuthType
   - Added Enum KnownStorageConnectorConnectionType
   - Added Enum KnownStorageConnectorDataSourceType
@@ -147,457 +555,7 @@
   - Added Enum KnownStorageConnectorState
   - Added Enum KnownStorageDataShareAccessPolicyPermission
   - Added Enum KnownStorageTaskAssignmentProvisioningState
-  - Added Enum KnownVersions
-  - Enum KnownAllowedCopyScope has a new value All
-  - Enum KnownTriggerType has a new value MockRun
-
-### Breaking Changes
-  - Operation NetworkSecurityPerimeterConfigurations.beginReconcileAndWait has a new signature
-  - Operation StorageAccounts.beginCreate has a new signature
-  - Operation StorageAccounts.beginCreateAndWait has a new signature
-  - Operation StorageAccounts.getProperties has a new signature
-  - Operation StorageAccounts.update has a new signature
-  - Operation StorageTaskAssignments.beginCreate has a new signature
-  - Operation StorageTaskAssignments.beginCreateAndWait has a new signature
-  - Operation StorageTaskAssignments.beginDeleteAndWait has a new signature
-  - Operation StorageTaskAssignments.beginUpdate has a new signature
-  - Operation StorageTaskAssignments.beginUpdateAndWait has a new signature
-  - Operation StorageTaskAssignments.get has a new signature
-  - Removed Interface BlobServiceItems
-  - Removed Interface ErrorResponseAutoGenerated
-  - Removed Interface FileServiceUsages
-  - Removed Interface FileShareItems
-  - Removed Interface ListBlobInventoryPolicy
-  - Removed Interface ListContainerItems
-  - Removed Interface ListQueueResource
-  - Removed Interface ListTableResource
-  - Removed Interface LocalUsers
-  - Removed Interface NetworkSecurityPerimeterConfigurationList
-  - Removed Interface ObjectReplicationPolicies
-  - Removed Interface ProxyResourceAutoGenerated
-  - Removed Interface ResourceAutoGenerated
-  - Removed Interface StorageTaskAssignmentsList
-  - Removed Interface StorageTaskReportSummary
-  - Type of parameter provisioningState of interface StorageTaskAssignmentProperties is changed from ProvisioningState to StorageTaskAssignmentProvisioningState
-  - Type of parameter provisioningState of interface StorageTaskAssignmentUpdateProperties is changed from ProvisioningState to StorageTaskAssignmentProvisioningState
-  - Parameter properties of interface StorageTaskAssignment is now optional
-  - Type alias "AccessTier" has been changed
-  - Type alias "ProvisioningState" has been changed
-
-## 19.1.0 (2025-10-17)
-
-### Features Added
-  - Added Interface GeoPriorityReplicationStatus
-  - Added Interface ObjectReplicationPolicyPropertiesPriorityReplication
-  - Interface ObjectReplicationPolicy has a new optional parameter priorityReplication
-  - Interface StorageAccount has a new optional parameter geoPriorityReplicationStatus
-  - Interface StorageAccountCreateParameters has a new optional parameter geoPriorityReplicationStatus
-  - Interface StorageAccountUpdateParameters has a new optional parameter geoPriorityReplicationStatus
-
-## 19.0.0 (2025-09-22)
-
-### Features Added
-  - Added Interface DualStackEndpointPreference
-  - Added Interface EncryptionInTransit
-  - Added Interface NfsSetting
-  - Added Interface Placement
-  - Added Interface SkuInformationLocationInfoItem
-  - Added Interface SmbOAuthSettings
-  - Added Interface StorageAccountIpv6Endpoints
-  - Interface AzureFilesIdentityBasedAuthentication has a new optional parameter smbOAuthSettings
-  - Interface Endpoints has a new optional parameter ipv6Endpoints
-  - Interface NetworkRuleSet has a new optional parameter ipv6Rules
-  - Interface ProtocolSettings has a new optional parameter nfs
-  - Interface SkuInformation has a new optional parameter locationInfo
-  - Interface SmbSetting has a new optional parameter encryptionInTransit
-  - Interface StorageAccount has a new optional parameter dualStackEndpointPreference
-  - Interface StorageAccount has a new optional parameter placement
-  - Interface StorageAccount has a new optional parameter zones
-  - Interface StorageAccountCreateParameters has a new optional parameter dualStackEndpointPreference
-  - Interface StorageAccountCreateParameters has a new optional parameter placement
-  - Interface StorageAccountCreateParameters has a new optional parameter zones
-  - Interface StorageAccountUpdateParameters has a new optional parameter dualStackEndpointPreference
-  - Interface StorageAccountUpdateParameters has a new optional parameter placement
-  - Interface StorageAccountUpdateParameters has a new optional parameter zones
-  - Interface StorageTaskAssignmentsCreateHeaders has a new optional parameter azureAsyncOperation
-  - Interface StorageTaskAssignmentsDeleteHeaders has a new optional parameter azureAsyncOperation
-  - Interface StorageTaskAssignmentsListOptionalParams has a new optional parameter top
-  - Interface StorageTaskAssignmentsUpdateHeaders has a new optional parameter azureAsyncOperation
-  - Added Type Alias ZonePlacementPolicy
   - Added Enum KnownTriggerType
+  - Added Enum KnownVersions
   - Added Enum KnownZonePlacementPolicy
 
-### Breaking Changes
-  - Operation StorageAccounts.beginCreate has a new signature
-  - Operation StorageAccounts.beginCreateAndWait has a new signature
-  - Operation StorageAccounts.getProperties has a new signature
-  - Operation StorageAccounts.update has a new signature
-  - Operation StorageTaskAssignments.beginCreate has a new signature
-  - Operation StorageTaskAssignments.beginCreateAndWait has a new signature
-  - Operation StorageTaskAssignments.beginUpdate has a new signature
-  - Operation StorageTaskAssignments.beginUpdateAndWait has a new signature
-  - Operation StorageTaskAssignments.get has a new signature
-  - Operation StorageTaskAssignments.list has a new signature
-  - Interface StorageTaskAssignmentsListOptionalParams no longer has parameter maxpagesize
-  - Parameter domainGuid of interface ActiveDirectoryProperties is now optional
-  - Parameter domainName of interface ActiveDirectoryProperties is now optional
-  - Type alias "TriggerType" has been changed
-
-    
-## 18.6.0 (2025-07-16)
-    
-### Features Added
-  - Added Type Alias IntervalUnit
-  - Added Type Alias KeyType
-  - Added Type Alias Permissions
-  - Added Enum KnownIntervalUnit
-  - Operation StorageTaskAssignments.beginCreate has a new signature
-  - Operation StorageTaskAssignments.beginCreateAndWait has a new signature
-  - Operation StorageTaskAssignments.beginUpdate has a new signature
-  - Operation StorageTaskAssignments.beginUpdateAndWait has a new signature
-  - Operation StorageTaskAssignments.get has a new signature
-  - Type of parameter intervalUnit of interface TriggerParameters is changed from "Days" to IntervalUnit
-  - Type of parameter intervalUnit of interface TriggerParametersUpdate is changed from "Days" to IntervalUnit
-  - Removed Type Alias KeyType_2
-  - Removed Type Alias Permissions_2
-
-    
-## 18.5.0 (2025-04-18)
-
-### Features Added
-
-  - Type ProvisioningState has a new value Accepted
-
-## 18.4.0 (2025-02-27)
-    
-### Features Added
-
-  - Added operation FileServices.getServiceUsage
-  - Added operation FileServices.listServiceUsages
-  - Added Interface AccountLimits
-  - Added Interface AccountUsage
-  - Added Interface AccountUsageElements
-  - Added Interface BurstingConstants
-  - Added Interface FileServicesGetServiceUsageOptionalParams
-  - Added Interface FileServicesListServiceUsagesNextOptionalParams
-  - Added Interface FileServicesListServiceUsagesOptionalParams
-  - Added Interface FileServiceUsage
-  - Added Interface FileServiceUsageProperties
-  - Added Interface FileServiceUsages
-  - Added Interface FileShareLimits
-  - Added Interface FileSharePropertiesFileSharePaidBursting
-  - Added Interface FileShareRecommendations
-  - Added Interface ObjectReplicationPolicyPropertiesMetrics
-  - Added Type Alias FileServicesGetServiceUsageResponse
-  - Added Type Alias FileServicesListServiceUsagesNextResponse
-  - Added Type Alias FileServicesListServiceUsagesResponse
-  - Interface FileShare has a new optional parameter fileSharePaidBursting
-  - Interface FileShare has a new optional parameter includedBurstIops
-  - Interface FileShare has a new optional parameter maxBurstCreditsForIops
-  - Interface FileShare has a new optional parameter nextAllowedProvisionedBandwidthDowngradeTime
-  - Interface FileShare has a new optional parameter nextAllowedProvisionedIopsDowngradeTime
-  - Interface FileShare has a new optional parameter nextAllowedQuotaDowngradeTime
-  - Interface FileShare has a new optional parameter provisionedBandwidthMibps
-  - Interface FileShare has a new optional parameter provisionedIops
-  - Interface FileShareItem has a new optional parameter fileSharePaidBursting
-  - Interface FileShareItem has a new optional parameter includedBurstIops
-  - Interface FileShareItem has a new optional parameter maxBurstCreditsForIops
-  - Interface FileShareItem has a new optional parameter nextAllowedProvisionedBandwidthDowngradeTime
-  - Interface FileShareItem has a new optional parameter nextAllowedProvisionedIopsDowngradeTime
-  - Interface FileShareItem has a new optional parameter nextAllowedQuotaDowngradeTime
-  - Interface FileShareItem has a new optional parameter provisionedBandwidthMibps
-  - Interface FileShareItem has a new optional parameter provisionedIops
-  - Interface ObjectReplicationPolicy has a new optional parameter metrics
-  - Enum KnownSkuName has a new value PremiumV2LRS
-  - Enum KnownSkuName has a new value PremiumV2ZRS
-  - Enum KnownSkuName has a new value StandardV2GRS
-  - Enum KnownSkuName has a new value StandardV2Gzrs
-  - Enum KnownSkuName has a new value StandardV2LRS
-  - Enum KnownSkuName has a new value StandardV2ZRS
-    
-    
-## 18.3.0 (2024-06-27)
-    
-### Features Added
-
-  - Added operation group NetworkSecurityPerimeterConfigurations
-  - Added operation group StorageTaskAssignmentInstancesReport
-  - Added operation group StorageTaskAssignments
-  - Added operation group StorageTaskAssignmentsInstancesReport
-  - Added Interface ExecutionTarget
-  - Added Interface ExecutionTrigger
-  - Added Interface ExecutionTriggerUpdate
-  - Added Interface NetworkSecurityPerimeter
-  - Added Interface NetworkSecurityPerimeterConfiguration
-  - Added Interface NetworkSecurityPerimeterConfigurationList
-  - Added Interface NetworkSecurityPerimeterConfigurationPropertiesProfile
-  - Added Interface NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation
-  - Added Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
-  - Added Interface NetworkSecurityPerimeterConfigurationsListOptionalParams
-  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileHeaders
-  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
-  - Added Interface NspAccessRule
-  - Added Interface NspAccessRuleProperties
-  - Added Interface NspAccessRulePropertiesSubscriptionsItem
-  - Added Interface ProvisioningIssue
-  - Added Interface ProvisioningIssueProperties
-  - Added Interface ProxyResourceAutoGenerated
-  - Added Interface ResourceAutoGenerated
-  - Added Interface StorageTaskAssignment
-  - Added Interface StorageTaskAssignmentExecutionContext
-  - Added Interface StorageTaskAssignmentInstancesReportListNextOptionalParams
-  - Added Interface StorageTaskAssignmentInstancesReportListOptionalParams
-  - Added Interface StorageTaskAssignmentProperties
-  - Added Interface StorageTaskAssignmentReport
-  - Added Interface StorageTaskAssignmentsCreateHeaders
-  - Added Interface StorageTaskAssignmentsCreateOptionalParams
-  - Added Interface StorageTaskAssignmentsDeleteHeaders
-  - Added Interface StorageTaskAssignmentsDeleteOptionalParams
-  - Added Interface StorageTaskAssignmentsGetOptionalParams
-  - Added Interface StorageTaskAssignmentsInstancesReportListNextOptionalParams
-  - Added Interface StorageTaskAssignmentsInstancesReportListOptionalParams
-  - Added Interface StorageTaskAssignmentsList
-  - Added Interface StorageTaskAssignmentsListNextOptionalParams
-  - Added Interface StorageTaskAssignmentsListOptionalParams
-  - Added Interface StorageTaskAssignmentsUpdateHeaders
-  - Added Interface StorageTaskAssignmentsUpdateOptionalParams
-  - Added Interface StorageTaskAssignmentUpdateExecutionContext
-  - Added Interface StorageTaskAssignmentUpdateParameters
-  - Added Interface StorageTaskAssignmentUpdateProperties
-  - Added Interface StorageTaskAssignmentUpdateReport
-  - Added Interface StorageTaskReportInstance
-  - Added Interface StorageTaskReportProperties
-  - Added Interface StorageTaskReportSummary
-  - Added Interface TriggerParameters
-  - Added Interface TriggerParametersUpdate
-  - Added Type Alias IssueType
-  - Added Type Alias ListLocalUserIncludeParam
-  - Added Type Alias NetworkSecurityPerimeterConfigurationProvisioningState
-  - Added Type Alias NetworkSecurityPerimeterConfigurationsGetResponse
-  - Added Type Alias NetworkSecurityPerimeterConfigurationsListResponse
-  - Added Type Alias NetworkSecurityPerimeterConfigurationsReconcileResponse
-  - Added Type Alias NspAccessRuleDirection
-  - Added Type Alias ResourceAssociationAccessMode
-  - Added Type Alias RunResult
-  - Added Type Alias RunStatusEnum
-  - Added Type Alias Severity
-  - Added Type Alias StorageTaskAssignmentInstancesReportListNextResponse
-  - Added Type Alias StorageTaskAssignmentInstancesReportListResponse
-  - Added Type Alias StorageTaskAssignmentsCreateResponse
-  - Added Type Alias StorageTaskAssignmentsDeleteResponse
-  - Added Type Alias StorageTaskAssignmentsGetResponse
-  - Added Type Alias StorageTaskAssignmentsInstancesReportListNextResponse
-  - Added Type Alias StorageTaskAssignmentsInstancesReportListResponse
-  - Added Type Alias StorageTaskAssignmentsListNextResponse
-  - Added Type Alias StorageTaskAssignmentsListResponse
-  - Added Type Alias StorageTaskAssignmentsUpdateResponse
-  - Added Type Alias TriggerType
-  - Interface LocalUser has a new optional parameter allowAclAuthorization
-  - Interface LocalUser has a new optional parameter extendedGroups
-  - Interface LocalUser has a new optional parameter groupId
-  - Interface LocalUser has a new optional parameter isNFSv3Enabled
-  - Interface LocalUser has a new optional parameter userId
-  - Interface LocalUsers has a new optional parameter nextLink
-  - Interface LocalUsersListOptionalParams has a new optional parameter filter
-  - Interface LocalUsersListOptionalParams has a new optional parameter include
-  - Interface LocalUsersListOptionalParams has a new optional parameter maxpagesize
-  - Interface StorageAccount has a new optional parameter enableExtendedGroups
-  - Interface StorageAccountCreateParameters has a new optional parameter enableExtendedGroups
-  - Interface StorageAccountUpdateParameters has a new optional parameter enableExtendedGroups
-  - Added Enum KnownIssueType
-  - Added Enum KnownListLocalUserIncludeParam
-  - Added Enum KnownNetworkSecurityPerimeterConfigurationProvisioningState
-  - Added Enum KnownNspAccessRuleDirection
-  - Added Enum KnownResourceAssociationAccessMode
-  - Added Enum KnownRunResult
-  - Added Enum KnownRunStatusEnum
-  - Added Enum KnownSeverity
-  - Enum KnownExpirationAction has a new value Block
-  - Enum KnownMinimumTlsVersion has a new value TLS13
-  - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
-    
-## 18.2.0 (2023-08-08)
-
-### Features Added
-
-- Added operation StorageAccounts.beginCustomerInitiatedMigration
-- Added operation StorageAccounts.beginCustomerInitiatedMigrationAndWait
-- Added operation StorageAccounts.getCustomerInitiatedMigration
-- Added Interface BlobInventoryCreationTime
-- Added Interface ErrorAdditionalInfo
-- Added Interface ErrorDetail
-- Added Interface ErrorResponseAutoGenerated
-- Added Interface StorageAccountMigration
-- Added Interface StorageAccountsCustomerInitiatedMigrationHeaders
-- Added Interface StorageAccountsCustomerInitiatedMigrationOptionalParams
-- Added Interface StorageAccountsGetCustomerInitiatedMigrationOptionalParams
-- Added Type Alias MigrationName
-- Added Type Alias MigrationStatus
-- Added Type Alias PostFailoverRedundancy
-- Added Type Alias PostPlannedFailoverRedundancy
-- Added Type Alias StorageAccountsGetCustomerInitiatedMigrationResponse
-- Interface BlobInventoryPolicyFilter has a new optional parameter creationTime
-- Interface GeoReplicationStats has a new optional parameter canPlannedFailover
-- Interface GeoReplicationStats has a new optional parameter postFailoverRedundancy
-- Interface GeoReplicationStats has a new optional parameter postPlannedFailoverRedundancy
-- Interface StorageAccount has a new optional parameter accountMigrationInProgress
-- Interface StorageAccount has a new optional parameter isSkuConversionBlocked
-- Added Enum KnownMigrationName
-- Added Enum KnownMigrationStatus
-- Added Enum KnownPostFailoverRedundancy
-- Added Enum KnownPostPlannedFailoverRedundancy
-- Enum KnownAllowedMethods has a new value Connect
-- Enum KnownAllowedMethods has a new value Trace
-- Interface BlobContainersListNextOptionalParams no longer has parameter filter
-- Interface BlobContainersListNextOptionalParams no longer has parameter include
-- Interface BlobContainersListNextOptionalParams no longer has parameter maxpagesize
-- Interface EncryptionScopesListNextOptionalParams no longer has parameter filter
-- Interface EncryptionScopesListNextOptionalParams no longer has parameter include
-- Interface EncryptionScopesListNextOptionalParams no longer has parameter maxpagesize
-- Interface FileSharesListNextOptionalParams no longer has parameter expand
-- Interface FileSharesListNextOptionalParams no longer has parameter filter
-- Interface FileSharesListNextOptionalParams no longer has parameter maxpagesize
-- Interface QueueListNextOptionalParams no longer has parameter filter
-- Interface QueueListNextOptionalParams no longer has parameter maxpagesize
-
-## 18.1.0 (2022-11-24)
-
-### Features Added
-
-- Added Type Alias ListEncryptionScopesInclude
-- Interface EncryptionScopesListNextOptionalParams has a new optional parameter filter
-- Interface EncryptionScopesListNextOptionalParams has a new optional parameter include
-- Interface EncryptionScopesListNextOptionalParams has a new optional parameter maxpagesize
-- Interface EncryptionScopesListOptionalParams has a new optional parameter filter
-- Interface EncryptionScopesListOptionalParams has a new optional parameter include
-- Interface EncryptionScopesListOptionalParams has a new optional parameter maxpagesize
-- Interface ManagementPolicyBaseBlob has a new optional parameter tierToCold
-- Interface ManagementPolicyBaseBlob has a new optional parameter tierToHot
-- Interface ManagementPolicySnapShot has a new optional parameter tierToCold
-- Interface ManagementPolicySnapShot has a new optional parameter tierToHot
-- Interface ManagementPolicyVersion has a new optional parameter tierToCold
-- Interface ManagementPolicyVersion has a new optional parameter tierToHot
-- Added Enum KnownListEncryptionScopesInclude
-
-## 18.0.0 (2022-08-16)
-
-### Features Added
-
-- Added Interface AzureEntityResource
-- Added Interface BlobContainer
-- Added Interface BlobInventoryPolicy
-- Added Interface BlobServiceProperties
-- Added Interface DeletedAccount
-- Added Interface EncryptionScope
-- Added Interface FileServiceProperties
-- Added Interface FileShare
-- Added Interface FileShareItem
-- Added Interface ImmutabilityPolicy
-- Added Interface ListContainerItem
-- Added Interface ListQueue
-- Added Interface LocalUser
-- Added Interface ManagementPolicy
-- Added Interface ObjectReplicationPolicy
-- Added Interface PrivateEndpointConnection
-- Added Interface PrivateLinkResource
-- Added Interface ProxyResource
-- Added Interface QueueServiceProperties
-- Added Interface StorageAccount
-- Added Interface StorageQueue
-- Added Interface Table
-- Added Interface TableServiceProperties
-- Added Interface TrackedResource
-- Added Type Alias AccountType
-- Added Type Alias AllowedMethods
-- Added Enum KnownAccountType
-- Added Enum KnownAllowedMethods
-- Enum KnownDirectoryServiceOptions has a new value Aadkerb
-
-### Breaking Changes
-
-- Removed Enum KnownActiveDirectoryPropertiesAccountType
-- Removed Enum KnownCorsRuleAllowedMethodsItem
-
-## 17.2.1 (2022-06-15)
-
-### Features Added
-
-- Bug fix
-
-## 17.2.0 (2022-03-30)
-
-### Features Added
-
-- Added Interface StorageAccountSkuConversionStatus
-- Added Interface TableAccessPolicy
-- Added Interface TableSignedIdentifier
-- Added Type Alias DnsEndpointType
-- Added Type Alias SkuConversionStatus
-- Interface BlobInventoryPolicyFilter has a new optional parameter excludePrefix
-- Interface BlobInventoryPolicyFilter has a new optional parameter includeDeleted
-- Interface BlobInventoryPolicySchema has a new optional parameter destination
-- Interface DateAfterCreation has a new optional parameter daysAfterLastTierChangeGreaterThan
-- Interface DateAfterModification has a new optional parameter daysAfterCreationGreaterThan
-- Interface DateAfterModification has a new optional parameter daysAfterLastTierChangeGreaterThan
-- Interface DeleteRetentionPolicy has a new optional parameter allowPermanentDelete
-- Interface KeyVaultProperties has a new optional parameter currentVersionedKeyExpirationTimestamp
-- Interface StorageAccountCreateParameters has a new optional parameter dnsEndpointType
-- Interface StorageAccountUpdateParameters has a new optional parameter dnsEndpointType
-- Interface TableCreateOptionalParams has a new optional parameter parameters
-- Interface TableUpdateOptionalParams has a new optional parameter parameters
-- Type Alias StorageAccount has a new parameter storageAccountSkuConversionStatus
-- Type Alias StorageAccount has a new parameter dnsEndpointType
-- Type Alias Table has a new parameter signedIdentifiers
-- Added Enum KnownDnsEndpointType
-- Added Enum KnownSkuConversionStatus
-- Enum KnownCorsRuleAllowedMethodsItem has a new value Patch
-
-## 17.1.0 (2022-02-14)
-
-### Features Added
-
-- Added operation group LocalUsersOperations
-- Added Interface LocalUserKeys
-- Added Interface LocalUserRegeneratePasswordResult
-- Added Interface LocalUsers
-- Added Interface LocalUsersCreateOrUpdateOptionalParams
-- Added Interface LocalUsersDeleteOptionalParams
-- Added Interface LocalUsersGetOptionalParams
-- Added Interface LocalUsersListKeysOptionalParams
-- Added Interface LocalUsersListOptionalParams
-- Added Interface LocalUsersRegeneratePasswordOptionalParams
-- Added Interface PermissionScope
-- Added Interface SshPublicKey
-- Added Type Alias ActiveDirectoryPropertiesAccountType
-- Added Type Alias AllowedCopyScope
-- Added Type Alias LocalUser
-- Added Type Alias LocalUsersCreateOrUpdateResponse
-- Added Type Alias LocalUsersGetResponse
-- Added Type Alias LocalUsersListKeysResponse
-- Added Type Alias LocalUsersListResponse
-- Added Type Alias LocalUsersRegeneratePasswordResponse
-- Interface ActiveDirectoryProperties has a new optional parameter accountType
-- Interface ActiveDirectoryProperties has a new optional parameter samAccountName
-- Interface EncryptionIdentity has a new optional parameter encryptionFederatedIdentityClientId
-- Interface StorageAccountCreateParameters has a new optional parameter allowedCopyScope
-- Interface StorageAccountCreateParameters has a new optional parameter isLocalUserEnabled
-- Interface StorageAccountCreateParameters has a new optional parameter isSftpEnabled
-- Interface StorageAccountUpdateParameters has a new optional parameter allowedCopyScope
-- Interface StorageAccountUpdateParameters has a new optional parameter isLocalUserEnabled
-- Interface StorageAccountUpdateParameters has a new optional parameter isSftpEnabled
-- Class StorageManagementClient has a new parameter localUsersOperations
-- Type Alias StorageAccount has a new parameter isSftpEnabled
-- Type Alias StorageAccount has a new parameter isLocalUserEnabled
-- Type Alias StorageAccount has a new parameter allowedCopyScope
-- Added Enum KnownActiveDirectoryPropertiesAccountType
-- Added Enum KnownAllowedCopyScope
-
-## 17.0.0 (2021-12-06)
-
-The package of @azure/arm-storage is using our next generation design principles since version 17.0.0, which contains breaking changes.
-
-To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
-
-To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
-
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

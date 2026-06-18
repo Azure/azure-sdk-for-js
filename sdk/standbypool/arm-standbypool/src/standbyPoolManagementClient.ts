@@ -1,25 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   StandbyPoolManagementContext,
   StandbyPoolManagementClientOptionalParams,
+  createStandbyPoolManagement,
 } from "./api/index.js";
-import { createStandbyPoolManagement } from "./api/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { StandbyContainerGroupPoolRuntimeViewsOperations } from "./classic/standbyContainerGroupPoolRuntimeViews/index.js";
-import { _getStandbyContainerGroupPoolRuntimeViewsOperations } from "./classic/standbyContainerGroupPoolRuntimeViews/index.js";
-import type { StandbyContainerGroupPoolsOperations } from "./classic/standbyContainerGroupPools/index.js";
-import { _getStandbyContainerGroupPoolsOperations } from "./classic/standbyContainerGroupPools/index.js";
-import type { StandbyVirtualMachinePoolRuntimeViewsOperations } from "./classic/standbyVirtualMachinePoolRuntimeViews/index.js";
-import { _getStandbyVirtualMachinePoolRuntimeViewsOperations } from "./classic/standbyVirtualMachinePoolRuntimeViews/index.js";
-import type { StandbyVirtualMachinePoolsOperations } from "./classic/standbyVirtualMachinePools/index.js";
-import { _getStandbyVirtualMachinePoolsOperations } from "./classic/standbyVirtualMachinePools/index.js";
-import type { StandbyVirtualMachinesOperations } from "./classic/standbyVirtualMachines/index.js";
-import { _getStandbyVirtualMachinesOperations } from "./classic/standbyVirtualMachines/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  StandbyContainerGroupPoolRuntimeViewsOperations,
+  _getStandbyContainerGroupPoolRuntimeViewsOperations,
+} from "./classic/standbyContainerGroupPoolRuntimeViews/index.js";
+import {
+  StandbyContainerGroupPoolsOperations,
+  _getStandbyContainerGroupPoolsOperations,
+} from "./classic/standbyContainerGroupPools/index.js";
+import {
+  StandbyVirtualMachinePoolRuntimeViewsOperations,
+  _getStandbyVirtualMachinePoolRuntimeViewsOperations,
+} from "./classic/standbyVirtualMachinePoolRuntimeViews/index.js";
+import {
+  StandbyVirtualMachinePoolsOperations,
+  _getStandbyVirtualMachinePoolsOperations,
+} from "./classic/standbyVirtualMachinePools/index.js";
+import {
+  StandbyVirtualMachinesOperations,
+  _getStandbyVirtualMachinesOperations,
+} from "./classic/standbyVirtualMachines/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { StandbyPoolManagementClientOptionalParams } from "./api/standbyPoolManagementContext.js";
 
