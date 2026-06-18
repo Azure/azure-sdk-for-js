@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PolicyContext } from "../../api/policyContext.js";
+import { PolicyContext } from "../../api/policyContext.js";
 import {
   listAll,
   listAllAtManagementGroup,
@@ -17,7 +17,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/policyDefinitionVersions/operations.js";
-import type {
+import {
   PolicyDefinitionVersionsListAllOptionalParams,
   PolicyDefinitionVersionsListAllAtManagementGroupOptionalParams,
   PolicyDefinitionVersionsListAllBuiltinsOptionalParams,
@@ -32,27 +32,24 @@ import type {
   PolicyDefinitionVersionsCreateOrUpdateOptionalParams,
   PolicyDefinitionVersionsGetOptionalParams,
 } from "../../api/policyDefinitionVersions/options.js";
-import type {
-  PolicyDefinitionVersion,
-  _PolicyDefinitionVersionListResult,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PolicyDefinitionVersion, PolicyDefinitionVersionListResult } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PolicyDefinitionVersions operations. */
 export interface PolicyDefinitionVersionsOperations {
   /** This operation lists all the policy definition versions for all policy definitions within a subscription. */
   listAll: (
     options?: PolicyDefinitionVersionsListAllOptionalParams,
-  ) => Promise<_PolicyDefinitionVersionListResult>;
+  ) => Promise<PolicyDefinitionVersionListResult>;
   /** This operation lists all the policy definition versions for all policy definitions at the management group scope. */
   listAllAtManagementGroup: (
     managementGroupName: string,
     options?: PolicyDefinitionVersionsListAllAtManagementGroupOptionalParams,
-  ) => Promise<_PolicyDefinitionVersionListResult>;
+  ) => Promise<PolicyDefinitionVersionListResult>;
   /** This operation lists all the built-in policy definition versions for all built-in policy definitions. */
   listAllBuiltins: (
     options?: PolicyDefinitionVersionsListAllBuiltinsOptionalParams,
-  ) => Promise<_PolicyDefinitionVersionListResult>;
+  ) => Promise<PolicyDefinitionVersionListResult>;
   /** This operation retrieves a list of all the policy definition versions for the given policy definition in the given management group. */
   listByManagementGroup: (
     managementGroupName: string,
@@ -98,11 +95,6 @@ export interface PolicyDefinitionVersionsOperations {
     options?: PolicyDefinitionVersionsListOptionalParams,
   ) => PagedAsyncIterableIterator<PolicyDefinitionVersion>;
   /** This operation deletes the policy definition version in the given subscription with the given name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     policyDefinitionName: string,
     policyDefinitionVersion: string,

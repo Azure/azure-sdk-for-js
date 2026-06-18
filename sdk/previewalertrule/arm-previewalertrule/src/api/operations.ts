@@ -1,17 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PreviewAlertRuleManagementContext as Client } from "./index.js";
-import type { PreviewAlertRuleRequest, PreviewAlertRuleResponse } from "../models/models.js";
+import { PreviewAlertRuleManagementContext as Client } from "./index.js";
 import {
+  PreviewAlertRuleRequest,
   previewAlertRuleRequestSerializer,
+  PreviewAlertRuleResponse,
   previewAlertRuleResponseDeserializer,
   errorResponseDeserializer,
 } from "../models/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import type { PreviewAlertRuleOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { PreviewAlertRuleOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _previewAlertRuleSend(
   context: Client,
@@ -29,12 +34,14 @@ export function _previewAlertRuleSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: previewAlertRuleRequestSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: previewAlertRuleRequestSerializer(parameters),
+    });
 }
 
 export async function _previewAlertRuleDeserialize(
@@ -43,7 +50,9 @@ export async function _previewAlertRuleDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

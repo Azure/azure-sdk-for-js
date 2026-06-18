@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesContext as Client } from "./index.js";
-import type { OperationResource, Vault } from "../models/models.js";
+import { RecoveryServicesContext as Client } from "./index.js";
 import {
+  OperationResource,
   operationResourceDeserializer,
   cloudErrorDeserializer,
+  Vault,
   vaultDeserializer,
 } from "../models/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import type {
-  GetOperationResultOptionalParams,
-  GetOperationStatusOptionalParams,
-} from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { GetOperationResultOptionalParams, GetOperationStatusOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _getOperationResultSend(
   context: Client,
@@ -30,32 +32,34 @@ export function _getOperationResultSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getOperationResultDeserialize(
   result: PathUncheckedResponse,
-): Promise<Vault> {
+): Promise<Vault | undefined> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return vaultDeserializer(result.body);
+  return result.body ? vaultDeserializer(result.body) : undefined;
 }
 
 /** Gets the operation result for a resource. */
@@ -65,7 +69,7 @@ export async function getOperationResult(
   vaultName: string,
   operationId: string,
   options: GetOperationResultOptionalParams = { requestOptions: {} },
-): Promise<Vault | null> {
+): Promise<Vault | undefined> {
   const result = await _getOperationResultSend(
     context,
     resourceGroupName,
@@ -90,19 +94,18 @@ export function _getOperationStatusSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getOperationStatusDeserialize(
@@ -111,7 +114,10 @@ export async function _getOperationStatusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 

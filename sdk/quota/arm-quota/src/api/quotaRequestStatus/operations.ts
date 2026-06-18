@@ -1,22 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureQuotaExtensionAPIContext as Client } from "../index.js";
-import type { QuotaRequestDetails, _QuotaRequestDetailsList } from "../../models/models.js";
+import { AzureQuotaExtensionAPIContext as Client } from "../index.js";
 import {
   exceptionResponseDeserializer,
+  QuotaRequestDetails,
   quotaRequestDetailsDeserializer,
+  _QuotaRequestDetailsList,
   _quotaRequestDetailsListDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   QuotaRequestStatusListOptionalParams,
   QuotaRequestStatusGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -27,7 +34,7 @@ export function _listSend(
     "/{+scope}/providers/Microsoft.Quota/quotaRequests{?api%2Dversion,%24filter,%24top,%24skiptoken}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
       "%24filter": options?.filter,
       "%24top": options?.top,
       "%24skiptoken": options?.skiptoken,
@@ -36,13 +43,12 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -51,7 +57,10 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = exceptionResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = exceptionResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -69,12 +78,13 @@ export function list(
     () => _listSend(context, scope, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-09-01" },
   );
 }
 
 export function _getSend(
   context: Client,
+  apiVersion: string,
   id: string,
   scope: string,
   options: QuotaRequestStatusGetOptionalParams = { requestOptions: {} },
@@ -84,26 +94,28 @@ export function _getSend(
     {
       scope: scope,
       id: id,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<QuotaRequestDetails> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = exceptionResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = exceptionResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -113,10 +125,11 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Qu
 /** Get the quota request details and status by quota request ID for the resources of the resource provider at a specific location. The quota request ID **id** is returned in the response of the PUT operation. */
 export async function get(
   context: Client,
+  apiVersion: string,
   id: string,
   scope: string,
   options: QuotaRequestStatusGetOptionalParams = { requestOptions: {} },
 ): Promise<QuotaRequestDetails> {
-  const result = await _getSend(context, id, scope, options);
+  const result = await _getSend(context, apiVersion, id, scope, options);
   return _getDeserialize(result);
 }

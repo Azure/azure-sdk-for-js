@@ -1,16 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext as Client } from "../index.js";
-import type { ProtectionContainerResource } from "../../models/models.js";
+import { RecoveryServicesBackupContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ProtectionContainerResource,
   protectionContainerResourceDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { ProtectionContainerOperationResultsGetOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { ProtectionContainerOperationResultsGetOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _getSend(
   context: Client,
@@ -36,24 +40,28 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<ProtectionContainerResource> {
+): Promise<ProtectionContainerResource | undefined> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return protectionContainerResourceDeserializer(result.body);
+  return result.body ? protectionContainerResourceDeserializer(result.body) : undefined;
 }
 
 /** Fetches the result of any operation on the container. */
@@ -65,7 +73,7 @@ export async function get(
   containerName: string,
   operationId: string,
   options: ProtectionContainerOperationResultsGetOptionalParams = { requestOptions: {} },
-): Promise<ProtectionContainerResource> {
+): Promise<ProtectionContainerResource | undefined> {
   const result = await _getSend(
     context,
     vaultName,

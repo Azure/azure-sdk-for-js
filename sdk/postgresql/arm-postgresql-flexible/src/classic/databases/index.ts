@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
+import { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
 import { listByServer, $delete, create, get } from "../../api/databases/operations.js";
-import type {
+import {
   DatabasesListByServerOptionalParams,
   DatabasesDeleteOptionalParams,
   DatabasesCreateOptionalParams,
   DatabasesGetOptionalParams,
 } from "../../api/databases/options.js";
-import type { Database } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Database } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Databases operations. */
 export interface DatabasesOperations {
@@ -24,11 +23,6 @@ export interface DatabasesOperations {
     options?: DatabasesListByServerOptionalParams,
   ) => PagedAsyncIterableIterator<Database>;
   /** Deletes an existing database. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     serverName: string,

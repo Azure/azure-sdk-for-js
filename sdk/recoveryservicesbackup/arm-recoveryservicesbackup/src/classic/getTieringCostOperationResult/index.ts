@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { get } from "../../api/getTieringCostOperationResult/operations.js";
-import type { GetTieringCostOperationResultGetOptionalParams } from "../../api/getTieringCostOperationResult/options.js";
-import type { TieringCostInfoUnion } from "../../models/models.js";
+import { GetTieringCostOperationResultGetOptionalParams } from "../../api/getTieringCostOperationResult/options.js";
+import { TieringCostInfoUnion } from "../../models/models.js";
 
 /** Interface representing a GetTieringCostOperationResult operations. */
 export interface GetTieringCostOperationResultOperations {

@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The paginated list of connected cluster API operations. */
 export interface _OperationList {
   /** The list of connected cluster API operations. */
@@ -113,8 +119,16 @@ export function serviceErrorDetailDeserializer(item: any): ServiceErrorDetail {
 
 /** List of quota requests with details. */
 export interface QuotaRequestDetails extends ExtensionResource {
+  /** The quota request status. */
+  readonly provisioningState?: QuotaRequestState;
+  /** User-friendly status message. */
+  readonly message?: string;
+  /** Error details of the quota request. */
+  error?: ServiceErrorDetail;
+  /** The quota request submission time. The date conforms to the following format specified by the ISO 8601 standard: yyyy-MM-ddTHH:mm:ssZ */
+  readonly requestSubmitTime?: Date;
   /** Quota request details. */
-  properties?: QuotaRequestProperties;
+  value?: SubRequest[];
 }
 
 export function quotaRequestDetailsDeserializer(item: any): QuotaRequestDetails {
@@ -125,9 +139,9 @@ export function quotaRequestDetailsDeserializer(item: any): QuotaRequestDetails 
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : quotaRequestPropertiesDeserializer(item["properties"]),
+      : _quotaRequestDetailsPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -159,10 +173,15 @@ export function quotaRequestPropertiesDeserializer(item: any): QuotaRequestPrope
 
 /** Quota request status. */
 export enum KnownQuotaRequestState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Invalid */
   Invalid = "Invalid",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** InProgress */
   InProgress = "InProgress",
 }
 
@@ -265,7 +284,7 @@ export function limitJsonObjectUnionSerializer(item: LimitJsonObjectUnion): any 
 }
 
 export function limitJsonObjectUnionDeserializer(item: any): LimitJsonObjectUnion {
-  switch (item.limitObjectType) {
+  switch (item["limitObjectType"]) {
     case "LimitValue":
       return limitObjectDeserializer(item as LimitObject);
 
@@ -276,6 +295,7 @@ export function limitJsonObjectUnionDeserializer(item: any): LimitJsonObjectUnio
 
 /** The limit object type. */
 export enum KnownLimitType {
+  /** LimitValue */
   LimitValue = "LimitValue",
 }
 
@@ -316,7 +336,9 @@ export function limitObjectDeserializer(item: any): LimitObject {
 
 /** The quota or usages limit types. */
 export enum KnownQuotaLimitTypes {
+  /** Independent */
   Independent = "Independent",
+  /** Shared */
   Shared = "Shared",
 }
 
@@ -333,8 +355,8 @@ export type QuotaLimitTypes = string;
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
 
-export function extensionResourceSerializer(item: ExtensionResource): any {
-  return item;
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
 }
 
 export function extensionResourceDeserializer(item: any): ExtensionResource {
@@ -360,8 +382,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -571,8 +593,8 @@ export type RequestState = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -788,19 +810,6 @@ export function submittedResourceRequestStatusPropertiesDeserializer(
 
 /** The new GroupQuota limit requested. */
 export interface GroupQuotaRequestBase {
-  properties?: GroupQuotaRequestBaseProperties;
-}
-
-export function groupQuotaRequestBaseDeserializer(item: any): GroupQuotaRequestBase {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : groupQuotaRequestBasePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** model interface GroupQuotaRequestBaseProperties */
-export interface GroupQuotaRequestBaseProperties {
   /** The new quota limit for the subscription. The incremental quota will be allocated from pre-approved group quota. */
   limit?: number;
   /** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
@@ -811,14 +820,36 @@ export interface GroupQuotaRequestBaseProperties {
   comments?: string;
 }
 
+export function groupQuotaRequestBaseDeserializer(item: any): GroupQuotaRequestBase {
+  return {
+    ...(!item["properties"]
+      ? item["properties"]
+      : _groupQuotaRequestBasePropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** model interface GroupQuotaRequestBaseProperties */
+export interface GroupQuotaRequestBaseProperties {
+  /** The new quota limit for the subscription. The incremental quota will be allocated from pre-approved group quota. */
+  limit?: number;
+  /** Location/Azure region for the quota requested for resource. */
+  region?: string;
+  /** GroupQuota Request comments and details for request. This is optional paramter to provide more details related to the requested resource. */
+  comments?: string;
+  /** Resource name. */
+  readonly value?: string;
+  /** Resource display name. */
+  readonly localizedValue?: string;
+}
+
 export function groupQuotaRequestBasePropertiesDeserializer(
   item: any,
 ): GroupQuotaRequestBaseProperties {
   return {
     limit: item["limit"],
-    name: !item["name"]
+    ...(!item["name"]
       ? item["name"]
-      : groupQuotaRequestBasePropertiesNameDeserializer(item["name"]),
+      : _groupQuotaRequestBasePropertiesNameDeserializer(item["name"])),
     region: item["region"],
     comments: item["comments"],
   };
@@ -879,9 +910,7 @@ export interface GroupQuotaLimitListProperties {
 }
 
 export function groupQuotaLimitListPropertiesSerializer(item: GroupQuotaLimitListProperties): any {
-  return {
-    value: !item["value"] ? item["value"] : groupQuotaLimitArraySerializer(item["value"]),
-  };
+  return { value: !item["value"] ? item["value"] : groupQuotaLimitArraySerializer(item["value"]) };
 }
 
 export function groupQuotaLimitListPropertiesDeserializer(
@@ -932,11 +961,7 @@ export function groupQuotaLimitDeserializer(item: any): GroupQuotaLimit {
 export interface GroupQuotaLimitProperties extends GroupQuotaDetails {}
 
 export function groupQuotaLimitPropertiesSerializer(item: GroupQuotaLimitProperties): any {
-  return {
-    resourceName: item["resourceName"],
-    limit: item["limit"],
-    comment: item["comment"],
-  };
+  return { resourceName: item["resourceName"], limit: item["limit"], comment: item["comment"] };
 }
 
 export function groupQuotaLimitPropertiesDeserializer(item: any): GroupQuotaLimitProperties {
@@ -945,7 +970,7 @@ export function groupQuotaLimitPropertiesDeserializer(item: any): GroupQuotaLimi
     limit: item["limit"],
     comment: item["comment"],
     unit: item["unit"],
-    name: !item["name"] ? item["name"] : groupQuotaDetailsNameDeserializer(item["name"]),
+    ...(!item["name"] ? item["name"] : _groupQuotaDetailsNameDeserializer(item["name"])),
     availableLimit: item["availableLimit"],
     allocatedToSubscriptions: !item["allocatedToSubscriptions"]
       ? item["allocatedToSubscriptions"]
@@ -963,20 +988,18 @@ export interface GroupQuotaDetails {
   comment?: string;
   /** The usages units, such as Count and Bytes. When requesting quota, use the **unit** value returned in the GET response in the request body of your PUT operation. */
   readonly unit?: string;
-  /** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
-  readonly name?: GroupQuotaDetailsName;
   /** The available Group Quota Limit at the MG level. This Group quota can be allocated to subscription(s). */
   readonly availableLimit?: number;
   /** Quota allocated to subscriptions */
   readonly allocatedToSubscriptions?: AllocatedQuotaToSubscriptionList;
+  /** Resource name. */
+  readonly value?: string;
+  /** Resource display name. */
+  readonly localizedValue?: string;
 }
 
 export function groupQuotaDetailsSerializer(item: GroupQuotaDetails): any {
-  return {
-    resourceName: item["resourceName"],
-    limit: item["limit"],
-    comment: item["comment"],
-  };
+  return { resourceName: item["resourceName"], limit: item["limit"], comment: item["comment"] };
 }
 
 export function groupQuotaDetailsDeserializer(item: any): GroupQuotaDetails {
@@ -985,7 +1008,7 @@ export function groupQuotaDetailsDeserializer(item: any): GroupQuotaDetails {
     limit: item["limit"],
     comment: item["comment"],
     unit: item["unit"],
-    name: !item["name"] ? item["name"] : groupQuotaDetailsNameDeserializer(item["name"]),
+    ...(!item["name"] ? item["name"] : _groupQuotaDetailsNameDeserializer(item["name"])),
     availableLimit: item["availableLimit"],
     allocatedToSubscriptions: !item["allocatedToSubscriptions"]
       ? item["allocatedToSubscriptions"]
@@ -1088,19 +1111,21 @@ export function resourceUsagesDeserializer(item: any): ResourceUsages {
 
 /** Resource details with usages and GroupQuota. */
 export interface GroupQuotaUsagesBase {
-  /** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
-  name?: GroupQuotaUsagesBaseName;
   /** Quota/limits for the resource. */
   limit?: number;
   /** Usages for the resource. */
   usages?: number;
   /** Representing the units of the usage quota. Possible values are: Count, Bytes, Seconds, Percent, CountPerSecond, BytesPerSecond. Based on - https://armwiki.azurewebsites.net/api_contracts/UsagesAPIContract.html?q=usages . Different RPs may have different units, Count, type as int64 should work for most of the integer values. */
   readonly unit?: string;
+  /** Resource name. */
+  value?: string;
+  /** Resource display name. */
+  readonly localizedValue?: string;
 }
 
 export function groupQuotaUsagesBaseDeserializer(item: any): GroupQuotaUsagesBase {
   return {
-    name: !item["name"] ? item["name"] : groupQuotaUsagesBaseNameDeserializer(item["name"]),
+    ...(!item["name"] ? item["name"] : _groupQuotaUsagesBaseNameDeserializer(item["name"])),
     limit: item["limit"],
     usages: item["usages"],
     unit: item["unit"],
@@ -1368,7 +1393,7 @@ export function subscriptionQuotaAllocationsPropertiesDeserializer(
     resourceName: item["resourceName"],
     limit: item["limit"],
     shareableQuota: item["shareableQuota"],
-    name: !item["name"] ? item["name"] : subscriptionQuotaDetailsNameDeserializer(item["name"]),
+    ...(!item["name"] ? item["name"] : _subscriptionQuotaDetailsNameDeserializer(item["name"])),
   };
 }
 
@@ -1380,8 +1405,10 @@ export interface SubscriptionQuotaDetails {
   limit?: number;
   /** The shareable quota for the subscription. */
   readonly shareableQuota?: number;
-  /** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
-  readonly name?: SubscriptionQuotaDetailsName;
+  /** Resource name. */
+  readonly value?: string;
+  /** Resource display name. */
+  readonly localizedValue?: string;
 }
 
 export function subscriptionQuotaDetailsSerializer(item: SubscriptionQuotaDetails): any {
@@ -1393,7 +1420,7 @@ export function subscriptionQuotaDetailsDeserializer(item: any): SubscriptionQuo
     resourceName: item["resourceName"],
     limit: item["limit"],
     shareableQuota: item["shareableQuota"],
-    name: !item["name"] ? item["name"] : subscriptionQuotaDetailsNameDeserializer(item["name"]),
+    ...(!item["name"] ? item["name"] : _subscriptionQuotaDetailsNameDeserializer(item["name"])),
   };
 }
 
@@ -1414,7 +1441,14 @@ export function subscriptionQuotaDetailsNameDeserializer(item: any): Subscriptio
 
 /** The subscription quota allocation status. */
 export interface QuotaAllocationRequestStatus extends ProxyResource {
-  properties?: QuotaAllocationRequestStatusProperties;
+  /** The new quota request allocated to subscription. */
+  requestedResource?: QuotaAllocationRequestBase;
+  /** The request submission time. The date conforms to the following format specified by the ISO 8601 standard: yyyy-MM-ddTHH:mm:ssZ */
+  readonly requestSubmitTime?: Date;
+  /** Request status. */
+  readonly provisioningState?: RequestState;
+  /** Details of the failure. */
+  readonly faultCode?: string;
 }
 
 export function quotaAllocationRequestStatusDeserializer(item: any): QuotaAllocationRequestStatus {
@@ -1425,9 +1459,9 @@ export function quotaAllocationRequestStatusDeserializer(item: any): QuotaAlloca
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : quotaAllocationRequestStatusPropertiesDeserializer(item["properties"]),
+      : _quotaAllocationRequestStatusPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -1460,19 +1494,6 @@ export function quotaAllocationRequestStatusPropertiesDeserializer(
 
 /** The new quota request allocated to subscription. */
 export interface QuotaAllocationRequestBase {
-  properties?: QuotaAllocationRequestBaseProperties;
-}
-
-export function quotaAllocationRequestBaseDeserializer(item: any): QuotaAllocationRequestBase {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : quotaAllocationRequestBasePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** model interface QuotaAllocationRequestBaseProperties */
-export interface QuotaAllocationRequestBaseProperties {
   /** The new quota limit for the subscription. The incremental quota will be allocated from pre-approved group quota. */
   limit?: number;
   /** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
@@ -1481,14 +1502,34 @@ export interface QuotaAllocationRequestBaseProperties {
   region?: string;
 }
 
+export function quotaAllocationRequestBaseDeserializer(item: any): QuotaAllocationRequestBase {
+  return {
+    ...(!item["properties"]
+      ? item["properties"]
+      : _quotaAllocationRequestBasePropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** model interface QuotaAllocationRequestBaseProperties */
+export interface QuotaAllocationRequestBaseProperties {
+  /** The new quota limit for the subscription. The incremental quota will be allocated from pre-approved group quota. */
+  limit?: number;
+  /** The location for which the subscription is allocated */
+  region?: string;
+  /** Resource name. */
+  readonly value?: string;
+  /** Resource display name. */
+  readonly localizedValue?: string;
+}
+
 export function quotaAllocationRequestBasePropertiesDeserializer(
   item: any,
 ): QuotaAllocationRequestBaseProperties {
   return {
     limit: item["limit"],
-    name: !item["name"]
+    ...(!item["name"]
       ? item["name"]
-      : quotaAllocationRequestBasePropertiesNameDeserializer(item["name"]),
+      : _quotaAllocationRequestBasePropertiesNameDeserializer(item["name"])),
     region: item["region"],
   };
 }
@@ -1593,8 +1634,11 @@ export function groupQuotasEnforcementStatusPropertiesDeserializer(
 
 /** Enforcement status. */
 export enum KnownEnforcementState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled",
+  /** NotAvailable */
   NotAvailable = "NotAvailable",
 }
 
@@ -1682,7 +1726,9 @@ export function usagesObjectDeserializer(item: any): UsagesObject {
 
 /** The quota or usages limit types. */
 export enum KnownUsagesTypes {
+  /** Individual */
   Individual = "Individual",
+  /** Combined */
   Combined = "Combined",
 }
 
@@ -1823,4 +1869,85 @@ export function currentQuotaLimitBaseArrayDeserializer(
 export enum KnownVersions {
   /** The 2025-09-01 API version. */
   V20250901 = "2025-09-01",
+}
+
+export function _quotaRequestDetailsPropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    message: item["message"],
+    error: !item["error"] ? item["error"] : serviceErrorDetailDeserializer(item["error"]),
+    requestSubmitTime: !item["requestSubmitTime"]
+      ? item["requestSubmitTime"]
+      : new Date(item["requestSubmitTime"]),
+    value: !item["value"] ? item["value"] : subRequestArrayDeserializer(item["value"]),
+  };
+}
+
+export function _groupQuotaRequestBasePropertiesNameDeserializer(item: any) {
+  return {
+    value: item["value"],
+    localizedValue: item["localizedValue"],
+  };
+}
+
+export function _groupQuotaRequestBasePropertiesDeserializer(item: any) {
+  return {
+    limit: item["limit"],
+    name: !item["name"]
+      ? item["name"]
+      : groupQuotaRequestBasePropertiesNameDeserializer(item["name"]),
+    region: item["region"],
+    comments: item["comments"],
+  };
+}
+
+export function _groupQuotaDetailsNameDeserializer(item: any) {
+  return {
+    value: item["value"],
+    localizedValue: item["localizedValue"],
+  };
+}
+
+export function _groupQuotaUsagesBaseNameDeserializer(item: any) {
+  return {
+    value: item["value"],
+    localizedValue: item["localizedValue"],
+  };
+}
+
+export function _subscriptionQuotaDetailsNameDeserializer(item: any) {
+  return {
+    value: item["value"],
+    localizedValue: item["localizedValue"],
+  };
+}
+
+export function _quotaAllocationRequestBasePropertiesNameDeserializer(item: any) {
+  return {
+    value: item["value"],
+    localizedValue: item["localizedValue"],
+  };
+}
+
+export function _quotaAllocationRequestBasePropertiesDeserializer(item: any) {
+  return {
+    limit: item["limit"],
+    name: !item["name"]
+      ? item["name"]
+      : quotaAllocationRequestBasePropertiesNameDeserializer(item["name"]),
+    region: item["region"],
+  };
+}
+
+export function _quotaAllocationRequestStatusPropertiesDeserializer(item: any) {
+  return {
+    requestedResource: !item["requestedResource"]
+      ? item["requestedResource"]
+      : quotaAllocationRequestBaseDeserializer(item["requestedResource"]),
+    requestSubmitTime: !item["requestSubmitTime"]
+      ? item["requestSubmitTime"]
+      : new Date(item["requestSubmitTime"]),
+    provisioningState: item["provisioningState"],
+    faultCode: item["faultCode"],
+  };
 }

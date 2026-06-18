@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { $export } from "../../api/jobs/operations.js";
-import type { JobsExportOptionalParams } from "../../api/jobs/options.js";
+import { JobsExportOptionalParams } from "../../api/jobs/options.js";
 
 /** Interface representing a Jobs operations. */
 export interface JobsOperations {

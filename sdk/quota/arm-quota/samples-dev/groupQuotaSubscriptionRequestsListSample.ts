@@ -12,8 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function groupQuotaSubscriptionRequestsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
+  const client = new AzureQuotaExtensionAPI(credential);
   const resArray = new Array();
   for await (const item of client.groupQuotaSubscriptionRequests.list(
     "E7EC67B3-7657-4966-BFFC-41EFD36BAA09",

@@ -14,8 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function groupQuotaLimitsRequestsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
+  const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.groupQuotaLimitsRequest.update(
     "E7EC67B3-7657-4966-BFFC-41EFD36BAA09",
     "groupquota1",
