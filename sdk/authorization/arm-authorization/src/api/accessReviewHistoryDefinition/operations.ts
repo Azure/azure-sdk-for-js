@@ -44,7 +44,9 @@ export async function _deleteByIdDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -79,12 +81,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: accessReviewHistoryDefinitionPropertiesSerializer(properties),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: accessReviewHistoryDefinitionPropertiesSerializer(properties),
+    });
 }
 
 export async function _createDeserialize(
@@ -93,7 +97,9 @@ export async function _createDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }

@@ -1,7 +1,109 @@
 # Release History
-    
-## 1.0.0-beta.1 (2026-04-28)
+
+## 1.0.0-beta.2 (2026-06-18)
+Compared with version 1.0.0-beta.1
 
 ### Features Added
+  - Added operation group AlertsOperations
+  - Added operation group OperationsOperations
+  - Added Class AlertsManagementClient
+  - Added Interface ActionStatus
+  - Added Interface ActionSuppressedDetails
+  - Added Interface ActionTriggeredDetails
+  - Added Interface Alert
+  - Added Interface AlertEnrichmentItem
+  - Added Interface AlertEnrichmentProperties
+  - Added Interface AlertEnrichmentResponse
+  - Added Interface AlertModification
+  - Added Interface AlertModificationItem
+  - Added Interface AlertModificationProperties
+  - Added Interface AlertProperties
+  - Added Interface AlertsChangeStateOptionalParams
+  - Added Interface AlertsChangeStateTenantOptionalParams
+  - Added Interface AlertsGetAllOptionalParams
+  - Added Interface AlertsGetAllTenantOptionalParams
+  - Added Interface AlertsGetByIdOptionalParams
+  - Added Interface AlertsGetByIdTenantOptionalParams
+  - Added Interface AlertsGetEnrichmentsOptionalParams
+  - Added Interface AlertsGetHistoryOptionalParams
+  - Added Interface AlertsGetHistoryTenantOptionalParams
+  - Added Interface AlertsGetSummaryOptionalParams
+  - Added Interface AlertsManagementClientOptionalParams
+  - Added Interface AlertsManagementErrorResponse
+  - Added Interface AlertsMetaData
+  - Added Interface AlertsMetaDataOptionalParams
+  - Added Interface AlertsMetaDataProperties
+  - Added Interface AlertsSummary
+  - Added Interface AlertsSummaryGroup
+  - Added Interface AlertsSummaryGroupItem
+  - Added Interface ArmProxyResource
+  - Added Interface BaseDetails
+  - Added Interface Comments
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface ErrorResponseBody
+  - Added Interface Essentials
+  - Added Interface MonitorServiceDetails
+  - Added Interface MonitorServiceList
+  - Added Interface NotificationResult
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrometheusEnrichmentItem
+  - Added Interface PrometheusInstantQuery
+  - Added Interface PrometheusRangeQuery
+  - Added Interface PropertyChangeDetails
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface SystemData
+  - Added Interface TriggeredRule
+  - Added Type Alias ActionType
+  - Added Type Alias AlertEnrichmentItemUnion
+  - Added Type Alias AlertModificationEvent
+  - Added Type Alias AlertModificationType
+  - Added Type Alias AlertsMetaDataPropertiesUnion
+  - Added Type Alias AlertsSortByFields
+  - Added Type Alias AlertsSummaryGroupByFields
+  - Added Type Alias AlertState
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BaseDetailsUnion
+  - Added Type Alias CreatedByType
+  - Added Type Alias Identifier
+  - Added Type Alias MetadataIdentifier
+  - Added Type Alias MonitorCondition
+  - Added Type Alias MonitorService
+  - Added Type Alias Origin
+  - Added Type Alias PrometheusEnrichmentItemUnion
+  - Added Type Alias ResultStatus
+  - Added Type Alias RuleType
+  - Added Type Alias Severity
+  - Added Type Alias SignalType
+  - Added Type Alias SortOrder
+  - Added Type Alias Status
+  - Added Type Alias TimeRange
+  - Added Type Alias Type
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownAlertModificationType
+  - Added Enum KnownAlertsSortByFields
+  - Added Enum KnownAlertsSummaryGroupByFields
+  - Added Enum KnownAlertState
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownIdentifier
+  - Added Enum KnownMetadataIdentifier
+  - Added Enum KnownMonitorCondition
+  - Added Enum KnownMonitorService
+  - Added Enum KnownOrigin
+  - Added Enum KnownResultStatus
+  - Added Enum KnownRuleType
+  - Added Enum KnownSeverity
+  - Added Enum KnownSignalType
+  - Added Enum KnownSortOrder
+  - Added Enum KnownStatus
+  - Added Enum KnownTimeRange
+  - Added Enum KnownType
+  - Added Enum KnownVersions
 
-Initial release of the @azure/arm-alertsmanagement package

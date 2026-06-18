@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import {
   initiateChecks,
   schedule,
@@ -9,19 +9,15 @@ import {
   get,
   list,
 } from "../../api/maintenances/operations.js";
-import type {
+import {
   MaintenancesInitiateChecksOptionalParams,
   MaintenancesScheduleOptionalParams,
   MaintenancesRescheduleOptionalParams,
   MaintenancesGetOptionalParams,
   MaintenancesListOptionalParams,
 } from "../../api/maintenances/options.js";
-import type {
-  Maintenance,
-  MaintenanceReschedule,
-  MaintenanceSchedule,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Maintenance, MaintenanceReschedule, MaintenanceSchedule } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Maintenances operations. */
 export interface MaintenancesOperations {

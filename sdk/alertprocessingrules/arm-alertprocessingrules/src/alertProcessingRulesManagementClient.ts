@@ -1,15 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   AlertProcessingRulesManagementContext,
   AlertProcessingRulesManagementClientOptionalParams,
+  createAlertProcessingRulesManagement,
 } from "./api/index.js";
-import { createAlertProcessingRulesManagement } from "./api/index.js";
-import type { AlertProcessingRulesOperations } from "./classic/alertProcessingRules/index.js";
-import { _getAlertProcessingRulesOperations } from "./classic/alertProcessingRules/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  AlertProcessingRulesOperations,
+  _getAlertProcessingRulesOperations,
+} from "./classic/alertProcessingRules/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { AlertProcessingRulesManagementClientOptionalParams } from "./api/alertProcessingRulesManagementContext.js";
 

@@ -3,11 +3,9 @@
 
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
-import type { AzureSupportedClouds } from "../static-helpers/cloudSettingHelpers.js";
-import { getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
-import type { Client, ClientOptions } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
-import type { TokenCredential } from "@azure/core-auth";
+import { AzureSupportedClouds, getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
+import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
+import { TokenCredential } from "@azure/core-auth";
 
 export interface AppLinkContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -42,7 +40,9 @@ export function createAppLink(
     ...options,
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
-    credentials: { scopes: options.credentials?.scopes ?? [`${endpointUrl}/.default`] },
+    credentials: {
+      scopes: options.credentials?.scopes ?? ["https://management.azure.com/.default"],
+    },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion;

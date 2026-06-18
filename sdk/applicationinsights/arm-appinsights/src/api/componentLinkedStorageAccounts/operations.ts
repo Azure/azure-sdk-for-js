@@ -52,7 +52,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseLinkedStorageDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseLinkedStorageDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -93,12 +95,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: componentLinkedStorageAccountsPatchSerializer(linkedStorageAccountsProperties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: componentLinkedStorageAccountsPatchSerializer(linkedStorageAccountsProperties),
+    });
 }
 
 export async function _updateDeserialize(
@@ -107,7 +111,9 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseLinkedStorageDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseLinkedStorageDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -156,12 +162,14 @@ export function _createAndUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: componentLinkedStorageAccountsSerializer(linkedStorageAccountsProperties),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: componentLinkedStorageAccountsSerializer(linkedStorageAccountsProperties),
+    });
 }
 
 export async function _createAndUpdateDeserialize(
@@ -170,7 +178,9 @@ export async function _createAndUpdateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseLinkedStorageDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseLinkedStorageDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -218,10 +228,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -230,7 +242,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseLinkedStorageDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseLinkedStorageDeserializer(result.body);
+    }
 
     throw error;
   }

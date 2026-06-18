@@ -10,7 +10,7 @@
     "Microsoft.RoleDefinitions": "2022-05-01-preview",
     "Microsoft.RoleManagementAlerts": "2022-08-01-preview"
   },
-  "emitterVersion": "0.53.2",
+  "emitterVersion": "0.55.0-dev.4",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.AccessReview",
     "CrossLanguageDefinitionId": {

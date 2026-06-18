@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AppConfigurationManagementContext } from "../../api/appConfigurationManagementContext.js";
+import { AppConfigurationManagementContext } from "../../api/appConfigurationManagementContext.js";
 import {
   listDeleted,
   purgeDeleted,
@@ -15,7 +15,7 @@ import {
   create,
   get,
 } from "../../api/configurationStores/operations.js";
-import type {
+import {
   ConfigurationStoresListDeletedOptionalParams,
   ConfigurationStoresPurgeDeletedOptionalParams,
   ConfigurationStoresGetDeletedOptionalParams,
@@ -28,17 +28,16 @@ import type {
   ConfigurationStoresCreateOptionalParams,
   ConfigurationStoresGetOptionalParams,
 } from "../../api/configurationStores/options.js";
-import type {
+import {
   ConfigurationStore,
   ConfigurationStoreUpdateParameters,
   ApiKey,
   RegenerateKeyParameters,
   DeletedConfigurationStore,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ConfigurationStores operations. */
 export interface ConfigurationStoresOperations {

@@ -36,10 +36,12 @@ export function _generateDownloadUriSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _generateDownloadUriDeserialize(
@@ -48,7 +50,9 @@ export async function _generateDownloadUriDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }

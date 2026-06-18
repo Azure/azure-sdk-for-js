@@ -1,29 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   AppConfigurationManagementContext,
   AppConfigurationManagementClientOptionalParams,
+  createAppConfigurationManagement,
 } from "./api/index.js";
-import { createAppConfigurationManagement } from "./api/index.js";
-import type { ConfigurationStoresOperations } from "./classic/configurationStores/index.js";
-import { _getConfigurationStoresOperations } from "./classic/configurationStores/index.js";
-import type { KeyValuesOperations } from "./classic/keyValues/index.js";
-import { _getKeyValuesOperations } from "./classic/keyValues/index.js";
-import type { NetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import { _getNetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { ReplicasOperations } from "./classic/replicas/index.js";
-import { _getReplicasOperations } from "./classic/replicas/index.js";
-import type { SnapshotsOperations } from "./classic/snapshots/index.js";
-import { _getSnapshotsOperations } from "./classic/snapshots/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  ConfigurationStoresOperations,
+  _getConfigurationStoresOperations,
+} from "./classic/configurationStores/index.js";
+import { KeyValuesOperations, _getKeyValuesOperations } from "./classic/keyValues/index.js";
+import {
+  NetworkSecurityPerimeterConfigurationsOperations,
+  _getNetworkSecurityPerimeterConfigurationsOperations,
+} from "./classic/networkSecurityPerimeterConfigurations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import { ReplicasOperations, _getReplicasOperations } from "./classic/replicas/index.js";
+import { SnapshotsOperations, _getSnapshotsOperations } from "./classic/snapshots/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { AppConfigurationManagementClientOptionalParams } from "./api/appConfigurationManagementContext.js";
 
