@@ -30,7 +30,12 @@ export {
   copyDir,
   buildTransformedOutput,
 } from "./compiler.ts";
-export { verifyDistFiles } from "./exports.ts";
+export { verifyDistFiles, computeLegacyPlatformFieldUpdates } from "./exports.ts";
+export {
+  planPlatformTargetPruning,
+  LEGACY_PLATFORM_FIELD_BY_CONDITION,
+} from "./platformTargets.ts";
+export type { PlatformPrunePlan } from "./platformTargets.ts";
 export type { SizeReport, TargetSizeMetrics, ApiSurfaceMetrics } from "./sizeReport.ts";
 export {
   formatDiagnostics,

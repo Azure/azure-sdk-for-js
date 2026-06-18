@@ -3,7 +3,7 @@
 
 import * as path from "node:path";
 import { findWarpConfig, validateTsconfigPaths } from "./config.ts";
-import { compileAllTargets, parseTargetTsConfig } from "./compiler.ts";
+import { compileAllTargets, parseTargetTsConfig, cleanOutDir } from "./compiler.ts";
 import type { CompileResult, ParsedTargetConfig } from "./compiler.ts";
 import { formatDiagnostics } from "./diagnostics.ts";
 import {
@@ -11,7 +11,9 @@ import {
   writeExportsToPackageJson,
   getExportsDiff,
   verifyDistFiles,
+  computeLegacyPlatformFieldUpdates,
 } from "./exports.ts";
+import { planPlatformTargetPruning } from "./platformTargets.ts";
 import {
   readPackageImports,
   resolveImportsInDir,
@@ -22,7 +24,7 @@ import {
 import type { ImportsMap } from "./resolveImports.ts";
 import { generateSizeReport, formatSizeReport, writeSizeReportJson } from "./sizeReport.ts";
 import type { SizeReport } from "./sizeReport.ts";
-import type { WarpConfig, ResolvedWarpConfig } from "./types.ts";
+import type { WarpConfig, ResolvedWarpConfig, WarpTarget } from "./types.ts";
 import { WarpError } from "./types.ts";
 import { getLogger } from "./logger.ts";
 
@@ -69,6 +71,7 @@ async function resolveStep(
 ): Promise<{
   resolved: ResolvedWarpConfig;
   parsedConfigs: ParsedTargetConfig[];
+  prunedConfigs: ParsedTargetConfig[];
   importsMap: ImportsMap | undefined;
 }> {
   const log = getLogger();
@@ -84,6 +87,10 @@ async function resolveStep(
   let resolved = found;
   let { config } = resolved;
   const { source } = resolved;
+
+  // An explicit --target filter means the caller wants exactly those targets;
+  // skip automatic platform-target pruning so the filter is honored verbatim.
+  const hasTargetFilter = Boolean(target && target.length > 0);
 
   // Apply --target: reduce targets to only those matching the given names
   if (target && target.length > 0) {
@@ -113,7 +120,26 @@ async function resolveStep(
   );
   log.info(`[warp] Targets: ${config.targets.map((t) => `${t.name} (${t.condition})`).join(", ")}`);
 
-  const parsedConfigs = config.targets.map((t) => parseTargetTsConfig(t, packageRoot));
+  let parsedConfigs = config.targets.map((t) => parseTargetTsConfig(t, packageRoot));
+
+  const importsMap = await readPackageImports(packageRoot);
+
+  // Auto-prune redundant platform targets: when the package ships no
+  // platform-specific source code, browser / react-native builds are identical
+  // to the ESM build, so drop them and let those consumers fall through to the
+  // `import` condition (mirrors PR #38870). Opt-in via the config flag
+  // `prunePlatformTargets`; skipped under an explicit --target.
+  let prunedConfigs: ParsedTargetConfig[] = [];
+  if (!hasTargetFilter && config.prunePlatformTargets) {
+    const plan = await planPlatformTargetPruning(parsedConfigs, importsMap, packageRoot);
+    if (plan.pruned.length > 0) {
+      parsedConfigs = plan.kept;
+      prunedConfigs = plan.pruned;
+      const keptTargets = plan.kept.map((pc) => pc.target);
+      config = { ...config, targets: keptTargets };
+      resolved = { config, source };
+    }
+  }
 
   // Populate resolvedImports so programIdentity can differentiate targets
   // that resolve #-prefixed imports to different files (e.g., browser vs
@@ -122,7 +148,6 @@ async function resolveStep(
   // over-differentiate when unused keys differ across targets. If dedup
   // hit rate becomes a concern, we could filter to only specifiers that
   // actually appear in the target's source files.
-  const importsMap = await readPackageImports(packageRoot);
   if (importsMap) {
     for (const pc of parsedConfigs) {
       const conditions = buildConditionsSet(
@@ -149,7 +174,7 @@ async function resolveStep(
     );
   }
 
-  return { resolved, parsedConfigs, importsMap };
+  return { resolved, parsedConfigs, prunedConfigs, importsMap };
 }
 
 /** Step 2: Compile all targets. */
@@ -190,6 +215,7 @@ async function postCompileStep(
   parallel: boolean,
   stats: boolean,
   skipPackageJsonUpdate: boolean,
+  prunedTargets: WarpTarget[],
 ): Promise<{ sizeReport: SizeReport | undefined; missingFiles: string[] }> {
   const log = getLogger();
 
@@ -207,7 +233,11 @@ async function postCompileStep(
   if (skipPackageJsonUpdate) {
     log.info("[warp] Filtered build: skipping package.json exports update");
   } else {
-    await writeExportsToPackageJson(exportsMap, results, packageRoot);
+    // When platform targets were pruned, repoint any legacy top-level
+    // `browser` / `react-native` fields at the ESM build so they don't dangle
+    // at the now-removed dist directories.
+    const legacyFieldUpdates = computeLegacyPlatformFieldUpdates(prunedTargets, exportsMap);
+    await writeExportsToPackageJson(exportsMap, results, packageRoot, legacyFieldUpdates);
     log.info("[warp] Updated exports in package.json");
   }
 
@@ -250,13 +280,14 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
   const packageRoot = path.resolve(cwd);
 
   // Step 1: Resolve config
-  const { resolved, parsedConfigs, importsMap } = await resolveStep(
+  const { resolved, parsedConfigs, prunedConfigs, importsMap } = await resolveStep(
     packageRoot,
     options.configPath,
     options.target,
     options.config,
   );
   const { config } = resolved;
+  const prunedTargets = prunedConfigs.map((pc) => pc.target);
 
   if (options.dryRun) {
     const mockResults = parsedConfigs.map((pc) => ({
@@ -339,6 +370,13 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
         totalTimeMs: performance.now() - buildStart,
       };
     }
+  }
+
+  // Remove stale output from targets that were pruned this run (e.g. a
+  // previous build emitted dist/browser before the package dropped its
+  // platform code). Skipped when --no-clean is passed.
+  if (prunedConfigs.length > 0 && (options.clean ?? true)) {
+    await Promise.all(prunedConfigs.map((pc) => cleanOutDir(pc.outDir)));
   }
 
   // Step 2: Compile
@@ -437,6 +475,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     !!options.parallel,
     !!options.stats,
     !!(options.target && options.target.length > 0),
+    prunedTargets,
   );
 
   // Fail the build if expected dist files are missing

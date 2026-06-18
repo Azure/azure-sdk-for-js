@@ -215,6 +215,10 @@ async function resolveConfigWithExtends(
   const merged = {
     exports: { ...baseConfig.exports, ...(childExports ?? {}) },
     targets: childTargets ?? baseConfig.targets,
+    prunePlatformTargets:
+      typeof raw.prunePlatformTargets === "boolean"
+        ? raw.prunePlatformTargets
+        : baseConfig.prunePlatformTargets,
   };
 
   return validateConfig(merged, sourceLabel);
@@ -414,9 +418,20 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
     validatedTargets.push(target);
   }
 
+  // Validate optional prunePlatformTargets flag
+  if (raw.prunePlatformTargets !== undefined && typeof raw.prunePlatformTargets !== "boolean") {
+    throw new WarpError(
+      "CONFIG_INVALID",
+      `[warp] Invalid config in ${source}: "prunePlatformTargets" must be a boolean`,
+    );
+  }
+
   return {
     exports: exports as Record<string, string>,
     targets: validatedTargets,
+    ...(typeof raw.prunePlatformTargets === "boolean" && {
+      prunePlatformTargets: raw.prunePlatformTargets,
+    }),
   };
 }
 
