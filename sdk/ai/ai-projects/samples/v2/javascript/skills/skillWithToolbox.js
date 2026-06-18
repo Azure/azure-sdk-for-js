@@ -14,7 +14,7 @@
  *
  * Skills and Toolboxes are currently preview features. In the JS SDK, you
  * access these operations via `project.beta.skills` and
- * `project.beta.toolboxes`.
+ * `project.toolboxes`.
  *
  * @summary Demonstrates adding a skill to a toolbox and invoking it via a Prompt Agent.
  */
@@ -37,7 +37,7 @@ async function main() {
 
   // --- Clean up any prior runs ---
   try {
-    await project.beta.toolboxes.delete(TOOLBOX_NAME);
+    await project.toolboxes.delete(TOOLBOX_NAME);
   } catch (e) {
     if (!(e instanceof RestError && e.statusCode === 404)) throw e;
   }
@@ -68,7 +68,7 @@ async function main() {
     version: skill.version,
   };
 
-  const toolboxVersion = await project.beta.toolboxes.createVersion(
+  const toolboxVersion = await project.toolboxes.createVersion(
     TOOLBOX_NAME,
     [{ type: "toolbox_search_preview" }],
     {
@@ -141,7 +141,7 @@ async function main() {
   console.log(`Response: ${response.output_text}`);
 
   // --- 6. Clean up ---
-  await project.beta.toolboxes.delete(TOOLBOX_NAME);
+  await project.toolboxes.delete(TOOLBOX_NAME);
   console.log("Toolbox deleted");
   await project.beta.skills.delete(SKILL_NAME);
   console.log("Skill deleted");

@@ -6,7 +6,7 @@
  * using the AIProjectClient.
  *
  * Toolboxes are currently a preview feature. In the JS SDK, you access
- * these operations via `project.beta.toolboxes`.
+ * these operations via `project.toolboxes`.
  *
  * @summary Demonstrates CRUD operations on Toolboxes using the beta toolboxes API.
  */
@@ -26,7 +26,7 @@ export async function main(): Promise<void> {
 
   // Clean up any existing toolbox with this name
   try {
-    await project.beta.toolboxes.delete(toolboxName);
+    await project.toolboxes.delete(toolboxName);
     console.log(`Toolbox \`${toolboxName}\` deleted`);
   } catch (e) {
     if (!(e instanceof RestError && e.statusCode === 404)) {
@@ -45,7 +45,7 @@ export async function main(): Promise<void> {
   ];
 
   // Create a new toolbox version
-  const created = await project.beta.toolboxes.createVersion(toolboxName, tools, {
+  const created = await project.toolboxes.createVersion(toolboxName, tools, {
     description: "Example toolbox created by the @azure/ai-projects sample.",
     metadata: { status: "created" },
   });
@@ -53,12 +53,12 @@ export async function main(): Promise<void> {
   console.log(`Toolbox: ${created.name} (tools: ${created.tools.length}) (status: ${status})`);
 
   // Retrieve the toolbox
-  const fetched = await project.beta.toolboxes.get(toolboxName);
+  const fetched = await project.toolboxes.get(toolboxName);
   console.log(`Retrieved toolbox: ${fetched.name} (${fetched.id})`);
 
   // List toolboxes
   const toolboxes = [];
-  for await (const item of project.beta.toolboxes.list({ limit: 10 })) {
+  for await (const item of project.toolboxes.list({ limit: 10 })) {
     toolboxes.push(item);
   }
   console.log(`Found ${toolboxes.length} toolboxes`);
@@ -67,7 +67,7 @@ export async function main(): Promise<void> {
   }
 
   // Delete the toolbox
-  await project.beta.toolboxes.delete(toolboxName);
+  await project.toolboxes.delete(toolboxName);
   console.log("Toolbox deleted");
 }
 
