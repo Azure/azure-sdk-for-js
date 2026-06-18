@@ -99,8 +99,8 @@ export interface SearchDocumentsResult {
   readonly semanticPartialResponseType?: SemanticSearchResultsType;
 }
 
-export function searchDocumentsResultSerializer(item: SearchDocumentsResult): any {
-  return item;
+export function searchDocumentsResultSerializer(_item: SearchDocumentsResult): any {
+  return {};
 }
 
 export function searchDocumentsResultDeserializer(item: any): SearchDocumentsResult {
@@ -1051,8 +1051,8 @@ export interface IndexingResult {
   readonly statusCode: number;
 }
 
-export function indexingResultSerializer(item: IndexingResult): any {
-  return item;
+export function indexingResultSerializer(_item: IndexingResult): any {
+  return {};
 }
 
 export function indexingResultDeserializer(item: any): IndexingResult {
@@ -1099,8 +1099,8 @@ export interface AutocompleteItem {
   readonly queryPlusText: string;
 }
 
-export function autocompleteItemSerializer(item: AutocompleteItem): any {
-  return item;
+export function autocompleteItemSerializer(_item: AutocompleteItem): any {
+  return {};
 }
 
 export function autocompleteItemDeserializer(item: any): AutocompleteItem {
@@ -1112,3 +1112,10 @@ export function autocompleteItemDeserializer(item: any): AutocompleteItem {
 
 /** Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles and 'oneTermWithContext' to use the current context in producing autocomplete terms. */
 export type AutocompleteMode = "oneTerm" | "twoTerms" | "oneTermWithContext";
+
+/** Contains debugging information that can be used to further explore your search results. */
+export interface DebugInfo {}
+
+export function debugInfoSerializer(_item: DebugInfo): any {
+  return {};
+}

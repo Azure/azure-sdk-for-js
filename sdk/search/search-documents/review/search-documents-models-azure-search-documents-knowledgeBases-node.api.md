@@ -31,7 +31,7 @@ export interface IndexedOneLakeKnowledgeSourceParams extends KnowledgeSourcePara
 
 // @public
 export interface KnowledgeBaseActivityRecord {
-    elapsedInMs?: number;
+    elapsedMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
     type: KnowledgeBaseActivityRecordType;
@@ -41,13 +41,27 @@ export interface KnowledgeBaseActivityRecord {
 export type KnowledgeBaseActivityRecordType = string;
 
 // @public
-export type KnowledgeBaseActivityRecordUnion = KnowledgeBaseModelWebSummarizationActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | KnowledgeBaseActivityRecord;
+export type KnowledgeBaseActivityRecordUnion = KnowledgeBaseSearchIndexActivityRecord | KnowledgeBaseAzureBlobActivityRecord | KnowledgeBaseIndexedOneLakeActivityRecord | KnowledgeBaseWebActivityRecord | KnowledgeBaseModelWebSummarizationActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | KnowledgeBaseActivityRecord;
 
 // @public
 export interface KnowledgeBaseAgenticReasoningActivityRecord extends KnowledgeBaseActivityRecord {
     reasoningTokens?: number;
     retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
     type: "agenticReasoning";
+}
+
+// @public
+export interface KnowledgeBaseAzureBlobActivityArguments {
+    search?: string;
+}
+
+// @public
+export interface KnowledgeBaseAzureBlobActivityRecord extends KnowledgeBaseActivityRecord {
+    azureBlobArguments?: KnowledgeBaseAzureBlobActivityArguments;
+    count?: number;
+    knowledgeSourceName?: string;
+    queryTime?: Date;
+    type: "azureBlob";
 }
 
 // @public
@@ -74,6 +88,20 @@ export interface KnowledgeBaseErrorDetail {
 // @public
 export interface KnowledgeBaseImageContent {
     url: string;
+}
+
+// @public
+export interface KnowledgeBaseIndexedOneLakeActivityArguments {
+    search?: string;
+}
+
+// @public
+export interface KnowledgeBaseIndexedOneLakeActivityRecord extends KnowledgeBaseActivityRecord {
+    count?: number;
+    indexedOneLakeArguments?: KnowledgeBaseIndexedOneLakeActivityArguments;
+    knowledgeSourceName?: string;
+    queryTime?: Date;
+    type: "indexedOneLake";
 }
 
 // @public
@@ -150,9 +178,45 @@ export interface KnowledgeBaseRetrievalResponse {
 }
 
 // @public
+export interface KnowledgeBaseSearchIndexActivityArguments {
+    filter?: string;
+    search?: string;
+    searchFields?: SearchIndexFieldReference[];
+    semanticConfigurationName?: string;
+    sourceDataFields?: SearchIndexFieldReference[];
+}
+
+// @public
+export interface KnowledgeBaseSearchIndexActivityRecord extends KnowledgeBaseActivityRecord {
+    count?: number;
+    knowledgeSourceName?: string;
+    queryTime?: Date;
+    searchIndexArguments?: KnowledgeBaseSearchIndexActivityArguments;
+    type: "searchIndex";
+}
+
+// @public
 export interface KnowledgeBaseSearchIndexReference extends KnowledgeBaseReference {
     docKey?: string;
     type: "searchIndex";
+}
+
+// @public
+export interface KnowledgeBaseWebActivityArguments {
+    count?: number;
+    freshness?: string;
+    language?: string;
+    market?: string;
+    search?: string;
+}
+
+// @public
+export interface KnowledgeBaseWebActivityRecord extends KnowledgeBaseActivityRecord {
+    count?: number;
+    knowledgeSourceName?: string;
+    queryTime?: Date;
+    type: "web";
+    webArguments?: KnowledgeBaseWebActivityArguments;
 }
 
 // @public

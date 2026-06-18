@@ -28,6 +28,7 @@ export {
   type SingleVectorFieldResult,
   type TextResult,
   type VectorsDebugInfo,
+  type DebugInfo,
   type SemanticSearchResultsType,
 } from "./models/azure/search/documents/index.js";
 
@@ -50,6 +51,14 @@ export {
   type IndexedOneLakeKnowledgeSourceParams,
   type KnowledgeBaseActivityRecordUnion as KnowledgeBaseActivityRecord,
   type KnowledgeBaseAgenticReasoningActivityRecord,
+  type KnowledgeBaseSearchIndexActivityRecord,
+  type KnowledgeBaseSearchIndexActivityArguments,
+  type KnowledgeBaseAzureBlobActivityRecord,
+  type KnowledgeBaseAzureBlobActivityArguments,
+  type KnowledgeBaseIndexedOneLakeActivityRecord,
+  type KnowledgeBaseIndexedOneLakeActivityArguments,
+  type KnowledgeBaseWebActivityRecord,
+  type KnowledgeBaseWebActivityArguments,
   type KnowledgeBaseImageContent as KnowledgeBaseMessageImageContentImage,
   type KnowledgeBaseAzureBlobReference,
   type KnowledgeBaseErrorAdditionalInfo,

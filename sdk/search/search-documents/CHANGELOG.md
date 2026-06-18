@@ -1,5 +1,26 @@
 # Release History
 
+## 13.1.0 (Unreleased)
+
+### Features Added
+
+- Added new knowledge base activity record types for richer retrieval diagnostics:
+  - `KnowledgeBaseSearchIndexActivityRecord` with `KnowledgeBaseSearchIndexActivityArguments`
+  - `KnowledgeBaseAzureBlobActivityRecord` with `KnowledgeBaseAzureBlobActivityArguments`
+  - `KnowledgeBaseIndexedOneLakeActivityRecord` with `KnowledgeBaseIndexedOneLakeActivityArguments`
+  - `KnowledgeBaseWebActivityRecord` with `KnowledgeBaseWebActivityArguments`
+- Added `DebugInfo` interface for search results debugging information.
+
+### Breaking Changes
+
+- Renamed `elapsedInMs` to `elapsedMs` on `KnowledgeBaseActivityRecord` and its subtypes to align with the service API.
+
+### Bugs Fixed
+
+### Other Changes
+
+- Regenerated from Azure Search API version `2026-04-01` (spec commit `840db4dc48aab6bdf5c45422c8d504aee463b783`).
+
 ## 13.0.0 (2026-05-01)
 
 ### Features Added
