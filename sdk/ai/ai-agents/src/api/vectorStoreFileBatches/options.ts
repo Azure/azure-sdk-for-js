@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   VectorStoreDataSource,
   VectorStoreChunkingStrategyRequestUnion,
   ListSortOrder,
   VectorStoreFileStatusFilter,
 } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
-import type { PollingOptionsParams } from "../options.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams extends OperationOptions {
@@ -31,8 +30,7 @@ export interface VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams 
 export interface VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams
-  extends OperationOptions, PollingOptionsParams {
+export interface VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams extends OperationOptions {
   /** List of file identifiers. */
   fileIds?: string[];
   /** List of Azure assets. */

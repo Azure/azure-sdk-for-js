@@ -40,13 +40,10 @@ export default function createClient(
     },
     telemetryOptions: {
       clientRequestIdHeaderName:
-        options.telemetryOptions?.clientRequestIdHeaderName ??
-        "client-request-id",
+        options.telemetryOptions?.clientRequestIdHeaderName ?? "client-request-id",
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://batch.core.windows.net//.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://batch.core.windows.net//.default"],
     },
   };
   const client = getClient(endpointUrl, credentials, options) as BatchClient;

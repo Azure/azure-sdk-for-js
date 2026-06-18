@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MessageAttachment, ListSortOrder } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { MessageAttachment, ListSortOrder } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface MessagesDeleteOptionalParams extends OperationOptions {}
@@ -10,7 +10,7 @@ export interface MessagesDeleteOptionalParams extends OperationOptions {}
 /** Optional parameters. */
 export interface MessagesUpdateMessageOptionalParams extends OperationOptions {
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata?: Record<string, string> | null;
+  metadata?: Record<string, string>;
 }
 
 /** Optional parameters. */
@@ -33,7 +33,7 @@ export interface MessagesListMessagesOptionalParams extends OperationOptions {
 /** Optional parameters. */
 export interface MessagesCreateMessageOptionalParams extends OperationOptions {
   /** A list of files attached to the message, and the tools they should be added to. */
-  attachments?: MessageAttachment[] | null;
+  attachments?: MessageAttachment[];
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata?: Record<string, string> | null;
+  metadata?: Record<string, string>;
 }

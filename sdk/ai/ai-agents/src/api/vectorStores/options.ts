@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   VectorStoreConfiguration,
   VectorStoreExpirationPolicy,
   VectorStoreChunkingStrategyRequestUnion,
   ListSortOrder,
 } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
-import type { PollingOptionsParams } from "../options.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface VectorStoresDeleteVectorStoreOptionalParams extends OperationOptions {}
@@ -16,19 +15,18 @@ export interface VectorStoresDeleteVectorStoreOptionalParams extends OperationOp
 /** Optional parameters. */
 export interface VectorStoresModifyVectorStoreOptionalParams extends OperationOptions {
   /** The name of the vector store. */
-  name?: string | null;
+  name?: string;
   /** Details on when this vector store expires */
-  expiresAfter?: VectorStoreExpirationPolicy | null;
+  expiresAfter?: VectorStoreExpirationPolicy;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata?: Record<string, string> | null;
+  metadata?: Record<string, string>;
 }
 
 /** Optional parameters. */
 export interface VectorStoresGetVectorStoreOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface VectorStoresCreateVectorStoreOptionalParams
-  extends OperationOptions, PollingOptionsParams {
+export interface VectorStoresCreateVectorStoreOptionalParams extends OperationOptions {
   /** A list of file IDs that the vector store should use. Useful for tools like `file_search` that can access files. */
   fileIds?: string[];
   /** The name of the vector store. */
@@ -40,7 +38,7 @@ export interface VectorStoresCreateVectorStoreOptionalParams
   /** The chunking strategy used to chunk the file(s). If not set, will use the auto strategy. Only applicable if file_ids is non-empty. */
   chunkingStrategy?: VectorStoreChunkingStrategyRequestUnion;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata?: Record<string, string> | null;
+  metadata?: Record<string, string>;
 }
 
 /** Optional parameters. */

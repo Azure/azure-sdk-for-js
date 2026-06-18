@@ -1,32 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AgentsContext as Client } from "../index.js";
-import type {
-  AgentThread,
-  _AgentsPagedResultAgentThread,
-  ThreadDeletionStatus,
-} from "../../models/models.js";
+import { AgentsContext as Client } from "../index.js";
 import {
   toolResourcesSerializer,
   agentV1ErrorDeserializer,
   threadMessageOptionsArraySerializer,
+  AgentThread,
   agentThreadDeserializer,
+  _AgentsPagedResultAgentThread,
   _agentsPagedResultAgentThreadDeserializer,
+  ThreadDeletionStatus,
   threadDeletionStatusDeserializer,
 } from "../../models/models.js";
-import type {
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
   ThreadsDeleteThreadOptionalParams,
   ThreadsUpdateThreadOptionalParams,
   ThreadsGetThreadOptionalParams,
   ThreadsListThreadsOptionalParams,
   ThreadsCreateThreadOptionalParams,
 } from "./options.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _deleteThreadSend(
   context: Client,
@@ -34,22 +38,21 @@ export function _deleteThreadSend(
   options: ThreadsDeleteThreadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}{?api-version}",
+    "/threads/{threadId}{?api%2Dversion}",
     {
       threadId: threadId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteThreadDeserialize(
@@ -58,7 +61,10 @@ export async function _deleteThreadDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = agentV1ErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -81,29 +87,28 @@ export function _updateThreadSend(
   options: ThreadsUpdateThreadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}{?api-version}",
+    "/threads/{threadId}{?api%2Dversion}",
     {
       threadId: threadId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      tool_resources: !options?.toolResources
-        ? options?.toolResources
-        : toolResourcesSerializer(options?.toolResources),
-      metadata: options?.metadata,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        tool_resources: !options?.toolResources
+          ? options?.toolResources
+          : toolResourcesSerializer(options?.toolResources),
+        metadata: options?.metadata,
+      },
+    });
 }
 
 export async function _updateThreadDeserialize(
@@ -112,7 +117,10 @@ export async function _updateThreadDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = agentV1ErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -135,29 +143,31 @@ export function _getThreadSend(
   options: ThreadsGetThreadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}{?api-version}",
+    "/threads/{threadId}{?api%2Dversion}",
     {
       threadId: threadId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getThreadDeserialize(result: PathUncheckedResponse): Promise<AgentThread> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = agentV1ErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -179,9 +189,9 @@ export function _listThreadsSend(
   options: ThreadsListThreadsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads{?api-version,limit,order,after,before}",
+    "/threads{?api%2Dversion,limit,order,after,before}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -191,13 +201,12 @@ export function _listThreadsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listThreadsDeserialize(
@@ -206,7 +215,10 @@ export async function _listThreadsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = agentV1ErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -223,7 +235,7 @@ export function listThreads(
     () => _listThreadsSend(context, options),
     _listThreadsDeserialize,
     ["200"],
-    { itemName: "data" },
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
@@ -232,31 +244,30 @@ export function _createThreadSend(
   options: ThreadsCreateThreadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads{?api-version}",
+    "/threads{?api%2Dversion}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      messages: !options?.messages
-        ? options?.messages
-        : threadMessageOptionsArraySerializer(options?.messages),
-      tool_resources: !options?.toolResources
-        ? options?.toolResources
-        : toolResourcesSerializer(options?.toolResources),
-      metadata: options?.metadata,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        messages: !options?.messages
+          ? options?.messages
+          : threadMessageOptionsArraySerializer(options?.messages),
+        tool_resources: !options?.toolResources
+          ? options?.toolResources
+          : toolResourcesSerializer(options?.toolResources),
+        metadata: options?.metadata,
+      },
+    });
 }
 
 export async function _createThreadDeserialize(
@@ -265,7 +276,10 @@ export async function _createThreadDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = agentV1ErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 

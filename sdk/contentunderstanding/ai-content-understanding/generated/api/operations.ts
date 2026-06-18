@@ -3,8 +3,8 @@
 
 import { ContentUnderstandingContext as Client } from "./index.js";
 import {
-  AnalysisInput,
   analysisInputArraySerializer,
+  AnalysisInput,
   ContentAnalyzerAnalyzeOperationStatus,
   contentAnalyzerAnalyzeOperationStatusDeserializer,
   AnalysisResult,
@@ -21,13 +21,14 @@ import {
   _PagedContentAnalyzer,
   _pagedContentAnalyzerDeserializer,
   recordMergePatchUpdateSerializer,
+  GetResultFileResponse,
 } from "../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../static-helpers/pollingHelpers.js";
-import { getBinaryResponse } from "../static-helpers/serialization/get-binary-response.js";
+import { getBinaryStreamResponse } from "../static-helpers/serialization/get-binary-stream-response.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import {
   UpdateDefaultsOptionalParams,
@@ -292,14 +293,14 @@ export function _getResultFileSend(
 }
 
 export async function _getResultFileDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Uint8Array> {
+  result: PathUncheckedResponse & GetResultFileResponse,
+): Promise<GetResultFileResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return result.body;
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 /** Get a file associated with the result of an analysis operation. */
@@ -308,9 +309,9 @@ export async function getResultFile(
   operationId: string,
   path: string,
   options: GetResultFileOptionalParams = { requestOptions: {} },
-): Promise<Uint8Array> {
+): Promise<GetResultFileResponse> {
   const streamableMethod = _getResultFileSend(context, operationId, path, options);
-  const result = await getBinaryResponse(streamableMethod);
+  const result = await getBinaryStreamResponse(streamableMethod);
   return _getResultFileDeserialize(result);
 }
 
@@ -724,9 +725,9 @@ export function _analyzeBinarySend(
     {
       analyzerId: analyzerId,
       "api%2Dversion": context.apiVersion ?? "2025-11-01",
-      stringEncoding: options?.stringEncoding,
+      stringEncoding: stringEncoding,
       processingLocation: options?.processingLocation,
-      range: options?.contentRange,
+      range: options?.range,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -738,7 +739,7 @@ export function _analyzeBinarySend(
       ...operationOptionsToRequestParameters(options),
       contentType: contentType,
       headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: binaryInput,
+      body: input,
     });
 }
 
@@ -791,7 +792,7 @@ export function _analyzeSend(
     {
       analyzerId: analyzerId,
       "api%2Dversion": context.apiVersion ?? "2025-11-01",
-      stringEncoding: options?.stringEncoding,
+      stringEncoding: stringEncoding,
       processingLocation: options?.processingLocation,
     },
     {

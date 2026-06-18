@@ -1,22 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AgentsContext as Client } from "../index.js";
-import type { RunStep, _AgentsPagedResultRunStep } from "../../models/models.js";
+import { AgentsContext as Client } from "../index.js";
 import {
   agentV1ErrorDeserializer,
+  RunStep,
   runStepDeserializer,
+  _AgentsPagedResultRunStep,
   _agentsPagedResultRunStepDeserializer,
 } from "../../models/models.js";
-import type {
-  RunStepsListRunStepsOptionalParams,
-  RunStepsGetRunStepOptionalParams,
-} from "./options.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { RunStepsListRunStepsOptionalParams, RunStepsGetRunStepOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listRunStepsSend(
   context: Client,
@@ -25,16 +29,16 @@ export function _listRunStepsSend(
   options: RunStepsListRunStepsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}/steps{?include%5B%5D,api-version,limit,order,after,before}",
+    "/threads/{threadId}/runs/{runId}/steps{?include%5B%5D,api%2Dversion,limit,order,after,before}",
     {
       threadId: threadId,
       runId: runId,
-      "include[]": !options?.include
+      "include%5B%5D": !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
             return p;
           }),
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -44,13 +48,12 @@ export function _listRunStepsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listRunStepsDeserialize(
@@ -59,7 +62,10 @@ export async function _listRunStepsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = agentV1ErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -78,7 +84,7 @@ export function listRunSteps(
     () => _listRunStepsSend(context, threadId, runId, options),
     _listRunStepsDeserialize,
     ["200"],
-    { itemName: "data" },
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
@@ -90,13 +96,13 @@ export function _getRunStepSend(
   options: RunStepsGetRunStepOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}/steps/{stepId}{?api-version,include[]}",
+    "/threads/{threadId}/runs/{runId}/steps/{stepId}{?api%2Dversion,include%5B%5D}",
     {
       threadId: threadId,
       runId: runId,
       stepId: stepId,
-      "api-version": context.apiVersion,
-      "include[]": !options?.include
+      "api%2Dversion": context.apiVersion ?? "v1",
+      "include%5B%5D": !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
             return p;
@@ -106,20 +112,22 @@ export function _getRunStepSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getRunStepDeserialize(result: PathUncheckedResponse): Promise<RunStep> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = agentV1ErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 

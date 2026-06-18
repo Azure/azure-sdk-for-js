@@ -1,4 +1,6 @@
 {
-  "apiVersion": "2025-06-01",
-  "emitterVersion": "0.44.0"
+  "apiVersions": {
+    "Azure.Batch": "2025-06-01"
+  },
+  "emitterVersion": "0.55.0-dev.4"
 }
