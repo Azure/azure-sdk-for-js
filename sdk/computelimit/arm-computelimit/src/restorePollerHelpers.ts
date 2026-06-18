@@ -1,13 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeLimitClient } from "./computeLimitClient.js";
+import { ComputeLimitClient } from "./computeLimitClient.js";
 import { _disableDeserialize, _enableDeserialize } from "./api/features/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
-import { deserializeState } from "@azure/core-lro";
+import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  PollerLike,
+  OperationState,
+  deserializeState,
+  ResourceLocationConfig,
+} from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -75,9 +79,9 @@ interface DeserializationHelper {
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.ComputeLimit/locations/{location}/features/{featureName}/disable":
-    { deserializer: _disableDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _disableDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.ComputeLimit/locations/{location}/features/{featureName}/enable":
-    { deserializer: _enableDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _enableDeserialize, expectedStatuses: ["200", "202", "201"] },
 };
 
 function getDeserializationHelper(

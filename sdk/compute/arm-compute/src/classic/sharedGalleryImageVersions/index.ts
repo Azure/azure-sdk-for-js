@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import { list, get } from "../../api/sharedGalleryImageVersions/operations.js";
-import type {
+import {
   SharedGalleryImageVersionsListOptionalParams,
   SharedGalleryImageVersionsGetOptionalParams,
 } from "../../api/sharedGalleryImageVersions/options.js";
-import type { SharedGalleryImageVersion } from "../../models/computeGallery/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SharedGalleryImageVersion } from "../../models/computeGallery/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SharedGalleryImageVersions operations. */
 export interface SharedGalleryImageVersionsOperations {

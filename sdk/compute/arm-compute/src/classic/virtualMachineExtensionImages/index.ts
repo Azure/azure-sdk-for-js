@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listVersions,
   listTypes,
   get,
 } from "../../api/virtualMachineExtensionImages/operations.js";
-import type {
+import {
   VirtualMachineExtensionImagesListVersionsOptionalParams,
   VirtualMachineExtensionImagesListTypesOptionalParams,
   VirtualMachineExtensionImagesGetOptionalParams,
 } from "../../api/virtualMachineExtensionImages/options.js";
-import type { VirtualMachineExtensionImage } from "../../models/compute/models.js";
+import { VirtualMachineExtensionImage } from "../../models/compute/models.js";
 
 /** Interface representing a VirtualMachineExtensionImages operations. */
 export interface VirtualMachineExtensionImagesOperations {

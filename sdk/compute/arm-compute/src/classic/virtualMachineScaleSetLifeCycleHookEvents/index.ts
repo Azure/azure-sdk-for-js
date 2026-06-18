@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   list,
   update,
   get,
 } from "../../api/virtualMachineScaleSetLifeCycleHookEvents/operations.js";
-import type {
+import {
   VirtualMachineScaleSetLifeCycleHookEventsListOptionalParams,
   VirtualMachineScaleSetLifeCycleHookEventsUpdateOptionalParams,
   VirtualMachineScaleSetLifeCycleHookEventsGetOptionalParams,
 } from "../../api/virtualMachineScaleSetLifeCycleHookEvents/options.js";
-import type {
+import {
   VMScaleSetLifecycleHookEvent,
   VMScaleSetLifecycleHookEventUpdate,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a VirtualMachineScaleSetLifeCycleHookEvents operations. */
 export interface VirtualMachineScaleSetLifeCycleHookEventsOperations {

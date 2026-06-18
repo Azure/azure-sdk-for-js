@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/raiTopics/operations.js";
-import type {
+import {
   RaiTopicsListOptionalParams,
   RaiTopicsDeleteOptionalParams,
   RaiTopicsCreateOrUpdateOptionalParams,
   RaiTopicsGetOptionalParams,
 } from "../../api/raiTopics/options.js";
-import type { RaiTopic } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { RaiTopic } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RaiTopics operations. */
 export interface RaiTopicsOperations {

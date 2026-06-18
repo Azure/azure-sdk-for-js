@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   list,
   $delete,
@@ -9,21 +9,20 @@ import {
   createOrUpdate,
   get,
 } from "../../api/virtualMachineScaleSetVMExtensions/operations.js";
-import type {
+import {
   VirtualMachineScaleSetVMExtensionsListOptionalParams,
   VirtualMachineScaleSetVMExtensionsDeleteOptionalParams,
   VirtualMachineScaleSetVMExtensionsUpdateOptionalParams,
   VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams,
   VirtualMachineScaleSetVMExtensionsGetOptionalParams,
 } from "../../api/virtualMachineScaleSetVMExtensions/options.js";
-import type {
+import {
   VirtualMachineScaleSetVMExtension,
   VirtualMachineScaleSetVMExtensionUpdate,
   VirtualMachineScaleSetVMExtensionsListResult,
 } from "../../models/compute/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualMachineScaleSetVMExtensions operations. */
 export interface VirtualMachineScaleSetVMExtensionsOperations {
@@ -35,11 +34,6 @@ export interface VirtualMachineScaleSetVMExtensionsOperations {
     options?: VirtualMachineScaleSetVMExtensionsListOptionalParams,
   ) => Promise<VirtualMachineScaleSetVMExtensionsListResult>;
   /** The operation to delete the VMSS VM extension. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vmScaleSetName: string,

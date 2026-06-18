@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   revokeAccess,
   grantAccess,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/snapshots/operations.js";
-import type {
+import {
   SnapshotsRevokeAccessOptionalParams,
   SnapshotsGrantAccessOptionalParams,
   SnapshotsListOptionalParams,
@@ -22,16 +22,15 @@ import type {
   SnapshotsCreateOrUpdateOptionalParams,
   SnapshotsGetOptionalParams,
 } from "../../api/snapshots/options.js";
-import type {
+import {
   GrantAccessData,
   AccessUri,
   Snapshot,
   SnapshotUpdate,
 } from "../../models/computeDisk/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Snapshots operations. */
 export interface SnapshotsOperations {
@@ -82,11 +81,6 @@ export interface SnapshotsOperations {
     options?: SnapshotsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Snapshot>;
   /** Deletes a snapshot. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     snapshotName: string,

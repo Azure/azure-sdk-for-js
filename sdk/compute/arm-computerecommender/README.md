@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-computerecommender)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-computerecommender)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-computerecommender?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-computerecommender)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-computerecommender/samples)
 
 ## Getting started

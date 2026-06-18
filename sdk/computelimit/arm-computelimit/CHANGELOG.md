@@ -1,17 +1,62 @@
 # Release History
 
-## 1.1.0 (Unreleased)
+## 1.2.0 (2026-06-18)
 
 ### Features Added
+  - Added operation group FeaturesOperations
+  - Added operation group GuestSubscriptionsOperations
+  - Added operation group OperationsOperations
+  - Added operation group SharedLimitsOperations
+  - Added operation group VmFamiliesOperations
+  - Added Class ComputeLimitClient
+  - Added Interface ComputeLimitClientOptionalParams
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface Feature
+  - Added Interface FeatureProperties
+  - Added Interface FeaturesDisableOptionalParams
+  - Added Interface FeaturesEnableOptionalParams
+  - Added Interface FeaturesGetOptionalParams
+  - Added Interface FeaturesListBySubscriptionLocationResourceOptionalParams
+  - Added Interface GuestSubscription
+  - Added Interface GuestSubscriptionProperties
+  - Added Interface GuestSubscriptionsCreateOptionalParams
+  - Added Interface GuestSubscriptionsDeleteOptionalParams
+  - Added Interface GuestSubscriptionsGetOptionalParams
+  - Added Interface GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams
+  - Added Interface LimitName
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface OperationStatusResult
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface SharedLimit
+  - Added Interface SharedLimitProperties
+  - Added Interface SharedLimitsCreateOptionalParams
+  - Added Interface SharedLimitsDeleteOptionalParams
+  - Added Interface SharedLimitsGetOptionalParams
+  - Added Interface SharedLimitsListBySubscriptionLocationResourceOptionalParams
+  - Added Interface SystemData
+  - Added Interface VmFamiliesGetOptionalParams
+  - Added Interface VmFamiliesListBySubscriptionLocationResourceOptionalParams
+  - Added Interface VmFamily
+  - Added Interface VmFamilyProperties
+  - Added Type Alias ActionType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Type Alias FeatureState
+  - Added Type Alias Origin
+  - Added Type Alias ResourceProvisioningState
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownFeatureState
+  - Added Enum KnownOrigin
+  - Added Enum KnownResourceProvisioningState
+  - Added Enum KnownVersions
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-    
-## 1.0.0 (2026-04-22)
-
-### Features Added
-
-This is the first stable version with the package of @azure/arm-computelimit

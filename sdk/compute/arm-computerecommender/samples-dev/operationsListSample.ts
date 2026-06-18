@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function operationsListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeRecommenderManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
@@ -30,7 +30,7 @@ async function operationsListMaximumSetGen(): Promise<void> {
  */
 async function operationsListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeRecommenderManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {

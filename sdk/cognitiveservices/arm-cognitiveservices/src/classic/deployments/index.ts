@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import {
   resume,
   pause,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/deployments/operations.js";
-import type {
+import {
   DeploymentsResumeOptionalParams,
   DeploymentsPauseOptionalParams,
   DeploymentsListSkusOptionalParams,
@@ -22,11 +22,10 @@ import type {
   DeploymentsCreateOrUpdateOptionalParams,
   DeploymentsGetOptionalParams,
 } from "../../api/deployments/options.js";
-import type { Deployment, PatchResourceTagsAndSku, SkuResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Deployment, PatchResourceTagsAndSku, SkuResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Deployments operations. */
 export interface DeploymentsOperations {

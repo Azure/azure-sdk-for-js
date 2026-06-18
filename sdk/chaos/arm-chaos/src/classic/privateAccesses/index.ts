@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChaosManagementContext } from "../../api/chaosManagementContext.js";
+import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
 import {
   listPrivateEndpointConnections,
   deleteAPrivateEndpointConnection,
@@ -14,7 +14,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/privateAccesses/operations.js";
-import type {
+import {
   PrivateAccessesListPrivateEndpointConnectionsOptionalParams,
   PrivateAccessesDeleteAPrivateEndpointConnectionOptionalParams,
   PrivateAccessesGetAPrivateEndpointConnectionOptionalParams,
@@ -26,14 +26,14 @@ import type {
   PrivateAccessesCreateOrUpdateOptionalParams,
   PrivateAccessesGetOptionalParams,
 } from "../../api/privateAccesses/options.js";
-import type {
+import {
   PrivateAccess,
   PrivateEndpointConnection,
   PrivateAccessPatch,
   PrivateLinkResourceListResult,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateAccesses operations. */
 export interface PrivateAccessesOperations {
