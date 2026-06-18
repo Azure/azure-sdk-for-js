@@ -12,6 +12,130 @@ import {
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface AgentsDeleteSessionFileOptionalParams extends OperationOptions {
+  /** Whether to recursively delete directory contents. The service defaults to `false` if a value is not specified by the caller. */
+  recursive?: boolean;
+  /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
+  userIsolationKey?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsListSessionFilesOptionalParams extends OperationOptions {
+  /** The directory path to list, relative to the session home directory. Defaults to the home directory if not provided. */
+  path?: string;
+  /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
+  userIsolationKey?: string;
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
+   * default is 20.
+   */
+  limit?: number;
+  /**
+   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
+   * for descending order.
+   */
+  order?: PageOrder;
+  /**
+   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
+   */
+  after?: string;
+  /**
+   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+   */
+  before?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsDownloadSessionFileOptionalParams extends OperationOptions {
+  /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
+  userIsolationKey?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsUploadSessionFileOptionalParams extends OperationOptions {
+  /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
+  userIsolationKey?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsGetSessionLogStreamOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsListSessionsOptionalParams extends OperationOptions {
+  /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
+  userIsolationKey?: string;
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
+   * default is 20.
+   */
+  limit?: number;
+  /**
+   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
+   * for descending order.
+   */
+  order?: PageOrder;
+  /**
+   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
+   */
+  after?: string;
+  /**
+   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+   */
+  before?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsStopSessionOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsDeleteSessionOptionalParams extends OperationOptions {
+  /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
+  userIsolationKey?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsGetSessionOptionalParams extends OperationOptions {
+  /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
+  userIsolationKey?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsCreateSessionOptionalParams extends OperationOptions {
+  /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
+  userIsolationKey?: string;
+  /** Optional caller-provided session ID. If specified, it must be unique within the agent endpoint. Auto-generated if omitted. */
+  agentSessionId?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsDownloadAgentCodeOptionalParams extends OperationOptions {
+  /**
+   * The version of the agent whose code zip should be downloaded.
+   * If omitted, the latest version's code zip is returned.
+   */
+  agentVersion?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsPatchAgentObjectOptionalParams extends OperationOptions {
+  /** The endpoint configuration for the agent */
+  agentEndpoint?: AgentEndpointConfig;
+  /** Optional agent card for the agent */
+  agentCard?: AgentCard;
+}
+
+/** Optional parameters. */
 export interface AgentsListVersionsOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the

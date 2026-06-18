@@ -478,6 +478,6 @@ export type {
   DownloadVersionResponse,
   KnownApiVersions,
   BetaSkillsDownloadResponse,
-  BetaAgentsDownloadSessionFileResponse,
-  BetaAgentsDownloadAgentCodeResponse,
+  AgentsDownloadSessionFileResponse,
+  AgentsDownloadAgentCodeResponse,
 } from "./models.js";

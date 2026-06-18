@@ -8,6 +8,8 @@ import type { AIProjectContext, AIProjectClientOptionalParams } from "./api/inde
 import { createAIProject } from "./api/index.js";
 import type { AgentsOperations } from "./classic/agents/index.js";
 import { _getAgentsOperations } from "./classic/agents/index.js";
+import type { ToolboxesOperations } from "./classic/toolboxes/index.js";
+import { _getToolboxesOperations } from "./classic/toolboxes/index.js";
 import type { BetaOperations } from "./classic/beta/index.js";
 import { _getBetaOperations } from "./classic/beta/index.js";
 import type { ConnectionsOperations } from "./classic/connections/index.js";
@@ -46,6 +48,7 @@ export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * @property {DatasetsOperations} datasets - The operation groups for datasets
  * @property {ConnectionsOperations} connections - The operation groups for connections
  * @property {AgentsOperations} agents - The operation groups for agents
+ * @property {ToolboxesOperations} toolboxes - The operation groups for toolboxes
  * @property {BetaOperations} beta - The operation groups for beta include beta features:
  * - Memory Stores
  * - Evaluators
@@ -53,7 +56,6 @@ export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * - Insights
  * - Schedules
  * - Red Teams
- * - Toolboxes
  * - agents
  * - skills
  * - routines
@@ -94,6 +96,7 @@ export class AIProjectClient {
       userAgentOptions: { userAgentPrefix },
     });
 
+    this.toolboxes = _getToolboxesOperations(this._cognitiveScopeClient);
     this.indexes = _getIndexesOperations(this._azureScopeClient);
     this.deployments = _getDeploymentsOperations(this._azureScopeClient);
     this.datasets = _getDatasetsOperations(this._azureScopeClient, this._options);
@@ -104,6 +107,8 @@ export class AIProjectClient {
     this.telemetry = _getTelemetryOperations(this.connections);
   }
 
+  /** The operation groups for toolboxes */
+  public readonly toolboxes: ToolboxesOperations;
   /** The operation groups for indexes */
   public readonly indexes: IndexesOperations;
   /** The operation groups for deployments */

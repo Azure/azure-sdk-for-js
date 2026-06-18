@@ -99,7 +99,7 @@ export interface AgentDefinition {
 }
 
 // @public
-export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview" | "AgentEndpoints=V1Preview" | "CodeAgents=V1Preview" | "ExternalAgents=V1Preview";
+export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview";
 
 // @public
 export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | ExternalAgentDefinition | AgentDefinition;
@@ -177,6 +177,16 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface AgentsCreateSessionOptionalParams extends OperationOptions {
+    agentSessionId?: string;
+    userIsolationKey?: string;
+}
+
+// @public
+export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface AgentsCreateVersionOptionalParams extends OperationOptions {
     blueprintReference?: AgentBlueprintReferenceUnion;
     description?: string;
@@ -190,9 +200,42 @@ export interface AgentsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface AgentsDeleteSessionFileOptionalParams extends OperationOptions {
+    recursive?: boolean;
+    userIsolationKey?: string;
+}
+
+// @public
+export interface AgentsDeleteSessionOptionalParams extends OperationOptions {
+    userIsolationKey?: string;
+}
+
+// @public
 export interface AgentsDeleteVersionOptionalParams extends OperationOptions {
     force?: boolean;
 }
+
+// @public
+export interface AgentsDownloadAgentCodeOptionalParams extends OperationOptions {
+    agentVersion?: string;
+}
+
+// @public (undocumented)
+export type AgentsDownloadAgentCodeResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeReadableStream;
+};
+
+// @public
+export interface AgentsDownloadSessionFileOptionalParams extends OperationOptions {
+    userIsolationKey?: string;
+}
+
+// @public (undocumented)
+export type AgentsDownloadSessionFileResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeReadableStream;
+};
 
 // @public
 export interface AgentSessionResource {
@@ -212,6 +255,15 @@ export interface AgentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface AgentsGetSessionLogStreamOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentsGetSessionOptionalParams extends OperationOptions {
+    userIsolationKey?: string;
+}
+
+// @public
 export interface AgentsGetVersionOptionalParams extends OperationOptions {
 }
 
@@ -222,6 +274,25 @@ export interface AgentsListOptionalParams extends OperationOptions {
     kind?: AgentKind;
     limit?: number;
     order?: PageOrder;
+}
+
+// @public
+export interface AgentsListSessionFilesOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+    path?: string;
+    userIsolationKey?: string;
+}
+
+// @public
+export interface AgentsListSessionsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+    userIsolationKey?: string;
 }
 
 // @public
@@ -236,16 +307,39 @@ export interface AgentsListVersionsOptionalParams extends OperationOptions {
 export interface AgentsOperations {
     create(name: string, definition: AgentDefinitionUnion, options?: AgentsCreateOptionalParams): Promise<Agent>;
     create(name: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsCreateAgentFromManifestOptionalParams): Promise<Agent>;
+    createSession: (agentName: string, versionIndicator: VersionIndicatorUnion, options?: AgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
     createVersion(agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateVersionOptionalParams): Promise<AgentVersion>;
     createVersion(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsCreateAgentVersionFromManifestOptionalParams): Promise<AgentVersion>;
+    createVersionFromCode: (agentName: string, codeZipSha256: string, content: CreateAgentVersionFromCodeContent, options?: AgentsCreateVersionFromCodeOptionalParams) => Promise<AgentVersion>;
     delete: (agentName: string, options?: AgentsDeleteOptionalParams) => Promise<DeleteAgentResponse>;
+    deleteSession: (agentName: string, sessionId: string, options?: AgentsDeleteSessionOptionalParams) => Promise<void>;
+    deleteSessionFile: (agentName: string, agentSessionId: string, path: string, options?: AgentsDeleteSessionFileOptionalParams) => Promise<void>;
     deleteVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
+    downloadAgentCode: (agentName: string, options?: AgentsDownloadAgentCodeOptionalParams) => Promise<AgentsDownloadAgentCodeResponse>;
+    downloadSessionFile: (agentName: string, agentSessionId: string, path: string, options?: AgentsDownloadSessionFileOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
     get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
+    getSession: (agentName: string, sessionId: string, options?: AgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
+    getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: AgentsGetSessionLogStreamOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
     getVersion: (agentName: string, agentVersion: string, options?: AgentsGetVersionOptionalParams) => Promise<AgentVersion>;
     list: (options?: AgentsListOptionalParams) => PagedAsyncIterableIterator<Agent>;
+    listSessionFiles: (agentName: string, agentSessionId: string, options?: AgentsListSessionFilesOptionalParams) => PagedAsyncIterableIterator<SessionDirectoryEntry>;
+    listSessions: (agentName: string, options?: AgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersion>;
+    stopSession: (agentName: string, sessionId: string, options?: AgentsStopSessionOptionalParams) => Promise<void>;
     update(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsUpdateAgentFromManifestOptionalParams): Promise<Agent>;
     update(agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateOptionalParams): Promise<Agent>;
+    updateAgent: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
+    uploadSessionFile: (agentName: string, agentSessionId: string, path: string, content: Uint8Array, options?: AgentsUploadSessionFileOptionalParams) => Promise<SessionFileWriteResponse>;
+}
+
+// @public
+export interface AgentsPatchAgentObjectOptionalParams extends OperationOptions {
+    agentCard?: AgentCard;
+    agentEndpoint?: AgentEndpointConfig;
+}
+
+// @public
+export interface AgentsStopSessionOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -260,6 +354,11 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
     description?: string;
     foundryFeatures?: AgentDefinitionOptInKeys;
     metadata?: Record<string, string>;
+}
+
+// @public
+export interface AgentsUploadSessionFileOptionalParams extends OperationOptions {
+    userIsolationKey?: string;
 }
 
 // @public
@@ -305,6 +404,7 @@ export class AIProjectClient {
     getOpenAIClient(optsWithAzureAgent?: OpenAIClientOptionsWithAzureAgent): OpenAI;
     readonly indexes: IndexesOperations;
     readonly telemetry: TelemetryOperations;
+    readonly toolboxes: ToolboxesOperations;
 }
 
 // @public
@@ -468,73 +568,13 @@ export interface BetaAgentsCreateOptimizationJobOptionalParams extends Operation
 }
 
 // @public
-export interface BetaAgentsCreateSessionOptionalParams extends OperationOptions {
-    agentSessionId?: string;
-    foundryFeatures?: "AgentEndpoints=V1Preview";
-    userIsolationKey?: string;
-}
-
-// @public
-export interface BetaAgentsCreateVersionFromCodeOptionalParams extends OperationOptions {
-    foundryFeatures?: AgentDefinitionOptInKeys;
-}
-
-// @public
 export interface BetaAgentsDeleteOptimizationJobOptionalParams extends OperationOptions {
     foundryFeatures?: "AgentsOptimization=V2Preview";
 }
 
 // @public
-export interface BetaAgentsDeleteSessionFileOptionalParams extends OperationOptions {
-    foundryFeatures?: "HostedAgents=V1Preview";
-    recursive?: boolean;
-    userIsolationKey?: string;
-}
-
-// @public
-export interface BetaAgentsDeleteSessionOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentEndpoints=V1Preview";
-    userIsolationKey?: string;
-}
-
-// @public
-export interface BetaAgentsDownloadAgentCodeOptionalParams extends OperationOptions {
-    agentVersion?: string;
-    foundryFeatures?: "CodeAgents=V1Preview";
-}
-
-// @public (undocumented)
-export type BetaAgentsDownloadAgentCodeResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeReadableStream;
-};
-
-// @public
-export interface BetaAgentsDownloadSessionFileOptionalParams extends OperationOptions {
-    foundryFeatures?: "HostedAgents=V1Preview";
-    userIsolationKey?: string;
-}
-
-// @public (undocumented)
-export type BetaAgentsDownloadSessionFileResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeReadableStream;
-};
-
-// @public
 export interface BetaAgentsGetOptimizationJobOptionalParams extends OperationOptions {
     foundryFeatures?: "AgentsOptimization=V2Preview";
-}
-
-// @public
-export interface BetaAgentsGetSessionLogStreamOptionalParams extends OperationOptions {
-    foundryFeatures?: "HostedAgents=V1Preview";
-}
-
-// @public
-export interface BetaAgentsGetSessionOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentEndpoints=V1Preview";
-    userIsolationKey?: string;
 }
 
 // @public
@@ -549,64 +589,12 @@ export interface BetaAgentsListOptimizationJobsOptionalParams extends OperationO
 }
 
 // @public
-export interface BetaAgentsListSessionFilesOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    foundryFeatures?: "HostedAgents=V1Preview";
-    limit?: number;
-    order?: PageOrder;
-    path?: string;
-    userIsolationKey?: string;
-}
-
-// @public
-export interface BetaAgentsListSessionsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    foundryFeatures?: "AgentEndpoints=V1Preview";
-    limit?: number;
-    order?: PageOrder;
-    userIsolationKey?: string;
-}
-
-// @public
 export interface BetaAgentsOperations {
     cancelOptimizationJob: (jobId: string, options?: BetaAgentsCancelOptimizationJobOptionalParams) => Promise<OptimizationJob>;
     createOptimizationJob: (job: OptimizationJob, options?: BetaAgentsCreateOptimizationJobOptionalParams) => Promise<OptimizationJob>;
-    createSession: (agentName: string, versionIndicator: VersionIndicatorUnion, options?: BetaAgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
-    createVersionFromCode: (agentName: string, codeZipSha256: string, content: CreateAgentVersionFromCodeContent, options?: BetaAgentsCreateVersionFromCodeOptionalParams) => Promise<AgentVersion>;
     deleteOptimizationJob: (jobId: string, options?: BetaAgentsDeleteOptimizationJobOptionalParams) => Promise<void>;
-    deleteSession: (agentName: string, sessionId: string, options?: BetaAgentsDeleteSessionOptionalParams) => Promise<void>;
-    deleteSessionFile: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsDeleteSessionFileOptionalParams) => Promise<void>;
-    downloadAgentCode: (agentName: string, options?: BetaAgentsDownloadAgentCodeOptionalParams) => Promise<BetaAgentsDownloadAgentCodeResponse>;
-    downloadSessionFile: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsDownloadSessionFileOptionalParams) => Promise<BetaAgentsDownloadSessionFileResponse>;
     getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) => Promise<OptimizationJob>;
-    getSession: (agentName: string, sessionId: string, options?: BetaAgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
-    getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: BetaAgentsGetSessionLogStreamOptionalParams) => Promise<BetaAgentsDownloadSessionFileResponse>;
     listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<OptimizationJobListItem>;
-    listSessionFiles: (agentName: string, agentSessionId: string, options?: BetaAgentsListSessionFilesOptionalParams) => PagedAsyncIterableIterator<SessionDirectoryEntry>;
-    listSessions: (agentName: string, options?: BetaAgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
-    stopSession: (agentName: string, sessionId: string, options?: BetaAgentsStopSessionOptionalParams) => Promise<void>;
-    updateAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
-    uploadSessionFile: (agentName: string, agentSessionId: string, path: string, content: Uint8Array, options?: BetaAgentsUploadSessionFileOptionalParams) => Promise<SessionFileWriteResponse>;
-}
-
-// @public
-export interface BetaAgentsPatchAgentObjectOptionalParams extends OperationOptions {
-    agentCard?: AgentCard;
-    agentEndpoint?: AgentEndpoint;
-    foundryFeatures?: "AgentEndpoints=V1Preview";
-}
-
-// @public
-export interface BetaAgentsStopSessionOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentEndpoints=V1Preview";
-}
-
-// @public
-export interface BetaAgentsUploadSessionFileOptionalParams extends OperationOptions {
-    foundryFeatures?: "HostedAgents=V1Preview";
-    userIsolationKey?: string;
 }
 
 // @public
@@ -963,7 +951,6 @@ export interface BetaOperations {
     routines: BetaRoutinesOperations;
     schedules: BetaSchedulesOperations;
     skills: BetaSkillsOperations;
-    toolboxes: BetaToolboxesOperations;
 }
 
 // @public
@@ -1103,7 +1090,15 @@ export interface BetaSkillsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface BetaSkillsCreateVersionFromFilesOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface BetaSkillsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaSkillsDeleteVersionOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1117,7 +1112,15 @@ export type BetaSkillsDownloadResponse = {
 };
 
 // @public
+export interface BetaSkillsDownloadVersionOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface BetaSkillsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaSkillsGetVersionOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1129,34 +1132,7 @@ export interface BetaSkillsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BetaSkillsOperations {
-    create: (name: string, options?: BetaSkillsCreateOptionalParams) => Promise<SkillVersion>;
-    createFromFiles: (name: string, content: CreateSkillVersionFromFilesBody, options?: CreateFromFilesOptionalParams) => Promise<SkillVersion>;
-    delete: (name: string, options?: BetaSkillsDeleteOptionalParams) => Promise<DeleteSkillResponse>;
-    deleteVersion: (name: string, version: string, options?: DeleteVersionOptionalParams) => Promise<DeleteSkillVersionResponse>;
-    download: (name: string, options?: BetaSkillsDownloadOptionalParams) => Promise<BetaSkillsDownloadResponse>;
-    downloadVersion: (name: string, version: string, options?: DownloadVersionOptionalParams) => Promise<DownloadVersionResponse>;
-    get: (name: string, options?: BetaSkillsGetOptionalParams) => Promise<Skill>;
-    getVersion: (name: string, version: string, options?: GetVersionOptionalParams) => Promise<SkillVersion>;
-    list: (options?: BetaSkillsListOptionalParams) => PagedAsyncIterableIterator<Skill>;
-    listVersions: (name: string, options?: ListVersionsOptionalParams) => PagedAsyncIterableIterator<SkillVersion>;
-    update: (name: string, defaultVersion: string, options?: BetaSkillsUpdateOptionalParams) => Promise<Skill>;
-}
-
-// @public
-export interface BetaSkillsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaToolboxesDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaToolboxesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaToolboxesListOptionalParams extends OperationOptions {
+export interface BetaSkillsListVersionOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
     limit?: number;
@@ -1164,19 +1140,22 @@ export interface BetaToolboxesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BetaToolboxesOperations {
-    createVersion: (name: string, tools: ToolUnion[], options?: ToolboxCreateVersionOptionalParams) => Promise<ToolboxVersionObject>;
-    delete: (name: string, options?: BetaToolboxesDeleteOptionalParams) => Promise<void>;
-    deleteVersion: (name: string, version: string, options?: ToolboxDeleteVersionOptionalParams) => Promise<void>;
-    get: (name: string, options?: BetaToolboxesGetOptionalParams) => Promise<ToolboxObject>;
-    getVersion: (name: string, version: string, options?: ToolboxGetVersionOptionalParams) => Promise<ToolboxVersionObject>;
-    list: (options?: BetaToolboxesListOptionalParams) => PagedAsyncIterableIterator<ToolboxObject>;
-    listVersions: (name: string, options?: ToolboxListVersionsOptionalParams) => PagedAsyncIterableIterator<ToolboxVersionObject>;
-    update: (name: string, defaultVersion: string, options?: BetaToolboxesUpdateOptionalParams) => Promise<ToolboxObject>;
+export interface BetaSkillsOperations {
+    create: (name: string, options?: BetaSkillsCreateOptionalParams) => Promise<SkillVersion>;
+    createFromFiles: (name: string, content: CreateSkillVersionFromFilesBody, options?: BetaSkillsCreateVersionFromFilesOptionalParams) => Promise<SkillVersion>;
+    delete: (name: string, options?: BetaSkillsDeleteOptionalParams) => Promise<DeleteSkillResponse>;
+    deleteVersion: (name: string, version: string, options?: BetaSkillsDeleteVersionOptionalParams) => Promise<DeleteSkillVersionResponse>;
+    download: (name: string, options?: BetaSkillsDownloadOptionalParams) => Promise<BetaSkillsDownloadResponse>;
+    downloadVersion: (name: string, version: string, options?: BetaSkillsDownloadVersionOptionalParams) => Promise<DownloadVersionResponse>;
+    get: (name: string, options?: BetaSkillsGetOptionalParams) => Promise<Skill>;
+    getVersion: (name: string, version: string, options?: BetaSkillsGetVersionOptionalParams) => Promise<SkillVersion>;
+    list: (options?: BetaSkillsListOptionalParams) => PagedAsyncIterableIterator<Skill>;
+    listVersions: (name: string, options?: BetaSkillsListVersionOptionalParams) => PagedAsyncIterableIterator<SkillVersion>;
+    update: (name: string, defaultVersion: string, options?: BetaSkillsUpdateOptionalParams) => Promise<Skill>;
 }
 
 // @public
-export interface BetaToolboxesUpdateOptionalParams extends OperationOptions {
+export interface BetaSkillsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1498,10 +1477,6 @@ export interface CreateAgentVersionFromCodeMetadata {
 }
 
 // @public
-export interface CreateFromFilesOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface CreateSkillVersionFromFilesBody {
     default?: boolean;
     files: Array<FileContents | {
@@ -1799,10 +1774,6 @@ export interface DeleteSkillVersionResponse {
 }
 
 // @public
-export interface DeleteVersionOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface Deployment {
     readonly name: string;
     type: DeploymentType;
@@ -1849,10 +1820,6 @@ export interface DispatchRoutineResponse {
     action_correlation_id?: string;
     dispatch_id?: string;
     task_id?: string;
-}
-
-// @public
-export interface DownloadVersionOptionalParams extends OperationOptions {
 }
 
 // @public (undocumented)
@@ -2264,7 +2231,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
 }
 
 // @public
-export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview" | "Routines=V1Preview" | "Toolboxes=V1Preview" | "Skills=V1Preview" | "DataGenerationJobs=V1Preview" | "Models=V1Preview" | "AgentsOptimization=V2Preview";
+export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview" | "Routines=V1Preview" | "Skills=V1Preview" | "DataGenerationJobs=V1Preview" | "Models=V1Preview" | "AgentsOptimization=V2Preview";
 
 // @public
 export type FoundryModelArtifactProfileCategory = "DataOnly" | "RuntimeDependent" | "Unknown";
@@ -2342,10 +2309,6 @@ export interface FunctionToolParam {
     strict?: boolean;
     // (undocumented)
     type: "function";
-}
-
-// @public
-export interface GetVersionOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -2633,14 +2596,6 @@ export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "can
 // @public
 export enum KnownApiVersions {
     v1 = "v1"
-}
-
-// @public
-export interface ListVersionsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
 }
 
 // @public
@@ -3713,7 +3668,7 @@ export interface Tool {
 }
 
 // @public
-export interface ToolboxCreateVersionOptionalParams extends OperationOptions {
+export interface ToolboxesCreateVersionOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
     policies?: ToolboxPolicies;
@@ -3721,19 +3676,51 @@ export interface ToolboxCreateVersionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ToolboxDeleteVersionOptionalParams extends OperationOptions {
+export interface ToolboxesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ToolboxGetVersionOptionalParams extends OperationOptions {
+export interface ToolboxesDeleteVersionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ToolboxListVersionsOptionalParams extends OperationOptions {
+export interface ToolboxesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ToolboxesGetVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ToolboxesListOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
     limit?: number;
     order?: PageOrder;
+}
+
+// @public
+export interface ToolboxesListVersionsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface ToolboxesOperations {
+    createVersion: (name: string, tools: ToolUnion[], options?: ToolboxesCreateVersionOptionalParams) => Promise<ToolboxVersionObject>;
+    delete: (name: string, options?: ToolboxesDeleteOptionalParams) => Promise<void>;
+    deleteVersion: (name: string, version: string, options?: ToolboxesDeleteVersionOptionalParams) => Promise<void>;
+    get: (name: string, options?: ToolboxesGetOptionalParams) => Promise<ToolboxObject>;
+    getVersion: (name: string, version: string, options?: ToolboxesGetVersionOptionalParams) => Promise<ToolboxVersionObject>;
+    list: (options?: ToolboxesListOptionalParams) => PagedAsyncIterableIterator<ToolboxObject>;
+    listVersions: (name: string, options?: ToolboxesListVersionsOptionalParams) => PagedAsyncIterableIterator<ToolboxVersionObject>;
+    update: (name: string, defaultVersion: string, options?: ToolboxesUpdateOptionalParams) => Promise<ToolboxObject>;
+}
+
+// @public
+export interface ToolboxesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public

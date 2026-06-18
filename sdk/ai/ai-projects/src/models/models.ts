@@ -12808,12 +12808,7 @@ export type AgentType =
   | "agent.version.deleted"
   | "agent.container";
 /** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
-export type AgentDefinitionOptInKeys =
-  | "HostedAgents=V1Preview"
-  | "WorkflowAgents=V1Preview"
-  | "AgentEndpoints=V1Preview"
-  | "CodeAgents=V1Preview"
-  | "ExternalAgents=V1Preview";
+export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview";
 /** Type of PageOrder */
 export type PageOrder = "asc" | "desc";
 /** Type of FoundryFeaturesOptInKeys */
@@ -12824,7 +12819,6 @@ export type FoundryFeaturesOptInKeys =
   | "Insights=V1Preview"
   | "MemoryStores=V1Preview"
   | "Routines=V1Preview"
-  | "Toolboxes=V1Preview"
   | "Skills=V1Preview"
   | "DataGenerationJobs=V1Preview"
   | "Models=V1Preview"
@@ -12844,6 +12838,40 @@ export enum KnownApiVersions {
   v1 = "v1",
 }
 
+export type AgentsDownloadSessionFileResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+export type AgentsDownloadAgentCodeResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
 export type DownloadVersionResponse = {
   /**
    * BROWSER ONLY
@@ -12862,40 +12890,6 @@ export type DownloadVersionResponse = {
 };
 
 export type BetaSkillsDownloadResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeReadableStream;
-};
-
-export type BetaAgentsDownloadSessionFileResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeReadableStream;
-};
-
-export type BetaAgentsDownloadAgentCodeResponse = {
   /**
    * BROWSER ONLY
    *

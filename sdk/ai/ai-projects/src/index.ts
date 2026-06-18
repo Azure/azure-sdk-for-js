@@ -483,12 +483,25 @@ export type {
   KnownApiVersions,
   DownloadVersionResponse,
   BetaSkillsDownloadResponse,
-  BetaAgentsDownloadSessionFileResponse,
-  BetaAgentsDownloadAgentCodeResponse,
+  AgentsDownloadSessionFileResponse,
+  AgentsDownloadAgentCodeResponse,
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams } from "./api/index.js";
 export type { FileContents } from "./static-helpers/multipartHelpers.js";
 export type {
+  AgentsDeleteSessionFileOptionalParams,
+  AgentsListSessionFilesOptionalParams,
+  AgentsDownloadSessionFileOptionalParams,
+  AgentsUploadSessionFileOptionalParams,
+  AgentsGetSessionLogStreamOptionalParams,
+  AgentsListSessionsOptionalParams,
+  AgentsStopSessionOptionalParams,
+  AgentsDeleteSessionOptionalParams,
+  AgentsGetSessionOptionalParams,
+  AgentsCreateSessionOptionalParams,
+  AgentsDownloadAgentCodeOptionalParams,
+  AgentsCreateVersionFromCodeOptionalParams,
+  AgentsPatchAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
@@ -539,19 +552,6 @@ export type {
   BetaAgentsListOptimizationJobsOptionalParams,
   BetaAgentsGetOptimizationJobOptionalParams,
   BetaAgentsCreateOptimizationJobOptionalParams,
-  BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsListSessionFilesOptionalParams,
-  BetaAgentsDownloadSessionFileOptionalParams,
-  BetaAgentsUploadSessionFileOptionalParams,
-  BetaAgentsGetSessionLogStreamOptionalParams,
-  BetaAgentsListSessionsOptionalParams,
-  BetaAgentsStopSessionOptionalParams,
-  BetaAgentsDeleteSessionOptionalParams,
-  BetaAgentsGetSessionOptionalParams,
-  BetaAgentsCreateSessionOptionalParams,
-  BetaAgentsDownloadAgentCodeOptionalParams,
-  BetaAgentsCreateVersionFromCodeOptionalParams,
-  BetaAgentsPatchAgentObjectOptionalParams,
 } from "./api/beta/agents/index.js";
 export type {
   BetaDatasetsDeleteGenerationJobOptionalParams,
@@ -638,12 +638,12 @@ export type {
   BetaSchedulesDeleteOptionalParams,
 } from "./api/beta/schedules/index.js";
 export type {
-  DeleteVersionOptionalParams,
-  DownloadVersionOptionalParams,
+  DeleteVersionOptionalParams as BetaSkillsDeleteVersionOptionalParams,
+  DownloadVersionOptionalParams as BetaSkillsDownloadVersionOptionalParams,
   BetaSkillsDownloadOptionalParams,
-  GetVersionOptionalParams,
-  ListVersionsOptionalParams,
-  CreateFromFilesOptionalParams,
+  GetVersionOptionalParams as BetaSkillsGetVersionOptionalParams,
+  ListVersionsOptionalParams as BetaSkillsListVersionOptionalParams,
+  CreateFromFilesOptionalParams as BetaSkillsCreateVersionFromFilesOptionalParams,
   BetaSkillsCreateOptionalParams,
   BetaSkillsDeleteOptionalParams,
   BetaSkillsUpdateOptionalParams,
@@ -651,15 +651,15 @@ export type {
   BetaSkillsGetOptionalParams,
 } from "./api/beta/skills/index.js";
 export type {
-  DeleteVersionOptionalParams as ToolboxDeleteVersionOptionalParams,
-  BetaToolboxesDeleteOptionalParams,
-  BetaToolboxesUpdateOptionalParams,
-  GetVersionOptionalParams as ToolboxGetVersionOptionalParams,
-  ListVersionsOptionalParams as ToolboxListVersionsOptionalParams,
-  BetaToolboxesListOptionalParams,
-  BetaToolboxesGetOptionalParams,
-  CreateVersionOptionalParams as ToolboxCreateVersionOptionalParams,
-} from "./api/beta/toolboxes/index.js";
+  DeleteVersionOptionalParams as ToolboxesDeleteVersionOptionalParams,
+  ToolboxesDeleteOptionalParams,
+  ToolboxesUpdateOptionalParams,
+  GetVersionOptionalParams as ToolboxesGetVersionOptionalParams,
+  ListVersionsOptionalParams as ToolboxesListVersionsOptionalParams,
+  ToolboxesListOptionalParams,
+  ToolboxesGetOptionalParams,
+  CreateVersionOptionalParams as ToolboxesCreateVersionOptionalParams,
+} from "./api/toolboxes/index.js";
 export type {
   AgentsOperations,
   BetaOperations,
@@ -681,7 +681,7 @@ export type {
   BetaRoutinesOperations,
   BetaSchedulesOperations,
   BetaSkillsOperations,
-  BetaToolboxesOperations,
+  ToolboxesOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export type {
