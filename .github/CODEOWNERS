@@ -788,7 +788,7 @@
 # PRLabel: %Mgmt
 /sdk/network/arm-network-rest/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/networkcloud/arm-networkcloud/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
