@@ -147,9 +147,7 @@ describe("beta agents - code-based operations", () => {
       filename: "agent.zip",
     });
 
-    const created = await betaAgents.createVersionFromCode(agentName, codeZipSha256, body, {
-      foundryFeatures: "CodeAgents=V1Preview",
-    });
+    const created = await betaAgents.createVersionFromCode(agentName, codeZipSha256, body);
 
     expect(created.name).toBe(agentName);
     expect(requests).toHaveLength(1);
@@ -158,7 +156,6 @@ describe("beta agents - code-based operations", () => {
     expect(requests[0]?.headers).toEqual({
       agentName: "",
       codeZipSha256,
-      foundryFeatures: "HostedAgents=V1Preview,CodeAgents=V1Preview",
     });
     expect(createAgentVersionFromCodeContentSerializer(body)).toMatchObject([
       { name: "metadata" },
@@ -196,13 +193,11 @@ describe("beta agents - code-based operations", () => {
       agentName,
       codeZipSha256,
       createCodeAgentBody(new Uint8Array([1, 2, 3])),
-      { foundryFeatures: "CodeAgents=V1Preview" },
     );
 
     expect(version.version).toBe("2");
     expect(capturedRequest).toMatchObject({
       method: "POST",
-      foundryFeatures: "HostedAgents=V1Preview,CodeAgents=V1Preview",
       codeZipSha256,
     });
     expect(capturedRequest?.url).toContain(`/agents/${agentName}/versions?api-version=v1`);

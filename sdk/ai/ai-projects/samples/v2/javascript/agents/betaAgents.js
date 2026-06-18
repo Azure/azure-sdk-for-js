@@ -37,7 +37,6 @@ async function main() {
       protocol_versions: [{ protocol: "responses", version: "v1" }],
     },
     {
-      foundryFeatures: "HostedAgents=V1Preview",
       metadata: { enableVnextExperience: "true" },
     },
   );

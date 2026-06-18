@@ -48,7 +48,6 @@ describe("beta agents - session CRUD and file operations", () => {
         protocol_versions: [{ protocol: "responses", version: "v1" } as ProtocolVersionRecord],
       } as HostedAgentDefinition,
       {
-        foundryFeatures: "HostedAgents=V1Preview",
         metadata: { enableVnextExperience: "true" },
       },
     );

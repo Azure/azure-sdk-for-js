@@ -177,11 +177,6 @@ export class AIProjectClient {
       this._options?.userAgentOptions?.userAgentPrefix,
     );
 
-    // When targeting an agent endpoint, add the foundry-features header if not already set
-    if (azureConfig?.agentName && !defaultHeaders.has("foundry-features")) {
-      defaultHeaders.set("foundry-features", "HostedAgents=V1Preview,AgentEndpoints=V1Preview");
-    }
-
     // When targeting an agent endpoint, add api-version to defaultQuery if not already present
     const defaultQuery = {
       ...(opts?.defaultQuery || {}),

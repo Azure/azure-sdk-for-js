@@ -52,7 +52,6 @@ async function main() {
         server_label: "my-toolbox",
         server_url: toolboxMcpUrl,
         authorization: token,
-        headers: { "Foundry-Features": "Toolboxes=V1Preview" },
         require_approval: "never",
       },
     ],

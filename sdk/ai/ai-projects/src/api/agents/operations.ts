@@ -1178,7 +1178,7 @@ export function _createVersionSend(
     contentType: "application/json",
     headers: {
       ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": `${options?.foundryFeatures},AgentEndpoints=V1Preview` }
+        ? { "foundry-features": `${options?.foundryFeatures}` }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -1514,7 +1514,7 @@ export function _updateSend(
     contentType: "application/json",
     headers: {
       ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": `${options?.foundryFeatures},AgentEndpoints=V1Preview` }
+        ? { "foundry-features": `${options?.foundryFeatures}` }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -1578,7 +1578,7 @@ export function _createSend(
     contentType: "application/json",
     headers: {
       ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": `${options?.foundryFeatures},AgentEndpoints=V1Preview` }
+        ? { "foundry-features": `${options?.foundryFeatures}` }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,

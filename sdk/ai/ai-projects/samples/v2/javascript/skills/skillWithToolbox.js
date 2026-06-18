@@ -87,7 +87,6 @@ async function main() {
     server_label: "skill-toolbox",
     server_url: toolboxMcpUrl,
     authorization: token,
-    headers: { "Foundry-Features": "Toolboxes=V1Preview" },
     require_approval: "never",
   };
 

@@ -91,7 +91,6 @@ export async function main(): Promise<void> {
       protocol_versions: [{ protocol: "responses", version: "1.0.0" } as ProtocolVersionRecord],
     } as HostedAgentDefinition,
     {
-      foundryFeatures: "HostedAgents=V1Preview",
       metadata: { enableVnextExperience: "true" },
     },
   );

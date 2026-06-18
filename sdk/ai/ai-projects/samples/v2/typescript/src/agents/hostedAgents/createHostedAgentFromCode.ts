@@ -108,7 +108,6 @@ export async function main(): Promise<void> {
   console.log("\nDownloading agent version code...");
   const downloadResult = await project.beta.agents.downloadAgentCode(agentName, {
     agentVersion: createdVersion,
-    foundryFeatures: "CodeAgents=V1Preview",
   });
 
   const downloadedBytes = downloadResult.readableStreamBody

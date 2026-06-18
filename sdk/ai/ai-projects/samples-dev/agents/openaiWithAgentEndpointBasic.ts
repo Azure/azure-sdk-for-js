@@ -47,7 +47,6 @@ export async function main(): Promise<void> {
       ],
     } as HostedAgentDefinition,
     {
-      foundryFeatures: "HostedAgents=V1Preview",
       metadata: { enableVnextExperience: "true" },
     },
   );

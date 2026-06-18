@@ -31,8 +31,7 @@ export function _deleteOptimizationJobSend(
   jobId: string,
   options: BetaAgentsDeleteOptimizationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures =
-    "HostedAgents=V1Preview,AgentEndpoints=V1Preview,AgentsOptimization=V2Preview";
+  const foundryFeatures = "AgentsOptimization=V2Preview";
   const path = expandUrlTemplate(
     "/agent_optimization_jobs/{jobId}{?api-version}",
     {
@@ -96,8 +95,7 @@ export function _cancelOptimizationJobSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features":
-        "HostedAgents=V1Preview,AgentEndpoints=V1Preview,AgentsOptimization=V2Preview",
+      "foundry-features": "AgentsOptimization=V2Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -152,8 +150,7 @@ export function _listOptimizationJobsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features":
-        "HostedAgents=V1Preview,AgentEndpoints=V1Preview,AgentsOptimization=V2Preview",
+      "foundry-features": "AgentsOptimization=V2Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -208,8 +205,7 @@ export function _getOptimizationJobSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features":
-        "HostedAgents=V1Preview,AgentEndpoints=V1Preview,AgentsOptimization=V2Preview",
+      "foundry-features": "AgentsOptimization=V2Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -247,8 +243,7 @@ export function _createOptimizationJobSend(
   job: OptimizationJob,
   options: BetaAgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures =
-    "HostedAgents=V1Preview,AgentEndpoints=V1Preview,AgentsOptimization=V2Preview";
+  const foundryFeatures = "AgentsOptimization=V2Preview";
   const path = expandUrlTemplate(
     "/agent_optimization_jobs{?api-version}",
     {
