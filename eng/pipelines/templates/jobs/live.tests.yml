@@ -110,10 +110,22 @@ jobs:
                 ${{ insert }}: ${{ parameters.EnvVars }}
 
       - template: /eng/pipelines/templates/steps/install-pnpm.yml
+      
+      - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+        parameters:
+          npmrcPath: $(Agent.TempDirectory)/live_tests/.npmrc
+
+      - script: |
+          npm install -g pnpm@10.34.2
+        displayName: "Install Pnpm"
+        env:
+          npm_config_userconfig: "$(Agent.TempDirectory)/live_tests/.npmrc"
 
       - script: |
           pnpm install
         displayName: "Install library dependencies"
+        env:
+          npm_config_userconfig: "$(Agent.TempDirectory)/live_tests/.npmrc"
 
       - script: |
           pnpm build --filter ${{parameters.PackageName}}...
@@ -128,6 +140,8 @@ jobs:
           npm install
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
         displayName: "Install dependencies for eng-package-utils"
+        env:
+          npm_config_userconfig: "$(Agent.TempDirectory)/live_tests/.npmrc"
 
       - script: |
           npm install
@@ -135,12 +149,16 @@ jobs:
         displayName: "Convert tests to run against package references"
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/dependency-testing
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
+        env:
+          npm_config_userconfig: "$(Agent.TempDirectory)/live_tests/.npmrc"
 
       - script: |
           pnpm install --no-frozen-lockfile
         displayName: "Re-run Pnpm install"
         workingDirectory: $(Build.SourcesDirectory)
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
+        env:
+          npm_config_userconfig: "$(Agent.TempDirectory)/live_tests/.npmrc"
 
       - pwsh: |
           node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"

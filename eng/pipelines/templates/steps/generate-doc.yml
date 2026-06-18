@@ -2,15 +2,23 @@ parameters:
   ServiceDirectory: not-specified
 
 steps:
+  - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+    parameters:
+      npmrcPath: $(Agent.TempDirectory)/gen-doc/.npmrc
+
   - script: |
       npm ci
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
     displayName: "Install generate-doc tool dependencies"
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/gen-doc/.npmrc"
 
   - script: |
       npm run build
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
     displayName: "Compile tool"
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/gen-doc/.npmrc"
 
   - pwsh: |
       node $(Build.SourcesDirectory)/eng/tools/generate-doc/dist/index.js --serviceDir "${{parameters.ServiceDirectory}}"

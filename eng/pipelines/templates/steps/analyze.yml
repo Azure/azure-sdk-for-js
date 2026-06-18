@@ -51,15 +51,23 @@ steps:
     parameters:
       ServiceDirectories: $(ChangedServicesCsv)
 
+  - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+    parameters:
+      npmrcPath: $(Agent.TempDirectory)/build/.npmrc
+
   - script: |
       npm ci
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/eng-package-utils
     displayName: "Install eng-package-utils dependencies"
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/build/.npmrc"
 
   - script: |
       npm ci
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
     displayName: "Install tool dependencies"
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/build/.npmrc"
 
   - script: |
       node index.js --verbose --dump "$(Build.ArtifactStagingDirectory)" --out "$(Build.ArtifactStagingDirectory)/dependencies.html"
@@ -67,15 +75,25 @@ steps:
     displayName: "Analyze library dependencies"
 
   - template: /eng/pipelines/templates/steps/install-pnpm.yml
+  
+  - script: |
+      npm install -g pnpm@10.34.2
+    displayName: "Install Pnpm"
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/build/.npmrc"
 
   - script: |
       pnpm install
     displayName: "Install library dependencies"
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/build/.npmrc"
 
   - pwsh: |
       pnpm build --filter @azure/eslint-plugin-azure-sdk...
       $env:FORCE_COLOR = "1"
       node eng/tools/ci-runner/index.js lint "$(ChangedServices)"
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/build/.npmrc"
     displayName: "Build ESLint Plugin and Lint Libraries"
 
   - pwsh: |

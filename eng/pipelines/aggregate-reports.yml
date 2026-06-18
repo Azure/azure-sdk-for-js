@@ -45,13 +45,21 @@ stages:
               CheckLinkGuidance: $true
               Condition: succeededOrFailed()
 
+          - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+            parameters:
+              npmrcPath: $(Agent.TempDirectory)/reports/.npmrc
+
           - script: 'npm ci'
             workingDirectory: '$(Build.SourcesDirectory)/eng/tools/eng-package-utils'
             displayName: 'Install eng-package-utils dependencies'
+            env:
+              npm_config_userconfig: "$(Agent.TempDirectory)/reports/.npmrc"
 
           - script: 'npm ci'
             workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
             displayName: 'Install analyze-deps dependencies'
+            env:
+              npm_config_userconfig: "$(Agent.TempDirectory)/reports/.npmrc"
 
           - script: |
               node index.js --verbose --out "$(Build.ArtifactStagingDirectory)/dependencies.html" --dump "$(Build.ArtifactStagingDirectory)"
