@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a virtual machine scale set lifecycle hook event.
  *
  * @summary gets a virtual machine scale set lifecycle hook event.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetLifeCycleHookEvent_Get.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetLifeCycleHookEvent_Get.json
  */
 async function getAVirtualMachineScaleSetLifecycleHookEvent() {
   const credential = new DefaultAzureCredential();
