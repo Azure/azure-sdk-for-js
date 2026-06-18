@@ -1,31 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KeyVaultManagementContext as Client } from "../index.js";
-import type {
-  ManagedHsm,
-  _ManagedHsmListResult,
-  DeletedManagedHsm,
-  _DeletedManagedHsmListResult,
-  CheckMhsmNameAvailabilityParameters,
-  CheckMhsmNameAvailabilityResult,
-} from "../../models/models.js";
+import { KeyVaultManagementContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  ManagedHsm,
   managedHsmSerializer,
   managedHsmDeserializer,
   managedHsmErrorDeserializer,
+  _ManagedHsmListResult,
   _managedHsmListResultDeserializer,
+  DeletedManagedHsm,
   deletedManagedHsmDeserializer,
+  _DeletedManagedHsmListResult,
   _deletedManagedHsmListResultDeserializer,
+  CheckMhsmNameAvailabilityParameters,
   checkMhsmNameAvailabilityParametersSerializer,
+  CheckMhsmNameAvailabilityResult,
   checkMhsmNameAvailabilityResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ManagedHsmsCheckMhsmNameAvailabilityOptionalParams,
   ManagedHsmsListDeletedOptionalParams,
   ManagedHsmsPurgeDeletedOptionalParams,
@@ -37,9 +37,13 @@ import type {
   ManagedHsmsCreateOrUpdateOptionalParams,
   ManagedHsmsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _checkMhsmNameAvailabilitySend(
   context: Client,
@@ -50,18 +54,20 @@ export function _checkMhsmNameAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/checkMhsmNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: checkMhsmNameAvailabilityParametersSerializer(mhsmName),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: checkMhsmNameAvailabilityParametersSerializer(mhsmName),
+    });
 }
 
 export async function _checkMhsmNameAvailabilityDeserialize(
@@ -70,7 +76,9 @@ export async function _checkMhsmNameAvailabilityDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -96,16 +104,18 @@ export function _listDeletedSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedManagedHSMs{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeletedDeserialize(
@@ -114,7 +124,9 @@ export async function _listDeletedDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -132,7 +144,11 @@ export function listDeleted(
     () => _listDeletedSend(context, options),
     _listDeletedDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -148,7 +164,7 @@ export function _purgeDeletedSend(
       subscriptionId: context.subscriptionId,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -161,7 +177,9 @@ export async function _purgeDeletedDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -181,7 +199,7 @@ export function purgeDeleted(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _purgeDeletedSend(context, name, location, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -197,16 +215,18 @@ export function _getDeletedSend(
       subscriptionId: context.subscriptionId,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeletedDeserialize(
@@ -215,7 +235,9 @@ export async function _getDeletedDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -242,17 +264,19 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/managedHSMs{?api%2Dversion,%24top}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
       "%24top": options?.top,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -261,7 +285,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -279,7 +305,11 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -293,17 +323,19 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
       "%24top": options?.top,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -312,7 +344,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -331,7 +365,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -347,7 +385,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -360,7 +398,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -369,11 +409,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the specified managed HSM Pool. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -385,7 +420,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, name, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -402,25 +437,29 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: managedHsmSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: managedHsmSerializer(parameters),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<ManagedHsm> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -441,7 +480,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, resourceGroupName, name, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<ManagedHsm>, ManagedHsm>;
 }
 
@@ -458,18 +497,20 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: managedHsmSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: managedHsmSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -478,7 +519,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -500,7 +543,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, name, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<ManagedHsm>, ManagedHsm>;
 }
 
@@ -516,28 +559,34 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<ManagedHsm> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ManagedHsm | undefined> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return managedHsmDeserializer(result.body);
+  return result.body ? managedHsmDeserializer(result.body) : undefined;
 }
 
 /** Gets the specified managed HSM Pool. */
@@ -546,7 +595,7 @@ export async function get(
   resourceGroupName: string,
   name: string,
   options: ManagedHsmsGetOptionalParams = { requestOptions: {} },
-): Promise<ManagedHsm> {
+): Promise<ManagedHsm | undefined> {
   const result = await _getSend(context, resourceGroupName, name, options);
   return _getDeserialize(result);
 }

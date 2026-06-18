@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext as Client } from "../index.js";
-import type {
-  FeatureValidationRequestBaseUnion,
-  FeatureValidationResponseBaseUnion,
-} from "../../models/models.js";
+import { DataProtectionContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
   featureValidationRequestBaseUnionSerializer,
+  FeatureValidationRequestBaseUnion,
   featureValidationResponseBaseUnionDeserializer,
+  FeatureValidationResponseBaseUnion,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { DataProtectionCheckFeatureSupportOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { DataProtectionCheckFeatureSupportOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _checkFeatureSupportSend(
   context: Client,
@@ -33,12 +35,14 @@ export function _checkFeatureSupportSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: featureValidationRequestBaseUnionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: featureValidationRequestBaseUnionSerializer(parameters),
+    });
 }
 
 export async function _checkFeatureSupportDeserialize(
@@ -47,7 +51,9 @@ export async function _checkFeatureSupportDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

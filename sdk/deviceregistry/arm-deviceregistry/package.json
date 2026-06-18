@@ -226,34 +226,6 @@
         "default": "./dist/commonjs/api/namespaceAssets/index.js"
       }
     },
-    "./api/policies": {
-      "browser": {
-        "types": "./dist/browser/api/policies/index.d.ts",
-        "default": "./dist/browser/api/policies/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/policies/index.d.ts",
-        "default": "./dist/esm/api/policies/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/policies/index.d.ts",
-        "default": "./dist/commonjs/api/policies/index.js"
-      }
-    },
-    "./api/credentials": {
-      "browser": {
-        "types": "./dist/browser/api/credentials/index.d.ts",
-        "default": "./dist/browser/api/credentials/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/credentials/index.d.ts",
-        "default": "./dist/esm/api/credentials/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/credentials/index.d.ts",
-        "default": "./dist/commonjs/api/credentials/index.js"
-      }
-    },
     "./api/namespaces": {
       "browser": {
         "types": "./dist/browser/api/namespaces/index.d.ts",

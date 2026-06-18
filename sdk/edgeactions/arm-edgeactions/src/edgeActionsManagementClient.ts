@@ -1,21 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   EdgeActionsManagementContext,
   EdgeActionsManagementClientOptionalParams,
+  createEdgeActionsManagement,
 } from "./api/index.js";
-import { createEdgeActionsManagement } from "./api/index.js";
-import type { EdgeActionExecutionFiltersOperations } from "./classic/edgeActionExecutionFilters/index.js";
-import { _getEdgeActionExecutionFiltersOperations } from "./classic/edgeActionExecutionFilters/index.js";
-import type { EdgeActionVersionsOperations } from "./classic/edgeActionVersions/index.js";
-import { _getEdgeActionVersionsOperations } from "./classic/edgeActionVersions/index.js";
-import type { EdgeActionsOperations } from "./classic/edgeActions/index.js";
-import { _getEdgeActionsOperations } from "./classic/edgeActions/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  EdgeActionExecutionFiltersOperations,
+  _getEdgeActionExecutionFiltersOperations,
+} from "./classic/edgeActionExecutionFilters/index.js";
+import {
+  EdgeActionVersionsOperations,
+  _getEdgeActionVersionsOperations,
+} from "./classic/edgeActionVersions/index.js";
+import { EdgeActionsOperations, _getEdgeActionsOperations } from "./classic/edgeActions/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type EdgeActionsManagementClientOptionalParams } from "./api/edgeActionsManagementContext.js";
+export type { EdgeActionsManagementClientOptionalParams } from "./api/edgeActionsManagementContext.js";
 
 export class EdgeActionsManagementClient {
   private _client: EdgeActionsManagementContext;

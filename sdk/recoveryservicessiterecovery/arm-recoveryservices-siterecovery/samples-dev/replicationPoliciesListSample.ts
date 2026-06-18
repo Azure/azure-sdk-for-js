@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the replication policies for a vault.
  *
  * @summary lists the replication policies for a vault.
- * x-ms-original-file: 2025-08-01/ReplicationPolicies_List.json
+ * x-ms-original-file: 2026-01-01/ReplicationPolicies_List.json
  */
 async function getsTheListOfReplicationPolicies(): Promise<void> {
   const credential = new DefaultAzureCredential();

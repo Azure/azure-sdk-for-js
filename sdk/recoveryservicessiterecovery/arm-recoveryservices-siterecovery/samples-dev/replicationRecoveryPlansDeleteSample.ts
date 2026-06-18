@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a recovery plan.
  *
  * @summary delete a recovery plan.
- * x-ms-original-file: 2025-08-01/ReplicationRecoveryPlans_Delete.json
+ * x-ms-original-file: 2026-01-01/ReplicationRecoveryPlans_Delete.json
  */
 async function deletesTheSpecifiedRecoveryPlan(): Promise<void> {
   const credential = new DefaultAzureCredential();

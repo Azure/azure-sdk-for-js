@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to purge(force delete) a recovery services provider from the vault.
  *
  * @summary the operation to purge(force delete) a recovery services provider from the vault.
- * x-ms-original-file: 2025-08-01/ReplicationRecoveryServicesProviders_Purge.json
+ * x-ms-original-file: 2026-01-01/ReplicationRecoveryServicesProviders_Purge.json
  */
 async function purgesRecoveryServiceProviderFromFabric(): Promise<void> {
   const credential = new DefaultAzureCredential();

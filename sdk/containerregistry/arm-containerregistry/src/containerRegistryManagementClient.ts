@@ -1,43 +1,52 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   ContainerRegistryManagementContext,
   ContainerRegistryManagementClientOptionalParams,
+  createContainerRegistryManagement,
 } from "./api/index.js";
-import { createContainerRegistryManagement } from "./api/index.js";
-import type { ArchiveVersionsOperations } from "./classic/archiveVersions/index.js";
-import { _getArchiveVersionsOperations } from "./classic/archiveVersions/index.js";
-import type { ArchivesOperations } from "./classic/archives/index.js";
-import { _getArchivesOperations } from "./classic/archives/index.js";
-import type { CacheRulesOperations } from "./classic/cacheRules/index.js";
-import { _getCacheRulesOperations } from "./classic/cacheRules/index.js";
-import type { ConnectedRegistriesOperations } from "./classic/connectedRegistries/index.js";
-import { _getConnectedRegistriesOperations } from "./classic/connectedRegistries/index.js";
-import type { CredentialSetsOperations } from "./classic/credentialSets/index.js";
-import { _getCredentialSetsOperations } from "./classic/credentialSets/index.js";
-import type { ExportPipelinesOperations } from "./classic/exportPipelines/index.js";
-import { _getExportPipelinesOperations } from "./classic/exportPipelines/index.js";
-import type { ImportPipelinesOperations } from "./classic/importPipelines/index.js";
-import { _getImportPipelinesOperations } from "./classic/importPipelines/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PipelineRunsOperations } from "./classic/pipelineRuns/index.js";
-import { _getPipelineRunsOperations } from "./classic/pipelineRuns/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { RegistriesOperations } from "./classic/registries/index.js";
-import { _getRegistriesOperations } from "./classic/registries/index.js";
-import type { ReplicationsOperations } from "./classic/replications/index.js";
-import { _getReplicationsOperations } from "./classic/replications/index.js";
-import type { ScopeMapsOperations } from "./classic/scopeMaps/index.js";
-import { _getScopeMapsOperations } from "./classic/scopeMaps/index.js";
-import type { TokensOperations } from "./classic/tokens/index.js";
-import { _getTokensOperations } from "./classic/tokens/index.js";
-import type { WebhooksOperations } from "./classic/webhooks/index.js";
-import { _getWebhooksOperations } from "./classic/webhooks/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  ArchiveVersionsOperations,
+  _getArchiveVersionsOperations,
+} from "./classic/archiveVersions/index.js";
+import { ArchivesOperations, _getArchivesOperations } from "./classic/archives/index.js";
+import { CacheRulesOperations, _getCacheRulesOperations } from "./classic/cacheRules/index.js";
+import {
+  ConnectedRegistriesOperations,
+  _getConnectedRegistriesOperations,
+} from "./classic/connectedRegistries/index.js";
+import {
+  CredentialSetsOperations,
+  _getCredentialSetsOperations,
+} from "./classic/credentialSets/index.js";
+import {
+  ExportPipelinesOperations,
+  _getExportPipelinesOperations,
+} from "./classic/exportPipelines/index.js";
+import {
+  ImportPipelinesOperations,
+  _getImportPipelinesOperations,
+} from "./classic/importPipelines/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PipelineRunsOperations,
+  _getPipelineRunsOperations,
+} from "./classic/pipelineRuns/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import { RegistriesOperations, _getRegistriesOperations } from "./classic/registries/index.js";
+import {
+  ReplicationsOperations,
+  _getReplicationsOperations,
+} from "./classic/replications/index.js";
+import { ScopeMapsOperations, _getScopeMapsOperations } from "./classic/scopeMaps/index.js";
+import { TokensOperations, _getTokensOperations } from "./classic/tokens/index.js";
+import { WebhooksOperations, _getWebhooksOperations } from "./classic/webhooks/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { ContainerRegistryManagementClientOptionalParams } from "./api/containerRegistryManagementContext.js";
 

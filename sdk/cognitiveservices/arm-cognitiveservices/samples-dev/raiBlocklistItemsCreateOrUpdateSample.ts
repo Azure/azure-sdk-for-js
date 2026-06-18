@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the state of specified blocklist item associated with the Azure OpenAI account.
  *
  * @summary update the state of specified blocklist item associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-01-15-preview/PutRaiBlocklistItem.json
+ * x-ms-original-file: 2026-03-01/PutRaiBlocklistItem.json
  */
 async function putRaiBlocklistItem(): Promise<void> {
   const credential = new DefaultAzureCredential();

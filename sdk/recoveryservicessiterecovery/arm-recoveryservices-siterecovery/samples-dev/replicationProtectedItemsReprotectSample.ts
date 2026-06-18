@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to operation to reprotect or reverse replicate a failed over replication protected item.
  *
  * @summary operation to reprotect or reverse replicate a failed over replication protected item.
- * x-ms-original-file: 2025-08-01/ReplicationProtectedItems_Reprotect.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectedItems_Reprotect.json
  */
 async function executeReverseReplicationReprotect(): Promise<void> {
   const credential = new DefaultAzureCredential();

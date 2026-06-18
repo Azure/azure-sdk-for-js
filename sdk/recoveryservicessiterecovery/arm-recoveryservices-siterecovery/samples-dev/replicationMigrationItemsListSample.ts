@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of migration items in the vault.
  *
  * @summary gets the list of migration items in the vault.
- * x-ms-original-file: 2025-08-01/ReplicationMigrationItems_List.json
+ * x-ms-original-file: 2026-01-01/ReplicationMigrationItems_List.json
  */
 async function getsTheListOfMigrationItemsInTheVault(): Promise<void> {
   const credential = new DefaultAzureCredential();

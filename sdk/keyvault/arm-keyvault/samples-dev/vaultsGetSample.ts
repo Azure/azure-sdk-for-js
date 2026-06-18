@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified Azure key vault.
  *
  * @summary gets the specified Azure key vault.
- * x-ms-original-file: 2026-02-01/getVault.json
+ * x-ms-original-file: 2026-03-01-preview/getVault.json
  */
 async function retrieveAVault(): Promise<void> {
   const credential = new DefaultAzureCredential();

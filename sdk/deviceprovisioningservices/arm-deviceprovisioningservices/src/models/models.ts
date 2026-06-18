@@ -3,6 +3,12 @@
 
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** model interface _OperationListResult */
 export interface _OperationListResult {
   /** [Placeholder] Description for value property */
@@ -159,8 +165,8 @@ export function certificatePropertiesDeserializer(item: any): CertificatePropert
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -186,8 +192,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -422,7 +428,9 @@ export function provisioningServiceDescriptionDeserializer(
   item: any,
 ): ProvisioningServiceDescription {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -671,9 +679,7 @@ export interface PrivateEndpointConnection extends ProxyResource {
 }
 
 export function privateEndpointConnectionSerializer(item: PrivateEndpointConnection): any {
-  return {
-    properties: privateEndpointConnectionPropertiesSerializer(item["properties"]),
-  };
+  return { properties: privateEndpointConnectionPropertiesSerializer(item["properties"]) };
 }
 
 export function privateEndpointConnectionDeserializer(item: any): PrivateEndpointConnection {
@@ -728,8 +734,8 @@ export interface PrivateEndpoint {
   readonly id?: string;
 }
 
-export function privateEndpointSerializer(item: PrivateEndpoint): any {
-  return item;
+export function privateEndpointSerializer(_item: PrivateEndpoint): any {
+  return {};
 }
 
 export function privateEndpointDeserializer(item: any): PrivateEndpoint {
@@ -1111,8 +1117,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -1142,7 +1148,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }

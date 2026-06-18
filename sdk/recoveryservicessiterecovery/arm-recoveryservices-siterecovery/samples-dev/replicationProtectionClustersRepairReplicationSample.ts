@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to repair replication protection cluster.
  *
  * @summary the operation to repair replication protection cluster.
- * x-ms-original-file: 2025-08-01/ReplicationProtectionClusters_RepairReplication.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectionClusters_RepairReplication.json
  */
 async function resynchronizeOrRepairReplicationOfProtectionCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

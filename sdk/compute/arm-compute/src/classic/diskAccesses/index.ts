@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listPrivateEndpointConnections,
   deleteAPrivateEndpointConnection,
@@ -15,7 +15,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/diskAccesses/operations.js";
-import type {
+import {
   DiskAccessesListPrivateEndpointConnectionsOptionalParams,
   DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
   DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
@@ -28,16 +28,15 @@ import type {
   DiskAccessesCreateOrUpdateOptionalParams,
   DiskAccessesGetOptionalParams,
 } from "../../api/diskAccesses/options.js";
-import type {
+import {
   DiskAccess,
   PrivateEndpointConnection,
   DiskAccessUpdate,
   PrivateLinkResourceListResult,
 } from "../../models/computeDisk/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DiskAccesses operations. */
 export interface DiskAccessesOperations {
@@ -115,11 +114,6 @@ export interface DiskAccessesOperations {
     options?: DiskAccessesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<DiskAccess>;
   /** Deletes a disk access resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     diskAccessName: string,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceContext } from "../../api/containerServiceContext.js";
+import { ContainerServiceContext } from "../../api/containerServiceContext.js";
 import {
   list,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/snapshots/operations.js";
-import type {
+import {
   SnapshotsListOptionalParams,
   SnapshotsListByResourceGroupOptionalParams,
   SnapshotsDeleteOptionalParams,
@@ -18,8 +18,8 @@ import type {
   SnapshotsCreateOrUpdateOptionalParams,
   SnapshotsGetOptionalParams,
 } from "../../api/snapshots/options.js";
-import type { TagsObject, Snapshot } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { TagsObject, Snapshot } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Snapshots operations. */
 export interface SnapshotsOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import {
   unlockDelete,
   list,
@@ -9,19 +9,19 @@ import {
   createOrUpdate,
   get,
 } from "../../api/dppResourceGuardProxy/operations.js";
-import type {
+import {
   DppResourceGuardProxyUnlockDeleteOptionalParams,
   DppResourceGuardProxyListOptionalParams,
   DppResourceGuardProxyDeleteOptionalParams,
   DppResourceGuardProxyCreateOrUpdateOptionalParams,
   DppResourceGuardProxyGetOptionalParams,
 } from "../../api/dppResourceGuardProxy/options.js";
-import type {
+import {
   ResourceGuardProxyBaseResource,
   UnlockDeleteRequest,
   UnlockDeleteResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DppResourceGuardProxy operations. */
 export interface DppResourceGuardProxyOperations {
@@ -40,11 +40,6 @@ export interface DppResourceGuardProxyOperations {
     options?: DppResourceGuardProxyListOptionalParams,
   ) => PagedAsyncIterableIterator<ResourceGuardProxyBaseResource>;
   /** Deletes the ResourceGuardProxy */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vaultName: string,

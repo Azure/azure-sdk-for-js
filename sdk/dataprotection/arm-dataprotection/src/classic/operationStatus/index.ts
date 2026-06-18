@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import { get } from "../../api/operationStatus/operations.js";
-import type { OperationStatusGetOptionalParams } from "../../api/operationStatus/options.js";
-import type { OperationResource } from "../../models/models.js";
+import { OperationStatusGetOptionalParams } from "../../api/operationStatus/options.js";
+import { OperationResource } from "../../models/models.js";
 
 /** Interface representing a OperationStatus operations. */
 export interface OperationStatusOperations {

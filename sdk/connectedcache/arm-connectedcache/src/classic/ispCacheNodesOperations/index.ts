@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConnectedCacheContext } from "../../api/connectedCacheContext.js";
+import { ConnectedCacheContext } from "../../api/connectedCacheContext.js";
 import {
   getCacheNodeMccIssueDetailsHistory,
   getCacheNodeAutoUpdateHistory,
@@ -13,7 +13,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/ispCacheNodesOperations/operations.js";
-import type {
+import {
   IspCacheNodesOperationsGetCacheNodeMccIssueDetailsHistoryOptionalParams,
   IspCacheNodesOperationsGetCacheNodeAutoUpdateHistoryOptionalParams,
   IspCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams,
@@ -24,7 +24,7 @@ import type {
   IspCacheNodesOperationsCreateOrUpdateOptionalParams,
   IspCacheNodesOperationsGetOptionalParams,
 } from "../../api/ispCacheNodesOperations/options.js";
-import type {
+import {
   ConnectedCachePatchResource,
   IspCacheNodeResource,
   MccCacheNodeBgpCidrDetails,
@@ -32,8 +32,8 @@ import type {
   MccCacheNodeAutoUpdateHistory,
   MccCacheNodeIssueHistory,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a IspCacheNodesOperations operations. */
 export interface IspCacheNodesOperationsOperations {
@@ -72,11 +72,6 @@ export interface IspCacheNodesOperationsOperations {
     options?: IspCacheNodesOperationsListByIspCustomerResourceOptionalParams,
   ) => PagedAsyncIterableIterator<IspCacheNodeResource>;
   /** This api deletes an existing ispCacheNode resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     customerResourceName: string,

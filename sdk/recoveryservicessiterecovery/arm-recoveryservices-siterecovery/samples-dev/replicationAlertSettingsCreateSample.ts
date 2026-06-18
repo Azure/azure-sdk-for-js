@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update an email notification(alert) configuration.
  *
  * @summary create or update an email notification(alert) configuration.
- * x-ms-original-file: 2025-08-01/ReplicationAlertSettings_Create.json
+ * x-ms-original-file: 2026-01-01/ReplicationAlertSettings_Create.json
  */
 async function configuresEmailNotificationsForThisVault(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,46 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IotDpsContext as Client } from "../index.js";
-import type {
-  AsyncOperationResult,
-  ProvisioningServiceDescription,
-  PrivateEndpointConnection,
-  SharedAccessSignatureAuthorizationRuleAccessRightsDescription,
-  TagsResource,
-  _ProvisioningServiceDescriptionListResult,
-  _IotDpsSkuDefinitionListResult,
-  IotDpsSkuDefinition,
-  _SharedAccessSignatureAuthorizationRuleListResult,
-  GroupIdInformation,
-  _PrivateLinkResources,
-  OperationInputs,
-  NameAvailabilityInfo,
-} from "../../models/models.js";
+import { IotDpsContext as Client } from "../index.js";
 import {
   errorDetailsDeserializer,
+  AsyncOperationResult,
   asyncOperationResultDeserializer,
+  ProvisioningServiceDescription,
   provisioningServiceDescriptionSerializer,
   provisioningServiceDescriptionDeserializer,
+  PrivateEndpointConnection,
   privateEndpointConnectionSerializer,
   privateEndpointConnectionDeserializer,
+  SharedAccessSignatureAuthorizationRuleAccessRightsDescription,
   sharedAccessSignatureAuthorizationRuleAccessRightsDescriptionDeserializer,
+  TagsResource,
   tagsResourceSerializer,
   errorResponseDeserializer,
+  _ProvisioningServiceDescriptionListResult,
   _provisioningServiceDescriptionListResultDeserializer,
+  _IotDpsSkuDefinitionListResult,
   _iotDpsSkuDefinitionListResultDeserializer,
+  IotDpsSkuDefinition,
+  _SharedAccessSignatureAuthorizationRuleListResult,
   _sharedAccessSignatureAuthorizationRuleListResultDeserializer,
+  GroupIdInformation,
   groupIdInformationDeserializer,
+  _PrivateLinkResources,
   _privateLinkResourcesDeserializer,
+  OperationInputs,
   operationInputsSerializer,
+  NameAvailabilityInfo,
   nameAvailabilityInfoDeserializer,
   privateEndpointConnectionArrayDeserializer_1,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams,
   IotDpsResourceListPrivateEndpointConnectionsOptionalParams,
   IotDpsResourceDeletePrivateEndpointConnectionOptionalParams,
@@ -59,9 +59,13 @@ import type {
   IotDpsResourceGetOptionalParams,
   IotDpsResourceGetOperationResultOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _checkProvisioningServiceNameAvailabilitySend(
   context: Client,
@@ -74,21 +78,20 @@ export function _checkProvisioningServiceNameAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/checkProvisioningServiceNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: operationInputsSerializer(argumentsParam),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: operationInputsSerializer(argumentsParam),
+    });
 }
 
 export async function _checkProvisioningServiceNameAvailabilityDeserialize(
@@ -97,7 +100,10 @@ export async function _checkProvisioningServiceNameAvailabilityDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -124,9 +130,7 @@ export function _listPrivateEndpointConnectionsSend(
   context: Client,
   resourceGroupName: string,
   resourceName: string,
-  options: IotDpsResourceListPrivateEndpointConnectionsOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceListPrivateEndpointConnectionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections{?api%2Dversion}",
@@ -134,19 +138,18 @@ export function _listPrivateEndpointConnectionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listPrivateEndpointConnectionsDeserialize(
@@ -155,7 +158,10 @@ export async function _listPrivateEndpointConnectionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -167,9 +173,7 @@ export async function listPrivateEndpointConnections(
   context: Client,
   resourceGroupName: string,
   resourceName: string,
-  options: IotDpsResourceListPrivateEndpointConnectionsOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceListPrivateEndpointConnectionsOptionalParams = { requestOptions: {} },
 ): Promise<PrivateEndpointConnection[]> {
   const result = await _listPrivateEndpointConnectionsSend(
     context,
@@ -185,9 +189,7 @@ export function _deletePrivateEndpointConnectionSend(
   resourceGroupName: string,
   resourceName: string,
   privateEndpointConnectionName: string,
-  options: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}{?api%2Dversion}",
@@ -196,19 +198,18 @@ export function _deletePrivateEndpointConnectionSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deletePrivateEndpointConnectionDeserialize(
@@ -217,7 +218,10 @@ export async function _deletePrivateEndpointConnectionDeserialize(
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -230,9 +234,7 @@ export function deletePrivateEndpointConnection(
   resourceGroupName: string,
   resourceName: string,
   privateEndpointConnectionName: string,
-  options: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection> {
   return getLongRunningPoller(
     context,
@@ -250,6 +252,7 @@ export function deletePrivateEndpointConnection(
           options,
         ),
       resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
     },
   ) as PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
 }
@@ -271,21 +274,20 @@ export function _createOrUpdatePrivateEndpointConnectionSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: privateEndpointConnectionSerializer(privateEndpointConnection),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: privateEndpointConnectionSerializer(privateEndpointConnection),
+    });
 }
 
 export async function _createOrUpdatePrivateEndpointConnectionDeserialize(
@@ -294,7 +296,10 @@ export async function _createOrUpdatePrivateEndpointConnectionDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -329,6 +334,7 @@ export function createOrUpdatePrivateEndpointConnection(
           options,
         ),
       resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
     },
   ) as PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
 }
@@ -338,9 +344,7 @@ export function _getPrivateEndpointConnectionSend(
   resourceGroupName: string,
   resourceName: string,
   privateEndpointConnectionName: string,
-  options: IotDpsResourceGetPrivateEndpointConnectionOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceGetPrivateEndpointConnectionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}{?api%2Dversion}",
@@ -349,19 +353,18 @@ export function _getPrivateEndpointConnectionSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getPrivateEndpointConnectionDeserialize(
@@ -370,7 +373,10 @@ export async function _getPrivateEndpointConnectionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -383,9 +389,7 @@ export async function getPrivateEndpointConnection(
   resourceGroupName: string,
   resourceName: string,
   privateEndpointConnectionName: string,
-  options: IotDpsResourceGetPrivateEndpointConnectionOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceGetPrivateEndpointConnectionOptionalParams = { requestOptions: {} },
 ): Promise<PrivateEndpointConnection> {
   const result = await _getPrivateEndpointConnectionSend(
     context,
@@ -401,9 +405,7 @@ export function _listPrivateLinkResourcesSend(
   context: Client,
   resourceGroupName: string,
   resourceName: string,
-  options: IotDpsResourceListPrivateLinkResourcesOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceListPrivateLinkResourcesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateLinkResources{?api%2Dversion}",
@@ -411,19 +413,18 @@ export function _listPrivateLinkResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listPrivateLinkResourcesDeserialize(
@@ -432,7 +433,10 @@ export async function _listPrivateLinkResourcesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -444,16 +448,14 @@ export function listPrivateLinkResources(
   context: Client,
   resourceGroupName: string,
   resourceName: string,
-  options: IotDpsResourceListPrivateLinkResourcesOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceListPrivateLinkResourcesOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<GroupIdInformation> {
   return buildPagedAsyncIterator(
     context,
     () => _listPrivateLinkResourcesSend(context, resourceGroupName, resourceName, options),
     _listPrivateLinkResourcesDeserialize,
     ["200"],
-    { itemName: "value" },
+    { itemName: "value", apiVersion: context.apiVersion ?? "2025-02-01-preview" },
   );
 }
 
@@ -462,9 +464,7 @@ export function _getPrivateLinkResourcesSend(
   resourceGroupName: string,
   resourceName: string,
   groupId: string,
-  options: IotDpsResourceGetPrivateLinkResourcesOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceGetPrivateLinkResourcesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateLinkResources/{groupId}{?api%2Dversion}",
@@ -473,19 +473,18 @@ export function _getPrivateLinkResourcesSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       groupId: groupId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getPrivateLinkResourcesDeserialize(
@@ -494,7 +493,10 @@ export async function _getPrivateLinkResourcesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -507,9 +509,7 @@ export async function getPrivateLinkResources(
   resourceGroupName: string,
   resourceName: string,
   groupId: string,
-  options: IotDpsResourceGetPrivateLinkResourcesOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceGetPrivateLinkResourcesOptionalParams = { requestOptions: {} },
 ): Promise<GroupIdInformation> {
   const result = await _getPrivateLinkResourcesSend(
     context,
@@ -523,12 +523,10 @@ export async function getPrivateLinkResources(
 
 export function _listKeysForKeyNameSend(
   context: Client,
+  resourceGroupName: string,
   provisioningServiceName: string,
   keyName: string,
-  resourceGroupName: string,
-  options: IotDpsResourceListKeysForKeyNameOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceListKeysForKeyNameOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/keys/{keyName}/listkeys{?api%2Dversion}",
@@ -537,19 +535,18 @@ export function _listKeysForKeyNameSend(
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
       keyName: keyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listKeysForKeyNameDeserialize(
@@ -558,7 +555,10 @@ export async function _listKeysForKeyNameDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -568,18 +568,16 @@ export async function _listKeysForKeyNameDeserialize(
 /** List primary and secondary keys for a specific key name */
 export async function listKeysForKeyName(
   context: Client,
+  resourceGroupName: string,
   provisioningServiceName: string,
   keyName: string,
-  resourceGroupName: string,
-  options: IotDpsResourceListKeysForKeyNameOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceListKeysForKeyNameOptionalParams = { requestOptions: {} },
 ): Promise<SharedAccessSignatureAuthorizationRuleAccessRightsDescription> {
   const result = await _listKeysForKeyNameSend(
     context,
+    resourceGroupName,
     provisioningServiceName,
     keyName,
-    resourceGroupName,
     options,
   );
   return _listKeysForKeyNameDeserialize(result);
@@ -587,8 +585,8 @@ export async function listKeysForKeyName(
 
 export function _listKeysSend(
   context: Client,
-  provisioningServiceName: string,
   resourceGroupName: string,
+  provisioningServiceName: string,
   options: IotDpsResourceListKeysOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -597,19 +595,18 @@ export function _listKeysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listKeysDeserialize(
@@ -618,7 +615,10 @@ export async function _listKeysDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -628,23 +628,27 @@ export async function _listKeysDeserialize(
 /** List the primary and secondary keys for a provisioning service. */
 export function listKeys(
   context: Client,
-  provisioningServiceName: string,
   resourceGroupName: string,
+  provisioningServiceName: string,
   options: IotDpsResourceListKeysOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SharedAccessSignatureAuthorizationRuleAccessRightsDescription> {
   return buildPagedAsyncIterator(
     context,
-    () => _listKeysSend(context, provisioningServiceName, resourceGroupName, options),
+    () => _listKeysSend(context, resourceGroupName, provisioningServiceName, options),
     _listKeysDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
 export function _listValidSkusSend(
   context: Client,
-  provisioningServiceName: string,
   resourceGroupName: string,
+  provisioningServiceName: string,
   options: IotDpsResourceListValidSkusOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -653,19 +657,18 @@ export function _listValidSkusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listValidSkusDeserialize(
@@ -674,7 +677,10 @@ export async function _listValidSkusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -684,42 +690,43 @@ export async function _listValidSkusDeserialize(
 /** Gets the list of valid SKUs and tiers for a provisioning service. */
 export function listValidSkus(
   context: Client,
-  provisioningServiceName: string,
   resourceGroupName: string,
+  provisioningServiceName: string,
   options: IotDpsResourceListValidSkusOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<IotDpsSkuDefinition> {
   return buildPagedAsyncIterator(
     context,
-    () => _listValidSkusSend(context, provisioningServiceName, resourceGroupName, options),
+    () => _listValidSkusSend(context, resourceGroupName, provisioningServiceName, options),
     _listValidSkusDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: IotDpsResourceListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/provisioningServices{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -728,7 +735,10 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -738,44 +748,43 @@ export async function _listBySubscriptionDeserialize(
 /** List all the provisioning services for a given subscription id. */
 export function listBySubscription(
   context: Client,
-  options: IotDpsResourceListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ProvisioningServiceDescription> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: IotDpsResourceListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -784,7 +793,10 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -795,16 +807,18 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: IotDpsResourceListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ProvisioningServiceDescription> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
@@ -820,7 +834,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -833,7 +847,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -841,11 +858,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the Provisioning Service. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -858,6 +870,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, provisioningServiceName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-02-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -874,30 +887,32 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: tagsResourceSerializer(provisioningServiceTags),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: tagsResourceSerializer(provisioningServiceTags),
+    });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ProvisioningServiceDescription> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -912,7 +927,7 @@ export function update(
   provisioningServiceTags: TagsResource,
   options: IotDpsResourceUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ProvisioningServiceDescription>, ProvisioningServiceDescription> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -924,6 +939,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-02-01-preview",
   }) as PollerLike<OperationState<ProvisioningServiceDescription>, ProvisioningServiceDescription>;
 }
 
@@ -940,21 +956,20 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: provisioningServiceDescriptionSerializer(iotDpsDescription),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: provisioningServiceDescriptionSerializer(iotDpsDescription),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -963,7 +978,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -990,6 +1008,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-02-01-preview",
   }) as PollerLike<OperationState<ProvisioningServiceDescription>, ProvisioningServiceDescription>;
 }
 
@@ -1005,19 +1024,18 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -1026,7 +1044,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -1046,13 +1067,11 @@ export async function get(
 
 export function _getOperationResultSend(
   context: Client,
-  operationId: string,
   resourceGroupName: string,
   provisioningServiceName: string,
+  operationId: string,
   asyncinfo: string,
-  options: IotDpsResourceGetOperationResultOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceGetOperationResultOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/operationresults/{operationId}{?api%2Dversion,asyncinfo}",
@@ -1061,20 +1080,19 @@ export function _getOperationResultSend(
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
       asyncinfo: asyncinfo,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getOperationResultDeserialize(
@@ -1083,7 +1101,10 @@ export async function _getOperationResultDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -1093,19 +1114,17 @@ export async function _getOperationResultDeserialize(
 /** Gets the status of a long running operation, such as create, update or delete a provisioning service. */
 export async function getOperationResult(
   context: Client,
-  operationId: string,
   resourceGroupName: string,
   provisioningServiceName: string,
+  operationId: string,
   asyncinfo: string,
-  options: IotDpsResourceGetOperationResultOptionalParams = {
-    requestOptions: {},
-  },
+  options: IotDpsResourceGetOperationResultOptionalParams = { requestOptions: {} },
 ): Promise<AsyncOperationResult> {
   const result = await _getOperationResultSend(
     context,
-    operationId,
     resourceGroupName,
     provisioningServiceName,
+    operationId,
     asyncinfo,
     options,
   );

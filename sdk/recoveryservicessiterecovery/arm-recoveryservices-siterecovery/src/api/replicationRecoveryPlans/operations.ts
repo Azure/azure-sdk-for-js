@@ -63,18 +63,20 @@ export function _unplannedFailoverSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: recoveryPlanUnplannedFailoverInputSerializer(input),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: recoveryPlanUnplannedFailoverInputSerializer(input),
+    });
 }
 
 export async function _unplannedFailoverDeserialize(
@@ -110,7 +112,7 @@ export function unplannedFailover(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -129,18 +131,20 @@ export function _testFailoverCleanupSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: recoveryPlanTestFailoverCleanupInputSerializer(input),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: recoveryPlanTestFailoverCleanupInputSerializer(input),
+    });
 }
 
 export async function _testFailoverCleanupDeserialize(
@@ -176,7 +180,7 @@ export function testFailoverCleanup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -195,18 +199,20 @@ export function _testFailoverSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: recoveryPlanTestFailoverInputSerializer(input),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: recoveryPlanTestFailoverInputSerializer(input),
+    });
 }
 
 export async function _testFailoverDeserialize(
@@ -235,7 +241,7 @@ export function testFailover(
     getInitialResponse: () =>
       _testFailoverSend(context, resourceGroupName, resourceName, recoveryPlanName, input, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -253,16 +259,18 @@ export function _reprotectSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _reprotectDeserialize(result: PathUncheckedResponse): Promise<RecoveryPlan> {
@@ -288,7 +296,7 @@ export function reprotect(
     getInitialResponse: () =>
       _reprotectSend(context, resourceGroupName, resourceName, recoveryPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -307,18 +315,20 @@ export function _plannedFailoverSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: recoveryPlanPlannedFailoverInputSerializer(input),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: recoveryPlanPlannedFailoverInputSerializer(input),
+    });
 }
 
 export async function _plannedFailoverDeserialize(
@@ -354,7 +364,7 @@ export function plannedFailover(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -372,16 +382,18 @@ export function _failoverCommitSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _failoverCommitDeserialize(
@@ -409,7 +421,7 @@ export function failoverCommit(
     getInitialResponse: () =>
       _failoverCommitSend(context, resourceGroupName, resourceName, recoveryPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -427,16 +439,18 @@ export function _failoverCancelSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _failoverCancelDeserialize(
@@ -464,7 +478,7 @@ export function failoverCancel(
     getInitialResponse: () =>
       _failoverCancelSend(context, resourceGroupName, resourceName, recoveryPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -480,16 +494,18 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -515,7 +531,7 @@ export function list(
     () => _listSend(context, resourceGroupName, resourceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -533,7 +549,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -565,7 +581,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, resourceName, recoveryPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -584,18 +600,20 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: updateRecoveryPlanInputSerializer(input),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: updateRecoveryPlanInputSerializer(input),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<RecoveryPlan> {
@@ -622,7 +640,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, resourceName, recoveryPlanName, input, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -641,18 +659,20 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: createRecoveryPlanInputSerializer(input),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: createRecoveryPlanInputSerializer(input),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<RecoveryPlan> {
@@ -679,7 +699,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, resourceName, recoveryPlanName, input, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
@@ -697,16 +717,18 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<RecoveryPlan> {

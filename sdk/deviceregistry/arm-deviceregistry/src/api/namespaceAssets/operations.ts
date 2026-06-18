@@ -1,33 +1,104 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeviceRegistryManagementContext as Client } from "../index.js";
-import type {
-  NamespaceAsset,
-  NamespaceAssetUpdate,
-  _NamespaceAssetListResult,
-} from "../../models/models.js";
+import { DeviceRegistryManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  NamespaceAsset,
   namespaceAssetSerializer,
   namespaceAssetDeserializer,
+  NamespaceAssetUpdate,
   namespaceAssetUpdateSerializer,
+  _NamespaceAssetListResult,
   _namespaceAssetListResultDeserializer,
+  NamespaceAssetExecuteActionRequest,
+  namespaceAssetExecuteActionRequestSerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
+  NamespaceAssetsExecuteActionOptionalParams,
   NamespaceAssetsListByResourceGroupOptionalParams,
   NamespaceAssetsDeleteOptionalParams,
   NamespaceAssetsUpdateOptionalParams,
   NamespaceAssetsCreateOrReplaceOptionalParams,
   NamespaceAssetsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _executeActionSend(
+  context: Client,
+  resourceGroupName: string,
+  namespaceName: string,
+  assetName: string,
+  body: NamespaceAssetExecuteActionRequest,
+  options: NamespaceAssetsExecuteActionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/assets/{assetName}/executeAction{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      namespaceName: namespaceName,
+      assetName: assetName,
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: namespaceAssetExecuteActionRequestSerializer(body),
+    });
+}
+
+export async function _executeActionDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** A long-running resource action. */
+export function executeAction(
+  context: Client,
+  resourceGroupName: string,
+  namespaceName: string,
+  assetName: string,
+  body: NamespaceAssetExecuteActionRequest,
+  options: NamespaceAssetsExecuteActionOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _executeActionDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _executeActionSend(context, resourceGroupName, namespaceName, assetName, body, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-11-01-preview",
+  }) as PollerLike<OperationState<void>, void>;
+}
 
 export function _listByResourceGroupSend(
   context: Client,
@@ -41,16 +112,18 @@ export function _listByResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -59,7 +132,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -82,7 +157,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01-preview",
     },
   );
 }
@@ -101,7 +176,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       assetName: assetName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,7 +189,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -123,11 +200,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a NamespaceAsset */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -141,7 +213,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, namespaceName, assetName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -160,25 +232,29 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       assetName: assetName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: namespaceAssetUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: namespaceAssetUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<NamespaceAsset> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -201,7 +277,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, namespaceName, assetName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01-preview",
   }) as PollerLike<OperationState<NamespaceAsset>, NamespaceAsset>;
 }
 
@@ -220,18 +296,20 @@ export function _createOrReplaceSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       assetName: assetName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: namespaceAssetSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: namespaceAssetSerializer(resource),
+    });
 }
 
 export async function _createOrReplaceDeserialize(
@@ -240,7 +318,9 @@ export async function _createOrReplaceDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -263,7 +343,7 @@ export function createOrReplace(
     getInitialResponse: () =>
       _createOrReplaceSend(context, resourceGroupName, namespaceName, assetName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01-preview",
   }) as PollerLike<OperationState<NamespaceAsset>, NamespaceAsset>;
 }
 
@@ -281,23 +361,27 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       assetName: assetName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<NamespaceAsset> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

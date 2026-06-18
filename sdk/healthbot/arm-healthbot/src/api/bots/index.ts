@@ -11,13 +11,13 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type BotsRegenerateApiJwtSecretOptionalParams,
-  type BotsListSecretsOptionalParams,
-  type BotsListOptionalParams,
-  type BotsListByResourceGroupOptionalParams,
-  type BotsDeleteOptionalParams,
-  type BotsUpdateOptionalParams,
-  type BotsCreateOptionalParams,
-  type BotsGetOptionalParams,
+export type {
+  BotsRegenerateApiJwtSecretOptionalParams,
+  BotsListSecretsOptionalParams,
+  BotsListOptionalParams,
+  BotsListByResourceGroupOptionalParams,
+  BotsDeleteOptionalParams,
+  BotsUpdateOptionalParams,
+  BotsCreateOptionalParams,
+  BotsGetOptionalParams,
 } from "./options.js";

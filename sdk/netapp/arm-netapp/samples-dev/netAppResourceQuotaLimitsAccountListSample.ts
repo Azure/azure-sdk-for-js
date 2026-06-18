@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of quota limits for all quotas that are under account. Currently PoolsPerAccount is the only one.
  *
  * @summary gets a list of quota limits for all quotas that are under account. Currently PoolsPerAccount is the only one.
- * x-ms-original-file: 2026-01-01/NetAppResourceQuotaLimitsAccount_List.json
+ * x-ms-original-file: 2026-01-15-preview/NetAppResourceQuotaLimitsAccount_List.json
  */
 async function quotaLimits(): Promise<void> {
   const credential = new DefaultAzureCredential();

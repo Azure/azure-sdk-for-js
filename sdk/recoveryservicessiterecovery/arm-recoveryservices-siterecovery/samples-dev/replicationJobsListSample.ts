@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of Azure Site Recovery Jobs for the vault.
  *
  * @summary gets the list of Azure Site Recovery Jobs for the vault.
- * x-ms-original-file: 2025-08-01/ReplicationJobs_List.json
+ * x-ms-original-file: 2026-01-01/ReplicationJobs_List.json
  */
 async function getsTheListOfJobs(): Promise<void> {
   const credential = new DefaultAzureCredential();

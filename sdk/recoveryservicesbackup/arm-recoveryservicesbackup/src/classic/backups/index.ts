@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { trigger } from "../../api/backups/operations.js";
-import type { BackupsTriggerOptionalParams } from "../../api/backups/options.js";
-import type { BackupRequestResource } from "../../models/models.js";
+import { BackupsTriggerOptionalParams } from "../../api/backups/options.js";
+import { BackupRequestResource } from "../../models/models.js";
 
 /** Interface representing a Backups operations. */
 export interface BackupsOperations {

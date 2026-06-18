@@ -1,26 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import { $delete, createOrUpdate, get, list } from "../../api/datastores/operations.js";
-import type {
+import {
   DatastoresDeleteOptionalParams,
   DatastoresCreateOrUpdateOptionalParams,
   DatastoresGetOptionalParams,
   DatastoresListOptionalParams,
 } from "../../api/datastores/options.js";
-import type { Datastore } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Datastore } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Datastores operations. */
 export interface DatastoresOperations {
   /** Delete a Datastore */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     privateCloudName: string,

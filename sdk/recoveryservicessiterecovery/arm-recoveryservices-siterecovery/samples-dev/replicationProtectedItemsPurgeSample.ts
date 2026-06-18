@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to delete or purge a replication protected item. This operation will force delete the replication protected item. Use the remove operation on replication protected item to perform a clean disable replication for the item.
  *
  * @summary the operation to delete or purge a replication protected item. This operation will force delete the replication protected item. Use the remove operation on replication protected item to perform a clean disable replication for the item.
- * x-ms-original-file: 2025-08-01/ReplicationProtectedItems_Purge.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectedItems_Purge.json
  */
 async function purgesProtection(): Promise<void> {
   const credential = new DefaultAzureCredential();

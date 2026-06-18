@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import { list, get } from "../../api/jobs/operations.js";
-import type { JobsListOptionalParams, JobsGetOptionalParams } from "../../api/jobs/options.js";
-import type { AzureBackupJobResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { JobsListOptionalParams, JobsGetOptionalParams } from "../../api/jobs/options.js";
+import { AzureBackupJobResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Jobs operations. */
 export interface JobsOperations {

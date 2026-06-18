@@ -205,9 +205,7 @@ async function updateResourceWithCustomerManagedKeys2(): Promise<void> {
   const client = new RecoveryServicesClient(credential, subscriptionId);
   const result = await client.vaults.update("HelloWorld", "swaggerExample", {
     identity: { type: "SystemAssigned" },
-    properties: {
-      encryption: { kekIdentity: { useSystemAssignedIdentity: true } },
-    },
+    properties: { encryption: { kekIdentity: { useSystemAssignedIdentity: true } } },
     tags: { PatchKey: "PatchKeyUpdated" },
   });
   console.log(result);

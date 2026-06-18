@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import { list, get, update } from "../../api/groupQuotaSubscriptionAllocationRequest/operations.js";
-import type {
+import {
   GroupQuotaSubscriptionAllocationRequestListOptionalParams,
   GroupQuotaSubscriptionAllocationRequestGetOptionalParams,
   GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams,
 } from "../../api/groupQuotaSubscriptionAllocationRequest/options.js";
-import type {
+import {
   SubscriptionQuotaAllocationsList,
   QuotaAllocationRequestStatus,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GroupQuotaSubscriptionAllocationRequest operations. */
 export interface GroupQuotaSubscriptionAllocationRequestOperations {

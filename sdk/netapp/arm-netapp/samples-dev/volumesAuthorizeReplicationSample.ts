@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to authorize the replication connection on the source volume
  *
  * @summary authorize the replication connection on the source volume
- * x-ms-original-file: 2026-01-01/Volumes_AuthorizeReplication.json
+ * x-ms-original-file: 2026-01-15-preview/Volumes_AuthorizeReplication.json
  */
 async function volumesAuthorizeReplication(): Promise<void> {
   const credential = new DefaultAzureCredential();

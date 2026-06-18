@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the protectable items in a protection container.
  *
  * @summary lists the protectable items in a protection container.
- * x-ms-original-file: 2025-08-01/ReplicationProtectableItems_ListByReplicationProtectionContainers.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectableItems_ListByReplicationProtectionContainers.json
  */
 async function getsTheListOfProtectableItems(): Promise<void> {
   const credential = new DefaultAzureCredential();

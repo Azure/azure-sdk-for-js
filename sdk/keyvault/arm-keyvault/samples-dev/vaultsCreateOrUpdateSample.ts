@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a key vault in the specified subscription.
  *
  * @summary create or update a key vault in the specified subscription.
- * x-ms-original-file: 2026-02-01/createVault.json
+ * x-ms-original-file: 2026-03-01-preview/createVault.json
  */
 async function createANewVaultOrUpdateAnExistingVault(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -75,7 +75,7 @@ async function createANewVaultOrUpdateAnExistingVault(): Promise<void> {
  * This sample demonstrates how to create or update a key vault in the specified subscription.
  *
  * @summary create or update a key vault in the specified subscription.
- * x-ms-original-file: 2026-02-01/createVaultWithNetworkAcls.json
+ * x-ms-original-file: 2026-03-01-preview/createVaultWithNetworkAcls.json
  */
 async function createOrUpdateAVaultWithNetworkAcls(): Promise<void> {
   const credential = new DefaultAzureCredential();

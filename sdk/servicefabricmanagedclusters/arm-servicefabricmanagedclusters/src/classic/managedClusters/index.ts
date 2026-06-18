@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/managedClusters/operations.js";
-import type {
+import {
   ManagedClustersListBySubscriptionOptionalParams,
   ManagedClustersListByResourceGroupOptionalParams,
   ManagedClustersDeleteOptionalParams,
@@ -18,9 +18,9 @@ import type {
   ManagedClustersCreateOrUpdateOptionalParams,
   ManagedClustersGetOptionalParams,
 } from "../../api/managedClusters/options.js";
-import type { ManagedCluster, ManagedClusterUpdateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ManagedCluster, ManagedClusterUpdateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedClusters operations. */
 export interface ManagedClustersOperations {
@@ -34,11 +34,6 @@ export interface ManagedClustersOperations {
     options?: ManagedClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ManagedCluster>;
   /** Delete a Service Fabric managed cluster resource with the specified name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { get } from "../../api/validateOperationResults/operations.js";
-import type { ValidateOperationResultsGetOptionalParams } from "../../api/validateOperationResults/options.js";
-import type { ValidateOperationsResponse } from "../../models/models.js";
+import { ValidateOperationResultsGetOptionalParams } from "../../api/validateOperationResults/options.js";
+import { ValidateOperationsResponse } from "../../models/models.js";
 
 /** Interface representing a ValidateOperationResults operations. */
 export interface ValidateOperationResultsOperations {
@@ -14,7 +14,7 @@ export interface ValidateOperationResultsOperations {
     resourceGroupName: string,
     operationId: string,
     options?: ValidateOperationResultsGetOptionalParams,
-  ) => Promise<ValidateOperationsResponse>;
+  ) => Promise<ValidateOperationsResponse | undefined>;
 }
 
 function _getValidateOperationResults(context: RecoveryServicesBackupContext) {

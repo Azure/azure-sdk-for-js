@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EdgeActionsManagementClient } from "./edgeActionsManagementClient.js";
+import { EdgeActionsManagementClient } from "./edgeActionsManagementClient.js";
 import {
   _$deleteDeserialize,
   _updateDeserialize,
@@ -21,10 +21,14 @@ import {
   _createDeserialize as _createDeserializeEdgeActions,
 } from "./api/edgeActions/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
-import { deserializeState } from "@azure/core-lro";
+import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  PollerLike,
+  OperationState,
+  deserializeState,
+  ResourceLocationConfig,
+} from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -100,9 +104,9 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/versions/{version}/swapDefault":
     { deserializer: _swapDefaultDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/versions/{version}/getVersionCode":
-    { deserializer: _getVersionCodeDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _getVersionCodeDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/versions/{version}/deployVersionCode":
-    { deserializer: _deployVersionCodeDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _deployVersionCodeDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/versions/{version}":
     {
       deserializer: _$deleteDeserializeEdgeActionVersions,

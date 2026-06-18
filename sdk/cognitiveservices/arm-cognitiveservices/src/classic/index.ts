@@ -8,7 +8,6 @@ export type { AgentApplicationsOperations } from "./agentApplications/index.js";
 export type { AgentDeploymentsOperations } from "./agentDeployments/index.js";
 export type { CommitmentPlansOperations } from "./commitmentPlans/index.js";
 export type { CommitmentTiersOperations } from "./commitmentTiers/index.js";
-export type { ComputeOperationsOperations } from "./computeOperations/index.js";
 export type { DefenderForAISettingsOperations } from "./defenderForAISettings/index.js";
 export type { DeletedAccountsOperations } from "./deletedAccounts/index.js";
 export type { DeploymentsOperations } from "./deployments/index.js";

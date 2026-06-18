@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a recovery point for a migration item.
  *
  * @summary gets a recovery point for a migration item.
- * x-ms-original-file: 2025-08-01/MigrationRecoveryPoints_Get.json
+ * x-ms-original-file: 2026-01-01/MigrationRecoveryPoints_Get.json
  */
 async function getsARecoveryPointForAMigrationItem(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified Content Filters associated with the Subscription.
  *
  * @summary gets the specified Content Filters associated with the Subscription.
- * x-ms-original-file: 2026-01-15-preview/GetSubscriptionRaiPolicy.json
+ * x-ms-original-file: 2026-03-01/GetSubscriptionRaiPolicy.json
  */
 async function getRaiPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

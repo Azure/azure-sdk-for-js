@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to change the recovery point of a failed over replication protected item.
  *
  * @summary the operation to change the recovery point of a failed over replication protected item.
- * x-ms-original-file: 2025-08-01/ReplicationProtectedItems_ApplyRecoveryPoint.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectedItems_ApplyRecoveryPoint.json
  */
 async function changeOrApplyRecoveryPoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

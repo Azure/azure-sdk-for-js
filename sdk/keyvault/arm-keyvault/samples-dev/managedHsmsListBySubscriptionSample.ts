@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the List operation gets information about the managed HSM Pools associated with the subscription.
  *
  * @summary the List operation gets information about the managed HSM Pools associated with the subscription.
- * x-ms-original-file: 2026-02-01/ManagedHsm_ListBySubscription.json
+ * x-ms-original-file: 2026-03-01-preview/ManagedHsm_ListBySubscription.json
  */
 async function listManagedHSMPoolsInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

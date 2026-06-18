@@ -172,7 +172,7 @@ export interface TriggersOperations {
     factoryName: string,
     triggerName: string,
     options?: TriggersGetOptionalParams,
-  ) => Promise<TriggerResource>;
+  ) => Promise<TriggerResource | undefined>;
   /** Query triggers. */
   queryByFactory: (
     resourceGroupName: string,

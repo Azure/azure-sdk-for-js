@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DomainRegistrationManagementContext } from "../../api/domainRegistrationManagementContext.js";
+import { DomainRegistrationManagementContext } from "../../api/domainRegistrationManagementContext.js";
 import { listOperations } from "../../api/domainRegistrationProvider/operations.js";
-import type { DomainRegistrationProviderListOperationsOptionalParams } from "../../api/domainRegistrationProvider/options.js";
-import type { CsmOperationDescription } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { DomainRegistrationProviderListOperationsOptionalParams } from "../../api/domainRegistrationProvider/options.js";
+import { CsmOperationDescription } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DomainRegistrationProvider operations. */
 export interface DomainRegistrationProviderOperations {

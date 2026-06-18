@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified NSP configurations for an account.
  *
  * @summary gets the specified NSP configurations for an account.
- * x-ms-original-file: 2026-01-15-preview/GetNetworkSecurityPerimeterConfigurations.json
+ * x-ms-original-file: 2026-03-01/GetNetworkSecurityPerimeterConfigurations.json
  */
 async function getNetworkSecurityPerimeterConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();

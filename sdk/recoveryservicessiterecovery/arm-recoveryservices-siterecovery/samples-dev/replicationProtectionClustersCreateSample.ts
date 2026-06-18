@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to create an ASR replication protection cluster item.
  *
  * @summary the operation to create an ASR replication protection cluster item.
- * x-ms-original-file: 2025-08-01/ReplicationProtectionClusters_Create.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectionClusters_Create.json
  */
 async function createReplicationProtectionCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

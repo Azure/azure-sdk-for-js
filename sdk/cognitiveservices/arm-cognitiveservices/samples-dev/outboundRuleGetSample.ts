@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the GET API for retrieving a single outbound rule of the managed network associated with the cognitive services account.
  *
  * @summary the GET API for retrieving a single outbound rule of the managed network associated with the cognitive services account.
- * x-ms-original-file: 2026-01-15-preview/ManagedNetwork/getRuleV2.json
+ * x-ms-original-file: 2026-03-01/ManagedNetwork/getRuleV2.json
  */
 async function getOutboundRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

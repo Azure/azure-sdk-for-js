@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary deletes the specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-01-15-preview/DeleteRaiPolicy.json
+ * x-ms-original-file: 2026-03-01/DeleteRaiPolicy.json
  */
 async function deleteRaiPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

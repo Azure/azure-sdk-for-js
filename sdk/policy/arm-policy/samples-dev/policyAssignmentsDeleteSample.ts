@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation deletes a policy assignment, given its name and the scope it was created in. The scope of a policy assignment is the part of its ID preceding '/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
  *
  * @summary this operation deletes a policy assignment, given its name and the scope it was created in. The scope of a policy assignment is the part of its ID preceding '/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
- * x-ms-original-file: 2025-03-01/deletePolicyAssignment.json
+ * x-ms-original-file: 2025-11-01/deletePolicyAssignment.json
  */
 async function deleteAPolicyAssignment(): Promise<void> {
   const credential = new DefaultAzureCredential();

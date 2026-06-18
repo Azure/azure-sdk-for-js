@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerRegistryManagementContext } from "../../api/containerRegistryManagementContext.js";
+import { ContainerRegistryManagementContext } from "../../api/containerRegistryManagementContext.js";
 import { list, $delete, update, create, get } from "../../api/cacheRules/operations.js";
-import type {
+import {
   CacheRulesListOptionalParams,
   CacheRulesDeleteOptionalParams,
   CacheRulesUpdateOptionalParams,
   CacheRulesCreateOptionalParams,
   CacheRulesGetOptionalParams,
 } from "../../api/cacheRules/options.js";
-import type { CacheRule, CacheRuleUpdateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { CacheRule, CacheRuleUpdateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CacheRules operations. */
 export interface CacheRulesOperations {
@@ -25,11 +24,6 @@ export interface CacheRulesOperations {
     options?: CacheRulesListOptionalParams,
   ) => PagedAsyncIterableIterator<CacheRule>;
   /** Deletes a cache rule resource from a container registry. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     registryName: string,

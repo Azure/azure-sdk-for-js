@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext } from "../../api/storageManagementContext.js";
+import { StorageManagementContext } from "../../api/storageManagementContext.js";
 import {
   list,
   lease,
@@ -11,7 +11,7 @@ import {
   create,
   get,
 } from "../../api/fileShares/operations.js";
-import type {
+import {
   FileSharesListOptionalParams,
   FileSharesLeaseOptionalParams,
   FileSharesRestoreOptionalParams,
@@ -20,13 +20,8 @@ import type {
   FileSharesCreateOptionalParams,
   FileSharesGetOptionalParams,
 } from "../../api/fileShares/options.js";
-import type {
-  FileShare,
-  DeletedShare,
-  LeaseShareResponse,
-  FileShareItem,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { FileShare, DeletedShare, LeaseShareResponse, FileShareItem } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a FileShares operations. */
 export interface FileSharesOperations {

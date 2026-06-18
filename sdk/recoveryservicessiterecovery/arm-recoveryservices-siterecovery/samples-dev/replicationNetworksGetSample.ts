@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the details of a network.
  *
  * @summary gets the details of a network.
- * x-ms-original-file: 2025-08-01/ReplicationNetworks_Get.json
+ * x-ms-original-file: 2026-01-01/ReplicationNetworks_Get.json
  */
 async function getsANetworkWithSpecifiedServerIdAndNetworkName(): Promise<void> {
   const credential = new DefaultAzureCredential();

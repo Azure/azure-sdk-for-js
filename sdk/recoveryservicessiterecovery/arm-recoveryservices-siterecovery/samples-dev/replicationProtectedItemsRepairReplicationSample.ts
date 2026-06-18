@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to start resynchronize/repair replication for a replication protected item requiring resynchronization.
  *
  * @summary the operation to start resynchronize/repair replication for a replication protected item requiring resynchronization.
- * x-ms-original-file: 2025-08-01/ReplicationProtectedItems_RepairReplication.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectedItems_RepairReplication.json
  */
 async function resynchronizeOrRepairReplication(): Promise<void> {
   const credential = new DefaultAzureCredential();

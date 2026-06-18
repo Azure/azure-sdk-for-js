@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import { $delete, createOrUpdate, get, list } from "../../api/hcxEnterpriseSites/operations.js";
-import type {
+import {
   HcxEnterpriseSitesDeleteOptionalParams,
   HcxEnterpriseSitesCreateOrUpdateOptionalParams,
   HcxEnterpriseSitesGetOptionalParams,
   HcxEnterpriseSitesListOptionalParams,
 } from "../../api/hcxEnterpriseSites/options.js";
-import type { HcxEnterpriseSite } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { HcxEnterpriseSite } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a HcxEnterpriseSites operations. */
 export interface HcxEnterpriseSitesOperations {
   /** Delete a HcxEnterpriseSite */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     privateCloudName: string,

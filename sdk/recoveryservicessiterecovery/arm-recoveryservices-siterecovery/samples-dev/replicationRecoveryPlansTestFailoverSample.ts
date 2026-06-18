@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to start the test failover of a recovery plan.
  *
  * @summary the operation to start the test failover of a recovery plan.
- * x-ms-original-file: 2025-08-01/ReplicationRecoveryPlans_TestFailover.json
+ * x-ms-original-file: 2026-01-01/ReplicationRecoveryPlans_TestFailover.json
  */
 async function executeTestFailoverOfTheRecoveryPlan(): Promise<void> {
   const credential = new DefaultAzureCredential();

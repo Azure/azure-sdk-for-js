@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the Backup Vault
  *
  * @summary get the Backup Vault
- * x-ms-original-file: 2026-01-01/BackupVaults_Get.json
+ * x-ms-original-file: 2026-01-15-preview/BackupVaults_Get.json
  */
 async function backupVaultsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

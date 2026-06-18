@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import { list } from "../../api/usage/operations.js";
-import type { UsageListOptionalParams } from "../../api/usage/options.js";
-import type { Usage } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { UsageListOptionalParams } from "../../api/usage/options.js";
+import { Usage } from "../../models/compute/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Usage operations. */
 export interface UsageOperations {

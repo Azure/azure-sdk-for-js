@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the list of cluster recovery points.
  *
  * @summary the list of cluster recovery points.
- * x-ms-original-file: 2025-08-01/ClusterRecoveryPoints_ListByReplicationProtectionCluster.json
+ * x-ms-original-file: 2026-01-01/ClusterRecoveryPoints_ListByReplicationProtectionCluster.json
  */
 async function getsTheListOfClusterRecoveryPoints(): Promise<void> {
   const credential = new DefaultAzureCredential();

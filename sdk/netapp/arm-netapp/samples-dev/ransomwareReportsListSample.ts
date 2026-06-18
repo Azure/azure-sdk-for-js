@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * Returns a list of the Advanced Ransomware Protection (ARP) reports for the volume.
  * ARP reports are created with a list of suspected files when it detects any combination of high data entropy, abnormal volume activity with data encryption, and unusual file extensions.
  * ARP creates snapshots named Anti_ransomware_backup when it detects a potential ransomware threat. You can use one of these ARP snapshots or another snapshot of your volume to restore data"
- * x-ms-original-file: 2026-01-01/RansomwareReports_List.json
+ * x-ms-original-file: 2026-01-15-preview/RansomwareReports_List.json
  */
 async function ransomwareReportsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

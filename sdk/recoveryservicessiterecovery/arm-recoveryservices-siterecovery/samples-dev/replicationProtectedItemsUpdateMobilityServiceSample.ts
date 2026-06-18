@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to update(push update) the installed mobility service software on a replication protected item to the latest available version.
  *
  * @summary the operation to update(push update) the installed mobility service software on a replication protected item to the latest available version.
- * x-ms-original-file: 2025-08-01/ReplicationProtectedItems_UpdateMobilityService.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectedItems_UpdateMobilityService.json
  */
 async function updateTheMobilityServiceOnAProtectedItem(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EdgeActionsManagementContext } from "../../api/edgeActionsManagementContext.js";
+import { EdgeActionsManagementContext } from "../../api/edgeActionsManagementContext.js";
 import {
   swapDefault,
   getVersionCode,
@@ -12,7 +12,7 @@ import {
   create,
   get,
 } from "../../api/edgeActionVersions/operations.js";
-import type {
+import {
   EdgeActionVersionsSwapDefaultOptionalParams,
   EdgeActionVersionsGetVersionCodeOptionalParams,
   EdgeActionVersionsDeployVersionCodeOptionalParams,
@@ -22,14 +22,14 @@ import type {
   EdgeActionVersionsCreateOptionalParams,
   EdgeActionVersionsGetOptionalParams,
 } from "../../api/edgeActionVersions/options.js";
-import type {
+import {
   EdgeActionVersion,
   EdgeActionVersionProperties,
   EdgeActionVersionUpdate,
   VersionCode,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a EdgeActionVersions operations. */
 export interface EdgeActionVersionsOperations {
@@ -62,11 +62,6 @@ export interface EdgeActionVersionsOperations {
     options?: EdgeActionVersionsListByEdgeActionOptionalParams,
   ) => PagedAsyncIterableIterator<EdgeActionVersion>;
   /** Delete a EdgeActionVersion */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     edgeActionName: string,

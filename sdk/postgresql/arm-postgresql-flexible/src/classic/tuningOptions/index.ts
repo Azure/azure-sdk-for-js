@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
+import { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
 import { listRecommendations, listByServer, get } from "../../api/tuningOptions/operations.js";
-import type {
+import {
   TuningOptionsListRecommendationsOptionalParams,
   TuningOptionsListByServerOptionalParams,
   TuningOptionsGetOptionalParams,
 } from "../../api/tuningOptions/options.js";
-import type {
+import {
   TuningOptions,
   TuningOptionParameterEnum,
   ObjectRecommendation,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a TuningOptions operations. */
 export interface TuningOptionsOperations {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to initiate test migrate cleanup.
  *
  * @summary the operation to initiate test migrate cleanup.
- * x-ms-original-file: 2025-08-01/ReplicationMigrationItems_TestMigrateCleanup.json
+ * x-ms-original-file: 2026-01-01/ReplicationMigrationItems_TestMigrateCleanup.json
  */
 async function testMigrateCleanup(): Promise<void> {
   const credential = new DefaultAzureCredential();

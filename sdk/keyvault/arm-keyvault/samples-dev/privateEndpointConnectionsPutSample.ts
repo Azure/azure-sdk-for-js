@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the specified private endpoint connection associated with the key vault.
  *
  * @summary updates the specified private endpoint connection associated with the key vault.
- * x-ms-original-file: 2026-02-01/putPrivateEndpointConnection.json
+ * x-ms-original-file: 2026-03-01-preview/putPrivateEndpointConnection.json
  */
 async function keyVaultPutPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

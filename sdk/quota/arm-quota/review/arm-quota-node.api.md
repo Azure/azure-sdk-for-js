@@ -4,14 +4,16 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AllocatedQuotaToSubscriptionList {
@@ -116,9 +118,10 @@ export interface GroupQuotaDetails {
     readonly availableLimit?: number;
     comment?: string;
     limit?: number;
-    readonly name?: GroupQuotaDetailsName;
+    readonly localizedValue?: string;
     resourceName?: string;
     readonly unit?: string;
+    readonly value?: string;
 }
 
 // @public
@@ -204,16 +207,19 @@ export interface GroupQuotaLocationSettingsUpdateOptionalParams extends Operatio
 
 // @public
 export interface GroupQuotaRequestBase {
-    // (undocumented)
-    properties?: GroupQuotaRequestBaseProperties;
+    comments?: string;
+    limit?: number;
+    readonly name?: GroupQuotaRequestBasePropertiesName;
+    region?: string;
 }
 
 // @public
 export interface GroupQuotaRequestBaseProperties {
     comments?: string;
     limit?: number;
-    readonly name?: GroupQuotaRequestBasePropertiesName;
+    readonly localizedValue?: string;
     region?: string;
+    readonly value?: string;
 }
 
 // @public
@@ -404,9 +410,10 @@ export interface GroupQuotasUpdateOptionalParams extends OperationOptions {
 // @public
 export interface GroupQuotaUsagesBase {
     limit?: number;
-    name?: GroupQuotaUsagesBaseName;
+    readonly localizedValue?: string;
     readonly unit?: string;
     usages?: number;
+    value?: string;
 }
 
 // @public
@@ -427,6 +434,8 @@ export interface GroupQuotaUsagesOperations {
 // @public
 export type GroupType = string;
 
+export { isRestError }
+
 // @public
 export enum KnownCreatedByType {
     Application = "Application",
@@ -437,11 +446,8 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownEnforcementState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
     NotAvailable = "NotAvailable"
 }
 
@@ -453,29 +459,21 @@ export enum KnownGroupType {
 
 // @public
 export enum KnownLimitType {
-    // (undocumented)
     LimitValue = "LimitValue"
 }
 
 // @public
 export enum KnownQuotaLimitTypes {
-    // (undocumented)
     Independent = "Independent",
-    // (undocumented)
     Shared = "Shared"
 }
 
 // @public
 export enum KnownQuotaRequestState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
@@ -493,9 +491,7 @@ export enum KnownRequestState {
 
 // @public
 export enum KnownUsagesTypes {
-    // (undocumented)
     Combined = "Combined",
-    // (undocumented)
     Individual = "Individual"
 }
 
@@ -558,15 +554,17 @@ export interface ProxyResource extends Resource {
 
 // @public
 export interface QuotaAllocationRequestBase {
-    // (undocumented)
-    properties?: QuotaAllocationRequestBaseProperties;
+    limit?: number;
+    readonly name?: QuotaAllocationRequestBasePropertiesName;
+    region?: string;
 }
 
 // @public
 export interface QuotaAllocationRequestBaseProperties {
     limit?: number;
-    readonly name?: QuotaAllocationRequestBasePropertiesName;
+    readonly localizedValue?: string;
     region?: string;
+    readonly value?: string;
 }
 
 // @public
@@ -577,8 +575,10 @@ export interface QuotaAllocationRequestBasePropertiesName {
 
 // @public
 export interface QuotaAllocationRequestStatus extends ProxyResource {
-    // (undocumented)
-    properties?: QuotaAllocationRequestStatusProperties;
+    readonly faultCode?: string;
+    readonly provisioningState?: RequestState;
+    requestedResource?: QuotaAllocationRequestBase;
+    readonly requestSubmitTime?: Date;
 }
 
 // @public
@@ -616,10 +616,10 @@ export interface QuotaOperationOperations {
 
 // @public
 export interface QuotaOperations {
-    createOrUpdate: (resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams) => PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
-    get: (resourceName: string, scope: string, options?: QuotaGetOptionalParams) => Promise<CurrentQuotaLimitBase>;
+    createOrUpdate: (apiVersion: string, resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams) => PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
+    get: (apiVersion: string, resourceName: string, scope: string, options?: QuotaGetOptionalParams) => Promise<CurrentQuotaLimitBase>;
     list: (scope: string, options?: QuotaListOptionalParams) => PagedAsyncIterableIterator<CurrentQuotaLimitBase>;
-    update: (resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams) => PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
+    update: (apiVersion: string, resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams) => PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
 }
 
 // @public
@@ -635,7 +635,11 @@ export interface QuotaProperties {
 
 // @public
 export interface QuotaRequestDetails extends ExtensionResource {
-    properties?: QuotaRequestProperties;
+    error?: ServiceErrorDetail;
+    readonly message?: string;
+    readonly provisioningState?: QuotaRequestState;
+    readonly requestSubmitTime?: Date;
+    value?: SubRequest[];
 }
 
 // @public
@@ -663,7 +667,7 @@ export interface QuotaRequestStatusListOptionalParams extends OperationOptions {
 
 // @public
 export interface QuotaRequestStatusOperations {
-    get: (id: string, scope: string, options?: QuotaRequestStatusGetOptionalParams) => Promise<QuotaRequestDetails>;
+    get: (apiVersion: string, id: string, scope: string, options?: QuotaRequestStatusGetOptionalParams) => Promise<QuotaRequestDetails>;
     list: (scope: string, options?: QuotaRequestStatusListOptionalParams) => PagedAsyncIterableIterator<QuotaRequestDetails>;
 }
 
@@ -693,6 +697,8 @@ export interface ResourceName {
 export interface ResourceUsages extends ProxyResource {
     properties?: GroupQuotaUsagesBase;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureQuotaExtensionAPI, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -767,9 +773,10 @@ export interface SubscriptionQuotaAllocationsProperties extends SubscriptionQuot
 // @public
 export interface SubscriptionQuotaDetails {
     limit?: number;
-    readonly name?: SubscriptionQuotaDetailsName;
+    readonly localizedValue?: string;
     resourceName?: string;
     readonly shareableQuota?: number;
+    readonly value?: string;
 }
 
 // @public
@@ -804,7 +811,7 @@ export interface UsagesObject {
 
 // @public
 export interface UsagesOperations {
-    get: (resourceName: string, scope: string, options?: UsagesGetOptionalParams) => Promise<CurrentUsagesBase>;
+    get: (apiVersion: string, resourceName: string, scope: string, options?: UsagesGetOptionalParams) => Promise<CurrentUsagesBase>;
     list: (scope: string, options?: UsagesListOptionalParams) => PagedAsyncIterableIterator<CurrentUsagesBase>;
 }
 

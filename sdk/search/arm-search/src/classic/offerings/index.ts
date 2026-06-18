@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SearchManagementContext } from "../../api/searchManagementContext.js";
+import { SearchManagementContext } from "../../api/searchManagementContext.js";
 import { list } from "../../api/offerings/operations.js";
-import type { OfferingsListOptionalParams } from "../../api/offerings/options.js";
-import type { OfferingsListResult } from "../../models/models.js";
+import { OfferingsListOptionalParams } from "../../api/offerings/options.js";
+import { OfferingsListResult } from "../../models/models.js";
 
 /** Interface representing a Offerings operations. */
 export interface OfferingsOperations {

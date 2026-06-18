@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommunicationServiceManagementContext } from "../../api/communicationServiceManagementContext.js";
+import { CommunicationServiceManagementContext } from "../../api/communicationServiceManagementContext.js";
 import {
   listByDomains,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/senderUsernames/operations.js";
-import type {
+import {
   SenderUsernamesListByDomainsOptionalParams,
   SenderUsernamesDeleteOptionalParams,
   SenderUsernamesCreateOrUpdateOptionalParams,
   SenderUsernamesGetOptionalParams,
 } from "../../api/senderUsernames/options.js";
-import type { SenderUsernameResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SenderUsernameResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SenderUsernames operations. */
 export interface SenderUsernamesOperations {
@@ -27,11 +27,6 @@ export interface SenderUsernamesOperations {
     options?: SenderUsernamesListByDomainsOptionalParams,
   ) => PagedAsyncIterableIterator<SenderUsernameResource>;
   /** Operation to delete a SenderUsernames resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     emailServiceName: string,

@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeLimitContext } from "../../api/computeLimitContext.js";
+import { ComputeLimitContext } from "../../api/computeLimitContext.js";
 import {
   listBySubscriptionLocationResource,
   $delete,
   create,
   get,
 } from "../../api/guestSubscriptions/operations.js";
-import type {
+import {
   GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams,
   GuestSubscriptionsDeleteOptionalParams,
   GuestSubscriptionsCreateOptionalParams,
   GuestSubscriptionsGetOptionalParams,
 } from "../../api/guestSubscriptions/options.js";
-import type { GuestSubscription } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { GuestSubscription } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GuestSubscriptions operations. */
 export interface GuestSubscriptionsOperations {
@@ -25,11 +25,6 @@ export interface GuestSubscriptionsOperations {
     options?: GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams,
   ) => PagedAsyncIterableIterator<GuestSubscription>;
   /** Deletes a subscription as a guest to stop consuming the compute limits shared by the host subscription. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     location: string,
     guestSubscriptionId: string,

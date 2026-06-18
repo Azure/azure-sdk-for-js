@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a secret in a key vault in the specified subscription.  NOTE: This API is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets.
  *
  * @summary create or update a secret in a key vault in the specified subscription.  NOTE: This API is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets.
- * x-ms-original-file: 2026-02-01/createSecret.json
+ * x-ms-original-file: 2026-03-01-preview/createSecret.json
  */
 async function createASecret(): Promise<void> {
   const credential = new DefaultAzureCredential();

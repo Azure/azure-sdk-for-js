@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to operation to initiate commit failover of the replication protection cluster.
  *
  * @summary operation to initiate commit failover of the replication protection cluster.
- * x-ms-original-file: 2025-08-01/ReplicationProtectionClusters_FailoverCommit.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectionClusters_FailoverCommit.json
  */
 async function executeCommitFailoverForCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

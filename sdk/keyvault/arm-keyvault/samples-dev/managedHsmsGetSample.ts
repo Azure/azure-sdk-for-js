@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified managed HSM Pool.
  *
  * @summary gets the specified managed HSM Pool.
- * x-ms-original-file: 2026-02-01/ManagedHsm_Get.json
+ * x-ms-original-file: 2026-03-01-preview/ManagedHsm_Get.json
  */
 async function retrieveAManagedHSMPool(): Promise<void> {
   const credential = new DefaultAzureCredential();

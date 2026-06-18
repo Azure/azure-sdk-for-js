@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to moves Cache  to another Capacity Pool
  *
  * @summary moves Cache  to another Capacity Pool
- * x-ms-original-file: 2026-01-01/Caches_PoolChange.json
+ * x-ms-original-file: 2026-01-15-preview/Caches_PoolChange.json
  */
 async function cachesPoolChange(): Promise<void> {
   const credential = new DefaultAzureCredential();

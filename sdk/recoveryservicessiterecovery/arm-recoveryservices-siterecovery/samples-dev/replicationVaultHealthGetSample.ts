@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the health details of the vault.
  *
  * @summary gets the health details of the vault.
- * x-ms-original-file: 2025-08-01/ReplicationVaultHealth_Get.json
+ * x-ms-original-file: 2026-01-01/ReplicationVaultHealth_Get.json
  */
 async function getsTheHealthSummaryForTheVault(): Promise<void> {
   const credential = new DefaultAzureCredential();

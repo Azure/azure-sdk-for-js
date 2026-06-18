@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
-import type {
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -62,6 +61,8 @@ export type {
   NamespaceProperties,
   Messaging,
   MessagingEndpoint,
+  Management,
+  ManagementEndpoint,
   SystemAssignedServiceIdentity,
   SystemAssignedServiceIdentityType,
   NamespaceUpdate,
@@ -69,24 +70,6 @@ export type {
   NamespaceMigrateRequest,
   Scope,
   ErrorDetails,
-  Credential,
-  CredentialProperties,
-  CredentialUpdate,
-  Policy,
-  PolicyProperties,
-  CertificateConfiguration,
-  CertificateAuthorityConfiguration,
-  SupportedKeyType,
-  BringYourOwnRoot,
-  BringYourOwnRootStatus,
-  LeafCertificateConfiguration,
-  PolicyUpdate,
-  PolicyUpdateProperties,
-  CertificateConfigurationUpdate,
-  CertificateAuthorityConfigurationUpdate,
-  BringYourOwnRootUpdate,
-  LeafCertificateConfigurationUpdate,
-  ActivateBringYourOwnRootRequest,
   NamespaceAsset,
   NamespaceAssetProperties,
   DeviceRef,
@@ -128,8 +111,11 @@ export type {
   NamespaceAssetStatusStream,
   NamespaceAssetStatusManagementGroup,
   NamespaceAssetStatusManagementAction,
+  HealthState,
+  HealthStatus,
   NamespaceAssetUpdate,
   NamespaceAssetUpdateProperties,
+  NamespaceAssetExecuteActionRequest,
   NamespaceDevice,
   NamespaceDeviceProperties,
   MessagingEndpoints,
@@ -142,10 +128,8 @@ export type {
   DeviceStatus,
   DeviceStatusEndpoints,
   DeviceStatusEndpoint,
-  DeviceCredentialPolicy,
   NamespaceDeviceUpdate,
   NamespaceDeviceUpdateProperties,
-  DeviceCredentialsRevokeRequest,
   NamespaceDiscoveredAsset,
   NamespaceDiscoveredAssetProperties,
   NamespaceDiscoveredDataset,
@@ -187,13 +171,12 @@ export {
   KnownAuthenticationMethod,
   KnownSystemAssignedServiceIdentityType,
   KnownScope,
-  KnownSupportedKeyType,
-  KnownBringYourOwnRootStatus,
   KnownDatasetDestinationTarget,
   KnownMqttDestinationQos,
   KnownEventDestinationTarget,
   KnownStreamDestinationTarget,
   KnownManagementActionType,
+  KnownHealthStatus,
   KnownNamespaceDiscoveredManagementActionType,
   KnownFormat,
   KnownSchemaType,
@@ -221,14 +204,7 @@ export type {
   BillingContainersGetOptionalParams,
 } from "./api/billingContainers/index.js";
 export type {
-  CredentialsSynchronizeOptionalParams,
-  CredentialsListByResourceGroupOptionalParams,
-  CredentialsUpdateOptionalParams,
-  CredentialsDeleteOptionalParams,
-  CredentialsCreateOrUpdateOptionalParams,
-  CredentialsGetOptionalParams,
-} from "./api/credentials/index.js";
-export type {
+  NamespaceAssetsExecuteActionOptionalParams,
   NamespaceAssetsListByResourceGroupOptionalParams,
   NamespaceAssetsDeleteOptionalParams,
   NamespaceAssetsUpdateOptionalParams,
@@ -236,7 +212,6 @@ export type {
   NamespaceAssetsGetOptionalParams,
 } from "./api/namespaceAssets/index.js";
 export type {
-  NamespaceDevicesRevokeOptionalParams,
   NamespaceDevicesListByResourceGroupOptionalParams,
   NamespaceDevicesDeleteOptionalParams,
   NamespaceDevicesUpdateOptionalParams,
@@ -269,15 +244,6 @@ export type {
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
 export type { OperationStatusGetOptionalParams } from "./api/operationStatus/index.js";
 export type {
-  PoliciesActivateBringYourOwnRootOptionalParams,
-  PoliciesRevokeIssuerOptionalParams,
-  PoliciesListByResourceGroupOptionalParams,
-  PoliciesUpdateOptionalParams,
-  PoliciesDeleteOptionalParams,
-  PoliciesCreateOrUpdateOptionalParams,
-  PoliciesGetOptionalParams,
-} from "./api/policies/index.js";
-export type {
   SchemaRegistriesListBySubscriptionOptionalParams,
   SchemaRegistriesListByResourceGroupOptionalParams,
   SchemaRegistriesDeleteOptionalParams,
@@ -301,7 +267,6 @@ export type {
   AssetEndpointProfilesOperations,
   AssetsOperations,
   BillingContainersOperations,
-  CredentialsOperations,
   NamespaceAssetsOperations,
   NamespaceDevicesOperations,
   NamespaceDiscoveredAssetsOperations,
@@ -309,7 +274,6 @@ export type {
   NamespacesOperations,
   OperationsOperations,
   OperationStatusOperations,
-  PoliciesOperations,
   SchemaRegistriesOperations,
   SchemasOperations,
   SchemaVersionsOperations,
@@ -317,3 +281,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

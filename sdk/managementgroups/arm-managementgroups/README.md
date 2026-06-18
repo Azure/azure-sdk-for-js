@@ -10,7 +10,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/managementgroups/arm-managementgroups)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-managementgroups)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-managementgroups?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-managementgroups)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/managementgroups/arm-managementgroups/samples)
 
 ## Getting started

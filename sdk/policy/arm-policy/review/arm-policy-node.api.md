@@ -4,10 +4,12 @@
 
 ```ts
 
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AssignmentType = string;
@@ -62,9 +64,13 @@ export type ExternalEndpointResult = string;
 
 // @public
 export interface ExternalEvaluationEndpointInvocationResult {
+    additionalInfo?: any;
     claims?: any;
+    endpointKind?: string;
     expiration?: Date;
     message?: string;
+    policyAction?: PolicyAction;
+    policyEvaluationDetails?: any;
     policyInfo?: PolicyLogInfo;
     result?: ExternalEndpointResult;
     retryAfter?: Date;
@@ -91,6 +97,8 @@ export interface Identity {
     type?: ResourceIdentityType;
     userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownAssignmentType {
@@ -139,6 +147,14 @@ export enum KnownParameterType {
 }
 
 // @public
+export enum KnownPolicyAction {
+    Audit = "Audit",
+    Deny = "Deny",
+    Error = "Error",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownPolicyTokenResult {
     Failed = "Failed",
     Succeeded = "Succeeded"
@@ -162,7 +178,8 @@ export enum KnownSelectorKind {
 
 // @public
 export enum KnownVersions {
-    V20250301 = "2025-03-01"
+    V20250301 = "2025-03-01",
+    V20251101 = "2025-11-01"
 }
 
 // @public
@@ -220,6 +237,9 @@ export interface ParameterValuesValue {
 }
 
 // @public
+export type PolicyAction = string;
+
+// @public
 export interface PolicyAssignment extends ExtensionResource {
     assignmentType?: AssignmentType;
     definitionVersion?: string;
@@ -239,6 +259,7 @@ export interface PolicyAssignment extends ExtensionResource {
     policyDefinitionId?: string;
     resourceSelectors?: ResourceSelector[];
     readonly scope?: string;
+    selfServeExemptionSettings?: SelfServeExemptionSettings;
 }
 
 // @public
@@ -259,6 +280,7 @@ export interface PolicyAssignmentProperties {
     policyDefinitionId?: string;
     resourceSelectors?: ResourceSelector[];
     readonly scope?: string;
+    selfServeExemptionSettings?: SelfServeExemptionSettings;
 }
 
 // @public
@@ -305,7 +327,7 @@ export interface PolicyAssignmentsListOptionalParams extends OperationOptions {
 // @public
 export interface PolicyAssignmentsOperations {
     create: (scope: string, policyAssignmentName: string, parameters: PolicyAssignment, options?: PolicyAssignmentsCreateOptionalParams) => Promise<PolicyAssignment>;
-    delete: (scope: string, policyAssignmentName: string, options?: PolicyAssignmentsDeleteOptionalParams) => Promise<PolicyAssignment>;
+    delete: (scope: string, policyAssignmentName: string, options?: PolicyAssignmentsDeleteOptionalParams) => Promise<PolicyAssignment | undefined>;
     get: (scope: string, policyAssignmentName: string, options?: PolicyAssignmentsGetOptionalParams) => Promise<PolicyAssignment>;
     list: (options?: PolicyAssignmentsListOptionalParams) => PagedAsyncIterableIterator<PolicyAssignment>;
     listForManagementGroup: (managementGroupId: string, options?: PolicyAssignmentsListForManagementGroupOptionalParams) => PagedAsyncIterableIterator<PolicyAssignment>;
@@ -324,12 +346,14 @@ export interface PolicyAssignmentUpdate {
     location?: string;
     overrides?: Override[];
     resourceSelectors?: ResourceSelector[];
+    selfServeExemptionSettings?: SelfServeExemptionSettings;
 }
 
 // @public
 export interface PolicyAssignmentUpdateProperties {
     overrides?: Override[];
     resourceSelectors?: ResourceSelector[];
+    selfServeExemptionSettings?: SelfServeExemptionSettings;
 }
 
 // @public (undocumented)
@@ -473,6 +497,12 @@ export interface PolicyDefinitionVersion extends ProxyResource {
 }
 
 // @public
+export interface PolicyDefinitionVersionListResult {
+    nextLink?: string;
+    value: PolicyDefinitionVersion[];
+}
+
+// @public
 export interface PolicyDefinitionVersionProperties {
     description?: string;
     displayName?: string;
@@ -550,10 +580,9 @@ export interface PolicyDefinitionVersionsOperations {
     getAtManagementGroup: (managementGroupName: string, policyDefinitionName: string, policyDefinitionVersion: string, options?: PolicyDefinitionVersionsGetAtManagementGroupOptionalParams) => Promise<PolicyDefinitionVersion>;
     getBuiltIn: (policyDefinitionName: string, policyDefinitionVersion: string, options?: PolicyDefinitionVersionsGetBuiltInOptionalParams) => Promise<PolicyDefinitionVersion>;
     list: (policyDefinitionName: string, options?: PolicyDefinitionVersionsListOptionalParams) => PagedAsyncIterableIterator<PolicyDefinitionVersion>;
-    // Warning: (ae-forgotten-export) The symbol "_PolicyDefinitionVersionListResult" needs to be exported by the entry point index.d.ts
-    listAll: (options?: PolicyDefinitionVersionsListAllOptionalParams) => Promise<_PolicyDefinitionVersionListResult>;
-    listAllAtManagementGroup: (managementGroupName: string, options?: PolicyDefinitionVersionsListAllAtManagementGroupOptionalParams) => Promise<_PolicyDefinitionVersionListResult>;
-    listAllBuiltins: (options?: PolicyDefinitionVersionsListAllBuiltinsOptionalParams) => Promise<_PolicyDefinitionVersionListResult>;
+    listAll: (options?: PolicyDefinitionVersionsListAllOptionalParams) => Promise<PolicyDefinitionVersionListResult>;
+    listAllAtManagementGroup: (managementGroupName: string, options?: PolicyDefinitionVersionsListAllAtManagementGroupOptionalParams) => Promise<PolicyDefinitionVersionListResult>;
+    listAllBuiltins: (options?: PolicyDefinitionVersionsListAllBuiltinsOptionalParams) => Promise<PolicyDefinitionVersionListResult>;
     listBuiltIn: (policyDefinitionName: string, options?: PolicyDefinitionVersionsListBuiltInOptionalParams) => PagedAsyncIterableIterator<PolicyDefinitionVersion>;
     listByManagementGroup: (managementGroupName: string, policyDefinitionName: string, options?: PolicyDefinitionVersionsListByManagementGroupOptionalParams) => PagedAsyncIterableIterator<PolicyDefinitionVersion>;
 }
@@ -688,6 +717,12 @@ export interface PolicySetDefinitionVersion extends ProxyResource {
 }
 
 // @public
+export interface PolicySetDefinitionVersionListResult {
+    nextLink?: string;
+    value: PolicySetDefinitionVersion[];
+}
+
+// @public
 export interface PolicySetDefinitionVersionProperties {
     description?: string;
     displayName?: string;
@@ -770,12 +805,21 @@ export interface PolicySetDefinitionVersionsOperations {
     getAtManagementGroup: (managementGroupName: string, policySetDefinitionName: string, policyDefinitionVersion: string, options?: PolicySetDefinitionVersionsGetAtManagementGroupOptionalParams) => Promise<PolicySetDefinitionVersion>;
     getBuiltIn: (policySetDefinitionName: string, policyDefinitionVersion: string, options?: PolicySetDefinitionVersionsGetBuiltInOptionalParams) => Promise<PolicySetDefinitionVersion>;
     list: (policySetDefinitionName: string, options?: PolicySetDefinitionVersionsListOptionalParams) => PagedAsyncIterableIterator<PolicySetDefinitionVersion>;
-    // Warning: (ae-forgotten-export) The symbol "_PolicySetDefinitionVersionListResult" needs to be exported by the entry point index.d.ts
-    listAll: (options?: PolicySetDefinitionVersionsListAllOptionalParams) => Promise<_PolicySetDefinitionVersionListResult>;
-    listAllAtManagementGroup: (managementGroupName: string, options?: PolicySetDefinitionVersionsListAllAtManagementGroupOptionalParams) => Promise<_PolicySetDefinitionVersionListResult>;
-    listAllBuiltins: (options?: PolicySetDefinitionVersionsListAllBuiltinsOptionalParams) => Promise<_PolicySetDefinitionVersionListResult>;
+    listAll: (options?: PolicySetDefinitionVersionsListAllOptionalParams) => Promise<PolicySetDefinitionVersionListResult>;
+    listAllAtManagementGroup: (managementGroupName: string, options?: PolicySetDefinitionVersionsListAllAtManagementGroupOptionalParams) => Promise<PolicySetDefinitionVersionListResult>;
+    listAllBuiltins: (options?: PolicySetDefinitionVersionsListAllBuiltinsOptionalParams) => Promise<PolicySetDefinitionVersionListResult>;
     listBuiltIn: (policySetDefinitionName: string, options?: PolicySetDefinitionVersionsListBuiltInOptionalParams) => PagedAsyncIterableIterator<PolicySetDefinitionVersion>;
     listByManagementGroup: (managementGroupName: string, policySetDefinitionName: string, options?: PolicySetDefinitionVersionsListByManagementGroupOptionalParams) => PagedAsyncIterableIterator<PolicySetDefinitionVersion>;
+}
+
+// @public
+export interface PolicyTokenEvaluatedRequestDetails {
+    apiVersion: string;
+    authorizationAction: string;
+    contentHash: string;
+    httpMethod: string;
+    resourceId: string;
+    uri: string;
 }
 
 // @public
@@ -796,6 +840,7 @@ export interface PolicyTokenResponse {
     changeReference?: string;
     expiration?: Date;
     message?: string;
+    requestDetails?: PolicyTokenEvaluatedRequestDetails;
     result?: PolicyTokenResult;
     results?: ExternalEvaluationEndpointInvocationResult[];
     retryAfter?: Date;
@@ -844,6 +889,8 @@ export interface ResourceSelector {
     selectors?: Selector[];
 }
 
+export { RestError }
+
 // @public
 export interface Selector {
     in?: string[];
@@ -853,6 +900,12 @@ export interface Selector {
 
 // @public
 export type SelectorKind = string;
+
+// @public
+export interface SelfServeExemptionSettings {
+    enabled?: boolean;
+    policyDefinitionReferenceIds?: string[];
+}
 
 // @public
 export interface SystemData {

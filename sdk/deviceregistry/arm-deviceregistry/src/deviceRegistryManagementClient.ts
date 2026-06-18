@@ -1,43 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   DeviceRegistryManagementContext,
   DeviceRegistryManagementClientOptionalParams,
+  createDeviceRegistryManagement,
 } from "./api/index.js";
-import { createDeviceRegistryManagement } from "./api/index.js";
-import type { AssetEndpointProfilesOperations } from "./classic/assetEndpointProfiles/index.js";
-import { _getAssetEndpointProfilesOperations } from "./classic/assetEndpointProfiles/index.js";
-import type { AssetsOperations } from "./classic/assets/index.js";
-import { _getAssetsOperations } from "./classic/assets/index.js";
-import type { BillingContainersOperations } from "./classic/billingContainers/index.js";
-import { _getBillingContainersOperations } from "./classic/billingContainers/index.js";
-import type { CredentialsOperations } from "./classic/credentials/index.js";
-import { _getCredentialsOperations } from "./classic/credentials/index.js";
-import type { NamespaceAssetsOperations } from "./classic/namespaceAssets/index.js";
-import { _getNamespaceAssetsOperations } from "./classic/namespaceAssets/index.js";
-import type { NamespaceDevicesOperations } from "./classic/namespaceDevices/index.js";
-import { _getNamespaceDevicesOperations } from "./classic/namespaceDevices/index.js";
-import type { NamespaceDiscoveredAssetsOperations } from "./classic/namespaceDiscoveredAssets/index.js";
-import { _getNamespaceDiscoveredAssetsOperations } from "./classic/namespaceDiscoveredAssets/index.js";
-import type { NamespaceDiscoveredDevicesOperations } from "./classic/namespaceDiscoveredDevices/index.js";
-import { _getNamespaceDiscoveredDevicesOperations } from "./classic/namespaceDiscoveredDevices/index.js";
-import type { NamespacesOperations } from "./classic/namespaces/index.js";
-import { _getNamespacesOperations } from "./classic/namespaces/index.js";
-import type { OperationStatusOperations } from "./classic/operationStatus/index.js";
-import { _getOperationStatusOperations } from "./classic/operationStatus/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PoliciesOperations } from "./classic/policies/index.js";
-import { _getPoliciesOperations } from "./classic/policies/index.js";
-import type { SchemaRegistriesOperations } from "./classic/schemaRegistries/index.js";
-import { _getSchemaRegistriesOperations } from "./classic/schemaRegistries/index.js";
-import type { SchemaVersionsOperations } from "./classic/schemaVersions/index.js";
-import { _getSchemaVersionsOperations } from "./classic/schemaVersions/index.js";
-import type { SchemasOperations } from "./classic/schemas/index.js";
-import { _getSchemasOperations } from "./classic/schemas/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  AssetEndpointProfilesOperations,
+  _getAssetEndpointProfilesOperations,
+} from "./classic/assetEndpointProfiles/index.js";
+import { AssetsOperations, _getAssetsOperations } from "./classic/assets/index.js";
+import {
+  BillingContainersOperations,
+  _getBillingContainersOperations,
+} from "./classic/billingContainers/index.js";
+import {
+  NamespaceAssetsOperations,
+  _getNamespaceAssetsOperations,
+} from "./classic/namespaceAssets/index.js";
+import {
+  NamespaceDevicesOperations,
+  _getNamespaceDevicesOperations,
+} from "./classic/namespaceDevices/index.js";
+import {
+  NamespaceDiscoveredAssetsOperations,
+  _getNamespaceDiscoveredAssetsOperations,
+} from "./classic/namespaceDiscoveredAssets/index.js";
+import {
+  NamespaceDiscoveredDevicesOperations,
+  _getNamespaceDiscoveredDevicesOperations,
+} from "./classic/namespaceDiscoveredDevices/index.js";
+import { NamespacesOperations, _getNamespacesOperations } from "./classic/namespaces/index.js";
+import {
+  OperationStatusOperations,
+  _getOperationStatusOperations,
+} from "./classic/operationStatus/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  SchemaRegistriesOperations,
+  _getSchemaRegistriesOperations,
+} from "./classic/schemaRegistries/index.js";
+import {
+  SchemaVersionsOperations,
+  _getSchemaVersionsOperations,
+} from "./classic/schemaVersions/index.js";
+import { SchemasOperations, _getSchemasOperations } from "./classic/schemas/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { DeviceRegistryManagementClientOptionalParams } from "./api/deviceRegistryManagementContext.js";
 
@@ -68,8 +78,6 @@ export class DeviceRegistryManagementClient {
     this.namespaceDiscoveredAssets = _getNamespaceDiscoveredAssetsOperations(this._client);
     this.namespaceDevices = _getNamespaceDevicesOperations(this._client);
     this.namespaceAssets = _getNamespaceAssetsOperations(this._client);
-    this.policies = _getPoliciesOperations(this._client);
-    this.credentials = _getCredentialsOperations(this._client);
     this.namespaces = _getNamespacesOperations(this._client);
     this.billingContainers = _getBillingContainersOperations(this._client);
     this.assetEndpointProfiles = _getAssetEndpointProfilesOperations(this._client);
@@ -92,10 +100,6 @@ export class DeviceRegistryManagementClient {
   public readonly namespaceDevices: NamespaceDevicesOperations;
   /** The operation groups for namespaceAssets */
   public readonly namespaceAssets: NamespaceAssetsOperations;
-  /** The operation groups for policies */
-  public readonly policies: PoliciesOperations;
-  /** The operation groups for credentials */
-  public readonly credentials: CredentialsOperations;
   /** The operation groups for namespaces */
   public readonly namespaces: NamespacesOperations;
   /** The operation groups for billingContainers */

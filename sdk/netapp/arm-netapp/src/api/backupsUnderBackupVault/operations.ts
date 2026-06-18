@@ -1,15 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext as Client } from "../index.js";
-import type { BackupRestoreFiles } from "../../models/models.js";
-import { errorResponseDeserializer, backupRestoreFilesSerializer } from "../../models/models.js";
+import { NetAppManagementContext as Client } from "../index.js";
+import {
+  errorResponseDeserializer,
+  BackupRestoreFiles,
+  backupRestoreFilesSerializer,
+} from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { BackupsUnderBackupVaultRestoreFilesOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { BackupsUnderBackupVaultRestoreFilesOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _restoreFilesSend(
   context: Client,
@@ -28,24 +35,28 @@ export function _restoreFilesSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: backupRestoreFilesSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: backupRestoreFilesSerializer(body),
+    });
 }
 
 export async function _restoreFilesDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -77,6 +88,6 @@ export function restoreFiles(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import { list } from "../../api/privateLinkResources/operations.js";
-import type { PrivateLinkResourcesListOptionalParams } from "../../api/privateLinkResources/options.js";
-import type { PrivateLinkResourceListResult } from "../../models/models.js";
+import { PrivateLinkResourcesListOptionalParams } from "../../api/privateLinkResources/options.js";
+import { PrivateLinkResourceListResult } from "../../models/models.js";
 
 /** Interface representing a PrivateLinkResources operations. */
 export interface PrivateLinkResourcesOperations {

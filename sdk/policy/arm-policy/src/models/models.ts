@@ -48,6 +48,8 @@ export interface PolicyAssignment extends ExtensionResource {
   assignmentType?: AssignmentType;
   /** The instance ID of the policy assignment. This ID only and always changes when the assignment is deleted and recreated. */
   readonly instanceId?: string;
+  /** The self-serve exemption settings for the policy assignment. */
+  selfServeExemptionSettings?: SelfServeExemptionSettings;
 }
 
 export function policyAssignmentSerializer(item: PolicyAssignment): any {
@@ -65,6 +67,7 @@ export function policyAssignmentSerializer(item: PolicyAssignment): any {
       "resourceSelectors",
       "overrides",
       "assignmentType",
+      "selfServeExemptionSettings",
     ])
       ? undefined
       : _policyAssignmentPropertiesSerializer(item),
@@ -123,6 +126,8 @@ export interface PolicyAssignmentProperties {
   assignmentType?: AssignmentType;
   /** The instance ID of the policy assignment. This ID only and always changes when the assignment is deleted and recreated. */
   readonly instanceId?: string;
+  /** The self-serve exemption settings for the policy assignment. */
+  selfServeExemptionSettings?: SelfServeExemptionSettings;
 }
 
 export function policyAssignmentPropertiesSerializer(item: PolicyAssignmentProperties): any {
@@ -149,6 +154,9 @@ export function policyAssignmentPropertiesSerializer(item: PolicyAssignmentPrope
       : resourceSelectorArraySerializer(item["resourceSelectors"]),
     overrides: !item["overrides"] ? item["overrides"] : overrideArraySerializer(item["overrides"]),
     assignmentType: item["assignmentType"],
+    selfServeExemptionSettings: !item["selfServeExemptionSettings"]
+      ? item["selfServeExemptionSettings"]
+      : selfServeExemptionSettingsSerializer(item["selfServeExemptionSettings"]),
   };
 }
 
@@ -182,6 +190,9 @@ export function policyAssignmentPropertiesDeserializer(item: any): PolicyAssignm
       : overrideArrayDeserializer(item["overrides"]),
     assignmentType: item["assignmentType"],
     instanceId: item["instanceId"],
+    selfServeExemptionSettings: !item["selfServeExemptionSettings"]
+      ? item["selfServeExemptionSettings"]
+      : selfServeExemptionSettingsDeserializer(item["selfServeExemptionSettings"]),
   };
 }
 
@@ -472,6 +483,36 @@ export enum KnownAssignmentType {
  */
 export type AssignmentType = string;
 
+/** The self-serve exemption settings for a policy assignment. */
+export interface SelfServeExemptionSettings {
+  /** Indicates whether self-serve exemption is enabled. */
+  enabled?: boolean;
+  /** The policy definition reference IDs for self-serve exemption. */
+  policyDefinitionReferenceIds?: string[];
+}
+
+export function selfServeExemptionSettingsSerializer(item: SelfServeExemptionSettings): any {
+  return {
+    enabled: item["enabled"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function selfServeExemptionSettingsDeserializer(item: any): SelfServeExemptionSettings {
+  return {
+    enabled: item["enabled"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** Identity for the resource.  Policy assignments support a maximum of one identity.  That is either a system assigned identity or a single user assigned identity. */
 export interface Identity {
   /** The principal ID of the resource identity.  This property will only be provided for a system assigned identity */
@@ -535,8 +576,8 @@ export interface UserAssignedIdentitiesValue {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitiesValueSerializer(item: UserAssignedIdentitiesValue): any {
-  return item;
+export function userAssignedIdentitiesValueSerializer(_item: UserAssignedIdentitiesValue): any {
+  return {};
 }
 
 export function userAssignedIdentitiesValueDeserializer(item: any): UserAssignedIdentitiesValue {
@@ -549,8 +590,8 @@ export function userAssignedIdentitiesValueDeserializer(item: any): UserAssigned
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
 
-export function extensionResourceSerializer(item: ExtensionResource): any {
-  return item;
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
 }
 
 export function extensionResourceDeserializer(item: any): ExtensionResource {
@@ -576,8 +617,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -719,11 +760,17 @@ export interface PolicyAssignmentUpdate {
   resourceSelectors?: ResourceSelector[];
   /** The policy property value override. */
   overrides?: Override[];
+  /** The self-serve exemption settings for the policy assignment. */
+  selfServeExemptionSettings?: SelfServeExemptionSettings;
 }
 
 export function policyAssignmentUpdateSerializer(item: PolicyAssignmentUpdate): any {
   return {
-    properties: areAllPropsUndefined(item, ["resourceSelectors", "overrides"])
+    properties: areAllPropsUndefined(item, [
+      "resourceSelectors",
+      "overrides",
+      "selfServeExemptionSettings",
+    ])
       ? undefined
       : _policyAssignmentUpdatePropertiesSerializer(item),
     location: item["location"],
@@ -737,6 +784,8 @@ export interface PolicyAssignmentUpdateProperties {
   resourceSelectors?: ResourceSelector[];
   /** The policy property value override. */
   overrides?: Override[];
+  /** The self-serve exemption settings for the policy assignment. */
+  selfServeExemptionSettings?: SelfServeExemptionSettings;
 }
 
 export function policyAssignmentUpdatePropertiesSerializer(
@@ -747,6 +796,9 @@ export function policyAssignmentUpdatePropertiesSerializer(
       ? item["resourceSelectors"]
       : resourceSelectorArraySerializer(item["resourceSelectors"]),
     overrides: !item["overrides"] ? item["overrides"] : overrideArraySerializer(item["overrides"]),
+    selfServeExemptionSettings: !item["selfServeExemptionSettings"]
+      ? item["selfServeExemptionSettings"]
+      : selfServeExemptionSettingsSerializer(item["selfServeExemptionSettings"]),
   };
 }
 
@@ -1146,8 +1198,8 @@ export function externalEvaluationEndpointSettingsDeserializer(
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1309,16 +1361,16 @@ export function policyDefinitionVersionPropertiesDeserializer(
 }
 
 /** The response of a PolicyDefinitionVersion list operation. */
-export interface _PolicyDefinitionVersionListResult {
+export interface PolicyDefinitionVersionListResult {
   /** The PolicyDefinitionVersion items on this page */
   value: PolicyDefinitionVersion[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _policyDefinitionVersionListResultDeserializer(
+export function policyDefinitionVersionListResultDeserializer(
   item: any,
-): _PolicyDefinitionVersionListResult {
+): PolicyDefinitionVersionListResult {
   return {
     value: policyDefinitionVersionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1718,16 +1770,16 @@ export function policySetDefinitionVersionPropertiesDeserializer(
 }
 
 /** The response of a PolicySetDefinitionVersion list operation. */
-export interface _PolicySetDefinitionVersionListResult {
+export interface PolicySetDefinitionVersionListResult {
   /** The PolicySetDefinitionVersion items on this page */
   value: PolicySetDefinitionVersion[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _policySetDefinitionVersionListResultDeserializer(
+export function policySetDefinitionVersionListResultDeserializer(
   item: any,
-): _PolicySetDefinitionVersionListResult {
+): PolicySetDefinitionVersionListResult {
   return {
     value: policySetDefinitionVersionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1783,6 +1835,8 @@ export function policyTokenOperationSerializer(item: PolicyTokenOperation): any 
 export interface PolicyTokenResponse {
   /** The result of the completed token acquisition operation. Possible values are Succeeded and Failed. */
   result?: PolicyTokenResult;
+  /** The external evaluation request details. */
+  requestDetails?: PolicyTokenEvaluatedRequestDetails;
   /** Status message with additional details about the token acquisition operation result. */
   message?: string;
   /** The date and time after which the client can try to acquire a token again in the case of retry-able failures. */
@@ -1802,6 +1856,9 @@ export interface PolicyTokenResponse {
 export function policyTokenResponseDeserializer(item: any): PolicyTokenResponse {
   return {
     result: item["result"],
+    requestDetails: !item["requestDetails"]
+      ? item["requestDetails"]
+      : policyTokenEvaluatedRequestDetailsDeserializer(item["requestDetails"]),
     message: item["message"],
     retryAfter: !item["retryAfter"] ? item["retryAfter"] : new Date(item["retryAfter"]),
     results: !item["results"]
@@ -1832,6 +1889,35 @@ export enum KnownPolicyTokenResult {
  */
 export type PolicyTokenResult = string;
 
+/** The policy token evaluated request details. */
+export interface PolicyTokenEvaluatedRequestDetails {
+  /** The request URI of the resource operation that is targeted by the issued token. */
+  uri: string;
+  /** The resource Id of the resource operation that is targeted by the issued token. */
+  resourceId: string;
+  /** The api-version of the resource operation that is targeted by the issued token. */
+  apiVersion: string;
+  /** The authorization action of the resource operation that is targeted by the issued token. */
+  authorizationAction: string;
+  /** The http method of the resource operation that is targeted by the issued token. */
+  httpMethod: string;
+  /** The hashed payload of the resource operation that is targeted by the issued token. */
+  contentHash: string;
+}
+
+export function policyTokenEvaluatedRequestDetailsDeserializer(
+  item: any,
+): PolicyTokenEvaluatedRequestDetails {
+  return {
+    uri: item["uri"],
+    resourceId: item["resourceId"],
+    apiVersion: item["apiVersion"],
+    authorizationAction: item["authorizationAction"],
+    httpMethod: item["httpMethod"],
+    contentHash: item["contentHash"],
+  };
+}
+
 export function externalEvaluationEndpointInvocationResultArrayDeserializer(
   result: Array<ExternalEvaluationEndpointInvocationResult>,
 ): any[] {
@@ -1846,12 +1932,20 @@ export interface ExternalEvaluationEndpointInvocationResult {
   policyInfo?: PolicyLogInfo;
   /** The result of the external endpoint. Possible values are Succeeded and Failed. */
   result?: ExternalEndpointResult;
+  /** The external evaluation endpoint kind. */
+  endpointKind?: string;
   /** The status message with additional details about the invocation result. */
   message?: string;
   /** The date and time after which a failed endpoint invocation can be retried. */
   retryAfter?: Date;
   /** The set of claims that will be attached to the policy token as an attestation for the result of the endpoint invocation. */
   claims?: any;
+  /** The effective outcome of the policy evaluation based on both the policy effect and evaluation result. Possible values are Unknown, Allow, Audit, Deny, Error. */
+  policyAction?: PolicyAction;
+  /** The evaluation details returned by the policy evaluation engine. */
+  policyEvaluationDetails?: any;
+  /** The endpoint specific metadata. */
+  additionalInfo?: any;
   /** The expiration of the results. */
   expiration?: Date;
 }
@@ -1864,9 +1958,13 @@ export function externalEvaluationEndpointInvocationResultDeserializer(
       ? item["policyInfo"]
       : policyLogInfoDeserializer(item["policyInfo"]),
     result: item["result"],
+    endpointKind: item["endpointKind"],
     message: item["message"],
     retryAfter: !item["retryAfter"] ? item["retryAfter"] : new Date(item["retryAfter"]),
     claims: item["claims"],
+    policyAction: item["policyAction"],
+    policyEvaluationDetails: item["policyEvaluationDetails"],
+    additionalInfo: item["additionalInfo"],
     expiration: !item["expiration"] ? item["expiration"] : new Date(item["expiration"]),
   };
 }
@@ -1969,10 +2067,46 @@ export enum KnownExternalEndpointResult {
  */
 export type ExternalEndpointResult = string;
 
+/** The effective outcome of the policy evaluation based on both the policy effect and evaluation result. Possible values are Unknown, Allow, Audit, Deny, Error. */
+export enum KnownPolicyAction {
+  /** The effective outcome of policy evaluation is unknown. */
+  Unknown = "Unknown",
+  /**
+   * The effective outcome of policy evaluation is to allow the request.
+   *   Allow: "Allow",
+   *
+   *   /**
+   * The effective outcome of policy evaluation is to audit the request.
+   */
+  Audit = "Audit",
+  /** The effective outcome of policy evaluation is to deny the request. */
+  Deny = "Deny",
+  /** The policy evaluation resulted in an error. */
+  Error = "Error",
+}
+
+/**
+ * The effective outcome of the policy evaluation based on both the policy effect and evaluation result. Possible values are Unknown, Allow, Audit, Deny, Error. \
+ * {@link KnownPolicyAction} can be used interchangeably with PolicyAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: The effective outcome of policy evaluation is unknown. \
+ * **Audit**: The effective outcome of policy evaluation is to allow the request.
+ *   Allow: "Allow",
+ *
+ *   \/**
+ * The effective outcome of policy evaluation is to audit the request. \
+ * **Deny**: The effective outcome of policy evaluation is to deny the request. \
+ * **Error**: The policy evaluation resulted in an error.
+ */
+export type PolicyAction = string;
+
 /** The available API versions. */
 export enum KnownVersions {
   /** The 2025-03-01 API version. */
   V20250301 = "2025-03-01",
+  /** The 2025-11-01 API version. */
+  V20251101 = "2025-11-01",
 }
 
 export function _policyAssignmentPropertiesSerializer(item: PolicyAssignment): any {
@@ -1999,6 +2133,9 @@ export function _policyAssignmentPropertiesSerializer(item: PolicyAssignment): a
       : resourceSelectorArraySerializer(item["resourceSelectors"]),
     overrides: !item["overrides"] ? item["overrides"] : overrideArraySerializer(item["overrides"]),
     assignmentType: item["assignmentType"],
+    selfServeExemptionSettings: !item["selfServeExemptionSettings"]
+      ? item["selfServeExemptionSettings"]
+      : selfServeExemptionSettingsSerializer(item["selfServeExemptionSettings"]),
   };
 }
 
@@ -2032,6 +2169,9 @@ export function _policyAssignmentPropertiesDeserializer(item: any) {
       : overrideArrayDeserializer(item["overrides"]),
     assignmentType: item["assignmentType"],
     instanceId: item["instanceId"],
+    selfServeExemptionSettings: !item["selfServeExemptionSettings"]
+      ? item["selfServeExemptionSettings"]
+      : selfServeExemptionSettingsDeserializer(item["selfServeExemptionSettings"]),
   };
 }
 
@@ -2041,6 +2181,9 @@ export function _policyAssignmentUpdatePropertiesSerializer(item: PolicyAssignme
       ? item["resourceSelectors"]
       : resourceSelectorArraySerializer(item["resourceSelectors"]),
     overrides: !item["overrides"] ? item["overrides"] : overrideArraySerializer(item["overrides"]),
+    selfServeExemptionSettings: !item["selfServeExemptionSettings"]
+      ? item["selfServeExemptionSettings"]
+      : selfServeExemptionSettingsSerializer(item["selfServeExemptionSettings"]),
   };
 }
 

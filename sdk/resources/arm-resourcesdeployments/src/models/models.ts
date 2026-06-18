@@ -1865,13 +1865,3 @@ export function _whatIfOperationResultPropertiesDeserializer(item: any) {
       : deploymentDiagnosticsDefinitionArrayDeserializer(item["diagnostics"]),
   };
 }
-
-export type DeploymentsCheckExistenceResponse = { body: boolean };
-
-export type DeploymentsCheckExistenceAtSubscriptionScopeResponse = { body: boolean };
-
-export type DeploymentsCheckExistenceAtManagementGroupScopeResponse = { body: boolean };
-
-export type DeploymentsCheckExistenceAtTenantScopeResponse = { body: boolean };
-
-export type DeploymentsCheckExistenceAtScopeResponse = { body: boolean };

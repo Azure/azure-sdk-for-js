@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to delete or remove an Azure Site Recovery fabric.
  *
  * @summary the operation to delete or remove an Azure Site Recovery fabric.
- * x-ms-original-file: 2025-08-01/ReplicationFabrics_Delete.json
+ * x-ms-original-file: 2026-01-01/ReplicationFabrics_Delete.json
  */
 async function deletesTheSite(): Promise<void> {
   const credential = new DefaultAzureCredential();

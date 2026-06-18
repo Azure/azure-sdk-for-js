@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the logical networks of the Azure Site Recovery fabric.
  *
  * @summary lists all the logical networks of the Azure Site Recovery fabric.
- * x-ms-original-file: 2025-08-01/ReplicationLogicalNetworks_ListByReplicationFabrics.json
+ * x-ms-original-file: 2026-01-01/ReplicationLogicalNetworks_ListByReplicationFabrics.json
  */
 async function getsTheListOfLogicalNetworksUnderAFabric(): Promise<void> {
   const credential = new DefaultAzureCredential();

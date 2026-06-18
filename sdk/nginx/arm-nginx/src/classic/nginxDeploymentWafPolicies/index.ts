@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NginxManagementContext } from "../../api/nginxManagementContext.js";
+import { NginxManagementContext } from "../../api/nginxManagementContext.js";
 import { analysis } from "../../api/nginxDeploymentWafPolicies/operations.js";
-import type { NginxDeploymentWafPoliciesAnalysisOptionalParams } from "../../api/nginxDeploymentWafPolicies/options.js";
-import type { NginxDeploymentWafPolicyAnalysisResponse } from "../../models/models.js";
+import { NginxDeploymentWafPoliciesAnalysisOptionalParams } from "../../api/nginxDeploymentWafPolicies/options.js";
+import { NginxDeploymentWafPolicyAnalysisResponse } from "../../models/models.js";
 
 /** Interface representing a NginxDeploymentWafPolicies operations. */
 export interface NginxDeploymentWafPoliciesOperations {

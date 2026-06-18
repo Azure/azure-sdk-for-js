@@ -1,28 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageMoverContext } from "../../api/storageMoverContext.js";
+import { StorageMoverContext } from "../../api/storageMoverContext.js";
 import { $delete, list, get, createOrUpdate } from "../../api/connections/operations.js";
-import type {
+import {
   ConnectionsDeleteOptionalParams,
   ConnectionsListOptionalParams,
   ConnectionsGetOptionalParams,
   ConnectionsCreateOrUpdateOptionalParams,
 } from "../../api/connections/options.js";
-import type { Connection } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Connection } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Connections operations. */
 export interface ConnectionsOperations {
   /**
    * Deletes a Connection resource.
    * Returns 409 if there are active jobs using this connection.
-   */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
    */
   delete: (
     resourceGroupName: string,

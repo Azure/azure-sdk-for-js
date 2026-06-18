@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to delete or remove a protection container mapping.
  *
  * @summary the operation to delete or remove a protection container mapping.
- * x-ms-original-file: 2025-08-01/ReplicationProtectionContainerMappings_Delete.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectionContainerMappings_Delete.json
  */
 async function removeProtectionContainerMapping(): Promise<void> {
   const credential = new DefaultAzureCredential();

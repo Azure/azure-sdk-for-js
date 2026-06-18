@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
-import type {
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -68,8 +67,6 @@ export type {
   RaiMonitorConfig,
   NetworkInjection,
   ScenarioType,
-  FoundryAutoUpgrade,
-  FoundryAutoUpgradeMode,
   Sku,
   SkuTier,
   Identity,
@@ -89,7 +86,6 @@ export type {
   UnitType,
   MetricName,
   QuotaUsageStatus,
-  QuotaScopeType,
   AccountModel,
   ModelSku,
   CapacityConfig,
@@ -225,9 +221,6 @@ export type {
   ResourceBase,
   AgentReferenceResourceArmPaginatedResult,
   AgentReference,
-  ComputeOperationStatus,
-  ComputeOperationStatusProperties,
-  ComputeOperationStatusType,
   PrivateLinkResourceListResult,
   PrivateLinkResource,
   PrivateLinkResourceProperties,
@@ -295,12 +288,10 @@ export {
   KnownRoutingMethods,
   KnownAbusePenaltyAction,
   KnownScenarioType,
-  KnownFoundryAutoUpgradeMode,
   KnownSkuTier,
   KnownCreatedByType,
   KnownUnitType,
   KnownQuotaUsageStatus,
-  KnownQuotaScopeType,
   KnownDeprecationStatus,
   KnownModelLifecycleStatus,
   KnownDeploymentProvisioningState,
@@ -334,7 +325,6 @@ export {
   KnownBuiltInAuthorizationScheme,
   KnownTrafficRoutingProtocol,
   KnownAgenticApplicationProvisioningState,
-  KnownComputeOperationStatusType,
   KnownCapabilityHostKind,
   KnownRuleCategory,
   KnownRuleStatus,
@@ -418,7 +408,6 @@ export type {
   CommitmentPlansGetOptionalParams,
 } from "./api/commitmentPlans/index.js";
 export type { CommitmentTiersListOptionalParams } from "./api/commitmentTiers/index.js";
-export type { ComputeOperationsGetOptionalParams } from "./api/computeOperations/index.js";
 export type {
   DefenderForAISettingsListOptionalParams,
   DefenderForAISettingsUpdateOptionalParams,
@@ -561,7 +550,6 @@ export type {
   AgentDeploymentsOperations,
   CommitmentPlansOperations,
   CommitmentTiersOperations,
-  ComputeOperationsOperations,
   DefenderForAISettingsOperations,
   DeletedAccountsOperations,
   DeploymentsOperations,
@@ -597,3 +585,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

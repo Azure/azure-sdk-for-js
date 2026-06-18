@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import { list, $delete, update, createOrUpdate, get } from "../../api/groupQuotas/operations.js";
-import type {
+import {
   GroupQuotasListOptionalParams,
   GroupQuotasDeleteOptionalParams,
   GroupQuotasUpdateOptionalParams,
   GroupQuotasCreateOrUpdateOptionalParams,
   GroupQuotasGetOptionalParams,
 } from "../../api/groupQuotas/options.js";
-import type { GroupQuotasEntity } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { GroupQuotasEntity } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GroupQuotas operations. */
 export interface GroupQuotasOperations {
@@ -22,11 +22,6 @@ export interface GroupQuotasOperations {
     options?: GroupQuotasListOptionalParams,
   ) => PagedAsyncIterableIterator<GroupQuotasEntity>;
   /** Deletes the GroupQuotas for the name passed. All the remaining shareQuota in the GroupQuotas will be lost. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     managementGroupId: string,
     groupQuotaName: string,

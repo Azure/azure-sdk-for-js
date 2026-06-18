@@ -3,19 +3,17 @@
 
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
-import type { AzureSupportedClouds } from "../static-helpers/cloudSettingHelpers.js";
-import { getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
-import type { Client, ClientOptions } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
-import type { TokenCredential } from "@azure/core-auth";
+import { AzureSupportedClouds, getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
+import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
+import { TokenCredential } from "@azure/core-auth";
 
 /** The Microsoft Azure Container Registry management API provides create, read, update, and delete functionality for Azure Container Registry resources including registries, replications, webhooks, tasks, runs, and other registry components. */
 export interface ContainerRegistryTasksManagementContext extends Client {
-  /** The API version to use for this operation. */
-  /** Known values of {@link KnownVersions} that the service accepts. */
-  apiVersion: string;
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
+  apiVersion?: string;
 }
 
 /** Optional parameters for the client. */
@@ -44,26 +42,12 @@ export function createContainerRegistryTasksManagement(
     ...options,
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
-    credentials: { scopes: options.credentials?.scopes ?? [`${endpointUrl}/.default`] },
+    credentials: {
+      scopes: options.credentials?.scopes ?? ["https://management.azure.com/.default"],
+    },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
-  clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2025-03-01-preview";
-  clientContext.pipeline.addPolicy({
-    name: "ClientApiVersionPolicy",
-    sendRequest: (req, next) => {
-      // Use the apiVersion defined in request url directly
-      // Append one if there is no apiVersion and we have one at client options
-      const url = new URL(req.url);
-      if (!url.searchParams.get("api-version")) {
-        req.url = `${req.url}${
-          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-        }api-version=${apiVersion}`;
-      }
-
-      return next(req);
-    },
-  });
+  const apiVersion = options.apiVersion;
   return {
     ...clientContext,
     apiVersion,

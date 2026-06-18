@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import { checkQuotaAvailability, checkTrialAvailability } from "../../api/locations/operations.js";
-import type {
+import {
   LocationsCheckQuotaAvailabilityOptionalParams,
   LocationsCheckTrialAvailabilityOptionalParams,
 } from "../../api/locations/options.js";
-import type { Trial, Quota } from "../../models/models.js";
+import { Trial, Quota } from "../../models/models.js";
 
 /** Interface representing a Locations operations. */
 export interface LocationsOperations {

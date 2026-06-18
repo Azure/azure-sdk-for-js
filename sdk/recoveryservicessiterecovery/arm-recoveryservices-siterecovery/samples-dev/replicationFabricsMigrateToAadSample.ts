@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to migrate an Azure Site Recovery fabric to AAD.
  *
  * @summary the operation to migrate an Azure Site Recovery fabric to AAD.
- * x-ms-original-file: 2025-08-01/ReplicationFabrics_MigrateToAad.json
+ * x-ms-original-file: 2026-01-01/ReplicationFabrics_MigrateToAad.json
  */
 async function migratesTheSiteToAAD(): Promise<void> {
   const credential = new DefaultAzureCredential();

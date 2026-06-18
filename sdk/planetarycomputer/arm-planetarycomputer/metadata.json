@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Spatio": "2026-04-15"
   },
-  "emitterVersion": "0.51.0",
+  "emitterVersion": "0.55.0-dev.4",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Spatio",
     "CrossLanguageDefinitionId": {

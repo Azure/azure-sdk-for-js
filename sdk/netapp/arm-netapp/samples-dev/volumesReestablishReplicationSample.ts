@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or policy-based snapshots
  *
  * @summary re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or policy-based snapshots
- * x-ms-original-file: 2026-01-01/Volumes_ReestablishReplication.json
+ * x-ms-original-file: 2026-01-15-preview/Volumes_ReestablishReplication.json
  */
 async function volumesReestablishReplication(): Promise<void> {
   const credential = new DefaultAzureCredential();

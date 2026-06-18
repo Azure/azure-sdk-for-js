@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { get } from "../../api/protectedItemOperationResults/operations.js";
-import type { ProtectedItemOperationResultsGetOptionalParams } from "../../api/protectedItemOperationResults/options.js";
-import type { ProtectedItemResource } from "../../models/models.js";
+import { ProtectedItemOperationResultsGetOptionalParams } from "../../api/protectedItemOperationResults/options.js";
+import { ProtectedItemResource } from "../../models/models.js";
 
 /** Interface representing a ProtectedItemOperationResults operations. */
 export interface ProtectedItemOperationResultsOperations {
@@ -17,7 +17,7 @@ export interface ProtectedItemOperationResultsOperations {
     protectedItemName: string,
     operationId: string,
     options?: ProtectedItemOperationResultsGetOptionalParams,
-  ) => Promise<ProtectedItemResource>;
+  ) => Promise<ProtectedItemResource | undefined>;
 }
 
 function _getProtectedItemOperationResults(context: RecoveryServicesBackupContext) {

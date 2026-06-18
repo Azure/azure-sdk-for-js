@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the association of the Cognitive Services commitment plan.
  *
  * @summary deletes the association of the Cognitive Services commitment plan.
- * x-ms-original-file: 2026-01-15-preview/DeleteSharedCommitmentPlanAssociation.json
+ * x-ms-original-file: 2026-03-01/DeleteSharedCommitmentPlanAssociation.json
  */
 async function deleteCommitmentPlan(): Promise<void> {
   const credential = new DefaultAzureCredential();

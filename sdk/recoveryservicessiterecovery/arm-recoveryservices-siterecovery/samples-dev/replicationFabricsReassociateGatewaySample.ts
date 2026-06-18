@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to move replications from a process server to another process server.
  *
  * @summary the operation to move replications from a process server to another process server.
- * x-ms-original-file: 2025-08-01/ReplicationFabrics_ReassociateGateway.json
+ * x-ms-original-file: 2026-01-01/ReplicationFabrics_ReassociateGateway.json
  */
 async function performFailoverOfTheProcessServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

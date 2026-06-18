@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerRegistryTasksManagementContext } from "../../api/containerRegistryTasksManagementContext.js";
+import { ContainerRegistryTasksManagementContext } from "../../api/containerRegistryTasksManagementContext.js";
 import { getBuildSourceUploadUrl, scheduleRun } from "../../api/registries/operations.js";
-import type {
+import {
   RegistriesGetBuildSourceUploadUrlOptionalParams,
   RegistriesScheduleRunOptionalParams,
 } from "../../api/registries/options.js";
-import type { Run, RunRequestUnion, SourceUploadDefinition } from "../../models/models.js";
+import { Run, RunRequestUnion, SourceUploadDefinition } from "../../models/models.js";
 
 /** Interface representing a Registries operations. */
 export interface RegistriesOperations {

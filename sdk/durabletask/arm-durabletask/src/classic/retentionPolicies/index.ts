@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DurableTaskContext } from "../../api/durableTaskContext.js";
+import { DurableTaskContext } from "../../api/durableTaskContext.js";
 import {
   listByScheduler,
   $delete,
@@ -9,16 +9,16 @@ import {
   createOrReplace,
   get,
 } from "../../api/retentionPolicies/operations.js";
-import type {
+import {
   RetentionPoliciesListBySchedulerOptionalParams,
   RetentionPoliciesDeleteOptionalParams,
   RetentionPoliciesUpdateOptionalParams,
   RetentionPoliciesCreateOrReplaceOptionalParams,
   RetentionPoliciesGetOptionalParams,
 } from "../../api/retentionPolicies/options.js";
-import type { RetentionPolicy } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { RetentionPolicy } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RetentionPolicies operations. */
 export interface RetentionPoliciesOperations {
@@ -29,11 +29,6 @@ export interface RetentionPoliciesOperations {
     options?: RetentionPoliciesListBySchedulerOptionalParams,
   ) => PagedAsyncIterableIterator<RetentionPolicy>;
   /** Delete a Retention Policy */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     schedulerName: string,

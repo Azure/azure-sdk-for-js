@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the List operation gets information about the deleted managed HSMs associated with the subscription.
  *
  * @summary the List operation gets information about the deleted managed HSMs associated with the subscription.
- * x-ms-original-file: 2026-02-01/DeletedManagedHsm_List.json
+ * x-ms-original-file: 2026-03-01-preview/DeletedManagedHsm_List.json
  */
 async function listDeletedManagedHSMsInTheSpecifiedSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

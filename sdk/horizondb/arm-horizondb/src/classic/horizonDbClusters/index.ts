@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HorizonDbContext } from "../../api/horizonDbContext.js";
+import { HorizonDbContext } from "../../api/horizonDbContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/horizonDbClusters/operations.js";
-import type {
+import {
   HorizonDbClustersListBySubscriptionOptionalParams,
   HorizonDbClustersListByResourceGroupOptionalParams,
   HorizonDbClustersDeleteOptionalParams,
@@ -18,11 +18,10 @@ import type {
   HorizonDbClustersCreateOrUpdateOptionalParams,
   HorizonDbClustersGetOptionalParams,
 } from "../../api/horizonDbClusters/options.js";
-import type { HorizonDbCluster, HorizonDbClusterForPatchUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { HorizonDbCluster, HorizonDbClusterForPatchUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a HorizonDbClusters operations. */
 export interface HorizonDbClustersOperations {
@@ -36,11 +35,6 @@ export interface HorizonDbClustersOperations {
     options?: HorizonDbClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<HorizonDbCluster>;
   /** Deletes a HorizonDb cluster. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,

@@ -216,7 +216,7 @@ export interface IntegrationRuntimesOperations {
     factoryName: string,
     integrationRuntimeName: string,
     options?: IntegrationRuntimesGetOptionalParams,
-  ) => Promise<IntegrationRuntimeResource>;
+  ) => Promise<IntegrationRuntimeResource | undefined>;
 }
 
 function _getIntegrationRuntimes(context: DataFactoryManagementContext) {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get volumes associated with snapshot policy
  *
  * @summary get volumes associated with snapshot policy
- * x-ms-original-file: 2026-01-01/SnapshotPolicies_ListVolumes.json
+ * x-ms-original-file: 2026-01-15-preview/SnapshotPolicies_ListVolumes.json
  */
 async function snapshotPoliciesListVolumes(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to create an ASR migration item (enable migration).
  *
  * @summary the operation to create an ASR migration item (enable migration).
- * x-ms-original-file: 2025-08-01/ReplicationMigrationItems_Create.json
+ * x-ms-original-file: 2026-01-01/ReplicationMigrationItems_Create.json
  */
 async function enablesMigration(): Promise<void> {
   const credential = new DefaultAzureCredential();

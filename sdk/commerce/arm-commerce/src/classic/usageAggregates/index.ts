@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { UsageManagementContext } from "../../api/usageManagementContext.js";
+import { UsageManagementContext } from "../../api/usageManagementContext.js";
 import { list } from "../../api/usageAggregates/operations.js";
-import type { UsageAggregatesListOptionalParams } from "../../api/usageAggregates/options.js";
-import type { UsageAggregation } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { UsageAggregatesListOptionalParams } from "../../api/usageAggregates/options.js";
+import { UsageAggregation } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a UsageAggregates operations. */
 export interface UsageAggregatesOperations {

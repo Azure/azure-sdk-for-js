@@ -1,117 +1,191 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   CosmosDBManagementContext,
   CosmosDBManagementClientOptionalParams,
+  createCosmosDBManagement,
 } from "./api/index.js";
-import { createCosmosDBManagement } from "./api/index.js";
-import type { CassandraClustersOperations } from "./classic/cassandraClusters/index.js";
-import { _getCassandraClustersOperations } from "./classic/cassandraClusters/index.js";
-import type { CassandraDataCentersOperations } from "./classic/cassandraDataCenters/index.js";
-import { _getCassandraDataCentersOperations } from "./classic/cassandraDataCenters/index.js";
-import type { CassandraResourcesOperations } from "./classic/cassandraResources/index.js";
-import { _getCassandraResourcesOperations } from "./classic/cassandraResources/index.js";
-import type { ChaosFaultOperations } from "./classic/chaosFault/index.js";
-import { _getChaosFaultOperations } from "./classic/chaosFault/index.js";
-import type { CollectionOperations } from "./classic/collection/index.js";
-import { _getCollectionOperations } from "./classic/collection/index.js";
-import type { CollectionPartitionOperations } from "./classic/collectionPartition/index.js";
-import { _getCollectionPartitionOperations } from "./classic/collectionPartition/index.js";
-import type { CollectionPartitionRegionOperations } from "./classic/collectionPartitionRegion/index.js";
-import { _getCollectionPartitionRegionOperations } from "./classic/collectionPartitionRegion/index.js";
-import type { CollectionRegionOperations } from "./classic/collectionRegion/index.js";
-import { _getCollectionRegionOperations } from "./classic/collectionRegion/index.js";
-import type { CopyJobsOperations } from "./classic/copyJobs/index.js";
-import { _getCopyJobsOperations } from "./classic/copyJobs/index.js";
-import type { DataTransferJobsOperations } from "./classic/dataTransferJobs/index.js";
-import { _getDataTransferJobsOperations } from "./classic/dataTransferJobs/index.js";
-import type { DatabaseOperations } from "./classic/database/index.js";
-import { _getDatabaseOperations } from "./classic/database/index.js";
-import type { DatabaseAccountRegionOperations } from "./classic/databaseAccountRegion/index.js";
-import { _getDatabaseAccountRegionOperations } from "./classic/databaseAccountRegion/index.js";
-import type { DatabaseAccountsOperations } from "./classic/databaseAccounts/index.js";
-import { _getDatabaseAccountsOperations } from "./classic/databaseAccounts/index.js";
-import type { FleetOperations } from "./classic/fleet/index.js";
-import { _getFleetOperations } from "./classic/fleet/index.js";
-import type { FleetAnalyticsOperations } from "./classic/fleetAnalytics/index.js";
-import { _getFleetAnalyticsOperations } from "./classic/fleetAnalytics/index.js";
-import type { FleetspaceOperations } from "./classic/fleetspace/index.js";
-import { _getFleetspaceOperations } from "./classic/fleetspace/index.js";
-import type { FleetspaceAccountOperations } from "./classic/fleetspaceAccount/index.js";
-import { _getFleetspaceAccountOperations } from "./classic/fleetspaceAccount/index.js";
-import type { GarnetClustersOperations } from "./classic/garnetClusters/index.js";
-import { _getGarnetClustersOperations } from "./classic/garnetClusters/index.js";
-import type { GraphResourcesOperations } from "./classic/graphResources/index.js";
-import { _getGraphResourcesOperations } from "./classic/graphResources/index.js";
-import type { GremlinResourcesOperations } from "./classic/gremlinResources/index.js";
-import { _getGremlinResourcesOperations } from "./classic/gremlinResources/index.js";
-import type { LocationsOperations } from "./classic/locations/index.js";
-import { _getLocationsOperations } from "./classic/locations/index.js";
-import type { MongoDBResourcesOperations } from "./classic/mongoDBResources/index.js";
-import { _getMongoDBResourcesOperations } from "./classic/mongoDBResources/index.js";
-import type { MongoMIResourcesOperations } from "./classic/mongoMIResources/index.js";
-import { _getMongoMIResourcesOperations } from "./classic/mongoMIResources/index.js";
-import type { NetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import { _getNetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import type { NotebookWorkspacesOperations } from "./classic/notebookWorkspaces/index.js";
-import { _getNotebookWorkspacesOperations } from "./classic/notebookWorkspaces/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PartitionKeyRangeIdOperations } from "./classic/partitionKeyRangeId/index.js";
-import { _getPartitionKeyRangeIdOperations } from "./classic/partitionKeyRangeId/index.js";
-import type { PartitionKeyRangeIdRegionOperations } from "./classic/partitionKeyRangeIdRegion/index.js";
-import { _getPartitionKeyRangeIdRegionOperations } from "./classic/partitionKeyRangeIdRegion/index.js";
-import type { PercentileOperations } from "./classic/percentile/index.js";
-import { _getPercentileOperations } from "./classic/percentile/index.js";
-import type { PercentileSourceTargetOperations } from "./classic/percentileSourceTarget/index.js";
-import { _getPercentileSourceTargetOperations } from "./classic/percentileSourceTarget/index.js";
-import type { PercentileTargetOperations } from "./classic/percentileTarget/index.js";
-import { _getPercentileTargetOperations } from "./classic/percentileTarget/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { RestorableDatabaseAccountsOperations } from "./classic/restorableDatabaseAccounts/index.js";
-import { _getRestorableDatabaseAccountsOperations } from "./classic/restorableDatabaseAccounts/index.js";
-import type { RestorableGremlinDatabasesOperations } from "./classic/restorableGremlinDatabases/index.js";
-import { _getRestorableGremlinDatabasesOperations } from "./classic/restorableGremlinDatabases/index.js";
-import type { RestorableGremlinGraphsOperations } from "./classic/restorableGremlinGraphs/index.js";
-import { _getRestorableGremlinGraphsOperations } from "./classic/restorableGremlinGraphs/index.js";
-import type { RestorableGremlinResourcesOperations } from "./classic/restorableGremlinResources/index.js";
-import { _getRestorableGremlinResourcesOperations } from "./classic/restorableGremlinResources/index.js";
-import type { RestorableMongodbCollectionsOperations } from "./classic/restorableMongodbCollections/index.js";
-import { _getRestorableMongodbCollectionsOperations } from "./classic/restorableMongodbCollections/index.js";
-import type { RestorableMongodbDatabasesOperations } from "./classic/restorableMongodbDatabases/index.js";
-import { _getRestorableMongodbDatabasesOperations } from "./classic/restorableMongodbDatabases/index.js";
-import type { RestorableMongodbResourcesOperations } from "./classic/restorableMongodbResources/index.js";
-import { _getRestorableMongodbResourcesOperations } from "./classic/restorableMongodbResources/index.js";
-import type { RestorableSqlContainersOperations } from "./classic/restorableSqlContainers/index.js";
-import { _getRestorableSqlContainersOperations } from "./classic/restorableSqlContainers/index.js";
-import type { RestorableSqlDatabasesOperations } from "./classic/restorableSqlDatabases/index.js";
-import { _getRestorableSqlDatabasesOperations } from "./classic/restorableSqlDatabases/index.js";
-import type { RestorableSqlResourcesOperations } from "./classic/restorableSqlResources/index.js";
-import { _getRestorableSqlResourcesOperations } from "./classic/restorableSqlResources/index.js";
-import type { RestorableTableResourcesOperations } from "./classic/restorableTableResources/index.js";
-import { _getRestorableTableResourcesOperations } from "./classic/restorableTableResources/index.js";
-import type { RestorableTablesOperations } from "./classic/restorableTables/index.js";
-import { _getRestorableTablesOperations } from "./classic/restorableTables/index.js";
-import type { ServiceOperations } from "./classic/service/index.js";
-import { _getServiceOperations } from "./classic/service/index.js";
-import type { SqlResourcesOperations } from "./classic/sqlResources/index.js";
-import { _getSqlResourcesOperations } from "./classic/sqlResources/index.js";
-import type { TableResourcesOperations } from "./classic/tableResources/index.js";
-import { _getTableResourcesOperations } from "./classic/tableResources/index.js";
-import type { ThroughputPoolOperations } from "./classic/throughputPool/index.js";
-import { _getThroughputPoolOperations } from "./classic/throughputPool/index.js";
-import type { ThroughputPoolAccountOperations } from "./classic/throughputPoolAccount/index.js";
-import { _getThroughputPoolAccountOperations } from "./classic/throughputPoolAccount/index.js";
-import type { ThroughputPoolAccountsOperations } from "./classic/throughputPoolAccounts/index.js";
-import { _getThroughputPoolAccountsOperations } from "./classic/throughputPoolAccounts/index.js";
-import type { ThroughputPoolsOperations } from "./classic/throughputPools/index.js";
-import { _getThroughputPoolsOperations } from "./classic/throughputPools/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  CassandraClustersOperations,
+  _getCassandraClustersOperations,
+} from "./classic/cassandraClusters/index.js";
+import {
+  CassandraDataCentersOperations,
+  _getCassandraDataCentersOperations,
+} from "./classic/cassandraDataCenters/index.js";
+import {
+  CassandraResourcesOperations,
+  _getCassandraResourcesOperations,
+} from "./classic/cassandraResources/index.js";
+import { ChaosFaultOperations, _getChaosFaultOperations } from "./classic/chaosFault/index.js";
+import { CollectionOperations, _getCollectionOperations } from "./classic/collection/index.js";
+import {
+  CollectionPartitionOperations,
+  _getCollectionPartitionOperations,
+} from "./classic/collectionPartition/index.js";
+import {
+  CollectionPartitionRegionOperations,
+  _getCollectionPartitionRegionOperations,
+} from "./classic/collectionPartitionRegion/index.js";
+import {
+  CollectionRegionOperations,
+  _getCollectionRegionOperations,
+} from "./classic/collectionRegion/index.js";
+import { CopyJobsOperations, _getCopyJobsOperations } from "./classic/copyJobs/index.js";
+import {
+  DataTransferJobsOperations,
+  _getDataTransferJobsOperations,
+} from "./classic/dataTransferJobs/index.js";
+import { DatabaseOperations, _getDatabaseOperations } from "./classic/database/index.js";
+import {
+  DatabaseAccountRegionOperations,
+  _getDatabaseAccountRegionOperations,
+} from "./classic/databaseAccountRegion/index.js";
+import {
+  DatabaseAccountsOperations,
+  _getDatabaseAccountsOperations,
+} from "./classic/databaseAccounts/index.js";
+import { FleetOperations, _getFleetOperations } from "./classic/fleet/index.js";
+import {
+  FleetAnalyticsOperations,
+  _getFleetAnalyticsOperations,
+} from "./classic/fleetAnalytics/index.js";
+import { FleetspaceOperations, _getFleetspaceOperations } from "./classic/fleetspace/index.js";
+import {
+  FleetspaceAccountOperations,
+  _getFleetspaceAccountOperations,
+} from "./classic/fleetspaceAccount/index.js";
+import {
+  GarnetClustersOperations,
+  _getGarnetClustersOperations,
+} from "./classic/garnetClusters/index.js";
+import {
+  GraphResourcesOperations,
+  _getGraphResourcesOperations,
+} from "./classic/graphResources/index.js";
+import {
+  GremlinResourcesOperations,
+  _getGremlinResourcesOperations,
+} from "./classic/gremlinResources/index.js";
+import { LocationsOperations, _getLocationsOperations } from "./classic/locations/index.js";
+import {
+  MongoDBResourcesOperations,
+  _getMongoDBResourcesOperations,
+} from "./classic/mongoDBResources/index.js";
+import {
+  MongoMIResourcesOperations,
+  _getMongoMIResourcesOperations,
+} from "./classic/mongoMIResources/index.js";
+import {
+  NetworkSecurityPerimeterConfigurationsOperations,
+  _getNetworkSecurityPerimeterConfigurationsOperations,
+} from "./classic/networkSecurityPerimeterConfigurations/index.js";
+import {
+  NotebookWorkspacesOperations,
+  _getNotebookWorkspacesOperations,
+} from "./classic/notebookWorkspaces/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PartitionKeyRangeIdOperations,
+  _getPartitionKeyRangeIdOperations,
+} from "./classic/partitionKeyRangeId/index.js";
+import {
+  PartitionKeyRangeIdRegionOperations,
+  _getPartitionKeyRangeIdRegionOperations,
+} from "./classic/partitionKeyRangeIdRegion/index.js";
+import { PercentileOperations, _getPercentileOperations } from "./classic/percentile/index.js";
+import {
+  PercentileSourceTargetOperations,
+  _getPercentileSourceTargetOperations,
+} from "./classic/percentileSourceTarget/index.js";
+import {
+  PercentileTargetOperations,
+  _getPercentileTargetOperations,
+} from "./classic/percentileTarget/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import {
+  RestorableDatabaseAccountsOperations,
+  _getRestorableDatabaseAccountsOperations,
+} from "./classic/restorableDatabaseAccounts/index.js";
+import {
+  RestorableGremlinDatabasesOperations,
+  _getRestorableGremlinDatabasesOperations,
+} from "./classic/restorableGremlinDatabases/index.js";
+import {
+  RestorableGremlinGraphsOperations,
+  _getRestorableGremlinGraphsOperations,
+} from "./classic/restorableGremlinGraphs/index.js";
+import {
+  RestorableGremlinResourcesOperations,
+  _getRestorableGremlinResourcesOperations,
+} from "./classic/restorableGremlinResources/index.js";
+import {
+  RestorableMongodbCollectionsOperations,
+  _getRestorableMongodbCollectionsOperations,
+} from "./classic/restorableMongodbCollections/index.js";
+import {
+  RestorableMongodbDatabasesOperations,
+  _getRestorableMongodbDatabasesOperations,
+} from "./classic/restorableMongodbDatabases/index.js";
+import {
+  RestorableMongodbResourcesOperations,
+  _getRestorableMongodbResourcesOperations,
+} from "./classic/restorableMongodbResources/index.js";
+import {
+  RestorableSqlContainersOperations,
+  _getRestorableSqlContainersOperations,
+} from "./classic/restorableSqlContainers/index.js";
+import {
+  RestorableSqlDatabasesOperations,
+  _getRestorableSqlDatabasesOperations,
+} from "./classic/restorableSqlDatabases/index.js";
+import {
+  RestorableSqlResourcesOperations,
+  _getRestorableSqlResourcesOperations,
+} from "./classic/restorableSqlResources/index.js";
+import {
+  RestorableTableResourcesOperations,
+  _getRestorableTableResourcesOperations,
+} from "./classic/restorableTableResources/index.js";
+import {
+  RestorableTablesOperations,
+  _getRestorableTablesOperations,
+} from "./classic/restorableTables/index.js";
+import { ServiceOperations, _getServiceOperations } from "./classic/service/index.js";
+import {
+  SqlResourcesOperations,
+  _getSqlResourcesOperations,
+} from "./classic/sqlResources/index.js";
+import {
+  TableResourcesOperations,
+  _getTableResourcesOperations,
+} from "./classic/tableResources/index.js";
+import {
+  ThroughputPoolOperations,
+  _getThroughputPoolOperations,
+} from "./classic/throughputPool/index.js";
+import {
+  ThroughputPoolAccountOperations,
+  _getThroughputPoolAccountOperations,
+} from "./classic/throughputPoolAccount/index.js";
+import {
+  ThroughputPoolAccountsOperations,
+  _getThroughputPoolAccountsOperations,
+} from "./classic/throughputPoolAccounts/index.js";
+import {
+  ThroughputPoolsOperations,
+  _getThroughputPoolsOperations,
+} from "./classic/throughputPools/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { CosmosDBManagementClientOptionalParams } from "./api/cosmosDBManagementContext.js";
 

@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HealthbotContext, HealthbotClientOptionalParams } from "./api/index.js";
-import { createHealthbot } from "./api/index.js";
-import type { BotsOperations } from "./classic/bots/index.js";
-import { _getBotsOperations } from "./classic/bots/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { HealthbotContext, HealthbotClientOptionalParams, createHealthbot } from "./api/index.js";
+import { BotsOperations, _getBotsOperations } from "./classic/bots/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type HealthbotClientOptionalParams } from "./api/healthbotContext.js";
+export type { HealthbotClientOptionalParams } from "./api/healthbotContext.js";
 
 export class HealthbotClient {
   private _client: HealthbotContext;

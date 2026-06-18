@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to initiate pause replication of the item.
  *
  * @summary the operation to initiate pause replication of the item.
- * x-ms-original-file: 2025-08-01/ReplicationMigrationItems_PauseReplication.json
+ * x-ms-original-file: 2026-01-01/ReplicationMigrationItems_PauseReplication.json
  */
 async function pauseReplication(): Promise<void> {
   const credential = new DefaultAzureCredential();

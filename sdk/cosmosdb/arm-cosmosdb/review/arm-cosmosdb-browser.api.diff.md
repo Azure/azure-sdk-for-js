@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -1569,9 +1569,9 @@
+@@ -1571,9 +1571,9 @@
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
      keyVaultKeyUri?: string;
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
      publicNetworkAccess?: PublicNetworkAccess;
-@@ -1612,9 +1612,9 @@
+@@ -1614,9 +1614,9 @@
      ipRules?: IpAddressOrRange[];
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
@@ -29,7 +29,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
      publicNetworkAccess?: PublicNetworkAccess;
-@@ -1660,21 +1660,21 @@
+@@ -1662,21 +1662,21 @@
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
      keyVaultKeyUri?: string;
@@ -54,7 +54,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface DatabaseAccountGetResults extends Resource {
-@@ -1717,22 +1717,22 @@
+@@ -1719,22 +1719,22 @@
      keyVaultKeyUri?: string;
      readonly keyVaultKeyUriVersion?: string;
      kind?: DatabaseAccountKind;
@@ -80,7 +80,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface DatabaseAccountKeysMetadata {
-@@ -1944,9 +1944,9 @@
+@@ -1941,9 +1941,9 @@
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
      keyVaultKeyUri?: string;
@@ -91,7 +91,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
      publicNetworkAccess?: PublicNetworkAccess;
-@@ -1985,9 +1985,9 @@
+@@ -1982,9 +1982,9 @@
      ipRules?: IpAddressOrRange[];
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
@@ -102,7 +102,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
      publicNetworkAccess?: PublicNetworkAccess;
-@@ -3596,16 +3596,17 @@
+@@ -3595,16 +3595,17 @@
      V20251101Preview = "2025-11-01-preview"
  }
  

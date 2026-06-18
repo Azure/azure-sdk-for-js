@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to create a vCenter object..
  *
  * @summary the operation to create a vCenter object..
- * x-ms-original-file: 2025-08-01/ReplicationvCenters_Create.json
+ * x-ms-original-file: 2026-01-01/ReplicationvCenters_Create.json
  */
 async function addVCenter(): Promise<void> {
   const credential = new DefaultAzureCredential();

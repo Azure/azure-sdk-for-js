@@ -1,26 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import { $delete, createOrUpdate, get, list } from "../../api/authorizations/operations.js";
-import type {
+import {
   AuthorizationsDeleteOptionalParams,
   AuthorizationsCreateOrUpdateOptionalParams,
   AuthorizationsGetOptionalParams,
   AuthorizationsListOptionalParams,
 } from "../../api/authorizations/options.js";
-import type { ExpressRouteAuthorization } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ExpressRouteAuthorization } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Authorizations operations. */
 export interface AuthorizationsOperations {
   /** Delete a ExpressRouteAuthorization */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     privateCloudName: string,

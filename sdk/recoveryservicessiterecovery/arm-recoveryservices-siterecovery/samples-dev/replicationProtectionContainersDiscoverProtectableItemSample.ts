@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to a add a protectable item to a protection container(Add physical server).
  *
  * @summary the operation to a add a protectable item to a protection container(Add physical server).
- * x-ms-original-file: 2025-08-01/ReplicationProtectionContainers_DiscoverProtectableItem.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectionContainers_DiscoverProtectableItem.json
  */
 async function addsAProtectableItemToTheReplicationProtectionContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

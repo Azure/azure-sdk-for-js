@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete Cognitive Services project connection by name.
  *
  * @summary delete Cognitive Services project connection by name.
- * x-ms-original-file: 2026-01-15-preview/ProjectConnection/delete.json
+ * x-ms-original-file: 2026-03-01/ProjectConnection/delete.json
  */
 async function deleteProjectConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

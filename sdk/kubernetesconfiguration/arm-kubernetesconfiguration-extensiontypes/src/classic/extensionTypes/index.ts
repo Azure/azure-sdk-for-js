@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ExtensionTypesContext } from "../../api/extensionTypesContext.js";
+import { ExtensionTypesContext } from "../../api/extensionTypesContext.js";
 import {
   listClusterListVersions,
   clusterGetVersion,
@@ -12,7 +12,7 @@ import {
   listLocationList,
   locationGet,
 } from "../../api/extensionTypes/operations.js";
-import type {
+import {
   ExtensionTypesListClusterListVersionsOptionalParams,
   ExtensionTypesClusterGetVersionOptionalParams,
   ExtensionTypesListVersionsOptionalParams,
@@ -22,8 +22,8 @@ import type {
   ExtensionTypesListLocationListOptionalParams,
   ExtensionTypesLocationGetOptionalParams,
 } from "../../api/extensionTypes/options.js";
-import type { ExtensionType, ExtensionTypeVersionForReleaseTrain } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ExtensionType, ExtensionTypeVersionForReleaseTrain } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ExtensionTypes operations. */
 export interface ExtensionTypesOperations {

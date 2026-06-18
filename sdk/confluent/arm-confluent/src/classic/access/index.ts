@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConfluentManagementContext } from "../../api/confluentManagementContext.js";
+import { ConfluentManagementContext } from "../../api/confluentManagementContext.js";
 import {
   listRoleBindingNameList,
   createRoleBinding,
@@ -14,7 +14,7 @@ import {
   listUsers,
   deleteRoleBinding,
 } from "../../api/access/operations.js";
-import type {
+import {
   AccessListRoleBindingNameListOptionalParams,
   AccessCreateRoleBindingOptionalParams,
   AccessListRoleBindingsOptionalParams,
@@ -26,7 +26,7 @@ import type {
   AccessListUsersOptionalParams,
   AccessDeleteRoleBindingOptionalParams,
 } from "../../api/access/options.js";
-import type {
+import {
   ListAccessRequestModel,
   AccessListUsersSuccessResponse,
   AccessListServiceAccountsSuccessResponse,

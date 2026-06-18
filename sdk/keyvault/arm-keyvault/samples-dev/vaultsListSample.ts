@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the List operation gets information about the vaults associated with the subscription.
  *
  * @summary the List operation gets information about the vaults associated with the subscription.
- * x-ms-original-file: 2026-02-01/listVault.json
+ * x-ms-original-file: 2026-03-01-preview/listVault.json
  */
 async function listVaultsInTheSpecifiedSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import { list, $delete, create, get } from "../../api/fleetspaceAccount/operations.js";
-import type {
+import {
   FleetspaceAccountListOptionalParams,
   FleetspaceAccountDeleteOptionalParams,
   FleetspaceAccountCreateOptionalParams,
   FleetspaceAccountGetOptionalParams,
 } from "../../api/fleetspaceAccount/options.js";
-import type { FleetspaceAccountResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { FleetspaceAccountResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FleetspaceAccount operations. */
 export interface FleetspaceAccountOperations {
@@ -25,11 +24,6 @@ export interface FleetspaceAccountOperations {
     options?: FleetspaceAccountListOptionalParams,
   ) => PagedAsyncIterableIterator<FleetspaceAccountResource>;
   /** Removes an existing Azure Cosmos DB fleetspace account from a fleetspace. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     fleetName: string,

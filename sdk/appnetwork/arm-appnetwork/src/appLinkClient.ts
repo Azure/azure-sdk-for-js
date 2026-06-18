@@ -1,20 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AppLinkContext, AppLinkClientOptionalParams } from "./api/index.js";
-import { createAppLink } from "./api/index.js";
-import type { AppLinkMembersOperations } from "./classic/appLinkMembers/index.js";
-import { _getAppLinkMembersOperations } from "./classic/appLinkMembers/index.js";
-import type { AppLinksOperations } from "./classic/appLinks/index.js";
-import { _getAppLinksOperations } from "./classic/appLinks/index.js";
-import type { AvailableVersionsOperations } from "./classic/availableVersions/index.js";
-import { _getAvailableVersionsOperations } from "./classic/availableVersions/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { UpgradeHistoriesOperations } from "./classic/upgradeHistories/index.js";
-import { _getUpgradeHistoriesOperations } from "./classic/upgradeHistories/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { AppLinkContext, AppLinkClientOptionalParams, createAppLink } from "./api/index.js";
+import {
+  AppLinkMembersOperations,
+  _getAppLinkMembersOperations,
+} from "./classic/appLinkMembers/index.js";
+import { AppLinksOperations, _getAppLinksOperations } from "./classic/appLinks/index.js";
+import {
+  AvailableVersionsOperations,
+  _getAvailableVersionsOperations,
+} from "./classic/availableVersions/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  UpgradeHistoriesOperations,
+  _getUpgradeHistoriesOperations,
+} from "./classic/upgradeHistories/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { AppLinkClientOptionalParams } from "./api/appLinkContext.js";
 

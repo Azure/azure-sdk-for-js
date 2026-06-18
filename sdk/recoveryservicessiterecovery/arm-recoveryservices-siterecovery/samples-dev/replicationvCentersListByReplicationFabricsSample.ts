@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the vCenter servers registered in a fabric.
  *
  * @summary lists the vCenter servers registered in a fabric.
- * x-ms-original-file: 2025-08-01/ReplicationvCenters_ListByReplicationFabrics.json
+ * x-ms-original-file: 2026-01-01/ReplicationvCenters_ListByReplicationFabrics.json
  */
 async function getsTheListOfVCenterRegisteredUnderAFabric(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
   updateNetworkSiblingSet,
   queryNetworkSiblingSet,
@@ -10,7 +10,7 @@ import {
   checkFilePathAvailability,
   checkNameAvailability,
 } from "../../api/netAppResource/operations.js";
-import type {
+import {
   NetAppResourceUpdateNetworkSiblingSetOptionalParams,
   NetAppResourceQueryNetworkSiblingSetOptionalParams,
   NetAppResourceQueryRegionInfoOptionalParams,
@@ -18,7 +18,7 @@ import type {
   NetAppResourceCheckFilePathAvailabilityOptionalParams,
   NetAppResourceCheckNameAvailabilityOptionalParams,
 } from "../../api/netAppResource/options.js";
-import type {
+import {
   RegionInfo,
   ResourceNameAvailabilityRequest,
   CheckAvailabilityResponse,
@@ -28,7 +28,7 @@ import type {
   NetworkSiblingSet,
   UpdateNetworkSiblingSetRequest,
 } from "../../models/models.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetAppResource operations. */
 export interface NetAppResourceOperations {

@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommunicationServiceManagementContext } from "../../api/communicationServiceManagementContext.js";
+import { CommunicationServiceManagementContext } from "../../api/communicationServiceManagementContext.js";
 import {
   listByDomain,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/suppressionLists/operations.js";
-import type {
+import {
   SuppressionListsListByDomainOptionalParams,
   SuppressionListsDeleteOptionalParams,
   SuppressionListsCreateOrUpdateOptionalParams,
   SuppressionListsGetOptionalParams,
 } from "../../api/suppressionLists/options.js";
-import type { SuppressionListResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SuppressionListResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SuppressionLists operations. */
 export interface SuppressionListsOperations {
@@ -27,11 +27,6 @@ export interface SuppressionListsOperations {
     options?: SuppressionListsListByDomainOptionalParams,
   ) => PagedAsyncIterableIterator<SuppressionListResource>;
   /** Delete a SuppressionList. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     emailServiceName: string,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageMoverContext } from "../../api/storageMoverContext.js";
+import { StorageMoverContext } from "../../api/storageMoverContext.js";
 import {
   stopJob,
   startJob,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/jobDefinitions/operations.js";
-import type {
+import {
   JobDefinitionsStopJobOptionalParams,
   JobDefinitionsStartJobOptionalParams,
   JobDefinitionsListOptionalParams,
@@ -20,13 +20,13 @@ import type {
   JobDefinitionsCreateOrUpdateOptionalParams,
   JobDefinitionsGetOptionalParams,
 } from "../../api/jobDefinitions/options.js";
-import type {
+import {
   JobDefinition,
   JobDefinitionUpdateParameters,
   JobRunResourceId,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a JobDefinitions operations. */
 export interface JobDefinitionsOperations {
@@ -54,11 +54,6 @@ export interface JobDefinitionsOperations {
     options?: JobDefinitionsListOptionalParams,
   ) => PagedAsyncIterableIterator<JobDefinition>;
   /** Deletes a Job Definition resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storageMoverName: string,

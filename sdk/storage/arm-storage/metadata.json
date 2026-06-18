@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Storage": "2025-08-01"
   },
-  "emitterVersion": "0.53.1",
+  "emitterVersion": "0.55.0-dev.4",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Storage",
     "CrossLanguageDefinitionId": {

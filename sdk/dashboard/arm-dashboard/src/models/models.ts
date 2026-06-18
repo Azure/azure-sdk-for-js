@@ -1,6 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +54,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -170,15 +178,25 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnection extends ProxyResource {
-  /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  /** The resource of private end point. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /** The private endpoint connection group ids. */
+  groupIds?: string[];
+  /** The provisioning state of the private endpoint connection resource. */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 export function privateEndpointConnectionSerializer(item: PrivateEndpointConnection): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : privateEndpointConnectionPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "privateEndpoint",
+      "privateLinkServiceConnectionState",
+      "groupIds",
+    ])
+      ? undefined
+      : _privateEndpointConnectionPropertiesSerializer(item),
   };
 }
 
@@ -190,9 +208,9 @@ export function privateEndpointConnectionDeserializer(item: any): PrivateEndpoin
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : privateEndpointConnectionPropertiesDeserializer(item["properties"]),
+      : _privateEndpointConnectionPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -251,8 +269,8 @@ export interface PrivateEndpoint {
   readonly id?: string;
 }
 
-export function privateEndpointSerializer(item: PrivateEndpoint): any {
-  return item;
+export function privateEndpointSerializer(_item: PrivateEndpoint): any {
+  return {};
 }
 
 export function privateEndpointDeserializer(item: any): PrivateEndpoint {
@@ -339,8 +357,8 @@ export type PrivateEndpointConnectionProvisioningState = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -366,8 +384,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -469,8 +487,14 @@ export function privateEndpointConnectionArrayDeserializer(
 
 /** A private link resource */
 export interface PrivateLinkResource extends ProxyResource {
-  /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** The private link resource group id. */
+  readonly groupId?: string;
+  /** The private link resource required member names. */
+  readonly requiredMembers?: string[];
+  /** The private link resource Private link DNS zone name. */
+  requiredZoneNames?: string[];
 }
 
 export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
@@ -481,9 +505,9 @@ export function privateLinkResourceDeserializer(item: any): PrivateLinkResource 
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : privateLinkResourcePropertiesDeserializer(item["properties"]),
+      : _privateLinkResourcePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -583,7 +607,9 @@ export function integrationFabricSerializer(item: IntegrationFabric): any {
 
 export function integrationFabricDeserializer(item: any): IntegrationFabric {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -654,7 +680,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -727,23 +755,25 @@ export function integrationFabricArrayDeserializer(result: Array<IntegrationFabr
 
 /** The managed dashboard resource type. */
 export interface ManagedDashboard extends TrackedResource {
-  /** Properties specific to the managed dashboard resource. */
-  properties?: ManagedDashboardProperties;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
 }
 
 export function managedDashboardSerializer(item: ManagedDashboard): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : managedDashboardPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [])
+      ? undefined
+      : _managedDashboardPropertiesSerializer(item),
   };
 }
 
 export function managedDashboardDeserializer(item: any): ManagedDashboard {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -751,9 +781,9 @@ export function managedDashboardDeserializer(item: any): ManagedDashboard {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : managedDashboardPropertiesDeserializer(item["properties"]),
+      : _managedDashboardPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -763,8 +793,8 @@ export interface ManagedDashboardProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function managedDashboardPropertiesSerializer(item: ManagedDashboardProperties): any {
-  return item;
+export function managedDashboardPropertiesSerializer(_item: ManagedDashboardProperties): any {
+  return {};
 }
 
 export function managedDashboardPropertiesDeserializer(item: any): ManagedDashboardProperties {
@@ -854,7 +884,9 @@ export function managedGrafanaDeserializer(item: any): ManagedGrafana {
       ? item["properties"]
       : managedGrafanaPropertiesDeserializer(item["properties"]),
     sku: !item["sku"] ? item["sku"] : resourceSkuDeserializer(item["sku"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
@@ -1089,9 +1121,7 @@ export interface AzureMonitorWorkspaceIntegration {
 export function azureMonitorWorkspaceIntegrationSerializer(
   item: AzureMonitorWorkspaceIntegration,
 ): any {
-  return {
-    azureMonitorWorkspaceResourceId: item["azureMonitorWorkspaceResourceId"],
-  };
+  return { azureMonitorWorkspaceResourceId: item["azureMonitorWorkspaceResourceId"] };
 }
 
 export function azureMonitorWorkspaceIntegrationDeserializer(
@@ -1294,10 +1324,7 @@ export interface Users {
 }
 
 export function usersSerializer(item: Users): any {
-  return {
-    viewersCanEdit: item["viewersCanEdit"],
-    editorsCanAdmin: item["editorsCanAdmin"],
-  };
+  return { viewersCanEdit: item["viewersCanEdit"], editorsCanAdmin: item["editorsCanAdmin"] };
 }
 
 export function usersDeserializer(item: any): Users {
@@ -1365,8 +1392,8 @@ export interface GrafanaPlugin {
   readonly pluginId?: string;
 }
 
-export function grafanaPluginSerializer(item: GrafanaPlugin): any {
-  return item;
+export function grafanaPluginSerializer(_item: GrafanaPlugin): any {
+  return {};
 }
 
 export function grafanaPluginDeserializer(item: any): GrafanaPlugin {
@@ -1496,8 +1523,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -1745,23 +1772,45 @@ export function grafanaAvailablePluginDeserializer(item: any): GrafanaAvailableP
 
 /** The managed private endpoint resource type. */
 export interface ManagedPrivateEndpointModel extends TrackedResource {
-  /** Resource properties. */
-  properties?: ManagedPrivateEndpointModelProperties;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** The ARM resource ID of the resource for which the managed private endpoint is pointing to. */
+  privateLinkResourceId?: string;
+  /** The region of the resource to which the managed private endpoint is pointing to. */
+  privateLinkResourceRegion?: string;
+  /** The group Ids of the managed private endpoint. */
+  groupIds?: string[];
+  /** User input request message of the managed private endpoint. */
+  requestMessage?: string;
+  /** The state of managed private endpoint connection. */
+  readonly connectionState?: ManagedPrivateEndpointConnectionState;
+  /** The URL of the data store behind the private link service. It would be the URL in the Grafana data source configuration page without the protocol and port. */
+  privateLinkServiceUrl?: string;
+  /** The private IP of private endpoint after approval. This property is empty before connection is approved. */
+  readonly privateLinkServicePrivateIP?: string;
 }
 
 export function managedPrivateEndpointModelSerializer(item: ManagedPrivateEndpointModel): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : managedPrivateEndpointModelPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "privateLinkResourceId",
+      "privateLinkResourceRegion",
+      "groupIds",
+      "requestMessage",
+      "privateLinkServiceUrl",
+    ])
+      ? undefined
+      : _managedPrivateEndpointModelPropertiesSerializer(item),
   };
 }
 
 export function managedPrivateEndpointModelDeserializer(item: any): ManagedPrivateEndpointModel {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -1769,9 +1818,9 @@ export function managedPrivateEndpointModelDeserializer(item: any): ManagedPriva
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : managedPrivateEndpointModelPropertiesDeserializer(item["properties"]),
+      : _managedPrivateEndpointModelPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -1922,4 +1971,101 @@ export function managedPrivateEndpointModelArrayDeserializer(
 export enum KnownVersions {
   /** The 2025-08-01 API version. */
   V20250801 = "2025-08-01",
+}
+
+export function _privateEndpointConnectionPropertiesSerializer(
+  item: PrivateEndpointConnection,
+): any {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointSerializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
+      ? item["privateLinkServiceConnectionState"]
+      : privateLinkServiceConnectionStateSerializer(item["privateLinkServiceConnectionState"]),
+    groupIds: !item["groupIds"]
+      ? item["groupIds"]
+      : item["groupIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function _privateEndpointConnectionPropertiesDeserializer(item: any) {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointDeserializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
+      ? item["privateLinkServiceConnectionState"]
+      : privateLinkServiceConnectionStateDeserializer(item["privateLinkServiceConnectionState"]),
+    groupIds: !item["groupIds"]
+      ? item["groupIds"]
+      : item["groupIds"].map((p: any) => {
+          return p;
+        }),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function _privateLinkResourcePropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    groupId: item["groupId"],
+    requiredMembers: !item["requiredMembers"]
+      ? item["requiredMembers"]
+      : item["requiredMembers"].map((p: any) => {
+          return p;
+        }),
+    requiredZoneNames: !item["requiredZoneNames"]
+      ? item["requiredZoneNames"]
+      : item["requiredZoneNames"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function _managedDashboardPropertiesSerializer(_item: ManagedDashboard): any {
+  return {};
+}
+
+export function _managedDashboardPropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function _managedPrivateEndpointModelPropertiesSerializer(
+  item: ManagedPrivateEndpointModel,
+): any {
+  return {
+    privateLinkResourceId: item["privateLinkResourceId"],
+    privateLinkResourceRegion: item["privateLinkResourceRegion"],
+    groupIds: !item["groupIds"]
+      ? item["groupIds"]
+      : item["groupIds"].map((p: any) => {
+          return p;
+        }),
+    requestMessage: item["requestMessage"],
+    privateLinkServiceUrl: item["privateLinkServiceUrl"],
+  };
+}
+
+export function _managedPrivateEndpointModelPropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    privateLinkResourceId: item["privateLinkResourceId"],
+    privateLinkResourceRegion: item["privateLinkResourceRegion"],
+    groupIds: !item["groupIds"]
+      ? item["groupIds"]
+      : item["groupIds"].map((p: any) => {
+          return p;
+        }),
+    requestMessage: item["requestMessage"],
+    connectionState: !item["connectionState"]
+      ? item["connectionState"]
+      : managedPrivateEndpointConnectionStateDeserializer(item["connectionState"]),
+    privateLinkServiceUrl: item["privateLinkServiceUrl"],
+    privateLinkServicePrivateIP: item["privateLinkServicePrivateIP"],
+  };
 }

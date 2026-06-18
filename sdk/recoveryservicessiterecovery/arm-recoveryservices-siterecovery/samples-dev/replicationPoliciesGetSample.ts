@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the details of a replication policy.
  *
  * @summary gets the details of a replication policy.
- * x-ms-original-file: 2025-08-01/ReplicationPolicies_Get.json
+ * x-ms-original-file: 2026-01-01/ReplicationPolicies_Get.json
  */
 async function getsTheRequestedPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

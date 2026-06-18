@@ -1,6 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +54,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -186,7 +194,9 @@ export function codeSigningAccountSerializer(item: CodeSigningAccount): any {
 
 export function codeSigningAccountDeserializer(item: any): CodeSigningAccount {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -211,9 +221,7 @@ export interface CodeSigningAccountProperties {
 }
 
 export function codeSigningAccountPropertiesSerializer(item: CodeSigningAccountProperties): any {
-  return {
-    sku: !item["sku"] ? item["sku"] : accountSkuSerializer(item["sku"]),
-  };
+  return { sku: !item["sku"] ? item["sku"] : accountSkuSerializer(item["sku"]) };
 }
 
 export function codeSigningAccountPropertiesDeserializer(item: any): CodeSigningAccountProperties {
@@ -308,7 +316,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -325,8 +335,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -397,16 +407,16 @@ export type CreatedByType = string;
 export interface CodeSigningAccountPatch {
   /** Resource tags. */
   tags?: Record<string, string>;
-  /** Properties of the trusted signing account. */
-  properties?: CodeSigningAccountPatchProperties;
+  /** SKU of the trusted signing account. */
+  sku?: AccountSkuPatch;
 }
 
 export function codeSigningAccountPatchSerializer(item: CodeSigningAccountPatch): any {
   return {
     tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : codeSigningAccountPatchPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["sku"])
+      ? undefined
+      : _codeSigningAccountPatchPropertiesSerializer(item),
   };
 }
 
@@ -419,9 +429,7 @@ export interface CodeSigningAccountPatchProperties {
 export function codeSigningAccountPatchPropertiesSerializer(
   item: CodeSigningAccountPatchProperties,
 ): any {
-  return {
-    sku: !item["sku"] ? item["sku"] : accountSkuPatchSerializer(item["sku"]),
-  };
+  return { sku: !item["sku"] ? item["sku"] : accountSkuPatchSerializer(item["sku"]) };
 }
 
 /** SKU of the trusted signing account. */
@@ -660,8 +668,18 @@ export interface Certificate {
   expiryDate?: string;
   /** Status of the certificate. */
   status?: CertificateStatus;
-  /** Revocations history of a certificate. */
-  revocation?: Revocation;
+  /** The timestamp when the revocation is requested. */
+  requestedAt?: Date;
+  /** The timestamp when the revocation is effective. */
+  effectiveAt?: Date;
+  /** Reason for revocation. */
+  reason?: string;
+  /** Remarks for the revocation. */
+  remarks?: string;
+  /** Status of the revocation. */
+  statusRevocationStatus?: RevocationStatus;
+  /** Reason for the revocation failure. */
+  failureReason?: string;
 }
 
 export function certificateDeserializer(item: any): Certificate {
@@ -673,9 +691,9 @@ export function certificateDeserializer(item: any): Certificate {
     createdDate: item["createdDate"],
     expiryDate: item["expiryDate"],
     status: item["status"],
-    revocation: !item["revocation"]
+    ...(!item["revocation"]
       ? item["revocation"]
-      : revocationDeserializer(item["revocation"]),
+      : _certificateRevocationDeserializer(item["revocation"])),
   };
 }
 
@@ -751,8 +769,8 @@ export type RevocationStatus = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -823,4 +841,19 @@ export function revokeCertificateSerializer(item: RevokeCertificate): any {
 export enum KnownVersions {
   /** 2025-10-13 */
   V20251013 = "2025-10-13",
+}
+
+export function _codeSigningAccountPatchPropertiesSerializer(item: CodeSigningAccountPatch): any {
+  return { sku: !item["sku"] ? item["sku"] : accountSkuPatchSerializer(item["sku"]) };
+}
+
+export function _certificateRevocationDeserializer(item: any) {
+  return {
+    requestedAt: !item["requestedAt"] ? item["requestedAt"] : new Date(item["requestedAt"]),
+    effectiveAt: !item["effectiveAt"] ? item["effectiveAt"] : new Date(item["effectiveAt"]),
+    reason: item["reason"],
+    remarks: item["remarks"],
+    statusRevocationStatus: item["status"],
+    failureReason: item["failureReason"],
+  };
 }

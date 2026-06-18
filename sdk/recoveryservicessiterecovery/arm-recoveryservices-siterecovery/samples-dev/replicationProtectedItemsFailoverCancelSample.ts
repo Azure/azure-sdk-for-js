@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to operation to cancel the failover of the replication protected item.
  *
  * @summary operation to cancel the failover of the replication protected item.
- * x-ms-original-file: 2025-08-01/ReplicationProtectedItems_FailoverCancel.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectedItems_FailoverCancel.json
  */
 async function executeCancelFailover(): Promise<void> {
   const credential = new DefaultAzureCredential();

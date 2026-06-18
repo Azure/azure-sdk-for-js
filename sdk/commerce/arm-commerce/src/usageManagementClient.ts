@@ -1,14 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { UsageManagementContext, UsageManagementClientOptionalParams } from "./api/index.js";
-import { createUsageManagement } from "./api/index.js";
-import type { RateCardOperations } from "./classic/rateCard/index.js";
-import { _getRateCardOperations } from "./classic/rateCard/index.js";
-import type { UsageAggregatesOperations } from "./classic/usageAggregates/index.js";
-import { _getUsageAggregatesOperations } from "./classic/usageAggregates/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  UsageManagementContext,
+  UsageManagementClientOptionalParams,
+  createUsageManagement,
+} from "./api/index.js";
+import { RateCardOperations, _getRateCardOperations } from "./classic/rateCard/index.js";
+import {
+  UsageAggregatesOperations,
+  _getUsageAggregatesOperations,
+} from "./classic/usageAggregates/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { UsageManagementClientOptionalParams } from "./api/usageManagementContext.js";
 
@@ -29,10 +33,6 @@ export class UsageManagementClient {
     this._client = createUsageManagement(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
-      redirectOptions: {
-        allowCrossOriginRedirects: true,
-        ...options?.redirectOptions,
-      },
     });
     this.pipeline = this._client.pipeline;
     this.rateCard = _getRateCardOperations(this._client);

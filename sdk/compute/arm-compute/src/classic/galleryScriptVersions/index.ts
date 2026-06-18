@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listByGalleryScript,
   $delete,
@@ -9,21 +9,20 @@ import {
   createOrUpdate,
   get,
 } from "../../api/galleryScriptVersions/operations.js";
-import type {
+import {
   GalleryScriptVersionsListByGalleryScriptOptionalParams,
   GalleryScriptVersionsDeleteOptionalParams,
   GalleryScriptVersionsUpdateOptionalParams,
   GalleryScriptVersionsCreateOrUpdateOptionalParams,
   GalleryScriptVersionsGetOptionalParams,
 } from "../../api/galleryScriptVersions/options.js";
-import type {
+import {
   GalleryScriptVersion,
   GalleryScriptVersionUpdate,
 } from "../../models/computeGallery/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GalleryScriptVersions operations. */
 export interface GalleryScriptVersionsOperations {
@@ -35,11 +34,6 @@ export interface GalleryScriptVersionsOperations {
     options?: GalleryScriptVersionsListByGalleryScriptOptionalParams,
   ) => PagedAsyncIterableIterator<GalleryScriptVersion>;
   /** Delete a gallery Script Version. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     galleryName: string,

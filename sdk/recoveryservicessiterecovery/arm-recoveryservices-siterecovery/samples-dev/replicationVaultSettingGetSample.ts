@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the vault setting. This includes the Migration Hub connection settings.
  *
  * @summary gets the vault setting. This includes the Migration Hub connection settings.
- * x-ms-original-file: 2025-08-01/ReplicationVaultSetting_Get.json
+ * x-ms-original-file: 2026-01-01/ReplicationVaultSetting_Get.json
  */
 async function getsTheVaultSetting(): Promise<void> {
   const credential = new DefaultAzureCredential();

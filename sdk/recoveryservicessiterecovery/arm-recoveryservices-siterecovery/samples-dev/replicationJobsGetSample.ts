@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the details of an Azure Site Recovery job.
  *
  * @summary get the details of an Azure Site Recovery job.
- * x-ms-original-file: 2025-08-01/ReplicationJobs_Get.json
+ * x-ms-original-file: 2026-01-01/ReplicationJobs_Get.json
  */
 async function getsTheJobDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();

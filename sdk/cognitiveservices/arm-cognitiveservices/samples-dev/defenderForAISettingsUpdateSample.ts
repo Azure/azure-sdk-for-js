@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the specified Defender for AI setting.
  *
  * @summary updates the specified Defender for AI setting.
- * x-ms-original-file: 2026-01-15-preview/UpdateDefenderForAISetting.json
+ * x-ms-original-file: 2026-03-01/UpdateDefenderForAISetting.json
  */
 async function updateDefenderForAISetting(): Promise<void> {
   const credential = new DefaultAzureCredential();

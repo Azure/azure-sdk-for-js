@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns a list of the subvolumes in the volume
  *
  * @summary returns a list of the subvolumes in the volume
- * x-ms-original-file: 2026-01-01/Subvolumes_List.json
+ * x-ms-original-file: 2026-01-15-preview/Subvolumes_List.json
  */
 async function subvolumesList(): Promise<void> {
   const credential = new DefaultAzureCredential();

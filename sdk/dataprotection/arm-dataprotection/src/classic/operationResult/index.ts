@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import { get } from "../../api/operationResult/operations.js";
-import type { OperationResultGetOptionalParams } from "../../api/operationResult/options.js";
-import type { OperationJobExtendedInfo } from "../../models/models.js";
+import { OperationResultGetOptionalParams } from "../../api/operationResult/options.js";
+import { OperationJobExtendedInfo } from "../../models/models.js";
 
 /** Interface representing a OperationResult operations. */
 export interface OperationResultOperations {
@@ -13,7 +13,7 @@ export interface OperationResultOperations {
     operationId: string,
     location: string,
     options?: OperationResultGetOptionalParams,
-  ) => Promise<OperationJobExtendedInfo>;
+  ) => Promise<OperationJobExtendedInfo | undefined>;
 }
 
 function _getOperationResult(context: DataProtectionContext) {

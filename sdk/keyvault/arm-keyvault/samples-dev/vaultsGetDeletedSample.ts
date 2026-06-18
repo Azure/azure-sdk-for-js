@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the deleted Azure key vault.
  *
  * @summary gets the deleted Azure key vault.
- * x-ms-original-file: 2026-02-01/getDeletedVault.json
+ * x-ms-original-file: 2026-03-01-preview/getDeletedVault.json
  */
 async function retrieveADeletedVault(): Promise<void> {
   const credential = new DefaultAzureCredential();

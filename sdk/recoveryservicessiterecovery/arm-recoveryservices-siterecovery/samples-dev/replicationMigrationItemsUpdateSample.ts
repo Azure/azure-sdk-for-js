@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to update the recovery settings of an ASR migration item.
  *
  * @summary the operation to update the recovery settings of an ASR migration item.
- * x-ms-original-file: 2025-08-01/ReplicationMigrationItems_Update.json
+ * x-ms-original-file: 2026-01-01/ReplicationMigrationItems_Update.json
  */
 async function updatesMigrationItem(): Promise<void> {
   const credential = new DefaultAzureCredential();

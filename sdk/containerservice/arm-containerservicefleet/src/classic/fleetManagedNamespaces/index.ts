@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
+import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
 import {
   update,
   listByFleet,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/fleetManagedNamespaces/operations.js";
-import type {
+import {
   FleetManagedNamespacesUpdateOptionalParams,
   FleetManagedNamespacesListByFleetOptionalParams,
   FleetManagedNamespacesDeleteOptionalParams,
   FleetManagedNamespacesCreateOrUpdateOptionalParams,
   FleetManagedNamespacesGetOptionalParams,
 } from "../../api/fleetManagedNamespaces/options.js";
-import type { FleetManagedNamespace, FleetManagedNamespacePatch } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { FleetManagedNamespace, FleetManagedNamespacePatch } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FleetManagedNamespaces operations. */
 export interface FleetManagedNamespacesOperations {
@@ -37,11 +37,6 @@ export interface FleetManagedNamespacesOperations {
     options?: FleetManagedNamespacesListByFleetOptionalParams,
   ) => PagedAsyncIterableIterator<FleetManagedNamespace>;
   /** Delete a FleetManagedNamespace */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     fleetName: string,

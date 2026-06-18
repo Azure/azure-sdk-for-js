@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to update appliance of an ASR replication protected item.
  *
  * @summary the operation to update appliance of an ASR replication protected item.
- * x-ms-original-file: 2025-08-01/ReplicationProtectedItems_UpdateAppliance.json
+ * x-ms-original-file: 2026-01-01/ReplicationProtectedItems_UpdateAppliance.json
  */
 async function updatesApplianceForReplicationProtectedItem(): Promise<void> {
   const credential = new DefaultAzureCredential();

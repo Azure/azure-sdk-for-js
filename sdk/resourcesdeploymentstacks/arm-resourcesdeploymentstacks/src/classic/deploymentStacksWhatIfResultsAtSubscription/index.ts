@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeploymentStacksContext } from "../../api/deploymentStacksContext.js";
+import { DeploymentStacksContext } from "../../api/deploymentStacksContext.js";
 import {
   whatIf,
   $delete,
@@ -9,18 +9,17 @@ import {
   list,
   get,
 } from "../../api/deploymentStacksWhatIfResultsAtSubscription/operations.js";
-import type {
+import {
   DeploymentStacksWhatIfResultsAtSubscriptionWhatIfOptionalParams,
   DeploymentStacksWhatIfResultsAtSubscriptionDeleteOptionalParams,
   DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateOptionalParams,
   DeploymentStacksWhatIfResultsAtSubscriptionListOptionalParams,
   DeploymentStacksWhatIfResultsAtSubscriptionGetOptionalParams,
 } from "../../api/deploymentStacksWhatIfResultsAtSubscription/options.js";
-import type { DeploymentStacksWhatIfResult } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { DeploymentStacksWhatIfResult } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DeploymentStacksWhatIfResultsAtSubscription operations. */
 export interface DeploymentStacksWhatIfResultsAtSubscriptionOperations {
@@ -42,11 +41,6 @@ export interface DeploymentStacksWhatIfResultsAtSubscriptionOperations {
     options?: DeploymentStacksWhatIfResultsAtSubscriptionWhatIfOptionalParams,
   ) => Promise<DeploymentStacksWhatIfResult>;
   /** Deletes a Deployment stack by name at the specified scope. When operation completes, status code 200 returned without content. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     deploymentStacksWhatIfResultName: string,
     options?: DeploymentStacksWhatIfResultsAtSubscriptionDeleteOptionalParams,

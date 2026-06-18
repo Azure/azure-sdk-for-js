@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a NamespaceDiscoveredDevice
  *
  * @summary delete a NamespaceDiscoveredDevice
- * x-ms-original-file: 2026-03-01-preview/Delete_NamespaceDiscoveredDevice.json
+ * x-ms-original-file: 2026-11-01-preview/Delete_NamespaceDiscoveredDevice.json
  */
 async function deleteNamespaceDiscoveredDevice(): Promise<void> {
   const credential = new DefaultAzureCredential();

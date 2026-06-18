@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   PreviewAlertRuleManagementContext,
   PreviewAlertRuleManagementClientOptionalParams,
+  createPreviewAlertRuleManagement,
 } from "./api/index.js";
-import { createPreviewAlertRuleManagement } from "./api/index.js";
 import { previewAlertRule } from "./api/operations.js";
-import type { PreviewAlertRuleOptionalParams } from "./api/options.js";
-import type { PreviewAlertRuleRequest, PreviewAlertRuleResponse } from "./models/models.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { PreviewAlertRuleOptionalParams } from "./api/options.js";
+import { PreviewAlertRuleRequest, PreviewAlertRuleResponse } from "./models/models.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { PreviewAlertRuleManagementClientOptionalParams } from "./api/previewAlertRuleManagementContext.js";
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to generate the access key and secret key used for accessing the specified volume bucket and store in Azure Key Vault.
  *
  * @summary generate the access key and secret key used for accessing the specified volume bucket and store in Azure Key Vault.
- * x-ms-original-file: 2026-01-01/Buckets_GenerateAkvCredentials.json
+ * x-ms-original-file: 2026-01-15-preview/Buckets_GenerateAkvCredentials.json
  */
 async function bucketsGenerateAkvCredentials(): Promise<void> {
   const credential = new DefaultAzureCredential();

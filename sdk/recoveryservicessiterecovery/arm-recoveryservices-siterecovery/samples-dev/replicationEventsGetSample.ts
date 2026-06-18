@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to get the details of an Azure Site recovery event.
  *
  * @summary the operation to get the details of an Azure Site recovery event.
- * x-ms-original-file: 2025-08-01/ReplicationEvents_Get.json
+ * x-ms-original-file: 2026-01-01/ReplicationEvents_Get.json
  */
 async function getTheDetailsOfAnAzureSiteRecoveryEvent(): Promise<void> {
   const credential = new DefaultAzureCredential();

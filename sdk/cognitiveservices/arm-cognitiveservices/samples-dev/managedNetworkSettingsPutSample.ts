@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to pUT API for managed network settings of a cognitive services account.
  *
  * @summary pUT API for managed network settings of a cognitive services account.
- * x-ms-original-file: 2026-01-15-preview/ManagedNetwork/createOrUpdateManagedNetworkV2.json
+ * x-ms-original-file: 2026-03-01/ManagedNetwork/createOrUpdateManagedNetworkV2.json
  */
 async function putManagedNetworkSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();

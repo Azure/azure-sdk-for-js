@@ -306,6 +306,8 @@ export interface VaultProperties {
   readonly privateEndpointConnections?: PrivateEndpointConnectionItem[];
   /** Property to specify whether the vault will accept traffic from public internet. If set to 'disabled' all traffic except private endpoint traffic and that that originates from trusted services will be blocked. This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the rules. */
   publicNetworkAccess?: string;
+  /** Configuration for Token Binding for Entra tokens */
+  tokenBindingParameters?: TokenBindingParameters;
 }
 
 export function vaultPropertiesSerializer(item: VaultProperties): any {
@@ -329,6 +331,9 @@ export function vaultPropertiesSerializer(item: VaultProperties): any {
       : networkRuleSetSerializer(item["networkAcls"]),
     provisioningState: item["provisioningState"],
     publicNetworkAccess: item["publicNetworkAccess"],
+    tokenBindingParameters: !item["tokenBindingParameters"]
+      ? item["tokenBindingParameters"]
+      : tokenBindingParametersSerializer(item["tokenBindingParameters"]),
   };
 }
 
@@ -357,6 +362,9 @@ export function vaultPropertiesDeserializer(item: any): VaultProperties {
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionItemArrayDeserializer(item["privateEndpointConnections"]),
     publicNetworkAccess: item["publicNetworkAccess"],
+    tokenBindingParameters: !item["tokenBindingParameters"]
+      ? item["tokenBindingParameters"]
+      : tokenBindingParametersDeserializer(item["tokenBindingParameters"]),
   };
 }
 
@@ -881,8 +889,8 @@ export interface PrivateEndpoint {
   readonly id?: string;
 }
 
-export function privateEndpointSerializer(item: PrivateEndpoint): any {
-  return item;
+export function privateEndpointSerializer(_item: PrivateEndpoint): any {
+  return {};
 }
 
 export function privateEndpointDeserializer(item: any): PrivateEndpoint {
@@ -990,11 +998,72 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
+/** Configuration for Token Binding for Entra tokens */
+export interface TokenBindingParameters {
+  /** This specifies whether token binding is disabled, enabled or enforced. */
+  mode?: TokenBindingMode;
+  /** Must be one of the following values "NoValidation", "Unattested", "AttestedTrustedLaunch", "AttestedConfidential". Strength of the token binding increases with each value in that order. */
+  minimumTokenBindingStrength?: TokenBindingStrength;
+}
+
+export function tokenBindingParametersSerializer(item: TokenBindingParameters): any {
+  return { mode: item["mode"], minimumTokenBindingStrength: item["minimumTokenBindingStrength"] };
+}
+
+export function tokenBindingParametersDeserializer(item: any): TokenBindingParameters {
+  return {
+    mode: item["mode"],
+    minimumTokenBindingStrength: item["minimumTokenBindingStrength"],
+  };
+}
+
+/** This specifies whether token binding is disabled, enabled or enforced. */
+export enum KnownTokenBindingMode {
+  /** Token binding is enforced for the vault. Only bounded tokens will be accepted. Bearer tokens will be rejected. */
+  Enforced = "Enforced",
+  /** Token binding is not enforced for the vault. Bounded tokens will be rejected. */
+  NotEnforced = "NotEnforced",
+}
+
+/**
+ * This specifies whether token binding is disabled, enabled or enforced. \
+ * {@link KnownTokenBindingMode} can be used interchangeably with TokenBindingMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enforced**: Token binding is enforced for the vault. Only bounded tokens will be accepted. Bearer tokens will be rejected. \
+ * **NotEnforced**: Token binding is not enforced for the vault. Bounded tokens will be rejected.
+ */
+export type TokenBindingMode = string;
+
+/** Must be one of the following values "NoValidation", "Unattested", "AttestedTrustedLaunch", "AttestedConfidential". Strength of the token binding increases with each value in that order. */
+export enum KnownTokenBindingStrength {
+  /** This is default when token binding is not enabled. */
+  NoValidation = "NoValidation",
+  /** No attestation proof is required for the bounded token. */
+  Unattested = "Unattested",
+  /** Bounded Entra token must originate from a trusted launch VM with attestation proof from the attestation authority like Microsoft Azure Attestation. */
+  AttestedTrustedLaunch = "AttestedTrustedLaunch",
+  /** Bounded Entra token must originate from a confidential VM with attestation proof from the attestation authority like Microsoft Azure Attestation. */
+  AttestedConfidential = "AttestedConfidential",
+}
+
+/**
+ * Must be one of the following values "NoValidation", "Unattested", "AttestedTrustedLaunch", "AttestedConfidential". Strength of the token binding increases with each value in that order. \
+ * {@link KnownTokenBindingStrength} can be used interchangeably with TokenBindingStrength,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NoValidation**: This is default when token binding is not enabled. \
+ * **Unattested**: No attestation proof is required for the bounded token. \
+ * **AttestedTrustedLaunch**: Bounded Entra token must originate from a trusted launch VM with attestation proof from the attestation authority like Microsoft Azure Attestation. \
+ * **AttestedConfidential**: Bounded Entra token must originate from a confidential VM with attestation proof from the attestation authority like Microsoft Azure Attestation.
+ */
+export type TokenBindingStrength = string;
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1020,8 +1089,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1151,6 +1220,8 @@ export interface VaultPatchProperties {
   networkAcls?: NetworkRuleSet;
   /** Property to specify whether the vault will accept traffic from public internet. If set to 'disabled' all traffic except private endpoint traffic and that that originates from trusted services will be blocked. This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the rules. */
   publicNetworkAccess?: string;
+  /** Configuration for Token Binding for Entra tokens */
+  tokenBindingParameters?: TokenBindingParameters;
 }
 
 export function vaultPatchPropertiesSerializer(item: VaultPatchProperties): any {
@@ -1172,6 +1243,9 @@ export function vaultPatchPropertiesSerializer(item: VaultPatchProperties): any 
       ? item["networkAcls"]
       : networkRuleSetSerializer(item["networkAcls"]),
     publicNetworkAccess: item["publicNetworkAccess"],
+    tokenBindingParameters: !item["tokenBindingParameters"]
+      ? item["tokenBindingParameters"]
+      : tokenBindingParametersSerializer(item["tokenBindingParameters"]),
   };
 }
 
@@ -1936,8 +2010,8 @@ export interface MhsmPrivateEndpoint {
   readonly id?: string;
 }
 
-export function mhsmPrivateEndpointSerializer(item: MhsmPrivateEndpoint): any {
-  return item;
+export function mhsmPrivateEndpointSerializer(_item: MhsmPrivateEndpoint): any {
+  return {};
 }
 
 export function mhsmPrivateEndpointDeserializer(item: any): MhsmPrivateEndpoint {
@@ -2143,8 +2217,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -3555,6 +3629,8 @@ export enum KnownVersions {
   V20250501 = "2025-05-01",
   /** The 2026-02-01 API version. */
   V20260201 = "2026-02-01",
+  /** The 2026-03-01-preview API version. */
+  V20260301Preview = "2026-03-01-preview",
 }
 
 export function _operationOperationPropertiesDeserializer(item: any) {
