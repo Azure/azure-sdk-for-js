@@ -1,170 +1,91 @@
 # Release History
 
-## 7.0.0-beta.1 (2026-05-12)
+## 6.1.0-beta.1 (2026-06-18)
 Compared with version 6.0.0
 
 ### Features Added
+  - Added operation group AliasOperations
+  - Added operation group BillingAccountOperations
+  - Added operation group OperationsOperations
+  - Added operation group SubscriptionOperationOperations
+  - Added operation group SubscriptionOperations
+  - Added operation group SubscriptionPolicyOperations
   - Added operation group SubscriptionsOperations
-  - Added operation AliasOperations.create
-  - Added operation SubscriptionOperations.acceptOwnership
+  - Added Class SubscriptionClient
+  - Added Interface AcceptOwnershipRequest
+  - Added Interface AcceptOwnershipRequestProperties
+  - Added Interface AcceptOwnershipStatusResponse
+  - Added Interface AliasCreateOptionalParams
+  - Added Interface AliasDeleteOptionalParams
+  - Added Interface AliasGetOptionalParams
+  - Added Interface AliasListOptionalParams
+  - Added Interface BillingAccountGetPolicyOptionalParams
+  - Added Interface BillingAccountPoliciesResponse
+  - Added Interface BillingAccountPoliciesResponseProperties
+  - Added Interface CanceledSubscriptionId
+  - Added Interface EnabledSubscriptionId
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface GetTenantPolicyResponse
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface ProxyResource
+  - Added Interface PutAliasRequest
+  - Added Interface PutAliasRequestAdditionalProperties
+  - Added Interface PutAliasRequestProperties
+  - Added Interface PutTenantPolicyRequestProperties
+  - Added Interface RenamedSubscriptionId
   - Added Interface Resource
   - Added Interface RestorePollerOptions
+  - Added Interface ServiceTenantResponse
   - Added Interface SimplePollerLike
+  - Added Interface SubscriptionAcceptOwnershipOptionalParams
+  - Added Interface SubscriptionAcceptOwnershipStatusOptionalParams
+  - Added Interface SubscriptionAliasResponse
+  - Added Interface SubscriptionAliasResponseProperties
+  - Added Interface SubscriptionCancelOptionalParams
+  - Added Interface SubscriptionClientOptionalParams
+  - Added Interface SubscriptionCreationResult
+  - Added Interface SubscriptionEnableOptionalParams
+  - Added Interface SubscriptionName
+  - Added Interface SubscriptionOperationGetOptionalParams
+  - Added Interface SubscriptionPolicyAddUpdatePolicyForTenantOptionalParams
+  - Added Interface SubscriptionPolicyGetPolicyForTenantOptionalParams
+  - Added Interface SubscriptionPolicyListPolicyForTenantOptionalParams
+  - Added Interface SubscriptionRenameOptionalParams
   - Added Interface SubscriptionsAcceptTargetDirectoryOptionalParams
   - Added Interface SubscriptionsDeleteTargetDirectoryOptionalParams
   - Added Interface SubscriptionsGetTargetDirectoryOptionalParams
   - Added Interface SubscriptionsListTargetDirectoryOptionalParams
   - Added Interface SubscriptionsPutTargetDirectoryOptionalParams
   - Added Interface SubscriptionsTargetDirectoryStatusOptionalParams
+  - Added Interface SystemData
   - Added Interface TargetDirectoryRequest
   - Added Interface TargetDirectoryRequestProperties
   - Added Interface TargetDirectoryResult
   - Added Interface TargetDirectoryResultProperties
-  - Interface ErrorResponse has a new optional parameter error
-  - Interface Operation has a new optional parameter actionType
-  - Interface Operation has a new optional parameter origin
+  - Added Interface TenantPolicy
+  - Added Type Alias AcceptOwnership
   - Added Type Alias ActionType
   - Added Type Alias AzureSupportedClouds
   - Added Type Alias ChangeDirectoryOperationStatus
+  - Added Type Alias CreatedByType
   - Added Type Alias Origin
+  - Added Type Alias Provisioning
+  - Added Type Alias ProvisioningState
+  - Added Type Alias Workload
   - Added Enum AzureClouds
+  - Added Enum KnownAcceptOwnership
   - Added Enum KnownActionType
   - Added Enum KnownChangeDirectoryOperationStatus
+  - Added Enum KnownCreatedByType
   - Added Enum KnownOrigin
-  - Added Enum KnownVersions
-
-### Breaking Changes
-  - Operation Alias.list has a new signature
-  - Operation Subscription.beginAcceptOwnershipAndWait has a new signature
-  - Removed Interface ErrorResponseBody
-  - Removed Interface GetTenantPolicyListResponse
-  - Interface ErrorResponse no longer has parameter code
-  - Interface ErrorResponse no longer has parameter message
-
-## 6.0.0 (2025-10-30)
-
-### Features Added
-  - Added operation group SubscriptionOperation
-  - Added operation Subscription.acceptOwnershipStatus
-  - Added operation Subscription.beginAcceptOwnership
-  - Added operation Subscription.beginAcceptOwnershipAndWait
-  - Added operation Subscription.cancel
-  - Added operation Subscription.enable
-  - Added operation Subscription.rename
-  - Added Interface SubscriptionCreationResult
-  - Added Interface SubscriptionOperationGetHeaders
-  - Added Interface SubscriptionOperationGetOptionalParams
-  - Interface SubscriptionClientOptionalParams has a new optional parameter apiVersion
-  - Added Type Alias SubscriptionOperationGetResponse
-
-### Breaking Changes
-  - Operation groups SubscriptionOperations, Subscriptions and Tenants have been removed since 6.0.0. If you need to query these, please switch to use the [`@azure/arm-resources-subscriptions`](https://www.npmjs.com/package/@azure/arm-resources-subscriptions) package instead. The API similarity should mean this is generally a drop-in replacement for subscription iteration:
-
-    ```diff
-    -import { SubscriptionClient } from "@azure/arm-subscriptions";
-    +import { SubscriptionClient } from "@azure/arm-resources-subscriptions";
-    import { DefaultAzureCredential } from "@azure/identity";
-
-    const credential = new DefaultAzureCredential();
-
-    // Create a SubscriptionClient
-    const subscriptionClient = new SubscriptionClient(credential);
-
-    for await (const subscription of subscriptionClient.subscriptions.list()) {
-      // ....
-    }
-    ```
-  - Removed Interface SubscriptionPolicies
-  - Removed Interface SubscriptionsGetOptionalParams
-  - Removed Interface SubscriptionsListLocationsOptionalParams
-  - Removed Interface SubscriptionsListOptionalParams
-  - Removed Interface TenantIdDescription
-  - Removed Interface TenantsListOptionalParams
-  - Removed Type Alias SpendingLimit
-  - Removed Type Alias SubscriptionState
-
-    
-## 5.1.0 (2022-11-11)
-    
-### Features Added
-
-  - Added Type Alias Provisioning
-  - Interface AcceptOwnershipStatusResponse has a new optional parameter provisioningState
-  - Interface Subscription has a new optional parameter tags
-  - Interface Subscription has a new optional parameter tenantId
-  - Interface TenantIdDescription has a new optional parameter country
-  - Interface TenantIdDescription has a new optional parameter countryCode
-  - Interface TenantIdDescription has a new optional parameter defaultDomain
-  - Interface TenantIdDescription has a new optional parameter displayName
-  - Interface TenantIdDescription has a new optional parameter domains
-  - Interface TenantIdDescription has a new optional parameter tenantCategory
-  - Interface TenantIdDescription has a new optional parameter tenantType
   - Added Enum KnownProvisioning
-    
-## 5.0.1 (2022-05-05)
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownVersions
+  - Added Enum KnownWorkload
 
-### Features Added
-
-  - Bug fix
-
-## 5.0.0 (2022-01-17)
-    
-### Features Added
-
-  - Added operation group SubscriptionOperations
-  - Added operation group Subscriptions
-  - Added operation group Tenants
-  - Added Interface Location_2
-  - Added Interface LocationListResult
-  - Added Interface Subscription
-  - Added Interface SubscriptionListResult
-  - Added Interface SubscriptionPolicies
-  - Added Interface SubscriptionsGetOptionalParams
-  - Added Interface SubscriptionsListLocationsOptionalParams
-  - Added Interface SubscriptionsListNextOptionalParams
-  - Added Interface SubscriptionsListOptionalParams
-  - Added Interface TenantIdDescription
-  - Added Interface TenantListResult
-  - Added Interface TenantsListNextOptionalParams
-  - Added Interface TenantsListOptionalParams
-  - Added Type Alias SpendingLimit
-  - Added Type Alias SubscriptionsGetResponse
-  - Added Type Alias SubscriptionsListLocationsResponse
-  - Added Type Alias SubscriptionsListNextResponse
-  - Added Type Alias SubscriptionsListResponse
-  - Added Type Alias SubscriptionState
-  - Added Type Alias TenantsListNextResponse
-  - Added Type Alias TenantsListResponse
-  - Interface CanceledSubscriptionId has a new optional parameter subscriptionId
-  - Interface EnabledSubscriptionId has a new optional parameter subscriptionId
-  - Interface RenamedSubscriptionId has a new optional parameter subscriptionId
-  - Interface SubscriptionAliasResponseProperties has a new optional parameter createdTime
-  - Class SubscriptionClient has a new parameter subscriptionOperations
-  - Class SubscriptionClient has a new parameter subscriptions
-  - Class SubscriptionClient has a new parameter tenants
-
-### Breaking Changes
-
-  - Removed operation group Subscription
-  - Interface CanceledSubscriptionId no longer has parameter value
-  - Interface EnabledSubscriptionId no longer has parameter value
-  - Interface RenamedSubscriptionId no longer has parameter value
-  - Interface SubscriptionClientOptionalParams no longer has parameter apiVersion
-  - Class SubscriptionClient no longer has parameter apiVersion
-  - Class SubscriptionClient no longer has parameter subscription
-    
-    
-## 4.0.0 (2021-12-22)
-
-The package of @azure/arm-subscriptions is using our next generation design principles since version 4.0.0, which contains breaking changes.
-
-To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
-
-To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
-
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

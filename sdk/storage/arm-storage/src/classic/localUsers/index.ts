@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext } from "../../api/storageManagementContext.js";
+import { StorageManagementContext } from "../../api/storageManagementContext.js";
 import {
   regeneratePassword,
   listKeys,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/localUsers/operations.js";
-import type {
+import {
   LocalUsersRegeneratePasswordOptionalParams,
   LocalUsersListKeysOptionalParams,
   LocalUsersListOptionalParams,
@@ -18,12 +18,12 @@ import type {
   LocalUsersCreateOrUpdateOptionalParams,
   LocalUsersGetOptionalParams,
 } from "../../api/localUsers/options.js";
-import type {
+import {
   LocalUser,
   LocalUserKeys,
   LocalUserRegeneratePasswordResult,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a LocalUsers operations. */
 export interface LocalUsersOperations {

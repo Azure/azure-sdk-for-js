@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext } from "../../api/storageManagementContext.js";
+import { StorageManagementContext } from "../../api/storageManagementContext.js";
 import { $delete, createOrUpdate, get } from "../../api/managementPolicies/operations.js";
-import type {
+import {
   ManagementPoliciesDeleteOptionalParams,
   ManagementPoliciesCreateOrUpdateOptionalParams,
   ManagementPoliciesGetOptionalParams,
 } from "../../api/managementPolicies/options.js";
-import type { ManagementPolicy, ManagementPolicyName } from "../../models/models.js";
+import { ManagementPolicy, ManagementPolicyName } from "../../models/models.js";
 
 /** Interface representing a ManagementPolicies operations. */
 export interface ManagementPoliciesOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CodeSigningContext } from "../../api/codeSigningContext.js";
+import { CodeSigningContext } from "../../api/codeSigningContext.js";
 import {
   checkNameAvailability,
   listBySubscription,
@@ -11,7 +11,7 @@ import {
   create,
   get,
 } from "../../api/codeSigningAccounts/operations.js";
-import type {
+import {
   CodeSigningAccountsCheckNameAvailabilityOptionalParams,
   CodeSigningAccountsListBySubscriptionOptionalParams,
   CodeSigningAccountsListByResourceGroupOptionalParams,
@@ -20,14 +20,14 @@ import type {
   CodeSigningAccountsCreateOptionalParams,
   CodeSigningAccountsGetOptionalParams,
 } from "../../api/codeSigningAccounts/options.js";
-import type {
+import {
   CodeSigningAccount,
   CodeSigningAccountPatch,
   CheckNameAvailability,
   CheckNameAvailabilityResult,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CodeSigningAccounts operations. */
 export interface CodeSigningAccountsOperations {
@@ -46,11 +46,6 @@ export interface CodeSigningAccountsOperations {
     options?: CodeSigningAccountsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<CodeSigningAccount>;
   /** Delete a trusted signing account. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

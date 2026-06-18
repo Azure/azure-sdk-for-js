@@ -1,5 +1,16 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/standbyContainerGroupPoolRuntimeViews": "./src/api/standbyContainerGroupPoolRuntimeViews/index.ts"
+  "./api/standbyContainerGroupPools": "./src/api/standbyContainerGroupPools/index.ts"
+  "./api/standbyVirtualMachinePoolRuntimeViews": "./src/api/standbyVirtualMachinePoolRuntimeViews/index.ts"
+  "./api/standbyVirtualMachines": "./src/api/standbyVirtualMachines/index.ts"
+  "./api/standbyVirtualMachinePools": "./src/api/standbyVirtualMachinePools/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

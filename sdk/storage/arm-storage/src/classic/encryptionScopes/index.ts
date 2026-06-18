@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext } from "../../api/storageManagementContext.js";
+import { StorageManagementContext } from "../../api/storageManagementContext.js";
 import { list, patch, put, get } from "../../api/encryptionScopes/operations.js";
-import type {
+import {
   EncryptionScopesListOptionalParams,
   EncryptionScopesPatchOptionalParams,
   EncryptionScopesPutOptionalParams,
   EncryptionScopesGetOptionalParams,
 } from "../../api/encryptionScopes/options.js";
-import type { EncryptionScope } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { EncryptionScope } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a EncryptionScopes operations. */
 export interface EncryptionScopesOperations {
