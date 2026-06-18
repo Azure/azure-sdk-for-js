@@ -204,15 +204,24 @@ When enabled, Warp detects this up front (before compilation) and:
   consumers fall through to the `import` (ESM) condition,
 - omits their conditions from the generated `package.json` `"exports"`,
 - repoints any existing legacy top-level `"browser"` / `"react-native"` fields
-  at the ESM entry so they don't dangle, and
-- cleans any stale `dist/browser` / `dist/react-native` output from prior builds.
+  at the ESM entry so they don't dangle,
+- cleans any stale `dist/browser` / `dist/react-native` output from prior builds, and
+- trims those same redundant targets from the package's own `warp.config.yml`
+  (or `warp.config.json` / `package.json` `"warp"` key) after a successful
+  build, so the config no longer declares targets that produce duplicate output.
+  The edit is comment-preserving for YAML and only ever touches the package's
+  own config file — a shared base config referenced via `extends` is never
+  modified (inherited targets aren't physically present in the child file, so
+  there is nothing to remove there).
 
 Detection scans the actual `.ts` / `.mts` / `.cts` files on disk (independent of
 tsconfig `include` globs), so platform variants like `foo-browser.mts` are always
 seen. Only the recognized `browser` / `react-native` conditions are ever pruned;
 `import`, `require`, and any custom conditions (e.g. `workerd`) are left
-untouched. An explicit `--target` filter disables pruning so the filter is
-honored verbatim. This mirrors the manual change in
+untouched. An explicit `--target` filter disables pruning (and the config trim)
+so the filter is honored verbatim. Like the `package.json` rewrite, the
+`warp.config.yml` trim only runs on a successful build and is skipped on
+`--dry-run`. This mirrors the manual change in
 [Azure/azure-sdk-for-js#38870](https://github.com/Azure/azure-sdk-for-js/pull/38870).
 
 ### Target deduplication
@@ -365,6 +374,7 @@ console.log(result.sizeReport); // SizeReport with per-target metrics
 | `createPolyfillHost(options, polyfillMap, cache)`       | Create a `CompilerHost` that substitutes polyfill content                   |
 | `planPlatformTargetPruning(configs, importsMap, root)`  | Plan which redundant `browser` / `react-native` targets can be pruned       |
 | `computeLegacyPlatformFieldUpdates(pruned, exports)`    | Compute legacy `browser` / `react-native` field repoints after pruning      |
+| `removeTargetsFromConfigSource(source, targetNames)`    | Trim named targets from a package's own `warp.config.yml`/`.json`/`package.json` (comment-preserving for YAML) |
 
 #### Classes
 

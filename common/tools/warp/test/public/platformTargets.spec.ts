@@ -5,11 +5,12 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
-import { stringify } from "yaml";
+import { stringify, parse as parseYaml } from "yaml";
 import {
   build,
   planPlatformTargetPruning,
   computeLegacyPlatformFieldUpdates,
+  removeTargetsFromConfigSource,
 } from "../../src/index.ts";
 import type { ParsedTargetConfig } from "../../src/index.ts";
 import type { ImportsMap } from "../../src/index.ts";
@@ -321,6 +322,12 @@ describe("build (platform target pruning)", () => {
     // Legacy top-level fields repointed at the esm build.
     expect(pkg.browser).toBe("./dist/esm/index.js");
     expect(pkg["react-native"]).toBe("./dist/esm/index.js");
+
+    // The package's own warp.config.yml is trimmed to the surviving targets.
+    const cfg = parseYaml(await fs.readFile(path.join(tmpDir, "warp.config.yml"), "utf-8")) as {
+      targets: { name: string }[];
+    };
+    expect(cfg.targets.map((t) => t.name).sort()).toEqual(["commonjs", "esm"]);
   });
 
   it("does not introduce legacy fields that did not already exist", async () => {
@@ -348,6 +355,17 @@ describe("build (platform target pruning)", () => {
     ]);
     expect(await exists(path.join(tmpDir, "dist/browser/index.js"))).toBe(true);
     expect(await exists(path.join(tmpDir, "dist/react-native/index.js"))).toBe(true);
+
+    // warp.config.yml is left untouched when nothing is pruned.
+    const cfg = parseYaml(await fs.readFile(path.join(tmpDir, "warp.config.yml"), "utf-8")) as {
+      targets: { name: string }[];
+    };
+    expect(cfg.targets.map((t) => t.name).sort()).toEqual([
+      "browser",
+      "commonjs",
+      "esm",
+      "react-native",
+    ]);
   });
 
   it("keeps all targets when the flag is explicitly false", async () => {
@@ -366,5 +384,212 @@ describe("build (platform target pruning)", () => {
     expect(result.success).toBe(true);
     expect(result.config.targets.map((t) => t.name)).toEqual(["browser"]);
     expect(await exists(path.join(tmpDir, "dist/browser/index.js"))).toBe(true);
+
+    // A filtered build never rewrites the config file.
+    const cfg = parseYaml(await fs.readFile(path.join(tmpDir, "warp.config.yml"), "utf-8")) as {
+      targets: { name: string }[];
+    };
+    expect(cfg.targets).toHaveLength(4);
+  });
+
+  it("trims the child config but never the shared base config (extends)", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/index.ts"), "export const a = 1;\n");
+
+    await fs.writeFile(path.join(tmpDir, "tsconfig.browser.json"), tsconfig("./dist/browser"));
+    await fs.writeFile(
+      path.join(tmpDir, "tsconfig.react-native.json"),
+      tsconfig("./dist/react-native"),
+    );
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), tsconfig("./dist/esm"));
+    await fs.writeFile(
+      path.join(tmpDir, "tsconfig.cjs.json"),
+      tsconfig("./dist/commonjs", "Node16"),
+    );
+
+    // Base config carries the flag; child redeclares the four targets.
+    const baseContent = stringify({
+      prunePlatformTargets: true,
+      exports: { "./package.json": "./package.json", ".": "./src/index.ts" },
+      targets: [{ name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" }],
+    });
+    await fs.writeFile(path.join(tmpDir, "warp.base.config.yml"), baseContent);
+
+    await fs.writeFile(
+      path.join(tmpDir, "warp.config.yml"),
+      stringify({
+        extends: "./warp.base.config.yml",
+        exports: { "./package.json": "./package.json", ".": "./src/index.ts" },
+        targets: [
+          { name: "browser", condition: "browser", tsconfig: "./tsconfig.browser.json" },
+          {
+            name: "react-native",
+            condition: "react-native",
+            tsconfig: "./tsconfig.react-native.json",
+          },
+          { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+          {
+            name: "commonjs",
+            condition: "require",
+            tsconfig: "./tsconfig.cjs.json",
+            moduleType: "commonjs",
+          },
+        ],
+      }),
+    );
+
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      `${JSON.stringify({ name: "test-extends", version: "1.0.0", type: "module" }, null, 2)}\n`,
+    );
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(true);
+
+    // Child config trimmed to esm + commonjs.
+    const childCfg = parseYaml(
+      await fs.readFile(path.join(tmpDir, "warp.config.yml"), "utf-8"),
+    ) as { targets: { name: string }[] };
+    expect(childCfg.targets.map((t) => t.name).sort()).toEqual(["commonjs", "esm"]);
+
+    // Base config is never modified.
+    expect(await fs.readFile(path.join(tmpDir, "warp.base.config.yml"), "utf-8")).toBe(baseContent);
+  });
+});
+
+describe("removeTargetsFromConfigSource", () => {
+  let tmpDir: string;
+
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
+  });
+
+  afterEach(async () => {
+    await fs.rm(tmpDir, { recursive: true, force: true });
+  });
+
+  it("removes named targets from a yaml config, preserving comments", async () => {
+    const yamlPath = path.join(tmpDir, "warp.config.yml");
+    const original = `# build configuration
+extends: ../../../warp.base.config.yml
+targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+  - name: react-native
+    tsconfig: "./config/tsconfig.src.react-native.json"
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs
+`;
+    await fs.writeFile(yamlPath, original);
+
+    const removed = await removeTargetsFromConfigSource(
+      { type: "yaml", path: yamlPath },
+      new Set(["browser", "react-native"]),
+    );
+    expect(removed).toEqual(["browser", "react-native"]);
+
+    const updated = await fs.readFile(yamlPath, "utf-8");
+    expect(updated).toContain("# build configuration");
+    expect(updated).toContain("extends: ../../../warp.base.config.yml");
+    expect(updated).not.toContain("name: browser");
+    expect(updated).not.toContain("name: react-native");
+    expect(updated).toContain("name: esm");
+    expect(updated).toContain("name: commonjs");
+  });
+
+  it("removes named targets from a json config", async () => {
+    const jsonPath = path.join(tmpDir, "warp.config.json");
+    await fs.writeFile(
+      jsonPath,
+      `${JSON.stringify(
+        {
+          exports: { ".": "./src/index.ts" },
+          targets: [
+            { name: "browser", condition: "browser", tsconfig: "./tsconfig.browser.json" },
+            { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+          ],
+        },
+        null,
+        2,
+      )}\n`,
+    );
+
+    const removed = await removeTargetsFromConfigSource(
+      { type: "json", path: jsonPath },
+      new Set(["browser"]),
+    );
+    expect(removed).toEqual(["browser"]);
+
+    const updated = JSON.parse(await fs.readFile(jsonPath, "utf-8")) as {
+      targets: { name: string }[];
+    };
+    expect(updated.targets.map((t) => t.name)).toEqual(["esm"]);
+  });
+
+  it("removes named targets under the package.json warp key", async () => {
+    const pkgPath = path.join(tmpDir, "package.json");
+    await fs.writeFile(
+      pkgPath,
+      `${JSON.stringify(
+        {
+          name: "p",
+          version: "1.0.0",
+          warp: {
+            exports: { ".": "./src/index.ts" },
+            targets: [
+              { name: "browser", condition: "browser", tsconfig: "./tsconfig.browser.json" },
+              { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+            ],
+          },
+        },
+        null,
+        2,
+      )}\n`,
+    );
+
+    const removed = await removeTargetsFromConfigSource(
+      { type: "package.json", path: pkgPath },
+      new Set(["browser"]),
+    );
+    expect(removed).toEqual(["browser"]);
+
+    const updated = JSON.parse(await fs.readFile(pkgPath, "utf-8")) as {
+      name: string;
+      warp: { targets: { name: string }[] };
+    };
+    expect(updated.name).toBe("p");
+    expect(updated.warp.targets.map((t) => t.name)).toEqual(["esm"]);
+  });
+
+  it("is a no-op when no named target is present (e.g. inherited targets)", async () => {
+    const yamlPath = path.join(tmpDir, "warp.config.yml");
+    const original = `extends: ../base.yml\n`;
+    await fs.writeFile(yamlPath, original);
+
+    const removed = await removeTargetsFromConfigSource(
+      { type: "yaml", path: yamlPath },
+      new Set(["browser", "react-native"]),
+    );
+    expect(removed).toEqual([]);
+    expect(await fs.readFile(yamlPath, "utf-8")).toBe(original);
+  });
+
+  it("returns empty for an empty target-name set without reading nonexistent targets", async () => {
+    const yamlPath = path.join(tmpDir, "warp.config.yml");
+    const original = `targets:\n  - name: esm\n    condition: import\n    tsconfig: "./t.json"\n`;
+    await fs.writeFile(yamlPath, original);
+
+    const removed = await removeTargetsFromConfigSource(
+      { type: "yaml", path: yamlPath },
+      new Set(),
+    );
+    expect(removed).toEqual([]);
+    expect(await fs.readFile(yamlPath, "utf-8")).toBe(original);
   });
 });

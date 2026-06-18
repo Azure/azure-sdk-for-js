@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as path from "node:path";
-import { findWarpConfig, validateTsconfigPaths } from "./config.ts";
+import { findWarpConfig, validateTsconfigPaths, removeTargetsFromConfigSource } from "./config.ts";
 import { compileAllTargets, parseTargetTsConfig, cleanOutDir } from "./compiler.ts";
 import type { CompileResult, ParsedTargetConfig } from "./compiler.ts";
 import { formatDiagnostics } from "./diagnostics.ts";
@@ -24,7 +24,7 @@ import {
 import type { ImportsMap } from "./resolveImports.ts";
 import { generateSizeReport, formatSizeReport, writeSizeReportJson } from "./sizeReport.ts";
 import type { SizeReport } from "./sizeReport.ts";
-import type { WarpConfig, ResolvedWarpConfig, WarpTarget } from "./types.ts";
+import type { WarpConfig, ResolvedWarpConfig, WarpTarget, ConfigSource } from "./types.ts";
 import { WarpError } from "./types.ts";
 import { getLogger } from "./logger.ts";
 
@@ -216,6 +216,7 @@ async function postCompileStep(
   stats: boolean,
   skipPackageJsonUpdate: boolean,
   prunedTargets: WarpTarget[],
+  source: ConfigSource,
 ): Promise<{ sizeReport: SizeReport | undefined; missingFiles: string[] }> {
   const log = getLogger();
 
@@ -239,6 +240,22 @@ async function postCompileStep(
     const legacyFieldUpdates = computeLegacyPlatformFieldUpdates(prunedTargets, exportsMap);
     await writeExportsToPackageJson(exportsMap, results, packageRoot, legacyFieldUpdates);
     log.info("[warp] Updated exports in package.json");
+
+    // Physically drop the pruned platform targets from the config file that
+    // declares them, so it stops listing targets that produce no distinct
+    // output. Inherited (base-config) targets aren't in this file, so the
+    // shared base config is never touched.
+    if (prunedTargets.length > 0) {
+      const removed = await removeTargetsFromConfigSource(
+        source,
+        new Set(prunedTargets.map((t) => t.name)),
+      );
+      if (removed.length > 0) {
+        log.info(
+          `[warp] Removed redundant target(s) from ${path.basename(source.path)}: ${removed.join(", ")}`,
+        );
+      }
+    }
   }
 
   // Verify dist files exist
@@ -476,6 +493,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     !!options.stats,
     !!(options.target && options.target.length > 0),
     prunedTargets,
+    resolved.source,
   );
 
   // Fail the build if expected dist files are missing

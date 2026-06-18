@@ -4,7 +4,7 @@
 // Public API for @microsoft/warp
 export { build } from "./build.ts";
 export type { BuildOptions, BuildResult } from "./build.ts";
-export { findWarpConfig, validateTsconfigPaths } from "./config.ts";
+export { findWarpConfig, validateTsconfigPaths, removeTargetsFromConfigSource } from "./config.ts";
 export type {
   WarpConfig,
   WarpTarget,
