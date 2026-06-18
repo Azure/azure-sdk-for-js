@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ErrorModel } from "@azure-rest/core-client";
+import { ErrorModel } from "@azure-rest/core-client";
 
 /**
  * This file contains only generated model types and their (de)serializers.
@@ -762,7 +762,7 @@ export interface BulkVMConfiguration {
 export function bulkVMConfigurationSerializer(item: BulkVMConfiguration): any {
   return {
     name: item["name"],
-    computeApiVersion: item["computeApiVersion"] ?? "2026-04-15-preview",
+    computeApiVersion: item["computeApiVersion"],
     resourceGroupName: item["resourceGroupName"],
     zones: !item["zones"]
       ? item["zones"]
@@ -1082,10 +1082,7 @@ export interface EventGridAndResourceGraph {
 }
 
 export function eventGridAndResourceGraphSerializer(item: EventGridAndResourceGraph): any {
-  return {
-    enable: item["enable"],
-    scheduledEventsApiVersion: item["scheduledEventsApiVersion"] ?? "2026-04-15-preview",
-  };
+  return { enable: item["enable"], scheduledEventsApiVersion: item["scheduledEventsApiVersion"] };
 }
 
 /** Specifies if Scheduled Events should be auto-approved when all instances are down. */
@@ -2101,7 +2098,7 @@ export function networkProfileSerializer(item: NetworkProfile): any {
     networkInterfaces: !item["networkInterfaces"]
       ? item["networkInterfaces"]
       : networkInterfaceReferenceArraySerializer(item["networkInterfaces"]),
-    networkApiVersion: item["networkApiVersion"] ?? "2026-04-15-preview",
+    networkApiVersion: item["networkApiVersion"],
     networkInterfaceConfigurations: !item["networkInterfaceConfigurations"]
       ? item["networkInterfaceConfigurations"]
       : virtualMachineNetworkInterfaceConfigurationArraySerializer(
@@ -4631,17 +4628,17 @@ export function occurrenceExtensionPropertiesDeserializer(
 /** ComputeSchedule API versions */
 export enum KnownVersions {
   /** 2024-08-15-preview version */
-  Versions20240815Preview = "2024-08-15-preview",
+  V20240815Preview = "2024-08-15-preview",
   /** 2024-10-01 version */
   "V2024-10-01" = "2024-10-01",
   /** 2025-05-01 version */
   V20250501 = "2025-05-01",
   /** 2025-04-15-preview version */
-  Versions20250415Preview = "2025-04-15-preview",
+  V20250415Preview = "2025-04-15-preview",
   /** 2026-01-01-preview version */
-  Versions20260101Preview = "2026-01-01-preview",
+  V20260101Preview = "2026-01-01-preview",
   /** 2026-03-01-preview version */
-  Versions20260301Preview = "2026-03-01-preview",
+  V20260301Preview = "2026-03-01-preview",
   /** 2026-04-15-preview version */
-  Versions20260415Preview = "2026-04-15-preview",
+  V20260415Preview = "2026-04-15-preview",
 }

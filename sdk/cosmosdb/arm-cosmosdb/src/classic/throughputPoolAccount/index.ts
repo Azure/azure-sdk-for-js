@@ -1,26 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import { $delete, create, get } from "../../api/throughputPoolAccount/operations.js";
-import type {
+import {
   ThroughputPoolAccountDeleteOptionalParams,
   ThroughputPoolAccountCreateOptionalParams,
   ThroughputPoolAccountGetOptionalParams,
 } from "../../api/throughputPoolAccount/options.js";
-import type { ThroughputPoolAccountResource } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ThroughputPoolAccountResource } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ThroughputPoolAccount operations. */
 export interface ThroughputPoolAccountOperations {
   /** Removes an existing Azure Cosmos DB database account from a throughput pool. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     throughputPoolName: string,

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import { list } from "../../api/restorableGremlinResources/operations.js";
-import type { RestorableGremlinResourcesListOptionalParams } from "../../api/restorableGremlinResources/options.js";
-import type { RestorableGremlinResourcesGetResult } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { RestorableGremlinResourcesListOptionalParams } from "../../api/restorableGremlinResources/options.js";
+import { RestorableGremlinResourcesGetResult } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RestorableGremlinResources operations. */
 export interface RestorableGremlinResourcesOperations {

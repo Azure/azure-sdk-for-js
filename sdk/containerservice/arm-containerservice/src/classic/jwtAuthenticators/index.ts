@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceContext } from "../../api/containerServiceContext.js";
+import { ContainerServiceContext } from "../../api/containerServiceContext.js";
 import {
   listByManagedCluster,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/jwtAuthenticators/operations.js";
-import type {
+import {
   JWTAuthenticatorsListByManagedClusterOptionalParams,
   JWTAuthenticatorsDeleteOptionalParams,
   JWTAuthenticatorsCreateOrUpdateOptionalParams,
   JWTAuthenticatorsGetOptionalParams,
 } from "../../api/jwtAuthenticators/options.js";
-import type { JWTAuthenticator } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { JWTAuthenticator } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a JWTAuthenticators operations. */
 export interface JWTAuthenticatorsOperations {

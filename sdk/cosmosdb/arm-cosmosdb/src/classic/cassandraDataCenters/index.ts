@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import {
   list,
   $delete,
@@ -9,18 +9,17 @@ import {
   createUpdate,
   get,
 } from "../../api/cassandraDataCenters/operations.js";
-import type {
+import {
   CassandraDataCentersListOptionalParams,
   CassandraDataCentersDeleteOptionalParams,
   CassandraDataCentersUpdateOptionalParams,
   CassandraDataCentersCreateUpdateOptionalParams,
   CassandraDataCentersGetOptionalParams,
 } from "../../api/cassandraDataCenters/options.js";
-import type { DataCenterResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { DataCenterResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CassandraDataCenters operations. */
 export interface CassandraDataCentersOperations {
@@ -31,11 +30,6 @@ export interface CassandraDataCentersOperations {
     options?: CassandraDataCentersListOptionalParams,
   ) => PagedAsyncIterableIterator<DataCenterResource>;
   /** Delete a managed Cassandra data center. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,

@@ -335,8 +335,8 @@ export type {
   CosmosCassandraDataTransferDataSourceSink,
   CosmosMongoDataTransferDataSourceSink,
   CosmosSqlDataTransferDataSourceSink,
-  CosmosMongoVCoreDataTransferDataSourceSink,
   AzureBlobDataTransferDataSourceSink,
+  CosmosMongoVCoreDataTransferDataSourceSink,
   DataTransferJobMode,
   CreateJobRequest,
   ARMProxyResource,
@@ -489,7 +489,6 @@ export type {
   FleetspaceAccountResource,
   FleetspaceAccountProperties,
   FleetspaceAccountPropertiesGlobalDatabaseAccountProperties,
-  DatabaseAccountsCheckNameExistsResponse,
 } from "./models.js";
 export {
   KnownConnectorOffer,

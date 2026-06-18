@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceContext } from "../../api/containerServiceContext.js";
+import { ContainerServiceContext } from "../../api/containerServiceContext.js";
 import {
   list,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/managedClusterSnapshots/operations.js";
-import type {
+import {
   ManagedClusterSnapshotsListOptionalParams,
   ManagedClusterSnapshotsListByResourceGroupOptionalParams,
   ManagedClusterSnapshotsDeleteOptionalParams,
@@ -18,8 +18,8 @@ import type {
   ManagedClusterSnapshotsCreateOrUpdateOptionalParams,
   ManagedClusterSnapshotsGetOptionalParams,
 } from "../../api/managedClusterSnapshots/options.js";
-import type { TagsObject, ManagedClusterSnapshot } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { TagsObject, ManagedClusterSnapshot } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ManagedClusterSnapshots operations. */
 export interface ManagedClusterSnapshotsOperations {
