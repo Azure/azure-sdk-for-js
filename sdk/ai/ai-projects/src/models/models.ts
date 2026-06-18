@@ -3935,7 +3935,7 @@ export type AgentProtocol =
 
 /** Code-based deployment configuration for a hosted agent. */
 export interface CodeConfiguration {
-  /** The runtime identifier for code execution (e.g., 'python_3_11', 'python_3_12', 'python_3_13'). */
+  /** The runtime identifier for code execution ('python_3_14'). */
   runtime: string;
   /** The entry point command and arguments for the code execution. */
   entry_point: string[];

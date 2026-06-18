@@ -53,7 +53,7 @@ async function main() {
     memory: "1Gi",
     protocol_versions: [{ protocol: "responses", version: "1.0.0" }],
     code_configuration: {
-      runtime: "python_3_13",
+      runtime: "python_3_14",
       entry_point: ["python", "main.py"],
       dependency_resolution: dependencyResolution,
     },
