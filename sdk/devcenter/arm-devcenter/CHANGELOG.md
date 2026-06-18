@@ -277,8 +277,6 @@ Compared with version 1.1.0
   - Operation ProjectCatalogs.beginSyncAndWait has a new signature
   - Operation Projects.beginDeleteAndWait has a new signature
   - Operation Schedules.beginDeleteAndWait has a new signature
-  - Class DevCenterClient no longer has parameter apiVersion
-  - Class DevCenterClient no longer has parameter subscriptionId
   - Removed Interface Image_2
   - Removed Interface OutboundEnvironmentEndpointCollection
   - Removed Interface TrackedResourceUpdate
