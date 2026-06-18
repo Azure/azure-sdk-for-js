@@ -1626,7 +1626,7 @@ sdk/disconnectedoperations/arm-disconnectedoperations/ @qiaozha @MaryGao @Jialin
 # PRLabel: %Mgmt
 sdk/compute/arm-computerecommender/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
