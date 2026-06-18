@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConfluentManagementContext } from "../../api/confluentManagementContext.js";
+import { ConfluentManagementContext } from "../../api/confluentManagementContext.js";
 import { create, list } from "../../api/marketplaceAgreements/operations.js";
-import type {
+import {
   MarketplaceAgreementsCreateOptionalParams,
   MarketplaceAgreementsListOptionalParams,
 } from "../../api/marketplaceAgreements/options.js";
-import type { ConfluentAgreementResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ConfluentAgreementResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a MarketplaceAgreements operations. */
 export interface MarketplaceAgreementsOperations {

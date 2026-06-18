@@ -1,6 +1,18 @@
 # Release History
 
-## 2.1.0 (2026-03-10)
+## 3.0.0 (2026-06-18)
+
+### Features Added
+  - Enum KnownVersions has a new value V20240301
+  - Enum KnownVersions has a new value V20250301
+  - Enum KnownVersions has a new value V20251001
+
+### Breaking Changes
+  - Enum KnownVersions no longer has value _20240301
+  - Enum KnownVersions no longer has value _20250301
+  - Enum KnownVersions no longer has value _20251001
+
+## 2.1.0 (2026-06-12)
 
 ### Features Added
   - Added Interface DynamicSizing

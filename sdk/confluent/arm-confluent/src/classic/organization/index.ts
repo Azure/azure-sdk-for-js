@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConfluentManagementContext } from "../../api/confluentManagementContext.js";
+import { ConfluentManagementContext } from "../../api/confluentManagementContext.js";
 import {
   createAPIKey,
   listClusters,
@@ -20,7 +20,7 @@ import {
   deleteClusterAPIKey,
   getClusterAPIKey,
 } from "../../api/organization/operations.js";
-import type {
+import {
   OrganizationCreateAPIKeyOptionalParams,
   OrganizationListClustersOptionalParams,
   OrganizationGetClusterByIdOptionalParams,
@@ -38,7 +38,7 @@ import type {
   OrganizationDeleteClusterAPIKeyOptionalParams,
   OrganizationGetClusterAPIKeyOptionalParams,
 } from "../../api/organization/options.js";
-import type {
+import {
   APIKeyRecord,
   OrganizationResource,
   ListAccessRequestModel,
@@ -48,10 +48,9 @@ import type {
   SCClusterRecord,
   CreateAPIKeyModel,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Organization operations. */
 export interface OrganizationOperations {
@@ -124,11 +123,6 @@ export interface OrganizationOperations {
     options?: OrganizationListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<OrganizationResource>;
   /** Delete Organization resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     organizationName: string,

@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageDiscoveryContext as Client } from "../index.js";
-import type {
-  StorageDiscoveryWorkspace,
-  StorageDiscoveryWorkspaceUpdate,
-  _StorageDiscoveryWorkspaceListResult,
-} from "../../models/models.js";
+import { StorageDiscoveryContext as Client } from "../index.js";
 import {
+  StorageDiscoveryWorkspace,
   storageDiscoveryWorkspaceSerializer,
   storageDiscoveryWorkspaceDeserializer,
   errorResponseDeserializer,
+  StorageDiscoveryWorkspaceUpdate,
   storageDiscoveryWorkspaceUpdateSerializer,
+  _StorageDiscoveryWorkspaceListResult,
   _storageDiscoveryWorkspaceListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
   StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
   StorageDiscoveryWorkspacesDeleteOptionalParams,
@@ -25,32 +25,33 @@ import type {
   StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
   StorageDiscoveryWorkspacesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: StorageDiscoveryWorkspacesListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: StorageDiscoveryWorkspacesListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.StorageDiscovery/storageDiscoveryWorkspaces{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -59,7 +60,10 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -69,44 +73,39 @@ export async function _listBySubscriptionDeserialize(
 /** List StorageDiscoveryWorkspace resources by subscription ID */
 export function listBySubscription(
   context: Client,
-  options: StorageDiscoveryWorkspacesListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: StorageDiscoveryWorkspacesListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<StorageDiscoveryWorkspace> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-09-01" },
   );
 }
 
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: StorageDiscoveryWorkspacesListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: StorageDiscoveryWorkspacesListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageDiscovery/storageDiscoveryWorkspaces{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -115,7 +114,10 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -126,16 +128,14 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: StorageDiscoveryWorkspacesListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: StorageDiscoveryWorkspacesListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<StorageDiscoveryWorkspace> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-09-01" },
   );
 }
 
@@ -143,9 +143,7 @@ export function _$deleteSend(
   context: Client,
   resourceGroupName: string,
   storageDiscoveryWorkspaceName: string,
-  options: StorageDiscoveryWorkspacesDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: StorageDiscoveryWorkspacesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageDiscovery/storageDiscoveryWorkspaces/{storageDiscoveryWorkspaceName}{?api%2Dversion}",
@@ -153,7 +151,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageDiscoveryWorkspaceName: storageDiscoveryWorkspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -166,7 +164,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -174,18 +175,11 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a StorageDiscoveryWorkspace */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   resourceGroupName: string,
   storageDiscoveryWorkspaceName: string,
-  options: StorageDiscoveryWorkspacesDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: StorageDiscoveryWorkspacesDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _$deleteSend(
     context,
@@ -201,9 +195,7 @@ export function _updateSend(
   resourceGroupName: string,
   storageDiscoveryWorkspaceName: string,
   properties: StorageDiscoveryWorkspaceUpdate,
-  options: StorageDiscoveryWorkspacesUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: StorageDiscoveryWorkspacesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageDiscovery/storageDiscoveryWorkspaces/{storageDiscoveryWorkspaceName}{?api%2Dversion}",
@@ -211,21 +203,20 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageDiscoveryWorkspaceName: storageDiscoveryWorkspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: storageDiscoveryWorkspaceUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: storageDiscoveryWorkspaceUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(
@@ -234,7 +225,10 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -247,9 +241,7 @@ export async function update(
   resourceGroupName: string,
   storageDiscoveryWorkspaceName: string,
   properties: StorageDiscoveryWorkspaceUpdate,
-  options: StorageDiscoveryWorkspacesUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: StorageDiscoveryWorkspacesUpdateOptionalParams = { requestOptions: {} },
 ): Promise<StorageDiscoveryWorkspace> {
   const result = await _updateSend(
     context,
@@ -266,9 +258,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   storageDiscoveryWorkspaceName: string,
   resource: StorageDiscoveryWorkspace,
-  options: StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageDiscovery/storageDiscoveryWorkspaces/{storageDiscoveryWorkspaceName}{?api%2Dversion}",
@@ -276,21 +266,20 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageDiscoveryWorkspaceName: storageDiscoveryWorkspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: storageDiscoveryWorkspaceSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: storageDiscoveryWorkspaceSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -299,7 +288,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -312,9 +304,7 @@ export async function createOrUpdate(
   resourceGroupName: string,
   storageDiscoveryWorkspaceName: string,
   resource: StorageDiscoveryWorkspace,
-  options: StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<StorageDiscoveryWorkspace> {
   const result = await _createOrUpdateSend(
     context,
@@ -338,19 +328,18 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageDiscoveryWorkspaceName: storageDiscoveryWorkspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -359,7 +348,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

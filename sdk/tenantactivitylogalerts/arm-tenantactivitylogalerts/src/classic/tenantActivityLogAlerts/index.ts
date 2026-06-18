@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TenantActivityLogAlertsManagementContext } from "../../api/tenantActivityLogAlertsManagementContext.js";
+import { TenantActivityLogAlertsManagementContext } from "../../api/tenantActivityLogAlertsManagementContext.js";
 import {
   listByManagementGroup,
   $delete,
@@ -10,7 +10,7 @@ import {
   get,
   listByTenant,
 } from "../../api/tenantActivityLogAlerts/operations.js";
-import type {
+import {
   TenantActivityLogAlertsListByManagementGroupOptionalParams,
   TenantActivityLogAlertsDeleteOptionalParams,
   TenantActivityLogAlertsUpdateOptionalParams,
@@ -18,11 +18,8 @@ import type {
   TenantActivityLogAlertsGetOptionalParams,
   TenantActivityLogAlertsListByTenantOptionalParams,
 } from "../../api/tenantActivityLogAlerts/options.js";
-import type {
-  TenantActivityLogAlertResource,
-  TenantAlertRulePatchObject,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { TenantActivityLogAlertResource, TenantAlertRulePatchObject } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a TenantActivityLogAlerts operations. */
 export interface TenantActivityLogAlertsOperations {
@@ -32,11 +29,6 @@ export interface TenantActivityLogAlertsOperations {
     options?: TenantActivityLogAlertsListByManagementGroupOptionalParams,
   ) => PagedAsyncIterableIterator<TenantActivityLogAlertResource>;
   /** Delete a Tenant Activity Log Alert rule. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     managementGroupName: string,
     alertRuleName: string,

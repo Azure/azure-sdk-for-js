@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/clusterJobs/operations.js";
-import type {
+import {
   ClusterJobsListOptionalParams,
   ClusterJobsDeleteOptionalParams,
   ClusterJobsCreateOrUpdateOptionalParams,
   ClusterJobsGetOptionalParams,
 } from "../../api/clusterJobs/options.js";
-import type { ClusterJob } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ClusterJob } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ClusterJobs operations. */
 export interface ClusterJobsOperations {
@@ -24,11 +23,6 @@ export interface ClusterJobsOperations {
     options?: ClusterJobsListOptionalParams,
   ) => PagedAsyncIterableIterator<ClusterJob>;
   /** Delete a ClusterJob */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import {
   complete,
   cancel,
@@ -11,7 +11,7 @@ import {
   create,
   get,
 } from "../../api/copyJobs/operations.js";
-import type {
+import {
   CopyJobsCompleteOptionalParams,
   CopyJobsCancelOptionalParams,
   CopyJobsResumeOptionalParams,
@@ -20,8 +20,8 @@ import type {
   CopyJobsCreateOptionalParams,
   CopyJobsGetOptionalParams,
 } from "../../api/copyJobs/options.js";
-import type { CopyJobGetResults } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { CopyJobGetResults } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CopyJobs operations. */
 export interface CopyJobsOperations {

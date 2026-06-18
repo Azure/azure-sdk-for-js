@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import { listUsages, listMetrics } from "../../api/collectionPartition/operations.js";
-import type {
+import {
   CollectionPartitionListUsagesOptionalParams,
   CollectionPartitionListMetricsOptionalParams,
 } from "../../api/collectionPartition/options.js";
-import type { PartitionMetric, PartitionUsage } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PartitionMetric, PartitionUsage } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CollectionPartition operations. */
 export interface CollectionPartitionOperations {

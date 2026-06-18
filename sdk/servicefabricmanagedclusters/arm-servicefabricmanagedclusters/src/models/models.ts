@@ -597,8 +597,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -611,8 +611,8 @@ export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentit
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -638,8 +638,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1104,9 +1104,9 @@ export interface ApplicationTypeResourceProperties {
 }
 
 export function applicationTypeResourcePropertiesSerializer(
-  item: ApplicationTypeResourceProperties,
+  _item: ApplicationTypeResourceProperties,
 ): any {
-  return item;
+  return {};
 }
 
 export function applicationTypeResourcePropertiesDeserializer(
@@ -5866,8 +5866,8 @@ export function _applicationResourcePropertiesDeserializer(item: any) {
   };
 }
 
-export function _applicationTypeResourcePropertiesSerializer(item: ApplicationTypeResource): any {
-  return item;
+export function _applicationTypeResourcePropertiesSerializer(_item: ApplicationTypeResource): any {
+  return {};
 }
 
 export function _applicationTypeResourcePropertiesDeserializer(item: any) {

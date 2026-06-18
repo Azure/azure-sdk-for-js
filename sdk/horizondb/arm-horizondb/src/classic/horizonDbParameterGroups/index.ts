@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HorizonDbContext } from "../../api/horizonDbContext.js";
+import { HorizonDbContext } from "../../api/horizonDbContext.js";
 import {
   listVersions,
   listConnections,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/horizonDbParameterGroups/operations.js";
-import type {
+import {
   HorizonDbParameterGroupsListVersionsOptionalParams,
   HorizonDbParameterGroupsListConnectionsOptionalParams,
   HorizonDbParameterGroupsListBySubscriptionOptionalParams,
@@ -22,15 +22,14 @@ import type {
   HorizonDbParameterGroupsCreateOrUpdateOptionalParams,
   HorizonDbParameterGroupsGetOptionalParams,
 } from "../../api/horizonDbParameterGroups/options.js";
-import type {
+import {
   HorizonDbParameterGroup,
   HorizonDbParameterGroupForPatchUpdate,
   HorizonDbParameterGroupConnectionProperties,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a HorizonDbParameterGroups operations. */
 export interface HorizonDbParameterGroupsOperations {
@@ -56,11 +55,6 @@ export interface HorizonDbParameterGroupsOperations {
     options?: HorizonDbParameterGroupsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<HorizonDbParameterGroup>;
   /** Deletes a HorizonDb parameter group. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     parameterGroupName: string,

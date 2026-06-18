@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import { list } from "../../api/locationBasedModelCapacities/operations.js";
-import type { LocationBasedModelCapacitiesListOptionalParams } from "../../api/locationBasedModelCapacities/options.js";
-import type { ModelCapacityListResultValueItem } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { LocationBasedModelCapacitiesListOptionalParams } from "../../api/locationBasedModelCapacities/options.js";
+import { ModelCapacityListResultValueItem } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a LocationBasedModelCapacities operations. */
 export interface LocationBasedModelCapacitiesOperations {

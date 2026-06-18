@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/prometheusrulegroups/arm-prometheusrulegroups)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-prometheusrulegroups)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-prometheusrulegroups?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-prometheusrulegroups)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/prometheusrulegroups/arm-prometheusrulegroups/samples)
 
 ## Getting started

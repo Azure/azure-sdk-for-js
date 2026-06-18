@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
+import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
 import {
   listByResourceGroup,
   $delete,
@@ -9,19 +9,16 @@ import {
   createOrReplace,
   get,
 } from "../../api/namespaceDiscoveredAssets/operations.js";
-import type {
+import {
   NamespaceDiscoveredAssetsListByResourceGroupOptionalParams,
   NamespaceDiscoveredAssetsDeleteOptionalParams,
   NamespaceDiscoveredAssetsUpdateOptionalParams,
   NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams,
   NamespaceDiscoveredAssetsGetOptionalParams,
 } from "../../api/namespaceDiscoveredAssets/options.js";
-import type {
-  NamespaceDiscoveredAsset,
-  NamespaceDiscoveredAssetUpdate,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { NamespaceDiscoveredAsset, NamespaceDiscoveredAssetUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NamespaceDiscoveredAssets operations. */
 export interface NamespaceDiscoveredAssetsOperations {
@@ -32,11 +29,6 @@ export interface NamespaceDiscoveredAssetsOperations {
     options?: NamespaceDiscoveredAssetsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<NamespaceDiscoveredAsset>;
   /** Delete a NamespaceDiscoveredAsset */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     namespaceName: string,

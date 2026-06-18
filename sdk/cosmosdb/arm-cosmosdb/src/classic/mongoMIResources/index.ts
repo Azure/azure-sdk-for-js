@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import {
   listMongoMIRoleAssignments,
   deleteMongoMIRoleAssignment,
@@ -12,7 +12,7 @@ import {
   createUpdateMongoMIRoleDefinition,
   getMongoMIRoleDefinition,
 } from "../../api/mongoMIResources/operations.js";
-import type {
+import {
   MongoMIResourcesListMongoMIRoleAssignmentsOptionalParams,
   MongoMIResourcesDeleteMongoMIRoleAssignmentOptionalParams,
   MongoMIResourcesCreateUpdateMongoMIRoleAssignmentOptionalParams,
@@ -22,14 +22,13 @@ import type {
   MongoMIResourcesCreateUpdateMongoMIRoleDefinitionOptionalParams,
   MongoMIResourcesGetMongoMIRoleDefinitionOptionalParams,
 } from "../../api/mongoMIResources/options.js";
-import type {
+import {
   MongoMIRoleDefinitionResource,
   MongoMIRoleAssignmentResource,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a MongoMIResources operations. */
 export interface MongoMIResourcesOperations {

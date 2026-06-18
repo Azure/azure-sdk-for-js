@@ -44,14 +44,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["getMetadataRequest"]
-      ? options["getMetadataRequest"]
-      : getSsisObjectMetadataRequestSerializer(options["getMetadataRequest"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.getMetadataRequest
+        ? options?.getMetadataRequest
+        : getSsisObjectMetadataRequestSerializer(options?.getMetadataRequest),
+    });
 }
 
 export async function _getDeserialize(
@@ -60,7 +62,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -106,19 +110,23 @@ export function _refreshSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _refreshDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SsisObjectMetadataStatusResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -134,7 +142,7 @@ export function refresh(
   integrationRuntimeName: string,
   options: IntegrationRuntimeObjectMetadataRefreshOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SsisObjectMetadataStatusResponse>, SsisObjectMetadataStatusResponse> {
-  return getLongRunningPoller(context, _refreshDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _refreshDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

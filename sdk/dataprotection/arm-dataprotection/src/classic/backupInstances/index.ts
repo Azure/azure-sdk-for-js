@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import {
   validateCrossRegionRestore,
   triggerCrossRegionRestore,
@@ -22,7 +22,7 @@ import {
   list,
   getBackupInstanceOperationResult,
 } from "../../api/backupInstances/operations.js";
-import type {
+import {
   BackupInstancesValidateCrossRegionRestoreOptionalParams,
   BackupInstancesTriggerCrossRegionRestoreOptionalParams,
   BackupInstancesValidateForRestoreOptionalParams,
@@ -42,7 +42,7 @@ import type {
   BackupInstancesListOptionalParams,
   BackupInstancesGetBackupInstanceOperationResultOptionalParams,
 } from "../../api/backupInstances/options.js";
-import type {
+import {
   BackupInstanceResource,
   ValidateForBackupRequest,
   OperationJobExtendedInfo,
@@ -55,8 +55,8 @@ import type {
   CrossRegionRestoreRequestObject,
   ValidateCrossRegionRestoreRequestObject,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BackupInstances operations. */
 export interface BackupInstancesOperations {
@@ -154,11 +154,6 @@ export interface BackupInstancesOperations {
     options?: BackupInstancesAdhocBackupOptionalParams,
   ) => PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
   /** Delete a backup instance in a backup vault */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vaultName: string,
@@ -200,7 +195,7 @@ export interface BackupInstancesOperations {
     backupInstanceName: string,
     operationId: string,
     options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams,
-  ) => Promise<BackupInstanceResource>;
+  ) => Promise<BackupInstanceResource | undefined>;
 }
 
 function _getBackupInstances(context: DataProtectionContext) {

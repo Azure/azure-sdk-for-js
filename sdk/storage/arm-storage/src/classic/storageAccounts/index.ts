@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext } from "../../api/storageManagementContext.js";
+import { StorageManagementContext } from "../../api/storageManagementContext.js";
 import {
   getCustomerInitiatedMigration,
   revokeUserDelegationKeys,
@@ -22,7 +22,7 @@ import {
   getProperties,
   checkNameAvailability,
 } from "../../api/storageAccounts/operations.js";
-import type {
+import {
   StorageAccountsGetCustomerInitiatedMigrationOptionalParams,
   StorageAccountsRevokeUserDelegationKeysOptionalParams,
   StorageAccountsRestoreBlobRangesOptionalParams,
@@ -42,7 +42,7 @@ import type {
   StorageAccountsGetPropertiesOptionalParams,
   StorageAccountsCheckNameAvailabilityOptionalParams,
 } from "../../api/storageAccounts/options.js";
-import type {
+import {
   StorageAccountCheckNameAvailabilityParameters,
   CheckNameAvailabilityResult,
   StorageAccount,
@@ -59,10 +59,9 @@ import type {
   StorageAccountMigration,
   MigrationName,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StorageAccounts operations. */
 export interface StorageAccountsOperations {

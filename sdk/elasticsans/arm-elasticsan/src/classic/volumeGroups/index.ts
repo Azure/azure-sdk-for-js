@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ElasticSanManagementContext } from "../../api/elasticSanManagementContext.js";
+import { ElasticSanManagementContext } from "../../api/elasticSanManagementContext.js";
 import {
   listByElasticSan,
   $delete,
@@ -9,18 +9,17 @@ import {
   create,
   get,
 } from "../../api/volumeGroups/operations.js";
-import type {
+import {
   VolumeGroupsListByElasticSanOptionalParams,
   VolumeGroupsDeleteOptionalParams,
   VolumeGroupsUpdateOptionalParams,
   VolumeGroupsCreateOptionalParams,
   VolumeGroupsGetOptionalParams,
 } from "../../api/volumeGroups/options.js";
-import type { VolumeGroup, VolumeGroupUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { VolumeGroup, VolumeGroupUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VolumeGroups operations. */
 export interface VolumeGroupsOperations {
@@ -31,11 +30,6 @@ export interface VolumeGroupsOperations {
     options?: VolumeGroupsListByElasticSanOptionalParams,
   ) => PagedAsyncIterableIterator<VolumeGroup>;
   /** Delete an VolumeGroup. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     elasticSanName: string,

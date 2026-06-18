@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import { list, get } from "../../api/recoveryPoints/operations.js";
-import type {
+import {
   RecoveryPointsListOptionalParams,
   RecoveryPointsGetOptionalParams,
 } from "../../api/recoveryPoints/options.js";
-import type { AzureBackupRecoveryPointResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { AzureBackupRecoveryPointResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RecoveryPoints operations. */
 export interface RecoveryPointsOperations {

@@ -1,16 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext as Client } from "../index.js";
-import type { ValidateOperationsResponse } from "../../models/models.js";
+import { RecoveryServicesBackupContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ValidateOperationsResponse,
   validateOperationsResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { ValidateOperationResultsGetOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { ValidateOperationResultsGetOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _getSend(
   context: Client,
@@ -32,24 +36,28 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<ValidateOperationsResponse> {
+): Promise<ValidateOperationsResponse | undefined> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return validateOperationsResponseDeserializer(result.body);
+  return result.body ? validateOperationsResponseDeserializer(result.body) : undefined;
 }
 
 /** Fetches the result of a triggered validate operation. */
@@ -59,7 +67,7 @@ export async function get(
   resourceGroupName: string,
   operationId: string,
   options: ValidateOperationResultsGetOptionalParams = { requestOptions: {} },
-): Promise<ValidateOperationsResponse> {
+): Promise<ValidateOperationsResponse | undefined> {
   const result = await _getSend(context, vaultName, resourceGroupName, operationId, options);
   return _getDeserialize(result);
 }

@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -687,9 +687,9 @@
+@@ -689,9 +689,9 @@
      sdnIntegration?: SdnIntegration;
      secrets?: EceDeploymentSecrets[];
      secretsLocation?: string;
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export type DeploymentMode = string;
-@@ -3356,14 +3356,15 @@
+@@ -3362,14 +3362,15 @@
      steps?: Step[];
  }
  

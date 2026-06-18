@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext } from "../../api/storageManagementContext.js";
+import { StorageManagementContext } from "../../api/storageManagementContext.js";
 import {
   stopAssignment,
   list,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/storageTaskAssignments/operations.js";
-import type {
+import {
   StorageTaskAssignmentsStopAssignmentOptionalParams,
   StorageTaskAssignmentsListOptionalParams,
   StorageTaskAssignmentsDeleteOptionalParams,
@@ -18,14 +18,13 @@ import type {
   StorageTaskAssignmentsCreateOptionalParams,
   StorageTaskAssignmentsGetOptionalParams,
 } from "../../api/storageTaskAssignments/options.js";
-import type {
+import {
   StorageTaskAssignment,
   StorageTaskAssignmentUpdateParameters,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StorageTaskAssignments operations. */
 export interface StorageTaskAssignmentsOperations {

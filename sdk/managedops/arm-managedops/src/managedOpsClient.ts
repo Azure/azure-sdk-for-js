@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ManagedOpsContext, ManagedOpsClientOptionalParams } from "./api/index.js";
-import { createManagedOps } from "./api/index.js";
-import type { ManagedOpsOperations } from "./classic/managedOps/index.js";
-import { _getManagedOpsOperations } from "./classic/managedOps/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  ManagedOpsContext,
+  ManagedOpsClientOptionalParams,
+  createManagedOps,
+} from "./api/index.js";
+import { ManagedOpsOperations, _getManagedOpsOperations } from "./classic/managedOps/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type ManagedOpsClientOptionalParams } from "./api/managedOpsContext.js";
+export type { ManagedOpsClientOptionalParams } from "./api/managedOpsContext.js";
 
 export class ManagedOpsClient {
   private _client: ManagedOpsContext;

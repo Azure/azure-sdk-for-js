@@ -89,7 +89,7 @@ export interface FactoriesOperations {
     resourceGroupName: string,
     factoryName: string,
     options?: FactoriesGetOptionalParams,
-  ) => Promise<Factory>;
+  ) => Promise<Factory | undefined>;
 }
 
 function _getFactories(context: DataFactoryManagementContext) {

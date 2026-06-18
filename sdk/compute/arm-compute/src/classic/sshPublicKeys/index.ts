@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   generateKeyPair,
   listBySubscription,
@@ -11,7 +11,7 @@ import {
   create,
   get,
 } from "../../api/sshPublicKeys/operations.js";
-import type {
+import {
   SshPublicKeysGenerateKeyPairOptionalParams,
   SshPublicKeysListBySubscriptionOptionalParams,
   SshPublicKeysListByResourceGroupOptionalParams,
@@ -20,12 +20,12 @@ import type {
   SshPublicKeysCreateOptionalParams,
   SshPublicKeysGetOptionalParams,
 } from "../../api/sshPublicKeys/options.js";
-import type {
+import {
   SshPublicKeyResource,
   SshPublicKeyUpdateResource,
   SshPublicKeyGenerateKeyPairResult,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SshPublicKeys operations. */
 export interface SshPublicKeysOperations {
@@ -45,11 +45,6 @@ export interface SshPublicKeysOperations {
     options?: SshPublicKeysListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<SshPublicKeyResource>;
   /** Delete an SSH public key. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     sshPublicKeyName: string,

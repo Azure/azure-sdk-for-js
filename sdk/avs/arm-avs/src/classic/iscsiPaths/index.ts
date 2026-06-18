@@ -1,31 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import {
   $delete,
   createOrUpdate,
   get,
   listByPrivateCloud,
 } from "../../api/iscsiPaths/operations.js";
-import type {
+import {
   IscsiPathsDeleteOptionalParams,
   IscsiPathsCreateOrUpdateOptionalParams,
   IscsiPathsGetOptionalParams,
   IscsiPathsListByPrivateCloudOptionalParams,
 } from "../../api/iscsiPaths/options.js";
-import type { IscsiPath } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { IscsiPath } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a IscsiPaths operations. */
 export interface IscsiPathsOperations {
   /** Delete a IscsiPath */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     privateCloudName: string,

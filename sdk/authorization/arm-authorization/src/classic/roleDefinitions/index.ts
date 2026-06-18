@@ -36,7 +36,7 @@ export interface RoleDefinitionsOperations {
     scope: string,
     roleDefinitionId: string,
     options?: RoleDefinitionsDeleteOptionalParams,
-  ) => Promise<RoleDefinition>;
+  ) => Promise<RoleDefinition | undefined>;
   /** Creates or updates a role definition. */
   createOrUpdate: (
     scope: string,

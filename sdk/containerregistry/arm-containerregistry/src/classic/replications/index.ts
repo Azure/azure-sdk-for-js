@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerRegistryManagementContext } from "../../api/containerRegistryManagementContext.js";
+import { ContainerRegistryManagementContext } from "../../api/containerRegistryManagementContext.js";
 import { list, $delete, update, create, get } from "../../api/replications/operations.js";
-import type {
+import {
   ReplicationsListOptionalParams,
   ReplicationsDeleteOptionalParams,
   ReplicationsUpdateOptionalParams,
   ReplicationsCreateOptionalParams,
   ReplicationsGetOptionalParams,
 } from "../../api/replications/options.js";
-import type { Replication, ReplicationUpdateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Replication, ReplicationUpdateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Replications operations. */
 export interface ReplicationsOperations {
@@ -25,11 +24,6 @@ export interface ReplicationsOperations {
     options?: ReplicationsListOptionalParams,
   ) => PagedAsyncIterableIterator<Replication>;
   /** Deletes a replication from a container registry. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     registryName: string,

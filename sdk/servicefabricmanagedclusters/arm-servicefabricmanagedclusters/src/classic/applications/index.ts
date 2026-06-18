@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
   restartDeployedCodePackage,
   fetchHealth,
@@ -15,7 +15,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/applications/operations.js";
-import type {
+import {
   ApplicationsRestartDeployedCodePackageOptionalParams,
   ApplicationsFetchHealthOptionalParams,
   ApplicationsUpdateUpgradeOptionalParams,
@@ -28,7 +28,7 @@ import type {
   ApplicationsCreateOrUpdateOptionalParams,
   ApplicationsGetOptionalParams,
 } from "../../api/applications/options.js";
-import type {
+import {
   ApplicationResource,
   ApplicationUpdateParameters,
   RuntimeResumeApplicationUpgradeParameters,
@@ -36,8 +36,8 @@ import type {
   ApplicationFetchHealthRequest,
   RestartDeployedCodePackageRequest,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Applications operations. */
 export interface ApplicationsOperations {
@@ -94,11 +94,6 @@ export interface ApplicationsOperations {
     options?: ApplicationsListOptionalParams,
   ) => PagedAsyncIterableIterator<ApplicationResource>;
   /** Delete a Service Fabric managed application resource with the specified name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,

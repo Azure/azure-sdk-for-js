@@ -222,8 +222,8 @@ export interface AppLinkProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function appLinkPropertiesSerializer(item: AppLinkProperties): any {
-  return item;
+export function appLinkPropertiesSerializer(_item: AppLinkProperties): any {
+  return {};
 }
 
 export function appLinkPropertiesDeserializer(item: any): AppLinkProperties {
@@ -329,8 +329,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -379,8 +379,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -724,8 +724,8 @@ export interface MetricsProfile {
   readonly metricsEndpoint?: string;
 }
 
-export function metricsProfileSerializer(item: MetricsProfile): any {
-  return item;
+export function metricsProfileSerializer(_item: MetricsProfile): any {
+  return {};
 }
 
 export function metricsProfileDeserializer(item: any): MetricsProfile {

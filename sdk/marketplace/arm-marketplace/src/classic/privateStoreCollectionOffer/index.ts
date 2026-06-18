@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MarketplaceContext } from "../../api/marketplaceContext.js";
+import { MarketplaceContext } from "../../api/marketplaceContext.js";
 import {
   post,
   upsertOfferWithMultiContext,
@@ -12,7 +12,7 @@ import {
   get,
   listByContexts,
 } from "../../api/privateStoreCollectionOffer/operations.js";
-import type {
+import {
   PrivateStoreCollectionOfferPostOptionalParams,
   PrivateStoreCollectionOfferUpsertOfferWithMultiContextOptionalParams,
   PrivateStoreCollectionOfferContextsViewOptionalParams,
@@ -22,8 +22,8 @@ import type {
   PrivateStoreCollectionOfferGetOptionalParams,
   PrivateStoreCollectionOfferListByContextsOptionalParams,
 } from "../../api/privateStoreCollectionOffer/options.js";
-import type { CollectionOffersByContext, Offer } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { CollectionOffersByContext, Offer } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PrivateStoreCollectionOffer operations. */
 export interface PrivateStoreCollectionOfferOperations {
@@ -55,11 +55,6 @@ export interface PrivateStoreCollectionOfferOperations {
     options?: PrivateStoreCollectionOfferListOptionalParams,
   ) => PagedAsyncIterableIterator<Offer>;
   /** Deletes an offer from the given collection of private store. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     privateStoreId: string,
     collectionId: string,

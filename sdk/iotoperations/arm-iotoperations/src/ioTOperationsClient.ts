@@ -1,38 +1,54 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IoTOperationsContext, IoTOperationsClientOptionalParams } from "./api/index.js";
-import { createIoTOperations } from "./api/index.js";
-import type { AkriConnectorOperations } from "./classic/akriConnector/index.js";
-import { _getAkriConnectorOperations } from "./classic/akriConnector/index.js";
-import type { AkriConnectorTemplateOperations } from "./classic/akriConnectorTemplate/index.js";
-import { _getAkriConnectorTemplateOperations } from "./classic/akriConnectorTemplate/index.js";
-import type { AkriServiceOperations } from "./classic/akriService/index.js";
-import { _getAkriServiceOperations } from "./classic/akriService/index.js";
-import type { BrokerOperations } from "./classic/broker/index.js";
-import { _getBrokerOperations } from "./classic/broker/index.js";
-import type { BrokerAuthenticationOperations } from "./classic/brokerAuthentication/index.js";
-import { _getBrokerAuthenticationOperations } from "./classic/brokerAuthentication/index.js";
-import type { BrokerAuthorizationOperations } from "./classic/brokerAuthorization/index.js";
-import { _getBrokerAuthorizationOperations } from "./classic/brokerAuthorization/index.js";
-import type { BrokerListenerOperations } from "./classic/brokerListener/index.js";
-import { _getBrokerListenerOperations } from "./classic/brokerListener/index.js";
-import type { DataflowOperations } from "./classic/dataflow/index.js";
-import { _getDataflowOperations } from "./classic/dataflow/index.js";
-import type { DataflowEndpointOperations } from "./classic/dataflowEndpoint/index.js";
-import { _getDataflowEndpointOperations } from "./classic/dataflowEndpoint/index.js";
-import type { DataflowGraphOperations } from "./classic/dataflowGraph/index.js";
-import { _getDataflowGraphOperations } from "./classic/dataflowGraph/index.js";
-import type { DataflowProfileOperations } from "./classic/dataflowProfile/index.js";
-import { _getDataflowProfileOperations } from "./classic/dataflowProfile/index.js";
-import type { InstanceOperations } from "./classic/instance/index.js";
-import { _getInstanceOperations } from "./classic/instance/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { RegistryEndpointOperations } from "./classic/registryEndpoint/index.js";
-import { _getRegistryEndpointOperations } from "./classic/registryEndpoint/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  IoTOperationsContext,
+  IoTOperationsClientOptionalParams,
+  createIoTOperations,
+} from "./api/index.js";
+import {
+  AkriConnectorOperations,
+  _getAkriConnectorOperations,
+} from "./classic/akriConnector/index.js";
+import {
+  AkriConnectorTemplateOperations,
+  _getAkriConnectorTemplateOperations,
+} from "./classic/akriConnectorTemplate/index.js";
+import { AkriServiceOperations, _getAkriServiceOperations } from "./classic/akriService/index.js";
+import { BrokerOperations, _getBrokerOperations } from "./classic/broker/index.js";
+import {
+  BrokerAuthenticationOperations,
+  _getBrokerAuthenticationOperations,
+} from "./classic/brokerAuthentication/index.js";
+import {
+  BrokerAuthorizationOperations,
+  _getBrokerAuthorizationOperations,
+} from "./classic/brokerAuthorization/index.js";
+import {
+  BrokerListenerOperations,
+  _getBrokerListenerOperations,
+} from "./classic/brokerListener/index.js";
+import { DataflowOperations, _getDataflowOperations } from "./classic/dataflow/index.js";
+import {
+  DataflowEndpointOperations,
+  _getDataflowEndpointOperations,
+} from "./classic/dataflowEndpoint/index.js";
+import {
+  DataflowGraphOperations,
+  _getDataflowGraphOperations,
+} from "./classic/dataflowGraph/index.js";
+import {
+  DataflowProfileOperations,
+  _getDataflowProfileOperations,
+} from "./classic/dataflowProfile/index.js";
+import { InstanceOperations, _getInstanceOperations } from "./classic/instance/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  RegistryEndpointOperations,
+  _getRegistryEndpointOperations,
+} from "./classic/registryEndpoint/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { IoTOperationsClientOptionalParams } from "./api/ioTOperationsContext.js";
 

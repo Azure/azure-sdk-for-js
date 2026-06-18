@@ -1,28 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HorizonDbContext } from "../../api/horizonDbContext.js";
+import { HorizonDbContext } from "../../api/horizonDbContext.js";
 import { $delete, createOrUpdate, list, get } from "../../api/horizonDbFirewallRules/operations.js";
-import type {
+import {
   HorizonDbFirewallRulesDeleteOptionalParams,
   HorizonDbFirewallRulesCreateOrUpdateOptionalParams,
   HorizonDbFirewallRulesListOptionalParams,
   HorizonDbFirewallRulesGetOptionalParams,
 } from "../../api/horizonDbFirewallRules/options.js";
-import type { HorizonDbFirewallRule } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { HorizonDbFirewallRule } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a HorizonDbFirewallRules operations. */
 export interface HorizonDbFirewallRulesOperations {
   /** Deletes a HorizonDb firewall rule. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,

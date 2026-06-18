@@ -1,18 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CodeSigningContext, CodeSigningClientOptionalParams } from "./api/index.js";
-import { createCodeSigning } from "./api/index.js";
-import type { CertificateProfilesOperations } from "./classic/certificateProfiles/index.js";
-import { _getCertificateProfilesOperations } from "./classic/certificateProfiles/index.js";
-import type { CodeSigningAccountsOperations } from "./classic/codeSigningAccounts/index.js";
-import { _getCodeSigningAccountsOperations } from "./classic/codeSigningAccounts/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  CodeSigningContext,
+  CodeSigningClientOptionalParams,
+  createCodeSigning,
+} from "./api/index.js";
+import {
+  CertificateProfilesOperations,
+  _getCertificateProfilesOperations,
+} from "./classic/certificateProfiles/index.js";
+import {
+  CodeSigningAccountsOperations,
+  _getCodeSigningAccountsOperations,
+} from "./classic/codeSigningAccounts/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type CodeSigningClientOptionalParams } from "./api/codeSigningContext.js";
+export type { CodeSigningClientOptionalParams } from "./api/codeSigningContext.js";
 
 export class CodeSigningClient {
   private _client: CodeSigningContext;

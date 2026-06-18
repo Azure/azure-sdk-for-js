@@ -4,15 +4,17 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessRule {
@@ -121,7 +123,7 @@ export interface AzureBlobContainer {
 }
 
 // @public
-export interface AzureBlobDataTransferDataSourceSink extends DataTransferDataSourceSink {
+export interface AzureBlobDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
     // (undocumented)
     component: "AzureBlobStorage";
     // (undocumented)
@@ -214,13 +216,13 @@ export interface BaseCopyJobTask {
 // @public
 export interface BaseCosmosDataTransferDataSourceSink extends DataTransferDataSourceSink {
     // (undocumented)
-    component: "BaseCosmosDataTransferDataSourceSink" | "CosmosDBCassandra" | "CosmosDBMongo" | "CosmosDBSql";
+    component: "BaseCosmosDataTransferDataSourceSink" | "CosmosDBCassandra" | "CosmosDBMongo" | "CosmosDBSql" | "AzureBlobStorage";
     // (undocumented)
     remoteAccountName?: string;
 }
 
 // @public
-export type BaseCosmosDataTransferDataSourceSinkUnion = CosmosCassandraDataTransferDataSourceSink | CosmosMongoDataTransferDataSourceSink | CosmosSqlDataTransferDataSourceSink | BaseCosmosDataTransferDataSourceSink;
+export type BaseCosmosDataTransferDataSourceSinkUnion = CosmosCassandraDataTransferDataSourceSink | CosmosMongoDataTransferDataSourceSink | CosmosSqlDataTransferDataSourceSink | AzureBlobDataTransferDataSourceSink | BaseCosmosDataTransferDataSourceSink;
 
 // @public
 export interface BlobToCassandraRUCopyJobProperties extends BaseCopyJobProperties {
@@ -1780,11 +1782,6 @@ export interface DatabaseAccountRegionOperations {
 export interface DatabaseAccountsCheckNameExistsOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
-export type DatabaseAccountsCheckNameExistsResponse = {
-    body: boolean;
-};
-
 // @public
 export interface DatabaseAccountsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
@@ -1881,7 +1878,7 @@ export interface DatabaseAccountsOperations {
     beginUpdate: (resourceGroupName: string, accountName: string, updateParameters: DatabaseAccountUpdateParameters, options?: DatabaseAccountsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DatabaseAccountGetResults>, DatabaseAccountGetResults>>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, accountName: string, updateParameters: DatabaseAccountUpdateParameters, options?: DatabaseAccountsUpdateOptionalParams) => Promise<DatabaseAccountGetResults>;
-    checkNameExists: (accountName: string, options?: DatabaseAccountsCheckNameExistsOptionalParams) => Promise<DatabaseAccountsCheckNameExistsResponse>;
+    checkNameExists: (accountName: string, options?: DatabaseAccountsCheckNameExistsOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, accountName: string, createUpdateParameters: DatabaseAccountCreateUpdateParameters, options?: DatabaseAccountsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DatabaseAccountGetResults>, DatabaseAccountGetResults>;
     delete: (resourceGroupName: string, accountName: string, options?: DatabaseAccountsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     failoverPriorityChange: (resourceGroupName: string, accountName: string, failoverParameters: FailoverPolicies, options?: DatabaseAccountsFailoverPriorityChangeOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -2075,7 +2072,7 @@ export interface DataTransferDataSourceSink {
 }
 
 // @public
-export type DataTransferDataSourceSinkUnion = BaseCosmosDataTransferDataSourceSinkUnion | CosmosMongoVCoreDataTransferDataSourceSink | AzureBlobDataTransferDataSourceSink | DataTransferDataSourceSink;
+export type DataTransferDataSourceSinkUnion = BaseCosmosDataTransferDataSourceSinkUnion | CosmosMongoVCoreDataTransferDataSourceSink | DataTransferDataSourceSink;
 
 // @public
 export interface DataTransferJobGetResults extends ProxyResource {
@@ -3048,6 +3045,8 @@ export type IndexKind = string;
 export interface IpAddressOrRange {
     ipAddressOrRange?: string;
 }
+
+export { isRestError }
 
 // @public
 export type IssueType = string;
@@ -4855,6 +4854,8 @@ export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAs
 // @public
 export interface ResourceRestoreParameters extends RestoreParametersBase {
 }
+
+export { RestError }
 
 // @public
 export interface RestorableDatabaseAccountGetResult extends ProxyResource {

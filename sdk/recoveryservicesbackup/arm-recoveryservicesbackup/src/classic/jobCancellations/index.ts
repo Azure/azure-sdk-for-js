@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { trigger } from "../../api/jobCancellations/operations.js";
-import type { JobCancellationsTriggerOptionalParams } from "../../api/jobCancellations/options.js";
+import { JobCancellationsTriggerOptionalParams } from "../../api/jobCancellations/options.js";
 
 /** Interface representing a JobCancellations operations. */
 export interface JobCancellationsOperations {

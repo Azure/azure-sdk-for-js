@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
+import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
 import {
   listByFleet,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/fleetUpdateStrategies/operations.js";
-import type {
+import {
   FleetUpdateStrategiesListByFleetOptionalParams,
   FleetUpdateStrategiesDeleteOptionalParams,
   FleetUpdateStrategiesCreateOrUpdateOptionalParams,
   FleetUpdateStrategiesGetOptionalParams,
 } from "../../api/fleetUpdateStrategies/options.js";
-import type { FleetUpdateStrategy } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { FleetUpdateStrategy } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FleetUpdateStrategies operations. */
 export interface FleetUpdateStrategiesOperations {
@@ -27,11 +27,6 @@ export interface FleetUpdateStrategiesOperations {
     options?: FleetUpdateStrategiesListByFleetOptionalParams,
   ) => PagedAsyncIterableIterator<FleetUpdateStrategy>;
   /** Delete a FleetUpdateStrategy */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     fleetName: string,

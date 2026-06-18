@@ -1,5 +1,12 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/fluxConfigOperationStatus": "./src/api/fluxConfigOperationStatus/index.ts"
+  "./api/fluxConfigurations": "./src/api/fluxConfigurations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

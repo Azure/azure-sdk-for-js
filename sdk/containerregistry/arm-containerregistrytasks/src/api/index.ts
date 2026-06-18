@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createContainerRegistryTasksManagement,
-  type ContainerRegistryTasksManagementContext,
-  type ContainerRegistryTasksManagementClientOptionalParams,
+export type {
+  ContainerRegistryTasksManagementContext,
+  ContainerRegistryTasksManagementClientOptionalParams,
 } from "./containerRegistryTasksManagementContext.js";
+export { createContainerRegistryTasksManagement } from "./containerRegistryTasksManagementContext.js";

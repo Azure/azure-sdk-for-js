@@ -4,14 +4,16 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccountSku {
@@ -39,11 +41,16 @@ export type AzureSupportedClouds = `${AzureClouds}`;
 // @public
 export interface Certificate {
     createdDate?: string;
+    effectiveAt?: Date;
     enhancedKeyUsage?: string;
     expiryDate?: string;
-    revocation?: Revocation;
+    failureReason?: string;
+    reason?: string;
+    remarks?: string;
+    requestedAt?: Date;
     serialNumber?: string;
     status?: CertificateStatus;
+    statusRevocationStatus?: RevocationStatus;
     subjectName?: string;
     thumbprint?: string;
 }
@@ -123,7 +130,7 @@ export interface CodeSigningAccount extends TrackedResource {
 
 // @public
 export interface CodeSigningAccountPatch {
-    properties?: CodeSigningAccountPatchProperties;
+    sku?: AccountSkuPatch;
     tags?: Record<string, string>;
 }
 
@@ -223,6 +230,8 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownActionType {
@@ -362,6 +371,8 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: CodeSigningClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

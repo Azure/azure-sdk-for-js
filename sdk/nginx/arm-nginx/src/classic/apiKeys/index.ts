@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NginxManagementContext } from "../../api/nginxManagementContext.js";
+import { NginxManagementContext } from "../../api/nginxManagementContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/apiKeys/operations.js";
-import type {
+import {
   ApiKeysListOptionalParams,
   ApiKeysDeleteOptionalParams,
   ApiKeysCreateOrUpdateOptionalParams,
   ApiKeysGetOptionalParams,
 } from "../../api/apiKeys/options.js";
-import type { NginxDeploymentApiKeyResponse } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { NginxDeploymentApiKeyResponse } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApiKeys operations. */
 export interface ApiKeysOperations {
@@ -21,11 +21,6 @@ export interface ApiKeysOperations {
     options?: ApiKeysListOptionalParams,
   ) => PagedAsyncIterableIterator<NginxDeploymentApiKeyResponse>;
   /** Delete API key for Nginx deployment */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     deploymentName: string,

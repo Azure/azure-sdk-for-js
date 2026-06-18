@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import { get, list } from "../../api/hosts/operations.js";
-import type { HostsGetOptionalParams, HostsListOptionalParams } from "../../api/hosts/options.js";
-import type { Host } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { HostsGetOptionalParams, HostsListOptionalParams } from "../../api/hosts/options.js";
+import { Host } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Hosts operations. */
 export interface HostsOperations {

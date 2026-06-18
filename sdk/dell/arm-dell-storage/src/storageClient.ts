@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageContext, StorageClientOptionalParams } from "./api/index.js";
-import { createStorage } from "./api/index.js";
-import type { FileSystemsOperations } from "./classic/fileSystems/index.js";
-import { _getFileSystemsOperations } from "./classic/fileSystems/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { StorageContext, StorageClientOptionalParams, createStorage } from "./api/index.js";
+import { FileSystemsOperations, _getFileSystemsOperations } from "./classic/fileSystems/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type StorageClientOptionalParams } from "./api/storageContext.js";
+export type { StorageClientOptionalParams } from "./api/storageContext.js";
 
 export class StorageClient {
   private _client: StorageContext;

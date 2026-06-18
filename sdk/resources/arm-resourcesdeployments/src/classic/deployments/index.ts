@@ -106,11 +106,6 @@ import {
   WhatIfOperationResult,
   DeploymentWhatIf,
   TemplateHashResult,
-  DeploymentsCheckExistenceResponse,
-  DeploymentsCheckExistenceAtSubscriptionScopeResponse,
-  DeploymentsCheckExistenceAtManagementGroupScopeResponse,
-  DeploymentsCheckExistenceAtTenantScopeResponse,
-  DeploymentsCheckExistenceAtScopeResponse,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -228,7 +223,7 @@ export interface DeploymentsOperations {
     resourceGroupName: string,
     deploymentName: string,
     options?: DeploymentsCheckExistenceOptionalParams,
-  ) => Promise<DeploymentsCheckExistenceResponse>;
+  ) => Promise<void>;
   /** Gets a deployment. */
   get: (
     resourceGroupName: string,
@@ -324,7 +319,7 @@ export interface DeploymentsOperations {
   checkExistenceAtSubscriptionScope: (
     deploymentName: string,
     options?: DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams,
-  ) => Promise<DeploymentsCheckExistenceAtSubscriptionScopeResponse>;
+  ) => Promise<void>;
   /** Gets a deployment. */
   getAtSubscriptionScope: (
     deploymentName: string,
@@ -435,7 +430,7 @@ export interface DeploymentsOperations {
     groupId: string,
     deploymentName: string,
     options?: DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams,
-  ) => Promise<DeploymentsCheckExistenceAtManagementGroupScopeResponse>;
+  ) => Promise<void>;
   /** Gets a deployment. */
   getAtManagementGroupScope: (
     groupId: string,
@@ -531,7 +526,7 @@ export interface DeploymentsOperations {
   checkExistenceAtTenantScope: (
     deploymentName: string,
     options?: DeploymentsCheckExistenceAtTenantScopeOptionalParams,
-  ) => Promise<DeploymentsCheckExistenceAtTenantScopeResponse>;
+  ) => Promise<void>;
   /** Gets a deployment. */
   getAtTenantScope: (
     deploymentName: string,
@@ -621,7 +616,7 @@ export interface DeploymentsOperations {
     scope: string,
     deploymentName: string,
     options?: DeploymentsCheckExistenceAtScopeOptionalParams,
-  ) => Promise<DeploymentsCheckExistenceAtScopeResponse>;
+  ) => Promise<void>;
   /** Gets a deployment. */
   getAtScope: (
     scope: string,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommunicationServiceManagementContext } from "../../api/communicationServiceManagementContext.js";
+import { CommunicationServiceManagementContext } from "../../api/communicationServiceManagementContext.js";
 import {
   checkNameAvailability,
   regenerateKey,
@@ -14,7 +14,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/communicationServices/operations.js";
-import type {
+import {
   CommunicationServicesCheckNameAvailabilityOptionalParams,
   CommunicationServicesRegenerateKeyOptionalParams,
   CommunicationServicesListKeysOptionalParams,
@@ -26,7 +26,7 @@ import type {
   CommunicationServicesCreateOrUpdateOptionalParams,
   CommunicationServicesGetOptionalParams,
 } from "../../api/communicationServices/options.js";
-import type {
+import {
   CommunicationServiceResource,
   CommunicationServiceResourceUpdate,
   LinkedNotificationHub,
@@ -35,10 +35,9 @@ import type {
   NameAvailabilityParameters,
   CheckNameAvailabilityResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CommunicationServices operations. */
 export interface CommunicationServicesOperations {
@@ -76,11 +75,6 @@ export interface CommunicationServicesOperations {
     options?: CommunicationServicesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<CommunicationServiceResource>;
   /** Operation to delete a CommunicationService. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     communicationServiceName: string,

@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Monitor": "2025-03-01-preview"
   },
-  "emitterVersion": "0.53.2",
+  "emitterVersion": "0.55.0-dev.4",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Monitor",
     "CrossLanguageDefinitionId": {

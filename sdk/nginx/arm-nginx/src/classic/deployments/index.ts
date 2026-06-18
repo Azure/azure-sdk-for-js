@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NginxManagementContext } from "../../api/nginxManagementContext.js";
+import { NginxManagementContext } from "../../api/nginxManagementContext.js";
 import {
   list,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/deployments/operations.js";
-import type {
+import {
   DeploymentsListOptionalParams,
   DeploymentsListByResourceGroupOptionalParams,
   DeploymentsDeleteOptionalParams,
@@ -18,11 +18,10 @@ import type {
   DeploymentsCreateOrUpdateOptionalParams,
   DeploymentsGetOptionalParams,
 } from "../../api/deployments/options.js";
-import type { NginxDeployment } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { NginxDeployment } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Deployments operations. */
 export interface DeploymentsOperations {
@@ -34,11 +33,6 @@ export interface DeploymentsOperations {
     options?: DeploymentsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<NginxDeployment>;
   /** Delete the NGINX deployment resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     deploymentName: string,

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listAgreements, list, get } from "./operations.js";
-export {
+export type {
   TopLevelDomainsListAgreementsOptionalParams,
   TopLevelDomainsListOptionalParams,
   TopLevelDomainsGetOptionalParams,

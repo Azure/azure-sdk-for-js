@@ -55,7 +55,7 @@ export interface PipelinesOperations {
     factoryName: string,
     pipelineName: string,
     options?: PipelinesGetOptionalParams,
-  ) => Promise<PipelineResource>;
+  ) => Promise<PipelineResource | undefined>;
 }
 
 function _getPipelines(context: DataFactoryManagementContext) {

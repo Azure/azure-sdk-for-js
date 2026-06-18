@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import { list } from "../../api/restorableSqlDatabases/operations.js";
-import type { RestorableSqlDatabasesListOptionalParams } from "../../api/restorableSqlDatabases/options.js";
-import type { RestorableSqlDatabaseGetResult } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { RestorableSqlDatabasesListOptionalParams } from "../../api/restorableSqlDatabases/options.js";
+import { RestorableSqlDatabaseGetResult } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RestorableSqlDatabases operations. */
 export interface RestorableSqlDatabasesOperations {

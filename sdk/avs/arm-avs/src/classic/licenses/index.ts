@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import {
   getProperties,
   $delete,
@@ -9,16 +9,16 @@ import {
   get,
   list,
 } from "../../api/licenses/operations.js";
-import type {
+import {
   LicensesGetPropertiesOptionalParams,
   LicensesDeleteOptionalParams,
   LicensesCreateOrUpdateOptionalParams,
   LicensesGetOptionalParams,
   LicensesListOptionalParams,
 } from "../../api/licenses/options.js";
-import type { License, LicensePropertiesUnion, LicenseName } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { License, LicensePropertiesUnion, LicenseName } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Licenses operations. */
 export interface LicensesOperations {
@@ -30,11 +30,6 @@ export interface LicensesOperations {
     options?: LicensesGetPropertiesOptionalParams,
   ) => Promise<LicensePropertiesUnion>;
   /** Delete a License */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     privateCloudName: string,

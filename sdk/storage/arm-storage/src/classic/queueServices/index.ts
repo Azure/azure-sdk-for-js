@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext } from "../../api/storageManagementContext.js";
+import { StorageManagementContext } from "../../api/storageManagementContext.js";
 import {
   list,
   setServiceProperties,
   getServiceProperties,
 } from "../../api/queueServices/operations.js";
-import type {
+import {
   QueueServicesListOptionalParams,
   QueueServicesSetServicePropertiesOptionalParams,
   QueueServicesGetServicePropertiesOptionalParams,
 } from "../../api/queueServices/options.js";
-import type { QueueServiceProperties, ListQueueServices } from "../../models/models.js";
+import { QueueServiceProperties, ListQueueServices } from "../../models/models.js";
 
 /** Interface representing a QueueServices operations. */
 export interface QueueServicesOperations {

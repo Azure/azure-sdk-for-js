@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KeyVaultManagementContext } from "../../api/keyVaultManagementContext.js";
+import { KeyVaultManagementContext } from "../../api/keyVaultManagementContext.js";
 import { list, update, createOrUpdate, get } from "../../api/secrets/operations.js";
-import type {
+import {
   SecretsListOptionalParams,
   SecretsUpdateOptionalParams,
   SecretsCreateOrUpdateOptionalParams,
   SecretsGetOptionalParams,
 } from "../../api/secrets/options.js";
-import type {
+import {
   Secret,
   SecretCreateOrUpdateParameters,
   SecretPatchParameters,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Secrets operations. */
 export interface SecretsOperations {

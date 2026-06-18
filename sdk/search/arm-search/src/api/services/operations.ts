@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SearchManagementContext as Client } from "../index.js";
-import type {
-  CheckNameAvailabilityOutput,
-  SearchService,
-  SearchServiceUpdate,
-  _SearchServiceListResult,
-} from "../../models/models.js";
+import { SearchManagementContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  CheckNameAvailabilityOutput,
   checkNameAvailabilityOutputDeserializer,
+  SearchService,
   searchServiceSerializer,
   searchServiceDeserializer,
+  SearchServiceUpdate,
   searchServiceUpdateSerializer,
+  _SearchServiceListResult,
   _searchServiceListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ServicesUpgradeOptionalParams,
   ServicesListBySubscriptionOptionalParams,
   ServicesListByResourceGroupOptionalParams,
@@ -30,9 +30,13 @@ import type {
   ServicesGetOptionalParams,
   ServicesCheckNameAvailabilityOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _upgradeSend(
   context: Client,
@@ -52,17 +56,21 @@ export function _upgradeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _upgradeDeserialize(result: PathUncheckedResponse): Promise<SearchService> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -77,7 +85,7 @@ export function upgrade(
   searchServiceName: string,
   options: ServicesUpgradeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SearchService>, SearchService> {
-  return getLongRunningPoller(context, _upgradeDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _upgradeDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _upgradeSend(context, resourceGroupName, searchServiceName, options),
@@ -100,16 +108,18 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -118,7 +128,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -160,16 +172,18 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -178,7 +192,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -223,22 +239,26 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -249,11 +269,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 /**
  * Deletes a search service in the given resource group, along with its associated resources.
  * Returns 200 (OK) on successful deletion, or 204 (No Content) if the service is not found.
- */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
  */
 export async function $delete(
   context: Client,
@@ -284,25 +299,29 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: searchServiceUpdateSerializer(service),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: searchServiceUpdateSerializer(service),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<SearchService> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -341,18 +360,20 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: searchServiceSerializer(service),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: searchServiceSerializer(service),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -361,7 +382,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -405,23 +428,27 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<SearchService> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -455,18 +482,20 @@ export function _checkNameAvailabilitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: { name: name, type: "searchServices" },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: { name: name, type: "searchServices" },
+    });
 }
 
 export async function _checkNameAvailabilityDeserialize(
@@ -475,7 +504,9 @@ export async function _checkNameAvailabilityDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

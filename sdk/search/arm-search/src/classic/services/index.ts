@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SearchManagementContext } from "../../api/searchManagementContext.js";
+import { SearchManagementContext } from "../../api/searchManagementContext.js";
 import {
   upgrade,
   listBySubscription,
@@ -12,7 +12,7 @@ import {
   get,
   checkNameAvailability,
 } from "../../api/services/operations.js";
-import type {
+import {
   ServicesUpgradeOptionalParams,
   ServicesListBySubscriptionOptionalParams,
   ServicesListByResourceGroupOptionalParams,
@@ -22,15 +22,14 @@ import type {
   ServicesGetOptionalParams,
   ServicesCheckNameAvailabilityOptionalParams,
 } from "../../api/services/options.js";
-import type {
+import {
   CheckNameAvailabilityOutput,
   SearchService,
   SearchServiceUpdate,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Services operations. */
 export interface ServicesOperations {
@@ -64,11 +63,6 @@ export interface ServicesOperations {
   /**
    * Deletes a search service in the given resource group, along with its associated resources.
    * Returns 200 (OK) on successful deletion, or 204 (No Content) if the service is not found.
-   */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
    */
   delete: (
     resourceGroupName: string,

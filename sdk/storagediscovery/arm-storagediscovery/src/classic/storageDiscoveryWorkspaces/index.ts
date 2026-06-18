@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageDiscoveryContext } from "../../api/storageDiscoveryContext.js";
+import { StorageDiscoveryContext } from "../../api/storageDiscoveryContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/storageDiscoveryWorkspaces/operations.js";
-import type {
+import {
   StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
   StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
   StorageDiscoveryWorkspacesDeleteOptionalParams,
@@ -18,11 +18,8 @@ import type {
   StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
   StorageDiscoveryWorkspacesGetOptionalParams,
 } from "../../api/storageDiscoveryWorkspaces/options.js";
-import type {
-  StorageDiscoveryWorkspace,
-  StorageDiscoveryWorkspaceUpdate,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { StorageDiscoveryWorkspace, StorageDiscoveryWorkspaceUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a StorageDiscoveryWorkspaces operations. */
 export interface StorageDiscoveryWorkspacesOperations {
@@ -36,11 +33,6 @@ export interface StorageDiscoveryWorkspacesOperations {
     options?: StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<StorageDiscoveryWorkspace>;
   /** Delete a StorageDiscoveryWorkspace */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storageDiscoveryWorkspaceName: string,
