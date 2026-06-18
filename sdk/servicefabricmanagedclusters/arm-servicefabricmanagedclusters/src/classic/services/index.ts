@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
   restartReplica,
   listByApplications,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/services/operations.js";
-import type {
+import {
   ServicesRestartReplicaOptionalParams,
   ServicesListByApplicationsOptionalParams,
   ServicesDeleteOptionalParams,
@@ -18,13 +18,13 @@ import type {
   ServicesCreateOrUpdateOptionalParams,
   ServicesGetOptionalParams,
 } from "../../api/services/options.js";
-import type {
+import {
   ServiceResource,
   ServiceUpdateParameters,
   RestartReplicaRequest,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Services operations. */
 export interface ServicesOperations {
@@ -45,11 +45,6 @@ export interface ServicesOperations {
     options?: ServicesListByApplicationsOptionalParams,
   ) => PagedAsyncIterableIterator<ServiceResource>;
   /** Delete a Service Fabric managed service resource with the specified name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,

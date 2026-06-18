@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SearchManagementContext } from "../../api/searchManagementContext.js";
+import { SearchManagementContext } from "../../api/searchManagementContext.js";
 import { listBySubscription } from "../../api/usages/operations.js";
-import type { UsagesListBySubscriptionOptionalParams } from "../../api/usages/options.js";
-import type { QuotaUsageResult } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { UsagesListBySubscriptionOptionalParams } from "../../api/usages/options.js";
+import { QuotaUsageResult } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Usages operations. */
 export interface UsagesOperations {

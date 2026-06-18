@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import { list, get } from "../../api/managedUnsupportedVMSizes/operations.js";
-import type {
+import {
   ManagedUnsupportedVMSizesListOptionalParams,
   ManagedUnsupportedVMSizesGetOptionalParams,
 } from "../../api/managedUnsupportedVMSizes/options.js";
-import type { ManagedVMSize } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ManagedVMSize } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ManagedUnsupportedVMSizes operations. */
 export interface ManagedUnsupportedVMSizesOperations {

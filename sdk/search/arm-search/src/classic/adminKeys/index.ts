@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SearchManagementContext } from "../../api/searchManagementContext.js";
+import { SearchManagementContext } from "../../api/searchManagementContext.js";
 import { regenerate, get } from "../../api/adminKeys/operations.js";
-import type {
+import {
   AdminKeysRegenerateOptionalParams,
   AdminKeysGetOptionalParams,
 } from "../../api/adminKeys/options.js";
-import type { AdminKeyResult, AdminKeyKind } from "../../models/models.js";
+import { AdminKeyResult, AdminKeyKind } from "../../models/models.js";
 
 /** Interface representing a AdminKeys operations. */
 export interface AdminKeysOperations {

@@ -13,10 +13,9 @@
   "types": "./dist/commonjs/index.d.ts",
   "browser": "./dist/browser/index.js",
   "imports": {
-    "#platform/*.js": {
-      "browser": "./src/*-browser.mjs",
-      "react-native": "./src/*-react-native.mjs",
-      "default": "./src/*.js"
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
     }
   },
   "exports": {

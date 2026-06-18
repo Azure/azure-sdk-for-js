@@ -1,23 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SearchManagementContext as Client } from "../index.js";
-import type { QueryKey, _ListQueryKeysResult } from "../../models/models.js";
+import { SearchManagementContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  QueryKey,
   queryKeyDeserializer,
+  _ListQueryKeysResult,
   _listQueryKeysResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   QueryKeysDeleteOptionalParams,
   QueryKeysListBySearchServiceOptionalParams,
   QueryKeysCreateOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _$deleteSend(
   context: Client,
@@ -39,22 +46,26 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -66,11 +77,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
  * Deletes the specified query key. Unlike admin keys, query keys are not regenerated. The process for regenerating a query key is to delete and then recreate it.
  * Returns 200 (OK) on successful deletion, 204 (No Content) if the service exists but the query keys not found, or 404 (Not Found) if the service is not found.
  * NOTE: The behavior of returning 404 is inconsistent with ARM guidelines. Clients should expect a 204 response in future versions and avoid new dependencies on the 404 response.
- */
-/**
- *  @fixme Delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
  */
 export async function $delete(
   context: Client,
@@ -101,16 +107,18 @@ export function _listBySearchServiceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listBySearchServiceDeserialize(
@@ -119,7 +127,9 @@ export async function _listBySearchServiceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -167,23 +177,27 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<QueryKey> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

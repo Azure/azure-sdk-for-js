@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SearchManagementContext } from "../../api/searchManagementContext.js";
+import { SearchManagementContext } from "../../api/searchManagementContext.js";
 import {
   listByService,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/sharedPrivateLinkResources/operations.js";
-import type {
+import {
   SharedPrivateLinkResourcesListByServiceOptionalParams,
   SharedPrivateLinkResourcesDeleteOptionalParams,
   SharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   SharedPrivateLinkResourcesGetOptionalParams,
 } from "../../api/sharedPrivateLinkResources/options.js";
-import type { SharedPrivateLinkResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SharedPrivateLinkResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SharedPrivateLinkResources operations. */
 export interface SharedPrivateLinkResourcesOperations {
@@ -32,11 +31,6 @@ export interface SharedPrivateLinkResourcesOperations {
    * Initiates the deletion of the shared private link resource from the search service.
    * Returns 202 (Accepted) for asynchronous deletion, 204 (No Content) if the service exists but the shared private link is not found, or 404 (Not Found) if the service is not found.
    * NOTE: The behavior of returning 404 is inconsistent with ARM guidelines. Clients should expect a 204 response in future versions and avoid new dependencies on the 404 response.
-   */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
    */
   delete: (
     resourceGroupName: string,
