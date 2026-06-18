@@ -2,7 +2,7 @@
   "apiVersions": {
     "AzureAppConfiguration": "2024-09-01"
   },
-  "emitterVersion": "0.52.3",
+  "emitterVersion": "0.55.0-dev.4",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "AzureAppConfiguration",
     "CrossLanguageDefinitionId": {

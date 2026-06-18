@@ -1,34 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AgentsContext as Client } from "./index.js";
-import type {
-  Agent,
-  _AgentsPagedResultAgent,
-  AgentDeletionStatus,
-  ThreadRun,
-} from "../models/models.js";
+import { AgentsContext as Client } from "./index.js";
 import {
-  toolResourcesSerializer,
   toolDefinitionUnionArraySerializer,
+  toolResourcesSerializer,
   agentsResponseFormatOptionSerializer,
+  Agent,
   agentDeserializer,
   agentV1ErrorDeserializer,
+  _AgentsPagedResultAgent,
   _agentsPagedResultAgentDeserializer,
+  AgentDeletionStatus,
   agentDeletionStatusDeserializer,
   agentThreadCreationOptionsSerializer,
   truncationObjectSerializer,
   agentsToolChoiceOptionSerializer,
+  ThreadRun,
   threadRunDeserializer,
-  MessageStreamEvent,
-  RunStepStreamEvent,
-  RunStreamEvent,
-  messageDeltaChunkDeserializer,
-  runStepDeltaChunkDeserializer,
-  runStepDeserializer,
-  threadMessageDeserializer,
 } from "../models/models.js";
-import type {
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
+import {
   CreateThreadAndRunOptionalParams,
   DeleteAgentOptionalParams,
   UpdateAgentOptionalParams,
@@ -36,27 +32,12 @@ import type {
   ListAgentsOptionalParams,
   CreateAgentOptionalParams,
 } from "./options.js";
-import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type {
-  AgentEventMessage,
-  AgentEventMessageStream,
-  AgentEventStreamData,
-  AgentRunResponse,
-} from "../models/streamingModels.js";
-import type {
-  RunsCreateRunOptionalParams,
-  RunsSubmitToolOutputsToRunOptionalParams,
-} from "./runs/options.js";
-import type { EventMessageStream, EventMessage } from "@azure/core-sse";
-import { createSseStream } from "@azure/core-sse";
-import { isNodeLike } from "@azure/core-util";
-import type { IncomingMessage } from "http";
-import { logger } from "../logger.js";
-import { _createRunSend, _submitToolOutputsToRunSend } from "./runs/operations.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _createThreadAndRunSend(
   context: Client,
@@ -64,50 +45,51 @@ export function _createThreadAndRunSend(
   options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/runs{?api-version}",
+    "/threads/runs{?api%2Dversion}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      assistant_id: assistantId,
-      thread: !options?.thread
-        ? options?.thread
-        : agentThreadCreationOptionsSerializer(options?.thread),
-      model: options?.model,
-      instructions: options?.instructions,
-      tools: !options?.tools ? options?.tools : toolDefinitionUnionArraySerializer(options?.tools),
-      tool_resources: !options?.toolResources
-        ? options?.toolResources
-        : toolResourcesSerializer(options?.toolResources),
-      stream: options?.stream,
-      temperature: options?.temperature,
-      top_p: options?.topP,
-      max_prompt_tokens: options?.maxPromptTokens,
-      max_completion_tokens: options?.maxCompletionTokens,
-      truncation_strategy: !options?.truncationStrategy
-        ? options?.truncationStrategy
-        : truncationObjectSerializer(options?.truncationStrategy),
-      tool_choice: !options?.toolChoice
-        ? options?.toolChoice
-        : agentsToolChoiceOptionSerializer(options?.toolChoice),
-      response_format: !options?.responseFormat
-        ? options?.responseFormat
-        : agentsResponseFormatOptionSerializer(options?.responseFormat),
-      parallel_tool_calls: options?.parallelToolCalls,
-      metadata: options?.metadata,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        assistant_id: assistantId,
+        thread: !options?.thread
+          ? options?.thread
+          : agentThreadCreationOptionsSerializer(options?.thread),
+        model: options?.model,
+        instructions: options?.instructions,
+        tools: !options?.tools
+          ? options?.tools
+          : toolDefinitionUnionArraySerializer(options?.tools),
+        tool_resources: !options?.toolResources
+          ? options?.toolResources
+          : toolResourcesSerializer(options?.toolResources),
+        stream: options?.stream,
+        temperature: options?.temperature,
+        top_p: options?.topP,
+        max_prompt_tokens: options?.maxPromptTokens,
+        max_completion_tokens: options?.maxCompletionTokens,
+        truncation_strategy: !options?.truncationStrategy
+          ? options?.truncationStrategy
+          : truncationObjectSerializer(options?.truncationStrategy),
+        tool_choice: !options?.toolChoice
+          ? options?.toolChoice
+          : agentsToolChoiceOptionSerializer(options?.toolChoice),
+        response_format: !options?.responseFormat
+          ? options?.responseFormat
+          : agentsResponseFormatOptionSerializer(options?.responseFormat),
+        parallel_tool_calls: options?.parallelToolCalls,
+        metadata: options?.metadata,
+      },
+    });
 }
 
 export async function _createThreadAndRunDeserialize(
@@ -116,7 +98,10 @@ export async function _createThreadAndRunDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = agentV1ErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -124,24 +109,13 @@ export async function _createThreadAndRunDeserialize(
 }
 
 /** Creates a new agent thread and immediately starts a run using that new thread. */
-export function createThreadAndRun(
+export async function createThreadAndRun(
   context: Client,
   assistantId: string,
   options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
-): AgentRunResponse {
-  async function executeCreateThreadAndRun(): Promise<ThreadRun> {
-    const result = await _createThreadAndRunSend(context, assistantId, options);
-    return _createThreadAndRunDeserialize(result);
-  }
-
-  return {
-    then: function (onFulfilled, onRejected) {
-      return executeCreateThreadAndRun().then(onFulfilled, onRejected).catch(onRejected);
-    },
-    async stream(): Promise<AgentEventMessageStream> {
-      return createThreadAndRunStreaming(context, assistantId, options);
-    },
-  };
+): Promise<ThreadRun> {
+  const result = await _createThreadAndRunSend(context, assistantId, options);
+  return _createThreadAndRunDeserialize(result);
 }
 
 export function _deleteAgentSend(
@@ -150,22 +124,21 @@ export function _deleteAgentSend(
   options: DeleteAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants/{assistantId}{?api-version}",
+    "/assistants/{assistantId}{?api%2Dversion}",
     {
       assistantId: assistantId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteAgentDeserialize(
@@ -174,7 +147,10 @@ export async function _deleteAgentDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = agentV1ErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -197,46 +173,50 @@ export function _updateAgentSend(
   options: UpdateAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants/{assistantId}{?api-version}",
+    "/assistants/{assistantId}{?api%2Dversion}",
     {
       assistantId: assistantId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      model: options?.model,
-      name: options?.name,
-      description: options?.description,
-      instructions: options?.instructions,
-      tools: !options?.tools ? options?.tools : toolDefinitionUnionArraySerializer(options?.tools),
-      tool_resources: !options?.toolResources
-        ? options?.toolResources
-        : toolResourcesSerializer(options?.toolResources),
-      temperature: options?.temperature,
-      top_p: options?.topP,
-      response_format: !options?.responseFormat
-        ? options?.responseFormat
-        : agentsResponseFormatOptionSerializer(options?.responseFormat),
-      metadata: options?.metadata,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        model: options?.model,
+        name: options?.name,
+        description: options?.description,
+        instructions: options?.instructions,
+        tools: !options?.tools
+          ? options?.tools
+          : toolDefinitionUnionArraySerializer(options?.tools),
+        tool_resources: !options?.toolResources
+          ? options?.toolResources
+          : toolResourcesSerializer(options?.toolResources),
+        temperature: options?.temperature,
+        top_p: options?.topP,
+        response_format: !options?.responseFormat
+          ? options?.responseFormat
+          : agentsResponseFormatOptionSerializer(options?.responseFormat),
+        metadata: options?.metadata,
+      },
+    });
 }
 
 export async function _updateAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = agentV1ErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -259,29 +239,31 @@ export function _getAgentSend(
   options: GetAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants/{assistantId}{?api-version}",
+    "/assistants/{assistantId}{?api%2Dversion}",
     {
       assistantId: assistantId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = agentV1ErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -303,9 +285,9 @@ export function _listAgentsSend(
   options: ListAgentsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants{?api-version,limit,order,after,before}",
+    "/assistants{?api%2Dversion,limit,order,after,before}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -315,13 +297,12 @@ export function _listAgentsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAgentsDeserialize(
@@ -330,7 +311,10 @@ export async function _listAgentsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = agentV1ErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -347,7 +331,7 @@ export function listAgents(
     () => _listAgentsSend(context, options),
     _listAgentsDeserialize,
     ["200"],
-    { itemName: "data" },
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
@@ -357,45 +341,49 @@ export function _createAgentSend(
   options: CreateAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants{?api-version}",
+    "/assistants{?api%2Dversion}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      model: model,
-      name: options?.name,
-      description: options?.description,
-      instructions: options?.instructions,
-      tools: !options?.tools ? options?.tools : toolDefinitionUnionArraySerializer(options?.tools),
-      tool_resources: !options?.toolResources
-        ? options?.toolResources
-        : toolResourcesSerializer(options?.toolResources),
-      temperature: options?.temperature,
-      top_p: options?.topP,
-      response_format: !options?.responseFormat
-        ? options?.responseFormat
-        : agentsResponseFormatOptionSerializer(options?.responseFormat),
-      metadata: options?.metadata,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        model: model,
+        name: options?.name,
+        description: options?.description,
+        instructions: options?.instructions,
+        tools: !options?.tools
+          ? options?.tools
+          : toolDefinitionUnionArraySerializer(options?.tools),
+        tool_resources: !options?.toolResources
+          ? options?.toolResources
+          : toolResourcesSerializer(options?.toolResources),
+        temperature: options?.temperature,
+        top_p: options?.topP,
+        response_format: !options?.responseFormat
+          ? options?.responseFormat
+          : agentsResponseFormatOptionSerializer(options?.responseFormat),
+        metadata: options?.metadata,
+      },
+    });
 }
 
 export async function _createAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = agentV1ErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -410,94 +398,4 @@ export async function createAgent(
 ): Promise<Agent> {
   const result = await _createAgentSend(context, model, options);
   return _createAgentDeserialize(result);
-}
-
-function createAgentStream(stream: EventMessageStream): AgentEventMessageStream {
-  const asyncIterator = toAsyncIterable(stream);
-  const asyncDisposable = stream as AsyncDisposable;
-  return Object.assign(asyncIterator, asyncDisposable);
-}
-
-async function* toAsyncIterable(stream: EventMessageStream): AsyncIterable<AgentEventMessage> {
-  for await (const event of stream) {
-    const data = deserializeEventData(event);
-    yield { data: data, event: event.event };
-  }
-}
-
-function deserializeEventData(event: EventMessage): AgentEventStreamData {
-  try {
-    const jsonData = JSON.parse(event.data);
-    if (Object.values(RunStepStreamEvent).includes(event.event as RunStepStreamEvent)) {
-      if (event.event === RunStepStreamEvent.ThreadRunStepDelta) {
-        return runStepDeltaChunkDeserializer(jsonData);
-      }
-      return runStepDeserializer(jsonData);
-    }
-    if (Object.values(MessageStreamEvent).includes(event.event as MessageStreamEvent)) {
-      if (event.event === MessageStreamEvent.ThreadMessageDelta) {
-        return messageDeltaChunkDeserializer(jsonData);
-      }
-      return threadMessageDeserializer(jsonData);
-    }
-    if (Object.values(RunStreamEvent).includes(event.event as RunStreamEvent)) {
-      return threadRunDeserializer(jsonData);
-    }
-    return jsonData;
-  } catch (ex) {
-    logger.error(`Failed to parse event data  ${event.event} - error: ${ex}`);
-    return event.data;
-  }
-}
-
-async function processStream(streamResponse: StreamableMethod): Promise<AgentEventMessageStream> {
-  const expectedStatuses = ["200"];
-  const result = isNodeLike
-    ? await streamResponse.asNodeStream()
-    : await streamResponse.asBrowserStream();
-
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-  if (!result.body) {
-    throw new Error("No body in response");
-  }
-
-  const stream = isNodeLike
-    ? createSseStream(result.body as IncomingMessage)
-    : createSseStream(result.body as ReadableStream);
-  return createAgentStream(stream);
-}
-
-/** Create a run and stream the events */
-export async function createRunStreaming(
-  context: Client,
-  assistantId: string,
-  threadId: string,
-  options: RunsCreateRunOptionalParams = { requestOptions: {} },
-): Promise<AgentEventMessageStream> {
-  const streamOptions = { ...options, stream: true };
-
-  return processStream(_createRunSend(context, threadId, assistantId, streamOptions));
-}
-
-/** Create a thread and run and stream the events */
-export async function createThreadAndRunStreaming(
-  context: Client,
-  assistantId: string,
-  options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
-): Promise<AgentEventMessageStream> {
-  const streamOptions = { ...options, stream: true };
-  return processStream(_createThreadAndRunSend(context, assistantId, streamOptions));
-}
-
-export async function submitToolOutputsToRunStreaming(
-  context: Client,
-  threadId: string,
-  runId: string,
-  options: RunsSubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
-): Promise<AgentEventMessageStream> {
-  const streamOptions = { ...options, stream: true };
-
-  return processStream(_submitToolOutputsToRunSend(context, threadId, runId, streamOptions));
 }

@@ -1,4 +1,6 @@
 {
-  "apiVersion": "2025-07-15-preview",
-  "emitterVersion": "0.44.1"
+  "apiVersions": {
+    "HealthDataAIServices.DeidServices": "2025-07-15-preview"
+  },
+  "emitterVersion": "0.55.0-dev.4"
 }

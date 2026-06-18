@@ -8,12 +8,6 @@
     },
     {
       "path": "./config/tsconfig.src.cjs.json"
-    },
-    {
-      "path": "./config/tsconfig.test.node.json"
-    },
-    {
-      "path": "./config/tsconfig.samples.json"
     }
   ],
   "files": []

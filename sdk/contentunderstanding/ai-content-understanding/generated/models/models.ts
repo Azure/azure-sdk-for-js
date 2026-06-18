@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { NodeReadableStream } from "../static-helpers/platform-types.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 import { ErrorModel } from "@azure-rest/core-client";
 import { uint8ArrayToString } from "@azure/core-util";
@@ -11,6 +12,12 @@ import { uint8ArrayToString } from "@azure/core-util";
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+export function analysisInputArraySerializer(result: Array<AnalysisInput>): any[] {
+  return result.map((item) => {
+    return analysisInputSerializer(item);
+  });
+}
+
 /** Additional input to analyze. */
 export interface AnalysisInput {
   /** The URL of the input to analyze.  Only one of url or data should be specified. */
@@ -33,12 +40,6 @@ export function analysisInputSerializer(item: AnalysisInput): any {
     mimeType: item["mimeType"],
     range: item["contentRange"],
   };
-}
-
-export function analysisInputArraySerializer(result: Array<AnalysisInput>): any[] {
-  return result.map((item) => {
-    return analysisInputSerializer(item);
-  });
 }
 
 /** Provides status details for analyze operations. */
@@ -1991,3 +1992,20 @@ export enum KnownVersions {
   /** The 2025-11-01 version of the Content Understanding service. */
   V20251101 = "2025-11-01",
 }
+
+export type GetResultFileResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};

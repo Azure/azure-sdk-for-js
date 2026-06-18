@@ -118,20 +118,24 @@ export function _listIndexStatsSummarySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listIndexStatsSummaryDeserialize(
@@ -140,7 +144,9 @@ export async function _listIndexStatsSummaryDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -179,20 +185,24 @@ export function _getServiceStatisticsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getServiceStatisticsDeserialize(
@@ -201,7 +211,9 @@ export async function _getServiceStatisticsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -235,20 +247,24 @@ export function _deleteKnowledgeSourceFileSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _deleteKnowledgeSourceFileDeserialize(
@@ -257,7 +273,9 @@ export async function _deleteKnowledgeSourceFileDeserialize(
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -291,20 +309,24 @@ export function _listKnowledgeSourceFilesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listKnowledgeSourceFilesDeserialize(
@@ -313,7 +335,9 @@ export async function _listKnowledgeSourceFilesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -353,19 +377,21 @@ export function _uploadKnowledgeSourceFileSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/octet-stream",
-    headers: {
-      "content-disposition": contentDisposition,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: file,
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/octet-stream",
+      headers: {
+        "content-disposition": contentDisposition,
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: file,
+    });
 }
 
 export async function _uploadKnowledgeSourceFileDeserialize(
@@ -374,7 +400,9 @@ export async function _uploadKnowledgeSourceFileDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -415,20 +443,24 @@ export function _getKnowledgeSourceStatusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getKnowledgeSourceStatusDeserialize(
@@ -437,7 +469,9 @@ export async function _getKnowledgeSourceStatusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -469,22 +503,26 @@ export function _createKnowledgeSourceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: knowledgeSourceUnionSerializer(knowledgeSource),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+      body: knowledgeSourceUnionSerializer(knowledgeSource),
+    });
 }
 
 export async function _createKnowledgeSourceDeserialize(
@@ -493,7 +531,9 @@ export async function _createKnowledgeSourceDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -524,20 +564,24 @@ export function _listKnowledgeSourcesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listKnowledgeSourcesDeserialize(
@@ -546,7 +590,9 @@ export async function _listKnowledgeSourcesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -583,20 +629,24 @@ export function _getKnowledgeSourceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getKnowledgeSourceDeserialize(
@@ -605,7 +655,9 @@ export async function _getKnowledgeSourceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -638,22 +690,26 @@ export function _deleteKnowledgeSourceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _deleteKnowledgeSourceDeserialize(
@@ -662,7 +718,9 @@ export async function _deleteKnowledgeSourceDeserialize(
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -696,25 +754,29 @@ export function _createOrUpdateKnowledgeSourceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      prefer: "return=representation",
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: knowledgeSourceUnionSerializer(knowledgeSource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        prefer: "return=representation",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+      body: knowledgeSourceUnionSerializer(knowledgeSource),
+    });
 }
 
 export async function _createOrUpdateKnowledgeSourceDeserialize(
@@ -723,7 +785,9 @@ export async function _createOrUpdateKnowledgeSourceDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -756,22 +820,26 @@ export function _createKnowledgeBaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: knowledgeBaseSerializer(knowledgeBase),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+      body: knowledgeBaseSerializer(knowledgeBase),
+    });
 }
 
 export async function _createKnowledgeBaseDeserialize(
@@ -780,7 +848,9 @@ export async function _createKnowledgeBaseDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -811,20 +881,24 @@ export function _listKnowledgeBasesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listKnowledgeBasesDeserialize(
@@ -833,7 +907,9 @@ export async function _listKnowledgeBasesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -870,20 +946,24 @@ export function _getKnowledgeBaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getKnowledgeBaseDeserialize(
@@ -892,7 +972,9 @@ export async function _getKnowledgeBaseDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -925,22 +1007,26 @@ export function _deleteKnowledgeBaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _deleteKnowledgeBaseDeserialize(
@@ -949,7 +1035,9 @@ export async function _deleteKnowledgeBaseDeserialize(
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -983,25 +1071,29 @@ export function _createOrUpdateKnowledgeBaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      prefer: "return=representation",
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: knowledgeBaseSerializer(knowledgeBase),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        prefer: "return=representation",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+      body: knowledgeBaseSerializer(knowledgeBase),
+    });
 }
 
 export async function _createOrUpdateKnowledgeBaseDeserialize(
@@ -1010,7 +1102,9 @@ export async function _createOrUpdateKnowledgeBaseDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1043,29 +1137,35 @@ export function _createAliasSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: searchAliasSerializer(alias),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+      body: searchAliasSerializer(alias),
+    });
 }
 
 export async function _createAliasDeserialize(result: PathUncheckedResponse): Promise<SearchAlias> {
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1096,20 +1196,24 @@ export function _listAliasesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listAliasesDeserialize(
@@ -1118,7 +1222,9 @@ export async function _listAliasesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1155,27 +1261,33 @@ export function _getAliasSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getAliasDeserialize(result: PathUncheckedResponse): Promise<SearchAlias> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1208,29 +1320,35 @@ export function _deleteAliasSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _deleteAliasDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1264,25 +1382,29 @@ export function _createOrUpdateAliasSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      prefer: "return=representation",
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: searchAliasSerializer(alias),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        prefer: "return=representation",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+      body: searchAliasSerializer(alias),
+    });
 }
 
 export async function _createOrUpdateAliasDeserialize(
@@ -1291,7 +1413,9 @@ export async function _createOrUpdateAliasDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1326,22 +1450,26 @@ export function _analyzeTextSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: analyzeTextOptionsSerializer(request),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+      body: analyzeTextOptionsSerializer(request),
+    });
 }
 
 export async function _analyzeTextDeserialize(
@@ -1350,7 +1478,9 @@ export async function _analyzeTextDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1384,20 +1514,24 @@ export function _getIndexStatisticsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getIndexStatisticsDeserialize(
@@ -1406,7 +1540,9 @@ export async function _getIndexStatisticsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1438,29 +1574,35 @@ export function _createIndexSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: searchIndexSerializer(index),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+      body: searchIndexSerializer(index),
+    });
 }
 
 export async function _createIndexDeserialize(result: PathUncheckedResponse): Promise<SearchIndex> {
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1495,20 +1637,24 @@ export function _listIndexesWithSelectedPropertiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listIndexesWithSelectedPropertiesDeserialize(
@@ -1517,7 +1663,9 @@ export async function _listIndexesWithSelectedPropertiesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1559,20 +1707,24 @@ export function _listIndexesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listIndexesDeserialize(
@@ -1581,7 +1733,9 @@ export async function _listIndexesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1622,27 +1776,33 @@ export function _getIndexSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getIndexDeserialize(result: PathUncheckedResponse): Promise<SearchIndex> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1675,29 +1835,35 @@ export function _deleteIndexSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _deleteIndexDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1732,25 +1898,29 @@ export function _createOrUpdateIndexSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      prefer: "return=representation",
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: searchIndexSerializer(index),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        prefer: "return=representation",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+      body: searchIndexSerializer(index),
+    });
 }
 
 export async function _createOrUpdateIndexDeserialize(
@@ -1759,7 +1929,9 @@ export async function _createOrUpdateIndexDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1792,22 +1964,26 @@ export function _createSynonymMapSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: synonymMapSerializer(synonymMap),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+      body: synonymMapSerializer(synonymMap),
+    });
 }
 
 export async function _createSynonymMapDeserialize(
@@ -1816,7 +1992,9 @@ export async function _createSynonymMapDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1848,20 +2026,24 @@ export function _getSynonymMapsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getSynonymMapsDeserialize(
@@ -1870,7 +2052,9 @@ export async function _getSynonymMapsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1902,20 +2086,24 @@ export function _getSynonymMapSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getSynonymMapDeserialize(
@@ -1924,7 +2112,9 @@ export async function _getSynonymMapDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1957,29 +2147,35 @@ export function _deleteSynonymMapSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _deleteSynonymMapDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2013,25 +2209,29 @@ export function _createOrUpdateSynonymMapSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      prefer: "return=representation",
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: synonymMapSerializer(synonymMap),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        prefer: "return=representation",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+      body: synonymMapSerializer(synonymMap),
+    });
 }
 
 export async function _createOrUpdateSynonymMapDeserialize(
@@ -2040,7 +2240,9 @@ export async function _createOrUpdateSynonymMapDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

@@ -33,25 +33,29 @@ export function _retrieveSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...(options?.querySourceAuthorization !== undefined
-        ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: knowledgeBaseRetrievalRequestSerializer(retrievalRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.accept !== undefined
+          ? {
+              accept: !options?.accept
+                ? options?.accept
+                : "application/json;odata.metadata=minimal",
+            }
+          : {}),
+        ...(options?.querySourceAuthorization !== undefined
+          ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+      body: knowledgeBaseRetrievalRequestSerializer(retrievalRequest),
+    });
 }
 
 export async function _retrieveDeserialize(
@@ -60,7 +64,9 @@ export async function _retrieveDeserialize(
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

@@ -52,3 +52,4 @@ export type {
   GetKeysOptionalParams,
 } from "./api/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

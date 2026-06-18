@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ToolResources, ThreadMessageOptions, ListSortOrder } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { ToolResources, ThreadMessageOptions, ListSortOrder } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ThreadsDeleteThreadOptionalParams extends OperationOptions {}
@@ -14,9 +14,9 @@ export interface ThreadsUpdateThreadOptionalParams extends OperationOptions {
    * type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires
    * a list of vector store IDs
    */
-  toolResources?: ToolResources | null;
+  toolResources?: ToolResources;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata?: Record<string, string> | null;
+  metadata?: Record<string, string>;
 }
 
 /** Optional parameters. */
@@ -43,7 +43,7 @@ export interface ThreadsCreateThreadOptionalParams extends OperationOptions {
    * type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires
    * a list of vector store IDs.
    */
-  toolResources?: ToolResources | null;
+  toolResources?: ToolResources;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata?: Record<string, string> | null;
+  metadata?: Record<string, string>;
 }
