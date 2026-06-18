@@ -15,15 +15,15 @@
 
 import "dotenv/config";
 import {
-  NotificationHubsClientContext,
+  type NotificationHubsClientContext,
   createClientContext,
   getNotificationOutcomeDetails,
   sendBroadcastNotification,
 } from "@azure/notification-hubs/api";
 import {
   createAppleNotification,
-  NotificationDetails,
-  NotificationOutcomeState,
+  type NotificationDetails,
+  type NotificationOutcomeState,
 } from "@azure/notification-hubs/models";
 import { delay } from "@azure/core-util";
 

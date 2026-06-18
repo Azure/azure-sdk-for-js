@@ -4,23 +4,23 @@
 import type { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
 import type {
   UpdateAdministrativeState,
-  CommonPostActionResponseForStateUpdate,
+  UpdateAdministrativeStateResponse,
   NetworkToNetworkInterconnect,
   NetworkToNetworkInterconnectPatch,
   _NetworkToNetworkInterconnectsList,
-  NniBfdAdministrativeStateRequest,
-  NniBfdAdministrativeStateResponse,
+  NniUpdateBfdAdministrativeStateRequest,
+  NniUpdateBfdAdministrativeStateResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   updateAdministrativeStateSerializer,
-  commonPostActionResponseForStateUpdateDeserializer,
+  updateAdministrativeStateResponseDeserializer,
   networkToNetworkInterconnectSerializer,
   networkToNetworkInterconnectDeserializer,
   networkToNetworkInterconnectPatchSerializer,
   _networkToNetworkInterconnectsListDeserializer,
-  nniBfdAdministrativeStateRequestSerializer,
-  nniBfdAdministrativeStateResponseDeserializer,
+  nniUpdateBfdAdministrativeStateRequestSerializer,
+  nniUpdateBfdAdministrativeStateResponseDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -29,6 +29,7 @@ import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams,
   NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
+  NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
   NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams,
   NetworkToNetworkInterconnectsDeleteOptionalParams,
   NetworkToNetworkInterconnectsUpdateOptionalParams,
@@ -44,7 +45,7 @@ export function _updateBfdAdministrativeStateSend(
   resourceGroupName: string,
   networkFabricName: string,
   networkToNetworkInterconnectName: string,
-  body: NniBfdAdministrativeStateRequest,
+  body: NniUpdateBfdAdministrativeStateRequest,
   options: NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams = {
     requestOptions: {},
   },
@@ -56,7 +57,7 @@ export function _updateBfdAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,22 +67,24 @@ export function _updateBfdAdministrativeStateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: nniBfdAdministrativeStateRequestSerializer(body),
+    body: nniUpdateBfdAdministrativeStateRequestSerializer(body),
   });
 }
 
 export async function _updateBfdAdministrativeStateDeserialize(
   result: PathUncheckedResponse,
-): Promise<NniBfdAdministrativeStateResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<NniUpdateBfdAdministrativeStateResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return nniBfdAdministrativeStateResponseDeserializer(result.body);
+  return nniUpdateBfdAdministrativeStateResponseDeserializer(result.body);
 }
 
 /** Updates the Admin State. */
@@ -90,18 +93,18 @@ export function updateBfdAdministrativeState(
   resourceGroupName: string,
   networkFabricName: string,
   networkToNetworkInterconnectName: string,
-  body: NniBfdAdministrativeStateRequest,
+  body: NniUpdateBfdAdministrativeStateRequest,
   options: NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams = {
     requestOptions: {},
   },
 ): PollerLike<
-  OperationState<NniBfdAdministrativeStateResponse>,
-  NniBfdAdministrativeStateResponse
+  OperationState<NniUpdateBfdAdministrativeStateResponse>,
+  NniUpdateBfdAdministrativeStateResponse
 > {
   return getLongRunningPoller(
     context,
     _updateBfdAdministrativeStateDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -115,11 +118,11 @@ export function updateBfdAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+      apiVersion: context.apiVersion ?? "2025-07-15",
     },
   ) as PollerLike<
-    OperationState<NniBfdAdministrativeStateResponse>,
-    NniBfdAdministrativeStateResponse
+    OperationState<NniUpdateBfdAdministrativeStateResponse>,
+    NniUpdateBfdAdministrativeStateResponse
   >;
 }
 
@@ -140,7 +143,7 @@ export function _updateAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -156,16 +159,18 @@ export function _updateAdministrativeStateSend(
 
 export async function _updateAdministrativeStateDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForStateUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<UpdateAdministrativeStateResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForStateUpdateDeserializer(result.body);
+  return updateAdministrativeStateResponseDeserializer(result.body);
 }
 
 /** Updates the Admin State. */
@@ -179,13 +184,13 @@ export function updateAdministrativeState(
     requestOptions: {},
   },
 ): PollerLike<
-  OperationState<CommonPostActionResponseForStateUpdate>,
-  CommonPostActionResponseForStateUpdate
+  OperationState<UpdateAdministrativeStateResponse>,
+  UpdateAdministrativeStateResponse
 > {
   return getLongRunningPoller(
     context,
     _updateAdministrativeStateDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -199,11 +204,97 @@ export function updateAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+      apiVersion: context.apiVersion ?? "2025-07-15",
     },
   ) as PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
+  >;
+}
+
+export function _updateNpbStaticRouteBfdAdministrativeStateSend(
+  context: Client,
+  resourceGroupName: string,
+  networkFabricName: string,
+  networkToNetworkInterconnectName: string,
+  body: UpdateAdministrativeState,
+  options: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}/updateNpbStaticRouteBfdAdministrativeState{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkFabricName: networkFabricName,
+      networkToNetworkInterconnectName: networkToNetworkInterconnectName,
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: updateAdministrativeStateSerializer(body),
+  });
+}
+
+export async function _updateNpbStaticRouteBfdAdministrativeStateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<UpdateAdministrativeStateResponse> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return updateAdministrativeStateResponseDeserializer(result.body);
+}
+
+/** Updates the NPB Static Route BFD Administrative State. */
+export function updateNpbStaticRouteBfdAdministrativeState(
+  context: Client,
+  resourceGroupName: string,
+  networkFabricName: string,
+  networkToNetworkInterconnectName: string,
+  body: UpdateAdministrativeState,
+  options: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<
+  OperationState<UpdateAdministrativeStateResponse>,
+  UpdateAdministrativeStateResponse
+> {
+  return getLongRunningPoller(
+    context,
+    _updateNpbStaticRouteBfdAdministrativeStateDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _updateNpbStaticRouteBfdAdministrativeStateSend(
+          context,
+          resourceGroupName,
+          networkFabricName,
+          networkToNetworkInterconnectName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2025-07-15",
+    },
+  ) as PollerLike<
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
   >;
 }
 
@@ -219,7 +310,7 @@ export function _listByNetworkFabricSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -237,7 +328,9 @@ export async function _listByNetworkFabricDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -257,11 +350,7 @@ export function listByNetworkFabric(
     () => _listByNetworkFabricSend(context, resourceGroupName, networkFabricName, options),
     _listByNetworkFabricDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
   );
 }
 
@@ -279,7 +368,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -292,7 +381,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -301,11 +392,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Implements NetworkToNetworkInterconnects DELETE method. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -325,7 +411,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -344,7 +430,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -364,7 +450,9 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -394,7 +482,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<NetworkToNetworkInterconnect>, NetworkToNetworkInterconnect>;
 }
 
@@ -413,7 +501,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -433,7 +521,9 @@ export async function _createDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -463,7 +553,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<NetworkToNetworkInterconnect>, NetworkToNetworkInterconnect>;
 }
 
@@ -481,7 +571,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
       networkToNetworkInterconnectName: networkToNetworkInterconnectName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -499,7 +589,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

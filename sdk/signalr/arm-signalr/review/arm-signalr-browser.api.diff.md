@@ -7,9 +7,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -83,9 +83,10 @@
-     value?: string;
- }
+@@ -137,9 +137,10 @@
+ 
+ export { isRestError }
  
  // @public
 -export type KeyType = string;
@@ -19,7 +19,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export enum KnownACLAction {
      Allow = "Allow",
-@@ -357,9 +358,9 @@
+@@ -428,9 +429,9 @@
  }
  
  // @public

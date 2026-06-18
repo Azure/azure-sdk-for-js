@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all snapshots associated with the volume
  *
  * @summary list all snapshots associated with the volume
- * x-ms-original-file: 2026-01-01/Snapshots_List.json
+ * x-ms-original-file: 2026-04-01/Snapshots_List.json
  */
 async function snapshotsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

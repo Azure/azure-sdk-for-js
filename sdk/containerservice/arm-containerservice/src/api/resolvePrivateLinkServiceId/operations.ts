@@ -26,7 +26,7 @@ export function _postSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
