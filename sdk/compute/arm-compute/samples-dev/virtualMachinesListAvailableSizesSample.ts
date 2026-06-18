@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all available virtual machine sizes to which the specified virtual machine can be resized.
  *
  * @summary lists all available virtual machine sizes to which the specified virtual machine can be resized.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_ListAvailableVmSizes.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_ListAvailableVmSizes.json
  */
 async function listsAllAvailableVirtualMachineSizesToWhichTheSpecifiedVirtualMachineCanBeResized(): Promise<void> {
   const credential = new DefaultAzureCredential();

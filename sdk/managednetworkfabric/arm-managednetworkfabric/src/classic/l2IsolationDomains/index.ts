@@ -26,11 +26,11 @@ import type {
 } from "../../api/l2IsolationDomains/options.js";
 import type {
   UpdateAdministrativeState,
+  UpdateAdministrativeStateResponse,
   CommonPostActionResponseForStateUpdate,
   ValidateConfigurationResponse,
   L2IsolationDomain,
   L2IsolationDomainPatch,
-  CommonPostActionResponseForDeviceUpdate,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -92,8 +92,8 @@ export interface L2IsolationDomainsOperations {
     body: UpdateAdministrativeState,
     options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<CommonPostActionResponseForDeviceUpdate>,
-    CommonPostActionResponseForDeviceUpdate
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
   >;
   /** @deprecated use updateAdministrativeState instead */
   beginUpdateAdministrativeState: (
@@ -103,8 +103,8 @@ export interface L2IsolationDomainsOperations {
     options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<CommonPostActionResponseForDeviceUpdate>,
-      CommonPostActionResponseForDeviceUpdate
+      OperationState<UpdateAdministrativeStateResponse>,
+      UpdateAdministrativeStateResponse
     >
   >;
   /** @deprecated use updateAdministrativeState instead */
@@ -113,7 +113,7 @@ export interface L2IsolationDomainsOperations {
     l2IsolationDomainName: string,
     body: UpdateAdministrativeState,
     options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams,
-  ) => Promise<CommonPostActionResponseForDeviceUpdate>;
+  ) => Promise<UpdateAdministrativeStateResponse>;
   /** Displays L2IsolationDomains list by subscription GET method. */
   listBySubscription: (
     options?: L2IsolationDomainsListBySubscriptionOptionalParams,
@@ -124,11 +124,6 @@ export interface L2IsolationDomainsOperations {
     options?: L2IsolationDomainsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<L2IsolationDomain>;
   /** Deletes layer 2 connectivity between compute nodes by managed by named L2 Isolation name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     l2IsolationDomainName: string,
