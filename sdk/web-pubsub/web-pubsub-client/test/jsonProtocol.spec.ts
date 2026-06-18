@@ -186,7 +186,7 @@ describe("JsonProtocol", function () {
           noEcho: true,
           stream: {
             streamId: "stream1",
-            idleTimeoutMs: 15000,
+            idleTimeoutInMs: 15000,
           },
         } as SendToGroupMessage,
         payload: {
@@ -217,7 +217,7 @@ describe("JsonProtocol", function () {
         },
       },
       {
-        testName: "streamKeepalive1",
+        testName: "streamKeepAlive1",
         message: { kind: "streamData", streamId: "stream1" } as StreamDataMessage,
         payload: { type: "streamData", streamId: "stream1" },
       },
@@ -461,6 +461,24 @@ describe("JsonProtocol", function () {
           assert.isUndefined(typedMessage.sequenceId);
           assert.equal(typedMessage.dataType, "json");
           assert.deepEqual(typedMessage.data, { value: "xyz" });
+        },
+      },
+      {
+        testName: "event-stream-metadata-ignored",
+        message: {
+          type: "message",
+          from: "server",
+          dataType: "text",
+          data: "xyz",
+          stream: {
+            streamId: "stream1",
+            streamSequenceId: 1,
+          },
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "serverData");
+          const typedMessage = msg as ServerDataMessage;
+          assert.notProperty(typedMessage, "stream");
         },
       },
       {

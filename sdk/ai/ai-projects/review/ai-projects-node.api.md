@@ -1565,6 +1565,7 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
     evalId: string;
     maxHourlyRuns?: number;
+    samplingRate?: number;
     type: "continuousEvaluation";
 }
 
@@ -1959,6 +1960,9 @@ export interface Dimension {
 }
 
 // @public
+export function disableGenAITracing(): void;
+
+// @public
 export interface DispatchRoutineResponse {
     action_correlation_id?: string;
     dispatch_id?: string;
@@ -1984,6 +1988,13 @@ export interface EmbeddingConfiguration {
 // @public
 export interface EmptyModelParam {
 }
+
+// @public
+export function enableGenAITracing(options?: {
+    contentRecording?: boolean;
+    traceContextPropagation?: boolean;
+    experimental?: boolean;
+}): void;
 
 // @public
 export interface EntraAuthorizationScheme extends AgentEndpointAuthorizationScheme {

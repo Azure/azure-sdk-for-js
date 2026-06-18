@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a Relationship
  *
  * @summary delete a Relationship
- * x-ms-original-file: 2025-05-01-preview/Relationships_Delete.json
+ * x-ms-original-file: 2026-01-01-preview/Relationships_Delete.json
  */
 async function relationshipsDelete() {
   const credential = new DefaultAzureCredential();

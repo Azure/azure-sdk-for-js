@@ -1,18 +1,14 @@
 # Release History
 
-## 4.7.2 (Unreleased)
+## 4.7.2 (2026-06-09)
 
 ### Features Added
 
 - Added support for service API version `2025-07-01` [#38717](https://github.com/Azure/azure-sdk-for-js/pull/38717)
 
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
 
-- Key Vault API version `2025-07-01` is now the default
+- Key Vault API version `2025-07-01` is now the default [#38717](https://github.com/Azure/azure-sdk-for-js/pull/38717)
 
 ## 4.7.0 (2025-06-10)
 

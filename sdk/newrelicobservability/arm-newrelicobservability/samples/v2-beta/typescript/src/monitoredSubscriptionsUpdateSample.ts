@@ -3,28 +3,21 @@
 
 import { NewRelicObservability } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Update a MonitoredSubscriptionProperties
+ * This sample demonstrates how to update a MonitoredSubscriptionProperties
  *
- * @summary Update a MonitoredSubscriptionProperties
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/preview/2025-05-01-preview/examples/MonitoredSubscriptions_Update.json
+ * @summary update a MonitoredSubscriptionProperties
+ * x-ms-original-file: 2025-05-01-preview/MonitoredSubscriptions_Update.json
  */
 async function monitorsUpdateMonitoredSubscriptions(): Promise<void> {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "myResourceGroup";
-  const monitorName = "myMonitor";
-  const configurationName = "default";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NewRelicObservability(credential, subscriptionId);
-  const result = await client.monitoredSubscriptions.beginUpdateAndWait(
-    resourceGroupName,
-    monitorName,
-    configurationName,
+  const result = await client.monitoredSubscriptions.update(
+    "myResourceGroup",
+    "myMonitor",
+    "default",
   );
   console.log(result);
 }

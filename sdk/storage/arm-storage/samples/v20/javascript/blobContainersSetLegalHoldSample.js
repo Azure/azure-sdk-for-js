@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
  *
  * @summary sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
- * x-ms-original-file: 2025-08-01/BlobContainersSetLegalHold.json
+ * x-ms-original-file: 2026-04-01/BlobContainersSetLegalHold.json
  */
 async function setLegalHoldContainers() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function setLegalHoldContainers() {
  * This sample demonstrates how to sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
  *
  * @summary sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
- * x-ms-original-file: 2025-08-01/BlobContainersSetLegalHoldAllowProtectedAppendWritesAll.json
+ * x-ms-original-file: 2026-04-01/BlobContainersSetLegalHoldAllowProtectedAppendWritesAll.json
  */
 async function setLegalHoldContainersWithAllowProtectedAppendWritesAll() {
   const credential = new DefaultAzureCredential();
