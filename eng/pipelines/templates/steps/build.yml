@@ -26,28 +26,46 @@ steps:
   - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
 
   - template: /eng/pipelines/templates/steps/install-pnpm.yml
+  
+  - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+    parameters:
+      npmrcPath: $(Agent.TempDirectory)/build/.npmrc
+
+  - script: |
+      npm install -g pnpm@10.34.2
+    displayName: "Install Pnpm"
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/build/.npmrc"
 
   - script: |
       npm ci
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     workingDirectory: ./eng/tools/eng-package-utils
     displayName: Install eng-package-utils dependencies
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/build/.npmrc"
 
   - script: |
       npm ci
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     workingDirectory: ./eng/tools/versioning
     displayName: Install versioning tool dependencies
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/build/.npmrc"
 
   - script: |
       node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/build/.npmrc"
 
   - script: |
       pnpm install --no-frozen-lockfile
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Install library dependencies after setting dev version"
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/build/.npmrc"
 
   # Update the package info file to include dev version
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
@@ -58,6 +76,8 @@ steps:
       pnpm install
     condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
     displayName: "Install library dependencies"
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/build/.npmrc"
 
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual')) }}:
       - pwsh: |
@@ -80,10 +100,13 @@ steps:
       TURBO_TEAMID: azsdkjs
       TURBO_TOKEN: $(js-turborepo-cache-token)
       TURBO_CACHE: $(turboCache)
+      npm_config_userconfig: "$(Agent.TempDirectory)/build/.npmrc"
     displayName: "Build libraries"
 
   - script: |
       node eng/tools/ci-runner/index.js build:samples "$(ChangedServices)" -packages "$(ArtifactPackageNames)"
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/build/.npmrc"
     displayName: "Build samples for PR"
 
   - pwsh: |
@@ -92,6 +115,8 @@ steps:
 
   - script: |
       node eng/tools/ci-runner/index.js pack "$(ChangedServices)" -packages "$(ArtifactPackageNames)"
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/build/.npmrc"
     displayName: "Pack libraries"
 
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
