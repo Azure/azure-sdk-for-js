@@ -1,19 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   PrivateLinkScopesContext,
   PrivateLinkScopesClientOptionalParams,
+  createPrivateLinkScopes,
 } from "./api/index.js";
-import { createPrivateLinkScopes } from "./api/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { PrivateLinkScopesOperations } from "./classic/privateLinkScopes/index.js";
-import { _getPrivateLinkScopesOperations } from "./classic/privateLinkScopes/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import {
+  PrivateLinkScopesOperations,
+  _getPrivateLinkScopesOperations,
+} from "./classic/privateLinkScopes/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { PrivateLinkScopesClientOptionalParams } from "./api/privateLinkScopesContext.js";
 

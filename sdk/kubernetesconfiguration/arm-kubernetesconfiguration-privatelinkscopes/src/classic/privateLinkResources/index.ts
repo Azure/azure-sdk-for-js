@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PrivateLinkScopesContext } from "../../api/privateLinkScopesContext.js";
+import { PrivateLinkScopesContext } from "../../api/privateLinkScopesContext.js";
 import { listByPrivateLinkScope, get } from "../../api/privateLinkResources/operations.js";
-import type {
+import {
   PrivateLinkResourcesListByPrivateLinkScopeOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
 } from "../../api/privateLinkResources/options.js";
-import type { PrivateLinkResource, PrivateLinkResourceListResult } from "../../models/models.js";
+import { PrivateLinkResource, PrivateLinkResourceListResult } from "../../models/models.js";
 
 /** Interface representing a PrivateLinkResources operations. */
 export interface PrivateLinkResourcesOperations {

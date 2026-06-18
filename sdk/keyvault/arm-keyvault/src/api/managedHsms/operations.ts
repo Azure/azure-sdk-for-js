@@ -1,31 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KeyVaultManagementContext as Client } from "../index.js";
-import type {
-  ManagedHsm,
-  _ManagedHsmListResult,
-  DeletedManagedHsm,
-  _DeletedManagedHsmListResult,
-  CheckMhsmNameAvailabilityParameters,
-  CheckMhsmNameAvailabilityResult,
-} from "../../models/models.js";
+import { KeyVaultManagementContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  ManagedHsm,
   managedHsmSerializer,
   managedHsmDeserializer,
   managedHsmErrorDeserializer,
+  _ManagedHsmListResult,
   _managedHsmListResultDeserializer,
+  DeletedManagedHsm,
   deletedManagedHsmDeserializer,
+  _DeletedManagedHsmListResult,
   _deletedManagedHsmListResultDeserializer,
+  CheckMhsmNameAvailabilityParameters,
   checkMhsmNameAvailabilityParametersSerializer,
+  CheckMhsmNameAvailabilityResult,
   checkMhsmNameAvailabilityResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ManagedHsmsCheckMhsmNameAvailabilityOptionalParams,
   ManagedHsmsListDeletedOptionalParams,
   ManagedHsmsPurgeDeletedOptionalParams,
@@ -37,9 +37,13 @@ import type {
   ManagedHsmsCreateOrUpdateOptionalParams,
   ManagedHsmsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _checkMhsmNameAvailabilitySend(
   context: Client,
@@ -56,12 +60,14 @@ export function _checkMhsmNameAvailabilitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: checkMhsmNameAvailabilityParametersSerializer(mhsmName),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: checkMhsmNameAvailabilityParametersSerializer(mhsmName),
+    });
 }
 
 export async function _checkMhsmNameAvailabilityDeserialize(
@@ -70,7 +76,9 @@ export async function _checkMhsmNameAvailabilityDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -102,10 +110,12 @@ export function _listDeletedSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeletedDeserialize(
@@ -114,7 +124,9 @@ export async function _listDeletedDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -161,7 +173,9 @@ export async function _purgeDeletedDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -203,10 +217,12 @@ export function _getDeletedSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeletedDeserialize(
@@ -215,7 +231,9 @@ export async function _getDeletedDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -249,10 +267,12 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -261,7 +281,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -300,10 +322,12 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -312,7 +336,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -360,7 +386,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -369,11 +397,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the specified managed HSM Pool. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -408,19 +431,23 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: managedHsmSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: managedHsmSerializer(parameters),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<ManagedHsm> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -464,12 +491,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: managedHsmSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: managedHsmSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -478,7 +507,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -522,22 +553,28 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<ManagedHsm> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ManagedHsm | undefined> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return managedHsmDeserializer(result.body);
+  return result.body ? managedHsmDeserializer(result.body) : undefined;
 }
 
 /** Gets the specified managed HSM Pool. */
@@ -546,7 +583,7 @@ export async function get(
   resourceGroupName: string,
   name: string,
   options: ManagedHsmsGetOptionalParams = { requestOptions: {} },
-): Promise<ManagedHsm> {
+): Promise<ManagedHsm | undefined> {
   const result = await _getSend(context, resourceGroupName, name, options);
   return _getDeserialize(result);
 }

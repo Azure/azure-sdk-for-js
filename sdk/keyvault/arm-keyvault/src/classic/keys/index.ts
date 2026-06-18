@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KeyVaultManagementContext } from "../../api/keyVaultManagementContext.js";
+import { KeyVaultManagementContext } from "../../api/keyVaultManagementContext.js";
 import {
   listVersions,
   getVersion,
@@ -9,15 +9,15 @@ import {
   createIfNotExist,
   get,
 } from "../../api/keys/operations.js";
-import type {
+import {
   KeysListVersionsOptionalParams,
   KeysGetVersionOptionalParams,
   KeysListOptionalParams,
   KeysCreateIfNotExistOptionalParams,
   KeysGetOptionalParams,
 } from "../../api/keys/options.js";
-import type { Key, KeyCreateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Key, KeyCreateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Keys operations. */
 export interface KeysOperations {
