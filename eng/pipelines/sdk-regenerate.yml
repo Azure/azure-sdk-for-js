@@ -49,7 +49,7 @@ parameters:
     default: false
 
   - name: PackageFilter
-    displayName: "Package filter (comma-separated wildcards; 'arm-*' = all)"
+    displayName: "Package filter (wildcards; '*' = all, 'arm-*' = ARM only, 'dataplane-*' = dataplane only)"
     type: string
     default: 'arm-*'
 

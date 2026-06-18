@@ -717,6 +717,40 @@ function resolveHeadBranchName(headBranchOverride, buildId) {
 // Wraps eng/common/scripts/New-RegenerateMatrix.ps1 with fixed arguments.
 // ─────────────────────────────────────────────────────────────────────────────
 
+// Dataplane packages have no shared name prefix; they are simply the TypeSpec
+// packages whose directory name does NOT start with "arm-". Return their names
+// so the "dataplane-*" sentinel can be expanded into explicit filter patterns.
+function listDataplanePackageNames() {
+  const sdkDir = path.join(SDK_ROOT, "sdk");
+  const names = [];
+  for (const service of fs.readdirSync(sdkDir, { withFileTypes: true })) {
+    if (!service.isDirectory()) continue;
+    const serviceDir = path.join(sdkDir, service.name);
+    for (const pkg of fs.readdirSync(serviceDir, { withFileTypes: true })) {
+      if (!pkg.isDirectory() || pkg.name.startsWith("arm-")) continue;
+      if (fs.existsSync(path.join(serviceDir, pkg.name, "tsp-location.yaml"))) {
+        names.push(pkg.name);
+      }
+    }
+  }
+  return names;
+}
+
+// Expand the "dataplane-*" sentinel (which the directory-name -like filter
+// cannot express) into the explicit list of non-arm package names. Other
+// patterns pass through unchanged. Supports mixing, e.g. "dataplane-*,arm-foo".
+function resolveDirectoryFilterPattern(filter) {
+  const tokens = filter.split(",").map((t) => t.trim()).filter(Boolean);
+  const expanded = tokens.flatMap((t) =>
+    t === "dataplane-*" ? listDataplanePackageNames() : [t],
+  );
+  if (expanded.length === 0) {
+    console.error(`ERROR: filter '${filter}' matched no packages`);
+    process.exit(2);
+  }
+  return expanded.join(",");
+}
+
 function runBuildMatrix() {
   const outDir = values.outDir;
   if (!outDir) {
@@ -735,7 +769,7 @@ function runBuildMatrix() {
     "-OnlyTypeSpec",
     "true",
     "-DirectoryFilterPattern",
-    values.filter,
+    resolveDirectoryFilterPattern(values.filter),
   ]);
 }
 
