@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
   getVolumeLatestRestoreStatus,
   getLatestStatus,
@@ -11,7 +11,7 @@ import {
   create,
   get,
 } from "../../api/backups/operations.js";
-import type {
+import {
   BackupsGetVolumeLatestRestoreStatusOptionalParams,
   BackupsGetLatestStatusOptionalParams,
   BackupsListByVaultOptionalParams,
@@ -20,9 +20,9 @@ import type {
   BackupsCreateOptionalParams,
   BackupsGetOptionalParams,
 } from "../../api/backups/options.js";
-import type { Backup, BackupStatus, RestoreStatus } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Backup, BackupStatus, RestoreStatus } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Backups operations. */
 export interface BackupsOperations {
@@ -50,11 +50,6 @@ export interface BackupsOperations {
     options?: BackupsListByVaultOptionalParams,
   ) => PagedAsyncIterableIterator<Backup>;
   /** Delete a Backup under the Backup Vault */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

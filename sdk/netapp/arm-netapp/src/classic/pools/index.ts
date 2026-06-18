@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import { list, $delete, update, createOrUpdate, get } from "../../api/pools/operations.js";
-import type {
+import {
   PoolsListOptionalParams,
   PoolsDeleteOptionalParams,
   PoolsUpdateOptionalParams,
   PoolsCreateOrUpdateOptionalParams,
   PoolsGetOptionalParams,
 } from "../../api/pools/options.js";
-import type { CapacityPool, CapacityPoolPatch } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { CapacityPool, CapacityPoolPatch } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Pools operations. */
 export interface PoolsOperations {
@@ -23,11 +23,6 @@ export interface PoolsOperations {
     options?: PoolsListOptionalParams,
   ) => PagedAsyncIterableIterator<CapacityPool>;
   /** Delete the specified capacity pool */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

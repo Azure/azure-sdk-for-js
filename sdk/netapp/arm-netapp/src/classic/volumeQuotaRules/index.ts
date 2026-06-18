@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
   listByVolume,
   $delete,
@@ -9,16 +9,16 @@ import {
   create,
   get,
 } from "../../api/volumeQuotaRules/operations.js";
-import type {
+import {
   VolumeQuotaRulesListByVolumeOptionalParams,
   VolumeQuotaRulesDeleteOptionalParams,
   VolumeQuotaRulesUpdateOptionalParams,
   VolumeQuotaRulesCreateOptionalParams,
   VolumeQuotaRulesGetOptionalParams,
 } from "../../api/volumeQuotaRules/options.js";
-import type { VolumeQuotaRule, VolumeQuotaRulePatch } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { VolumeQuotaRule, VolumeQuotaRulePatch } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VolumeQuotaRules operations. */
 export interface VolumeQuotaRulesOperations {
@@ -31,11 +31,6 @@ export interface VolumeQuotaRulesOperations {
     options?: VolumeQuotaRulesListByVolumeOptionalParams,
   ) => PagedAsyncIterableIterator<VolumeQuotaRule>;
   /** Delete quota rule */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

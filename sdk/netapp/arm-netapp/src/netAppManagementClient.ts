@@ -1,56 +1,78 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext, NetAppManagementClientOptionalParams } from "./api/index.js";
-import { createNetAppManagement } from "./api/index.js";
-import type { AccountsOperations } from "./classic/accounts/index.js";
-import { _getAccountsOperations } from "./classic/accounts/index.js";
-import type { BackupPoliciesOperations } from "./classic/backupPolicies/index.js";
-import { _getBackupPoliciesOperations } from "./classic/backupPolicies/index.js";
-import type { BackupVaultsOperations } from "./classic/backupVaults/index.js";
-import { _getBackupVaultsOperations } from "./classic/backupVaults/index.js";
-import type { BackupsOperations } from "./classic/backups/index.js";
-import { _getBackupsOperations } from "./classic/backups/index.js";
-import type { BackupsUnderAccountOperations } from "./classic/backupsUnderAccount/index.js";
-import { _getBackupsUnderAccountOperations } from "./classic/backupsUnderAccount/index.js";
-import type { BackupsUnderBackupVaultOperations } from "./classic/backupsUnderBackupVault/index.js";
-import { _getBackupsUnderBackupVaultOperations } from "./classic/backupsUnderBackupVault/index.js";
-import type { BackupsUnderVolumeOperations } from "./classic/backupsUnderVolume/index.js";
-import { _getBackupsUnderVolumeOperations } from "./classic/backupsUnderVolume/index.js";
-import type { BucketsOperations } from "./classic/buckets/index.js";
-import { _getBucketsOperations } from "./classic/buckets/index.js";
-import type { CachesOperations } from "./classic/caches/index.js";
-import { _getCachesOperations } from "./classic/caches/index.js";
-import type { NetAppResourceOperations } from "./classic/netAppResource/index.js";
-import { _getNetAppResourceOperations } from "./classic/netAppResource/index.js";
-import type { NetAppResourceQuotaLimitsOperations } from "./classic/netAppResourceQuotaLimits/index.js";
-import { _getNetAppResourceQuotaLimitsOperations } from "./classic/netAppResourceQuotaLimits/index.js";
-import type { NetAppResourceQuotaLimitsAccountOperations } from "./classic/netAppResourceQuotaLimitsAccount/index.js";
-import { _getNetAppResourceQuotaLimitsAccountOperations } from "./classic/netAppResourceQuotaLimitsAccount/index.js";
-import type { NetAppResourceRegionInfosOperations } from "./classic/netAppResourceRegionInfos/index.js";
-import { _getNetAppResourceRegionInfosOperations } from "./classic/netAppResourceRegionInfos/index.js";
-import type { NetAppResourceUsagesOperations } from "./classic/netAppResourceUsages/index.js";
-import { _getNetAppResourceUsagesOperations } from "./classic/netAppResourceUsages/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PoolsOperations } from "./classic/pools/index.js";
-import { _getPoolsOperations } from "./classic/pools/index.js";
-import type { RansomwareReportsOperations } from "./classic/ransomwareReports/index.js";
-import { _getRansomwareReportsOperations } from "./classic/ransomwareReports/index.js";
-import type { SnapshotPoliciesOperations } from "./classic/snapshotPolicies/index.js";
-import { _getSnapshotPoliciesOperations } from "./classic/snapshotPolicies/index.js";
-import type { SnapshotsOperations } from "./classic/snapshots/index.js";
-import { _getSnapshotsOperations } from "./classic/snapshots/index.js";
-import type { SubvolumesOperations } from "./classic/subvolumes/index.js";
-import { _getSubvolumesOperations } from "./classic/subvolumes/index.js";
-import type { VolumeGroupsOperations } from "./classic/volumeGroups/index.js";
-import { _getVolumeGroupsOperations } from "./classic/volumeGroups/index.js";
-import type { VolumeQuotaRulesOperations } from "./classic/volumeQuotaRules/index.js";
-import { _getVolumeQuotaRulesOperations } from "./classic/volumeQuotaRules/index.js";
-import type { VolumesOperations } from "./classic/volumes/index.js";
-import { _getVolumesOperations } from "./classic/volumes/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  NetAppManagementContext,
+  NetAppManagementClientOptionalParams,
+  createNetAppManagement,
+} from "./api/index.js";
+import { AccountsOperations, _getAccountsOperations } from "./classic/accounts/index.js";
+import {
+  BackupPoliciesOperations,
+  _getBackupPoliciesOperations,
+} from "./classic/backupPolicies/index.js";
+import {
+  BackupVaultsOperations,
+  _getBackupVaultsOperations,
+} from "./classic/backupVaults/index.js";
+import { BackupsOperations, _getBackupsOperations } from "./classic/backups/index.js";
+import {
+  BackupsUnderAccountOperations,
+  _getBackupsUnderAccountOperations,
+} from "./classic/backupsUnderAccount/index.js";
+import {
+  BackupsUnderBackupVaultOperations,
+  _getBackupsUnderBackupVaultOperations,
+} from "./classic/backupsUnderBackupVault/index.js";
+import {
+  BackupsUnderVolumeOperations,
+  _getBackupsUnderVolumeOperations,
+} from "./classic/backupsUnderVolume/index.js";
+import { BucketsOperations, _getBucketsOperations } from "./classic/buckets/index.js";
+import { CachesOperations, _getCachesOperations } from "./classic/caches/index.js";
+import {
+  NetAppResourceOperations,
+  _getNetAppResourceOperations,
+} from "./classic/netAppResource/index.js";
+import {
+  NetAppResourceQuotaLimitsOperations,
+  _getNetAppResourceQuotaLimitsOperations,
+} from "./classic/netAppResourceQuotaLimits/index.js";
+import {
+  NetAppResourceQuotaLimitsAccountOperations,
+  _getNetAppResourceQuotaLimitsAccountOperations,
+} from "./classic/netAppResourceQuotaLimitsAccount/index.js";
+import {
+  NetAppResourceRegionInfosOperations,
+  _getNetAppResourceRegionInfosOperations,
+} from "./classic/netAppResourceRegionInfos/index.js";
+import {
+  NetAppResourceUsagesOperations,
+  _getNetAppResourceUsagesOperations,
+} from "./classic/netAppResourceUsages/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { PoolsOperations, _getPoolsOperations } from "./classic/pools/index.js";
+import {
+  RansomwareReportsOperations,
+  _getRansomwareReportsOperations,
+} from "./classic/ransomwareReports/index.js";
+import {
+  SnapshotPoliciesOperations,
+  _getSnapshotPoliciesOperations,
+} from "./classic/snapshotPolicies/index.js";
+import { SnapshotsOperations, _getSnapshotsOperations } from "./classic/snapshots/index.js";
+import { SubvolumesOperations, _getSubvolumesOperations } from "./classic/subvolumes/index.js";
+import {
+  VolumeGroupsOperations,
+  _getVolumeGroupsOperations,
+} from "./classic/volumeGroups/index.js";
+import {
+  VolumeQuotaRulesOperations,
+  _getVolumeQuotaRulesOperations,
+} from "./classic/volumeQuotaRules/index.js";
+import { VolumesOperations, _getVolumesOperations } from "./classic/volumes/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { NetAppManagementClientOptionalParams } from "./api/netAppManagementContext.js";
 

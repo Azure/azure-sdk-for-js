@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import { listByNetAppAccount, $delete, create, get } from "../../api/volumeGroups/operations.js";
-import type {
+import {
   VolumeGroupsListByNetAppAccountOptionalParams,
   VolumeGroupsDeleteOptionalParams,
   VolumeGroupsCreateOptionalParams,
   VolumeGroupsGetOptionalParams,
 } from "../../api/volumeGroups/options.js";
-import type { VolumeGroupDetails, VolumeGroup } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { VolumeGroupDetails, VolumeGroup } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VolumeGroups operations. */
 export interface VolumeGroupsOperations {
@@ -22,11 +22,6 @@ export interface VolumeGroupsOperations {
     options?: VolumeGroupsListByNetAppAccountOptionalParams,
   ) => PagedAsyncIterableIterator<VolumeGroup>;
   /** Delete the specified volume group only if there are no volumes under volume group. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

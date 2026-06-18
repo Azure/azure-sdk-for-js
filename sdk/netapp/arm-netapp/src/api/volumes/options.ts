@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   BreakFileLocksRequest,
   BreakReplicationRequest,
   ListReplicationsRequest,
   RelocateVolumeRequest,
   QuotaReportFilterRequest,
 } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface VolumesListQuotaReportOptionalParams extends OperationOptions {
