@@ -788,7 +788,7 @@
 # PRLabel: %Mgmt
 /sdk/network/arm-network-rest/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/networkcloud/arm-networkcloud/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1677,7 +1677,7 @@ sdk/monitor/arm-monitorworkspaces/ @qiaozha @MaryGao @JialinHuang803
 sdk/edgeorder/arm-edgeorder/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
-sdk/postgresqlhsc/arm-postgresqlhsc/ @qiaozha @MaryGao @JialinHuang803
+sdk/powerplatform/arm-powerplatform/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config
