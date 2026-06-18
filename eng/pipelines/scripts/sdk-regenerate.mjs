@@ -376,6 +376,27 @@ function buildPackageDescriptor(sdkRelativePath) {
 
 // ── Phase 1: regenerate ─────────────────────────────────────────────────────
 
+// Returns the api-version recorded in the package's metadata.json so the
+// emitter can be pinned to it. Without this, a newer emitter may pick a
+// different default api-version from the spec and silently change it.
+// Skips when there is no single api-version to pin (new/multi-namespace pkg).
+function resolvePinnedApiVersion(packageDir) {
+  const metadataPath = path.join(packageDir, "metadata.json");
+  if (!fs.existsSync(metadataPath)) return { apiVersion: null, reason: "no metadata.json" };
+  let apiVersions;
+  try {
+    apiVersions = JSON.parse(fs.readFileSync(metadataPath, "utf8")).apiVersions;
+  } catch (err) {
+    return { apiVersion: null, reason: `unparsable metadata.json: ${err.message}` };
+  }
+  const namespaces = apiVersions && typeof apiVersions === "object" ? Object.keys(apiVersions) : [];
+  if (namespaces.length !== 1) {
+    return { apiVersion: null, reason: `skipped (${namespaces.length} namespaces)` };
+  }
+  const apiVersion = String(apiVersions[namespaces[0]]);
+  return { apiVersion, reason: `pinned ${namespaces[0]}=${apiVersion}` };
+}
+
 async function regenerateAll(packages, concurrency) {
   console.log(`\n===== Regenerate (concurrency=${concurrency}) =====`);
   const outcomes = [];
@@ -399,9 +420,8 @@ async function regenerateOnePackage(pkg, completedCount, totalPackageCount) {
     ? fs.readFileSync(changelogPath, "utf8")
     : null;
 
-  // Pass no local spec so TypeSpec-Project-Sync regenerates against the commit
-  // pinned in tsp-location.yaml. The api-version then stays identical to the
-  // existing SDK and the diff reflects only emitter changes.
+  // No local spec: TypeSpec-Project-Sync uses the commit pinned in
+  // tsp-location.yaml. api-version is pinned separately below.
   const syncResult = await runCommandCapturing(
     "pwsh",
     ["-File", TYPESPEC_SYNC_SCRIPT, pkg.packageDir],
@@ -411,11 +431,16 @@ async function regenerateOnePackage(pkg, completedCount, totalPackageCount) {
   let success = syncResult.exitCode === 0;
 
   if (success) {
-    const generateResult = await runCommandCapturing(
-      "pwsh",
-      ["-File", TYPESPEC_GENERATE_SCRIPT, pkg.packageDir],
-      SDK_ROOT,
+    // Pin the emitter to the SDK's existing api-version (see resolvePinnedApiVersion).
+    const { apiVersion: pinnedApiVersion, reason: pinReason } = resolvePinnedApiVersion(
+      pkg.packageDir,
     );
+    const generateArgs = ["-File", TYPESPEC_GENERATE_SCRIPT, pkg.packageDir];
+    if (pinnedApiVersion) {
+      generateArgs.push("-TypespecAdditionalOptions", `api-version=${pinnedApiVersion}`);
+    }
+    combinedLog += `\n===== api-version: ${pinReason} =====\n`;
+    const generateResult = await runCommandCapturing("pwsh", generateArgs, SDK_ROOT);
     combinedLog += `\n===== TypeSpec-Project-Generate =====\n${generateResult.output}\nExit: ${generateResult.exitCode}\n`;
     success = generateResult.exitCode === 0;
   }
