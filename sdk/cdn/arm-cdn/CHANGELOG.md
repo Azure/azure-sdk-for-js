@@ -188,8 +188,6 @@ Compared with version 9.1.0
   - Operation SecurityPolicies.beginPatch has a new signature
   - Operation SecurityPolicies.beginPatchAndWait has a new signature
   - Operation SecurityPolicies.get has a new signature
-  - Class CdnManagementClient no longer has parameter apiVersion
-  - Class CdnManagementClient no longer has parameter subscriptionId
   - Removed Interface AfdCustomDomains
   - Removed Interface AfdCustomDomainsCreateOptionalParams
   - Removed Interface AfdCustomDomainsDeleteOptionalParams
