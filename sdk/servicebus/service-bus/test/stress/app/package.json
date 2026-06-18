@@ -15,8 +15,7 @@
     "@azure/service-bus": "latest",
     "@azure/core-util": "latest",
     "dotenv": "^16.0.0",
-    "minimist": "^1.2.8",
-    "uuid": "^14.0.0"
+    "minimist": "^1.2.8"
   },
   "devDependencies": {
     "@types/minimist": "^1.2.1",

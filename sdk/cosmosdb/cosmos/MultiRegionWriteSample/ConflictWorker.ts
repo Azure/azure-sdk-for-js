@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { v4 as guid } from "uuid";
 import type { CosmosClient, Item, ItemDefinition, Items, Resource } from "../dist/esm/index.js";
 import {
   OperationType,
@@ -96,7 +95,7 @@ export class ConflictWorker {
       ).start();
       try {
         const insertTask: Array<Promise<ItemDefinition>> = [];
-        const itemBase = { id: guid() };
+        const itemBase = { id: crypto.randomUUID() };
 
         let index = 0;
         for (const [clientRegion, client] of this.clients.entries()) {
@@ -135,7 +134,7 @@ export class ConflictWorker {
   private async RunUpdateConflictOnManual(): Promise<void> {
     let retryCount = 5;
     do {
-      const itemBase = { id: guid() };
+      const itemBase = { id: crypto.randomUUID() };
 
       const [initialRegionName, initialClient] = this.clients.entries().next().value!;
       const container = initialClient
@@ -195,7 +194,7 @@ export class ConflictWorker {
 
   private async RunDeleteConflictOnManual(): Promise<void> {
     do {
-      const itemBase = { id: guid() };
+      const itemBase = { id: crypto.randomUUID() };
 
       const [initialRegionName, initialClient] = this.clients.entries().next().value!;
       const container = initialClient
@@ -314,7 +313,7 @@ export class ConflictWorker {
       );
 
       const inserts: Array<Promise<ItemDefinition>> = [];
-      const itemBase = { id: guid() };
+      const itemBase = { id: crypto.randomUUID() };
 
       let index = 0;
       for (const [clientRegion, client] of this.clients.entries()) {
@@ -339,7 +338,7 @@ export class ConflictWorker {
   private async RunUpdateConflictOnLWW(): Promise<void> {
     let retry = 5;
     do {
-      const itemBase = { id: guid() };
+      const itemBase = { id: crypto.randomUUID() };
 
       const [initialRegionName, initialClient] = this.clients.entries().next().value!;
       const container = initialClient.database(this.databaseName).container(this.lwwContainerName);
@@ -383,7 +382,7 @@ export class ConflictWorker {
 
   private async RunDeleteConflictOnLWW(): Promise<void> {
     do {
-      const itemBase = { id: guid() };
+      const itemBase = { id: crypto.randomUUID() };
 
       const [initialRegionName, initialClient] = this.clients.entries().next().value!;
       const container = initialClient.database(this.databaseName).container(this.lwwContainerName);
@@ -508,7 +507,7 @@ export class ConflictWorker {
       );
 
       const inserts: Array<Promise<ItemDefinition>> = [];
-      const itemBase = { id: guid() };
+      const itemBase = { id: crypto.randomUUID() };
 
       let index = 0;
       for (const [clientRegion, client] of this.clients.entries()) {
@@ -532,7 +531,7 @@ export class ConflictWorker {
 
   public async RunUpdateConflictOnUdp(): Promise<void> {
     do {
-      const itemBase = { id: guid() };
+      const itemBase = { id: crypto.randomUUID() };
 
       const [initialRegionName, initialClient] = this.clients.entries().next().value!;
       const container = initialClient.database(this.databaseName).container(this.udpContainerName);
@@ -575,7 +574,7 @@ export class ConflictWorker {
 
   public async RunDeleteConflictsOnUdp(): Promise<void> {
     do {
-      const itemBase = { id: guid() };
+      const itemBase = { id: crypto.randomUUID() };
 
       const [initialRegionName, initialClient] = this.clients.entries().next().value;
       const container = initialClient.database(this.databaseName).container(this.udpContainerName);

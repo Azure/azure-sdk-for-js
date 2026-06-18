@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a SignalDefinition
  *
  * @summary delete a SignalDefinition
- * x-ms-original-file: 2025-05-01-preview/SignalDefinitions_Delete.json
+ * x-ms-original-file: 2026-01-01-preview/SignalDefinitions_Delete.json
  */
 async function signalDefinitionsDelete() {
   const credential = new DefaultAzureCredential();

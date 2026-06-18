@@ -28,6 +28,7 @@ import type {
   AccessControlList,
   AccessControlListPatch,
   UpdateAdministrativeState,
+  UpdateAdministrativeStateResponse,
   CommonPostActionResponseForStateUpdate,
   ValidateConfigurationResponse,
 } from "../../models/models.js";
@@ -91,8 +92,8 @@ export interface AccessControlListsOperations {
     body: UpdateAdministrativeState,
     options?: AccessControlListsUpdateAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
   >;
   /** @deprecated use updateAdministrativeState instead */
   beginUpdateAdministrativeState: (
@@ -102,8 +103,8 @@ export interface AccessControlListsOperations {
     options?: AccessControlListsUpdateAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<CommonPostActionResponseForStateUpdate>,
-      CommonPostActionResponseForStateUpdate
+      OperationState<UpdateAdministrativeStateResponse>,
+      UpdateAdministrativeStateResponse
     >
   >;
   /** @deprecated use updateAdministrativeState instead */
@@ -112,7 +113,7 @@ export interface AccessControlListsOperations {
     accessControlListName: string,
     body: UpdateAdministrativeState,
     options?: AccessControlListsUpdateAdministrativeStateOptionalParams,
-  ) => Promise<CommonPostActionResponseForStateUpdate>;
+  ) => Promise<UpdateAdministrativeStateResponse>;
   /** Implements AccessControlLists list by subscription GET method. */
   listBySubscription: (
     options?: AccessControlListsListBySubscriptionOptionalParams,
@@ -123,11 +124,6 @@ export interface AccessControlListsOperations {
     options?: AccessControlListsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<AccessControlList>;
   /** Implements Access Control List DELETE method. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accessControlListName: string,

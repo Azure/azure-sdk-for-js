@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a Entity
  *
  * @summary delete a Entity
- * x-ms-original-file: 2025-05-01-preview/Entities_Delete.json
+ * x-ms-original-file: 2026-01-01-preview/Entities_Delete.json
  */
 async function entitiesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
