@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FluxConfigurationContext } from "../../api/fluxConfigurationContext.js";
+import { FluxConfigurationContext } from "../../api/fluxConfigurationContext.js";
 import {
   list,
   $delete,
@@ -9,18 +9,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/fluxConfigurations/operations.js";
-import type {
+import {
   FluxConfigurationsListOptionalParams,
   FluxConfigurationsDeleteOptionalParams,
   FluxConfigurationsUpdateOptionalParams,
   FluxConfigurationsCreateOrUpdateOptionalParams,
   FluxConfigurationsGetOptionalParams,
 } from "../../api/fluxConfigurations/options.js";
-import type { FluxConfiguration, FluxConfigurationPatch } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { FluxConfiguration, FluxConfigurationPatch } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FluxConfigurations operations. */
 export interface FluxConfigurationsOperations {
@@ -33,11 +32,6 @@ export interface FluxConfigurationsOperations {
     options?: FluxConfigurationsListOptionalParams,
   ) => PagedAsyncIterableIterator<FluxConfiguration>;
   /** This will delete the YAML file used to set up the Flux Configuration, thus stopping future sync from the source repo. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterRp: string,

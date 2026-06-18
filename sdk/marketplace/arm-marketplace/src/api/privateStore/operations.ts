@@ -1,63 +1,63 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MarketplaceContext as Client } from "../index.js";
-import type {
-  PrivateStore,
-  _PrivateStoreList,
-  AnyExistingOffersInTheCollectionsResponse,
-  QueryOffers,
-  BillingAccountsResponse,
-  CollectionsToSubscriptionsMappingResponse,
-  QueryApprovedPlansResponse,
-  BulkCollectionsResponse,
-  PrivateStoreNotificationsState,
-  SubscriptionsResponse,
-  NewPlansNotificationsList,
-  StopSellOffersPlansNotificationsList,
-  SubscriptionsContextList,
-  RequestApprovalResource,
-  RequestApprovalsList,
-  QueryRequestApproval,
-  AdminRequestApprovalsResource,
-  AdminRequestApprovalsList,
-} from "../../models/models.js";
+import { MarketplaceContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  PrivateStore,
   privateStoreSerializer,
   privateStoreDeserializer,
+  _PrivateStoreList,
   _privateStoreListDeserializer,
+  AnyExistingOffersInTheCollectionsResponse,
   anyExistingOffersInTheCollectionsResponseDeserializer,
+  QueryOffers,
   queryOffersDeserializer,
   queryUserOffersPropertiesSerializer,
+  BillingAccountsResponse,
   billingAccountsResponseDeserializer,
   collectionsToSubscriptionsMappingPayloadSerializer,
+  CollectionsToSubscriptionsMappingResponse,
   collectionsToSubscriptionsMappingResponseDeserializer,
   queryApprovedPlansPayloadSerializer,
+  QueryApprovedPlansResponse,
   queryApprovedPlansResponseDeserializer,
   bulkCollectionsPayloadSerializer,
+  BulkCollectionsResponse,
   bulkCollectionsResponseDeserializer,
+  PrivateStoreNotificationsState,
   privateStoreNotificationsStateDeserializer,
   acknowledgeOfferNotificationPropertiesSerializer,
+  SubscriptionsResponse,
   subscriptionsResponseDeserializer,
+  NewPlansNotificationsList,
   newPlansNotificationsListDeserializer,
   stopSellSubscriptionsSerializer,
+  StopSellOffersPlansNotificationsList,
   stopSellOffersPlansNotificationsListDeserializer,
+  SubscriptionsContextList,
   subscriptionsContextListDeserializer,
+  RequestApprovalResource,
   requestApprovalResourceSerializer,
   requestApprovalResourceDeserializer,
+  RequestApprovalsList,
   requestApprovalsListDeserializer,
   queryRequestApprovalPropertiesSerializer,
+  QueryRequestApproval,
   queryRequestApprovalDeserializer,
   withdrawPropertiesSerializer,
+  AdminRequestApprovalsResource,
   adminRequestApprovalsResourceSerializer,
   adminRequestApprovalsResourceDeserializer,
+  AdminRequestApprovalsList,
   adminRequestApprovalsListDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   PrivateStoreAdminRequestApprovalsListOptionalParams,
   PrivateStoreUpdateAdminRequestApprovalOptionalParams,
   PrivateStoreGetAdminRequestApprovalOptionalParams,
@@ -84,8 +84,12 @@ import type {
   PrivateStoreCreateOrUpdateOptionalParams,
   PrivateStoreGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _adminRequestApprovalsListSend(
   context: Client,
@@ -102,10 +106,12 @@ export function _adminRequestApprovalsListSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _adminRequestApprovalsListDeserialize(
@@ -114,7 +120,9 @@ export async function _adminRequestApprovalsListDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -149,14 +157,16 @@ export function _updateAdminRequestApprovalSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["payload"]
-      ? options["payload"]
-      : adminRequestApprovalsResourceSerializer(options["payload"]),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.payload
+        ? options?.payload
+        : adminRequestApprovalsResourceSerializer(options?.payload),
+    });
 }
 
 export async function _updateAdminRequestApprovalDeserialize(
@@ -165,7 +175,9 @@ export async function _updateAdminRequestApprovalDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -208,10 +220,12 @@ export function _getAdminRequestApprovalSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getAdminRequestApprovalDeserialize(
@@ -220,7 +234,9 @@ export async function _getAdminRequestApprovalDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -263,20 +279,22 @@ export function _withdrawPlanSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["payload"]
-      ? options["payload"]
-      : withdrawPropertiesSerializer(options["payload"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.payload ? options?.payload : withdrawPropertiesSerializer(options?.payload),
+    });
 }
 
 export async function _withdrawPlanDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -312,14 +330,16 @@ export function _queryRequestApprovalSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["payload"]
-      ? options["payload"]
-      : queryRequestApprovalPropertiesSerializer(options["payload"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.payload
+        ? options?.payload
+        : queryRequestApprovalPropertiesSerializer(options?.payload),
+    });
 }
 
 export async function _queryRequestApprovalDeserialize(
@@ -328,7 +348,9 @@ export async function _queryRequestApprovalDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -367,10 +389,12 @@ export function _getApprovalRequestsListSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getApprovalRequestsListDeserialize(
@@ -379,7 +403,9 @@ export async function _getApprovalRequestsListDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -415,12 +441,14 @@ export function _createApprovalRequestSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: requestApprovalResourceSerializer(payload),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: requestApprovalResourceSerializer(payload),
+    });
 }
 
 export async function _createApprovalRequestDeserialize(
@@ -429,7 +457,9 @@ export async function _createApprovalRequestDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -472,10 +502,12 @@ export function _getRequestApprovalSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getRequestApprovalDeserialize(
@@ -484,7 +516,9 @@ export async function _getRequestApprovalDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -518,10 +552,12 @@ export function _listSubscriptionsContextSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listSubscriptionsContextDeserialize(
@@ -530,7 +566,9 @@ export async function _listSubscriptionsContextDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -563,14 +601,16 @@ export function _listStopSellOffersPlansNotificationsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["stopSellSubscriptions"]
-      ? options["stopSellSubscriptions"]
-      : stopSellSubscriptionsSerializer(options["stopSellSubscriptions"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.stopSellSubscriptions
+        ? options?.stopSellSubscriptions
+        : stopSellSubscriptionsSerializer(options?.stopSellSubscriptions),
+    });
 }
 
 export async function _listStopSellOffersPlansNotificationsDeserialize(
@@ -579,7 +619,9 @@ export async function _listStopSellOffersPlansNotificationsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -612,10 +654,12 @@ export function _listNewPlansNotificationsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listNewPlansNotificationsDeserialize(
@@ -624,7 +668,9 @@ export async function _listNewPlansNotificationsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -657,16 +703,18 @@ export function _fetchAllSubscriptionsInTenantSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.nextPageToken !== undefined
-        ? { "next-page-token": options?.nextPageToken }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.nextPageToken !== undefined
+          ? { "next-page-token": options?.nextPageToken }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _fetchAllSubscriptionsInTenantDeserialize(
@@ -675,7 +723,9 @@ export async function _fetchAllSubscriptionsInTenantDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -710,13 +760,15 @@ export function _acknowledgeOfferNotificationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["payload"]
-      ? options["payload"]
-      : acknowledgeOfferNotificationPropertiesSerializer(options["payload"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.payload
+        ? options?.payload
+        : acknowledgeOfferNotificationPropertiesSerializer(options?.payload),
+    });
 }
 
 export async function _acknowledgeOfferNotificationDeserialize(
@@ -725,7 +777,9 @@ export async function _acknowledgeOfferNotificationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -759,10 +813,12 @@ export function _queryNotificationsStateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _queryNotificationsStateDeserialize(
@@ -771,7 +827,9 @@ export async function _queryNotificationsStateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -804,14 +862,16 @@ export function _bulkCollectionsActionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["payload"]
-      ? options["payload"]
-      : bulkCollectionsPayloadSerializer(options["payload"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.payload
+        ? options?.payload
+        : bulkCollectionsPayloadSerializer(options?.payload),
+    });
 }
 
 export async function _bulkCollectionsActionDeserialize(
@@ -820,7 +880,9 @@ export async function _bulkCollectionsActionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -853,14 +915,16 @@ export function _queryApprovedPlansSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["payload"]
-      ? options["payload"]
-      : queryApprovedPlansPayloadSerializer(options["payload"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.payload
+        ? options?.payload
+        : queryApprovedPlansPayloadSerializer(options?.payload),
+    });
 }
 
 export async function _queryApprovedPlansDeserialize(
@@ -869,7 +933,9 @@ export async function _queryApprovedPlansDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -902,14 +968,16 @@ export function _collectionsToSubscriptionsMappingSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["payload"]
-      ? options["payload"]
-      : collectionsToSubscriptionsMappingPayloadSerializer(options["payload"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.payload
+        ? options?.payload
+        : collectionsToSubscriptionsMappingPayloadSerializer(options?.payload),
+    });
 }
 
 export async function _collectionsToSubscriptionsMappingDeserialize(
@@ -918,7 +986,9 @@ export async function _collectionsToSubscriptionsMappingDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -951,10 +1021,12 @@ export function _billingAccountsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _billingAccountsDeserialize(
@@ -963,7 +1035,9 @@ export async function _billingAccountsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -996,14 +1070,16 @@ export function _queryUserOffersSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["payload"]
-      ? options["payload"]
-      : queryUserOffersPropertiesSerializer(options["payload"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.payload
+        ? options?.payload
+        : queryUserOffersPropertiesSerializer(options?.payload),
+    });
 }
 
 export async function _queryUserOffersDeserialize(
@@ -1012,7 +1088,9 @@ export async function _queryUserOffersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1045,17 +1123,21 @@ export function _queryOffersSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _queryOffersDeserialize(result: PathUncheckedResponse): Promise<QueryOffers> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1088,10 +1170,12 @@ export function _anyExistingOffersInTheCollectionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _anyExistingOffersInTheCollectionsDeserialize(
@@ -1100,7 +1184,9 @@ export async function _anyExistingOffersInTheCollectionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1132,17 +1218,21 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_PrivateStoreList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1186,7 +1276,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1195,11 +1287,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the private store. All that is not saved will be lost. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   privateStoreId: string,
@@ -1224,18 +1311,22 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["payload"] ? options["payload"] : privateStoreSerializer(options["payload"]),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.payload ? options?.payload : privateStoreSerializer(options?.payload),
+    });
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1268,17 +1359,21 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<PrivateStore> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

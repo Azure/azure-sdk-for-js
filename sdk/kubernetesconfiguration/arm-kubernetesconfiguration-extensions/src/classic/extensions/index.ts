@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ExtensionsContext } from "../../api/extensionsContext.js";
+import { ExtensionsContext } from "../../api/extensionsContext.js";
 import { list, $delete, update, create, get } from "../../api/extensions/operations.js";
-import type {
+import {
   ExtensionsListOptionalParams,
   ExtensionsDeleteOptionalParams,
   ExtensionsUpdateOptionalParams,
   ExtensionsCreateOptionalParams,
   ExtensionsGetOptionalParams,
 } from "../../api/extensions/options.js";
-import type { Extension, PatchExtension } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Extension, PatchExtension } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Extensions operations. */
 export interface ExtensionsOperations {
@@ -27,11 +26,6 @@ export interface ExtensionsOperations {
     options?: ExtensionsListOptionalParams,
   ) => PagedAsyncIterableIterator<Extension>;
   /** Delete a Kubernetes Cluster Extension. This will cause the Agent to Uninstall the extension from the cluster. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterRp: string,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KeyVaultManagementContext } from "../../api/keyVaultManagementContext.js";
+import { KeyVaultManagementContext } from "../../api/keyVaultManagementContext.js";
 import {
   checkNameAvailability,
   list,
@@ -16,7 +16,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/vaults/operations.js";
-import type {
+import {
   VaultsCheckNameAvailabilityOptionalParams,
   VaultsListOptionalParams,
   VaultsListDeletedOptionalParams,
@@ -30,7 +30,7 @@ import type {
   VaultsCreateOrUpdateOptionalParams,
   VaultsGetOptionalParams,
 } from "../../api/vaults/options.js";
-import type {
+import {
   Vault,
   VaultCreateOrUpdateParameters,
   VaultPatchParameters,
@@ -41,10 +41,9 @@ import type {
   CheckNameAvailabilityResult,
   AccessPolicyUpdateKind,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Vaults operations. */
 export interface VaultsOperations {
@@ -101,11 +100,6 @@ export interface VaultsOperations {
     options?: VaultsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Vault>;
   /** Deletes the specified Azure key vault. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vaultName: string,
