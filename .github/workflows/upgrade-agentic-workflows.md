@@ -124,7 +124,7 @@ Update the `Install gh-aw extension` step so both the action ref and the
 
 ```yaml
 - name: Install gh-aw extension
-  uses: github/gh-aw-actions/setup-cli@v0.79.8 # v<new-version>
+  uses: github/gh-aw-actions/setup-cli@<new-commit-sha> # v<new-version>
   with:
     version: v<new-version>
 ```
