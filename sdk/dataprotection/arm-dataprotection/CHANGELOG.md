@@ -1,70 +1,224 @@
 # Release History
 
-## 5.0.0-beta.1 (2026-04-01)
-Compared with version 4.0.0
+## 4.1.0 (2026-06-18)
 
 ### Features Added
+  - Added operation group BackupInstancesExtensionRoutingOperations
+  - Added operation group BackupInstancesOperations
+  - Added operation group BackupPoliciesOperations
+  - Added operation group BackupVaultOperationResultsOperations
+  - Added operation group BackupVaultsOperations
+  - Added operation group DataProtectionOperations
+  - Added operation group DataProtectionOperationsOperations
+  - Added operation group DeletedBackupInstancesOperations
   - Added operation group DeletedBackupVaultsOperations
-  - Class DataProtectionClient has a new constructor "constructor(credential: TokenCredential, options?: DataProtectionClientOptionalParams);"
+  - Added operation group DppResourceGuardProxyOperations
+  - Added operation group ExportJobsOperationResultOperations
+  - Added operation group ExportJobsOperations
+  - Added operation group FetchCrossRegionRestoreJobOperations
+  - Added operation group FetchCrossRegionRestoreJobsOperations
+  - Added operation group FetchSecondaryRecoveryPointsOperations
+  - Added operation group JobsOperations
+  - Added operation group OperationResultOperations
+  - Added operation group OperationStatusBackupVaultContextOperations
+  - Added operation group OperationStatusOperations
+  - Added operation group OperationStatusResourceGroupContextOperations
+  - Added operation group RecoveryPointsOperations
+  - Added operation group ResourceGuardsOperations
+  - Added operation group RestorableTimeRangesOperations
+  - Added Class DataProtectionClient
+  - Added Interface AbsoluteDeleteOption
+  - Added Interface AdHocBackupRuleOptions
+  - Added Interface AdhocBackupTriggerOption
+  - Added Interface AdhocBasedTaggingCriteria
+  - Added Interface AdhocBasedTriggerContext
+  - Added Interface AdlsBlobBackupDatasourceParameters
   - Added Interface AdlsBlobBackupDatasourceParametersForAutoProtection
+  - Added Interface AuthCredentials
+  - Added Interface AzureBackupDiscreteRecoveryPoint
+  - Added Interface AzureBackupFindRestorableTimeRangesRequest
+  - Added Interface AzureBackupFindRestorableTimeRangesResponse
+  - Added Interface AzureBackupFindRestorableTimeRangesResponseResource
+  - Added Interface AzureBackupJob
+  - Added Interface AzureBackupJobResource
+  - Added Interface AzureBackupParams
+  - Added Interface AzureBackupRecoveryPoint
+  - Added Interface AzureBackupRecoveryPointBasedRestoreRequest
+  - Added Interface AzureBackupRecoveryPointResource
+  - Added Interface AzureBackupRecoveryTimeBasedRestoreRequest
+  - Added Interface AzureBackupRehydrationRequest
+  - Added Interface AzureBackupRestoreRequest
+  - Added Interface AzureBackupRestoreWithRehydrationRequest
+  - Added Interface AzureBackupRule
+  - Added Interface AzureMonitorAlertSettings
+  - Added Interface AzureOperationalStoreParameters
+  - Added Interface AzureRetentionRule
+  - Added Interface BackupCriteria
+  - Added Interface BackupDatasourceParameters
+  - Added Interface BackupInstance
+  - Added Interface BackupInstanceResource
+  - Added Interface BackupInstancesAdhocBackupOptionalParams
+  - Added Interface BackupInstancesCreateOrUpdateOptionalParams
+  - Added Interface BackupInstancesDeleteOptionalParams
+  - Added Interface BackupInstancesExtensionRoutingListOptionalParams
+  - Added Interface BackupInstancesGetBackupInstanceOperationResultOptionalParams
+  - Added Interface BackupInstancesGetOptionalParams
+  - Added Interface BackupInstancesListOptionalParams
+  - Added Interface BackupInstancesResumeBackupsOptionalParams
+  - Added Interface BackupInstancesResumeProtectionOptionalParams
+  - Added Interface BackupInstancesStopProtectionOptionalParams
+  - Added Interface BackupInstancesSuspendBackupsOptionalParams
+  - Added Interface BackupInstancesSyncBackupInstanceOptionalParams
+  - Added Interface BackupInstancesTriggerCrossRegionRestoreOptionalParams
+  - Added Interface BackupInstancesTriggerRehydrateOptionalParams
+  - Added Interface BackupInstancesTriggerRestoreOptionalParams
+  - Added Interface BackupInstancesValidateCrossRegionRestoreOptionalParams
+  - Added Interface BackupInstancesValidateForBackupOptionalParams
+  - Added Interface BackupInstancesValidateForModifyBackupOptionalParams
+  - Added Interface BackupInstancesValidateForRestoreOptionalParams
+  - Added Interface BackupParameters
+  - Added Interface BackupPoliciesCreateOrUpdateOptionalParams
+  - Added Interface BackupPoliciesDeleteOptionalParams
+  - Added Interface BackupPoliciesGetOptionalParams
+  - Added Interface BackupPoliciesListOptionalParams
+  - Added Interface BackupPolicy
+  - Added Interface BackupSchedule
+  - Added Interface BackupVault
+  - Added Interface BackupVaultOperationResultsGetOptionalParams
+  - Added Interface BackupVaultResource
+  - Added Interface BackupVaultsCheckNameAvailabilityOptionalParams
+  - Added Interface BackupVaultsCreateOrUpdateOptionalParams
+  - Added Interface BackupVaultsDeleteOptionalParams
+  - Added Interface BackupVaultsGetOptionalParams
+  - Added Interface BackupVaultsListInResourceGroupOptionalParams
+  - Added Interface BackupVaultsListInSubscriptionOptionalParams
+  - Added Interface BackupVaultsUpdateOptionalParams
+  - Added Interface BaseBackupPolicy
+  - Added Interface BaseBackupPolicyResource
+  - Added Interface BasePolicyRule
+  - Added Interface BaseResourceProperties
   - Added Interface BlobBackupAutoProtectionRule
   - Added Interface BlobBackupAutoProtectionSettings
+  - Added Interface BlobBackupDatasourceParameters
   - Added Interface BlobBackupDatasourceParametersForAutoProtection
   - Added Interface BlobBackupRuleBasedAutoProtectionSettings
+  - Added Interface CheckNameAvailabilityRequest
+  - Added Interface CheckNameAvailabilityResult
+  - Added Interface CloudError
+  - Added Interface CmkKekIdentity
+  - Added Interface CmkKeyVaultProperties
+  - Added Interface CopyOnExpiryOption
+  - Added Interface CopyOption
+  - Added Interface CrossRegionRestoreDetails
+  - Added Interface CrossRegionRestoreJobRequest
+  - Added Interface CrossRegionRestoreJobsRequest
+  - Added Interface CrossRegionRestoreRequestObject
+  - Added Interface CrossRegionRestoreSettings
+  - Added Interface CrossSubscriptionRestoreSettings
+  - Added Interface CustomCopyOption
+  - Added Interface DataProtectionCheckFeatureSupportOptionalParams
+  - Added Interface DataProtectionClientOptionalParams
+  - Added Interface DataProtectionOperationsListOptionalParams
+  - Added Interface Datasource
+  - Added Interface DatasourceSet
+  - Added Interface DataStoreInfoBase
+  - Added Interface DataStoreParameters
+  - Added Interface Day
+  - Added Interface DefaultResourceProperties
+  - Added Interface DeletedBackupInstance
+  - Added Interface DeletedBackupInstanceResource
+  - Added Interface DeletedBackupInstancesGetOptionalParams
+  - Added Interface DeletedBackupInstancesListOptionalParams
+  - Added Interface DeletedBackupInstancesUndeleteOptionalParams
   - Added Interface DeletedBackupVault
   - Added Interface DeletedBackupVaultResource
   - Added Interface DeletedBackupVaultsGetOptionalParams
   - Added Interface DeletedBackupVaultsListByLocationOptionalParams
-  - Added Interface ResourceDeletionInfo
-  - Interface BackupVaultsCreateOrUpdateOptionalParams has a new optional parameter xMsDeletedVaultId
-  - Added Type Alias BlobBackupAutoProtectionSettingsUnion
-  - Added Type Alias BlobBackupPatternType
-  - Added Type Alias BlobBackupRuleMode
-  - Added Enum KnownBlobBackupPatternType
-  - Added Enum KnownBlobBackupRuleMode
-  - Enum KnownVersions has a new value V20250901
-  - Enum KnownVersions has a new value V20260301
-
-### Breaking Changes
-  - Operation BackupVaultOperationResultsOperations.get has a new signature
-  - Operation BackupVaultsOperations.createOrUpdate has a new signature
-  - Operation BackupVaultsOperations.get has a new signature
-  - Operation BackupVaultsOperations.listInResourceGroup has a new signature
-  - Operation BackupVaultsOperations.listInSubscription has a new signature
-  - Parameter storageSettings of interface BackupVault is now optional
-
-## 4.0.0 (2025-10-13)
-
-### Features Added
-  - Added operation group DataProtectionOperations
-  - Added operation BackupInstancesOperations.adhocBackup
-  - Added operation BackupInstancesOperations.createOrUpdate
-  - Added operation BackupInstancesOperations.delete
-  - Added operation BackupInstancesOperations.resumeBackups
-  - Added operation BackupInstancesOperations.resumeProtection
-  - Added operation BackupInstancesOperations.stopProtection
-  - Added operation BackupInstancesOperations.suspendBackups
-  - Added operation BackupInstancesOperations.syncBackupInstance
-  - Added operation BackupInstancesOperations.triggerCrossRegionRestore
-  - Added operation BackupInstancesOperations.triggerRehydrate
-  - Added operation BackupInstancesOperations.triggerRestore
-  - Added operation BackupInstancesOperations.validateCrossRegionRestore
-  - Added operation BackupInstancesOperations.validateForBackup
-  - Added operation BackupInstancesOperations.validateForModifyBackup
-  - Added operation BackupInstancesOperations.validateForRestore
-  - Added operation BackupVaultsOperations.createOrUpdate
-  - Added operation BackupVaultsOperations.delete
-  - Added operation BackupVaultsOperations.update
-  - Added operation DeletedBackupInstancesOperations.undelete
-  - Added operation ExportJobsOperations.trigger
-  - Added Interface BackupVaultsListInResourceGroupOptionalParams
-  - Added Interface BackupVaultsListInSubscriptionOptionalParams
+  - Added Interface DeleteOption
+  - Added Interface DeletionInfo
+  - Added Interface DppBaseResource
+  - Added Interface DppIdentityDetails
+  - Added Interface DppResource
+  - Added Interface DppResourceGuardProxyCreateOrUpdateOptionalParams
+  - Added Interface DppResourceGuardProxyDeleteOptionalParams
+  - Added Interface DppResourceGuardProxyGetOptionalParams
+  - Added Interface DppResourceGuardProxyListOptionalParams
+  - Added Interface DppResourceGuardProxyUnlockDeleteOptionalParams
+  - Added Interface DppResourceList
+  - Added Interface DppTrackedResourceList
+  - Added Interface EncryptionSettings
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorModel
+  - Added Interface ErrorResponse
+  - Added Interface ExportJobsOperationResultGetOptionalParams
+  - Added Interface ExportJobsResult
+  - Added Interface ExportJobsTriggerOptionalParams
+  - Added Interface FeatureSettings
+  - Added Interface FeatureValidationRequest
+  - Added Interface FeatureValidationRequestBase
+  - Added Interface FeatureValidationResponse
+  - Added Interface FeatureValidationResponseBase
+  - Added Interface FetchCrossRegionRestoreJobGetOptionalParams
+  - Added Interface FetchCrossRegionRestoreJobsListOptionalParams
+  - Added Interface FetchSecondaryRecoveryPointsListOptionalParams
+  - Added Interface FetchSecondaryRPsRequestParameters
+  - Added Interface IdentityDetails
+  - Added Interface ImmediateCopyOption
+  - Added Interface ImmutabilitySettings
+  - Added Interface InnerError
+  - Added Interface ItemLevelRestoreCriteria
+  - Added Interface ItemLevelRestoreTargetInfo
+  - Added Interface ItemPathBasedRestoreCriteria
+  - Added Interface JobExtendedInfo
+  - Added Interface JobsGetOptionalParams
+  - Added Interface JobsListOptionalParams
+  - Added Interface JobSubTask
+  - Added Interface KubernetesClusterBackupDatasourceParameters
+  - Added Interface KubernetesClusterRestoreCriteria
+  - Added Interface KubernetesClusterVaultTierRestoreCriteria
+  - Added Interface KubernetesPVRestoreCriteria
+  - Added Interface KubernetesStorageClassRestoreCriteria
+  - Added Interface MonitoringSettings
+  - Added Interface NamespacedNameResource
   - Added Interface Operation
   - Added Interface OperationDisplay
+  - Added Interface OperationExtendedInfo
+  - Added Interface OperationJobExtendedInfo
+  - Added Interface OperationResource
+  - Added Interface OperationResultGetOptionalParams
+  - Added Interface OperationStatusBackupVaultContextGetOptionalParams
+  - Added Interface OperationStatusGetOptionalParams
+  - Added Interface OperationStatusResourceGroupContextGetOptionalParams
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
+  - Added Interface PatchBackupVaultInput
+  - Added Interface PatchResourceGuardInput
+  - Added Interface PatchResourceRequestInput
+  - Added Interface PolicyInfo
+  - Added Interface PolicyParameters
+  - Added Interface ProtectionStatusDetails
   - Added Interface ProxyResource
+  - Added Interface RangeBasedItemLevelRestoreCriteria
+  - Added Interface RecoveryPointDataStoreDetails
+  - Added Interface RecoveryPointsGetOptionalParams
+  - Added Interface RecoveryPointsListOptionalParams
   - Added Interface Resource
+  - Added Interface ResourceDeletionInfo
+  - Added Interface ResourceGuard
+  - Added Interface ResourceGuardOperation
+  - Added Interface ResourceGuardOperationDetail
+  - Added Interface ResourceGuardProxyBase
+  - Added Interface ResourceGuardProxyBaseResource
+  - Added Interface ResourceGuardResource
+  - Added Interface ResourceGuardsDeleteOptionalParams
+  - Added Interface ResourceGuardsGetDefaultBackupSecurityPINRequestsObjectOptionalParams
+  - Added Interface ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectOptionalParams
+  - Added Interface ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectOptionalParams
+  - Added Interface ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectOptionalParams
+  - Added Interface ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectOptionalParams
+  - Added Interface ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectOptionalParams
+  - Added Interface ResourceGuardsGetOptionalParams
   - Added Interface ResourceGuardsListBackupSecurityPINRequestsObjectsOptionalParams
   - Added Interface ResourceGuardsListDeleteProtectedItemRequestsObjectsOptionalParams
   - Added Interface ResourceGuardsListDeleteResourceGuardProxyRequestsObjectsOptionalParams
@@ -73,315 +227,151 @@ Compared with version 4.0.0
   - Added Interface ResourceGuardsListResourcesInSubscriptionOptionalParams
   - Added Interface ResourceGuardsListUpdateProtectedItemRequestsObjectsOptionalParams
   - Added Interface ResourceGuardsListUpdateProtectionPolicyRequestsObjectsOptionalParams
+  - Added Interface ResourceGuardsPatchOptionalParams
+  - Added Interface ResourceGuardsPutOptionalParams
+  - Added Interface ResourceMoveDetails
+  - Added Interface RestorableTimeRange
+  - Added Interface RestorableTimeRangesFindOptionalParams
+  - Added Interface RestoreFilesTargetInfo
+  - Added Interface RestoreJobRecoveryPointDetails
   - Added Interface RestorePollerOptions
-  - Added Interface TrackedResource
-  - Interface DppBaseResource has a new optional parameter systemData
-  - Added Type Alias ActionType
-  - Added Type Alias AzureSupportedClouds
-  - Added Type Alias Origin
-  - Added Enum AzureClouds
-  - Added Enum KnownActionType
-  - Added Enum KnownOrigin
-  - Added Enum KnownVersions
-
-### Breaking Changes
-  - Removed operation BackupInstances.beginAdhocBackup
-  - Removed operation BackupInstances.beginAdhocBackupAndWait
-  - Removed operation BackupInstances.beginCreateOrUpdate
-  - Removed operation BackupInstances.beginCreateOrUpdateAndWait
-  - Removed operation BackupInstances.beginDelete
-  - Removed operation BackupInstances.beginDeleteAndWait
-  - Removed operation BackupInstances.beginResumeBackups
-  - Removed operation BackupInstances.beginResumeBackupsAndWait
-  - Removed operation BackupInstances.beginResumeProtection
-  - Removed operation BackupInstances.beginResumeProtectionAndWait
-  - Removed operation BackupInstances.beginStopProtection
-  - Removed operation BackupInstances.beginStopProtectionAndWait
-  - Removed operation BackupInstances.beginSuspendBackups
-  - Removed operation BackupInstances.beginSuspendBackupsAndWait
-  - Removed operation BackupInstances.beginSyncBackupInstance
-  - Removed operation BackupInstances.beginSyncBackupInstanceAndWait
-  - Removed operation BackupInstances.beginTriggerCrossRegionRestore
-  - Removed operation BackupInstances.beginTriggerCrossRegionRestoreAndWait
-  - Removed operation BackupInstances.beginTriggerRehydrate
-  - Removed operation BackupInstances.beginTriggerRehydrateAndWait
-  - Removed operation BackupInstances.beginTriggerRestore
-  - Removed operation BackupInstances.beginTriggerRestoreAndWait
-  - Removed operation BackupInstances.beginValidateCrossRegionRestore
-  - Removed operation BackupInstances.beginValidateCrossRegionRestoreAndWait
-  - Removed operation BackupInstances.beginValidateForBackup
-  - Removed operation BackupInstances.beginValidateForBackupAndWait
-  - Removed operation BackupInstances.beginValidateForModifyBackup
-  - Removed operation BackupInstances.beginValidateForModifyBackupAndWait
-  - Removed operation BackupInstances.beginValidateForRestore
-  - Removed operation BackupInstances.beginValidateForRestoreAndWait
-  - Removed operation BackupVaults.beginCreateOrUpdate
-  - Removed operation BackupVaults.beginCreateOrUpdateAndWait
-  - Removed operation BackupVaults.beginDelete
-  - Removed operation BackupVaults.beginDeleteAndWait
-  - Removed operation BackupVaults.beginUpdate
-  - Removed operation BackupVaults.beginUpdateAndWait
-  - Removed operation DataProtectionOperations.checkFeatureSupport
-  - Removed operation DeletedBackupInstances.beginUndelete
-  - Removed operation DeletedBackupInstances.beginUndeleteAndWait
-  - Removed operation ExportJobs.beginTrigger
-  - Removed operation ExportJobs.beginTriggerAndWait
-  - Operation BackupInstances.get has a new signature
-  - Operation BackupInstances.getBackupInstanceOperationResult has a new signature
-  - Operation BackupPolicies.createOrUpdate has a new signature
-  - Operation BackupPolicies.get has a new signature
-  - Operation DeletedBackupInstances.get has a new signature
-  - Operation OperationStatus.get has a new signature
-  - Operation OperationStatusBackupVaultContext.get has a new signature
-  - Operation OperationStatusResourceGroupContext.get has a new signature
-  - Operation RecoveryPoints.get has a new signature
-  - Removed Interface AzureBackupFindRestorableTimeRangesRequestResource
-  - Removed Interface AzureBackupJobResourceList
-  - Removed Interface AzureBackupRecoveryPointResourceList
-  - Removed Interface BackupInstanceResourceList
-  - Removed Interface BackupVaultResourceList
-  - Removed Interface BackupVaultsGetInResourceGroupOptionalParams
-  - Removed Interface BackupVaultsGetInSubscriptionOptionalParams
-  - Removed Interface BaseBackupPolicyResourceList
-  - Removed Interface ClientDiscoveryDisplay
-  - Removed Interface ClientDiscoveryForLogSpecification
-  - Removed Interface ClientDiscoveryForProperties
-  - Removed Interface ClientDiscoveryForServiceSpecification
-  - Removed Interface ClientDiscoveryResponse
-  - Removed Interface ClientDiscoveryValueForSingleApi
-  - Removed Interface DeletedBackupInstanceResourceList
-  - Removed Interface DppBaseResourceList
-  - Removed Interface DppBaseTrackedResource
-  - Removed Interface DppProxyResource
-  - Removed Interface DppTrackedResource
-  - Removed Interface DppWorkerRequest
-  - Removed Interface RecoveryPointsFilters
-  - Removed Interface ResourceGuardProxyBaseResourceList
-  - Removed Interface ResourceGuardResourceList
-  - Removed Interface ResourceGuardsGetBackupSecurityPINRequestsObjectsOptionalParams
-  - Removed Interface ResourceGuardsGetDeleteProtectedItemRequestsObjectsOptionalParams
-  - Removed Interface ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsOptionalParams
-  - Removed Interface ResourceGuardsGetDisableSoftDeleteRequestsObjectsOptionalParams
-  - Removed Interface ResourceGuardsGetResourcesInResourceGroupOptionalParams
-  - Removed Interface ResourceGuardsGetResourcesInSubscriptionOptionalParams
-  - Removed Interface ResourceGuardsGetUpdateProtectedItemRequestsObjectsOptionalParams
-  - Removed Interface ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsOptionalParams
-  - Type of parameter objectType of interface AuthCredentials is changed from "SecretStoreBasedAuthCredentials" to string
-  - Type of parameter objectType of interface AzureBackupRecoveryPoint is changed from "AzureBackupDiscreteRecoveryPoint" to string
-  - Type of parameter objectType of interface AzureBackupRestoreRequest is changed from "AzureBackupRecoveryPointBasedRestoreRequest" | "AzureBackupRestoreWithRehydrationRequest" | "AzureBackupRecoveryTimeBasedRestoreRequest" to string
-  - Type of parameter objectType of interface BackupCriteria is changed from "ScheduleBasedBackupCriteria" to string
-  - Type of parameter objectType of interface BackupDatasourceParameters is changed from "KubernetesClusterBackupDatasourceParameters" | "BlobBackupDatasourceParameters" | "AdlsBlobBackupDatasourceParameters" to string
-  - Type of parameter objectType of interface BackupParameters is changed from "AzureBackupParams" to string
-  - Type of parameter objectType of interface BaseBackupPolicy is changed from "BackupPolicy" to string
-  - Type of parameter objectType of interface BasePolicyRule is changed from "AzureBackupRule" | "AzureRetentionRule" to string
-  - Type of parameter objectType of interface BaseResourceProperties is changed from "DefaultResourceProperties" to ResourcePropertiesObjectType
-  - Type of parameter objectType of interface CopyOption is changed from "CopyOnExpiryOption" | "CustomCopyOption" | "ImmediateCopyOption" to string
-  - Type of parameter objectType of interface DataStoreParameters is changed from "AzureOperationalStoreParameters" to string
-  - Type of parameter objectType of interface DeleteOption is changed from "AbsoluteDeleteOption" to string
-  - Type of parameter objectType of interface FeatureValidationRequestBase is changed from "FeatureValidationRequest" to string
-  - Type of parameter objectType of interface FeatureValidationResponseBase is changed from "FeatureValidationResponse" to string
-  - Type of parameter objectType of interface ItemLevelRestoreCriteria is changed from "ItemPathBasedRestoreCriteria" | "RangeBasedItemLevelRestoreCriteria" | "KubernetesStorageClassRestoreCriteria" | "KubernetesPVRestoreCriteria" | "KubernetesClusterRestoreCriteria" | "KubernetesClusterVaultTierRestoreCriteria" to string
-  - Type of parameter objectType of interface OperationExtendedInfo is changed from "OperationJobExtendedInfo" to string
-  - Type of parameter objectType of interface RestoreTargetInfoBase is changed from "ItemLevelRestoreTargetInfo" | "RestoreFilesTargetInfo" | "RestoreTargetInfo" to string
-  - Type of parameter objectType of interface TriggerContext is changed from "AdhocBasedTriggerContext" | "ScheduleBasedTriggerContext" to string
-  - Parameter location of interface BackupVaultResource is now required
-  - Parameter location of interface ResourceGuardResource is now required
-  - Type alias "AuthCredentialsUnion" has been changed
-  - Type alias "AzureBackupRecoveryPointBasedRestoreRequestUnion" has been changed
-  - Type alias "AzureBackupRecoveryPointUnion" has been changed
-  - Type alias "AzureBackupRestoreRequestUnion" has been changed
-  - Type alias "BackupCriteriaUnion" has been changed
-  - Type alias "BackupDatasourceParametersUnion" has been changed
-  - Type alias "BackupParametersUnion" has been changed
-  - Type alias "BaseBackupPolicyUnion" has been changed
-  - Type alias "BasePolicyRuleUnion" has been changed
-  - Type alias "BaseResourcePropertiesUnion" has been changed
-  - Type alias "CopyOptionUnion" has been changed
-  - Type alias "DataStoreParametersUnion" has been changed
-  - Type alias "DeleteOptionUnion" has been changed
-  - Type alias "FeatureValidationRequestBaseUnion" has been changed
-  - Type alias "FeatureValidationResponseBaseUnion" has been changed
-  - Type alias "ItemLevelRestoreCriteriaUnion" has been changed
-  - Type alias "OperationExtendedInfoUnion" has been changed
-  - Type alias "RestoreTargetInfoBaseUnion" has been changed
-  - Type alias "TriggerContextUnion" has been changed
-
-## 3.0.0 (2025-08-18)
-
-### Features Added
-  - Added operation BackupInstances.beginValidateForModifyBackup
-  - Added operation BackupInstances.beginValidateForModifyBackupAndWait
-  - Added Interface AdlsBlobBackupDatasourceParameters
-  - Added Interface BackupInstancesValidateForModifyBackupHeaders
-  - Added Interface BackupInstancesValidateForModifyBackupOptionalParams
-  - Added Interface ValidateForModifyBackupRequest
-  - Interface ItemPathBasedRestoreCriteria has a new optional parameter renameTo
-  - Interface KubernetesClusterBackupDatasourceParameters has a new optional parameter includedVolumeTypes
-  - Added Type Alias AKSVolumeTypes
-  - Added Type Alias BackupInstancesValidateForModifyBackupResponse
-  - Added Type Alias BlobBackupDatasourceParametersUnion
-  - Added Enum KnownAKSVolumeTypes
-
-### Breaking Changes
-  - Operation BackupInstances.beginCreateOrUpdate has a new signature
-  - Operation BackupInstances.beginCreateOrUpdateAndWait has a new signature
-  - Operation BackupInstances.beginValidateForBackup has a new signature
-  - Operation BackupInstances.beginValidateForBackupAndWait has a new signature
-  - Operation BackupInstances.get has a new signature
-  - Operation BackupInstances.getBackupInstanceOperationResult has a new signature
-  - Operation DeletedBackupInstances.get has a new signature
-  - Type of parameter objectType of interface BackupDatasourceParameters is changed from "KubernetesClusterBackupDatasourceParameters" | "BlobBackupDatasourceParameters" to "KubernetesClusterBackupDatasourceParameters" | "BlobBackupDatasourceParameters" | "AdlsBlobBackupDatasourceParameters"
-  - Type of parameter objectType of interface BlobBackupDatasourceParameters is changed from "BlobBackupDatasourceParameters" to "BlobBackupDatasourceParameters" | "AdlsBlobBackupDatasourceParameters"
-  - Type alias "BackupDatasourceParametersUnion" has been changed
-
-    
-## 2.1.0 (2024-07-08)
-    
-### Features Added
-
-  - Added operation group BackupInstancesExtensionRouting
-  - Added Interface BackupInstancesExtensionRoutingListNextOptionalParams
-  - Added Interface BackupInstancesExtensionRoutingListOptionalParams
-  - Added Interface CmkKekIdentity
-  - Added Interface CmkKeyVaultProperties
-  - Added Interface EncryptionSettings
+  - Added Interface RestoreTargetInfo
+  - Added Interface RestoreTargetInfoBase
+  - Added Interface RetentionTag
+  - Added Interface ScheduleBasedBackupCriteria
+  - Added Interface ScheduleBasedTriggerContext
+  - Added Interface SecretStoreBasedAuthCredentials
+  - Added Interface SecretStoreResource
+  - Added Interface SecuritySettings
+  - Added Interface SoftDeleteSettings
+  - Added Interface SourceLifeCycle
   - Added Interface StopProtectionRequest
+  - Added Interface StorageSetting
+  - Added Interface SupportedFeature
   - Added Interface SuspendBackupRequest
-  - Added Type Alias BackupInstancesExtensionRoutingListNextResponse
-  - Added Type Alias BackupInstancesExtensionRoutingListResponse
-  - Added Type Alias BcdrSecurityLevel
-  - Added Type Alias EncryptionState
-  - Added Type Alias IdentityType
-  - Added Type Alias InfrastructureEncryptionState
-  - Interface AzureBackupRestoreRequest has a new optional parameter resourceGuardOperationRequests
-  - Interface BackupInstance has a new optional parameter resourceGuardOperationRequests
-  - Interface BackupInstancesCreateOrUpdateOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
-  - Interface BackupInstancesDeleteOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
-  - Interface BackupInstancesStopProtectionOptionalParams has a new optional parameter parameters
-  - Interface BackupInstancesStopProtectionOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
-  - Interface BackupInstancesSuspendBackupsOptionalParams has a new optional parameter parameters
-  - Interface BackupInstancesSuspendBackupsOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
-  - Interface BackupInstancesTriggerRestoreOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
-  - Interface BackupVault has a new optional parameter bcdrSecurityLevel
-  - Interface BackupVault has a new optional parameter resourceGuardOperationRequests
-  - Interface BackupVaultsCreateOrUpdateOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
-  - Interface BackupVaultsUpdateOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
-  - Interface DppResourceGuardProxyUnlockDeleteOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
-  - Interface KubernetesClusterRestoreCriteria has a new optional parameter resourceModifierReference
-  - Interface KubernetesClusterVaultTierRestoreCriteria has a new optional parameter resourceModifierReference
-  - Interface PatchBackupVaultInput has a new optional parameter resourceGuardOperationRequests
-  - Interface SecuritySettings has a new optional parameter encryptionSettings
-  - Added Enum KnownBcdrSecurityLevel
-  - Added Enum KnownEncryptionState
-  - Added Enum KnownIdentityType
-  - Added Enum KnownInfrastructureEncryptionState
-    
-    
-## 2.0.0 (2023-12-05)
-    
-### Features Added
-
-  - Added operation group FetchCrossRegionRestoreJob
-  - Added operation group FetchCrossRegionRestoreJobs
-  - Added operation group FetchSecondaryRecoveryPoints
-  - Added operation BackupInstances.beginTriggerCrossRegionRestore
-  - Added operation BackupInstances.beginTriggerCrossRegionRestoreAndWait
-  - Added operation BackupInstances.beginValidateCrossRegionRestore
-  - Added operation BackupInstances.beginValidateCrossRegionRestoreAndWait
-  - Added Interface BackupInstancesTriggerCrossRegionRestoreHeaders
-  - Added Interface BackupInstancesTriggerCrossRegionRestoreOptionalParams
-  - Added Interface BackupInstancesValidateCrossRegionRestoreHeaders
-  - Added Interface BackupInstancesValidateCrossRegionRestoreOptionalParams
-  - Added Interface CrossRegionRestoreDetails
-  - Added Interface CrossRegionRestoreJobRequest
-  - Added Interface CrossRegionRestoreJobsRequest
-  - Added Interface CrossRegionRestoreRequestObject
-  - Added Interface DefaultResourceProperties
-  - Added Interface ErrorDetail
-  - Added Interface ErrorResponse
-  - Added Interface FetchCrossRegionRestoreJobGetOptionalParams
-  - Added Interface FetchCrossRegionRestoreJobsListNextOptionalParams
-  - Added Interface FetchCrossRegionRestoreJobsListOptionalParams
-  - Added Interface FetchSecondaryRecoveryPointsListNextOptionalParams
-  - Added Interface FetchSecondaryRecoveryPointsListOptionalParams
-  - Added Interface FetchSecondaryRPsRequestParameters
-  - Added Interface KubernetesClusterVaultTierRestoreCriteria
-  - Added Interface UserFacingWarningDetail
-  - Added Interface ValidateCrossRegionRestoreRequestObject
-  - Added Type Alias BackupInstancesTriggerCrossRegionRestoreResponse
-  - Added Type Alias BackupInstancesValidateCrossRegionRestoreResponse
-  - Added Type Alias BaseResourcePropertiesUnion
-  - Added Type Alias FetchCrossRegionRestoreJobGetResponse
-  - Added Type Alias FetchCrossRegionRestoreJobsListNextResponse
-  - Added Type Alias FetchCrossRegionRestoreJobsListResponse
-  - Added Type Alias FetchSecondaryRecoveryPointsListNextResponse
-  - Added Type Alias FetchSecondaryRecoveryPointsListResponse
-  - Added Type Alias RecoveryPointCompletionState
-  - Added Type Alias ResourcePropertiesObjectType
-  - Interface AzureBackupDiscreteRecoveryPoint has a new optional parameter recoveryPointState
-  - Interface BackupVault has a new optional parameter replicatedRegions
-  - Interface JobExtendedInfo has a new optional parameter warningDetails
-  - Type of parameter objectType of interface ItemLevelRestoreCriteria is changed from "ItemPathBasedRestoreCriteria" | "RangeBasedItemLevelRestoreCriteria" | "KubernetesStorageClassRestoreCriteria" | "KubernetesPVRestoreCriteria" | "KubernetesClusterRestoreCriteria" to "ItemPathBasedRestoreCriteria" | "RangeBasedItemLevelRestoreCriteria" | "KubernetesStorageClassRestoreCriteria" | "KubernetesPVRestoreCriteria" | "KubernetesClusterRestoreCriteria" | "KubernetesClusterVaultTierRestoreCriteria"
-  - Added Enum KnownRecoveryPointCompletionState
-  - Added Enum KnownResourcePropertiesObjectType
-
-### Breaking Changes
-
-  - Type of parameter objectType of interface BaseResourceProperties is changed from "BaseResourceProperties" to "DefaultResourceProperties"
-  - Type of parameter resourceProperties of interface Datasource is changed from BaseResourceProperties to BaseResourcePropertiesUnion
-  - Type of parameter resourceProperties of interface DatasourceSet is changed from BaseResourceProperties to BaseResourcePropertiesUnion
-    
-    
-## 1.2.0 (2023-07-10)
-    
-### Features Added
-
-  - Added Interface BaseResourceProperties
-  - Added Interface CrossRegionRestoreSettings
-  - Added Interface IdentityDetails
-  - Added Interface NamespacedNameResource
-  - Added Interface UserAssignedIdentity
-  - Added Type Alias CrossRegionRestoreState
-  - Added Type Alias SecureScoreLevel
-  - Interface AzureBackupJob has a new optional parameter rehydrationPriority
-  - Interface AzureBackupRestoreRequest has a new optional parameter identityDetails
-  - Interface BackupInstance has a new optional parameter identityDetails
-  - Interface BackupVault has a new optional parameter secureScore
-  - Interface Datasource has a new optional parameter resourceProperties
-  - Interface DatasourceSet has a new optional parameter resourceProperties
-  - Interface DppIdentityDetails has a new optional parameter userAssignedIdentities
-  - Interface FeatureSettings has a new optional parameter crossRegionRestoreSettings
-  - Interface KubernetesClusterBackupDatasourceParameters has a new optional parameter backupHookReferences
-  - Interface KubernetesClusterRestoreCriteria has a new optional parameter restoreHookReferences
-  - Added Enum KnownCrossRegionRestoreState
-  - Added Enum KnownSecureScoreLevel
-  - Class DataProtectionClient has a new signature
-    
-    
-## 1.1.0 (2023-06-12)
-    
-### Features Added
-
-  - Added operation group DppResourceGuardProxy
-  - Added Interface DppResourceGuardProxyCreateOrUpdateOptionalParams
-  - Added Interface DppResourceGuardProxyDeleteOptionalParams
-  - Added Interface DppResourceGuardProxyGetOptionalParams
-  - Added Interface DppResourceGuardProxyListNextOptionalParams
-  - Added Interface DppResourceGuardProxyListOptionalParams
-  - Added Interface DppResourceGuardProxyUnlockDeleteOptionalParams
-  - Added Interface ResourceGuardOperationDetail
-  - Added Interface ResourceGuardProxyBase
-  - Added Interface ResourceGuardProxyBaseResource
-  - Added Interface ResourceGuardProxyBaseResourceList
+  - Added Interface SyncBackupInstanceRequest
+  - Added Interface SystemData
+  - Added Interface TaggingCriteria
+  - Added Interface TargetCopySetting
+  - Added Interface TargetDetails
+  - Added Interface TrackedResource
+  - Added Interface TriggerBackupRequest
+  - Added Interface TriggerContext
   - Added Interface UnlockDeleteRequest
   - Added Interface UnlockDeleteResponse
-  - Added Type Alias DppResourceGuardProxyCreateOrUpdateResponse
-  - Added Type Alias DppResourceGuardProxyGetResponse
-  - Added Type Alias DppResourceGuardProxyListNextResponse
-  - Added Type Alias DppResourceGuardProxyListResponse
-  - Added Type Alias DppResourceGuardProxyUnlockDeleteResponse
-    
-    
-## 1.0.0 (2023-03-08)
+  - Added Interface UserAssignedIdentity
+  - Added Interface UserFacingError
+  - Added Interface UserFacingWarningDetail
+  - Added Interface ValidateCrossRegionRestoreRequestObject
+  - Added Interface ValidateForBackupRequest
+  - Added Interface ValidateForModifyBackupRequest
+  - Added Interface ValidateRestoreRequestObject
+  - Added Type Alias AbsoluteMarker
+  - Added Type Alias ActionType
+  - Added Type Alias AKSVolumeTypes
+  - Added Type Alias AlertsState
+  - Added Type Alias AuthCredentialsUnion
+  - Added Type Alias AzureBackupRecoveryPointBasedRestoreRequestUnion
+  - Added Type Alias AzureBackupRecoveryPointUnion
+  - Added Type Alias AzureBackupRestoreRequestUnion
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BackupCriteriaUnion
+  - Added Type Alias BackupDatasourceParametersUnion
+  - Added Type Alias BackupParametersUnion
+  - Added Type Alias BaseBackupPolicyUnion
+  - Added Type Alias BasePolicyRuleUnion
+  - Added Type Alias BaseResourcePropertiesUnion
+  - Added Type Alias BcdrSecurityLevel
+  - Added Type Alias BlobBackupAutoProtectionSettingsUnion
+  - Added Type Alias BlobBackupDatasourceParametersUnion
+  - Added Type Alias BlobBackupPatternType
+  - Added Type Alias BlobBackupRuleMode
+  - Added Type Alias CopyOptionUnion
+  - Added Type Alias CreatedByType
+  - Added Type Alias CrossRegionRestoreState
+  - Added Type Alias CrossSubscriptionRestoreState
+  - Added Type Alias CurrentProtectionState
+  - Added Type Alias DataStoreParametersUnion
+  - Added Type Alias DataStoreTypes
+  - Added Type Alias DayOfWeek
+  - Added Type Alias DeleteOptionUnion
+  - Added Type Alias EncryptionState
+  - Added Type Alias ExistingResourcePolicy
+  - Added Type Alias FeatureSupportStatus
+  - Added Type Alias FeatureType
+  - Added Type Alias FeatureValidationRequestBaseUnion
+  - Added Type Alias FeatureValidationResponseBaseUnion
+  - Added Type Alias IdentityType
+  - Added Type Alias ImmutabilityState
+  - Added Type Alias InfrastructureEncryptionState
+  - Added Type Alias ItemLevelRestoreCriteriaUnion
+  - Added Type Alias Month
+  - Added Type Alias OperationExtendedInfoUnion
+  - Added Type Alias Origin
+  - Added Type Alias PersistentVolumeRestoreMode
+  - Added Type Alias ProvisioningState
+  - Added Type Alias RecoveryOption
+  - Added Type Alias RecoveryPointCompletionState
+  - Added Type Alias RehydrationPriority
+  - Added Type Alias RehydrationStatus
+  - Added Type Alias ResourceMoveState
+  - Added Type Alias ResourcePropertiesObjectType
+  - Added Type Alias RestoreSourceDataStoreType
+  - Added Type Alias RestoreTargetInfoBaseUnion
+  - Added Type Alias RestoreTargetLocationType
+  - Added Type Alias SecretStoreType
+  - Added Type Alias SecureScoreLevel
+  - Added Type Alias SoftDeleteState
+  - Added Type Alias SourceDataStoreType
+  - Added Type Alias Status
+  - Added Type Alias StorageSettingStoreTypes
+  - Added Type Alias StorageSettingTypes
+  - Added Type Alias SyncType
+  - Added Type Alias TriggerContextUnion
+  - Added Type Alias ValidationType
+  - Added Type Alias WeekNumber
+  - Added Enum AzureClouds
+  - Added Enum KnownAbsoluteMarker
+  - Added Enum KnownActionType
+  - Added Enum KnownAKSVolumeTypes
+  - Added Enum KnownAlertsState
+  - Added Enum KnownBcdrSecurityLevel
+  - Added Enum KnownBlobBackupPatternType
+  - Added Enum KnownBlobBackupRuleMode
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownCrossRegionRestoreState
+  - Added Enum KnownCrossSubscriptionRestoreState
+  - Added Enum KnownCurrentProtectionState
+  - Added Enum KnownDataStoreTypes
+  - Added Enum KnownDayOfWeek
+  - Added Enum KnownEncryptionState
+  - Added Enum KnownExistingResourcePolicy
+  - Added Enum KnownFeatureSupportStatus
+  - Added Enum KnownFeatureType
+  - Added Enum KnownIdentityType
+  - Added Enum KnownImmutabilityState
+  - Added Enum KnownInfrastructureEncryptionState
+  - Added Enum KnownMonth
+  - Added Enum KnownOrigin
+  - Added Enum KnownPersistentVolumeRestoreMode
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownRecoveryOption
+  - Added Enum KnownRecoveryPointCompletionState
+  - Added Enum KnownRehydrationPriority
+  - Added Enum KnownRehydrationStatus
+  - Added Enum KnownResourceMoveState
+  - Added Enum KnownResourcePropertiesObjectType
+  - Added Enum KnownRestoreSourceDataStoreType
+  - Added Enum KnownRestoreTargetLocationType
+  - Added Enum KnownSecretStoreType
+  - Added Enum KnownSecureScoreLevel
+  - Added Enum KnownSoftDeleteState
+  - Added Enum KnownSourceDataStoreType
+  - Added Enum KnownStatus
+  - Added Enum KnownStorageSettingStoreTypes
+  - Added Enum KnownStorageSettingTypes
+  - Added Enum KnownSyncType
+  - Added Enum KnownValidationType
+  - Added Enum KnownVersions
+  - Added Enum KnownWeekNumber
 
-The package of @azure/arm-dataprotection is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

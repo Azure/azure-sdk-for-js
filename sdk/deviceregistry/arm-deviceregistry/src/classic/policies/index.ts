@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
+import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
 import {
   activateBringYourOwnRoot,
   revokeIssuer,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/policies/operations.js";
-import type {
+import {
   PoliciesActivateBringYourOwnRootOptionalParams,
   PoliciesRevokeIssuerOptionalParams,
   PoliciesListByResourceGroupOptionalParams,
@@ -20,9 +20,9 @@ import type {
   PoliciesCreateOrUpdateOptionalParams,
   PoliciesGetOptionalParams,
 } from "../../api/policies/options.js";
-import type { Policy, PolicyUpdate, ActivateBringYourOwnRootRequest } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Policy, PolicyUpdate, ActivateBringYourOwnRootRequest } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Policies operations. */
 export interface PoliciesOperations {
@@ -56,11 +56,6 @@ export interface PoliciesOperations {
     options?: PoliciesUpdateOptionalParams,
   ) => PollerLike<OperationState<Policy>, Policy>;
   /** Delete a Policy */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     namespaceName: string,

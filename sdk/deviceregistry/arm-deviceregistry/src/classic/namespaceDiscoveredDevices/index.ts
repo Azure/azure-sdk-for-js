@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
+import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
 import {
   listByResourceGroup,
   $delete,
@@ -9,19 +9,16 @@ import {
   createOrReplace,
   get,
 } from "../../api/namespaceDiscoveredDevices/operations.js";
-import type {
+import {
   NamespaceDiscoveredDevicesListByResourceGroupOptionalParams,
   NamespaceDiscoveredDevicesDeleteOptionalParams,
   NamespaceDiscoveredDevicesUpdateOptionalParams,
   NamespaceDiscoveredDevicesCreateOrReplaceOptionalParams,
   NamespaceDiscoveredDevicesGetOptionalParams,
 } from "../../api/namespaceDiscoveredDevices/options.js";
-import type {
-  NamespaceDiscoveredDevice,
-  NamespaceDiscoveredDeviceUpdate,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { NamespaceDiscoveredDevice, NamespaceDiscoveredDeviceUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NamespaceDiscoveredDevices operations. */
 export interface NamespaceDiscoveredDevicesOperations {
@@ -32,11 +29,6 @@ export interface NamespaceDiscoveredDevicesOperations {
     options?: NamespaceDiscoveredDevicesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<NamespaceDiscoveredDevice>;
   /** Delete a NamespaceDiscoveredDevice */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     namespaceName: string,

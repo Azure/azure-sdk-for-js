@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import { list } from "../../api/dataProtectionOperations/operations.js";
-import type { DataProtectionOperationsListOptionalParams } from "../../api/dataProtectionOperations/options.js";
-import type { Operation } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { DataProtectionOperationsListOptionalParams } from "../../api/dataProtectionOperations/options.js";
+import { Operation } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DataProtectionOperations operations. */
 export interface DataProtectionOperationsOperations {

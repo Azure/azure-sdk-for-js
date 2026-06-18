@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type FileSystemsListBySubscriptionOptionalParams,
-  type FileSystemsListByResourceGroupOptionalParams,
-  type FileSystemsDeleteOptionalParams,
-  type FileSystemsUpdateOptionalParams,
-  type FileSystemsCreateOrUpdateOptionalParams,
-  type FileSystemsGetOptionalParams,
+export type {
+  FileSystemsListBySubscriptionOptionalParams,
+  FileSystemsListByResourceGroupOptionalParams,
+  FileSystemsDeleteOptionalParams,
+  FileSystemsUpdateOptionalParams,
+  FileSystemsCreateOrUpdateOptionalParams,
+  FileSystemsGetOptionalParams,
 } from "./options.js";
