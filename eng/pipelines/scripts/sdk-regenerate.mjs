@@ -379,21 +379,26 @@ function buildPackageDescriptor(sdkRelativePath) {
 // Returns the api-version recorded in the package's metadata.json so the
 // emitter can be pinned to it. Without this, a newer emitter may pick a
 // different default api-version from the spec and silently change it.
+// Handles both shapes: { apiVersion: "x" } and { apiVersions: { ns: "x" } }.
 // Skips when there is no single api-version to pin (new/multi-namespace pkg).
 function resolvePinnedApiVersion(packageDir) {
   const metadataPath = path.join(packageDir, "metadata.json");
   if (!fs.existsSync(metadataPath)) return { apiVersion: null, reason: "no metadata.json" };
-  let apiVersions;
+  let metadata;
   try {
-    apiVersions = JSON.parse(fs.readFileSync(metadataPath, "utf8")).apiVersions;
+    metadata = JSON.parse(fs.readFileSync(metadataPath, "utf8"));
   } catch (err) {
     return { apiVersion: null, reason: `unparsable metadata.json: ${err.message}` };
   }
-  const namespaces = apiVersions && typeof apiVersions === "object" ? Object.keys(apiVersions) : [];
+  if (typeof metadata.apiVersion === "string") {
+    return { apiVersion: metadata.apiVersion, reason: `pinned ${metadata.apiVersion}` };
+  }
+  const versions = metadata.apiVersions;
+  const namespaces = versions && typeof versions === "object" ? Object.keys(versions) : [];
   if (namespaces.length !== 1) {
     return { apiVersion: null, reason: `skipped (${namespaces.length} namespaces)` };
   }
-  const apiVersion = String(apiVersions[namespaces[0]]);
+  const apiVersion = String(versions[namespaces[0]]);
   return { apiVersion, reason: `pinned ${namespaces[0]}=${apiVersion}` };
 }
 
