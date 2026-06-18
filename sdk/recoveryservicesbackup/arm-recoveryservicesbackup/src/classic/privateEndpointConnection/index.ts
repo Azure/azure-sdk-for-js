@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { $delete, put, get } from "../../api/privateEndpointConnection/operations.js";
-import type {
+import {
   PrivateEndpointConnectionDeleteOptionalParams,
   PrivateEndpointConnectionPutOptionalParams,
   PrivateEndpointConnectionGetOptionalParams,
 } from "../../api/privateEndpointConnection/options.js";
-import type { PrivateEndpointConnectionResource } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PrivateEndpointConnectionResource } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateEndpointConnection operations. */
 export interface PrivateEndpointConnectionOperations {

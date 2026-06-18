@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { update, get } from "../../api/backupResourceEncryptionConfigs/operations.js";
-import type {
+import {
   BackupResourceEncryptionConfigsUpdateOptionalParams,
   BackupResourceEncryptionConfigsGetOptionalParams,
 } from "../../api/backupResourceEncryptionConfigs/options.js";
-import type {
+import {
   BackupResourceEncryptionConfigExtendedResource,
   BackupResourceEncryptionConfigResource,
 } from "../../models/models.js";

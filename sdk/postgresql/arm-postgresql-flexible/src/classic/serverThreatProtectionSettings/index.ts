@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
+import { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
 import { createOrUpdate } from "../../api/serverThreatProtectionSettings/operations.js";
-import type { ServerThreatProtectionSettingsCreateOrUpdateOptionalParams } from "../../api/serverThreatProtectionSettings/options.js";
-import type {
+import { ServerThreatProtectionSettingsCreateOrUpdateOptionalParams } from "../../api/serverThreatProtectionSettings/options.js";
+import {
   AdvancedThreatProtectionSettingsModel,
   ThreatProtectionName,
 } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ServerThreatProtectionSettings operations. */
 export interface ServerThreatProtectionSettingsOperations {

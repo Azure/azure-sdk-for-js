@@ -1,16 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { post } from "../../api/fetchTieringCost/operations.js";
-import type { FetchTieringCostPostOptionalParams } from "../../api/fetchTieringCost/options.js";
-import type {
-  FetchTieringCostInfoRequestUnion,
-  TieringCostInfoUnion,
-} from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { FetchTieringCostPostOptionalParams } from "../../api/fetchTieringCost/options.js";
+import { FetchTieringCostInfoRequestUnion, TieringCostInfoUnion } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FetchTieringCost operations. */
 export interface FetchTieringCostOperations {

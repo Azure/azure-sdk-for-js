@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quota/arm-quota)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-quota)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-quota?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-quota)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quota/arm-quota/samples)
 
 ## Getting started

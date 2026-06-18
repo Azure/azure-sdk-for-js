@@ -35,16 +35,18 @@ export function _refreshSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _refreshDeserialize(
   result: PathUncheckedResponse,
 ): Promise<VaultHealthDetails> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -59,7 +61,7 @@ export function refresh(
   resourceName: string,
   options: ReplicationVaultHealthRefreshOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<VaultHealthDetails>, VaultHealthDetails> {
-  return getLongRunningPoller(context, _refreshDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _refreshDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _refreshSend(context, resourceGroupName, resourceName, options),
@@ -86,10 +88,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<VaultHealthDetails> {

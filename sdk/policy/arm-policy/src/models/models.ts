@@ -535,8 +535,8 @@ export interface UserAssignedIdentitiesValue {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitiesValueSerializer(item: UserAssignedIdentitiesValue): any {
-  return item;
+export function userAssignedIdentitiesValueSerializer(_item: UserAssignedIdentitiesValue): any {
+  return {};
 }
 
 export function userAssignedIdentitiesValueDeserializer(item: any): UserAssignedIdentitiesValue {
@@ -549,8 +549,8 @@ export function userAssignedIdentitiesValueDeserializer(item: any): UserAssigned
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
 
-export function extensionResourceSerializer(item: ExtensionResource): any {
-  return item;
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
 }
 
 export function extensionResourceDeserializer(item: any): ExtensionResource {
@@ -576,8 +576,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1146,8 +1146,8 @@ export function externalEvaluationEndpointSettingsDeserializer(
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1309,16 +1309,16 @@ export function policyDefinitionVersionPropertiesDeserializer(
 }
 
 /** The response of a PolicyDefinitionVersion list operation. */
-export interface _PolicyDefinitionVersionListResult {
+export interface PolicyDefinitionVersionListResult {
   /** The PolicyDefinitionVersion items on this page */
   value: PolicyDefinitionVersion[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _policyDefinitionVersionListResultDeserializer(
+export function policyDefinitionVersionListResultDeserializer(
   item: any,
-): _PolicyDefinitionVersionListResult {
+): PolicyDefinitionVersionListResult {
   return {
     value: policyDefinitionVersionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1718,16 +1718,16 @@ export function policySetDefinitionVersionPropertiesDeserializer(
 }
 
 /** The response of a PolicySetDefinitionVersion list operation. */
-export interface _PolicySetDefinitionVersionListResult {
+export interface PolicySetDefinitionVersionListResult {
   /** The PolicySetDefinitionVersion items on this page */
   value: PolicySetDefinitionVersion[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _policySetDefinitionVersionListResultDeserializer(
+export function policySetDefinitionVersionListResultDeserializer(
   item: any,
-): _PolicySetDefinitionVersionListResult {
+): PolicySetDefinitionVersionListResult {
   return {
     value: policySetDefinitionVersionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
