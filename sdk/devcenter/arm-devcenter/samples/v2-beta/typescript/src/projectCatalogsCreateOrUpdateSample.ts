@@ -19,13 +19,11 @@ async function projectCatalogsCreateOrUpdateAdo(): Promise<void> {
     "DevProject",
     "CentralCatalog",
     {
-      properties: {
-        adoGit: {
-          path: "/templates",
-          branch: "main",
-          secretIdentifier: "https://contosokv.vault.azure.net/secrets/CentralRepoPat",
-          uri: "https://contoso@dev.azure.com/contoso/contosoOrg/_git/centralrepo-fakecontoso",
-        },
+      adoGit: {
+        path: "/templates",
+        branch: "main",
+        secretIdentifier: "https://contosokv.vault.azure.net/secrets/CentralRepoPat",
+        uri: "https://contoso@dev.azure.com/contoso/contosoOrg/_git/centralrepo-fakecontoso",
       },
     },
   );
@@ -47,13 +45,11 @@ async function projectCatalogsCreateOrUpdateGitHub(): Promise<void> {
     "DevProject",
     "CentralCatalog",
     {
-      properties: {
-        gitHub: {
-          path: "/templates",
-          branch: "main",
-          secretIdentifier: "https://contosokv.vault.azure.net/secrets/CentralRepoPat",
-          uri: "https://github.com/Contoso/centralrepo-fake.git",
-        },
+      gitHub: {
+        path: "/templates",
+        branch: "main",
+        secretIdentifier: "https://contosokv.vault.azure.net/secrets/CentralRepoPat",
+        uri: "https://github.com/Contoso/centralrepo-fake.git",
       },
     },
   );

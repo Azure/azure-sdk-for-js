@@ -15,10 +15,8 @@ async function galleriesCreateOrUpdate(): Promise<void> {
   const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.galleries.createOrUpdate("rg1", "Contoso", "StandardGallery", {
-    properties: {
-      galleryResourceId:
-        "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.Compute/galleries/StandardGallery",
-    },
+    galleryResourceId:
+      "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.Compute/galleries/StandardGallery",
   });
   console.log(result);
 }

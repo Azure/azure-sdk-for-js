@@ -16,16 +16,14 @@ async function projectsCreateOrUpdate() {
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.projects.createOrUpdate("rg1", "DevProject", {
     location: "centralus",
-    properties: {
-      description: "This is my first project.",
-      devCenterId:
-        "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso",
-      displayName: "Dev",
-      assignedGroups: [
-        { objectId: "11111111-1111-1111-1111-111111111111", scope: "DevBox" },
-        { objectId: "22222222-2222-2222-2222-222222222222", scope: "DevBox" },
-      ],
-    },
+    description: "This is my first project.",
+    devCenterId:
+      "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso",
+    displayName: "Dev",
+    assignedGroups: [
+      { objectId: "11111111-1111-1111-1111-111111111111", scope: "DevBox" },
+      { objectId: "22222222-2222-2222-2222-222222222222", scope: "DevBox" },
+    ],
     tags: { CostCenter: "R&D" },
   });
   console.log(result);
@@ -50,20 +48,18 @@ async function projectsCreateOrUpdateWithCustomizationSettings() {
       },
     },
     location: "centralus",
-    properties: {
-      description: "This is my first project.",
-      customizationSettings: {
-        identities: [
-          {
-            identityResourceId:
-              "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/identityGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity1",
-            identityType: "userAssignedIdentity",
-          },
-        ],
-      },
-      devCenterId:
-        "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso",
+    description: "This is my first project.",
+    customizationSettings: {
+      identities: [
+        {
+          identityResourceId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/identityGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity1",
+          identityType: "userAssignedIdentity",
+        },
+      ],
     },
+    devCenterId:
+      "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso",
     tags: { CostCenter: "R&D" },
   });
   console.log(result);
@@ -82,12 +78,10 @@ async function projectsCreateOrUpdateWithCustomizationSettingsSystemIdentity() {
   const result = await client.projects.createOrUpdate("rg1", "DevProject", {
     identity: { type: "SystemAssigned" },
     location: "centralus",
-    properties: {
-      description: "This is my first project.",
-      customizationSettings: { identities: [{ identityType: "systemAssignedIdentity" }] },
-      devCenterId:
-        "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso",
-    },
+    description: "This is my first project.",
+    customizationSettings: { identities: [{ identityType: "systemAssignedIdentity" }] },
+    devCenterId:
+      "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso",
     tags: { CostCenter: "R&D" },
   });
   console.log(result);
@@ -105,12 +99,10 @@ async function projectsCreateOrUpdateWithLimitsPerDev() {
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.projects.createOrUpdate("rg1", "DevProject", {
     location: "centralus",
-    properties: {
-      description: "This is my first project.",
-      devCenterId:
-        "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso",
-      maxDevBoxesPerUser: 3,
-    },
+    description: "This is my first project.",
+    devCenterId:
+      "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso",
+    maxDevBoxesPerUser: 3,
     tags: { CostCenter: "R&D" },
   });
   console.log(result);

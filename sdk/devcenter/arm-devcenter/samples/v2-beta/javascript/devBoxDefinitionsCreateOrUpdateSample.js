@@ -16,13 +16,11 @@ async function devBoxDefinitionsCreate() {
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.devBoxDefinitions.createOrUpdate("rg1", "Contoso", "WebDevBox", {
     location: "centralus",
-    properties: {
-      hibernateSupport: "Enabled",
-      imageReference: {
-        id: "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/Example/providers/Microsoft.DevCenter/devcenters/Contoso/galleries/contosogallery/images/exampleImage/versions/1.0.0",
-      },
-      sku: { name: "Preview" },
+    hibernateSupport: "Enabled",
+    imageReference: {
+      id: "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/Example/providers/Microsoft.DevCenter/devcenters/Contoso/galleries/contosogallery/images/exampleImage/versions/1.0.0",
     },
+    sku: { name: "Preview" },
   });
   console.log(result);
 }

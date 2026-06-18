@@ -15,7 +15,7 @@ async function environmentTypesCreateOrUpdate(): Promise<void> {
   const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.environmentTypes.createOrUpdate("rg1", "Contoso", "DevTest", {
-    properties: { displayName: "Dev" },
+    displayName: "Dev",
     tags: { Owner: "superuser" },
   });
   console.log(result);

@@ -32,7 +32,8 @@ export interface ActiveHoursConfiguration {
 
 // @public
 export interface AllowedEnvironmentType extends ProxyResource {
-    properties?: AllowedEnvironmentTypeProperties;
+    readonly displayName?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -55,7 +56,11 @@ export type AssignedGroupScope = string;
 
 // @public
 export interface AttachedNetworkConnection extends ProxyResource {
-    properties?: AttachedNetworkConnectionProperties;
+    readonly domainJoinType?: DomainJoinType;
+    readonly healthCheckStatus?: HealthCheckStatus;
+    networkConnectionId?: string;
+    readonly networkConnectionLocation?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -148,7 +153,17 @@ export interface Capability {
 
 // @public
 export interface Catalog extends ProxyResource {
-    properties?: CatalogProperties;
+    adoGit?: GitCatalog;
+    autoImageBuildEnableStatus?: CatalogAutoImageBuildEnableStatus;
+    readonly connectionState?: CatalogConnectionState;
+    gitHub?: GitCatalog;
+    readonly lastConnectionTime?: Date;
+    readonly lastSyncStats?: SyncStats;
+    readonly lastSyncTime?: Date;
+    readonly provisioningState?: ProvisioningState;
+    readonly syncState?: CatalogSyncState;
+    syncType?: CatalogSyncType;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -439,7 +454,15 @@ export interface DefinitionParametersItem {
 
 // @public
 export interface DevBoxDefinition extends TrackedResource {
-    properties?: DevBoxDefinitionProperties;
+    readonly activeImageReference?: ImageReference;
+    hibernateSupport?: HibernateSupport;
+    imageReference?: ImageReference;
+    readonly imageValidationErrorDetails?: ImageValidationErrorDetails;
+    readonly imageValidationStatus?: ImageValidationStatus;
+    osStorageType?: string;
+    readonly provisioningState?: ProvisioningState;
+    sku?: Sku;
+    readonly validationStatus?: CatalogResourceValidationStatus;
 }
 
 // @public
@@ -549,8 +572,14 @@ export type DevBoxTunnelEnableStatus = string;
 
 // @public
 export interface DevCenter extends TrackedResource {
+    devBoxProvisioningSettings?: DevBoxProvisioningSettings;
+    readonly devCenterUri?: string;
+    displayName?: string;
+    encryption?: Encryption;
     identity?: ManagedServiceIdentity;
-    properties?: DevCenterProperties;
+    networkSettings?: DevCenterNetworkSettings;
+    projectCatalogSettings?: DevCenterProjectCatalogSettings;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -853,7 +882,10 @@ export interface EndpointDetail {
 
 // @public
 export interface EnvironmentDefinition extends ProxyResource {
-    properties?: EnvironmentDefinitionProperties;
+    readonly description?: string;
+    readonly parameters?: EnvironmentDefinitionParameter[];
+    readonly templatePath?: string;
+    readonly validationStatus?: CatalogResourceValidationStatus;
 }
 
 // @public
@@ -912,7 +944,8 @@ export interface EnvironmentRole {
 
 // @public
 export interface EnvironmentType extends ProxyResource {
-    properties?: EnvironmentTypeProperties;
+    displayName?: string;
+    readonly provisioningState?: ProvisioningState;
     tags?: Record<string, string>;
 }
 
@@ -1036,7 +1069,8 @@ export interface GalleriesOperations {
 
 // @public
 export interface Gallery extends ProxyResource {
-    properties?: GalleryProperties;
+    galleryResourceId?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -1069,7 +1103,9 @@ export type HealthCheckStatus = string;
 
 // @public
 export interface HealthCheckStatusDetails extends ProxyResource {
-    properties?: HealthCheckStatusDetailsProperties;
+    readonly endDateTime?: Date;
+    readonly healthChecks?: HealthCheck[];
+    readonly startDateTime?: Date;
 }
 
 // @public
@@ -1245,7 +1281,11 @@ export type ImageValidationStatus = string;
 
 // @public
 export interface ImageVersion extends ProxyResource {
-    properties?: ImageVersionProperties;
+    readonly excludeFromLatest?: boolean;
+    readonly namePropertiesName?: string;
+    readonly osDiskImageSizeInGb?: number;
+    readonly provisioningState?: ProvisioningState;
+    readonly publishedDate?: Date;
 }
 
 // @public
@@ -1726,7 +1766,15 @@ export type MicrosoftHostedNetworkEnableStatus = string;
 
 // @public
 export interface NetworkConnection extends TrackedResource {
-    properties?: NetworkProperties;
+    domainJoinType?: DomainJoinType;
+    domainName?: string;
+    domainPassword?: string;
+    domainUsername?: string;
+    readonly healthCheckStatus?: HealthCheckStatus;
+    networkingResourceGroupName?: string;
+    organizationUnit?: string;
+    readonly provisioningState?: ProvisioningState;
+    subnetId?: string;
 }
 
 // @public
@@ -1916,7 +1964,24 @@ export type PolicyAction = string;
 
 // @public
 export interface Pool extends TrackedResource {
-    properties?: PoolProperties;
+    activeHoursConfiguration?: ActiveHoursConfiguration;
+    readonly devBoxCount?: number;
+    devBoxDefinition?: PoolDevBoxDefinition;
+    devBoxDefinitionName?: string;
+    devBoxDefinitionType?: PoolDevBoxDefinitionType;
+    devBoxTunnelEnableStatus?: DevBoxTunnelEnableStatus;
+    displayName?: string;
+    readonly healthStatus?: HealthStatus;
+    readonly healthStatusDetails?: HealthStatusDetail[];
+    licenseType?: LicenseType;
+    localAdministrator?: LocalAdminStatus;
+    managedVirtualNetworkRegions?: string[];
+    networkConnectionName?: string;
+    readonly provisioningState?: ProvisioningState;
+    singleSignOnStatus?: SingleSignOnStatus;
+    stopOnDisconnect?: StopOnDisconnectConfiguration;
+    stopOnNoConnect?: StopOnNoConnectConfiguration;
+    virtualNetworkType?: VirtualNetworkType;
 }
 
 // @public
@@ -2032,8 +2097,20 @@ export interface PoolUpdateProperties {
 
 // @public
 export interface Project extends TrackedResource {
+    assignedGroups?: AssignedGroup[];
+    azureAiServicesSettings?: AzureAiServicesSettings;
+    catalogSettings?: ProjectCatalogSettings;
+    customizationSettings?: ProjectCustomizationSettings;
+    description?: string;
+    devBoxScheduleDeleteSettings?: DevBoxScheduleDeleteSettings;
+    devCenterId?: string;
+    readonly devCenterUri?: string;
+    displayName?: string;
     identity?: ManagedServiceIdentity;
-    properties?: ProjectProperties;
+    maxDevBoxesPerUser?: number;
+    readonly provisioningState?: ProvisioningState;
+    serverlessGpuSessionsSettings?: ServerlessGpuSessionsSettings;
+    workspaceStorageSettings?: WorkspaceStorageSettings;
 }
 
 // @public
@@ -2215,8 +2292,14 @@ export interface ProjectCustomizationSettings {
 
 // @public
 export interface ProjectEnvironmentType extends TrackedResource {
+    creatorRoleAssignment?: ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment;
+    deploymentTargetId?: string;
+    displayName?: string;
+    readonly environmentCount?: number;
     identity?: ManagedServiceIdentity;
-    properties?: ProjectEnvironmentTypeProperties;
+    readonly provisioningState?: ProvisioningState;
+    status?: EnvironmentTypeEnableStatus;
+    userRoleAssignments?: Record<string, UserRoleAssignmentValue>;
 }
 
 // @public
@@ -2498,7 +2581,14 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 
 // @public
 export interface Schedule extends ProxyResource {
-    properties?: ScheduleProperties;
+    frequency?: ScheduledFrequency;
+    location?: string;
+    readonly provisioningState?: ProvisioningState;
+    state?: ScheduleEnableStatus;
+    tags?: Record<string, string>;
+    time?: string;
+    timeZone?: string;
+    typePropertiesType?: ScheduledType;
 }
 
 // @public

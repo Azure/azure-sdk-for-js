@@ -15,10 +15,8 @@ async function attachedNetworksCreate(): Promise<void> {
   const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.attachedNetworks.createOrUpdate("rg1", "Contoso", "network-uswest3", {
-    properties: {
-      networkConnectionId:
-        "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/NetworkConnections/network-uswest3",
-    },
+    networkConnectionId:
+      "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/NetworkConnections/network-uswest3",
   });
   console.log(result);
 }

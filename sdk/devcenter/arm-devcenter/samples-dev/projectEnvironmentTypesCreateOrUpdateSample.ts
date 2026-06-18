@@ -27,14 +27,12 @@ async function projectEnvironmentTypesCreateOrUpdate(): Promise<void> {
             {},
         },
       },
-      properties: {
-        creatorRoleAssignment: { roles: { "4cbf0b6c-e750-441c-98a7-10da8387e4d6": {} } },
-        deploymentTargetId: "/subscriptions/00000000-0000-0000-0000-000000000000",
-        status: "Enabled",
-        userRoleAssignments: {
-          "e45e3m7c-176e-416a-b466-0c5ec8298f8a": {
-            roles: { "4cbf0b6c-e750-441c-98a7-10da8387e4d6": {} },
-          },
+      creatorRoleAssignment: { roles: { "4cbf0b6c-e750-441c-98a7-10da8387e4d6": {} } },
+      deploymentTargetId: "/subscriptions/00000000-0000-0000-0000-000000000000",
+      status: "Enabled",
+      userRoleAssignments: {
+        "e45e3m7c-176e-416a-b466-0c5ec8298f8a": {
+          roles: { "4cbf0b6c-e750-441c-98a7-10da8387e4d6": {} },
         },
       },
       tags: { CostCenter: "RnD" },

@@ -15,16 +15,14 @@ async function catalogsCreateOrUpdateAdo() {
   const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.catalogs.createOrUpdate("rg1", "Contoso", "CentralCatalog", {
-    properties: {
-      adoGit: {
-        path: "/templates",
-        branch: "main",
-        secretIdentifier: "https://contosokv.vault.azure.net/secrets/CentralRepoPat",
-        uri: "https://contoso@dev.azure.com/contoso/contosoOrg/_git/centralrepo-fakecontoso",
-      },
-      syncType: "Scheduled",
-      autoImageBuildEnableStatus: "Enabled",
+    adoGit: {
+      path: "/templates",
+      branch: "main",
+      secretIdentifier: "https://contosokv.vault.azure.net/secrets/CentralRepoPat",
+      uri: "https://contoso@dev.azure.com/contoso/contosoOrg/_git/centralrepo-fakecontoso",
     },
+    syncType: "Scheduled",
+    autoImageBuildEnableStatus: "Enabled",
   });
   console.log(result);
 }
@@ -40,16 +38,14 @@ async function catalogsCreateOrUpdateGitHub() {
   const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58fffff";
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.catalogs.createOrUpdate("rg1", "Contoso", "CentralCatalog", {
-    properties: {
-      gitHub: {
-        path: "/templates",
-        branch: "main",
-        secretIdentifier: "https://contosokv.vault.azure.net/secrets/CentralRepoPat",
-        uri: "https://github.com/Contoso/centralrepo-fake.git",
-      },
-      syncType: "Manual",
-      autoImageBuildEnableStatus: "Enabled",
+    gitHub: {
+      path: "/templates",
+      branch: "main",
+      secretIdentifier: "https://contosokv.vault.azure.net/secrets/CentralRepoPat",
+      uri: "https://github.com/Contoso/centralrepo-fake.git",
     },
+    syncType: "Manual",
+    autoImageBuildEnableStatus: "Enabled",
   });
   console.log(result);
 }

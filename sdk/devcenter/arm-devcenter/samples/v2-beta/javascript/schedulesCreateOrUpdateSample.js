@@ -20,13 +20,11 @@ async function schedulesCreateDailyShutdownPoolSchedule() {
     "DevPool",
     "autoShutdown",
     {
-      properties: {
-        type: "StopDevBox",
-        frequency: "Daily",
-        state: "Enabled",
-        time: "17:30",
-        timeZone: "America/Los_Angeles",
-      },
+      typePropertiesType: "StopDevBox",
+      frequency: "Daily",
+      state: "Enabled",
+      time: "17:30",
+      timeZone: "America/Los_Angeles",
     },
   );
   console.log(result);

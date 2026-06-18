@@ -16,11 +16,9 @@ async function devCentersCreate(): Promise<void> {
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.devCenters.createOrUpdate("rg1", "Contoso", {
     location: "centralus",
-    properties: {
-      devBoxProvisioningSettings: { installAzureMonitorAgentEnableStatus: "Enabled" },
-      displayName: "ContosoDevCenter",
-      projectCatalogSettings: { catalogItemSyncEnableStatus: "Enabled" },
-    },
+    devBoxProvisioningSettings: { installAzureMonitorAgentEnableStatus: "Enabled" },
+    displayName: "ContosoDevCenter",
+    projectCatalogSettings: { catalogItemSyncEnableStatus: "Enabled" },
     tags: { CostCode: "12345" },
   });
   console.log(result);
@@ -45,10 +43,8 @@ async function devCentersCreateWithDisabledManagedNetworks(): Promise<void> {
       },
     },
     location: "centralus",
-    properties: {
-      displayName: "ContosoDevCenter",
-      networkSettings: { microsoftHostedNetworkEnableStatus: "Disabled" },
-    },
+    displayName: "ContosoDevCenter",
+    networkSettings: { microsoftHostedNetworkEnableStatus: "Disabled" },
     tags: { CostCode: "12345" },
   });
   console.log(result);
@@ -73,17 +69,15 @@ async function devCentersCreateWithEncryption(): Promise<void> {
       },
     },
     location: "centralus",
-    properties: {
-      displayName: "ContosoDevCenter",
-      encryption: {
-        customerManagedKeyEncryption: {
-          keyEncryptionKeyIdentity: {
-            identityType: "userAssignedIdentity",
-            userAssignedIdentityResourceId:
-              "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/identityGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity1",
-          },
-          keyEncryptionKeyUrl: "https://contosovault.vault.azure.net/keys/contosokek",
+    displayName: "ContosoDevCenter",
+    encryption: {
+      customerManagedKeyEncryption: {
+        keyEncryptionKeyIdentity: {
+          identityType: "userAssignedIdentity",
+          userAssignedIdentityResourceId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/identityGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity1",
         },
+        keyEncryptionKeyUrl: "https://contosovault.vault.azure.net/keys/contosokek",
       },
     },
     tags: { CostCode: "12345" },
@@ -110,7 +104,7 @@ async function devCentersCreateWithUserIdentity(): Promise<void> {
       },
     },
     location: "centralus",
-    properties: { displayName: "ContosoDevCenter" },
+    displayName: "ContosoDevCenter",
     tags: { CostCode: "12345" },
   });
   console.log(result);

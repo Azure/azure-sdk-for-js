@@ -16,15 +16,13 @@ async function networkConnectionsCreateOrUpdate(): Promise<void> {
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.networkConnections.createOrUpdate("rg1", "uswest3network", {
     location: "centralus",
-    properties: {
-      domainJoinType: "HybridAzureADJoin",
-      domainName: "mydomaincontroller.local",
-      domainPassword: "Password value for user",
-      domainUsername: "testuser@mydomaincontroller.local",
-      networkingResourceGroupName: "NetworkInterfaces",
-      subnetId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ExampleRG/providers/Microsoft.Network/virtualNetworks/ExampleVNet/subnets/default",
-    },
+    domainJoinType: "HybridAzureADJoin",
+    domainName: "mydomaincontroller.local",
+    domainPassword: "Password value for user",
+    domainUsername: "testuser@mydomaincontroller.local",
+    networkingResourceGroupName: "NetworkInterfaces",
+    subnetId:
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ExampleRG/providers/Microsoft.Network/virtualNetworks/ExampleVNet/subnets/default",
   });
   console.log(result);
 }

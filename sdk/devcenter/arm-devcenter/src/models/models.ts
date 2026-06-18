@@ -480,19 +480,37 @@ export function imageArrayDeserializer(result: Array<Image>): any[] {
 
 /** Represents a devcenter resource. */
 export interface DevCenter extends TrackedResource {
-  /** DevCenter properties */
-  properties?: DevCenterProperties;
   /** Managed identity properties. */
   identity?: ManagedServiceIdentity;
+  /** Encryption settings to be used for server-side encryption for proprietary content (such as catalogs, logs, customizations). */
+  encryption?: Encryption;
+  /** The display name of the devcenter. */
+  displayName?: string;
+  /** Dev Center settings to be used when associating a project with a catalog. */
+  projectCatalogSettings?: DevCenterProjectCatalogSettings;
+  /** Network settings that will be enforced on network resources associated with the Dev Center. */
+  networkSettings?: DevCenterNetworkSettings;
+  /** Settings to be used in the provisioning of all Dev Boxes that belong to this dev center. */
+  devBoxProvisioningSettings?: DevBoxProvisioningSettings;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** The URI of the Dev Center. */
+  readonly devCenterUri?: string;
 }
 
 export function devCenterSerializer(item: DevCenter): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : devCenterPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "encryption",
+      "displayName",
+      "projectCatalogSettings",
+      "networkSettings",
+      "devBoxProvisioningSettings",
+    ])
+      ? undefined
+      : _devCenterPropertiesSerializer(item),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
@@ -511,9 +529,9 @@ export function devCenterDeserializer(item: any): DevCenter {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : devCenterPropertiesDeserializer(item["properties"]),
+      : _devCenterPropertiesDeserializer(item["properties"])),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -1434,19 +1452,55 @@ export function projectPolicyArrayDeserializer(result: Array<ProjectPolicy>): an
 
 /** Represents a project resource. */
 export interface Project extends TrackedResource {
-  /** Properties of a project. */
-  properties?: ProjectProperties;
   /** Managed identity properties. */
   identity?: ManagedServiceIdentity;
+  /** Resource Id of an associated DevCenter. */
+  devCenterId?: string;
+  /** Description of the project. */
+  description?: string;
+  /** When specified, limits the maximum number of Dev Boxes a single user can create across all pools in the project. This will have no effect on existing Dev Boxes when reduced. */
+  maxDevBoxesPerUser?: number;
+  /** The display name of the project. */
+  displayName?: string;
+  /** Settings to be used when associating a project with a catalog. */
+  catalogSettings?: ProjectCatalogSettings;
+  /** Settings to be used for customizations. */
+  customizationSettings?: ProjectCustomizationSettings;
+  /** Dev Box Schedule Delete settings. */
+  devBoxScheduleDeleteSettings?: DevBoxScheduleDeleteSettings;
+  /** Indicates whether Azure AI services are enabled for a project. */
+  azureAiServicesSettings?: AzureAiServicesSettings;
+  /** Settings to be used for serverless GPU. */
+  serverlessGpuSessionsSettings?: ServerlessGpuSessionsSettings;
+  /** Settings to be used for workspace storage. */
+  workspaceStorageSettings?: WorkspaceStorageSettings;
+  /** List of Entra ID group assignments associated with this project. */
+  assignedGroups?: AssignedGroup[];
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** The URI of the Dev Center resource this project is associated with. */
+  readonly devCenterUri?: string;
 }
 
 export function projectSerializer(item: Project): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : projectPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "devCenterId",
+      "description",
+      "maxDevBoxesPerUser",
+      "displayName",
+      "catalogSettings",
+      "customizationSettings",
+      "devBoxScheduleDeleteSettings",
+      "azureAiServicesSettings",
+      "serverlessGpuSessionsSettings",
+      "workspaceStorageSettings",
+      "assignedGroups",
+    ])
+      ? undefined
+      : _projectPropertiesSerializer(item),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
@@ -1465,9 +1519,9 @@ export function projectDeserializer(item: any): Project {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : projectPropertiesDeserializer(item["properties"]),
+      : _projectPropertiesDeserializer(item["properties"])),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -2182,15 +2236,23 @@ export function projectNetworkSettingsDeserializer(item: any): ProjectNetworkSet
 
 /** Represents an attached NetworkConnection. */
 export interface AttachedNetworkConnection extends ProxyResource {
-  /** Attached NetworkConnection properties. */
-  properties?: AttachedNetworkConnectionProperties;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** The resource ID of the NetworkConnection you want to attach. */
+  networkConnectionId?: string;
+  /** The geo-location where the NetworkConnection resource specified in 'networkConnectionResourceId' property lives. */
+  readonly networkConnectionLocation?: string;
+  /** Health check status values. */
+  readonly healthCheckStatus?: HealthCheckStatus;
+  /** AAD Join type of the network. This is populated based on the referenced Network Connection. */
+  readonly domainJoinType?: DomainJoinType;
 }
 
 export function attachedNetworkConnectionSerializer(item: AttachedNetworkConnection): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : attachedNetworkConnectionPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["networkConnectionId"])
+      ? undefined
+      : _attachedNetworkConnectionPropertiesSerializer(item),
   };
 }
 
@@ -2202,9 +2264,9 @@ export function attachedNetworkConnectionDeserializer(item: any): AttachedNetwor
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : attachedNetworkConnectionPropertiesDeserializer(item["properties"]),
+      : _attachedNetworkConnectionPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -2327,15 +2389,41 @@ export function attachedNetworkConnectionArrayDeserializer(
 
 /** Represents a catalog. */
 export interface Catalog extends ProxyResource {
-  /** Catalog properties. */
-  properties?: CatalogProperties;
+  /** Properties for a GitHub catalog type. */
+  gitHub?: GitCatalog;
+  /** Properties for an Azure DevOps catalog type. */
+  adoGit?: GitCatalog;
+  /** Indicates the type of sync that is configured for the catalog. */
+  syncType?: CatalogSyncType;
+  /** Indicates whether the catalog is configured to automatically build image definitions. Defaults to disabled for newly created catalogs. */
+  autoImageBuildEnableStatus?: CatalogAutoImageBuildEnableStatus;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** The synchronization state of the catalog. */
+  readonly syncState?: CatalogSyncState;
+  /** Stats of the latest synchronization. */
+  readonly lastSyncStats?: SyncStats;
+  /** The connection state of the catalog. */
+  readonly connectionState?: CatalogConnectionState;
+  /** When the catalog was last connected. */
+  readonly lastConnectionTime?: Date;
+  /** When the catalog was last synced. */
+  readonly lastSyncTime?: Date;
 }
 
 export function catalogSerializer(item: Catalog): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : catalogPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "gitHub",
+      "adoGit",
+      "syncType",
+      "autoImageBuildEnableStatus",
+      "tags",
+    ])
+      ? undefined
+      : _catalogPropertiesSerializer(item),
   };
 }
 
@@ -2347,9 +2435,9 @@ export function catalogDeserializer(item: any): Catalog {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : catalogPropertiesDeserializer(item["properties"]),
+      : _catalogPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -2723,8 +2811,14 @@ export function catalogErrorDetailsArrayDeserializer(result: Array<CatalogErrorD
 
 /** Represents an environment definition catalog item. */
 export interface EnvironmentDefinition extends ProxyResource {
-  /** Environment definition properties. */
-  properties?: EnvironmentDefinitionProperties;
+  /** A short description of the environment definition. */
+  readonly description?: string;
+  /** Input parameters passed to an environment. */
+  readonly parameters?: EnvironmentDefinitionParameter[];
+  /** Path to the Environment Definition entrypoint file. */
+  readonly templatePath?: string;
+  /** Validation status for the environment definition. */
+  readonly validationStatus?: CatalogResourceValidationStatus;
 }
 
 export function environmentDefinitionDeserializer(item: any): EnvironmentDefinition {
@@ -2735,9 +2829,9 @@ export function environmentDefinitionDeserializer(item: any): EnvironmentDefinit
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : environmentDefinitionPropertiesDeserializer(item["properties"]),
+      : _environmentDefinitionPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -2898,15 +2992,17 @@ export function catalogResourceValidationErrorDetailsDeserializer(
 
 /** Represents a gallery. */
 export interface Gallery extends ProxyResource {
-  /** Gallery properties. */
-  properties?: GalleryProperties;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** The resource ID of the backing Azure Compute Gallery. */
+  galleryResourceId?: string;
 }
 
 export function gallerySerializer(item: Gallery): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : galleryPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["galleryResourceId"])
+      ? undefined
+      : _galleryPropertiesSerializer(item),
   };
 }
 
@@ -2918,9 +3014,9 @@ export function galleryDeserializer(item: any): Gallery {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : galleryPropertiesDeserializer(item["properties"]),
+      : _galleryPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -2972,8 +3068,16 @@ export function galleryArrayDeserializer(result: Array<Gallery>): any[] {
 
 /** Represents an image version. */
 export interface ImageVersion extends ProxyResource {
-  /** Image version properties. */
-  properties?: ImageVersionProperties;
+  /** The semantic version string. */
+  readonly namePropertiesName?: string;
+  /** The datetime that the backing image version was published. */
+  readonly publishedDate?: Date;
+  /** If the version should be excluded from being treated as the latest version. */
+  readonly excludeFromLatest?: boolean;
+  /** The size of the OS disk image, in GB. */
+  readonly osDiskImageSizeInGb?: number;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
 }
 
 export function imageVersionDeserializer(item: any): ImageVersion {
@@ -2984,9 +3088,9 @@ export function imageVersionDeserializer(item: any): ImageVersion {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : imageVersionPropertiesDeserializer(item["properties"]),
+      : _imageVersionPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -3037,17 +3141,19 @@ export function imageVersionArrayDeserializer(result: Array<ImageVersion>): any[
 
 /** Represents an environment type. */
 export interface EnvironmentType extends ProxyResource {
-  /** Properties of an environment type. */
-  properties?: EnvironmentTypeProperties;
   /** Resource tags. */
   tags?: Record<string, string>;
+  /** The display name of the environment type. */
+  displayName?: string;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
 }
 
 export function environmentTypeSerializer(item: EnvironmentType): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : environmentTypePropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["displayName"])
+      ? undefined
+      : _environmentTypePropertiesSerializer(item),
     tags: item["tags"],
   };
 }
@@ -3060,9 +3166,9 @@ export function environmentTypeDeserializer(item: any): EnvironmentType {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : environmentTypePropertiesDeserializer(item["properties"]),
+      : _environmentTypePropertiesDeserializer(item["properties"])),
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
@@ -3152,19 +3258,37 @@ export function environmentTypeArrayDeserializer(result: Array<EnvironmentType>)
 
 /** Represents an environment type. */
 export interface ProjectEnvironmentType extends TrackedResource {
-  /** Properties of an environment type. */
-  properties?: ProjectEnvironmentTypeProperties;
   /** Managed identity properties. */
   identity?: ManagedServiceIdentity;
+  /** Id of a subscription that the environment type will be mapped to. The environment's resources will be deployed into this subscription. */
+  deploymentTargetId?: string;
+  /** The display name of the project environment type. */
+  displayName?: string;
+  /** Defines whether this Environment Type can be used in this Project. */
+  status?: EnvironmentTypeEnableStatus;
+  /** The role definition assigned to the environment creator on backing resources. */
+  creatorRoleAssignment?: ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment;
+  /** Role Assignments created on environment backing resources. This is a mapping from a user object ID to an object of role definition IDs. */
+  userRoleAssignments?: Record<string, UserRoleAssignmentValue>;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** The number of environments of this type. */
+  readonly environmentCount?: number;
 }
 
 export function projectEnvironmentTypeSerializer(item: ProjectEnvironmentType): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : projectEnvironmentTypePropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "deploymentTargetId",
+      "displayName",
+      "status",
+      "creatorRoleAssignment",
+      "userRoleAssignments",
+    ])
+      ? undefined
+      : _projectEnvironmentTypePropertiesSerializer(item),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
@@ -3183,9 +3307,9 @@ export function projectEnvironmentTypeDeserializer(item: any): ProjectEnvironmen
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : projectEnvironmentTypePropertiesDeserializer(item["properties"]),
+      : _projectEnvironmentTypePropertiesDeserializer(item["properties"])),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -3472,17 +3596,38 @@ export function projectEnvironmentTypeArrayDeserializer(
 
 /** Represents a definition for a Developer Machine. */
 export interface DevBoxDefinition extends TrackedResource {
-  /** Dev Box definition properties */
-  properties?: DevBoxDefinitionProperties;
+  /** Image reference information. */
+  imageReference?: ImageReference;
+  /** The SKU for Dev Boxes created using this definition. */
+  sku?: Sku;
+  /** The storage type used for the Operating System disk of Dev Boxes created using this definition. */
+  osStorageType?: string;
+  /** Indicates whether Dev Boxes created with this definition are capable of hibernation. Not all images are capable of supporting hibernation. To find out more see https://aka.ms/devbox/hibernate */
+  hibernateSupport?: HibernateSupport;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** Validation status of the configured image. */
+  readonly imageValidationStatus?: ImageValidationStatus;
+  /** Details for image validator error. Populated when the image validation is not successful. */
+  readonly imageValidationErrorDetails?: ImageValidationErrorDetails;
+  /** Validation status for the Dev Box Definition. */
+  readonly validationStatus?: CatalogResourceValidationStatus;
+  /** Image reference information for the currently active image (only populated during updates). */
+  readonly activeImageReference?: ImageReference;
 }
 
 export function devBoxDefinitionSerializer(item: DevBoxDefinition): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : devBoxDefinitionPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "imageReference",
+      "sku",
+      "osStorageType",
+      "hibernateSupport",
+    ])
+      ? undefined
+      : _devBoxDefinitionPropertiesSerializer(item),
   };
 }
 
@@ -3498,9 +3643,9 @@ export function devBoxDefinitionDeserializer(item: any): DevBoxDefinition {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : devBoxDefinitionPropertiesDeserializer(item["properties"]),
+      : _devBoxDefinitionPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -4303,17 +4448,66 @@ export function imageDefinitionBuildTaskParametersItemDeserializer(
 
 /** A pool of Virtual Machines. */
 export interface Pool extends TrackedResource {
-  /** Pool properties */
-  properties?: PoolProperties;
+  /** Indicates if the pool is created from an existing Dev Box Definition or if one is provided directly. */
+  devBoxDefinitionType?: PoolDevBoxDefinitionType;
+  /** Name of a Dev Box definition in parent Project of this Pool. Will be ignored if devBoxDefinitionType is Value. */
+  devBoxDefinitionName?: string;
+  /** A definition of the machines that are created from this Pool. Will be ignored if devBoxDefinitionType is Reference or not provided. */
+  devBoxDefinition?: PoolDevBoxDefinition;
+  /** Name of a Network Connection in parent Project of this Pool. */
+  networkConnectionName?: string;
+  /** Specifies the license type indicating the caller has already acquired licenses for the Dev Boxes that will be created. */
+  licenseType?: LicenseType;
+  /** Indicates whether owners of Dev Boxes in this pool are added as local administrators on the Dev Box. */
+  localAdministrator?: LocalAdminStatus;
+  /** Stop on disconnect configuration settings for Dev Boxes created in this pool. */
+  stopOnDisconnect?: StopOnDisconnectConfiguration;
+  /** Stop on no connect configuration settings for Dev Boxes created in this pool. */
+  stopOnNoConnect?: StopOnNoConnectConfiguration;
+  /** Indicates whether Dev Boxes in this pool are created with single sign on enabled. The also requires that single sign on be enabled on the tenant. */
+  singleSignOnStatus?: SingleSignOnStatus;
+  /** The display name of the pool. */
+  displayName?: string;
+  /** Indicates whether the pool uses a Virtual Network managed by Microsoft or a customer provided network. */
+  virtualNetworkType?: VirtualNetworkType;
+  /** The regions of the managed virtual network (required when managedNetworkType is Managed). */
+  managedVirtualNetworkRegions?: string[];
+  /** Active hours configuration settings for Dev Boxes created in this pool. */
+  activeHoursConfiguration?: ActiveHoursConfiguration;
+  /** Indicates whether Dev Box Tunnel is enabled for a the pool. */
+  devBoxTunnelEnableStatus?: DevBoxTunnelEnableStatus;
+  /** Overall health status of the Pool. Indicates whether or not the Pool is available to create Dev Boxes. */
+  readonly healthStatus?: HealthStatus;
+  /** Details on the Pool health status to help diagnose issues. This is only populated when the pool status indicates the pool is in a non-healthy state */
+  readonly healthStatusDetails?: HealthStatusDetail[];
+  /** Indicates the number of provisioned Dev Boxes in this pool. */
+  readonly devBoxCount?: number;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
 }
 
 export function poolSerializer(item: Pool): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : poolPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "devBoxDefinitionType",
+      "devBoxDefinitionName",
+      "devBoxDefinition",
+      "networkConnectionName",
+      "licenseType",
+      "localAdministrator",
+      "stopOnDisconnect",
+      "stopOnNoConnect",
+      "singleSignOnStatus",
+      "displayName",
+      "virtualNetworkType",
+      "managedVirtualNetworkRegions",
+      "activeHoursConfiguration",
+      "devBoxTunnelEnableStatus",
+    ])
+      ? undefined
+      : _poolPropertiesSerializer(item),
   };
 }
 
@@ -4329,9 +4523,7 @@ export function poolDeserializer(item: any): Pool {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : poolPropertiesDeserializer(item["properties"]),
+    ...(!item["properties"] ? item["properties"] : _poolPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -4954,15 +5146,37 @@ export function poolArrayDeserializer(result: Array<Pool>): any[] {
 
 /** Represents a Schedule to execute a task. */
 export interface Schedule extends ProxyResource {
-  /** Properties of a Schedule resource */
-  properties?: ScheduleProperties;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives. */
+  location?: string;
+  /** Supported type this scheduled task represents. */
+  typePropertiesType?: ScheduledType;
+  /** The frequency of this scheduled task. */
+  frequency?: ScheduledFrequency;
+  /** The target time to trigger the action. The format is HH:MM. */
+  time?: string;
+  /** The IANA timezone id at which the schedule should execute. */
+  timeZone?: string;
+  /** Indicates whether or not this scheduled task is enabled. */
+  state?: ScheduleEnableStatus;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
 }
 
 export function scheduleSerializer(item: Schedule): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : schedulePropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "tags",
+      "location",
+      "type",
+      "frequency",
+      "time",
+      "timeZone",
+      "state",
+    ])
+      ? undefined
+      : _schedulePropertiesSerializer(item),
   };
 }
 
@@ -4974,9 +5188,9 @@ export function scheduleDeserializer(item: any): Schedule {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : schedulePropertiesDeserializer(item["properties"]),
+      : _schedulePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -5168,17 +5382,41 @@ export function scheduleArrayDeserializer(result: Array<Schedule>): any[] {
 
 /** Network related settings. */
 export interface NetworkConnection extends TrackedResource {
-  /** Properties of a Network Connection */
-  properties?: NetworkProperties;
+  /** The subnet to attach Virtual Machines to. */
+  subnetId?: string;
+  /** Active Directory domain name. */
+  domainName?: string;
+  /** Active Directory domain Organization Unit (OU). */
+  organizationUnit?: string;
+  /** The username of an Active Directory account (user or service account) that has permissions to create computer objects in Active Directory. Required format: admin@contoso.com. */
+  domainUsername?: string;
+  /** The password for the account used to join domain. */
+  domainPassword?: string;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** Overall health status of the network connection. Health checks are run on creation, update, and periodically to validate the network connection. */
+  readonly healthCheckStatus?: HealthCheckStatus;
+  /** The name for resource group where NICs will be placed. */
+  networkingResourceGroupName?: string;
+  /** AAD Join type. */
+  domainJoinType?: DomainJoinType;
 }
 
 export function networkConnectionSerializer(item: NetworkConnection): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : networkPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "subnetId",
+      "domainName",
+      "organizationUnit",
+      "domainUsername",
+      "domainPassword",
+      "networkingResourceGroupName",
+      "domainJoinType",
+    ])
+      ? undefined
+      : _networkConnectionPropertiesSerializer(item),
   };
 }
 
@@ -5194,9 +5432,9 @@ export function networkConnectionDeserializer(item: any): NetworkConnection {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : networkPropertiesDeserializer(item["properties"]),
+      : _networkConnectionPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -5425,8 +5663,12 @@ export function endpointDetailDeserializer(item: any): EndpointDetail {
 
 /** Health Check details. */
 export interface HealthCheckStatusDetails extends ProxyResource {
-  /** Health check status details properties. */
-  properties?: HealthCheckStatusDetailsProperties;
+  /** Start time of last execution of the health checks. */
+  readonly startDateTime?: Date;
+  /** End time of last execution of the health checks. */
+  readonly endDateTime?: Date;
+  /** Details for each health check item. */
+  readonly healthChecks?: HealthCheck[];
 }
 
 export function healthCheckStatusDetailsDeserializer(item: any): HealthCheckStatusDetails {
@@ -5437,9 +5679,9 @@ export function healthCheckStatusDetailsDeserializer(item: any): HealthCheckStat
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : healthCheckStatusDetailsPropertiesDeserializer(item["properties"]),
+      : _healthCheckStatusDetailsPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -5828,8 +6070,10 @@ export function capabilityDeserializer(item: any): Capability {
 
 /** Represents an allowed environment type. */
 export interface AllowedEnvironmentType extends ProxyResource {
-  /** Properties of an allowed environment type. */
-  properties?: AllowedEnvironmentTypeProperties;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** The display name of the allowed environment type. */
+  readonly displayName?: string;
 }
 
 export function allowedEnvironmentTypeDeserializer(item: any): AllowedEnvironmentType {
@@ -5840,9 +6084,9 @@ export function allowedEnvironmentTypeDeserializer(item: any): AllowedEnvironmen
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : allowedEnvironmentTypePropertiesDeserializer(item["properties"]),
+      : _allowedEnvironmentTypePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -6131,6 +6375,42 @@ export enum KnownVersions {
   V20260101Preview = "2026-01-01-preview",
 }
 
+export function _devCenterPropertiesSerializer(item: DevCenter): any {
+  return {
+    encryption: !item["encryption"] ? item["encryption"] : encryptionSerializer(item["encryption"]),
+    displayName: item["displayName"],
+    projectCatalogSettings: !item["projectCatalogSettings"]
+      ? item["projectCatalogSettings"]
+      : devCenterProjectCatalogSettingsSerializer(item["projectCatalogSettings"]),
+    networkSettings: !item["networkSettings"]
+      ? item["networkSettings"]
+      : devCenterNetworkSettingsSerializer(item["networkSettings"]),
+    devBoxProvisioningSettings: !item["devBoxProvisioningSettings"]
+      ? item["devBoxProvisioningSettings"]
+      : devBoxProvisioningSettingsSerializer(item["devBoxProvisioningSettings"]),
+  };
+}
+
+export function _devCenterPropertiesDeserializer(item: any) {
+  return {
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : encryptionDeserializer(item["encryption"]),
+    displayName: item["displayName"],
+    projectCatalogSettings: !item["projectCatalogSettings"]
+      ? item["projectCatalogSettings"]
+      : devCenterProjectCatalogSettingsDeserializer(item["projectCatalogSettings"]),
+    networkSettings: !item["networkSettings"]
+      ? item["networkSettings"]
+      : devCenterNetworkSettingsDeserializer(item["networkSettings"]),
+    devBoxProvisioningSettings: !item["devBoxProvisioningSettings"]
+      ? item["devBoxProvisioningSettings"]
+      : devBoxProvisioningSettingsDeserializer(item["devBoxProvisioningSettings"]),
+    provisioningState: item["provisioningState"],
+    devCenterUri: item["devCenterUri"],
+  };
+}
+
 export function _devCenterUpdatePropertiesSerializer(item: DevCenterUpdate): any {
   return {
     encryption: !item["encryption"] ? item["encryption"] : encryptionSerializer(item["encryption"]),
@@ -6197,6 +6477,68 @@ export function _projectPolicyUpdatePropertiesDeserializer(item: any) {
   };
 }
 
+export function _projectPropertiesSerializer(item: Project): any {
+  return {
+    devCenterId: item["devCenterId"],
+    description: item["description"],
+    maxDevBoxesPerUser: item["maxDevBoxesPerUser"],
+    displayName: item["displayName"],
+    catalogSettings: !item["catalogSettings"]
+      ? item["catalogSettings"]
+      : projectCatalogSettingsSerializer(item["catalogSettings"]),
+    customizationSettings: !item["customizationSettings"]
+      ? item["customizationSettings"]
+      : projectCustomizationSettingsSerializer(item["customizationSettings"]),
+    devBoxScheduleDeleteSettings: !item["devBoxScheduleDeleteSettings"]
+      ? item["devBoxScheduleDeleteSettings"]
+      : devBoxScheduleDeleteSettingsSerializer(item["devBoxScheduleDeleteSettings"]),
+    azureAiServicesSettings: !item["azureAiServicesSettings"]
+      ? item["azureAiServicesSettings"]
+      : azureAiServicesSettingsSerializer(item["azureAiServicesSettings"]),
+    serverlessGpuSessionsSettings: !item["serverlessGpuSessionsSettings"]
+      ? item["serverlessGpuSessionsSettings"]
+      : serverlessGpuSessionsSettingsSerializer(item["serverlessGpuSessionsSettings"]),
+    workspaceStorageSettings: !item["workspaceStorageSettings"]
+      ? item["workspaceStorageSettings"]
+      : workspaceStorageSettingsSerializer(item["workspaceStorageSettings"]),
+    assignedGroups: !item["assignedGroups"]
+      ? item["assignedGroups"]
+      : assignedGroupArraySerializer(item["assignedGroups"]),
+  };
+}
+
+export function _projectPropertiesDeserializer(item: any) {
+  return {
+    devCenterId: item["devCenterId"],
+    description: item["description"],
+    maxDevBoxesPerUser: item["maxDevBoxesPerUser"],
+    displayName: item["displayName"],
+    catalogSettings: !item["catalogSettings"]
+      ? item["catalogSettings"]
+      : projectCatalogSettingsDeserializer(item["catalogSettings"]),
+    customizationSettings: !item["customizationSettings"]
+      ? item["customizationSettings"]
+      : projectCustomizationSettingsDeserializer(item["customizationSettings"]),
+    devBoxScheduleDeleteSettings: !item["devBoxScheduleDeleteSettings"]
+      ? item["devBoxScheduleDeleteSettings"]
+      : devBoxScheduleDeleteSettingsDeserializer(item["devBoxScheduleDeleteSettings"]),
+    azureAiServicesSettings: !item["azureAiServicesSettings"]
+      ? item["azureAiServicesSettings"]
+      : azureAiServicesSettingsDeserializer(item["azureAiServicesSettings"]),
+    serverlessGpuSessionsSettings: !item["serverlessGpuSessionsSettings"]
+      ? item["serverlessGpuSessionsSettings"]
+      : serverlessGpuSessionsSettingsDeserializer(item["serverlessGpuSessionsSettings"]),
+    workspaceStorageSettings: !item["workspaceStorageSettings"]
+      ? item["workspaceStorageSettings"]
+      : workspaceStorageSettingsDeserializer(item["workspaceStorageSettings"]),
+    assignedGroups: !item["assignedGroups"]
+      ? item["assignedGroups"]
+      : assignedGroupArrayDeserializer(item["assignedGroups"]),
+    provisioningState: item["provisioningState"],
+    devCenterUri: item["devCenterUri"],
+  };
+}
+
 export function _projectUpdatePropertiesSerializer(item: ProjectUpdate): any {
   return {
     devCenterId: item["devCenterId"],
@@ -6257,6 +6599,54 @@ export function _projectUpdatePropertiesDeserializer(item: any) {
   };
 }
 
+export function _attachedNetworkConnectionPropertiesSerializer(
+  item: AttachedNetworkConnection,
+): any {
+  return { networkConnectionId: item["networkConnectionId"] };
+}
+
+export function _attachedNetworkConnectionPropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    networkConnectionId: item["networkConnectionId"],
+    networkConnectionLocation: item["networkConnectionLocation"],
+    healthCheckStatus: item["healthCheckStatus"],
+    domainJoinType: item["domainJoinType"],
+  };
+}
+
+export function _catalogPropertiesSerializer(item: Catalog): any {
+  return {
+    gitHub: !item["gitHub"] ? item["gitHub"] : gitCatalogSerializer(item["gitHub"]),
+    adoGit: !item["adoGit"] ? item["adoGit"] : gitCatalogSerializer(item["adoGit"]),
+    syncType: item["syncType"],
+    autoImageBuildEnableStatus: item["autoImageBuildEnableStatus"],
+    tags: item["tags"],
+  };
+}
+
+export function _catalogPropertiesDeserializer(item: any) {
+  return {
+    gitHub: !item["gitHub"] ? item["gitHub"] : gitCatalogDeserializer(item["gitHub"]),
+    adoGit: !item["adoGit"] ? item["adoGit"] : gitCatalogDeserializer(item["adoGit"]),
+    syncType: item["syncType"],
+    autoImageBuildEnableStatus: item["autoImageBuildEnableStatus"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    provisioningState: item["provisioningState"],
+    syncState: item["syncState"],
+    lastSyncStats: !item["lastSyncStats"]
+      ? item["lastSyncStats"]
+      : syncStatsDeserializer(item["lastSyncStats"]),
+    connectionState: item["connectionState"],
+    lastConnectionTime: !item["lastConnectionTime"]
+      ? item["lastConnectionTime"]
+      : new Date(item["lastConnectionTime"]),
+    lastSyncTime: !item["lastSyncTime"] ? item["lastSyncTime"] : new Date(item["lastSyncTime"]),
+  };
+}
+
 export function _catalogUpdatePropertiesSerializer(item: CatalogUpdate): any {
   return {
     gitHub: !item["gitHub"] ? item["gitHub"] : gitCatalogSerializer(item["gitHub"]),
@@ -6279,6 +6669,49 @@ export function _catalogUpdatePropertiesDeserializer(item: any) {
   };
 }
 
+export function _environmentDefinitionPropertiesDeserializer(item: any) {
+  return {
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : environmentDefinitionParameterArrayDeserializer(item["parameters"]),
+    templatePath: item["templatePath"],
+    validationStatus: item["validationStatus"],
+  };
+}
+
+export function _galleryPropertiesSerializer(item: Gallery): any {
+  return { galleryResourceId: item["galleryResourceId"] };
+}
+
+export function _galleryPropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    galleryResourceId: item["galleryResourceId"],
+  };
+}
+
+export function _imageVersionPropertiesDeserializer(item: any) {
+  return {
+    namePropertiesName: item["name"],
+    publishedDate: !item["publishedDate"] ? item["publishedDate"] : new Date(item["publishedDate"]),
+    excludeFromLatest: item["excludeFromLatest"],
+    osDiskImageSizeInGb: item["osDiskImageSizeInGb"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function _environmentTypePropertiesSerializer(item: EnvironmentType): any {
+  return { displayName: item["displayName"] };
+}
+
+export function _environmentTypePropertiesDeserializer(item: any) {
+  return {
+    displayName: item["displayName"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
 export function _environmentTypeUpdatePropertiesSerializer(item: EnvironmentTypeUpdate): any {
   return { displayName: item["displayName"] };
 }
@@ -6286,6 +6719,40 @@ export function _environmentTypeUpdatePropertiesSerializer(item: EnvironmentType
 export function _environmentTypeUpdatePropertiesDeserializer(item: any) {
   return {
     displayName: item["displayName"],
+  };
+}
+
+export function _projectEnvironmentTypePropertiesSerializer(item: ProjectEnvironmentType): any {
+  return {
+    deploymentTargetId: item["deploymentTargetId"],
+    displayName: item["displayName"],
+    status: item["status"],
+    creatorRoleAssignment: !item["creatorRoleAssignment"]
+      ? item["creatorRoleAssignment"]
+      : projectEnvironmentTypeUpdatePropertiesCreatorRoleAssignmentSerializer(
+          item["creatorRoleAssignment"],
+        ),
+    userRoleAssignments: !item["userRoleAssignments"]
+      ? item["userRoleAssignments"]
+      : userRoleAssignmentValueRecordSerializer(item["userRoleAssignments"]),
+  };
+}
+
+export function _projectEnvironmentTypePropertiesDeserializer(item: any) {
+  return {
+    deploymentTargetId: item["deploymentTargetId"],
+    displayName: item["displayName"],
+    status: item["status"],
+    creatorRoleAssignment: !item["creatorRoleAssignment"]
+      ? item["creatorRoleAssignment"]
+      : projectEnvironmentTypeUpdatePropertiesCreatorRoleAssignmentDeserializer(
+          item["creatorRoleAssignment"],
+        ),
+    userRoleAssignments: !item["userRoleAssignments"]
+      ? item["userRoleAssignments"]
+      : userRoleAssignmentValueRecordDeserializer(item["userRoleAssignments"]),
+    provisioningState: item["provisioningState"],
+    environmentCount: item["environmentCount"],
   };
 }
 
@@ -6323,6 +6790,37 @@ export function _projectEnvironmentTypeUpdatePropertiesDeserializer(item: any) {
   };
 }
 
+export function _devBoxDefinitionPropertiesSerializer(item: DevBoxDefinition): any {
+  return {
+    imageReference: !item["imageReference"]
+      ? item["imageReference"]
+      : imageReferenceSerializer(item["imageReference"]),
+    sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
+    osStorageType: item["osStorageType"],
+    hibernateSupport: item["hibernateSupport"],
+  };
+}
+
+export function _devBoxDefinitionPropertiesDeserializer(item: any) {
+  return {
+    imageReference: !item["imageReference"]
+      ? item["imageReference"]
+      : imageReferenceDeserializer(item["imageReference"]),
+    sku: !item["sku"] ? item["sku"] : skuDeserializer(item["sku"]),
+    osStorageType: item["osStorageType"],
+    hibernateSupport: item["hibernateSupport"],
+    provisioningState: item["provisioningState"],
+    imageValidationStatus: item["imageValidationStatus"],
+    imageValidationErrorDetails: !item["imageValidationErrorDetails"]
+      ? item["imageValidationErrorDetails"]
+      : imageValidationErrorDetailsDeserializer(item["imageValidationErrorDetails"]),
+    validationStatus: item["validationStatus"],
+    activeImageReference: !item["activeImageReference"]
+      ? item["activeImageReference"]
+      : imageReferenceDeserializer(item["activeImageReference"]),
+  };
+}
+
 export function _devBoxDefinitionUpdatePropertiesSerializer(item: DevBoxDefinitionUpdate): any {
   return {
     imageReference: !item["imageReference"]
@@ -6342,6 +6840,74 @@ export function _devBoxDefinitionUpdatePropertiesDeserializer(item: any) {
     sku: !item["sku"] ? item["sku"] : skuDeserializer(item["sku"]),
     osStorageType: item["osStorageType"],
     hibernateSupport: item["hibernateSupport"],
+  };
+}
+
+export function _poolPropertiesSerializer(item: Pool): any {
+  return {
+    devBoxDefinitionType: item["devBoxDefinitionType"],
+    devBoxDefinitionName: item["devBoxDefinitionName"],
+    devBoxDefinition: !item["devBoxDefinition"]
+      ? item["devBoxDefinition"]
+      : poolDevBoxDefinitionSerializer(item["devBoxDefinition"]),
+    networkConnectionName: item["networkConnectionName"],
+    licenseType: item["licenseType"],
+    localAdministrator: item["localAdministrator"],
+    stopOnDisconnect: !item["stopOnDisconnect"]
+      ? item["stopOnDisconnect"]
+      : stopOnDisconnectConfigurationSerializer(item["stopOnDisconnect"]),
+    stopOnNoConnect: !item["stopOnNoConnect"]
+      ? item["stopOnNoConnect"]
+      : stopOnNoConnectConfigurationSerializer(item["stopOnNoConnect"]),
+    singleSignOnStatus: item["singleSignOnStatus"],
+    displayName: item["displayName"],
+    virtualNetworkType: item["virtualNetworkType"],
+    managedVirtualNetworkRegions: !item["managedVirtualNetworkRegions"]
+      ? item["managedVirtualNetworkRegions"]
+      : item["managedVirtualNetworkRegions"].map((p: any) => {
+          return p;
+        }),
+    activeHoursConfiguration: !item["activeHoursConfiguration"]
+      ? item["activeHoursConfiguration"]
+      : activeHoursConfigurationSerializer(item["activeHoursConfiguration"]),
+    devBoxTunnelEnableStatus: item["devBoxTunnelEnableStatus"],
+  };
+}
+
+export function _poolPropertiesDeserializer(item: any) {
+  return {
+    devBoxDefinitionType: item["devBoxDefinitionType"],
+    devBoxDefinitionName: item["devBoxDefinitionName"],
+    devBoxDefinition: !item["devBoxDefinition"]
+      ? item["devBoxDefinition"]
+      : poolDevBoxDefinitionDeserializer(item["devBoxDefinition"]),
+    networkConnectionName: item["networkConnectionName"],
+    licenseType: item["licenseType"],
+    localAdministrator: item["localAdministrator"],
+    stopOnDisconnect: !item["stopOnDisconnect"]
+      ? item["stopOnDisconnect"]
+      : stopOnDisconnectConfigurationDeserializer(item["stopOnDisconnect"]),
+    stopOnNoConnect: !item["stopOnNoConnect"]
+      ? item["stopOnNoConnect"]
+      : stopOnNoConnectConfigurationDeserializer(item["stopOnNoConnect"]),
+    singleSignOnStatus: item["singleSignOnStatus"],
+    displayName: item["displayName"],
+    virtualNetworkType: item["virtualNetworkType"],
+    managedVirtualNetworkRegions: !item["managedVirtualNetworkRegions"]
+      ? item["managedVirtualNetworkRegions"]
+      : item["managedVirtualNetworkRegions"].map((p: any) => {
+          return p;
+        }),
+    activeHoursConfiguration: !item["activeHoursConfiguration"]
+      ? item["activeHoursConfiguration"]
+      : activeHoursConfigurationDeserializer(item["activeHoursConfiguration"]),
+    devBoxTunnelEnableStatus: item["devBoxTunnelEnableStatus"],
+    healthStatus: item["healthStatus"],
+    healthStatusDetails: !item["healthStatusDetails"]
+      ? item["healthStatusDetails"]
+      : healthStatusDetailArrayDeserializer(item["healthStatusDetails"]),
+    devBoxCount: item["devBoxCount"],
+    provisioningState: item["provisioningState"],
   };
 }
 
@@ -6407,6 +6973,33 @@ export function _poolUpdatePropertiesDeserializer(item: any) {
   };
 }
 
+export function _schedulePropertiesSerializer(item: Schedule): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    type: item["typePropertiesType"],
+    frequency: item["frequency"],
+    time: item["time"],
+    timeZone: item["timeZone"],
+    state: item["state"],
+  };
+}
+
+export function _schedulePropertiesDeserializer(item: any) {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    typePropertiesType: item["type"],
+    frequency: item["frequency"],
+    time: item["time"],
+    timeZone: item["timeZone"],
+    state: item["state"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
 export function _scheduleUpdatePropertiesSerializer(item: ScheduleUpdate): any {
   return {
     tags: item["tags"],
@@ -6433,6 +7026,32 @@ export function _scheduleUpdatePropertiesDeserializer(item: any) {
   };
 }
 
+export function _networkConnectionPropertiesSerializer(item: NetworkConnection): any {
+  return {
+    subnetId: item["subnetId"],
+    domainName: item["domainName"],
+    organizationUnit: item["organizationUnit"],
+    domainUsername: item["domainUsername"],
+    domainPassword: item["domainPassword"],
+    networkingResourceGroupName: item["networkingResourceGroupName"],
+    domainJoinType: item["domainJoinType"],
+  };
+}
+
+export function _networkConnectionPropertiesDeserializer(item: any) {
+  return {
+    subnetId: item["subnetId"],
+    domainName: item["domainName"],
+    organizationUnit: item["organizationUnit"],
+    domainUsername: item["domainUsername"],
+    domainPassword: item["domainPassword"],
+    provisioningState: item["provisioningState"],
+    healthCheckStatus: item["healthCheckStatus"],
+    networkingResourceGroupName: item["networkingResourceGroupName"],
+    domainJoinType: item["domainJoinType"],
+  };
+}
+
 export function _networkConnectionUpdatePropertiesSerializer(item: NetworkConnectionUpdate): any {
   return {
     subnetId: item["subnetId"],
@@ -6453,6 +7072,16 @@ export function _networkConnectionUpdatePropertiesDeserializer(item: any) {
   };
 }
 
+export function _healthCheckStatusDetailsPropertiesDeserializer(item: any) {
+  return {
+    startDateTime: !item["startDateTime"] ? item["startDateTime"] : new Date(item["startDateTime"]),
+    endDateTime: !item["endDateTime"] ? item["endDateTime"] : new Date(item["endDateTime"]),
+    healthChecks: !item["healthChecks"]
+      ? item["healthChecks"]
+      : healthCheckArrayDeserializer(item["healthChecks"]),
+  };
+}
+
 export function _encryptionSetUpdatePropertiesSerializer(item: EncryptionSetUpdate): any {
   return {
     devboxDisksEncryptionEnableStatus: item["devboxDisksEncryptionEnableStatus"],
@@ -6470,5 +7099,12 @@ export function _encryptionSetUpdatePropertiesDeserializer(item: any) {
     keyEncryptionKeyIdentity: !item["keyEncryptionKeyIdentity"]
       ? item["keyEncryptionKeyIdentity"]
       : keyEncryptionKeyIdentityDeserializer(item["keyEncryptionKeyIdentity"]),
+  };
+}
+
+export function _allowedEnvironmentTypePropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    displayName: item["displayName"],
   };
 }

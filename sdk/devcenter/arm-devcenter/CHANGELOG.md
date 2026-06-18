@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.1 (2026-06-10)
+## 2.0.0-beta.1 (2026-06-18)
 Compared with version 1.1.0
 
 ### Features Added
@@ -144,27 +144,23 @@ Compared with version 1.1.0
   - Added Interface SkusListByProjectOptionalParams
   - Added Interface StopOnNoConnectConfiguration
   - Added Interface WorkspaceStorageSettings
-  - Interface AllowedEnvironmentType has a new optional parameter properties
-  - Interface AttachedNetworkConnection has a new optional parameter properties
-  - Interface Catalog has a new optional parameter properties
+  - Interface Catalog has a new optional parameter autoImageBuildEnableStatus
   - Interface CatalogProperties has a new optional parameter autoImageBuildEnableStatus
   - Interface CatalogUpdate has a new optional parameter autoImageBuildEnableStatus
   - Interface CatalogUpdateProperties has a new optional parameter autoImageBuildEnableStatus
-  - Interface DevBoxDefinition has a new optional parameter properties
-  - Interface DevCenter has a new optional parameter properties
+  - Interface DevCenter has a new optional parameter devBoxProvisioningSettings
+  - Interface DevCenter has a new optional parameter networkSettings
   - Interface DevCenterProperties has a new optional parameter devBoxProvisioningSettings
   - Interface DevCenterProperties has a new optional parameter networkSettings
   - Interface DevCenterUpdate has a new optional parameter devBoxProvisioningSettings
   - Interface DevCenterUpdate has a new optional parameter networkSettings
   - Interface DevCenterUpdateProperties has a new optional parameter devBoxProvisioningSettings
   - Interface DevCenterUpdateProperties has a new optional parameter networkSettings
-  - Interface EnvironmentDefinition has a new optional parameter properties
-  - Interface EnvironmentType has a new optional parameter properties
-  - Interface Gallery has a new optional parameter properties
-  - Interface HealthCheckStatusDetails has a new optional parameter properties
-  - Interface ImageVersion has a new optional parameter properties
-  - Interface NetworkConnection has a new optional parameter properties
-  - Interface Pool has a new optional parameter properties
+  - Interface Pool has a new optional parameter activeHoursConfiguration
+  - Interface Pool has a new optional parameter devBoxDefinition
+  - Interface Pool has a new optional parameter devBoxDefinitionType
+  - Interface Pool has a new optional parameter devBoxTunnelEnableStatus
+  - Interface Pool has a new optional parameter stopOnNoConnect
   - Interface PoolProperties has a new optional parameter activeHoursConfiguration
   - Interface PoolProperties has a new optional parameter devBoxDefinition
   - Interface PoolProperties has a new optional parameter devBoxDefinitionType
@@ -180,8 +176,12 @@ Compared with version 1.1.0
   - Interface PoolUpdateProperties has a new optional parameter devBoxDefinitionType
   - Interface PoolUpdateProperties has a new optional parameter devBoxTunnelEnableStatus
   - Interface PoolUpdateProperties has a new optional parameter stopOnNoConnect
-  - Interface Project has a new optional parameter properties
-  - Interface ProjectEnvironmentType has a new optional parameter properties
+  - Interface Project has a new optional parameter assignedGroups
+  - Interface Project has a new optional parameter azureAiServicesSettings
+  - Interface Project has a new optional parameter customizationSettings
+  - Interface Project has a new optional parameter devBoxScheduleDeleteSettings
+  - Interface Project has a new optional parameter serverlessGpuSessionsSettings
+  - Interface Project has a new optional parameter workspaceStorageSettings
   - Interface ProjectProperties has a new optional parameter assignedGroups
   - Interface ProjectProperties has a new optional parameter azureAiServicesSettings
   - Interface ProjectProperties has a new optional parameter customizationSettings
@@ -200,7 +200,6 @@ Compared with version 1.1.0
   - Interface ProjectUpdateProperties has a new optional parameter devBoxScheduleDeleteSettings
   - Interface ProjectUpdateProperties has a new optional parameter serverlessGpuSessionsSettings
   - Interface ProjectUpdateProperties has a new optional parameter workspaceStorageSettings
-  - Interface Schedule has a new optional parameter properties
   - Added Type Alias ArchitectureType
   - Added Type Alias AssignedGroupScope
   - Added Type Alias AutoImageBuildStatus
@@ -283,98 +282,7 @@ Compared with version 1.1.0
   - Removed Interface Image_2
   - Removed Interface OutboundEnvironmentEndpointCollection
   - Removed Interface TrackedResourceUpdate
-  - Interface AllowedEnvironmentType no longer has parameter displayName
-  - Interface AllowedEnvironmentType no longer has parameter provisioningState
-  - Interface AttachedNetworkConnection no longer has parameter domainJoinType
-  - Interface AttachedNetworkConnection no longer has parameter healthCheckStatus
-  - Interface AttachedNetworkConnection no longer has parameter networkConnectionId
-  - Interface AttachedNetworkConnection no longer has parameter networkConnectionLocation
-  - Interface AttachedNetworkConnection no longer has parameter provisioningState
-  - Interface Catalog no longer has parameter adoGit
-  - Interface Catalog no longer has parameter connectionState
-  - Interface Catalog no longer has parameter gitHub
-  - Interface Catalog no longer has parameter lastConnectionTime
-  - Interface Catalog no longer has parameter lastSyncStats
-  - Interface Catalog no longer has parameter lastSyncTime
-  - Interface Catalog no longer has parameter provisioningState
-  - Interface Catalog no longer has parameter syncState
-  - Interface Catalog no longer has parameter syncType
-  - Interface Catalog no longer has parameter tags
-  - Interface DevBoxDefinition no longer has parameter activeImageReference
-  - Interface DevBoxDefinition no longer has parameter hibernateSupport
-  - Interface DevBoxDefinition no longer has parameter imageReference
-  - Interface DevBoxDefinition no longer has parameter imageValidationErrorDetails
-  - Interface DevBoxDefinition no longer has parameter imageValidationStatus
-  - Interface DevBoxDefinition no longer has parameter osStorageType
-  - Interface DevBoxDefinition no longer has parameter provisioningState
-  - Interface DevBoxDefinition no longer has parameter sku
-  - Interface DevBoxDefinition no longer has parameter validationStatus
-  - Interface DevCenter no longer has parameter devCenterUri
-  - Interface DevCenter no longer has parameter displayName
-  - Interface DevCenter no longer has parameter encryption
-  - Interface DevCenter no longer has parameter projectCatalogSettings
-  - Interface DevCenter no longer has parameter provisioningState
-  - Interface EnvironmentDefinition no longer has parameter description
-  - Interface EnvironmentDefinition no longer has parameter parameters
-  - Interface EnvironmentDefinition no longer has parameter templatePath
-  - Interface EnvironmentDefinition no longer has parameter validationStatus
-  - Interface EnvironmentType no longer has parameter displayName
-  - Interface EnvironmentType no longer has parameter provisioningState
-  - Interface Gallery no longer has parameter galleryResourceId
-  - Interface Gallery no longer has parameter provisioningState
-  - Interface HealthCheckStatusDetails no longer has parameter endDateTime
-  - Interface HealthCheckStatusDetails no longer has parameter healthChecks
-  - Interface HealthCheckStatusDetails no longer has parameter startDateTime
-  - Interface ImageVersion no longer has parameter excludeFromLatest
-  - Interface ImageVersion no longer has parameter namePropertiesName
-  - Interface ImageVersion no longer has parameter osDiskImageSizeInGb
-  - Interface ImageVersion no longer has parameter provisioningState
-  - Interface ImageVersion no longer has parameter publishedDate
-  - Interface NetworkConnection no longer has parameter domainJoinType
-  - Interface NetworkConnection no longer has parameter domainName
-  - Interface NetworkConnection no longer has parameter domainPassword
-  - Interface NetworkConnection no longer has parameter domainUsername
-  - Interface NetworkConnection no longer has parameter healthCheckStatus
-  - Interface NetworkConnection no longer has parameter networkingResourceGroupName
-  - Interface NetworkConnection no longer has parameter organizationUnit
-  - Interface NetworkConnection no longer has parameter provisioningState
-  - Interface NetworkConnection no longer has parameter subnetId
   - Interface OperationStatus no longer has parameter resourceId
-  - Interface Pool no longer has parameter devBoxCount
-  - Interface Pool no longer has parameter devBoxDefinitionName
-  - Interface Pool no longer has parameter displayName
-  - Interface Pool no longer has parameter healthStatus
-  - Interface Pool no longer has parameter healthStatusDetails
-  - Interface Pool no longer has parameter licenseType
-  - Interface Pool no longer has parameter localAdministrator
-  - Interface Pool no longer has parameter managedVirtualNetworkRegions
-  - Interface Pool no longer has parameter networkConnectionName
-  - Interface Pool no longer has parameter provisioningState
-  - Interface Pool no longer has parameter singleSignOnStatus
-  - Interface Pool no longer has parameter stopOnDisconnect
-  - Interface Pool no longer has parameter virtualNetworkType
-  - Interface Project no longer has parameter catalogSettings
-  - Interface Project no longer has parameter description
-  - Interface Project no longer has parameter devCenterId
-  - Interface Project no longer has parameter devCenterUri
-  - Interface Project no longer has parameter displayName
-  - Interface Project no longer has parameter maxDevBoxesPerUser
-  - Interface Project no longer has parameter provisioningState
-  - Interface ProjectEnvironmentType no longer has parameter creatorRoleAssignment
-  - Interface ProjectEnvironmentType no longer has parameter deploymentTargetId
-  - Interface ProjectEnvironmentType no longer has parameter displayName
-  - Interface ProjectEnvironmentType no longer has parameter environmentCount
-  - Interface ProjectEnvironmentType no longer has parameter provisioningState
-  - Interface ProjectEnvironmentType no longer has parameter status
-  - Interface ProjectEnvironmentType no longer has parameter userRoleAssignments
-  - Interface Schedule no longer has parameter frequency
-  - Interface Schedule no longer has parameter location
-  - Interface Schedule no longer has parameter provisioningState
-  - Interface Schedule no longer has parameter state
-  - Interface Schedule no longer has parameter tags
-  - Interface Schedule no longer has parameter time
-  - Interface Schedule no longer has parameter timeZone
-  - Interface Schedule no longer has parameter typePropertiesType
   - Interface SchedulesGetOptionalParams no longer has parameter top
   - Parameter location of interface ProjectEnvironmentType is now required
 

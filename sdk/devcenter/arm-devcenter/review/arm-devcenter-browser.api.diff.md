@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -1094,11 +1094,12 @@
+@@ -1130,11 +1130,12 @@
  // @public
  export type IdentityType = string;
  
@@ -21,7 +21,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface ImageCreationErrorDetails {
      code?: string;
-@@ -1226,13 +1227,13 @@
+@@ -1262,13 +1263,13 @@
  }
  
  // @public
