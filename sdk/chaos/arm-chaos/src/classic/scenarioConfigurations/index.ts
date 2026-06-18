@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChaosManagementContext } from "../../api/chaosManagementContext.js";
+import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
 import {
   fixResourcePermissions,
   validate,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/scenarioConfigurations/operations.js";
-import type {
+import {
   ScenarioConfigurationsFixResourcePermissionsOptionalParams,
   ScenarioConfigurationsValidateOptionalParams,
   ScenarioConfigurationsExecuteOptionalParams,
@@ -20,9 +20,9 @@ import type {
   ScenarioConfigurationsCreateOrUpdateOptionalParams,
   ScenarioConfigurationsGetOptionalParams,
 } from "../../api/scenarioConfigurations/options.js";
-import type { ScenarioConfiguration, Validation, PermissionsFix } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ScenarioConfiguration, Validation, PermissionsFix } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ScenarioConfigurations operations. */
 export interface ScenarioConfigurationsOperations {

@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChaosManagementContext } from "../../api/chaosManagementContext.js";
+import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
 import { cancel, listAll, get } from "../../api/scenarioRuns/operations.js";
-import type {
+import {
   ScenarioRunsCancelOptionalParams,
   ScenarioRunsListAllOptionalParams,
   ScenarioRunsGetOptionalParams,
 } from "../../api/scenarioRuns/options.js";
-import type { ScenarioRun } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ScenarioRun } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ScenarioRuns operations. */
 export interface ScenarioRunsOperations {

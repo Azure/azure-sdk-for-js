@@ -1,46 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  VirtualMachineScaleSet,
-  VirtualMachineScaleSetUpdate,
-  _VirtualMachineScaleSetListResult,
-  _VirtualMachineScaleSetListWithLinkResult,
-  VMScaleSetConvertToSinglePlacementGroupInput,
-  VirtualMachineScaleSetVMInstanceRequiredIDs,
-  RecoveryWalkResponse,
-  VirtualMachineScaleSetInstanceView,
-  _VirtualMachineScaleSetListOSUpgradeHistory,
-  UpgradeOperationHistoricalStatusInfo,
-  OrchestrationServiceStateInput,
-  _VirtualMachineScaleSetListSkusResult,
-  VirtualMachineScaleSetSku,
-  VMScaleSetScaleOutInput,
-} from "../../models/compute/models.js";
 import {
+  VirtualMachineScaleSet,
   virtualMachineScaleSetSerializer,
   virtualMachineScaleSetDeserializer,
+  VirtualMachineScaleSetUpdate,
   virtualMachineScaleSetUpdateSerializer,
+  _VirtualMachineScaleSetListResult,
   _virtualMachineScaleSetListResultDeserializer,
+  _VirtualMachineScaleSetListWithLinkResult,
   _virtualMachineScaleSetListWithLinkResultDeserializer,
   virtualMachineScaleSetVMInstanceIDsSerializer,
+  VMScaleSetConvertToSinglePlacementGroupInput,
   vmScaleSetConvertToSinglePlacementGroupInputSerializer,
+  VirtualMachineScaleSetVMInstanceRequiredIDs,
   virtualMachineScaleSetVMInstanceRequiredIDsSerializer,
+  RecoveryWalkResponse,
   recoveryWalkResponseDeserializer,
+  VirtualMachineScaleSetInstanceView,
   virtualMachineScaleSetInstanceViewDeserializer,
+  _VirtualMachineScaleSetListOSUpgradeHistory,
   _virtualMachineScaleSetListOSUpgradeHistoryDeserializer,
+  UpgradeOperationHistoricalStatusInfo,
   virtualMachineScaleSetReimageParametersSerializer,
+  OrchestrationServiceStateInput,
   orchestrationServiceStateInputSerializer,
+  _VirtualMachineScaleSetListSkusResult,
   _virtualMachineScaleSetListSkusResultDeserializer,
+  VirtualMachineScaleSetSku,
+  VMScaleSetScaleOutInput,
   vmScaleSetScaleOutInputSerializer,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   VirtualMachineScaleSetsListByLocationOptionalParams,
   VirtualMachineScaleSetsScaleOutOptionalParams,
   VirtualMachineScaleSetsStartOptionalParams,
@@ -68,9 +68,13 @@ import type {
   VirtualMachineScaleSetsCreateOrUpdateOptionalParams,
   VirtualMachineScaleSetsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByLocationSend(
   context: Client,
@@ -88,10 +92,12 @@ export function _listByLocationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByLocationDeserialize(
@@ -100,7 +106,9 @@ export async function _listByLocationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -142,18 +150,22 @@ export function _scaleOutSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: vmScaleSetScaleOutInputSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: vmScaleSetScaleOutInputSerializer(parameters),
+    });
 }
 
 export async function _scaleOutDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -197,20 +209,24 @@ export function _startSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["vmInstanceIDs"]
-      ? options["vmInstanceIDs"]
-      : virtualMachineScaleSetVMInstanceIDsSerializer(options["vmInstanceIDs"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.vmInstanceIDs
+        ? options?.vmInstanceIDs
+        : virtualMachineScaleSetVMInstanceIDsSerializer(options?.vmInstanceIDs),
+    });
 }
 
 export async function _startDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -252,10 +268,12 @@ export function _listSkusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listSkusDeserialize(
@@ -264,7 +282,9 @@ export async function _listSkusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -309,11 +329,13 @@ export function _setOrchestrationServiceStateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: orchestrationServiceStateInputSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: orchestrationServiceStateInputSerializer(parameters),
+    });
 }
 
 export async function _setOrchestrationServiceStateDeserialize(
@@ -322,7 +344,9 @@ export async function _setOrchestrationServiceStateDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -379,20 +403,24 @@ export function _restartSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["vmInstanceIDs"]
-      ? options["vmInstanceIDs"]
-      : virtualMachineScaleSetVMInstanceIDsSerializer(options["vmInstanceIDs"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.vmInstanceIDs
+        ? options?.vmInstanceIDs
+        : virtualMachineScaleSetVMInstanceIDsSerializer(options?.vmInstanceIDs),
+    });
 }
 
 export async function _restartDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -434,20 +462,24 @@ export function _reimageAllSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["vmInstanceIDs"]
-      ? options["vmInstanceIDs"]
-      : virtualMachineScaleSetVMInstanceIDsSerializer(options["vmInstanceIDs"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.vmInstanceIDs
+        ? options?.vmInstanceIDs
+        : virtualMachineScaleSetVMInstanceIDsSerializer(options?.vmInstanceIDs),
+    });
 }
 
 export async function _reimageAllDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -489,20 +521,24 @@ export function _reimageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["vmScaleSetReimageInput"]
-      ? options["vmScaleSetReimageInput"]
-      : virtualMachineScaleSetReimageParametersSerializer(options["vmScaleSetReimageInput"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.vmScaleSetReimageInput
+        ? options?.vmScaleSetReimageInput
+        : virtualMachineScaleSetReimageParametersSerializer(options?.vmScaleSetReimageInput),
+    });
 }
 
 export async function _reimageDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -544,20 +580,24 @@ export function _redeploySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["vmInstanceIDs"]
-      ? options["vmInstanceIDs"]
-      : virtualMachineScaleSetVMInstanceIDsSerializer(options["vmInstanceIDs"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.vmInstanceIDs
+        ? options?.vmInstanceIDs
+        : virtualMachineScaleSetVMInstanceIDsSerializer(options?.vmInstanceIDs),
+    });
 }
 
 export async function _redeployDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -606,7 +646,9 @@ export async function _reapplyDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -649,20 +691,24 @@ export function _powerOffSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["vmInstanceIDs"]
-      ? options["vmInstanceIDs"]
-      : virtualMachineScaleSetVMInstanceIDsSerializer(options["vmInstanceIDs"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.vmInstanceIDs
+        ? options?.vmInstanceIDs
+        : virtualMachineScaleSetVMInstanceIDsSerializer(options?.vmInstanceIDs),
+    });
 }
 
 export async function _powerOffDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -704,20 +750,24 @@ export function _performMaintenanceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["vmInstanceIDs"]
-      ? options["vmInstanceIDs"]
-      : virtualMachineScaleSetVMInstanceIDsSerializer(options["vmInstanceIDs"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.vmInstanceIDs
+        ? options?.vmInstanceIDs
+        : virtualMachineScaleSetVMInstanceIDsSerializer(options?.vmInstanceIDs),
+    });
 }
 
 export async function _performMaintenanceDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -760,10 +810,12 @@ export function _listOSUpgradeHistorySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listOSUpgradeHistoryDeserialize(
@@ -772,7 +824,9 @@ export async function _listOSUpgradeHistoryDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -815,18 +869,22 @@ export function _updateInstancesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: virtualMachineScaleSetVMInstanceRequiredIDsSerializer(vmInstanceIDs),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: virtualMachineScaleSetVMInstanceRequiredIDsSerializer(vmInstanceIDs),
+    });
 }
 
 export async function _updateInstancesDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -870,10 +928,12 @@ export function _getInstanceViewSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getInstanceViewDeserialize(
@@ -882,7 +942,9 @@ export async function _getInstanceViewDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -925,10 +987,12 @@ export function _forceRecoveryServiceFabricPlatformUpdateDomainWalkSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _forceRecoveryServiceFabricPlatformUpdateDomainWalkDeserialize(
@@ -937,7 +1001,9 @@ export async function _forceRecoveryServiceFabricPlatformUpdateDomainWalkDeseria
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -985,18 +1051,22 @@ export function _deleteInstancesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: virtualMachineScaleSetVMInstanceRequiredIDsSerializer(vmInstanceIDs),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: virtualMachineScaleSetVMInstanceRequiredIDsSerializer(vmInstanceIDs),
+    });
 }
 
 export async function _deleteInstancesDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1041,20 +1111,24 @@ export function _deallocateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["vmInstanceIDs"]
-      ? options["vmInstanceIDs"]
-      : virtualMachineScaleSetVMInstanceIDsSerializer(options["vmInstanceIDs"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.vmInstanceIDs
+        ? options?.vmInstanceIDs
+        : virtualMachineScaleSetVMInstanceIDsSerializer(options?.vmInstanceIDs),
+    });
 }
 
 export async function _deallocateDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1099,11 +1173,13 @@ export function _convertToSinglePlacementGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: vmScaleSetConvertToSinglePlacementGroupInputSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: vmScaleSetConvertToSinglePlacementGroupInputSerializer(parameters),
+    });
 }
 
 export async function _convertToSinglePlacementGroupDeserialize(
@@ -1112,7 +1188,9 @@ export async function _convertToSinglePlacementGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1158,13 +1236,15 @@ export function _approveRollingUpgradeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["vmInstanceIDs"]
-      ? options["vmInstanceIDs"]
-      : virtualMachineScaleSetVMInstanceIDsSerializer(options["vmInstanceIDs"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.vmInstanceIDs
+        ? options?.vmInstanceIDs
+        : virtualMachineScaleSetVMInstanceIDsSerializer(options?.vmInstanceIDs),
+    });
 }
 
 export async function _approveRollingUpgradeDeserialize(
@@ -1173,7 +1253,9 @@ export async function _approveRollingUpgradeDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1212,10 +1294,12 @@ export function _listAllSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAllDeserialize(
@@ -1224,7 +1308,9 @@ export async function _listAllDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1262,10 +1348,12 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -1274,7 +1362,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1323,7 +1413,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1332,11 +1424,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes a VM scale set. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -1371,17 +1458,19 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: virtualMachineScaleSetUpdateSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: virtualMachineScaleSetUpdateSerializer(parameters),
+    });
 }
 
 export async function _updateDeserialize(
@@ -1390,7 +1479,9 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1435,17 +1526,19 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: virtualMachineScaleSetSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: virtualMachineScaleSetSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -1454,7 +1547,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1499,10 +1594,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -1511,7 +1608,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

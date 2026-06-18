@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listByGalleryInVMAccessControlProfile,
   $delete,
@@ -9,21 +9,20 @@ import {
   createOrUpdate,
   get,
 } from "../../api/galleryInVMAccessControlProfileVersions/operations.js";
-import type {
+import {
   GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams,
   GalleryInVMAccessControlProfileVersionsDeleteOptionalParams,
   GalleryInVMAccessControlProfileVersionsUpdateOptionalParams,
   GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams,
   GalleryInVMAccessControlProfileVersionsGetOptionalParams,
 } from "../../api/galleryInVMAccessControlProfileVersions/options.js";
-import type {
+import {
   GalleryInVMAccessControlProfileVersion,
   GalleryInVMAccessControlProfileVersionUpdate,
 } from "../../models/computeGallery/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GalleryInVMAccessControlProfileVersions operations. */
 export interface GalleryInVMAccessControlProfileVersionsOperations {
@@ -35,11 +34,6 @@ export interface GalleryInVMAccessControlProfileVersionsOperations {
     options?: GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams,
   ) => PagedAsyncIterableIterator<GalleryInVMAccessControlProfileVersion>;
   /** Delete a gallery inVMAccessControlProfile version. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     galleryName: string,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   revokeAccess,
   grantAccess,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/disks/operations.js";
-import type {
+import {
   DisksRevokeAccessOptionalParams,
   DisksGrantAccessOptionalParams,
   DisksListOptionalParams,
@@ -22,16 +22,10 @@ import type {
   DisksCreateOrUpdateOptionalParams,
   DisksGetOptionalParams,
 } from "../../api/disks/options.js";
-import type {
-  Disk,
-  DiskUpdate,
-  GrantAccessData,
-  AccessUri,
-} from "../../models/computeDisk/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Disk, DiskUpdate, GrantAccessData, AccessUri } from "../../models/computeDisk/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Disks operations. */
 export interface DisksOperations {
@@ -82,11 +76,6 @@ export interface DisksOperations {
     options?: DisksListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Disk>;
   /** Deletes a disk. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     diskName: string,

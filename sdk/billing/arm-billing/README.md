@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/billing/arm-billing)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-billing)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-billing?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-billing)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/billing/arm-billing/samples)
 
 ## Getting started

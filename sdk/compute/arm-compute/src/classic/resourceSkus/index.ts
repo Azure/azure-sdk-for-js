@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import { list } from "../../api/resourceSkus/operations.js";
-import type { ResourceSkusListOptionalParams } from "../../api/resourceSkus/options.js";
-import type { ResourceSku } from "../../models/computeSku/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ResourceSkusListOptionalParams } from "../../api/resourceSkus/options.js";
+import { ResourceSku } from "../../models/computeSku/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ResourceSkus operations. */
 export interface ResourceSkusOperations {

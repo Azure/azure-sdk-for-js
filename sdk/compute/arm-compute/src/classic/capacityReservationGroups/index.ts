@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/capacityReservationGroups/operations.js";
-import type {
+import {
   CapacityReservationGroupsListBySubscriptionOptionalParams,
   CapacityReservationGroupsListByResourceGroupOptionalParams,
   CapacityReservationGroupsDeleteOptionalParams,
@@ -18,11 +18,11 @@ import type {
   CapacityReservationGroupsCreateOrUpdateOptionalParams,
   CapacityReservationGroupsGetOptionalParams,
 } from "../../api/capacityReservationGroups/options.js";
-import type {
+import {
   CapacityReservationGroup,
   CapacityReservationGroupUpdate,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CapacityReservationGroups operations. */
 export interface CapacityReservationGroupsOperations {
@@ -36,11 +36,6 @@ export interface CapacityReservationGroupsOperations {
     options?: CapacityReservationGroupsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<CapacityReservationGroup>;
   /** The operation to delete a capacity reservation group. This operation is allowed only if all the associated resources are disassociated from the reservation group and all capacity reservations under the reservation group have also been deleted. Please refer to https://aka.ms/CapacityReservation for more details. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     capacityReservationGroupName: string,

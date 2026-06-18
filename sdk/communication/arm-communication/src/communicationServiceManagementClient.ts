@@ -1,29 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   CommunicationServiceManagementContext,
   CommunicationServiceManagementClientOptionalParams,
+  createCommunicationServiceManagement,
 } from "./api/index.js";
-import { createCommunicationServiceManagement } from "./api/index.js";
-import type { CommunicationServicesOperations } from "./classic/communicationServices/index.js";
-import { _getCommunicationServicesOperations } from "./classic/communicationServices/index.js";
-import type { DomainsOperations } from "./classic/domains/index.js";
-import { _getDomainsOperations } from "./classic/domains/index.js";
-import type { EmailServicesOperations } from "./classic/emailServices/index.js";
-import { _getEmailServicesOperations } from "./classic/emailServices/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { SenderUsernamesOperations } from "./classic/senderUsernames/index.js";
-import { _getSenderUsernamesOperations } from "./classic/senderUsernames/index.js";
-import type { SmtpUsernamesOperations } from "./classic/smtpUsernames/index.js";
-import { _getSmtpUsernamesOperations } from "./classic/smtpUsernames/index.js";
-import type { SuppressionListAddressesOperations } from "./classic/suppressionListAddresses/index.js";
-import { _getSuppressionListAddressesOperations } from "./classic/suppressionListAddresses/index.js";
-import type { SuppressionListsOperations } from "./classic/suppressionLists/index.js";
-import { _getSuppressionListsOperations } from "./classic/suppressionLists/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  CommunicationServicesOperations,
+  _getCommunicationServicesOperations,
+} from "./classic/communicationServices/index.js";
+import { DomainsOperations, _getDomainsOperations } from "./classic/domains/index.js";
+import {
+  EmailServicesOperations,
+  _getEmailServicesOperations,
+} from "./classic/emailServices/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  SenderUsernamesOperations,
+  _getSenderUsernamesOperations,
+} from "./classic/senderUsernames/index.js";
+import {
+  SmtpUsernamesOperations,
+  _getSmtpUsernamesOperations,
+} from "./classic/smtpUsernames/index.js";
+import {
+  SuppressionListAddressesOperations,
+  _getSuppressionListAddressesOperations,
+} from "./classic/suppressionListAddresses/index.js";
+import {
+  SuppressionListsOperations,
+  _getSuppressionListsOperations,
+} from "./classic/suppressionLists/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { CommunicationServiceManagementClientOptionalParams } from "./api/communicationServiceManagementContext.js";
 

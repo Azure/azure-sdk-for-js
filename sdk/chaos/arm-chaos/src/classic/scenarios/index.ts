@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChaosManagementContext } from "../../api/chaosManagementContext.js";
+import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
 import { listAll, $delete, createOrUpdate, get } from "../../api/scenarios/operations.js";
-import type {
+import {
   ScenariosListAllOptionalParams,
   ScenariosDeleteOptionalParams,
   ScenariosCreateOrUpdateOptionalParams,
   ScenariosGetOptionalParams,
 } from "../../api/scenarios/options.js";
-import type { Scenario } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Scenario } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Scenarios operations. */
 export interface ScenariosOperations {

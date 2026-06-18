@@ -1,113 +1,195 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   ComputeManagementContext,
   ComputeManagementClientOptionalParams,
+  createComputeManagement,
 } from "./api/index.js";
-import { createComputeManagement } from "./api/index.js";
-import type { AvailabilitySetsOperations } from "./classic/availabilitySets/index.js";
-import { _getAvailabilitySetsOperations } from "./classic/availabilitySets/index.js";
-import type { CapacityReservationGroupsOperations } from "./classic/capacityReservationGroups/index.js";
-import { _getCapacityReservationGroupsOperations } from "./classic/capacityReservationGroups/index.js";
-import type { CapacityReservationsOperations } from "./classic/capacityReservations/index.js";
-import { _getCapacityReservationsOperations } from "./classic/capacityReservations/index.js";
-import type { CommunityGalleriesOperations } from "./classic/communityGalleries/index.js";
-import { _getCommunityGalleriesOperations } from "./classic/communityGalleries/index.js";
-import type { CommunityGalleryImageVersionsOperations } from "./classic/communityGalleryImageVersions/index.js";
-import { _getCommunityGalleryImageVersionsOperations } from "./classic/communityGalleryImageVersions/index.js";
-import type { CommunityGalleryImagesOperations } from "./classic/communityGalleryImages/index.js";
-import { _getCommunityGalleryImagesOperations } from "./classic/communityGalleryImages/index.js";
-import type { DedicatedHostGroupsOperations } from "./classic/dedicatedHostGroups/index.js";
-import { _getDedicatedHostGroupsOperations } from "./classic/dedicatedHostGroups/index.js";
-import type { DedicatedHostsOperations } from "./classic/dedicatedHosts/index.js";
-import { _getDedicatedHostsOperations } from "./classic/dedicatedHosts/index.js";
-import type { DiskAccessesOperations } from "./classic/diskAccesses/index.js";
-import { _getDiskAccessesOperations } from "./classic/diskAccesses/index.js";
-import type { DiskEncryptionSetsOperations } from "./classic/diskEncryptionSets/index.js";
-import { _getDiskEncryptionSetsOperations } from "./classic/diskEncryptionSets/index.js";
-import type { DiskRestorePointOperations } from "./classic/diskRestorePoint/index.js";
-import { _getDiskRestorePointOperations } from "./classic/diskRestorePoint/index.js";
-import type { DisksOperations } from "./classic/disks/index.js";
-import { _getDisksOperations } from "./classic/disks/index.js";
-import type { GalleriesOperations } from "./classic/galleries/index.js";
-import { _getGalleriesOperations } from "./classic/galleries/index.js";
-import type { GalleryApplicationVersionsOperations } from "./classic/galleryApplicationVersions/index.js";
-import { _getGalleryApplicationVersionsOperations } from "./classic/galleryApplicationVersions/index.js";
-import type { GalleryApplicationsOperations } from "./classic/galleryApplications/index.js";
-import { _getGalleryApplicationsOperations } from "./classic/galleryApplications/index.js";
-import type { GalleryImageVersionsOperations } from "./classic/galleryImageVersions/index.js";
-import { _getGalleryImageVersionsOperations } from "./classic/galleryImageVersions/index.js";
-import type { GalleryImagesOperations } from "./classic/galleryImages/index.js";
-import { _getGalleryImagesOperations } from "./classic/galleryImages/index.js";
-import type { GalleryInVMAccessControlProfileVersionsOperations } from "./classic/galleryInVMAccessControlProfileVersions/index.js";
-import { _getGalleryInVMAccessControlProfileVersionsOperations } from "./classic/galleryInVMAccessControlProfileVersions/index.js";
-import type { GalleryInVMAccessControlProfilesOperations } from "./classic/galleryInVMAccessControlProfiles/index.js";
-import { _getGalleryInVMAccessControlProfilesOperations } from "./classic/galleryInVMAccessControlProfiles/index.js";
-import type { GalleryScriptVersionsOperations } from "./classic/galleryScriptVersions/index.js";
-import { _getGalleryScriptVersionsOperations } from "./classic/galleryScriptVersions/index.js";
-import type { GalleryScriptsOperations } from "./classic/galleryScripts/index.js";
-import { _getGalleryScriptsOperations } from "./classic/galleryScripts/index.js";
-import type { GallerySharingProfileOperations } from "./classic/gallerySharingProfile/index.js";
-import { _getGallerySharingProfileOperations } from "./classic/gallerySharingProfile/index.js";
-import type { ImagesOperations } from "./classic/images/index.js";
-import { _getImagesOperations } from "./classic/images/index.js";
-import type { LogAnalyticsOperations } from "./classic/logAnalytics/index.js";
-import { _getLogAnalyticsOperations } from "./classic/logAnalytics/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { ProximityPlacementGroupsOperations } from "./classic/proximityPlacementGroups/index.js";
-import { _getProximityPlacementGroupsOperations } from "./classic/proximityPlacementGroups/index.js";
-import type { ResourceSkusOperations } from "./classic/resourceSkus/index.js";
-import { _getResourceSkusOperations } from "./classic/resourceSkus/index.js";
-import type { RestorePointCollectionsOperations } from "./classic/restorePointCollections/index.js";
-import { _getRestorePointCollectionsOperations } from "./classic/restorePointCollections/index.js";
-import type { RestorePointsOperations } from "./classic/restorePoints/index.js";
-import { _getRestorePointsOperations } from "./classic/restorePoints/index.js";
-import type { SharedGalleriesOperations } from "./classic/sharedGalleries/index.js";
-import { _getSharedGalleriesOperations } from "./classic/sharedGalleries/index.js";
-import type { SharedGalleryImageVersionsOperations } from "./classic/sharedGalleryImageVersions/index.js";
-import { _getSharedGalleryImageVersionsOperations } from "./classic/sharedGalleryImageVersions/index.js";
-import type { SharedGalleryImagesOperations } from "./classic/sharedGalleryImages/index.js";
-import { _getSharedGalleryImagesOperations } from "./classic/sharedGalleryImages/index.js";
-import type { SnapshotsOperations } from "./classic/snapshots/index.js";
-import { _getSnapshotsOperations } from "./classic/snapshots/index.js";
-import type { SoftDeletedResourceOperations } from "./classic/softDeletedResource/index.js";
-import { _getSoftDeletedResourceOperations } from "./classic/softDeletedResource/index.js";
-import type { SshPublicKeysOperations } from "./classic/sshPublicKeys/index.js";
-import { _getSshPublicKeysOperations } from "./classic/sshPublicKeys/index.js";
-import type { UsageOperations } from "./classic/usage/index.js";
-import { _getUsageOperations } from "./classic/usage/index.js";
-import type { VirtualMachineExtensionImagesOperations } from "./classic/virtualMachineExtensionImages/index.js";
-import { _getVirtualMachineExtensionImagesOperations } from "./classic/virtualMachineExtensionImages/index.js";
-import type { VirtualMachineExtensionsOperations } from "./classic/virtualMachineExtensions/index.js";
-import { _getVirtualMachineExtensionsOperations } from "./classic/virtualMachineExtensions/index.js";
-import type { VirtualMachineImagesOperations } from "./classic/virtualMachineImages/index.js";
-import { _getVirtualMachineImagesOperations } from "./classic/virtualMachineImages/index.js";
-import type { VirtualMachineImagesEdgeZoneOperations } from "./classic/virtualMachineImagesEdgeZone/index.js";
-import { _getVirtualMachineImagesEdgeZoneOperations } from "./classic/virtualMachineImagesEdgeZone/index.js";
-import type { VirtualMachineRunCommandsOperations } from "./classic/virtualMachineRunCommands/index.js";
-import { _getVirtualMachineRunCommandsOperations } from "./classic/virtualMachineRunCommands/index.js";
-import type { VirtualMachineScaleSetExtensionsOperations } from "./classic/virtualMachineScaleSetExtensions/index.js";
-import { _getVirtualMachineScaleSetExtensionsOperations } from "./classic/virtualMachineScaleSetExtensions/index.js";
-import type { VirtualMachineScaleSetLifeCycleHookEventsOperations } from "./classic/virtualMachineScaleSetLifeCycleHookEvents/index.js";
-import { _getVirtualMachineScaleSetLifeCycleHookEventsOperations } from "./classic/virtualMachineScaleSetLifeCycleHookEvents/index.js";
-import type { VirtualMachineScaleSetRollingUpgradesOperations } from "./classic/virtualMachineScaleSetRollingUpgrades/index.js";
-import { _getVirtualMachineScaleSetRollingUpgradesOperations } from "./classic/virtualMachineScaleSetRollingUpgrades/index.js";
-import type { VirtualMachineScaleSetVMExtensionsOperations } from "./classic/virtualMachineScaleSetVMExtensions/index.js";
-import { _getVirtualMachineScaleSetVMExtensionsOperations } from "./classic/virtualMachineScaleSetVMExtensions/index.js";
-import type { VirtualMachineScaleSetVMRunCommandsOperations } from "./classic/virtualMachineScaleSetVMRunCommands/index.js";
-import { _getVirtualMachineScaleSetVMRunCommandsOperations } from "./classic/virtualMachineScaleSetVMRunCommands/index.js";
-import type { VirtualMachineScaleSetVMsOperations } from "./classic/virtualMachineScaleSetVMs/index.js";
-import { _getVirtualMachineScaleSetVMsOperations } from "./classic/virtualMachineScaleSetVMs/index.js";
-import type { VirtualMachineScaleSetsOperations } from "./classic/virtualMachineScaleSets/index.js";
-import { _getVirtualMachineScaleSetsOperations } from "./classic/virtualMachineScaleSets/index.js";
-import type { VirtualMachineSizesOperations } from "./classic/virtualMachineSizes/index.js";
-import { _getVirtualMachineSizesOperations } from "./classic/virtualMachineSizes/index.js";
-import type { VirtualMachinesOperations } from "./classic/virtualMachines/index.js";
-import { _getVirtualMachinesOperations } from "./classic/virtualMachines/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  AvailabilitySetsOperations,
+  _getAvailabilitySetsOperations,
+} from "./classic/availabilitySets/index.js";
+import {
+  CapacityReservationGroupsOperations,
+  _getCapacityReservationGroupsOperations,
+} from "./classic/capacityReservationGroups/index.js";
+import {
+  CapacityReservationsOperations,
+  _getCapacityReservationsOperations,
+} from "./classic/capacityReservations/index.js";
+import {
+  CommunityGalleriesOperations,
+  _getCommunityGalleriesOperations,
+} from "./classic/communityGalleries/index.js";
+import {
+  CommunityGalleryImageVersionsOperations,
+  _getCommunityGalleryImageVersionsOperations,
+} from "./classic/communityGalleryImageVersions/index.js";
+import {
+  CommunityGalleryImagesOperations,
+  _getCommunityGalleryImagesOperations,
+} from "./classic/communityGalleryImages/index.js";
+import {
+  DedicatedHostGroupsOperations,
+  _getDedicatedHostGroupsOperations,
+} from "./classic/dedicatedHostGroups/index.js";
+import {
+  DedicatedHostsOperations,
+  _getDedicatedHostsOperations,
+} from "./classic/dedicatedHosts/index.js";
+import {
+  DiskAccessesOperations,
+  _getDiskAccessesOperations,
+} from "./classic/diskAccesses/index.js";
+import {
+  DiskEncryptionSetsOperations,
+  _getDiskEncryptionSetsOperations,
+} from "./classic/diskEncryptionSets/index.js";
+import {
+  DiskRestorePointOperations,
+  _getDiskRestorePointOperations,
+} from "./classic/diskRestorePoint/index.js";
+import { DisksOperations, _getDisksOperations } from "./classic/disks/index.js";
+import { GalleriesOperations, _getGalleriesOperations } from "./classic/galleries/index.js";
+import {
+  GalleryApplicationVersionsOperations,
+  _getGalleryApplicationVersionsOperations,
+} from "./classic/galleryApplicationVersions/index.js";
+import {
+  GalleryApplicationsOperations,
+  _getGalleryApplicationsOperations,
+} from "./classic/galleryApplications/index.js";
+import {
+  GalleryImageVersionsOperations,
+  _getGalleryImageVersionsOperations,
+} from "./classic/galleryImageVersions/index.js";
+import {
+  GalleryImagesOperations,
+  _getGalleryImagesOperations,
+} from "./classic/galleryImages/index.js";
+import {
+  GalleryInVMAccessControlProfileVersionsOperations,
+  _getGalleryInVMAccessControlProfileVersionsOperations,
+} from "./classic/galleryInVMAccessControlProfileVersions/index.js";
+import {
+  GalleryInVMAccessControlProfilesOperations,
+  _getGalleryInVMAccessControlProfilesOperations,
+} from "./classic/galleryInVMAccessControlProfiles/index.js";
+import {
+  GalleryScriptVersionsOperations,
+  _getGalleryScriptVersionsOperations,
+} from "./classic/galleryScriptVersions/index.js";
+import {
+  GalleryScriptsOperations,
+  _getGalleryScriptsOperations,
+} from "./classic/galleryScripts/index.js";
+import {
+  GallerySharingProfileOperations,
+  _getGallerySharingProfileOperations,
+} from "./classic/gallerySharingProfile/index.js";
+import { ImagesOperations, _getImagesOperations } from "./classic/images/index.js";
+import {
+  LogAnalyticsOperations,
+  _getLogAnalyticsOperations,
+} from "./classic/logAnalytics/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  ProximityPlacementGroupsOperations,
+  _getProximityPlacementGroupsOperations,
+} from "./classic/proximityPlacementGroups/index.js";
+import {
+  ResourceSkusOperations,
+  _getResourceSkusOperations,
+} from "./classic/resourceSkus/index.js";
+import {
+  RestorePointCollectionsOperations,
+  _getRestorePointCollectionsOperations,
+} from "./classic/restorePointCollections/index.js";
+import {
+  RestorePointsOperations,
+  _getRestorePointsOperations,
+} from "./classic/restorePoints/index.js";
+import {
+  SharedGalleriesOperations,
+  _getSharedGalleriesOperations,
+} from "./classic/sharedGalleries/index.js";
+import {
+  SharedGalleryImageVersionsOperations,
+  _getSharedGalleryImageVersionsOperations,
+} from "./classic/sharedGalleryImageVersions/index.js";
+import {
+  SharedGalleryImagesOperations,
+  _getSharedGalleryImagesOperations,
+} from "./classic/sharedGalleryImages/index.js";
+import { SnapshotsOperations, _getSnapshotsOperations } from "./classic/snapshots/index.js";
+import {
+  SoftDeletedResourceOperations,
+  _getSoftDeletedResourceOperations,
+} from "./classic/softDeletedResource/index.js";
+import {
+  SshPublicKeysOperations,
+  _getSshPublicKeysOperations,
+} from "./classic/sshPublicKeys/index.js";
+import { UsageOperations, _getUsageOperations } from "./classic/usage/index.js";
+import {
+  VirtualMachineExtensionImagesOperations,
+  _getVirtualMachineExtensionImagesOperations,
+} from "./classic/virtualMachineExtensionImages/index.js";
+import {
+  VirtualMachineExtensionsOperations,
+  _getVirtualMachineExtensionsOperations,
+} from "./classic/virtualMachineExtensions/index.js";
+import {
+  VirtualMachineImagesOperations,
+  _getVirtualMachineImagesOperations,
+} from "./classic/virtualMachineImages/index.js";
+import {
+  VirtualMachineImagesEdgeZoneOperations,
+  _getVirtualMachineImagesEdgeZoneOperations,
+} from "./classic/virtualMachineImagesEdgeZone/index.js";
+import {
+  VirtualMachineRunCommandsOperations,
+  _getVirtualMachineRunCommandsOperations,
+} from "./classic/virtualMachineRunCommands/index.js";
+import {
+  VirtualMachineScaleSetExtensionsOperations,
+  _getVirtualMachineScaleSetExtensionsOperations,
+} from "./classic/virtualMachineScaleSetExtensions/index.js";
+import {
+  VirtualMachineScaleSetLifeCycleHookEventsOperations,
+  _getVirtualMachineScaleSetLifeCycleHookEventsOperations,
+} from "./classic/virtualMachineScaleSetLifeCycleHookEvents/index.js";
+import {
+  VirtualMachineScaleSetRollingUpgradesOperations,
+  _getVirtualMachineScaleSetRollingUpgradesOperations,
+} from "./classic/virtualMachineScaleSetRollingUpgrades/index.js";
+import {
+  VirtualMachineScaleSetVMExtensionsOperations,
+  _getVirtualMachineScaleSetVMExtensionsOperations,
+} from "./classic/virtualMachineScaleSetVMExtensions/index.js";
+import {
+  VirtualMachineScaleSetVMRunCommandsOperations,
+  _getVirtualMachineScaleSetVMRunCommandsOperations,
+} from "./classic/virtualMachineScaleSetVMRunCommands/index.js";
+import {
+  VirtualMachineScaleSetVMsOperations,
+  _getVirtualMachineScaleSetVMsOperations,
+} from "./classic/virtualMachineScaleSetVMs/index.js";
+import {
+  VirtualMachineScaleSetsOperations,
+  _getVirtualMachineScaleSetsOperations,
+} from "./classic/virtualMachineScaleSets/index.js";
+import {
+  VirtualMachineSizesOperations,
+  _getVirtualMachineSizesOperations,
+} from "./classic/virtualMachineSizes/index.js";
+import {
+  VirtualMachinesOperations,
+  _getVirtualMachinesOperations,
+} from "./classic/virtualMachines/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { ComputeManagementClientOptionalParams } from "./api/computeManagementContext.js";
 

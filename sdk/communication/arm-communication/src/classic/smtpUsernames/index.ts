@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommunicationServiceManagementContext } from "../../api/communicationServiceManagementContext.js";
+import { CommunicationServiceManagementContext } from "../../api/communicationServiceManagementContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/smtpUsernames/operations.js";
-import type {
+import {
   SmtpUsernamesListOptionalParams,
   SmtpUsernamesDeleteOptionalParams,
   SmtpUsernamesCreateOrUpdateOptionalParams,
   SmtpUsernamesGetOptionalParams,
 } from "../../api/smtpUsernames/options.js";
-import type { SmtpUsernameResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SmtpUsernameResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SmtpUsernames operations. */
 export interface SmtpUsernamesOperations {
@@ -21,11 +21,6 @@ export interface SmtpUsernamesOperations {
     options?: SmtpUsernamesListOptionalParams,
   ) => PagedAsyncIterableIterator<SmtpUsernameResource>;
   /** Operation to delete a single SmtpUsername resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     communicationServiceName: string,

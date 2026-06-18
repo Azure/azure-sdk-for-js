@@ -1,26 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import {
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/privateEndpointConnections/operations.js";
-import type {
+import {
   PrivateEndpointConnectionsListOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/privateEndpointConnections/options.js";
-import type {
+import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionListResult,
 } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateEndpointConnections operations. */
 export interface PrivateEndpointConnectionsOperations {

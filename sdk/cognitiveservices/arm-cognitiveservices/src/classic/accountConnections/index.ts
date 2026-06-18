@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import { list, $delete, update, create, get } from "../../api/accountConnections/operations.js";
-import type {
+import {
   AccountConnectionsListOptionalParams,
   AccountConnectionsDeleteOptionalParams,
   AccountConnectionsUpdateOptionalParams,
   AccountConnectionsCreateOptionalParams,
   AccountConnectionsGetOptionalParams,
 } from "../../api/accountConnections/options.js";
-import type { ConnectionPropertiesV2BasicResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ConnectionPropertiesV2BasicResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AccountConnections operations. */
 export interface AccountConnectionsOperations {

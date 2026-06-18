@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/outboundRule/operations.js";
-import type {
+import {
   OutboundRuleListOptionalParams,
   OutboundRuleDeleteOptionalParams,
   OutboundRuleCreateOrUpdateOptionalParams,
   OutboundRuleGetOptionalParams,
 } from "../../api/outboundRule/options.js";
-import type { OutboundRuleBasicResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { OutboundRuleBasicResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a OutboundRule operations. */
 export interface OutboundRuleOperations {
