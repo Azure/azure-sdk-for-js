@@ -1,21 +1,38 @@
 # Release History
 
-## 2.0.2 (Unreleased)
+## 3.0.0 (2026-06-19)
 
 ### Features Added
+  - Added operation FileSystemsOperations.createOrUpdate
+  - Added operation FileSystemsOperations.delete
+  - Added Interface FileSystemResourceProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface RestorePollerOptions
+  - Interface FileSystemResource has a new optional parameter properties
+  - Interface FileSystemResourceUpdateProperties has a new optional parameter performanceTier
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Removed operation FileSystems.beginCreateOrUpdate
+  - Removed operation FileSystems.beginCreateOrUpdateAndWait
+  - Removed operation FileSystems.beginDelete
+  - Removed operation FileSystems.beginDeleteAndWait
+  - Class QumuloStorage no longer has parameter apiVersion
+  - Class QumuloStorage no longer has parameter subscriptionId
+  - Interface FileSystemResource no longer has parameter adminPassword
+  - Interface FileSystemResource no longer has parameter availabilityZone
+  - Interface FileSystemResource no longer has parameter clusterLoginUrl
+  - Interface FileSystemResource no longer has parameter delegatedSubnetId
+  - Interface FileSystemResource no longer has parameter marketplaceDetails
+  - Interface FileSystemResource no longer has parameter privateIPs
+  - Interface FileSystemResource no longer has parameter provisioningState
+  - Interface FileSystemResource no longer has parameter storageSku
+  - Interface FileSystemResource no longer has parameter userDetails
 
-### Bugs Fixed
-
-### Other Changes
-
-## 2.0.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 2.0.0 (2024-07-17)
     
 ### Features Added
