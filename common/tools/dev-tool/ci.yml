@@ -34,13 +34,21 @@ jobs:
     steps:
       - template: /eng/pipelines/templates/steps/common.yml
 
+      - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+        parameters:
+          npmrcPath: $(Agent.TempDirectory)/ci/.npmrc
+
       - script: |
           npm install -g pnpm
         displayName: "Install Pnpm"
+        env:
+          npm_config_userconfig: "$(Agent.TempDirectory)/ci/.npmrc"
 
       - script: |
           pnpm install
         displayName: "Install library dependencies"
+        env:
+          npm_config_userconfig: "$(Agent.TempDirectory)/ci/.npmrc"
 
       - script: |
           pnpm --filter @azure/dev-tool... build

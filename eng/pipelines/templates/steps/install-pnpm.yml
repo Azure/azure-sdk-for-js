@@ -1,4 +1,8 @@
 steps:
+  - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+    parameters:
+      npmrcPath: $(Agent.TempDirectory)/install_pnpm/.npmrc
+
   - pwsh: |
       $packageJson = Get-Content -Raw "$(Build.SourcesDirectory)/package.json" | ConvertFrom-Json
       $packageManager = $packageJson.packageManager
@@ -13,3 +17,5 @@ steps:
       Write-Host "Installing $packageManager"
       npm install -g $packageManager
     displayName: "Install Pnpm"
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/install_pnpm/.npmrc"

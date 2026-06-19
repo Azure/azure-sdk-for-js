@@ -5,6 +5,10 @@ steps:
   - template: use-node-version.yml
     parameters:
       NodeVersion: $(NodeTestVersion)
+  
+  - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+    parameters:
+      npmrcPath: $(Agent.TempDirectory)/node_test/.npmrc
 
   # Packages with native dependencies must be reinstalled after changing Node versions
   # TODO: how to get the symlink paths without version?
@@ -69,3 +73,5 @@ steps:
       }
 
     displayName: Reinstall native dependencies
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/node_test/.npmrc"

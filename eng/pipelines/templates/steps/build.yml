@@ -26,7 +26,7 @@ steps:
   - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
 
   - template: /eng/pipelines/templates/steps/install-pnpm.yml
-  
+
   - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
     parameters:
       npmrcPath: $(Agent.TempDirectory)/build/.npmrc
@@ -175,6 +175,8 @@ steps:
         Get-ChildItem $stagingArtifactDirectory -Recurse -Name
       }
     displayName: "Copy Packages"
+    env:
+      npm_config_userconfig: "$(Agent.TempDirectory)/build/.npmrc"
 
   - pwsh: |
       eng/scripts/stage-api-review-file.ps1 -PackageInfoPath $(Build.ArtifactStagingDirectory)/PackageInfo -StagingDirectory $(Build.ArtifactStagingDirectory)

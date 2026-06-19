@@ -35,6 +35,8 @@ jobs:
         - pwsh: npm install --prod; npm install -g
           workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
           displayName: Install dev-tool
+          env:
+            npm_config_userconfig: $(CommonNpmrcPath)
 
         - pwsh: |
             $(Build.SourcesDirectory)/eng/common/scripts/Import-AzModules.ps1
@@ -93,6 +95,8 @@ jobs:
       - pwsh: npm install --prod; npm install -g
         workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
         displayName: Install dev-tool
+        env:
+          npm_config_userconfig: $(CommonNpmrcPath)
 
       - download: current
         artifact: ${{parameters.ArtifactName}}
@@ -155,6 +159,8 @@ jobs:
           command: install
           workingDir: common/smoke-test/
         displayName: Install packages
+        env:
+            npm_config_userconfig: $(CommonNpmrcPath)
 
       - task: Npm@1
         inputs:
