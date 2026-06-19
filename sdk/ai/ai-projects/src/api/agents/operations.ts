@@ -54,6 +54,8 @@ import type {
   AgentsDeleteSessionOptionalParams,
   AgentsGetSessionOptionalParams,
   AgentsCreateSessionOptionalParams,
+  AgentsDisableOptionalParams,
+  AgentsEnableOptionalParams,
   AgentsDownloadAgentCodeOptionalParams,
   AgentsCreateVersionFromCodeOptionalParams,
   AgentsPatchAgentObjectOptionalParams,
@@ -728,6 +730,97 @@ export async function createSession(
 ): Promise<AgentSessionResource> {
   const result = await _createSessionSend(context, agentName, versionIndicator, options);
   return _createSessionDeserialize(result);
+}
+
+export function _disableSend(
+  context: Client,
+  agentName: string,
+  options: AgentsDisableOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}:disable{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _disableDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/**
+ * Disables the specified agent, preventing it from accepting new sessions or processing requests.
+ * Existing active sessions are allowed to drain gracefully but no new sessions can be created.
+ * This operation is idempotent — disabling an already-disabled agent returns success with no side effects.
+ */
+export async function disable(
+  context: Client,
+  agentName: string,
+  options: AgentsDisableOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _disableSend(context, agentName, options);
+  return _disableDeserialize(result);
+}
+
+export function _enableSend(
+  context: Client,
+  agentName: string,
+  options: AgentsEnableOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}:enable{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _enableDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/**
+ * Enables the specified agent, allowing it to accept new sessions and process requests.
+ * This operation is idempotent — enabling an already-enabled agent returns success with no side effects.
+ */
+export async function enable(
+  context: Client,
+  agentName: string,
+  options: AgentsEnableOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _enableSend(context, agentName, options);
+  return _enableDeserialize(result);
 }
 
 export function _downloadAgentCodeSend(
@@ -1585,6 +1678,7 @@ export function _createSend(
     },
     body: {
       name: name,
+      state: options?.state,
       metadata: options?.metadata,
       description: options?.description,
       definition: agentDefinitionUnionSerializer(definition),

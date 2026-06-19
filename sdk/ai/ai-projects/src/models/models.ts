@@ -22,6 +22,8 @@ export interface Agent {
   id: string;
   /** The name of the agent. */
   name: string;
+  /** The operational state of the agent. Controls whether the agent endpoint accepts or rejects requests. */
+  readonly state: AgentState;
   /** The latest version of the agent. */
   versions: {
     latest: AgentVersion;
@@ -42,6 +44,7 @@ export function agentDeserializer(item: any): Agent {
     object: item["object"],
     id: item["id"],
     name: item["name"],
+    state: item["state"],
     versions: _agentVersionsDeserializer(item["versions"]),
     agent_endpoint: !item["agent_endpoint"]
       ? item["agent_endpoint"]
@@ -60,6 +63,9 @@ export function agentDeserializer(item: any): Agent {
       : agentCardDeserializer(item["agent_card"]),
   };
 }
+
+/** The operational state of an agent. */
+export type AgentState = "enabled" | "disabled";
 
 /**
  * Helper interface for agent version references.
@@ -9897,7 +9903,6 @@ export function responseUsageInputTokensDetailsDeserializer(
 
 /** model interface ResponseUsageOutputTokensDetails */
 export interface ResponseUsageOutputTokensDetails {
-  /** The number of output tokens used for reasoning. */
   reasoning_tokens: number;
 }
 
@@ -10081,8 +10086,6 @@ export function modelVersionArrayDeserializer(result: Array<ModelVersion>): any[
 
 /** Model Version Definition */
 export interface ModelVersion {
-  /** System related metadata */
-  readonly systemData?: SystemDataV3;
   /** URI of the model artifact in blob storage */
   blobUri: string;
   /** The weight type of the model */
@@ -10123,9 +10126,6 @@ export function modelVersionSerializer(item: ModelVersion): any {
 
 export function modelVersionDeserializer(item: any): ModelVersion {
   return {
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataV3Deserializer(item["systemData"]),
     blobUri: item["blobUri"],
     weightType: item["weightType"],
     baseModel: item["baseModel"],
@@ -10144,29 +10144,6 @@ export function modelVersionDeserializer(item: any): ModelVersion {
     version: item["version"],
     description: item["description"],
     tags: item["tags"],
-  };
-}
-
-/** System metadata for a resource */
-export interface SystemDataV3 {
-  /** Timestamp of resource creation */
-  createdAt?: Date;
-  /** Identity that created the resource */
-  createdBy?: string;
-  /** Type of identity that created the resource */
-  createdByType?: string;
-  /** Timestamp of last resource modification */
-  lastModifiedAt?: Date;
-}
-
-export function systemDataV3Deserializer(item: any): SystemDataV3 {
-  return {
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"] * 1000),
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"] * 1000),
   };
 }
 

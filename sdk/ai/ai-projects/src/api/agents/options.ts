@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import {
+  AgentState,
   AgentKind,
   AgentBlueprintReferenceUnion,
   AgentEndpointConfig,
@@ -114,6 +115,12 @@ export interface AgentsCreateSessionOptionalParams extends OperationOptions {
   /** Optional caller-provided session ID. If specified, it must be unique within the agent endpoint. Auto-generated if omitted. */
   agentSessionId?: string;
 }
+
+/** Optional parameters. */
+export interface AgentsDisableOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsEnableOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsDownloadAgentCodeOptionalParams extends OperationOptions {
@@ -291,6 +298,8 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
 export interface AgentsCreateOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: AgentDefinitionOptInKeys;
+  /** The initial operational state of the agent. Defaults to 'enabled' if not specified. */
+  state?: AgentState;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured

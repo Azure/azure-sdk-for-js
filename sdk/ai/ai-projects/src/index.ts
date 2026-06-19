@@ -9,6 +9,7 @@ export { AIProjectClient } from "./aiProjectClient.js";
 export { enableGenAITracing, disableGenAITracing } from "./tracing/configuration.js";
 export type {
   Agent,
+  AgentState,
   AgentVersion,
   AgentDefinition,
   AgentDefinitionUnion,
@@ -370,7 +371,6 @@ export type {
   MemoryStoreDeleteScopeResponse,
   DeleteMemoryResponse,
   ModelVersion,
-  SystemDataV3,
   FoundryModelWeightType,
   ModelSourceData,
   FoundryModelSourceType,
@@ -499,6 +499,8 @@ export type {
   AgentsDeleteSessionOptionalParams,
   AgentsGetSessionOptionalParams,
   AgentsCreateSessionOptionalParams,
+  AgentsDisableOptionalParams,
+  AgentsEnableOptionalParams,
   AgentsDownloadAgentCodeOptionalParams,
   AgentsCreateVersionFromCodeOptionalParams,
   AgentsPatchAgentObjectOptionalParams,

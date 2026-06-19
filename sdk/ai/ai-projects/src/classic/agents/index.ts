@@ -13,6 +13,8 @@ import {
   deleteSession,
   getSession,
   createSession,
+  disable,
+  enable,
   downloadAgentCode,
   createVersionFromCode,
   updateAgentObject,
@@ -40,6 +42,8 @@ import type {
   AgentsDeleteSessionOptionalParams,
   AgentsGetSessionOptionalParams,
   AgentsCreateSessionOptionalParams,
+  AgentsDisableOptionalParams,
+  AgentsEnableOptionalParams,
   AgentsDownloadAgentCodeOptionalParams,
   AgentsCreateVersionFromCodeOptionalParams,
   AgentsPatchAgentObjectOptionalParams,
@@ -184,6 +188,17 @@ export interface AgentsOperations {
     versionIndicator: VersionIndicatorUnion,
     options?: AgentsCreateSessionOptionalParams,
   ) => Promise<AgentSessionResource>;
+  /**
+   * Disables the specified agent, preventing it from accepting new sessions or processing requests.
+   * Existing active sessions are allowed to drain gracefully but no new sessions can be created.
+   * This operation is idempotent — disabling an already-disabled agent returns success with no side effects.
+   */
+  disable: (agentName: string, options?: AgentsDisableOptionalParams) => Promise<void>;
+  /**
+   * Enables the specified agent, allowing it to accept new sessions and process requests.
+   * This operation is idempotent — enabling an already-enabled agent returns success with no side effects.
+   */
+  enable: (agentName: string, options?: AgentsEnableOptionalParams) => Promise<void>;
   /**
    * Downloads the code zip for a code-based hosted agent.
    * Returns the previously-uploaded zip (`application/zip`).
@@ -345,6 +360,10 @@ function _getAgents(context: AIProjectContext) {
       versionIndicator: VersionIndicatorUnion,
       options?: AgentsCreateSessionOptionalParams,
     ) => createSession(context, agentName, versionIndicator, options),
+    disable: (agentName: string, options?: AgentsDisableOptionalParams) =>
+      disable(context, agentName, options),
+    enable: (agentName: string, options?: AgentsEnableOptionalParams) =>
+      enable(context, agentName, options),
     downloadAgentCode: (agentName: string, options?: AgentsDownloadAgentCodeOptionalParams) =>
       downloadAgentCode(context, agentName, options),
     createVersionFromCode: (
