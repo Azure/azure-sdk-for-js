@@ -83,11 +83,7 @@ export async function main(): Promise<void> {
     code: { contents: codeZip, contentType: "application/zip", filename: "code.zip" },
   };
 
-  const created = await project.beta.agents.createVersionFromCode(
-    agentName,
-    codeZipSha256,
-    content,
-  );
+  const created = await project.agents.createVersionFromCode(agentName, codeZipSha256, content);
   const createdVersion = created.version;
   console.log(`Created code-based hosted agent version: ${createdVersion}`);
 
@@ -108,7 +104,7 @@ export async function main(): Promise<void> {
 
   // ── Download the code for the version we just created ────────────────
   console.log("\nDownloading agent version code...");
-  const downloadResult = await project.beta.agents.downloadAgentCode(agentName, {
+  const downloadResult = await project.agents.downloadAgentCode(agentName, {
     agentVersion: createdVersion,
   });
 
