@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to assess patches on the VM.
  *
  * @summary assess patches on the VM.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_AssessPatches.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_AssessPatches.json
  */
 async function assessPatchStateOfAVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

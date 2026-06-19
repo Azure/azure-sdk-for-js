@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a proximity placement group.
  *
  * @summary create or update a proximity placement group.
- * x-ms-original-file: 2025-11-01/proximityPlacementGroupExamples/ProximityPlacementGroup_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/proximityPlacementGroupExamples/ProximityPlacementGroup_CreateOrUpdate.json
  */
 async function createOrUpdateAProximityPlacementGroup() {
   const credential = new DefaultAzureCredential();

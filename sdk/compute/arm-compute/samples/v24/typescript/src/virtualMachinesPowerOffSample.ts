@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to power off (stop) a virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine.
  *
  * @summary the operation to power off (stop) a virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_PowerOff_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_PowerOff_MaximumSet_Gen.json
  */
 async function virtualMachinePowerOffMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function virtualMachinePowerOffMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to the operation to power off (stop) a virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine.
  *
  * @summary the operation to power off (stop) a virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_PowerOff_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_PowerOff_MinimumSet_Gen.json
  */
 async function virtualMachinePowerOffMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

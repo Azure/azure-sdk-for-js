@@ -5,11 +5,11 @@ import fs from "node:fs";
 import path from "node:path";
 
 import {
+  compareBodyWithUint8Array,
   createRandomLocalFile,
   getBSU,
   getUniqueName,
   createAndStartRecorder,
-  compareBodyWithUint8Array,
 } from "../utils/index.js";
 import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
 import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src/index.js";
@@ -96,6 +96,7 @@ describe("Highlevel Node.js only", () => {
         content: createContent,
         contentLength: createContent.length,
       });
+      assert.fail("Expected create to throw for content larger than 4MiB");
     } catch (ex) {
       assert.equal((ex as any).statusCode, 413);
       assert.equal((ex as any).code, "RequestBodyTooLarge");

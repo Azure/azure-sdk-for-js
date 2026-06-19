@@ -123,6 +123,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
           0x07,
         ]),
       });
+      assert.fail("Expected create to throw Md5Mismatch error");
     } catch (err) {
       assert.deepEqual((err as any).code, "Md5Mismatch");
     }

@@ -741,6 +741,8 @@ export interface VirtualMachineScaleSetVMProfile {
   userData?: string;
   /** Specifies the capacity reservation related details of a scale set. Minimum api-version: 2021-04-01. */
   capacityReservation?: CapacityReservationProfile;
+  /** Specifies the Interconnect Block related details of a Scale Set. Minimum api-version: 2026-03-01. */
+  interconnectBlockProfile?: InterconnectBlockProfile;
   /** Specifies the gallery applications that should be made available to the VM/VMSS */
   applicationProfile?: ApplicationProfile;
   /** Specifies the hardware profile related details of a scale set. Minimum api-version: 2021-11-01. */
@@ -788,6 +790,9 @@ export function virtualMachineScaleSetVMProfileSerializer(
     capacityReservation: !item["capacityReservation"]
       ? item["capacityReservation"]
       : capacityReservationProfileSerializer(item["capacityReservation"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileSerializer(item["interconnectBlockProfile"]),
     applicationProfile: !item["applicationProfile"]
       ? item["applicationProfile"]
       : applicationProfileSerializer(item["applicationProfile"]),
@@ -838,6 +843,9 @@ export function virtualMachineScaleSetVMProfileDeserializer(
     capacityReservation: !item["capacityReservation"]
       ? item["capacityReservation"]
       : capacityReservationProfileDeserializer(item["capacityReservation"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileDeserializer(item["interconnectBlockProfile"]),
     applicationProfile: !item["applicationProfile"]
       ? item["applicationProfile"]
       : applicationProfileDeserializer(item["applicationProfile"]),
@@ -2035,6 +2043,8 @@ export interface VirtualMachineScaleSetNetworkProfile {
   networkInterfaceConfigurations?: VirtualMachineScaleSetNetworkConfiguration[];
   /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible' */
   networkApiVersion?: NetworkApiVersion;
+  /** Specifies the interconnect group profile to associate with the scale set. Minimum api-version: 2026-03-01. */
+  interconnectGroupProfile?: InterconnectGroupProfile;
 }
 
 export function virtualMachineScaleSetNetworkProfileSerializer(
@@ -2050,6 +2060,9 @@ export function virtualMachineScaleSetNetworkProfileSerializer(
           item["networkInterfaceConfigurations"],
         ),
     networkApiVersion: item["networkApiVersion"],
+    interconnectGroupProfile: !item["interconnectGroupProfile"]
+      ? item["interconnectGroupProfile"]
+      : interconnectGroupProfileSerializer(item["interconnectGroupProfile"]),
   };
 }
 
@@ -2066,6 +2079,9 @@ export function virtualMachineScaleSetNetworkProfileDeserializer(
           item["networkInterfaceConfigurations"],
         ),
     networkApiVersion: item["networkApiVersion"],
+    interconnectGroupProfile: !item["interconnectGroupProfile"]
+      ? item["interconnectGroupProfile"]
+      : interconnectGroupProfileDeserializer(item["interconnectGroupProfile"]),
   };
 }
 
@@ -2775,6 +2791,36 @@ export enum KnownNetworkApiVersion {
  */
 export type NetworkApiVersion = string;
 
+/** Specifies the interconnect group profile for a virtual machine, used to associate the VM with an interconnect group and subgroups. */
+export interface InterconnectGroupProfile {
+  /** Reference to the interconnect group resource. */
+  interconnectGroup?: SubResource;
+  /** The list of subgroup references within the interconnect group. */
+  subgroups?: SubResource[];
+}
+
+export function interconnectGroupProfileSerializer(item: InterconnectGroupProfile): any {
+  return {
+    interconnectGroup: !item["interconnectGroup"]
+      ? item["interconnectGroup"]
+      : subResourceSerializer(item["interconnectGroup"]),
+    subgroups: !item["subgroups"]
+      ? item["subgroups"]
+      : subResourceArraySerializer(item["subgroups"]),
+  };
+}
+
+export function interconnectGroupProfileDeserializer(item: any): InterconnectGroupProfile {
+  return {
+    interconnectGroup: !item["interconnectGroup"]
+      ? item["interconnectGroup"]
+      : subResourceDeserializer(item["interconnectGroup"]),
+    subgroups: !item["subgroups"]
+      ? item["subgroups"]
+      : subResourceArrayDeserializer(item["subgroups"]),
+  };
+}
+
 /** Specifies the Security profile settings for the virtual machine or virtual machine scale set. */
 export interface SecurityProfile {
   /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. Minimum api-version: 2020-12-01. */
@@ -3069,10 +3115,10 @@ export function virtualMachineScaleSetExtensionArrayDeserializer(
 
 /** Describes a Virtual Machine Scale Set Extension. */
 export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
-  /** Resource type */
-  readonly type?: string;
   /** Resource name */
   name?: string;
+  /** Resource type */
+  readonly type?: string;
   /** If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed. */
   forceUpdateTag?: string;
   /** The name of the extension handler publisher. */
@@ -3103,6 +3149,7 @@ export function virtualMachineScaleSetExtensionSerializer(
   item: VirtualMachineScaleSetExtension,
 ): any {
   return {
+    name: item["name"],
     properties: areAllPropsUndefined(item, [
       "forceUpdateTag",
       "publisher",
@@ -3118,7 +3165,6 @@ export function virtualMachineScaleSetExtensionSerializer(
     ])
       ? undefined
       : _virtualMachineScaleSetExtensionPropertiesSerializer(item),
-    name: item["name"],
   };
 }
 
@@ -3127,11 +3173,11 @@ export function virtualMachineScaleSetExtensionDeserializer(
 ): VirtualMachineScaleSetExtension {
   return {
     id: item["id"],
+    name: item["name"],
+    type: item["type"],
     ...(!item["properties"]
       ? item["properties"]
       : _virtualMachineScaleSetExtensionPropertiesDeserializer(item["properties"])),
-    type: item["type"],
-    name: item["name"],
   };
 }
 
@@ -3373,6 +3419,28 @@ export function capacityReservationProfileDeserializer(item: any): CapacityReser
     capacityReservationGroup: !item["capacityReservationGroup"]
       ? item["capacityReservationGroup"]
       : subResourceDeserializer(item["capacityReservationGroup"]),
+  };
+}
+
+/** The parameters of an Interconnect Block Profile. */
+export interface InterconnectBlockProfile {
+  /** Specifies the Interconnect Block resource ID that should be used for allocating the Virtual Machine or Scale Set VM instances provided enough capacity has been reserved. */
+  interconnectBlock?: ApiEntityReference;
+}
+
+export function interconnectBlockProfileSerializer(item: InterconnectBlockProfile): any {
+  return {
+    interconnectBlock: !item["interconnectBlock"]
+      ? item["interconnectBlock"]
+      : apiEntityReferenceSerializer(item["interconnectBlock"]),
+  };
+}
+
+export function interconnectBlockProfileDeserializer(item: any): InterconnectBlockProfile {
+  return {
+    interconnectBlock: !item["interconnectBlock"]
+      ? item["interconnectBlock"]
+      : apiEntityReferenceDeserializer(item["interconnectBlock"]),
   };
 }
 
@@ -3983,12 +4051,17 @@ export interface SkuProfile {
   vmSizes?: SkuProfileVMSize[];
   /** Specifies the allocation strategy for the virtual machine scale set based on which the VMs will be allocated. */
   allocationStrategy?: AllocationStrategy;
+  /** Specifies the policy that controls whether the platform may automatically migrate scale set instances to a different VM size from the SKU profile depending on platform demands. When omitted, automatic SKU migration is disabled. */
+  automaticSkuMigrationPolicy?: AutomaticSkuMigrationPolicy;
 }
 
 export function skuProfileSerializer(item: SkuProfile): any {
   return {
     vmSizes: !item["vmSizes"] ? item["vmSizes"] : skuProfileVMSizeArraySerializer(item["vmSizes"]),
     allocationStrategy: item["allocationStrategy"],
+    automaticSkuMigrationPolicy: !item["automaticSkuMigrationPolicy"]
+      ? item["automaticSkuMigrationPolicy"]
+      : automaticSkuMigrationPolicySerializer(item["automaticSkuMigrationPolicy"]),
   };
 }
 
@@ -3998,6 +4071,9 @@ export function skuProfileDeserializer(item: any): SkuProfile {
       ? item["vmSizes"]
       : skuProfileVMSizeArrayDeserializer(item["vmSizes"]),
     allocationStrategy: item["allocationStrategy"],
+    automaticSkuMigrationPolicy: !item["automaticSkuMigrationPolicy"]
+      ? item["automaticSkuMigrationPolicy"]
+      : automaticSkuMigrationPolicyDeserializer(item["automaticSkuMigrationPolicy"]),
   };
 }
 
@@ -4052,6 +4128,22 @@ export enum KnownAllocationStrategy {
  * **Prioritized**
  */
 export type AllocationStrategy = string;
+
+/** Specifies the configuration parameters used to control automatic SKU migration for the virtual machine scale set. When enabled, the platform may migrate instances to a different VM size from the SKU profile depending on platform demands. */
+export interface AutomaticSkuMigrationPolicy {
+  /** Specifies whether automatic SKU migration should be enabled on the virtual machine scale set. The default value is false. */
+  enabled?: boolean;
+}
+
+export function automaticSkuMigrationPolicySerializer(item: AutomaticSkuMigrationPolicy): any {
+  return { enabled: item["enabled"] };
+}
+
+export function automaticSkuMigrationPolicyDeserializer(item: any): AutomaticSkuMigrationPolicy {
+  return {
+    enabled: item["enabled"],
+  };
+}
 
 /** Specifies the high speed interconnect placement for the virtual machine scale set. */
 export enum KnownHighSpeedInterconnectPlacement {
@@ -4471,6 +4563,8 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
   userData?: string;
   /** Specifies the hardware profile related details of a scale set. Minimum api-version: 2021-11-01. */
   hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
+  /** Specifies the Interconnect Block related details of a scale set. Minimum api-version: 2026-03-01. */
+  interconnectBlockProfile?: InterconnectBlockProfile;
 }
 
 export function virtualMachineScaleSetUpdateVMProfileSerializer(
@@ -4509,6 +4603,9 @@ export function virtualMachineScaleSetUpdateVMProfileSerializer(
     hardwareProfile: !item["hardwareProfile"]
       ? item["hardwareProfile"]
       : virtualMachineScaleSetHardwareProfileSerializer(item["hardwareProfile"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileSerializer(item["interconnectBlockProfile"]),
   };
 }
 
@@ -4622,6 +4719,8 @@ export interface VirtualMachineScaleSetUpdateNetworkProfile {
   networkInterfaceConfigurations?: VirtualMachineScaleSetUpdateNetworkConfiguration[];
   /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible' */
   networkApiVersion?: NetworkApiVersion;
+  /** Specifies the interconnect group profile to associate with the scale set. Minimum api-version: 2026-03-01. */
+  interconnectGroupProfile?: InterconnectGroupProfile;
 }
 
 export function virtualMachineScaleSetUpdateNetworkProfileSerializer(
@@ -4637,6 +4736,9 @@ export function virtualMachineScaleSetUpdateNetworkProfileSerializer(
           item["networkInterfaceConfigurations"],
         ),
     networkApiVersion: item["networkApiVersion"],
+    interconnectGroupProfile: !item["interconnectGroupProfile"]
+      ? item["interconnectGroupProfile"]
+      : interconnectGroupProfileSerializer(item["interconnectGroupProfile"]),
   };
 }
 
@@ -6375,6 +6477,8 @@ export interface VirtualMachine extends TrackedResource {
   userData?: string;
   /** Specifies information about the capacity reservation that is used to allocate virtual machine. Minimum api-version: 2021-04-01. */
   capacityReservation?: CapacityReservationProfile;
+  /** Specifies information about the Interconnect Block that is used to allocate the Virtual Machine. Minimum api-version: 2026-03-01. */
+  interconnectBlockProfile?: InterconnectBlockProfile;
   /** Specifies the gallery applications that should be made available to the VM/VMSS. */
   applicationProfile?: ApplicationProfile;
   /** Specifies the time at which the Virtual Machine resource was created. Minimum api-version: 2021-11-01. */
@@ -6410,6 +6514,7 @@ export function virtualMachineSerializer(item: VirtualMachine): any {
       "scheduledEventsProfile",
       "userData",
       "capacityReservation",
+      "interconnectBlockProfile",
       "applicationProfile",
       "resiliencyProfile",
     ])
@@ -6519,6 +6624,8 @@ export interface VirtualMachineProperties {
   userData?: string;
   /** Specifies information about the capacity reservation that is used to allocate virtual machine. Minimum api-version: 2021-04-01. */
   capacityReservation?: CapacityReservationProfile;
+  /** Specifies information about the Interconnect Block that is used to allocate the Virtual Machine. Minimum api-version: 2026-03-01. */
+  interconnectBlockProfile?: InterconnectBlockProfile;
   /** Specifies the gallery applications that should be made available to the VM/VMSS. */
   applicationProfile?: ApplicationProfile;
   /** Specifies the time at which the Virtual Machine resource was created. Minimum api-version: 2021-11-01. */
@@ -6577,6 +6684,9 @@ export function virtualMachinePropertiesSerializer(item: VirtualMachinePropertie
     capacityReservation: !item["capacityReservation"]
       ? item["capacityReservation"]
       : capacityReservationProfileSerializer(item["capacityReservation"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileSerializer(item["interconnectBlockProfile"]),
     applicationProfile: !item["applicationProfile"]
       ? item["applicationProfile"]
       : applicationProfileSerializer(item["applicationProfile"]),
@@ -6641,6 +6751,9 @@ export function virtualMachinePropertiesDeserializer(item: any): VirtualMachineP
     capacityReservation: !item["capacityReservation"]
       ? item["capacityReservation"]
       : capacityReservationProfileDeserializer(item["capacityReservation"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileDeserializer(item["interconnectBlockProfile"]),
     applicationProfile: !item["applicationProfile"]
       ? item["applicationProfile"]
       : applicationProfileDeserializer(item["applicationProfile"]),
@@ -7575,6 +7688,8 @@ export interface NetworkProfile {
   networkApiVersion?: NetworkApiVersion;
   /** Specifies the networking configurations that will be used to create the virtual machine networking resources. */
   networkInterfaceConfigurations?: VirtualMachineNetworkInterfaceConfiguration[];
+  /** Specifies the interconnect group profile to associate with the virtual machine. Minimum api-version: 2026-03-01. */
+  interconnectGroupProfile?: InterconnectGroupProfile;
 }
 
 export function networkProfileSerializer(item: NetworkProfile): any {
@@ -7588,6 +7703,9 @@ export function networkProfileSerializer(item: NetworkProfile): any {
       : virtualMachineNetworkInterfaceConfigurationArraySerializer(
           item["networkInterfaceConfigurations"],
         ),
+    interconnectGroupProfile: !item["interconnectGroupProfile"]
+      ? item["interconnectGroupProfile"]
+      : interconnectGroupProfileSerializer(item["interconnectGroupProfile"]),
   };
 }
 
@@ -7602,6 +7720,9 @@ export function networkProfileDeserializer(item: any): NetworkProfile {
       : virtualMachineNetworkInterfaceConfigurationArrayDeserializer(
           item["networkInterfaceConfigurations"],
         ),
+    interconnectGroupProfile: !item["interconnectGroupProfile"]
+      ? item["interconnectGroupProfile"]
+      : interconnectGroupProfileDeserializer(item["interconnectGroupProfile"]),
   };
 }
 
@@ -8240,6 +8361,8 @@ export interface VirtualMachineInstanceView {
   patchStatus?: VirtualMachinePatchStatus;
   /** [Preview Feature] Specifies whether the VM is currently in or out of the Standby Pool. */
   readonly isVMInStandbyPool?: boolean;
+  /** The Interconnect runtime view of the Virtual Machine. Minimum api-version: 2026-03-01. */
+  readonly interconnectInstanceView?: InterconnectInstanceView;
 }
 
 export function virtualMachineInstanceViewDeserializer(item: any): VirtualMachineInstanceView {
@@ -8275,6 +8398,9 @@ export function virtualMachineInstanceViewDeserializer(item: any): VirtualMachin
       ? item["patchStatus"]
       : virtualMachinePatchStatusDeserializer(item["patchStatus"]),
     isVMInStandbyPool: item["isVMInStandbyPool"],
+    interconnectInstanceView: !item["interconnectInstanceView"]
+      ? item["interconnectInstanceView"]
+      : interconnectInstanceViewDeserializer(item["interconnectInstanceView"]),
   };
 }
 
@@ -8634,6 +8760,18 @@ export function lastPatchInstallationSummaryDeserializer(item: any): LastPatchIn
   };
 }
 
+/** The Interconnect Block instance view details for a Virtual Machine or Scale Set VM instance. */
+export interface InterconnectInstanceView {
+  /** The ID (GUID) of the Interconnect subgroup in which the Virtual Machine was placed. */
+  readonly interconnectSubgroupId?: string;
+}
+
+export function interconnectInstanceViewDeserializer(item: any): InterconnectInstanceView {
+  return {
+    interconnectSubgroupId: item["interconnectSubgroupId"],
+  };
+}
+
 /** Gets resiliency solutions enabled on the VM. This includes backup or disaster recovery solutions. */
 export interface ResiliencyProfile {
   /** Zone movement configuration. */
@@ -8849,6 +8987,8 @@ export interface VirtualMachineUpdate extends UpdateResource {
   userData?: string;
   /** Specifies information about the capacity reservation that is used to allocate virtual machine. Minimum api-version: 2021-04-01. */
   capacityReservation?: CapacityReservationProfile;
+  /** Specifies information about the Interconnect Block that is used to allocate the Virtual Machine. Minimum api-version: 2026-03-01. */
+  interconnectBlockProfile?: InterconnectBlockProfile;
   /** Specifies the gallery applications that should be made available to the VM/VMSS. */
   applicationProfile?: ApplicationProfile;
   /** Specifies the time at which the Virtual Machine resource was created. Minimum api-version: 2021-11-01. */
@@ -8884,6 +9024,7 @@ export function virtualMachineUpdateSerializer(item: VirtualMachineUpdate): any 
       "scheduledEventsProfile",
       "userData",
       "capacityReservation",
+      "interconnectBlockProfile",
       "applicationProfile",
       "resiliencyProfile",
     ])
@@ -12217,6 +12358,156 @@ export function capacityReservationArrayDeserializer(result: Array<CapacityReser
   });
 }
 
+/** Specifies information about the Interconnect Block. */
+export interface InterconnectBlock extends TrackedResource {
+  /** Properties of the Interconnect Block. */
+  properties?: InterconnectBlockProperties;
+  /** SKU of the resource for which capacity needs to be pre-allocated. Both `sku.name` and `sku.capacity` are required at create. After create, only `sku.capacity` can be updated. */
+  sku: Sku;
+  /** The availability zones. */
+  zones?: string[];
+  /** Placement section specifies the user-defined constraints for Interconnect Block hardware placement. This property cannot be changed once Interconnect Block is provisioned. */
+  placement?: Placement;
+}
+
+export function interconnectBlockSerializer(item: InterconnectBlock): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : interconnectBlockPropertiesSerializer(item["properties"]),
+    sku: skuSerializer(item["sku"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    placement: !item["placement"] ? item["placement"] : placementSerializer(item["placement"]),
+  };
+}
+
+export function interconnectBlockDeserializer(item: any): InterconnectBlock {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : interconnectBlockPropertiesDeserializer(item["properties"]),
+    sku: skuDeserializer(item["sku"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    placement: !item["placement"] ? item["placement"] : placementDeserializer(item["placement"]),
+  };
+}
+
+/** Properties of the Interconnect Block. */
+export interface InterconnectBlockProperties {
+  /** A list of all virtual machine resource ids that are associated with the Interconnect Block. */
+  readonly virtualMachinesAssociated?: SubResourceReadOnly[];
+  /** The Microsoft.Network/interconnectGroups resource that this Interconnect Block is associated with. Required at create and immutable thereafter. */
+  interconnectGroup: ApiEntityReference;
+  /** A unique id (GUID) generated and assigned to the Interconnect Block by the platform which does not change throughout the lifetime of the resource. */
+  readonly interconnectBlockId?: string;
+  /** The date time when the Interconnect Block was last updated. */
+  readonly provisioningTime?: Date;
+  /** The provisioning state, which only appears in the response. */
+  readonly provisioningState?: string;
+  /** The Interconnect Block instance view. */
+  readonly instanceView?: InterconnectBlockInstanceView;
+  /** Specifies the time at which the Interconnect Block resource was created. */
+  readonly timeCreated?: Date;
+}
+
+export function interconnectBlockPropertiesSerializer(item: InterconnectBlockProperties): any {
+  return { interconnectGroup: apiEntityReferenceSerializer(item["interconnectGroup"]) };
+}
+
+export function interconnectBlockPropertiesDeserializer(item: any): InterconnectBlockProperties {
+  return {
+    virtualMachinesAssociated: !item["virtualMachinesAssociated"]
+      ? item["virtualMachinesAssociated"]
+      : subResourceReadOnlyArrayDeserializer(item["virtualMachinesAssociated"]),
+    interconnectGroup: apiEntityReferenceDeserializer(item["interconnectGroup"]),
+    interconnectBlockId: item["interconnectBlockId"],
+    provisioningTime: !item["provisioningTime"]
+      ? item["provisioningTime"]
+      : new Date(item["provisioningTime"]),
+    provisioningState: item["provisioningState"],
+    instanceView: !item["instanceView"]
+      ? item["instanceView"]
+      : interconnectBlockInstanceViewDeserializer(item["instanceView"]),
+    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
+  };
+}
+
+/** The instance view of an Interconnect Block. */
+export interface InterconnectBlockInstanceView {
+  /** The current capacity allocated for this Interconnect Block. */
+  readonly currentCapacity?: number;
+  /** The resource status information. */
+  readonly statuses?: InstanceViewStatus[];
+}
+
+export function interconnectBlockInstanceViewDeserializer(
+  item: any,
+): InterconnectBlockInstanceView {
+  return {
+    currentCapacity: item["currentCapacity"],
+    statuses: !item["statuses"]
+      ? item["statuses"]
+      : instanceViewStatusArrayDeserializer(item["statuses"]),
+  };
+}
+
+/** Specifies information about the Interconnect Block. Only tags and sku.capacity can be updated. */
+export interface InterconnectBlockUpdate extends UpdateResource {
+  /** SKU of the resource for which capacity needs to be pre-allocated. Only `sku.capacity` is mutable; `sku.name` is immutable. */
+  sku?: Sku;
+}
+
+export function interconnectBlockUpdateSerializer(item: InterconnectBlockUpdate): any {
+  return { tags: item["tags"], sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]) };
+}
+
+/** The list Interconnect Block operation response. */
+export interface _InterconnectBlockListResult {
+  /** The list of Interconnect Blocks. */
+  value: InterconnectBlock[];
+  /** The URI to fetch the next page of Interconnect Blocks. Call ListNext() with this URI to fetch the next page of Interconnect Blocks. */
+  nextLink?: string;
+}
+
+export function _interconnectBlockListResultDeserializer(item: any): _InterconnectBlockListResult {
+  return {
+    value: interconnectBlockArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function interconnectBlockArraySerializer(result: Array<InterconnectBlock>): any[] {
+  return result.map((item) => {
+    return interconnectBlockSerializer(item);
+  });
+}
+
+export function interconnectBlockArrayDeserializer(result: Array<InterconnectBlock>): any[] {
+  return result.map((item) => {
+    return interconnectBlockDeserializer(item);
+  });
+}
+
 /** Describes a Virtual Machine run command. */
 export interface VirtualMachineRunCommand extends TrackedResource {
   /** The source of the run command script. */
@@ -12869,6 +13160,8 @@ export interface VirtualMachineScaleSetVM extends TrackedResource {
   readonly timeCreated?: Date;
   /** Specifies the ARM resource ID of the standalone virtual machine associated with this VMSS VM. This property is only applicable to Virtual Machine Scale Sets with Flexible orchestration mode. Minimum api-version: 2025-11-01. */
   readonly virtualMachineResourceId?: string;
+  /** Specifies the Interconnect Block related details of a Scale Set VM instance. Minimum api-version: 2026-03-01. */
+  interconnectBlockProfile?: InterconnectBlockProfile;
 }
 
 export function virtualMachineScaleSetVMSerializer(item: VirtualMachineScaleSetVM): any {
@@ -12889,6 +13182,7 @@ export function virtualMachineScaleSetVMSerializer(item: VirtualMachineScaleSetV
       "licenseType",
       "protectionPolicy",
       "userData",
+      "interconnectBlockProfile",
     ])
       ? undefined
       : _virtualMachineScaleSetVMPropertiesSerializer(item),
@@ -12974,6 +13268,8 @@ export interface VirtualMachineScaleSetVMProperties {
   readonly timeCreated?: Date;
   /** Specifies the ARM resource ID of the standalone virtual machine associated with this VMSS VM. This property is only applicable to Virtual Machine Scale Sets with Flexible orchestration mode. Minimum api-version: 2025-11-01. */
   readonly virtualMachineResourceId?: string;
+  /** Specifies the Interconnect Block related details of a Scale Set VM instance. Minimum api-version: 2026-03-01. */
+  interconnectBlockProfile?: InterconnectBlockProfile;
 }
 
 export function virtualMachineScaleSetVMPropertiesSerializer(
@@ -13013,6 +13309,9 @@ export function virtualMachineScaleSetVMPropertiesSerializer(
       ? item["protectionPolicy"]
       : virtualMachineScaleSetVMProtectionPolicySerializer(item["protectionPolicy"]),
     userData: item["userData"],
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileSerializer(item["interconnectBlockProfile"]),
   };
 }
 
@@ -13062,6 +13361,9 @@ export function virtualMachineScaleSetVMPropertiesDeserializer(
     userData: item["userData"],
     timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
     virtualMachineResourceId: item["virtualMachineResourceId"],
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileDeserializer(item["interconnectBlockProfile"]),
   };
 }
 
@@ -13099,6 +13401,8 @@ export interface VirtualMachineScaleSetVMInstanceView {
   osVersion?: string;
   /** The hypervisor generation of the Virtual Machine [V1, V2] */
   hyperVGeneration?: HyperVGeneration;
+  /** The Interconnect runtime view of the Scale Set VM instance. Minimum api-version: 2026-03-01. */
+  readonly interconnectInstanceView?: InterconnectInstanceView;
 }
 
 export function virtualMachineScaleSetVMInstanceViewDeserializer(
@@ -13133,6 +13437,9 @@ export function virtualMachineScaleSetVMInstanceViewDeserializer(
     osName: item["osName"],
     osVersion: item["osVersion"],
     hyperVGeneration: item["hyperVGeneration"],
+    interconnectInstanceView: !item["interconnectInstanceView"]
+      ? item["interconnectInstanceView"]
+      : interconnectInstanceViewDeserializer(item["interconnectInstanceView"]),
   };
 }
 
@@ -13164,6 +13471,8 @@ export type ResilientVMDeletionStatus = string;
 export interface VirtualMachineScaleSetVMNetworkProfileConfiguration {
   /** The list of network configurations. */
   networkInterfaceConfigurations?: VirtualMachineScaleSetNetworkConfiguration[];
+  /** Specifies the interconnect group profile to associate with the scale set vm instance. Minimum api-version: 2026-03-01. */
+  interconnectGroupProfile?: InterconnectGroupProfile;
 }
 
 export function virtualMachineScaleSetVMNetworkProfileConfigurationSerializer(
@@ -13175,6 +13484,9 @@ export function virtualMachineScaleSetVMNetworkProfileConfigurationSerializer(
       : virtualMachineScaleSetNetworkConfigurationArraySerializer(
           item["networkInterfaceConfigurations"],
         ),
+    interconnectGroupProfile: !item["interconnectGroupProfile"]
+      ? item["interconnectGroupProfile"]
+      : interconnectGroupProfileSerializer(item["interconnectGroupProfile"]),
   };
 }
 
@@ -13187,6 +13499,9 @@ export function virtualMachineScaleSetVMNetworkProfileConfigurationDeserializer(
       : virtualMachineScaleSetNetworkConfigurationArrayDeserializer(
           item["networkInterfaceConfigurations"],
         ),
+    interconnectGroupProfile: !item["interconnectGroupProfile"]
+      ? item["interconnectGroupProfile"]
+      : interconnectGroupProfileDeserializer(item["interconnectGroupProfile"]),
   };
 }
 
@@ -13989,6 +14304,21 @@ export enum KnownCapacityReservationInstanceViewTypes {
 /** Type of CapacityReservationInstanceViewTypes */
 export type CapacityReservationInstanceViewTypes = string;
 
+/** The expand expression to apply on the operation for an Interconnect Block. */
+export enum KnownInterconnectBlockExpandTypes {
+  /** Retrieve the runtime instance view of the Interconnect Block. */
+  InstanceView = "instanceView",
+}
+
+/**
+ * The expand expression to apply on the operation for an Interconnect Block. \
+ * {@link KnownInterconnectBlockExpandTypes} can be used interchangeably with InterconnectBlockExpandTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **instanceView**: Retrieve the runtime instance view of the Interconnect Block.
+ */
+export type InterconnectBlockExpandTypes = string;
+
 export function virtualMachineImageArrayDeserializer(result: Array<VirtualMachineImage>): any[] {
   return result.map((item) => {
     return virtualMachineImageDeserializer(item);
@@ -14753,6 +15083,9 @@ export function _virtualMachinePropertiesSerializer(item: VirtualMachine): any {
     capacityReservation: !item["capacityReservation"]
       ? item["capacityReservation"]
       : capacityReservationProfileSerializer(item["capacityReservation"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileSerializer(item["interconnectBlockProfile"]),
     applicationProfile: !item["applicationProfile"]
       ? item["applicationProfile"]
       : applicationProfileSerializer(item["applicationProfile"]),
@@ -14817,6 +15150,9 @@ export function _virtualMachinePropertiesDeserializer(item: any) {
     capacityReservation: !item["capacityReservation"]
       ? item["capacityReservation"]
       : capacityReservationProfileDeserializer(item["capacityReservation"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileDeserializer(item["interconnectBlockProfile"]),
     applicationProfile: !item["applicationProfile"]
       ? item["applicationProfile"]
       : applicationProfileDeserializer(item["applicationProfile"]),
@@ -14928,6 +15264,9 @@ export function _virtualMachineUpdatePropertiesSerializer(item: VirtualMachineUp
     capacityReservation: !item["capacityReservation"]
       ? item["capacityReservation"]
       : capacityReservationProfileSerializer(item["capacityReservation"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileSerializer(item["interconnectBlockProfile"]),
     applicationProfile: !item["applicationProfile"]
       ? item["applicationProfile"]
       : applicationProfileSerializer(item["applicationProfile"]),
@@ -14992,6 +15331,9 @@ export function _virtualMachineUpdatePropertiesDeserializer(item: any) {
     capacityReservation: !item["capacityReservation"]
       ? item["capacityReservation"]
       : capacityReservationProfileDeserializer(item["capacityReservation"]),
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileDeserializer(item["interconnectBlockProfile"]),
     applicationProfile: !item["applicationProfile"]
       ? item["applicationProfile"]
       : applicationProfileDeserializer(item["applicationProfile"]),
@@ -15674,6 +16016,9 @@ export function _virtualMachineScaleSetVMPropertiesSerializer(item: VirtualMachi
       ? item["protectionPolicy"]
       : virtualMachineScaleSetVMProtectionPolicySerializer(item["protectionPolicy"]),
     userData: item["userData"],
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileSerializer(item["interconnectBlockProfile"]),
   };
 }
 
@@ -15721,6 +16066,9 @@ export function _virtualMachineScaleSetVMPropertiesDeserializer(item: any) {
     userData: item["userData"],
     timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
     virtualMachineResourceId: item["virtualMachineResourceId"],
+    interconnectBlockProfile: !item["interconnectBlockProfile"]
+      ? item["interconnectBlockProfile"]
+      : interconnectBlockProfileDeserializer(item["interconnectBlockProfile"]),
   };
 }
 

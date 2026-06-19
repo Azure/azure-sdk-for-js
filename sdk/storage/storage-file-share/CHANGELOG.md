@@ -6,7 +6,13 @@
 
 - Migrate to TypeSpec-based code generation [PR #38227](https://github.com/Azure/azure-sdk-for-js/pull/38227)
 
-## 12.32.0 (2026-06-15)
+## 12.32.0 (Unreleased)
+
+### Features Added
+
+- Includes all features released in 12.32.0-beta.1.
+
+## 12.32.0-beta.1 (2026-04-29)
 
 ### Features Added
 
