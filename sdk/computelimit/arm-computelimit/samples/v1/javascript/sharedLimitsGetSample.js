@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the properties of a compute limit shared by the host subscription with its guest subscriptions.
  *
  * @summary gets the properties of a compute limit shared by the host subscription with its guest subscriptions.
- * x-ms-original-file: 2026-06-01/SharedLimits_Get.json
+ * x-ms-original-file: 2026-07-01/SharedLimits_Get.json
  */
 async function getASharedLimit() {
   const credential = new DefaultAzureCredential();

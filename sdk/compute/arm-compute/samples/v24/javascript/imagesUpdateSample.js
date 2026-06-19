@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update an image.
  *
  * @summary update an image.
- * x-ms-original-file: 2025-11-01/imageExamples/Image_Update.json
+ * x-ms-original-file: 2026-03-01/imageExamples/Image_Update.json
  */
 async function updatesTagsOfAnImage() {
   const credential = new DefaultAzureCredential();
