@@ -280,7 +280,6 @@
       "@azure/search-documents!KnowledgeBaseAzureBlobReference:interface": "Search.KnowledgeBaseAzureBlobReference",
       "@azure/search-documents!KnowledgeBaseIndexedOneLakeReference:interface": "Search.KnowledgeBaseIndexedOneLakeReference",
       "@azure/search-documents!KnowledgeBaseWebReference:interface": "Search.KnowledgeBaseWebReference",
-      "@azure/search-documents!DebugInfo:interface": "Search.DebugInfo",
       "@azure/search-documents!IndexerResyncBody:interface": "Search.IndexerResyncBody",
       "@azure/search-documents!DocumentKeysOrIds:interface": "Search.DocumentKeysOrIds",
       "@azure/search-documents!SkillNames:interface": "Search.SkillNames",

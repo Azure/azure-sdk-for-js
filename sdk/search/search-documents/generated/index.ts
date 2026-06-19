@@ -52,7 +52,6 @@ export type {
   AutocompleteResult,
   AutocompleteItem,
   AutocompleteMode,
-  DebugInfo,
 } from "./models/azure/search/documents/index.js";
 export {
   KnownQueryType,
