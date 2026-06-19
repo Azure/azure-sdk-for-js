@@ -169,6 +169,7 @@ export async function removeTargetsFromConfigSource(
     const targetsNode = doc.get("targets");
     if (!isSeq(targetsNode)) return [];
 
+    const originalFirst = targetsNode.items[0];
     const removed: string[] = [];
     // Iterate from the end so splicing doesn't shift the indices still to visit.
     for (let i = targetsNode.items.length - 1; i >= 0; i--) {
@@ -181,6 +182,15 @@ export async function removeTargetsFromConfigSource(
       }
     }
     if (removed.length === 0) return [];
+
+    // When the original first target is removed, the new leading item inherits
+    // the blank line that used to separate it from the removed item, leaving a
+    // stray indented empty line directly under `targets:`. Drop that spacing so
+    // the surviving first target sits flush under the key.
+    const newFirst = targetsNode.items[0];
+    if (isMap(newFirst) && newFirst !== originalFirst) {
+      newFirst.spaceBefore = false;
+    }
 
     await fsp.writeFile(source.path, doc.toString());
     return removed.reverse();

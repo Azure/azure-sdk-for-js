@@ -503,6 +503,45 @@ targets:
     expect(updated).toContain("name: commonjs");
   });
 
+  it("does not leave a stray blank line when the first targets are removed", async () => {
+    const yamlPath = path.join(tmpDir, "warp.config.yml");
+    // Blank lines between list items (as in the real core packages) attach as
+    // `spaceBefore` on the following item; removing the leading items must not
+    // leave an indented empty line directly under `targets:`.
+    const original = `extends: ../../../warp.base.config.yml
+
+targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
+  - name: react-native
+    tsconfig: "./config/tsconfig.src.react-native.json"
+
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+`;
+    await fs.writeFile(yamlPath, original);
+
+    const removed = await removeTargetsFromConfigSource(
+      { type: "yaml", path: yamlPath },
+      new Set(["browser", "react-native"]),
+    );
+    expect(removed).toEqual(["browser", "react-native"]);
+
+    const updated = await fs.readFile(yamlPath, "utf-8");
+    // No whitespace-only lines anywhere in the trimmed output.
+    expect(updated.split("\n").some((line) => /^\s+$/.test(line))).toBe(false);
+    // The first surviving target sits flush under `targets:`.
+    expect(updated).toContain("targets:\n  - name: esm");
+    const parsed = parseYaml(updated) as { targets: { name: string }[] };
+    expect(parsed.targets.map((t) => t.name)).toEqual(["esm", "commonjs"]);
+  });
+
   it("removes named targets from a json config", async () => {
     const jsonPath = path.join(tmpDir, "warp.config.json");
     await fs.writeFile(
