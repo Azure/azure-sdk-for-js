@@ -9,6 +9,11 @@
 - Added `supported_evaluation_levels` to `EvaluatorVersion`.
 - Added `RoutineRunStatus` and updated `RoutineRun.status` to use it.
 - Added `isRestError` and `NodeReadableStream` exports.
+- Added `enable` and `disable` methods on `project.agents` to control agent operational state.
+- Added `AgentState` type and `state` property on `Agent` to reflect whether an agent endpoint is enabled or disabled.
+- Promoted session operations (`createSession`, `getSession`, `deleteSession`, `stopSession`, `listSessions`, `getSessionLogStream`, `listSessionFiles`, `downloadSessionFile`, `uploadSessionFile`, `deleteSessionFile`) from `project.beta.agents` to `project.agents`.
+- Promoted `createVersionFromCode`, `downloadAgentCode`, and `updateAgentObject` from `project.beta.agents` to `project.agents`.
+- Promoted `project.beta.toolboxes` operations to `project.toolboxes`.
 
 ### Breaking Changes
 
@@ -16,16 +21,23 @@
 - Removed related beta agent optimization candidate response and metadata types, including `AgentsPagedResultOptimizationCandidate`, `CandidateMetadata`, `CandidateFileInfo`, `CandidateDeployConfig`, `CandidateResults`, `PromoteCandidateRequest`, `PromoteCandidateResponse`, and `BetaAgentsGetCandidateFileResponse`.
 - Changed `project.beta.agents.createOptimizationJob` to accept an `OptimizationJob` request body instead of `OptimizationJobInputs`.
 - Changed `project.beta.agents.listOptimizationJobs` to return `OptimizationJobListItem` values.
-- Renamed optimization model types from `AgentIdentifier` and `DatasetRef` to the new `Optimization*` model names.
-- Renamed `BetaAgentsCreateAgentVersionFromCodeOptionalParams` to `BetaAgentsCreateVersionFromCodeOptionalParams`.
+- Renamed optimization model types from `AgentIdentifier` and `DatasetRef` to the new `Optimization*` model names (e.g., `OptimizationAgentIdentifier`, `OptimizationDatasetInput`, `OptimizationEvaluatorRef`).
+- Renamed `BetaAgentsCreateAgentVersionFromCodeOptionalParams` to `AgentsCreateVersionFromCodeOptionalParams`.
 - Renamed the `project.beta.models.update` request parameter from `body` to `modelVersionUpdate`.
+- Renamed `BetaToolboxesOperations` to `ToolboxesOperations` and moved toolbox option types from `api/beta/toolboxes` to `api/toolboxes`.
+- Renamed beta skills option types to include `BetaSkills` prefix (e.g., `DeleteVersionOptionalParams` → `BetaSkillsDeleteVersionOptionalParams`, `ListVersionsOptionalParams` → `BetaSkillsListVersionsOptionalParams`).
+- Removed `SystemDataV3` from the public API surface.
 
 ### Bugs Fixed
 
 - Fixed routine run status exports so `RoutineRun.status` can reference the exported `RoutineRunStatus` type.
 - Fixed package import mappings for browser and React Native platform-specific helpers.
+- Fixed union type deserializers to use bracket notation (`item["type"]`) for consistent property access.
 
 ### Other Changes
+
+- Updated `CodeConfiguration.runtime` description to reflect the current supported runtime (`python_3_14`).
+- Simplified deserializers by removing unnecessary identity-mapping of record properties.
 
 ## 2.2.0 (2026-05-29)
 
