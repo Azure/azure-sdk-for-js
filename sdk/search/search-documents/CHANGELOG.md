@@ -9,7 +9,6 @@
   - `KnowledgeBaseAzureBlobActivityRecord` with `KnowledgeBaseAzureBlobActivityArguments`
   - `KnowledgeBaseIndexedOneLakeActivityRecord` with `KnowledgeBaseIndexedOneLakeActivityArguments`
   - `KnowledgeBaseWebActivityRecord` with `KnowledgeBaseWebActivityArguments`
-- Added `DebugInfo` interface for search results debugging information.
 
 ### Breaking Changes
 
@@ -19,7 +18,7 @@
 
 ### Other Changes
 
-- Regenerated from Azure Search API version `2026-04-01` (spec commit `840db4dc48aab6bdf5c45422c8d504aee463b783`).
+- Regenerated from Azure Search API version `2026-04-01` (spec commit `18ebae7ea8f6aefd83268aacdb1f480b24842726`).
 
 ## 13.0.0 (2026-05-01)
 
