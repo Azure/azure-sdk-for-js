@@ -38,6 +38,7 @@ export interface Agent {
     readonly instance_identity?: AgentIdentity;
     name: string;
     object: "agent";
+    readonly state: AgentState;
     versions: {
         latest: AgentVersion;
     };
@@ -174,6 +175,7 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
     description?: string;
     foundryFeatures?: AgentDefinitionOptInKeys;
     metadata?: Record<string, string>;
+    state?: AgentState;
 }
 
 // @public
@@ -216,6 +218,10 @@ export interface AgentsDeleteVersionOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface AgentsDisableOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface AgentsDownloadAgentCodeOptionalParams extends OperationOptions {
     agentVersion?: string;
 }
@@ -236,6 +242,10 @@ export type AgentsDownloadSessionFileResponse = {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeReadableStream;
 };
+
+// @public
+export interface AgentsEnableOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface AgentSessionResource {
@@ -315,8 +325,10 @@ export interface AgentsOperations {
     deleteSession: (agentName: string, sessionId: string, options?: AgentsDeleteSessionOptionalParams) => Promise<void>;
     deleteSessionFile: (agentName: string, agentSessionId: string, path: string, options?: AgentsDeleteSessionFileOptionalParams) => Promise<void>;
     deleteVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
+    disable: (agentName: string, options?: AgentsDisableOptionalParams) => Promise<void>;
     downloadAgentCode: (agentName: string, options?: AgentsDownloadAgentCodeOptionalParams) => Promise<AgentsDownloadAgentCodeResponse>;
     downloadSessionFile: (agentName: string, agentSessionId: string, path: string, options?: AgentsDownloadSessionFileOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
+    enable: (agentName: string, options?: AgentsEnableOptionalParams) => Promise<void>;
     get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
     getSession: (agentName: string, sessionId: string, options?: AgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
     getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: AgentsGetSessionLogStreamOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
@@ -341,6 +353,9 @@ export interface AgentsPatchAgentObjectOptionalParams extends OperationOptions {
 // @public
 export interface AgentsStopSessionOptionalParams extends OperationOptions {
 }
+
+// @public
+export type AgentState = "enabled" | "disabled";
 
 // @public
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
@@ -2869,7 +2884,6 @@ export interface ModelVersion {
     loraConfig?: LoraConfig;
     readonly name: string;
     source?: ModelSourceData;
-    readonly systemData?: SystemDataV3;
     tags?: Record<string, string>;
     readonly version: string;
     readonly warnings?: FoundryModelWarning[];
@@ -3261,6 +3275,7 @@ export interface ResponseUsageInputTokensDetails {
 
 // @public
 export interface ResponseUsageOutputTokensDetails {
+    // (undocumented)
     reasoning_tokens: number;
 }
 
@@ -3539,14 +3554,6 @@ export interface StructuredOutputDefinition {
     name: string;
     schema: Record<string, unknown>;
     strict: boolean;
-}
-
-// @public
-export interface SystemDataV3 {
-    createdAt?: Date;
-    createdBy?: string;
-    createdByType?: string;
-    lastModifiedAt?: Date;
 }
 
 // @public
